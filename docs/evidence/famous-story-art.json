@@ -1,0 +1,136 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "fannin-story-command",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "fannin-story-surrender",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "milam-story-rally",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "milam-story-point",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "crockett-story-command",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "crockett-story-rest",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "bowie-story-command",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "bowie-story-sick",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "alavez-story-beckon",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "alavez-story-guide",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "ben-story-pot-walk",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "ben-story-conversation",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "esparza-story-ram",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "esparza-story-shot-carry",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "almeron-dickinson-story-ram",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "almeron-dickinson-story-shot-carry",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "susanna-child-walk-e",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "susanna-child-hold",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "susanna-child-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "susanna-child-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "settler-gun-ram",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "settler-gun-rammer-cover",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "settler-gun-carry",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "settler-gun-charge-wait",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "settler-gun-fire",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "settler-gun-ready",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

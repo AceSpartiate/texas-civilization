@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2394 usable sprites, 241 PNG atlases, 833 clips** (525 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2446 usable sprites, 254 PNG atlases, 859 clips** (551 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -158,6 +158,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-sherman-mounted | 4 | 1240 × 1269 | 1426561 |
 | famous-smither | 16 | 1254 × 1254 | 1300657 |
 | famous-smither-mounted | 4 | 1254 × 1254 | 1401379 |
+| famous-fannin-story-actions | 4 | 1254 × 1254 | 1048552 |
+| famous-milam-story-actions | 4 | 1254 × 1254 | 1203673 |
+| famous-crockett-story-actions | 4 | 1254 × 1254 | 1215175 |
+| famous-bowie-story-actions | 4 | 1254 × 1254 | 1263291 |
+| famous-alavez-story-actions | 4 | 1254 × 1254 | 1133152 |
+| famous-ben-story-actions | 4 | 1312 × 1199 | 865048 |
+| famous-esparza-story-actions | 4 | 1254 × 1254 | 777418 |
+| famous-almeron-dickinson-story-actions | 4 | 1254 × 1254 | 850453 |
 | famous-urrea | 16 | 1254 × 1254 | 955697 |
 | famous-urrea-mounted | 4 | 1226 × 1283 | 1293956 |
 | famous-wp-smith | 16 | 1254 × 1254 | 1120598 |
@@ -209,6 +217,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-gunsmith | 1 | 1536 × 1024 | 2035238 |
 | shop-doctor | 1 | 1536 × 1024 | 2118390 |
 | shop-stockman | 1 | 1536 × 1024 | 1863839 |
+| famous-susanna-child-travel | 4 | 1254 × 1254 | 1207824 |
+| famous-susanna-child-cardinal | 4 | 1254 × 1254 | 1204335 |
+| gonzales-settler-rammer | 4 | 1254 × 1254 | 892360 |
+| gonzales-settler-charge | 4 | 1254 × 1254 | 892184 |
+| gonzales-settler-igniter | 4 | 1254 × 1254 | 1022312 |
 | town-buildings-researched | 16 | 1254 × 1254 | 2122682 |
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
@@ -1667,6 +1680,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | smither-mounted-walk-e-2 | famous-smither-mounted | smither-mounted-walk-e |
 | smither-mounted-idle-e | famous-smither-mounted | State artwork; no motion required |
 | smither-mounted-idle-s | famous-smither-mounted | State artwork; no motion required |
+| fannin-story-command-1 | famous-fannin-story-actions | fannin-story-command |
+| fannin-story-command-2 | famous-fannin-story-actions | fannin-story-command |
+| fannin-story-surrender-1 | famous-fannin-story-actions | fannin-story-surrender |
+| fannin-story-surrender-2 | famous-fannin-story-actions | fannin-story-surrender |
+| milam-story-rally-1 | famous-milam-story-actions | milam-story-rally |
+| milam-story-rally-2 | famous-milam-story-actions | milam-story-rally |
+| milam-story-point-1 | famous-milam-story-actions | milam-story-point |
+| milam-story-point-2 | famous-milam-story-actions | milam-story-point |
+| crockett-story-command-1 | famous-crockett-story-actions | crockett-story-command |
+| crockett-story-command-2 | famous-crockett-story-actions | crockett-story-command |
+| crockett-story-rest-1 | famous-crockett-story-actions | crockett-story-rest |
+| crockett-story-rest-2 | famous-crockett-story-actions | crockett-story-rest |
+| bowie-story-command-1 | famous-bowie-story-actions | bowie-story-command |
+| bowie-story-command-2 | famous-bowie-story-actions | bowie-story-command |
+| bowie-story-sick-1 | famous-bowie-story-actions | bowie-story-sick |
+| bowie-story-sick-2 | famous-bowie-story-actions | bowie-story-sick |
+| alavez-story-beckon-1 | famous-alavez-story-actions | alavez-story-beckon |
+| alavez-story-beckon-2 | famous-alavez-story-actions | alavez-story-beckon |
+| alavez-story-guide-1 | famous-alavez-story-actions | alavez-story-guide |
+| alavez-story-guide-2 | famous-alavez-story-actions | alavez-story-guide |
+| ben-story-pot-walk-1 | famous-ben-story-actions | ben-story-pot-walk |
+| ben-story-pot-walk-2 | famous-ben-story-actions | ben-story-pot-walk |
+| ben-story-conversation-1 | famous-ben-story-actions | ben-story-conversation |
+| ben-story-conversation-2 | famous-ben-story-actions | ben-story-conversation |
+| esparza-story-ram-1 | famous-esparza-story-actions | esparza-story-ram |
+| esparza-story-ram-2 | famous-esparza-story-actions | esparza-story-ram |
+| esparza-story-shot-carry-1 | famous-esparza-story-actions | esparza-story-shot-carry |
+| esparza-story-shot-carry-2 | famous-esparza-story-actions | esparza-story-shot-carry |
+| almeron-dickinson-story-ram-1 | famous-almeron-dickinson-story-actions | almeron-dickinson-story-ram |
+| almeron-dickinson-story-ram-2 | famous-almeron-dickinson-story-actions | almeron-dickinson-story-ram |
+| almeron-dickinson-story-shot-carry-1 | famous-almeron-dickinson-story-actions | almeron-dickinson-story-shot-carry |
+| almeron-dickinson-story-shot-carry-2 | famous-almeron-dickinson-story-actions | almeron-dickinson-story-shot-carry |
 | urrea-walk-e-1 | famous-urrea | urrea-walk-e |
 | urrea-walk-e-2 | famous-urrea | urrea-walk-e |
 | urrea-walk-e-3 | famous-urrea | urrea-walk-e |
@@ -2032,6 +2077,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-gunsmith | shop-gunsmith | State artwork; no motion required |
 | shop-doctor | shop-doctor | State artwork; no motion required |
 | shop-stockman | shop-stockman | State artwork; no motion required |
+| susanna-child-walk-e-1 | famous-susanna-child-travel | susanna-child-walk-e |
+| susanna-child-walk-e-2 | famous-susanna-child-travel | susanna-child-walk-e |
+| susanna-child-hold-1 | famous-susanna-child-travel | susanna-child-hold |
+| susanna-child-hold-2 | famous-susanna-child-travel | susanna-child-hold |
+| susanna-child-walk-s-1 | famous-susanna-child-cardinal | susanna-child-walk-s |
+| susanna-child-walk-s-2 | famous-susanna-child-cardinal | susanna-child-walk-s |
+| susanna-child-walk-n-1 | famous-susanna-child-cardinal | susanna-child-walk-n |
+| susanna-child-walk-n-2 | famous-susanna-child-cardinal | susanna-child-walk-n |
+| settler-gun-ram-1 | gonzales-settler-rammer | settler-gun-ram |
+| settler-gun-ram-2 | gonzales-settler-rammer | settler-gun-ram |
+| settler-gun-rammer-cover-1 | gonzales-settler-rammer | settler-gun-rammer-cover |
+| settler-gun-rammer-cover-2 | gonzales-settler-rammer | settler-gun-rammer-cover |
+| settler-gun-carry-1 | gonzales-settler-charge | settler-gun-carry |
+| settler-gun-carry-2 | gonzales-settler-charge | settler-gun-carry |
+| settler-gun-charge-wait-1 | gonzales-settler-charge | settler-gun-charge-wait |
+| settler-gun-charge-wait-2 | gonzales-settler-charge | settler-gun-charge-wait |
+| settler-gun-fire-1 | gonzales-settler-igniter | settler-gun-fire |
+| settler-gun-fire-2 | gonzales-settler-igniter | settler-gun-fire |
+| settler-gun-ready-1 | gonzales-settler-igniter | settler-gun-ready |
+| settler-gun-ready-2 | gonzales-settler-igniter | settler-gun-ready |
 | building-frame-one-storey | town-buildings-researched | State artwork; no motion required |
 | building-frame-storey-half | town-buildings-researched | State artwork; no motion required |
 | building-frame-two-storey | town-buildings-researched | State artwork; no motion required |
@@ -3154,6 +3219,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | smither-walk-s | Pose cycle | 2 | 560 | yes | south |
 | smither-walk-n | Pose cycle | 2 | 560 | yes | north |
 | smither-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| fannin-story-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| fannin-story-surrender | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| milam-story-rally | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| milam-story-point | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| crockett-story-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| crockett-story-rest | Pose cycle | 2 | 2400 | yes | east; mirror for west |
+| bowie-story-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| bowie-story-sick | Pose cycle | 2 | 2400 | yes | east; mirror for west |
+| alavez-story-beckon | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| alavez-story-guide | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| ben-story-pot-walk | Pose cycle | 2 | 560 | yes | east; mirror for west |
+| ben-story-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| esparza-story-ram | Pose cycle | 2 | 1300 | yes | east; mirror for west |
+| esparza-story-shot-carry | Pose cycle | 2 | 560 | yes | east; mirror for west |
+| almeron-dickinson-story-ram | Pose cycle | 2 | 1300 | yes | east; mirror for west |
+| almeron-dickinson-story-shot-carry | Pose cycle | 2 | 560 | yes | east; mirror for west |
 | urrea-walk-e | Pose cycle | 4 | 760 | yes | east |
 | urrea-walk-s | Pose cycle | 2 | 580 | yes | south |
 | urrea-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -3246,6 +3327,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hog-root | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
 | home-chest-opening | Pose cycle | 2 | 1000 | one-shot | east; west by mirroring |
 | home-cradle-rock | rock | 1 | 2000 | yes | east; west by mirroring |
+| susanna-child-walk-e | Pose cycle | 2 | 560 | yes | east |
+| susanna-child-hold | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| susanna-child-walk-s | Pose cycle | 2 | 560 | yes | south |
+| susanna-child-walk-n | Pose cycle | 2 | 560 | yes | north |
+| settler-gun-ram | Pose cycle | 2 | 1300 | yes | east; mirror for west |
+| settler-gun-rammer-cover | Pose cycle | 2 | 900 | one-shot | east; mirror for west |
+| settler-gun-carry | Pose cycle | 2 | 560 | yes | east; mirror for west |
+| settler-gun-charge-wait | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| settler-gun-fire | Pose cycle | 2 | 900 | one-shot | east; mirror for west |
+| settler-gun-ready | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | pine-loblolly-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-loblolly-log-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-loblolly-large-wind | sway | 1 | 3800 | yes | not applicable |

@@ -55,6 +55,10 @@ test('the Gonzales gun and completed flag select their delivered animated art', 
   view.draw(fakeContext(), battle(0, { cannon, flag }), { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
   assert.ok(art.drawn.some(one => one.clip === 'cannon-cartwheels-e-recoil'), 'Gonzales shot used the old carriage gun');
   assert.ok(art.drawn.some(one => one.clip === 'flag-come-and-take-it-wind'), 'the completed flag stayed canvas art');
+  for (const name of ['settler-gun-rammer-cover', 'settler-gun-carry', 'settler-gun-fire']) assert.ok(art.drawn.some(one => one.clip === name), name);
+  art.drawn.length = 0;
+  view.draw(fakeContext(), battle(1, { cannon: { ...cannon, shots: [] } }), { camera, time: 2000, now: 2000, tickMs: 1000, bounds: { width: 1366, height: 768 } });
+  for (const name of ['settler-gun-ram', 'settler-gun-carry', 'settler-gun-ready']) assert.ok(art.drawn.some(one => one.clip === name), name);
 });
 
 test('the named Gonzales parley draws Moore and Castañeda in their own art', () => {

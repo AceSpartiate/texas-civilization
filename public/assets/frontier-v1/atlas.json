@@ -13038,6 +13038,470 @@
         ]
       }
     },
+    "famous-fannin-story-actions": {
+      "image": "atlases/famous-fannin-story-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1048552,
+      "sha256": "8cbd4d85533bbea6e557117b7a01866b4252abe38a041272e33d7fd50ab5dd37",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.6864,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              18,
+              622
+            ],
+            "columns": [
+              [
+                189,
+                584
+              ],
+              [
+                745,
+                1188
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              629,
+              1220
+            ],
+            "columns": [
+              [
+                179,
+                543
+              ],
+              [
+                748,
+                1136
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-milam-story-actions": {
+      "image": "atlases/famous-milam-story-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1203673,
+      "sha256": "2eb84fe3e45961ca7bdfd69774b20cc695969e321bdc9c15b6b64cf29a2dd488",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.686364,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              22,
+              615
+            ],
+            "columns": [
+              [
+                160,
+                510
+              ],
+              [
+                768,
+                1115
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              645,
+              1208
+            ],
+            "columns": [
+              [
+                153,
+                598
+              ],
+              [
+                768,
+                1225
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-crockett-story-actions": {
+      "image": "atlases/famous-crockett-story-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1215175,
+      "sha256": "1f6e3fd62bafc375a12c3bbf68d840eeb8fb35fca8114e382f3b9b7c321df16f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.667299,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              29,
+              620
+            ],
+            "columns": [
+              [
+                161,
+                481
+              ],
+              [
+                767,
+                1189
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              663,
+              1201
+            ],
+            "columns": [
+              [
+                114,
+                549
+              ],
+              [
+                703,
+                1154
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-bowie-story-actions": {
+      "image": "atlases/famous-bowie-story-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1263291,
+      "sha256": "e006f7437c50ce9f89f907a208cd5174f331839beeb5fcf345d015a25ebaae38",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.653125,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              36,
+              680
+            ],
+            "columns": [
+              [
+                170,
+                553
+              ],
+              [
+                760,
+                1212
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              737,
+              1212
+            ],
+            "columns": [
+              [
+                41,
+                629
+              ],
+              [
+                647,
+                1226
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-alavez-story-actions": {
+      "image": "atlases/famous-alavez-story-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1133152,
+      "sha256": "4afce074b5679711b01ae387a4e98c0e6b116af3f121660bf37f6f786a278d74",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.654277,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              32,
+              605
+            ],
+            "columns": [
+              [
+                155,
+                613
+              ],
+              [
+                715,
+                1103
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              654,
+              1218
+            ],
+            "columns": [
+              [
+                155,
+                649
+              ],
+              [
+                721,
+                1229
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-ben-story-actions": {
+      "image": "atlases/famous-ben-story-actions.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 865048,
+      "sha256": "128facb3968523bdd3682ee2ed653bbafca75966b0ae36e3cfdb3628f10a5919",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.761934,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              32,
+              571
+            ],
+            "columns": [
+              [
+                196,
+                564
+              ],
+              [
+                818,
+                1160
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              605,
+              1164
+            ],
+            "columns": [
+              [
+                261,
+                508
+              ],
+              [
+                803,
+                1169
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-esparza-story-actions": {
+      "image": "atlases/famous-esparza-story-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 777418,
+      "sha256": "0511328f2824c6801245cf2ed9f37c0974d5e8f70f1e96750b6a5f43ff459ebc",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.770764,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              117,
+              588
+            ],
+            "columns": [
+              [
+                57,
+                639
+              ],
+              [
+                646,
+                1227
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              666,
+              1176
+            ],
+            "columns": [
+              [
+                148,
+                482
+              ],
+              [
+                761,
+                1106
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-almeron-dickinson-story-actions": {
+      "image": "atlases/famous-almeron-dickinson-story-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 850453,
+      "sha256": "0167f2faa2fca101b8b34dfae6bfe0fda1531795a775f0b484317e434588da4c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.753884,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              72,
+              557
+            ],
+            "columns": [
+              [
+                52,
+                642
+              ],
+              [
+                642,
+                1243
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              625,
+              1178
+            ],
+            "columns": [
+              [
+                177,
+                547
+              ],
+              [
+                690,
+                1145
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-urrea": {
       "image": "atlases/famous-urrea.png",
       "width": 1254,
@@ -16783,6 +17247,296 @@
               [
                 49,
                 1497
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-susanna-child-travel": {
+      "image": "atlases/famous-susanna-child-travel.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1207824,
+      "sha256": "dfd4de561e6dc3c6efb24c66cdd10dbf7f1ca47daf329d3b035d185c44df0b3c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.660607,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              5,
+              577
+            ],
+            "columns": [
+              [
+                157,
+                561
+              ],
+              [
+                788,
+                1157
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              580,
+              1242
+            ],
+            "columns": [
+              [
+                187,
+                532
+              ],
+              [
+                730,
+                1107
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-susanna-child-cardinal": {
+      "image": "atlases/famous-susanna-child-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1204335,
+      "sha256": "0611b180485c88206207054661f34afae5b63c503da18ea43acb255ee56d4b2e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.683019,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              12,
+              620
+            ],
+            "columns": [
+              [
+                193,
+                571
+              ],
+              [
+                681,
+                1064
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              626,
+              1219
+            ],
+            "columns": [
+              [
+                212,
+                589
+              ],
+              [
+                698,
+                1064
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-settler-rammer": {
+      "image": "atlases/gonzales-settler-rammer.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 892360,
+      "sha256": "a218e9e7cbcde874bc280fd94ad15d5d04697811e324bb9c27a70fe6dd158137",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.776391,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              96,
+              618
+            ],
+            "columns": [
+              [
+                61,
+                609
+              ],
+              [
+                632,
+                1243
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              748,
+              1163
+            ],
+            "columns": [
+              [
+                145,
+                454
+              ],
+              [
+                742,
+                1041
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-settler-charge": {
+      "image": "atlases/gonzales-settler-charge.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 892184,
+      "sha256": "8e9d8d29f64b76efd88b66f8b6e331097f40750b6b39a760e4f4f84c71c150ba",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.762321,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              18,
+              615
+            ],
+            "columns": [
+              [
+                202,
+                570
+              ],
+              [
+                744,
+                1147
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              633,
+              1234
+            ],
+            "columns": [
+              [
+                248,
+                531
+              ],
+              [
+                807,
+                1075
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-settler-igniter": {
+      "image": "atlases/gonzales-settler-igniter.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1022312,
+      "sha256": "2fdf11711fea798233e42bb3b95b70a2cc17cd7d981686a4103c106aa3c9289e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.746976,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              27,
+              598
+            ],
+            "columns": [
+              [
+                170,
+                697
+              ],
+              [
+                697,
+                1202
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              625,
+              1223
+            ],
+            "columns": [
+              [
+                234,
+                539
+              ],
+              [
+                822,
+                1130
               ]
             ]
           }
@@ -56810,6 +57564,806 @@
         "retainedFraction": 1
       }
     },
+    "fannin-story-command-1": {
+      "sheet": "famous-fannin-story-actions",
+      "x": 189,
+      "y": 19,
+      "w": 395,
+      "h": 603,
+      "anchorX": 0.4468,
+      "anchorY": 0.9469,
+      "logicalHeight": 604,
+      "label": "fannin story command 1",
+      "kind": "famous-fannin-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          191,
+          21,
+          391,
+          599
+        ],
+        "visiblePixels": 114144,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-story-command-2": {
+      "sheet": "famous-fannin-story-actions",
+      "x": 745,
+      "y": 18,
+      "w": 443,
+      "h": 604,
+      "anchorX": 0.412,
+      "anchorY": 0.9404,
+      "logicalHeight": 604,
+      "label": "fannin story command 2",
+      "kind": "famous-fannin-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          747,
+          20,
+          439,
+          600
+        ],
+        "visiblePixels": 118597,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-story-surrender-1": {
+      "sheet": "famous-fannin-story-actions",
+      "x": 179,
+      "y": 629,
+      "w": 364,
+      "h": 587,
+      "anchorX": 0.5,
+      "anchorY": 0.9455,
+      "logicalHeight": 604,
+      "label": "fannin story surrender 1",
+      "kind": "famous-fannin-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          181,
+          631,
+          360,
+          583
+        ],
+        "visiblePixels": 113032,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fannin-story-surrender-2": {
+      "sheet": "famous-fannin-story-actions",
+      "x": 748,
+      "y": 629,
+      "w": 388,
+      "h": 591,
+      "anchorX": 0.5193,
+      "anchorY": 0.9594,
+      "logicalHeight": 604,
+      "label": "fannin story surrender 2",
+      "kind": "famous-fannin-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          750,
+          631,
+          384,
+          587
+        ],
+        "visiblePixels": 118557,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-story-rally-1": {
+      "sheet": "famous-milam-story-actions",
+      "x": 160,
+      "y": 35,
+      "w": 350,
+      "h": 578,
+      "anchorX": 0.5014,
+      "anchorY": 0.955,
+      "logicalHeight": 593,
+      "label": "milam story rally 1",
+      "kind": "famous-milam-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          162,
+          37,
+          346,
+          574
+        ],
+        "visiblePixels": 113853,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-story-rally-2": {
+      "sheet": "famous-milam-story-actions",
+      "x": 768,
+      "y": 22,
+      "w": 347,
+      "h": 593,
+      "anchorX": 0.5014,
+      "anchorY": 0.9511,
+      "logicalHeight": 593,
+      "label": "milam story rally 2",
+      "kind": "famous-milam-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          770,
+          24,
+          343,
+          589
+        ],
+        "visiblePixels": 116285,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-story-point-1": {
+      "sheet": "famous-milam-story-actions",
+      "x": 153,
+      "y": 647,
+      "w": 445,
+      "h": 561,
+      "anchorX": 0.4011,
+      "anchorY": 0.9501,
+      "logicalHeight": 593,
+      "label": "milam story point 1",
+      "kind": "famous-milam-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          155,
+          649,
+          441,
+          557
+        ],
+        "visiblePixels": 113899,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "milam-story-point-2": {
+      "sheet": "famous-milam-story-actions",
+      "x": 768,
+      "y": 645,
+      "w": 457,
+      "h": 562,
+      "anchorX": 0.3873,
+      "anchorY": 0.9484,
+      "logicalHeight": 593,
+      "label": "milam story point 2",
+      "kind": "famous-milam-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          770,
+          647,
+          453,
+          558
+        ],
+        "visiblePixels": 116597,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-story-command-1": {
+      "sheet": "famous-crockett-story-actions",
+      "x": 161,
+      "y": 29,
+      "w": 320,
+      "h": 591,
+      "anchorX": 0.5188,
+      "anchorY": 0.9442,
+      "logicalHeight": 591,
+      "label": "crockett story command 1",
+      "kind": "famous-crockett-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          163,
+          31,
+          316,
+          587
+        ],
+        "visiblePixels": 105438,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-story-command-2": {
+      "sheet": "famous-crockett-story-actions",
+      "x": 767,
+      "y": 31,
+      "w": 422,
+      "h": 589,
+      "anchorX": 0.41,
+      "anchorY": 0.9491,
+      "logicalHeight": 591,
+      "label": "crockett story command 2",
+      "kind": "famous-crockett-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          769,
+          33,
+          418,
+          585
+        ],
+        "visiblePixels": 113047,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-story-rest-1": {
+      "sheet": "famous-crockett-story-actions",
+      "x": 114,
+      "y": 663,
+      "w": 435,
+      "h": 538,
+      "anchorX": 0.6494,
+      "anchorY": 0.9294,
+      "logicalHeight": 591,
+      "label": "crockett story rest 1",
+      "kind": "famous-crockett-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          116,
+          665,
+          431,
+          534
+        ],
+        "visiblePixels": 136972,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "crockett-story-rest-2": {
+      "sheet": "famous-crockett-story-actions",
+      "x": 703,
+      "y": 668,
+      "w": 451,
+      "h": 525,
+      "anchorX": 0.6064,
+      "anchorY": 0.9371,
+      "logicalHeight": 591,
+      "label": "crockett story rest 2",
+      "kind": "famous-crockett-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          705,
+          670,
+          447,
+          521
+        ],
+        "visiblePixels": 138593,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-story-command-1": {
+      "sheet": "famous-bowie-story-actions",
+      "x": 170,
+      "y": 36,
+      "w": 383,
+      "h": 644,
+      "anchorX": 0.453,
+      "anchorY": 0.9286,
+      "logicalHeight": 644,
+      "label": "bowie story command 1",
+      "kind": "famous-bowie-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          172,
+          38,
+          379,
+          640
+        ],
+        "visiblePixels": 119391,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-story-command-2": {
+      "sheet": "famous-bowie-story-actions",
+      "x": 760,
+      "y": 36,
+      "w": 452,
+      "h": 644,
+      "anchorX": 0.3717,
+      "anchorY": 0.9286,
+      "logicalHeight": 644,
+      "label": "bowie story command 2",
+      "kind": "famous-bowie-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          762,
+          38,
+          448,
+          640
+        ],
+        "visiblePixels": 123338,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-story-sick-1": {
+      "sheet": "famous-bowie-story-actions",
+      "x": 41,
+      "y": 739,
+      "w": 588,
+      "h": 473,
+      "anchorX": 0.6565,
+      "anchorY": 0.9281,
+      "logicalHeight": 644,
+      "label": "bowie story sick 1",
+      "kind": "famous-bowie-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          741,
+          584,
+          469
+        ],
+        "visiblePixels": 138824,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bowie-story-sick-2": {
+      "sheet": "famous-bowie-story-actions",
+      "x": 647,
+      "y": 737,
+      "w": 579,
+      "h": 475,
+      "anchorX": 0.6865,
+      "anchorY": 0.9284,
+      "logicalHeight": 644,
+      "label": "bowie story sick 2",
+      "kind": "famous-bowie-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          649,
+          739,
+          575,
+          471
+        ],
+        "visiblePixels": 139407,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-story-beckon-1": {
+      "sheet": "famous-alavez-story-actions",
+      "x": 155,
+      "y": 32,
+      "w": 458,
+      "h": 573,
+      "anchorX": 0.4225,
+      "anchorY": 0.9389,
+      "logicalHeight": 573,
+      "label": "alavez story beckon 1",
+      "kind": "famous-alavez-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          157,
+          34,
+          454,
+          569
+        ],
+        "visiblePixels": 126179,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-story-beckon-2": {
+      "sheet": "famous-alavez-story-actions",
+      "x": 715,
+      "y": 33,
+      "w": 388,
+      "h": 571,
+      "anchorX": 0.5271,
+      "anchorY": 0.9335,
+      "logicalHeight": 573,
+      "label": "alavez story beckon 2",
+      "kind": "famous-alavez-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          717,
+          35,
+          384,
+          567
+        ],
+        "visiblePixels": 124341,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-story-guide-1": {
+      "sheet": "famous-alavez-story-actions",
+      "x": 155,
+      "y": 656,
+      "w": 494,
+      "h": 559,
+      "anchorX": 0.4231,
+      "anchorY": 0.9392,
+      "logicalHeight": 573,
+      "label": "alavez story guide 1",
+      "kind": "famous-alavez-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          157,
+          658,
+          490,
+          555
+        ],
+        "visiblePixels": 131216,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "alavez-story-guide-2": {
+      "sheet": "famous-alavez-story-actions",
+      "x": 721,
+      "y": 654,
+      "w": 508,
+      "h": 564,
+      "anchorX": 0.4006,
+      "anchorY": 0.9326,
+      "logicalHeight": 573,
+      "label": "alavez story guide 2",
+      "kind": "famous-alavez-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          723,
+          656,
+          504,
+          560
+        ],
+        "visiblePixels": 137808,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ben-story-pot-walk-1": {
+      "sheet": "famous-ben-story-actions",
+      "x": 196,
+      "y": 32,
+      "w": 368,
+      "h": 539,
+      "anchorX": 0.5353,
+      "anchorY": 0.9295,
+      "logicalHeight": 558,
+      "label": "ben story pot walk 1",
+      "kind": "famous-ben-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          198,
+          34,
+          364,
+          535
+        ],
+        "visiblePixels": 90334,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ben-story-pot-walk-2": {
+      "sheet": "famous-ben-story-actions",
+      "x": 818,
+      "y": 33,
+      "w": 342,
+      "h": 534,
+      "anchorX": 0.3085,
+      "anchorY": 0.9569,
+      "logicalHeight": 558,
+      "label": "ben story pot walk 2",
+      "kind": "famous-ben-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          820,
+          35,
+          338,
+          530
+        ],
+        "visiblePixels": 83732,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ben-story-conversation-1": {
+      "sheet": "famous-ben-story-actions",
+      "x": 261,
+      "y": 606,
+      "w": 247,
+      "h": 558,
+      "anchorX": 0.5344,
+      "anchorY": 0.9283,
+      "logicalHeight": 558,
+      "label": "ben story conversation 1",
+      "kind": "famous-ben-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          263,
+          608,
+          243,
+          554
+        ],
+        "visiblePixels": 87376,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ben-story-conversation-2": {
+      "sheet": "famous-ben-story-actions",
+      "x": 803,
+      "y": 605,
+      "w": 366,
+      "h": 557,
+      "anchorX": 0.3839,
+      "anchorY": 0.93,
+      "logicalHeight": 558,
+      "label": "ben story conversation 2",
+      "kind": "famous-ben-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          805,
+          607,
+          362,
+          553
+        ],
+        "visiblePixels": 93036,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "esparza-story-ram-1": {
+      "sheet": "famous-esparza-story-actions",
+      "x": 57,
+      "y": 117,
+      "w": 582,
+      "h": 471,
+      "anchorX": 0.3247,
+      "anchorY": 0.9299,
+      "logicalHeight": 510,
+      "label": "esparza story ram 1",
+      "kind": "famous-esparza-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          59,
+          119,
+          578,
+          467
+        ],
+        "visiblePixels": 95677,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "esparza-story-ram-2": {
+      "sheet": "famous-esparza-story-actions",
+      "x": 646,
+      "y": 125,
+      "w": 581,
+      "h": 463,
+      "anchorX": 0.346,
+      "anchorY": 0.9287,
+      "logicalHeight": 510,
+      "label": "esparza story ram 2",
+      "kind": "famous-esparza-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          648,
+          127,
+          577,
+          459
+        ],
+        "visiblePixels": 86713,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "esparza-story-shot-carry-1": {
+      "sheet": "famous-esparza-story-actions",
+      "x": 148,
+      "y": 666,
+      "w": 334,
+      "h": 510,
+      "anchorX": 0.1751,
+      "anchorY": 0.9569,
+      "logicalHeight": 510,
+      "label": "esparza story shot carry 1",
+      "kind": "famous-esparza-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          150,
+          668,
+          330,
+          506
+        ],
+        "visiblePixels": 79864,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "esparza-story-shot-carry-2": {
+      "sheet": "famous-esparza-story-actions",
+      "x": 761,
+      "y": 668,
+      "w": 345,
+      "h": 493,
+      "anchorX": 0.8145,
+      "anchorY": 0.9513,
+      "logicalHeight": 510,
+      "label": "esparza story shot carry 2",
+      "kind": "famous-esparza-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          763,
+          670,
+          341,
+          489
+        ],
+        "visiblePixels": 77587,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almeron-dickinson-story-ram-1": {
+      "sheet": "famous-almeron-dickinson-story-actions",
+      "x": 52,
+      "y": 72,
+      "w": 590,
+      "h": 485,
+      "anchorX": 0.5008,
+      "anchorY": 0.9608,
+      "logicalHeight": 553,
+      "label": "almeron dickinson story ram 1",
+      "kind": "famous-almeron-dickinson-story-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          74,
+          591,
+          481
+        ],
+        "visiblePixels": 95039,
+        "trimmedPixels": 33,
+        "retainedFraction": 0.999653
+      }
+    },
+    "almeron-dickinson-story-ram-2": {
+      "sheet": "famous-almeron-dickinson-story-actions",
+      "x": 642,
+      "y": 81,
+      "w": 601,
+      "h": 476,
+      "anchorX": 0.3461,
+      "anchorY": 0.9391,
+      "logicalHeight": 553,
+      "label": "almeron dickinson story ram 2",
+      "kind": "famous-almeron-dickinson-story-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          639,
+          83,
+          602,
+          472
+        ],
+        "visiblePixels": 89281,
+        "trimmedPixels": 43,
+        "retainedFraction": 0.999518
+      }
+    },
+    "almeron-dickinson-story-shot-carry-1": {
+      "sheet": "famous-almeron-dickinson-story-actions",
+      "x": 177,
+      "y": 625,
+      "w": 370,
+      "h": 553,
+      "anchorX": 0.1135,
+      "anchorY": 0.9638,
+      "logicalHeight": 553,
+      "label": "almeron dickinson story shot carry 1",
+      "kind": "famous-almeron-dickinson-story-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          179,
+          627,
+          366,
+          549
+        ],
+        "visiblePixels": 86629,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almeron-dickinson-story-shot-carry-2": {
+      "sheet": "famous-almeron-dickinson-story-actions",
+      "x": 690,
+      "y": 627,
+      "w": 455,
+      "h": 495,
+      "anchorX": 0.5308,
+      "anchorY": 0.9293,
+      "logicalHeight": 553,
+      "label": "almeron dickinson story shot carry 2",
+      "kind": "famous-almeron-dickinson-story-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          692,
+          629,
+          451,
+          491
+        ],
+        "visiblePixels": 84721,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
     "urrea-walk-e-1": {
       "sheet": "famous-urrea",
       "x": 101,
@@ -65824,6 +67378,494 @@
           623
         ],
         "visiblePixels": 443393,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-child-walk-e-1": {
+      "sheet": "famous-susanna-child-travel",
+      "x": 157,
+      "y": 5,
+      "w": 404,
+      "h": 568,
+      "anchorX": 0.5223,
+      "anchorY": 0.9296,
+      "logicalHeight": 662,
+      "label": "susanna child walk e 1",
+      "kind": "famous-susanna-child-travel",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          159,
+          7,
+          400,
+          564
+        ],
+        "visiblePixels": 122019,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-child-walk-e-2": {
+      "sheet": "famous-susanna-child-travel",
+      "x": 788,
+      "y": 8,
+      "w": 369,
+      "h": 569,
+      "anchorX": 0.393,
+      "anchorY": 0.9684,
+      "logicalHeight": 662,
+      "label": "susanna child walk e 2",
+      "kind": "famous-susanna-child-travel",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          790,
+          10,
+          365,
+          565
+        ],
+        "visiblePixels": 105721,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-child-hold-1": {
+      "sheet": "famous-susanna-child-travel",
+      "x": 187,
+      "y": 580,
+      "w": 345,
+      "h": 662,
+      "anchorX": 0.5391,
+      "anchorY": 0.9592,
+      "logicalHeight": 662,
+      "label": "susanna child hold 1",
+      "kind": "famous-susanna-child-travel",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          189,
+          582,
+          341,
+          658
+        ],
+        "visiblePixels": 142258,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-child-hold-2": {
+      "sheet": "famous-susanna-child-travel",
+      "x": 730,
+      "y": 592,
+      "w": 377,
+      "h": 648,
+      "anchorX": 0.5093,
+      "anchorY": 0.9522,
+      "logicalHeight": 662,
+      "label": "susanna child hold 2",
+      "kind": "famous-susanna-child-travel",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          732,
+          594,
+          373,
+          644
+        ],
+        "visiblePixels": 140717,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-child-walk-s-1": {
+      "sheet": "famous-susanna-child-cardinal",
+      "x": 193,
+      "y": 12,
+      "w": 378,
+      "h": 605,
+      "anchorX": 0.5,
+      "anchorY": 0.9405,
+      "logicalHeight": 607,
+      "label": "susanna child walk s 1",
+      "kind": "famous-susanna-child-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          195,
+          14,
+          374,
+          601
+        ],
+        "visiblePixels": 122473,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-child-walk-s-2": {
+      "sheet": "famous-susanna-child-cardinal",
+      "x": 681,
+      "y": 13,
+      "w": 383,
+      "h": 607,
+      "anchorX": 0.5836,
+      "anchorY": 0.9736,
+      "logicalHeight": 607,
+      "label": "susanna child walk s 2",
+      "kind": "famous-susanna-child-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          683,
+          15,
+          379,
+          603
+        ],
+        "visiblePixels": 122144,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-child-walk-n-1": {
+      "sheet": "famous-susanna-child-cardinal",
+      "x": 212,
+      "y": 626,
+      "w": 377,
+      "h": 590,
+      "anchorX": 0.4576,
+      "anchorY": 0.9593,
+      "logicalHeight": 607,
+      "label": "susanna child walk n 1",
+      "kind": "famous-susanna-child-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          214,
+          628,
+          373,
+          586
+        ],
+        "visiblePixels": 116316,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "susanna-child-walk-n-2": {
+      "sheet": "famous-susanna-child-cardinal",
+      "x": 698,
+      "y": 627,
+      "w": 366,
+      "h": 592,
+      "anchorX": 0.4836,
+      "anchorY": 0.9713,
+      "logicalHeight": 607,
+      "label": "susanna child walk n 2",
+      "kind": "famous-susanna-child-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          700,
+          629,
+          362,
+          588
+        ],
+        "visiblePixels": 116126,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-ram-1": {
+      "sheet": "gonzales-settler-rammer",
+      "x": 61,
+      "y": 96,
+      "w": 548,
+      "h": 522,
+      "anchorX": 0.2965,
+      "anchorY": 0.9521,
+      "label": "settler gun ram 1",
+      "kind": "gonzales-settler-rammer",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          63,
+          98,
+          544,
+          518
+        ],
+        "visiblePixels": 87680,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-ram-2": {
+      "sheet": "gonzales-settler-rammer",
+      "x": 632,
+      "y": 118,
+      "w": 611,
+      "h": 498,
+      "anchorX": 0.2954,
+      "anchorY": 0.9598,
+      "label": "settler gun ram 2",
+      "kind": "gonzales-settler-rammer",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          634,
+          120,
+          607,
+          494
+        ],
+        "visiblePixels": 87149,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-rammer-cover-1": {
+      "sheet": "gonzales-settler-rammer",
+      "x": 145,
+      "y": 773,
+      "w": 309,
+      "h": 390,
+      "anchorX": 0.2799,
+      "anchorY": 0.9436,
+      "label": "settler gun rammer cover 1",
+      "kind": "gonzales-settler-rammer",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          147,
+          775,
+          305,
+          386
+        ],
+        "visiblePixels": 75454,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-rammer-cover-2": {
+      "sheet": "gonzales-settler-rammer",
+      "x": 742,
+      "y": 748,
+      "w": 299,
+      "h": 408,
+      "anchorX": 0.4766,
+      "anchorY": 0.9289,
+      "label": "settler gun rammer cover 2",
+      "kind": "gonzales-settler-rammer",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          744,
+          750,
+          295,
+          404
+        ],
+        "visiblePixels": 75467,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-carry-1": {
+      "sheet": "gonzales-settler-charge",
+      "x": 202,
+      "y": 18,
+      "w": 368,
+      "h": 597,
+      "anchorX": 0.1685,
+      "anchorY": 0.9514,
+      "label": "settler gun carry 1",
+      "kind": "gonzales-settler-charge",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          204,
+          20,
+          364,
+          593
+        ],
+        "visiblePixels": 90937,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-carry-2": {
+      "sheet": "gonzales-settler-charge",
+      "x": 744,
+      "y": 19,
+      "w": 403,
+      "h": 577,
+      "anchorX": 0.5496,
+      "anchorY": 0.9289,
+      "label": "settler gun carry 2",
+      "kind": "gonzales-settler-charge",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          746,
+          21,
+          399,
+          573
+        ],
+        "visiblePixels": 88309,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-charge-wait-1": {
+      "sheet": "gonzales-settler-charge",
+      "x": 248,
+      "y": 633,
+      "w": 283,
+      "h": 601,
+      "anchorX": 0.5,
+      "anchorY": 0.9401,
+      "label": "settler gun charge wait 1",
+      "kind": "gonzales-settler-charge",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          250,
+          635,
+          279,
+          597
+        ],
+        "visiblePixels": 85612,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-charge-wait-2": {
+      "sheet": "gonzales-settler-charge",
+      "x": 807,
+      "y": 634,
+      "w": 268,
+      "h": 600,
+      "anchorX": 0.5037,
+      "anchorY": 0.9367,
+      "label": "settler gun charge wait 2",
+      "kind": "gonzales-settler-charge",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          809,
+          636,
+          264,
+          596
+        ],
+        "visiblePixels": 84305,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-fire-1": {
+      "sheet": "gonzales-settler-igniter",
+      "x": 170,
+      "y": 27,
+      "w": 527,
+      "h": 571,
+      "anchorX": 0.3017,
+      "anchorY": 0.9422,
+      "label": "settler gun fire 1",
+      "kind": "gonzales-settler-igniter",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          172,
+          29,
+          528,
+          567
+        ],
+        "visiblePixels": 89470,
+        "trimmedPixels": 25,
+        "retainedFraction": 0.999721
+      }
+    },
+    "settler-gun-fire-2": {
+      "sheet": "gonzales-settler-igniter",
+      "x": 697,
+      "y": 52,
+      "w": 505,
+      "h": 545,
+      "anchorX": 0.702,
+      "anchorY": 0.9394,
+      "label": "settler gun fire 2",
+      "kind": "gonzales-settler-igniter",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          694,
+          54,
+          506,
+          541
+        ],
+        "visiblePixels": 93600,
+        "trimmedPixels": 41,
+        "retainedFraction": 0.999562
+      }
+    },
+    "settler-gun-ready-1": {
+      "sheet": "gonzales-settler-igniter",
+      "x": 234,
+      "y": 627,
+      "w": 305,
+      "h": 596,
+      "anchorX": 0.5131,
+      "anchorY": 0.9413,
+      "label": "settler gun ready 1",
+      "kind": "gonzales-settler-igniter",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          236,
+          629,
+          301,
+          592
+        ],
+        "visiblePixels": 87509,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "settler-gun-ready-2": {
+      "sheet": "gonzales-settler-igniter",
+      "x": 822,
+      "y": 625,
+      "w": 308,
+      "h": 598,
+      "anchorX": 0.513,
+      "anchorY": 0.9465,
+      "label": "settler gun ready 2",
+      "kind": "gonzales-settler-igniter",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          824,
+          627,
+          304,
+          594
+        ],
+        "visiblePixels": 89744,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

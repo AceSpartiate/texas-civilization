@@ -61,6 +61,27 @@ test('named commanders use identity-specific authored gesture cycles', () => {
   }
 });
 
+test('story actions preserve named identities and Susanna carries Angelina while walking', () => {
+  const cases = [
+    ['fannin', 'command', 'fannin-story-command'], ['fannin', 'surrender', 'fannin-story-surrender'],
+    ['milam', 'command', 'milam-story-rally'], ['crockett', 'command', 'crockett-story-command'],
+    ['crockett', 'seated', 'crockett-story-rest'], ['bowie', 'sick', 'bowie-story-sick'],
+    ['ben', 'carry', 'ben-story-pot-walk'], ['esparza', 'gun', 'esparza-story-ram'],
+    ['almeron-dickinson', 'gun', 'almeron-dickinson-story-ram'],
+    ['susanna-dickinson', 'walk', 'susanna-child-walk-e'], ['susanna-dickinson', 'stand', 'susanna-child-hold'],
+  ];
+  for (const [id, pose, expected] of cases) {
+    const art = fakeArt(), view = createBattleView(art);
+    run(view, minute => night(minute, [], { people: [{ id, art: id, x: 0, y: 0, pose, right: true }] }), { seconds: 1 });
+    assert.ok(art.drawn.some(one => one.clip === expected), expected);
+  }
+  for (const [heading, dir] of [['north', 'n'], ['south', 's']]) {
+    const art = fakeArt(), view = createBattleView(art);
+    run(view, minute => night(minute, [], { people: [{ id: 'susanna-dickinson', art: 'susanna-dickinson', x: 0, y: 0, pose: 'walk', moving: true, heading, right: false }] }), { seconds: 1 });
+    assert.ok(art.drawn.some(one => one.clip === `susanna-child-walk-${dir}` && one.flip === false));
+  }
+});
+
 test('Castrillon walks cardinal directions and rallies above a crate', () => {
   for (const [pose, heading, expected] of [['walk', 'north', 'castrillon-walk-n'], ['walk', 'south', 'castrillon-walk-s'], ['crate-command', 'east', 'castrillon-crate-command']]) {
     const art = fakeArt(), view = createBattleView(art);
