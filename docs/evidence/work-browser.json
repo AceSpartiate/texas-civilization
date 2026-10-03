@@ -6,7 +6,7 @@
   "checks": [
     "Thomas Proofwright working about the place is drawn hoeing (father-hat-work): frames 1/0, dust on the strike, 20 different pictures in 2.4 s",
     "three sent to the house (\"raising the walls\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chopnotch in father-hat-work with a drawn axe, chopnotch in teal-work with a drawn axe, chopnotch in ochre-work with a drawn axe; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Rebecca Proofwright is drawn with the rifle up and a puff of smoke once a cycle (marks 4/1/5); surveying, Thomas Proofwright paces the ground to and fro (24 places, turning both ways)",
+    "at the mark Rebecca Proofwright is drawn with the rifle up and a puff of smoke once a cycle (marks 1/4); surveying, Thomas Proofwright paces the ground to and fro (24 places, turning both ways)",
     "thirty-five logs on the pile are drawn as Astra's logs, 4 in a row, not Claude's pile (null; projected {\"wall\":28,\"sill\":4,\"poor\":3,\"lying\":0})",
     "no page errors"
   ],
@@ -141,12 +141,12 @@
           "father-hat-work"
         ],
         "frames": [
-          0,
-          1
+          1,
+          0
         ],
         "marks": [
-          3,
-          2
+          2,
+          3
         ],
         "shifts": [
           0
@@ -181,10 +181,10 @@
           "teal-work"
         ],
         "frames": [
-          2,
-          3,
           0,
-          1
+          1,
+          2,
+          3
         ],
         "marks": [
           3,
@@ -223,14 +223,14 @@
           "ochre-work"
         ],
         "frames": [
-          0,
-          1,
           2,
-          3
+          3,
+          0,
+          1
         ],
         "marks": [
-          2,
-          3
+          3,
+          2
         ],
         "shifts": [
           0
@@ -276,30 +276,30 @@
           0
         ],
         "shifts": [
-          -16.3,
-          -17.8,
-          -18.9,
-          -19.6,
-          -19.5,
-          -18.8,
-          -17.6,
-          -14.1,
-          -11.3,
-          -8.7,
-          -5.9,
-          -2.9,
-          3.2,
-          6.1,
-          9,
-          11.6,
-          16,
-          17.6,
-          18.8,
-          19.5,
-          19.6,
-          19,
-          17.8,
-          16.3
+          0.8,
+          -2.2,
+          -8.1,
+          -10.8,
+          -13.2,
+          -15.3,
+          -18.4,
+          -19.3,
+          -19.8,
+          -19.7,
+          -19.1,
+          -18,
+          -14.7,
+          -12.5,
+          -10,
+          -4.4,
+          -1.3,
+          1.6,
+          4.6,
+          10.2,
+          12.7,
+          14.8,
+          16.7,
+          19.1
         ],
         "flips": [
           true,
@@ -334,9 +334,8 @@
           0
         ],
         "marks": [
-          4,
           1,
-          5
+          4
         ],
         "shifts": [
           0

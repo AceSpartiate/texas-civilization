@@ -74,11 +74,18 @@ try {
   assert.match(mark, /2 powder/, `the mark does not state its price: "${mark}"`);
   ok(`a poor shot can be taught: "${mark}"`);
   app.setPace(PACES.brisk);
-  HUNTER_FIGURE = await page.evaluate(async fallback => {
-    const { avatarVariant } = await import('/avatar-art.js');
+  // Since Astra's family figures (2026-10-02) the figure is chosen by his looks *and his age* (public/avatar-identity.js), and a
+  // pose her figure has no picture of is drawn in her nearest one (`avatarBinding`: reading the ground is her work cycle, carrying
+  // her walk). So each stage's pose is asked of the page's own rule: the stage's pose where his figure has it, else that fallback,
+  // which docs/ART_REQUESTS.md requests (request 2026-10-03, "the family figures' missing poses").
+  const BOUND = await page.evaluate(async fallback => {
+    const { avatarVariant, avatarBinding } = await import('/avatar-art.js');
     const him = window.__snapshot.world.entities.find(one => one.id === 'hh-1-mateo');
-    return him?.appearance ? avatarVariant(him.appearance, him.sex) : fallback;
+    if (!him?.appearance) return { variant: fallback, reading: `${fallback}-search`, still: `${fallback}-idle-s`, carrying: `${fallback}-carry` };
+    const pose = name => avatarBinding(him, { id: `ochre-${name}` }).id;
+    return { variant: avatarVariant(him.appearance, him.sex, him), reading: pose('search'), still: pose('idle-s'), carrying: pose('carry') };
   }, HUNTER_FIGURE);
+  HUNTER_FIGURE = BOUND.variant;
   await mateo('hunt-timber').click();
   // The hunt in the timber is a journey, and since 2026-09-24 a journey asks how they go before anybody leaves (public/going.js).
   // On foot, the walk this proof watches (its poses on the road are the walk cycle's). Unanswered, nobody went (2026-09-26).
@@ -103,7 +110,7 @@ try {
   // tick, against the figure's drawn height: the page's own formula - is under `GAIT_CEILING` with a margin, where nothing
   // fades and he is a figure walking the whole way; in the timber it goes back to the family's frame, where the timber
   // checks below were always made.
-  const follow = (untilAsk) => page.evaluate(async ({ stopAtAsk, variant, below }) => {
+  const follow = (untilAsk) => page.evaluate(async ({ stopAtAsk, variant, carrying, below }) => {
     window.__huntWatch = window.__huntWatch || { clips: [], stages: [], timberSpots: [], sawSmoke: false, marks: [], road: [] };
     const seen = window.__huntWatch;
     const clips = new Set(seen.clips), stages = new Set(seen.stages);
@@ -124,7 +131,7 @@ try {
           const painted = [...(window.__animationClips || [])];
           seen.road.push({ doing: hunter.chore?.doing || null, speed: +speed.toFixed(3), scale: +camera.scale.toFixed(1), figure: camera.figure,
             alpha: window.__travelSight?.get('hh-1-mateo')?.alpha ?? 1, pageSpeed: window.__travelSight?.get('hh-1-mateo')?.heightsPerSecond ?? null,
-            walk: painted.some(clip => clip.startsWith(`${variant}-walk`)), carry: painted.includes(`${variant}-carry`) });
+            walk: painted.some(clip => clip.startsWith(`${variant}-walk`)), carry: painted.includes(carrying) });
         }
       } else if (!hunter.travel && camera && !camera.following && now - pressed > 200) { nav('follow').click(); pressed = now; }
       if ((window.__animationClips || new Set()).has('musket-smoke')) seen.sawSmoke = true;
@@ -144,7 +151,7 @@ try {
     }
     seen.clips = [...clips]; seen.stages = [...stages];
     return { ...seen, asking: Boolean(window.__snapshot?.world.entities.find(e => e.id === 'hh-1-mateo')?.chore?.ask) };
-  }, { stopAtAsk: untilAsk, variant: HUNTER_FIGURE, below: GAIT_CEILING });
+  }, { stopAtAsk: untilAsk, variant: HUNTER_FIGURE, carrying: BOUND.carrying, below: GAIT_CEILING });
 
   // ------------------------------------------------------ the work stops and asks the family
   const atAsk = await follow(true);
@@ -198,15 +205,17 @@ try {
   // the farm in this frame, and `-idle-s` from one of them would have satisfied a looser
   // check while the hunter did nothing at all - which is the weak assertion this replaced.
   const variant = HUNTER_FIGURE;
-  const wanted = {
-    reading: `${variant}-search`, still: `${variant}-idle-s`, carrying: `${variant}-carry`,
-  };
+  const wanted = { reading: BOUND.reading, still: BOUND.still, carrying: BOUND.carrying };
+  // Which of them are the stage's own picture and which her figure's nearest pose, for the record.
+  const fallbacks = Object.entries({ reading: 'search', still: 'idle-s', carrying: 'carry' }).filter(([stage, pose]) => !wanted[stage].endsWith(`-${pose}`)).map(([stage]) => `${stage} as ${wanted[stage]}`);
   for (const [stage, clip] of Object.entries(wanted)) {
     assert.ok(watched.clips.includes(clip), `the hunter was never drawn ${stage} (${clip}): ${JSON.stringify(watched.clips)}`);
   }
   const walking = watched.clips.filter(clip => clip.startsWith(`${variant}-walk`));
   assert.ok(walking.length, `the hunter was never drawn walking: ${JSON.stringify(watched.clips)}`);
-  ok(`the hunter's own poses change with the stages: ${[...Object.values(wanted), walking[0]].join(', ')}`);
+  ok(`the hunter's own poses change with the stages: ${[...Object.values(wanted), walking[0]].join(', ')}${fallbacks.length ? ` (her figure's nearest pose, requested: ${fallbacks.join('; ')})` : ''}`);
+  // Never one picture for every stage: reading, waiting and carrying home are at least two different poses.
+  assert.ok(new Set(Object.values(wanted)).size >= 2, `every stage is one picture: ${JSON.stringify(wanted)}`);
   const bound = { ...wanted, walking: walking[0] };
   ok('and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest');
   // On the road, a whole figure walking at a walk: under GAIT_CEILING by the page's own formula, the page itself agreeing,
