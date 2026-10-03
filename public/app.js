@@ -6857,7 +6857,9 @@ function positionSelection(world, chosen = selectedEntity(world)) {
   if (width !== placement.width) { panel.style.width = width; placement.width = width; }
   const wide = width ? Math.max(CARD_LEAST, gap) : panelWidth;
   const right = px + 26, flip = right + wide > wall - 8;
-  let at = Math.round(Math.max(margin, flip ? px - wide - 26 : right));
+  // Flipped to the left of somebody who stands under the right-hand panels (the Host's column reaches down past the late
+  // students' box), the card is still held off the wall, not only turned back from it (test:host-view, 2026-10-03).
+  let at = Math.round(Math.max(margin, Math.min(flip ? px - wide - 26 : right, wall - 8 - wide)));
   const across = box => at < box.right - rect.left && box.left - rect.left < at + wide;
   // The ability bar stands in the bottom middle, and the person the card is about is usually just above it, where the camera
   // keeps them: a card that would reach into the bar's side by a little steps off it sideways rather than standing on its
