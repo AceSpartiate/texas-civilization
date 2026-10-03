@@ -8849,16 +8849,73 @@ $('#recover-show')?.addEventListener('click', async () => {
  * reached at this page's own address.
  */
 let joinCardOpen = null, joinCardShown = '';
+const JOIN_SITE_NAME = 'playtexas.github.io';
+/**
+ * **Join words** (owner, 2026-10-03, "Fewest words, no server"; docs/HOST_PAGE.md §2.17), at the top of the card when this
+ * computer's address is a private one: *Go to playtexas.github.io and type* two or three words, numbered and large, *then the class
+ * code*; the page there turns the words into this computer's bare address (sim/join-words.mjs), which asks for the code as it
+ * always has. The server makes them (`joinWords`, server/app.mjs `joinView`), for the
+ * address the teacher has chosen as the students' network or, until then, its best guess - and the address, the QR code and the
+ * words all follow that choice. The QR code stays the address itself: a scan goes straight to this computer, with or without the
+ * Internet. Under *Students cannot connect?*: where this computer is, the choice of network when it has more than one, and a note
+ * for IT in plain words.
+ */
+function renderJoinWords(join, code) {
+  const words = join?.words || null;
+  $('#join-words-box').hidden = !words;
+  // The class code is said once: beside the words when there are words, else under the address for the bare address.
+  document.querySelector('#join-card .join-code-line').hidden = Boolean(words);
+  $('#join-address-step').textContent = words ? 'Or type this address, or scan the code with the camera:' : 'Type this address, or scan the code with the camera:';
+  if (words) {
+    $('#join-site').textContent = join.site;
+    $('#join-words').replaceChildren(...words.map(word => element('li', word)));
+    $('#join-words').setAttribute('aria-label', `The join words: ${words.join(', ')}`);
+    $('#join-words-code').textContent = code;
+  } else $('#join-words').replaceChildren();
+  const where = join ? `${join.address}${join.label ? ` (${join.label})` : ''}, port ${join.port}` : location.host;
+  $('#join-where').textContent = !join ? `This page is at ${location.host}.`
+    : join.classroom ? `This computer is at ${where}, a classroom network address. The words and the address lead there.`
+      : `This computer's address ${where} is not a classroom network address, so there are no join words: students type the address.`;
+  const choices = join?.choices || [];
+  $('#join-network-choice').hidden = choices.length < 2;
+  if (choices.length >= 2) $('#join-network').replaceChildren(...choices.map(choice => {
+    const option = element('option', `${choice.address}${choice.label ? ` (${choice.label})` : ''}${choice.classroom ? '' : ' - no words'}`);
+    option.value = choice.address; option.selected = choice.address === join.address;
+    return option;
+  }));
+  const address = join?.address || location.hostname, port = join?.port || location.port || 80;
+  $('#join-it').textContent = [
+    'Texas Revolution (a classroom game) - a note for IT.',
+    `The teacher's laptop runs the game on this classroom's network at ${address}, port ${port} (TCP). Students open http://${address}:${port}/${code} in Chrome.`,
+    'For that to work:',
+    `1. Student devices must be able to reach the teacher's laptop on this network: client (AP) isolation off between them, or a rule allowing TCP port ${port} to ${address}.`,
+    `2. Windows Firewall on the laptop must allow Node.js, or TCP port ${port}, on the Private profile.`,
+    `3. ${JOIN_SITE_NAME} is a plain GitHub Pages page with no tracking that turns the words on the teacher's screen into the laptop's address and sends the browser there; nothing of the game leaves this network.`,
+  ].join('\n');
+}
+$('#join-network')?.addEventListener('change', async event => {
+  try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: 'join-network', address: event.target.value }); }
+  catch (error) { say(error.message); }
+});
+$('#join-it-copy')?.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText($('#join-it').textContent); $('#join-it-copy').textContent = 'Copied'; }
+  catch { getSelection()?.selectAllChildren($('#join-it')); $('#join-it-copy').textContent = 'Selected: press Ctrl+C'; }
+  setTimeout(() => { $('#join-it-copy').textContent = 'Copy this note for IT'; }, 3000);
+});
 function renderJoinLinks(snapshot) {
   const host = snapshot.world.role === 'host', panel = $('#join-links');
   panel.hidden = !host;
   if (!host) return;
-  const urls = snapshot.joinUrls?.length ? snapshot.joinUrls : [{ url: `${location.origin}/`, label: '' }];
+  const join = snapshot.joinWords || null;
+  // The address the teacher chose as the students' network (§2.17) first, then the rest the server ranked.
+  const listed = snapshot.joinUrls?.length ? snapshot.joinUrls : [{ url: `${location.origin}/`, label: '' }];
+  const urls = join ? [...listed.filter(entry => entry.address === join.address), ...listed.filter(entry => entry.address !== join.address)] : listed;
   const address = urls[0].url, code = snapshot.sessionCode || '';
   const open = joinCardOpen ?? snapshot.world.status === 'lobby';
-  const shown = JSON.stringify([urls, code, open]);
+  const shown = JSON.stringify([urls, code, open, join]);
   if (shown === joinCardShown) return;
   joinCardShown = shown;
+  renderJoinWords(join, code);
   // The class code inside the address (owner, 2026-09-30): one thing to type, and the same address in the QR code.
   const coded = url => `${url.replace(/\/$/, '')}${code ? `/${code}` : ''}`;
   const plain = coded(address);
@@ -9259,7 +9316,9 @@ function showDoor(which) {
   $('#join').hidden = which !== 'join';
   $('#rejoin').hidden = which !== 'rejoin';
   $('#away').hidden = which !== 'away';
-  $(which === 'join' ? '#join input[name="name"]' : which === 'away' ? '#away input[name="away-code"]' : '#rejoin input[name="key"]')?.focus();
+  // On the join form the class code first when it is asked for and empty (it comes first, §2.17), else the name.
+  const codeBox = $('#join input[name="code"]'), codeFirst = codeBox && !codeBox.closest('label').hidden && !codeBox.value;
+  $(which === 'join' ? (codeFirst ? '#join input[name="code"]' : '#join input[name="name"]') : which === 'away' ? '#away input[name="away-code"]' : '#rejoin input[name="key"]')?.focus();
 }
 /**
  * **The class code inside the address** (owner, 2026-09-30, by multiple choice: "Code inside the address"). The Host shows one

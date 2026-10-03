@@ -19,13 +19,18 @@ public sealed record SoloGame(string Id, string Family, string Date, int Period,
 
 public sealed record ServerStatus(
     bool Running, int Pid, string? HostUrl, IReadOnlyList<string> JoinUrls, bool Stopping,
-    string? ClassCode = null, int Joined = 0)
+    string? ClassCode = null, int Joined = 0, string? JoinWords = null, string? ChosenJoinUrl = null)
 {
     public static readonly ServerStatus Stopped = new(false, 0, null, Array.Empty<string>(), false);
-    // The join address with the class code inside it (owner, 2026-09-30, "Code inside the address"): http://<laptop>:3000/<code>,
-    // one thing to type. Until the class code has been read, the bare address, which asks for the code.
-    public string? PrimaryJoinUrl => JoinUrls.Count == 0 ? null
+    // The join address with the class code inside it (owner, 2026-09-30, "Code inside the address"): http://<laptop>:1835/<code>,
+    // one thing to type. Until the class code has been read, the bare address, which asks for the code. Once read, the address the
+    // teacher chose on the Host page as the students' network (owner, 2026-10-03; docs/HOST_PAGE.md §2.17), or the server's best
+    // guess until then.
+    public string? PrimaryJoinUrl => !string.IsNullOrEmpty(ChosenJoinUrl) ? ChosenJoinUrl
+        : JoinUrls.Count == 0 ? null
         : string.IsNullOrEmpty(ClassCode) ? JoinUrls[0] : $"{JoinUrls[0].TrimEnd('/')}/{ClassCode}";
+    // JoinWords: the words for playtexas.github.io, made by the server (sim/join-words.mjs) for that same address, e.g. "ahead
+    // oar jolly keyhole rubber". Null when the address is not a private one, or before the class has been read.
 }
 
 /// <summary>
@@ -66,7 +71,7 @@ public sealed class ServerControl
                 foreach (var candidate in urls.EnumerateArray())
                     if (candidate.TryGetProperty("url", out var url) && url.GetString() is { } text) joins.Add(text);
             var hostUrl = AppPaths.HostUrl(info);
-            var (code, joined) = await ClassAsync(info.Port, hostUrl);
+            var (code, joined, words, chosen) = await ClassAsync(info.Port, hostUrl);
             return new ServerStatus(
                 true,
                 root.TryGetProperty("pid", out var pid) ? pid.GetInt32() : 0,
@@ -74,7 +79,9 @@ public sealed class ServerControl
                 joins,
                 root.TryGetProperty("stopping", out var stopping) && stopping.GetBoolean(),
                 code,
-                joined);
+                joined,
+                words,
+                chosen);
         }
         catch { return ServerStatus.Stopped; }
     }
@@ -90,11 +97,11 @@ public sealed class ServerControl
     /// widen that than anything else does. It is on the same machine and can read the same
     /// file the teacher's browser was given; that is the whole of its privilege.
     /// </remarks>
-    private static async Task<(string? Code, int Joined)> ClassAsync(int port, string? hostUrl)
+    private static async Task<(string? Code, int Joined, string? Words, string? Chosen)> ClassAsync(int port, string? hostUrl)
     {
-        if (hostUrl is null) return (null, 0);
+        if (hostUrl is null) return (null, 0, null, null);
         var hash = hostUrl.LastIndexOf('#');
-        if (hash < 0) return (null, 0);
+        if (hash < 0) return (null, 0, null, null);
         var key = hostUrl[(hash + 1)..].Trim();
         var origin = $"http://127.0.0.1:{port}";
         try
@@ -105,17 +112,26 @@ public sealed class ServerControl
                 // Not signed in yet, or the class was rotated and the cookie is stale.
                 using var content = new StringContent(JsonSerializer.Serialize(new { key }), Encoding.UTF8, "application/json");
                 using var login = await AsHost.PostAsync($"{origin}/api/host", content);
-                if (!login.IsSuccessStatusCode) return (null, 0);
+                if (!login.IsSuccessStatusCode) return (null, 0, null, null);
                 state = await ReadStateAsync(origin);
             }
-            if (state is null) return (null, 0);
+            if (state is null) return (null, 0, null, null);
             using var document = state;
             var root = document.RootElement;
             var code = root.TryGetProperty("sessionCode", out var value) ? value.GetString() : null;
             var joined = root.TryGetProperty("connected", out var count) && count.ValueKind == JsonValueKind.Number ? count.GetInt32() : 0;
-            return (code, joined);
+            // The join words and the address they lead to (docs/HOST_PAGE.md §2.17); `joinWords.words` is null when that address is
+            // not a private one.
+            string? words = null, chosen = null;
+            if (root.TryGetProperty("joinWords", out var join) && join.ValueKind == JsonValueKind.Object)
+            {
+                if (join.TryGetProperty("url", out var joinUrl) && joinUrl.ValueKind == JsonValueKind.String) chosen = joinUrl.GetString();
+                if (join.TryGetProperty("words", out var list) && list.ValueKind == JsonValueKind.Array)
+                    words = string.Join(" ", list.EnumerateArray().Select(word => word.GetString()));
+            }
+            return (code, joined, words, chosen);
         }
-        catch { return (null, 0); }
+        catch { return (null, 0, null, null); }
     }
 
     private static async Task<JsonDocument?> ReadStateAsync(string origin)

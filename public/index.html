@@ -72,8 +72,10 @@
   <span class="eyebrow">ENTER YOUR CLASSROOM WORLD</span>
   <h1>Join the story.</h1>
   <p class="join-intro">Your family begins here. Enter the class code your teacher gave you.</p>
+  <!-- The class code first and large (owner, 2026-10-03; docs/HOST_PAGE.md §2.17): a student sent here by the join words types it
+       from the Host screen. Hidden on the coded address, which carries it (§2.14). -->
+  <label class="join-code-box">Class code, from your teacher's screen <input name="code" required maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
   <label>Your name <input name="name" required maxlength="40" autocomplete="off"></label>
-  <label>Class code <input name="code" required maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
   <button>Join</button>
   <p id="join-error" role="alert"></p>
   <p class="other-way"><button type="button" id="away-toggle">I was already in this class</button> <button type="button" id="rejoin-toggle">I already have a family key</button></p>
@@ -258,11 +260,25 @@
       <section id="join-links" hidden aria-label="How students join">
         <button type="button" id="join-card-toggle" aria-expanded="true" aria-controls="join-card"><span id="join-card-label">How students join</span><span id="join-card-short"></span></button>
         <div id="join-card">
-          <p class="join-step">Type this address, or scan the code with the camera:</p>
+          <!-- Join words (owner, 2026-10-03, "Fewest words, no server"; docs/HOST_PAGE.md §2.17): the page at playtexas.github.io
+               turns them into this computer's address, which then asks for the class code. -->
+          <div id="join-words-box" hidden>
+            <p class="join-step">Go to <strong id="join-site">playtexas.github.io</strong> and type:</p>
+            <ol id="join-words"></ol>
+            <p class="join-step">then the class code: <strong id="join-words-code"></strong></p>
+          </div>
+          <p class="join-step" id="join-address-step">Type this address, or scan the code with the camera:</p>
           <p id="join-address"></p>
           <p class="join-step join-code-line">If a Chromebook asks for a class code: <strong id="join-code"></strong></p>
           <div id="join-qr"></div>
           <p id="join-others"></p>
+          <details id="join-check">
+            <summary>Students cannot connect?</summary>
+            <p id="join-where"></p>
+            <label id="join-network-choice" hidden>The students’ network is: <select id="join-network"></select></label>
+            <p id="join-it"></p>
+            <button type="button" id="join-it-copy">Copy this note for IT</button>
+          </details>
         </div>
       </section>
       <!-- The teacher's class controls (2026-09-28, public/class-panel.js): how many class days a game takes and where the

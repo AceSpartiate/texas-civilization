@@ -1,5 +1,52 @@
 # Claude handoff — Astra foundation
 
+## Join words and playtexas.github.io: "Fewest words, no server" — owner-decided 2026-10-03 (not released)
+
+Branch `join-words` off local `integration-2026-09-28` (9d34d767); not pushed, nothing published. Same computer only: headless
+Chrome on this computer's own classroom address; no Chromebook, school network or GitHub Pages. Recorded in docs/HOST_PAGE.md §2.17,
+TEACHER.md *How students join*, docs/DEPLOYMENT.md *The join-words page*.
+
+The owner asked for *"a word or phrase instead like a webpage"* that *"autodirect[s] to where players should be"*, free, for many
+teachers at many schools, local hosting kept; chose **playtexas.github.io**; then asked for *"a join word? singular?"* and, told one
+word cannot carry an address with no server, chose **"Fewest words, no server"**.
+
+- **sim/join-words.mjs**: the laptop's private address (and port when not 1835) as words from a 2048-word list written for the
+  game (public domain). **192.168.x.x: 2 words; 10.x or 172.16-31.x: 3**; another port 4-5. The word count says the form; the rest
+  is check bits (a word not on the list refused with suggestions; a wrong-but-listed word, a swap, a dropped or added word refused
+  but 1 in 64 on two words, 1 in 256+ on three - measured in the test). First four letters read; order matters. Only private
+  ranges, so the page can never send anyone to the Internet. The class code is **not** in the words: they lead to the bare address,
+  which asks for it - its box now first, 30 px, focused. Words do not change with New Class.
+- **site/playtexas/** - **the look is Astra's, the logic is ours.** Astra's commit 3f080d9f (local `main`, "Restyle classroom join
+  page with painted frontier artwork") was **not merged whole**: `git merge 3f080d9f` conflicted in art code outside this work
+  (public/battle-view.js, sim/people.mjs, tests/famous-people.test.mjs, docs/ART_REQUESTS.md, HANDOFF.md), so it was aborted and
+  only her join-page files were taken (`git checkout 3f080d9f -- ...`): index.html (her markup; one comment line differs, the
+  module's path), style.css, assets/frontier-landscape.png, page.js, README.md, .nojekyll, scripts/playtexas-visual-proof.mjs and
+  docs/evidence/playtexas-*.png. Her page.js and markup already were this branch's address-only logic (two or three words, the
+  code on the class page), so nothing of hers needed changing; her join-words.js snapshot was replaced by the byte copy of
+  sim/join-words.mjs. The rest of her art commits are left for integration. Shows where it is going, navigates (never fetches),
+  `#amulet-crane` links go straight on; Back from a class that did not open opens *Didn't work?* with the address and what to tell
+  the teacher. **scripts/playtexas-site.mjs** syncs, copies to a clone (with assets/, without README.md), and `--publish` commits
+  and pushes it - **not run**; steps in DEPLOYMENT.md.
+- The module lives in **sim/** (not public/): tests/movement.test.mjs holds that nothing in sim/ or server/ imports from public/.
+- **The Host's card**: *Go to playtexas.github.io and type:* the words, numbered, 24 px, *then the class code*; then the coded address
+  and its QR code as before (**the QR code stays the LAN address** - one step, works without the Internet). *Students cannot
+  connect?*: where this computer is, a choice of the students' network when it has several (`join-network`, not saved; address,
+  words and QR follow it), and a copyable note for IT. Server `joinWords` (`joinView`), Host only. **Launcher**: a words line under
+  the join address, which follows the chosen network (builds: `dotnet build`, 0 warnings). **Console**: *Or at playtexas.github.io
+  type: amulet crane, then the class code 6744EF*.
+- The coordinator's brief said port 3000; the server's real default is **1835** (server/main.mjs), so 1835 is the port the words
+  leave out. The `:3000` in older docs' examples was never the real port.
+
+**Evidence**: tests/join-words.test.mjs (9). `npm run test:join-words` (6 checks) green with Astra's page at `VIEW=1440x900`,
+`1366x768`, `1024x600` and `480x800` (the Host's page at 1366 for the narrowest; [records](docs/evidence/join-words-browser.json),
+`join-words-browser-<width>.json`), and her `node scripts/playtexas-visual-proof.mjs` (four layouts, focus, errors, help,
+suggestions) green. `node scripts/join-words-injections.mjs --browser`: **19 of 19** caught (16 in node, 3 in the browser proof:
+the page never going, the card without the words, the code box after the name) - [record](docs/evidence/join-words-injections.json).
+test:code-address (6), test:join-card (8), test:creation (15), test:late-join (9), test:overlap (197 screens, 0 faults) green.
+`npm test` on the final tree: **2128 tests, 2092 pass, 0 fail, 36 skipped**. (The first run failed tests/movement.test.mjs's
+*nothing in server/ imports public/* - this branch's, fixed by moving the module to sim/ - and tests/battle-floor.test.mjs's floor
+timing under load, which passed alone and in the final run.)
+
 ## The herder, the herd on the land, and the herd that pays — owner-decided 2026-10-03 (not released)
 
 Branch `herds` off local `integration-2026-09-28` (9d34d767); not pushed. Same computer only: headless Chrome; no Chromebook, LAN or

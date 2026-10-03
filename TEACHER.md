@@ -71,12 +71,32 @@ Each class keeps its own students, families and family keys, so several sections
 
 ## How students join
 
-Before you press Start, the Host page shows **How students join** down the right: one address to type in large letters, with the
-class code at the end of it (like `http://192.168.1.20:3000/6744EF`), and a QR code of that same address a Chromebook's camera
-can read. Put it on the projector. A student who types the address or scans the code types only their name. A student who typed
-only the first part (without the code) is asked for the class code, which is shown under the address. If the first address does
-not open on the students' Chromebooks, try the others listed under it. Once the class is running the card folds to one line; press
-it to show it large again for a latecomer.
+Before you press Start, the Host page shows **How students join** down the right. Put it on the projector. Students can join
+three ways:
+
+- **Join words.** *Go to playtexas.github.io and type:* two words (three on some school networks), like **amulet crane**, *then
+  the class code*. The page at playtexas.github.io works out your laptop's address from the words and sends the student there, where
+  they type the class code, in a big box, and their name. The words come from your laptop's address alone, so they stay the same
+  from class to class and only change when your laptop gets a new address; no account or sign-up, and any number of teachers can
+  use it at once.
+- **The address**, in large letters, with the class code at the end of it (like `http://192.168.1.20:1835/6744EF`). A student who
+  types it types only their name.
+- **The QR code** of that same address, for a Chromebook's camera. It goes straight to your laptop and works even if the school's
+  Internet is down (the join words need the Internet only to open playtexas.github.io).
+
+If the first address does not open on the students' Chromebooks, try the others listed under it. If your laptop has more than
+one network (Wi-Fi and a VPN, say), open **Students cannot connect?** on the card and choose the students' network: the words, the
+address and the QR code all change to it. Once the class is running the card folds to one line; press it to show it large again
+for a latecomer.
+
+### If students cannot reach your laptop
+
+Some school networks stop student devices reaching a teacher's laptop. Neither the game nor playtexas.github.io can get round
+that; only the network can be changed. Students who press Back after a page that would not open see **Didn't work?** with what to
+try and what to tell you. On the Host page, open **Students cannot connect?** and press **Copy this note for IT**: it says, in plain
+words, your laptop's address and port and what IT needs to allow - student devices able to reach your laptop on the classroom
+network (no client or AP isolation between them, or a rule for that one port), and Windows Firewall allowing Node.js on the
+Private profile.
 
 The code changes with every **New class**, so yesterday's address stops working: a student who opens it is told *This is an old
 class address* and can type today's code on the spot, or open the address on the screen.

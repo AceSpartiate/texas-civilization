@@ -5,6 +5,7 @@ import { createClassroom, EMPTY_PAUSE_MS, PACES } from './app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveDataDir, resolveSavePath, joinCandidates, soloPaths } from './deployment.mjs';
 import { createVoice } from './voice/service.mjs';
+import { encodeJoin, JOIN_SITE } from '../sim/join-words.mjs';
 import { fileURLToPath } from 'node:url';
 import { cpus } from 'node:os';
 
@@ -93,5 +94,10 @@ writeFileSync(join(dataDir, 'host-url.txt'), hostUrl);
 console.log(solo
   ? `Texas Revolution PLAY SOLO (this computer only). Host: ${hostUrl}\nNew solo game: npm run solo\nClosing the player's page saves and pauses the game, and stops this server if it does not come back.\nData: ${dataDir}\nSave: ${savePath}`
   // The join address with the class code in it (owner, 2026-09-30); a New Class deals another code, and the Host page shows it.
-  : `Texas Revolution PROTOTYPE. Host: ${hostUrl}\nJoin: ${(joinUrls[0]?.url || `http://localhost:${port}/`).replace(/\/$/, '')}/${app.state.sessionCode}\nData (${origin}): ${dataDir}\nSave: ${savePath}`);
+  // And the join words for the page at playtexas.github.io (owner, 2026-10-03; docs/HOST_PAGE.md §2.17), when the address is private.
+  : `Texas Revolution PROTOTYPE. Host: ${hostUrl}\nJoin: ${(joinUrls[0]?.url || `http://localhost:${port}/`).replace(/\/$/, '')}/${app.state.sessionCode}${joinWordsLine()}\nData (${origin}): ${dataDir}\nSave: ${savePath}`);
+function joinWordsLine() {
+  const words = joinUrls[0] && encodeJoin({ address: joinUrls[0].address, port });
+  return words ? `\nOr at ${JOIN_SITE} type: ${words.join(' ')}, then the class code ${app.state.sessionCode}` : '';
+}
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => shutdown(signal));

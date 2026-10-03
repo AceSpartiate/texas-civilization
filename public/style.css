@@ -17,6 +17,9 @@ button:disabled{opacity:.4;cursor:default}
 #join label,#rejoin label{display:block;margin:14px 0}
 #join input,#rejoin input{display:block;width:100%;font:inherit;padding:10px 12px;border:1px solid #85988a;border-radius:6px;background:#fff;color:#273833;margin-top:4px}
 #join button,#rejoin button{width:100%;margin-top:8px}
+/* The class code typed from the Host screen (§2.17): big, spaced, capitals, like the Host shows it. */
+#join .join-code-box input{font-family:Georgia,serif;font-size:30px;letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:8px 10px}
+#join .join-code-box input::placeholder{color:#c5bba6;letter-spacing:.2em}
 #join-error,#rejoin-error{color:#a43222;min-height:1.2em;margin:12px 0 0}
 .other-way{margin:14px 0 0;text-align:center}
 .other-way button{width:auto;margin:0;padding:6px 2px;background:none;border:none;color:#3f5a4e;text-decoration:underline;font:inherit;font-size:13px;cursor:pointer}
@@ -76,6 +79,16 @@ button:disabled{opacity:.4;cursor:default}
 .join-address-code{white-space:nowrap;letter-spacing:.06em}
 #join-qr svg{display:block;width:180px;height:180px;margin:6px 0;border-radius:4px}
 #join-others{font-size:12px;overflow-wrap:anywhere}
+/* Join words (§2.17): numbered, in order, large enough to read across the room. */
+#join-site{color:#ffe6b0}
+#join-words-code{font-family:Georgia,serif;font-size:24px;letter-spacing:.12em;color:#ffe6b0}
+#join-words{list-style:none;margin:4px 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:2px 14px;counter-reset:join-word}
+#join-words li{font-family:Georgia,serif;font-size:24px;font-weight:700;color:#ffe6b0;white-space:nowrap;counter-increment:join-word}
+#join-words li::before{content:counter(join-word);font-size:12px;font-weight:400;color:#d8d2bc;margin-right:3px;vertical-align:super}
+#join-check{font-size:12px;margin-top:4px}
+#join-check summary{cursor:pointer}
+#join-check select{font-size:12px;max-width:100%}
+#join-it{white-space:pre-line;background:rgba(0,0,0,.25);padding:4px 6px;border-radius:4px}
 /* Suggested places in the site and survey panels (triage 2.13): one button a place, its short label in the server's words. */
 .suggested{display:flex;flex-direction:column;gap:4px;margin:6px 0}
 .suggested .suggested-label{margin:0;font-size:12px;font-weight:650}

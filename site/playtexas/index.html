@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Type the words on your teacher's screen to join the class's Texas Revolution game.">
+<title>Texas Revolution - join your class</title>
+<link rel="stylesheet" href="style.css">
+<!--
+  playtexas.github.io (owner, 2026-10-03; docs/HOST_PAGE.md §2.17 and docs/DEPLOYMENT.md "The join-words page" in the game's
+  repository). A student types the two or three words on the teacher's screen; page.js reads them with join-words.js (the game's
+  own module, copied byte for byte) and sends the browser to the teacher's laptop on the classroom network, where the class code
+  is asked for. Only local artwork, styles and scripts are loaded. No analytics or cookies.
+
+  THE FILES, so the look and the logic can be changed apart (Astra's visuals win the look; keep the logic):
+    index.html     the markup - plain and semantic. Keep every id below.
+    style.css      ALL of the look. Replace it freely.
+    page.js        the logic: reads the words, says what is wrong, goes to the class. No styling, no art.
+    join-words.js  the game's sim/join-words.mjs, copied by scripts/playtexas-site.mjs. Never edit it here.
+
+  THE HOOKS page.js uses (ids, and the state it sets - style these, keep them):
+    #join            the form                        #words   the word box            #go   the go button
+    #suggest         words offered for the one being typed (buttons, added and removed by page.js)
+    #read            the words read so far, an <ol>; each <li> has data-place="1", "2"...; class "unknown" when not a word
+    #say             the error or status line; class "is-error" or "is-ok", or none
+    #going           the destination message; the hidden attribute is removed while going
+    #going-to        its words ("Going to your teacher's computer at 192.168.1.20...")   #going-link   the plain link there
+    #help            the "Didn't work?" <details>; page.js opens it when a student comes back from a class that did not open
+    #help-address    the address, filled in once known                  #help-tell   what to tell the teacher, filled in
+    body[data-state] "typing", "going" or "came-back"
+-->
+</head>
+<body data-state="typing">
+<main><section class="brand" aria-label="Texas Revolution, 1835 to 1836"><p class="eyebrow">A classroom journey into history</p><h1>Texas <span>Revolution</span></h1><p class="era">1835 &mdash; 1836</p><p class="invitation">Build a home. Hear the riders. Choose where your family stands.</p></section><section class="entry-panel" aria-labelledby="join-title">
+  <header>
+    <p class="eyebrow">Your story starts here</p><h2 id="join-title">Join your class</h2>
+    <p class="lead">Type the words on your teacher's screen to join your class.</p>
+  </header>
+
+  <form id="join" autocomplete="off" novalidate>
+    <label for="words">The words, in order</label>
+    <input id="words" name="words" type="text" autocapitalize="none" autocorrect="off" spellcheck="false"
+      placeholder="like: amulet crane" aria-describedby="word-hint say">
+    <p class="field-hint" id="word-hint">Copy every word in the order shown. You&rsquo;ll enter your class code next.</p><div id="suggest" aria-label="Words that start that way"></div>
+    <ol id="read" aria-label="The words read so far"></ol>
+    <button id="go" type="submit">Go to my class</button>
+    <p id="say" role="status" aria-live="polite"></p>
+  </form>
+
+  <section id="going" aria-live="polite" hidden>
+    <p id="going-to"></p>
+    <p>There, type the <strong>class code</strong> from your teacher's screen. If nothing happens, <a id="going-link" href="#">open
+      your class here</a>.</p>
+  </section>
+
+  <details id="help">
+    <summary>Didn't work?</summary>
+    <ol>
+      <li>Check that this Chromebook is on the <strong>school Wi-Fi</strong>, the same network as your teacher's computer.</li>
+      <li>Check the words against the screen. They change when your teacher's computer gets a new address.</li>
+      <li>Try typing the address on your teacher's screen instead<span id="help-address"></span>.</li>
+      <li>Still nothing? Tell your teacher: <em id="help-tell">"My Chromebook can't reach your computer."</em></li>
+    </ol>
+    <p class="for-adults"><strong>For teachers and IT:</strong> the game runs on the teacher's laptop, on the classroom network
+      (port 1835 unless the Host page says otherwise). Student devices must be able to reach that laptop: client or AP isolation
+      off between them on this network, or a rule allowing that TCP port to the laptop's address; and Windows Firewall on the
+      laptop must allow Node.js on the Private profile. The Host page has a note for IT with the exact address, under
+      <em>Students cannot connect?</em>. This page only turns the words into that address; nothing of the game passes through it.</p>
+  </details>
+
+  <footer>A classroom game of 1835-36. This page stores nothing and sends nothing anywhere: it works out where your teacher's
+    computer is from the words and takes you there.</footer>
+</section></main>
+<noscript><p>This page needs JavaScript to read the words. Type the address on your teacher's screen instead.</p></noscript>
+<script type="module" src="page.js"></script>
+</body>
+</html>
+

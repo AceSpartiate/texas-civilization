@@ -724,11 +724,61 @@ Observed during foundation work on 2026-09-08: the development computer had an E
 
 Bind the student server to an appropriate LAN interface, or intentionally to all interfaces with the trusted-network limitations below. Detect and display the actual listening port; an occupied-port failure should be explicit. Node exposes the bound address through `server.address()` and allows an explicit listening host. See the [Node server listening API](https://nodejs.org/api/net.html#serverlisten).
 
-The Host's page shows the first candidate large, with the class code and a QR code of it made in the page (no network service), and names the next two under it (2026-09-29, [HOST_PAGE.md](HOST_PAGE.md) §2.13). It is the same best guess as the launcher's: which network the students can reach is still the teacher's to know. 
+The Host's page shows the first candidate large, with the class code and a QR code of it made in the page (no network service), and names the next two under it (2026-09-29, [HOST_PAGE.md](HOST_PAGE.md) §2.13). It is the same best guess as the launcher's: which network the students can reach is still the teacher's to know. Since 2026-10-03 the teacher can say so: *Students cannot connect?* on the card lists this computer's addresses, and the chosen one becomes the card's address, QR code and join words, and the launcher's join address ([HOST_PAGE.md](HOST_PAGE.md) §2.17).
 
 Keep the join address stable for a running class. These credentials are cookies scoped to host/path, not to port. Changing hostname/IP or browser profile can make a browser appear to have no saved credential; merely changing the port does not isolate cookies. Cookie names include the persistent session ID so distinct classes on one host do not overwrite one another. Refresh/reconnect acceptance uses the same origin and browser profile. That is why a **family key** exists: eight derived symbols shown to each household, typed at the join screen on any device, working after Start, with a Host-side lookup for a student who has lost theirs. It is the deliberate recovery flow this note used to ask for, and it covers cleared storage, a different browser profile and a replacement device. It does **not** survive **New Class**, and it is not account-based identity across classes. The procedure is in [RECOVERY.md](RECOVERY.md).
 
 SSE is appropriate for low-frequency authoritative snapshots and keeps the first transport small. HTTP/1 SSE connections share the browser's small per-origin connection limit. Five student tabs plus the Host in one profile can consume all six connections and stall other requests. The server itself lets one family (or the Host) hold three streams; a fourth closes the oldest, which says it is open elsewhere and waits for **Play here** (since 2026-09-29). A device that sleeps with its stream open stops answering the server's 10-second `ping` and is closed 30 seconds later, so its family can be taken up on another device ([HOST_PAGE.md](HOST_PAGE.md) §2.7). Use isolated browser contexts/profiles for development multi-client tests; normal classroom devices each have their own pool. Test 30 physical clients before claiming the upper supported range. If future product requirements need many live tabs in one profile, use a shared stream or reconsider transport. The limit is documented by [MDN's SSE guide](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events).
+
+## The join-words page, playtexas.github.io — 2026-10-03 (not released)
+
+Owner-decided ([HOST_PAGE.md](HOST_PAGE.md) §2.17, "Fewest words, no server"). Students type two or three words at
+**playtexas.github.io**; the page works out the teacher's laptop's private address from them (sim/join-words.mjs, the game's own
+module) and navigates there, where the class code is asked for. There is no server and nothing to register: any number of teachers
+at any number of schools use the same page, because each class's words come from its own laptop's address. The page is free
+(GitHub Pages) and is the only thing of the game on the Internet; it carries no class, no student and no code, and fetches nothing.
+
+**Its source** is `site/playtexas/` in this repository, complete and self-contained:
+
+| File | What it is | Who changes it |
+| --- | --- | --- |
+| `index.html` | the markup, plain and semantic; the hooks are listed in a comment at its top | keep every id |
+| `style.css`, `assets/` | **all of the look** — Astra's (2026-10-03: the game's painted creation landscape, a parchment panel) | Astra; her visuals win |
+| `page.js` | the logic: reads the words, says what is wrong, goes to the class. No styling, no art | Claude |
+| `join-words.js` | a byte-for-byte copy of `sim/join-words.mjs`; `tests/join-words.test.mjs` fails if they differ | never edited here: `node scripts/playtexas-site.mjs --sync` |
+| `.nojekyll` | GitHub Pages serves the files as they are | — |
+| `README.md` | Astra's hand-off note; not published | Astra |
+
+**The hooks** `page.js` uses, which a new look must keep (and may style): `#join` (the form), `#words` (the word box), `#go` (the
+button), `#suggest` (offered words, buttons added by `page.js`), `#read` (the words read, `<li data-place="1">`, class `unknown`
+when not a word), `#say` (the error or status line, class `is-error` or `is-ok`), `#going` (the destination message; `hidden`
+removed while going) with `#going-to` and `#going-link`, `#help` (the *Didn't work?* `<details>`, opened when a student comes back),
+`#help-address`, `#help-tell`, and `body[data-state]` = `typing`, `going` or `came-back`. **Merging a new look:** take Astra's
+`index.html` (keeping those ids and the `<script type="module" src="page.js">`), `style.css` and `assets/`; keep this branch's
+`page.js` and `join-words.js`; run `node --test tests/join-words.test.mjs` (it checks the hooks, the split, the copy and that the
+page asks for nothing from anywhere else) and `npm run test:join-words`.
+
+**Publishing** (the owner approves; the coordinator runs it after merging — never run by a builder on a branch):
+
+1. Once: the `playtexas` organization on GitHub (done by the owner, 2026-10-03), and in it a **public** repository named exactly
+   `playtexas.github.io` (`gh repo create playtexas/playtexas.github.io --public`, or on github.com). For an organization site of
+   that name, GitHub Pages serves the default branch's root by itself; if it does not, Settings → Pages → *Deploy from a branch*,
+   `main`, `/ (root)`.
+2. `git clone https://github.com/playtexas/playtexas.github.io.git <folder outside this repository>`
+3. `node scripts/playtexas-site.mjs <that folder>` — syncs the module and copies the site's files (with `assets/`, without
+   `README.md`), touching nothing else in the clone. Look at it there (`npx http-server <folder>` or any static server).
+4. `node scripts/playtexas-site.mjs --publish <that folder>` — the same copy, then `git add`, `git commit -m "Join page from
+   texas-civilization <revision>"` and `git push` in that clone. https://playtexas.github.io/ serves it within a minute or two.
+5. Check: open https://playtexas.github.io/, type the words from a running Host page on the same network, and arrive at the class.
+
+**Keep the page and the games agreeing.** Every copy of the game in every classroom makes words with the module it shipped with,
+and the page decodes with the module it was last published with. The list, the forms and the check are frozen (their hash and known
+words are pinned in `tests/join-words.test.mjs`). Republishing the page with a changed `page.js` or a new look is always safe; a
+changed `join-words.js` scheme never is without a version the page can tell apart.
+
+**What it cannot do:** reach a laptop that the network stops students reaching. It finds the address; the network decides whether
+the address answers. It never sends a browser anywhere but a private classroom address. Not yet seen on a managed Chromebook:
+whether a district policy blocks the navigation from an https page to an http private address.
 
 ## Trusted-LAN boundary
 
