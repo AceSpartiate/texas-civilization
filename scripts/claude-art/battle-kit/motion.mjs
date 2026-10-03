@@ -25,7 +25,7 @@ const ROWS = [
   [['regular-march', 1], ['skirmisher-run-e', 1], ['figure-wading-regular', 1], ['regular-march-column', 1]],
   [['volunteer-march', 1], ['bearers-carry', 1], ['burial-party-walk-e', 1], ['volunteer-dig', 1]],
   [['volunteer-gun-ram', 1], ['settler-gun-ram', 1], ['settler-gun-carry', 1], ['volunteer-crowbar', 1]],
-  [['travis-walk-e', 1], ['kimbell-walk-e', 1], ['condelle-walk-e', 1], ['ana-esparza-walk-e', 1]],
+  [['travis-walk-e', 1], ['kimbell-walk-e', 1], ['sanchez-navarro-walk-e', 1], ['ana-esparza-walk-e', 1]],
   [['houston-mounted-walk-e', 1.35], ['kimbell-mounted-walk-e', 1.35], ['smither-mounted-walk-e', 1.35], ['ana-esparza-carry-toddler', 1]],
   [['castrillon-walk-e', 1], ['castrillon-walk-s', 1], ['barragan-walk-n', 1], ['volunteer-camp-cook', 1]],
 ];

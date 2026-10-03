@@ -68,12 +68,31 @@
   ],
   "summary": {
     "screens": 197,
-    "faults": 0,
-    "allowed": 236,
-    "bubblesMeasured": 32,
-    "bubblesUnderAPanel": 0
+    "faults": 3,
+    "allowed": 235,
+    "bubblesMeasured": 48,
+    "bubblesUnderAPanel": 1
   },
-  "faults": [],
+  "faults": [
+    {
+      "what": "overlap: ability bar and town scene share ",
+      "where": [
+        "student town-scene-asked 1024x600"
+      ]
+    },
+    {
+      "what": "overlap: town scene and site chooser share ",
+      "where": [
+        "student town-scene-asked 1024x600"
+      ]
+    },
+    {
+      "what": "covered: \"Milk the cow. Milk the family's cow, onc\" in ability bar is under town scene",
+      "where": [
+        "student town-scene-asked 1024x600"
+      ]
+    }
+  ],
   "pendingElsewhere": [],
   "phoneRecorded": [
     "student lone-parent-ability 400x780: ability bar and journal button share 78x9px",
@@ -87,6 +106,7 @@
     "student story-cards 400x780: ability bar and map buttons share 263x9px",
     "student story-cards 400x780: ability bar and sound button share 33x9px",
     "student story-cards 400x780: ability bar and map framing share 147x17px",
+    "student story-cards 400x780: messages and first-meeting tip share 318x32px",
     "student story-cards 400x780: \"panel-name-hh-1-parent-1\" in family: row 1 under messages",
     "student story-cards 400x780: \"Let Susannah Proofwright decide for them\" in family: row 1 under messages",
     "student story-cards 400x780: \"Go back to Susannah Proofwright, your ma\" in family: row 1 under messages",
@@ -111,12 +131,26 @@
     "student town-scene-asked 400x780: ability bar and map buttons share 197x9px",
     "student town-scene-asked 400x780: ability bar and sound button share 33x9px",
     "student town-scene-asked 400x780: ability bar and tips button share 61x9px",
-    "student town-scene-asked 400x780: ability bar and map framing share 147x17px"
+    "student town-scene-asked 400x780: ability bar and map framing share 147x17px",
+    "student town-scene-asked 400x780: ability bar and town scene share 384x4px"
   ],
   "notReached": [
     "student resume-offered: the guided start has no X"
   ],
-  "bubbles": [],
+  "bubbles": [
+    {
+      "where": "student town-scene-asked 1024x600",
+      "what": "bubble \"Everything we can carry. The r\"",
+      "under": "town scene",
+      "share": 0.43,
+      "box": {
+        "x": 473,
+        "y": 48,
+        "w": 203,
+        "h": 42
+      }
+    }
+  ],
   "pageErrors": [],
   "screens": [
     {
@@ -1262,7 +1296,8 @@
         "map framing 12,577 147x17",
         "messages 682,44 330x195",
         "person card 418,8 256x232",
-        "site chooser 129,176 281x178"
+        "site chooser 129,176 281x178",
+        "first-meeting tip 493,299 519x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -2151,8 +2186,8 @@
         "status: field 336,130 59x38",
         "family: fold 12,176 100x20",
         "family: row 1 12,403 300x48",
-        "family: row 2 12,456 300x64",
-        "family: row 3 12,525 300x29",
+        "family: row 2 12,456 300x48",
+        "family: row 3 12,509 300x45",
         "lone parent ability 16,208 296x103",
         "house card 16,325 296x68",
         "ability bar 240,562 800x174",
@@ -2227,10 +2262,10 @@
         "status: food 12,93 157x31",
         "status: supplies 12,133 318x31",
         "status: field 336,130 59x38",
-        "family: fold 12,174 100x2",
-        "family: row 1 12,243 300x111",
-        "lone parent ability 16,183 147x54",
-        "house card 171,183 137x35",
+        "family: fold 12,176 100x20",
+        "family: row 1 12,263 300x91",
+        "lone parent ability 16,203 147x54",
+        "house card 171,203 137x35",
         "ability bar 432,362 160x174",
         "journal button 502,542 104x44",
         "map buttons 614,542 396x44",
@@ -2663,6 +2698,7 @@
         "map buttons 956,599 396x44",
         "sound button 790,599 46x44",
         "map framing 12,634 147x17",
+        "first-meeting tip 551,363 576x55",
         "lone parent scenes 0,0 1366x657"
       ],
       "overlaps": [
@@ -2679,7 +2715,8 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 147x17"
+        "map framing x lone parent scenes 147x17",
+        "first-meeting tip x lone parent scenes 576x55"
       ],
       "covered": [
         "\"1\" in status: field under lone parent scenes",
@@ -2703,7 +2740,8 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes",
+        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2820,7 +2858,6 @@
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
         "map framing 12,666 147x17",
-        "first-meeting tip 508,395 576x55",
         "lone parent scenes 0,0 1280x689"
       ],
       "overlaps": [
@@ -2838,8 +2875,7 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 147x17",
-        "first-meeting tip x lone parent scenes 576x55"
+        "map framing x lone parent scenes 147x17"
       ],
       "covered": [
         "\"1\" in status: field under lone parent scenes",
@@ -2867,8 +2903,7 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes",
-        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2982,7 +3017,6 @@
         "map buttons 1510,1022 396x44",
         "sound button 1344,1022 46x44",
         "map framing 12,1057 147x17",
-        "first-meeting tip 828,786 576x55",
         "lone parent scenes 0,0 1920x1080"
       ],
       "overlaps": [
@@ -3000,8 +3034,7 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 147x17",
-        "first-meeting tip x lone parent scenes 576x55"
+        "map framing x lone parent scenes 147x17"
       ],
       "covered": [
         "\"1\" in status: field under lone parent scenes",
@@ -3029,8 +3062,7 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes",
-        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -3146,7 +3178,8 @@
         "map buttons 129,728 263x44",
         "sound button 8,728 33x44",
         "map framing 127,708 147x17",
-        "messages 74,365 318x215"
+        "messages 74,365 318x215",
+        "first-meeting tip 8,547 384x73"
       ],
       "overlaps": [
         "family: row 1 x messages 285x43",
@@ -3155,7 +3188,8 @@
         "ability bar x journal button 78x9",
         "ability bar x map buttons 263x9",
         "ability bar x sound button 33x9",
-        "ability bar x map framing 147x17"
+        "ability bar x map framing 147x17",
+        "messages x first-meeting tip 318x32"
       ],
       "covered": [
         "\"panel-name-hh-1-parent-1\" in family: row 1 under messages",
@@ -3639,7 +3673,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x470",
         "rumor mill 12,573 270x72",
@@ -3676,7 +3710,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x326",
         "rumor mill 12,429 270x72",
@@ -3711,7 +3745,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x358",
         "rumor mill 12,461 270x72",
@@ -3747,7 +3781,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x345",
         "rumor mill 12,448 270x72",
@@ -3782,7 +3816,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x345",
         "rumor mill 12,448 270x72",
@@ -3817,7 +3851,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x470",
         "rumor mill 12,573 270x72",
@@ -3854,7 +3888,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x326",
         "rumor mill 12,429 270x72",
@@ -3889,7 +3923,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x358",
         "rumor mill 12,461 270x72",
@@ -3924,7 +3958,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x345",
         "rumor mill 12,448 270x72",
@@ -3959,7 +3993,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 198x31",
         "the class 12,95 270x345",
         "rumor mill 12,448 270x72",
@@ -4675,7 +4709,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 260x470",
         "rumor mill 12,573 260x72",
@@ -4684,7 +4718,7 @@
         "teacher controls 1631,49 277x38",
         "pace 1726,99 182x30",
         "recover 1756,135 152x44",
-        "join links 1694,185 214x60",
+        "join links 1692,185 216x60",
         "late students 1661,251 247x65",
         "classes 1831,322 77x44",
         "map buttons 1450,1022 456x44",
@@ -4712,7 +4746,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 260x326",
         "rumor mill 12,429 260x72",
@@ -4721,7 +4755,7 @@
         "teacher controls 991,49 277x38",
         "pace 1086,99 182x30",
         "recover 1116,135 152x44",
-        "join links 1054,185 214x60",
+        "join links 1052,185 216x60",
         "late students 1021,251 247x65",
         "classes 1191,322 77x44",
         "map buttons 810,662 456x44",
@@ -4749,7 +4783,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 260x358",
         "rumor mill 12,461 260x72",
@@ -4758,7 +4792,7 @@
         "teacher controls 991,49 277x38",
         "pace 1086,99 182x30",
         "recover 1116,135 152x44",
-        "join links 1054,185 214x60",
+        "join links 1052,185 216x60",
         "late students 1021,251 247x65",
         "classes 1191,322 77x44",
         "map buttons 810,742 456x44",
@@ -4786,7 +4820,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 260x345",
         "rumor mill 12,448 260x72",
@@ -4795,7 +4829,7 @@
         "teacher controls 735,49 277x38",
         "pace 830,99 182x30",
         "recover 860,135 152x44",
-        "join links 798,185 214x60",
+        "join links 796,185 216x60",
         "late students 765,251 247x65",
         "classes 935,322 77x44",
         "map buttons 554,710 456x44",
@@ -4823,7 +4857,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 260x345",
         "rumor mill 12,448 260x72",
@@ -4832,7 +4866,7 @@
         "teacher controls 1077,49 277x38",
         "pace 1172,99 182x30",
         "recover 1202,135 152x44",
-        "join links 1140,185 214x60",
+        "join links 1138,185 216x60",
         "late students 1107,251 247x65",
         "classes 1277,322 77x44",
         "map buttons 896,710 456x44",
@@ -6558,10 +6592,10 @@
         "sound button 1293,1022 46x44",
         "tips button 1347,1022 81x44",
         "map framing 12,1057 147x17",
-        "ending 580,147 760x787"
+        "ending 580,110 760x860"
       ],
       "overlaps": [
-        "ability bar x ending 160x84"
+        "ability bar x ending 160x121"
       ],
       "covered": [
         "\"Milk the cow. Milk the family's cow, onc\" in ability bar under ending",
@@ -6819,14 +6853,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x470",
         "rumor mill 12,573 260x72",
         "connection 1715,12 193x31",
         "pace 1726,61 182x30",
         "recover 1756,97 152x44",
-        "join links 1694,147 214x60",
+        "join links 1692,147 216x60",
         "classes 1831,213 77x44",
         "map buttons 1450,1022 456x44",
         "journal button 1338,1022 104x44",
@@ -6854,14 +6888,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x326",
         "rumor mill 12,429 260x72",
         "connection 1075,12 193x31",
         "pace 1086,61 182x30",
         "recover 1116,97 152x44",
-        "join links 1054,147 214x60",
+        "join links 1052,147 216x60",
         "classes 1191,213 77x44",
         "map buttons 810,662 456x44",
         "journal button 698,662 104x44",
@@ -6894,14 +6928,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x358",
         "rumor mill 12,461 260x72",
         "connection 1075,12 193x31",
         "pace 1086,61 182x30",
         "recover 1116,97 152x44",
-        "join links 1054,147 214x60",
+        "join links 1052,147 216x60",
         "classes 1191,213 77x44",
         "map buttons 810,742 456x44",
         "journal button 698,742 104x44",
@@ -6932,14 +6966,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x345",
         "rumor mill 12,448 260x72",
         "connection 819,12 193x31",
         "pace 830,61 182x30",
         "recover 860,97 152x44",
-        "join links 798,147 214x60",
+        "join links 796,147 216x60",
         "classes 935,213 77x44",
         "map buttons 554,710 456x44",
         "journal button 442,710 104x44",
@@ -6952,7 +6986,7 @@
         "rumor mill x ending 140x72",
         "pace x ending 62x30",
         "recover x ending 32x44",
-        "join links x ending 94x60",
+        "join links x ending 96x60",
         "map buttons x ending 338x4",
         "journal button x ending 104x4"
       ],
@@ -6980,14 +7014,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x345",
         "rumor mill 12,448 260x72",
         "connection 1161,12 193x31",
         "pace 1172,61 182x30",
         "recover 1202,97 152x44",
-        "join links 1140,147 214x60",
+        "join links 1138,147 216x60",
         "classes 1277,213 77x44",
         "map buttons 896,710 456x44",
         "journal button 784,710 104x44",
@@ -7018,14 +7052,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x470",
         "rumor mill 12,573 260x72",
         "connection 1715,12 193x31",
         "pace 1726,61 182x30",
         "recover 1756,97 152x44",
-        "join links 1694,147 214x60",
+        "join links 1692,147 216x60",
         "classes 1831,213 77x44",
         "map buttons 1450,1022 456x44",
         "journal button 1338,1022 104x44",
@@ -7053,14 +7087,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x326",
         "rumor mill 12,429 260x72",
         "connection 1075,12 193x31",
         "pace 1086,61 182x30",
         "recover 1116,97 152x44",
-        "join links 1054,147 214x60",
+        "join links 1052,147 216x60",
         "classes 1191,213 77x44",
         "map buttons 810,662 456x44",
         "journal button 698,662 104x44",
@@ -7088,14 +7122,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x358",
         "rumor mill 12,461 260x72",
         "connection 1075,12 193x31",
         "pace 1086,61 182x30",
         "recover 1116,97 152x44",
-        "join links 1054,147 214x60",
+        "join links 1052,147 216x60",
         "classes 1191,213 77x44",
         "map buttons 810,742 456x44",
         "journal button 698,742 104x44",
@@ -7123,14 +7157,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x345",
         "rumor mill 12,448 260x72",
         "connection 819,12 193x31",
         "pace 830,61 182x30",
         "recover 860,97 152x44",
-        "join links 798,147 214x60",
+        "join links 796,147 216x60",
         "classes 935,213 77x44",
         "map buttons 554,710 456x44",
         "journal button 442,710 104x44",
@@ -7158,14 +7192,14 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 208x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 186x31",
         "the class 12,95 260x345",
         "rumor mill 12,448 260x72",
         "connection 1161,12 193x31",
         "pace 1172,61 182x30",
         "recover 1202,97 152x44",
-        "join links 1140,147 214x60",
+        "join links 1138,147 216x60",
         "classes 1277,213 77x44",
         "map buttons 896,710 456x44",
         "journal button 784,710 104x44",
@@ -7193,7 +7227,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x470",
         "rumor mill 12,573 476x231",
@@ -7202,7 +7236,7 @@
         "teacher controls 1631,49 277x38",
         "pace 1726,99 182x30",
         "recover 1756,135 152x44",
-        "join links 1695,185 213x60",
+        "join links 1696,185 212x60",
         "late students 1684,251 224x65",
         "map buttons 1279,1022 627x44",
         "journal button 1168,1022 104x44",
@@ -7229,7 +7263,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x326",
         "rumor mill 12,429 476x91",
@@ -7238,7 +7272,7 @@
         "teacher controls 991,49 277x38",
         "pace 1086,99 182x30",
         "recover 1116,135 152x44",
-        "join links 1055,185 213x60",
+        "join links 1056,185 212x60",
         "late students 1044,251 224x65",
         "map buttons 639,662 627x44",
         "journal button 528,662 104x44",
@@ -7265,7 +7299,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x358",
         "rumor mill 12,461 476x139",
@@ -7274,7 +7308,7 @@
         "teacher controls 991,49 277x38",
         "pace 1086,99 182x30",
         "recover 1116,135 152x44",
-        "join links 1055,185 213x60",
+        "join links 1056,185 212x60",
         "late students 1044,251 224x65",
         "map buttons 639,742 627x44",
         "journal button 528,742 104x44",
@@ -7301,7 +7335,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 447x345",
         "rumor mill 12,448 447x120",
@@ -7310,7 +7344,7 @@
         "teacher controls 735,49 277x38",
         "pace 830,99 182x30",
         "recover 860,135 152x44",
-        "join links 799,185 213x60",
+        "join links 800,185 212x60",
         "late students 788,251 224x65",
         "map buttons 383,710 627x44",
         "journal button 272,710 104x44",
@@ -7337,7 +7371,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 210x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x345",
         "rumor mill 12,448 476x120",
@@ -7346,7 +7380,7 @@
         "teacher controls 1077,49 277x38",
         "pace 1172,99 182x30",
         "recover 1202,135 152x44",
-        "join links 1141,185 213x60",
+        "join links 1142,185 212x60",
         "late students 1130,251 224x65",
         "map buttons 725,710 627x44",
         "journal button 614,710 104x44",
@@ -7613,14 +7647,14 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 603,537 160x167",
+        "ability bar 563,537 240x167",
         "journal button 864,710 104x44",
         "map buttons 975,710 377x44",
         "sound button 810,710 46x44",
         "map framing 12,745 147x17",
         "messages 1024,44 330x178",
         "site chooser 129,176 384x118",
-        "first-meeting tip 650,474 576x55"
+        "first-meeting tip 456,474 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -7653,7 +7687,7 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 603,426 160x167",
+        "ability bar 563,426 240x167",
         "journal button 864,599 104x44",
         "map buttons 975,599 377x44",
         "sound button 810,599 46x44",
@@ -7693,7 +7727,7 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 560,569 160x167",
+        "ability bar 520,569 240x167",
         "journal button 778,742 104x44",
         "map buttons 889,742 377x44",
         "sound button 724,742 46x44",
@@ -7733,7 +7767,7 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 560,458 160x167",
+        "ability bar 520,458 240x167",
         "journal button 778,631 104x44",
         "map buttons 889,631 377x44",
         "sound button 724,631 46x44",
@@ -7772,7 +7806,7 @@
         "family: row 1 12,204 48x48",
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
-        "ability bar 432,369 160x167",
+        "ability bar 392,369 240x167",
         "journal button 522,542 104x44",
         "map buttons 633,542 377x44",
         "sound button 468,542 46x44",
@@ -7812,7 +7846,7 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 880,849 160x167",
+        "ability bar 840,849 240x167",
         "journal button 1418,1022 104x44",
         "map buttons 1529,1022 377x44",
         "sound button 1364,1022 46x44",
@@ -7852,7 +7886,7 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 643,618 80x86",
+        "ability bar 643,542 80x162",
         "journal button 864,710 104x44",
         "map buttons 975,710 377x44",
         "sound button 720,710 46x44",
@@ -7893,7 +7927,7 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 643,507 80x86",
+        "ability bar 643,431 80x162",
         "journal button 864,599 104x44",
         "map buttons 975,599 377x44",
         "sound button 720,599 46x44",
@@ -7934,7 +7968,7 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 600,650 80x86",
+        "ability bar 600,574 80x162",
         "journal button 778,742 104x44",
         "map buttons 889,742 377x44",
         "sound button 634,742 46x44",
@@ -7975,7 +8009,7 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 600,539 80x86",
+        "ability bar 600,463 80x162",
         "journal button 778,631 104x44",
         "map buttons 889,631 377x44",
         "sound button 634,631 46x44",
@@ -8015,21 +8049,38 @@
         "family: row 1 12,204 48x48",
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
-        "family: row 4 12,363 48x48",
-        "ability bar 472,450 80x86",
+        "family: row 4 12,363 48x2",
+        "ability bar 472,374 80x162",
         "journal button 522,542 104x44",
         "map buttons 633,542 377x44",
         "sound button 378,542 46x44",
         "tips button 432,542 81x44",
         "map framing 12,577 147x17",
         "messages 682,44 330x178",
-        "town scene 610,230 400x212",
+        "town scene 274,72 400x396",
         "site chooser 129,176 281x138"
       ],
-      "overlaps": [],
-      "covered": [],
+      "overlaps": [
+        "ability bar x town scene 80x94",
+        "town scene x site chooser 136x138"
+      ],
+      "covered": [
+        "\"Milk the cow. Milk the family's cow, onc\" in ability bar under town scene"
+      ],
       "offScreen": [],
-      "canvas": [],
+      "canvas": [
+        {
+          "what": "bubble \"Everything we can carry. The r\"",
+          "under": "town scene",
+          "share": 0.43,
+          "box": {
+            "x": 473,
+            "y": 48,
+            "w": 203,
+            "h": 42
+          }
+        }
+      ],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -8057,7 +8108,7 @@
         "family: row 2 12,257 48x48",
         "family: row 3 12,310 48x48",
         "family: row 4 12,363 48x48",
-        "ability bar 920,930 80x86",
+        "ability bar 920,854 80x162",
         "journal button 1418,1022 104x44",
         "map buttons 1529,1022 377x44",
         "sound button 1274,1022 46x44",
@@ -8098,7 +8149,7 @@
         "family: row 2 12,209 44x44",
         "family: row 3 12,257 44x44",
         "family: row 4 12,305 44x44",
-        "ability bar 8,653 384x84",
+        "ability bar 8,645 384x92",
         "journal button 112,728 78x44",
         "map buttons 195,728 197x44",
         "sound button 8,728 33x44",
@@ -8113,7 +8164,8 @@
         "ability bar x map buttons 197x9",
         "ability bar x sound button 33x9",
         "ability bar x tips button 61x9",
-        "ability bar x map framing 147x17"
+        "ability bar x map framing 147x17",
+        "ability bar x town scene 384x4"
       ],
       "covered": [],
       "offScreen": [],
@@ -8137,7 +8189,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8145,10 +8197,13 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 443,530 480x174",
-        "journal button 765,710 104x44",
+        "family: row 5 12,416 300x48",
+        "family: row 6 12,469 300x48",
+        "family: row 7 12,522 300x0",
+        "ability bar 403,530 560x174",
+        "journal button 909,710 104x44",
         "map buttons 1021,710 331x44",
-        "sound button 711,710 46x44",
+        "sound button 855,710 46x44",
         "map framing 12,745 147x17",
         "solo controls 1299,12 55x34",
         "wagon load 954,64 400x450"
@@ -8176,7 +8231,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8184,10 +8239,10 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 443,419 480x174",
-        "journal button 765,599 104x44",
+        "ability bar 403,419 560x174",
+        "journal button 909,599 104x44",
         "map buttons 1021,599 331x44",
-        "sound button 711,599 46x44",
+        "sound button 855,599 46x44",
         "map framing 12,634 147x17",
         "solo controls 1299,12 55x34",
         "wagon load 954,64 400x339"
@@ -8215,7 +8270,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8223,17 +8278,20 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 400,562 480x174",
-        "journal button 679,742 104x44",
+        "family: row 5 12,416 300x48",
+        "family: row 6 12,469 300x48",
+        "family: row 7 12,522 300x32",
+        "ability bar 360,562 560x174",
+        "journal button 823,742 104x44",
         "map buttons 935,742 331x44",
-        "sound button 625,742 46x44",
+        "sound button 769,742 46x44",
         "map framing 12,777 147x17",
         "solo controls 1213,12 55x34",
         "wagon load 868,64 400x482",
-        "icon tip 544,559 272x88"
+        "icon tip 583,578 272x69"
       ],
       "overlaps": [
-        "ability bar x icon tip 272x85"
+        "ability bar x icon tip 272x69"
       ],
       "covered": [],
       "offScreen": [],
@@ -8257,7 +8315,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8265,10 +8323,11 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 400,451 480x174",
-        "journal button 679,631 104x44",
+        "family: row 5 12,416 300x27",
+        "ability bar 360,451 560x174",
+        "journal button 823,631 104x44",
         "map buttons 935,631 331x44",
-        "sound button 625,631 46x44",
+        "sound button 769,631 46x44",
         "map framing 12,666 147x17",
         "solo controls 1213,12 55x34",
         "wagon load 868,64 400x371"
@@ -8296,17 +8355,17 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
         "family: row 1 12,204 300x48",
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x44",
-        "ability bar 272,362 480x174",
-        "journal button 423,542 104x44",
+        "ability bar 232,362 560x174",
+        "journal button 567,542 104x44",
         "map buttons 679,542 331x44",
-        "sound button 369,542 46x44",
+        "sound button 513,542 46x44",
         "map framing 12,577 147x17",
         "solo controls 957,12 55x34",
         "wagon load 612,64 400x282"
@@ -8334,7 +8393,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8342,10 +8401,18 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 720,842 480x174",
-        "journal button 1319,1022 104x44",
+        "family: row 5 12,416 300x48",
+        "family: row 6 12,469 300x48",
+        "family: row 7 12,522 300x48",
+        "family: row 8 12,575 300x48",
+        "family: row 9 12,628 300x48",
+        "family: row 10 12,681 300x48",
+        "family: row 11 12,734 300x48",
+        "family: row 12 12,787 300x47",
+        "ability bar 680,842 560x174",
+        "journal button 1463,1022 104x44",
         "map buttons 1575,1022 331x44",
-        "sound button 1265,1022 46x44",
+        "sound button 1409,1022 46x44",
         "map framing 12,1057 147x17",
         "solo controls 1853,12 55x34",
         "wagon load 1508,64 400x934"
@@ -8373,7 +8440,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8381,10 +8448,13 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 443,530 480x174",
-        "journal button 682,710 104x44",
-        "map buttons 937,710 415x44",
-        "sound button 628,710 46x44",
+        "family: row 5 12,416 300x48",
+        "family: row 6 12,469 300x48",
+        "family: row 7 12,522 300x0",
+        "ability bar 403,530 560x174",
+        "journal button 822,710 104x44",
+        "map buttons 934,710 418x44",
+        "sound button 768,710 46x44",
         "map framing 12,745 147x17",
         "solo controls 1180,12 174x34",
         "wagon load 954,64 400x450"
@@ -8412,7 +8482,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8420,10 +8490,10 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 443,419 480x174",
-        "journal button 682,599 104x44",
-        "map buttons 937,599 415x44",
-        "sound button 628,599 46x44",
+        "ability bar 403,419 560x174",
+        "journal button 822,599 104x44",
+        "map buttons 934,599 418x44",
+        "sound button 768,599 46x44",
         "map framing 12,634 147x17",
         "solo controls 1180,12 174x34",
         "wagon load 954,64 400x339"
@@ -8451,7 +8521,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8459,10 +8529,13 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 400,562 480x174",
-        "journal button 596,742 104x44",
-        "map buttons 851,742 415x44",
-        "sound button 542,742 46x44",
+        "family: row 5 12,416 300x48",
+        "family: row 6 12,469 300x48",
+        "family: row 7 12,522 300x32",
+        "ability bar 360,562 560x174",
+        "journal button 736,742 104x44",
+        "map buttons 848,742 418x44",
+        "sound button 682,742 46x44",
         "map framing 12,777 147x17",
         "solo controls 1094,12 174x34",
         "wagon load 868,64 400x482"
@@ -8490,7 +8563,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8498,10 +8571,11 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 400,451 480x174",
-        "journal button 596,631 104x44",
-        "map buttons 851,631 415x44",
-        "sound button 542,631 46x44",
+        "family: row 5 12,416 300x27",
+        "ability bar 360,451 560x174",
+        "journal button 736,631 104x44",
+        "map buttons 848,631 418x44",
+        "sound button 682,631 46x44",
         "map framing 12,666 147x17",
         "solo controls 1094,12 174x34",
         "wagon load 868,64 400x371"
@@ -8529,17 +8603,17 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
         "family: row 1 12,204 300x48",
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x44",
-        "ability bar 272,362 480x174",
-        "journal button 340,542 104x44",
-        "map buttons 595,542 415x44",
-        "sound button 286,542 46x44",
+        "ability bar 232,362 560x174",
+        "journal button 480,542 104x44",
+        "map buttons 592,542 418x44",
+        "sound button 426,542 46x44",
         "map framing 12,577 147x17",
         "solo controls 838,12 174x34",
         "wagon load 612,64 400x282"
@@ -8567,7 +8641,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 150x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,133 184x31",
         "status: field 202,130 59x38",
         "family: fold 12,176 100x20",
@@ -8575,10 +8649,18 @@
         "family: row 2 12,257 300x48",
         "family: row 3 12,310 300x48",
         "family: row 4 12,363 300x48",
-        "ability bar 720,842 480x174",
-        "journal button 1236,1022 104x44",
-        "map buttons 1491,1022 415x44",
-        "sound button 1182,1022 46x44",
+        "family: row 5 12,416 300x48",
+        "family: row 6 12,469 300x48",
+        "family: row 7 12,522 300x48",
+        "family: row 8 12,575 300x48",
+        "family: row 9 12,628 300x48",
+        "family: row 10 12,681 300x48",
+        "family: row 11 12,734 300x48",
+        "family: row 12 12,787 300x47",
+        "ability bar 680,842 560x174",
+        "journal button 1376,1022 104x44",
+        "map buttons 1488,1022 418x44",
+        "sound button 1322,1022 46x44",
         "map framing 12,1057 147x17",
         "solo controls 1734,12 174x34",
         "wagon load 1508,64 400x934"

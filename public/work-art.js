@@ -427,6 +427,21 @@ export const HAFTS = Object.freeze({
   indigo: [[-0.144, -0.731, -0.337, -0.899], [0.096, -0.274, 0.313, -0.043], [0.072, -0.154, 0.288, -0.01], [0.024, -0.298, 0.264, -0.024]],
   ochre: [[-0.04, -0.56, -0.36, -0.9], [0.096, -0.274, 0.327, -0.043], [0.096, -0.154, 0.28, -0.024], [0.024, -0.346, 0.279, -0.043]],
   'blue-girl': [[-0.168, -0.707, -0.394, -0.851], [0.072, -0.298, 0.327, -0.043], [0.072, -0.178, 0.28, -0.024], [-0.024, -0.346, 0.288, -0.043]],
+  // Astra's family figures of 2026-10-02: a two-pose work cycle (reaching, then bent to the ground) with no tool painted, so the
+  // haft is put in the hands - the middle of the skin below the face in each frame (public/person-palette.js `framePartsOf`) -
+  // raised behind in the first frame and down to the ground in the second.
+  // ceiling: the hands measured, the tool's head placed by rule (a quarter-height up and back, a fifth down and ahead), not read
+  // off a painted hoe; a tool-in-hand sheet of hers (request 2026-09-28, items 1-3) replaces it.
+  'father-hat': [[0.304, -0.589, 0.074, -0.759], [0.282, -0.268, 0.502, -0.068]],
+  'father-beard': [[0.163, -0.593, -0.067, -0.763], [0.28, -0.27, 0.5, -0.07]],
+  'father-moustache': [[0.245, -0.436, 0.015, -0.606], [0.155, -0.206, 0.375, -0.02]],
+  'father-straw': [[0.3, -0.599, 0.07, -0.769], [0.352, -0.222, 0.572, -0.022]],
+  'mother-braid': [[0.223, -0.443, -0.007, -0.613], [0.198, -0.272, 0.418, -0.072]],
+  'mother-loose': [[0.246, -0.494, 0.016, -0.664], [0.16, -0.296, 0.38, -0.096]],
+  'mother-scarf': [[0.247, -0.537, 0.017, -0.707], [0.286, -0.421, 0.506, -0.221]],
+  'mother-straw': [[0.237, -0.461, 0.007, -0.631], [0.193, -0.28, 0.413, -0.08]],
+  'youth-boy': [[0.26, -0.403, 0.03, -0.573], [0.156, -0.209, 0.376, -0.02]],
+  'youth-girl': [[0.224, -0.5, -0.006, -0.67], [0.155, -0.221, 0.375, -0.021]],
 });
 /**
  * A felling axe or a maul in the hands of the hoeing cycle's `frame`, over the painted hoe: the haft from the hands through the

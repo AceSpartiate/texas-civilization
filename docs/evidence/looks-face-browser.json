@@ -1,6 +1,6 @@
 {
   "record": "The parents' faces in How We Look: no hair dye off the hair, the face takes the skin (2026-09-28)",
-  "date": "2026-09-30",
+  "date": "2026-10-03",
   "verdict": "PASS",
   "note": "Same computer, headless Chrome. Measured through public/art.js drawSprite, the call the preview, the swatches, the family portrait and the map make. Colours and face boxes measured on the art, not read from the code under test. No LAN or district claim.",
   "limits": {
@@ -8,39 +8,73 @@
     "undyedFace": 0.01
   },
   "checks": [
-    "rust (male: hat, male: hat and beard, male: straw hat): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
-    "elder (male: beard): no hair dye off the hair (0.20% standing, 0.25% at worst walking) and the face takes the skin (0.40% left)",
-    "ochre (male: bareheaded, male: moustache): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.07% left)",
-    "rust-woman (female: bonnet, female: headscarf): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "father-hat (male: hat): no hair dye off the hair (0.01% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "father-beard (male: beard): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "ochre (male: bareheaded): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.07% left)",
+    "elder (male: hat and beard): no hair dye off the hair (0.20% standing, 0.25% at worst walking) and the face takes the skin (0.40% left)",
+    "father-moustache (male: moustache): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "father-straw (male: straw hat): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "rust-woman (female: bonnet): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
     "teal (female: pinned hair): no hair dye off the hair (0.00% standing, 0.02% at worst walking) and the face takes the skin (0.00% left)",
-    "indigo (female: braid, female: loose hair, female: straw hat): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "mother-braid (female: braid): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "mother-loose (female: loose hair): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "mother-scarf (female: headscarf): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "mother-straw (female: straw hat): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
     "girl (a child): takes the family's tone on the face (0.00% left) and the hair choice only on the hair (0.03% standing, 0.01% at worst walking)",
     "boy (a child): takes the family's tone on the face (0.22% left) and the hair choice only on the hair (0.10% standing, 0.18% at worst walking)",
     "smallchild (a child): takes the family's tone on the face (0.00% left) and the hair choice only on the hair (0.00% standing, 0.03% at worst walking)",
-    "at 1366x768 both parents' pop-ups draw the preview, the figure and every swatch (How Ezra looks; How Rhoda looks)",
-    "at 1280x800 both parents' pop-ups draw the preview, the figure and every swatch (How Asa looks; How Serafina looks)",
-    "at 1024x600 both parents' pop-ups draw the preview, the figure and every swatch (How Caleb looks; How Patience looks)",
-    "at 1366x768 every choice of every part was picked for both parents, and after each all 2590 pictures were figures (at least 25% of the card changed from the plain backdrop, 300 colours, 1% ink; the least seen {\"changed\":0.543,\"colours\":1818,\"ink\":0.075}), and the father's Moustache is drawn apart from Bareheaded",
-    "the first request for the second cast sheet lost: it was asked for again (2 requests) and both parents' pop-ups drew every picture as a figure (37 and 37 pictures)",
+    "youth-boy (a child): takes the family's tone on the face (0.00% left) and the hair choice only on the hair (0.00% standing, 0.00% at worst walking)",
+    "youth-girl (a child): takes the family's tone on the face (0.00% left) and the hair choice only on the hair (0.01% standing, 0.01% at worst walking)",
+    "at 1366x768 both parents' pop-ups draw the preview, the figure and every swatch (How Samuel looks; How Keziah looks)",
+    "at 1280x800 both parents' pop-ups draw the preview, the figure and every swatch (How Benjamin looks; How Hannah looks)",
+    "at 1024x600 both parents' pop-ups draw the preview, the figure and every swatch (How Jesse looks; How Charity looks)",
+    "at 1366x768 every choice of every part was picked for both parents, and after each all 560 pictures were figures (at least 25% of the card changed from the plain backdrop, 300 colours, 1% ink; the least seen {\"changed\":0.448,\"colours\":2617,\"ink\":0.092}), and the father's Moustache is drawn apart from Bareheaded",
+    "the first request for the second cast sheet lost: it was asked for again (2 requests) and both parents' pop-ups drew every picture as a figure (8 and 8 pictures)",
     "no page errors"
   ],
   "observed": {
     "figures": {
-      "rust": {
+      "father-hat": {
         "heads": [
-          "male: hat",
-          "male: hat and beard",
-          "male: straw hat"
+          "male: hat"
         ],
-        "head": 5952,
-        "stray": 0,
-        "face": 659,
+        "head": 7800,
+        "stray": 1,
+        "face": 1109,
         "undyed": 0,
+        "strayAt": [
+          [
+            79,
+            89,
+            157,
+            76,
+            27
+          ]
+        ]
+      },
+      "father-beard": {
+        "heads": [
+          "male: beard"
+        ],
+        "head": 5766,
+        "stray": 0,
+        "face": 1165,
+        "undyed": 0,
+        "strayAt": []
+      },
+      "ochre": {
+        "heads": [
+          "male: bareheaded"
+        ],
+        "head": 6219,
+        "stray": 0,
+        "face": 1349,
+        "undyed": 1,
         "strayAt": []
       },
       "elder": {
         "heads": [
-          "male: beard"
+          "male: hat and beard"
         ],
         "head": 7570,
         "stray": 15,
@@ -91,21 +125,29 @@
           ]
         ]
       },
-      "ochre": {
+      "father-moustache": {
         "heads": [
-          "male: bareheaded",
           "male: moustache"
         ],
-        "head": 6219,
+        "head": 7047,
         "stray": 0,
-        "face": 1349,
-        "undyed": 1,
+        "face": 1379,
+        "undyed": 0,
+        "strayAt": []
+      },
+      "father-straw": {
+        "heads": [
+          "male: straw hat"
+        ],
+        "head": 7372,
+        "stray": 0,
+        "face": 1091,
+        "undyed": 0,
         "strayAt": []
       },
       "rust-woman": {
         "heads": [
-          "female: bonnet",
-          "female: headscarf"
+          "female: bonnet"
         ],
         "head": 8084,
         "stray": 0,
@@ -123,15 +165,43 @@
         "undyed": 0,
         "strayAt": []
       },
-      "indigo": {
+      "mother-braid": {
         "heads": [
-          "female: braid",
-          "female: loose hair",
+          "female: braid"
+        ],
+        "head": 5390,
+        "stray": 0,
+        "face": 1520,
+        "undyed": 0,
+        "strayAt": []
+      },
+      "mother-loose": {
+        "heads": [
+          "female: loose hair"
+        ],
+        "head": 6918,
+        "stray": 0,
+        "face": 1505,
+        "undyed": 0,
+        "strayAt": []
+      },
+      "mother-scarf": {
+        "heads": [
+          "female: headscarf"
+        ],
+        "head": 6802,
+        "stray": 0,
+        "face": 1512,
+        "undyed": 0,
+        "strayAt": []
+      },
+      "mother-straw": {
+        "heads": [
           "female: straw hat"
         ],
-        "head": 5976,
+        "head": 9408,
         "stray": 0,
-        "face": 1921,
+        "face": 1640,
         "undyed": 0,
         "strayAt": []
       },
@@ -223,63 +293,95 @@
         "face": 2481,
         "undyed": 0,
         "strayAt": []
+      },
+      "youth-boy": {
+        "child": true,
+        "head": 8165,
+        "stray": 0,
+        "face": 1721,
+        "undyed": 0,
+        "strayAt": []
+      },
+      "youth-girl": {
+        "child": true,
+        "head": 8263,
+        "stray": 1,
+        "face": 2463,
+        "undyed": 0,
+        "strayAt": [
+          [
+            61,
+            134,
+            112,
+            89,
+            67
+          ]
+        ]
       }
     },
     "walks": {
-      "rust": 0,
-      "elder": 0.25,
+      "father-hat": 0,
+      "father-beard": 0,
       "ochre": 0,
+      "elder": 0.25,
+      "father-moustache": 0,
+      "father-straw": 0,
       "rust-woman": 0,
       "teal": 0.02,
-      "indigo": 0,
+      "mother-braid": 0,
+      "mother-loose": 0,
+      "mother-scarf": 0,
+      "mother-straw": 0,
       "girl": 0.01,
       "boy": 0.18,
-      "smallchild": 0.03
+      "smallchild": 0.03,
+      "youth-boy": 0,
+      "youth-girl": 0.01
     },
     "screens": [
       {
         "view": "1366x768",
         "parent": 1,
-        "title": "How Ezra looks"
+        "title": "How Samuel looks"
       },
       {
         "view": "1366x768",
         "parent": 2,
-        "title": "How Rhoda looks"
+        "title": "How Keziah looks"
       },
       {
         "view": "1280x800",
         "parent": 1,
-        "title": "How Asa looks"
+        "title": "How Benjamin looks"
       },
       {
         "view": "1280x800",
         "parent": 2,
-        "title": "How Serafina looks"
+        "title": "How Hannah looks"
       },
       {
         "view": "1024x600",
         "parent": 1,
-        "title": "How Caleb looks"
+        "title": "How Jesse looks"
       },
       {
         "view": "1024x600",
         "parent": 2,
-        "title": "How Patience looks"
+        "title": "How Charity looks"
       }
     ],
-    "everyChoice": 2590,
+    "everyChoice": 560,
     "moustache": "drawn apart from bareheaded",
     "leastFigure": {
-      "changed": 0.543,
-      "colours": 1818,
-      "ink": 0.075
+      "changed": 0.448,
+      "colours": 2617,
+      "ink": 0.092
     },
     "lostSheet": {
       "requests": 2,
       "pictures": [
-        37,
-        37
+        8,
+        8
       ]
     }
   },

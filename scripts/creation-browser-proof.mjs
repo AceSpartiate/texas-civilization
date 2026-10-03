@@ -164,8 +164,8 @@ try {
   observed.parents = parents;
   observed.looksStep = await readable(page, '#looks-step');
   assert.match(observed.looksStep, /Step 4 of 4/);
-  assert.match(observed.looksStep, parents > 1 ? /Parent 1 of \d/ : /Done finishes your family/, 'the looks pop-up does not say which parent of how many');
-  if (parents > 1) assert.match(observed.looksStep, /brings up the next parent/, 'the looks pop-up does not warn that a second parent is coming');
+  assert.match(observed.looksStep, parents > 1 ? /Parent 1 of \d/ : /meet your family/, 'the looks pop-up does not say which parent of how many');
+  if (parents > 1) assert.match(observed.looksStep, /then choose the next parent/, 'the looks pop-up does not warn that a second parent is coming');
   observed.looksNote = await readable(page, '#looks-note');
   assert.match(observed.looksNote, /changes nothing in the game/, 'the looks pop-up no longer says appearance decides nothing');
   assert.match(observed.looksNote, /Chosen once/, 'the looks pop-up does not say the looks are set once');

@@ -8,9 +8,9 @@
     "given tag, the parent went back to work at once; the icon glows and the child is drawn in 20 places in four seconds, as smallchild-walk-n",
     "at tag in the yard the child runs the way they are drawn going: w as smallchild-walk mirrored, e as smallchild-walk",
     "with a corn-husk doll the child is drawn sitting (smallchild-rest)",
-    "scattering corn for the hens the child is drawn in Astra's rust-sow, not Claude's scatter",
+    "scattering corn for the hens the child is drawn in Astra's own young smallchild-idle-s, not a grown figure and not Claude's scatter",
     "the child's automation turned itself off, and the row says \"Auto went off: Zadok has been good as long as a child can be.\", with an \"!\" on it",
-    "the baby crawled (15 places in three seconds), cried and was picked up by Mahala, 36, who said \"There, there. I have you.\" and was drawn indigo-carry; the baby was put down to nap and she went back to where she stood, at \"work\"",
+    "the baby crawled (14 places in three seconds), cried and was picked up by Mahala, 36, who said \"There, there. I have you.\" and was drawn mother-straw-walk; the baby was put down to nap and she went back to where she stood, at \"work\"",
     "on foot with the baby on her hip Mahala walks at three quarters of her pace (0.75 a tick): her row says \"On foot with Minerva on her hip: walking a quarter slower for it.\", the baby's \"Carried by Mahala.\"",
     "at 1024x768 the child's own bar is on the screen and nothing scrolls sideways",
     "told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (child-play, child-doll, child-cart, child-tag, child-hide, child-hoop, child-marbles, child-kindling, child-eggs, child-water, child-mind, flee-bundle, flee-cow)",
@@ -56,7 +56,7 @@
         "text": "Watch me, Mama! Watch this!",
         "box": {
           "x": 454.85986328125,
-          "y": 728.7218948216453,
+          "y": 729.0225048946864,
           "w": 186.85888671875,
           "h": 27,
           "tail": [
@@ -80,7 +80,7 @@
         "text": "The wind comes from the Gulf, I expect.",
         "box": {
           "x": 359.71826171875,
-          "y": 674.70360445904,
+          "y": 675.1268356024298,
           "w": 197.28173828125,
           "h": 42,
           "tail": [
@@ -256,11 +256,6 @@
         true
       ],
       [
-        "w",
-        "smallchild-walk",
-        true
-      ],
-      [
         "e",
         "smallchild-walk",
         false
@@ -329,6 +324,11 @@
         "w",
         "smallchild-walk",
         true
+      ],
+      [
+        "e",
+        "smallchild-walk",
+        false
       ],
       [
         "e",
@@ -366,11 +366,11 @@
         true
       ]
     ],
-    "hens": "rust-sow",
+    "hens": "smallchild-idle-s",
     "autoOff": "Auto went off: Zadok has been good as long as a child can be.",
     "autoOffNeed": "Number 3 to answer. Zadok Proofwright’s auto went off. Give Zadok Proofwright something to do, or put Auto on again. Go to Zadok Proofwright and answer.",
     "crawl": {
-      "places": 15,
+      "places": 14,
       "clips": [
         "infant-idle-e"
       ],
@@ -454,14 +454,16 @@
     },
     "cry": {
       "babyLife": "Crying for somebody.",
-      "said": []
+      "said": [
+        "(crying)"
+      ]
     },
     "held": {
       "carer": "Mahala Proofwright",
       "said": [
         "There, there. I have you."
       ],
-      "clip": "indigo-carry",
+      "clip": "mother-straw-walk",
       "babyLife": "Held by Mahala, who is singing to her.",
       "carerLife": "Seeing to Minerva: holding and singing, then back to the work about the place."
     },

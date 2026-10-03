@@ -45,6 +45,22 @@ const sources = {
   // Her ochre figure is named for his shirt, and the shirt is what the clothes choice dyes; the brown waistcoat stays.
   ochre: { skin: [224, 151, 90], hair: [73, 51, 36], clothing: [216, 138, 54] },
   'blue-girl': { skin: [222, 151, 96], hair: [67, 46, 35], clothing: [70, 103, 134] },
+  // Her family figures of 2026-10-02 (docs/FAMILY_ART_2026-10-02.md): eight parents, one for each head choice the old cast
+  // had no figure of, and the adolescent boy and girl - painted from one palette, so their face, hair and shirt or dress are
+  // nearly the same paint. Measured on their south idles, as her other figures were (2026-10-02).
+  'father-hat': { skin: [244, 138, 67], hair: [71, 38, 18], clothing: [172, 68, 38] },
+  'father-beard': { skin: [236, 138, 70], hair: [75, 42, 23], clothing: [158, 62, 34] },
+  'father-moustache': { skin: [247, 143, 73], hair: [73, 43, 25], clothing: [166, 66, 33] },
+  'father-straw': { skin: [239, 138, 65], hair: [68, 39, 18], clothing: [160, 62, 33] },
+  'mother-braid': { skin: [241, 135, 65], hair: [73, 42, 27], clothing: [165, 62, 32] },
+  'mother-loose': { skin: [239, 136, 66], hair: [70, 42, 25], clothing: [163, 63, 35] },
+  'mother-scarf': { skin: [243, 136, 63], hair: [74, 42, 23], clothing: [169, 68, 39] },
+  'mother-straw': { skin: [247, 139, 59], hair: [74, 42, 23], clothing: [170, 65, 34] },
+  'youth-boy': { skin: [245, 146, 76], hair: [90, 49, 27], clothing: [172, 79, 50] },
+  'youth-girl': { skin: [231, 130, 61], hair: [73, 42, 26], clothing: [186, 86, 59] },
+  // Her baby in the basket: the face and the tuft of hair take the family's colours; the wrapping and the basket stay as
+  // painted (`HEADS.infant` lets no garment be dyed; Astra, 2026-10-02).
+  infant: { skin: [229, 134, 64], hair: [76, 44, 22], clothing: [232, 199, 154] },
 };
 
 const SKIN = 1, HAIR = 2, CLOTHING = 3;
@@ -105,6 +121,45 @@ const REFS = {
     [218, 123, 54, SKIN], [216, 119, 50, SKIN], [221, 120, 51, SKIN], [243, 214, 175, CLOTHING], [240, 204, 161, CLOTHING],
     [244, 210, 168, CLOTHING], [194, 156, 111, CLOTHING], [184, 145, 100, CLOTHING],
     [228, 122, 54, SKIN], [69, 41, 22, HAIR], [246, 212, 170, CLOTHING]],
+  // Her family figures of 2026-10-02: hats, scarves, collars, aprons, braces, belts, trousers and boots are kept (`K`); her hat
+  // browns and braces are the hair's brown, so each is written down here to be nearest itself.
+  'father-hat': [[78, 47, 31, K], [70, 41, 26, K], [71, 38, 18, HAIR], [75, 38, 15, HAIR], [75, 39, 18, HAIR], [244, 138, 67, SKIN],
+    [231, 121, 59, SKIN], [240, 194, 142, K], [246, 207, 155, K], [243, 202, 149, K], [101, 60, 35, K], [172, 68, 38, CLOTHING],
+    [175, 71, 41, CLOTHING], [82, 51, 31, K], [76, 47, 28, K], [96, 63, 35, K], [247, 144, 73, SKIN], [124, 84, 56, K], [93, 56, 35, K]],
+  'father-beard': [[75, 42, 23, HAIR], [73, 42, 22, HAIR], [236, 138, 70, SKIN], [210, 112, 51, SKIN], [218, 123, 61, SKIN],
+    [196, 97, 43, SKIN], [227, 172, 125, K], [235, 185, 138, K], [242, 193, 142, K], [245, 200, 155, K], [87, 48, 25, K],
+    [158, 62, 34, CLOTHING], [162, 64, 35, CLOTHING], [153, 60, 32, CLOTHING], [69, 40, 22, K], [86, 53, 31, K], [232, 133, 68, SKIN],
+    [113, 77, 49, K], [80, 45, 25, K]],
+  'father-moustache': [[73, 43, 25, HAIR], [72, 42, 24, HAIR], [247, 143, 73, SKIN], [231, 126, 61, SKIN], [230, 120, 53, SKIN],
+    [213, 109, 52, SKIN], [248, 207, 159, K], [250, 212, 162, K], [249, 219, 174, K], [166, 66, 33, CLOTHING], [161, 65, 33, CLOTHING],
+    [66, 40, 21, K], [244, 135, 66, SKIN], [117, 84, 57, K], [88, 51, 28, K], [79, 47, 25, K]],
+  'father-straw': [[225, 163, 89, K], [223, 173, 101, K], [176, 108, 48, K], [68, 39, 18, HAIR], [68, 37, 16, HAIR], [239, 138, 65, SKIN],
+    [222, 116, 51, SKIN], [232, 187, 131, K], [243, 200, 143, K], [95, 56, 30, K], [91, 55, 30, K], [160, 62, 33, CLOTHING],
+    [167, 66, 36, CLOTHING], [78, 49, 28, K], [83, 51, 27, K], [237, 136, 65, SKIN], [117, 78, 48, K], [89, 52, 30, K], [82, 50, 28, K]],
+  'mother-braid': [[73, 42, 27, HAIR], [73, 40, 24, HAIR], [66, 39, 24, HAIR], [241, 135, 65, SKIN], [224, 119, 54, SKIN],
+    [242, 201, 157, K], [234, 192, 152, K], [242, 214, 181, K], [165, 62, 32, CLOTHING], [162, 60, 30, CLOTHING], [160, 59, 30, CLOTHING],
+    [231, 191, 151, K], [186, 137, 92, K], [240, 202, 164, K], [207, 155, 108, K], [243, 206, 168, K], [244, 142, 71, SKIN], [95, 52, 26, K]],
+  'mother-loose': [[70, 42, 25, HAIR], [61, 36, 22, HAIR], [239, 136, 66, SKIN], [221, 117, 54, SKIN], [220, 132, 86, K],
+    [163, 63, 35, CLOTHING], [149, 58, 31, CLOTHING], [158, 62, 34, CLOTHING], [208, 160, 114, K], [245, 212, 175, K],
+    [233, 131, 65, SKIN], [85, 47, 27, K]],
+  'mother-scarf': [[233, 192, 148, K], [74, 42, 23, HAIR], [71, 40, 21, HAIR], [243, 136, 63, SKIN], [207, 100, 40, SKIN],
+    [227, 179, 131, K], [232, 195, 153, K], [237, 203, 162, K], [169, 68, 39, CLOTHING], [173, 69, 39, CLOTHING], [167, 67, 38, CLOTHING],
+    [238, 204, 166, K], [236, 197, 156, K], [242, 207, 169, K], [242, 138, 66, SKIN], [83, 46, 28, K], [78, 43, 26, K]],
+  'mother-straw': [[236, 177, 107, K], [236, 197, 132, K], [197, 133, 70, K], [206, 144, 80, K], [74, 42, 23, HAIR], [72, 41, 22, HAIR],
+    [247, 139, 59, SKIN], [232, 116, 47, SKIN], [241, 199, 149, K], [245, 211, 163, K], [248, 225, 185, K], [170, 65, 34, CLOTHING],
+    [169, 63, 32, CLOTHING], [243, 210, 167, K], [242, 205, 161, K], [247, 144, 63, SKIN], [220, 173, 124, K], [250, 219, 179, K],
+    [86, 46, 25, K]],
+  'youth-boy': [[90, 49, 27, HAIR], [245, 146, 76, SKIN], [224, 125, 62, SKIN], [230, 127, 63, SKIN], [227, 127, 62, SKIN],
+    [176, 82, 50, CLOTHING], [172, 78, 48, CLOTHING], [169, 78, 50, CLOTHING], [175, 81, 51, CLOTHING], [90, 53, 32, K],
+    [239, 138, 71, SKIN], [96, 57, 34, K], [108, 66, 42, K], [111, 69, 44, K], [91, 51, 29, K], [78, 45, 26, K]],
+  'youth-girl': [[73, 42, 26, HAIR], [65, 38, 22, HAIR], [67, 42, 26, HAIR], [231, 130, 61, SKIN], [198, 102, 40, SKIN], [212, 114, 47, SKIN],
+    [242, 212, 168, K], [240, 203, 162, K], [212, 172, 128, K], [246, 212, 172, K], [180, 79, 54, CLOTHING], [168, 71, 49, CLOTHING],
+    [192, 89, 62, CLOTHING], [186, 89, 61, CLOTHING], [141, 59, 42, CLOTHING], [181, 81, 56, CLOTHING], [230, 133, 63, SKIN],
+    [88, 51, 31, K], [74, 44, 26, K]],
+  // The wrapping and the basket's wicker, kept.
+  infant: [[229, 134, 64, SKIN], [76, 44, 22, HAIR], [232, 199, 154, K], [237, 201, 157, K], [228, 189, 143, K], [193, 153, 108, K],
+    [107, 61, 24, K], [175, 107, 48, K], [165, 102, 48, K], [155, 88, 37, K], [125, 72, 31, K], [90, 52, 22, K], [104, 53, 18, K],
+    [178, 108, 47, K], [139, 80, 35, K]],
 };
 /**
  * How the figure is dressed, measured in faces on the south idle: `hatted` - the hair shows only below a hat or bonnet, never
@@ -125,6 +180,18 @@ const HEADS = {
   // shirt to the waistband, his hands and his bare feet; the small child's smock to the hem and bare feet.
   girl: { hatted: false, beard: .8, reach: 2.5, hands: 2.7 }, boy: { hatted: false, beard: .1, reach: 1.4, hands: 3.2 },
   smallchild: { hatted: false, beard: .3, reach: 2.2, hands: 2.6 },
+  // Her family figures of 2026-10-02, measured on their south idles: the men's shirts to the belt and the women's and the girl's
+  // dresses to the hem; the braids to the waist; the braces and trousers, which are the hair's brown, kept off the head.
+  'father-hat': { hatted: true, beard: .3, reach: 1.8, hands: 2.4 }, 'father-beard': { hatted: false, beard: .6, reach: 2.2, hands: 2.9 },
+  'father-moustache': { hatted: false, beard: .3, reach: 1.6, hands: 2.1 }, 'father-straw': { hatted: true, beard: .3, reach: 1.8, hands: 2.4 },
+  'mother-braid': { hatted: false, beard: 1.1, reach: 3.4, hands: 2 }, 'mother-loose': { hatted: false, beard: .4, reach: 3.1, hands: 2 },
+  'mother-scarf': { hatted: true, beard: .3, reach: 3.3, hands: 2 }, 'mother-straw': { hatted: true, beard: .3, reach: 3.2, hands: 2 },
+  // ceiling: measured on the standing figures; the adolescent girl bent double at work (`youth-girl-work-2`) has her sleeve
+  // beside her face, not below it, and it keeps its painted rose. Her layered masks (A18) or a per-frame face would fix it.
+  'youth-boy': { hatted: false, beard: .2, reach: 1.5, hands: 2.1 }, 'youth-girl': { hatted: false, beard: .9, reach: 2.9, hands: 1.8 },
+  // The baby: the face and the hair under the wrapping, nothing below the chin (no garment, no hands), and hair only above
+  // the face itself (`wide`, in faces either side; 1 for everybody else): the basket's dark weave either side is the hair's brown.
+  infant: { hatted: true, beard: 0, reach: 0, hands: 0, wide: 0 },
 };
 /**
  * A figure's measured colours, and its `sources` tokens, which are what the Claude-drawn frames are painted in
@@ -269,7 +336,7 @@ export function framePartsOf(imageData, frameName, debug = null) {
   const faceH = face ? face.maxY - face.minY + 1 : height * .12, faceW = face ? face.maxX - face.minX + 1 : width * .3;
   const onHead = s => face
     ? s.y >= face.minY - (head.hatted ? .15 : 1.3) * faceH && s.y <= face.maxY + head.beard * faceH
-      && s.x >= face.minX - faceW && s.x <= face.maxX + faceW
+      && s.x >= face.minX - (head.wide ?? 1) * faceW && s.x <= face.maxX + (head.wide ?? 1) * faceW
     : !head.hatted && s.y < height * .33;
   // Clothing is below the face and no further down than the garment reaches; skin is never above the face, where a hat is.
   // (Below the face's chin, not its middle: the shading of a lip or a nostril is the rust shirt's colour.)
@@ -360,30 +427,7 @@ export function framePartsOf(imageData, frameName, debug = null) {
     for (const p of grow) parts[p] = HAIR;
   }
   if (debug) Object.assign(debug, { face, stats, faces });
-  parts.lip = face ? lipOf(face, stats.indexOf(face), region, data, width, faceW, faceH) : null;
   return parts;
-}
-
-/**
- * Where a painted moustache goes: the top of the mouth, which is the lowest feature painted inside the face's own outline -
- * her mouths are a red line, not ink (the eyes and brows are higher; the chin's line is its edge, not inside it). Null when the
- * face shows no mouth, or one off to the side (a profile).
- */
-function lipOf(face, id, region, data, width, faceW, faceH) {
-  let top = -1, x0 = Infinity, x1 = -1;
-  for (let y = face.maxY; y >= face.minY + .5 * faceH; y--) {
-    let left = -1, right = -1, inked = 0, ix0 = Infinity, ix1 = -1;
-    for (let x = face.minX; x <= face.maxX; x++) if (region[y * width + x] === id) { if (left < 0) left = x; right = x; }
-    for (let x = left + 1; left >= 0 && x < right; x++) {
-      const p = y * width + x;
-      if (region[p] === id || data[p * 4 + 3] < 32) continue;
-      inked++; if (x < ix0) ix0 = x; if (x > ix1) ix1 = x;
-    }
-    if (inked >= 2) { top = y; x0 = Math.min(x0, ix0); x1 = Math.max(x1, ix1); } else if (top >= 0) break;
-  }
-  // ceiling: a father with a moustache shows it facing the viewer and not in profile (FACING_US); A18's layer draws both.
-  if (top < 0 || Math.abs((x0 + x1) / 2 - (face.minX + face.maxX) / 2) > .12 * faceW) return null;
-  return { x0, x1, y: top, faceW, faceH };
 }
 
 const partsCache = new Map();
@@ -410,7 +454,7 @@ export function recolourPersonFrame(imageData, frameName, appearance) {
   };
   const { data } = imageData;
   const parts = cachedParts(imageData, frameName);
-  const isWoman = ['teal', 'rust-woman', 'indigo', 'blue-girl'].includes(variant);
+  const isWoman = ['teal', 'rust-woman', 'indigo', 'blue-girl', 'girl', 'youth-girl'].includes(variant) || variant.startsWith('mother-');
   for (let p = 0; p < parts.length; p++) {
     const part = PART_NAMES[parts[p]];
     if (!part) continue;
@@ -421,37 +465,12 @@ export function recolourPersonFrame(imageData, frameName, appearance) {
     const strength = part === 'clothing' && isWoman ? .96 : .97;
     for (let c = 0; c < 3; c++) data[index + c] = clamp((1 - strength) * data[index + c] + strength * desired[c] * ratio);
   }
-  if (appearance.head === 'moustache' && MOUSTACHED.has(variant) && FACING_US.test(frameName) && parts.lip) paintMoustache(data, imageData.width, parts, target.hair);
   return imageData;
 }
 
 /**
- * stand-in: docs/ART_REQUESTS.md A18, "layered people" (its `--moustache` layer). No figure of hers has a moustache without
- * a beard, so a father who chooses one is drawn in her bareheaded ochre man - a young, clean-shaven face - and the choice showed nothing of what it
- * named (found 2026-09-29: with Fair hair, the "Moustache" tile was the same beardless blond face as "Bareheaded"). Until her
- * layered moustache arrives, one is painted in the hair colour above the mouth the palette found, on the face's own skin
- * only, so it never lands off the face. Retire it, and this set, when the `--moustache` layer is wired.
+ * What makes a recoloured frame different: the colours. Every head choice is a figure of Astra's own since 2026-10-02 (the
+ * moustache too: `father-moustache`), so the head is in the frame's name; the moustache Claude painted on the bareheaded man
+ * until then is retired.
  */
-const MOUSTACHED = new Set(['ochre']);
-/** The frames that face the viewer (-idle-s, -walk-s-1, -ride-s-2): a band across a face in profile reads as a gag. */
-const FACING_US = /-s(-\d+)?$/;
-function paintMoustache(data, width, parts, hair) {
-  const { x0, x1, y, faceW, faceH } = parts.lip;
-  const thick = Math.max(2, Math.round(faceH * .09)), centre = (x0 + x1) / 2;
-  const half = Math.max((x1 - x0) / 2 + .1 * faceW, .17 * faceW);
-  for (let row = -thick - 1; row <= 1; row++) {
-    const py = y + row;
-    // Fullest just above the lip, narrowing upward; its ends droop a little beside the mouth.
-    const reach = row > 0 ? half : half * (1 - .35 * (-row - 1) / thick);
-    for (let px = Math.round(centre - reach); px <= Math.round(centre + reach); px++) {
-      const p = py * width + px;
-      if (p < 0 || p >= parts.length || parts[p] !== SKIN) continue;
-      if (row >= 0 && Math.abs(px - centre) < half * .7) continue;
-      const shade = row === -thick - 1 || row >= 0 ? .62 : .85, i = p * 4;
-      for (let c = 0; c < 3; c++) data[i + c] = clamp(hair[c] * shade);
-    }
-  }
-}
-
-/** What makes a recoloured frame different: the colours, and the one head choice painted on rather than chosen by figure. */
-export const paletteKey = appearance => `${appearance.skin}|${appearance.hair}|${appearance.clothing}${appearance.head === 'moustache' ? '|moustache' : ''}`;
+export const paletteKey = appearance => `${appearance.skin}|${appearance.hair}|${appearance.clothing}`;

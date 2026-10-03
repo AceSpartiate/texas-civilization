@@ -1,6 +1,6 @@
 {
   "record": "A student who joins a running class, through the die, in a real browser (classroom report 2026-09-30)",
-  "date": "2026-10-01",
+  "date": "2026-10-03",
   "verdict": "PASS",
   "viewport": {
     "width": 1366,
@@ -21,7 +21,7 @@
   "observed": {
     "a": {
       "householdId": "hh-4",
-      "waitedOnDieMs": 64802,
+      "waitedOnDieMs": 65386,
       "card": {
         "step": "roll",
         "curtain": true,
@@ -46,7 +46,7 @@
       "pastLinesKept": 6
     },
     "e": {
-      "unansweredGivenUpAfterMs": 12122,
+      "unansweredGivenUpAfterMs": 12142,
       "card": {
         "step": "roll",
         "curtain": true,

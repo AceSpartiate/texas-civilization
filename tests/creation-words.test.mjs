@@ -130,7 +130,8 @@ test('every step of the wizard says which step it is, in the order creationStep 
   // The looks pop-up counts over every parent of the family, not over the ones still waiting, or the total would shrink
   // to "Parent 1 of 1" the moment the first was answered.
   assert.match(appearance, /const parentsOf = family =>[^\n]*person\.choices\)/, 'the looks counter no longer has a fixed total');
-  assert.match(appearance, /brings up the next parent/, 'the looks pop-up does not say a second parent is coming');
+  // Astra's wording since 2026-10-02: "Save this look, then choose the next parent."
+  assert.match(appearance, /then choose the next parent/, 'the looks pop-up does not say a second parent is coming');
 });
 
 test('what is set once says so where it is chosen, and what is not says that too', () => {

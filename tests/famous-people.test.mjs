@@ -21,6 +21,16 @@ import { projectWorld } from '../sim/world.mjs';
 const copy = value => JSON.parse(JSON.stringify(value));
 /** Ana Esparza and her four children (sim/people.mjs; `HIST-TEX-605`). */
 const ESPARZA_FAMILY = ['ana-esparza', 'maria-de-jesus', 'enrique-esparza', 'manuel-esparza', 'francisco-child'];
+test('Condelle uses his own art at the Morelos battalion without changing his reported words', () => {
+  assert.equal(PEOPLE.condelle.art, 'condelle');
+  const phase = ENGAGEMENTS['bexar-storming'].phases.find(one => one.id === 'night-8');
+  assert.equal(phase.people.find(one => one.id === 'condelle').pose, 'command');
+  assert.equal(phase.lines.find(one => one.person === 'condelle').text, 'El Batallón Morelos no se ha rendido nunca.');
+});
+test('Austin has his own art throughout his 1835 army itinerary', () => {
+  assert.equal(PEOPLE.austin.art, 'austin');
+  assert.equal(PEOPLE.austin.map[0].doing, 'command');
+});
 /** A bare world holding one engagement from minute 0, on a map with the places the engagements stand at. */
 const SITES = { bexar: { x: -61.6, y: 4.6, name: 'Béxar' }, lynchburg: { x: 144.4, y: -19.1, name: 'Lynchburg' }, gonzales: { x: 1.1, y: -0.7, name: 'Gonzales' },
   ford: { x: 0.9, y: -0.5, name: 'the ford' }, 'williams-camp': { x: 0.8, y: 1.8, name: 'Williams' }, 'san-patricio': { x: -18.4, y: 104.3, name: 'San Patricio' },
@@ -240,10 +250,12 @@ test('the legends are spoken on the field as tradition, glossed as told later: t
 
 test('the Twin Sisters are named and fire where the record puts them: before the camp on April 20 under Neill, who is hit, and within two hundred yards on the 21st under Hockley', () => {
   const skirmish = fieldAt('san-jacinto', 'skirmish', 20);
+  assert.equal(skirmish.view.phaseMinute, 20);
   const twins = skirmish.view.guns.filter(gun => gun.id.startsWith('twins-20'));
   assert.equal(twins.length, 2); assert.ok(twins.some(gun => gun.named && gun.name === 'Twin Sisters'));
   assert.ok(twins.reduce((sum, gun) => sum + gun.shots.length, 0) >= 3, 'the Twin Sisters did not answer on the 20th');
   const neill = personIn(fieldAt('san-jacinto', 'skirmish', PEOPLE.neill.fate.at).view, 'neill');
+  assert.equal(neill.art, 'neill');
   assert.ok(Number.isFinite(neill.hurt), 'Neill is not wounded at the guns');
   assert.ok(!personIn(fieldAt('san-jacinto', 'skirmish', PEOPLE.neill.fate.at - 1).view, 'neill').hurt);
   // The skirmish's Texian hurt: Neill at the guns, and two of Sherman's horsemen (Houston: "two men severely wounded").
@@ -253,6 +265,8 @@ test('the Twin Sisters are named and fire where the record puts them: before the
   assert.ok(station.some(gun => gun.named && gun.name === 'Twin Sisters'));
   assert.ok(station.reduce((sum, gun) => sum + gun.shots.length, 0) >= 3);
   for (const id of ['hockley', 'mcculloch']) assert.ok(personIn(guns.view, id), `${id} is not at the guns`);
+  assert.equal(personIn(guns.view, 'hockley').pose, 'gun');
+  assert.equal(personIn(guns.view, 'mcculloch').pose, 'gun');
   assert.match(SAN_JACINTO_BATTLE.phases.find(p => p.id === 'parade').caption, /family story told later they were named at Brazoria for the twin daughters of Dr. Charles Rice/);
   assert.match(SAN_JACINTO_BATTLE.phases.find(p => p.id === 'guns').caption, /later tellers say broken horseshoes/);
   assert.equal(PEOPLE['twin-sisters'].map[0].with, 'houston');

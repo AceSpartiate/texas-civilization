@@ -120,11 +120,12 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
  * regular (public/battle-view.js `drawPerson`; stand-ins listed in docs/ART_REQUESTS.md, request 2026-09-26).
  */
 export const PERSON_ART = Object.freeze({
+  condelle: { stand: 'condelle-idle', command: 'clip:condelle-command', point: 'condelle-point', write: 'condelle-read-map', speak: 'condelle-speak', listen: 'condelle-listen', seated: 'condelle-rest', walk: 'condelle-walk-e' },
   travis: { stand: 'travis-idle', command: 'travis-command', write: 'travis-write', point: 'travis-command', fire: ['travis-aim', 'travis-fire', 'travis-ready'], wounded: 'travis-wounded-kneel', still: 'travis-still-ramp', walk: 'travis-walk-e' },
   bowie: { stand: 'bowie-idle', command: 'bowie-command', sick: 'bowie-sick-bed', 'still-bed': 'bowie-still-bed', seated: 'bowie-sick-seated', walk: 'bowie-walk-e' },
   crockett: { stand: 'crockett-idle', command: 'crockett-command', fire: ['crockett-aim', 'crockett-fire', 'crockett-reload'], seated: 'crockett-rest-seated', captive: 'clip:crockett-captive', still: 'crockett-still-side', walk: 'crockett-walk-e' },
   joe: { stand: 'clip:joe-idle', hide: 'clip:joe-hide', fireHidden: 'joe-fire-door', emerge: 'clip:joe-emerge', seated: 'clip:joe-rest', wounded: 'joe-hurt-e', walk: 'joe-walk' },
-  seguin: { stand: 'seguin-idle', command: 'seguin-command', ride: 'seguin-mounted-e', walk: 'seguin-walk-e' },
+  seguin: { stand: 'seguin-idle', command: 'seguin-command', ride: 'clip:seguin-mounted-walk-e', rideNorth: 'clip:seguin-mounted-walk-n', rideSouth: 'clip:seguin-mounted-walk-s', rideIdle: 'seguin-mounted-e', walk: 'seguin-walk-e' },
   'susanna-dickinson': { stand: 'susanna-dickinson-hold-angelina', carry: 'susanna-dickinson-carry-angelina', sick: 'susanna-dickinson-shelter-with-angelina', seated: 'susanna-dickinson-rest-with-angelina', walk: 'susanna-dickinson-walk-e' },
   'angelina-dickinson': { stand: 'angelina-dickinson-sit', seated: 'angelina-dickinson-sleep' },
   ben: { stand: 'ben-idle', seated: 'ben-rest', carry: 'ben-pot-carry', speak: 'ben-speak', walk: 'ben-walk-e' },
@@ -151,6 +152,18 @@ export const PERSON_ART = Object.freeze({
   cos: { stand: 'cos-idle', command: 'cos-command', point: 'cos-point', write: 'cos-sign-terms', surrender: 'cos-sword-down', prisoner: 'cos-prisoner', ride: 'clip:cos-mounted-walk-e', rideIdle: 'cos-mounted-idle-e', walk: 'cos-walk-e' },
   castaneda: { stand: 'castaneda-idle', command: 'castaneda-halt', speak: 'castaneda-parley', listen: 'castaneda-listen', point: 'castaneda-withdraw', ride: 'clip:castaneda-mounted-walk-e', rideIdle: 'castaneda-mounted-idle-e', walk: 'castaneda-walk-e' },
   moore: { stand: 'moore-idle', command: 'moore-command', point: 'moore-point', speak: 'moore-parley', listen: 'moore-listen', walk: 'moore-walk-e' },
+  austin: { stand: 'austin-idle', command: 'austin-command', point: 'austin-point', speak: 'austin-speak', write: 'austin-write', walk: 'austin-walk-e' },
+  urrea: { stand: 'urrea-idle', command: 'urrea-command', point: 'urrea-point', speak: 'urrea-address', ride: 'clip:urrea-mounted-walk-e', rideIdle: 'urrea-mounted-idle-e', walk: 'urrea-walk-e' },
+  'deaf-smith': { stand: 'deaf-smith-idle', report: 'deaf-smith-report', point: 'deaf-smith-point', wounded: 'deaf-smith-wounded-seated', ride: 'clip:deaf-smith-mounted-walk-e', rideIdle: 'deaf-smith-mounted-idle-e', walk: 'deaf-smith-walk-e' },
+  karnes: { stand: 'karnes-idle', command: 'karnes-command', point: 'karnes-command', listen: 'karnes-listen', work: 'clip:karnes-crowbar-work', fire: ['karnes-aim', 'karnes-fire', 'karnes-aim'], ride: 'clip:karnes-mounted-walk-e', rideIdle: 'karnes-mounted-idle-e', walk: 'karnes-walk-e' },
+  neill: { stand: 'neill-idle', command: 'neill-command', point: 'neill-command', gun: 'clip:neill-gun-service', wounded: 'neill-wounded-seated', walk: 'neill-walk-e' },
+  lamar: { stand: 'lamar-idle', command: 'lamar-command', point: 'lamar-command', salute: 'lamar-salute', ride: 'clip:lamar-mounted-walk-e', rideIdle: 'lamar-mounted-idle-e', rideRescue: 'lamar-mounted-rescue-e', walk: 'lamar-walk-e' },
+  sherman: { stand: 'sherman-idle', command: 'sherman-command', point: 'sherman-point', rally: 'sherman-rally', ride: 'clip:sherman-mounted-walk-e', rideIdle: 'sherman-mounted-idle-e', rideRally: 'sherman-mounted-rally-e', walk: 'sherman-walk-e' },
+  rusk: { stand: 'rusk-idle', command: 'rusk-command', point: 'rusk-command', stop: 'clip:rusk-stop', write: 'rusk-write', ride: 'clip:rusk-mounted-walk-e', rideIdle: 'rusk-mounted-idle-e', walk: 'rusk-walk-e' },
+  hockley: { stand: 'hockley-idle', command: 'hockley-point', point: 'hockley-point', gun: 'clip:hockley-battery-command', walk: 'hockley-walk-e' },
+  mcculloch: { stand: 'mcculloch-idle', gun: 'clip:mcculloch-gun-service', listen: 'mcculloch-listen', walk: 'mcculloch-walk-e' },
+  johnson: { stand: 'johnson-idle', command: 'clip:johnson-command', point: 'johnson-point', escape: 'clip:johnson-escape-e', walk: 'johnson-walk-e' },
+  grant: { stand: 'grant-idle', point: 'grant-point-herd', write: 'grant-read-map', wounded: 'grant-bandaged-seated', ride: 'clip:grant-mounted-walk-e', rideIdle: 'grant-mounted-idle-e', rideGallop: 'grant-mounted-gallop-e', walk: 'grant-walk-e' },
 });
 /**
  * A person's poses: Astra's `PERSON_ART` entry, with any pose it lacks filled from Claude's temporary sheets
@@ -1423,7 +1436,7 @@ export function createBattleView(art) {
       if (now >= breach.openAt) {
         if (!art.drawSprite(ctx, 'wall-breach', p.x, p.y, figurePx * 1.3)) { ctx.fillStyle = '#2d2620'; ctx.fillRect(p.x - figurePx * 0.25, p.y - figurePx * 0.6, figurePx * 0.5, figurePx * 0.6); }
         view.breachesSeen.add(id); shown++;
-      } else {
+      } else if (!(battle.id === 'bexar-storming' && battle.phase === 'karnes' && (battle.people || []).some(person => person.id === 'karnes' && person.pose === 'work'))) {
         const who = breach.side === 'mexican' ? 'regular' : 'volunteer';
         // Claude's `volunteer-crowbar` at the door; the ramming stroke and the library's tools while it loads.
         if (!(who === 'volunteer' && art.animated(ctx, 'volunteer-crowbar', p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, { timeMs: time, paused: reducedMotion }))) {
@@ -1472,17 +1485,24 @@ export function createBattleView(art) {
   function drawPeople(ctx, battle, camera, figurePx, time, now, bounds) {
     view.peopleSpots = {};
     const shown = [], labels = [];
+    const phaseMinute = battle.phaseMinute ?? battle.minute;
     for (const person of battle.people || []) {
       const p = camera.toScreen(person), fellAt = view.peopleFellAt.get(person.id);
       const fell = Number.isFinite(fellAt) && fellAt <= now;
       const hurt = Number.isFinite(person.hurt) && person.hurt <= battle.minute;
-      const how = drawPerson(ctx, person, p, figurePx, time, { fell, fellAgo: fell ? now - fellAt : 0, hurt, now });
+      const completedKarnesBreach = battle.id === 'bexar-storming' && battle.phase === 'karnes' && person.id === 'karnes' && (battle.breaches || []).some(breach => breach.open && Math.hypot(breach.x - person.x, breach.y - person.y) < 0.003);
+      const lamarRescue = battle.id === 'san-jacinto' && battle.phase === 'skirmish' && person.id === 'lamar' && phaseMinute >= 44 && phaseMinute < 50;
+      const shermanRally = battle.id === 'san-jacinto' && battle.phase === 'skirmish' && person.id === 'sherman' && phaseMinute >= 22 && phaseMinute < 25;
+      const johnsonCommand = battle.id === 'bexar-storming' && battle.phase === 'night-7' && person.id === 'johnson' && phaseMinute >= 180;
+      const grantGallop = battle.id === 'agua-dulce' && battle.phase === 'ambush' && person.id === 'grant' && person.pose === 'ride';
+      const shownPerson = completedKarnesBreach ? { ...person, pose: 'stand' } : lamarRescue ? { ...person, rescue: true } : shermanRally ? { ...person, rally: true } : johnsonCommand ? { ...person, pose: 'command', moving: false } : grantGallop ? { ...person, gallop: true } : person;
+      const how = drawPerson(ctx, shownPerson, p, figurePx, time, { fell, fellAgo: fell ? now - fellAt : 0, hurt, now });
       view.peopleSpots[person.id] = view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx * (person.pose === 'ride' && !fell ? 1.35 : 1) };
       view.peopleShown.add(person.id);
       // How each was drawn the first frame they were on the field (the burial party before its sheet arrived, or not).
       if (!view.peopleFirst.has(person.id)) view.peopleFirst.set(person.id, how);
       labels.push({ person, x: p.x, y: p.y });
-      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, first: view.peopleFirst.get(person.id), ...(person.bears && { bears: person.bears }), x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
+      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : shownPerson.pose, drawnAs: how, first: view.peopleFirst.get(person.id), ...(person.bears && { bears: person.bears }), x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
     }
     // Every famous person's name under them (owner, docs/BATTLES.md §2c.2: "names on the map, no cards"), stepped down out of
     // each other's way where several stand together (the church guns at the Alamo; the sacristy, where Mrs. Dickinson and the
@@ -1548,18 +1568,24 @@ export function createBattleView(art) {
       return sprite(`${kind}-reclining`);
     }
     if (person.bears) return drawBearers(ctx, person, p, size, time, flip, key);
-    const pose = hurt ? 'wounded' : person.moving && person.pose !== 'ride' ? 'walk' : person.pose || 'stand';
+    const pose = hurt ? 'wounded' : person.moving && !['ride', 'escape'].includes(person.pose) ? 'walk' : person.pose || 'stand';
     const named = own?.[pose];
     if (pose === 'walk') {
       if (own?.walk) return clip(own.walk) || clip(`${kind}-march`);
       return clip(`${kind}-march`);
     }
     if (pose === 'ride') {
-      // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - full mounted movement for Seguín and
-      // Dr. Sutherland (`seguin-ride-e`, `sutherland-ride-e`; request 2026-09-26 "the famous people") where it is loaded.
+      // Astra's own mounted art first: Grant's gallop, Lamar's rescue, Sherman's rally, and a mounted walk by its heading.
+      if (person.gallop && own?.rideGallop) return clip(own.rideGallop, time, { size: figurePx * 1.35 });
+      if (person.rescue && own?.rideRescue) return sprite(own.rideRescue);
+      if (person.rally && own?.rideRally) return sprite(own.rideRally);
+      const directed = (person.heading === 'north' ? own?.rideNorth : person.heading === 'south' ? own?.rideSouth : null) || named;
+      if (typeof directed === 'string' && directed.startsWith('clip:')) return clip(directed.slice(5), time, { size: figurePx * 1.35, flip: person.heading ? person.heading === 'west' : !person.right });
+      // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - full mounted movement for Dr. Sutherland
+      // (`sutherland-ride-e`; request 2026-09-26 "the famous people") where it is loaded. Seguín's is Astra's now (above); Claude's
+      // `seguin-ride-e` is held back (public/art-subjects.js).
       const moving = person.moving && art.clipReady?.(`${person.id}-ride-e`) && clip(`${person.id}-ride-e`, time, { size: figurePx * 1.35 });
       if (moving) return moving;
-      if (typeof named === 'string' && named.startsWith('clip:')) return clip(named.slice(5), time, { size: figurePx * 1.35 });
       if (named) return sprite(named);
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
     }

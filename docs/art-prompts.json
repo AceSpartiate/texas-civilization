@@ -2413,6 +2413,456 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-moore.png",
       "postProcessing": "ImageGen gutter correction from first draft; corrected sheet copied unchanged. Atlas builder measures alpha components and reading-order cells.",
       "review": "Distinct dark-bearded militia commander with parley and field-command poses for Gonzales."
+    },
+    {
+      "sheet": "famous-austin",
+      "promptId": "frontier-v1/famous-austin",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 painterly ink-line game sprite atlas in the established Texas Revolution human scale and elevated camera. Original interpretive Stephen F. Austin in the 1835 volunteer campaign, not an exact portrait: slender middle-aged man, pale complexion, long narrow clean-shaven face, swept-back dark brown hair with receding temples, sober charcoal broad-brim civilian hat, muted dark-green long frock coat, tan waistcoat, white neck stock, brown trousers, dark boots. Same identity in all sixteen full-body equal cells with clear alpha gutters. Four east walking steps; two south and two north walking steps; idle, restrained command, point, address a gathering; read letter, write at portable board, consult map, rest. No other people, horse, lettering, grid, background, scenery, gore, or exact likeness claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-moore.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec22fa53-375e-4576-b5cf-be800e6c7b7e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-austin.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct clean-shaven civilian commander with campaign-letter and map gestures for the 1835 volunteer army."
+    },
+    {
+      "sheet": "famous-urrea",
+      "promptId": "frontier-v1/famous-urrea",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "New transparent 4x4 painterly ink-line game sprite atlas at the established Texas Revolution scale. Original interpretation of José de Urrea in the 1836 south Texas campaign: tall slender middle-aged Mexican officer, olive-brown complexion, angular face, dark sideburns and fine moustache, black bicorne with small pale-green cockade, long deep indigo-violet coat, restrained gold epaulettes, pale-blue diagonal sash, cream breeches and black boots. Distinct from Cos, Castañeda and Santa Anna. Same identity across 16 isolated equal cells with broad alpha gutters. Four east walks; two south and two north walks; idle, command, point, field map; dispatch, address subordinate, receive paper, rest. No other figures, text, flag, scenery, grid, gore or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a066890d-34b1-4989-b714-5a05631d60ff.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea.png",
+      "postProcessing": "ImageGen gutter correction from first draft; corrected sheet copied unchanged. Atlas builder measures alpha components and reading-order cells.",
+      "review": "A distinct bicorne, deep-indigo coat and pale-blue sash establish Urrea across the southern campaign scenes."
+    },
+    {
+      "sheet": "famous-urrea-mounted",
+      "promptId": "frontier-v1/famous-urrea-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "New transparent 2x2 mounted companion preserving the supplied Urrea face, bicorne with pale-green feather, deep indigo-violet coat and pale-blue sash. Same dark bay horse with black mane and tail and two white hind socks in all cells, simple 1830s tack. East walk A with one diagonal leg pair forward, east walk B with opposite pair forward, east halt, south halt. Match the supplied game painterly horse-and-rider scale and broad true-alpha cell gutters. No other people, text, grid, scenery, gore or exact historical likeness claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-6cb8d87f-3f20-4d44-a193-6a2682b2ca3e.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7fd22476-39ab-42aa-9d79-0e4e6cc89128.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated mounted travel and halt for Agua Dulce and Coleto; mount appearance is artistic interpretation."
+    },
+    {
+      "sheet": "famous-seguin-mounted-motion",
+      "promptId": "frontier-v1/famous-seguin-mounted-motion",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "New genuinely transparent 2x2 companion sprite atlas for the existing Juan Nepomuceno Seguín game character. Preserve the reference exact established young Tejano face, plain brown hat, dark indigo jacket, cream shirt and tan trousers, and the same compact chestnut horse with dark mane, plain tack and rolled grey blanket. Four complete horse-and-rider figures in equal cells with broad alpha gutters. Top row: east walking gait A and opposite-leg east walking gait B. Bottom row: east canter A with forelegs gathered and hindlegs extended; east canter B with forelegs reaching and hindlegs gathered. No extra people, letters, borders, grid, ground, scenery, gore or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b0c155f8-34d3-43eb-846e-a0590890615c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-seguin-mounted-motion.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "The original mounted east/south key poses remain; new walk and canter clips add distinct leg and stride silhouettes while preserving Seguín and his horse."
+    },
+    {
+      "sheet": "famous-seguin-mounted-ns",
+      "promptId": "frontier-v1/famous-seguin-mounted-ns",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "New transparent 2x2 north/south mounted gait atlas for the established Juan Nepomuceno Seguín game character. Preserve his young Tejano face, brown wide-brim hat, indigo short jacket, cream shirt, tan trousers, the same compact chestnut horse with dark mane and tail, plain tack, saddlebags and rolled grey blanket. Match the existing painterly ink-line horse/rider scale. Equal isolated cells with broad alpha gutters. Top row: south toward viewer, alternating foreleg walking steps A and B. Bottom row: north away from viewer, alternating hindleg walking steps A and B, with back of rider and hat visible. No east figures, extra people, ground, scenery, text, grid, gore or exact portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin-mounted-motion.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3884dba8-6810-4edb-8ca9-88ce4332755f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-seguin-mounted-ns.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Matches Seguín and his established chestnut horse; distinct south and north two-step walks complete his cardinal mounted travel."
+    },
+    {
+      "sheet": "famous-deaf-smith",
+      "promptId": "frontier-v1/famous-deaf-smith",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 painterly ink-line Texas Revolution game atlas. Original interpretive Erastus Deaf Smith, lean weathered scout with medium-tan face, dark beard graying at chin, narrow dark olive hat, light buckskin jacket, sage vest, rust-red neckcloth, dark trousers, shoulder satchel. Same identity in 16 isolated equal cells with broad clear alpha gutters. Four east walks; two south and two north walks; idle, quiet report, point along trail, read captured dispatch; kneel to inspect tracks, seated non-graphic shoulder wound, small axe ready, small axe chop against unseen timber. No disability caricature, hand cupped to ear, extra people, writing, scenery, grid, blood or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-moore.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a8656d3b-cc48-4ea1-ad57-469b4059eb25.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-deaf-smith.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Buckskin, sage and red-neckcloth scout silhouette; report, tracking, dispatch, non-graphic wound and optional bridge axe frames."
+    },
+    {
+      "sheet": "famous-deaf-smith-mounted",
+      "promptId": "frontier-v1/famous-deaf-smith-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 mounted companion preserving the supplied Deaf Smith face, olive hat, buckskin jacket, sage vest, rust-red neckcloth and satchel. Same sandy buckskin horse with dark mane and tail, white near-hind sock, plain trail saddle and rolled blanket in all four equal cells: east walking steps A and B with alternating legs, east halt, south halt. Match the supplied game horse/rider painterly style and scale with broad alpha gutters. No other people, words, flags, ground, scenery, grid, blood or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a8656d3b-cc48-4ea1-ad57-469b4059eb25.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin-mounted-motion.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2cc7e493-a0cd-4771-9adb-126d7d2fb4e3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-deaf-smith-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated horse and rider travel for the Grass Fight alarm and Vince’s Bridge party; horse appearance is an artistic interpretation."
+    },
+    {
+      "sheet": "famous-karnes",
+      "promptId": "frontier-v1/famous-karnes",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 elevated painterly game atlas. Original interpretive Henry Wax Karnes, sturdy young auburn-haired red-bearded Texas frontiersman in dark hat, plum-brown jacket, buff vest, blue bandanna and brown trousers. Four east walking poses, two south and two north, idle, command, musket aim and fire, two distinct iron crowbar leverage poses at a wooden door edge, listen and rest. Same identity, equal cells, alpha gutters; no portrait claim or text.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3f84f02a-ce35-4fb3-ac35-604dda7ac487.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-karnes.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated named Béxar crowbar action and Concepción musket poses. Door edge belongs to the action sprite."
+    },
+    {
+      "sheet": "famous-karnes-mounted",
+      "promptId": "frontier-v1/famous-karnes-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 mounted companion preserving Karnes outfit and face from foot atlas. Same black horse and plain 1830s tack across all cells. Two east walking gait poses, east mounted idle and south mounted idle. Equal cells, broad alpha gutters, painterly elevated game style; no words, background or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3f84f02a-ce35-4fb3-ac35-604dda7ac487.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3c4ab73a-5587-4e24-a9a6-3128cffd3edb.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-karnes-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Horse gait and mounted rest are available for later scout and cavalry staging; horse appearance is an artistic interpretation."
+    },
+    {
+      "sheet": "famous-neill",
+      "promptId": "frontier-v1/famous-neill",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 painterly Texas Revolution sprite atlas of an original interpretive James C. Neill, stocky middle-aged artillery officer in tan hat, indigo jacket, cream shirt, buff trousers and black boots. Four east walks, two south, two north, then idle, command, rammer, cannon sight, brace at gun report, offer round, non-graphic seated hip wound and recover. Same identity and scale, clear alpha gutters, no background or exact portrait claim. Reference the shipped Karnes sheet for art style only.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-karnes.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c3ca2fe6-1a72-444c-bd07-964f3bbeca62.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-neill.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct artillery command and gun-service poses; non-graphic hip wound for the existing April 20 fate. Costume is interpretive."
+    },
+    {
+      "sheet": "famous-lamar",
+      "promptId": "frontier-v1/famous-lamar",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 elevated painterly 1836 Texas game atlas of original interpretive Mirabeau B. Lamar. Slender dark-haired man with sideburns, dark hat, long muted teal coat, buff waistcoat, rust-red neckcloth, tan trousers, tall dark boots. Four east walks, two south and two north, idle, command, salute, saber low, reach to unseen person, withdrawal signal, listen and rest. Same identity, alpha gutters, no background, text or portrait claim.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct dark-teal cavalry figure and command, salute, reach and signal poses. Clothing and face are artistic interpretations."
+    },
+    {
+      "sheet": "famous-lamar-mounted",
+      "promptId": "frontier-v1/famous-lamar-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 mounted companion of same Lamar identity. Same light gray horse with charcoal mane and tail and simple 1836 tack throughout. Two east walk gait frames, east idle, east mounted reach down to unseen person. Full cutouts with clear margins, no background, text or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ebd41b8f-e585-4490-9970-0a1632453282.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated mounted gait and reach for the existing April 20 rescue beat; horse coat is interpretive."
+    },
+    {
+      "sheet": "famous-sherman",
+      "promptId": "frontier-v1/famous-sherman",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 hand-painted elevated game atlas of original interpretive Sidney Sherman: sturdy sandy-haired mustached volunteer commander in light brown hat, olive-brown frock, dark green waistcoat, oxblood scarf, tan trousers and dark boots. Four east walks, two south and two north, idle, command, rally, spyglass, folded unmarked cloth, point, listen and rest. Same identity and scale; true alpha gutters, no ground, text, emblem or portrait claim.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f9f85b38-611b-4b7d-a37d-a1eb722e2ae9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct field commander silhouette and signal poses. Folded cloth is deliberately unmarked; it is not a reconstruction of the Kentucky flag."
+    },
+    {
+      "sheet": "famous-sherman-mounted",
+      "promptId": "frontier-v1/famous-sherman-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 mounted companion preserving the Sherman light brown hat, olive frock, dark green vest and oxblood scarf. Same dark chestnut horse with black mane/tail and simple 1836 tack. Two east walking gait frames, east idle and mounted hand-raised rally signal. Full figures with alpha margins; no ground, backdrop, emblem, words or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f9f85b38-611b-4b7d-a37d-a1eb722e2ae9.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2b3093c7-5ef0-4630-a236-96f15dafa995.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated horse-and-rider walk and rally signal for the existing April 20 skirmish."
+    },
+    {
+      "sheet": "famous-rusk",
+      "promptId": "frontier-v1/famous-rusk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 painterly elevated Texas Revolution game atlas, original interpretive Thomas J. Rusk. Broad-shouldered clean-shaven adult, dark hat, russet-brown frock, blue-gray waistcoat, cream shirt, buff trousers, dark boots. Four east walks, two south and two north, idle, command, open-hand stop, two-hand appeal, reach, read, write and seated rest. Same full-body identity, wide alpha gutters, no background, text or exact portrait claim.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-682d1146-3c92-4c58-867b-a927f3f10778.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Two-stage nonverbal halt gesture for the existing San Jacinto aftermath, and period document poses available for later scenes."
+    },
+    {
+      "sheet": "famous-rusk-mounted",
+      "promptId": "frontier-v1/famous-rusk-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 mounted companion of the same Rusk identity and clothing. Same dark bay horse with narrow white blaze, two white hind socks, and simple 1836 tack. Two east horse-walk gait frames, east idle and mounted open-hand stop. Full cutouts with alpha margins; no background, ground, text or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-682d1146-3c92-4c58-867b-a927f3f10778.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7c303667-e4f1-4ae0-94b0-0d7c23d38fe8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Identity-preserving mounted gait for April 20; mounted stop available to later staging. Horse is interpretive."
+    },
+    {
+      "sheet": "famous-hockley",
+      "promptId": "frontier-v1/famous-hockley",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 painterly Texas Revolution game atlas of original interpretive George W. Hockley, lean middle-aged artillery commander with a dark graying beard, brown wide-brim hat, slate-blue officer coat, tan waistcoat, ivory shirt, narrow red neckcloth and brown trousers. Four east walks, two south, two north, then idle, point battery, signal fire, observe, brace, signal reload, kneel over sketch, speak to crew. Same full-body identity, alpha gutters; no background, text, cannon, other figure or exact portrait claim.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e87b0e68-bd51-47ac-a345-38a01b892dc3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-hockley.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "A command-and-brace cycle at the Twin Sisters, distinct from a gunner physically loading or ramming a cannon. Outfit and face are interpretive."
+    },
+    {
+      "sheet": "famous-mcculloch",
+      "promptId": "frontier-v1/famous-mcculloch",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 elevated painterly Texas Revolution game atlas of original interpretive young Ben McCulloch, lean sun-browned volunteer in dark olive slouch hat, ochre buckskin work coat, indigo shirt, faded red bandanna, dark trousers, boots and powder pouch. Four east walks, two south, two north, then idle, hold round shot, ram unseen cannon, step back, inspect vent, brace, reach pouch and listen. Same full-body identity, wide true-alpha gutters, no cannon, ground, text or exact portrait claim.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-21888220-4973-4b01-b3f8-589ea6c1a16f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-mcculloch.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Named physical service cycle for one Twin Sister, visually distinct from Hockley commanding the battery."
+    },
+    {
+      "sheet": "famous-johnson",
+      "promptId": "frontier-v1/famous-johnson",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 painterly game atlas of original interpretive Francis White Johnson, slim middle-aged dark-haired mustached officer in charcoal hat, pale gray frock, dark blue vest, cream shirt, rust-red neckcloth, brown trousers and black boots. Four east walks, two south and two north, idle, division point, gather, map, two east running frames, door crouch and look back. Equal isolated full-body cells with clear alpha gutters; no background, words, weapon firing or exact portrait claim.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2af4c8cb-181e-4d1d-8d62-30b78aacd8fa.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-johnson.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated Béxar command loop and San Patricio back-door escape gait, with historical route and timing owned by the simulation."
+    },
+    {
+      "sheet": "famous-grant",
+      "promptId": "frontier-v1/famous-grant",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Transparent 4x4 painterly elevated game atlas of original interpretive James Grant, slender sandy-haired frontier doctor in moss hat, tan coat, dark green vest, burgundy neckcloth, olive trousers and satchel. Four east walks, two south and two north, idle, point herd, read map, satchel, call, track, clean bandaged seated shoulder and arm sling. Same identity, wide alpha gutters. Edited the generated sheet to remove visible blood; no portrait or death pose claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-52f9abcb-99c8-48dc-99fb-7a720c738942.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2d227500-132b-4790-bc23-b7c0149096fc.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Travel, map and non-graphic Bexar-wound variants; no killed or captive pose because the later fate is told, not shown."
+    },
+    {
+      "sheet": "famous-grant-mounted",
+      "promptId": "frontier-v1/famous-grant-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 mounted Grant companion preserving the foot-sheet identity and same smoky grullo horse with dark mane/tail and plain trail tack. Two east walk gait frames, east idle, south idle. Full cutouts and alpha margins; no background or portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2d227500-132b-4790-bc23-b7c0149096fc.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-29266921-c917-4885-b2a7-e34f33fd6422.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Identity-preserving mounted travel for the horse herd route."
+    },
+    {
+      "sheet": "famous-grant-gallop",
+      "promptId": "frontier-v1/famous-grant-gallop",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 2x2 four-frame eastward gallop cycle preserving the mounted Grant rider and smoky grullo horse identity, with alternating gathered/stretching legs and a look-back beat. No pursuer, capture, fall, death or background.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-29266921-c917-4885-b2a7-e34f33fd6422.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6621715-50ce-46af-9c3b-1f55f27985d6.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant-gallop.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Fast ride while Grant remains visible during the existing Agua Dulce pursuit; later fate remains off-screen."
+    },
+    {
+      "sheet": "famous-condelle",
+      "promptId": "frontier-v1/famous-condelle",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 warm outlined storybook game atlas matching famous-cos camera and line weight. Original interpretive Nicolas Condelle: stout older officer with square face, grey sideburns and moustache, navy shako/coat, rust cuffs/collar, muted gold epaulettes, cream trousers, dark boots, sheathed saber. Four east walks, two south, two north, idle, palm command, point, map, speak, listen, hand on sheathed sword and seated rest. Equal isolated full-body cells and clear alpha gutters. No background, shadows, words, firing, gore, portrait or exact uniform claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-866cb396-d421-43a6-8195-16d2cc1b6bb4.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-condelle.png",
+      "spacingRefinement": "Reformat this entire 16-character sprite sheet into a STRICT clean 4x4 equally spaced grid on true transparent alpha. Preserve all 16 pose identities in reading order, character appearance and exact warm outlined style. SCALE EVERY CUTOUT DOWN to occupy no more than 78 percent of its grid-cell height and 78 percent of its width, center each independently in its equal cell. Leave at least 25 transparent pixels between all neighboring silhouettes both horizontally AND vertically, including hats and boots. Absolutely no touching characters or overlapping adjacent row pixels. Ensure top row has four walking poses with alternating planted/passing legs, second row 2 south then 2 north walking, third idle/palm command/point/map, fourth speak/listen/saber low/seated rest. Full body cutouts with safe outer margins. Keep true transparent background without checkerboard, no shadows, text or grid.",
+      "originalPrompt": "Use case: historical-scene. Create a production-ready transparent PNG 4 columns by 4 rows character sprite atlas, exactly 16 separate full-body cutouts with generous transparent gutters. Reference image is STYLE ONLY: match its warm outlined storybook farm-game illustration, thin dark olive-brown contour, restrained flat shaded cream/rust/moss/ochre palette, slightly elevated three-quarter camera, readable small game proportions. New subject: original interpretive Colonel Nicolas Condelle for Texas Revolution Bexar 1835, distinct from reference officer: older stout officer with square face, short greying sideburns, thick grey moustache, dark navy shako, dark navy coat with rust collar and cuffs, muted gold epaulettes, cream trousers and dark boots, sheathed saber. Uniform is an artistic interpretation, no exact portrait or unit insignia claim. Same face/body/costume in all 16 cells. Row 1 four genuinely different EAST-facing walking gait frames alternating leading legs/arms, from contact to passing to opposite contact to passing. Row 2 two SOUTH-facing walk frames then two NORTH-facing walk frames. Row 3 east idle hands at sides, east open palm command gesture, east extended pointing command gesture, east reading folded map. Row 4 east speaking hand lifted to chest, east listening, east hand resting on sheathed sword hilt, east seated rest. Keep all feet/headwear/props intact, constant scale and foot baseline within rows, equal grid cells, no intercell overlap. No firing, no blood, no death, no background, no ground patch or shadow, no text, no grid lines. True transparent alpha.",
+      "refinementPrompt": "Edit only the TOP ROW of this transparent 4x4 atlas. Preserve the other 12 cells exactly unchanged, preserve the same character, style, full-body scale, hat, face, navy uniform, alpha and grid. The top row currently repeats a stride; replace its four cells with a genuine four-frame EAST walking loop: cell1 left boot forward/right boot behind contact; cell2 left boot planted under body with right knee bent swinging forward (passing); cell3 RIGHT boot forward/LEFT boot behind opposite contact, reverse arm swing visibly; cell4 right boot planted under body with LEFT knee bent swinging forward opposite passing. Substantially different leg silhouettes, upright torso/head fixed at same elevation, natural readable marching, keep each figure fully within its cell with generous alpha gutters. Do not mirror facing: all face screen-right. No shadows or text.",
+      "refinementSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-89e7f254-8ae8-4caf-b0b2-147fb27c6d90.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct officer for the existing Morelos battalion staging at Bexar. Face and uniform are artistic interpretations. No new speech, fate or historical timing."
+    },
+    {
+      "sheet": "people-family-mother-scarf",
+      "promptId": "frontier-v1/people-family-mother-scarf",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Create a genuine transparent PNG 4x4 production atlas, 16 isolated full body sprites, for Texas frontier family game. STYLE reference only: match warm outlined hand-painted storybook farm-game illustration, dark brown ink, flat shading with subtle painted texture, restrained earthy palette, slightly elevated camera, readable silhouettes. Subject: adult mother around 30, mature face and adult torso/limb proportions, brown hair tucked under a plain cream HEADSCARF tied at nape, rust-red long-sleeved 1830s blouse and muted rust full skirt with cream apron, brown shoes. Same exact individual and outfit in every cell. Not a child; recognizably grown parent. Grid 4 columns 4 rows; each cutout at most 78 percent of cell height/width with at least 25px clear alpha gutters vertically AND horizontally, no touching neighbors. Row1 four distinct eastward walking steps, alternating contacts and passing legs. Row2 two SOUTH/front walking opposite steps then two NORTH/back walking opposite steps. Row3 FRONT/SOUTH idle, EAST idle, NORTH idle, EAST work reach hands forward. Row4 EAST work bent hands lowered alternate, SOUTH seated rest, EAST injured seated with simple bandage no blood, SOUTH listening hands relaxed. Preserve silhouette/face/clothes/headwear in every pose; all full feet/headwear intact. No background/shadow/text/grid/checkerboard/weapons. Skin warm medium, hair brown; distinguish skin, hair and rust clothing pigments for later palette changes; cream fabrics neutral.",
+      "refinementPrompt": "Edit all16 figures in this transparent sprite sheet ONLY at headwear: replace every bonnet/cap/brim with a plain cream fabric HEADSCARF wrapped close around the head and tied at the nape, a small knot with two short cloth tails visible from side/back. No projecting brim, no rounded bonnet pouch, no chin straps. Brown hair mostly covered, face and little hair at forehead unchanged. Keep all16 poses, clothes, body silhouettes, camera, warm outlined painted style, dimensions and true transparent background. Preserve generously isolated alpha gutters; do not let cutouts touch other cells. This must read differently from a bonnet and from straw hat.",
+      "refinementSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-2842732a-347e-4e6d-90c0-47402c8d6469.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9761b9b5-8ee8-4136-8865-4891df868519.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-mother-scarf.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-father-straw",
+      "promptId": "frontier-v1/people-family-father-straw",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a genuine transparent PNG 4x4 production atlas, 16 isolated full body sprites, for Texas frontier family game. STYLE reference only: match warm outlined hand-painted storybook farm-game illustration, dark brown ink, flat shading with subtle painted texture, restrained earthy palette, slightly elevated camera, readable silhouettes. Subject: adult father around 35, mature clean-shaven face and adult torso/limb proportions, brown hair under a broad woven STRAW HAT, rust-red 1830s frontier overshirt with cream neckcloth, brown trousers and boots. Same exact individual and outfit in every cell. Not a child; recognizably grown parent. Grid 4 columns 4 rows; each cutout at most 78 percent of cell height/width with at least 25px clear alpha gutters vertically AND horizontally, no touching neighbors. Row1 four distinct eastward walking steps, alternating contacts and passing legs. Row2 two SOUTH/front walking opposite steps then two NORTH/back walking opposite steps. Row3 FRONT/SOUTH idle, EAST idle, NORTH idle, EAST work reach hands forward. Row4 EAST work bent hands lowered alternate, SOUTH seated rest, EAST injured seated with simple bandage no blood, SOUTH listening hands relaxed. Preserve silhouette/face/clothes/headwear in every pose; all full feet/headwear intact. No background/shadow/text/grid/checkerboard/weapons. Skin warm medium, hair brown; distinguish skin, hair and rust clothing pigments for later palette changes; cream fabrics neutral.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e9afaedc-52d7-4bc9-8fe2-79852986f2ea.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-father-straw.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-father-beard",
+      "promptId": "frontier-v1/people-family-father-beard",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Production transparent 4 columns by 4 rows PNG sprite atlas, exactly16 isolated complete figures. Reference STYLE ONLY: warm outlined hand-painted storybook frontier farm-game art, dark olive brown outlines, flat painted shading, moss/rust/cream/ochre palette, slightly elevated game view. Subject adult father age40 with mature proportions, full brown BEARD and NO HAT, short brown hair, rust overshirt cream neckcloth brown trousers boots. A recognizable grown parent, consistent face and costume in every cell. Occupy at most78% of each equal cell's height/width, generous clear transparent gutters at least25px ALL rows/columns, no touching adjacent sprites. Row1 four distinct EAST walking gait frames alternating contact/passing/opposite contact/opposite passing, visibly alternating leg and arm. Row2 two SOUTH walking alternate footfalls then two NORTH BACK walking alternate footfalls. Row3 SOUTH idle, EAST idle, NORTH idle, EAST work reaching hands forward. Row4 EAST work bent hands lower, SOUTH seated rest, EAST injured seated simple ankle bandage no blood, SOUTH listening relaxed hands. Skin warm medium and hair brown, rust clothing separate pigments, neutral cream fabrics for runtime palette. Keep heads feet props fully inside cell. True alpha no background checkerboard ground shadow text grid modern objects weapons.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ca15389e-90c3-4054-ae0e-ef5c81d4611c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-father-beard.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-father-moustache",
+      "promptId": "frontier-v1/people-family-father-moustache",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Production transparent 4 columns by 4 rows PNG sprite atlas, exactly16 isolated complete figures. Reference STYLE ONLY: warm outlined hand-painted storybook frontier farm-game art, dark olive brown outlines, flat painted shading, moss/rust/cream/ochre palette, slightly elevated game view. Subject adult father age35 with mature proportions, brown MOUSTACHE and NO BEARD or HAT, short brown hair, rust overshirt cream neckcloth brown trousers boots. A recognizable grown parent, consistent face and costume in every cell. Occupy at most78% of each equal cell's height/width, generous clear transparent gutters at least25px ALL rows/columns, no touching adjacent sprites. Row1 four distinct EAST walking gait frames alternating contact/passing/opposite contact/opposite passing, visibly alternating leg and arm. Row2 two SOUTH walking alternate footfalls then two NORTH BACK walking alternate footfalls. Row3 SOUTH idle, EAST idle, NORTH idle, EAST work reaching hands forward. Row4 EAST work bent hands lower, SOUTH seated rest, EAST injured seated simple ankle bandage no blood, SOUTH listening relaxed hands. Skin warm medium and hair brown, rust clothing separate pigments, neutral cream fabrics for runtime palette. Keep heads feet props fully inside cell. True alpha no background checkerboard ground shadow text grid modern objects weapons.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bd13c8d2-5e0c-4957-9ada-c5798a3d9c92.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-father-moustache.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-mother-braid",
+      "promptId": "frontier-v1/people-family-mother-braid",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Production transparent 4 columns by 4 rows PNG sprite atlas, exactly16 isolated complete figures. Reference STYLE ONLY: warm outlined hand-painted storybook frontier farm-game art, dark olive brown outlines, flat painted shading, moss/rust/cream/ochre palette, slightly elevated game view. Subject adult mother age30 with mature proportions, brown hair in one LONG BRAID over shoulder, uncovered head, rust long-sleeved blouse and full rust skirt, cream apron brown shoes. A recognizable grown parent, consistent face and costume in every cell. Occupy at most78% of each equal cell's height/width, generous clear transparent gutters at least25px ALL rows/columns, no touching adjacent sprites. Row1 four distinct EAST walking gait frames alternating contact/passing/opposite contact/opposite passing, visibly alternating leg and arm. Row2 two SOUTH walking alternate footfalls then two NORTH BACK walking alternate footfalls. Row3 SOUTH idle, EAST idle, NORTH idle, EAST work reaching hands forward. Row4 EAST work bent hands lower, SOUTH seated rest, EAST injured seated simple ankle bandage no blood, SOUTH listening relaxed hands. Skin warm medium and hair brown, rust clothing separate pigments, neutral cream fabrics for runtime palette. Keep heads feet props fully inside cell. True alpha no background checkerboard ground shadow text grid modern objects weapons.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7fc410f2-beba-47e0-853b-23ad6f160713.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-mother-braid.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-mother-loose",
+      "promptId": "frontier-v1/people-family-mother-loose",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Production transparent 4 columns by 4 rows PNG sprite atlas, exactly16 isolated complete figures. Reference STYLE ONLY: warm outlined hand-painted storybook frontier farm-game art, dark olive brown outlines, flat painted shading, moss/rust/cream/ochre palette, slightly elevated game view. Subject adult mother age30 with mature proportions, uncovered brown hair LOOSE to shoulders with soft waves, rust long-sleeved blouse and full rust skirt, cream apron brown shoes. A recognizable grown parent, consistent face and costume in every cell. Occupy at most78% of each equal cell's height/width, generous clear transparent gutters at least25px ALL rows/columns, no touching adjacent sprites. Row1 four distinct EAST walking gait frames alternating contact/passing/opposite contact/opposite passing, visibly alternating leg and arm. Row2 two SOUTH walking alternate footfalls then two NORTH BACK walking alternate footfalls. Row3 SOUTH idle, EAST idle, NORTH idle, EAST work reaching hands forward. Row4 EAST work bent hands lower, SOUTH seated rest, EAST injured seated simple ankle bandage no blood, SOUTH listening relaxed hands. Skin warm medium and hair brown, rust clothing separate pigments, neutral cream fabrics for runtime palette. Keep heads feet props fully inside cell. True alpha no background checkerboard ground shadow text grid modern objects weapons.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7929e676-8e7e-4f85-8093-2bdcd8c0b120.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-mother-loose.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-mother-straw",
+      "promptId": "frontier-v1/people-family-mother-straw",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Production transparent 4 columns by 4 rows PNG sprite atlas, exactly16 isolated complete figures. Reference STYLE ONLY: warm outlined hand-painted storybook frontier farm-game art, dark olive brown outlines, flat painted shading, moss/rust/cream/ochre palette, slightly elevated game view. Subject adult mother age30 with mature proportions, broad woven STRAW HAT over brown low bun, rust long-sleeved blouse and full rust skirt, cream apron brown shoes. A recognizable grown parent, consistent face and costume in every cell. Occupy at most78% of each equal cell's height/width, generous clear transparent gutters at least25px ALL rows/columns, no touching adjacent sprites. Row1 four distinct EAST walking gait frames alternating contact/passing/opposite contact/opposite passing, visibly alternating leg and arm. Row2 two SOUTH walking alternate footfalls then two NORTH BACK walking alternate footfalls. Row3 SOUTH idle, EAST idle, NORTH idle, EAST work reaching hands forward. Row4 EAST work bent hands lower, SOUTH seated rest, EAST injured seated simple ankle bandage no blood, SOUTH listening relaxed hands. Skin warm medium and hair brown, rust clothing separate pigments, neutral cream fabrics for runtime palette. Keep heads feet props fully inside cell. True alpha no background checkerboard ground shadow text grid modern objects weapons.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5d48ed24-ab65-4dfb-9010-847b7fd6a406.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-mother-straw.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-youth-boy",
+      "promptId": "frontier-v1/people-family-youth-boy",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 16-frame atlas for Texas1835 storybook farm-game. Match reference warm hand-painted outlined style, thin dark-brown contour, simple flat shading, slightly elevated camera. boy around13, unmistakably adolescent slim shoulders, youthful face without beard, short brown tousled hair, NO hat, rust linen shirt, brown trousers boots, same identity clothes and colors every cell. Real adolescent rather than scaled adult or small child. Equal4columns4rows with all16 full figures isolated and centered, max78% cell dimensions, minimum25px true alpha gutters in all directions, no neighbors touching. Row1 four EAST walking gait steps alternating contacts and bent-knee passing. Row2 two SOUTH/front walking opposite steps followed by two NORTH/back walking opposite steps. Row3 SOUTH idle, EAST idle, NORTH idle, EAST work arms reaching. Row4 EAST work bent hands lowered, SOUTH seated rest, EAST injured seated simple ankle cloth bandage no blood, SOUTH listen relaxed arms. Warm medium skin, brown hair, rust clothing pigments distinguished for palette changes. No background checkerboard text grid shadow or weapons.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-edbb434f-74ec-454c-abd4-d529c9fd5a48.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-youth-boy.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-youth-girl",
+      "promptId": "frontier-v1/people-family-youth-girl",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 16-frame atlas for Texas1835 storybook farm-game. Match reference warm hand-painted outlined style, thin dark-brown contour, simple flat shading, slightly elevated camera. girl around13, unmistakably adolescent proportions and youthful face, brown simple braid, NO hat, rust long-sleeved calico dress, cream apron brown shoes, same identity clothes and colors every cell. Real adolescent rather than scaled adult or small child. Equal4columns4rows with all16 full figures isolated and centered, max78% cell dimensions, minimum25px true alpha gutters in all directions, no neighbors touching. Row1 four EAST walking gait steps alternating contacts and bent-knee passing. Row2 two SOUTH/front walking opposite steps followed by two NORTH/back walking opposite steps. Row3 SOUTH idle, EAST idle, NORTH idle, EAST work arms reaching. Row4 EAST work bent hands lowered, SOUTH seated rest, EAST injured seated simple ankle cloth bandage no blood, SOUTH listen relaxed arms. Warm medium skin, brown hair, rust clothing pigments distinguished for palette changes. No background checkerboard text grid shadow or weapons.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-587775a8-5b00-4e0d-a08d-982ba5a46e7f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-youth-girl.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-father-hat",
+      "promptId": "frontier-v1/people-family-father-hat",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Edit this 16-pose transparent family father sprite sheet: replace the woven straw hat in EVERY cell with a medium-brim dark brown FELT frontier hat, smooth felt texture, plain dark hatband. Keep the clean-shaven father with NO beard or moustache, same face, skin, hair, proportions, rust shirt, trousers, boots, all walking/work/rest poses and exact warm outlined storybook style. No other changes. Preserve alpha gutters and full cutout figures with safe cell margins. No background, shadows, text, grid or checkerboard.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e9afaedc-52d7-4bc9-8fe2-79852986f2ea.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3c898308-a249-4e72-b9f6-2324dd395517.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-father-hat.png",
+      "postProcessing": "None. PNG copied unchanged.",
+      "review": "Clean-shaven felt hat distinguishes the hat choice from hat and beard; standing, walking, work and rest stay the same identity."
     }
   ]
 }

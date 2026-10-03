@@ -227,7 +227,7 @@ export const BEXAR_STORMING = Object.freeze({
       // yards out; over the brush fence; a sentinel challenges and is shot - Deaf Smith fired (`HIST-TEX-494`).
       id: 'feint', minutes: 30, step: 5, contact: true, title: 'Neill’s gun, and the fence', claimId: 'HIST-TEX-494',
       // Deaf Smith, guiding the columns in, fires on the sentinel (`HIST-TEX-494`, `-555`).
-      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'neill', with: 'neill', offset: { along: 0.01, across: 0 } }, { id: 'deaf-smith', with: 'texian', offset: { along: 0.03, across: 0.01 } }],
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'neill', with: 'neill', offset: { along: 0.01, across: 0 }, pose: 'gun' }, { id: 'deaf-smith', with: 'texian', offset: { along: 0.03, across: 0.01 } }],
       caption: 'Five o’clock. Neill’s gun opens on the Alamo from the north to draw the Mexicans’ eyes. The volunteers drop their blankets and coats, climb a brush fence, and a sentinel calls out and is shot.',
       texian: { style: 'column', keys: [[0, 'fence'], [16, 'fence'], [30, 'acequia']], action: 'advance', fire: 'none' },
       mexican: { style: 'street', spread: { width: 0.07, depth: 0.05 }, at: 'barricade', action: 'hold', fire: 'picket' },
@@ -357,7 +357,7 @@ export const BEXAR_STORMING = Object.freeze({
       // the act; the words are not his.
       id: 'karnes', minutes: 40, step: 5, contact: true, title: 'Karnes and the crowbar', claimId: 'HIST-TEX-038',
       // Karnes at the door he forced with a crowbar about noon on the 7th (`HIST-TEX-038`).
-      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'karnes', at: 'karnes', pose: 'command', face: 'plaza' }],
+      people: [{ id: 'milam', with: 'texian', offset: { along: 0.012, across: 0 }, pose: 'command' }, { id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'karnes', at: 'karnes', pose: 'work', face: 'plaza' }],
       caption: 'About noon. Henry Karnes of York’s company runs to the door of a house ahead with a crowbar, forces it, and the whole company follows him in. The family inside is let go.',
       texian: inTheHouse(),
       mexican: atTheBarricade(),
@@ -495,7 +495,7 @@ export const BEXAR_STORMING = Object.freeze({
       // DISPUTED); Condelle withdraws the plaza guns and will not surrender (`HIST-TEX-040`, `-491`).
       id: 'night-8', minutes: 420, background: 120, contact: true, title: 'The last night', claimId: 'HIST-TEX-040',
       // Colonel Condelle with his Morelos battalion, whose words Sánchez Navarro reported (`HIST-TEX-491`).
-      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'condelle', with: 'morelos', offset: { along: 0.006, across: 0 } }],
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'condelle', with: 'morelos', offset: { along: 0.006, across: 0 }, pose: 'command' }],
       caption: 'The last night. The Mexican guns fire without stopping. In the dark General Cos draws his men back into the Alamo, and some of his cavalry companies ride away south. From the houses the Texians see only the firing slacken and men moving toward the Alamo.',
       texian: inTheHouse(),
       mexican: { style: 'column', keys: [[0, 'barricade'], [150, 'barricade'], [400, 'alamoWest']], action: 'withdraw', fire: 'none', face: 'away' },

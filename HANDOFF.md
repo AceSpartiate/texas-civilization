@@ -1,5 +1,117 @@
 # Claude handoff — Astra foundation
 
+## Family creation and children — 2026-10-02
+
+The parent studio now offers pigment swatches, distinct painted headwear cards, a large world figure, Turn and See walking. Ten new atlases add eight parent identities and two adolescent figures, with 160 frames and 120 clips. All six head choices for each parent select distinct art. Family portraits and world rendering now share the age-aware `public/avatar-identity.js` selector; infants, toddlers, children and adolescents no longer inherit an adult body through the appearance path. Child pigment recoloring now displays the simulation's inherited colors. A missing child action retains a young idle/rest pose. Existing saves and inheritance rules remain compatible. Read `docs/FAMILY_ART_2026-10-02.md` for bindings, delivered poses, documented work/dialogue/transport refinements and validation commands. Parent and age-comparison browser evidence is in `docs/evidence/`.
+
+## Art update — Nicolás Condelle (2026-10-02)
+
+Condelle now has his own 16-frame transparent atlas in `scripts/art-deliveries/famous-condelle.mjs`, matching the shipped Mexican officer art. It supplies east/south/north walking, idle, a two-pose command cycle, map, speech, listening, lowered saber and seated rest. `sim/people.mjs` and `PERSON_ART.condelle` bind the identity; the existing Béxar `night-8` Morelos battalion scene selects command while stationary and walking during withdrawal. His reported words and historical timing are unchanged. Face, age cues and uniform are artistic interpretations, not exact portrait or Morelos uniform evidence. Additional directions and story poses remain available for Claude to stage. Source, prompts, frames and clips are registered in the art records. Tests cover his roster, scene pose, reported line and renderer's own-art selection.
+
+## Art update — Francis W. Johnson (2026-09-28)
+
+Johnson now has a dedicated 4×4 atlas in `scripts/art-deliveries/famous-johnson.mjs`, with directional walking, two-frame command, two-frame urgent escape, doorway crouch and map poses. His roster and `PERSON_ART.johnson` keys bind it. At Béxar his command cycle begins at minute 180 of the `night-7` phase, corresponding to the existing seven p.m. transfer of command; at San Patricio the existing `houses` back-door route uses the escape gait. The timing check exposed that `battle.minute` is the absolute world clock, so `sim/battle-stage.mjs` now exposes `phaseMinute` to presentation. Johnson, Lamar and Sherman short gestures use that phase-relative field; regression tests cover both clocks. No historical event, words or outcome were added. The face and costume are interpretations, not a portrait claim; prompt and source are registered in the art JSON files and frames/clips in `docs/ART_MANIFEST.md`.
+
+## Art update — Ben McCulloch (2026-09-28)
+
+McCulloch now has a dedicated 4×4 atlas in `scripts/art-deliveries/famous-mcculloch.mjs`. It includes directional walking and a three-frame round/ram/brace gun-service cycle, plus vent, pouch and listening poses. His roster and `PERSON_ART.mcculloch` keys bind the same figure to the existing San Jacinto Twin Sisters scenes; both `guns` and the following battery phase use `pose: gun`. Hockley commands beside him with a separate cycle. The simulation still owns cannon timing and historical outcomes. All frames and clips appear in `docs/ART_MANIFEST.md`, and source/prompt records in the art JSON files. Face and costume are interpretive, not a portrait claim.
+
+## Art update — George W. Hockley (2026-09-28)
+
+Hockley has a dedicated 4×4 transparent atlas in `scripts/art-deliveries/famous-hockley.mjs`: directional walking, field gestures, and a three-frame point/signal/brace battery-command animation. His roster key and `PERSON_ART.hockley` select it. The existing San Jacinto Twin Sisters gun phases now assign him `pose: gun`, which draws the command cycle; the named McCulloch and generic gun crews remain responsible for physical service. No gun timing or historical outcome changed. Frames and clips appear in `docs/ART_MANIFEST.md`; prompt and source are in the art JSON records. Face and costume are interpretive.
+
+## Art update — Thomas J. Rusk (2026-09-28)
+
+Rusk now has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-rusk.mjs`. The manifest registers directional foot walking, mounted gait, command/document poses and a two-frame open-hand stop animation. `sim/people.mjs` and `PERSON_ART.rusk` bind the same identity on foot and horseback. His existing April 20 skirmish uses the named mounted art; the existing San Jacinto `killing` phase now gives him `pose: stop`, replacing a generic command gesture as he tries unsuccessfully to halt the shooting. No line, outcome or timing was added. A mounted stop frame remains available for later staging. Face, costume and horse are artistic interpretations, with sources and prompt in the art provenance JSON files.
+
+## Art update — Sidney Sherman (2026-09-28)
+
+Sherman has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-sherman.mjs`. His directional walks, command/rally gestures, mounted gait and halted raised-hand signal are in the art manifest. `sim/people.mjs` and `PERSON_ART.sherman` bind the identity to the existing San Jacinto scenes. A brief mounted signal marks the already staged April 20 sortie; it gives Sherman no disputed line. His folded cloth pose is deliberately unmarked and is **not** a reconstruction of the Kentucky volunteers’ flag. A historically researched flag remains a separate art request. Prompt and source records are in the art JSON files; face, clothing and horse are interpretations, not portrait claims.
+
+## Art update — Mirabeau B. Lamar (2026-09-28)
+
+Lamar now has a distinct 4×4 foot sheet and 2×2 mounted sheet in `scripts/art-deliveries/famous-lamar.mjs`. Four east, two south and two north walking poses, command/salute/saber/reach gestures, two mounted gait frames and a mounted rescue reach are registered in the art manifest. `sim/people.mjs` and `PERSON_ART.lamar` bind the same identity on foot and on horseback. His existing San Jacinto cavalry scenes use his mounted gait; the April 20 skirmish briefly selects the reaching pose during the already staged rescue of Rusk and Walter P. Lane. That visual interval is presentation timing, not a new historical claim. Source/provenance live in the art JSON records. Clothing, face and horse are artistic interpretations, not a portrait claim.
+
+## Art update — James C. Neill (2026-09-28)
+
+Neill now has a dedicated 4×4 transparent atlas in `scripts/art-deliveries/famous-neill.mjs`: directional walking, artillery command, a three-pose gun-service cycle, and a non-graphic seated hip wound. His roster art key and `PERSON_ART.neill` select it; the existing Béxar feint uses his gun cycle, and the existing April 20 San Jacinto scene uses his command and wounded poses without changing its timing. All 16 frames and four clips are registered in `docs/ART_MANIFEST.md`; source and prompt records are in the art provenance JSON files. These are costume and face interpretations, not an exact likeness. The historical claims remain in `docs/battle-research/famous-people.md`.
+
+## Art update — Henry Wax Karnes (2026-09-28)
+
+Karnes now has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-karnes.mjs`, with directional travel, musket, field gestures, and a two-frame iron crowbar cycle. `PERSON_ART.karnes` binds the sprites. During the Béxar door phase, the named Karnes performs the crowbar action; the duplicate generic worker is suppressed, and he returns to idle when that door opens. This changes presentation only, preserving the dated breach, York’s company, and the townspeople. Source/provenance and the complete sprite/clip inventory are in `docs/art-prompts.json`, `docs/art-provenance.json`, and `docs/ART_MANIFEST.md`. The outfit and horse are artistic interpretations, not portrait claims. A generic reusable crowbar worker and additional facings remain in `docs/ART_REQUESTS.md`.
+
+# Claude handoff — Astra foundation
+
+## Astra's family art and fifteen famous sheets merged into integration — 2026-10-02 (not released)
+
+Branch `astra-merge` off local `integration-2026-09-28` (c88a6ddb = origin/main), merging Astra's `main` at 63dcc3b2; not pushed.
+Same computer only. The merge base was 803109d9 (Moore), so it brought **fifteen** of her commits, not one: Austin, Urrea, Seguín's
+mounted walk (two), Deaf Smith, Karnes and his crowbar, Neill, Lamar, Sherman, Rusk, Hockley, McCulloch, Johnson (phase-timed
+gestures and `phaseMinute`), Grant (mounted, gallop), Condelle, and **63dcc3b2, the family creation studio and age-aware family
+art** (her write-up: docs/FAMILY_ART_2026-10-02.md, and her sections above this heading). Her art wins everywhere it lands; the
+generated atlas, manifest, animation and ART_MANIFEST that git merged by itself are byte-for-byte what `npm run build:art` makes.
+
+**The conflicts, and how each was kept on both sides:**
+
+- `public/app.js` - the map figure: her `avatarBinding` (the age-aware figure and her nearest pose) now feeds the integration's
+  whole drawing path (`familyBinding`: `drawnClipOf`, `drawAtWork`, the `__clipsDrawn` evidence, her west-idle mirroring). Where her
+  new figures lack the pose the work table asks for, the stroke follows the pose she drew. The battle member keeps the integration's
+  cast poses and passes the person so a youth is her youth. Imports both `avatarBinding` and `avatarVariant`.
+- `public/appearance.js` - her studio (swatches, Turn, See walking, Save wording) with the integration's step counter (`Step 3 of 3`
+  for a late student's family): *"Step 4 of 4. Parent 1 of 2. Save this look, then choose the next parent."* Her note in
+  index.html now also keeps the three things the creation proofs hold it to say (children are not asked for, chosen once, changes
+  nothing in the game).
+- `public/avatar-art.js` - hers (the variant chooser moved to her `public/avatar-identity.js`); the integration's Tejano stand-in
+  note moved with it to `PARENT_VARIANTS`.
+- `public/person-palette.js` - **the integration's region classifier kept, her figures added to it.** Her side changed the old
+  box-and-colour classifier that the integration had replaced on 2026-09-28 (the owner's "the dad's hair covers his face"). Her ten
+  new figures and the infant are measured into it as her other figures were (`sources`, `REFS`, `HEADS`, measured on her south
+  idles); `HEADS.wide` keeps the baby's hair off the basket's weave. **The painted-on moustache stand-in is retired**: the
+  Moustache choice is her `father-moustache` now (A18's `--moustache` row deleted from *Stand-ins in use*). Her three palette tests
+  were written against made-up pixels for the old classifier; they are rewritten on her own frames with the same intent (children
+  and youths take the skin and hair; the basket and wrapping stay; the beard is hair; the scarf mother's sleeve is clothing), plus
+  one for her hats and scarf. Each new test failed alone under its own injected regression (5 of 5) before it was kept.
+- `public/battle-view.js` - her `shownPerson` poses and `escape`, gallop/rescue/rally/heading-directed rides, with the integration's
+  bearers, first-drawn evidence, and Claude's `sutherland-ride-e` after hers.
+- `sim/battle-stage.mjs` - her `heading` with the integration's `bears`.
+- `sim/people.mjs` - her `art` keys for Austin and Urrea; the integration's Urrea itinerary and tier, and its Claude keys for
+  W. P. Smith, Smither, Sánchez Navarro and Horton.
+- `tests/famous-people.test.mjs` - both.
+- `docs/ART_REQUESTS.md` - both sides' rows; `npm run art:plan` rerun (C13 now lists only the eight officers she has not drawn).
+- `docs/evidence/looks-*` - regenerated by `npm run test:looks`, not picked.
+
+**What of hers had to change, and why:**
+
+- **Condelle**: Claude's stand-in sheet of him is deleted (`claude-famous-condelle.png`, its SVGs, its `CLAUDE_PERSON_ART` line and
+  its plan row): its frames had her names, which `tests/claude-standins.test.mjs` refuses.
+- **Finger-sized controls**: her swatches (38 px) and Turn / See walking (36 px) are raised to 44 px with 8 px between them
+  (`scripts/creation-screen-proof.mjs`, the classroom's touch Chromebooks). Save still shows at 1366x768 (her own check passes).
+- **Carrying**: `avatarBinding` drew a parent of her new figures *carrying* (the harvest home, a baby held) in her hoeing; it is now
+  her walk, the old cast's carry being a walk with a load. Test added (fails alone without it).
+- **The axe in hand**: her new figures' two-pose work cycle has no tool painted, so the house-raisers had no axe (owner,
+  2026-09-28). `HAFTS` in public/work-art.js now holds her ten figures' hands, measured from the skin below the face (`ceiling:`).
+- Proofs that counted on the old cast where hers now stands: the hoeing cycle's frames (two poses, not three), the tones as
+  swatches not portraits, the carer's walk, and **a child at the hens drawn in her own young figure** where the integration drew her
+  grown sowing at a child's size (her rule: *"Do not add an adult fallback for unavailable child actions"*) - see the question below.
+- `ceiling:` her adolescent girl bent double at work (`youth-girl-work-2`) keeps her sleeve's painted rose; and a seated or wagon
+  rider of her new figures still uses the established composite seat (as her write-up says).
+
+**Checked**: Astra's art wins (tests/astra-art-wins.test.mjs, claude-standins, every Claude subject declared); the server lists
+`/avatar-identity.js` (tests/served-imports.test.mjs); `npm run build:webp` makes her ten family sheets lossless (they are
+`variantOf` figures). The late-join name-and-looks flow and the starts' locked tones work in her studio (`test:late-join`,
+`test:looks`: the Tejano, free Black and Anglo families are offered only their ranges, each its own swatch).
+
+**Results**: `npm test`: **2083 tests, 2047 pass, 0 fail, 36 skipped**. Browser, all green: `test:looks` 12, `test:looks-face` 23 (her eight parents and two youths
+measured: no hair dye off the hair, the face dyed, standing and every walk frame), `test:family-age-art` (her proof, now
+`npm run test:family-age-art`) 9 figures, `test:creation` 15, `test:creation-screen` 4, `test:late-join` 9, `test:lone-parent` 10,
+`test:family-panel` 23, `test:children` 16, `test:work` 5, `test:chatter` 21 (one bubble-overlap flake on the first run, green
+alone), `test:battle-cinema` 15, `test:battle-gonzales` 12, `test:battle-bexar` 15, `test:famous-people` 22, `test:storming` 7.
+**`test:overlap` fails** at 1024x600 on the town-scene step: the ability bar's new *Milk the cow* (c88a6ddb, before this merge)
+sits under the town scene; nothing in this merge touches the bar or the town scene - left for the milking branch.
+
+**Owner question**: a child at a chore her art has no pose for (the hens, the eggs, the milking) - (a) **her own young figure,
+standing, as Astra's rule says (as built, recommended)**; (b) her grown figure at the work, drawn at a child's size, as before.
+
 ## Paths, nobody walking over a tree, and the fenced yard — owner-decided 2026-10-02 (not released)
 
 Branch `land-paths` off local `integration-2026-09-28` (c88a6ddb); not pushed. Same computer only: headless Chrome at 1366x768; no

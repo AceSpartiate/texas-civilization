@@ -32,7 +32,7 @@ const family = page => page.evaluate(async () => (await (await fetch('/api/famil
 
 try {
   mkdirSync('docs/evidence', { recursive: true });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 950 } });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 950 }, reducedMotion: 'no-preference' });
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(url);
@@ -107,7 +107,8 @@ try {
     for (const part of ['skin', 'hair', 'clothing', 'head']) {
       const offered = await page.locator(`#looks-parts button[data-part="${part}"]`).evaluateAll(buttons => buttons.map(b => b.dataset.value));
       assert.deepEqual(offered, parent.choices[part], `${part} offers something other than the server's choices`);
-      assert.equal(await page.locator(`#looks-parts button[data-part="${part}"] canvas`).count(), offered.length, `a ${part} choice has no picture`);
+      const graphic = part === 'head' ? 'canvas' : '.looks-swatch';
+      assert.equal(await page.locator(`#looks-parts button[data-part="${part}"] ${graphic}`).count(), offered.length, `a ${part} choice has no graphic`);
       const pressed = await page.locator(`#looks-parts button[data-part="${part}"][aria-pressed="true"]`).evaluateAll(b => b.map(x => x.dataset.value));
       assert.deepEqual(pressed, [parent.appearance[part]], `the default ${part} is not the one chosen`);
     }
@@ -119,6 +120,30 @@ try {
     await page.locator(`#looks-parts button[data-part="head"][data-value="${head}"]`).click();
     const after = await page.locator('#looks-preview').evaluate(canvas => canvas.toDataURL());
     const afterFigure = await page.locator('#looks-figure').evaluate(canvas => canvas.toDataURL());
+    await page.locator('#looks-walk').click();
+    assert.equal(await page.locator('#looks-walk').getAttribute('aria-pressed'), 'true');
+    await page.waitForTimeout(150);
+    const walkA = await page.locator('#looks-figure').evaluate(canvas => canvas.toDataURL());
+    const walkingFrames = new Set([walkA]);
+    for (let sample = 0; sample < 8; sample++) {
+      await page.waitForTimeout(90);
+      walkingFrames.add(await page.locator('#looks-figure').evaluate(canvas => canvas.toDataURL()));
+    }
+    assert.ok(walkingFrames.size > 1, 'the live walking preview is static');
+    await page.locator('#looks-walk').click();
+    await page.locator('#looks-turn').click();
+    await page.waitForTimeout(100);
+    assert.notEqual(await page.locator('#looks-figure').evaluate(canvas => canvas.toDataURL()), afterFigure, 'Turn did not change the figure');
+    // Return to the front before taking the studio evidence.
+    await page.locator('#looks-turn').click();
+    await page.locator('#looks-turn').click();
+    await page.locator('#looks-turn').click();
+    await page.setViewportSize({ width: 1366, height: 768 });
+    const desktop = await page.locator('#looks').boundingBox();
+    assert.ok(desktop.y >= 0 && desktop.y + desktop.height <= 768, 'creation studio escapes a desktop viewport');
+    const saveBox = await page.locator('#looks-done').boundingBox();
+    assert.ok(saveBox.y + saveBox.height <= 768, 'Save requires scrolling on desktop');
+    await page.setViewportSize({ width: 1440, height: 950 });
     assert.notEqual(after, before, 'the preview did not follow the choice');
     assert.notEqual(afterFigure, beforeFigure, 'the map-figure preview did not follow the choice');
     assert.equal(await page.locator(`#looks-parts button[data-part="hair"][data-value="${hair}"]`).getAttribute('aria-pressed'), 'true');
@@ -155,7 +180,7 @@ try {
       if (!person?.appearance || !actual) return false;
       const expected = document.createElement('canvas');
       expected.width = expected.height = actual.width;
-      drawAvatarPortrait(expected, person.appearance, person.sex);
+      drawAvatarPortrait(expected, person.appearance, person.sex, person);
       return expected.toDataURL() === actual.toDataURL();
     });
   }, parents.map(person => person.id));
@@ -233,7 +258,10 @@ try {
         await student.waitForFunction(id => document.querySelector('#looks')?.dataset.entityId === id && !document.querySelector('#looks').hidden, parent.id, { timeout: 10000 });
         const offered = await student.locator('#looks-parts button[data-part="skin"]').evaluateAll(buttons => buttons.map(b => b.dataset.value));
         assert.deepEqual(offered, RANGES[heritage], `${heritage} ${parent.role}: offers ${offered.join(', ')}`);
-        assert.equal(await student.locator('#looks-parts button[data-part="skin"] canvas').count(), offered.length, 'a tone has no picture');
+        // Each tone a swatch of its own colour since Astra's studio (2026-10-02), where it was a portrait before.
+        const swatches = await student.locator('#looks-parts button[data-part="skin"] .looks-swatch').evaluateAll(spans => spans.map(span => getComputedStyle(span).backgroundColor));
+        assert.equal(swatches.length, offered.length, 'a tone has no swatch');
+        assert.equal(new Set(swatches).size, offered.length, `two tones share a swatch colour: ${swatches.join(', ')}`);
         const pressed = await student.locator('#looks-parts button[data-part="skin"][aria-pressed="true"]').evaluateAll(b => b.map(x => x.dataset.value));
         assert.ok(pressed.length === 1 && RANGES[heritage].includes(pressed[0]), `${heritage}: the default tone ${pressed} is outside the range`);
         // The darkest tone the start has, for the father; the lightest, for the mother - both ends of the range drawn and kept.
@@ -247,7 +275,7 @@ try {
       const made = await family(student);
       for (const person of made.people) assert.ok(RANGES[heritage].includes(person.appearance.skin), `${heritage}: ${person.role} ${person.given} is ${person.appearance.skin}`);
       observed.startTones[heritage] = made.people.map(person => `${person.role} ${person.appearance.skin}`).join(', ');
-      ok(`a ${heritage} family's parents are offered only ${RANGES[heritage].join(', ')}, each with its picture, and the children follow (${observed.startTones[heritage]})`);
+      ok(`a ${heritage} family's parents are offered only ${RANGES[heritage].join(', ')}, each with its swatch, and the children follow (${observed.startTones[heritage]})`);
       await context.close();
     }
     assert.equal(wanted.size, 0, `no family of ${[...wanted].join(', ')} among the first ten to join`);
@@ -260,7 +288,7 @@ try {
     record: 'Naming the family and How We Look, in a browser (owner, 2026-09-17)',
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
-    note: 'Same computer only. A student joined, rolled, gave the family its last name in the pop-up, chose each parent\'s looks from pictures, and reloaded. The pictures are Claude-drawn stand-ins; the figure on the map is unchanged (layered people art, docs/ART_REQUESTS.md). No LAN or district claim.',
+    note: 'Local browser proof: both parents use painted headwear cards, pigment swatches, animated walking and turn controls. Choices save and survive reload; panel portraits use the same age-aware renderer. Desktop fit is checked at 1366x768. The narrow-width check is a layout sanity check, not official phone support.',
     checks: pass,
     observed,
     screenshots: ['docs/evidence/looks-surname.png', 'docs/evidence/looks-names.png', 'docs/evidence/looks-popup.png', 'docs/evidence/looks-popup-phone.png'],
