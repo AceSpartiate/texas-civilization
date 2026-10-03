@@ -19,6 +19,12 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld } from '../sim/world.mjs';
 
 const copy = value => JSON.parse(JSON.stringify(value));
+test('Sánchez Navarro keeps his named Bexar parley with dedicated art', () => {
+  assert.equal(PEOPLE['sanchez-navarro'].art, 'sanchez-navarro');
+  const phases = ENGAGEMENTS['bexar-storming'].phases.filter(one => one.parley?.people.some(p => p.id === 'sanchez-navarro'));
+  assert.equal(phases.length, 2);
+  for (const phase of phases) assert.equal(phase.parley.people.find(p => p.id === 'sanchez-navarro').side, 'mexican');
+});
 test('Condelle uses his own art at the Morelos battalion without changing his reported words', () => {
   assert.equal(PEOPLE.condelle.art, 'condelle');
   const phase = ENGAGEMENTS['bexar-storming'].phases.find(one => one.id === 'night-8');

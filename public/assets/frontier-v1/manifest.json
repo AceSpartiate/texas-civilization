@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 199,
-    "sprites": 2130,
-    "clips": 744,
-    "poseCycles": 436,
+    "sheets": 200,
+    "sprites": 2146,
+    "clips": 748,
+    "poseCycles": 440,
     "rigs": 4
   },
   "entrypoints": {
@@ -9910,6 +9910,130 @@
               [
                 727,
                 1296
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-sanchez-navarro": {
+      "image": "atlases/famous-sanchez-navarro.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1303243,
+      "sha256": "c2e28a55ee06f669e8cc6767907a940e30ffe3cbd75ef92f1b242efb0cb12a34",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.664536,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              21,
+              324
+            ],
+            "columns": [
+              [
+                86,
+                299
+              ],
+              [
+                410,
+                597
+              ],
+              [
+                692,
+                903
+              ],
+              [
+                1013,
+                1203
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              337,
+              646
+            ],
+            "columns": [
+              [
+                83,
+                248
+              ],
+              [
+                389,
+                565
+              ],
+              [
+                710,
+                886
+              ],
+              [
+                1014,
+                1193
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              653,
+              950
+            ],
+            "columns": [
+              [
+                88,
+                225
+              ],
+              [
+                395,
+                640
+              ],
+              [
+                715,
+                863
+              ],
+              [
+                1043,
+                1208
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              960,
+              1243
+            ],
+            "columns": [
+              [
+                84,
+                269
+              ],
+              [
+                396,
+                651
+              ],
+              [
+                711,
+                944
+              ],
+              [
+                994,
+                1213
               ]
             ]
           }
@@ -57590,6 +57714,550 @@
       "locationKits": [],
       "promptId": "frontier-v1/famous-rusk-mounted"
     },
+    "sanchez-navarro-walk-e-1": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 86,
+      "y": 24,
+      "w": 213,
+      "h": 299,
+      "anchorX": 0.4906,
+      "anchorY": 0.9298,
+      "logicalHeight": 307,
+      "label": "sanchez navarro walk e 1",
+      "kind": "famous-sanchez-navarro",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          26,
+          209,
+          295
+        ],
+        "visiblePixels": 30690,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sanchez-navarro-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-walk-e-2": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 410,
+      "y": 24,
+      "w": 187,
+      "h": 300,
+      "anchorX": 0.4171,
+      "anchorY": 0.93,
+      "logicalHeight": 307,
+      "label": "sanchez navarro walk e 2",
+      "kind": "famous-sanchez-navarro",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          412,
+          26,
+          183,
+          296
+        ],
+        "visiblePixels": 28607,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sanchez-navarro-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-walk-e-3": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 692,
+      "y": 24,
+      "w": 211,
+      "h": 300,
+      "anchorX": 0.4787,
+      "anchorY": 0.93,
+      "logicalHeight": 307,
+      "label": "sanchez navarro walk e 3",
+      "kind": "famous-sanchez-navarro",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          694,
+          26,
+          207,
+          296
+        ],
+        "visiblePixels": 30865,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-walk-e-4": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 1013,
+      "y": 21,
+      "w": 190,
+      "h": 303,
+      "anchorX": 0.4158,
+      "anchorY": 0.9274,
+      "logicalHeight": 307,
+      "label": "sanchez navarro walk e 4",
+      "kind": "famous-sanchez-navarro",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1015,
+          23,
+          186,
+          299
+        ],
+        "visiblePixels": 29411,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-walk-s-1": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 83,
+      "y": 337,
+      "w": 165,
+      "h": 307,
+      "anchorX": 0.4606,
+      "anchorY": 0.9283,
+      "logicalHeight": 307,
+      "label": "sanchez navarro walk s 1",
+      "kind": "famous-sanchez-navarro",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          85,
+          339,
+          161,
+          303
+        ],
+        "visiblePixels": 27711,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sanchez-navarro-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-walk-s-2": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 389,
+      "y": 340,
+      "w": 176,
+      "h": 306,
+      "anchorX": 0.4801,
+      "anchorY": 0.9281,
+      "logicalHeight": 307,
+      "label": "sanchez navarro walk s 2",
+      "kind": "famous-sanchez-navarro",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          391,
+          342,
+          172,
+          302
+        ],
+        "visiblePixels": 28804,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sanchez-navarro-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-walk-n-1": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 710,
+      "y": 339,
+      "w": 176,
+      "h": 307,
+      "anchorX": 0.5284,
+      "anchorY": 0.9283,
+      "logicalHeight": 307,
+      "label": "sanchez navarro walk n 1",
+      "kind": "famous-sanchez-navarro",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          712,
+          341,
+          172,
+          303
+        ],
+        "visiblePixels": 30297,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sanchez-navarro-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-walk-n-2": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 1014,
+      "y": 340,
+      "w": 179,
+      "h": 306,
+      "anchorX": 0.5363,
+      "anchorY": 0.9444,
+      "logicalHeight": 307,
+      "label": "sanchez navarro walk n 2",
+      "kind": "famous-sanchez-navarro",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          342,
+          175,
+          302
+        ],
+        "visiblePixels": 30621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sanchez-navarro-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-idle": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 88,
+      "y": 653,
+      "w": 137,
+      "h": 296,
+      "anchorX": 0.5474,
+      "anchorY": 0.9291,
+      "logicalHeight": 307,
+      "label": "sanchez navarro idle",
+      "kind": "famous-sanchez-navarro",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          90,
+          655,
+          133,
+          292
+        ],
+        "visiblePixels": 25799,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-parley": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 395,
+      "y": 653,
+      "w": 245,
+      "h": 295,
+      "anchorX": 0.351,
+      "anchorY": 0.9424,
+      "logicalHeight": 307,
+      "label": "sanchez navarro parley",
+      "kind": "famous-sanchez-navarro",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          397,
+          655,
+          241,
+          291
+        ],
+        "visiblePixels": 31268,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sanchez-navarro-parley"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-listen": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 715,
+      "y": 653,
+      "w": 148,
+      "h": 296,
+      "anchorX": 0.5473,
+      "anchorY": 0.9426,
+      "logicalHeight": 307,
+      "label": "sanchez navarro listen",
+      "kind": "famous-sanchez-navarro",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          717,
+          655,
+          144,
+          292
+        ],
+        "visiblePixels": 27236,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sanchez-navarro-parley"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-dispatch": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 1043,
+      "y": 653,
+      "w": 165,
+      "h": 297,
+      "anchorX": 0.4394,
+      "anchorY": 0.936,
+      "logicalHeight": 307,
+      "label": "sanchez navarro dispatch",
+      "kind": "famous-sanchez-navarro",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1045,
+          655,
+          161,
+          293
+        ],
+        "visiblePixels": 29083,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-read": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 84,
+      "y": 963,
+      "w": 185,
+      "h": 280,
+      "anchorX": 0.4541,
+      "anchorY": 0.9393,
+      "logicalHeight": 307,
+      "label": "sanchez navarro read",
+      "kind": "famous-sanchez-navarro",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          86,
+          965,
+          181,
+          276
+        ],
+        "visiblePixels": 28930,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-offer": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 396,
+      "y": 960,
+      "w": 255,
+      "h": 282,
+      "anchorX": 0.3294,
+      "anchorY": 0.9433,
+      "logicalHeight": 307,
+      "label": "sanchez navarro offer",
+      "kind": "famous-sanchez-navarro",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          962,
+          251,
+          278
+        ],
+        "visiblePixels": 30614,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-point": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 711,
+      "y": 960,
+      "w": 233,
+      "h": 283,
+      "anchorX": 0.3691,
+      "anchorY": 0.9399,
+      "logicalHeight": 307,
+      "label": "sanchez navarro point",
+      "kind": "famous-sanchez-navarro",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          962,
+          229,
+          279
+        ],
+        "visiblePixels": 29636,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
+    "sanchez-navarro-rest": {
+      "sheet": "famous-sanchez-navarro",
+      "x": 994,
+      "y": 974,
+      "w": 219,
+      "h": 269,
+      "anchorX": 0.6073,
+      "anchorY": 0.9294,
+      "logicalHeight": 307,
+      "label": "sanchez navarro rest",
+      "kind": "famous-sanchez-navarro",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          976,
+          215,
+          265
+        ],
+        "visiblePixels": 32585,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sanchez-navarro.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sanchez-navarro"
+    },
     "seguin-mounted-walk-e-1": {
       "sheet": "famous-seguin-mounted-motion",
       "x": 45,
@@ -98181,6 +98849,70 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "sanchez-navarro-walk-e": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "sanchez-navarro-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "sanchez-navarro-walk-s": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "sanchez-navarro-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "sanchez-navarro-walk-n": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "sanchez-navarro-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "sanchez-navarro-parley": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-listen",
+          "duration": 900
+        },
+        {
+          "sprite": "sanchez-navarro-parley",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "seguin-mounted-walk-e": {
       "frames": [
         {
@@ -109514,7 +110246,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 199,
+    "sourceCount": 200,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

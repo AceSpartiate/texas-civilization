@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2130 usable sprites, 199 PNG atlases, 744 clips** (436 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2146 usable sprites, 200 PNG atlases, 748 clips** (440 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -113,6 +113,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
 | famous-rusk | 16 | 1312 × 1199 | 1052054 |
 | famous-rusk-mounted | 4 | 1312 × 1199 | 1471219 |
+| famous-sanchez-navarro | 16 | 1254 × 1254 | 1303243 |
 | famous-seguin-mounted-motion | 4 | 1254 × 1254 | 1217137 |
 | famous-seguin-mounted-ns | 4 | 1254 × 1254 | 798415 |
 | famous-sherman | 16 | 1239 × 1269 | 1115350 |
@@ -1349,6 +1350,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | rusk-mounted-walk-e-2 | famous-rusk-mounted | rusk-mounted-walk-e |
 | rusk-mounted-idle-e | famous-rusk-mounted | State artwork; no motion required |
 | rusk-mounted-stop-e | famous-rusk-mounted | State artwork; no motion required |
+| sanchez-navarro-walk-e-1 | famous-sanchez-navarro | sanchez-navarro-walk-e |
+| sanchez-navarro-walk-e-2 | famous-sanchez-navarro | sanchez-navarro-walk-e |
+| sanchez-navarro-walk-e-3 | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-walk-e-4 | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-walk-s-1 | famous-sanchez-navarro | sanchez-navarro-walk-s |
+| sanchez-navarro-walk-s-2 | famous-sanchez-navarro | sanchez-navarro-walk-s |
+| sanchez-navarro-walk-n-1 | famous-sanchez-navarro | sanchez-navarro-walk-n |
+| sanchez-navarro-walk-n-2 | famous-sanchez-navarro | sanchez-navarro-walk-n |
+| sanchez-navarro-idle | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-parley | famous-sanchez-navarro | sanchez-navarro-parley |
+| sanchez-navarro-listen | famous-sanchez-navarro | sanchez-navarro-parley |
+| sanchez-navarro-dispatch | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-read | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-offer | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-point | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-rest | famous-sanchez-navarro | State artwork; no motion required |
 | seguin-mounted-walk-e-1 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
 | seguin-mounted-walk-e-2 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
 | seguin-mounted-canter-e-1 | famous-seguin-mounted-motion | seguin-mounted-canter-e |
@@ -2755,6 +2772,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | rusk-walk-n | Pose cycle | 2 | 580 | yes | north |
 | rusk-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | rusk-stop | Pose cycle | 2 | 1120 | yes | east; mirror for west |
+| sanchez-navarro-walk-e | Pose cycle | 2 | 560 | yes | east |
+| sanchez-navarro-walk-s | Pose cycle | 2 | 560 | yes | south |
+| sanchez-navarro-walk-n | Pose cycle | 2 | 560 | yes | north |
+| sanchez-navarro-parley | Pose cycle | 2 | 1550 | yes | east; mirror for west |
 | seguin-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | seguin-mounted-canter-e | Pose cycle | 2 | 380 | yes | east; mirror for west |
 | seguin-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |

@@ -40,6 +40,12 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('Sánchez Navarro has his own figure in the Bexar parley', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  run(view, minute => night(minute, [], { parley: { x: 0, y: 0, people: [{ id: 'jw-smith', name: 'Smith', side: 'texian' }, { id: 'sanchez-navarro', name: 'Sánchez Navarro', side: 'mexican' }] } }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'sanchez-navarro-idle' && one.flip === true));
+});
+
 test('Condelle commands and walks using his own officer art', () => {
   const art = fakeArt(), view = createBattleView(art);
   const condelle = { id: 'condelle', art: 'condelle', name: 'Condelle', side: 'mexican', x: 0, y: 0, right: true, pose: 'command' };

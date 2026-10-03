@@ -6386,6 +6386,70 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "sanchez-navarro-walk-e": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "sanchez-navarro-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "sanchez-navarro-walk-s": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "sanchez-navarro-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "sanchez-navarro-walk-n": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "sanchez-navarro-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "sanchez-navarro-parley": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-listen",
+          "duration": 900
+        },
+        {
+          "sprite": "sanchez-navarro-parley",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "seguin-mounted-walk-e": {
       "frames": [
         {
