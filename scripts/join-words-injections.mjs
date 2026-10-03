@@ -1,4 +1,4 @@
-// Injections for join words (owner, 2026-10-03, "Fewest words, no server"; docs/HOST_PAGE.md §2.17). CLAUDE.md: "a new test is not
+// Injections for join words (owner, 2026-10-03, "Fewest words, no server", then "3 words"; docs/HOST_PAGE.md §2.17). CLAUDE.md: "a new test is not
 // evidence until it has failed". Each injection puts back one exact mistake, tests/join-words.test.mjs is run, and every file is
 // restored. An injection is caught when every test it names fails; the record keeps whatever else failed with it.
 // With --browser, two more are run against the browser proof (npm run test:join-words; PLAYWRIGHT_MODULE, BROWSER_EXECUTABLE).
@@ -8,30 +8,32 @@ import { execFileSync } from 'node:child_process';
 
 const FILES = ['tests/join-words.test.mjs'];
 const T = {
-  list: 'the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen',
-  fewest: 'fewest words: 2 for 192.168 on the usual port, 3 for 10.x and 172.16-31, more only for another port',
-  round: 'every address round-trips: the words lead back to the address and port that made them, and to the bare address',
+  list: 'the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen',
+  three: 'always three words, for every private range; five only for a port other than 1835',
+  round: 'every address round-trips, in all three ranges: the words lead back to the address and port that made them',
   private: 'only the three private ranges: the page can never be sent to the Internet',
   forgiven: 'typing is forgiven where it can be: case, hyphens, commas, spaces, and anything after the fourth letter',
-  typo: 'a typo is caught rather than sending a student somewhere else',
+  typo: 'a typo is caught rather than sending a student somewhere else: measured, and reported',
   site: 'the page at playtexas.github.io decodes with the game\'s own module, and is self-contained',
   host: 'the Host is given the words for the students\' network, can choose another of this computer\'s addresses, and no student sees them',
   card: 'the Host\'s card and the join form: the words, then the class code, large; the code first on the bare address',
 };
 const W = 'sim/join-words.mjs';
 const INJECTIONS = [
-  { name: 'a word on the list changed (crane spelt crate: two words with one start, and the frozen list moved)', expect: [T.list],
-    file: W, from: ' crane ', to: ' cratee ' },
-  { name: 'no check bits: every word pair is some address', expect: [T.typo, T.list],
-    file: W, from: '  for (let bit = width - 1; bit >= 0; bit--) out.push(bit < 32 ? (hash >>> bit) & 1 : 0);', to: '  for (let bit = width - 1; bit >= 0; bit--) out.push(0);' },
-  { name: 'the decoder takes words without making them again (no check at all)', expect: [T.typo],
-    file: W, from: "  if (!again || again.length !== count || again.some((word, place) => word !== WORDS[indexes[place]])) return { ok: false, reason: 'check', count };", to: '' },
+  { name: 'a word on the list changed (cannon spelt canon: two words with one start, and the frozen list moved)', expect: [T.list],
+    file: W, from: ' cannon ', to: ' canon ' },
+  { name: 'a word one letter from another put on the list (mole beside mule)', expect: [T.list],
+    file: W, from: ' wren ', to: ' mole ' },
+  { name: 'no check: every value in a block is taken for its address', expect: [T.typo],
+    file: W, from: "    if ((value - start) % size !== checkOf(3, start + number, size)) return { ok: false, reason: 'check', count };\n", to: '' },
+  { name: 'the right value is the same place in every block (a check that does not depend on the address)', expect: [T.typo, T.list],
+    file: W, from: '  return (hash >>> 0) % size;', to: '  return 0;' },
   { name: 'any address is a classroom address: the page could be sent to the Internet', expect: [T.private],
     file: W, from: "  if (a === 10) return 'wide';\n  return null;", to: "  return 'wide';" },
-  { name: 'another port is not carried: the words lead to 1835 whatever the server listens on', expect: [T.round, T.fewest],
-    file: W, from: '  if (port === DEFAULT_PORT) {', to: '  if (true) {' },
-  { name: 'no two-word form: 192.168 takes the long way', expect: [T.fewest],
-    file: W, from: "    if (network === 'home') { put(octets[2], 8); put(octets[3], 8); return { bits, count: 2 }; }\n", to: "    if (network === 'home') { put(0, 1); put(octets[2], 8); put(octets[3], 8); return { bits, count: 3 }; }\n" },
+  { name: 'another port is not carried: the words lead to 1835 whatever the server listens on', expect: [T.round, T.three],
+    file: W, from: '  if (portNumber === DEFAULT_PORT) return toWords(', to: '  if (true) return toWords(' },
+  { name: 'five words for the usual port too: never three', expect: [T.three, T.list],
+    file: W, from: '  if (portNumber === DEFAULT_PORT) return toWords(', to: '  if (portNumber === -1) return toWords(' },
   { name: 'every letter of a word is read, so a misspelling after the fourth is refused', expect: [T.forgiven],
     file: W, from: "const key = token => String(token).toLowerCase().replace(/[^a-z]/g, '').slice(0, 4);", to: "const key = token => { const typed = String(token).toLowerCase().replace(/[^a-z]/g, ''); const word = WORDS[KEYS.get(typed.slice(0, 4))]; return word === typed ? typed.slice(0, 4) : typed; };" },
   { name: 'the page\'s copy of the module drifts from the game\'s', expect: [T.site],

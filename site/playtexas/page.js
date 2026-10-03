@@ -33,8 +33,8 @@ function showTyping() {
 function explain(result) {
   if (result.reason === 'empty') return 'Type the words on your teacher\'s screen.';
   if (result.reason === 'unknown') return `Word ${result.place}, "${result.word}", is not one of the words.${result.suggestions.length ? ` Did you mean ${result.suggestions.map(word => `"${word}"`).join(' or ')}?` : ''} Check it on the screen.`;
-  if (result.reason === 'short') return 'There are at least two words. Check the screen.';
-  if (result.reason === 'long') return `That is ${result.count} words, more than there are. Check the screen.`;
+  if (result.reason === 'short' || result.reason === 'count') return `There are three words, and that is ${result.count}. Check the screen.`;
+  if (result.reason === 'long') return `That is ${result.count} words, more than there are. There are three: check the screen.`;
   return 'Those words do not quite match. Check each word, and their order, against the screen.';
 }
 

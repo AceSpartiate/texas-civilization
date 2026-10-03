@@ -74,7 +74,7 @@ Each class keeps its own students, families and family keys, so several sections
 Before you press Start, the Host page shows **How students join** down the right. Put it on the projector. Students can join
 three ways:
 
-- **Join words.** *Go to playtexas.github.io and type:* two words (three on some school networks), like **amulet crane**, *then
+- **Join words.** *Go to playtexas.github.io and type:* three words of 1830s Texas, like **vapor erasmo slipper**, *then
   the class code*. The page at playtexas.github.io works out your laptop's address from the words and sends the student there, where
   they type the class code, in a big box, and their name. The words come from your laptop's address alone, so they stay the same
   from class to class and only change when your laptop gets a new address; no account or sign-up, and any number of teachers can

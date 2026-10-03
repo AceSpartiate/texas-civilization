@@ -39,7 +39,7 @@ const dir = mkdtempSync(join(tmpdir(), 'texas-join-words-proof-'));
 // The class server, on every interface, told this computer's own addresses as the real server would be.
 const joinUrls = [];
 const app = createClassroom({ seed: 'join-words-proof', savePath: join(dir, 'class.json'), playerCount: 6, tickMs: 1000, joinUrls });
-// On the class server's own port when it is free, so the words are the two or three a classroom sees; any port otherwise.
+// On the class server's own port when it is free, so the words are the three a classroom sees; any port otherwise.
 const usual = await new Promise(done => { const probe = createServer(); probe.once('error', () => done(false)); probe.listen(1835, '0.0.0.0', () => probe.close(() => done(true))); });
 const port = await app.listen(usual ? 1835 : 0, '0.0.0.0');
 joinUrls.push(...joinCandidates(port).filter(entry => isClassroomAddress(entry.address)));

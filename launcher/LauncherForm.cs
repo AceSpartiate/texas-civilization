@@ -52,7 +52,7 @@ public sealed class LauncherForm : Form, IBackdrop
     private readonly SceneLabel _code = new() { ForeColor = Palette.GoldBright };
     private readonly SceneRule _joinRule = new();
     private readonly SceneLabel _join = new() { ForeColor = Color.FromArgb(214, 226, 208) };
-    // The join words (owner, 2026-10-03; docs/HOST_PAGE.md §2.17): "At playtexas.github.io type: ahead oar jolly keyhole rubber".
+    // The join words (owner, 2026-10-03; docs/HOST_PAGE.md §2.17): "At playtexas.github.io type: vapor erasmo slipper" (three words, owner 2026-10-03).
     private readonly SceneLabel _words = new() { ForeColor = Palette.GoldBright };
 
     private readonly PlateButton _power = Plate("Start the class", "button-start-the-class", Glyph.People, Palette.StartGreen);

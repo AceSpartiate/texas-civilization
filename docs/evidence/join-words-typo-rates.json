@@ -1,0 +1,85 @@
+{
+  "record": "join-words-typo-rates",
+  "words": 3,
+  "list": 1024,
+  "rates": {
+    "192.168": {
+      "substitutions": {
+        "tried": 45000,
+        "slipped": 131,
+        "rate": 0.00291,
+        "oneIn": 344
+      },
+      "swaps": {
+        "tried": 8993,
+        "slipped": 119,
+        "rate": 0.01323,
+        "oneIn": 76
+      },
+      "drops": {
+        "tried": 9000,
+        "slipped": 0,
+        "rate": 0,
+        "oneIn": null
+      },
+      "adds": {
+        "tried": 6000,
+        "slipped": 5,
+        "rate": 0.00083,
+        "oneIn": 1200
+      }
+    },
+    "172.16-31": {
+      "substitutions": {
+        "tried": 45000,
+        "slipped": 526,
+        "rate": 0.01169,
+        "oneIn": 86
+      },
+      "swaps": {
+        "tried": 8990,
+        "slipped": 157,
+        "rate": 0.01746,
+        "oneIn": 57
+      },
+      "drops": {
+        "tried": 9000,
+        "slipped": 0,
+        "rate": 0,
+        "oneIn": null
+      },
+      "adds": {
+        "tried": 6000,
+        "slipped": 8,
+        "rate": 0.00133,
+        "oneIn": 750
+      }
+    },
+    "10.x": {
+      "substitutions": {
+        "tried": 45000,
+        "slipped": 663,
+        "rate": 0.01473,
+        "oneIn": 68
+      },
+      "swaps": {
+        "tried": 8991,
+        "slipped": 156,
+        "rate": 0.01735,
+        "oneIn": 58
+      },
+      "drops": {
+        "tried": 9000,
+        "slipped": 0,
+        "rate": 0,
+        "oneIn": null
+      },
+      "adds": {
+        "tried": 6000,
+        "slipped": 6,
+        "rate": 0.001,
+        "oneIn": 1000
+      }
+    }
+  }
+}

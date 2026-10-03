@@ -1,166 +1,118 @@
 /**
  * **Join words** (owner, 2026-10-03; docs/HOST_PAGE.md §2.17). Asked *"is it possible to use a word or phrase instead like a
- * webpage?"*, then *"could we make the join words be a join word? singular?"*, and told that one word cannot carry an address with
- * no server, the owner chose **"Fewest words, no server"**: two or three short words that carry, with no lookup service, only the
- * Host laptop's private address on the classroom network (and its port, when it is not the usual one). A student goes to
- * **playtexas.github.io**, types the words, and is sent to `http://<laptop>:<port>/` - the bare address, which asks for the class
- * code as it always has (§2.14). The class code is not in the words: it is still checked, typed from the Host screen.
+ * webpage?"*, the owner chose a free page, **playtexas.github.io**, and **"Fewest words, no server"**; then, the same day,
+ * **"3 words, ensure they're short, easy to type, and related to the texas revolution"**, and the port left at 1835. Three words
+ * carry, with no lookup service, only the Host laptop's private address on the classroom network. A student goes to
+ * playtexas.github.io, types them, and is sent to `http://<laptop>:1835/` - the bare address, which asks for the class code as it
+ * always has (§2.14). The class code is not in the words: it is still checked, typed from the Host screen.
  *
  * One file, used two ways and therefore kept free of anything but plain JavaScript and of any look: the class server imports it to
  * make the words for the Host's page, the launcher and its console line (server/app.mjs `joinView`, server/main.mjs), and the static
  * page at site/playtexas/ carries a byte-for-byte copy of it (tests/join-words.test.mjs holds the two identical;
  * scripts/playtexas-site.mjs makes the copy). What the page decodes is therefore exactly what the game encoded.
  *
- * The scheme. Each word is 11 bits (a list of 2048); **the number of words says the form**, and every bit not carrying the address
- * is a check:
- *   2 words  192.168.a.b, port 1835                     16 bits of address,  6 check bits
- *   3 words  0  then 10.a.b.c, port 1835                 25 bits,             8 check bits
- *            10 then 172.(16-31).a.b, port 1835          22 bits,            11 check bits
- *            11 never made: refused, so it checks too
- *   4+ words any other port: 0 192.168 / 10 172.16-31 / 11 10.x, the address, the port (16 bits), and at least 6 check bits -
- *            4 words, or 5 for a 10.x laptop on another port.
- * The check bits are a hash of the form and the address (`checkBits`): a word mistyped as another word on the list, two words
- * swapped, or a word too many or too few, lands on an address the words did not make, and is refused - except 1 time in 64 on the
- * two-word form (1 in 256 on 10.x, 1 in 2048 on 172.16-31). A word not on the list is refused before that, with the nearest words
- * offered; only the first four letters of each word are read (every word on the list starts differently), so a misspelling after
- * the fourth letter is harmless. `ceiling:` the two-word form's 6 check bits are what two words leave; a mistyping that slips
- * through sends the student to another address on the same network, where nothing answers (the page's *Didn't work?* says check the
- * words) or another class's server asks for a class code the student does not have. A third word for 192.168 is the way out if
- * that is ever seen in a classroom.
+ * **The scheme: always three words** from a list of **1,024** (10 bits each, 2^30 together), for every private range. Three words
+ * of 1,024 is the smallest list that carries a 10.x address (24 bits) with a check worth having; a longer list would check better
+ * but there are not 2,048 short, easy words of 1830s Texas, and a shorter one could not carry 10.x in three. The 2^30 values are
+ * shared out so that every value is some address's - each address owns a block, and exactly one value in its block is right:
+ *   10.a.b.c          2^24 addresses, blocks of 56   (values 0 to 939,524,095)
+ *   172.16-31.a.b     2^20 addresses, blocks of 64   (the next 67,108,864)
+ *   192.168.a.b       2^16 addresses, blocks of 1024 (the last 67,108,864)
+ * The right value in a block is a hash of the range and the address (`checkOf`). A word mistyped as another word on the list, two
+ * words swapped, or a word dropped or added lands in some block, and is refused unless it lands on that block's one right value:
+ * about 1 time in 56 when it lands among the 10.x blocks, 1 in 64 among 172.16-31's and 1 in 1,024 among 192.168's (measured in the
+ * test). A word not on the list is refused before that, with the nearest words offered; no two words on the list are one letter (or
+ * one swap of neighbouring letters) apart, so most single slips of the fingers are a word not on the list; and only the first four
+ * letters are read (every word starts differently), so a misspelling after them is harmless. `ceiling:` a mistyping that slips
+ * through sends the student to another private address, where nothing answers (the page's *Didn't work?* says check the words) or
+ * another class asks for a class code the student does not have.
+ *
+ * **Another port** (only a developer's `PORT`) takes **five words**: the address and the port in 2^50 values, blocks of 960. Four
+ * words are never made, and refused.
  *
  * Order matters (the words are shown numbered); case, spacing, hyphens and commas do not. The words do not change with New Class:
  * they change only when the laptop's address does.
  *
  * Only the three private ranges can be encoded, on purpose: the page can never send a student to an address on the public
  * Internet, whatever is typed. `ceiling:` a district that numbers its classrooms with public addresses gets no words, and its
- * students type the address as before; another form is the way out if one ever does.
+ * students type the address as before.
  *
- * `ceiling:` the list, the forms and the hash are frozen (the list's SHA-256 and known words for known addresses are pinned in
- * tests/join-words.test.mjs). The page at playtexas.github.io and every copy of the game in every classroom must agree, and the
- * page is updated separately from the games, so a change would send old games' students to wrong addresses. A new scheme needs a
- * version the page can tell apart, never an edit.
+ * `ceiling:` the list, the blocks and the hash are frozen (the list's SHA-256 and known words for known addresses are pinned in
+ * tests/join-words.test.mjs). The page at playtexas.github.io and every copy of the game in every classroom must agree, and the page
+ * is updated separately from the games, so a change would send old games' students to wrong addresses. A new scheme needs a version
+ * the page can tell apart, never an edit. (The two- and three-word scheme of earlier on 2026-10-03 was never released.)
  *
- * The word list was written for this game (2026-10-03) and is in the public domain: common, concrete, easy-to-spell words for
- * middle schoolers, 3 to 8 letters, no two with the same first four letters, no two that sound alike, no days, months or numbers,
- * and none about harm, drink, religion or bodies, nor any that invites a joke.
+ * The word list was written for this game (2026-10-03, our own work, in the public domain): words of 1830s Texas and the Texas
+ * Revolution first - its places and rivers, easy first and last names of the people of the time, Texian and Tejano, the things of a
+ * frontier farm, a ranch, a wagon and a muster, its animals, trees and weather - then plain everyday words that would not be out of
+ * place in 1835. 3 to 7 letters (Gonzales, Victoria and Columbia are 8), no two with the same first four letters, no two that sound
+ * alike or are one letter apart, nothing of now, nothing grim, cruel or mocking, no faith or people named as a joke, no slur, no
+ * numbers, days or months.
  */
 
 export const JOIN_SITE = 'playtexas.github.io';
-/** The class server's own port (server/main.mjs `PORT`, 1835 unless a developer sets it). */
+/** The class server's own port (server/main.mjs `PORT`, 1835 unless a developer sets it; owner, 2026-10-03: keep 1835). */
 export const DEFAULT_PORT = 1835;
 
 // prettier-ignore
 const LIST = `
-able accent acorn acre acrobat active actor adapt address admire adobe adopt adult advice agave agent ahead aim air airport
-alarm album alert alien alive alley allow almond alpaca alto amaze amber among amulet anchor ancient angle animal anise
-ankle annual answer antelope anthem antler anvil apart appear apple apricot apron aqua arbor arcade arch arena arm armchair
-aroma arrive arrow artist ash ask asleep aspen atlas atom attend attic auburn audience aunt author autumn avenue aviator
-avocado avoid awake award axis axle babble baby back bacon badge bag bagel bake balance balcony ball bamboo banana band
-banister banjo bank banner banquet barber barge barley barn baron barrel baseball basin basket bat batch bath baton battery
-bay bayou beach bead beagle beak beam bean bear bed bedrock bedtime bee beef beehive beetle begin believe bell belong belt
-bench benefit berry beyond bicycle big bike binder bingo biplane birch bird birthday biscuit bison blanket blaze blender
-blimp blink blizzard block blond bloom blossom blouse blue bluff blur blush board boat bobble bobcat bobsled body boil bold
-bolt bone bonfire bonnet book boost boot border boss bottle boulder bounce bow bowl bowtie box boxcar boy bracelet brain
-bramble branch brave bread breeze brick bridge bright bring brisk broad broccoli bronze broom brother brownie brunch brush
-bubble bucket bud buddy buffalo bug buggy bugle build bulb bulldog bumble bumper bundle bungalow bunny burger burrow bus
-busy butter buzz cabana cabbage cabin cable caboose cactus cadet cafe cage cake calendar calf calico call calm camel camp
-canal candle cane cannon canoe canteen canvas canyon cap cape capital captain car caramel card careful cargo caribou
-carnival carousel carpet carrot cart carve case cashew castle cat catch catfish cattle caution cave cedar celery cello
-cement century ceramic cereal chair chalk champ chance chapter charm chatter check cheddar cheek chef chemist cherry chess
-chick child chimney chin chip chisel chive chorus chowder chuckle churn cinder cinema circle citrus city civic clam clap
-clarinet class claw clay clean clerk clever cliff climb clip cloak clock closet cloth cloud clover clown club coach coast
-coat cobalt cobbler cobweb cocoa code coffee coin cold collar colony colt column comb comet comfort comic common compass
-concert condor cone confetti contest cook cool copilot copper copy coral cord cork corn corral costume cottage couch count
-courage cousin cover cow cowboy cowgirl coyote crab cracker cradle craft crane crate crayon cream creek crescent crew crib
-cricket crimson crinkle crisp crocus crop croquet crow cruise crumb crust crystal cub cubby cube cucumber cuddle culture cup
-cupboard cupcake curb curious curl current curtain curve cushion custom cutout cycle cypress dabble daffodil dairy daisy
-dance dapple daring darling darts dash date dawn day daybreak dazzle decade decide deck deep deer degree delight delta den
-denim depend desert design desk detail detour dew dewdrop diagram dial diamond diary dice diesel dig dime dimple diner dingo
-dinner dinosaur diploma dipper direct dirt discover dish disk distant diver diving dock dog doghouse doll dolphin dome
-domino donkey doodle door dormouse dot double dove downhill dragon drama draw dream dress dribble drift drill drive drizzle
-drop drum duck duet duffel dugout dumpling dune dusk dust eager eagle ear early earmuff earth easel east easy echo eclipse
-edge edible effort egg eggplant eggshell elbow elder elegant elephant elevator elf elk elm ember emblem emerald emperor emu
-enchant encore end endless energy engine engrave enjoy enough enter entire entry envelope episode equal eraser errand essay
-estate etching eureka event every evolve exact example excite exhibit exit expert explore express extra eye fable fabric
-face fact fairway falafel falcon fall family famous fan fancy fanfare fantasy farm fast faucet fawn feast feather feedback
-feline felt fence fender fern ferry festival fiber fiction fiddle fidget field fiesta fig figure filly film fin final finch
-finger finish fire first fish fist fitness fixture flag flame flannel flapjack flash flat flea fleet flicker flight flint
-flipper float flock flood flora flour fluent fluffy flurry flute fly foal foam focus fog foghorn folder follow fondue food
-foot forest forget fork formal fort forward fossil fountain fox foxglove foxhole frame freckle free freight fresh friend
-fringe frog frolic frontier frost frozen fruit fudge fun funny fur future fuzzy gadget galaxy gale gallon galoshes game
-garage garden garlic garnet gate gather gaze gear gem genius gentle gesture geyser giant gift giggle ginger giraffe girl
-give gizmo glacier glad glass glide glimmer glitter globe glove glow glue gnome goal goat gobble goblet goggles gold golf
-gondola good goose gopher gorilla gosling gourmet gown grab grace grain grand grape grass grateful gravel great green
-griddle grill grin grip grits grizzly grocery groove grotto ground grove grow guard guava guess guide guitar gull gum gumbo
-gumdrop guppy gust gymnast habit haiku hail hair half hall halo ham hamlet hammer hamster hand hangout happy hardhat harmony
-harness harp harvest hat hatch haven hawk hay hayloft hayride haystack hazel head health heart heat heavy hedge height
-heirloom hello helmet help hen herb hero hibiscus hiccup hickory hidden highway hike hill hint history hitch hobby hockey
-hold hole home honey honk hoodie hoof hook hoop hop hopeful horizon horn horse hose hotcake hotdog hotel hour house hubcap
-huddle hug hum humming hunt hurdle hurry hush husky hut hydrant ice iceberg icicle icon idea igloo ignite iguana imagine
-impact inch include indigo indoor ink inkblot inkwell inlet inning insect inside instant invent invite iris iron island itch
-ivory ivy jacket jade jaguar jalopy jam jamboree jar jasmine jawbone jaybird jazz jeans jelly jersey jet jetpack jetty jewel
-jiggle jigsaw jingle job jockey jog jogging join joke jolly jostle journal joy jubilee juggle juice jukebox jumbo jump
-jungle junior kale kangaroo karate kayak kazoo keen keeper kelp kennel kernel ketchup kettle key keyboard keyhole keystone
-kick kid kind king kinship kiosk kit kitchen kite kitten kiwi knack knapsack knee knock knoll knot knuckle koala label lace
-lacrosse ladder ladle lady lagoon lake lamb lamp land lane lantern lanyard lap large lariat lark lasagna laser lasso latch
-later laugh launch laurel lava lavender lawn layer layout leader leaf leapfrog learn leash leather leftover legend leisure
-lemon lemur length lens lentil leopard lesson letter level library lid lifeboat lift light lilac lily lime limit line lint
-lion lip liquid list little lively lizard llama load loaf lobby lobster local lock locust lodge loft log logic long lookout
-loom loop lotus loud lovely loyal lucky lullaby lumber lunch macaroni machine magenta magic magnet magpie mail mainland
-major mall mammal manage mandolin mango manner mansion mantis map maple marathon marble marigold marker marmot marsh marvel
-mascot mask match mattress maze meadow meal measure meatball mechanic medal medium medley meerkat mellow melon member memory
-mentor menu mermaid mesa mesquite message meteor middle midnight midway mighty milk mill mimic mind minnow mint minute
-mirror mission mitten mix mixer mixture mobile mocha model moist molasses mole molten moment monarch money monkey month moon
-moose mop morning mosaic moss moth motion motor mound mouse mouth movement movie mud mudflat mudpie muffin mug mulberry
-mulch mule mural murmur museum mushroom music muskrat mustard nail name napkin narrow narwhal nature nautical navigate navy
-nearby neat neck nectar needle nephew nest net neutral never new newt nibble nickel night nimble noble nod noise noodle nook
-noon normal north nose notch note notice novel nozzle nudge nugget nursery nutmeg oak oaken oar oasis oatmeal oats obey oboe
-observe ocean ocelot octave octopus offbeat offer often oil okra olive onion onward oodles ooze opal open opera orange orbit
-orca orchard order origin oriole osprey ostrich otter outback outdoor outfit outpost outside oval oven overall owl owlet
-owner oxen oxygen oyster ozone pace pack paddle padlock page paint pair palace palette pallet palm palomino pamper pan
-pancake panda panel panther papaya paper paprika parade parcel parent park parrot parsley party pass pasta patch path patio
-pattern pause paw pawprint paycheck peach peak peanut peapod pearl pebble pecan pedal pedestal pelican pelt pen pencil
-penguin penny peony people pepper perfect perhaps person pet pheasant phone photo piano pickle picnic picture pie piece pig
-pigeon piglet pigpen pigtail pile pillow pilot pinball pine pink pinto pinwheel pioneer pipe pitcher pitstop pivot pizza
-place plain planet plate play plaza pleasant plenty pliers plucky plug plum plush pocket poem pogo point polar pole polish
-polka pompom poncho pond pony poodle pool popcorn poplar poppy popular porch porpoise port positive possum post potato
-potter pouch poultry powder prairie prawn precise present pretzel prince prism private prize problem produce project promise
-proper protect prune public puddle puffin pulley pulse pumpkin punch pupil puppy purple purse push puzzle pyramid quack
-quail quarter queen quench quest quick quiet quilt quinoa quirk quiver quiz quokka quote rabbit raccoon race radar radio
-raffle raft ragdoll railroad rain raisin rake rally ramble ramp ranch range rapid rascal ratchet rattle raven rawhide ray
-reader reason rebound recess recipe record recycle red redwood reef reflect region reindeer relay remark remember remote
-rental repair reply rescue resort rest return reveal ribbon rice riddle ride ridge ring rinse ripple riptide rival river
-road robin robot robust rock rodeo roller romp roof room rooster root rose rosy rotate round rover row rowboat royal rubber
-ruby rudder ruffle rug rugby ruler rumble rumpus run running runway rural rustic saddle safari safe sage sail salad salmon
-salsa salt salute sample sand sapling sapphire sardine satchel satin sauce sausage saw sawdust sawmill scale scamper scarf
-scenic school science scissors scoop scout scraps screen scribble scroll scrub scuba sculpt sea seafood seagull seahorse
-seal season seat seaweed second secret seed seesaw senior sentence serene service sesame settle shack shadow shallow shampoo
-shape shark shawl shed sheep shelf shepherd shield shimmer shine ship shirt shiver shoe shop shore shovel show shrimp shrub
-shuttle sidewalk sign silk silly silo silver simmer simple singer sink sister sizzle skate sketch ski skiing skill skip
-skirt skunk sky skyline slalom slate sled sleep slender slicker slide slipper slogan slope sloth slurp smile smoke smooth
-smudge snack snail snake snappy sneaker snooze snorkel snout snow snuffle snuggle soap soccer sock soda sofa soft soil solar
-solid solve song sorbet sort soup south space spaniel spark spatula special speech spell sphere spice spider spill spinach
-splash splinter sponge spoon sport spot spring sprout spruce spur spyglass square squirrel stable stack stadium stage stair
-stallion stamp stapler star statue steam steer stem stencil step stew stick stingray stirrup stitch stockade stomp stone
-stool stopper storm stove straw stream string strong student sturdy success sudden sugar suit summer sun sunbeam sundial
-sunlit sunny sunrise sunset super supper surf surprise swagger swallow swamp swan sweater sweet swift swim swing switch
-swizzle sycamore symbol symphony syrup tabby table tackle taco tadpole taffy tail talent talon tame tan tango tank tape
-target tassel tasty taxi tea teacher tealight team teapot teaspoon teddy tempo tender tennis tent terrace tether texture
-thankful thatch thermal thick thimble think thistle thorn thread thrill throw thumb thunder ticket tidbit tidepool tidy
-tiger timber time tinker tinsel tiny tiptoe toad toast today toddler toe toffee toggle tomato tomorrow tongue tonic tool
-tooth top topaz topknot topsoil torch tornado tortoise toss totem toucan tourist towel town toy track trail tram trapeze
-travel tray treat tree triangle trick trip trivia trolley trombone trophy trout trowel truck truffle trumpet trunk trusty
-tuba tugboat tulip tumble tuna tundra tunnel turkey turnip turtle tusk tussle tutor tutu tuxedo twig twilight twin twirl
-ukulele umbrella uncle under unfold unicorn uniform unique universe unpack unravel until unusual unwind upbeat upkeep uplift
-upper upright upstream uptown urban urchin useful usual vacation vacuum valley valve van vanilla vapor varnish vase vault
-velvet vendor verse vessel vest veteran victory video village vine vintage violet visit visor vista vital vivid vocal voice
-volcano vortex vote voyage waddle wafer waffle wagon waist wait walk wall walnut walrus waltz wand warbler wardrobe warm
-wash wasp watch water wave wax wayside wealth weather web wedding week welcome well western wetland whale wheat wheel
-whistle wick wide widget wiggle wildcat willow wind wing wink winter wire wisdom wish witness wizard wobble wolf wombat
-wonder wood wool word work world worm worthy wreath wren wriggle wrist write yak yard yarn yawn year yelp yes yeti yippee
-yodel yoga yolk yonder young yucca yummy zap zebra zeppelin zest zigzag zinc zipper zone zoo zucchini
+abigail accent acre actor address admire adobe adopt advice agave agent aim alamo alarm alcalde alfalfa alive almanac among
+amos anchor andrea answer ant anthem antonio anvil apart apple apron arbor aroma asa aspen aster austin author autumn avoid
+axis axle baby bacon badge bags baker bale bandana banjo bank banner barley barn barrel barter basin basket bastrop batch
+bayou beans bear bedrock bee beehive beetle begin bellows bench benefit betsy birch biscuit bison bit blanket blaze blink
+bluejay bluff blur board boatman bobble bobcat boil bolivar bonfire bonnet boots border bottle boulder bounce bowie bramble
+branch brave brazos bread breeze brick bridle bright brim bronze broom broth brown buck buffalo bugle build bull bundle
+burlap burnet burro butter buy cabbage cabin cactus caleb calf calico camp candle cannon canoe canteen canvas cape captain
+careful cargo carlos carmen carrot cart cask catfish cattle cedar cellar chair chalk charter cheese cherry chest chick child
+chimney chisel chowder churn cibolo cinder circle cistern city clapper clara clay clean clerk cliff climb clip clock cloth
+cloud clover coat cobbler coffee coleto collie colony columbia common compass comrade concho cookie copano copper corn
+corral cottage couch county courier cousin cow cowbell cowhide coyote crab cradle crane crawdad cream creek cricket crimson
+crinkle crop cross cuff cup curious cypress daisy dance daniel daring david davy dawn deck deer depend desert detail dew
+diary diego dinner dipper direct dirt ditch doctor dogwood dollar donkey door dough dove drake dress dribble dried drift
+drill drive drizzle drought drover drum dry dugout dune dust eager eagle early easy eaves edge edible edward egg egret elder
+elena elias eliza elm ember emily endless enjoy equal erasmo errand esparza evening every express ezra fact fair falcon
+falls family farmer feast felipe fence fennel fern ferry fetch fiddle field fiesta fife figure filly final finch finish
+firefly first fish flag flame flicker flint floor foal focus fodder foggy follow ford forest forge fox freedom freight fresh
+friend frio frog frost frozen fur furrow future gallon gander gar garden garlic gate gather gator gem gentle george gesture
+gingham glade glimmer glow gold goliad gonzales goose gopher gourd grain grande grape grass gravel greet griddle grist grove
+guard guest guide guitar gully halter hammer hannah hardy hare harness harris harvest hat haul hawk hayloft hazel head
+hearth heavy heifer hello hemp hen henry herald herb herder heron hickory hide hilltop history hog hoist hollis hominy honey
+hoof hope hornet horse houston hum humble humming hunt hurdle hurry husband ignacio ignite imagine impact indigo ines infant
+ink inkwell inlet invent invite iris iron isaac island ivory ivy jacinto jacket jacob james jane jawbone jay jelly jewel
+john josefa journal juan jug juniper karnes keen keeper kernel kettle key kid kiln kindle kinship kitchen kite kitten knee
+knit knoll labor ladle ladybug lagoon lake lamar lamb landing lantern larder large lariat lark lasso laugh laurel lavaca
+layer leaf league learn leash leather ledger leek legend lentil lesson letter levee liberty lily lime limit linen liquid
+listen little lively lizard locust loft lone loom lorenzo lowland loyal lucy luisa lumber lydia lynx magnet major mallard
+manage manger mansion manuel map maple marble maria market marsh martin mary mason mast meadow meal measure medina medley
+melon mend mesa message meteor mexico midway mighty miguel milam militia mill minnow mint minute mirror mission modest
+molten moment monarch moon morning mortar moss moth mound mouse mud muddy muffin mulch mule murmur mush musket mussel
+mustang mutton nancy napkin navarro navidad nearby neches nectar needle nephew never newt nibble niece noah noble norther
+notch nugget nursery oak oaken oatmeal oats octave onion onward orchard oriole osprey otter outdoor outpost oval owl owner
+oxcart oxen oyster pablo paddock pan pancake panther paper parade parcel parent parsley partner pasture patient patsy peach
+peas pebble pecan peddler pedro pelican pelt penny pepper peso pewter piano pickle picnic picture pier pig piglet pigtail
+pile pilot pinto pioneer pitcher placido plain plank plaza plenty pliers plucky plum pocket point polly pony poplar poppy
+porch pork possum post potato pour powder prairie precise present printer prism private prize promise proper protect proud
+pudding pulley pumpkin pupil purse quail quarry queen quick quilt rabbit raccoon rachel radish rafael raft rail rainy raise
+rally ramon rancho range rapids rascal ration raven rawhide ready reaper record redbud reed refugio region reins repair
+reply ribbon rice ridge rinse ripple rival river roast robin rock romp rooster root rose rowboat rubber ruby rudder ruffle
+ruiz rural rusk russet rusty ruth rye sabine saddle sage salado salmon salt sam samuel sand sapling sarah sash satin sawdust
+sawmill scarf school scout scribe scrub sculpt seagull season secret seguin sentry serape settler shack shadow shanty shawl
+shed sheep shelf shield shimmer shingle shirt shoal shoes shop shore shovel shower shrimp sieve sign silas silk silver
+simple singer sister sketch skiff skillet skip skunk slate sleet slender slide slipper sloop slope smile smithy smoke smooth
+snake snappy snow snuggle soap sod song sorghum sort source south spade spark speak speech spell spider spindle split sponge
+spoon spot spring sprout spur squash stall star steady steer stephen stew stirrup stitch stone stool stopper storm stream
+strong stump sturdy success suet sugar sumac summer sun sundown sunlit sunny sunrise sunset surf survey susanna swallow
+swamp swan swift swim syrup tabby table tack tadpole tailor tallow tame target tasty tawny tea teacher teapot tejano tempo
+tent terrier tether texas texian texture thatch thaw thicket thimble thistle thomas thorn thread thrush thunder thyme tidy
+timber tin tinsel tiptoe toad today toddler tomato tongue tooth towel town trade travis tray treat trinity trout true trunk
+trust tuba tugboat tunnel turkey turnip turtle tutor uncle unfold unique unity unpack unravel uphill upkeep upland uplift
+upper upriver urchin useful valley valve vanilla vapor vaquero vase vault velasco venison vest victoria village vine vintage
+violet visit visor vista vocal vole voyage waffle wagon walk walnut wares warm washtub wasp water wave wax weaver wedding
+weigh welcome well wet whale wharf wheat wheel whittle wick wildcat wiley willow wind winter wisdom wise wolf wool world
+worthy wren wriggle write yams yard yes yoke yonder young yucca zavala zigzag
 `;
 export const WORDS = Object.freeze(LIST.trim().split(/\s+/));
+const SIZE = WORDS.length; // 1024
 
 // The word a typed token is: its first four letters (or all of it, if shorter) name exactly one word on the list.
 const KEYS = new Map(WORDS.map((word, index) => [word.slice(0, 4), index]));
@@ -218,44 +170,47 @@ function networkOf([a, b]) {
   return null;
 }
 
-// The check: FNV-1a over the word count and the address bits, mixed, and cut to the bits the words have left.
-function checkBits(count, bits, width) {
-  let hash = 0x811c9dc5 ^ count;
-  for (const bit of bits) hash = Math.imul(hash ^ (bit + 0x5a), 0x01000193);
-  hash ^= hash >>> 16; hash = Math.imul(hash, 0x45d9f3b); hash ^= hash >>> 16; hash = Math.imul(hash, 0x45d9f3b); hash ^= hash >>> 16;
-  const out = [];
-  for (let bit = width - 1; bit >= 0; bit--) out.push(bit < 32 ? (hash >>> bit) & 1 : 0);
-  return out;
-}
+// The blocks of the three-word form, in value order: [network, first value, addresses, block size].
+const RANGES = [['wide', 0, 2 ** 24, 56], ['middle', 2 ** 24 * 56, 2 ** 20, 64], ['home', 2 ** 24 * 56 + 2 ** 20 * 64, 2 ** 16, 1024]];
+const WITH_PORT = 960; // the five-word form's block size: floor(2^50 / ((2^24 + 2^20 + 2^16) * 65536))
+const ALL = 2 ** 24 + 2 ** 20 + 2 ** 16;
 
-// The address (and port) as the bits a form carries, and how many words that takes.
-function addressBits(network, octets, port) {
-  const bits = [];
-  const put = (value, width) => { for (let bit = width - 1; bit >= 0; bit--) bits.push(Math.floor(value / 2 ** bit) % 2); };
-  if (port === DEFAULT_PORT) {
-    if (network === 'home') { put(octets[2], 8); put(octets[3], 8); return { bits, count: 2 }; }
-    if (network === 'wide') { put(0, 1); put(octets[1], 8); put(octets[2], 8); put(octets[3], 8); return { bits, count: 3 }; }
-    put(0b10, 2); put(octets[1] - 16, 4); put(octets[2], 8); put(octets[3], 8); return { bits, count: 3 };
-  }
-  if (network === 'home') { put(0, 1); put(octets[2], 8); put(octets[3], 8); }
-  else if (network === 'middle') { put(0b10, 2); put(octets[1] - 16, 4); put(octets[2], 8); put(octets[3], 8); }
-  else { put(0b11, 2); put(octets[1], 8); put(octets[2], 8); put(octets[3], 8); }
-  put(port, 16);
-  return { bits, count: Math.ceil((bits.length + 6) / 11) };
+// The one right value in a block: FNV-1a over the form and the address's number, mixed, cut to the block.
+function checkOf(form, number, size) {
+  let hash = 0x811c9dc5 ^ form;
+  for (let rest = number, i = 0; i < 7; i++, rest = Math.floor(rest / 256)) hash = Math.imul(hash ^ (rest % 256), 0x01000193);
+  hash ^= hash >>> 16; hash = Math.imul(hash, 0x45d9f3b); hash ^= hash >>> 16; hash = Math.imul(hash, 0x45d9f3b); hash ^= hash >>> 16;
+  return (hash >>> 0) % size;
 }
+// An address's number within its range, and back.
+function numberOf(network, [, b, c, d]) {
+  if (network === 'wide') return (b * 256 + c) * 256 + d;
+  if (network === 'middle') return ((b - 16) * 256 + c) * 256 + d;
+  return c * 256 + d;
+}
+function addressOf(network, number) {
+  const d = number % 256, c = Math.floor(number / 256) % 256, b = Math.floor(number / 65536);
+  return network === 'wide' ? [10, b, c, d] : network === 'middle' ? [172, 16 + b, c, d] : [192, 168, c, d];
+}
+const toWords = (value, count) => {
+  const words = [];
+  for (let i = 0; i < count; i++) { words.unshift(WORDS[value % SIZE]); value = Math.floor(value / SIZE); }
+  return words;
+};
 
 /**
- * The words for a laptop's address and port. Null when they cannot be carried - an address that is not private, or a port that is
- * not a port. (A class code given is ignored: since 2026-10-03 the words carry the address only.)
+ * The words for a laptop's address and port: three, or five for a port other than 1835. Null when they cannot be carried - an
+ * address that is not private, or a port that is not a port. (A class code given is ignored: the words carry the address only.)
  */
 export function encodeJoin({ address, port = DEFAULT_PORT }) {
   const octets = readAddress(address), network = octets && networkOf(octets), portNumber = Number(port);
   if (!network || !Number.isInteger(portNumber) || portNumber < 1 || portNumber > 65535) return null;
-  const { bits, count } = addressBits(network, octets, portNumber);
-  const all = [...bits, ...checkBits(count, bits, count * 11 - bits.length)];
-  const words = [];
-  for (let start = 0; start < all.length; start += 11) words.push(WORDS[all.slice(start, start + 11).reduce((value, bit) => value * 2 + bit, 0)]);
-  return words;
+  const [, start, , size] = RANGES.find(range => range[0] === network), number = numberOf(network, octets);
+  if (portNumber === DEFAULT_PORT) return toWords(start + number * size + checkOf(3, start + number, size), 3);
+  // Five words: every private address, in the order of the ranges, times every port.
+  const global = RANGES.slice(0, RANGES.findIndex(range => range[0] === network)).reduce((sum, range) => sum + range[2], 0) + number;
+  const combined = global * 65536 + portNumber;
+  return toWords(combined * WITH_PORT + checkOf(5, combined, WITH_PORT), 5);
 }
 
 /** The tokens of what a student typed: letters only, split on anything else (spaces, hyphens, commas, a `#`). */
@@ -263,8 +218,8 @@ export const joinTokens = text => String(text ?? '').toLowerCase().split(/[^a-z]
 
 /**
  * What typed words mean. `{ ok: true, address, port, url, words }`, or `{ ok: false, reason, ... }` where reason is `empty`,
- * `unknown` (with `place`, 1-based, the `word` and `suggestions`), `short` (one word), `long` (more than five), or `check` (all on
- * the list, but not words the game made: one mistyped or out of order, or one too many or too few).
+ * `unknown` (with `place`, 1-based, the `word` and `suggestions`), `short` (fewer than three), `count` (four), `long` (more than
+ * five), or `check` (all on the list, but not words the game made: one mistyped or out of order).
  */
 export function decodeJoin(text) {
   const tokens = joinTokens(text);
@@ -275,35 +230,32 @@ export function decodeJoin(text) {
     if (index < 0) return { ok: false, reason: 'unknown', place: place + 1, word: token, suggestions: suggestWords(token) };
     indexes.push(index);
   }
-  if (indexes.length < 2) return { ok: false, reason: 'short', count: indexes.length };
-  if (indexes.length > 5) return { ok: false, reason: 'long', count: indexes.length };
-  const bits = [];
-  for (const word of indexes) for (let bit = 10; bit >= 0; bit--) bits.push((word >> bit) & 1);
-  let at = 0;
-  const take = width => { let value = 0; for (let i = 0; i < width; i++) value = value * 2 + bits[at++]; return value; };
   const count = indexes.length;
+  if (count < 3) return { ok: false, reason: 'short', count };
+  if (count === 4) return { ok: false, reason: 'count', count };
+  if (count > 5) return { ok: false, reason: 'long', count };
+  const value = indexes.reduce((sum, index) => sum * SIZE + index, 0);
   let octets, port = DEFAULT_PORT;
-  if (count === 2) octets = [192, 168, take(8), take(8)];
-  else if (count === 3) {
-    if (take(1) === 0) octets = [10, take(8), take(8), take(8)];
-    else if (take(1) === 0) octets = [172, 16 + take(4), take(8), take(8)];
-    else return { ok: false, reason: 'check', count };
+  if (count === 3) {
+    const [network, start, , size] = RANGES.findLast(range => value >= range[1]);
+    const number = Math.floor((value - start) / size);
+    if ((value - start) % size !== checkOf(3, start + number, size)) return { ok: false, reason: 'check', count };
+    octets = addressOf(network, number);
   } else {
-    if (take(1) === 0) octets = [192, 168, take(8), take(8)];
-    else if (take(1) === 0) octets = [172, 16 + take(4), take(8), take(8)];
-    else octets = [10, take(8), take(8), take(8)];
-    port = take(16);
+    const combined = Math.floor(value / WITH_PORT);
+    if (value % WITH_PORT !== checkOf(5, combined, WITH_PORT) || combined >= ALL * 65536) return { ok: false, reason: 'check', count };
+    port = combined % 65536;
+    let global = Math.floor(combined / 65536);
+    const [network] = RANGES.find(range => (global < range[2] ? true : ((global -= range[2]), false)));
+    octets = addressOf(network, global);
     if (port === DEFAULT_PORT || port < 1) return { ok: false, reason: 'check', count };
   }
   const address = octets.join('.');
-  // The words this address makes, made again: only the very same words are these words (the right form, the right length, the check).
-  const again = encodeJoin({ address, port });
-  if (!again || again.length !== count || again.some((word, place) => word !== WORDS[indexes[place]])) return { ok: false, reason: 'check', count };
-  return { ok: true, address, port, url: joinAddress({ address, port }), words: again };
+  return { ok: true, address, port, url: joinAddress({ address, port }), words: indexes.map(index => WORDS[index]) };
 }
 
 /** Where a class's words lead: the bare address on the classroom network, which asks for the class code (docs/HOST_PAGE.md §2.14). */
 export const joinAddress = ({ address, port = DEFAULT_PORT }) => `http://${address}:${port}/`;
 
-/** The page's link that goes straight on to the class: `https://playtexas.github.io/#ahead-oar`. */
+/** The page's link that goes straight on to the class: `https://playtexas.github.io/#cannon-river-oak`. */
 export const joinLink = words => `https://${JOIN_SITE}/#${words.join('-')}`;
