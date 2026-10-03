@@ -29,7 +29,7 @@ left standing, the line not said ([record](docs/evidence/land-paths-injections.j
 node); its proof now asserts the line and the felling wherever trees stand in the yard. `npm run test:overlap` green. `npm test` on the
 branch as cut: 2117 tests, 2077 pass, 3 fail - the art plan's heading test (`B16` with no heading: integration's own state at 96462b66,
 put right by 0348bfbb, onto which this branch is rebased) and two under the load of the whole suite (the save retry, the thirty-household
-capacity) with the battle floor's timing, each green alone - see the rerun below.
+capacity) with the battle floor's timing, each green alone: run again on the rebased branch, those three files, the art plan's and land-paths' are 25 tests, 25 pass.
 
 ## Family creation and children — 2026-10-02
 
