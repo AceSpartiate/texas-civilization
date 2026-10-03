@@ -189,7 +189,9 @@ test('a driver to every vehicle, then the sick and the youngest ride, a baby in 
   assert.deepEqual(cart.get(sick.id), { rides: 'c' }, 'the sick walked');
   assert.equal([...cart.values()].filter(seat => seat.rides && !seat.carried).length, CART_RIDERS);
   assert.deepEqual(cart.get('c6'), { rides: 'c' }, 'the youngest walked');
-  assert.deepEqual(cart.get('c5'), { afoot: true }, 'a cart took more than two');
+  // The child of five has no seat: the mother has the baby and the father the reins, so the eldest walking carries him (owner,
+  // 2026-10-02, "Adults carry small kids").
+  assert.deepEqual(cart.get('c5'), { afoot: true, carried: 'c0' }, 'a cart took more than two, or the child of five was not carried');
   // Nobody under ten drives, and with no vehicle everybody walks.
   const young = seatPlan([person('a', 30, { principal: true }), person('k', 8)], [wagon('w1'), wagon('w2')]);
   assert.equal(young.get('k').drives, undefined, 'a child of eight was given a wagon to drive');
@@ -236,7 +238,10 @@ test('the family goes at its slowest: the ox with a vehicle, a small child on fo
   // Too few: a child of four has to walk, and holds the family back.
   const many = [...grownUps, ...[5, 4, 4, 3, 2].map((age, i) => person(`k${i}`, age))];
   assert.equal(pace(many, [wagon('c', true)]), SMALL_WALK_SPEED, 'a small child on foot did not slow the cart');
-  assert.equal(pace(many, [wagon('w')]), SMALL_WALK_SPEED, 'the fifth small child on foot did not slow the wagon');
+  // The wagon's four seats and one grown person walking: the fifth small child is carried, and the wagon keeps the ox's pace; a
+  // sixth has nobody to carry it and walks (owner, 2026-10-02).
+  assert.equal(pace(many, [wagon('w')]), WAGON_SPEED, 'the fifth small child, carried, slowed the wagon');
+  assert.equal(pace([...many, person('k5', 3)], [wagon('w')]), SMALL_WALK_SPEED, 'a sixth small child, with nobody to carry it, did not slow the wagon');
   assert.equal(pace(many, [wagon('w'), wagon('x')]), WAGON_SPEED, 'with seats for every small child the family was still slowed');
   // Walkers of six to nine keep up.
   assert.equal(pace([...grownUps, ...[9, 8, 7, 6, 6, 6].map((age, i) => person(`o${i}`, age))], [wagon('c', true)]), WAGON_SPEED);
@@ -306,19 +311,23 @@ test('on the road in each is seated, walkers are tired as walkers, the family co
   validateWorld(world);
 });
 
-test('a family of many small children in one cart comes in slower than the ox, and one with room at the ox\'s pace', () => {
+test('a family of many small children in one cart comes in at the ox\'s pace, its small children carried; one with room at it too', () => {
   const ticks = world => { const household = world.households['hh-1']; world.status = 'running'; let n = 0; while (household.arriving && n < 900) { stepWorld(world); n++; } return n; };
-  // A poor family of twenty whose small children outnumber the cart's two seats and the horse's one.
-  let poor, family, small = [];
-  for (let n = 0; n < 40 && !small.length; n++) {
+  // A poor family of twenty whose small children outnumber the cart's two seats and the horse's one. Until 2026-10-02 the first
+  // small child on foot held it to a mile and a half an hour; now the grown people and the children of fourteen or more carry the
+  // small children (owner, "Adults carry small kids"), and a carrier walking keeps up with the ox. (More small children than
+  // carriers still slow a family: the family goes at its slowest, above; tests/carry-kids.test.mjs.)
+  let poor, family, carried = [];
+  for (let n = 0; n < 40 && !carried.length; n++) {
     poor = rolled('poor', 20, { stem: `slow-${n}` });
     family = people(poor, poor.households['hh-1']);
-    small = family.filter(one => one.travel.afoot && !one.travel.carried && one.age < 6);
+    carried = family.filter(one => one.travel.afoot && one.travel.carried && one.age >= 2 && one.age < 6);
   }
   const distance = family[0].travel.distance;
-  assert.ok(small.length, 'the fixture has no small child on foot, so this proves nothing');
-  assert.equal(family[0].travel.speed, SMALL_WALK_SPEED, 'a child of under six walks and the family goes at the ox');
-  assert.ok(ticks(poor) > Math.ceil(distance / WAGON_SPEED - 1e-9), 'the family came in as fast as the ox with a small child walking');
+  assert.ok(carried.length, 'the fixture has no small child carried on foot, so this proves nothing');
+  assert.ok(!family.some(one => one.travel.afoot && !one.travel.carried && one.age < 6), 'a small child walks with somebody free to carry it');
+  assert.equal(family[0].travel.speed, WAGON_SPEED, 'a family with its small children carried did not go at the ox');
+  assert.ok(ticks(poor) <= Math.ceil(distance / WAGON_SPEED - 1e-9) + 1, 'the family came in slower than the ox with its small children carried');
   const rich = rolled('well-to-do', 6, { stem: 'fast' });
   assert.equal(people(rich, rich.households['hh-1'])[0].travel.speed, WAGON_SPEED, 'a family with room for all was slowed');
   assert.ok(people(rich, rich.households['hh-1']).every(one => !one.travel.afoot), 'somebody walked with three wagons for six');

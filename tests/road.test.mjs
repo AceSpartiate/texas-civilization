@@ -171,7 +171,9 @@ test('a bogged family can wait for a dry day, or leave the wagon and go on on fo
   // On foot at its slowest walker (triage 2026-09-29 3.1: the seats dealt again, the horse carrying the youngest): a child of six to
   // nine walks two miles an hour, still faster than the ox; until 2026-10-02 everybody went at a grown person's three.
   const walkers = people(world, household).filter(one => one.travel?.afoot && !one.travel.carried);
-  const slowest = Math.min(...walkers.map(one => (!(one.age < 10) ? WALK_SPEED : one.age >= 6 ? 2 / 3 : 0.5)));
+  // A carrier of a small child at three quarters of a grown pace (owner, 2026-10-02, "Adults carry small kids").
+  const carries = one => people(world, household).some(child => child.travel?.carried === one.id && child.age >= 2);
+  const slowest = Math.min(...walkers.map(one => Math.min(!(one.age < 10) ? WALK_SPEED : one.age >= 6 ? 2 / 3 : 0.5, carries(one) ? WALK_SPEED * 0.75 : Infinity)));
   assert.ok(slowest > WAGON_SPEED, 'on foot is not faster than the wagon: the check proves nothing');
   for (const one of people(world, household).filter(one => one.travel)) { assert.equal(one.travel.mode, 'foot'); assert.equal(one.travel.speed, slowest, `${one.name} does not go at the slowest walker's pace`); assert.equal(one.travel.halted, undefined); }
   assert.ok(household.resources.food <= grown * 1.25 / 0.25 + 1e-9 && household.resources.food > 0, `the family carries ${household.resources.food} food on foot`);

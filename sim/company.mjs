@@ -21,7 +21,15 @@
 //   3. The seats - `WAGON_RIDERS` in a wagon beside its driver, `CART_RIDERS` in a cart - go to the sick first, then to the
 //      youngest, and so on up by age.
 //   4. Everybody left walks beside the wagons: the older of the family, as the owner said.
-// The family goes at its slowest (`companyPace`): the ox's pace when it has a vehicle, and no faster than whoever walks slowest.
+//   5. **A small child left on foot is carried** (owner, 2026-10-02, "Adults carry small kids"; `FIC-GONZ-1061`): each child of two
+//      to five who has no seat is taken up by somebody walking - its mother, else its father, else the eldest walking - who is
+//      fourteen or more, well, and not already carrying a baby or another child, one child to a carrier. Carried, the child does
+//      not set the pace; its carrier goes at `CARRYING_SPEED`, a quarter slower than walking free, the owner's own measure for a
+//      baby on the hip on a journey of one's own (`HIP_PACE`, `FIC-GONZ-630`): a child of two to five weighs more than a baby, so
+//      a carrier is at least that slow. A baby under two keeps its own rule (step 2): its carrier is not slowed on the family's
+//      road. More small children than carriers: the rest walk, and the slowest of them sets the pace.
+// The family goes at its slowest (`companyPace`): the ox's pace when it has a vehicle, and no faster than whoever walks slowest -
+// a carrier of a small child at `CARRYING_SPEED`, the child itself not at all (step 5, owner 2026-10-02).
 // A walker of ten or more goes at a grown person's three miles an hour and a child of six to nine at two, and both keep up with
 // the ox; **only a child of two to five on foot holds it back**, and they ride first, so that happens only when a large family
 // has too few seats - a poor family's cart, or eighteen children in one wagon. A family with no vehicle at all walks at its
@@ -74,6 +82,26 @@ export const CARRIED_UNDER = 2;
  * two, which keeps up with the ox's not-quite-two; two to five, a mile and a half, which does not.
  */
 export const CHILD_WALK_SPEED = 2 / 3, SMALL_WALK_SPEED = 0.5;
+/**
+ * Carrying a small child (owner, 2026-10-02, "Adults carry small kids"; `FIC-GONZ-1061`): who may be carried - a child of two to
+ * five, `CARRIED_UNDER` to `CARRY_UNDER` - and who may carry one - anybody walking of `CARRIER_FROM` or more, well. Fourteen is the
+ * game's own line: a boy or girl of that age has most of a grown person's strength and was given grown work in a frontier family,
+ * where a child of ten or twelve could lead a sister by the hand but not carry one mile after mile (the road's little ones are
+ * kept walking from seven, sim/flight-work.mjs `road-little-ones`; wading over with them on one's back is from sixteen, `ford-carry`).
+ */
+export const CARRY_UNDER = 6, CARRIER_FROM = 14;
+/**
+ * A carrier's pace, in miles a farming tick: two and a quarter miles an hour, a quarter slower than walking free (`HIP_PACE`, the
+ * owner's own rule for a baby on the hip, 2026-09-27, `FIC-GONZ-630`). A child of two to five is two or three times a baby's
+ * weight, so nothing slower than the baby's measure would be fair to the carrier, and nothing faster to the child. For the
+ * chase, that is a little slower than marching infantry (two and a half, `HIST-TEX-660`): soldiers close on a mother carrying
+ * her child, slowly - about seven yards a minute - where a child of three walking (a mile and a half) fell to them in minutes.
+ * Invented; no source read gives the pace of a person carrying a child. The quarter is written here rather than imported (this
+ * module is read while sim/babies.mjs is still loading); tests/carry-kids.test.mjs holds the two equal.
+ */
+export const CARRYING_SPEED = WALK_SPEED * 0.75;
+/** A walker's pace with what their seat says they carry: a small child slows them to `CARRYING_SPEED` (a baby does not, step 2). */
+export const walkerPace = (person, seat = person?.travel) => Math.min(walkingPace(person), seat?.carrying ? CARRYING_SPEED : Infinity);
 export function walkingPace(person) {
   // Somebody lying wounded who must walk goes at a small child's pace (design audit S19, 2026-09-28; `FIC-GONZ-732`, invented):
   // a family with no wagon to carry him is that much slower for him.
@@ -132,13 +160,26 @@ export function seatPlan(people, vehicles = [], horses = []) {
     const where = !theirs || theirs.afoot ? { afoot: true } : { rides: theirs.drives || theirs.rides, ...(theirs.saddle && { saddle: true }) };
     plan.set(baby.id, { ...where, ...(carrier && { carried: carrier.id }) });
   }
+  // 5. Every small child left on foot carried by somebody walking, one child each, while there are carriers (owner, 2026-10-02).
+  const holding = new Set([...plan.values()].map(seat => seat.carried).filter(Boolean));
+  const mayCarry = person => plan.get(person.id)?.afoot && !plan.get(person.id).carried && !holding.has(person.id) && !unwell(person) && ageFor(person) >= CARRIER_FROM;
+  const small = people.filter(person => plan.get(person.id)?.afoot && !plan.get(person.id).carried && Number.isFinite(person.age) && person.age >= CARRIED_UNDER && person.age < CARRY_UNDER).sort(byAge);
+  for (const child of small) {
+    const parents = (child.kin?.parents || []).map(id => people.find(person => person.id === id)).filter(Boolean);
+    const carrier = [...parents.filter(parent => sexOf(parent) === 'female'), ...parents, ...[...people].sort((a, b) => byAge(b, a))].find(mayCarry);
+    if (!carrier) break;
+    holding.add(carrier.id);
+    plan.set(child.id, { afoot: true, carried: carrier.id });
+    plan.set(carrier.id, { ...plan.get(carrier.id), carrying: child.id });
+  }
   return plan;
 }
 
 /** The pace of a family moving together: the ox's with a vehicle, and never faster than its slowest walker. Babies are carried. */
 export function companyPace(people, plan, vehicles = []) {
   const walkers = people.filter(person => plan.get(person.id)?.afoot && !plan.get(person.id)?.carried);
-  const slowest = walkers.length ? Math.min(...walkers.map(walkingPace)) : WALK_SPEED;
+  // A carrier of a small child at `CARRYING_SPEED` (owner, 2026-10-02); a carried child, like a baby, sets no pace.
+  const slowest = walkers.length ? Math.min(...walkers.map(person => walkerPace(person, plan.get(person.id)))) : WALK_SPEED;
   return vehicles.length ? Math.min(WAGON_SPEED, slowest) : Math.min(WALK_SPEED, slowest);
 }
 
@@ -147,9 +188,10 @@ export function companyPace(people, plan, vehicles = []) {
  * horse, `afoot`, and `carried` by whom. Read by sim/world.mjs `progressTravel` (what the miles cost them) and sent with their
  * travel to the family and the Host.
  */
-export const seatFields = seat => (!seat ? {} : { ...(seat.drives && { drives: seat.drives }), ...(seat.rides && { rides: seat.rides }), ...(seat.saddle && { saddle: true }), ...(seat.afoot && { afoot: true }), ...(seat.carried && { carried: seat.carried }) });
+// `carrying`: the small child this walker carries (owner, 2026-10-02), read for their pace (`walkerPace`).
+export const seatFields = seat => (!seat ? {} : { ...(seat.drives && { drives: seat.drives }), ...(seat.rides && { rides: seat.rides }), ...(seat.saddle && { saddle: true }), ...(seat.afoot && { afoot: true }), ...(seat.carried && { carried: seat.carried }), ...(seat.carrying && { carrying: seat.carrying }) });
 /** The seat fields a travel record carries, copied out for a projection. */
-export const seatOfTravel = travel => seatFields(travel && { drives: travel.drives, rides: travel.rides, saddle: travel.saddle, afoot: travel.afoot, carried: travel.carried });
+export const seatOfTravel = travel => seatFields(travel && { drives: travel.drives, rides: travel.rides, saddle: travel.saddle, afoot: travel.afoot, carried: travel.carried, carrying: travel.carrying });
 
 /**
  * The family's people and beasts setting out together: every one of `movers` given `base` as its journey, at the company's pace,
@@ -161,7 +203,7 @@ export function setOut(movers, vehicles, base, horses = []) {
   const plan = seatPlan(people, vehicles, horses);
   const speed = companyPace(people, plan, vehicles);
   for (const entity of movers) {
-    const { drives, rides, saddle, afoot, carried: by, ...rest } = base(entity);
+    const { drives, rides, saddle, afoot, carried: by, carrying, ...rest } = base(entity);
     if (!vehicles.length && rest.mode === 'wagon') rest.mode = 'foot';
     entity.travel = { ...rest, speed, ...(entity.kind === 'person' && seatFields(plan.get(entity.id))) };
   }

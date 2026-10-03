@@ -256,7 +256,7 @@ function goWith(world, host, ours) {
   const leader = peopleOf(world, host).find(person => ['flee', 'return'].includes(person.travel?.purpose));
   if (leader) {
     for (const person of ours) {
-      const { fords, loggedProgress, progressEventId, rides, drives, saddle, afoot, carried, ...journey } = leader.travel;
+      const { fords, loggedProgress, progressEventId, rides, drives, saddle, afoot, carried, carrying, ...journey } = leader.travel;
       person.travel = { ...journey, purpose: 'taken-in', silent: true, rides: leader.id };
       person.location = { x: leader.location.x, y: leader.location.y, siteId: null };
       person.task = 'travel'; person.chore = null;
