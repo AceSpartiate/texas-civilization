@@ -1,60 +1,77 @@
-// Join words (owner, 2026-10-03: "is it possible to use a word or phrase instead like a webpage?", then "could we make the join
-// words be a join word? singular?" - and, by multiple choice, "Fewest words, no server"; docs/HOST_PAGE.md §2.17). Two or three
-// words carry the Host laptop's private address (and its port when not 1835) to the page at playtexas.github.io, which sends the
-// student to the bare address, where the class code is asked for. The page's decoder is the game's encoder: one module, copied.
+// Join words (owner, 2026-10-03: "is it possible to use a word or phrase instead like a webpage?" - "Fewest words, no server" -
+// and then "3 words, ensure they're short, easy to type, and related to the texas revolution", port kept at 1835; docs/HOST_PAGE.md
+// §2.17). Three words from a 1,024-word list of 1830s Texas carry the Host laptop's private address to the page at
+// playtexas.github.io, which sends the student to the bare address, where the class code is asked for. The page's decoder is the
+// game's encoder: one module, copied.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { WORDS, DEFAULT_PORT, JOIN_SITE, decodeJoin, encodeJoin, isClassroomAddress, joinLink, suggestWords, wordIndex, wordsStartingWith } from '../sim/join-words.mjs';
 import { createClassroom } from '../server/app.mjs';
 
 const site = new URL('../site/playtexas/', import.meta.url);
+const RANGES = ['192.168', '172.16-31', '10.x'];
 
 // A small deterministic generator, so a failure names an address that can be tried again.
-function* addresses(count, seed = 1) {
+function* addresses(count, seed = 1, { ports = true, only = null } = {}) {
   let s = seed;
   const next = () => (s = (Math.imul(s, 1103515245) + 12345) >>> 0) / 2 ** 32;
   const byte = () => Math.floor(next() * 256);
   for (let i = 0; i < count; i++) {
-    const kind = i % 3;
-    const address = kind === 0 ? `192.168.${byte()}.${byte()}` : kind === 1 ? `10.${byte()}.${byte()}.${byte()}` : `172.${16 + Math.floor(next() * 16)}.${byte()}.${byte()}`;
-    const port = i % 4 === 3 ? 1 + Math.floor(next() * 65535) : DEFAULT_PORT;
-    yield { address, port };
+    const kind = only ?? RANGES[i % 3];
+    const address = kind === '192.168' ? `192.168.${byte()}.${byte()}` : kind === '10.x' ? `10.${byte()}.${byte()}.${byte()}` : `172.${16 + Math.floor(next() * 16)}.${byte()}.${byte()}`;
+    const port = ports && i % 4 === 3 ? 1 + Math.floor(next() * 65535) : DEFAULT_PORT;
+    yield { address, port: port === DEFAULT_PORT && ports && i % 4 === 3 ? DEFAULT_PORT + 1 : port, kind };
   }
 }
 
-test('the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen', () => {
-  assert.equal(WORDS.length, 2048);
-  assert.equal(new Set(WORDS).size, 2048);
+test('the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen', () => {
+  assert.equal(WORDS.length, 1024);
+  assert.equal(new Set(WORDS).size, 1024);
+  const long = WORDS.filter(word => word.length > 7);
   for (const word of WORDS) assert.match(word, /^[a-z]{3,8}$/, word);
-  assert.equal(new Set(WORDS.map(word => word.slice(0, 4))).size, 2048, 'two words start with the same four letters');
+  assert.deepEqual(long.sort(), ['columbia', 'gonzales', 'victoria'], 'only the three town names are longer than 7 letters');
+  assert.equal(new Set(WORDS.map(word => word.slice(0, 4))).size, 1024, 'two words start with the same four letters');
+  // No two words one letter apart, or one swap of neighbouring letters apart: a slip of one letter is a word not on the list.
+  const near = (a, b) => {
+    if (a.length === b.length) {
+      const diff = [...a].map((c, i) => (c === b[i] ? -1 : i)).filter(i => i >= 0);
+      return diff.length === 1 || (diff.length === 2 && diff[1] === diff[0] + 1 && a[diff[0]] === b[diff[1]] && a[diff[1]] === b[diff[0]]);
+    }
+    const [s, l] = a.length < b.length ? [a, b] : [b, a];
+    return l.length - s.length === 1 && [...l].some((_, i) => l.slice(0, i) + l.slice(i + 1) === s);
+  };
+  for (let i = 0; i < WORDS.length; i++) for (let j = i + 1; j < WORDS.length; j++) assert.ok(!near(WORDS[i], WORDS[j]), `${WORDS[i]} and ${WORDS[j]}`);
+  // Of the Texas Revolution: its places, people and things are on the list.
+  for (const word of ['texas', 'alamo', 'goliad', 'gonzales', 'brazos', 'austin', 'houston', 'seguin', 'travis', 'zavala', 'cannon', 'musket', 'saddle', 'mule', 'oxcart', 'flag', 'adobe', 'mustang', 'pecan', 'norther', 'tejano', 'texian']) {
+    assert.ok(WORDS.includes(word), `${word} is not on the list`);
+  }
   // The page and every game in every classroom must read the same list (the module's ceiling): it never changes.
-  assert.equal(createHash('sha256').update(WORDS.join('\n')).digest('hex'), '294471f121812ae45aa8920c9cab21630cb2914950d03918310e98a7c61f8b4e');
+  assert.equal(createHash('sha256').update(WORDS.join('\n')).digest('hex'), '1656e67e3ea43222f6bc5bf0f22237407c776145e09a1c7297759230ff38878b');
   // And the same words for the same address, whoever made them and whenever.
   for (const [address, port, words] of [
-    ['192.168.1.20', 1835, 'address pasta'], ['192.168.4.38', 1835, 'amulet crane'], ['10.12.200.7', 1835, 'aqua canoe tumble'],
-    ['172.20.1.9', 1835, 'mosaic caramel bubble'], ['192.168.1.20', 3000, 'acrobat flapjack ketchup crescent'],
-    ['10.255.0.1', 3000, 'zoo able believe swamp orange'],
+    ['192.168.1.20', 1835, 'vapor erasmo slipper'], ['192.168.4.38', 1835, 'vaquero avoid upkeep'], ['10.12.200.7', 1835, 'bags sage ines'],
+    ['172.20.1.9', 1835, 'thunder alive patsy'], ['10.5.0.2', 1835, 'almanac luisa cask'],
+    ['192.168.1.20', 3000, 'young alive collie scarf cistern'], ['10.255.0.1', 3000, 'useful eager bedrock scarf fresh'],
   ]) assert.equal(encodeJoin({ address, port }).join(' '), words, `${address}:${port}`);
 });
 
-test('fewest words: 2 for 192.168 on the usual port, 3 for 10.x and 172.16-31, more only for another port', () => {
-  assert.equal(encodeJoin({ address: '192.168.0.1' }).length, 2);
-  assert.equal(encodeJoin({ address: '192.168.255.255', port: DEFAULT_PORT }).length, 2);
-  assert.equal(encodeJoin({ address: '10.0.0.1' }).length, 3);
-  assert.equal(encodeJoin({ address: '172.16.0.1' }).length, 3);
-  assert.equal(encodeJoin({ address: '172.31.255.254' }).length, 3);
-  assert.equal(encodeJoin({ address: '192.168.1.20', port: 3000 }).length, 4);
-  assert.equal(encodeJoin({ address: '172.20.1.9', port: 8080 }).length, 4);
-  assert.equal(encodeJoin({ address: '10.1.2.3', port: 3000 }).length, 5);
-  // The class code is not carried (owner, "Fewest words"): the same words whatever the code, so New Class leaves them alone.
+test('always three words, for every private range; five only for a port other than 1835', () => {
+  for (const address of ['192.168.0.1', '192.168.255.255', '10.0.0.0', '10.255.255.255', '172.16.0.0', '172.31.255.255']) {
+    assert.equal(encodeJoin({ address }).length, 3, address);
+    assert.equal(encodeJoin({ address, port: DEFAULT_PORT }).length, 3, address);
+  }
+  for (const address of ['192.168.1.20', '172.20.1.9', '10.1.2.3']) assert.equal(encodeJoin({ address, port: 3000 }).length, 5, address);
+  // Four words are never made, and refused.
+  assert.equal(decodeJoin(encodeJoin({ address: '10.1.2.3', port: 3000 }).slice(0, 4).join(' ')).reason, 'count');
+  // The class code is not carried: the same words whatever the code, so New Class leaves them alone.
   assert.deepEqual(encodeJoin({ address: '192.168.1.20', code: '6744EF' }), encodeJoin({ address: '192.168.1.20', code: 'ABC123' }));
 });
 
-test('every address round-trips: the words lead back to the address and port that made them, and to the bare address', () => {
+test('every address round-trips, in all three ranges: the words lead back to the address and port that made them', () => {
   let count = 0;
   for (const { address, port } of addresses(30000)) {
     const words = encodeJoin({ address, port });
@@ -64,10 +81,15 @@ test('every address round-trips: the words lead back to the address and port tha
     assert.equal(read.url, `http://${address}:${port}/`);
     count++;
   }
-  // Every one of the 65,536 two-word addresses, exhaustively.
+  // Every 192.168 address and every 172.16-31 address on the usual port, exhaustively; and the edges of 10.x.
   for (let a = 0; a < 256; a++) for (let b = 0; b < 256; b++) {
-    const read = decodeJoin(encodeJoin({ address: `192.168.${a}.${b}` }).join(' '));
-    assert.equal(read.ok && read.address, `192.168.${a}.${b}`);
+    assert.equal(decodeJoin(encodeJoin({ address: `192.168.${a}.${b}` }).join(' ')).address, `192.168.${a}.${b}`);
+  }
+  for (let s = 16; s < 32; s++) for (let a = 0; a < 256; a++) for (let b = 0; b < 256; b += 3) {
+    assert.equal(decodeJoin(encodeJoin({ address: `172.${s}.${a}.${b}` }).join(' ')).address, `172.${s}.${a}.${b}`);
+  }
+  for (const address of ['10.0.0.0', '10.0.0.1', '10.255.255.255', '10.128.0.0', '172.16.0.0', '172.31.255.255', '192.168.0.0', '192.168.255.255']) {
+    assert.equal(decodeJoin(encodeJoin({ address }).join(' ')).address, address);
   }
   assert.ok(count === 30000);
 });
@@ -79,41 +101,43 @@ test('only the three private ranges: the page can never be sent to the Internet'
   }
   for (const address of ['10.0.0.0', '172.16.0.0', '172.31.255.255', '192.168.0.0']) assert.ok(isClassroomAddress(address), address);
   for (const port of [0, 65536, -1, 1.5, 'x']) assert.equal(encodeJoin({ address: '192.168.1.1', port }), null, String(port));
-  // And nothing typed decodes to anything else: every pair and triple of words (a sample) is private or refused.
+  // And nothing typed decodes to anything else: three and five words (a sample) are private or refused.
   for (let i = 0; i < 20000; i++) {
-    const read = decodeJoin(`${WORDS[(i * 7919) % 2048]} ${WORDS[(i * 104729) % 2048]}${i % 2 ? ` ${WORDS[(i * 31) % 2048]}` : ''}`);
+    const three = `${WORDS[(i * 7919) % 1024]} ${WORDS[(i * 104729) % 1024]} ${WORDS[(i * 31) % 1024]}`;
+    const read = decodeJoin(i % 2 ? three : `${three} ${WORDS[(i * 13) % 1024]} ${WORDS[(i * 17) % 1024]}`);
     if (read.ok) assert.ok(isClassroomAddress(read.address), read.address);
   }
 });
 
 test('typing is forgiven where it can be: case, hyphens, commas, spaces, and anything after the fourth letter', () => {
-  const words = encodeJoin({ address: '10.12.200.7' }); // aqua canoe tumble
-  for (const typed of ['AQUA CANOE TUMBLE', 'aqua-canoe-tumble', ' aqua,  canoe , tumble ', 'Aqua\tCanoe\nTumble', 'aquaa canoo tumbel', '#aqua-canoe-tumble']) {
-    assert.equal(decodeJoin(typed).address, '10.12.200.7', typed);
+  const words = encodeJoin({ address: '192.168.1.20' }); // vapor erasmo slipper
+  for (const typed of ['VAPOR ERASMO SLIPPER', 'vapor-erasmo-slipper', ' vapor,  erasmo , slipper ', 'Vapor\tErasmo\nSlipper', 'vaporr erasmoo slipr', '#vapor-erasmo-slipper']) {
+    assert.equal(decodeJoin(typed).address, '192.168.1.20', typed);
   }
-  assert.equal(wordIndex('squirel'), WORDS.indexOf('squirrel'));
+  assert.equal(wordIndex('stirup'), WORDS.indexOf('stirrup'));
+  assert.equal(wordIndex('gonzalez'), WORDS.indexOf('gonzales'));
   assert.equal(wordIndex('ca'), -1);
   assert.equal(wordIndex('cats'), -1);
   assert.deepEqual(decodeJoin(words.join(' ')).words, words);
 });
 
-test('a typo is caught rather than sending a student somewhere else', () => {
+test('a typo is caught rather than sending a student somewhere else: measured, and reported', () => {
   // A word not on the list: refused, with where it is and the nearest words.
-  const unknown = decodeJoin('amulet crame');
+  const unknown = decodeJoin('vapor ersamo slipper');
   assert.equal(unknown.ok, false); assert.equal(unknown.reason, 'unknown'); assert.equal(unknown.place, 2);
-  assert.ok(unknown.suggestions.includes('crane'), unknown.suggestions.join());
+  assert.ok(unknown.suggestions.includes('erasmo'), unknown.suggestions.join());
   assert.ok(suggestWords('nee').includes('knee'));
-  assert.ok(wordsStartingWith('squ').includes('squirrel'));
+  assert.ok(wordsStartingWith('sti').includes('stirrup'));
   assert.equal(decodeJoin('').reason, 'empty');
-  assert.equal(decodeJoin('amulet').reason, 'short');
-  assert.equal(decodeJoin('a b c d e f'.split(' ').map((_, i) => WORDS[i]).join(' ')).reason, 'long');
-  // A word swapped for another word on the list, two words swapped, a word dropped or one added: refused all but rarely - the
-  // check bits are what is left of the words (6 on the two-word form, so about 1 in 64 slips through; module's ceiling).
-  const rate = (form, mutate) => {
+  assert.equal(decodeJoin('vapor erasmo').reason, 'short');
+  assert.equal(decodeJoin(WORDS.slice(0, 6).join(' ')).reason, 'long');
+  // A word swapped for another word on the list, two words swapped, a word dropped or one added: refused all but rarely. Each
+  // address owns a block of values and exactly one value in it is right (56 for 10.x, 64 for 172.16-31, 1024 for 192.168), so a
+  // slip lands on a right value about 1 time in the block size of wherever it lands.
+  const rate = (only, mutate) => {
     let tried = 0, slipped = 0;
-    for (const { address, port } of addresses(4000, 7)) {
+    for (const { address, port } of addresses(3000, 7, { ports: false, only })) {
       const words = encodeJoin({ address, port });
-      if (words.length !== form) continue;
       for (const changed of mutate(words)) {
         tried++;
         const read = decodeJoin(changed.join(' '));
@@ -122,19 +146,26 @@ test('a typo is caught rather than sending a student somewhere else', () => {
     }
     return { tried, slipped, rate: slipped / tried };
   };
-  const substitutions = words => words.flatMap((_, place) => [1, 5, 77, 1023].map(step => words.map((word, at) => at === place ? WORDS[(WORDS.indexOf(word) + step) % 2048] : word)));
-  const swaps = words => words.length > 1 && words[0] !== words[1] ? [[words[1], words[0], ...words.slice(2)]] : [];
+  const substitutions = words => words.flatMap((_, place) => [1, 5, 77, 512, 1023].map(step => words.map((word, at) => at === place ? WORDS[(WORDS.indexOf(word) + step) % 1024] : word)));
+  const swaps = words => [[words[1], words[0], words[2]], [words[0], words[2], words[1]], [words[2], words[1], words[0]]].filter(changed => changed.join() !== words.join());
   const drops = words => words.map((_, place) => words.filter((__, at) => at !== place));
-  const adds = words => [[...words, WORDS[42]], [WORDS[1999], ...words]];
-  // A dropped or added word lands on another form - two words, or four - and meets that form's check instead.
-  for (const [form, limits] of [[2, { substitutions: 1 / 32, swaps: 1 / 32, drops: 1 / 32, adds: 1 / 32 }], [3, { substitutions: 1 / 128, swaps: 1 / 128, drops: 1 / 32, adds: 1 / 32 }]]) {
+  const adds = words => [[...words, WORDS[42], WORDS[7]], [WORDS[999], WORDS[3], ...words]];
+  // The ceilings each range is held to, a little above what the blocks give (1/56, 1/64, 1/1024 where a slip stays in its range).
+  // Measured 2026-10-03: 192.168 substitutions 1 in 344, swaps 1 in 76; 172.16-31 1 in 86 and 1 in 57; 10.x 1 in 68 and 1 in 58;
+  // a dropped word never (two words are refused); an added pair about 1 in 1000 (the five-word form's 1 in 960).
+  const limits = { '192.168': { substitutions: 1 / 200, swaps: 1 / 45, drops: 0, adds: 1 / 400 }, '172.16-31': { substitutions: 1 / 55, swaps: 1 / 40, drops: 0, adds: 1 / 400 }, '10.x': { substitutions: 1 / 45, swaps: 1 / 40, drops: 0, adds: 1 / 400 } };
+  const report = {};
+  for (const range of RANGES) {
     for (const [name, mutate] of Object.entries({ substitutions, swaps, drops, adds })) {
-      const limit = limits[name];
-      const { tried, slipped, rate: seen } = rate(form, mutate);
-      assert.ok(tried > 50, `${form}-word ${name}: only ${tried} tried`);
-      assert.ok(seen <= limit, `${form}-word ${name}: ${slipped} of ${tried} slipped through (${(seen * 100).toFixed(2)}%)`);
+      const { tried, slipped, rate: seen } = rate(range, mutate);
+      (report[range] ||= {})[name] = { tried, slipped, rate: Number(seen.toFixed(5)), oneIn: slipped ? Math.round(tried / slipped) : null };
+      assert.ok(tried > 1000, `${range} ${name}: only ${tried} tried`);
+      assert.ok(seen <= limits[range][name], `${range} ${name}: ${slipped} of ${tried} slipped through (${(seen * 100).toFixed(2)}%)`);
     }
   }
+  // Reported, so the rates in docs/HOST_PAGE.md §2.17 are the ones measured.
+  mkdirSync(new URL('../docs/evidence/', import.meta.url), { recursive: true });
+  writeFileSync(new URL('../docs/evidence/join-words-typo-rates.json', import.meta.url), `${JSON.stringify({ record: 'join-words-typo-rates', words: 3, list: WORDS.length, rates: report }, null, 2)}\n`);
 });
 
 test('the page at playtexas.github.io decodes with the game\'s own module, and is self-contained', () => {
@@ -170,7 +201,7 @@ test('the page at playtexas.github.io decodes with the game\'s own module, and i
     if (hook !== 'go') assert.match(page, new RegExp(`#${hook}\\b`), `page.js no longer uses #${hook}`);
   }
   assert.equal(JOIN_SITE, 'playtexas.github.io');
-  assert.equal(joinLink(['amulet', 'crane']), 'https://playtexas.github.io/#amulet-crane');
+  assert.equal(joinLink(['vapor', 'erasmo', 'slipper']), 'https://playtexas.github.io/#vapor-erasmo-slipper');
 });
 
 function client(port) {
@@ -198,10 +229,10 @@ test('the Host is given the words for the students\' network, can choose another
     await host('/api/host', { key: app.state.hostKey });
     let state = (await host('/api/state')).body;
     const code = app.state.sessionCode;
-    assert.deepEqual(state.joinWords.words, ['address', 'pasta']);
+    assert.deepEqual(state.joinWords.words, ['vapor', 'erasmo', 'slipper']);
     assert.equal(state.joinWords.address, '192.168.1.20');
     assert.equal(state.joinWords.url, `http://192.168.1.20:${DEFAULT_PORT}/${code}`, 'the card\'s address and QR code still carry the code');
-    assert.equal(state.joinWords.link, 'https://playtexas.github.io/#address-pasta');
+    assert.equal(state.joinWords.link, 'https://playtexas.github.io/#vapor-erasmo-slipper');
     assert.equal(decodeJoin(state.joinWords.words.join(' ')).url, `http://192.168.1.20:${DEFAULT_PORT}/`, 'the words lead to the bare address');
     assert.deepEqual(state.joinWords.choices.map(choice => [choice.address, choice.classroom]), [['192.168.1.20', true], ['10.5.0.2', true], ['148.61.2.9', false]]);
     // The teacher chooses the VPN's network: the words, the address and the QR code follow; the class code is unchanged.

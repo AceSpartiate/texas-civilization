@@ -1,50 +1,62 @@
 {
   "record": "join-words-injections",
   "date": "2026-10-03",
-  "caught": 19,
-  "of": 19,
+  "caught": 20,
+  "of": 20,
   "results": [
     {
-      "name": "a word on the list changed (crane spelt crate: two words with one start, and the frozen list moved)",
+      "name": "a word on the list changed (cannon spelt canon: two words with one start, and the frozen list moved)",
       "file": "sim/join-words.mjs",
       "expect": [
-        "the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen"
+        "the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen"
       ],
       "failed": [
-        "the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen",
-        "every address round-trips: the words lead back to the address and port that made them, and to the bare address",
-        "a typo is caught rather than sending a student somewhere else",
+        "the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen",
+        "every address round-trips, in all three ranges: the words lead back to the address and port that made them",
         "the page at playtexas.github.io decodes with the game's own module, and is self-contained"
       ],
       "caught": true,
       "alone": false
     },
     {
-      "name": "no check bits: every word pair is some address",
+      "name": "a word one letter from another put on the list (mole beside mule)",
       "file": "sim/join-words.mjs",
       "expect": [
-        "a typo is caught rather than sending a student somewhere else",
-        "the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen"
+        "the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen"
       ],
       "failed": [
-        "the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen",
+        "the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen",
+        "the page at playtexas.github.io decodes with the game's own module, and is self-contained"
+      ],
+      "caught": true,
+      "alone": false
+    },
+    {
+      "name": "no check: every value in a block is taken for its address",
+      "file": "sim/join-words.mjs",
+      "expect": [
+        "a typo is caught rather than sending a student somewhere else: measured, and reported"
+      ],
+      "failed": [
+        "a typo is caught rather than sending a student somewhere else: measured, and reported",
+        "the page at playtexas.github.io decodes with the game's own module, and is self-contained"
+      ],
+      "caught": true,
+      "alone": false
+    },
+    {
+      "name": "the right value is the same place in every block (a check that does not depend on the address)",
+      "file": "sim/join-words.mjs",
+      "expect": [
+        "a typo is caught rather than sending a student somewhere else: measured, and reported",
+        "the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen"
+      ],
+      "failed": [
+        "the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen",
         "typing is forgiven where it can be: case, hyphens, commas, spaces, and anything after the fourth letter",
-        "a typo is caught rather than sending a student somewhere else",
+        "a typo is caught rather than sending a student somewhere else: measured, and reported",
         "the page at playtexas.github.io decodes with the game's own module, and is self-contained",
         "the Host is given the words for the students' network, can choose another of this computer's addresses, and no student sees them"
-      ],
-      "caught": true,
-      "alone": false
-    },
-    {
-      "name": "the decoder takes words without making them again (no check at all)",
-      "file": "sim/join-words.mjs",
-      "expect": [
-        "a typo is caught rather than sending a student somewhere else"
-      ],
-      "failed": [
-        "a typo is caught rather than sending a student somewhere else",
-        "the page at playtexas.github.io decodes with the game's own module, and is self-contained"
       ],
       "caught": true,
       "alone": false
@@ -67,29 +79,30 @@
       "name": "another port is not carried: the words lead to 1835 whatever the server listens on",
       "file": "sim/join-words.mjs",
       "expect": [
-        "every address round-trips: the words lead back to the address and port that made them, and to the bare address",
-        "fewest words: 2 for 192.168 on the usual port, 3 for 10.x and 172.16-31, more only for another port"
+        "every address round-trips, in all three ranges: the words lead back to the address and port that made them",
+        "always three words, for every private range; five only for a port other than 1835"
       ],
       "failed": [
-        "the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen",
-        "fewest words: 2 for 192.168 on the usual port, 3 for 10.x and 172.16-31, more only for another port",
-        "every address round-trips: the words lead back to the address and port that made them, and to the bare address",
+        "the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen",
+        "always three words, for every private range; five only for a port other than 1835",
+        "every address round-trips, in all three ranges: the words lead back to the address and port that made them",
         "the page at playtexas.github.io decodes with the game's own module, and is self-contained"
       ],
       "caught": true,
       "alone": false
     },
     {
-      "name": "no two-word form: 192.168 takes the long way",
+      "name": "five words for the usual port too: never three",
       "file": "sim/join-words.mjs",
       "expect": [
-        "fewest words: 2 for 192.168 on the usual port, 3 for 10.x and 172.16-31, more only for another port"
+        "always three words, for every private range; five only for a port other than 1835",
+        "the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen"
       ],
       "failed": [
-        "the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen",
-        "fewest words: 2 for 192.168 on the usual port, 3 for 10.x and 172.16-31, more only for another port",
-        "every address round-trips: the words lead back to the address and port that made them, and to the bare address",
-        "a typo is caught rather than sending a student somewhere else",
+        "the list: 1,024 short words of 1830s Texas, each starting with its own four letters, none one letter from another, and frozen",
+        "always three words, for every private range; five only for a port other than 1835",
+        "every address round-trips, in all three ranges: the words lead back to the address and port that made them",
+        "typing is forgiven where it can be: case, hyphens, commas, spaces, and anything after the fourth letter",
         "the page at playtexas.github.io decodes with the game's own module, and is self-contained",
         "the Host is given the words for the students' network, can choose another of this computer's addresses, and no student sees them"
       ],
@@ -185,11 +198,11 @@
       "name": "the words carry the class code into the address they lead to",
       "file": "sim/join-words.mjs",
       "expect": [
-        "every address round-trips: the words lead back to the address and port that made them, and to the bare address",
+        "every address round-trips, in all three ranges: the words lead back to the address and port that made them",
         "the Host is given the words for the students' network, can choose another of this computer's addresses, and no student sees them"
       ],
       "failed": [
-        "every address round-trips: the words lead back to the address and port that made them, and to the bare address",
+        "every address round-trips, in all three ranges: the words lead back to the address and port that made them",
         "the page at playtexas.github.io decodes with the game's own module, and is self-contained",
         "the Host is given the words for the students' network, can choose another of this computer's addresses, and no student sees them"
       ],

@@ -405,19 +405,32 @@ webpage be free? ... we could have multiple different teachers all hosting their
 networks. i love the local hosting idea and don't want to overcomplicate things. ideally this solution should help make things
 easier to navigate around local district wifi signals blocking the game."* The address chosen is **playtexas.github.io**, a free
 GitHub Pages site of the `playtexas` organization. Then: *"could we make the join words be a join word? singular?"* - told that one
-word cannot carry an address with no server, the owner chose, by multiple choice, **"Fewest words, no server"**.
+word cannot carry an address with no server, the owner chose, by multiple choice, **"Fewest words, no server"**. Shown that the
+fewest was two words on 192.168 and three on 10.x and 172.16-31 (with a weaker check on two), and asked how many and on which port,
+the owner answered (2026-10-03, verbatim): **"3 words, ensure they're short, easy to type, and related to the texas revolution."**
+and **keep 1835**. Both owner-decided 2026-10-03.
 
-- **The words carry only the laptop's address, with no server anywhere.** sim/join-words.mjs turns the Host laptop's private
-  address on the classroom network (and its port, only when it is not 1835) into words from a 2048-word list written for the game
-  (public domain; common, easy-to-spell words for middle schoolers; every word starts with its own four letters; no two sound
-  alike; no numbers, days, months, harm, drink, religion or bodies). **192.168.x.x: 2 words. 10.x.x.x or 172.16-31.x.x: 3 words.**
-  Another port: 4, or 5 for 10.x. The number of words says the form, and every bit not carrying the address is a check: a word not
-  on the list is refused with the nearest words offered; a word mistyped as another word, two swapped, or one dropped or added is
-  refused except 1 time in 64 on the two-word form (1 in 256 or better on three words). Only the first four letters of a word are
-  read, so a misspelling after them is harmless; case, spaces, hyphens and commas are ignored; order matters (the words are shown
-  numbered). Any number of teachers at any number of schools: the words are worked out from the address alone, so two classes
-  never share words unless their laptops share an address, and nothing has to be registered anywhere. The words do not change with
-  New Class; they change when the laptop's address does.
+- **Always three words, carrying only the laptop's address, with no server anywhere.** sim/join-words.mjs turns the Host laptop's
+  private address on the classroom network into **three words, for every private range** (192.168.x.x, 172.16-31.x.x, 10.x.x.x),
+  the port left out at 1835. A port other than 1835 (only a developer's `PORT`) takes five words; four are never made.
+- **The words are of 1830s Texas.** A list of 1,024, written for the game (our own work, public domain): the places and rivers of
+  the Revolution (Texas, Alamo, Goliad, Gonzales, Brazos, Velasco, Refugio...), easy first and last names of its people, Texian and
+  Tejano (Austin, Houston, Seguin, Travis, Zavala, Navarro, Erasmo, Susanna...), the things of a frontier farm, ranch, wagon and
+  muster (cannon, musket, saddle, oxcart, adobe, lariat, churn, quilt...), its animals, trees and weather (mustang, mule, pecan,
+  mesquite, norther...), then plain everyday words that would not be out of place in 1835. 3 to 7 letters (Gonzales, Victoria and
+  Columbia are 8); every word starts with its own four letters, so only those are read and a misspelling after them is harmless;
+  **no two words one letter apart or one swap of neighbouring letters apart**, so most slips of a finger make a word not on the
+  list, refused with the nearest words offered; none that sound alike; nothing of now, nothing grim or cruel, nothing mocking any
+  people or faith, no slur, no numbers, days or months.
+- **Why 1,024.** Three words of 1,024 are 2^30 values, the fewest that carry a 10.x address (2^24) with a check worth having; there
+  are not 2,048 short, easy words of 1830s Texas, and fewer could not carry 10.x in three. Every value is some address's: each
+  address owns a block and exactly one value in it is right (a hash of the address) - blocks of 56 for 10.x, 64 for 172.16-31 and
+  1,024 for 192.168. **Measured** (tests/join-words.test.mjs, [record](evidence/join-words-typo-rates.json)): a word mistyped as
+  another word on the list slips through 1 time in 344 on 192.168, 1 in 86 on 172.16-31 and 1 in 68 on 10.x; two words swapped 1
+  in 76, 57 and 58; a dropped word never (two words are refused); two words added about 1 in 1,000. Case, spaces, hyphens and
+  commas are ignored; order matters (the words are shown numbered). Any number of teachers at any number of schools: the words are
+  worked out from the address alone, so two classes never share words unless their laptops share an address, and nothing has to be
+  registered anywhere. The words do not change with New Class; they change when the laptop's address does.
 - **The class code is still checked.** The words lead to the bare address `http://<laptop>:1835/`, which asks for the class code as
   it always has (§2.14). There the code box now comes first and large (30 px, spaced capitals, *Class code, from your teacher's
   screen*) and takes the focus. The coded address and its QR code are unchanged.
@@ -425,7 +438,7 @@ word cannot carry an address with no server, the owner chose, by multiple choice
   join-words page*): a word box with the words read back numbered and the ones not on the list marked, words offered for the one
   being typed, *Go to my class*. It shows where it is going (*Going to your teacher's computer at 192.168.1.20…* and *There, type
   the class code*), then navigates - a top-level navigation, never a fetch, so Chrome's private-network rules for requests do not
-  apply. `playtexas.github.io/#amulet-crane` goes straight on. It fetches nothing, stores nothing, sets no cookie, and can only ever
+  apply. `playtexas.github.io/#vapor-erasmo-slipper` goes straight on. It fetches nothing, stores nothing, sets no cookie, and can only ever
   send a browser to a private classroom address. Its look is Astra's (style.css, assets/); its logic is page.js and the game's own
   join-words.js, copied byte for byte.
 - **Blocked Wi-Fi, honestly.** If the network stops student devices reaching the teacher's laptop (client or AP isolation,
@@ -444,13 +457,13 @@ word cannot carry an address with no server, the owner chose, by multiple choice
   address, the port, TCP, client isolation off or a rule for that port, Windows Firewall allowing Node.js on the Private profile,
   and what playtexas.github.io is - with *Copy this note for IT*. The words are the server's (`joinWords`, server/app.mjs
   `joinView`), sent to the Host only.
-- **Everywhere the address shows:** the launcher's window (*At playtexas.github.io type: amulet crane*, under the join address,
+- **Everywhere the address shows:** the launcher's window (*At playtexas.github.io type: vapor erasmo slipper*, under the join address,
   which now follows the teacher's choice of network; launcher/ServerControl.cs reads `joinWords` with the class code), the server's
-  console line at start (*Or at playtexas.github.io type: amulet crane, then the class code 6744EF*), and TEACHER.md.
+  console line at start (*Or at playtexas.github.io type: vapor erasmo slipper, then the class code 6744EF*), and TEACHER.md.
 - **The old ways still work:** the coded address, the bare address, `?code=` and the QR code, unchanged.
-- `ceiling:` 6 check bits on the two-word form: a mistyping that slips through sends the student to another address on the same
-  network, where nothing answers (and *Didn't work?* says check the words) or another class asks for a code the student does not
-  have. A third word for 192.168 is the way out if a classroom ever sees it.
+- `ceiling:` about 1 mistyping in 60 on a 10.x network (fewer on 192.168) slips through to another private address, where nothing
+  answers (and *Didn't work?* says check the words) or another class asks for a code the student does not have. A longer list
+  would check better and would not be words of 1830s Texas; a fourth word would, and the owner chose three.
 - `ceiling:` only private addresses have words; a district that numbers classrooms with public addresses types the address.
 - `ceiling:` the list, the forms and the check are frozen (pinned in tests/join-words.test.mjs): the page is updated apart from
   every copy of the game in every classroom, so a change needs a version the page can tell apart, never an edit.
@@ -507,8 +520,8 @@ word cannot carry an address with no server, the owner chose, by multiple choice
   the class code does not reset) and `tests/rejoin.test.mjs` (its throttling tests now keep the cookie, as a browser does). Each
   seen failing under an injected regression: `npm run test:tier2-classroom-injections`
   ([evidence](evidence/tier2-classroom-injections.json)).
-- §2.17: `tests/join-words.test.mjs` (9: the frozen list and known words; 2 and 3 words; 30,000 addresses and all 65,536 two-word
-  ones round-trip; only private addresses; typing forgiven; typos caught at the measured rates; the page's copy of the module and
+- §2.17: `tests/join-words.test.mjs` (9: the frozen 1,024-word list, none a letter apart, and known words; always 3 words; 30,000 addresses, every 192.168 one
+  and a third of 172.16-31 round-trip; only private addresses; typing forgiven; typo rates per range measured and written; the page's copy of the module and
   its self-containment and the split of look from logic; the Host's words, its choice of network, nothing to a student; the card
   and the code first on the join form); `npm run test:join-words` (the Host's card on this computer's real classroom address, the
   network choice, the page refusing a word, typed words going to the bare address where the code box comes first and the class is

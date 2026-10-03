@@ -732,7 +732,7 @@ SSE is appropriate for low-frequency authoritative snapshots and keeps the first
 
 ## The join-words page, playtexas.github.io — 2026-10-03 (not released)
 
-Owner-decided ([HOST_PAGE.md](HOST_PAGE.md) §2.17, "Fewest words, no server"). Students type two or three words at
+Owner-decided ([HOST_PAGE.md](HOST_PAGE.md) §2.17, "Fewest words, no server", then "3 words"). Students type three words at
 **playtexas.github.io**; the page works out the teacher's laptop's private address from them (sim/join-words.mjs, the game's own
 module) and navigates there, where the class code is asked for. There is no server and nothing to register: any number of teachers
 at any number of schools use the same page, because each class's words come from its own laptop's address. The page is free
@@ -774,7 +774,9 @@ page asks for nothing from anywhere else) and `npm run test:join-words`.
 **Keep the page and the games agreeing.** Every copy of the game in every classroom makes words with the module it shipped with,
 and the page decodes with the module it was last published with. The list, the forms and the check are frozen (their hash and known
 words are pinned in `tests/join-words.test.mjs`). Republishing the page with a changed `page.js` or a new look is always safe; a
-changed `join-words.js` scheme never is without a version the page can tell apart.
+changed `join-words.js` scheme never is without a version the page can tell apart. **The three-word scheme of 2026-10-03
+(owner: "3 words")** replaced the two-or-three-word one of the same day before any game with it was released, so there is no old
+scheme to keep: publish the page from this tree, and if the earlier page was ever published, publishing this one replaces it.
 
 **What it cannot do:** reach a laptop that the network stops students reaching. It finds the address; the network decides whether
 the address answers. It never sends a browser anywhere but a private classroom address. Not yet seen on a managed Chromebook:

@@ -1,5 +1,36 @@
 # Claude handoff — Astra foundation
 
+## Join words: "3 words ... related to the texas revolution", port 1835 — owner-decided 2026-10-03 (not released)
+
+Branch `join-words-2` off local `integration-2026-09-28` (b66067ee, with join-words and herds); not pushed, nothing published.
+Same computer only. The owner's answers to the two questions of *Join words* (below), verbatim: **"3 words, ensure they're short,
+easy to type, and related to the texas revolution."** and the port: **keep 1835**. Recorded in docs/HOST_PAGE.md §2.17.
+
+- **Always three words** for every private range (192.168, 172.16-31, 10.x), port left out at 1835; another port takes five words
+  (four are never made). sim/join-words.mjs: 1,024 words (2^30 for three), every value some address's - blocks of 56 for 10.x, 64
+  for 172.16-31, 1,024 for 192.168, one right value per block (a hash). **Why 1,024**: the fewest that carry 10.x (24 bits) in three
+  words with a useful check; there are not 2,048 short, easy words of 1830s Texas.
+- **The list** (our own work, public domain, frozen by SHA-256 in the test): Texas places and rivers, easy names of Texians and
+  Tejanos, frontier things, animals, trees and weather first, then plain words not out of place in 1835; 3-7 letters (Gonzales,
+  Victoria, Columbia 8); first four letters unique; **no two words one letter or one neighbour-swap apart** (new: most finger slips
+  are a word not on the list, with suggestions); nothing modern, grim, mocking, no slurs, numbers, days or months.
+- **Measured typo rates** ([record](docs/evidence/join-words-typo-rates.json)): a word mistyped as another listed word slips through
+  1 in 344 on 192.168, 1 in 86 on 172.16-31, 1 in 68 on 10.x; two words swapped 1 in 76 / 57 / 58; a dropped word never; two added
+  about 1 in 1,000. Compared with the earlier two-word form's 1 in 64 on 192.168.
+- **Changed with it**: the page's messages (*There are three words*), its placeholder (*like: cannon river oak*) - Astra's look
+  untouched; the Host card and launcher text examples; the injection script (17 node + 3 browser); TEACHER.md, DEPLOYMENT.md,
+  HOST_PAGE.md. The Host card, launcher and server needed no code change: they show whatever the module makes.
+
+- *Glory* was on the first list and is off it: tests/glory-words.test.mjs forbids the word anywhere a student or the Host can read it
+  (docs/MONEY_AND_GLORY.md); *plenty* took its place.
+
+**Evidence**: tests/join-words.test.mjs 9 of 9 (all 65,536 192.168 addresses and a third of 172.16-31 round-trip; the rates above
+written by the test). `test:join-words` green at 1440x900, 1366x768, 1024x600 and 480x800 with Astra's page, and her
+`playtexas-visual-proof.mjs` green; test:join-card (8), test:code-address (7), test:overlap (197 screens, 0 faults) green;
+`node scripts/join-words-injections.mjs --browser` **20 of 20** caught ([record](docs/evidence/join-words-injections.json)).
+`npm test`: **2147 tests, 2110 pass, 1 fail, 36 skipped** - the one is tests/errands.test.mjs's *the popup's facts are ... small*
+("12451 bytes"), which fails the same at the base b66067ee with none of this branch (integration's own, since the herds merge).
+
 ## The mule pulls, at a pace for the weight; and costs 8 — owner-decided 2026-10-03 (not released)
 
 Branch `mules-2` off local `integration-2026-09-28` (740a87e8, with `mules`); not pushed. Same computer only. The owner answered the
