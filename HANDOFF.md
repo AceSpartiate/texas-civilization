@@ -1,3 +1,7 @@
+## Standalone player join page — visual refresh, 2026-10-03
+
+The join page now matches the game's painted frontier style. See site/playtexas/README.md for publishing requirements and visual verification. All join logic remains unchanged. Include the CSS and landscape assets in Claude's pending join-words release. Browser checks passed at four viewport sizes; screenshots are in docs/evidence/playtexas-*.png. This page has not been published.
+
 ## Named foot movement and field gestures — delivered 2026-10-03
 
 This batch adds **12 transparent atlases, 48 frames and 24 authored clips**. Travis, Crockett, Bowie, Fannin, Milam and Ben now have new two-pose front/rear walking cycles, selected from projected battlefield north/south heading. East/west retains the established walking art. Neill, Karnes, Hockley, Lamar, Sherman and Rusk gain their own two-pose field command and conversation gestures. Command scenes use the new clips; conversation clips are available through `PERSON_ART.speak` for explicit staging.
@@ -4574,4 +4578,5 @@ Erastus “Deaf” Smith has a 16-frame directional scout sheet and a four-frame
 ## Art update — James Grant (2026-09-28)
 
 Grant now has distinct foot, mounted-walk and four-frame gallop sheets in `scripts/art-deliveries/famous-grant.mjs`. His roster and `PERSON_ART.grant` select them; the existing Agua Dulce horse-herd route uses the mounted walk and the visible ambush interval uses the gallop. Grant disappears from the stage before his later fate, which remains conveyed by the existing account text. No capture, surrender or killing was invented on screen. The foot sheet includes map/pointing poses and a clean, non-graphic bandage variant for Béxar; his face, clothing and horse are interpretations rather than portrait claims. Frames, clips and source records are in the generated art manifest and provenance JSON files. The battle-view regression checks walk versus ambush gallop.
+
 
