@@ -254,7 +254,7 @@ families of one class, measured on this machine; the page reads only the tree ti
 1. *How much a fenced yard calms a child on auto:* (a) **half as often disobedient, as built**; (b) a third as often; (c) a quarter.
 2. *Whom the yard calms:* (a) **children on their own automation, as you said, as built**; (b) every small child at home inside it,
    told what to do or not.
-3. *Trees standing inside the yard when it is fenced:* (a) **left standing, as built** - felling them is felling's work; (b) felled
+3. *(Answered 2026-10-03, "Auto kids; fell trees": felled, at felling's time - see above.)* *Trees standing inside the yard when it is fenced:* (a) **left standing, as built** - felling them is felling's work; (b) felled
    with the fencing, their logs onto the pile, the fencing taking their felling time too.
 4. *A path cut through thick timber* (e.g. 25 trees in a fifth of a mile, about 15 hours): (a) **at felling's own time, giving
    felling's logs, as built**; (b) half that time, the path's narrow line counted lighter than felling.
