@@ -432,6 +432,20 @@ the chest and the spinning wheel in the flight's load and told, but did not scor
 - This is the owner's direct choice and nothing more: it widens no other glory, and the owner's own plan for how a family that does not
   fight can win is separate (not built).
 
+### 5c. The herd sold with the farm — built as recommended 2026-10-03 (an owner question; not released)
+
+**The owner, 2026-10-03** ([STOCK.md](STOCK.md) §10): *"it should be a path to making food and wealth too."* §5a sells an intact farm
+and prices nothing else; a family's herd counted nothing at the end. Built as the recommended answer and put to the owner
+([STOCK.md](STOCK.md) §10.7, question 1): **the stock on the range is sold with an intact farm**, each head at what the stock pens pay
+for it in the flesh it is in at the end (sim/stock.mjs `SALE_COIN`: a steer 3, 4 or 6 reales, a hog 1, 2 or 3), as one more line of the
+farm's sale (`HERD_WITH_FARM`, sim/farm-sale.mjs; `FIC-GONZ-1135`): *"The farm was sold for 112 reales: ..., the stock on the range (6
+cattle and 14 hogs) 52 reales."* It is coin with the farm's price, so glory multiplies it and the prisoners' share takes its part, as
+every real. **Not counted**: a herd left on the range in the Scrape and not found again (it is not the family's at the end), and a
+burned farm's (it has nothing to sell, and its 40 glory stands). During the class a family may sell its stock at the pens for coin
+(STOCK.md §10.5), which the ending counts as any coin. `HERD_WITH_FARM = false` counts the herd at nothing, as before.
+
+Measured: docs/BALANCE.md §21.
+
 ## 6. Decisions, all made
 
 | Question | Owner's answer, 2026-09-12 |

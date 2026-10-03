@@ -6304,6 +6304,7 @@ function panelRow(id) {
   const shelterMark = element('span', '', 'panel-shelter-mark');
   shelterMark.hidden = true;
   // A hand with stock (owner, 2026-10-03; sim/stock.mjs `herdingOf`): a horn on the portrait, its notches the hand, lit while out after the herd.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-10-03 - the herd: the horn mark is a horned head drawn in the style sheet as a mask.
   const herdMark = element('span', '', 'panel-herd-mark');
   herdMark.hidden = true;
   portrait.append(canvas, star, idleMark, sickMark, hungerMark, shelterMark, herdMark);
