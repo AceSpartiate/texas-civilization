@@ -5,8 +5,10 @@
 # "teacher's class" in its data folder. Then the *installed* launcher updates itself to v2
 # through `--install-update`, which is the same stage-and-swap the Update button runs, and:
 #
-#   PASS lines check that the setup installs the plain launcher it carries and not itself
-#   (from 2026-10-03, launcher/SetupLayout.cs), that the running launcher was replaced (by hash), the game and its
+#   PASS lines check that the appended setup still installs and an installed launcher still updates
+#   from one; that the classic setup (the default, from 2026-10-03 carrying the plain launcher as a
+#   second resource, launcher/SetupLayout.cs) installs that plain launcher and not itself; that the
+#   running launcher was replaced (by hash), the game and its
 #   release stamp moved with it, and the class data was not touched; that the next launch
 #   deletes the renamed old launcher; that an update whose swap fails part way (a file held
 #   open in server\) leaves every file - launcher, game and stamp - exactly as it was; that
@@ -64,26 +66,48 @@ try {
     $games = Join-Path $root 'games'
     $null = New-Item -ItemType Directory -Force $games
     $setups = @{}
+    $appended = @{}
     $launchers = @{}
-    foreach ($version in @('v-test-1', 'v-test-2', 'v-test-3')) {
-        $zip = New-Game $version (Join-Path $games $version)
-        $out = if ($SetupRoot) { Join-Path $SetupRoot "setup-$version" } else { Join-Path $root "setup-$version" }
-        $launchers[$version] = Join-Path $out 'TexasRevolution.exe'
-        $setups[$version] = Join-Path $out 'TexasRevolutionSetup.exe'
-        if ($SetupRoot) { continue }
-        # The plain launcher, stamped with its version so each one's bytes differ, and the setup
-        # program made from it exactly as scripts/package.ps1 makes one (2026-10-03): the plain
-        # launcher with the game appended.
+    $payload = Join-Path $launcherDir 'payload.zip'
+    $payloadLauncher = Join-Path $launcherDir 'payload-launcher.exe'
+    function Publish([string]$Version, [string]$Out) {
         Push-Location $launcherDir
         try {
             & dotnet publish -c Release -r win-x64 --self-contained true `
                 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
-                "-p:InformationalVersion=$version" -o $out -v quiet | Out-Null
-            if ($LASTEXITCODE -ne 0) { throw "The $version launcher did not build." }
+                "-p:InformationalVersion=$Version" -o $Out -v quiet | Out-Null
+            if ($LASTEXITCODE -ne 0) { throw "The $Version build did not publish." }
         } finally { Pop-Location }
-        New-SetupProgram $launchers[$version] $zip $setups[$version]
+    }
+    foreach ($version in @('v-test-1', 'v-test-2', 'v-test-3')) {
+        $zip = New-Game $version (Join-Path $games $version)
+        $out = if ($SetupRoot) { Join-Path $SetupRoot "setup-$version" } else { Join-Path $root "setup-$version" }
+        $launchers[$version] = Join-Path $out 'plain\TexasRevolution.exe'
+        $setups[$version] = Join-Path $out 'classic\TexasRevolution.exe'
+        $appended[$version] = Join-Path $out 'TexasRevolutionSetup-Appended.exe'
+        if ($SetupRoot) { continue }
+        # Exactly as scripts/package.ps1 makes them (2026-10-03, "keep supporting both"): the plain
+        # launcher, stamped with its version so each one's bytes differ; the classic setup, the same
+        # project published again with the game and that plain launcher as resources; and the
+        # appended setup, the plain launcher with the game after it.
+        Publish $version (Join-Path $out 'plain')
+        Copy-Item -LiteralPath $zip -Destination $payload -Force
+        Copy-Item -LiteralPath $launchers[$version] -Destination $payloadLauncher -Force
+        try { Publish $version (Join-Path $out 'classic') }
+        finally { Remove-Item -LiteralPath $payload, $payloadLauncher -Force -ErrorAction SilentlyContinue }
+        New-SetupProgram $launchers[$version] $zip $appended[$version]
     }
     if ((Hash $launchers['v-test-1']) -eq (Hash $launchers['v-test-2'])) { throw 'The v1 and v2 launchers are identical; the swap could not be seen.' }
+
+    # ------------------------------------------------------------------ the appended setup, kept working
+    $other = Join-Path $root 'Installed From Appended'
+    $done = Invoke-Launcher $appended['v-test-1'] "--extract `"$other`""
+    if ($done.exit -ne 0) { throw "Installing v1 from the appended setup failed: $($done.output)" }
+    if ((Hash (Join-Path $other 'TexasRevolution.exe')) -ne (Hash $launchers['v-test-1']) -or (Text (Join-Path $other 'release.txt')) -ne 'v-test-1') { throw 'The appended setup did not install v1 and its plain launcher' }
+    $done = Invoke-Launcher (Join-Path $other 'TexasRevolution.exe') "--install-update `"$($appended['v-test-2'])`" --no-restart"
+    if ($done.exit -ne 0) { throw "Updating from the appended v2 setup failed: $($done.output)" }
+    if ((Hash (Join-Path $other 'TexasRevolution.exe')) -ne (Hash $launchers['v-test-2']) -or (Text (Join-Path $other 'release.txt')) -ne 'v-test-2') { throw 'An update from the appended setup did not bring v2 and its launcher' }
+    Pass "the appended setup still installs (v1 and its plain launcher), and an installed launcher updates from an appended setup (to v2, launcher swapped by hash)."
 
     # ------------------------------------------------------------------ install v1
     $install = Join-Path $root 'Installed Copy'
@@ -96,7 +120,7 @@ try {
     $classHash = Hash $classFile
     if ((Text (Join-Path $install 'release.txt')) -ne 'v-test-1') { throw 'v1 did not install as expected' }
     if ((Hash $exe) -ne (Hash $launchers['v-test-1'])) { throw 'The setup did not install the plain launcher it carries' }
-    Pass "the setup installed the plain launcher at its head ($((Get-Item -LiteralPath $exe).Length) bytes), not itself ($((Get-Item -LiteralPath $setups['v-test-1']).Length) bytes, game appended)."
+    Pass "the classic setup installed the plain launcher it embeds ($((Get-Item -LiteralPath $exe).Length) bytes), not itself ($((Get-Item -LiteralPath $setups['v-test-1']).Length) bytes)."
 
     # ------------------------------------------------------------------ v1 -> v2
     $update = Invoke-Launcher $exe "--install-update `"$($setups['v-test-2'])`" --no-restart"

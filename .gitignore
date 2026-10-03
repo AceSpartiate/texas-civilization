@@ -19,6 +19,7 @@ scripts/solo-dialog-shot/bin/
 scripts/solo-dialog-shot/obj/
 
 launcher/payload.zip
+launcher/payload-launcher.exe
 tests/launcher/bin/
 tests/launcher/obj/
 

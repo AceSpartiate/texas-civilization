@@ -64,7 +64,7 @@ function Get-LauncherId([string]$LauncherDir) {
   $lines = New-Object System.Collections.Generic.List[string]
   foreach ($file in Get-ChildItem -LiteralPath $LauncherDir -Recurse -File) {
     $relative = $file.FullName.Substring($base.Length).Replace('\', '/')
-    if ($relative -match '^(bin|obj)/' -or $relative -eq 'payload.zip') { continue }
+    if ($relative -match '^(bin|obj)/' -or $relative -in @('payload.zip', 'payload-launcher.exe')) { continue }
     $lines.Add("$relative`t$(Get-Sha256Hex $file.FullName)")
   }
   $sorted = [string[]]$lines.ToArray()

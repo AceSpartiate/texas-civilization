@@ -30,7 +30,7 @@ public sealed record StagedUpdate(string Payload, bool ChangesOnly, long Downloa
 /// costs about 90 MB rather than the whole 690 MB setup program.</para>
 ///
 /// <para>Otherwise - and whenever the small download cannot be used for any reason - it
-/// downloads the release's setup program. That is the launcher with the game appended, and it
+/// downloads the release's setup program. That carries the game and the plain launcher (classic: as resources; appended: after its bundle), and it
 /// already knows how to unpack itself (<c>--extract</c>), so the staged copy is exactly what a
 /// fresh install would be. Running it to unpack is also the proof that the new launcher starts
 /// at all, before anything of the old one is touched. A release with no setup program falls

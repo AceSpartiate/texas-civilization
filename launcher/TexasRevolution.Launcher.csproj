@@ -91,12 +91,25 @@
   </ItemGroup>
 
   <!--
-    The game is not built into this project. Until 2026-10-03 scripts/package.ps1 put it here as
-    an embedded payload.zip, so the installed launcher was the whole 690 MB setup program and a
-    launcher change cost every copy the whole game. Now this project always builds the plain
-    launcher, and package.ps1 appends the game to a copy of it to make the setup program
-    (SetupLayout.cs): the setup installs the plain launcher, and a set of changes carries the same
-    file when the launcher changes (owner, 2026-10-03: "Small launcher in patch").
+    The classic setup program (SetupLayout.cs): the game and the plain launcher, carried inside it.
+
+    scripts/package.ps1 first publishes this project with neither file present - that is the plain
+    launcher, about 84 MB, which every setup installs and which a set of changes carries when the
+    launcher changes (owner, 2026-10-03: "Small launcher in patch"). Then it puts the game here as
+    payload.zip and that plain launcher as payload-launcher.exe, publishes again with the same flags,
+    and removes both straight away, so an ordinary `dotnet build` produces the plain launcher.
+
+    Until 2026-10-03 only payload.zip was embedded and the setup installed a copy of itself, so every
+    installed launcher was the whole 690 MB setup. On 2026-10-03 the setup briefly became the plain
+    launcher with the game appended; ThreatDown (Malwarebytes) then blocked the emailed installer on a
+    machine where this classic shape installs, and the owner said "keep supporting both": the classic
+    shape is the default again, and the appended one is shipped beside it.
   -->
+  <ItemGroup Condition="Exists('payload.zip')">
+    <EmbeddedResource Include="payload.zip" LogicalName="TexasRevolution.Launcher.payload.zip" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('payload-launcher.exe')">
+    <EmbeddedResource Include="payload-launcher.exe" LogicalName="TexasRevolution.Launcher.launcher.exe" />
+  </ItemGroup>
 
 </Project>

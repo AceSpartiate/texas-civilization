@@ -23,17 +23,29 @@ A teacher can still do it first, and it is one click: right-click the zip → Pr
 
 ## The setup program
 
-`TexasRevolutionSetup.exe` is the plain launcher with the game appended to it (from 2026-10-03,
-`launcher/SetupLayout.cs`): the launcher's own single-file bundle, then the game as a zip, then a
-32-byte trailer saying where one ends and the other begins. Windows and .NET run it exactly as
-they run the launcher alone, so run from a folder with no classroom beside it, it is a setup
-program; run from inside an installation, it is the launcher. .NET is in the download once. It
-installs the game and **the plain launcher at its own head** — about 90 MB, no game in it — never
-itself. Until 2026-10-03 the game was an embedded resource and the setup copied *itself* into
-place, so every installed `TexasRevolution.exe` was the whole 690 MB setup program: the
-installation was about 600 MB larger than it needed to be, and a launcher change could only
-reach it as another whole setup program (*A launcher change rides in the small update*, below).
-A memory stick now takes `TexasRevolutionSetup.exe` itself, which is the file that installs.
+`TexasRevolutionSetup.exe` is the launcher with the game inside it as an embedded zip — the
+**classic** container every setup up to v2026.10.03.1 had — and, from 2026-10-03, a second embedded
+resource: the **plain launcher**, the same program built with no game in it (about 84 MB). Run from
+a folder with no classroom beside it, it is a setup program; run from inside an installation, it
+is the launcher. It installs the game and the plain launcher, never itself. Until 2026-10-03 it
+copied *itself* into place, so every installed `TexasRevolution.exe` was the whole 690 MB setup
+program: about 600 MB more disk than needed, and a launcher change could only reach it as another
+whole setup program (*A launcher change rides in the small update*, below). A memory stick takes
+`TexasRevolutionSetup.exe` itself, which is the file that installs.
+
+**Two containers, the same install** (owner, 2026-10-03: *"keep supporting both"*). Every release
+also carries `TexasRevolutionSetup-Appended.exe`: the plain launcher's own single-file bundle,
+then the game zip, then a 32-byte trailer (the shape `TexasRevolutionSetup.exe` had for one commit,
+f8fb8653). .NET runs it as the launcher, because a single-file bundle is found from an offset in its
+own head and bytes after it are never read. It is about 84 MB smaller (.NET once) and installs byte
+for byte the same tree (`scripts/verify-delta-update.ps1`). It is there because ThreatDown
+(Malwarebytes business) blocked the emailed `TexasRevolutionInstaller.exe` on a coworker's machine
+where the classic v2026.10.03.1 setup installed fine; Windows Defender passes both containers and
+the small installer, so it says nothing about ThreatDown. **If a school's antivirus refuses one
+setup, try the other.** No launcher and no small installer downloads the appended one by itself:
+both take exactly `TexasRevolutionSetup.exe`. Either can be handed to `--install-update`, and
+`--extract`/`--install` work on both. Which one ThreatDown accepts is not proved by anything run
+here.
 
 It installs per-user, under `%LOCALAPPDATA%\Programs\TexasRevolution`: no administrator, no
 Program Files, no UAC prompt, and nothing a managed machine is likely to refuse. It registers
@@ -620,13 +632,17 @@ build a second launcher without the game inside (about 90 MB, mostly .NET) and p
 patch when the launcher changes, so a launcher change costs about 90 MB instead of 690 MB, and
 everything else stays small.
 
-- **The plain launcher.** `scripts/package.ps1` publishes the launcher once, with no game
-  (`-p:LauncherId`, `-p:InformationalVersion` as before), and makes the setup program from it
-  (`New-SetupProgram` in `scripts/release-changes.ps1`: launcher + game zip + trailer). The setup
-  installs that plain launcher (`launcher/SetupLayout.cs`, `Installer.cs`). The project no longer
-  embeds `payload.zip` at all, so one publish makes both, and the plain launcher a set carries is
-  byte for byte the head of the setup program. A copy is left beside the outputs as
-  `TexasRevolution-Launcher-<stamp>.exe` to look at; it is not attached to a release.
+- **The plain launcher.** `scripts/package.ps1` publishes the launcher first, with no game beside
+  its sources (`-p:LauncherId`, `-p:InformationalVersion` as before). Then it makes both setups from
+  it (*Two containers, the same install*, above): the classic `TexasRevolutionSetup.exe` by
+  publishing again with `launcher/payload.zip` (the game) and `launcher/payload-launcher.exe` (the
+  plain launcher) embedded, both removed straight after; the appended
+  `TexasRevolutionSetup-Appended.exe` with `New-SetupProgram` (`scripts/release-changes.ps1`).
+  Either installs that plain launcher (`launcher/SetupLayout.cs`, `Installer.cs`), byte for byte the
+  file a set carries. A copy is left beside the outputs as `TexasRevolution-Launcher-<stamp>.exe` to
+  look at; it is not attached to a release. (For one commit, f8fb8653, only the appended setup was
+  made, as `TexasRevolutionSetup.exe`; owner, the same day, after ThreatDown: *"keep supporting
+  both"*.)
 - **The list.** `TexasRevolution-manifest.json` gains `"launcherExe": {"size", "sha256"}` - the
   plain launcher's size and hash, with no path: it only ever goes to `TexasRevolution.exe`, so a
   list cannot send it anywhere else, and `files` still may not name it. Additive, so `format`
@@ -660,7 +676,7 @@ everything else stays small.
   `TexasRevolutionSetup.exe`, which installs as before. The update archive is unchanged (game
   only). Same-launcher sets are unchanged.
 
-Proved on this computer: `tests/launcher` (29 tests; nine new for this), every one seen failing
+Proved on this computer: `tests/launcher` (32 tests; twelve new for this and the two containers), every one seen failing
 under `scripts/launcher-delta-injections.ps1` ([evidence](evidence/launcher-delta-injections.json));
 `scripts/verify-update.ps1` ([evidence](evidence/launcher-update.json)) with setups built the new
 way; and `scripts/verify-delta-update.ps1` ([evidence](evidence/launcher-delta-update.json)),
@@ -678,6 +694,8 @@ its `.zip` whose name does **not** contain `NeedsNode` (`launcher/Updates.cs`). 
    is what gets stamped into `release.txt` and the list, so it must equal the release tag; an
    updating launcher refuses a build or a list whose stamp differs.
 2. Every output attached: `TexasRevolutionSetup.exe` (what updates the launcher, and the fallback),
+   `TexasRevolutionSetup-Appended.exe` (the same install in the appended container, for a machine whose antivirus
+   refuses the classic one; *Two containers, the same install*, above),
    `TexasRevolutionInstaller.exe` (the small setup teachers pass on; *The small setup*, above — on every release, or the
    stable link to it stops answering), `TexasRevolution-Gonzales-<stamp>.zip` (the update archive older launchers take), the
    `-NeedsNode.zip`, and everything in `changes-<stamp>\` (`TexasRevolution-manifest.json`, the
@@ -687,7 +705,7 @@ its `.zip` whose name does **not** contain `NeedsNode` (`launcher/Updates.cs`). 
 
    ```powershell
    $s = '<yyyy.mm.dd.n>'
-   $assets = @('TexasRevolutionSetup.exe', 'TexasRevolutionInstaller.exe', "TexasRevolution-Gonzales-$s.zip", "TexasRevolution-Gonzales-$s-NeedsNode.zip") + @(Get-ChildItem "changes-$s" -File | ForEach-Object FullName)
+   $assets = @('TexasRevolutionSetup.exe', 'TexasRevolutionSetup-Appended.exe', 'TexasRevolutionInstaller.exe', "TexasRevolution-Gonzales-$s.zip", "TexasRevolution-Gonzales-$s-NeedsNode.zip") + @(Get-ChildItem "changes-$s" -File | ForEach-Object FullName)
    gh release create "v$s" @assets -R AceSpartiate/texas-civilization --target main --title "..." --notes-file notes.md --latest
    ```
 

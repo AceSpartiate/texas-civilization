@@ -1,8 +1,51 @@
 # Claude handoff — Astra foundation
 
-## A launcher change rides in the small update — owner-decided 2026-10-03 (not released)
+## Both setup containers: classic is the default again — owner-decided 2026-10-03 (not released)
 
-Branch `launcher-patch`, not merged, not released. The owner noticed that v2026.10.03.1 changed the launcher (the join
+Branch `setup-both` from main at f8fb8653; not pushed, not released. The owner emailed `TexasRevolutionInstaller.exe` to a
+coworker and ThreatDown (Malwarebytes business) blocked it; the classic v2026.10.03.1 setup (game embedded as a .NET
+resource) installs fine on that machine. Windows Defender passes both containers and the small installer, so it proves
+nothing about ThreatDown. Asked which container to ship, the owner answered, verbatim: **"keep supporting both"**.
+
+**What changed** (launcher/SetupLayout.cs, docs/DEPLOYMENT.md *Two containers, the same install*):
+- `TexasRevolutionSetup.exe` (the default; the one the small installer and every installed launcher download) is the
+  **classic** container again: the same project, same publish flags, game embedded as `payload.zip` exactly as before
+  f8fb8653, nothing appended after the bundle — plus a second resource, the plain launcher (`payload-launcher.exe` ->
+  `TexasRevolution.Launcher.launcher.exe`), which is what it installs. Build order in `package.ps1`: plain launcher first
+  (no game beside the sources), then the setup with both resources, both files removed straight after. Installs stay the
+  ~84 MB plain launcher, and a launcher change still rides in the small update (section below, unchanged).
+- `TexasRevolutionSetup-Appended.exe` (new asset): the f8fb8653 container, kept so it can be tried on a ThreatDown machine.
+  No launcher or installer downloads it by itself.
+- One install door, `SetupLayout.Install`, takes either: classic resources first, else the appended trailer; a classic
+  setup from before 2026-10-03 (no launcher resource) still installs itself. `--extract`, `--install` and
+  `--install-update` work with either, so an update that downloads either works.
+
+**Sizes** (packaged by `verify-delta-update.ps1` from this branch, the real game): classic setup **779,064,058 bytes**,
+appended **691,466,826**, plain launcher **87,596,794**. The classic one is the appended one plus about 84 MB (.NET twice).
+Both setups are made in 23-37 s of a 2.9-4.2 minute package. Upload per release goes up by the appended setup: about
+1.47 GB of setups instead of 0.78 GB (with the 604 MB archive, 569 MB NeedsNode zip and the sets beside them). A teacher
+downloading the default takes 779 MB, about 88 MB more than v2026.10.03.1's 691 MB setup.
+
+**Evidence** (same computer; scratch installs under the worktree's `data\`, deleted afterwards - 18 GB):
+- `scripts/verify-delta-update.ps1 -OldSetup <v2026.10.03.1 setup>` ([evidence](docs/evidence/launcher-delta-update.json)):
+  **16 PASS** with the classic setup as the default: B's appended setup installs byte for byte what its classic setup does;
+  small update A->B 882,391 bytes; every fallback takes the 779 MB classic setup and ends byte for byte a fresh install;
+  B->C with a new launcher 88,488,689 bytes, launcher swapped by hash, and rolled back byte for byte when the swap fails;
+  the v2026.10.03.1 launcher, installed by the v2026.10.03.1 setup, takes B's classic setup and ends a fresh install of B.
+- `scripts/verify-update.ps1` ([evidence](docs/evidence/launcher-update.json)): **8 PASS** - an install from the appended
+  setup and an update from an appended setup; the classic setup installs its embedded plain launcher; swap, rollback,
+  interrupted swap, archive.
+- `tests/launcher` **32 of 32** (new: setup-classic, setup-classic-old, setup-kind); `scripts/launcher-delta-injections.ps1`
+  **35 of 35** caught (4 new, 2 older ones now also trip setup-classic/setup-kind).
+- `npm test`: 2182 tests, 2146 pass, 0 fail, 36 skipped. The comments in `Program.cs`, `Updater.cs` and `Updates.cs` were reworded after the end-to-end run (comments only; rebuilt, and `tests/launcher` re-run green).
+
+**Not proved**: anything about ThreatDown — which container it accepts, or whether it blocks the small installer for
+another reason (the small installer is a separate .NET Framework program and unchanged); nothing here can run it.
+SmartScreen and other antivirus products; a real GitHub release or download.
+
+## A launcher change rides in the small update — owner-decided 2026-10-03 (merged in f8fb8653)
+
+Merged to main as f8fb8653, not released. (Its setup container is superseded by the section above: the classic container is the default again and the appended one ships beside it.) The owner noticed that v2026.10.03.1 changed the launcher (the join
 words) and every installed copy downloaded the whole 690 MB again: the installed `TexasRevolution.exe` *was* the setup
 program, the game embedded in it, so `release-changes.ps1` made no set of changes across a launcher change. The owner's
 choice, verbatim: **"Small launcher in patch"** — build a second launcher without the game inside (about 90 MB, mostly

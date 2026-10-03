@@ -3,7 +3,7 @@ using System.Text.Json;
 namespace TexasRevolution.Launcher;
 
 /// <param name="DownloadUrl">The update archive: the game with its runtime, no launcher.</param>
-/// <param name="SetupUrl">The setup program: the launcher with the game appended. Preferred to the
+/// <param name="SetupUrl">The setup program (classic container, launcher/SetupLayout.cs). Preferred to the
 /// archive, because it carries the launcher (launcher/Updater.cs); a set of changes that carries the
 /// launcher is preferred to both.</param>
 /// <param name="ManifestUrl">The release's list of files (<see cref="ReleaseManifest.AssetName"/>), from 2026-09-26.</param>

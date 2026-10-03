@@ -6,12 +6,14 @@ namespace TexasRevolution.Launcher;
 /// Putting the classroom on a machine.
 /// </summary>
 /// <remarks>
-/// The setup program is the launcher with the game appended (<see cref="SetupLayout"/>, from
-/// 2026-10-03). Run from a folder that has no classroom beside it, it is a setup program: it
-/// unpacks the game it carries, writes the launcher it carries - the first part of itself, with
-/// no game in it - beside it, and makes the shortcuts. Run from inside an installation, it is the
-/// launcher. .NET is in the download once, and the installed launcher is the same file a set of
-/// changes carries when the launcher changes, so a launcher change no longer costs the whole game.
+/// The setup program carries the game and the plain launcher (no game in it) one of two ways
+/// (<see cref="SetupLayout"/>): <b>classic</b>, both embedded as resources - the default,
+/// <c>TexasRevolutionSetup.exe</c> - or <b>appended</b> after the launcher's own bundle -
+/// <c>TexasRevolutionSetup-Appended.exe</c> (owner, 2026-10-03: "keep supporting both"). Run from a
+/// folder that has no classroom beside it, it is a setup program: it unpacks the game, writes the
+/// plain launcher beside it, and makes the shortcuts. Run from inside an installation, it is the
+/// launcher. The installed launcher is the same file a set of changes carries when the launcher
+/// changes, so a launcher change no longer costs the whole game.
 ///
 /// <para>Until 2026-10-03 the setup copied <i>itself</i> into place, game and all, so every
 /// installed launcher was a 690 MB setup program and a launcher change could reach it only as
@@ -30,7 +32,9 @@ public static class Installer
         "Programs", "TexasRevolution");
 
     /// <summary>True when this copy carries a game to install: a setup program, not an installed launcher.</summary>
-    public static bool HasPayload => SetupLayout.ReadFile(Environment.ProcessPath) is not null;
+    public static bool HasPayload => SetupLayout.KindOf(Resource, Environment.ProcessPath) != SetupKind.None;
+
+    private static Stream? Resource(string name) => typeof(Installer).Assembly.GetManifestResourceStream(name);
 
     /// <summary>True when this copy is sitting in an installation rather than a download folder.</summary>
     public static bool IsInsideInstallation => Directory.Exists(Path.Combine(AppPaths.Root, "server"));
@@ -51,8 +55,8 @@ public static class Installer
         progress.Report((0, "Preparing…"));
         var runningExe = Environment.ProcessPath
             ?? throw new InvalidOperationException("Windows did not say where this program is running from.");
-        // The game, and then the launcher this setup carries - never this whole setup program.
-        SetupLayout.Extract(runningExe, target, progress);
+        // The game, and then the plain launcher this setup carries - never this whole setup program.
+        SetupLayout.Install(Resource, runningExe, target, progress);
 
         // Unpacking somewhere to carry it about is not installing: no shortcuts pointing
         // into a folder that may not be there tomorrow, and no Add/Remove entry for a copy

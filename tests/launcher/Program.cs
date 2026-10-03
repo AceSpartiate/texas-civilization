@@ -475,6 +475,71 @@ Test("setup-layout: the setup installs the game and the plain launcher at its he
     Assert(SetupLayout.ReadFile(wrong) is null, "a setup whose lengths do not add up was read");
 });
 
+// Both setup containers (owner, 2026-10-03: "keep supporting both"). Classic: the game and the plain launcher as
+// embedded resources, here a lookup by resource name standing in for the assembly's own.
+(string Zip, byte[] Launcher, string Setup) SetupParts(string folder)
+{
+    var game = Path.Combine(folder, "game");
+    Write(Path.Combine(game, "TexasRevolution"), new Dictionary<string, string> { ["server/main.mjs"] = "// the game", ["release.txt"] = "v2", ["data/classroom.json"] = "somebody else's class" });
+    var zip = Path.Combine(folder, "game.zip");
+    ZipFile.CreateFromDirectory(game, zip);
+    var setup = Path.Combine(folder, "TexasRevolutionSetup.exe");
+    File.WriteAllText(setup, "MZ the whole classic setup program, game and all");
+    return (zip, Encoding.UTF8.GetBytes("MZ the plain launcher"), setup);
+}
+
+Func<string, Stream?> Resources(IDictionary<string, byte[]> named) =>
+    name => named.TryGetValue(name, out var bytes) ? new MemoryStream(bytes) : null;
+
+string TargetWithClass()
+{
+    var target = Folder("target");
+    Directory.CreateDirectory(Path.Combine(target, "data"));
+    File.WriteAllText(Path.Combine(target, "data", "classroom.json"), "this teacher's class");
+    return target;
+}
+
+Test("setup-classic: the classic setup installs its game and the plain launcher it embeds, never itself, never data", () =>
+{
+    var (zip, launcher, setup) = SetupParts(Folder("classic"));
+    var resources = Resources(new Dictionary<string, byte[]> { [SetupLayout.PayloadResource] = File.ReadAllBytes(zip), [SetupLayout.LauncherResource] = launcher });
+    Assert(SetupLayout.KindOf(resources, setup) == SetupKind.Classic, "the classic setup was not recognised");
+    var target = TargetWithClass();
+    SetupLayout.Install(resources, setup, target);
+    Assert(File.ReadAllText(Path.Combine(target, "server", "main.mjs")) == "// the game", "the game was not unpacked");
+    Assert(File.ReadAllText(Path.Combine(target, "data", "classroom.json")) == "this teacher's class", "the class data was written over");
+    Assert(File.ReadAllBytes(Path.Combine(target, UpdateSwap.ExeName)).SequenceEqual(launcher), "the installed launcher is not the plain launcher the setup embeds");
+});
+
+Test("setup-classic-old: a classic setup from before 2026-10-03, with no launcher inside, installs itself as it did", () =>
+{
+    var (zip, _, setup) = SetupParts(Folder("classic-old"));
+    var resources = Resources(new Dictionary<string, byte[]> { [SetupLayout.PayloadResource] = File.ReadAllBytes(zip) });
+    var target = TargetWithClass();
+    SetupLayout.Install(resources, setup, target);
+    Assert(File.ReadAllBytes(Path.Combine(target, UpdateSwap.ExeName)).SequenceEqual(File.ReadAllBytes(setup)), "an old classic setup did not install itself");
+    Assert(File.ReadAllText(Path.Combine(target, "server", "main.mjs")) == "// the game", "the game was not unpacked");
+});
+
+Test("setup-kind: each container is told apart, and an appended setup installs through the same door", () =>
+{
+    var folder = Folder("kinds");
+    var (zip, launcher, _) = SetupParts(folder);
+    var payload = File.ReadAllBytes(zip);
+    var appended = Path.Combine(folder, "TexasRevolutionSetup-Appended.exe");
+    File.WriteAllBytes(appended, launcher.Concat(payload).Concat(Trailer(launcher.Length, payload.Length)).ToArray());
+    var plain = Path.Combine(folder, "TexasRevolution.exe");
+    File.WriteAllBytes(plain, launcher);
+    var none = Resources(new Dictionary<string, byte[]>());
+    Assert(SetupLayout.KindOf(none, appended) == SetupKind.Appended, "the appended setup was not recognised");
+    Assert(SetupLayout.KindOf(none, plain) == SetupKind.None, "the plain launcher was taken for a setup");
+    Assert(SetupLayout.KindOf(none, null) == SetupKind.None, "a launcher that does not know its own path was taken for a setup");
+    var target = TargetWithClass();
+    SetupLayout.Install(none, appended, target);
+    Assert(File.ReadAllBytes(Path.Combine(target, UpdateSwap.ExeName)).SequenceEqual(launcher), "the appended setup did not install the launcher at its head");
+    Assert(File.ReadAllText(Path.Combine(target, "data", "classroom.json")) == "this teacher's class", "the class data was written over");
+});
+
 try { Directory.Delete(scratch, recursive: true); } catch { /* the temp folder is emptied by Windows in time */ }
 foreach (var (name, failure) in results) Console.WriteLine(failure is null ? $"PASS {name}" : $"FAIL {name} -- {failure}");
 Console.WriteLine($"{results.Count(result => result.Failure is null)} of {results.Count} passed");

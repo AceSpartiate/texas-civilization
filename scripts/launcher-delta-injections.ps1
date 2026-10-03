@@ -44,9 +44,14 @@ $injections = @(
   @('a set carrying the launcher named so launchers from before read it', 'launcher\DeltaUpdate.cs', 'LauncherPatchPrefix = "TexasRevolution-Launcher-And-Changes-From-";', 'LauncherPatchPrefix = "TexasRevolution-Changes-From-Launcher-";', 'launcher-asset'),
   @('a set carrying the launcher is not recognised', 'launcher\DeltaUpdate.cs', 'new\[\] \{ PatchPrefix, LauncherPatchPrefix \}', 'new[] { PatchPrefix }', 'launcher-asset'),
   @('a failed swap leaves the new launcher in place', 'launcher\UpdateSwap.cs', 'if \(lines\.Contains\("exe-moving"\) && File\.Exists\(old\)\)', 'if (false && File.Exists(old))', 'launcher-rollback'),
-  @('the setup installs itself whole, game and all', 'launcher\SetupLayout.cs', 'CopyExactly\(file, launcher, parts\.LauncherLength\);', 'CopyExactly(file, launcher, file.Length);', 'setup-layout'),
+  @('the setup installs itself whole, game and all', 'launcher\SetupLayout.cs', 'CopyExactly\(file, launcher, parts\.LauncherLength\);', 'CopyExactly(file, launcher, file.Length);', 'setup-layout+setup-kind'),
   @('a setup whose lengths do not add up is read', 'launcher\SetupLayout.cs', ' \|\| launcher \+ payload \+ TrailerLength != length\) return null;', ') return null;', 'setup-layout'),
-  @('the setup unpacks over the class data', 'launcher\SetupLayout.cs', '&& !item\.Relative\.StartsWith\("data/", StringComparison\.OrdinalIgnoreCase\)\)', ')', 'setup-layout')
+  @('the setup unpacks over the class data', 'launcher\SetupLayout.cs', '&& !item\.Relative\.StartsWith\("data/", StringComparison\.OrdinalIgnoreCase\)\)', ')', 'setup-layout+setup-classic+setup-kind'),
+  # Both setup containers (owner, 2026-10-03: "keep supporting both").
+  @('the classic setup installs itself although it carries the plain launcher', 'launcher\SetupLayout.cs', 'if \(launcher is not null\)(\r?\n)', 'if (false)$1', 'setup-classic'),
+  @('a classic setup from before 2026-10-03 installs no launcher', 'launcher\SetupLayout.cs', 'else File\.Copy\(exePath, installedExe, overwrite: true\);', 'else { }', 'setup-classic-old'),
+  @('the classic setup is not recognised as a setup', 'launcher\SetupLayout.cs', 'if \(payload is not null\) return SetupKind\.Classic;', 'if (false) return SetupKind.Classic;', 'setup-classic'),
+  @('a classic setup is unpacked as an appended one', 'launcher\SetupLayout.cs', 'if \(payload is null\) \{ Extract', 'if (true) { Extract', 'setup-classic+setup-classic-old')
 )
 
 function Invoke-Tests {
