@@ -88,7 +88,9 @@ export const PANEL_SUMMARIES = Object.freeze({
   // The flight's own work (sim/flight-work.mjs, owner 2026-09-26: new tasks for a family on the Runaway Scrape).
   'flee-hide': 'Hide what the wagon cannot take - the powder, the seed, the tools, the chest and the cotton - in the river bottom, to find again when the family is home.',
   'flee-bundle': 'Tie up a bundle for them to carry, so the family can take more with it on foot.',
-  'flee-cow': 'Put a rope on one milk cow for them to drive behind the family: a little milk every day on the road.',
+  'flee-cow': 'Put a rope on one milk cow for them to drive behind the family, to be milked on the road.',
+  'milk-cow': 'Milk the family\'s cow, once a day: a little food, and a job a child of seven can do.',
+  'milk-road': 'Milk the cow driven along with the family, once a day at the halt: a little food.',
   'road-lookout': 'Set them to watch the road behind, so word of riders reaches the family sooner.',
   'road-sing': 'Have them sing on the road, so the walkers are worn less by it.',
   'road-little-ones': 'Have them keep the little ones walking by the hand, so the family goes at the pace of its older walkers.',
@@ -157,6 +159,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['cut-bee-tree', { sprite: 'icon-cut-bee-tree' }],
   ['butcher-beef', { sprite: 'icon-butcher-beef' }], ['butcher-hog', { sprite: 'icon-butcher-hog' }],
   ['look-to-stock', { sprite: 'icon-look-to-stock' }],
+  // Milking the cow (sim/milking.mjs, owner 2026-10-02). stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - the milking icon,
+  // `icon-milk-cow`: until it is drawn, the cow on a rope (Claude's `icon-flee-cow`, or its stroked glyph).
+  ['milk-cow', { sprite: 'icon-flee-cow', glyph: 'flee-cow' }], ['milk-road', { sprite: 'icon-flee-cow', glyph: 'flee-cow' }],
   // What the family's children do (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
   ['child-play', { sprite: 'icon-child-play' }], ['child-kindling', { sprite: 'icon-child-kindling' }],
   ['child-birds', { sprite: 'icon-child-birds' }], ['child-eggs', { sprite: 'icon-child-eggs' }],
@@ -1182,7 +1187,7 @@ export const HUNGER_WORDS = Object.freeze({ fed: '', hungry: 'hungry', weak: 'we
  * student looking at the red gauge sees which buttons answer it. No words: the icons' own names and popups say what each is.
  */
 export const FOOD_WORKS = Object.freeze(new Set(['fish-the-water', 'take-small-game', 'gather-oysters', 'cut-bee-tree', 'hunt-timber', 'hunt-land',
-  'plant-field', 'harvest-field', 'butcher-hog', 'butcher-beef', 'fish-road', 'hunt-road', 'trade-crossing', 'child-eggs']));
+  'plant-field', 'harvest-field', 'butcher-hog', 'butcher-beef', 'fish-road', 'hunt-road', 'trade-crossing', 'child-eggs', 'milk-cow', 'milk-road']));
 /** The gauge's levels at which the food works glow. */
 export const FEED_LEVELS = Object.freeze(new Set(['low', 'short', 'empty', 'weak', 'starving']));
 /** Whether this icon should glow as a way to food now. */
@@ -1195,7 +1200,7 @@ export const feedsNow = (key, level) => FOOD_WORKS.has(key) && FEED_LEVELS.has(l
 // The counts are the server's (`world.household.wants`, by work, and `buy`, what the family's own town sells; sim/wants.mjs).
 
 /** What each want is called, in the popup's list. */
-export const WANT_NAMES = Object.freeze({ axe: 'Felling axe', logs: 'Logs', hide: 'Hide', rifle: 'Rifle', powder: 'Powder', hoe: 'Hoe', seed: 'Seed', coin: 'Coin', food: 'Food' });
+export const WANT_NAMES = Object.freeze({ axe: 'Felling axe', logs: 'Logs', hide: 'Hide', rifle: 'Rifle', powder: 'Powder', hoe: 'Hoe', seed: 'Seed', coin: 'Coin', food: 'Food', cow: 'Cow' });
 /**
  * The ways to get each want, in the order offered, and each button's words. `buy` ways are the town errand (`visit-shop`), offered only
  * when a shop in the family's own town sells the thing (the server's `buy`), and open the errand with its line on the list (`line`):
@@ -1211,6 +1216,8 @@ export const WANT_FROM = Object.freeze({
   hoe: Object.freeze([{ key: 'mend-hoe', label: 'Mend the hoe' }, { key: 'visit-shop', label: 'Buy a hoe in town', buy: true, line: 'store:hoe' }]),
   seed: Object.freeze([{ key: 'visit-shop', label: 'Buy seed in town', buy: true, line: 'store:seed' }]),
   coin: Object.freeze([{ key: 'visit-shop', label: 'Sell in town for coin', buy: true }]),
+  // A cow to milk (sim/milking.mjs, owner 2026-10-02): a cow and calf from the stock pens, where the family's town has them.
+  cow: Object.freeze([{ key: 'visit-shop', label: 'Buy a cow and calf in town', buy: true, line: 'stockman:cattle' }]),
   food: Object.freeze([{ key: 'hunt-land', label: 'Go hunting' }, { key: 'hunt-timber', label: 'Go hunting' }, { key: 'fish-the-water', label: 'Go fishing' }, { key: 'take-small-game', label: 'Take small game' }]),
 });
 /** This icon's wants, in the server's order, each `{ want, have, need, met }`; null when the family is short of nothing for it. */

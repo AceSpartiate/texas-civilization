@@ -1,6 +1,6 @@
 {
   "record": "auto-browser",
-  "date": "2026-10-02",
+  "date": "2026-10-03",
   "verdict": "PASS",
   "browser": "154.0.8037.93",
   "task": "docs/FAMILY_PANEL.md §11.7: the auto switch on every row, held by the server (set-auto); a hunt on auto decided alone with no \"!\" and repeated when the hunter comes home; off, nobody goes again; and §16 (owner 2026-09-25): the switch reads \"Auto\" off and \"Auto ✓\" with a green glow on, at 1366x768 and 1024x768; one person on auto to plant and another given the unripe harvest to wait for, the field planted, grown, brought in and planted again with nobody pressing anything, and each row saying what auto is doing and why it waits, in the server words; nothing scrolling sideways at 400 px.",

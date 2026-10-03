@@ -107,7 +107,8 @@ that fled ended with nothing**, and that is the loudest thing this module does: 
   home, not half (`FOUND_AFTER_FORAGERS`); the hogs keep their quarter. Outside the zone the herd is simply left, as before.
 - `ceiling:` **no milk, no butter, no hides off a family's own beef, no oxen bred from its own cattle.** Each is real and
   each is another kind of work. **Amended 2026-09-27 (§8):** one milk cow driven along on the Runaway Scrape gives a little
-  milk; at home a herd still gives none.
+  milk; at home a herd still gives none. **Amended 2026-10-02 (§9):** milking is a work, at home (0.35 a day) and on the road (0.2), by a child of
+  seven or a grown person, once a day.
 
 ## 6. What the record gave and what the game invented
 
@@ -188,3 +189,29 @@ amended). This replaces the `ceiling:` that stood here ("she goes at the family'
 Evidence: `tests/flight-work.test.mjs` (four tests: only a family with cattle and only a child, out of the herd; milk a day and the
 roll; taken if overtaken and home to the herd; on foot at her pace and with a wagon not slowed), each regression seen failing alone
 ([childhood-injections.json](evidence/childhood-injections.json), the `cow:` and `cow pace:` rows).
+
+## 9. Milking the cow (owner, 2026-10-02)
+
+Asked by the food builder (docs/HUNGER.md §10: "no passive milk at home"), the owner answered: *"yes, but make it a chore that kids can do. on the road it can be done by adults and set to auto."* `FIC-GONZ-1073`,
+FICTIONAL FOR GAMEPLAY. This amends §5's *no milk* and §8's *a little milk a day*.
+
+- **At home**: a family with cattle in its herd (the lobby's or bought) has **Milk the cow** (`milk-cow`, sim/milking.mjs) on the bar
+  of everybody of **seven** or more - a child's job (it may be dawdled over, docs/CHILDREN.md §4) or a grown person's. One cow gives
+  **0.35 food** (`MILK_AT_HOME`, a grown person's day), milked **once a day**: a second milking is refused in words, *"The cow has
+  been milked today; she gives once a day."* The herd is still two numbers on the household; nothing is drawn.
+- **On the road east**, at a refuge and on the road home: the milk cow of §8 gives nothing by herself any longer. **Milk the cow**
+  (`milk-road`) is on the bar of everybody with the family and the cow - grown people, as the owner named them, and a child of seven
+  or more, since the child who drives her is beside her. **0.2 food** (`MILK_A_DAY`), once a day; nothing on a day she strayed
+  (*"The milk cow got away into the brush today, and was found too late to milk."*). Her rope, her pace and her loss to the army are as
+  §8 has them.
+- **On auto**: anybody of ten or more set to it milks every day; set to it at home, they go on milking on the road east with the cow
+  along, and at home again. A child on auto takes it up among its jobs, after the eggs (sim/childhood.mjs `JOBS_FIRST`).
+- **No cow, no milking.** A family at home with no cattle is offered it **greyed, with its want - a cow** - only where its own town
+  has the stock pens (§7, *"Buy a cow and calf"*), and the want's next step is that purchase; where the town has none it is not
+  offered at all. A child is offered it only where there is a cow. On the road it is never offered without the cow along.
+- `ceiling:` **one milk cow** however big the herd. Worth counting cows only if a dairy ever comes into the game.
+- The families the director runs are not milked: §8's 0.2 a day on the road is gone for them.
+
+Evidence: `tests/milking.test.mjs` (seven tests), each regression seen failing under
+[milking-injections.json](evidence/milking-injections.json) (16 of 16 caught); `tests/flight-work.test.mjs`'s milk test now proves
+she gives nothing by herself.

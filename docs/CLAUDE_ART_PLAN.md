@@ -9,12 +9,12 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 27 | 7 | 18 | 0 |
-| B — Children, babies and sickness | 13 | 6 | 11 | 2 |
+| B — Children, babies and sickness | 14 | 6 | 11 | 2 |
 | C — Soldiers, battles and famous people | 21 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 19 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 2 | 11 | 17 |
-| **Total** | **106** | **20** | **93** | **27** |
+| **Total** | **107** | **20** | **93** | **27** |
 
 ## How a builder works
 
@@ -175,7 +175,7 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
 
 ## B — Children, babies and sickness
 
-Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 13 to make, 2 skipped.
+Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 14 to make, 2 skipped.
 
 - [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `girl-scatter`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `boy-scatter`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`, `smallchild-scatter`)
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)
@@ -242,6 +242,11 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 4 frames, east, `-n`, `-s`. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `roadCarrier` and `carriedAt` in `drawWorld`, `public/app.js`
   - **Stands in now:** the child's own figure drawn at the carrier's hip, a little up and to the right, as a carried baby is (Astra's library art reused)
+- [ ] **B15** (priority 2) — [Request 2026-10-02 — the milking icon and the milking pose](ART_REQUESTS.md#request-2026-10-02--the-milking-icon-and-the-milking-pose), items 1 and 2
+  - **Deliver:** `icon-milk-cow` (somebody on a stool with a pail beside a cow) and, for the cast and the children, `-milk` (sitting on a stool at a cow's flank, the pail between the knees, 2 frames, east)
+  - **Frames:** 1 icon; 2 frames each, east. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%; People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `PANEL_ICONS['milk-cow']` in `public/family-panel.js`; the work art of `public/work-art.js`
+  - **Stands in now:** the cow on a rope (`icon-flee-cow`) for the icon; the tending pose (`care`) for the milking (drawn in code (canvas or CSS))
 
 Skipped:
 - ~~B12~~ [Request 2026-09-12 — families that look like who they are, and a rider who gets down](ART_REQUESTS.md#request-2026-09-12--families-that-look-like-who-they-are-and-a-rider-who-gets-down) — skipped: covered by B1, B6, B7 and B8; the scaling rule stays

@@ -1,5 +1,70 @@
 # Claude handoff — Astra foundation
 
+## Milking the cow, and the owner's four food answers — owner-decided 2026-10-02 (not released)
+
+Branch `milking` off local `integration-2026-09-28` (ba1ece77, with food-sources, tier3-road, tier3-sick and carry-kids); not pushed.
+Same computer only. The owner answered the four questions of *Food only from real sources* (below), all **owner-decided 2026-10-02**
+(docs/HUNGER.md §10a, `FIC-GONZ-1070`'s amendment row):
+
+1. One grown person gathering in a big family: **keep it**.
+2. Milk: *"yes, but make it a chore that kids can do. on the road it can be done by adults and set to auto."* - built, below.
+3. Cotton seed: **one bale for three seed, as built**.
+4. The trip limit: **per person, as built**.
+
+**Milk the cow** (sim/milking.mjs, docs/STOCK.md §9, `FIC-GONZ-1073`):
+
+- **At home** (`milk-cow`): a family with cattle in its herd has it on the bar of everybody of **seven** or more (`MILK_FROM_AGE`, the
+  children's ladder's age for a full pail) - a child's job, which may be dawdled over, or a grown person's. One cow, **once a day**
+  (*"The cow has been milked today; she gives once a day."*), **0.35 food** (`MILK_AT_HOME`, a grown person's day).
+- **On the road east**, at a refuge and on the road home (`milk-road`): the milk cow no longer gives her 0.2 by herself
+  (sim/flight-work.mjs `milkCow` keeps only the stray roll); whoever is with the family and the cow milks her once a day for
+  **0.2** (`MILK_A_DAY`), nothing on a day she strayed. Grown people, as the owner said, **and children of seven or more too**: the
+  child driving her is beside her and nothing in the road's rules keeps a child from a pail (say if the road should be adults only).
+- **Auto**: anybody of ten or more set to it milks every day; set to it at home, they go on milking on the road with the cow and at
+  home again (sim/auto.mjs `MILK_HERE`). A child on auto takes it up after the eggs (`JOBS_FIRST`).
+- **No cow, no milking**: a family at home with no cattle sees it greyed with its want, *Cow*, whose next step is *"Buy a cow and
+  calf in town"*, only where its town has the stock pens (Gonzales on the invented map); elsewhere, for a child, and on the road
+  without the cow, it is not offered at all.
+- `ceiling:` one milk cow however big the herd. The families the director runs are **not milked**, so on the road they have lost the
+  0.2 a day the cow used to give by herself.
+- Icon: stand-in, the cow on a rope (`icon-flee-cow`); docs/ART_REQUESTS.md request 2026-10-02 (B15, `icon-milk-cow` and a `-milk`
+  pose), listed under *Stand-ins in use*. Tips `cow` and `milk` and the `flee-cow` words now say she is milked.
+
+**The measure, briefly** (`scripts/hunger-balance.mjs`, three classes of fifteen, all three periods; *milking* = *playing* with the
+youngest free person of seven or more sent to the cow every day it can be):
+
+| Per class of 15 families, 3 classes | playing (nobody milks) | **milking** |
+| --- | --- | --- |
+| Deaths by hunger | 0.3 (one, on the road east) | **0.3** (one, on the road east) |
+| … at home, periods 1-2 | 0 | **0** |
+| Median food at the end of period 1 | 49.0 | **57.0** |
+| … period 2 | 58.3 | **64.4** |
+| … period 3 | 21.1 | **19.2** |
+| Families hungry at some time | 2.3 | 2.7 |
+
+- The milk is a small help, as the owner's "a chore that kids can do" asks: about **8 food more by December** in the median family
+  and 6 more by the next spring, where the store is counted in tens. It saves nobody who would otherwise die and kills nobody: the
+  one death in each mode is a child on the road east (under six in *playing*, older in *milking*), in a different class (noise at three classes; the six-class figure of docs/HUNGER.md §10
+  for *playing* was 1.2 a class, all on the road).
+- *Playing* lost the road cow's free 0.2 a day; nothing measurable came of it in three classes.
+- [docs/evidence/milking-balance.json](docs/evidence/milking-balance.json).
+
+**Evidence**:
+
+- New `tests/milking.test.mjs` (7 tests: at home, a child of seven and a grown person, not a child of five, once a day and again
+  tomorrow; the milk is food and among the bar's food works; no cow - greyed with its want where the town has the stock pens, hidden
+  in San Felipe and for a child; the road - nothing by herself, milked once, refused on a stray day, not offered without her; auto at
+  home and on to the road; a child on auto; saves). `npm run test:milking-injections`: **16 of 16** caught by the test written for
+  them (14 alone; the two that also fail the road's test are the once-a-day rule, shared) - [record](docs/evidence/milking-injections.json).
+- Changed for the rule, not weakened: tests/flight-work.test.mjs (the cow now gives nothing by herself; the stray roll as before) and
+  scripts/childhood-injections.mjs's three milk rows (re-run alone, 4 of 4 caught alone; the full script is stale on integration for an
+  unrelated row, *"a one-tick job for the child"*, whose text is now twice in sim/world.mjs); tests/chores.test.mjs (the milking counted
+  with the gathering and the stock; `short`, the gettable-lack mark the bar reads, allowed on the tick); tests/family-roll.test.mjs (a
+  family of twenty's tick bound 26,600 → 27,900: 79 bytes for each grown person's greyed milking, 948 in all; the per-person bound
+  holds at 1,149); tests/work-art.test.mjs needed `WORK['milk-cow']`/`['milk-road']` (the tending pose, a stand-in).
+- `npm test`: **2059 tests, 2023 pass, 0 fail, 36 skipped**. Browser: `test:hunger` 8, `test:children` 16 (the road's bar has
+  `milk-road`), `test:auto` 14, `test:field-click` 18 (the greyed milking among the bar's goals at 1024x600, two rows of 16) - all green.
+
 ## Adults carry small kids — owner-decided 2026-10-02 (not released)
 
 Branch `carry-kids` off local `integration-2026-09-28` (0d605b0b, with tier3-road and tier3-sick); not pushed. The owner's answer to
@@ -90,7 +155,8 @@ pass, 0 fail, 36 skipped**. Browser: `test:hunger` 8 (the food works glow from l
 3.6 to 16.1 for two corn plots, four seed kept), `test:field-click` 18, `test:farm` 7, `test:auto` 14, `test:hunt` 15, `test:whole-game`
 15, `test:solo-game` 17 - all green.
 
-**Open, for the owner** (recommended first):
+**Open, for the owner** (recommended first) - **answered 2026-10-02**: 1 keep it, 2 milking as a chore (built on
+`milking`, above), 3 and 4 as built:
 
 1. *A family that sends one person to gather and gives no other order feeds a small household at home, not a big one, and dies on
    the road east* (113 deaths a class, mostly big families). (a) Keep it: the field is the staple, the road's own fishing, hunting

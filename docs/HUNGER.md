@@ -293,6 +293,41 @@ family played and at its screen; before = integration 894e3358 with the same har
 - **Starting food and the handover top-up are left as they are**: the arrival's floor (`ARRIVAL_DAYS`) and three days on taking a
   family over (§8b) are both counted in days of eating, which no longer has anything added to it; nothing measured asks for more.
 
+## 10a. The owner's four answers, and milking the cow (owner-decided 2026-10-02; not released)
+
+The owner answered §10's four questions on 2026-10-02 (`FIC-GONZ-1070`'s amendment row):
+
+1. **One grown person gathering in a big family** - feeds a small family at home and not a big one, nor anybody on the road east:
+   **keep it.** Nothing changed.
+2. **Milk from the family's own cow** - *"yes, but make it a chore that kids can do. on the road it can be done by adults and set to
+   auto."* Built: **Milk the cow** (sim/milking.mjs, docs/STOCK.md §9, `FIC-GONZ-1073`). It is a work somebody does, not food that
+   arrives by itself: once a day a cow, by a child of seven or more or a grown person, 0.35 food at home and 0.2 on the road east, and
+   it may be set to auto. The road cow, which gave her 0.2 by herself since 2026-09-27, now has to be milked; the families the director
+   runs are not milked (so the director's families on the road have 0.2 a day less than before).
+3. **Cotton seed** - one bale kept for three seed: **as built.**
+4. **The trip limit** - a haul a day per person on a trip of several days: **as built.**
+
+On the bar the milking is one of the works that bring food in (`FOOD_WORKS`), and glows the gauge's amber while the gauge is low.
+
+**The measure, briefly** (`node scripts/hunger-balance.mjs --seeds hunger-1,hunger-2,hunger-3`, three classes of fifteen, all three
+periods; *milking* is *playing* with the youngest free person of seven or more sent to the cow every day it can be):
+
+| Per class of 15 families, 3 classes | playing (nobody milks) | **milking** |
+| --- | --- | --- |
+| Deaths by hunger | 0.3 (one, on the road east) | **0.3** (one, on the road east) |
+| … at home, periods 1-2 | 0 | **0** |
+| Median food at the end of period 1 | 49.0 | **57.0** |
+| … period 2 | 58.3 | **64.4** |
+| … period 3 | 21.1 | **19.2** |
+| Families hungry at some time | 2.3 | 2.7 |
+
+- The milk is a small help, as the owner's "a chore that kids can do" asks: about **8 food more by December** in the median family
+  and 6 more by the next spring, where the store is counted in tens. It saves nobody who would otherwise die and kills nobody: the
+  one death in each mode is a child on the road east (under six in *playing*, older in *milking*), in a different class (noise at three classes; the six-class figure of §10
+  for *playing* was 1.2 a class, all on the road).
+- *Playing* lost the road cow's free 0.2 a day; nothing measurable came of it in three classes.
+- [evidence/milking-balance.json](evidence/milking-balance.json).
+
 ## 9. Evidence
 
 - `tests/hunger.test.mjs` (19 tests since the column's food, §8a, and the handover, §8b), each seen failing under `npm run test:hunger-injections`:

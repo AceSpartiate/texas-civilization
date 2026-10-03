@@ -1,0 +1,203 @@
+{
+ "record": "milking-injections",
+ "date": "2026-10-03",
+ "caught": 16,
+ "only": 14,
+ "of": 16,
+ "injections": [
+  {
+   "name": "a child of five milks",
+   "files": [
+    "sim/milking.mjs"
+   ],
+   "expected": "at home: a family with cattle",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "at home: a family with cattle milks its cow once a day, a child of seven as well as a grown person, for a little food"
+   ]
+  },
+  {
+   "name": "the cow milked twice a day",
+   "files": [
+    "sim/milking.mjs"
+   ],
+   "expected": "at home: a family with cattle",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "at home: a family with cattle milks its cow once a day, a child of seven as well as a grown person, for a little food",
+    "on the road: the milk cow gives nothing by herself any longer; milked by a grown person she gives her day's milk once, nothing on a day she strayed"
+   ]
+  },
+  {
+   "name": "the milking never marked",
+   "files": [
+    "sim/milking.mjs"
+   ],
+   "expected": "at home: a family with cattle",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "at home: a family with cattle milks its cow once a day, a child of seven as well as a grown person, for a little food",
+    "on the road: the milk cow gives nothing by herself any longer; milked by a grown person she gives her day's milk once, nothing on a day she strayed"
+   ]
+  },
+  {
+   "name": "a cow at home gives the road's milk",
+   "files": [
+    "sim/milking.mjs"
+   ],
+   "expected": "at home: the milk is food",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "at home: the milk is food, MILK_AT_HOME for the cow, counted in the store; and the bar's food works include it"
+   ]
+  },
+  {
+   "name": "milking not among the food works",
+   "files": [
+    "public/family-panel.js"
+   ],
+   "expected": "at home: the milk is food",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "at home: the milk is food, MILK_AT_HOME for the cow, counted in the store; and the bar's food works include it"
+   ]
+  },
+  {
+   "name": "milked with no cow",
+   "files": [
+    "sim/milking.mjs"
+   ],
+   "expected": "no cow, no milking",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "no cow, no milking: greyed with its want where the town has the stock pens, hidden where it has none, and never on a child's bar"
+   ]
+  },
+  {
+   "name": "no want of a cow said",
+   "files": [
+    "sim/milking.mjs"
+   ],
+   "expected": "no cow, no milking",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "no cow, no milking: greyed with its want where the town has the stock pens, hidden where it has none, and never on a child's bar"
+   ]
+  },
+  {
+   "name": "shown with no way to a cow",
+   "files": [
+    "sim/milking.mjs"
+   ],
+   "expected": "no cow, no milking",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "no cow, no milking: greyed with its want where the town has the stock pens, hidden where it has none, and never on a child's bar"
+   ]
+  },
+  {
+   "name": "the stock pens not the way to a cow",
+   "files": [
+    "sim/wants.mjs"
+   ],
+   "expected": "no cow, no milking",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "no cow, no milking: greyed with its want where the town has the stock pens, hidden where it has none, and never on a child's bar"
+   ]
+  },
+  {
+   "name": "the cow on the road milks herself again",
+   "files": [
+    "sim/flight-work.mjs"
+   ],
+   "expected": "on the road:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "on the road: the milk cow gives nothing by herself any longer; milked by a grown person she gives her day's milk once, nothing on a day she strayed"
+   ]
+  },
+  {
+   "name": "milked on a day she strayed",
+   "files": [
+    "sim/milking.mjs"
+   ],
+   "expected": "on the road:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "on the road: the milk cow gives nothing by herself any longer; milked by a grown person she gives her day's milk once, nothing on a day she strayed"
+   ]
+  },
+  {
+   "name": "milked on the road with no cow along",
+   "files": [
+    "sim/milking.mjs"
+   ],
+   "expected": "on the road:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "on the road: the milk cow gives nothing by herself any longer; milked by a grown person she gives her day's milk once, nothing on a day she strayed"
+   ]
+  },
+  {
+   "name": "auto does not repeat the milking",
+   "files": [
+    "sim/auto.mjs"
+   ],
+   "expected": "auto: a grown person on auto",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "auto: a grown person on auto milks every day at home, and goes on milking on the road with the cow along"
+   ]
+  },
+  {
+   "name": "auto never milks on the road",
+   "files": [
+    "sim/auto.mjs"
+   ],
+   "expected": "auto: a grown person on auto",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "auto: a grown person on auto milks every day at home, and goes on milking on the road with the cow along"
+   ]
+  },
+  {
+   "name": "a child on auto never milks",
+   "files": [
+    "sim/childhood.mjs"
+   ],
+   "expected": "auto: a child on auto",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "auto: a child on auto at home takes up the milking among the jobs"
+   ]
+  },
+  {
+   "name": "a milking day that cannot be is opened",
+   "files": [
+    "sim/world.mjs"
+   ],
+   "expected": "saves:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "saves: a class saved before milking opens as not milked today, and a milking day that cannot be is refused"
+   ]
+  }
+ ]
+}

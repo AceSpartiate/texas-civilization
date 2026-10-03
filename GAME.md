@@ -75,7 +75,9 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 **Food is life, and a family can starve** (owner, 2026-09-30; [docs/HUNGER.md](docs/HUNGER.md)). Working about the place makes no
 food (owner, 2026-10-02); the field, the hunt, the water, the herd, the store and the neighbours feed the family. Each of the
 gathering works - fishing, small game, oysters, a bee tree - pays a person once a day, and a harvest keeps back the seed to plant
-each plot again: corn two of its ten, cotton three seed for one of its five bales. While the food is low, the works that bring it
+each plot again: corn two of its ten, cotton three seed for one of its five bales. A family with cattle can **milk the cow** once
+a day - a child of seven can do it - for a little food at home, and the milk cow driven along on the road east is milked the same
+way; either can be set to auto (owner, 2026-10-02; [docs/STOCK.md](docs/STOCK.md) §9). While the food is low, the works that bring it
 in glow on the bar. When the food runs
 out the family goes hungry, then weak - slower at work and on the road, and nobody weak is sent to fight - then starving, and after
 a long stretch with nothing, people die of it, the youngest and the sick first. The food chip is a gauge that turns from calm to

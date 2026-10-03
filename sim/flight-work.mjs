@@ -196,9 +196,9 @@ export function takeCow(world, household, goers) {
 }
 
 /**
- * Once a day while the family has her - on the road, at the refuge and on the road home (sim/scrape.mjs `advanceFlight`): the day's
- * milk, `MILK_A_DAY` food, unless the child let her get away into the brush (`cowStrayChance`, by their obedience), when the day
- * goes in finding her and there is none. She is always found. If the child who drives her is gone - dead, taken, away - the eldest
+ * Once a day while the family has her - on the road, at the refuge and on the road home (sim/scrape.mjs `advanceFlight`): whether the
+ * child let her get away into the brush (`cowStrayChance`, by their obedience), when the day goes in finding her and she cannot be
+ * milked (`strayDay`; the milking is sim/milking.mjs `milk-road`, `MILK_A_DAY` food to whoever milks her, since 2026-10-02). She is always found. If the child who drives her is gone - dead, taken, away - the eldest
  * child of age for it who is with the family takes the rope, or else the family drives her itself and she strays no more.
  */
 export function milkCow(world, household) {
@@ -221,8 +221,9 @@ export function milkCow(world, household) {
     tell(world, household, driver, `The milk cow got away from ${driver.name} into the brush, and it was dark before ${they} found her. There is no milk today.`, 'FIC-GONZ-631', 2);
     return;
   }
-  household.resources.food = Math.round(((household.resources.food ?? 0) + MILK_A_DAY) * 10000) / 10000;
-  if (!cow.told) { cow.told = true; tell(world, household, driver, `The milk cow gave a little milk tonight, ${MILK_A_DAY} food, and will give as much every day she is with the family.`, 'FIC-GONZ-631', 1); }
+  // Her milk is somebody's work since 2026-10-02 (owner: "on the road it can be done by adults and set to auto"; sim/milking.mjs
+  // `milk-road`): she gives it to whoever milks her, once a day, and nothing on a day she strayed. Said once.
+  if (!cow.told) { cow.told = true; tell(world, household, driver, `The milk cow can be milked at the halt once a day: ${MILK_A_DAY} food, to whoever milks her.`, 'FIC-GONZ-631', 1); }
 }
 
 /** The Mexican army comes up with the family (sim/road.mjs `overtake`): the cow is taken with everything else. Whether there was one. */
@@ -364,7 +365,7 @@ const FLIGHT_WORK = {
   },
   'flee-cow': {
     name: 'Drive the milk cow along', skill: 'hands', where: 'home', child: true, fromAge: COW_FROM_AGE, toAge: COW_TO_AGE, job: true,
-    describe: `One milk cow out of the herd, on a rope, driven behind the family by a child. She gives a little milk every day, ${MILK_A_DAY} food, and is taken with everything else if the Mexican army comes up with the family. The rest of the stock stays on the range.`,
+    describe: `One milk cow out of the herd, on a rope, driven behind the family by a child. Milked once a day at the halt she gives a little, ${MILK_A_DAY} food, and she is taken with everything else if the Mexican army comes up with the family. The rest of the stock stays on the range.`,
     tooOld: entity => `${entity.name} is grown; the cow is a child's to drive.`,
     // Only a family that had cattle (owner, 2026-09-27): a family with none is not offered it at all.
     shown: (world, household) => hasCow(household) || Boolean(readyingOf(household)?.cow),

@@ -99,9 +99,10 @@ const INJECTIONS = [
   { name: 'cow: the cow is not taken out of the herd left on the range', file: FLIGHT, from: "  addToHerd(household, 'cattle', -1);\n  flight.cow = { by: driver.id, since: world.minute };", to: '  flight.cow = { by: driver.id, since: world.minute };', test: T.flight, expect: /one milk cow on the run/ },
   { name: 'cow: the cow stays at home with the herd', file: SCRAPE, from: '  takeCow(world, household, goers);\n', to: '', test: T.flight, expect: /one milk cow on the run/ },
   { name: 'cow: the child’s row does not say they drive her', file: WORLD, from: '|| cowLine(world, household, e) ||', to: '||', test: T.flight, expect: /one milk cow on the run/ },
-  { name: 'cow: she gives no milk', file: FLIGHT, from: '  household.resources.food = Math.round(((household.resources.food ?? 0) + MILK_A_DAY) * 10000) / 10000;', to: '', test: T.flight, expect: /gives a little milk a day/ },
-  { name: 'cow: obedience does not govern her', file: FLIGHT, from: 'export const cowStrayChance = roll => wanderChance(roll) * 5;', to: 'export const cowStrayChance = roll => 0.05;', test: T.flight, expect: /gives a little milk a day/ },
-  { name: 'cow: a child of a low roll loses her for good', file: FLIGHT, from: '    cow.strayDay = day;\n', to: '    cow.strayDay = day; if (obedienceOf(world, driver) < 5) delete flight.cow;\n', test: T.flight, expect: /gives a little milk a day/ },
+  // Since 2026-10-02 she is milked by somebody (sim/milking.mjs; scripts/milking-injections.mjs), and gives nothing by herself.
+  { name: 'cow: she milks herself again', file: FLIGHT, from: '  if (!cow.told) { cow.told = true;', to: '  household.resources.food += MILK_A_DAY;\n  if (!cow.told) { cow.told = true;', test: T.flight, expect: /gives nothing by herself/ },
+  { name: 'cow: obedience does not govern her', file: FLIGHT, from: 'export const cowStrayChance = roll => wanderChance(roll) * 5;', to: 'export const cowStrayChance = roll => 0.05;', test: T.flight, expect: /gives nothing by herself/ },
+  { name: 'cow: a child of a low roll loses her for good', file: FLIGHT, from: '    cow.strayDay = day;\n', to: '    cow.strayDay = day; if (obedienceOf(world, driver) < 5) delete flight.cow;\n', test: T.flight, expect: /gives nothing by herself/ },
   { name: 'cow: the army leaves the family its cow', file: ROAD, from: "  if (loseCow(household)) animals.push('the milk cow');\n", to: '', test: T.flight, expect: /taken if the Mexican army/ },
   { name: 'cow: she never comes home', file: SCRAPE, from: '      cowHome(world, household);\n', to: '', test: T.flight, expect: /taken if the Mexican army/ },
   // The cow's pace (owner 2026-09-27, "Slow a family on foot"; FIC-GONZ-631 amended).

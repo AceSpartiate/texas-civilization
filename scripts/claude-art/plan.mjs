@@ -48,6 +48,7 @@ const LAYER = 'A full-view light layer the renderer lays over the ground and fig
 const CAST = '`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`';
 const R = {
   hunger: "Request 2026-09-30 — the hunger mark and the food gauge's sack",
+  milking: 'Request 2026-10-02 — the milking icon and the milking pose',
   goInside: 'Request 2026-09-30 — the House icon on the bar',
   work: 'Request 2026-09-28 — people at work',
   ambient: 'Request 2026-09-28 — ambient life',
@@ -188,6 +189,8 @@ export const ITEMS = [
     frames: '1 each', size: MARK, standIn: 'a bowl and a sack drawn in the style sheet as masks, coloured by the stage', kind: 'code', plugs: '`.panel-hunger-mark` in `panelRow` and `.food-icon` in `paintLarder`, `public/app.js` and `public/style.css`', status: 'open', phrases: ['the hunger mark'] },
   { id: 'B14', area: 'B', priority: 2, request: R.carryKids, item: 'item 1', deliver: 'for each of the eight cast figures: `-carry-child-walk` (a child of two to five carried on the hip or the back, walking, 4, east, and `-n`/`-s`)', names: ['<cast>-carry-child-walk*'],
     frames: '4 frames, east, `-n`, `-s`', size: PEOPLE, standIn: 'the child\'s own figure drawn at the carrier\'s hip, a little up and to the right, as a carried baby is', kind: 'library', plugs: '`roadCarrier` and `carriedAt` in `drawWorld`, `public/app.js`', status: 'open', phrases: ['carrying a child of two to five'] },
+  { id: 'B15', area: 'B', priority: 2, request: R.milking, item: 'items 1 and 2', deliver: '`icon-milk-cow` (somebody on a stool with a pail beside a cow) and, for the cast and the children, `-milk` (sitting on a stool at a cow\'s flank, the pail between the knees, 2 frames, east)', names: ['icon-milk-cow', '<cast>-milk*', '<child>-milk*'],
+    frames: '1 icon; 2 frames each, east', size: ICON + '; ' + PEOPLE, standIn: 'the cow on a rope (`icon-flee-cow`) for the icon; the tending pose (`care`) for the milking', kind: 'code', plugs: '`PANEL_ICONS[\'milk-cow\']` in `public/family-panel.js`; the work art of `public/work-art.js`', status: 'open', phrases: ['the milking icon'] },
   { id: 'B12', area: 'B', priority: 3, request: R.families, item: 'priority 1', deliver: 'any later child-specific action pose the game asks a child in (today every child action pose it needs is B1, B6, B7 and B8)', names: [],
     frames: '—', size: PEOPLE, standIn: 'a grown figure drawn smaller (90% at 10-17, 70% at 5-9, 55% at 2-4, 45% an infant); keep the scaling when the art lands', kind: 'library', plugs: '`CHILD_POSES` and `entityClip` in `public/motion.js`', status: 'skipped: covered by B1, B6, B7 and B8; the scaling rule stays', phrases: ['Until there is child art'] },
 

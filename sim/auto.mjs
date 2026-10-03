@@ -83,9 +83,15 @@ export const REPEATED = Object.freeze([
   'plant-field', 'harvest-field',
   'hunt-timber', 'hunt-land', 'take-small-game', 'fish-the-water', 'gather-oysters', 'cut-bee-tree',
   'look-to-stock',
+  // Milking the cow (owner, 2026-10-02: "on the road it can be done by adults and set to auto"; sim/milking.mjs): at home and on the
+  // road, each taken up where the family and the cow are (`MILK_HERE`).
+  'milk-cow', 'milk-road',
   'build-house', 'cut-lane', 'dig-well', 'fell-trees',
   'clear-plot', 'fence-plot', 'make-carreta', 'make-furniture', 'mend-hoe',
 ]);
+/** The milking work where the family is now: the road's while it is on the road with its cow, the home's otherwise. */
+const MILK_HERE = Object.freeze({ home: 'milk-cow', road: 'milk-road' });
+const onTheRoad = household => Boolean(household.flight) && ['fled', 'refuged', 'returning'].includes(household.flight.status);
 /** Work sent to a place chosen on the map, which a student presses the map for and cannot give to wait for (`waitingWork`). */
 const ON_MAP = Object.freeze(['hunt-land', 'clear-plot', 'fence-plot']);
 /** Work on a plot: taken up again on the plot it was given, and then the next nearest the house (`plotFor`, `FIC-GONZ-905`). */
@@ -295,9 +301,19 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
         if (chore) { try { beginChore(world, household, person, chore, { beginTravel, modeAvailability }); } catch { /* refused: nothing to do today */ } }
         continue;
       }
+      // Milking on the road (owner, 2026-10-02; sim/milking.mjs): the one work auto takes up away from home, with the family on its
+      // road and its cow - whichever of the two milking orders was given - when it can be done, and nothing meanwhile.
+      if (['milk-cow', 'milk-road'].includes(person.order?.chore) && onTheRoad(household)) {
+        if (!person.chore && choreAvailability(world, household, person, MILK_HERE.road).can) {
+          try { beginChore(world, household, person, MILK_HERE.road, { beginTravel, modeAvailability }); } catch { /* not now */ }
+        }
+        continue;
+      }
       // Called away - a call, the march, an errand, the army, the family on the road east - or at other work: paused, and
       // taken up again the tick they are home and free.
       if (!person.order || !homeAndFree(household, person)) continue;
+      // Home again with a milking order given on the road: the home's milking.
+      if (person.order.chore === 'milk-road') person.order = { ...person.order, chore: MILK_HERE.home };
       const order = person.order;
       const hold = why => {
         // Working about the place meanwhile (sim/routines.mjs): the everyday work of the homestead, a little food a day.

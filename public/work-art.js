@@ -197,6 +197,11 @@ export const WORK = Object.freeze({
   'flee-hide': { stroke: 'carry', spread: 0.6 },
   'flee-bundle': { stroke: 'gather', spread: 0.5 },
   'flee-cow': { stroke: 'shoo', spread: 0.6 },
+  // Milking the cow, at home and on the road (sim/milking.mjs, owner 2026-10-02). stand-in: docs/ART_REQUESTS.md, request
+  // 2026-10-02 - the milking icon and the milking pose, item 2 (`-milk`): until it is drawn, the tending pose, the person bent to
+  // the work.
+  'milk-cow': { stroke: 'tend', spread: 0.5 },
+  'milk-road': { stroke: 'tend', spread: 0.5 },
   'road-lookout': { stroke: 'walk' },
   'road-sing': { stroke: 'walk' },
   'road-little-ones': { stroke: 'walk' },

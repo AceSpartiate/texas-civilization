@@ -142,6 +142,7 @@
     "test:hunger": "node scripts/hunger-browser-proof.mjs",
     "test:hunger-injections": "node scripts/hunger-injections.mjs",
     "test:food-sources-injections": "node scripts/food-sources-injections.mjs",
+    "test:milking-injections": "node scripts/milking-injections.mjs",
     "study:hunger": "node scripts/hunger-balance.mjs",
     "test:acting": "node scripts/acting-browser-proof.mjs",
     "test:acting-injections": "node scripts/acting-injections.mjs",

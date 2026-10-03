@@ -10,6 +10,8 @@
 //   playing  farms, hunts, fishes and forages as the director does for a family nobody plays (sim/neighbours.mjs `thinkFor`):
 //            the field first, the hunt or the four gathering works when the house is short, the herd at the last day or two,
 //            powder bought before the last shot, and at once east when told to leave with all the food that fits.
+//   milking  plays as `playing` does, and also has the cow milked every day it can be (owner, 2026-10-02: milking a child's chore,
+//            sim/milking.mjs): the youngest of seven or more who is free is sent to it, at home and on the road east.
 //
 // How a playing family is run (the harness, not a rule): its turn is taken between ticks, every `THINK_EVERY` ticks as the
 // director's is, with the family marked `absent` for that turn only so that the director's town errands are offered to it
@@ -66,14 +68,25 @@ function runClass(seed, mode) {
       try { applyAction(world, household.id, { action: 'chore', entityId: one.id, chore: work }); applyAction(world, household.id, { action: 'set-auto', entityId: one.id, auto: true }); return; } catch { /* the next */ }
     }
   };
+  // The cow milked by the youngest free of seven or more, whichever of the two works the family's place offers (the harness, not a rule).
+  const milker = household => {
+    const view = projectWorld(world, household.id, 'student', { includeMap: false });
+    const free = household.members.map(id => world.entities[id]).filter(one => one && !one.chore && !one.service && !['dead', 'captured'].includes(one.health?.condition)).sort((a, b) => (a.age ?? 30) - (b.age ?? 30));
+    for (const one of free) {
+      const work = ['milk-cow', 'milk-road'].find(id => (view.work?.[one.id] || []).some(entry => entry.id === id && entry.can));
+      if (!work) continue;
+      try { applyAction(world, household.id, { action: 'chore', entityId: one.id, chore: work }); return; } catch { /* the next */ }
+    }
+  };
   const turn = () => {
     if (mode === 'gathering') {
       households.forEach((household, index) => { if (!household.arriving && (world.tick + index) % THINK_EVERY === 0) gatherer(household); });
       return;
     }
-    if (mode !== 'playing') return;
+    if (mode !== 'playing' && mode !== 'milking') return;
     households.forEach((household, index) => {
       if (household.arriving || (world.tick + index) % THINK_EVERY !== 0) return;
+      if (mode === 'milking') milker(household);
       household.absent = true;
       try { thinkFor(world, household, { project: id => projectWorld(world, id, 'student', { includeMap: false }), act: input => applyAction(world, household.id, input) }); } catch { /* a refused order is the family's own business */ }
       delete household.absent;

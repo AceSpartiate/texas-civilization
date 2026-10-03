@@ -160,7 +160,9 @@ test('what a person may be asked to do is decided on the server, with a reason',
   // And the carreta (sim/carreta.mjs, 2026-09-25), made from the log pile only where the trees are counted: not on this map.
   // And the flight's own work (sim/flight-work.mjs, 2026-09-26), which is offered only to a family told to leave or on the road.
   // And nursing the sick at home (sim/disease.mjs, 2026-09-27), offered only while somebody of the family is sick.
-  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].retired && !CHORES[id].carreta && !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].fetchesLogs && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && !CHORES[id].directorOnly && !CHORES[id].forage && !CHORES[id].stock && !CHORES[id].child && !CHORES[id].flight && !CHORES[id].nurses && id !== 'clear-plot').length + offered.filter(entry => CHORES[entry.id].forage || CHORES[entry.id].stock).length, 'every chore is accounted for, refused or not');
+  // And milking the cow (sim/milking.mjs, 2026-10-02), a child's work too, offered at home where there is a cow or - to a grown
+  // person - a cow to buy at the stock pens, as there is in Gonzales: counted below with the gathering and the stock.
+  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].retired && !CHORES[id].carreta && !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].fetchesLogs && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && !CHORES[id].directorOnly && !CHORES[id].forage && !CHORES[id].stock && !CHORES[id].child && !CHORES[id].flight && !CHORES[id].nurses && id !== 'clear-plot').length + offered.filter(entry => CHORES[entry.id].forage || CHORES[entry.id].stock || CHORES[entry.id].milk).length, 'every chore is accounted for, refused or not');
   // What a family ate between deer: the country decides which of the four a family is even shown. This one is inland with
   // timber about it, so the small game and the bee tree are there and **the oyster bed is not** - a family shown a bed
   // forty miles from salt water is the fault this holds. Whether the creek is within reach is this house's own business
@@ -215,7 +217,9 @@ test('the chore catalogue is static and stays off the per-tick channel', () => {
   // nothing noticed, which is how a per-tick payload grows: not in one careless step but
   // in a dozen small ones nobody had a reason to refuse. So the shape is an allow-list.
   // Adding a key here is a decision, and the client must actually read it.
-  const allowed = new Set(['id', 'can', 'why', 'cost', 'haul', 'crop']);
+  // `short` marks a refusal for a gettable lack (sim/chores.mjs `lacking`; the lack itself is lifted onto the household), read by
+  // public/family-panel.js to keep the work greyed on the bar as a goal: here, the milking with no cow (2026-10-02).
+  const allowed = new Set(['id', 'can', 'why', 'cost', 'haul', 'crop', 'short']);
   const haulKeys = new Set(['resource', 'got']);
   for (const offered of Object.values(projected.work)) {
     for (const entry of offered) {

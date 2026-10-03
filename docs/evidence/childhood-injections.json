@@ -642,13 +642,14 @@
       ]
     },
     {
-      "name": "cow: she gives no milk",
+      "name": "cow: she milks herself again",
+      "rerun": "2026-10-02, milking: she gives nothing by herself since the owner's milking (sim/milking.mjs); this row and the two below re-run alone (node scripts/childhood-injections.mjs \"^cow: (she|obedience|a child of a low)\"), each caught alone",
       "file": "sim/flight-work.mjs",
       "test": "tests/flight-work.test.mjs",
       "caught": true,
       "alone": true,
       "failed": [
-        "the rule: the milk cow gives a little milk a day, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself"
+        "the rule: the milk cow gives nothing by herself, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself"
       ]
     },
     {
@@ -658,7 +659,7 @@
       "caught": true,
       "alone": true,
       "failed": [
-        "the rule: the milk cow gives a little milk a day, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself"
+        "the rule: the milk cow gives nothing by herself, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself"
       ]
     },
     {
@@ -668,7 +669,7 @@
       "caught": true,
       "alone": true,
       "failed": [
-        "the rule: the milk cow gives a little milk a day, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself"
+        "the rule: the milk cow gives nothing by herself, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself"
       ]
     },
     {

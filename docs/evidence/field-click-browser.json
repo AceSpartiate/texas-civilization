@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-02T22:26:55.885Z",
+  "at": "2026-10-03T01:32:53.765Z",
   "seed": "field-click-proof-4",
   "checks": [
     "a plot of the family's own field under the mouse is lit, and the pointer is a hand",
@@ -17,7 +17,7 @@
     "a place clicked (\"Bottomland timber and cane, beside timber, beside the house. Good ground for deer: the wait should not be long. Deer, tu…\") and \"Hunt there\": hh-1-parent-1 is out hunting",
     "the hunt brought the hide of a deer home, and the supplies line says \"Hides 1\"",
     "with the last powder spent the hunt is greyed: \"There is no powder in the house to hunt with.\", Powder 0/1, \"Buy powder in town\"",
-    "at 1024x600 the bar is 2 rows of 15 icons, its goals (hunt-land, take-small-game) among them, all on the screen",
+    "at 1024x600 the bar is 2 rows of 16 icons, its goals (hunt-land, take-small-game, milk-cow) among them, all on the screen",
     "a ripe plot clicked says \"Corn ripe\": \"Ten acres of prairie beside the house, cleared, fenced. Ripe corn, ready to bring in.\", and \"Bring it in\" sent Barnabas Proofwright to bring it in",
     "with the hide home the carreta is open; pressed, it is made, and the hide is gone into it"
   ],

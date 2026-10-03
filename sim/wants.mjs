@@ -22,6 +22,8 @@ import { TRADES, tradesAt } from './shops.mjs';
 export const SOLD_AT = Object.freeze({
   hoe: [['store', 'hoe']], axe: [['blacksmith', 'tool-axe']], rifle: [['gunsmith', 'buy-rifle']], seed: [['store', 'seed']],
   powder: [['store', 'powder'], ['gunsmith', 'powder']], hide: [['tanner', 'rawhide']], coin: [['store', 'food'], ['store', 'cotton']],
+  // A cow to milk (sim/milking.mjs, owner 2026-10-02): a cow and calf at the stock pens.
+  cow: [['stockman', 'cattle']],
 });
 /** The family's own town (sim/chores.mjs `townOf`). */
 const townOf = household => household.settlementId || 'gonzales';

@@ -285,7 +285,9 @@ test('the rule: one milk cow on the run - only a family with cattle, driven by a
   validateWorld(world);
 });
 
-test('the rule: the milk cow gives a little milk a day, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself', () => {
+// Since 2026-10-02 she gives nothing by herself: somebody milks her (owner: "on the road it can be done by adults and set to auto";
+// sim/milking.mjs `milk-road`, tests/milking.test.mjs). A day she strays is still a day with no milk to be had.
+test('the rule: the milk cow gives nothing by herself, a child of a low roll lets her stray and loses the day’s milk, and she is never lost by herself', () => {
   const days = roll => {
     const world = spring();
     const household = ordered(world);
@@ -301,7 +303,9 @@ test('the rule: the milk cow gives a little milk a day, a child of a low roll le
       const food = household.resources.food;
       milkCow(world, household);
       const got = Math.round((household.resources.food - food) * 10000) / 10000;
-      if (got === MILK_A_DAY) milked++; else if (household.flight.cow?.strayDay === Math.floor(world.minute / DAY)) strayed++;
+      assert.equal(got, 0, `the cow milked herself on day ${d}`);
+      // A day to be milked (her MILK_A_DAY to whoever milks her), or a day she strayed.
+      if (household.flight.cow?.strayDay === Math.floor(world.minute / DAY)) strayed++; else milked++;
       assert.ok(household.flight.cow, `the cow was lost on day ${d} with nobody overtaking the family`);
     }
     validateWorld(world);

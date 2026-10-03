@@ -226,7 +226,11 @@ test('a family of twenty fits the tick: what it is sent grows by the person, and
   };
   const four = sent(4), twenty = sent(20);
   assert.ok(twenty.ambient / 20 < 60, `the idle's activities cost ${Math.round(twenty.ambient / 20)} bytes a person a tick`);
-  assert.ok(twenty.all < 26600, `a family of twenty is sent ${twenty.all} bytes a tick`);
+  // Since 2026-10-02 every grown person of a family with no cow, in a town with the stock pens, has *Milk the cow* greyed with its
+  // want on the row (sim/milking.mjs, the owner's "every gettable lack"): 79 bytes each, measured on these seeds at 948 for the
+  // twenty's twelve grown and 26,865 in all. The whole bound moves to 27,900, about a twenty-fifth over; the per-person bound below
+  // still holds (1,149 a person, 1,110 without the milking).
+  assert.ok(twenty.all < 27900, `a family of twenty is sent ${twenty.all} bytes a tick`);
   // Since 2026-09-27 a person who has had the measles carries it (sim/disease.mjs `hadMeasles`, shown on the card), about half the
   // people: measured on these seeds at 1,143 a person. The bound moves to 1,160, which the kin carried twice still breaks.
   assert.ok((twenty.people - four.people) / 16 < 1160,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
