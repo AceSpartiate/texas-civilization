@@ -333,6 +333,24 @@ animals, holding their fire where women and children are in the way, as Almonte 
   wagon to two miles an hour or a mile and a half, as one that set out on foot always was; *Leave the wagon and run* is priced at
   that pace. A question the order to halt put aside - the bog, or the army close behind - is put again when the family gets away,
   if it still applies.
+- **Adults carry small kids** (owner-decided 2026-10-02, answering the question of triage 3.1: *"Adults carry small kids"*;
+  sim/company.mjs `seatPlan` step 5, `CARRYING_SPEED`, `CARRY_UNDER`, `CARRIER_FROM`; `FIC-GONZ-1061`). Whenever the family goes
+  on foot together - setting out with no vehicle, leaving or losing its wagon, on the road east and home, from a refuge, and
+  running from soldiers - each child of two to five who has no seat in a wagon or on a horse is carried by somebody walking: its
+  mother, else its father, else the eldest walking, who must be fourteen or more, well, and not already carrying a baby or another
+  child; one child to a carrier, the youngest first. A carried child sets no pace. **The carrier goes at two and a quarter miles an
+  hour, a quarter under a grown walker's three**: the owner's own measure for a baby on the hip on a journey of one's own
+  (sim/babies.mjs `HIP_PACE`, 2026-09-27); a child of two to five weighs two or three times a baby, so nothing faster would be fair
+  to the child's weight, and nothing slower to the owner's measure. A baby under two keeps its rule: in its mother's arms (or its
+  father's, or the eldest's), and on the family's road she is not slowed. More small children than carriers: the rest walk, and
+  the slowest of them sets the pace. **Fourteen** is the game's own line: a boy or girl of that age had most of a grown person's
+  strength and grown work in a frontier family, where a younger child led a sister by the hand (`road-little-ones`, from seven)
+  rather than carried her mile after mile (wading over with the little ones on one's back is from sixteen, `ford-carry`).
+  What it does in the chase: a mother who leaves the wagon carrying her child of three goes at 2.25 (said as 2.3) against marching
+  infantry's 2.5 (`HIST-TEX-660`); they close on her by about seven yards a minute, and give it up after their half hour - where,
+  walking, the child held them to a mile and a half and the column took them in minutes. The carried child is drawn at its
+  carrier's hip (a stand-in, docs/ART_REQUESTS.md request 2026-10-02). `ceiling:` a carrier is not tired more than a walker by the
+  child (`progressTravel` counts a walked mile); a carrier's exertion is the way out if a class finds carrying free.
 - **The end.** Taken within 15 yards. Got away when the soldiers give up: after two miles or half an hour on foot, three or half an
   hour mounted (not with a hand almost on the family, within 100 yards), at dusk, at the timber's edge when the family is in timber
   enough to hide in and nobody within fifty yards, or when plainly outrun. Written in the family's record; a public line goes along

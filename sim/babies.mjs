@@ -166,6 +166,8 @@ export const babiesCarriedBy = (world, entity) => (world.households[entity?.hous
 // ceiling: only a journey of her own. The family walking together on the road east (sim/company.mjs `companyPace`) keeps its pace
 // with a baby in its mother's arms: beside a wagon she keeps up with the ox anyway, and a family with no vehicle already goes at its
 // slowest walker. `HIP_PACE` in `companyPace` for a carrier afoot is the way out if the owner wants the Scrape slower for it.
+// Owner, 2026-10-02 ("Adults carry small kids"): a child of two to five carried on the family's road does slow its carrier, by this
+// same quarter (sim/company.mjs `CARRYING_SPEED`); the baby keeps the rule above.
 export function hipPace(world, entity) {
   const travel = entity?.travel;
   if (!travel || travel.mode !== 'foot' || !babiesCarriedBy(world, entity).length) return;

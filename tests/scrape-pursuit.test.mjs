@@ -195,9 +195,10 @@ test('the chase goes at the record\'s paces: an ox wagon slower than infantry, a
   world = spring();
   scene = sceneFor(world, { kind: 'infantry', how: 'wagon' });
   until(world, () => scene.household.flight.ask?.id === 'alto', 30);
-  assert.equal(runMph(world, scene.household, 'abandon-run'), 1.5, 'leaving the wagon, a family with a child of five walking was not priced at the pace of the child');
+  // Its five-year-old carried by his mother (owner, 2026-10-02), it goes at its girl of seven's two miles an hour.
+  assert.equal(runMph(world, scene.household, 'abandon-run'), 2, 'leaving the wagon, a family with a child of seven walking was not priced at the pace of the child');
   seen = play(world, scene.household, scene.main, 'abandon-run');
-  assert.equal(seen.outcome.outcome, 'caught', 'a family held to the pace of a child of five got away from infantry');
+  assert.equal(seen.outcome.outcome, 'caught', 'a family held to the pace of a child of seven got away from infantry');
   // A family all on horseback goes at a horse's pace, and runs at its farm horses' best, still slower than a trot.
   world = spring();
   scene = sceneFor(world, { kind: 'cavalry', how: 'mounted', householdId: 'hh-4' });
@@ -634,11 +635,15 @@ test('overtaken, or leaving the wagon, nobody keeps a seat on a wagon or a horse
     }
     // Nobody is in the saddle of a horse the family does not have, and on foot every one walks or is carried.
     assert.ok(going.every(one => !one.travel.saddle || with_.has(one.travel.rides)), `${answer}: somebody is drawn mounted on a horse the family no longer has`);
-    const small = going.filter(one => one.age >= CARRIED_UNDER && one.age < 6 && one.travel.afoot);
-    assert.ok(small.length, `${answer}: no child of two to five walks: the check would pass with nothing to check`);
-    for (const one of going) assert.equal(one.travel.speed, SMALL_WALK_SPEED, `${answer}: ${one.name} goes at ${one.travel.speed}, not at the pace of a child of ${small[0].age} on foot`);
+    const small = going.filter(one => one.age >= CARRIED_UNDER && one.age < 6);
+    assert.ok(small.length, `${answer}: no child of two to five is on the road: the check would pass with nothing to check`);
+    // The pace, worked out here by the owner's rules (sim/company.mjs; owner 2026-10-02, "Adults carry small kids"): the slowest
+    // walker not carried, a carrier of a small child at three quarters of a grown pace.
+    const pace = one => Math.min(!(one.age < 10) ? WALK_SPEED : one.age >= 6 ? 2 / 3 : SMALL_WALK_SPEED, small.some(child => child.travel.carried === one.id) ? WALK_SPEED * 0.75 : Infinity);
+    const expected = Math.min(...going.filter(one => one.travel.afoot && !one.travel.carried).map(pace));
+    for (const one of going) assert.equal(one.travel.speed, expected, `${answer}: ${one.name} goes at ${one.travel.speed}, not at the slowest walker's ${expected}`);
     // And the run on foot was priced at the pace it gets (sim/pursuit.mjs `runMph`).
-    if (answer === 'abandon-run') assert.match(priced.label, new RegExp(`\\(${SMALL_WALK_SPEED * 3} miles? an hour\\)`), `leaving the wagon was priced "${priced.label}", and the family goes at ${SMALL_WALK_SPEED * 3}`);
+    if (answer === 'abandon-run') assert.match(priced.label, new RegExp(`\\(${Math.round(expected * 30) / 10} miles? an hour\\)`), `leaving the wagon was priced "${priced.label}", and the family goes at ${expected * 3}`);
     validateWorld(world);
   }
 });

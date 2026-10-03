@@ -3974,10 +3974,15 @@ function drawWorldNow(world) {
   // Who of the family the map is not drawing this frame (`unseenOnRoad`): first those the server sends with no place at all.
   const unseenNext = new Map();
   for (const entity of entitiesOf(world)) if (entity.kind === 'person' && entity.travel && !entity.location) unseenNext.set(entity.id, awayWords(world, entity));
-  for (const entity of [...entities].sort((a, b) => Boolean(a.carriedBy) - Boolean(b.carriedBy))) {
+  // A small child carried on the family's road (owner, 2026-10-02, "Adults carry small kids"; sim/company.mjs step 5): drawn at
+  // its carrier's hip, as a carried baby is, never walking beside. stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - a grown
+  // person carrying a child of two to five on the road; until then the child's own figure at the carrier's hip.
+  const roadCarrier = one => (one.travel?.afoot && one.travel.carried && one.band !== 'infant' ? one.travel.carried : null);
+  const carriedOn = one => one.carriedBy || roadCarrier(one);
+  for (const entity of [...entities].sort((a, b) => Boolean(carriedOn(a)) - Boolean(carriedOn(b)))) {
     const holder = entity.carriedBy || (entity.baby?.state === 'held' ? entity.baby.by : null);
     if (holder && babiesHeldLast.has(holder)) { window.__babiesInArms[entity.id] = holder; continue; }
-    const carrier = entity.carriedBy ? carriedAt.get(entity.carriedBy) : null;
+    const carrier = carriedOn(entity) ? carriedAt.get(carriedOn(entity)) : null;
     // Where along the road this traveller is *drawn*, which is not where the server has them while the middle of a long
     // journey is being crossed out of sight (`sightOf`). Worked out before the point, because it is the point.
     const sight = carrier ? carrier.sight : sightOf(entity, drawnHeightOf(entity, camera.figure, seatOf(entity, entities)), travelMarks);

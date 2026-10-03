@@ -1,5 +1,45 @@
 # Claude handoff — Astra foundation
 
+## Adults carry small kids — owner-decided 2026-10-02 (not released)
+
+Branch `carry-kids` off local `integration-2026-09-28` (0d605b0b, with tier3-road and tier3-sick); not pushed. The owner's answer to
+tier3-road's question: **"Adults carry small kids"**. docs/SCRAPE.md (the chase's section), `FIC-GONZ-1061`. Same computer only.
+
+- **The rule** (sim/company.mjs `seatPlan` step 5): on every journey a family makes together on foot - setting out with no vehicle,
+  leaving or losing its wagon, on the road east and home, from a refuge (`reseat`), running from soldiers - each child of **two to
+  five** (`CARRY_UNDER`) with no seat in a wagon or on a horse is carried by somebody walking: its mother, else its father, else the
+  eldest walking, who is **fourteen or more** (`CARRIER_FROM`), well, and not already carrying a baby or another child; one child each,
+  the youngest first. The carried child sets no pace (`carried`); the carrier (`carrying`) goes at **2.25 miles an hour**
+  (`CARRYING_SPEED`), a quarter under a grown walker's 3 - the owner's own measure for a baby on the hip (sim/babies.mjs `HIP_PACE`,
+  2026-09-27), and a child of two to five weighs two or three times a baby. More small children than carriers: the rest walk and the
+  slowest of them sets the pace. **A baby keeps its rule**: in its mother's arms, and on the family's road she is not slowed.
+  Fourteen: a boy or girl of that age had most of a grown person's strength and grown work; younger children lead the little ones by
+  the hand (`road-little-ones`, from seven), and wading over with them on one's back is from sixteen (`ford-carry`). Both invented.
+- **Consistently**: `companyPace` and the flight's own pace with the little ones kept walking (sim/flight-work.mjs `familyPace`) read
+  the carrier's pace (`walkerPace`); *Leave the wagon and run* is priced by it (sim/pursuit.mjs `runMph`); `setOut` strips a stale
+  `carrying` when the family is seated again. The soldiers' rule already spared whoever carries a child (`targetsOf` reads `carried`).
+- **The chase**: a mother who leaves the wagon and runs from Santa Anna's infantry carrying her child of three goes at 2.25 (priced
+  "2.3 miles an hour") against their 2.5; they close by about seven yards a minute and, after half an hour, "gave it up and turned
+  back". Walking (tier3-road), the child held her to 1.5 and the column took them.
+- **On the page**: a carried child is drawn at its carrier's hip, as a carried baby is (public/app.js `roadCarrier`). Stand-in:
+  docs/ART_REQUESTS.md request 2026-10-02, `<cast>-carry-child-walk` (B14), listed under *Stand-ins in use*. A baby on the family's
+  road is drawn as before.
+- `ceiling:` a carrier is tired by the road as a walker is, no more (the child's weight costs pace, not exertion).
+
+**Evidence** (same computer only):
+
+- New `tests/carry-kids.test.mjs` (the rule; the chase, outcome before seats; the price; the road east, the little ones kept walking,
+  seated again, and the road home). **Injected, each caught** (the file put back each time): nobody carries (all four tests, the chase
+  failing on *"a mother carrying her child of three was caught"*); carrying costs nothing; the carrier at 2.5 instead of 2.25; a mother
+  with a baby carrying a child too; a child of ten carrying; a child of six carried; the little ones' pace ignoring the carrier; the
+  run priced as before carrying; a stale `carrying` kept on reseating.
+- Updated to the owner's rule: tests/scrape-pursuit.test.mjs (3.1's pace worked out by the rule; hh-1 leaving its wagon now goes at
+  its girl of seven's 2 mph and is still caught), tests/road.test.mjs, tests/means.test.mjs (a cart's child of five carried by the
+  eldest walking; a wagon's fifth small child carried at the ox's pace, a sixth walking and slowing it; a poor family of twenty with
+  its small children carried comes in at the ox's pace), tests/flight-work.test.mjs (the little ones kept walking, and the milk cow,
+  now with enough small children that one walks).
+- `npm test`: **2043 tests, 2007 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- Browser proofs, each alone: `test:road` (316 s), `test:scrape-pursuit` (68 s), `test:wagons` (15 s), `test:riding` (120 s): all green.
 ## Food only from real sources, one haul a day, and seed kept at the harvest — owner, 2026-10-02 (not released)
 
 Branch `food-sources` off `integration-2026-09-28` (894e3358 = origin/main); not pushed. The owner, playing v2026.10.02.1: *"Food

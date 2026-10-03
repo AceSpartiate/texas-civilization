@@ -49,7 +49,7 @@ import { beginsJob, wanderChance } from './obedience.mjs';
 import { addToHerd, herdOf } from './stock.mjs';
 import { LEAD_PACE } from './beasts.mjs';
 import { stirredShare } from './shares.mjs';
-import { walkingPace } from './company.mjs';
+import { walkerPace, walkingPace } from './company.mjs';
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { WATER_SHUT, waterAt } from './weather.mjs';
 // The ledger of what families did for each other (sim/neighbourly.mjs): food shared on the road is one of its deeds.
@@ -290,7 +290,8 @@ const smallWalker = (household, person) => withTheFamily(household, person) && p
 function familyPace(world, household, hurried) {
   const goers = [...household.members, ...(household.property || [])].map(id => world.entities[id]).filter(one => one?.travel?.purpose === 'flee');
   const walkers = goers.filter(one => one.kind === 'person' && one.travel.afoot && !one.travel.carried && !(hurried && ageOf(one) < 6));
-  const slowest = walkers.length ? Math.min(...walkers.map(walkingPace)) : WALK_SPEED;
+  // A carrier of a small child at the carrying pace (sim/company.mjs `walkerPace`, owner 2026-10-02).
+  const slowest = walkers.length ? Math.min(...walkers.map(one => walkerPace(one))) : WALK_SPEED;
   const vehicle = goers.some(one => one.kind === 'wagon' && one.travel.mode === 'wagon') && household.flight?.mode === 'wagon';
   return vehicle ? Math.min(WAGON_SPEED, slowest) : Math.min(WALK_SPEED, slowest);
 }

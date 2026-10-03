@@ -122,7 +122,9 @@ test('the rule: each child’s bundle carries more of the family’s goods on fo
 test('the rule: on the road a lookout sees the army further off, singing wears the walkers less, and the little ones kept walking let the family go faster', () => {
   const world = spring();
   const household = ordered(world);
-  const [older, small] = children(world, household, 9, 4);
+  // Every other child of three (owner, 2026-10-02, "Adults carry small kids"): the grown people carry the youngest, so the child
+  // of four is one too many to carry, and walks.
+  const [older, small] = children(world, household, 9, 4, ...Array(30).fill(3));
   onFoot(world, household);
   flee(world, household, { food: 10 });
   stepWorld(world);
@@ -420,7 +422,8 @@ test('the rule: a family on foot goes at the milk cow’s pace, and one with a w
   validateWorld(wagon.world);
   // A small child walking holds the family slower than the cow, who slows it no further; kept walking by the hand, the family goes
   // at hers and no faster (sim/flight-work.mjs `road-little-ones`).
-  const small = leave({ ages: [10, 4] });
+  // The rest of the children three, so the grown people's arms are full and the child of four walks (owner, 2026-10-02).
+  const small = leave({ ages: [10, 4, ...Array(30).fill(3)] });
   const pace = () => onRoad(small.world, small.household).map(one => one.travel.speed);
   assert.ok(pace().every(speed => speed < COW_PACE), `with a child of four walking the family went at ${pace()}`);
   assert.equal(view(small.world, small.household.id).flight.cowPace, undefined, 'the cow is said to slow a family already slower than she is');

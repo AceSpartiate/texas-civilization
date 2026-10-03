@@ -58,6 +58,7 @@ const R = {
   esparza: 'Request 2026-09-26 — the Esparza family',
   bell: 'Request 2026-09-26 — the bell at Béxar',
   play: 'Request 2026-09-26 — children at play, babies, and the Runaway Scrape\'s own work',
+  carryKids: 'Request 2026-10-02 — a grown person carrying a child of two to five on the road',
   advance: 'Request 2026-09-26 — the Mexican advance',
   famous: 'Request 2026-09-26 — the famous people: the roster\'s remaining figures and poses',
   storming: 'Request 2026-09-25 — the storming of Béxar',
@@ -185,6 +186,8 @@ export const ITEMS = [
     frames: '1', size: ICON, standIn: 'a stroked glyph', kind: 'code', plugs: '`PANEL_ICONS` in `public/family-panel.js`', status: 'open' },
   { id: 'B13', area: 'B', priority: 1, request: R.hunger, item: 'items 1 and 2', deliver: "`mark-hunger` (an empty bowl, in the panel's mark style) and `mark-food` (a filled sack, the food gauge's)", names: ['mark-hunger', 'mark-food'],
     frames: '1 each', size: MARK, standIn: 'a bowl and a sack drawn in the style sheet as masks, coloured by the stage', kind: 'code', plugs: '`.panel-hunger-mark` in `panelRow` and `.food-icon` in `paintLarder`, `public/app.js` and `public/style.css`', status: 'open', phrases: ['the hunger mark'] },
+  { id: 'B14', area: 'B', priority: 2, request: R.carryKids, item: 'item 1', deliver: 'for each of the eight cast figures: `-carry-child-walk` (a child of two to five carried on the hip or the back, walking, 4, east, and `-n`/`-s`)', names: ['<cast>-carry-child-walk*'],
+    frames: '4 frames, east, `-n`, `-s`', size: PEOPLE, standIn: 'the child\'s own figure drawn at the carrier\'s hip, a little up and to the right, as a carried baby is', kind: 'library', plugs: '`roadCarrier` and `carriedAt` in `drawWorld`, `public/app.js`', status: 'open', phrases: ['carrying a child of two to five'] },
   { id: 'B12', area: 'B', priority: 3, request: R.families, item: 'priority 1', deliver: 'any later child-specific action pose the game asks a child in (today every child action pose it needs is B1, B6, B7 and B8)', names: [],
     frames: '—', size: PEOPLE, standIn: 'a grown figure drawn smaller (90% at 10-17, 70% at 5-9, 55% at 2-4, 45% an infant); keep the scaling when the art lands', kind: 'library', plugs: '`CHILD_POSES` and `entityClip` in `public/motion.js`', status: 'skipped: covered by B1, B6, B7 and B8; the scaling rule stays', phrases: ['Until there is child art'] },
 
