@@ -23,7 +23,7 @@ import { spotlight } from './host.mjs';
 import { WOUND_GRADES, rollFates } from './army.mjs';
 import { share } from './shares.mjs';
 import { calendarMinutes } from './clock.mjs';
-import { modeWith } from './keeping.mjs';
+import { ridesAHorse } from './keeping.mjs';
 import { armBattle, battleState, fatesDue, placeFrom, projectBattle, sidePlace, stageFate, unitPlace } from './battle-stage.mjs';
 import { COLETO, coletoSlot } from './battles/coleto.mjs';
 import { GOLIAD_MASSACRE, massacrePlace } from './battles/goliad-massacre.mjs';
@@ -90,7 +90,7 @@ export function advanceColeto(world, { start, beginTravel }) {
     for (const person of withFannin(world)) {
       if (battle.participants[person.id]) continue;
       const [{ fate }] = rollFates(world, [person.id], { event: 'coleto', ...COLETO_RATES });
-      const horton = modeWith(world, person) === 'horse' && share(world, person.id, 'horton') < HORTON_SHARE;
+      const horton = ridesAHorse(world, person) && share(world, person.id, 'horton') < HORTON_SHARE;
       const entry = battle.participants[person.id] = { householdId: person.householdId, joined: world.minute, fate: horton ? 'unhurt' : fate, ...(horton && { horton: true }) };
       // A man still hurt from the south rides in a cart with the column's baggage (staging.md §6.6).
       if (person.health?.condition === 'wounded') entry.cart = true;

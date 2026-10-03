@@ -34,7 +34,12 @@ function travelTo(world, entity, destination, mode) {
 }
 
 test('the three ways of going are genuinely different, and none of them is simply best', () => {
-  assert.deepEqual(Object.keys(MODES), ['foot', 'horse', 'wagon']);
+  // And since 2026-10-03 the mule, offered only to a family that bought one (tests/mules.test.mjs): between the horse and walking in
+  // pace, and between them and the wagon in what it carries, so it is no more simply best than they are.
+  assert.deepEqual(Object.keys(MODES), ['foot', 'horse', 'mule', 'wagon']);
+  assert.ok(MODES.horse.speed > MODES.mule.speed && MODES.mule.speed > MODES.foot.speed, 'the mule is between the horse and walking');
+  assert.ok(MODES.wagon.carry > MODES.mule.carry && MODES.mule.carry > MODES.horse.carry, 'and carries between the horse and the wagon');
+  assert.equal(MODES.mule.owned, true, 'every family would be told it has no mule');
   // Speed and load pull against each other. If they did not, there would be no decision.
   assert.ok(MODES.horse.speed > MODES.foot.speed, 'the horse is the fast one');
   assert.ok(MODES.wagon.speed < MODES.foot.speed, 'the wagon is slower than the people beside it');

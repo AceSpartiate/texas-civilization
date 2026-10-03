@@ -287,6 +287,21 @@ second amendment of that day). Claims `FIC-GONZ-397`, `FIC-GONZ-398`, `HIST-TEX-
   beside them, as a cart, and holds **10** of a wagon's 16 spaces in the flight east.
 - `ceiling:` a pack ox and a led horse keep the walkers' pace, as the family's beasts in the flight on foot always have.
 
+#### Amended 2026-10-03 — the mule carries a rider too
+
+> "we should also add the ability to buy a mule in town. mules were a lot cheaper than horses." — the owner, 2026-10-03
+
+A family that has bought a mule ([TOWNS.md](TOWNS.md) §4h, `FIC-GONZ-1130`) has **one more seat** on its journeys together: every
+sound mule going with it carries one rider, dealt **after the horses' seats** in the same order - the sick, then the youngest
+(`riddenHorses` puts the mules after the horses; `seatPlan` unchanged). A lame mule carries nobody, as a lame horse. The means line
+says it: *"2 ride the horse and the mule and 4 walk."* In the flight east a family whose every one rides goes at the mule's four
+miles an hour when anybody sits a mule, the horse's five otherwise (sim/flight-route.mjs `mountedPace`); left in the mud, the wagon
+and the ox are lost and the mule goes on, as the horse does (sim/road.mjs `abandonWagon`). **A mule draws no vehicle**: the
+wagons, carts and carretas go behind an ox, one to each (`drawnVehicles`, sim/beasts.mjs `isOx`). Drawn: the rider's own figure over
+Claude's saddled mule (docs/ART_REQUESTS.md, request 2026-10-03). `ceiling:` the mule's pack is not counted on these journeys - it
+carries a rider and no more of the load than a horse does; a pack mule's room in the flight (sim/scrape.mjs `flightRoom`) is the way
+out.
+
 ---
 
 ### 4c. The tent, and going in out of the weather — owner-decided 2026-10-02 (not released)

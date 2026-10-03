@@ -19,7 +19,7 @@
       "fledAt": 861
     },
     "bogAfter": {
-      "seconds": 157,
+      "seconds": 158,
       "tick": 965
     },
     "bogNeed": "road",
@@ -63,13 +63,13 @@
     ],
     "roadWarnings": [],
     "pursuitReached": {
-      "tick": 1389,
+      "tick": 1388,
       "danger": {
         "id": "santa-anna",
         "name": "Santa Anna’s column",
-        "miles": 15.87,
+        "miles": 16.21,
         "towardName": "San Felipe de Austin",
-        "minute": 275560,
+        "minute": 275540,
         "asked": true
       }
     },

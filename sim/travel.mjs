@@ -14,6 +14,8 @@
 //   On the horse   two-thirds as fast again and hardly tiring, but one rider at a time.
 //   Ox and wagon   slower than walking, hauls four times what a person can, ties up
 //                  two pieces of property at once, and does not go over the ford.
+//   On the mule    (2026-10-03, only for a family that bought one) slower than the
+//                  horse, faster than walking, and carries twice what a person can.
 //
 // The paces are the period's own (`HIST-TEX-093`): a man walks about three miles an hour, a
 // saddle horse walks near four and trots near eight, an ox team makes about two, and a day on
@@ -40,6 +42,14 @@ export const WALK_SPEED = 1;
 // It was 2.6, a courier's trot kept up for every mile, which is not how anybody rode their own
 // horse to town and back.
 export const HORSE_SPEED = 5 / 3;
+/**
+ * A mule bought at the stock pens, ridden (owner, 2026-10-03: "we should also add the ability to buy a mule in town. mules were a
+ * lot cheaper than horses."; docs/TOWNS.md §4h, `FIC-GONZ-1130`): four miles an hour, a saddle animal's steady walk
+ * (`HIST-TEX-093`: a saddle horse walks near four) without the family horse's spells of trot. Slower than the horse, faster than
+ * walking, and it carries more than either (`MODES.mule.carry`): what a mule was kept for was the pack, and a walk it kept up all
+ * day. Invented; no source read times a riding mule against a horse on a Texas road.
+ */
+export const MULE_SPEED = 4 / 3;
 // A courier or an express carrying word (sim/world.mjs `relayReport`, sim/expresses.mjs): a hard
 // trot, about seven and a half miles an hour, kept up night and day (`ridesAllHours`). Martin rode
 // the seventy miles from the Alamo to Gonzales through the night (`HIST-TEX-093`). The expresses'
@@ -132,7 +142,7 @@ export const ferryMiles = modeId => FERRY_MINUTES / FARMING_TICK_MINUTES * (MODE
  * the road (`HIGH_WATER_TIMES`, sim/world.mjs).
  */
 export const FORD_MINUTES = Object.freeze({ river: 20, creek: 5 });
-const FORD_SHARE = Object.freeze({ foot: 1, horse: 0.75, wagon: 2 });
+const FORD_SHARE = Object.freeze({ foot: 1, horse: 0.75, mule: 0.75, wagon: 2 });
 /** The wade at one ford for this way of going, in minutes: longer with the wagon, shorter on the horse. */
 export const fordMinutes = (modeId, waterKind) => Math.round((waterKind === 'creek' ? FORD_MINUTES.creek : FORD_MINUTES.river) * (FORD_SHARE[modeId] ?? 1));
 /** The wade as miles of this way of going, laid on the road as going (sim/ways.mjs), as the ferry's wait is. */
@@ -156,12 +166,25 @@ export const MODES = Object.freeze({
     id: 'horse', name: 'On the horse', speed: HORSE_SPEED, carry: 7, exertion: .3, needs: ['horse'], crossesFord: true,
     describe: `Five miles an hour, thirty-five in a day, and hardly tiring, but the horse carries little and only one of you can be on it. ${FERRY_WORDS}`,
   }),
+  // The mule (owner, 2026-10-03; `FIC-GONZ-1130`): one rider and a pack, between the horse and walking in pace. `owned`: offered
+  // only to a family that has one. Every family has had a horse and an ox to be refused, and almost none will ever buy a mule, so
+  // the chooser does not grow a fourth card telling every student "Your family has no mule" (sim/going.mjs `waysFor`,
+  // sim/world.mjs `travelModesFor`, `offeredModes` here).
+  mule: Object.freeze({
+    id: 'mule', name: 'On the mule', speed: MULE_SPEED, carry: 10, exertion: .3, needs: ['mule'], crossesFord: true, owned: true,
+    describe: `Four miles an hour, nearly thirty in a day, and hardly tiring: slower than the horse, but it carries half what the wagon does on its pack saddle. Only one of you can be on it. ${FERRY_WORDS}`,
+  }),
   wagon: Object.freeze({
     id: 'wagon', name: 'With the ox and wagon', speed: WAGON_SPEED, carry: 20, exertion: .5, needs: ['ox', 'wagon'], crossesFord: false,
     describe: `Two miles an hour and a dozen or so in a day, slower than walking, and it brings home four times what a person can carry. The ford at Gonzales is no place for it. ${FERRY_WORDS}`,
   }),
 });
 export const DEFAULT_MODE = 'foot';
+/**
+ * The ways of going offered to somebody of a family that owns these parts (`has(role)`): every way, but a way marked `owned` (the
+ * mule) only when the family has the beast it needs. Kept here so the chooser and the travel controls agree.
+ */
+export const offeredModes = (ids, has) => ids.filter(id => !MODES[id]?.owned || MODES[id].needs.every(role => has(role)));
 export const MODE_IDS = Object.keys(MODES);
 
 /**
@@ -230,5 +253,5 @@ export const CARRETA_CARRY = 12;
  * reason to rename it and break every save; the horse arrived later and is `-horse`. The
  * mapping lives here so no other file has to know that.
  */
-const PROPERTY_IDS = { ox: 'animal', horse: 'horse', wagon: 'wagon' };
+const PROPERTY_IDS = { ox: 'animal', horse: 'horse', mule: 'mule', wagon: 'wagon' };
 export const propertyId = (householdId, role) => `${householdId}-${PROPERTY_IDS[role] || role}`;

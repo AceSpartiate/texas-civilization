@@ -37,7 +37,7 @@ import { answeredFor, recordLapse } from './lapse.mjs';
 import { awardGlory } from './glory.mjs';
 import { WOUND_GRADES } from './army.mjs';
 import { takeWound } from './disease.mjs';
-import { modeWith } from './keeping.mjs';
+import { modeWith, ridesAHorse } from './keeping.mjs';
 import { DRILL_TO_STEADY, MARCH_CAMPS, atGroces, campName, drilledSteady, houstonCamp } from './houston.mjs';
 import { recallFromService, recallRefusal } from './winter.mjs';
 import { share } from './scrape.mjs';
@@ -72,7 +72,8 @@ export function campRefusal(world, household, entity, choreId) {
   // road, with a guard to stand and the scouts out, and no day to drill in.
   if (choreId === 'camp-drill' && MARCH_CAMPS.includes(houstonCamp(world))) return 'The army is on the march to Harrisburg. There is no day to drill.';
   if (choreId === 'camp-drill' && drilledSteady(entity)) return `${entity.name} has drilled ${DRILL_TO_STEADY} days and stands steady in the line.`;
-  if (choreId === 'camp-scout' && modeWith(world, entity) !== 'horse') return `The scouts ride, and ${entity.name} has no horse at the camp.`;
+  // A mule (2026-10-03) is no scout's mount: said so, not "no horse" (sim/keeping.mjs `ridesAHorse`).
+  if (choreId === 'camp-scout' && !ridesAHorse(world, entity)) return modeWith(world, entity) === 'mule' ? `The scouts ride horses, and ${entity.name} has only the mule at the camp: it cannot keep up with the enemy's horse.` : `The scouts ride, and ${entity.name} has no horse at the camp.`;
   return null;
 }
 

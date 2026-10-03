@@ -24,7 +24,7 @@ import {
   OBJECTIVE, closeDetachment, closeQuestion, concepcionFate, concepcionPresent, grassFate, grassPresent, rejoinRanks,
   resolveConcepcionFighter, resolveGrassFighter, tellConcepcionFighter,
 } from './army.mjs';
-import { modeWith } from './keeping.mjs';
+import { ridesAHorse } from './keeping.mjs';
 
 const GONE = ['dead', 'captured'];
 const hashOf = key => { let h = 2166136261; for (const c of String(key)) h = Math.imul(h ^ c.charCodeAt(0), 16777619); h ^= h >>> 13; h = Math.imul(h, 0x5bd1e995); h ^= h >>> 15; return (h >>> 0) / 4294967296; };
@@ -295,7 +295,8 @@ export function concepcionAccount(world, person, entry, fate) {
 // ================================================================================================== the Grass Fight
 
 /** Which party a man goes out with: Bowie's horsemen if his horse is with him in the camp, Jack's infantry if he is on foot. */
-const grassParty = (world, person) => modeWith(world, person) === 'horse' ? 'texian' : 'jack';
+// Bowie's horse or Jack's infantry: a man on a mule (2026-10-03) goes with the infantry (sim/keeping.mjs `ridesAHorse`).
+const grassParty = (world, person) => ridesAHorse(world, person) ? 'texian' : 'jack';
 /** The minute a fighter's fate falls (`FIC-GONZ-422`): a rider at Bowie's first exchange, a man with Jack at the ditch's first volley. */
 function grassMoment(state, entry, fate) {
   const bowie = phaseOf(state, 'bowie'), ambush = phaseOf(state, 'ambush'), follow = phaseOf(state, 'follow');

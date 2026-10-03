@@ -178,9 +178,9 @@ export function frameCues(state, input, now) {
     else if (chore && HENS.has(chore.id)) emit(`hens:${one.id}`, 'hens', 16000, place, null, 1);
     if (!moving) continue;
     if (one.kind === 'wagon') emit(`wagon:${one.id}`, 'wagon', 2300, place, null, 1);
-    else if (one.kind === 'animal' && one.species === 'horse') emit(`hoof:${one.id}`, 'hoof', 520, place, { gait: one.travel.speed > 5 ? 'gallop' : 'trot' });
+    else if (one.kind === 'animal' && (one.species === 'horse' || one.species === 'mule')) emit(`hoof:${one.id}`, 'hoof', 520, place, { gait: one.travel.speed > 5 ? 'gallop' : 'trot' });
     else if (one.kind === 'animal' && one.species === 'ox') emit(`ox:${one.id}`, 'ox', 22000, place, null, 1);
-    else if (one.kind === 'person' && one.travel.mode === 'horse' && one.travel.saddle) emit(`hoof:${one.id}`, 'hoof', 520, place, { gait: 'trot' });
+    else if (one.kind === 'person' && (one.travel.mode === 'horse' || one.travel.mode === 'mule') && one.travel.saddle) emit(`hoof:${one.id}`, 'hoof', 520, place, { gait: 'trot' });
     else if (one.kind === 'person' && (one.travel.mode === 'foot' || one.travel.afoot) && !one.travel.carried && figure >= 30) emit(`step:${one.id}`, 'step', 560, { ...place, gain: place.gain * 0.8 }, { vary: state.random() }, 1);
   }
   // The family's cattle, grazing by the house (drawn there, public/app.js; the herd is not an entity yet).

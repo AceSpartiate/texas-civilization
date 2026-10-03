@@ -17,9 +17,10 @@
  * `modeAvailability` is handed in, as it is to sim/chores.mjs and sim/errands.mjs, so no arrow from here to sim/world.mjs has
  * to exist. The only other imports are the travel table and the ways over the ground.
  */
-import { DEFAULT_MODE, MODES, groundLeft, milesAnHour, FARMING_TICK_MINUTES } from './travel.mjs';
+import { DEFAULT_MODE, MODES, groundLeft, milesAnHour, offeredModes, FARMING_TICK_MINUTES } from './travel.mjs';
 import { findWay } from './ways.mjs';
 import { vehicleCarry } from './keeping.mjs';
+import { beastsOf, kept } from './beasts.mjs';
 
 /**
  * The ways, quickest first: the horse, on foot, the ox and wagon (sim/travel.mjs speeds). The order is the truth on every
@@ -28,7 +29,7 @@ import { vehicleCarry } from './keeping.mjs';
  */
 export const QUICKEST = Object.freeze(Object.values(MODES).slice().sort((a, b) => b.speed - a.speed).map(mode => mode.id));
 /** How tiring each way is, by its `exertion` (sim/travel.mjs): the words on the chooser. */
-const TIRING = Object.freeze({ foot: 'Tiring: every mile is on their legs.', horse: 'Hardly tiring.', wagon: 'Half as tiring as walking.' });
+const TIRING = Object.freeze({ foot: 'Tiring: every mile is on their legs.', horse: 'Hardly tiring.', mule: 'Hardly tiring.', wagon: 'Half as tiring as walking.' });
 const round1 = value => Math.round(value * 10) / 10;
 const loadsWord = amount => { const shown = round1(amount); return `${shown} ${shown === 1 ? 'load' : 'loads'}`; };
 
@@ -62,14 +63,19 @@ export function hoursWords(hours) {
  *   on a halter, cattle and hogs driven - and the pace it holds its bringer to, for the way home of each way (`leads`).
  */
 export function waysFor(world, entity, journey = {}, modeAvailability = null) {
-  return QUICKEST.map(id => oneWay(world, entity, id, journey, modeAvailability));
+  return offered(world, entity).map(id => oneWay(world, entity, id, journey, modeAvailability));
 }
+/** The ways this person's family has to be offered, quickest first: the mule only to a family that has one (sim/travel.mjs). */
+const offered = (world, entity) => {
+  const household = world.households?.[entity?.householdId];
+  return offeredModes(QUICKEST, role => beastsOf(world, household, role).some(kept));
+};
 /**
  * The quickest way that can go, reckoned a way at a time and stopping at the first that can: the chooser's `quickest`, by the
  * same function, without finding a road for the slower ways when the horse is free. What an order with no way takes.
  */
 export function quickestWay(world, entity, journey = {}, modeAvailability = null) {
-  for (const id of QUICKEST) if (oneWay(world, entity, id, journey, modeAvailability).can) return id;
+  for (const id of offered(world, entity)) if (oneWay(world, entity, id, journey, modeAvailability).can) return id;
   return null;
 }
 /** One way of going for one journey: its facts, and whether it can go and why not. */
@@ -96,7 +102,7 @@ function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWag
   // A new wagon from the wheelwright is driven home by whoever bought it (sim/shops.mjs `buy-wagon`): one person drives one wagon,
   // and a horse ridden in walks home tied on behind it - so it cannot also lead home a horse bought the same trip.
   if (newWagon && id === 'wagon') return { ...base, can: false, why: 'One person drives one wagon home. Whoever fetches the new wagon goes on foot or on the horse.', notTheWagon: true };
-  if (newWagon && leadsHorse && id === 'horse') return { ...base, can: false, why: 'The horse ridden in walks home tied behind the new wagon, and one person leads one animal. Walk, or send somebody else for the new horse.', notTheWagon: true };
+  if (newWagon && leadsHorse && (id === 'horse' || id === 'mule')) return { ...base, can: false, why: `The ${id} ridden in walks home tied behind the new wagon, and one person leads one animal. Walk, or send somebody else for the new animal.`, notTheWagon: true };
   if (carry + 1e-9 < load) return { ...base, can: false, why: `${carreta ? 'The carreta carries' : CARRIES[id]} ${carry}, and this is ${loadsWord(load)}.`, tooMuch: true };
   const open = modeAvailability ? modeAvailability(world, entity, id, path) : (id === DEFAULT_MODE ? { can: true } : { can: false, why: 'No way of going was given.' });
   // A way with no road there cannot go - except on foot, which crosses any country (sim/ways.mjs), and a place not yet on
@@ -114,8 +120,8 @@ function homeWords(path, id, home) {
   const ticks = groundLeft({ points: path.points, pace: path.pace, distance: path.distance, progress: 0 }) / home.pace;
   return `${home.words} Home in ${hoursWords(round1(ticks * FARMING_TICK_MINUTES / 60))}.`;
 }
-const CARRIES = Object.freeze({ foot: 'On foot a person carries', horse: 'The horse carries', wagon: 'The wagon carries' });
-const NOUN = Object.freeze({ foot: 'walker', horse: 'horse', wagon: 'wagon' });
+const CARRIES = Object.freeze({ foot: 'On foot a person carries', horse: 'The horse carries', mule: 'The mule carries', wagon: 'The wagon carries' });
+const NOUN = Object.freeze({ foot: 'walker', horse: 'horse', mule: 'mule', wagon: 'wagon' });
 /** The quickest way that can go, or null when none can. */
 export const quickestOf = ways => ways.find(way => way.can)?.id || null;
 /** The ways as the page is sent them: the reckoning's own flags left off. */

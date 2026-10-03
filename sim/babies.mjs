@@ -392,7 +392,7 @@ export function babyLine(world, household, entity) {
     const their = sexOf(entity) === 'female' ? 'her' : sexOf(entity) === 'male' ? 'his' : 'their';
     if (entity.travel.hip) return `On foot with ${names} on ${their} hip: walking a quarter slower for it.`;
     if (entity.travel.mode === 'foot') return `On foot with ${names} on ${their} hip.`;
-    return `${names} ${carrying.length > 1 ? 'ride' : 'rides'} with ${their === 'their' ? 'them' : their === 'her' ? 'her' : 'him'}, ${entity.travel.mode === 'horse' ? 'on the horse' : 'in the wagon'}: no slower for it.`;
+    return `${names} ${carrying.length > 1 ? 'ride' : 'rides'} with ${their === 'their' ? 'them' : their === 'her' ? 'her' : 'him'}, ${entity.travel.mode === 'horse' ? 'on the horse' : entity.travel.mode === 'mule' ? 'on the mule' : 'in the wagon'}: no slower for it.`;
   }
   if (!isBaby(entity) || GONE.includes(entity.health?.condition)) return null;
   // A family nobody plays keeps its babies still (`advanceBabies`), and a line saying one crawls would be untrue.

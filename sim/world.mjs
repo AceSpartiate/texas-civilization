@@ -15,7 +15,7 @@ import { heldByBattle, lyingOnField } from './battle-stage.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginAim, beginChore, fireShot, registerChores, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
 import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
-import { beastsInvalid, beastsOf, fitOut, ledPace, yardSpot } from './beasts.mjs';
+import { beastsInvalid, beastsOf, fitOut, kept, lame, ledPace, yardSpot } from './beasts.mjs';
 import { SERVING_ACTIONS, recallFromService, recallRefusal, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
 import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
@@ -69,7 +69,7 @@ import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './tr
 import { advanceNeighbourly, answerNeighbour, neighbourlyInvalid, neighbourlyView, owes, recordTakenIn, standings } from './neighbourly.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
 import { advanceDepartures, advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
-import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
+import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, offeredModes, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
 import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
@@ -271,7 +271,7 @@ export function rollFamily(world, household) {
   record(world, 'family-rolled', { householdId: household.id, text: `Your family rolled ${rolledWords(roll)}${household.means ? `, and ${rolledWords(household.means.roll)} for what it has` : ''}.`, importance: 2, claimId: 'FIC-GONZ-021' });
   return roll;
 }
-export { WALK_SPEED, HORSE_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
+export { WALK_SPEED, HORSE_SPEED, MULE_SPEED, RIDER_SPEED, WAGON_SPEED } from './travel.mjs';
 // Three shots at the founding (`FIC-GONZ-016`); now what the default wagon load packs.
 export { STARTING_POWDER } from './wagon.mjs';
 /**
@@ -348,6 +348,9 @@ export function modeAvailability(world, entity, modeId, path = null) {
     if (beastFor(world, entity, role)) continue;
     const free = owned.filter(beast => !holderOf(world, beast) && !entity.leads?.includes(beast.id));
     if (free.length && free.every(beast => beast.condition && beast.condition !== 'sound')) return { can: false, why: `The ${NOUN[role]} is in no state to go.` };
+    // Lamed by a ball in a chase (sim/beasts.mjs `lame`): said as it is, not "not here" (2026-10-03, with the mule, which is lamed
+    // as a horse is). Until then a family with its lame horse in the yard was told the horse was not there.
+    if (free.length && free.every(beast => lame(world, beast) && beast.location?.siteId === entity.location?.siteId)) return { can: false, why: `The ${NOUN[role]} is lame and carries nobody until it mends.` };
     // The whole point of property being rivalrous: it is somewhere, and if it is not
     // where you are then you cannot take it. Walk to it, or go without it.
     return { can: false, why: `The ${NOUN[role]} is not here.` };
@@ -366,7 +369,9 @@ export function modeAvailability(world, entity, modeId, path = null) {
 /** Every way this person could set out right now, with the reason for any that are not open. */
 export function travelModesFor(world, entity, destination = null) {
   if (entity.kind !== 'person' || !entity.householdId) return [];
-  return Object.keys(MODES).map(id => {
+  // The mule only for a family that has one (sim/travel.mjs `offeredModes`, 2026-10-03).
+  const household = world.households[entity.householdId];
+  return offeredModes(Object.keys(MODES), role => beastsOf(world, household, role).some(kept)).map(id => {
     // Each way of going takes its own way there (sim/ways.mjs): the wagon keeps to the road where the others cut across.
     const path = destination && entity.location.siteId ? findWay(world, entity.location.siteId, destination, id) : null;
     const { can, why } = modeAvailability(world, entity, id, path);
@@ -444,7 +449,7 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
     const { can, why } = modeAvailability(world, entity, mode.id, path);
     if (!can) throw new Error(why);
   }
-  const how = riding || mode.id === 'foot' ? '' : mode.id === 'horse' ? ', riding' : ', with the ox and wagon';
+  const how = riding || mode.id === 'foot' ? '' : mode.id === 'horse' ? ', riding' : mode.id === 'mule' ? ', on the mule' : ', with the ox and wagon';
   // The ferries on the way, said with the going: each is an hour's wait for the boat (sim/travel.mjs `FERRY_MINUTES`).
   const ferries = (path.ferries || []).map(id => world.map.sites[id]?.name?.replace(/^The /, 'the ')).filter(Boolean);
   const over = ferries.length ? ` The way goes over ${ferries.length === 1 ? ferries[0] : `${ferries.slice(0, -1).join(', ')} and ${ferries.at(-1)}`}, with a wait for the boat${ferries.length > 1 ? ' at each' : ''}.` : '';

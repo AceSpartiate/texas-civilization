@@ -36,7 +36,8 @@ test('every way of going is offered quickest first, with the server\'s facts, an
   const alvin = person(world, 'thomas'), hunter = person(world, 'mateo');
   const town = ways(world, alvin, { action: 'travel', destination: 'gonzales' });
   assert.deepEqual(town.ways.map(one => one.id), ['horse', 'foot', 'wagon']);
-  assert.deepEqual(QUICKEST, ['horse', 'foot', 'wagon']);
+  // The mule (2026-10-03) is in the order, and offered only to a family that has one: this one has none (tests/mules.test.mjs).
+  assert.deepEqual(QUICKEST, ['horse', 'mule', 'foot', 'wagon']);
   assert.equal(town.quickest, 'horse');
   assert.equal(town.journey.to, 'gonzales');
   for (const one of town.ways) {

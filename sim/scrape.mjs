@@ -19,7 +19,7 @@ import { ruin } from './improvements.mjs';
 import { findWay } from './ways.mjs';
 import { share } from './shares.mjs';
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
-import { beastsOf, roleOf } from './beasts.mjs';
+import { BEAST_ROLES, beastsOf, roleOf } from './beasts.mjs';
 import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 import { CARRETA_SPACE, CART_SPACE, WAGON_SPACE } from './wagon.mjs';
 import { frailty } from './army.mjs';
@@ -157,7 +157,7 @@ const settlementOf = household => household.settlementId || 'gonzales';
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(Boolean);
 const atHome = (world, household) => people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.location?.siteId === household.homeSiteId && !person.travel);
 // Every animal and the wagon the family owns: the ones it always had, and any bought in town (sim/beasts.mjs).
-const beasts = (world, household) => ['horse', 'ox', 'wagon'].flatMap(role => beastsOf(world, household, role));
+const beasts = (world, household) => BEAST_ROLES.flatMap(role => beastsOf(world, household, role));
 const tell = (world, household, text, extra = {}) => record(world, 'consequence', { householdId: household.id, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-046', text, ...extra });
 
 /** Whether the flight is on: the third class period. */

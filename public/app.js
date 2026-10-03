@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, sheetsFirstDrawn, spriteFrame, spriteReady, watchMissing } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -576,8 +576,21 @@ function recliningAvatar(ctx, x, y, size, entity) {
 // Juniper is an ox and must stay one; the sprite chosen is stable per animal so the same
 // beast is recognisable from one lesson to the next.
 function miniAnimal(ctx, x, y, size, entity = {}, flip = false) {
-  const beast = entity.species === 'horse' ? 'horse' : 'ox';
   const heading = entity.travel ? travelHeading(entity) : null;
+  // The family's mule (2026-10-03, bought at the stock pens; sim/beasts.mjs): Claude's mule on its halter, standing or led, and
+  // saddled under a rider (`ridden`, handed in by `drawSeated`, or a journey made on it). Without those sheets, the family's horse
+  // a little smaller. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 - riders in every vehicle (the mule itself, item 1).
+  if (entity.species === 'mule') {
+    const saddled = entity.ridden || entity.travel?.mode === 'mule';
+    const clip = entity.travel ? (heading ? `${saddled ? 'mule-saddled-walk' : 'mule-walk'}-${heading}` : saddled ? 'mule-saddled-walk' : 'mule-walk') : 'mule-idle';
+    const own = animated(ctx, clip, x, y, size, entity.id, { flip: heading ? false : flip, ...(entity.travel && { gait: entity.gait }) });
+    // What the mule was drawn as this frame, for a proof: its own clip, or the horse standing in while that sheet loads.
+    if (entity.id) mulesDrawn.set(entity.id, own ? clip : 'horse');
+    if (own) return;
+    if (entity.travel && animated(ctx, heading ? `horse-walk-${heading}` : 'horse-walk', x, y, size * .92, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
+    if (drawSprite(ctx, 'horse-chestnut', x, y, size * .92, { flip })) return;
+  }
+  const beast = entity.species === 'horse' || entity.species === 'mule' ? 'horse' : 'ox';
   if (beast === 'ox' && entity.travel?.mode === 'foot' && animated(ctx, `ox-packed-walk-${heading || 'e'}`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
   if (entity.travel && animated(ctx, heading ? `${beast}-walk-${heading}` : `${beast}-walk`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
   if (!entity.travel && animated(ctx, beast === 'horse' ? 'horse-chestnut-idle' : 'ox-brown-idle', x, y, size, entity.id, { flip })) return;
@@ -822,6 +835,8 @@ const drawnAt = new Map();
 const shotSince = new Map();
 // Who was drawn sitting on what this frame, and where each part of them went, for the proofs (docs/evidence/riding-browser.json).
 const seatedDrawn = new Map();
+// What each mule was drawn as this frame (`miniAnimal`): its own clip, or 'horse' while that sheet loads. A proof's evidence.
+const mulesDrawn = new Map();
 /**
  * Somebody on the horse, or driving the ox and wagon, drawn as one. The ox and wagon and the ridden horse are not drawn
  * again by themselves (public/motion.js `seatLayout`).
@@ -844,16 +859,20 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const own = entities.filter(other => other.householdId === entity.householdId);
   // The wagon they drive and the ox before it, of however many the family has on the road (public/motion.js `wagonTeams`).
   const team = seat === 'wagon' ? teamDrivenBy(entity, entities) : null;
+  // The mount they are on: the one the server has them riding - a horse or, since 2026-10-03, a mule (`mountOf`) - else the first horse.
+  const ridden = seat === 'horse' ? mountOf(entity, own) : null;
   const mount = {
-    // The horse they are on: the one the server has them holding (a family may own more than one, sim/beasts.mjs), else the first.
-    horse: own.find(other => other.kind === 'animal' && other.species === 'horse' && other.borrowedBy === entity.id && other.travel?.mode === 'horse') || own.find(other => other.kind === 'animal' && other.species === 'horse'),
-    ox: team?.ox || own.find(other => other.kind === 'animal' && other.species !== 'horse'),
+    horse: ridden || own.find(other => other.kind === 'animal' && other.species === 'horse'),
+    ox: team?.ox || own.find(other => other.kind === 'animal' && other.species !== 'horse' && other.species !== 'mule'),
     wagon: team?.wagon || own.find(other => other.kind === 'wagon'),
   };
+  // On the mule the painted horse-and-rider would put them on the chestnut horse, so a rider on a mule is always the composite: their
+  // own figure over Claude's saddled mule. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 - riders in every vehicle (items 2-3).
+  const onMule = mount.horse?.species === 'mule';
   // Asked before anything is drawn, because the whole layout depends on the answer: one painted rig has no horse under it
   // and nothing to clip. A sheet still on its way answers no and is asked for, so the next frame can answer yes.
   const delivered = seatedClip(entity, direction, seat);
-  const ready = !entity.appearance && Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
+  const ready = !entity.appearance && !onMule && Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
   const drawn = [];
   const aboard = passengersOf(team, entities);
   // The wagon and its ox as one drawing (Claude's `wagon-ox-*`, public/motion.js `WAGON_RIG`) once its sheet is here, with the tail
@@ -930,7 +949,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
     } else {
       // The family's own beast, as the server has it on the road with them; a stand-in of the right kind if it is not in view.
       const beast = mount[part.part] || { id: `${entity.id}-${part.part}`, kind: part.part === 'wagon' ? 'wagon' : 'animal', species: part.part, condition: 'sound' };
-      const moving = { ...beast, travel: entity.travel };
+      const moving = { ...beast, travel: entity.travel, ...(part.part === 'horse' && { ridden: true }) };
       if (part.part === 'wagon') miniWagon(ctx, px, py, height, moving, flip);
       else miniAnimal(ctx, px, py, height, moving, flip);
     }
@@ -939,7 +958,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   }
   // `art` is the delivered clip if one was drawn, and null while the composite stand-in stands in for it: the one fact a
   // proof needs to tell "Astra's painted rider" from "a cropped figure over a horse" without reading pixels.
-  seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, rig: rig ? rigClip.id : null, parts: drawn });
+  seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, rig: rig ? rigClip.id : null, parts: drawn, ...(onMule && { mount: 'mule', mountId: mount.horse.id }) });
 }
 /**
  * How tall somebody is drawn, in pixels, from the camera's figure size: everything is drawn standing on its point, so this
@@ -948,7 +967,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
  * Read by `drawEntity` and, a frame earlier, by `sightOf`, which needs it to know what pace this figure may be drawn at.
  */
 function drawnHeightOf(entity, size, seat) {
-  if (entity.kind === 'animal') return size * (entity.species === 'horse' ? SIZE.horse : SIZE.ox);
+  if (entity.kind === 'animal') return size * (entity.species === 'horse' || entity.species === 'mule' ? SIZE.horse : SIZE.ox);
   if (entity.kind === 'wagon' || seat === 'wagon') return size * SIZE.wagon;
   return size * (mounted(entity) ? MOUNTED_HEIGHT : 1);
 }
@@ -4104,7 +4123,7 @@ function drawWorldNow(world) {
     if (!observed.some(one => one.id === id)) observed.push({ ...ghost, travel: null, facing: null, speaking: false, ghost: true });
   }
   drawnAt.clear();
-  seatedDrawn.clear();
+  seatedDrawn.clear(); mulesDrawn.clear();
   // The family's people standing or walking on their own land this frame, for the trees drawn in front of them (`treesInFront`).
   const onLand = [];
   // The family's fenced yard on the screen, which nobody the server has inside it is drawn out of (`drawEntity`).
@@ -4499,6 +4518,7 @@ function drawWorldNow(world) {
   // to their own size - cannot be answered from the projection, which only moves once a
   // tick while the figure is drawn every frame between.
   window.__seatedDrawn = Object.fromEntries(seatedDrawn);
+  window.__mulesDrawn = Object.fromEntries(mulesDrawn);
   window.__drawnAt = Object.fromEntries([...drawnAt].map(([id, spot]) => [id, { x: spot.x, y: spot.y, size: spot.size }]));
   soundscape?.frame({ camera, canvas, world, battle: battleSeen, chase: chaseSeen, drawnAt });
   // Presentation evidence, same contract as __viewEntities: who was drawn because they

@@ -22,7 +22,7 @@
 // stretches across country (`travel.offRoad`, miles along it). Every field is absent on a class saved before, whose family is
 // making for its one refuge by the road exactly as before - the correct empty value - so no save version moves.
 import { findWay, OVERLAND_REACH } from './ways.mjs';
-import { HORSE_SPEED, WAGON_SPEED, WALK_SPEED } from './travel.mjs';
+import { HORSE_SPEED, MULE_SPEED, WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 import { record } from './events.mjs';
 import { cowPace } from './flight-work.mjs';
@@ -318,7 +318,9 @@ export function setOutOnLeg(world, household, path, { from, to, way, causeId, tr
 export function mountedPace(world, movers) {
   const people = movers.filter(one => one.kind === 'person' && one.travel);
   if (!people.length || people.some(one => one.travel.mode === 'wagon') || !people.every(one => one.travel.saddle || one.travel.carried)) return false;
-  for (const one of movers) if (one.travel) one.travel.speed = HORSE_SPEED;
+  // Somebody on a mule (2026-10-03, sim/beasts.mjs): the train goes at the mule's walk, its slowest.
+  const onMule = people.some(one => one.travel.saddle && movers.find(beast => beast.id === one.travel.rides)?.species === 'mule');
+  for (const one of movers) if (one.travel) one.travel.speed = onMule ? MULE_SPEED : HORSE_SPEED;
   return true;
 }
 

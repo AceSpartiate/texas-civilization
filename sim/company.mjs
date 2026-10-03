@@ -65,7 +65,7 @@
 // on the first table (`world.meansRoll === true`) keeps the horse led.
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { SENT_FROM_AGE, sexOf } from './family.mjs';
-import { lame } from './beasts.mjs';
+import { isMount, isOx, lame } from './beasts.mjs';
 
 /** Riders a wagon takes beside its driver (`FIC-GONZ-394`, invented): a loaded family wagon's bed had room for a few. */
 export const WAGON_RIDERS = 4;
@@ -121,7 +121,11 @@ export const ridersIn = vehicle => (vehicle?.cart || vehicle?.carreta ? CART_RID
  * table of means (`meansRoll` 2, sim/means.mjs; owner 2026-09-25: "the horse should carry a rider"), and none in a class before.
  */
 // Not a horse lamed in a chase until it mends (sim/beasts.mjs `lame`, triage 2026-09-29 3.2).
-export const riddenHorses = (world, movers = []) => (world?.meansRoll === 2 ? movers.filter(entity => entity?.kind === 'animal' && entity.species === 'horse' && (!entity.condition || entity.condition === 'sound') && !lame(world, entity)) : []);
+// A mule bought at the stock pens (2026-10-03, `FIC-GONZ-1130`) is one more seat as a horse is: one rider, the sick or the youngest,
+// dealt after the horses. ceiling: its pack is not counted on the family's road - a mule carrying a rider carries no more of the
+// load than a horse does; a pack mule in the flight's room (sim/scrape.mjs `flightRoom`) is the way out.
+export const riddenHorses = (world, movers = []) => (world?.meansRoll === 2 ? movers.filter(entity => isMount(entity) && (!entity.condition || entity.condition === 'sound') && !lame(world, entity))
+  .sort((a, b) => (a.species === 'mule') - (b.species === 'mule')) : []);
 
 /** Somebody the game gives no age sorts as their place says: a parent grown, a founding son or daughter an adolescent. */
 const ageFor = person => (Number.isFinite(person.age) ? person.age : person.kin?.role === 'father' || person.kin?.role === 'mother' ? 30 : 12);
@@ -213,10 +217,18 @@ export function setOut(movers, vehicles, base, horses = []) {
 /** The vehicles among these movers that an ox among them can draw, one ox to a vehicle, the family wagon first. */
 export function drawnVehicles(movers) {
   const wagons = movers.filter(entity => entity.kind === 'wagon' && (!entity.condition || entity.condition === 'sound'));
-  const oxen = movers.filter(entity => entity.kind === 'animal' && entity.species !== 'horse' && (!entity.condition || entity.condition === 'sound'));
+  // The ox alone draws: a horse never has, and a mule bought in town does not (2026-10-03; ceiling: a mule in a cart's shafts is
+  // historical, and `isOx` is where it would be let in).
+  const oxen = movers.filter(entity => isOx(entity) && (!entity.condition || entity.condition === 'sound'));
   return wagons.slice(0, oxen.length);
 }
 
+/** "the horse", "the horses", "the mule", "the horse and the mule": the mounts a family's riders are on, in words. */
+function mountWords(mounts = []) {
+  const horses = mounts.filter(one => one.species !== 'mule').length, mules = mounts.length - horses;
+  const one = (n, word) => (n > 1 ? `the ${word}s` : `the ${word}`);
+  return [horses ? one(horses, 'horse') : null, mules ? one(mules, 'mule') : null].filter(Boolean).join(' and ') || 'the horse';
+}
 /**
  * In words, for the family's means (sim/means.mjs): "4 ride and 6 walk beside the wagon." With no vehicle, "1 rides the horse and
  * 5 walk." A rider on the horse is counted among those who ride.
@@ -227,8 +239,8 @@ export function seatWords(people, vehicles, horses = []) {
   const beside = vehicles.length > 1 ? 'the wagons' : vehicles[0]?.cart ? (vehicles[0].style === 'carreta' ? 'the carreta' : 'the cart') : vehicles[0]?.carreta ? 'the carreta' : 'the wagon';
   if (!vehicles.length) {
     if (!ride) return people.length === 1 ? 'They walk.' : 'They all walk.';
-    if (!walk) return people.length === 1 ? 'They ride the horse.' : `All ${people.length} ride.`;
-    return `${ride} ${ride === 1 ? 'rides' : 'ride'} ${horses.length > 1 ? 'the horses' : 'the horse'} and ${walk} ${walk === 1 ? 'walks' : 'walk'}.`;
+    if (!walk) return people.length === 1 ? `They ride ${mountWords(horses)}.` : `All ${people.length} ride.`;
+    return `${ride} ${ride === 1 ? 'rides' : 'ride'} ${mountWords(horses)} and ${walk} ${walk === 1 ? 'walks' : 'walk'}.`;
   }
   if (!walk) return people.length === 1 ? 'There is room for them to ride.' : `There is room for all ${people.length} to ride.`;
   return `${ride} ${ride === 1 ? 'rides' : 'ride'} and ${walk} ${walk === 1 ? 'walks' : 'walk'} beside ${beside}.`;

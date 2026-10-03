@@ -1,0 +1,184 @@
+{
+  "date": "2026-10-03",
+  "files": [
+    "tests/mules.test.mjs",
+    "tests/mules-drawn.test.mjs",
+    "tests/riding.test.mjs"
+  ],
+  "caught": 21,
+  "only": 21,
+  "of": 21,
+  "results": [
+    {
+      "injection": "the mule priced as a horse",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the stock pens sell a mule for coin only, a lot cheaper than a horse"
+      ]
+    },
+    {
+      "injection": "the mule offered for food, a wagon load carried to town",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the stock pens sell a mule for coin only, a lot cheaper than a horse"
+      ]
+    },
+    {
+      "injection": "buying a mule brings home a horse",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule bought is led home on a halter at its leader's pace and stands in the yard; nobody is offered the mule until then"
+      ]
+    },
+    {
+      "injection": "every family is offered the mule it has not got",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule bought is led home on a halter at its leader's pace and stands in the yard; nobody is offered the mule until then"
+      ]
+    },
+    {
+      "injection": "a led mule holds its leader to the ox's pace",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule bought is led home on a halter at its leader's pace and stands in the yard; nobody is offered the mule until then"
+      ]
+    },
+    {
+      "injection": "the mule goes at the horse's pace",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule bought is led home on a halter at its leader's pace and stands in the yard; nobody is offered the mule until then",
+        "one rider at a time, slower than the horse, faster than walking; the next is told who has it"
+      ]
+    },
+    {
+      "injection": "the mule is no thing one person at a time has",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "one rider at a time, slower than the horse, faster than walking; the next is told who has it"
+      ]
+    },
+    {
+      "injection": "the mule carries no more than the horse",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule bought is led home on a halter at its leader's pace and stands in the yard; nobody is offered the mule until then",
+        "the mule carries a pack the horse cannot: nine loads go on the mule, twelve want the wagon"
+      ]
+    },
+    {
+      "injection": "the errand does not say why the mule and not the horse",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the mule carries a pack the horse cannot: nine loads go on the mule, twelve want the wagon"
+      ]
+    },
+    {
+      "injection": "a lamed mule is ridden (only a horse was ever lame)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule lamed in a chase carries nobody until it mends, and the family is told it is lame"
+      ]
+    },
+    {
+      "injection": "a lame mule in the yard is \"not here\"",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule lamed in a chase carries nobody until it mends, and the family is told it is lame"
+      ]
+    },
+    {
+      "injection": "the family's journey together seats nobody on the mule",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule lamed in a chase carries nobody until it mends, and the family is told it is lame",
+        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws no wagon"
+      ]
+    },
+    {
+      "injection": "a mule is a horse to the scouts, the Grass Fight and Horton",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws no wagon"
+      ]
+    },
+    {
+      "injection": "a mule draws the wagon as an ox (every animal not a horse was an ox)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws no wagon"
+      ]
+    },
+    {
+      "injection": "the flight leaves the mule at home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the flight east takes the mule with the rest, and the soldiers take it"
+      ]
+    },
+    {
+      "injection": "the page draws the mule as an ox",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a mule is drawn as Claude's mule - standing, led on its halter, saddled under a rider - and never as an ox"
+      ]
+    },
+    {
+      "injection": "somebody on the mule is drawn walking",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "somebody on the mule sits in its saddle, the mule under them and not drawn again beside them"
+      ]
+    },
+    {
+      "injection": "the ridden mule is drawn again beside its rider",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "somebody on the mule sits in its saddle, the mule under them and not drawn again beside them"
+      ]
+    },
+    {
+      "injection": "the mule the family seated somebody on is not found under them",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "somebody on the mule sits in its saddle, the mule under them and not drawn again beside them"
+      ]
+    },
+    {
+      "injection": "a mule on the wagon's road is yoked to it",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the ox alone is yoked to a wagon: a mule on the wagon's road is not taken for its ox"
+      ]
+    },
+    {
+      "injection": "a rider on the mule is drawn on the painted chestnut horse",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the page asks the seat for its own art, and gives the delivered rig its own height"
+      ]
+    }
+  ]
+}

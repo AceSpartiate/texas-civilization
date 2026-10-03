@@ -45,7 +45,7 @@ import { acrossCountry } from './flight-route.mjs';
 import { heldToCow, loseCow, cowPace } from './flight-work.mjs';
 import { companyPace, drawnVehicles, riddenHorses, seatPlan } from './company.mjs';
 // A beast hit by a ball is lame until it mends (sim/beasts.mjs, triage 2026-09-29 3.2).
-import { LAME_DAYS, lame } from './beasts.mjs';
+import { LAME_DAYS, isOx, lame, roleOf } from './beasts.mjs';
 import { recordLapse } from './lapse.mjs';
 // Who is with the family and answers for it (sim/acting.mjs, 2026-09-28).
 import { actingId } from './acting.mjs';
@@ -383,7 +383,8 @@ function targetsOf(world, household) {
   const inIt = one => [one.travel?.rides, one.travel?.drives].some(seat => seat && withThem.has(seat));
   const targets = living.filter(one => !spared(one) && !withThem.has(one.id) && !inIt(one))
     .map(one => ({ kind: 'person', id: one.id, name: one.given || one.name, size: 'man' }));
-  for (const beast of beasts) if (beast.kind === 'animal' && ['ox', 'horse'].includes(beast.species || 'ox') && !withThem.has(beast.id)) targets.push({ kind: 'beast', id: beast.id, name: beast.species === 'horse' ? 'horse' : 'ox', size: 'beast' });
+  // A mule bought in town (2026-10-03) is shot at as a horse is, and lamed the same way.
+  for (const beast of beasts) if (beast.kind === 'animal' && ['ox', 'horse', 'mule'].includes(roleOf(beast)) && !withThem.has(beast.id)) targets.push({ kind: 'beast', id: beast.id, name: roleOf(beast), size: 'beast' });
   return targets;
 }
 /**
@@ -465,7 +466,7 @@ function repace(world, household) {
     else for (const one of movers) one.travel.halted = true;
     return;
   }
-  const hurtOx = flight.mode === 'wagon' && beasts.some(beast => lame(world, beast) && beast.species !== 'horse' && beast.kind === 'animal');
+  const hurtOx = flight.mode === 'wagon' && beasts.some(beast => lame(world, beast) && isOx(beast));
   const mounted = people.filter(one => one.travel).every(one => one.travel.saddle || one.travel.carried);
   for (const one of people) if (one.travel?.saddle) { const horse = beasts.find(beast => beast.id === one.travel.rides); if (!horse || lame(world, horse)) { delete one.travel.saddle; one.travel.afoot = true; } }
   const stillMounted = mounted && people.filter(one => one.travel).every(one => one.travel.saddle || one.travel.carried);
@@ -882,7 +883,7 @@ export function runMph(world, household, option = 'run') {
   }
   if (option === 'cow-run') return 3;
   if (seenAs(world, household) === 'mounted') return FAMILY_RUN_MPH;
-  if (drawnVehicles(beasts).length) return beasts.some(beast => lame(world, beast) && beast.species !== 'horse' && beast.kind === 'animal') ? 1 : 2;
+  if (drawnVehicles(beasts).length) return beasts.some(beast => lame(world, beast) && isOx(beast)) ? 1 : 2;
   if (leader?.travel) return round(leader.travel.speed * 3, 1);
   return 3;
 }

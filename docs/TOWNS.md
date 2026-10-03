@@ -446,6 +446,61 @@ followed, *"Tanner sells"*: **the tanner sells a rawhide for 2 reales or 4 food*
 - Proof: `npm run test:field-click` (the errand opened from the carreta's popup with the rawhide on it); tests
   `tests/field-click-hunt.test.mjs`.
 
+### 4h. A mule at the stock pens — owner-decided 2026-10-03 (not released)
+
+> "create art requests if they don't already exist for having characters in vehicles. what i mean by vehicles is anything they can
+> ride. we should also add the ability to buy a mule in town. mules were a lot cheaper than horses."
+>
+> — the owner, 2026-10-03
+
+**Status: built the same day** on branch `mules` (`sim/beasts.mjs`, `sim/shops.mjs` `stockman` → `mule`, `sim/travel.mjs`
+`MODES.mule`). Claims `FIC-GONZ-1130`, on `HIST-TEX-1110`. It amends §4d (a fifth line at the pens) and §4b (one more thing one person
+at a time has); the art is docs/ART_REQUESTS.md, *request 2026-10-03 — riders in every vehicle*.
+
+- **Where, and for how much.** Wherever horses are sold: the stock pens of Gonzales, San Felipe, Columbia and Victoria (§4d), kept by
+  the same traders. **Ten reales, coin only** (`MULE_COIN`), two-fifths of a horse's 25. The record read gives Texas mules cheap and
+  plentiful - running with the mustangs, *"Good jacks bring about twenty dollars in the home market, and mules from two to five"*
+  (Holley, *Texas*, 1836, pp. 98-99, the wild-caught price beside the mustang's three or four dollars), and raised in such numbers
+  that *"many of which are carried to the United States"* for the good price they fetched there (p. 67). **No price for a broken
+  mule in Texas was found**, so the game sets one above the wild mule as it set the broken horse (twenty to thirty) above the caught
+  mustang: ten. Coin only, as the horse: twenty food would be a whole wagon load carried to town. `ceiling:` the price is the game's.
+- **What it does.** A mule is its own animal beside the horse, the ox and the wagon (`species: 'mule'`; the first bought is
+  `hh-1-mule`, *Jack the mule*, then *Molly the mule*, ...; at most four, `BEASTS_MOST`). Nobody starts with one.
+  - **Ridden by one person**, a way of going of its own, **On the mule**: four miles an hour to the family horse's five and the
+    walker's three (`MULE_SPEED`), hardly tiring (the horse's exertion), and **it carries ten loads** to the horse's seven and the
+    wagon's twenty: the pack is what a mule was kept for. The chooser offers it only to a family that has a mule (`MODES.mule.owned`,
+    `offeredModes`), so no student is told "Your family has no mule" on every journey. Quickest first: the horse, the mule, on foot,
+    the wagon; nine loads go on the mule when the horse is too small (*"Rides the mule: 9 of 10 loads, more than the horse carries
+    (7)."*), twelve want the wagon (*"... more than the mule carries (10)."*). A saddle bought at the tanner's eases the mule's rider
+    as the horse's (`SADDLE_SHARE`). It wades a ford as the horse does.
+  - **One person at a time** (§4b, `userOf`): *"Rosa has the mule, on the road to Gonzales."* A mule and a horse are two riders out.
+  - **Led home on a halter** at its leader's own pace (a led mule keeps up, as a led horse), and set down in the yard a step along the
+    rail from the horses (`yardSpot`). One person leads one animal: *"a horse, a mule or an ox, not two."*
+  - **Lamed like a horse**: shot at in a chase (sim/pursuit.mjs) it is lame for `LAME_DAYS` and carries nobody, and the family is told
+    so - *"The mule is lame and carries nobody until it mends."* (that sentence is new for the lame horse too, which was told *"not
+    here"* until now).
+  - **On the family's journeys together** (docs/SETTLING_IN.md §4b) it is one more seat, after the horses'. In the flight east it goes
+    with the family, carries a rider, keeps the mounted train at its own walk (sim/flight-route.mjs `mountedPace`), is kept when the
+    wagon is left in the mud, and is taken by soldiers who overtake the family (*"took ... the mule"*).
+- **Not a horse where the war asks for one** (`ridesAHorse`, sim/keeping.mjs): the scouts at Houston's camp (*"The scouts ride horses,
+  and Mateo has only the mule at the camp: it cannot keep up with the enemy's horse."*), Bowie's horse at the Grass Fight and Horton's
+  horsemen at Coleto want a horse, and the army's call for horses (sim/supplies.mjs) asks for a horse. The ranging companies of
+  November 1835 were to come *"with a good and sufficient horse"* (TSHA, `HIST-TEX-1110`). A mule still carries a man to the gathering
+  and home - the Rev. W. P. Smith addressed the Gonzales men *"seated on his favorite mule"* - and he serves on foot. So a cheap mount
+  never stands in for the horse the war's mounted work needs.
+- **It draws no vehicle** (`isOx`): the wagon, the cart and the carreta go behind an ox, one ox to a vehicle, as before. `ceiling:` a
+  mule in a cart's shafts is historical (the army's trains, Mexican carts); `isOx` in sim/beasts.mjs and the ox in `MODES.wagon.needs`
+  are where it would be let in - an owner's question.
+- **Drawn** (docs/ART_REQUESTS.md, request 2026-10-03, items 1-3): Claude's brown mule standing and led on its halter, saddled under a
+  rider whose own figure sits it; until those sheets load, the chestnut horse a little smaller. Stand-ins marked `stand-in:`.
+- **Old saves**: a class saved before has no mule and opens as it was; an animal with no species is still an ox. The pens offer one
+  more line. No save version moved.
+- **Families nobody plays** buy no mule (`ceiling:`, as they buy no horse, §4e).
+- **Proof**: tests/mules.test.mjs (7) and tests/mules-drawn.test.mjs (3); `npm run test:mules-injections`, 21 of 21 caught by their
+  own test alone ([record](evidence/mules-injections.json)); `npm run test:shops` buys the mule, sees it led home and standing in the
+  yard beside Bess (`mule-idle`), and rides it to town chosen on its way card, drawn in its saddle
+  ([record](evidence/shops-browser.json), [yard](evidence/mule-yard.png), [ridden](evidence/mule-ridden.png)).
+
 ## 5. How a student uses it
 
 **Since 2026-09-24 (§4b):** the **Go to town to trade** icon opens the popup; what to buy and sell is chosen before anybody

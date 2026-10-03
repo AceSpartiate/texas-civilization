@@ -27,7 +27,7 @@ import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 import { cowPace } from './flight-work.mjs';
 import { thinLine } from './flight-route.mjs';
-import { beastsOf } from './beasts.mjs';
+import { BEAST_ROLES, beastsOf, isOx } from './beasts.mjs';
 import { record } from './events.mjs';
 import { toolCount } from './tools.mjs';
 
@@ -38,7 +38,7 @@ export const HOME_DAYS_CAP = 60;
 const GONE = ['dead', 'captured'];
 const HERE = 'flashback-here';
 const peopleOf = (world, household) => household.members.map(id => world.entities[id]).filter(entity => entity?.kind === 'person');
-const beastsAll = (world, household) => ['horse', 'ox', 'wagon'].flatMap(role => beastsOf(world, household, role));
+const beastsAll = (world, household) => BEAST_ROLES.flatMap(role => beastsOf(world, household, role));
 const free = person => !GONE.includes(person.health?.condition);
 const siteName = (world, id) => world.map.sites[id]?.name || null;
 /** The kinds of place a family would name to say where it was: a town, a landing, a ferry - not a ford, a stand of timber or a fork. */
@@ -78,7 +78,7 @@ function turnAround(world, household) {
   if (!leader) return null;
   const at = { x: leader.location.x, y: leader.location.y };
   const all = beastsAll(world, household), with_ = movers.filter(entity => entity.kind !== 'person');
-  const mode = flight.mode === 'wagon' && with_.some(entity => entity.kind === 'wagon') && with_.some(entity => entity.kind === 'animal' && entity.species !== 'horse') ? 'wagon' : 'foot';
+  const mode = flight.mode === 'wagon' && with_.some(entity => entity.kind === 'wagon') && with_.some(isOx) ? 'wagon' : 'foot';
   const place = nearestPlace(world, at);
   const causeId = record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-780', text: `With the news from San Jacinto the family turned for home on the road${place ? ` near ${place.name}` : ''}.` });
   for (const entity of movers) delete entity.travel;

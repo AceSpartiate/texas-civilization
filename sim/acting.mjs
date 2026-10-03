@@ -375,8 +375,8 @@ export function advanceStragglers(world, { beginTravel, modeWith } = {}) {
       // family's own road: a man left at home whose name was on the ox as it went must not take it off the flight (found by the
       // chase's "women and children alone" test, 2026-09-28).
       const withThem = modeWith?.(world, person);
-      const mine = withThem === 'horse' && (household.property || []).map(id => world.entities[id]).some(beast => beast?.species === 'horse' && beast.borrowedBy === person.id && !beast.travel && beast.location?.siteId === person.location.siteId);
-      try { beginTravel(world, person, to, null, 'visit', mine ? 'horse' : 'foot'); } catch { try { beginTravel(world, person, to, null, 'visit'); } catch { continue; } }
+      const mine = ['horse', 'mule'].includes(withThem) && (household.property || []).map(id => world.entities[id]).some(beast => beast?.species === withThem && beast.borrowedBy === person.id && !beast.travel && beast.location?.siteId === person.location.siteId);
+      try { beginTravel(world, person, to, null, 'visit', mine ? withThem : 'foot'); } catch { try { beginTravel(world, person, to, null, 'visit'); } catch { continue; } }
       record(world, 'consequence', { actorId: person.id, householdId: household.id, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-732', text });
     }
   }

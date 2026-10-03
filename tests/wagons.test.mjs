@@ -166,7 +166,7 @@ test('a new wagon wants an ox bought with it and a buyer who does not go by the 
   const wagon = { id: 'wheelwright:buy-wagon', n: 1, pay: 'coin' }, ox = { id: 'stockman:ox', n: 1, pay: 'coin' };
   const quote = (list, mode) => errandFor(world, 'hh-1', buyer.id, list, mode).quote;
   assert.equal(quote([wagon]).why, 'A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.');
-  assert.equal(quote([wagon, { id: 'wheelwright:wagon', n: 1, pay: 'coin' }, ox]).why, 'The wheelwright puts in order the wagon that is brought to him, and a new wagon is fetched by somebody on foot or on the horse. Send them separately.');
+  assert.equal(quote([wagon, { id: 'wheelwright:wagon', n: 1, pay: 'coin' }, ox]).why, 'The wheelwright puts in order the wagon that is brought to him, and a new wagon is fetched by somebody on foot or riding. Send them separately.');
   const told = quote([wagon, ox]);
   assert.equal(told.can, true, told.why);
   assert.equal(told.ways.find(way => way.id === 'wagon').can, false);
@@ -175,7 +175,7 @@ test('a new wagon wants an ox bought with it and a buyer who does not go by the 
   assert.match(told.how, /Drives the new wagon home behind the new ox, at an ox's pace\./);
   // A horse bought too: the rider's own horse is tied on behind the new wagon, and one person leads one animal.
   const withHorse = quote([wagon, ox, { id: 'stockman:horse', n: 1, pay: 'coin' }], 'horse');
-  assert.equal(withHorse.why, 'The horse ridden in walks home tied behind the new wagon, and one person leads one animal. Walk, or send somebody else for the new horse.');
+  assert.equal(withHorse.why, 'The horse ridden in walks home tied behind the new wagon, and one person leads one animal. Walk, or send somebody else for the new animal.');
   // At the counter: nobody at the stock pens that day, so no ox, and nothing is paid for the wagon.
   applyAction(world, 'hh-1', { action: 'chore', entityId: buyer.id, chore: 'visit-shop', errand: [wagon, ox], mode: 'foot' });
   const trader = Object.values(world.entities).find(one => one.deals?.includes('stockman') && one.townSiteId === 'gonzales');

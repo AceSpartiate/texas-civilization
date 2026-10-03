@@ -11,10 +11,10 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | A — People at work and ambient poses | 31 | 8 | 18 | 0 |
 | B — Children, babies and sickness | 19 | 7 | 13 | 2 |
 | C — Soldiers, battles and famous people | 22 | 1 | 19 | 1 |
-| D — Riders, horses, wagons, carreta, ferry, steamboat | 16 | 2 | 15 | 4 |
+| D — Riders, horses, wagons, carreta, ferry, steamboat | 24 | 2 | 16 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 14 | 2 | 11 | 17 |
-| **Total** | **122** | **22** | **95** | **27** |
+| **Total** | **130** | **22** | **96** | **27** |
 
 ## How a builder works
 
@@ -425,7 +425,7 @@ Skipped:
 
 ## D — Riders, horses, wagons, carreta, ferry, steamboat
 
-Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 16 to make, 4 skipped.
+Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 24 to make, 4 skipped.
 
 - [ ] **D1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1 — **Claude stand-in held back: Astra has drawn the subject** (cow), so the page draws hers (`milk-cow-walk-e`, `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze`)
   - **Deliver:** `milk-cow-walk-e` (4), `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze` (2): a gentle dairy cow of the 1830s with a rope trailing from her horns
@@ -478,6 +478,21 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Frames:** as the eight identities' riding and driving sheets. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** `RIDING_FIGURES` and the drivers in `public/motion.js`
   - **Stands in now:** the composite seat: the old cast's rider or driver (`seatedClip` in `public/motion.js`) (Astra's library art reused)
+- [ ] **D18** (priority 2) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 1 — **Claude stand-in in place** (`mule-idle`, `mule-walk`, `mule-walk-e`, `mule-walk-s`, `mule-walk-n`, `mule-saddled-walk`, `mule-saddled-walk-e`, `mule-saddled-walk-s`, `mule-saddled-walk-n`); Astra's replaces it
+  - **Deliver:** the family's mule: `mule-idle` (standing on its halter, east), `mule-walk-e`, `-s`, `-n` (on a rope halter, led, 4 each), `mule-saddled-walk-e`, `-s`, `-n` (bridled and saddled, 4 each) and `mule-packed-walk-e`, `-s`, `-n` (the family's sacks and tools on a pack saddle, 4 each)
+  - **Frames:** 1-2 standing; 4 frames a heading. **Size:** The scale of `horse-walk` (1.5 of a person), ground anchor
+  - **Plugs into:** `miniAnimal` in `public/app.js`; the animal branch of `entityClip` in `public/motion.js`
+  - **Stands in now:** Claude's `mule-walk-*`, `mule-idle`, `mule-saddled-walk-*`; while they load, the chestnut horse drawn a little smaller (Claude-drawn)
+- [ ] **D19** (priority 2) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 2
+  - **Deliver:** the family figures and the children on the mule, the whole rider and the whole mule in one frame: `<family>-mule-ride-e`, `-s`, `-n` and `<child>-mule-ride-e`, `-s`, `-n`
+  - **Frames:** 4 frames a heading. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
+  - **Plugs into:** `seatedClip` in `public/motion.js`; `drawSeated` in `public/app.js`
+  - **Stands in now:** their own figure cut at the waist over Claude's saddled mule (`drawSeated`, `onMule`) (Astra's library art reused)
+- [ ] **D21** (priority 2) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 4
+  - **Deliver:** the family figures seated in the bed of a wagon, cart or carreta: `<family>-ride-wagon-e`, `-s`, `-n`, anchored at the hip as D5's riders
+  - **Frames:** east, south, north. **Size:** As D5: the scale of `wagon-covered`, anchored at the hip
+  - **Plugs into:** `passengerClip` and `bedLayout` in `public/motion.js`
+  - **Stands in now:** their figure cut at the waist in the bed (Astra's library art reused)
 - [ ] **D10** (priority 3) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 3 — **Claude stand-in held back: Astra has drawn the subject** (dragoon), so the page draws hers (`dragoon-wounded-led`)
   - **Deliver:** `dragoon-wounded-led-1`..`-2` (a man slumped in the saddle, another leading the horse)
   - **Frames:** 2 frames, east. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
@@ -509,6 +524,31 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Frames:** 4 frames a heading. **Size:** The delivered `carreta-*` scale
   - **Plugs into:** `miniWagon` in `public/app.js`
   - **Stands in now:** the uncovered body cycle, laden or not (Astra's library art reused)
+- [ ] **D20** (priority 3) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 3
+  - **Deliver:** the old cast on the mule: `<cast>-mule-ride-e`, `-s`, `-n`, as D19
+  - **Frames:** 4 frames a heading. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
+  - **Plugs into:** `seatedClip` in `public/motion.js`; `drawSeated` in `public/app.js`
+  - **Stands in now:** their own figure cut at the waist over Claude's saddled mule (Astra's library art reused)
+- [ ] **D22** (priority 3) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 5
+  - **Deliver:** `infant-held-ride` (a swaddled baby in the crook of an arm, 1-2 frames, east and `-s`): a layer laid at a rider's chest on the horse, the mule or the wagon's box
+  - **Frames:** 1-2, east and south. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `carriedWithRider` in `public/motion.js`; `drawSeated` in `public/app.js`
+  - **Stands in now:** not drawn: the baby with its carrier in the saddle is drawn with nobody (`carriedWithRider`) (nothing)
+- [ ] **D23** (priority 3) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 6
+  - **Deliver:** the driver walking at the oxen's head with a long goad: `<family>-goad-walk-e`, `-s`, `-n` and `<cast>-goad-walk-*`, 4 frames each
+  - **Frames:** 4 frames a heading. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `seatLayout` in `public/motion.js` (a carreta's driver on foot, a code choice)
+  - **Stands in now:** the driver seated on the wagon's box or the carreta's frame (Astra's library art reused)
+- [ ] **D24** (priority 3) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 7
+  - **Deliver:** `ferry-flatboat-crossing` (4 frames): the flatboat moving along its rope, the ferryman hauling at the upstream side, the deck clear and its deck line flat for the page to stand the family's own people, horse, mule or wagon on
+  - **Frames:** 4. **Size:** As `ferry-flatboat`: its view, scale and waterline
+  - **Plugs into:** `drawFerry` in `public/landscape-art.js`, once a crossing is on the travel record
+  - **Stands in now:** nothing: a ferry is an hour's wait laid on the road (`FERRY_MINUTES`) and the boat stays at its landing (nothing)
+- [ ] **D25** (priority 3) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 8
+  - **Deliver:** `steamboat-laden-deck`: the laden underway loop (request 2026-09-18) with a clear stretch of main deck forward, its deck line marked, for a family's own man and his horse or mule among the painted army
+  - **Frames:** 4, as `steamboat-laden`. **Size:** As `steamboat-laden`
+  - **Plugs into:** the Yellow Stone in `drawWorld`, `public/app.js` (`yellowStone`)
+  - **Stands in now:** `steamboat-laden` alone, nobody's own figure aboard (Astra's library art reused)
 
 Skipped:
 - ~~D16~~ [Request 2026-09-12 — families that look like who they are, and a rider who gets down](ART_REQUESTS.md#request-2026-09-12--families-that-look-like-who-they-are-and-a-rider-who-gets-down) — skipped: delivered 2026-09-14; the remaining work is code, not art

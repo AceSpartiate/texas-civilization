@@ -1,0 +1,1189 @@
+{
+  "module": "transport-mule",
+  "area": "transport",
+  "date": "2026-10-03",
+  "sheets": {
+    "claude-family-mule": {
+      "image": "/assets/claude-standins/claude-family-mule.png",
+      "width": 1200,
+      "height": 840,
+      "bytes": 239787,
+      "sha256": "c759b4c463633d842010d52f55d0555e0e60f31ff2176895d66ecd31566e71ca",
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "cell": {
+          "w": 300,
+          "h": 210
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-family-mule-saddled": {
+      "image": "/assets/claude-standins/claude-family-mule-saddled.png",
+      "width": 1200,
+      "height": 630,
+      "bytes": 210512,
+      "sha256": "522e5553bec0fc957b17c7a20936ad4d2e887905f77867a8f10108ad7a22cf9a",
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "cell": {
+          "w": 300,
+          "h": 210
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "mule-walk-e-1": {
+      "sheet": "claude-family-mule",
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.4667,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-e-1: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-e-1.svg",
+      "label": "mule walk e 1",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-e-2": {
+      "sheet": "claude-family-mule",
+      "x": 300,
+      "y": 0,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.4667,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-e-2: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-e-2.svg",
+      "label": "mule walk e 2",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-e-3": {
+      "sheet": "claude-family-mule",
+      "x": 600,
+      "y": 0,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.4667,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-e-3: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-e-3.svg",
+      "label": "mule walk e 3",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-e-4": {
+      "sheet": "claude-family-mule",
+      "x": 900,
+      "y": 0,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.4667,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-e-4: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-e-4.svg",
+      "label": "mule walk e 4",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-s-1": {
+      "sheet": "claude-family-mule",
+      "x": 0,
+      "y": 210,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-s-1: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-s-1.svg",
+      "label": "mule walk s 1",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-s-2": {
+      "sheet": "claude-family-mule",
+      "x": 300,
+      "y": 210,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-s-2: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-s-2.svg",
+      "label": "mule walk s 2",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-s-3": {
+      "sheet": "claude-family-mule",
+      "x": 600,
+      "y": 210,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-s-3: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-s-3.svg",
+      "label": "mule walk s 3",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-s-4": {
+      "sheet": "claude-family-mule",
+      "x": 900,
+      "y": 210,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-s-4: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-s-4.svg",
+      "label": "mule walk s 4",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-n-1": {
+      "sheet": "claude-family-mule",
+      "x": 0,
+      "y": 420,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-n-1: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-n-1.svg",
+      "label": "mule walk n 1",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-n-2": {
+      "sheet": "claude-family-mule",
+      "x": 300,
+      "y": 420,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-n-2: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-n-2.svg",
+      "label": "mule walk n 2",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-n-3": {
+      "sheet": "claude-family-mule",
+      "x": 600,
+      "y": 420,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-n-3: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-n-3.svg",
+      "label": "mule walk n 3",
+      "kind": "claude-family-mule"
+    },
+    "mule-walk-n-4": {
+      "sheet": "claude-family-mule",
+      "x": 900,
+      "y": 420,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-walk-n-4: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-walk-n-4.svg",
+      "label": "mule walk n 4",
+      "kind": "claude-family-mule"
+    },
+    "mule-idle-1": {
+      "sheet": "claude-family-mule",
+      "x": 0,
+      "y": 630,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.4667,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-idle-1: item 1: the family's mule on its halter, east, north and south, 4 frames each, and standing, at the scale of horse-walk",
+      "source": "svg/transport-mule/claude-mule-idle-1.svg",
+      "label": "mule idle 1",
+      "kind": "claude-family-mule"
+    },
+    "mule-saddled-walk-e-1": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.4667,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-e-1: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-e-1.svg",
+      "label": "mule saddled walk e 1",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-e-2": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 300,
+      "y": 0,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.4667,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-e-2: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-e-2.svg",
+      "label": "mule saddled walk e 2",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-e-3": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 600,
+      "y": 0,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.4667,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-e-3: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-e-3.svg",
+      "label": "mule saddled walk e 3",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-e-4": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 900,
+      "y": 0,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.4667,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-e-4: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-e-4.svg",
+      "label": "mule saddled walk e 4",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-s-1": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 0,
+      "y": 210,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-s-1: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-s-1.svg",
+      "label": "mule saddled walk s 1",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-s-2": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 300,
+      "y": 210,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-s-2: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-s-2.svg",
+      "label": "mule saddled walk s 2",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-s-3": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 600,
+      "y": 210,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-s-3: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-s-3.svg",
+      "label": "mule saddled walk s 3",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-s-4": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 900,
+      "y": 210,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-s-4: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-s-4.svg",
+      "label": "mule saddled walk s 4",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-n-1": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 0,
+      "y": 420,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-n-1: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-n-1.svg",
+      "label": "mule saddled walk n 1",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-n-2": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 300,
+      "y": 420,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-n-2: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-n-2.svg",
+      "label": "mule saddled walk n 2",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-n-3": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 600,
+      "y": 420,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-n-3: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-n-3.svg",
+      "label": "mule saddled walk n 3",
+      "kind": "claude-family-mule-saddled"
+    },
+    "mule-saddled-walk-n-4": {
+      "sheet": "claude-family-mule-saddled",
+      "x": 900,
+      "y": 420,
+      "w": 300,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9381,
+      "logicalHeight": 208,
+      "madeBy": "claude",
+      "module": "transport-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "replaceWith": "mule-saddled-walk-n-4: item 1: the family's mule bridled and saddled, east, north and south, 4 frames each, at the scale of horse-walk (the rider in Astra's own items 2-3)",
+      "source": "svg/transport-mule/claude-mule-saddled-walk-n-4.svg",
+      "label": "mule saddled walk n 4",
+      "kind": "claude-family-mule-saddled"
+    }
+  },
+  "clips": {
+    "mule-idle": {
+      "frames": [
+        {
+          "sprite": "mule-idle-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-mule"
+    },
+    "mule-walk": {
+      "frames": [
+        {
+          "sprite": "mule-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-mule"
+    },
+    "mule-walk-e": {
+      "frames": [
+        {
+          "sprite": "mule-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-mule"
+    },
+    "mule-walk-s": {
+      "frames": [
+        {
+          "sprite": "mule-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-mule"
+    },
+    "mule-walk-n": {
+      "frames": [
+        {
+          "sprite": "mule-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-mule"
+    },
+    "mule-saddled-walk": {
+      "frames": [
+        {
+          "sprite": "mule-saddled-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-mule"
+    },
+    "mule-saddled-walk-e": {
+      "frames": [
+        {
+          "sprite": "mule-saddled-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-mule"
+    },
+    "mule-saddled-walk-s": {
+      "frames": [
+        {
+          "sprite": "mule-saddled-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-mule"
+    },
+    "mule-saddled-walk-n": {
+      "frames": [
+        {
+          "sprite": "mule-saddled-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "mule-saddled-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-mule"
+    }
+  },
+  "provenance": {
+    "mule-walk-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking east (west mirrored), frame 1 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-e-1.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-e-1"
+    },
+    "mule-walk-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking east (west mirrored), frame 2 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-e-2.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-e-2"
+    },
+    "mule-walk-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking east (west mirrored), frame 3 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-e-3.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-e-3"
+    },
+    "mule-walk-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking east (west mirrored), frame 4 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-e-4.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-e-4"
+    },
+    "mule-walk-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking toward the camera, frame 1 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-s-1.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-s-1"
+    },
+    "mule-walk-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking toward the camera, frame 2 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-s-2.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-s-2"
+    },
+    "mule-walk-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking toward the camera, frame 3 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-s-3.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-s-3"
+    },
+    "mule-walk-s-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking toward the camera, frame 4 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-s-4.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-s-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-s-4"
+    },
+    "mule-walk-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking away from the camera, frame 1 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-n-1.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-n-1"
+    },
+    "mule-walk-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking away from the camera, frame 2 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-n-2.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-n-2"
+    },
+    "mule-walk-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking away from the camera, frame 3 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-n-3.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-n-3"
+    },
+    "mule-walk-n-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, on a rope halter, led: walking away from the camera, frame 4 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-walk-n-4.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-walk-n-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-walk-n-4"
+    },
+    "mule-idle-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, standing at rest in the yard on its halter, side-on facing east (west mirrored), one hind hoof cocked. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-idle.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-idle-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-idle-1"
+    },
+    "mule-saddled-walk-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking east (west mirrored), frame 1 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-e-1.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-e-1"
+    },
+    "mule-saddled-walk-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking east (west mirrored), frame 2 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-e-2.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-e-2"
+    },
+    "mule-saddled-walk-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking east (west mirrored), frame 3 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-e-3.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-e-3"
+    },
+    "mule-saddled-walk-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking east (west mirrored), frame 4 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-e-4.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-e-4"
+    },
+    "mule-saddled-walk-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking toward the camera, frame 1 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-s-1.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-s-1"
+    },
+    "mule-saddled-walk-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking toward the camera, frame 2 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-s-2.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-s-2"
+    },
+    "mule-saddled-walk-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking toward the camera, frame 3 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-s-3.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-s-3"
+    },
+    "mule-saddled-walk-s-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking toward the camera, frame 4 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-s-4.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-s-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-s-4"
+    },
+    "mule-saddled-walk-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking away from the camera, frame 1 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-n-1.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-n-1"
+    },
+    "mule-saddled-walk-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking away from the camera, frame 2 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-n-2.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-n-2"
+    },
+    "mule-saddled-walk-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking away from the camera, frame 3 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-n-3.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-n-3"
+    },
+    "mule-saddled-walk-n-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "sheet": "claude-family-mule-saddled",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's own mule, bought at the stock pens in 1835 - a brown mule with long ears, a light muzzle and belly, a roached mane and a tufted tail, bridled and saddled, carrying a rider (the rider is drawn by the game): walking away from the camera, frame 4 of 4 of the walk, the long ears nodding. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text. Claude-drawn stand-in, temporary: replace with Astra's mule-saddled-walk-n-4.",
+      "source": "public/assets/claude-standins/svg/transport-mule/claude-mule-saddled-walk-n-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mule-saddled-walk-n-4"
+    },
+    "mule-idle": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's mule standing at rest in the yard on its halter, one hind hoof cocked: a held frame.",
+      "frames": [
+        "mule-idle-1"
+      ],
+      "status": "temporary: replace with Astra's mule-idle"
+    },
+    "mule-walk": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's mule walking east on its halter: a four-frame loop.",
+      "frames": [
+        "mule-walk-e-1",
+        "mule-walk-e-2",
+        "mule-walk-e-3",
+        "mule-walk-e-4"
+      ],
+      "status": "temporary: replace with Astra's mule-walk"
+    },
+    "mule-walk-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's mule walking e on its halter: a four-frame loop.",
+      "frames": [
+        "mule-walk-e-1",
+        "mule-walk-e-2",
+        "mule-walk-e-3",
+        "mule-walk-e-4"
+      ],
+      "status": "temporary: replace with Astra's mule-walk-e"
+    },
+    "mule-walk-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's mule walking s on its halter: a four-frame loop.",
+      "frames": [
+        "mule-walk-s-1",
+        "mule-walk-s-2",
+        "mule-walk-s-3",
+        "mule-walk-s-4"
+      ],
+      "status": "temporary: replace with Astra's mule-walk-s"
+    },
+    "mule-walk-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's mule walking n on its halter: a four-frame loop.",
+      "frames": [
+        "mule-walk-n-1",
+        "mule-walk-n-2",
+        "mule-walk-n-3",
+        "mule-walk-n-4"
+      ],
+      "status": "temporary: replace with Astra's mule-walk-n"
+    },
+    "mule-saddled-walk": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's mule saddled, walking east under a rider: a four-frame loop.",
+      "frames": [
+        "mule-saddled-walk-e-1",
+        "mule-saddled-walk-e-2",
+        "mule-saddled-walk-e-3",
+        "mule-saddled-walk-e-4"
+      ],
+      "status": "temporary: replace with Astra's mule-saddled-walk"
+    },
+    "mule-saddled-walk-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's mule saddled, walking e under a rider: a four-frame loop.",
+      "frames": [
+        "mule-saddled-walk-e-1",
+        "mule-saddled-walk-e-2",
+        "mule-saddled-walk-e-3",
+        "mule-saddled-walk-e-4"
+      ],
+      "status": "temporary: replace with Astra's mule-saddled-walk-e"
+    },
+    "mule-saddled-walk-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's mule saddled, walking s under a rider: a four-frame loop.",
+      "frames": [
+        "mule-saddled-walk-s-1",
+        "mule-saddled-walk-s-2",
+        "mule-saddled-walk-s-3",
+        "mule-saddled-walk-s-4"
+      ],
+      "status": "temporary: replace with Astra's mule-saddled-walk-s"
+    },
+    "mule-saddled-walk-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-10-03",
+      "module": "transport-mule",
+      "area": "transport",
+      "request": "Request 2026-10-03 — riders in every vehicle",
+      "prompt": "The family's mule saddled, walking n under a rider: a four-frame loop.",
+      "frames": [
+        "mule-saddled-walk-n-1",
+        "mule-saddled-walk-n-2",
+        "mule-saddled-walk-n-3",
+        "mule-saddled-walk-n-4"
+      ],
+      "status": "temporary: replace with Astra's mule-saddled-walk-n"
+    }
+  }
+}

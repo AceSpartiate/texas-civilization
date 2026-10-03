@@ -37,7 +37,7 @@ import { canAnswerCalls, eatenADay, householdName, mainPersonId, tooYoung } from
 // Who is with the family and answers for it (sim/acting.mjs, 2026-09-28): the road's questions are theirs.
 import { actingId } from './acting.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
-import { beastsOf } from './beasts.mjs';
+import { BEAST_ROLES, beastsOf, isMount } from './beasts.mjs';
 import { findWay } from './ways.mjs';
 import { CARRIED_ROOM, FLIGHT_SPACE, REFUGES, share } from './scrape.mjs';
 // The tools, the chest and the spinning wheel in the load (owner, 2026-09-29, D9 (a)): carried on, left with the wagon, or taken.
@@ -199,7 +199,7 @@ function standsAt(world, household) {
 const GONE = ['dead', 'captured'];
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(one => one && !GONE.includes(one.health?.condition));
 // Every animal and the wagon the family owns: the ones it always had, and any bought in town (sim/beasts.mjs).
-const beasts = (world, household) => ['horse', 'ox', 'wagon'].flatMap(role => beastsOf(world, household, role));
+const beasts = (world, household) => BEAST_ROLES.flatMap(role => beastsOf(world, household, role));
 /** The family's people who are with it on the road or at the refuge, and the beasts likewise. */
 export function withFamily(world, household) {
   const flight = household.flight;
@@ -458,12 +458,12 @@ export function abandonWagon(world, household) {
     if (have > fits) { removeGood(household, good, have - fits); lost.push(goodWords(good, have - fits)); }
   }
   for (const beast of with_) {
-    if (beast.kind === 'horse' || beast.species === 'horse') continue;
+    if (beast.kind === 'horse' || isMount(beast)) continue;
     beast.condition = 'lost'; beast.laden = false; beast.borrowedBy = null;
     if (beast.travel) beast.travel = { ...beast.travel, halted: true, purpose: 'lost' };
   }
   for (const one of goers) if (one.travel) { one.travel.mode = 'foot'; one.travel.speed = WALK_SPEED; delete one.travel.halted; }
-  for (const beast of with_) if ((beast.kind === 'horse' || beast.species === 'horse') && beast.travel) { beast.travel.speed = WALK_SPEED; delete beast.travel.halted; }
+  for (const beast of with_) if ((beast.kind === 'horse' || isMount(beast)) && beast.travel) { beast.travel.speed = WALK_SPEED; delete beast.travel.halted; }
   flight.mode = 'foot';
   // Nobody keeps a place in the wagon left behind: the horse carries whoever it can, and the rest walk (`reseat`).
   reseat(world, household);

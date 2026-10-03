@@ -52,9 +52,10 @@ import { BEAST_WORDS, allBeasts, beastsOf, kept, lame } from './beasts.mjs';
 import { record } from './events.mjs';
 
 /** The plain word for each piece of property, used in every sentence about it. */
-export const NOUN = Object.freeze({ ox: 'ox', horse: 'horse', wagon: 'wagon', rifle: 'rifle', axe: 'felling axe' });
-export const ROLES = Object.freeze(['horse', 'ox', 'wagon']);
-/** Every thing only one person at a time can have: the three beasts, the family's rifle, and the felling axe off the land. */
+export const NOUN = Object.freeze({ ox: 'ox', horse: 'horse', mule: 'mule', wagon: 'wagon', rifle: 'rifle', axe: 'felling axe' });
+/** The beasts, the mule among them since 2026-10-03 (owner: "buy a mule in town"; sim/beasts.mjs): one rider at a time, as a horse. */
+export const ROLES = Object.freeze(['horse', 'mule', 'ox', 'wagon']);
+/** Every thing only one person at a time can have: the beasts, the family's rifle, and the felling axe off the land. */
 export const ITEMS = Object.freeze([...ROLES, 'rifle', 'axe']);
 /**
  * Work that shares what it holds with others given the same work: everybody bringing in one field loads the one wagon
@@ -146,8 +147,8 @@ export function beastFor(world, entity, role) {
   const household = world.households[entity.householdId];
   const leading = entity.leads || [];
   const beasts = beastsOf(world, household, role).filter(beast => !leading.includes(beast.id));
-  // A horse lamed in a chase carries nobody until it mends (sim/beasts.mjs `lame`, triage 2026-09-29 3.2).
-  const sound = beast => (!beast.condition || beast.condition === 'sound') && !(role === 'horse' && lame(world, beast));
+  // A horse lamed in a chase carries nobody until it mends (sim/beasts.mjs `lame`, triage 2026-09-29 3.2); nor does a lamed mule.
+  const sound = beast => (!beast.condition || beast.condition === 'sound') && !((role === 'horse' || role === 'mule') && lame(world, beast));
   return beasts.find(beast => sound(beast) && holderOf(world, beast) === entity)
     || beasts.find(beast => sound(beast) && !holderOf(world, beast) && !beast.travel && beast.location?.siteId === entity.location?.siteId)
     || null;
@@ -302,6 +303,16 @@ export function modeWith(world, entity) {
     && mode.needs.every(role => beastsOf(world, household, role).some(beast => holderOf(world, beast) === entity && !entity.leads?.includes(beast.id))));
   return found ? found.id : DEFAULT_MODE;
 }
+
+/**
+ * Whether this person has a horse with them - **not a mule** (owner, 2026-10-03, "buy a mule in town"; `FIC-GONZ-1130`). What the war
+ * asks of a mounted man: the scouts at Houston's camp (sim/camp.mjs), the Texian horse at the Grass Fight (sim/concepcion-grass.mjs)
+ * and Horton's horsemen at Coleto (sim/fannin.mjs). The ranging companies of November 1835 were to come "with a good and sufficient
+ * horse" (TSHA, *Texas Rangers*; `HIST-TEX-1110`), and a mule's walk does not keep up with a mounted enemy. A mule carries a man to
+ * the gathering as a horse does (the Rev. W. P. Smith addressed the Gonzales men "seated on his favorite mule", `HIST-TEX-1110`) and
+ * he serves on foot.
+ */
+export const ridesAHorse = (world, entity) => modeWith(world, entity) === 'horse';
 
 const theirs = (world, entity) => allBeasts(world, world.households[entity.householdId]).filter(beast => beast.borrowedBy === entity.id);
 

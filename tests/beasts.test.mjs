@@ -140,7 +140,7 @@ test('an ox bought holds its leader to the ox\'s pace, the chooser says so, and 
 test('one person leads one animal home; cattle and hogs are driven to the herd, and no led animal is a load', () => {
   const world = running('beasts-one');
   const family = world.households['hh-1'], buyer = person(world, 'rosa');
-  assert.equal(quote(world, buyer, [horse, ox]).why, 'One person can lead one animal home: a horse or an ox, not both. Send somebody else for the other.');
+  assert.equal(quote(world, buyer, [horse, ox]).why, 'One person can lead one animal home: a horse, a mule or an ox, not two. Send somebody else for the other.');
   assert.match(quote(world, buyer, [{ ...horse, n: 2 }]).why, /one is all anybody needs/);
   const herd = herdOf(family);
   const drove = [{ id: 'stockman:cattle', n: 1, pay: 'coin' }, { id: 'stockman:hog', n: 2, pay: 'coin' }];

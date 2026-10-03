@@ -139,11 +139,23 @@ export const restingSick = entity => (entity.health?.condition || entity.conditi
  */
 // And somebody the family put on the horse for its journey together (sim/company.mjs `saddle`; owner, 2026-09-25: "the horse
 // should carry a rider"): drawn in the saddle the same way, whatever way the rest of the family goes. A baby in their arms is not.
-export const inTheSaddle = entity => entity.kind === 'person' && !entity.carrier && (entity.travel?.mode === 'horse' || (Boolean(entity.travel?.saddle) && !entity.travel.carried));
+// On the mule too (2026-10-03, bought at the stock pens; sim/travel.mjs `MODES.mule`): the same seat, over the mule.
+export const inTheSaddle = entity => entity.kind === 'person' && !entity.carrier && (entity.travel?.mode === 'horse' || entity.travel?.mode === 'mule' || (Boolean(entity.travel?.saddle) && !entity.travel.carried));
 /** How tall a rider and horse are drawn, as a person is 1: the horse at its own size with somebody sitting up on it. */
 export const MOUNTED_HEIGHT = 1.8;
 export const mounted = entity => entity.kind === 'person' && (entity.carrier || inTheSaddle(entity));
-export const underARider = entity => entity.kind === 'animal' && entity.species === 'horse' && entity.travel?.mode === 'horse';
+const MOUNT_SPECIES = ['horse', 'mule'];
+export const underARider = entity => entity.kind === 'animal' && MOUNT_SPECIES.includes(entity.species) && entity.travel?.mode === entity.species;
+/**
+ * The horse or mule this person is in the saddle of, from the projection: the one on their journey with them (`borrowedBy`, ridden
+ * the way they go), else the one the server seated them on for the family's journey together (`travel.rides`). Null when it is not
+ * in view.
+ */
+export function mountOf(entity, entities = []) {
+  const own = entities.filter(other => other.kind === 'animal' && MOUNT_SPECIES.includes(other.species) && other.householdId === entity?.householdId);
+  return own.find(other => other.borrowedBy === entity.id && other.travel?.mode === other.species && entity.travel?.mode === other.species)
+    || (entity?.travel?.saddle && own.find(other => other.id === entity.travel.rides)) || null;
+}
 
 /**
  * Who drives this family's wagon on the road: whoever has it (`borrowedBy`, sim/keeping.mjs), or - on the family's own
@@ -170,7 +182,7 @@ export function wagonTeams(householdId, entities = []) {
   const aboard = own.filter(entity => entity.kind === 'person' && !entity.carrier && entity.travel?.mode === 'wagon');
   const young = ['child', 'small', 'infant'];
   const order = [...aboard.filter(entity => entity.principal), ...aboard.filter(entity => !entity.principal && !young.includes(entity.band)), ...aboard.filter(entity => !entity.principal && young.includes(entity.band))];
-  const oxen = own.filter(entity => entity.kind === 'animal' && entity.species !== 'horse' && entity.travel?.mode === 'wagon');
+  const oxen = own.filter(entity => entity.kind === 'animal' && !MOUNT_SPECIES.includes(entity.species) && entity.travel?.mode === 'wagon');
   const taken = new Set(), yoked = new Set();
   const teams = wagons.map(wagon => ({ wagon, driverId: null, ox: null }));
   // A family's journey together in a class made since 2026-09-25 (sim/company.mjs): the server has said who drives each wagon, who
@@ -238,7 +250,7 @@ export function carriedWithRider(entity, entities = []) {
   // The family's horse with somebody the server put on it for the journey together (sim/company.mjs), and a baby in that rider's
   // arms: drawn with the rider, not again by themselves. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders, walkers
   // and the cart; the baby is not drawn in the rider's arms until a figure carrying one lands.
-  if (entity.kind === 'animal' && entity.species === 'horse' && entities.some(one => one.kind === 'person' && one.travel?.saddle && !one.travel.carried && one.travel.rides === entity.id)) return true;
+  if (entity.kind === 'animal' && MOUNT_SPECIES.includes(entity.species) && entities.some(one => one.kind === 'person' && one.travel?.saddle && !one.travel.carried && one.travel.rides === entity.id)) return true;
   if (entity.kind === 'person' && entity.travel?.saddle && entity.travel.carried) return true;
   // A rider in the wagon is drawn in it with its driver (public/app.js `drawSeated`), not a second time walking beside it.
   if (entity.kind === 'person' && entity.travel?.rides) {
@@ -246,7 +258,7 @@ export function carriedWithRider(entity, entities = []) {
     const driver = team?.driverId && entities.find(other => other.id === team.driverId);
     return Boolean(driver && seatOf(driver, entities) === 'wagon');
   }
-  if ((entity.kind === 'wagon' || (entity.kind === 'animal' && entity.species !== 'horse')) && entity.travel?.mode === 'wagon') {
+  if ((entity.kind === 'wagon' || (entity.kind === 'animal' && !MOUNT_SPECIES.includes(entity.species))) && entity.travel?.mode === 'wagon') {
     const team = wagonTeams(entity.householdId, entities).find(one => one.wagon.id === entity.id || one.ox?.id === entity.id);
     const driver = team?.driverId && entities.find(other => other.id === team.driverId);
     return Boolean(driver && seatOf(driver, entities) === 'wagon');
@@ -613,8 +625,14 @@ function grownClip(entity, observed) {
   if (entity.kind === 'animal') {
     // A class saved before there were horses has no `species` on anything, and every
     // animal in it is an ox - so the absent field reads correctly as one.
-    const beast = entity.species === 'horse' ? 'horse' : 'ox';
     const heading = travelHeading(entity);
+    // The family's mule (2026-10-03): Claude's mule on its halter, saddled under a rider. stand-in: docs/ART_REQUESTS.md, request
+    // 2026-10-03 - riders in every vehicle (the mule itself, item 1).
+    if (entity.species === 'mule') {
+      const walk = entity.travel?.mode === 'mule' ? 'mule-saddled-walk' : 'mule-walk';
+      return entity.travel ? { id: heading ? `${walk}-${heading}` : walk, upright: Boolean(heading) } : { id: 'mule-idle' };
+    }
+    const beast = entity.species === 'horse' ? 'horse' : 'ox';
     if (beast === 'ox' && entity.travel?.mode === 'foot') return {
       id: `ox-packed-walk-${heading || 'e'}`, upright: Boolean(heading),
     };

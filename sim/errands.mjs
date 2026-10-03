@@ -75,7 +75,7 @@ const loads = amount => { const shown = Math.round(amount * 10) / 10; return `${
 const cap = text => text.charAt(0).toUpperCase() + text.slice(1);
 /** The family's own town: sim/chores.mjs `townOf`, written out here because that module imports this one. */
 const townOf = household => household.settlementId || 'gonzales';
-const MODE_WORDS = Object.freeze({ foot: 'Goes on foot', horse: 'Rides the horse', wagon: 'Takes the wagon' });
+const MODE_WORDS = Object.freeze({ foot: 'Goes on foot', horse: 'Rides the horse', mule: 'Rides the mule', wagon: 'Takes the wagon' });
 
 const parse = id => { const [trade, offerId] = String(id || '').split(':'); const offer = TRADES[trade]?.offers.find(o => o.id === offerId); return offer ? { trade, offer } : null; };
 // Coin first: the popup presses the first way before the student chooses (public/errand.js `errandList`), so a sale is paid in
@@ -221,12 +221,12 @@ function reckon(world, household, entity, list, town = null) {
   // A new wagon (owner, 2026-09-25; sim/shops.mjs `buy-wagon`): an ox draws it home, so one is bought on the same list and yoked
   // to it rather than led; the wheelwright cannot both work on the wagon brought in and send the buyer home in a new one.
   if (newWagon) {
-    if (wagon) return { why: 'The wheelwright puts in order the wagon that is brought to him, and a new wagon is fetched by somebody on foot or on the horse. Send them separately.' };
+    if (wagon) return { why: 'The wheelwright puts in order the wagon that is brought to him, and a new wagon is fetched by somebody on foot or riding. Send them separately.' };
     const ox = leads.indexOf('ox');
     if (ox < 0) return { why: 'A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.' };
     leads.splice(ox, 1);
   }
-  if (leads.length > LEAD_MOST) return { why: 'One person can lead one animal home: a horse or an ox, not both. Send somebody else for the other.' };
+  if (leads.length > LEAD_MOST) return { why: 'One person can lead one animal home: a horse, a mule or an ox, not two. Send somebody else for the other.' };
   const home = pack.food + pack.other;
   // What is bought comes home in the new wagon, so only what is carried to town has to fit the way there.
   if (newWagon && home > MODES.wagon.carry + 1e-9) return { why: `That is ${loads(home)} to bring home, and the new wagon carries ${MODES.wagon.carry}. Send less.` };
@@ -245,25 +245,33 @@ function chooseMode(world, household, entity, load, needsWagon, modeAvailability
     // Why this way and not a quicker one: the wagon itself is the errand, the load is more than the horse carries, or the
     // quicker way is somebody else's today (their name, and what they are doing with it).
     const passed = ways.slice(0, ways.indexOf(open)).find(way => way.why && !way.tooMuch)?.why;
+    // More than the quicker ways carry: the horse, and the mule when the family has one (2026-10-03).
+    const mount = ways.some(way => way.id === 'mule') && load <= MODES.mule.carry + 1e-9 ? null : ways.some(way => way.id === 'mule') ? 'mule' : 'horse';
     const why = needsWagon ? ', and the wheelwright works on the wagon itself'
-      : open.id === 'wagon' && load > MODES.horse.carry ? `, more than the horse carries (${MODES.horse.carry})`
-        : passed ? `. ${passed}` : '';
+      : open.id === 'wagon' && load > MODES.horse.carry && mount ? `, more than the ${mount} carries (${MODES[mount].carry})`
+        : open.id === 'mule' && load > MODES.horse.carry ? `, more than the horse carries (${MODES.horse.carry})`
+          : passed ? `. ${passed}` : '';
     return { mode: open.id, how: `${MODE_WORDS[open.id]}: ${Math.round(load * 10) / 10} of ${open.carry ?? MODES[open.id].carry} loads${why}${why.endsWith('.') ? '' : '.'}`, ways };
   }
   if (!needsWagon && load > MODES.wagon.carry) return { why: `That is ${loads(load)}, and the wagon carries ${MODES.wagon.carry}. Send less.`, ways };
   // Nothing free carries it: said with every reason, in the holders' own names, and what the student can do about it.
   const refused = ways.filter(way => way.why && !way.tooMuch && !way.notTheWagon).map(way => way.why);
+  // A family with a mule (2026-10-03): a load the horse cannot carry may still go on the mule, and the words say so.
+  const mule = ways.some(way => way.id === 'mule');
   const wants = needsWagon ? 'The wheelwright works on the wagon itself, so this wants the wagon'
-    : load > MODES.horse.carry ? `This wants the wagon: ${loads(load)}, and the horse carries ${MODES.horse.carry}`
-      : `This is more than can be carried on foot: ${loads(load)}, and a person carries ${MODES.foot.carry}`;
-  const waitFor = load > MODES.horse.carry || needsWagon ? 'the wagon is free' : 'the horse or the wagon is free';
+    : mule && load > MODES.horse.carry && load <= MODES.mule.carry ? `This wants the mule or the wagon: ${loads(load)}, and the horse carries ${MODES.horse.carry}`
+      : load > (mule ? MODES.mule.carry : MODES.horse.carry) ? `This wants the wagon: ${loads(load)}, and the ${mule ? 'mule' : 'horse'} carries ${mule ? MODES.mule.carry : MODES.horse.carry}`
+        : `This is more than can be carried on foot: ${loads(load)}, and a person carries ${MODES.foot.carry}`;
+  const waitFor = needsWagon || load > (mule ? MODES.mule.carry : MODES.horse.carry) ? 'the wagon is free'
+    : mule && load > MODES.horse.carry ? 'the mule or the wagon is free'
+      : mule ? 'the horse, the mule or the wagon is free' : 'the horse or the wagon is free';
   // A family with no vehicle at all (sim/means.mjs; owner, 2026-09-25: "it shouldn't block gameplay, but some things might have to
   // happen slower") is not told to wait for a wagon it has not got: it goes more than once.
   if (!needsWagon && !beastsOf(world, household, 'wagon').some(kept)) return { why: `${wants}. ${refused.join(' ')} Send a smaller load, and go again for the rest.`, ways };
   return { why: `${wants}. ${refused.join(' ') || 'The wagon cannot go.'} Send a smaller load, or wait until ${waitFor}.`, ways };
 }
 /** The quicker way, as a sentence starts it. */
-const QUICKER = Object.freeze({ foot: 'Walking', horse: 'The horse', wagon: 'The wagon' });
+const QUICKER = Object.freeze({ foot: 'Walking', horse: 'The horse', mule: 'The mule', wagon: 'The wagon' });
 /**
  * Every way this person could go with this load, quickest first (owner, 2026-09-24: the popup suggests the quickest, and the
  * student may choose any slower way that still carries it and is free): whether each is open, and the server's reason when
@@ -281,7 +289,7 @@ function homeOf(leads = [], drives = {}, newWagon = false) {
   const parts = [
     // The new wagon behind the new ox, at the wagon's pace (sim/travel.mjs `WAGON_SPEED`, the same as a led ox's).
     ...(newWagon ? ['drives the new wagon home behind the new ox'] : []),
-    ...leads.map(role => `leads the new ${role} home${role === 'horse' ? ' on a halter' : ''}`),
+    ...leads.map(role => `leads the new ${role} home${role === 'horse' || role === 'mule' ? ' on a halter' : ''}`),
     ...(Object.keys(drives).length ? [`drives ${Object.entries(drives).map(([kind, head]) => `${head} ${kind === 'cattle' ? 'cattle' : head === 1 ? 'hog' : 'hogs'}`).join(' and ')} home`] : []),
   ];
   if (!parts.length) return null;
@@ -301,7 +309,7 @@ export function errandQuote(world, household, entity, list, { modeAvailability, 
   const reckoned = reckon(world, household, entity, list, town);
   if (reckoned.why) return { can: false, why: reckoned.why, stock: stockOf(household) };
   const home = homeOf(reckoned.leads, reckoned.drives, reckoned.newWagon);
-  const way = chooseMode(world, household, entity, reckoned.load, reckoned.wagon, modeAvailability, { town: reckoned.town, home, newWagon: reckoned.newWagon, leadsHorse: reckoned.leads.includes('horse') });
+  const way = chooseMode(world, household, entity, reckoned.load, reckoned.wagon, modeAvailability, { town: reckoned.town, home, newWagon: reckoned.newWagon, leadsHorse: reckoned.leads.some(role => role === 'horse' || role === 'mule') });
   const ways = shownWays(way.ways);
   const base = { load: reckoned.load, lines: reckoned.lines, stock: stockOf(household), after: reckoned.after, ways, ...(way.mode && { quickest: way.mode }), ...(home && { home: home.words }) };
   const andHome = home ? ` ${home.words}` : '';

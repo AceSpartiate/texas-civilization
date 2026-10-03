@@ -215,7 +215,7 @@ export function meansProjection(world, household) {
   const band = bandFor(household.means.roll, bandsOf(world));
   const people = household.members.map(id => world.entities[id]).filter(Boolean);
   const vehicles = drawnVehicles([...wagonsOf(world, household), ...beastsOf(world, household, 'ox')]);
-  const horses = riddenHorses(world, beastsOf(world, household, 'horse'));
+  const horses = riddenHorses(world, [...beastsOf(world, household, 'horse'), ...beastsOf(world, household, 'mule')]);
   const coin = household.means.coin;
   return { roll: household.means.roll, band: band.id, name: band.name, words: meansWords(band, coin, household.heritage), ...(coin && { coin }), seats: seatWords(people, vehicles, horses) };
 }

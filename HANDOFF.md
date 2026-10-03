@@ -1,5 +1,50 @@
 # Claude handoff — Astra foundation
 
+## A mule at the stock pens, and riders in every vehicle requested — owner-decided 2026-10-03 (not released)
+
+Branch `mules` off local `integration-2026-09-28` (9d34d767); not pushed. Same computer only: headless Chrome; no Chromebook, LAN or
+classroom claim. Kept clear of the `herds` branch's herd economics: a mule is no part of the herd (docs/STOCK.md §7). The owner,
+2026-10-03: *"create art requests if they don't already exist for having characters in vehicles. what i mean by vehicles is anything
+they can ride. we should also add the ability to buy a mule in town. mules were a lot cheaper than horses."*
+
+- **The mule** (docs/TOWNS.md §4h; claims `HIST-TEX-1110`, `FIC-GONZ-1130`): sold at the stock pens wherever horses are (Gonzales,
+  San Felipe, Columbia, Victoria) for **10 reales, coin only** against the horse's 25. Sourced: Holley 1836 gives Texas mules caught
+  with the mustangs at "two to five" dollars and the mustang at three or four; no broken mule's price was found, so ten is the game's,
+  set above the wild price as the broken horse is. A part of its own (`species: 'mule'`, `roleOf` 'mule', `hh-1-mule`, *Jack the
+  mule*): **On the mule**, a way of going offered only to a family that has one (`MODES.mule.owned`), four miles an hour, hardly
+  tiring, **carries ten loads** (the horse seven); one rider at a time (`userOf`); led home on a halter at its leader's pace; stands
+  in the yard beside the horses; lamed in a chase like a horse (and the lame are now told *"The mule is lame and carries nobody until
+  it mends."*, the horse too, where it said "not here"); one more seat on the family's journeys together after the horses'; goes in
+  the flight, kept when the wagon is left, taken by soldiers. **No horse where the war asks for one** (`ridesAHorse`: the camp
+  scouts, the Grass Fight's mounted party, Horton's horsemen, the army's call for horses), on the ranging companies' "good and
+  sufficient horse"; it still carries a man to the gathering (W. P. Smith addressed Gonzales "seated on his favorite mule").
+  **Draws no vehicle** (`isOx`): `ceiling:`, owner question 1 below. No save version moved.
+- **Drawn**: Claude's family mule, `scripts/claude-art/areas/transport-mule.mjs` (`mule-walk-e/-s/-n`, `mule-idle`,
+  `mule-saddled-walk-e/-s/-n`, 25 frames, 9 clips), in `miniAnimal`; a rider on it is their own figure cut at the waist over the
+  saddled mule (`drawSeated` `onMule`, `mountOf` in public/motion.js), never the painted horse-and-rider. Until the sheets load, the
+  chestnut horse a little smaller. Marked `stand-in:`, listed under *Stand-ins in use*.
+- **Art requested**: **request 2026-10-03, "riders in every vehicle"** in docs/ART_REQUESTS.md, with a survey table of everything a
+  person rides or is carried in (horse, mule, ox - nobody rides it -, wagon box and bed, cart, carreta, ferry flatboat, steamboat) and
+  what is already delivered or asked (D3, D4, D5, D17, B3/B14/B20). The gaps only, items **D18** (the mule itself, Claude stand-in in
+  place), **D19** (`<family>-mule-ride-*`, `<child>-mule-ride-*`), **D20** (`<cast>-mule-ride-*`), **D21** (`<family>-ride-wagon-*`),
+  **D22** (`infant-held-ride`, a baby in a rider's arms), **D23** (`-goad-walk`, the driver on foot at the oxen's head), **D24**
+  (`ferry-flatboat-crossing`), **D25** (`steamboat-laden-deck`); `npm run art:plan` rerun (130 items to make).
+- **Evidence**: tests/mules.test.mjs (7) and tests/mules-drawn.test.mjs (3); `npm run test:mules-injections` **21 of 21** caught by
+  their own test alone ([record](docs/evidence/mules-injections.json)). `npm run test:shops` **7 checks** - the mule bought for 10
+  against 25, led home drawn `mule-walk`, standing in the yard beside Bess drawn `mule-idle` ([photo](docs/evidence/mule-yard.png)),
+  then chosen on its way card and ridden to town, its rider drawn in the saddle of `mule-saddled-walk`
+  ([photo](docs/evidence/mule-ridden.png), [record](docs/evidence/shops-browser.json)). Changed tests: the order of the ways
+  (`QUICKEST` now horse, mule, foot, wagon; a family with no mule is still offered three), the modes table, three refusal sentences
+  ("a horse, a mule or an ox, not two"; "on foot or riding"; "the new animal"), the seat's source check (`!onMule`), and the
+  errand proof's stock-pens list. `npm run test:errand` 16, `test:riding` 16, `test:wagons` 4, `test:road` 7, all PASS;
+  tests/claude-standins.test.mjs and tests/astra-art-wins.test.mjs green. `npm test`: **2129 tests, 2092 pass, 1 fail, 36 skipped** -
+  the one, tests/battle-floor.test.mjs's floor timing under the whole suite's load, passes alone (4 of 4); the same base
+  (9d34d767) run clean was 2119 tests, 0 fail.
+- **Owner questions** (recommended first):
+  1. *Should a mule draw a vehicle?* (a) **No, as built** - only an ox draws the wagon, cart and carreta, so a ten-real mule does not
+     replace a fifteen-real ox; (b) a mule draws a cart or carreta but not the wagon; (c) a mule draws anything an ox does.
+  2. *The mule's price*: (a) **ten reales, as built** (two-fifths of a horse); (b) five, the wild-caught price; (c) fifteen, an ox's.
+
 ## The owner's answers on paths and the yard: "Auto kids; fell trees" — owner-decided 2026-10-03 (not released)
 
 Branch `land-paths-2` off local `integration-2026-09-28`; not pushed. Same computer only: headless Chrome; no Chromebook, LAN or

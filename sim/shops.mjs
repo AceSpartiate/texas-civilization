@@ -69,6 +69,18 @@ export const TUNED_SHOTS = 10;
  */
 export const HORSE_COIN = 25, OX_COIN = 15, COW_CALF_COIN = 10, HOG_COIN = 4, HOG_FOOD = 14;
 /**
+ * A mule at the stock pens (owner, 2026-10-03: "we should also add the ability to buy a mule in town. mules were a lot cheaper than
+ * horses."; docs/TOWNS.md §4h, `FIC-GONZ-1130`, on `HIST-TEX-1110`): **ten reales**, two-fifths of a horse. The record read gives
+ * mules in Texas cheap and plentiful: running with the mustangs, "Good jacks bring about twenty dollars in the home market, and
+ * mules from two to five" (Holley, *Texas*, 1836, pp. 98-99) - the wild-caught price, beside the mustang's "three or four dollars"
+ * (`HIST-TEX-440`) - and "Large quantities of mules are raised annually, many of which are carried to the United States" for the
+ * good price they fetched there (Holley p. 67). **No price for a broken mule in Texas was found.** So the game sets a broken mule
+ * as it set the horse, above the wild one: the mustang caught is three or four dollars and the broken horse twenty to thirty, so the
+ * mule caught at two to five is ten broken - "a lot cheaper than horses", as the owner said. Coin only, as the horse is: twenty
+ * food is a whole wagon load carried to town. ceiling: the price is the game's own; a broken mule's price from the record replaces it.
+ */
+export const MULE_COIN = 10;
+/**
  * A new wagon at the wheelwright's (owner, 2026-09-25: "wheelwright sells one, very expensive."; docs/TOWNS.md §4f,
  * `FIC-GONZ-392`, on `HIST-TEX-441`). **No price for a wagon in Texas before 1836 was found.** The one number the record gives is
  * a cart: "Carts rate at $100, here" (a colonist's letter from the Irish colony, in Woodman 1835, p. 169), and a wagon was the
@@ -289,8 +301,8 @@ export const TRADES = Object.freeze({
         give: (world, household, entity) => { household.gear = { ...gear(household), shoes: true }; return `${entity.name} bought shoes for the family from the tanner.`; },
       },
       {
-        id: 'saddle', kind: 'sell', label: 'Buy a saddle', coin: 3, food: 6, once: true, load: 1, does: 'A proper saddle: a mile on the horse tires the rider less.',
-        refuse: (world, household) => gear(household).saddle ? 'The family already has a saddle.' : !beastsOf(world, household, 'horse').some(kept) ? 'The family has no horse to put it on.' : null,
+        id: 'saddle', kind: 'sell', label: 'Buy a saddle', coin: 3, food: 6, once: true, load: 1, does: 'A proper saddle: a mile on the horse or the mule tires the rider less.',
+        refuse: (world, household) => gear(household).saddle ? 'The family already has a saddle.' : !['horse', 'mule'].some(role => beastsOf(world, household, role).some(kept)) ? 'The family has no horse to put it on.' : null,
         give: (world, household, entity) => { household.gear = { ...gear(household), saddle: true }; return `${entity.name} bought a saddle from the saddler.`; },
       },
     ],
@@ -310,7 +322,7 @@ export const TRADES = Object.freeze({
         // ox from the stock pens goes on the same list (sim/errands.mjs), is yoked to it at the counter, and whoever bought it
         // drives it home at the wagon's pace; the horse they rode in on is tied on behind (`leads`).
         id: 'buy-wagon', kind: 'sell', label: 'Buy a new wagon', coin: WAGON_COIN, food: null, most: 1, newWagon: true,
-        does: 'A new wagon, driven home behind an ox from the stock pens - put an ox on the list too. Two wagons are two loads out at once. Whoever fetches it goes on foot or on the horse.',
+        does: 'A new wagon, driven home behind an ox from the stock pens - put an ox on the list too. Two wagons are two loads out at once. Whoever fetches it goes on foot or riding.',
         refuse: (world, household) => beastsFull(world, household, 'wagon'),
         // At the counter: the ox bought this trip has to be there to draw it, or nothing is paid for the wagon.
         atCounter: (world, household, entity) => beastsOf(world, household, 'ox').some(beast => entity.leads?.includes(beast.id)) ? null : `There is no ox with ${entity.name} to draw a new wagon home. The wheelwright keeps it until one comes.`,
@@ -362,6 +374,14 @@ export const TRADES = Object.freeze({
         refuse: (world, household) => beastsFull(world, household, 'horse'),
         give: (world, household, entity) => boughtBeast(world, household, entity, 'horse'),
       },
+      // The mule (owner, 2026-10-03; `MULE_COIN`): ridden by one person as a horse is, slower, and carrying a pack (sim/travel.mjs
+      // `MODES.mule`). It is no horse where the war asks for one, and it draws no wagon (sim/beasts.mjs).
+      {
+        id: 'mule', kind: 'sell', label: 'Buy a mule', coin: MULE_COIN, food: null, most: LEAD_MOST, leads: 'mule',
+        does: 'A broken mule, led home on a halter: far cheaper than a horse. One rider, at four miles an hour to the horse\'s five, and it carries ten loads to the horse\'s seven. The scouts and the mounted companies still want a horse, and it draws no wagon.',
+        refuse: (world, household) => beastsFull(world, household, 'mule'),
+        give: (world, household, entity) => boughtBeast(world, household, entity, 'mule'),
+      },
       {
         id: 'ox', kind: 'sell', label: 'Buy an ox', coin: OX_COIN, food: null, most: LEAD_MOST, leads: 'ox',
         does: "A broken ox, led home at an ox's pace. It drags logs, or pulls the wagon while the family's other ox is out.",
@@ -393,7 +413,7 @@ function boughtBeast(world, household, entity, role) {
   const beast = addBeast(world, household, role, entity);
   entity.leads = [...(entity.leads || []), beast.id];
   const n = beastsOf(world, household, role).filter(kept).length;
-  return `${entity.name} bought ${beast.name} at the stock pens, to lead home; the family has ${n === 2 ? 'two' : n} ${BEAST_WORDS[role][1]} now.`;
+  return `${entity.name} bought ${beast.name} at the stock pens, to lead home; the family has ${n === 1 ? `a ${BEAST_WORDS[role][0]}` : `${n === 2 ? 'two' : n} ${BEAST_WORDS[role][1]}`} now.`;
 }
 /**
  * A new wagon bought: the family's now, standing in town with its buyer, with the ox bought this trip yoked to it instead of led
@@ -404,7 +424,8 @@ function boughtWagon(world, household, entity) {
   const ox = beastsOf(world, household, 'ox').find(beast => entity.leads?.includes(beast.id));
   const wagon = addBeast(world, household, 'wagon', entity);
   const leads = (entity.leads || []).filter(id => id !== ox?.id);
-  const horse = beastsOf(world, household, 'horse').find(beast => beast.borrowedBy === entity.id && !beast.travel && beast.location?.siteId === entity.location?.siteId && !leads.includes(beast.id));
+  // The horse - or the mule (2026-10-03) - they rode in on.
+  const horse = [...beastsOf(world, household, 'horse'), ...beastsOf(world, household, 'mule')].find(beast => beast.borrowedBy === entity.id && !beast.travel && beast.location?.siteId === entity.location?.siteId && !leads.includes(beast.id));
   if (horse) leads.push(horse.id);
   if (leads.length) entity.leads = leads; else delete entity.leads;
   if (entity.chore) entity.chore.mode = 'wagon';
@@ -663,12 +684,12 @@ export function takeCounter(world, household, entity, optionId) {
 
 // ---------------------------------------------------------------------------------------------- what the goods do
 
-/** How much of a mile's weariness this person pays, for what the family owns: shoes on foot, a saddle on the horse. */
+/** How much of a mile's weariness this person pays, for what the family owns: shoes on foot, a saddle on the horse or the mule. */
 export function gearExertionShare(world, entity, modeId) {
   const household = world.households[entity.householdId];
   if (!household) return 1;
   if (modeId === 'foot' && gear(household).shoes) return SHOES_SHARE;
-  if (modeId === 'horse' && gear(household).saddle) return SADDLE_SHARE;
+  if ((modeId === 'horse' || modeId === 'mule') && gear(household).saddle) return SADDLE_SHARE;
   return 1;
 }
 /** How much faster a family's ox and wagon go, put in good order. */

@@ -143,7 +143,9 @@ letter all give) and **a hog for 4 reales or 14 food** (no hog price was found; 
 - `ceiling:` **the families nobody plays buy no stock**; their director deals the opening herd (§3) and buys only a rifle again
   (TOWNS.md §4e).
 - Horses and oxen bought are not stock in this sense: they are animals of their own on the map, led home on a halter, and are
-  taken by the Mexican army with the wagon when a family is overtaken (sim/road.mjs), not left on the range.
+  taken by the Mexican army with the wagon when a family is overtaken (sim/road.mjs), not left on the range. **Nor is a mule**
+  (owner, 2026-10-03, *"buy a mule in town"*; [TOWNS.md](TOWNS.md) §4h): ten reales at the same pens, a mount and a pack animal of
+  its own like the horse, never part of the herd, never butchered, and no part of what the herd feeds or is worth.
 
 ## 8. One milk cow on the run (owner, 2026-09-27)
 
