@@ -19,6 +19,16 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld } from '../sim/world.mjs';
 
 const copy = value => JSON.parse(JSON.stringify(value));
+test('Smither keeps his Gonzales arrival and reported warning with dedicated art', () => {
+  assert.equal(PEOPLE.smither.art, 'smither');
+  const phase = ENGAGEMENTS.gonzales.phases.find(p => p.id === 'parley');
+  const rider = phase.people.find(p => p.id === 'smither');
+  assert.deepEqual(rider.keys, [[0, 'rise'], [6, 'cornfield']]);
+  assert.deepEqual(rider.during, [0, 12]);
+  const line = phase.lines.find(p => p.person === 'smither');
+  assert.equal(line.text, 'Don’t shoot, don’t shoot!');
+  assert.equal(line.claimId, 'HIST-TEX-474');
+});
 test('W. P. Smith keeps his documented Gonzales address with dedicated art', () => {
   assert.equal(PEOPLE['wp-smith'].art, 'wp-smith');
   const phase = ENGAGEMENTS.gonzales.phases.find(p => p.people?.some(one => one.id === 'wp-smith'));

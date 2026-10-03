@@ -69,6 +69,7 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
  * regular (public/battle-view.js `drawPerson`; stand-ins listed in docs/ART_REQUESTS.md, request 2026-09-26).
  */
 export const PERSON_ART = Object.freeze({
+  smither: { stand: 'smither-idle', command: 'smither-stop', point: 'smither-dispatch', speak: 'smither-speak', listen: 'smither-listen', write: 'smither-read', seated: 'smither-rest', walk: 'smither-walk-e', ride: 'clip:smither-mounted-walk-e', rideIdle: 'smither-mounted-idle-e' },
   'wp-smith': { stand: 'wp-smith-idle', command: 'clip:wp-smith-address', point: 'wp-smith-point', speak: 'wp-smith-exhort', listen: 'wp-smith-listen', write: 'wp-smith-read', seated: 'wp-smith-rest', walk: 'wp-smith-walk-e' },
   barragan: { stand: 'barragan-idle', command: 'clip:barragan-intervene', point: 'barragan-point', speak: 'barragan-speak', listen: 'barragan-listen', seated: 'barragan-rest', walk: 'barragan-walk-e' },
   'sanchez-navarro': { stand: 'sanchez-navarro-idle', command: 'sanchez-navarro-point', point: 'sanchez-navarro-point', write: 'sanchez-navarro-read', speak: 'sanchez-navarro-parley', listen: 'sanchez-navarro-listen', seated: 'sanchez-navarro-rest', walk: 'sanchez-navarro-walk-e' },

@@ -40,6 +40,13 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('Smither rides his own horse in the Gonzales approach', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const rider = { id: 'smither', art: 'smither', name: 'Smither', side: 'texian', x: 0, y: 0, right: true, pose: 'ride', moving: true };
+  run(view, minute => night(minute, [], { people: [rider] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'smither-mounted-walk-e'));
+});
+
 test('W. P. Smith delivers his address with his own civilian art', () => {
   const art = fakeArt(), view = createBattleView(art);
   const speaker = { id: 'wp-smith', art: 'wp-smith', name: 'W. P. Smith', side: 'texian', x: 0, y: 0, right: true, pose: 'command' };

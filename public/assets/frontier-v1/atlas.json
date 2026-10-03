@@ -10446,6 +10446,188 @@
         ]
       }
     },
+    "famous-smither": {
+      "image": "atlases/famous-smither.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1300657,
+      "sha256": "d9c17655c56389ae87262393159989ae45f219dff5601c8127721a26c0b56076",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.68177,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              21,
+              321
+            ],
+            "columns": [
+              [
+                60,
+                306
+              ],
+              [
+                409,
+                577
+              ],
+              [
+                684,
+                919
+              ],
+              [
+                1028,
+                1205
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              323,
+              631
+            ],
+            "columns": [
+              [
+                86,
+                256
+              ],
+              [
+                404,
+                571
+              ],
+              [
+                710,
+                867
+              ],
+              [
+                1025,
+                1179
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              633,
+              928
+            ],
+            "columns": [
+              [
+                104,
+                248
+              ],
+              [
+                413,
+                603
+              ],
+              [
+                722,
+                954
+              ],
+              [
+                1029,
+                1176
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              932,
+              1219
+            ],
+            "columns": [
+              [
+                81,
+                298
+              ],
+              [
+                406,
+                581
+              ],
+              [
+                706,
+                879
+              ],
+              [
+                1018,
+                1214
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-smither-mounted": {
+      "image": "atlases/famous-smither-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1401379,
+      "sha256": "79f7d96013f27e6f356898a6db4e6dc8277fc80488c3fc676ee017e8b1bdf417",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.627036,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              26,
+              582
+            ],
+            "columns": [
+              [
+                25,
+                599
+              ],
+              [
+                651,
+                1232
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              634,
+              1216
+            ],
+            "columns": [
+              [
+                36,
+                604
+              ],
+              [
+                811,
+                1072
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-urrea": {
       "image": "atlases/famous-urrea.png",
       "width": 1254,
@@ -48814,6 +48996,506 @@
           592
         ],
         "visiblePixels": 140548,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-walk-e-1": {
+      "sheet": "famous-smither",
+      "x": 60,
+      "y": 23,
+      "w": 246,
+      "h": 294,
+      "anchorX": 0.4959,
+      "anchorY": 0.9286,
+      "logicalHeight": 303,
+      "label": "smither walk e 1",
+      "kind": "famous-smither",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          25,
+          242,
+          290
+        ],
+        "visiblePixels": 29642,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-walk-e-2": {
+      "sheet": "famous-smither",
+      "x": 409,
+      "y": 21,
+      "w": 168,
+      "h": 300,
+      "anchorX": 0.3958,
+      "anchorY": 0.95,
+      "logicalHeight": 303,
+      "label": "smither walk e 2",
+      "kind": "famous-smither",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          411,
+          23,
+          164,
+          296
+        ],
+        "visiblePixels": 27037,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-walk-e-3": {
+      "sheet": "famous-smither",
+      "x": 684,
+      "y": 27,
+      "w": 235,
+      "h": 294,
+      "anchorX": 0.5043,
+      "anchorY": 0.9286,
+      "logicalHeight": 303,
+      "label": "smither walk e 3",
+      "kind": "famous-smither",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          686,
+          29,
+          231,
+          290
+        ],
+        "visiblePixels": 28558,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-walk-e-4": {
+      "sheet": "famous-smither",
+      "x": 1028,
+      "y": 22,
+      "w": 177,
+      "h": 299,
+      "anchorX": 0.4548,
+      "anchorY": 0.9498,
+      "logicalHeight": 303,
+      "label": "smither walk e 4",
+      "kind": "famous-smither",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          24,
+          173,
+          295
+        ],
+        "visiblePixels": 27264,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-walk-s-1": {
+      "sheet": "famous-smither",
+      "x": 86,
+      "y": 323,
+      "w": 170,
+      "h": 303,
+      "anchorX": 0.4912,
+      "anchorY": 0.9274,
+      "logicalHeight": 303,
+      "label": "smither walk s 1",
+      "kind": "famous-smither",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          325,
+          166,
+          299
+        ],
+        "visiblePixels": 27179,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-walk-s-2": {
+      "sheet": "famous-smither",
+      "x": 404,
+      "y": 326,
+      "w": 167,
+      "h": 301,
+      "anchorX": 0.515,
+      "anchorY": 0.9269,
+      "logicalHeight": 303,
+      "label": "smither walk s 2",
+      "kind": "famous-smither",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          406,
+          328,
+          163,
+          297
+        ],
+        "visiblePixels": 27117,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-walk-n-1": {
+      "sheet": "famous-smither",
+      "x": 710,
+      "y": 329,
+      "w": 157,
+      "h": 298,
+      "anchorX": 0.5955,
+      "anchorY": 0.9463,
+      "logicalHeight": 303,
+      "label": "smither walk n 1",
+      "kind": "famous-smither",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          712,
+          331,
+          153,
+          294
+        ],
+        "visiblePixels": 25771,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-walk-n-2": {
+      "sheet": "famous-smither",
+      "x": 1025,
+      "y": 330,
+      "w": 154,
+      "h": 301,
+      "anchorX": 0.6136,
+      "anchorY": 0.9435,
+      "logicalHeight": 303,
+      "label": "smither walk n 2",
+      "kind": "famous-smither",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1027,
+          332,
+          150,
+          297
+        ],
+        "visiblePixels": 26477,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-idle": {
+      "sheet": "famous-smither",
+      "x": 104,
+      "y": 635,
+      "w": 144,
+      "h": 293,
+      "anchorX": 0.4896,
+      "anchorY": 0.9352,
+      "logicalHeight": 303,
+      "label": "smither idle",
+      "kind": "famous-smither",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          106,
+          637,
+          140,
+          289
+        ],
+        "visiblePixels": 26839,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-stop": {
+      "sheet": "famous-smither",
+      "x": 413,
+      "y": 634,
+      "w": 190,
+      "h": 294,
+      "anchorX": 0.4184,
+      "anchorY": 0.9422,
+      "logicalHeight": 303,
+      "label": "smither stop",
+      "kind": "famous-smither",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          415,
+          636,
+          186,
+          290
+        ],
+        "visiblePixels": 29472,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-speak": {
+      "sheet": "famous-smither",
+      "x": 722,
+      "y": 633,
+      "w": 232,
+      "h": 295,
+      "anchorX": 0.3599,
+      "anchorY": 0.9356,
+      "logicalHeight": 303,
+      "label": "smither speak",
+      "kind": "famous-smither",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          724,
+          635,
+          228,
+          291
+        ],
+        "visiblePixels": 30215,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-listen": {
+      "sheet": "famous-smither",
+      "x": 1029,
+      "y": 635,
+      "w": 147,
+      "h": 293,
+      "anchorX": 0.5272,
+      "anchorY": 0.942,
+      "logicalHeight": 303,
+      "label": "smither listen",
+      "kind": "famous-smither",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1031,
+          637,
+          143,
+          289
+        ],
+        "visiblePixels": 27518,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-dispatch": {
+      "sheet": "famous-smither",
+      "x": 81,
+      "y": 932,
+      "w": 217,
+      "h": 283,
+      "anchorX": 0.3756,
+      "anchorY": 0.9329,
+      "logicalHeight": 303,
+      "label": "smither dispatch",
+      "kind": "famous-smither",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          934,
+          213,
+          279
+        ],
+        "visiblePixels": 28149,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-read": {
+      "sheet": "famous-smither",
+      "x": 406,
+      "y": 935,
+      "w": 175,
+      "h": 282,
+      "anchorX": 0.4714,
+      "anchorY": 0.9326,
+      "logicalHeight": 303,
+      "label": "smither read",
+      "kind": "famous-smither",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          408,
+          937,
+          171,
+          278
+        ],
+        "visiblePixels": 26508,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-satchel": {
+      "sheet": "famous-smither",
+      "x": 706,
+      "y": 942,
+      "w": 173,
+      "h": 277,
+      "anchorX": 0.5434,
+      "anchorY": 0.9386,
+      "logicalHeight": 303,
+      "label": "smither satchel",
+      "kind": "famous-smither",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          944,
+          169,
+          273
+        ],
+        "visiblePixels": 27552,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-rest": {
+      "sheet": "famous-smither",
+      "x": 1018,
+      "y": 960,
+      "w": 196,
+      "h": 258,
+      "anchorX": 0.5204,
+      "anchorY": 0.9264,
+      "logicalHeight": 303,
+      "label": "smither rest",
+      "kind": "famous-smither",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1020,
+          962,
+          192,
+          254
+        ],
+        "visiblePixels": 28952,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-mounted-walk-e-1": {
+      "sheet": "famous-smither-mounted",
+      "x": 25,
+      "y": 26,
+      "w": 574,
+      "h": 556,
+      "anchorX": 0.4948,
+      "anchorY": 0.9586,
+      "logicalHeight": 582,
+      "label": "smither mounted walk e 1",
+      "kind": "famous-smither-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          27,
+          28,
+          570,
+          552
+        ],
+        "visiblePixels": 148940,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-mounted-walk-e-2": {
+      "sheet": "famous-smither-mounted",
+      "x": 651,
+      "y": 29,
+      "w": 581,
+      "h": 553,
+      "anchorX": 0.3976,
+      "anchorY": 0.9584,
+      "logicalHeight": 582,
+      "label": "smither mounted walk e 2",
+      "kind": "famous-smither-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          653,
+          31,
+          577,
+          549
+        ],
+        "visiblePixels": 146726,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-mounted-idle-e": {
+      "sheet": "famous-smither-mounted",
+      "x": 36,
+      "y": 635,
+      "w": 568,
+      "h": 575,
+      "anchorX": 0.4454,
+      "anchorY": 0.9617,
+      "logicalHeight": 582,
+      "label": "smither mounted idle e",
+      "kind": "famous-smither-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          38,
+          637,
+          564,
+          571
+        ],
+        "visiblePixels": 156729,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-mounted-idle-s": {
+      "sheet": "famous-smither-mounted",
+      "x": 811,
+      "y": 634,
+      "w": 261,
+      "h": 582,
+      "anchorX": 0.5096,
+      "anchorY": 0.9296,
+      "logicalHeight": 582,
+      "label": "smither mounted idle s",
+      "kind": "famous-smither-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          813,
+          636,
+          257,
+          578
+        ],
+        "visiblePixels": 84496,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
