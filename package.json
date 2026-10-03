@@ -33,6 +33,8 @@
     "test:mixed-field": "node scripts/mixed-field-browser-proof.mjs",
     "test:field-click": "node scripts/field-click-browser-proof.mjs",
     "test:hunt": "node scripts/hunt-browser-proof.mjs",
+    "test:hunt-aim": "node scripts/hunt-aim-browser-proof.mjs",
+    "test:hunt-aim-injections": "node scripts/hunt-aim-injections.mjs",
     "test:family": "node scripts/family-browser-proof.mjs",
     "test:family-panel": "node scripts/family-panel-browser-proof.mjs",
     "test:family-twenty": "node scripts/family-twenty-browser-proof.mjs",

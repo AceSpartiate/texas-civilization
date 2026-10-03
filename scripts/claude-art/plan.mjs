@@ -49,6 +49,7 @@ const CAST = '`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, 
 const R = {
   hunger: "Request 2026-09-30 — the hunger mark and the food gauge's sack",
   milking: 'Request 2026-10-02 — the milking icon and the milking pose',
+  huntField: "Request 2026-10-02 — the hunter's first-person field",
   goInside: 'Request 2026-09-30 — the House icon on the bar',
   work: 'Request 2026-09-28 — people at work',
   ambient: 'Request 2026-09-28 — ambient life',
@@ -344,6 +345,8 @@ export const ITEMS = [
   { id: 'F15', area: 'F', priority: 3, request: R.garden, item: '', deliver: '`garden-young`, `garden-mature`', names: [], frames: '2', size: 'as `corn-young`', standIn: 'none', kind: 'none', plugs: '`public/field-surface.js`', status: 'skipped: withdrawn 2026-09-28 (crops no longer follow the seasons)' },
   { id: 'F16', area: 'F', priority: 1, request: R.wedding, item: 'item 6', deliver: '`icon-ask-neighbours` (a parent and a child walking up a track toward a neighbour\'s cabin with smoke from its chimney)', names: ['icon-ask-neighbours'],
     frames: '1', size: ICON, standIn: 'Claude\'s `icon-ask-neighbours`; without it a stroked glyph on the special button', kind: 'claude', plugs: 'the special button (`#ask-neighbours` in `public/app.js`)', status: 'open', phrases: ['a cabin with smoke and a heart over it'] },
+  { id: 'F17', area: 'F', priority: 2, request: R.huntField, item: 'items 1 and 2', deliver: '`hunt-field-timber`, `hunt-field-brush`, `hunt-field-open` (each in summer and `-winter`; the far ground and the cover, eye height, no animal) and `hunt-rifle` (the long rifle seen over the hunter\'s shoulder, stock and lock low at the right, the muzzle and front sight free to be turned toward the aim)', names: ['hunt-field-*', 'hunt-rifle*'],
+    frames: '6 backdrops; 1 rifle', size: 'Backdrop: 1600×900, opaque, the horizon at 51% of the height, the middle third clear of trunks; rifle: transparent, pivot at the muzzle', standIn: 'the field and the rifle painted in canvas (sky, crowns, trunks, brush and grass; a browned barrel and a cherry stock)', kind: 'code', plugs: '`paintField`, `paintNear` and `drawRifle` in `public/hunt-aim.js`', status: 'open', phrases: ["the hunter's first-person field"] },
   // Requests delivered whole or withdrawn: kept on the list, skipped, so nobody draws them again.
   ...[
     ['B', 'Request 2026-09-21 — the children\'s icons', 'delivered 2026-09-22 (`icons-children.png`)'],

@@ -12,7 +12,7 @@ import { calendarMinutes, dateOf, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection, CAMP_SITE } from './directors.mjs';
 import { heldByBattle, lyingOnField } from './battle-stage.mjs';
-import { abandonChore, advanceChores, answerChore, askProjection, beginChore, registerChores, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
+import { abandonChore, advanceChores, answerChore, askProjection, beginAim, beginChore, fireShot, registerChores, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
 import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
 import { beastsInvalid, beastsOf, fitOut, ledPace, yardSpot } from './beasts.mjs';
@@ -921,7 +921,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot', 'plant-field', 'roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel', 'set-main', 'set-auto']);
+export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot', 'plant-field', 'roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'aim-shot', 'fire-shot', 'rename', 'work', 'rest', 'travel', 'set-main', 'set-auto']);
 /**
  * One order from a student's family.
  *
@@ -1139,6 +1139,10 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // not to the principal: it is a question about what this person in this wood should do
   // next, and the family member standing there is the one it was put to.
   if (input.action === 'answer-chore') { answerChore(world, household, entity, input.option); return; }
+  // The sighting on a hunt taken up, and the shot aimed by the student (owner, 2026-10-02; sim/hunt-aim.mjs): the field opens on the
+  // page with the server's own clock noted, and the trigger is judged here from where the sights were and when - never the page's word.
+  if (input.action === 'aim-shot') { beginAim(world, household, entity, { now, calm: input.calm === true }); return; }
+  if (input.action === 'fire-shot') { fireShot(world, household, entity, { t: Number(input.t), x: Number(input.x), y: Number(input.y), hold: input.hold === true, now }); return; }
   if (input.action === 'stop-chore') {
     if (!entity.chore) throw new Error('Nothing to call off.');
     // Called home from a neighbour's raising: what they put in is still owed to both stories.
@@ -1651,6 +1655,11 @@ export function validateWorld(world) {
     const hunted = entity.chore?.id === 'hunt-land' ? entity.chore.ground : undefined;
     if (entity.chore?.id === 'fell-trees' && (!Number.isFinite(entity.chore.ground?.x) || !Number.isFinite(entity.chore.ground?.y))) throw new Error('Invalid felling place');
     if (hunted !== undefined && (!Number.isFinite(hunted?.x) || !Number.isFinite(hunted.y) || !(hunted.game >= 0 && hunted.game <= 1) || typeof hunted.cover !== 'string' || !Number.isFinite(hunted.toward?.x) || !Number.isFinite(hunted.toward?.y) || (hunted.quarry !== undefined && !GAME[hunted.quarry]))) throw new Error('Invalid hunting place');
+    // A sighting on a hunt and the aim taken up (sim/hunt-aim.mjs, 2026-10-02): what was seen, and when the student began to aim.
+    // Absent on every question saved before, which is given its sighting when it is taken up (sim/chores.mjs `beginAim`).
+    const sight = entity.chore?.ask?.sight, aim = entity.chore?.ask?.aim;
+    if (sight !== undefined && (typeof sight?.seed !== 'string' || !GAME[sight.quarry] || !['timber', 'brush', 'open'].includes(sight.cover) || !(sight.hand?.sway >= 0) || !(sight.hand.hangMs >= 0))) throw new Error('Invalid sighting');
+    if (aim !== undefined && (!sight || !Number.isFinite(aim?.startedAt))) throw new Error('Invalid aim');
     if (entity.travel && (!Array.isArray(entity.travel.points) || entity.travel.points.length < 2 || !Number.isFinite(entity.travel.progress) || !Number.isFinite(entity.travel.speed) || entity.travel.speed <= 0 || entity.travel.progress < 0 || entity.travel.progress > entity.travel.distance)) throw new Error('Invalid travel');
     // Absent on every journey over open road and every class saved before the going (sim/ground.mjs), which travels as it did.
     if (entity.travel?.pace !== undefined && (!Array.isArray(entity.travel.pace) || entity.travel.pace.some(run => !Array.isArray(run) || !Number.isInteger(run[0]) || run[0] < 0 || run[0] >= entity.travel.points.length - 1 || !Number.isFinite(run[1]) || run[1] <= 0))) throw new Error('Invalid going');

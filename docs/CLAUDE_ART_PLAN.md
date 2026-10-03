@@ -13,8 +13,8 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | C — Soldiers, battles and famous people | 21 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 19 | 2 | 19 | 3 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 2 | 11 | 17 |
-| **Total** | **107** | **20** | **93** | **27** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 12 | 2 | 11 | 17 |
+| **Total** | **108** | **20** | **93** | **27** |
 
 ## How a builder works
 
@@ -575,7 +575,7 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 11 to make, 17 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 12 to make, 17 skipped.
 
 - [ ] **F1** (priority 1) — [Request 2026-09-15 — face portraits for the family panel](ART_REQUESTS.md#request-2026-09-15--face-portraits-for-the-family-panel) — **Claude stand-in in place** (`portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant`); Astra's replaces it
   - **Deliver:** `portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`
@@ -602,6 +602,11 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 6-8 frames, looping. **Size:** Readable at 30-160 px, anchored at the foot of the column
   - **Plugs into:** the `fires` in `drawWorld`, `public/app.js` (`window.__firesDrawn`)
   - **Stands in now:** the library's `smoke-rise` drawn three to four figures tall; a painted grey plume (Astra's library art reused)
+- [ ] **F17** (priority 2) — [Request 2026-10-02 — the hunter's first-person field](ART_REQUESTS.md#request-2026-10-02--the-hunters-first-person-field), items 1 and 2
+  - **Deliver:** `hunt-field-timber`, `hunt-field-brush`, `hunt-field-open` (each in summer and `-winter`; the far ground and the cover, eye height, no animal) and `hunt-rifle` (the long rifle seen over the hunter's shoulder, stock and lock low at the right, the muzzle and front sight free to be turned toward the aim)
+  - **Frames:** 6 backdrops; 1 rifle. **Size:** Backdrop: 1600×900, opaque, the horizon at 51% of the height, the middle third clear of trunks; rifle: transparent, pivot at the muzzle
+  - **Plugs into:** `paintField`, `paintNear` and `drawRifle` in `public/hunt-aim.js`
+  - **Stands in now:** the field and the rifle painted in canvas (sky, crowns, trunks, brush and grass; a browned barrel and a cherry stock) (drawn in code (canvas or CSS))
 - [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (pine-loblolly-pole, cedar-pole, mesquite-pole, live-oak-pole, elm-pole, post-oak-pole, blackjack-pole, pecan-pole, hackberry-pole, sweetgum-pole, pine-loblolly-log, cedar-log, mesquite-log, live-oak-log, elm-log, post-oak-log, blackjack-log, pecan-log, hackberry-log, sweetgum-log, pine-loblolly-large, cedar-large, mesquite-large, live-oak-large, elm-large, post-oak-large, blackjack-large, pecan-large, hackberry-large, sweetgum-large, pine-longleaf-pole, pine-longleaf-log, pine-longleaf-large, palm-sabal-pole, palm-sabal-log, palm-sabal-large, cypress-bald-pole, cypress-bald-log, cypress-bald-large, magnolia-log, magnolia-large, beech-log, beech-large, cottonwood, scrub, reeds, prickly-pear, marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`pine-loblolly-pole-wind`, `cedar-pole-wind`, `mesquite-pole-wind`, `live-oak-pole-wind`, `elm-pole-wind`, `post-oak-pole-wind`, `blackjack-pole-wind`, `pecan-pole-wind`, `hackberry-pole-wind`, `sweetgum-pole-wind`, `pine-loblolly-log-wind`, `cedar-log-wind`, `mesquite-log-wind`, `live-oak-log-wind`, `elm-log-wind`, `post-oak-log-wind`, `blackjack-log-wind`, `pecan-log-wind`, `hackberry-log-wind`, `sweetgum-log-wind`, `pine-loblolly-large-wind`, `cedar-large-wind`, `mesquite-large-wind`, `live-oak-large-wind`, `elm-large-wind`, `post-oak-large-wind`, `blackjack-large-wind`, `pecan-large-wind`, `hackberry-large-wind`, `sweetgum-large-wind`, `pine-longleaf-pole-wind`, `pine-longleaf-log-wind`, `pine-longleaf-large-wind`, `palm-sabal-pole-wind`, `palm-sabal-log-wind`, `palm-sabal-large-wind`, `cypress-bald-pole-wind`, `cypress-bald-log-wind`, `cypress-bald-large-wind`, `magnolia-log-wind`, `magnolia-large-wind`, `beech-log-wind`, `beech-large-wind`, `cottonwood-wind`, `scrub-wind`, `reeds-wind`, `prickly-pear-wind`, `marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
   - **Deliver:** a gale silhouette for each remaining tree kind and ground mark - pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` (`<tree>-wind`)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite

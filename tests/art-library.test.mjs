@@ -129,11 +129,9 @@ test('every sprite the simulation names is a frame the library actually has', ()
  */
 const NOT_DRAWN = Object.freeze({
   // The hunt has two projected states for a quarry - standing, and alert while the family is asked about the shot - so
-  // the two cycles that would need a third and a fourth are registered and wait for one. The bound (running) frames want
-  // a missed-shot state the simulation does not project; the wing display wants a spring gobbler's strut it has no
-  // season for.
-  'turkey-bound-1': 'no missed-shot state is projected', 'turkey-bound-2': 'no missed-shot state is projected',
-  'turkey-bound-3': 'no missed-shot state is projected', 'turkey-bound-4': 'no missed-shot state is projected',
+  // the cycles that would need a third are registered and wait for one. The bound (running) frames are drawn since 2026-10-02,
+  // when a missed shot made the quarry run (`fled`) and the student's own field drew it crossing (public/hunt-aim.js); the wing
+  // display wants a spring gobbler's strut it has no season for.
   'turkey-display-1': 'no strutting state is projected', 'turkey-display-2': 'no strutting state is projected',
   'turkey-display-3': 'no strutting state is projected', 'turkey-display-4': 'no strutting state is projected',
   // Victoria has one Round Top House and Liberty one court room; the second view of each is for a layout that wants it

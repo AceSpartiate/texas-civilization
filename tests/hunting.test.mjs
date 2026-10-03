@@ -425,12 +425,13 @@ test('nobody stands in a wood for ever waiting on a student who has gone elsewhe
   // "We chose this" and "nobody was listening" are two different stories about the same
   // family, and the epilogue is built out of exactly these.
   const lapsed = world.events.find(event => /Nobody answered/.test(event.text));
-  // Since 2026-09-27 the question lapses (sim/lapse.mjs, `lapsedChoice`): nothing is chosen, so no powder is spent on a
-  // shot nobody took, and the hunter comes away. Before, it was decided as auto decides.
-  assert.equal(lapsed.type, 'consequence');
-  assert.equal(lapsed.lapsed, true);
-  assert.match(lapsed.text, /the question lapsed\. Nothing new was chosen: .* did nothing more: leave it and come home/);
-  assert.ok(!world.events.some(event => event.decision && event.actorId === 'hh-1-mateo'), 'something was chosen for Mateo');
+  // From 2026-09-27 to 2026-10-02 the question lapsed (sim/lapse.mjs): nothing was chosen, and the hunter came away. Since the
+  // sighting (owner, 2026-10-02; sim/hunt-aim.mjs, sim/chores.mjs `lapsedChoice`) the hunter takes the shot himself, as auto would,
+  // and the record says nobody answered and what he chose - a story of its own, not a choice the family made.
+  assert.equal(lapsed.type, 'choice');
+  assert.notEqual(lapsed.lapsed, true);
+  assert.match(lapsed.text, /^Nobody answered\. \w+ decided alone: (take the shot|wait for it to come closer)\.$/);
+  assert.equal(lapsed.importance, 2);
 });
 
 test('an answer nobody was offered is refused, and so is answering for another family', () => {

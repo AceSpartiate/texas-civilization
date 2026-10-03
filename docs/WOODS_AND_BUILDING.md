@@ -205,6 +205,70 @@ because there's no woods. thats okay"*; and, by multiple choice, the woods round
 - `ceiling:` on foot only, so a hunt on the family's land brings home what one person carries; taking the wagon out over the family's own land is the way out. `ceiling:` how good the ground is decides only how long the wait is; how many deer a stand holds, and a hunted place growing poorer, are not modelled.
 - **Browser** (same computer only, not LAN): *Hunt on our land* on Zadok's panel, the panel *"Where Zadok hunts"*, a tap a sixth of a mile east of the house read *"Prairie beside the house. Open ground that game seldom crosses: the longest wait."*, *Hunt there* sent him walking out, waiting still seven ticks with a deer drawn at the family's line. No page errors. Tests: `tests/hunt-land.test.mjs` (5); twenty-one injected regressions, twenty caught; the twenty-first set the mode inside the chore, which the order already does, and the line was taken out.
 
+### 5.2 The shot aimed by the student — owner-decided 2026-10-02 (not released)
+
+> "when a character goes hunting, when they see an animal the player should see an alert. if players click on it in time, then a
+> first person mini game starts where they have to aim and hit the moving animal. if they miss, the animal runs away."
+>
+> — the owner, 2026-10-02
+
+**The sighting is the hunt's own question** (`shot`, sim/chores.mjs), opened where it always was - waiting downwind, with the quarry the
+place holds (`quarryAt`, the season and the range as before) - and every hunt that asks it: *Hunt on our land*, *Hunt in the timber*
+and *Hunt from the camp* on the road east. Beside the question the server now keeps **what was sighted** (`ask.sight`, `sightingOf`):
+the seed of the animal's run, the quarry, the cover the field is drawn as (timber, brush or open), the month and the sky, and **the
+hunter's hand** (`handOf`, sim/hunt-aim.mjs) - his hunting skill, tired or not, the rifle put in order by the gunsmith or not, and the
+powder damp or not, the four things the old rule read.
+
+- **The alert.** For a played family at its screen, the hunter's row gets the "!" (`sighting`, ranked with work that asks, after the
+  owner's order of ¡Alto!, the road, the order to leave, the sick, the rider, the call and the army) and the messages card goes up in the
+  story cards' frame: *On the hunt* - **A deer!** - *"Noah Ruiz is downwind of a deer in the timber. Take the shot yourself, or Noah
+  will."* - the seconds left - **Take the shot**. The town's scene and the rooms make way for it (`URGENT`).
+- **The window: fifteen real seconds** (`QUESTION_BUDGETS.sighting`, sim/decision-budget.mjs), on the real-time clock every question
+  uses: held while the Host pauses, kept in the save, a tick stepped in process counting one Study tick (so two ticks at Study, fifteen at
+  Quick). It holds only the one person; the class's calendar goes on.
+- **Taken up in time** (the card's button, the "!", or *Take the shot* on the hunter's card): the page sends `aim-shot`, the server notes
+  **when, on its own clock** (`ask.aim.startedAt`, the server's `now`), and the field opens over the whole screen - the student's view
+  over the hunter's shoulder (public/hunt-aim.js). The animal comes into the view from one side, **stops to look** for a second and a
+  half (a deer; a bear a little less, a turkey and the faster quarry less again; flying fowl never), and runs on out of the other side.
+  *Wait for it to come closer* and *Leave it* are still on the hunter's card and do what they always did.
+- **One shot.** The mouse moves the sights and a click fires; on a touch screen a touch or a drag puts the sights there and **Fire**
+  fires (a thumb on the glass is not a trigger); the arrow keys move them (Shift slowly), Space or Enter fires, Escape lets it go. The
+  sights **wander** with the hunter's hand - about a deer's body for a hand without the knack, hardly at all for the best shot on the land,
+  more when tired, a third less with the rifle put in order - in a slow figure of eight the student can time. **Damp powder hangs fire**:
+  the ball goes a third of a second after the trigger, so a running animal must be led; said on the field before the shot.
+- **Server authority** (sim/hunt-aim.mjs, `fireShot`). The page sends only *when it fired* (ms from the press that opened the field)
+  and *where the sights were held*; the server bounds that moment by what it has itself seen pass (no more than 1.5 s ahead of it, no more
+  than 4 s behind), adds the hand's wander itself, finds the animal on **the path it made from its own sighting**, and judges the ball
+  against the body. No sighting, no aim opened, a second shot at the same animal, or a shot after it has crossed out of the view: refused
+  or let go, never a kill. `ceiling:` the page draws the path, so a page that lies about its moment inside that window can choose it; it
+  gains one animal it was shown. A server that streamed the path a frame at a time is the way out, if a class ever cheats.
+- **Hit**: the animal goes down where it stood; the shot is fired and spends **one powder**, and the strike brings the kill home exactly as
+  every hunt's does (`killYield`: the meat one person carries, the hide, the winter's lean deer and fat turkeys). **Miss**: one powder spent,
+  nothing carried, *"Noah fired and missed, and the deer was away into the timber."*, and the animal **runs** - in the field, and on the map,
+  where the server's quarry is marked `fled` and drawn bounding away (`deer-bound`, `turkey-bound`, `mustang-gallop`) until the hunter
+  turns for home. **Let go** (Escape, *Let it go*, or the animal out of the view unfired): nothing spent, nothing carried. A field opened and
+  never fired is let go when its window is out (`QUESTION_BUDGETS.aim`, thirty seconds).
+- **Not taken up in time: the hunter takes the shot himself**, at the odds the hunt always had (`lapsedChoice` → `autoChoice`: the shot
+  for a steady hand or a rifle put in order, waiting for it to come closer otherwise), and the journal says *"Nobody answered. Noah decided
+  alone: take the shot."* Chosen over "the animal moves on" because a slow or absent student's family eats as it did before the mini-game,
+  and the hunt's balance (docs/BALANCE.md) is untouched: what a student gives up by not answering is the play, not the food. This amends
+  the lapse of 2026-09-27 for the shot alone (`FIC-GONZ-633`); every other question still lapses. **An owner question** (HANDOFF.md).
+- **Auto and absence unchanged**: a hunter on auto, a family whose student has gone and a family nobody plays answer the shot the tick it
+  is asked, as before; nothing is opened and nothing is timed. A hunter put on auto while the sighting is open is not the student's to aim.
+- **Nobody else sees it**: the sighting, the aim and the shot are in the hunter's chore, which only the family's own page is sent; another
+  family's map sees the hunter and the drawn quarry as before, and the Host's page nothing of it.
+- **Less motion** (the page asks the browser): the animal does not bound, runs at seven tenths, stands half again as long, and the sights
+  wander slower and a fifth less; no kick, no flash. The page tells the server (`aim-shot` with `calm`), which judges on the same calm path.
+- **Art**: the animals are Astra's own clips at the field's scale; the field and the rifle are painted in canvas (`stand-in:`,
+  docs/ART_REQUESTS.md request 2026-10-02, *the hunter's first-person field*). The smoke is the battle's white-grey black powder
+  (public/battle-view.js), a cloud bigger than the deer rolling off on the wind; the shot is the battle's musket sound.
+- `FIC-GONZ-1080`. Every number - the window, the wander, the speeds, the stop, the body a ball must find - is the game's own, tuned so a
+  careful middle-schooler hits a deer standing still and a hurried one misses a running one. No source is claimed for any of it.
+- **Gates**: `tests/hunt-aim.test.mjs` (13), each check proved by injection (`node scripts/hunt-aim-injections.mjs`, and `--browser`);
+  `npm run test:hunt-aim` - the alert, a hit with the mouse at 1366x768, a miss with the keyboard at 1024x600 from the "!", a touch shot
+  with less motion, and nothing of it on another family's page or the Host's ([record](evidence/hunt-aim-browser.json), screenshots
+  `docs/evidence/hunt-aim-*.png`). Same computer only.
+
 ---
 
 ## 6. Felling, logs and the house

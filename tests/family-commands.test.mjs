@@ -70,16 +70,18 @@ test('work that stops to ask is an "!" on the person doing it, until it is answe
   const hunter = household.members.find(id => offered[id]?.some(entry => entry.id === 'hunt-timber' && entry.can));
   assert.ok(hunter, 'nobody may hunt, so this test would prove nothing');
   applyAction(world, 'hh-1', { action: 'chore', entityId: hunter, chore: 'hunt-timber' });
+  // The hunt's question is a sighting since 2026-10-02 (sim/hunt-aim.mjs): its "!" is the sighting's, in the work question's place.
+  const asking = kinds => (kinds || []).some(kind => kind === 'asking' || kind === 'sighting');
   for (let i = 0; i < 400 && !world.entities[hunter].chore?.ask && world.entities[hunter].chore; i++) {
-    assert.ok(!(marked(world, 'hh-1')[hunter] || []).includes('asking'), 'marked before the work asked anything');
+    assert.ok(!asking(marked(world, 'hh-1')[hunter]), 'marked before the work asked anything');
     stepWorld(world);
   }
   const ask = world.entities[hunter].chore?.ask;
   assert.ok(ask, 'the hunt never stopped to ask');
-  assert.ok(marked(world, 'hh-1')[hunter].includes('asking'));
+  assert.ok(marked(world, 'hh-1')[hunter].includes('sighting'));
   applyAction(world, 'hh-1', { action: 'answer-chore', entityId: hunter, option: ask.options.at(-1).id });
   assert.equal(world.entities[hunter].chore?.ask ?? null, null, `the answer ${ask.options.at(-1).id} left the question open`);
-  assert.ok(!(marked(world, 'hh-1')[hunter] || []).includes('asking'), 'still marked after the answer');
+  assert.ok(!asking(marked(world, 'hh-1')[hunter]), 'still marked after the answer');
 });
 
 test('a call and an army question are "!"s on whoever may answer them, and nothing once answered', () => {
@@ -102,7 +104,11 @@ test('a call and an army question are "!"s on whoever may answer them, and nothi
     encounter: { status: 'open', listenerId: 'a', carrierName: 'Ben' }, offers: [{ direction: 'received', ourEntityId: 'a', theirName: 'Cy' }],
     flight: { status: 'ordered', ask: { id: 'bog', text: 'The wagon is fast in the mud.' } }, household: { mainId: 'a' },
   };
-  assert.deepEqual(needsOf(everything, 'a').map(need => need.kind), NEED_KINDS.filter(kind => kind !== 'alto'));
+  // One work question at a time: a shot with what was sighted beside it is the sighting's "!" (owner, 2026-10-02; sim/hunt-aim.mjs),
+  // in the work question's place; asked before a sighting was kept (an old save), it is work that has stopped to ask, as it was.
+  assert.deepEqual(needsOf(everything, 'a').map(need => need.kind), NEED_KINDS.filter(kind => kind !== 'alto' && kind !== 'sighting'));
+  const sighting = { ...everything, entities: [{ ...everything.entities[0], chore: { ask: { id: 'shot', sight: { quarry: 'turkey', cover: 'brush' } } } }] };
+  assert.deepEqual(needsOf(sighting, 'a').map(need => need.kind), NEED_KINDS.filter(kind => kind !== 'alto' && kind !== 'asking'));
   // And the soldiers' ¡Alto!, which takes the road question's place, before everything.
   assert.equal(needsOf({ ...everything, flight: { status: 'fled', ask: { id: 'alto', text: '¡Alto!' } } }, 'a')[0].kind, 'alto');
   // The Host is never waited on, and the dead and captured are not asked anything.

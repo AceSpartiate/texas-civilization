@@ -98,7 +98,7 @@ export const ALWAYS = Object.freeze([
   'chore:child-stick-horse', 'chore:child-doll', 'chore:child-tag', 'chore:child-hide', 'chore:child-cart', 'chore:child-hoop',
   'chore:child-marbles', 'chore:child-hens',
   'rename', 'set-main', 'set-auto', 'set-appearance', 'place-item', 'work', 'rest', 'travel',
-  'stop-chore', 'answer-chore', 'ask-rider', 'leave-rider',
+  'stop-chore', 'answer-chore', 'aim-shot', 'fire-shot', 'ask-rider', 'leave-rider',
   'roll-family', 'load-wagon', 'bring-stock',
   'offer', 'accept-offer', 'decline-offer', 'withdraw-offer', 'chore:help-raise',
   // And help offered back between families (sim/neighbourly.mjs): an answer to a neighbour, like a trade's.

@@ -2141,3 +2141,33 @@ it'"*. This widens §23 from two works to every one.
   was hidden), proof `npm run test:field-click`, every check proved by injection (`node scripts/field-click-injections.mjs`,
   [record](evidence/field-click-injections.json)). Same computer only.
 
+## 24. A sighting on the hunt: the "!", the card, and the shot aimed by the student — owner-decided 2026-10-02 (not released)
+
+> "when a character goes hunting, when they see an animal the player should see an alert. if players click on it in time, then a
+> first person mini game starts where they have to aim and hit the moving animal. if they miss, the animal runs away."
+>
+> — the owner, 2026-10-02
+
+The hunt and the field are docs/WOODS_AND_BUILDING.md §5.2. On the panel:
+
+- **The "!"**: a hunter downwind of something sighted has the `sighting` need (`needsOf`, public/family-panel.js) in place of the
+  plain *work has stopped to ask* - *"Noah Ruiz is downwind of a deer in the timber. Take the shot yourself, or Noah will."* - with its
+  fifteen seconds counted down on the badge. Ranked with work that asks (`NEED_KINDS`: after the army, the camp and Travis's riders,
+  before work that asks), so it never outranks the owner's order of 2026-09-28. **Pressed, the "!" takes the shot**: the field opens
+  (`openNeed`), not the person's card. Once the student is aiming, the "!" is gone - nothing waits on them on the panel.
+- **The card** (`militaryNotices`, public/military-attention.js): the story cards' frame (§20b), its own accent - the timber's
+  green-brown, breathing fast (1.2 s) - the hunt icon (`icon-hunt-land`), the eyebrow *On the hunt*, the title the animal (**A deer!**,
+  **A bear!**, **Ducks and geese!**), the time left, and one button, **Take the shot**, which opens the field. Its id carries the
+  sighting's seed, so a second deer the same afternoon springs the card open again. It ranks after ¡Alto!, the road, the order to leave
+  and the call, before a rider (`ORDER`), and counts as a question that will not wait (`URGENT`: the town's scene and the rooms make way).
+  It does not hold back the Watch card, as a sickness does not.
+- **The hunter's card** still lists the three answers: **Take the shot** opens the field (the student's own shot); **Wait for it to come
+  closer** and **Leave it and come home** do what they always did.
+- **The field** (public/hunt-aim.js) is a dialog over the whole page: the words at the top left (*On the hunt* - *A deer! Noah has the
+  rifle up.* - the hunter's hand in a sentence), the way to aim at the bottom left, **Fire** and **Let it go** at the bottom right (60 px
+  high, for a thumb), and afterwards the result in the card's paper in the upper middle (*A clean shot!*, *Missed!*, *Gone*) with **Back
+  to the family**, which takes the focus; it closes by itself after nine seconds. Screen readers hear the animal come in, stop and run
+  (`aria-live`), and the result.
+- Gates: `tests/hunt-aim.test.mjs` (the need, the card's words and time), `tests/family-commands.test.mjs` (the sighting takes the work
+  question's place in the column's order), `npm run test:hunt-aim` and `npm run test:story-cards` (the card photographed with the others).
+

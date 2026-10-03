@@ -157,7 +157,9 @@ test('¡Alto! waits thirty real seconds at every pace with the chase held: nobod
   }
 });
 
-test('a hunter\'s question waits ninety real seconds in every phase: a tick of four hours does not lapse it', () => {
+// Since 2026-10-02 the hunter's question is a sighting (owner: "if players click on it in time"; sim/hunt-aim.mjs): fifteen real
+// seconds, not ninety, and then the hunter takes the shot himself rather than the question lapsing (tests/hunt-aim.test.mjs).
+test('a hunter\'s sighting waits its fifteen real seconds in every phase: a tick of four hours does not end it', () => {
   // Twenty minutes a tick as at home, and four hours as in the winter (sim/clock.mjs `CALENDAR_SCALE.gathering`), where two
   // hours of the calendar was one tick. The invented country's one afternoon is too short for the campaign's twelve.
   for (const calendar of [20, 240]) {
@@ -171,11 +173,11 @@ test('a hunter\'s question waits ninety real seconds in every phase: a tick of f
     const step = () => withCalendarStep(world, calendar, () => stepWorld(world));
     for (let t = 0; t < 200 && !elena.chore?.ask; t++) step();
     assert.ok(elena.chore?.ask, 'the hunt never asked');
-    assert.equal(view(world, 'hh-1').entities.find(one => one.id === elena.id).chore.ask.leftMs, QUESTION_BUDGETS.work, 'the question went to the page without its ninety seconds');
+    assert.equal(view(world, 'hh-1').entities.find(one => one.id === elena.id).chore.ask.leftMs, QUESTION_BUDGETS.sighting, 'the sighting went to the page without its fifteen seconds');
     let ticks = 0;
     while (elena.chore?.ask && ticks < 100) { step(); ticks++; }
-    assert.equal(ticks, ticksAt(QUESTION_BUDGETS.work, STUDY_TICK_MS), `at ${calendar} calendar minutes a tick the shot waited ${ticks} ticks`);
-    assert.ok(world.events.some(e => e.actorId === elena.id && e.lapsed), 'the question did not lapse');
+    assert.equal(ticks, ticksAt(QUESTION_BUDGETS.sighting, STUDY_TICK_MS), `at ${calendar} calendar minutes a tick the shot waited ${ticks} ticks`);
+    assert.ok(world.events.some(e => e.actorId === elena.id && /Nobody answered\. .* decided alone/.test(e.text)), 'the hunter did not take the shot himself when the sighting ran out');
   }
 });
 

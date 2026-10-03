@@ -46,6 +46,7 @@ import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, li
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
 import { EYEBROWS, ICONS, URGENT, militaryNotices } from '/military-attention.js';
+import { mountHuntAim } from '/hunt-aim.js';
 // Read aloud (owner, 2026-09-30, D15; docs/READ_ALOUD.md): a button on the words, played in a voice made on the teacher's laptop.
 import { cardLines, createReadAloud, voiceOfPerson } from '/read-aloud.js';
 import { createBattleView, personArt } from '/battle-view.js';
@@ -270,6 +271,16 @@ const goingPopup = mountGoing({
   $, element, api, say,
   send: input => api('/api/command', { ...input, id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}` }),
 });
+// The shot aimed by the student (owner, 2026-10-02; public/hunt-aim.js, sim/hunt-aim.mjs): opened by the sighting's card, its "!" and
+// *Take the shot* on the hunter's card. Its two orders go through here so their ids are made as every command's is.
+const huntAim = mountHuntAim({
+  send: input => api('/api/command', { ...input, id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}` }),
+  sound: id => soundscape?.play(id, { gain: 1 }),
+  reducedMotion,
+  onClosed: () => { if (window.__snapshot) render(window.__snapshot); },
+});
+/** Opens the field for this person's sighting, if one is open to them; false when there is none (the press does what it always did). */
+const takeTheShot = (world, entityId) => Boolean(world && world.role !== 'host' && huntAim.open(world, entityId));
 const EMPTY_MAP = { sites: {}, routes: {}, terrain: [] };
 // The catalogue of work is fixed for a class, so it is fetched once alongside the map.
 // Only whether a given person may do a given chore rides on the tick.
@@ -595,7 +606,11 @@ function turkeyFallback(ctx, x, y, size, flip = false) {
  */
 // A mustang stands taller than a deer: it is a horse, drawn near the family's own horse's height (`SIZE.horse`).
 const QUARRY_SIZE = Object.freeze({ deer: 1.1, turkey: .63, mustang: 1.45 });
-function miniQuarry(ctx, x, y, size, { kind = 'deer', flip = false, alert = false, seed = 0 } = {}) {
+// Missed, or let go (owner, 2026-10-02: "if they miss, the animal runs away"; sim/chores.mjs `fireShot`): the server marks the quarry
+// `fled`, and it is drawn running, away from the hunter, until the hunter turns for home and it is taken off the map.
+const QUARRY_RUN = Object.freeze({ deer: 'deer-bound', turkey: 'turkey-bound', mustang: 'mustang-gallop' });
+function miniQuarry(ctx, x, y, size, { kind = 'deer', flip = false, alert = false, fled = false, seed = 0 } = {}) {
+  if (fled && QUARRY_RUN[kind] && animated(ctx, QUARRY_RUN[kind], x, y, size, seed, { flip })) return;
   if (kind === 'mustang') {
     // Astra's `wildlife-mustang` (2026-09-21): grazing while the hunter is still coming, head up the moment the family is
     // asked whether to take the shot - the deer's contract exactly. The eight gallop beats have no state to be drawn in.
@@ -4019,7 +4034,7 @@ function drawWorldNow(world) {
       const kind = quarry.kind || 'deer';
       const spot = camera.toScreen(quarry);
       standing.push({ y: spot.y, draw: () => miniQuarry(ctx, spot.x, spot.y, camera.figure * (QUARRY_SIZE[kind] || QUARRY_SIZE.deer), {
-        kind, flip: spot.x < point.x, alert: Boolean(entity.chore.ask), seed: entity.id,
+        kind, flip: spot.x < point.x, alert: Boolean(entity.chore.ask), fled: Boolean(quarry.fled), seed: entity.id,
       }) });
       window.__quarryDrawn = { id: entity.id, kind, x: spot.x, y: spot.y };
     }
@@ -5845,7 +5860,7 @@ function refusedUnseen(id) {
   return true;
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
-const NEED_SECTIONS = { alto: '#selection-flight', army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', child: '#selection-work', offer: '#selection-trade', sick: '#selection-nurse' };
+const NEED_SECTIONS = { sighting: '#selection-work', alto: '#selection-flight', army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', child: '#selection-work', offer: '#selection-trade', sick: '#selection-nurse' };
 /**
  * The tag on a "!": its number among the family's "!"s when there is more than one, and the time left where the question
  * will lapse, counted down on this page's own clock from what the server last said (S33). The server's clock is the one that
@@ -5873,6 +5888,8 @@ function openNeed(id, kind = null) {
   const world = window.__snapshot?.world;
   if (!world) return;
   const need = (kind && needsOf(world, id).find(one => one.kind === kind)) || needsOf(world, id)[0];
+  // The "!" of a sighting takes the shot, as its card does (owner, 2026-10-02: "if players click on it in time").
+  if (need?.kind === 'sighting' && takeTheShot(world, id)) return;
   goToPerson(id);
   if (!need) return;
   let target = null;
@@ -7895,7 +7912,8 @@ $('#military-go')?.addEventListener('click', async () => {
   // To the person, chosen but not made main (B11, as a portrait): the army's questions are theirs to answer whoever is main.
   goToPerson(notice.entityId);
   if (notice.kind === 'siege' || notice.kind === 'account') $('#selection-close')?.focus();
-  else openNeed(notice.entityId);
+  // A sighting's button takes the shot through the same door as its "!" (`openNeed`): the field opens to aim across (owner, 2026-10-02).
+  else openNeed(notice.entityId, notice.kind === 'sighting' ? 'sighting' : null);
 });
 /**
  * Tips at first meeting (owner, 2026-09-28: "Short tips at first meeting"; public/tips.js, sim/tips.mjs, docs/LESSON.md §9).
@@ -8753,6 +8771,8 @@ function render(snapshot) {
   renderTip(world, { hidden: Boolean(creating) || courtshipScenes.open });
   renderReadAloud();
   soundscape?.observe(snapshot);
+  // The shot aimed by the student (public/hunt-aim.js): the server's verdict comes in the snapshot after the trigger.
+  huntAim.update(world);
 }
 /**
  * The dim behind a panel that stands where the family's own column is (owner, 2026-09-21). It is read off the panels
@@ -9161,6 +9181,12 @@ document.addEventListener('click', async event => {
   if (button.dataset.confirming === 'true' && SLOW_CONFIRM.has(button.dataset.confirmKey) && Date.now() - Number(button.dataset.armedAt || 0) < SLOW_CONFIRM_MS) return;
   resetConfirm(button);
   const world = window.__snapshot?.world;
+  // *Take the shot* on a hunter's card is the student's own shot since 2026-10-02 (public/hunt-aim.js): the field opens to aim across.
+  // Waiting for it to come closer and leaving it are answered as they always were; the hunter's own shot is what the window's end takes.
+  if (action === 'answer-chore' && button.dataset.option === 'take') {
+    const hunter = button.dataset.entityId || selectedEntity(world)?.id;
+    if (hunter && takeTheShot(world, hunter)) return;
+  }
   const input = { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action };
   // The five-household rule is a guard, not a wall: the server says so once and means it,
   // and a second press goes ahead. That is what makes a class of one testable on one

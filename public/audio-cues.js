@@ -111,7 +111,8 @@ export function snapshotCues(state, snapshot) {
     if (person.baby?.state === 'cry') { crying.add(person.id); add({ id: 'baby', entity: person.id }); }
     const chore = person.chore;
     if (!chore) continue;
-    if (chore.doing === 'the shot') {
+    // A shot the student aimed was heard on their own page when they fired it (public/hunt-aim.js), not again a tick later.
+    if (chore.doing === 'the shot' && !(chore.flags || []).includes('aimed')) {
       const key = `${person.id}:${world.tick ?? world.minute}`;
       if (!state.shots.has(key)) { state.shots.add(key); add({ id: 'musket', entity: person.id }); }
     }

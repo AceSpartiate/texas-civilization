@@ -2,7 +2,7 @@
 // reaching the distant homestead. See docs/MILITARY_EXPERIENCE.md, FIC-GONZ-322.
 // Travis's runner (sim/alamo-runner.mjs, 2026-09-22) is a person who walks to the family's person inside the Alamo: while he
 // crosses the plaza the card says he is coming, and once he stands with them it leads to what he says and the two answers.
-import { needsOf } from './family-panel.js';
+import { SIGHTED, needsOf } from './family-panel.js';
 
 export function militaryNotices(world) {
   if (!world || world.role === 'host') return [];
@@ -71,7 +71,8 @@ export function militaryNotices(world) {
       const moment = MOMENTS[need.kind];
       if (!moment) continue;
       if (need.kind === 'call') { if (seenCall.has(world.request?.id)) continue; seenCall.add(world.request?.id); }
-      notices.push({ id: `${need.kind}:${need.kind === 'call' ? world.request?.id : person.id}`, entityId: person.id, kind: need.kind,
+      // Each sighting its own card (its seed): a second deer the same afternoon springs the card open again, as a fresh moment.
+      notices.push({ id: `${need.kind}:${need.kind === 'call' ? world.request?.id : need.kind === 'sighting' ? `${person.id}:${person.chore?.ask?.sight?.seed}` : person.id}`, entityId: person.id, kind: need.kind,
         title: moment.title(person, world), text: need.text, action: moment.action(person, world), ...(Number.isFinite(need.leftMs) && { leftMs: need.leftMs }) });
     }
   }
@@ -102,8 +103,10 @@ export function militaryNotices(world) {
  * messages nothing the student opens may stand on them: the town's scene and the rooms of the house make way (triage
  * 2026-09-29, 2.2; `clearOfNotice` in public/app.js).
  */
-export const URGENT = Object.freeze(new Set(['alto', 'road', 'flight', 'call', 'rider', 'courier', 'orders', 'sick', 'hunger']));
-const ORDER = Object.freeze({ alto: -3, road: -2, flight: -2, call: -1, rider: 0, courier: 0, orders: 0, battle: 1, sick: 1.5, hunger: 1.5, account: 2, siege: 3 });
+// The sighting on a hunt (owner, 2026-10-02) has the shortest clock of all, fifteen seconds: the rooms and the town's scene make way
+// for it, and among the cards it stands after the family's road and the call, before a rider (who waits ninety).
+export const URGENT = Object.freeze(new Set(['alto', 'road', 'flight', 'call', 'rider', 'courier', 'orders', 'sick', 'hunger', 'sighting']));
+const ORDER = Object.freeze({ alto: -3, road: -2, flight: -2, call: -1, sighting: -0.5, rider: 0, courier: 0, orders: 0, battle: 1, sick: 1.5, hunger: 1.5, account: 2, siege: 3 });
 /** Where the army's request for supplies stands among the messages: after the fight's card, before somebody very sick. */
 const SUPPLY_ORDER = 1.2;
 const first = person => person.given || String(person.name || '').split(' ')[0] || 'them';
@@ -119,8 +122,11 @@ export const MOMENTS = Object.freeze({
   sick: { title: person => `${first(person)} is very sick`, action: person => `Go to ${first(person)}` },
   // Somebody starving (sim/hunger.mjs, owner 2026-09-30): the story card's alarm, in as few words as the "!".
   hunger: { title: person => `${first(person)} is starving`, action: person => `Go to ${first(person)}` },
+  // Something sighted on a hunt (owner, 2026-10-02: "when they see an animal the player should see an alert"; sim/hunt-aim.mjs): the
+  // animal, as the hunter sees it, and the button that opens the field to aim across (public/hunt-aim.js).
+  sighting: { title: person => { const a = SIGHTED[person?.chore?.ask?.sight?.quarry] || SIGHTED.deer; return `${a.charAt(0).toUpperCase()}${a.slice(1)}!`; }, action: () => 'Take the shot' },
 });
 /** Each kind's eyebrow, over its title. */
-export const EYEBROWS = Object.freeze({ alto: '¡Alto!', road: 'On the road', flight: 'The order to leave', call: 'A call to arms', sick: 'Very sick', hunger: 'No food', rider: 'A rider', courier: 'Riders wanted', orders: 'In camp', battle: 'The fighting', account: 'After the fight', siege: 'Inside the Alamo' });
+export const EYEBROWS = Object.freeze({ sighting: 'On the hunt', alto: '¡Alto!', road: 'On the road', flight: 'The order to leave', call: 'A call to arms', sick: 'Very sick', hunger: 'No food', rider: 'A rider', courier: 'Riders wanted', orders: 'In camp', battle: 'The fighting', account: 'After the fight', siege: 'Inside the Alamo' });
 /** Each kind's icon, from the family panel's own icons (Astra's, and Claude's where hers is missing). */
-export const ICONS = Object.freeze({ alto: 'icon-flee-hide', road: 'icon-road-lookout', flight: 'icon-flee-bundle', call: 'icon-enlist-auxiliary', sick: 'icon-nurse-home', hunger: 'icon-sell-food', rider: 'mark-need-rider', courier: 'icon-join-relief', orders: 'icon-camp-drill', battle: 'icon-camp-guard', account: 'icon-travel-home', siege: 'icon-join-garrison' });
+export const ICONS = Object.freeze({ sighting: 'icon-hunt-land', alto: 'icon-flee-hide', road: 'icon-road-lookout', flight: 'icon-flee-bundle', call: 'icon-enlist-auxiliary', sick: 'icon-nurse-home', hunger: 'icon-sell-food', rider: 'mark-need-rider', courier: 'icon-join-relief', orders: 'icon-camp-drill', battle: 'icon-camp-guard', account: 'icon-travel-home', siege: 'icon-join-garrison' });

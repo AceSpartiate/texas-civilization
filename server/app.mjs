@@ -128,6 +128,10 @@ const files = new Map([
   ['/sim/house-footprint.mjs', ['../sim/house-footprint.mjs', 'text/javascript']],
   ['/family-panel.js', ['../public/family-panel.js', 'text/javascript']],
   ['/military-attention.js', ['../public/military-attention.js', 'text/javascript']],
+  // The shot aimed by the student (owner, 2026-10-02): the field on the page, and the one module the page and the server both read -
+  // the animal's path and the judging of a shot (sim/hunt-aim.mjs). The page draws it; the server's reading is the one that counts.
+  ['/hunt-aim.js', ['../public/hunt-aim.js', 'text/javascript']],
+  ['/sim/hunt-aim.mjs', ['../sim/hunt-aim.mjs', 'text/javascript']],
   // The guided start, on the screen (docs/FAMILY_PANEL.md §12, public/lesson.js): what the server's `world.lesson` shuts,
   // points at and says. It decides nothing; the lesson itself is the world's.
   ['/lesson.js', ['../public/lesson.js', 'text/javascript']],

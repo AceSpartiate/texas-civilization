@@ -1,5 +1,66 @@
 # Claude handoff — Astra foundation
 
+## The shot aimed by the student: a sighting, and a first-person field — owner-decided 2026-10-02 (not released)
+
+Branch `hunt-aim` off local `integration-2026-09-28` (c88a6ddb); not pushed. Same computer only. The owner, verbatim: *"when a character
+goes hunting, when they see an animal the player should see an alert. if players click on it in time, then a first person mini game
+starts where they have to aim and hit the moving animal. if they miss, the animal runs away."* Rules in docs/WOODS_AND_BUILDING.md
+§5.2; the panel and the card in docs/FAMILY_PANEL.md §24; `FIC-GONZ-1080` (a number left clear of the two builders working beside this).
+
+- **The sighting** is the hunt's own `shot` question, where it always was (every hunt: on our land, in the timber, from the camp on the
+  road east), now with what was sighted kept beside it (`ask.sight`: the run's seed, the quarry the place holds, the cover, the month and
+  sky, the hunter's hand). A played family at its screen gets the **"!"** on the hunter's row and the **story card** - *On the hunt* /
+  **A deer!** / *"Noah Ruiz is downwind of a deer in the timber. Take the shot yourself, or Noah will."* / the seconds left / **Take the
+  shot** - in the timber's green-brown. **Fifteen real seconds** (`QUESTION_BUDGETS.sighting`), on the real-time clock (held while paused,
+  in the save), holding only the one person.
+- **Take the shot** (the card, the "!", or *Take the shot* on the hunter's card) opens the **first-person field** over the whole page
+  (`public/hunt-aim.js`): the cover painted as timber, brush or prairie in the season and the sky; the animal - Astra's own clips, every
+  quarry (`deer-bound`/`-alert`, `turkey-bound`, `bear-alert-bound`, `bison-run`, `pronghorn-bound`, `mustang-gallop`, `wild-cattle-run`,
+  `javelina-alert-run`, `geese-flight`) - comes in from one side, **stops to look** (a deer a second and a half), and runs on out. One
+  shot: mouse (click), touch (touch or drag, then **Fire**), keyboard (arrows, Shift fine, Space/Enter, Escape lets it go). The sights
+  wander with the hunter's hand (skill, tired, the rifle put in order); damp powder **hangs fire** a third of a second. The shot is the
+  battle's musket and its white-grey black-powder cloud; a hit drops the animal, a miss sends it running (and the map's quarry runs too).
+- **Server authority** (`sim/hunt-aim.mjs`, shared by page and server; `beginAim`, `fireShot` in sim/chores.mjs): the page sends only
+  when it fired and where the sights were held; the server bounds the moment by its own clock (+1.5 s / -4 s), adds the wander, finds the
+  animal on the path it made, and judges. No sighting, no aim opened, a second shot, a shot after the animal had gone: refused or let go,
+  never a kill. Hit → the strike as every hunt's (meat one person carries, the hide, one powder). Miss → one powder, nothing, the animal
+  runs. Let go / unfired → nothing spent. `ceiling:` a page lying about its moment inside the window can choose it (it was shown the path).
+- **Not taken up in time: the hunter takes the shot himself** at the hunt's old odds (`autoChoice`), recorded *"Nobody answered. Noah
+  decided alone: take the shot."* - so a slow or absent student's family eats as before. This replaces the 2026-09-27 lapse **for the
+  shot only** (it used to come home empty). Auto, an absent student and a family nobody plays: unchanged, answered at once.
+- **Private**: the sighting, aim and shot ride on the hunter's chore, sent to the family's own page only; another family's map and the
+  Host's page see nothing of it (tested). Nothing on the projector.
+- **Less motion**: no bounding, a slower run, a longer stop, slower and smaller wander, no kick or flash; the page tells the server
+  (`calm`), which judges on the same calm path.
+- **Art**: stand-in for the field and the rifle, painted in canvas (`stand-in:` in public/hunt-aim.js; docs/ART_REQUESTS.md request
+  2026-10-02 *the hunter's first-person field*, plan item F17, listed under *Stand-ins in use*).
+- **Changed for the rule, not weakened**: tests/hunting.test.mjs (patience: the hunter decides alone instead of a lapse),
+  tests/auto.test.mjs (by hand: the sighting's window, then the hunter's own shot), tests/real-time-limits.test.mjs (fifteen seconds),
+  tests/family-commands.test.mjs and tests/road.test.mjs (the hunt's "!" is `sighting`), tests/art-library.test.mjs (`turkey-bound` is
+  drawn now). `scripts/story-cards-browser-proof.mjs` photographs the new card with the others.
+
+**Evidence** (same computer only):
+
+- `tests/hunt-aim.test.mjs` (13 tests) - **25 of 25** injected regressions caught (`node scripts/hunt-aim-injections.mjs`,
+  [record](docs/evidence/hunt-aim-injections.json)); the page's own by `--browser` ([record](docs/evidence/hunt-aim-injections-browser.json)).
+- `npm run test:hunt-aim` ([record](docs/evidence/hunt-aim-browser.json)): the alert at 1366x768, a **hit** with the mouse (kill, hide,
+  one powder), a **miss** with the keyboard at 1024x600 from the "!" (one powder, no food, the deer drawn running on the map), a touch shot
+  with less motion, and nothing on another family's page or the Host's. Screenshots `docs/evidence/hunt-aim-*.png`.
+- `npm test`: 2072 tests, 2036 pass, **0 fail** (the rest skipped as on integration). `test:hunt` (15 checks, the old three answers
+  still on the card), `test:field-click` (18) and `test:story-cards` (the sighting's card photographed with the others,
+  `docs/evidence/story-card-sighting.png`) pass. `test:auto` and `test:overlap` **fail identically on the base commit c88a6ddb**
+  (checked in a scratch worktree of it): `test:auto` at its harvest-on-auto step (`auto-browser-proof.mjs:263`, after its hunt checks
+  pass), `test:overlap` on three town-scene faults with *Milk the cow* at 1024x600 - both from the milking work, not this branch.
+
+**Owner questions** (recommended first):
+
+1. **A sighting the student did not take up in time** - (A, built) the hunter takes the shot himself at the hunt's old odds, so nobody's
+   family goes hungrier for being slow; (B) the animal moves on and the hunter comes home empty with no powder spent, the lapse rule of
+   2026-09-27; (C) the hunter waits on, and a second sighting comes later in the same hunt.
+2. **What the student's own aim is worth** - (A, built) the same kill as any hunt: its worth is that a poor hand's student can hit what
+   the hunter alone would miss, and sooner than waiting for it to come closer; (B) a clean hit brings more (the whole of the meat, or a
+   hide worth more at the tanner); (C) a hit in the field counts toward the hunter's hand, like an afternoon at the mark, to the same cap.
+
 ## Milking the cow, and the owner's four food answers — owner-decided 2026-10-02 (not released)
 
 Branch `milking` off local `integration-2026-09-28` (ba1ece77, with food-sources, tier3-road, tier3-sick and carry-kids); not pushed.

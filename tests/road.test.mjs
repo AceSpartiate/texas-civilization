@@ -209,7 +209,8 @@ test('a hunt from the camp halts the family where it is, asks the shot as at hom
   assert.equal(whereWords(world, hunter, household), 'waiting to get over at The Colorado crossing');
   until(world, () => hunter.chore?.ask, 12);
   assert.equal(hunter.chore?.ask?.id, 'shot', 'the hunt never stopped to ask');
-  assert.deepEqual(needsOf(view(world, household.id), hunter.id).map(need => need.kind), ['asking']);
+  // A sighting on the road east as at home (owner, 2026-10-02; sim/hunt-aim.mjs): its "!" is the sighting's.
+  assert.deepEqual(needsOf(view(world, household.id), hunter.id).map(need => need.kind), ['sighting']);
   applyAction(world, household.id, { action: 'answer-chore', entityId: hunter.id, option: 'take' });
   until(world, () => !hunter.chore, 12);
   assert.equal(hunter.chore, null, 'the hunt never ended');

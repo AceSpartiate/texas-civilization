@@ -476,7 +476,9 @@ export function meetingFor(world, entity) {
  * work that has stopped to ask, a small child whose own auto went off (2026-09-29), an offer. A person with more than one shows the first, and across the whole column the rows
  * are ranked by it (`rankNeeds`). Also which card section answers each (`NEED_SECTIONS` in public/app.js).
  */
-export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'hunger', 'rider', 'call', 'army', 'camp', 'courier', 'asking', 'child', 'offer']);
+// The sighting on a hunt (owner, 2026-10-02; sim/hunt-aim.mjs) is work that has stopped to ask, ranked with it: its own kind, so its
+// card and its "!" open the field to aim across rather than the person's card. Fifteen real seconds; it never outranks the owner's order.
+export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'hunger', 'rider', 'call', 'army', 'camp', 'courier', 'sighting', 'asking', 'child', 'offer']);
 
 /**
  * Who is with the family and answers its own decisions - the order to leave, the route, the road's questions, "¡Alto!" - as the
@@ -527,7 +529,10 @@ export function needsOf(world, entityId) {
   if (entity.service?.courier === 'open') needs.push({ kind: 'courier', text: `Travis is asking whether ${name} will ride out with his letters.`, ...ms(entity.decisionLeftMs) });
   const asked = requestFor(world, entity);
   if (asked?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.`, ...ms(asked.leftMs) });
-  if (entity.chore?.ask) needs.push({ kind: 'asking', text: `${name}’s work has stopped to ask something.`, ...ms(entity.chore.ask.leftMs) });
+  // Something sighted on a hunt (owner, 2026-10-02): the alert to take the shot, while it has not been taken up. Once the student is
+  // aiming, nothing waits on them here: the field is open on their page.
+  if (entity.chore?.ask?.id === 'shot' && entity.chore.ask.sight) { if (!entity.chore.ask.aim) needs.push({ kind: 'sighting', text: sightingWords(entity), ...ms(entity.chore.ask.leftMs) }); }
+  else if (entity.chore?.ask) needs.push({ kind: 'asking', text: `${name}’s work has stopped to ask something.`, ...ms(entity.chore.ask.leftMs) });
   // A small child whose own automation has gone off, given nothing since (owner, 2026-09-29, "Until the day ends"; sim/childhood.mjs
   // `autoOffAsking`): after work that has stopped to ask, before an offer. Never how long it had lasted.
   if (entity.autoOff) needs.push({ kind: 'child', text: `${name}’s auto went off. Give ${name} something to do, or put Auto on again.` });
@@ -540,6 +545,15 @@ export function needsOf(world, entityId) {
   // Starving (sim/hunger.mjs, owner 2026-09-30): the family must find food, and the minute in which they cannot die of it yet.
   if (entity.hunger?.stage === 'starving') needs.push({ kind: 'hunger', text: `${name} is starving.`, ...ms(entity.hunger.leftMs) });
   return needs.sort(byUrgency);
+}
+
+/** Each quarry as a sighting names it (sim/hunting.mjs `GAME[...].a`, written out: this page imports no simulation). */
+export const SIGHTED = Object.freeze({ deer: 'a deer', turkey: 'a turkey', bear: 'a bear', bison: 'a buffalo', pronghorn: 'an antelope', mustang: 'a mustang', cattle: 'a wild cow', javelina: 'a javelina', waterfowl: 'ducks and geese' });
+/** What a hunter downwind has sighted, in the family's words: "Mateo Ruiz is downwind of a deer in the timber. Take the shot yourself, or Mateo will." */
+export function sightingWords(entity) {
+  const sight = entity?.chore?.ask?.sight, first = entity?.given || String(entity?.name || 'They').split(' ')[0];
+  const where = sight?.cover === 'open' ? 'out on the open ground' : sight?.cover === 'brush' ? 'in the brush' : 'in the timber';
+  return `${entity?.name || first} is downwind of ${SIGHTED[sight?.quarry] || SIGHTED.deer} ${where}. Take the shot yourself, or ${first} will.`;
 }
 
 /** Most urgent first: by kind (`NEED_KINDS`), then by the least time left; a need with no clock after one with one. */

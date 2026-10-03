@@ -19,6 +19,7 @@ import { COURIER_OFFERED, share as alamoShare } from '../sim/alamo.mjs';
 import { packFlight } from '../sim/scrape.mjs';
 import { REPEATED } from '../sim/auto.mjs';
 import { QUESTION_BUDGETS } from '../sim/decision-budget.mjs';
+import { autoChoice } from '../sim/chores.mjs';
 import { STUDY_TICK_MS } from '../sim/crops.mjs';
 import { autoLabel, needsOf } from '../public/family-panel.js';
 
@@ -113,26 +114,30 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
 
 // Amended 2026-09-27 (owner: "questions that are not answered fast enough disappear"; sim/lapse.mjs): the window runs out into
 // nothing chosen, not into auto's answer.
-test('by hand the question stands for the game\'s own window and then lapses: nobody takes the shot, and the hunter comes away', () => {
+// Amended 2026-10-02 (owner: "if players click on it in time, then a first person mini game starts"; sim/hunt-aim.mjs): the shot is
+// a sighting with fifteen real seconds, and not taken up the hunter takes it himself at the hunt's old odds, as auto would - the
+// lapse of 2026-09-27, nothing chosen and the hunter home empty, is gone for the shot alone (tests/hunt-aim.test.mjs).
+test('by hand the sighting stands for its own window, and then the hunter takes the shot himself, as auto would', () => {
   const world = running('auto-hand');
   const elena = world.entities['hh-1-elena'];
   // A student's family: the question waits on the real clock (sim/decision-budget.mjs `workOnLimit`).
   world.households['hh-1'].played = true;
   world.households['hh-1'].resources.powder = 3;
   applyAction(world, 'hh-1', { action: 'chore', entityId: elena.id, chore: 'hunt-timber' });
-  let opened = null, waited = 0;
+  let opened = null, waited = 0, would = null;
   for (let t = 0; t < 400 && elena.chore; t++) {
-    if (elena.chore?.ask) { opened ??= world.minute; waited++; assert.ok(needsOf(view(world, 'hh-1'), elena.id).some(need => need.kind === 'asking'), 'no "!" while the family was asked'); }
+    if (elena.chore?.ask) { opened ??= world.minute; would ??= autoChoice(world, world.households['hh-1'], elena); waited++; assert.ok(needsOf(view(world, 'hh-1'), elena.id).some(need => need.kind === 'sighting'), 'no "!" while the family was asked'); }
     stepWorld(world);
   }
   assert.ok(opened !== null, 'the hunt never asked');
-  // Ninety real seconds (owner, 2026-09-29, "Real-time limits"), a tick stepped in process counting as one at the Study pace.
-  const limit = Math.ceil(QUESTION_BUDGETS.work / STUDY_TICK_MS);
-  assert.ok(waited >= limit - 1 && waited <= limit + 1, `the question stood ${waited} ticks, not the ${limit} of ninety real seconds`);
-  const lapsed = world.events.find(event => event.actorId === elena.id && /Nobody answered/.test(event.text));
-  assert.ok(lapsed?.lapsed && /the question lapsed\. Nothing new was chosen: .* did nothing more: leave it and come home/.test(lapsed.text), `the record does not say plainly that the question lapsed: ${lapsed?.text}`);
-  assert.ok(!world.events.some(event => event.actorId === elena.id && event.decision), 'something was chosen for the hunter nobody answered for');
-  assert.equal(world.households['hh-1'].resources.powder, 3, 'powder was spent on a shot nobody chose');
+  // Fifteen real seconds, a tick stepped in process counting as one at the Study pace.
+  const limit = Math.ceil(QUESTION_BUDGETS.sighting / STUDY_TICK_MS);
+  assert.ok(waited >= limit - 1 && waited <= limit + 1, `the sighting stood ${waited} ticks, not the ${limit} of fifteen real seconds`);
+  const silence = world.events.find(event => event.actorId === elena.id && /Nobody answered/.test(event.text));
+  assert.match(silence?.text || '', /^Nobody answered\. \w+ decided alone: (take the shot|wait for it to come closer)\.$/, `the record does not say the hunter took it himself: ${silence?.text}`);
+  assert.equal(silence.decision, would, 'the hunter did not do what auto would');
+  assert.notEqual(silence.lapsed, true);
+  assert.equal(world.households['hh-1'].resources.powder, 2, 'the hunter\'s own shot was not fired');
 });
 
 test('in the ranks, a person on auto is answered the moment the army asks, at the record\'s share, and the answer does what it does; nobody answered for in time is not answered for: the question lapses', () => {

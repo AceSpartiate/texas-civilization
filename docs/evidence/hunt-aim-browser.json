@@ -1,0 +1,88 @@
+{
+  "proof": "npm run test:hunt-aim",
+  "when": "2026-10-03T03:10:37.592Z",
+  "browser": "154.0.8037.93",
+  "pass": [
+    "the sighting is an alert: the \"!\" on the hunter's row and the card \"A deer!\" - \"Noah is downwind of a deer in the timber. Take the shot yourself, or Noah will.\" - About 15s left to answer. - [Take the shot]",
+    "the card's button opens the first-person field, and the server notes the aim begun on its own clock",
+    "the deer comes into the timber from the right, drawn from Astra's wildlife-deer sheet, and stops to look",
+    "clicked with the sights on it: the server judged a hit (aim {\"x\":8.352,\"y\":5.982} inside the body {\"cx\":8.398,\"cy\":5.934,\"rx\":0.685,\"ry\":0.408}), and the field says \"A clean shot!\"",
+    "the kill came home as every hunt's does: one powder spent (8 -> 7), food 11.9 -> 16.8, a hide - \"Noah could carry 5 food home and left 5 behind.\"",
+    "the \"!\" on the hunter's row opens the field as the card does",
+    "the arrows raise the sights into the sky (0.30 units down the field) and Space fires: a miss, \"Missed!\" - \"The ball went wide, and the deer was away into the timber. One powder spent.\"",
+    "the missed deer runs away, drawn bounding on the map: one powder spent, no food, and the journal says \"fired and missed\"",
+    "the first family's page and the Host's projection hold nothing of the second family's sighting",
+    "by touch, with less motion (no bounding, a 2400 ms stop, the sights wandering slower): touched onto it and *Fire* - the server judged it a hit, as the page read it",
+    "no page errors"
+  ],
+  "observed": {
+    "alert": {
+      "eyebrow": "On the hunt",
+      "title": "A deer!",
+      "words": "Noah is downwind of a deer in the timber. Take the shot yourself, or Noah will.",
+      "button": "Take the shot",
+      "left": "About 15s left to answer.",
+      "glow": "card-glow",
+      "icon": "icon-hunt-land:1",
+      "mark": true,
+      "markNeed": "sighting"
+    },
+    "first": {
+      "path": {
+        "quarry": "deer",
+        "cover": "timber",
+        "dir": -1,
+        "ground": 6.749,
+        "height": 1.63,
+        "startX": 17.8,
+        "stopX": 8.561,
+        "endX": -1.8,
+        "speed": 3.195,
+        "stopAt": 3692,
+        "goAt": 5292,
+        "goneAt": 8535,
+        "calm": false,
+        "hop": 0.2,
+        "cycleMs": 720,
+        "flies": false,
+        "sway": 0.5,
+        "swayPeriods": [
+          2300,
+          1650
+        ],
+        "swayPhase": [
+          0.772,
+          5.898
+        ],
+        "hangMs": 0
+      },
+      "animal": {
+        "x": 8.561,
+        "y": 6.749,
+        "phase": "still",
+        "drawn": true,
+        "body": {
+          "cx": 8.398,
+          "cy": 5.933999999999999,
+          "rx": 0.6845999999999999,
+          "ry": 0.4075
+        }
+      },
+      "sheet": "wildlife-deer"
+    }
+  },
+  "shots": [
+    "docs/evidence/hunt-aim-alert-1366.png",
+    "docs/evidence/hunt-aim-running-1366.png",
+    "docs/evidence/hunt-aim-still-1366.png",
+    "docs/evidence/hunt-aim-smoke-1366.png",
+    "docs/evidence/hunt-aim-hit-1366.png",
+    "docs/evidence/hunt-aim-alert-1024.png",
+    "docs/evidence/hunt-aim-aiming-keys-1024.png",
+    "docs/evidence/hunt-aim-miss-1024.png",
+    "docs/evidence/hunt-aim-touch-calm-1024.png",
+    "docs/evidence/hunt-aim-touch-result-1024.png"
+  ],
+  "errors": [],
+  "note": "Same computer only: headless Chrome. Mouse at 1366x768, keyboard at 1024x600, touch with reduced motion at 1024x600. The class at the Quick pace."
+}

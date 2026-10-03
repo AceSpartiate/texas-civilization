@@ -27,7 +27,7 @@ import { houstonCamp, joinEstimateWords } from './houston.mjs';
 import { southSite } from './south.mjs';
 import { record } from './events.mjs';
 import { answeredFor, recordLapse } from './lapse.mjs';
-import { limitLeft, limitOut, workLimitKey, workOnLimit } from './decision-budget.mjs';
+import { limitLeft, limitOut, workKind, workLimitKey, workOnLimit } from './decision-budget.mjs';
 // Who is left at home when a man goes to the war (sim/acting.mjs, design audit S14, 2026-09-28): said on the control.
 import { WAR_CHORES, leavesLittleOnes } from './acting.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
@@ -50,6 +50,8 @@ import { OVERLAND_REACH } from './ways.mjs';
 import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { GAME, gameDrawn, huntWait, huntingPlace, huntRefusal, killYield, placeWord, powderDamp, quarryGame, stillTicks } from './hunting.mjs';
+// The shot aimed by the student (owner, 2026-10-02; sim/hunt-aim.mjs): the path the page draws and the server judges.
+import { VIEW, aimPath, boundedT, handOf, judgeShot } from './hunt-aim.mjs';
 import { weatherAt } from './weather.mjs';
 import { FORAGE, FORAGE_REACH, fishingWater, forageDays, forageFacts, forageRefusal, noteForaged, onSaltWater } from './gathering.mjs';
 import { BEEF_FAMILIES, BEEF_FOOD, BEEF_KEPT, BEEF_MILES, LOOKED_TO_DAYS, PORK_FOOD, butcherRefusal, divideBeef, herdOf, herdWords, killHog, lookedToStock } from './stock.mjs';
@@ -117,8 +119,9 @@ export function autoChoice(world, household, entity) {
  * What a question in the middle of work comes to when nobody answered it in time and it lapses (owner, 2026-09-27;
  * sim/lapse.mjs): nothing new is chosen.
  *
- * - **The shot** is the one question here that was a new act decided on the spot, and since 2026-09-16 auto's to take: the
- *   moment passes, the hunter leaves it and comes home, and no powder is spent.
+ * - **The shot** is the one question here that was a new act decided on the spot, and since 2026-09-16 auto's to take. From
+ *   2026-09-27 the moment passed and the hunter came home; **since 2026-10-02 the hunter takes it himself**, as auto would
+ *   (below): the sighting's window is short now, and what the student gave up by not answering is the aiming, not the food.
  * - **Every other** is *how* to do work the family already ordered - pay for the powder it was sent for in food or coin,
  *   take food or coin for the cotton it was sent to sell, which crop the planting puts in, which term the enlisting man
  *   signs for, what the carpenter's errand makes, and the shops' questions, whose answer is to come home again - and the work
@@ -128,7 +131,11 @@ export function autoChoice(world, household, entity) {
 export function lapsedChoice(world, household, entity) {
   const ask = entity.chore?.ask;
   if (!ask) return null;
-  if (ask.id === 'shot') return 'leave';
+  // **Amended 2026-10-02** (owner: "if players click on it in time, then a first person mini game starts"; sim/hunt-aim.mjs): the
+  // shot is now a sighting with a short window (`QUESTION_BUDGETS.sighting`), and a sighting nobody took up is the hunter's own to
+  // take, at the odds the hunt always had - what auto takes (`autoChoice`) - so a slow or absent student's family eats as it did
+  // before the mini-game. Until then the shot lapsed and the hunter came home with nothing. An owner question (HANDOFF.md).
+  if (ask.id === 'shot') return autoChoice(world, household, entity);
   return [].concat(ask.fallback).find(option => askAvailability(world, household, entity, option).can) || 'leave';
 }
 
@@ -209,6 +216,11 @@ const cropNote = (crop, world) => `${seedFor(crop)} seed a plot; ${crop === 'cot
 export const resourceName = (resource, amount) => resource === 'money' ? (amount === 1 ? 'real' : 'reales') : resource;
 
 export const SHOT_COST = 1;
+/**
+ * The answers to the shot that fire it: taken, waited for, or aimed by the student (owner, 2026-10-02; `fireShot`). A sighting
+ * the student let go before firing (`fled`) fires nothing and spends nothing.
+ */
+export const SHOOTS = Object.freeze(['take', 'wait', 'aimed']);
 /** What an afternoon at the mark costs, and the ceiling it works towards. `FIC-GONZ-018`. */
 export const PRACTICE_COST = 2;
 export const SKILL_CAP = 3;
@@ -248,7 +260,7 @@ export function askProjection(world, household, entity) {
   const ask = entity.chore?.ask;
   if (!ask) return null;
   // With the real milliseconds it will wait yet, for the countdown on the "!" (owner, 2026-09-29, "Real-time limits").
-  return { ...ask, options: ask.options.map(option => ({ ...option, ...askAvailability(world, household, entity, option.id) })), ...(workOnLimit(world, entity) && { leftMs: limitLeft(world, workLimitKey(entity, ask), 'work') }) };
+  return { ...ask, options: ask.options.map(option => ({ ...option, ...askAvailability(world, household, entity, option.id) })), ...(workOnLimit(world, entity) && { leftMs: limitLeft(world, workLimitKey(entity, ask), workKind(ask)) }) };
 }
 
 /**
@@ -622,14 +634,15 @@ export const CHORES = {
       { stalk: 'still', quarry: 'far', work: 1, doing: 'waiting downwind, and still' },
       // And here the work stops and asks. Everything after this depends on the answer,
       // which is why the steps below carry the answers they belong to.
+      // Since 2026-10-02 the question is a sighting the student may take up and aim themselves (sim/hunt-aim.mjs): `aimed`.
       { ask: 'shot' },
       { when: ['wait'], quarry: 'near', work: 3, doing: 'letting it come closer' },
-      { when: ['take', 'wait'], shot: true, doing: 'the shot' },
+      { when: SHOOTS, shot: true, doing: 'the shot' },
       // Ten, and a good hunter takes more - but only the wagon can bring that much back.
       // On foot this still yields the five it always did, so a family that changes
       // nothing is no worse off than it was; the wagon is an upside for the family that
       // spends the extra hour on the road, not a tax on the one that does not.
-      { when: ['take', 'wait'], strike: { food: 10 } },
+      { when: SHOOTS, strike: { food: 10 } },
       { when: ['carrying'], travel: 'home', doing: 'carrying it home from {cover}' },
       { when: ['empty'], travel: 'home', doing: 'coming home from {cover} with nothing' },
     ],
@@ -2186,6 +2199,116 @@ export function answerChore(world, household, entity, option) {
   return settleAsk(world, household, entity, option, false);
 }
 
+// ---- the shot, aimed by the student (owner, 2026-10-02; sim/hunt-aim.mjs, docs/WOODS_AND_BUILDING.md §5.2) ------------------
+//
+// "when a character goes hunting, when they see an animal the player should see an alert. if players click on it in time, then a
+// first person mini game starts where they have to aim and hit the moving animal. if they miss, the animal runs away."
+//
+// The sighting is the hunt's own `shot` question, opened where it always was - the quarry the place holds, waiting downwind - with
+// what was seen fixed beside it (`sightingOf`): the seed of the animal's run, the quarry, the cover the field is drawn as, the month
+// and the sky, and the hunter's hand. For a student at the screen it waits `QUESTION_BUDGETS.sighting` real seconds
+// (sim/decision-budget.mjs); taken up in time (`beginAim`) the field opens on their page and the shot is theirs (`fireShot`).
+// Nobody taking it up, the hunter takes it himself at the odds the hunt always had (`lapsedChoice`). On auto, or with the student
+// gone, it is decided the tick it is asked, as it always was - nothing here touches those families.
+
+/** The cover a sighting's field is drawn as: the timber, the brush or the open prairie where the hunter is waiting. */
+function sightCover(world, household, entity) {
+  const ground = entity.chore?.ground;
+  if (Number.isFinite(ground?.x)) { const cover = huntingPlace(world, ground).cover; return cover === 'brush' || cover === 'timber' ? cover : 'open'; }
+  const site = world.map.sites[entity.location?.siteId];
+  return site?.cover === 'brush' ? 'brush' : 'timber';
+}
+
+/** What a hunter downwind has sighted, fixed when the question opens: everything the field and the judging of the shot need. */
+export function sightingOf(world, household, entity) {
+  const point = huntPoint(entity), day = Math.floor((world.minute || 0) / 1440);
+  const quarry = entity.chore?.ground?.quarry && GAME[entity.chore.ground.quarry] ? entity.chore.ground.quarry : 'deer';
+  return {
+    seed: `${entity.id}:${world.minute || 0}:${world.tick || 0}`, quarry, cover: sightCover(world, household, entity),
+    month: dateOf(world, world.minute || 0).getUTCMonth(), sky: point ? weatherAt(world, point, day).kind : 'fair',
+    hand: handOf({ name: entity.given || entity.name, skill: entity.skills?.hunting ?? 1, tired: entity.health?.condition === 'tired', rifleTrue: rifleTrue(household), damp: powderDamp(world, point, day) }),
+  };
+}
+
+/** Why this person cannot aim a shot now, or null: something sighted and open to them, and powder in the house. */
+function aimRefusal(world, household, entity) {
+  const ask = entity?.chore?.ask;
+  if (ask?.id !== 'shot') return 'Nothing has been sighted.';
+  if (entity.auto) return `${entity.name} is on auto, and takes the shot as they judge it.`;
+  const powder = askAvailability(world, household, entity, 'take');
+  return powder.can ? null : powder.why;
+}
+
+/**
+ * The student takes up the sighting: the field opens on their page and the shot is theirs. The server notes when (`now`, its
+ * own real clock - never the page's) and whether the page asked for less motion (`calm`, sim/hunt-aim.mjs `aimPath`), and the
+ * question's window becomes the aim's (`QUESTION_BUDGETS.aim`): the animal is in view for a few seconds and then gone.
+ */
+export function beginAim(world, household, entity, { now = Date.now(), calm = false } = {}) {
+  const why = aimRefusal(world, household, entity);
+  if (why) throw new Error(why);
+  const ask = entity.chore.ask;
+  if (ask.aim) throw new Error('The shot is already being taken.');
+  // A question asked before the sighting was kept (a class saved mid-hunt before 2026-10-02) is given its sighting now.
+  ask.sight ??= sightingOf(world, household, entity);
+  ask.aim = { startedAt: now, calm: Boolean(calm) };
+  return ask.aim;
+}
+
+/**
+ * The trigger pulled, or the moment let go. The page says only **when** (`t`, ms from the press that began the aim) and **where
+ * the sights were held** (`x`, `y`, units of the field); `hold` is a student who let the animal go. The server bounds `t` by what
+ * it has itself seen pass (sim/hunt-aim.mjs `boundedT`), refuses a shot with nothing sighted or already fired, judges it from the
+ * path it made (`judgeShot`), and settles the question: `aimed` and `hit` or `missed` - the shot step then spends the powder and
+ * the strike brings the kill home as every hunt's does - or, fired after the animal had gone or not fired at all, `fled`: nothing
+ * spent, the animal away, the hunter home. What came of it is kept on the chore (`shot`), for the family's page alone.
+ */
+export function fireShot(world, household, entity, { t, x, y, hold = false, now = Date.now() } = {}) {
+  const ask = entity?.chore?.ask;
+  if (ask?.id !== 'shot' || !ask.aim) throw new Error('Nothing is in the sights.');
+  if (hold) return letItGo(world, household, entity, 'held');
+  if (![t, x, y].every(Number.isFinite)) throw new Error('That shot could not be read.');
+  const why = aimRefusal(world, household, entity);
+  if (why) throw new Error(why);
+  const path = aimPath(ask.sight, { calm: ask.aim.calm });
+  const at = boundedT(t, Math.max(0, now - ask.aim.startedAt));
+  const judged = judgeShot(path, { t: at, x: Math.max(0, Math.min(VIEW.w, x)), y: Math.max(0, Math.min(VIEW.h, y)) });
+  // Nothing to fire at: it had not come into the view, or it had gone out of it.
+  if (judged.phase === 'gone' || judged.phase === 'waiting') return letItGo(world, household, entity, 'gone');
+  const state = entity.chore;
+  state.ask = null;
+  state.flags = [...(state.flags || []), 'aimed', judged.hit ? 'hit' : 'missed'];
+  state.shot = { hit: judged.hit, quarry: ask.sight.quarry, t: Math.round(at), aim: judged.aim, body: judged.body };
+  // Missed, the animal runs: it is drawn bounding away on the map until the hunter turns for home (public/app.js `miniQuarry`).
+  if (!judged.hit && state.quarry) state.quarry = { ...state.quarry, fled: true };
+  record(world, 'choice', {
+    actorId: entity.id, householdId: household.id, decision: 'aimed', importance: 2,
+    text: `${entity.name} raised the rifle and took the shot.`,
+  });
+  return state.shot;
+}
+
+/**
+ * The animal goes and nothing is fired: the student let it go (`held`), fired after it had gone (`gone`), or opened the field and
+ * never fired before its window closed (`unfired`). Nothing is spent, nothing is carried, and the hunter comes home.
+ */
+function letItGo(world, household, entity, why) {
+  const state = entity.chore, sight = state.ask?.sight;
+  const quarry = GAME[sight?.quarry] ? sight.quarry : 'deer';
+  const name = GAME[quarry].a.replace(/^an? /, 'the ');
+  state.ask = null;
+  state.flags = [...(state.flags || []), 'fled', 'empty'];
+  state.shot = { hit: false, held: true, quarry };
+  if (state.quarry) state.quarry = { ...state.quarry, fled: true };
+  const where = state.ground?.cover || coverWord(world, household), was = quarry === 'waterfowl' ? 'were' : 'was';
+  record(world, 'consequence', {
+    actorId: entity.id, householdId: household.id, importance: 2,
+    text: why === 'held' ? `${entity.name} held fire, and ${name} ${was} away into ${where}. No powder was spent.`
+      : `${name.charAt(0).toUpperCase()}${name.slice(1)} ${was} gone into ${where} before ${entity.name} fired. No powder was spent.`,
+  });
+  return state.shot;
+}
+
 /**
  * Whether this is the first play this child has set out to today, and marks it so: kept in the same `told` the family's little ones'
  * other once-a-day lines use (sim/childhood.mjs `firstToday`), written out here because that module imports this one.
@@ -2344,10 +2467,13 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     // (`workOnLimit`, owner 2026-09-29); a family nobody plays, its two hours of the calendar.
     if (workOnLimit(world, entity) ? !limitOut(world, workLimitKey(entity, state.ask)) : !household.absent && world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
     // Nobody answered in time. For a family a student is answering for, **the question lapses** (owner, 2026-09-27;
-    // sim/lapse.mjs): nothing new is chosen (`lapsedChoice`: the shot is left, and ordered work goes on by the question's own
-    // fallback). A family nobody is answering for - gone from its screen, or nobody plays it - is decided as auto decides
-    // (`autoChoice`), as its neighbours are.
-    if (answeredFor(world, entity)) settleAsk(world, household, entity, lapsedChoice(world, household, entity), 'lapse');
+    // sim/lapse.mjs): nothing new is chosen (`lapsedChoice`: ordered work goes on by the question's own fallback). A family nobody
+    // is answering for - gone from its screen, or nobody plays it - is decided as auto decides (`autoChoice`), as its neighbours are.
+    // **The sighting** (owner, 2026-10-02; sim/hunt-aim.mjs) is the hunter's own to take when nobody took it up, at the odds
+    // the hunt always had (`lapsedChoice`); one the student began to aim and never fired at has gone (`letItGo`).
+    if (state.ask.aim) letItGo(world, household, entity, 'unfired');
+    else if (state.ask.id === 'shot') settleAsk(world, household, entity, autoChoice(world, household, entity), household.absent ? 'auto' : 'silence');
+    else if (answeredFor(world, entity)) settleAsk(world, household, entity, lapsedChoice(world, household, entity), 'lapse');
     else settleAsk(world, household, entity, autoChoice(world, household, entity), household.absent ? 'auto' : 'silence');
   }
   // Spend a tick of the current step, and only move on once it is actually paid for.
@@ -2446,6 +2572,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       state.ask = {
         id: step.ask, openedMinute: world.minute, fallback: typeof ask.fallback === 'function' ? ask.fallback(household, world) : ask.fallback,
         text: ask.text(entity, world, household), options: ask.options(entity, world, household),
+        // What was sighted, fixed now (sim/hunt-aim.mjs): the field the student may aim across, if they take it up in time.
+        ...(step.ask === 'shot' && { sight: sightingOf(world, household, entity) }),
       };
       // On auto the question is decided the tick it is asked - no "!", no wait, the person's own switch (sim/auto.mjs).
       if (entity.auto || household.absent) { settleAsk(world, household, entity, autoChoice(world, household, entity), 'auto'); continue; }
@@ -2465,11 +2593,17 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       const close = (state.flags || []).includes('wait') && !damp;
       // A rifle the gunsmith put in order makes the long shot for a hand without the knack; tired is still tired (sim/shops.mjs).
       const trueRifle = rifleTrue(household) && entity.health?.condition !== 'tired';
-      if (!close && !steadyHand(entity) && !trueRifle) {
+      // A shot the student aimed (owner, 2026-10-02; `fireShot`) went where they put it: the server judged it then, and neither the
+      // hand nor the sky is asked again - the hand was in how the sights wandered, the wet in the powder hanging fire.
+      const aimed = (state.flags || []).includes('aimed');
+      if (aimed ? !(state.flags || []).includes('hit') : !close && !steadyHand(entity) && !trueRifle) {
         state.flags = [...(state.flags || []), 'empty'];
+        const quarryName = GAME[state.ground?.quarry]?.a || 'a deer';
         record(world, 'consequence', {
           actorId: entity.id, householdId: household.id, importance: 2,
-          text: damp
+          text: aimed
+            ? `${entity.name} fired and missed, and ${quarryName.replace(/^an? /, 'the ')} ${state.ground?.quarry === 'waterfowl' ? 'were' : 'was'} away into ${state.ground?.cover || coverWord(world, household)}. The afternoon is gone.`
+            : damp
             ? `${entity.name}'s powder had taken the wet and the rifle would not fire. The afternoon is gone.`
             : `${entity.name} fired and missed \u2014 ${unsteadyBecause(entity)}. The afternoon is gone.`,
         });

@@ -150,7 +150,15 @@ export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_
 // - The page counts each down on its "!" from the real time left (`limitLeft`, projected as `leftMs`).
 
 /** Real milliseconds each question on a real-time limit waits for its student. A server option (`questionBudgets`) overrides any of them. */
-export const QUESTION_BUDGETS = Object.freeze({ rider: 90_000, flight: 180_000, alto: 30_000, road: 90_000, work: 90_000, grave: 60_000, starve: 60_000 });
+export const QUESTION_BUDGETS = Object.freeze({ rider: 90_000, flight: 180_000, alto: 30_000, road: 90_000, work: 90_000, grave: 60_000, starve: 60_000, sighting: 15_000, aim: 30_000 });
+/**
+ * **A sighting on the hunt** (owner, 2026-10-02: "when they see an animal the player should see an alert. if players click on it
+ * in time, then a first person mini game starts"; sim/hunt-aim.mjs, `FIC-GONZ-1080`): the hunt's shot question, for a student at
+ * the screen, waits `sighting` - fifteen real seconds, an animal standing downwind does not stand all afternoon - and then the
+ * hunter takes the shot himself (sim/chores.mjs `lapsedChoice`). Taken up, the field is open `aim` - the longest run across it,
+ * with room - and an animal never fired at is gone. Both on this clock, held while the Host pauses. Only the one person waits.
+ */
+export const workKind = ask => (ask?.id === 'shot' ? (ask.aim ? 'aim' : 'sighting') : 'work');
 /**
  * The real time a question waiting behind a rider must still have in front of the student once he has gone, before the calendar
  * closes it (owner, 2026-09-29, "Rider leaves at dawn"; sim/encounters.mjs `riderMustGo`): the ninety seconds every other
@@ -193,7 +201,8 @@ export function workOnLimit(world, entity) {
 export const riderLimitKey = encounter => `rider:${encounter.id}:${encounter.asked?.length || 0}`;
 export const flightLimitKey = household => `flight:${household.id}`;
 export const roadLimitKey = (household, ask) => `${ask.id === 'alto' ? 'alto' : 'road'}:${household.id}:${ask.openedTick}`;
-export const workLimitKey = (entity, ask) => `work:${entity.id}:${ask.openedMinute}`;
+// The aim is its own key, so the field's seconds start at nothing when the sighting is taken up.
+export const workLimitKey = (entity, ask) => `${ask.aim ? 'aim' : 'work'}:${entity.id}:${ask.openedMinute}`;
 /** One very sick spell of one person: forgotten when they are past the worst or dead, so a second spell starts at nothing. */
 export const graveLimitKey = entity => `grave:${entity.id}`;
 
@@ -229,7 +238,7 @@ export function openLimits(world) {
     if (roadOnLimit(world, household)) open.push({ key: roadLimitKey(household, household.flight.ask), kind: household.flight.ask.id === 'alto' ? 'alto' : 'road', personId: actingId(world, household) });
   }
   for (const entity of Object.values(world.entities || {})) {
-    if (workOnLimit(world, entity)) open.push({ key: workLimitKey(entity, entity.chore.ask), kind: 'work', personId: entity.id });
+    if (workOnLimit(world, entity)) open.push({ key: workLimitKey(entity, entity.chore.ask), kind: workKind(entity.chore.ask), personId: entity.id });
     if (graveOnLimit(world, entity)) open.push({ key: graveLimitKey(entity), kind: 'grave', personId: entity.id });
     // Starving (owner, 2026-09-30; sim/hunger.mjs `starveHeld`, `FIC-GONZ-997`): the same minute, before hunger may kill them.
     if (starveOnLimit(world, entity)) open.push({ key: starveLimitKey(entity), kind: 'starve', personId: entity.id });

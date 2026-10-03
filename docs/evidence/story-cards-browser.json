@@ -1,10 +1,10 @@
 {
   "proof": "npm run test:story-cards",
-  "when": "2026-10-01T10:37:44.219Z",
+  "when": "2026-10-03T03:26:28.813Z",
   "pass": [
     "the neighbours' card (rgb(217, 164, 65)) first and the house's (rgb(127, 154, 63)) under it, both glowing, under Hide names and over the rows",
-    "the rows under the cards stand on one line with the names whole at 1366x768, 1024x768 and 1024x600: father Vicente (88 px), daughter Ramona (70 px), son Basilio (101 px)",
-    "every moment in its own card: alto \"¡Alto! Soldiers on the road\", road \"The road is asking\", flight \"Told to leave for the east\", call \"A call to arms\", sick \"Vicente is very sick\", supply \"The army asks for supplies\", rider \"A rider has stopped to speak\", courier \"A call for riders at the Alamo\", orders \"Your family member is being asked\", battle \"The fight at Concepción\", account \"After Concepción\", siege \"Inside the Alamo\" - 9 accents, the account still, the others glowing",
+    "the rows under the cards stand on one line with the names whole at 1366x768, 1024x768 and 1024x600: father Nathan (88 px), daughter Winnie (70 px), son Eli (101 px)",
+    "every moment in its own card: alto \"¡Alto! Soldiers on the road\", road \"The road is asking\", flight \"Told to leave for the east\", call \"A call to arms\", sick \"Nathan is very sick\", supply \"The army asks for supplies\", sighting \"A deer!\", rider \"A rider has stopped to speak\", courier \"A call for riders at the Alamo\", orders \"Your family member is being asked\", battle \"The fight at Concepción\", account \"After Concepción\", siege \"Inside the Alamo\" - 10 accents, the account still, the others glowing",
     "with the order to leave open, its card stands and the Watch card is not put up at all, as before",
     "no page errors"
   ],
@@ -23,25 +23,25 @@
     "rowFit": {
       "1366x768": {
         "names": [
-          "father Vicente (88 px)",
-          "daughter Ramona (70 px)",
-          "son Basilio (101 px)"
+          "father Nathan (88 px)",
+          "daughter Winnie (70 px)",
+          "son Eli (101 px)"
         ],
         "out": []
       },
       "1024x768": {
         "names": [
-          "father Vicente (88 px)",
-          "daughter Ramona (70 px)",
-          "son Basilio (101 px)"
+          "father Nathan (88 px)",
+          "daughter Winnie (70 px)",
+          "son Eli (101 px)"
         ],
         "out": []
       },
       "1024x600": {
         "names": [
-          "father Vicente (88 px)",
-          "daughter Ramona (70 px)",
-          "son Basilio (101 px)"
+          "father Nathan (88 px)",
+          "daughter Winnie (70 px)",
+          "son Eli (101 px)"
         ],
         "out": []
       }
@@ -101,8 +101,8 @@
         "glow": "card-glow",
         "edge": "rgb(94, 125, 107)",
         "eyebrow": "Very sick",
-        "title": "Vicente is very sick",
-        "button": "Go to Vicente",
+        "title": "Nathan is very sick",
+        "button": "Go to Nathan",
         "left": "About 45s left to nurse them.",
         "icon": "icon-nurse-home:1",
         "open": true
@@ -117,6 +117,18 @@
         "button": "Choose what to send",
         "left": "About 5 min left to answer.",
         "icon": "icon-enlist-auxiliary:1",
+        "open": true
+      },
+      "sighting": {
+        "hidden": false,
+        "accent": "sighting",
+        "glow": "card-glow",
+        "edge": "rgb(109, 122, 46)",
+        "eyebrow": "On the hunt",
+        "title": "A deer!",
+        "button": "Take the shot",
+        "left": "About 15s left to answer.",
+        "icon": "icon-hunt-land:1",
         "open": true
       },
       "rider": {
@@ -138,7 +150,7 @@
         "edge": "rgb(111, 90, 134)",
         "eyebrow": "Riders wanted",
         "title": "A call for riders at the Alamo",
-        "button": "Answer with Vicente",
+        "button": "Answer with Nathan",
         "left": null,
         "icon": "icon-join-relief:1",
         "open": true
@@ -150,7 +162,7 @@
         "edge": "rgb(77, 100, 128)",
         "eyebrow": "In camp",
         "title": "Your family member is being asked",
-        "button": "Go to Vicente",
+        "button": "Go to Nathan",
         "left": null,
         "icon": "icon-camp-drill:1",
         "open": true
@@ -174,7 +186,7 @@
         "edge": "rgb(107, 97, 89)",
         "eyebrow": "After the fight",
         "title": "After Concepción",
-        "button": "Go to Vicente",
+        "button": "Go to Nathan",
         "left": null,
         "icon": "icon-travel-home:1",
         "open": true
@@ -186,7 +198,7 @@
         "edge": "rgb(160, 114, 74)",
         "eyebrow": "Inside the Alamo",
         "title": "Inside the Alamo",
-        "button": "Go to Vicente",
+        "button": "Go to Nathan",
         "left": null,
         "icon": "icon-join-garrison:1",
         "open": true
@@ -205,6 +217,7 @@
     "docs/evidence/story-card-call.png",
     "docs/evidence/story-card-sick.png",
     "docs/evidence/story-card-supply.png",
+    "docs/evidence/story-card-sighting.png",
     "docs/evidence/story-card-rider.png",
     "docs/evidence/story-card-courier.png",
     "docs/evidence/story-card-orders.png",

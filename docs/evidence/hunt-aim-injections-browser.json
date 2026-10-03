@@ -1,0 +1,66 @@
+{
+  "record": "hunt-aim-injections",
+  "date": "2026-10-03",
+  "injections": [
+    {
+      "name": "the card's button only goes to the hunter, as the other cards do",
+      "files": [
+        "public/app.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the proof failed after 1 checks: page.waitForFunction: Timeout 5000ms exceeded."
+      ]
+    },
+    {
+      "name": "the \"!\" does not open the field",
+      "files": [
+        "public/app.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the proof failed after 1 checks: page.waitForFunction: Timeout 5000ms exceeded."
+      ]
+    },
+    {
+      "name": "the arrow keys do not move the sights",
+      "files": [
+        "public/hunt-aim.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the proof failed after 6 checks: AssertionError [ERR_ASSERTION]: the arrows did not raise the sights: {\"x\":7.879,\"y\":5.588}"
+      ]
+    },
+    {
+      "name": "the page never tells the server it asked for less motion",
+      "files": [
+        "public/hunt-aim.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the proof failed after 9 checks: AssertionError [ERR_ASSERTION]: the page asking for less motion was not told to the server"
+      ]
+    },
+    {
+      "name": "the missed deer is drawn standing on the map",
+      "files": [
+        "public/app.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the proof failed after 7 checks: AssertionError [ERR_ASSERTION]: the deer that was missed was never drawn running on the map"
+      ]
+    },
+    {
+      "name": "a click does not fire",
+      "files": [
+        "public/hunt-aim.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the proof failed after 3 checks: AssertionError [ERR_ASSERTION]: the shot put on the deer did not hit: {\"first\":{\"hit\":false,\"held\":true,\"refused\":null},\"judged\":{\"hit\":false,\"held\":true,\"quarry\":\"deer\"},\"fired\":null}"
+      ]
+    }
+  ]
+}

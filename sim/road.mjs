@@ -28,7 +28,7 @@
 // The chores here register themselves into the one table (`registerChores`); the flight's state stays on
 // `household.flight` (sim/scrape.mjs), and every field this module adds to it is absent until it happens, so no saved class
 // changes and no save version moves.
-import { CHORES, COIN, abandonChore, reales, registerChores } from './chores.mjs';
+import { CHORES, COIN, SHOOTS, abandonChore, reales, registerChores } from './chores.mjs';
 import { dateOf } from './clock.mjs';
 import { REGIONS, WATER_SHUT, rainingAt, waterAt, weatherAt, weatherOn } from './weather.mjs';
 import { record } from './events.mjs';
@@ -748,8 +748,8 @@ const roadChores = () => ({
       { quarry: 'far', work: 1, doing: 'waiting downwind, and still' },
       { ask: 'shot' },
       { when: ['wait'], quarry: 'near', work: 3, doing: 'letting it come closer' },
-      { when: ['take', 'wait'], shot: true, doing: 'the shot' },
-      { when: ['take', 'wait'], strike: { food: CAMP_HUNT_FOOD } },
+      { when: SHOOTS, shot: true, doing: 'the shot' },
+      { when: SHOOTS, strike: { food: CAMP_HUNT_FOOD } },
       { when: ['carrying'], work: 1, doing: 'carrying it back to the camp' },
       { when: ['empty'], work: 1, doing: 'coming back to the camp with nothing' },
     ],

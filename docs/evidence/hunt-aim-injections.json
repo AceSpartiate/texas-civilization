@@ -1,0 +1,265 @@
+{
+  "record": "hunt-aim-injections",
+  "date": "2026-10-03",
+  "injections": [
+    {
+      "name": "the shot is asked with nothing sighted beside it",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "a sighting is an alert with a short window: the \"!\" and the card, fifteen real seconds, the quarry and the hunter's hand",
+        "nobody else hears of it: another family's page and the Host's projection carry nothing of the sighting, the aim or the shot"
+      ]
+    },
+    {
+      "name": "the sighting waits the ninety seconds of a work question",
+      "files": [
+        "sim/decision-budget.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "a sighting is an alert with a short window: the \"!\" and the card, fifteen real seconds, the quarry and the hunter's hand",
+        "nobody took the sighting up in time: the hunter takes the shot himself, at the odds the hunt always had"
+      ]
+    },
+    {
+      "name": "the sighting's window is ninety seconds",
+      "files": [
+        "sim/decision-budget.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "a sighting is an alert with a short window: the \"!\" and the card, fifteen real seconds, the quarry and the hunter's hand",
+        "nobody took the sighting up in time: the hunter takes the shot himself, at the odds the hunt always had"
+      ]
+    },
+    {
+      "name": "a sighting nobody took up lapses with nothing chosen, as before",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "nobody took the sighting up in time: the hunter takes the shot himself, at the odds the hunt always had"
+      ]
+    },
+    {
+      "name": "the server takes the page's moment on trust",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "the page's moment is bounded by the server's own clock: a shot claimed ahead of what the server has seen is judged when it was"
+      ]
+    },
+    {
+      "name": "a page may fire with the field never opened",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "no shot without a sighting: nothing to aim at, nothing in the sights, one shot only, never after the animal has gone"
+      ]
+    },
+    {
+      "name": "one animal may be shot at twice",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "clicked in time and hit: the server judges it from its own path, the powder is spent once, and the kill comes home with its hide",
+        "no shot without a sighting: nothing to aim at, nothing in the sights, one shot only, never after the animal has gone"
+      ]
+    },
+    {
+      "name": "any shot at an animal in view hits",
+      "files": [
+        "sim/hunt-aim.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "a miss yields nothing: the powder is spent, the animal runs, and the journal says so",
+        "the page's moment is bounded by the server's own clock: a shot claimed ahead of what the server has seen is judged when it was",
+        "the judging: a ball finds the body where the animal is when the powder goes off, wandering with the hunter's hand"
+      ]
+    },
+    {
+      "name": "a missed animal does not run",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "a miss yields nothing: the powder is spent, the animal runs, and the journal says so"
+      ]
+    },
+    {
+      "name": "an aimed shot is not fired: no powder, no kill",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "clicked in time and hit: the server judges it from its own path, the powder is spent once, and the kill comes home with its hide",
+        "a miss yields nothing: the powder is spent, the animal runs, and the journal says so"
+      ]
+    },
+    {
+      "name": "a miss brings the kill home all the same",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "a miss yields nothing: the powder is spent, the animal runs, and the journal says so"
+      ]
+    },
+    {
+      "name": "letting it go fires the rifle",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "no shot without a sighting: nothing to aim at, nothing in the sights, one shot only, never after the animal has gone",
+        "the field opened and never fired: the animal is gone when its seconds are out, and nothing is spent",
+        "powder: none in the house, no aim; a hit and a miss spend one; a held fire spends none"
+      ]
+    },
+    {
+      "name": "a shot after the animal has gone is judged as a shot",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "no shot without a sighting: nothing to aim at, nothing in the sights, one shot only, never after the animal has gone"
+      ]
+    },
+    {
+      "name": "the aim is opened with no powder in the house",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "powder: none in the house, no aim; a hit and a miss spend one; a held fire spends none"
+      ]
+    },
+    {
+      "name": "a hunter on auto may be aimed by the student",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "a hunter on auto, or a family whose student has gone, is answered at once as before: no window, nothing to aim"
+      ]
+    },
+    {
+      "name": "the server ignores the page's less motion",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "less motion: no bounding, a slower run and a longer stop, asked by the page and honoured by the server"
+      ]
+    },
+    {
+      "name": "the sighting goes to every page on the map",
+      "files": [
+        "sim/overview.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "nobody else hears of it: another family's page and the Host's projection carry nothing of the sighting, the aim or the shot"
+      ]
+    },
+    {
+      "name": "an open field never closes",
+      "files": [
+        "sim/decision-budget.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "the field opened and never fired: the animal is gone when its seconds are out, and nothing is spent"
+      ]
+    },
+    {
+      "name": "a field opened and never fired is fired by the hunter himself",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "the field opened and never fired: the animal is gone when its seconds are out, and nothing is spent"
+      ]
+    },
+    {
+      "name": "the sighting's \"!\" is a plain work question",
+      "files": [
+        "public/family-panel.js"
+      ],
+      "caught": true,
+      "failed": [
+        "a sighting is an alert with a short window: the \"!\" and the card, fifteen real seconds, the quarry and the hunter's hand"
+      ]
+    },
+    {
+      "name": "the sighting has no card",
+      "files": [
+        "public/military-attention.js"
+      ],
+      "caught": true,
+      "failed": [
+        "a sighting is an alert with a short window: the \"!\" and the card, fifteen real seconds, the quarry and the hunter's hand"
+      ]
+    },
+    {
+      "name": "the alert stays up while the student is aiming",
+      "files": [
+        "public/family-panel.js"
+      ],
+      "caught": true,
+      "failed": [
+        "a sighting is an alert with a short window: the \"!\" and the card, fifteen real seconds, the quarry and the hunter's hand"
+      ]
+    },
+    {
+      "name": "the best shot's sights wander most",
+      "files": [
+        "sim/hunt-aim.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "the judging: a ball finds the body where the animal is when the powder goes off, wandering with the hunter's hand"
+      ]
+    },
+    {
+      "name": "damp powder fires at once",
+      "files": [
+        "sim/hunt-aim.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "the judging: a ball finds the body where the animal is when the powder goes off, wandering with the hunter's hand"
+      ]
+    },
+    {
+      "name": "a broken sighting is saved",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "caught": true,
+      "failed": [
+        "a save holds the sighting and the aim, and a broken one is refused"
+      ]
+    }
+  ]
+}
