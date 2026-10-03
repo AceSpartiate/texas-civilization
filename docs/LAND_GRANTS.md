@@ -525,7 +525,7 @@ test:tier2-classroom-injections`). Same computer, headless Chrome: no Chromebook
 
 The owner, verbatim, 2026-10-02: *"it's weird seeing characters walk over trees. paths should be cut to facilitate quick, reasonable
 movement on a families land. there should be an option to fence in a yard too. if there's a fenced in yard then kids on auto play
-will not be disobedient as often."* Built in `sim/land-paths.mjs`; claims `FIC-GONZ-1100` to `-1094` (HISTORY.md). The trees and
+will not be disobedient as often."* Built in `sim/land-paths.mjs`; claims `FIC-GONZ-1100` to `-1104` (HISTORY.md). The trees and
 the felling are docs/WOODS_AND_BUILDING.md §6.12; the yard's effect on the little ones is docs/CHILDREN.md §14.
 
 ### 10.1 The way across the family's land (`FIC-GONZ-1100`)
@@ -592,10 +592,25 @@ way by using it - nobody cuts grass to walk on it - but a way through the timber
   timber at hand, mesquite, logs off the pile where the timber is far, or carried from far off (sim/fields.mjs `fenceWork`,
   sim/woodpile.mjs `fenceBy`) - at **half** a plot's work and half its logs (`YARD_SHARE`), never under two ticks. It wants an axe for
   the splitting (greyed with it on the bar without one). `ceiling:` a plot's fence still asks for none (its own ceiling, sim/chores.mjs).
-- A tree standing inside the yard is left standing, a dooryard shade tree: felling it is felling's work (found 2026-10-02: a house in
-  the timber took twenty-two trees and thirty-nine logs with four ticks of rail-splitting when the yard felled them).
+- **The trees standing inside the yard are felled first** (owner-decided 2026-10-03, below): one at a time at felling's own time
+  (sim/felling.mjs `fellAndCarryTicks`, at the family's pace), their logs onto the pile, then the rails are split (`fellYard`, the
+  trees from sim/land-paths.mjs `treesInBox`). The icon and the yard's words say it before anybody goes, after the rails' time:
+  *"22 trees inside: about 13.5 hours more, 39 logs for the pile."* (`yardTreesWords`; nothing is said where no tree stands). Several
+  sent fell different trees. The felling is paid: the house in the timber that took twenty-two trees and thirty-nine logs with four
+  ticks of rail-splitting when the first version felled them with the rails (2026-10-02) now takes fifty-nine ticks of one hand for
+  the same logs.
 - Drawn as a swept-earth dooryard inside a rail fence (public/app.js `drawYardFence`), its rails pulled down by the Scrape's burning
   with the field's (sim/improvements.mjs `ruin`, `fence`).
+
+### 10.3a The owner's answers — owner-decided 2026-10-03
+
+The owner answered the four questions of 2026-10-02:
+
+1. *How much a fenced yard calms a child on auto:* **half as often disobedient, as built** (docs/CHILDREN.md §14).
+2. and 4. together, **"Auto kids; fell trees"**: the yard calms **children on their own automation**, as built; and **fencing the yard
+   fells the trees standing inside it**, at felling's own time per tree, their logs onto the pile, as *Cut a path* does - the felling
+   paid, never the free logs of the first version, and the added work said on the yard's line (§10.3).
+3. *A path cut through thick timber:* **felling's own time, and felling's logs, as built** (§10.2).
 
 ### 10.4 Old saves and the lesson
 

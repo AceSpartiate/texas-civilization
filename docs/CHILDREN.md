@@ -489,3 +489,7 @@ be disobedient as often."* The yard itself - where it goes, what it costs, how i
   ones in the fenced dooryard, not scattered about the land. No line says so.
 - `ceiling:` the yard keeps a child on auto at home wherever on the land their job puts them; a job never takes a small child out of
   the yard today (the children's jobs are done where they stand), so a rule by where they stand would read the same.
+
+**Owner-decided 2026-10-03** (docs/LAND_GRANTS.md §10.3a): **half as often, as built**; and **"Auto kids; fell trees"** - the yard calms
+children on their own automation, as built (a child the student told what to do is unchanged), and fencing it fells the trees inside
+it at felling's own time.

@@ -3,8 +3,8 @@
   "files": [
     "tests/land-paths.test.mjs"
   ],
-  "caught": 16,
-  "of": 16,
+  "caught": 19,
+  "of": 19,
   "results": [
     {
       "injection": "the way-finding does not see the trees (people walk over them, as before)",
@@ -92,7 +92,31 @@
       "caught": true,
       "only": true,
       "failed": [
-        "Fence a yard: half a plot's rails, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+        "Fence a yard: half a plot's rails and the trees inside felled at felling's time, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+      ]
+    },
+    {
+      "injection": "the trees inside the yard come down with the rails for nothing (the bug of 2026-10-02)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Fence a yard: half a plot's rails and the trees inside felled at felling's time, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+      ]
+    },
+    {
+      "injection": "fencing the yard leaves the trees inside it standing",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Fence a yard: half a plot's rails and the trees inside felled at felling's time, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+      ]
+    },
+    {
+      "injection": "the bar does not say the trees inside the yard",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Fence a yard: half a plot's rails and the trees inside felled at felling's time, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
       ]
     },
     {
@@ -100,7 +124,7 @@
       "caught": true,
       "only": true,
       "failed": [
-        "Fence a yard: half a plot's rails, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+        "Fence a yard: half a plot's rails and the trees inside felled at felling's time, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
       ]
     },
     {
@@ -108,7 +132,7 @@
       "caught": true,
       "only": true,
       "failed": [
-        "Fence a yard: half a plot's rails, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+        "Fence a yard: half a plot's rails and the trees inside felled at felling's time, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
       ]
     },
     {

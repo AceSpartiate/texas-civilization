@@ -1,5 +1,36 @@
 # Claude handoff — Astra foundation
 
+## The owner's answers on paths and the yard: "Auto kids; fell trees" — owner-decided 2026-10-03 (not released)
+
+Branch `land-paths-2` off local `integration-2026-09-28`; not pushed. Same computer only: headless Chrome; no Chromebook, LAN or
+classroom claim. Renumbered at the land-paths merge (the shelter builder had the numbers first): claims `FIC-GONZ-1100` to `-1104`,
+docs/CHILDREN.md §14, docs/WOODS_AND_BUILDING.md §6.12. The owner answered the four questions of *Paths, nobody walking over a tree,
+and the fenced yard* (below), recorded in docs/LAND_GRANTS.md §10.3a and docs/CHILDREN.md §14:
+
+1. *How much the yard calms a child on auto:* **half as often, as built**.
+2. and 4. together, **"Auto kids; fell trees"**: the yard calms **children on their own automation**, as built; and **fencing the yard
+   fells the trees standing inside it**, at felling's own time per tree, their logs onto the pile, like *Cut a path*.
+3. *A path through thick timber:* **felling's own time and logs, as built**.
+
+**Built**: *Fence a yard* now walks out, **fells every tree standing inside the yard** one at a time (`fellYard` in sim/chores.mjs: the
+nearest the yard's middle first, nobody else's tree, each at `fellAndCarryTicks` at the family's pace, onto the pile through
+`fellTree`), then splits the rails and raises them. The trees are read from the way-finding's patches (sim/land-paths.mjs
+`treesInBox`, `yardGround`). **The added work is said before anybody goes**, on the icon's line and in the yard's words, after the rails'
+time: *"22 trees inside: about 13.5 hours more, 39 logs for the pile."* (`yardTreesWords`, a chore's new `says`, carried as the work
+list's `estimate`; nothing where no tree stands, so a yard on open ground sends no more than before). The line that raises the rails
+says the trees too. **The felling is paid**: the house in the timber whose yard the first version cleared of 22 trees and 39 logs for 4
+ticks of rail-splitting now takes 59 ticks of one hand for the same logs (measured, `smoke-paths` hh-2). No save version moved.
+
+**Evidence**: tests/land-paths.test.mjs's yard test now holds the trees inside said on the bar and in the yard's words, every one felled,
+none left standing, their logs on the pile, and the rails begun only after felling's time; `node scripts/land-paths-injections.mjs`
+**19 of 19** caught by their own test alone, three new: the trees felled with the rails for nothing (the bug of 2026-10-02), the trees
+left standing, the line not said ([record](docs/evidence/land-paths-injections.json)). `npm run test:land-paths` green, 7 checks
+(its family's yard stands on open ground, so the browser shows the yard with no trees to fell; the felling and its words are proved in
+node); its proof now asserts the line and the felling wherever trees stand in the yard. `npm run test:overlap` green. `npm test` on the
+branch as cut: 2117 tests, 2077 pass, 3 fail - the art plan's heading test (`B16` with no heading: integration's own state at 96462b66,
+put right by 0348bfbb, onto which this branch is rebased) and two under the load of the whole suite (the save retry, the thirty-household
+capacity) with the battle floor's timing, each green alone - see the rerun below.
+
 ## Family creation and children — 2026-10-02
 
 The parent studio now offers pigment swatches, distinct painted headwear cards, a large world figure, Turn and See walking. Ten new atlases add eight parent identities and two adolescent figures, with 160 frames and 120 clips. All six head choices for each parent select distinct art. Family portraits and world rendering now share the age-aware `public/avatar-identity.js` selector; infants, toddlers, children and adolescents no longer inherit an adult body through the appearance path. Child pigment recoloring now displays the simulation's inherited colors. A missing child action retains a young idle/rest pose. Existing saves and inheritance rules remain compatible. Read `docs/FAMILY_ART_2026-10-02.md` for bindings, delivered poses, documented work/dialogue/transport refinements and validation commands. Parent and age-comparison browser evidence is in `docs/evidence/`.
@@ -195,7 +226,7 @@ families of one class, measured on this machine; the page reads only the tree ti
 1. *How much a fenced yard calms a child on auto:* (a) **half as often disobedient, as built**; (b) a third as often; (c) a quarter.
 2. *Whom the yard calms:* (a) **children on their own automation, as you said, as built**; (b) every small child at home inside it,
    told what to do or not.
-3. *Trees standing inside the yard when it is fenced:* (a) **left standing, as built** - felling them is felling's work; (b) felled
+3. *(Answered 2026-10-03, "Auto kids; fell trees": felled, at felling's time - see above.)* *Trees standing inside the yard when it is fenced:* (a) **left standing, as built** - felling them is felling's work; (b) felled
    with the fencing, their logs onto the pile, the fencing taking their felling time too.
 4. *A path cut through thick timber* (e.g. 25 trees in a fifth of a mile, about 15 hours): (a) **at felling's own time, giving
    felling's logs, as built**; (b) half that time, the path's narrow line counted lighter than felling.

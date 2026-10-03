@@ -20,7 +20,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction } from '../sim/world.mjs';
 import { settleMeans } from '../sim/means.mjs';
 import { keepFoundingFamilies, settle, taught } from '../tests/support/settled.mjs';
-import { treeCellAt } from '../sim/land-paths.mjs';
+import { treeCellAt, treesInBox, yardBox } from '../sim/land-paths.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
 
@@ -227,14 +227,20 @@ try {
   const fence = page.locator(`.panel-row[data-entity-id="${father}"] .panel-icon[data-key="fence-yard"]`);
   await page.waitForFunction(id => !window.__snapshot?.world.entities.find(one => one.id === id)?.chore, father, { timeout: 60000 });
   await fence.waitFor({ state: 'visible', timeout: 15000 });
+  // What the bar says of the trees inside the yard before anybody goes (owner, 2026-10-03, "Auto kids; fell trees"), where any stand.
+  observed.yardLine = await fence.getAttribute('data-note');
+  const yardStands = treesInBox(world(), yardBox(world(), hh()));
+  if (yardStands.length) assert.match(observed.yardLine || '', new RegExp(`${yardStands.length === 1 ? 'One tree' : `${yardStands.length} trees`} inside: about .+ more`), 'the trees inside the yard are said on its icon');
   await fence.click();
-  await page.waitForFunction(() => window.__snapshot?.world.land?.yard?.fence === 'sound', null, { timeout: 60000 });
+  await page.waitForFunction(() => window.__snapshot?.world.land?.yard?.fence === 'sound', null, { timeout: 240000 });
+  for (const tree of yardStands) assert.ok(world().woods?.felled?.[tree.id], `${tree.id}, inside the yard, felled for it`);
+  observed.yardTrees = yardStands.length;
   await page.waitForFunction(() => window.__yardDrawn?.fence === 'sound', null, { timeout: 15000 });
   await tipsAway(page);
   await closeOn(page, SITE);
   await page.waitForFunction(() => window.__yardDrawn?.fence === 'sound', null, { timeout: 15000 });
   observed.yard = { box: hh().yard, drawn: await page.evaluate(() => window.__yardDrawn) };
-  ok(`Fence a yard from the bar: rails drawn round the house at ${JSON.stringify(observed.yard.drawn)}`);
+  ok(`Fence a yard from the bar${observed.yardTrees ? ` ("${observed.yardLine}"), its ${observed.yardTrees} trees felled first` : ""}: rails drawn round the house at ${JSON.stringify(observed.yard.drawn)}`);
   await command(page, { action: 'stop-chore', entityId: child });
   const played = await command(page, { action: 'chore', entityId: child, chore: 'child-tag' });
   assert.equal(played.status, 200, JSON.stringify(played.body));

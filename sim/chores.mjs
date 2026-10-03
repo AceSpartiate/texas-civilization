@@ -69,7 +69,7 @@ import { FELL_PACE, WORK_PACE, hoursSaid, workHours, workPaceOf } from './work-p
 import { hungerPace } from './hunger.mjs';
 import { houseFront } from './house-placement.mjs';
 // The way across the family's own land, its paths and its yard (owner, 2026-10-02; sim/land-paths.mjs).
-import { YARD_SHARE, clearStretch, cutPathPlan, cutPathWork, nextOnPath, raiseYard, stakePath, stepTo, yardBox, yardFenced, yardMiddle, yardOf, yardRefusal } from './land-paths.mjs';
+import { YARD_SHARE, clearStretch, cutPathPlan, cutPathWork, nextOnPath, raiseYard, stakePath, stepTo, treesInBox, yardBox, yardFenced, yardGround, yardMiddle, yardOf, yardRefusal } from './land-paths.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
@@ -518,9 +518,14 @@ export const CHORES = {
     offered: (world, household) => !household.arriving && !household.choosingSite && houseSettled(household) && !yardFenced(household),
     refusal: (world, household) => yardRefusal(world, household, houseSettled) || (household.tools?.axe === undefined ? 'Splitting rails for the yard wants an axe, and there is none in the house.' : null),
     lacks: (world, household, entity, why) => (/wants an axe/.test(why) ? { axe: [0, 1] } : null),
-    describe: 'Split rails and fence a yard round the house. The little ones play inside it, and a child left to find themself things to do strays from them less.',
+    describe: 'Split rails and fence a yard round the house, felling the trees that stand inside it first, their logs onto the pile. The little ones play inside it, and a child left to find themself things to do strays from them less.',
+    // The trees inside the yard, and what felling them adds, on the bar before anybody is sent (owner, 2026-10-03: "Auto kids; fell
+    // trees"): absent where none stands there.
+    says: (world, household) => yardTreesWords(world, household),
     steps: [
       { walk: 'yard', doing: 'pacing out the yard round the house' },
+      // Every tree standing inside it, one at a time, at felling's own time, its logs onto the pile (`fellYard`).
+      { fellYard: true, doing: 'felling the trees inside the yard' },
       { work: 'yard', doing: 'splitting rails for the yard' },
       { raise: 'yard' },
     ],
@@ -1323,11 +1328,25 @@ export function cutPathFacts(world, household, point) {
   if (work.wantsAxe && household.tools?.axe === undefined) return { can: false, why: PATH_AXE_WHY, words, lack: { axe: [0, 1] }, ...line };
   return { can: true, words, trees: work.trees, logs: work.logs, ...line };
 }
-/** What fencing the yard would be, in the family's words: the ground it takes in and how its rails come (the chore's own line). */
+/**
+ * The trees standing inside the yard and what felling them adds, in the family's words, or null where none stands there (owner,
+ * 2026-10-03): "6 trees inside: about 4 hours more, 9 logs for the pile." An ordinary hand's felling time, at the family's pace.
+ */
+export function yardTrees(world, household) {
+  const trees = treesInBox(world, yardGround(world, household));
+  return { trees: trees.length, logs: trees.reduce((sum, tree) => sum + tree.logs, 0), ticks: trees.reduce((sum, tree) => sum + fellAndCarryTicks(tree), 0) };
+}
+export function yardTreesWords(world, household) {
+  const { trees, logs, ticks } = yardTrees(world, household);
+  if (!trees) return null;
+  return `${trees === 1 ? 'One tree' : `${trees} trees`} inside: about ${hoursSaid(workHours(ticks))} more, ${logs === 1 ? 'one log' : `${logs} logs`} for the pile.`;
+}
+/** What fencing the yard would be, in the family's words: the ground it takes in, how its rails come, and the trees inside it. */
 export function yardFacts(world, household) {
   const why = yardRefusal(world, household, houseSettled);
   if (why) return { can: false, why };
-  return { can: true, box: yardBox(world, household), words: `A yard round the house. ${fenceWords(yardFenceBy(world, household))}` };
+  const trees = yardTreesWords(world, household);
+  return { can: true, box: yardBox(world, household), words: `A yard round the house. ${fenceWords(yardFenceBy(world, household))}${trees ? ` ${trees}` : ''}` };
 }
 
 /**
@@ -2219,7 +2238,8 @@ export function choresFor(world, household, entity, logsOut = null) {
     // `level` used to ride here for every chore for every person and was read by nothing
     // at all - thirty-six copies a tick of a number with no reader.
     // An honest estimate of getting there in time, where a work has one (the relief for the Alamo): words, from the server.
-    const estimate = chore.estimate && can ? chore.estimate(world, household, entity) : null;
+    // Or what a work adds that its name does not say (the trees inside the yard, `says`), said after its cost.
+    const estimate = (chore.estimate || chore.says) && can ? (chore.estimate || chore.says)(world, household, entity) : null;
     // Going to the war leaves only children under ten at home: said plainly before he is sent (design audit S14), never refused.
     const leaves = can && WAR_CHORES.includes(id) ? leavesLittleOnes(world, household, entity) : null;
     // Refused only for a thing the family could get (`lacking`; owner, 2026-09-30, "Every gettable lack") - and so kept on the bar,
@@ -2938,7 +2958,22 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     }
     if (step.raise === 'fence') { raiseFence(world, household, entity, state.plotId); continue; }
     // The yard's rails go up (sim/land-paths.mjs).
-    if (step.raise === 'yard') { raiseYard(world, household, entity); continue; }
+    if (step.raise === 'yard') { raiseYard(world, household, entity, { trees: state.trees || 0, logs: state.logs || 0 }); continue; }
+    if (step.fellYard) {
+      // The trees standing inside the yard, one at a time, before its rails (owner, 2026-10-03, "Auto kids; fell trees"): each felled at
+      // felling's own time, its logs onto the pile (sim/felling.mjs `fellTree`). Nobody else's tree is taken: several at it fell apart.
+      if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
+      if (state.felling) { fellTree(world, household, entity, state.felling); delete state.felling; }
+      const taken = new Set(Object.values(world.entities).filter(other => other !== entity && other.chore?.felling).map(other => other.chore.felling));
+      const tree = treesInBox(world, yardGround(world, household)).find(one => !taken.has(one.id));
+      if (!tree) continue;
+      if (!stroll(world, household, entity, { x: tree.x, y: tree.y })) { state.step--; return; }
+      state.felling = tree.id;
+      state.doing = `felling ${/^[aeiou]/.test(KINDS[tree.kind].name) ? 'an' : 'a'} ${KINDS[tree.kind].name} inside the yard`;
+      workFor(state, paceFor(fellAndCarryTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household)) * workPaceOf(chore) * hungerPace(entity));
+      state.step--;
+      return;
+    }
     if (step.cutPath) {
       // A path, a tree or a stretch at a time, until it reaches the place (sim/land-paths.mjs). The tree whose work is paid for
       // comes down first, its logs onto the pile; the stretch whose work is paid for is cleared.
