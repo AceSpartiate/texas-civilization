@@ -240,6 +240,14 @@ try {
   await page.waitForFunction(() => document.querySelector('#survey-choose').hidden, null, { timeout: 5000 });
 
   // ------------------------------------------------------------------ 4. the carreta short of a hide, and the hunt that brings one
+  // Nobody of the family takes up work of their own from here on: on auto, a hand the page last saw idle could be sent to cut
+  // the crop between that snapshot and the press, and the press was rightly refused ("… is already cutting the crop") - the
+  // proof failing 3 runs in 5 on 1638f5ca, the game doing nothing wrong. What this proves is the student's own presses.
+  for (const id of await page.evaluate(() => window.__snapshot.world.household.members || [])) {
+    // A baby has no auto to put off, and is refused it.
+    await page.evaluate(async body => (await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })).status, { id: `proof-${crypto.randomUUID()}`, action: 'set-auto', entityId: id, auto: false });
+  }
+  await page.waitForTimeout(1200);
   // A free grown hand to make it: their portrait, so the bar is theirs (docs/FAMILY_PANEL.md).
   const maker = await page.evaluate(() => {
     const world = window.__snapshot.world;
@@ -379,7 +387,9 @@ try {
   ok(`a ripe plot clicked says "${ripe.title}": "${ripe.text}", and "Bring it in" sent ${bringer} to bring it in`);
 
   // ------------------------------------------------------------------ the carreta, made
-  await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, maker, { timeout: 120000 });
+  // The crop in first: the one sent to bring it in may be the maker, and until the server starts them on it they look free -
+  // pressed then, the carreta was refused ("… is already cutting the crop"), 3 runs in 5 on 1638f5ca.
+  await page.waitForFunction(id => { const world = window.__snapshot.world; return !world.household.plots?.find(plot => plot.id === 'plot-1')?.ripe && !world.entities.find(one => one.id === id)?.chore; }, maker, { timeout: 120000 });
   await page.waitForFunction(id => { const button = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="make-carreta"]`); return button && button.getAttribute('aria-disabled') !== 'true' && !button.dataset.goal; }, maker, { timeout: 20000 });
   assert.equal(await carreta.locator('.panel-needs').count(), 0, 'the carreta still shows wants with everything in the house');
   await carreta.click();
