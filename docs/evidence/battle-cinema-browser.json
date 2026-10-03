@@ -6,18 +6,18 @@
   "checks": [
     "two students joined on the page, each family with a man up the river with the men, and the Host started the class",
     "the teacher looks at Gonzales (camera at 2.10, 0.50, 960 px a mile)",
-    "the Host's camera went by itself: a fade to black (0.93), the field from 30 px a mile pushing in to 254, under a title and the bars",
+    "the Host's camera went by itself: a fade to black (0.94), the field from 30 px a mile pushing in to 750, under a title and the bars",
     "filmed from the gathering, where the class's men are (\"family\"), and the fight itself as a major event (\"major\")",
     "each man of the class in the fight is named on the class view with his family and its colour: Silas (Silas's family, #2f6fd6); Ezra (Ezra's family, #d64545); the class panel carries the same colours",
     "the film follows the field and then each family's man in turn, close (hh-1-thomas, hh-2-thomas)",
     "Esc took the camera and it stayed where it was; \"Watch the fight\" gave it back; \"Take the camera (Esc)\" took it again; and back to the film",
     "the student pressed Watch and the same follow ran on their own page, on their own man hh-1-thomas, naming nobody else's",
-    "the battle draws in 4.9 ms (95th percentile) at 1366x768 and 4.9 ms at 1024x600, smoke and all",
-    "for less motion no fade and no glide (331 looks), and a still haze over the lines (3 banks of it)",
-    "the fighting over, the film held on the field 6.1 s while the smoke cleared, faded to black and put the camera back at Gonzales",
-    "the gun's smoke went up in a plume (seen at 493 looks), and the smoke was thinned round the class's own men at 393 of 393 looks at the fighting",
-    "black-powder smoke on the screen at 392 of 393 looks at the fighting, banked as thick as 0.88, and still lying on the field 53 s after the last shot",
-    "the Texian line fired 4.6 shots a man a minute in the skirmish (a man's pace: aim, fire, and seconds of loading)",
+    "the battle draws in 3.0 ms (95th percentile) at 1366x768 and 2.9 ms at 1024x600, smoke and all",
+    "for less motion no fade and no glide (333 looks), and a still haze over the lines (3 banks of it)",
+    "the fighting over, the film held on the field 6.0 s while the smoke cleared, faded to black and put the camera back at Gonzales",
+    "the gun's smoke went up in a plume (seen at 482 looks), and the smoke was thinned round the class's own men at 386 of 386 looks at the fighting",
+    "black-powder smoke on the screen at 386 of 386 looks at the fighting, banked as thick as 0.88, and still lying on the field 55 s after the last shot",
+    "the Texian line fired 4.8 shots a man a minute in the skirmish (a man's pace: aim, fire, and seconds of loading)",
     "the server held each tick of the fighting to 1765 ms (Gonzales's floor scaled by 0.5) at a pace of 400 ms, and said the pace apart"
   ],
   "home": {
@@ -35,63 +35,63 @@
   "frames": {
     "1366x768": {
       "battle": {
-        "last": 1.9,
-        "median": 3.6,
-        "p95": 4.9
+        "last": 1,
+        "median": 1.6,
+        "p95": 3
       },
-      "map": 10.399999998509884,
-      "smokeInView": 37,
-      "banks": 29
+      "map": 6.799999997019768,
+      "smokeInView": 36,
+      "banks": 30
     },
     "1024x600": {
       "battle": {
-        "last": 2,
-        "median": 3.6,
-        "p95": 4.9
+        "last": 1,
+        "median": 1.5,
+        "p95": 2.9
       },
-      "map": 9.299999997019768,
-      "smokeInView": 31,
-      "banks": 25
+      "map": 6.4000000059604645,
+      "smokeInView": 27,
+      "banks": 22
     }
   },
   "samples": [
     {
       "followed": "hh-1-thomas",
-      "scale": 2065,
+      "scale": 2047,
       "tag": {
         "id": "hh-1-thomas",
         "name": "Ezra",
         "family": "Ezra's family",
         "colour": "#d64545",
         "householdId": "hh-1",
-        "x": 644,
-        "y": 185,
+        "x": 645,
+        "y": 195,
         "down": false,
         "followed": true
       },
-      "smokeInView": 21
+      "smokeInView": 28
     },
     {
       "followed": "hh-2-thomas",
-      "scale": 1572,
+      "scale": 1498,
       "tag": {
         "id": "hh-2-thomas",
         "name": "Silas",
         "family": "Silas's family",
         "colour": "#2f6fd6",
         "householdId": "hh-2",
-        "x": 683,
-        "y": 297,
+        "x": 684,
+        "y": 299,
         "down": false,
         "followed": true
       },
-      "smokeInView": 96
+      "smokeInView": 94
     }
   ],
   "musket": {
-    "shotsAMinute": 184,
+    "shotsAMinute": 191,
     "drawnMen": 40,
-    "perManAMinute": 4.6
+    "perManAMinute": 4.76
   },
   "states": [
     "off",

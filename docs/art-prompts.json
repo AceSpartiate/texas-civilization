@@ -2863,6 +2863,1120 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-family-father-hat.png",
       "postProcessing": "None. PNG copied unchanged.",
       "review": "Clean-shaven felt hat distinguishes the hat choice from hat and beard; standing, walking, work and rest stay the same identity."
+    },
+    {
+      "sheet": "famous-sanchez-navarro",
+      "promptId": "frontier-v1/famous-sanchez-navarro",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW original interpretive Jose Juan Sanchez Navarro character atlas. Reference is ONLY style: match warm outlined storybook frontier game, slightly elevated 3/4 view, muted ochre cream navy moss colors, readable small proportions. Not exact likeness/uniform claim. DISTINCT lean middle-aged Mexican officer, angular face, dark short sideburns, small neat dark moustache, simple navy peaked cap without tall shako, navy coat with moss-green collar/cuffs, modest muted brass epaulettes, cream trousers, black boots, sheathed sword stays sheathed. TRUE transparent PNG strict 4 columns x 4 rows, exactly16 fullbody isolated sprites. Each figure occupies at most75% of cell height and80%width, centered with 30px clear transparent gutters, no touching rows. Same costume scale face throughout. Row1 FOUR east walk gait frames: left contact, right knee passing, right contact reversed arms, left knee passing. Row2 TWO south walking then TWO north walking, distinct legs. Row3 east idle, east open-palm parley speaking, east listening hands relaxed, east holding folded dispatch. Row4 east reading open document, east offering folded dispatch, east restrained pointing, east seated rest stool. Entire hats feet props intact, generous margins. No labels text lettering grid background ground patches shadows weapons firing blood. Keep subdued hand-painted reference style, not 3D not photoreal.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-condelle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-13eeabc8-5dbe-4512-8856-bbeae5240c0d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sanchez-navarro.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Clear isolated poses and matching shipped officer style. East frames 3 and 4 repeat the contact/passing silhouette family; the runtime deliberately uses the first two as a modest two-pose walk rather than claiming four distinct gait phases. Costume and likeness are interpretations."
+    },
+    {
+      "sheet": "famous-barragan",
+      "promptId": "frontier-v1/famous-barragan",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a new original interpretive Captain Barragan Texas Revolution officer sprite atlas. Reference image STYLE ONLY: match warm outlined painted storybook game cast, thin dark olive-brown contours, slightly elevated 3/4 camera, subdued navy cream ochre moss palette and small readable proportions. Distinct character: middle-aged broad-shouldered Mexican captain, warm brown complexion, rounded face, short black hair, clean shaven, low dark navy officer cap with narrow brass band, navy coat with muted ochre collar/cuffs, restrained small brass shoulder tabs not ornate fringe, cream trousers dark boots, saber remains sheathed. Costume/face artistic interpretation not exact portrait or uniform. STRICT 4x4 equally spaced grid exactly16 fullbody isolated cutouts, each fits within75%cellheight and75%cellwidth, generous alpha gutters at least30px between silhouettes and rows, feet/hats/props intact same scale baseline. Row1 FOUR east walking poses left contact, right knee passing, right contact, left knee passing visibly alternate legs and arms. Row2 TWO south walking then TWO north walking. Row3 east idle arms relaxed, east one hand raised palm OUT stop intervention, east both palms OUT protective intervention, east arm stretched low guiding someone behind him (no other person). Row4 east speaking one hand near chest, east listening, east restrained pointing, seated rest on simple stool. Same identity/costume every cell. Hands unarmed, peaceful protective gestures, no firing death blood crowds. True transparent alpha no background ground shadow text labels grid, no photorealism no 3D.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-sanchez-navarro.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7e3d7f6a-9642-4acb-975a-41e80e0ec5f1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-barragan.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Original interpretive face and costume. Protective unarmed gestures for the existing Joe intervention. Runtime walk uses a restrained two-pose cadence; the other east poses are retained as variants."
+    },
+    {
+      "sheet": "famous-wp-smith",
+      "promptId": "frontier-v1/famous-wp-smith",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate-and-refine",
+      "prompt": "Create NEW original interpretive Reverend W. P. Smith, Texas Revolution Gonzales 1835, transparent game character atlas. Reference STYLE ONLY warm hand-painted outlined storybook frontier game, olive brown thin contours, subdued earth colors, slightly elevated three-quarter view, readable small stylized adult. Different identity than Austin reference: older lean man, long narrow face, short GREY hair and neat grey sideburns clean shaven, dark charcoal broad brim felt hat, warm brown long civilian frock coat, muted rust waistcoat, offwhite cravat, dark brown trousers dark boots. No military insignia no modern clerical collar no weapons. Costume and face are interpretive not exact portrait. STRICT 4 columns4rows exactly16 isolated fullbody sprites, each <=75%cellheight, <=75%width, center in equal cells and baseline, 30px transparent gutters between every row and column. Row1 FOUR EAST walking phases strongly different leg positions: left forward contact, left planted right knee bent passing, RIGHT forward contact opposite arm swing, right planted left knee bent passing. Row2 TWO SOUTH walk frames then TWO NORTH walk frames. Row3 east idle, east speech palm raised at chest, east speech open hand out exhortation, east listening hands relaxed. Row4 east holding closed small brown book, east reading open book no lettering, east restrained pointing, seated rest stool. Full feet hats props preserved, constant scale consistent costume and face. No text grid labels ground shadows background firing blood. True transparent alpha. Match existing painted game style, not 3D photorealistic or pixel art.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-austin.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3170a652-8dd8-43dc-a059-6d7b5d776dfa.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b31c06e2-e7e9-4776-a17b-9a37ad196c33.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-wp-smith.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Civilian speaker with original interpreted costume/face. East gait refinement supplies distinct contact and lifted-knee passing poses; the runtime uses the first two. The other two are retained variants, not four unique phases. Book is an optional art prop, not evidence that he held one at Gonzales. No new words, routes or historical outcome."
+    },
+    {
+      "sheet": "famous-smither",
+      "promptId": "frontier-v1/famous-smither",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW original interpretive Launcelot Smither Texas Revolution civilian messenger, not exact likeness. Reference STYLE ONLY match warm outlined painted frontier storybook farm game, elevated3/4 camera muted earthy colors small stylized readable figure. Distinct man slender, short light brown hair, clean shaven long face, dusty blue broadbrim felt hat, ochre short civilian jacket over cream shirt, faded slate blue neckcloth and trousers, brown boots, small brown leather dispatch satchel across torso. Same identity costume throughout. Strict transparent4x4 equalcells16 isolated fullbody cutouts75%cellheight75%cellwidth lots gutters30px separation. Row1 east WALK CONTACT left leg forward/right behind; east PASSING planted left boot directly under hip/right knee bent lifted; east CONTACT right forward/leftbehind oppositearms; east PASSING planted right boot/left knee lifted. Row2 two southwalk then two northwalk. Row3 eastidle, east openhand STOP palm outward, east SPEAK openhandat chest, east LISTEN handsrelaxed. Row4 east offering folded blankdispatch, east readingdispatch, east opening satchel, seatedreststool. Large clear visible differences for walk knee positions and arm swing. Hats feet props intact consistent scale baseline. No weapons insignia text ground shadow backgrounds grids blood. True alpha, no3D no photorealism.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-wp-smith.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0de3dafa-34b5-421a-ae10-af1a6a29579e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-smither.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Distinct civilian identity. Runtime east walk uses contact/passing first two poses; extra two repeat the silhouette family and remain variants. Dispatch props are available, not newly asserted at the parley."
+    },
+    {
+      "sheet": "famous-smither-mounted",
+      "promptId": "frontier-v1/famous-smither-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create new4-sprite mounted Launcelot Smither atlas STRICT2x2 equal square cells true transparent. Reference1 EXACT character identity clothing and game style: lean clean-shaven man lightbrown hair blue broadbrim hat ochre jacket cream shirt blue neckcloth and trousers brown boots dispatchsatchel. Reference2 ONLY horse composition and smallgame camera style; do NOT use its rider identity. Smither on original chestnut horse with cream forehead blaze darkmane/tail brown saddle bridle, not historically exact horse claim. Warm outlined painted storybook style match reference1 contour and shading. TopLEFT east horse WALK contact frontnear hoof forward planted rearnear back, rider LEFT hand holds reins RIGHT hand raised OPEN palm outward calmly saying stop. TopRIGHT east horse WALK passing, frontnear knee visibly bent hoof raised underbody rearnear underhip, reverse other legs, rider same raised palm and reins. BottomLEFT EAST idle horse allhooves grounded rider palm raised no weapon. BottomRIGHT SOUTH idle horse rider hands on reins. Exactly4 separate fullhorse+rider cutouts fully within eachcell75%height80%width, 40pxtransparent gutters, no touching rows tails ears or hooves, same size/style/horse/rider. No groundshadow grass backgrounds text grids firing violence, no3D photorealism.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-grant-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-15d2e745-a206-4a38-8f84-eb4fda5f0a7b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-smither-mounted.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Interpretive chestnut mount with raised-palm warning. No exact horse or gesture claim. East walk mirrors west; south idle delivered, mounted north/south walking remains future work."
+    },
+    {
+      "sheet": "famous-jw-smith",
+      "promptId": "frontier-v1/famous-jw-smith",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent game sprite atlas STRICT4x4 equalcells16 isolated fullbody cutouts, max75%cellheight75%width and30pxclearalpha gutters. Reference ONLY STYLE warm outlined hand-painted storybook frontier game, slightly elevated3/4 view mutedearth colors readable smallcast proportions. Entire hats boots props intact constant scale and identity. Row1 eastwalk contact leftforward, eastwalkpassing plantedleft liftedrightknee, eastwalkcontact rightforward oppositearms, eastpassing plantedright liftedleftknee. Row2 two SOUTH walks then two NORTH walks. Row3 eastidle, eastopenpalmparley, eastpoint, eastlisten. Row4 east holding blank foldeddispatch, east readingdispatch, east satchelopening, seatedrest. Strong visible leg differences in contact/passing. Truealpha no labels text background grids ground shadows firing blood. No exact portrait or costume claim. Subject: Original interpreted John W. Smith: sturdy middle-aged man, short darkbrown hair with greying sideburns, neat short dark beard, dark russet felt broadbrim hat, mossgreen civilian shortcoat creamshirt ochre neckcloth, warmbrown trousers leatherboots brown dispatchsatchel. Distinct from the reference clean-shaven blue-hatted man.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1495021c-4306-4460-b445-a23f4677b898.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-jw-smith.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Interpretive face/costume, not portrait evidence. Contact/passing first two east poses form runtime gait; extra two are variants rather than four distinct phases. Directional foot walks, civilian parley and dispatch/rest gestures."
+    },
+    {
+      "sheet": "famous-jw-smith-mounted",
+      "promptId": "frontier-v1/famous-jw-smith-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-jw-smith.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-65661e7b-0506-4e31-8551-c373e243364a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-jw-smith-mounted.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Rider matches own foot identity. Horse is an original visual interpretation. East two-pose walk mirrors west; south idle available. Mounted north/south gait remains requested. No route, dialogue, firing or fate changes."
+    },
+    {
+      "sheet": "famous-horton",
+      "promptId": "frontier-v1/famous-horton",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent game sprite atlas STRICT4x4 equalcells16 isolated fullbody cutouts, max75%cellheight75%width and30pxclearalpha gutters. Reference ONLY STYLE warm outlined hand-painted storybook frontier game, slightly elevated3/4 view mutedearth colors readable smallcast proportions. Entire hats boots props intact constant scale and identity. Row1 eastwalk contact leftforward, eastwalkpassing plantedleft liftedrightknee, eastwalkcontact rightforward oppositearms, eastpassing plantedright liftedleftknee. Row2 two SOUTH walks then two NORTH walks. Row3 eastidle, eastopenpalmparley, eastpoint, eastlisten. Row4 east holding blank foldeddispatch, east readingdispatch, east satchelopening, seatedrest. Strong visible leg differences in contact/passing. Truealpha no labels text background grids ground shadows firing blood. No exact portrait or costume claim. Subject: Original interpreted Albert Clinton Horton: tall broad man, short black wavy hair, thick black moustache no beard, dark brown broadbrimhat, dusty indigo civilian coat over rustwaistcoat creamshirt, mutedgreen neckcloth tan trousers darkboots small brown satchel. Distinct face/costume from reference messenger. No militaryepaulettes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-62703d34-f2b3-470b-866b-f7a171a76904.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-horton.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Interpretive face/costume, not portrait evidence. Contact/passing first two east poses form runtime gait; extra two are variants rather than four distinct phases. Directional foot walks, civilian parley and dispatch/rest gestures."
+    },
+    {
+      "sheet": "famous-horton-mounted",
+      "promptId": "frontier-v1/famous-horton-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-horton.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-34e3beb5-b44e-4202-8cdc-36b9f56570ef.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-horton-mounted.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Rider matches own foot identity. Horse is an original visual interpretation. East two-pose walk mirrors west; south idle available. Mounted north/south gait remains requested. No route, dialogue, firing or fate changes."
+    },
+    {
+      "sheet": "famous-kimbell",
+      "promptId": "frontier-v1/famous-kimbell",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW original interpretive Texas Revolution game character atlas not exact portrait/costume evidence. Reference STYLE ONLY warm outlined hand-painted storybook frontier cast, slightly elevated3/4view, mutedearth colors readablegame proportion. True transparent STRICT4x4 equalcells16 independent fullbody cutouts75%cellheight75%width with30pxalpha gutters. Row1 eastwalking contact leftforward, passing leftbootplanted rightknee lifted, oppositecontact rightforward reversearms, passing rightplanted leftkneelifted. Row2 two southwalk then two northwalk. Row3 eastidle, eastopenpalmcommand, eastpoint, eastlistening. Row4 eastblankfoldeddispatch, eastreaddispatch, eastsatchelopening, seatedrest. Same face clothes props scale throughout. Distinct leg silhouettes contact/passing. Entire hat boots props intact no celloverlap. No text labels grids backgrounds ground shadows firing blood death. Original interpreted George C. Kimbell: compact sturdy adult, dark shorthair neat dark moustache squareface, charcoal broadbrimfelt hat, rustbrown civilian jacket creamshirt, ochre neckcloth mossgreen trousers brownboots small leathermessengersatchel. No epaulettes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-80388c4c-9fa6-44e9-80b9-431259534487.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-kimbell.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Interpretive face/costume, not portrait evidence. Contact/passing first two east poses form runtime gait; extra two are variants rather than four distinct phases. Directional foot walks, civilian parley and dispatch/rest gestures."
+    },
+    {
+      "sheet": "famous-kimbell-mounted",
+      "promptId": "frontier-v1/famous-kimbell-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-kimbell.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5634095f-61b8-4ab3-9df2-685b72ee155c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-kimbell-mounted.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Rider matches own foot identity. Horse is an original visual interpretation. East two-pose walk mirrors west; south idle available. Mounted north/south gait remains requested. No route, dialogue, firing or fate changes."
+    },
+    {
+      "sheet": "famous-martin",
+      "promptId": "frontier-v1/famous-martin",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW original interpretive Texas Revolution game character atlas not exact portrait/costume evidence. Reference STYLE ONLY warm outlined hand-painted storybook frontier cast, slightly elevated3/4view, mutedearth colors readablegame proportion. True transparent STRICT4x4 equalcells16 independent fullbody cutouts75%cellheight75%width with30pxalpha gutters. Row1 eastwalking contact leftforward, passing leftbootplanted rightknee lifted, oppositecontact rightforward reversearms, passing rightplanted leftkneelifted. Row2 two southwalk then two northwalk. Row3 eastidle, eastopenpalmcommand, eastpoint, eastlistening. Row4 eastblankfoldeddispatch, eastreaddispatch, eastsatchelopening, seatedrest. Same face clothes props scale throughout. Distinct leg silhouettes contact/passing. Entire hat boots props intact no celloverlap. No text labels grids backgrounds ground shadows firing blood death. Original interpreted Albert Martin: lean adult man sandy-blond shorthair cleanshaven freckled face, mossgreen broadbrimhat, creamtan civilian jacket over mutedblue waistcoat offwhite shirt, rustneckcloth warmbrown trousers darkboots smallbrown dispatchsatchel. No epaulettes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-58cafd6c-b05a-4bcc-a88e-00704cc0a093.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-martin.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Interpretive face/costume, not portrait evidence. Contact/passing first two east poses form runtime gait; extra two are variants rather than four distinct phases. Directional foot walks, civilian parley and dispatch/rest gestures."
+    },
+    {
+      "sheet": "famous-martin-mounted",
+      "promptId": "frontier-v1/famous-martin-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW strict2x2 equalcell transparent atlas4 mounted Albert Martin sprites. Reference1 EXACT rider identity/costume/style sandyblond cleanshavenman greenfelt broadbrimhat tan jacket bluewaistcoat rustneckcloth browntrousers boots brown satchel. Reference2 ONLY mounted horse layout replace rider andhorse. Original interpreted sorrel horse flaxen mane/tail narrow cream blaze brown saddle/bridle; not historical horseclaim. Warm outlined handpainted storybook frontiercast elevated3/4camera mutedcolors matching reference1, not3Dphotorealism. TopLEFT EAST horse WALK contact nearfrontleg forward planted opposite rearleg forward riderbothhandsreins. TopRIGHT EAST horse WALK passing nearfront knee bent hoofRAISED clearly underbody reverselegs riderbothhandsreins. BottomLEFT EAST IDLE horse allhoovesgrounded riderbothhandsreins. BottomRIGHT SOUTH IDLE frontal horse/rider bothhandsreins. Exactly4 independent fullhorse+rider cutouts75%cellheight80%width with40px alpha gutters between allrows/columns, same face costume horse scale, no overlap ears tails hooves intact. No waving palm no shadows ground grass background text grid weapons blood. Truealpha.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-martin.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-230b5e02-68d9-4961-aacf-ebb1269aaffe.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-martin-mounted.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Rider matches own foot identity. Horse is an original visual interpretation. East two-pose walk mirrors west; south idle available. Mounted north/south gait remains requested. No route, dialogue, firing or fate changes."
+    },
+    {
+      "sheet": "famous-smither-mounted-cardinal",
+      "promptId": "frontier-v1/famous-smither-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL horse+rider north/south WALK frames for smither. Reference is EXACT identity/costume/horse and STYLE: clean-shaven light-brown-haired man blue felt hat ochre jacket slate-blue neckcloth/trousers dispatch satchel on chestnut horse black mane/tail cream forehead blaze. Preserve tack/saddle/satchels colors, face/clothes, warm outlined hand-painted storybook game, slightly elevated3/4 camera. NOT a new character. TopLEFT SOUTH towardviewer walk nearforehoof planted forward farforehoof lifted, topRIGHT SOUTH opposite foreleg lifted/planted with DISTINCT legpositions. BottomLEFT NORTH awayviewer rearview horse/rider walking nearhindhoof lifted farhindplanted; bottomRIGHT NORTH opposite hindleg lifted/planted. Show BACK of rider head hat coat in bottomrow, tail rear ofhorse not head/frontface. Preserve his warning gesture: one hand on reins, other open palm raised in SOUTH views; NORTH shows same raised hand from behind. Allfour same rider/horse scale. FULL hooves ears tail hat intact, cutouts max75%cellheight75%width with generous40px transparent gutters between rowscolumns, isolated no touching. Truealpha no shadows ground patches backgrounds text labels grids gore or weapons. Original interpretive identity/horse not portrait evidence. Exactly2 south then2north, no east figures.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a24e6702-8561-4972-bc07-99a7a2f88584.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-smither-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-jw-smith-mounted-cardinal",
+      "promptId": "frontier-v1/famous-jw-smith-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL horse+rider north/south WALK frames for jw-smith. Reference is EXACT identity/costume/horse and STYLE: dark-bearded man russet felt hat moss-green coat ochre neckcloth brown trousers dispatch satchel on dark bay horse dark mane/tail cream forehead star/blaze. Preserve tack/saddle/satchels colors, face/clothes, warm outlined hand-painted storybook game, slightly elevated3/4 camera. NOT a new character. TopLEFT SOUTH towardviewer walk nearforehoof planted forward farforehoof lifted, topRIGHT SOUTH opposite foreleg lifted/planted with DISTINCT legpositions. BottomLEFT NORTH awayviewer rearview horse/rider walking nearhindhoof lifted farhindplanted; bottomRIGHT NORTH opposite hindleg lifted/planted. Show BACK of rider head hat coat in bottomrow, tail rear ofhorse not head/frontface. Both hands hold reins. Allfour same rider/horse scale. FULL hooves ears tail hat intact, cutouts max75%cellheight75%width with generous40px transparent gutters between rowscolumns, isolated no touching. Truealpha no shadows ground patches backgrounds text labels grids gore or weapons. Original interpretive identity/horse not portrait evidence. Exactly2 south then2north, no east figures.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-jw-smith-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-aafecdf9-57ba-44b8-a2f7-cce41b6ab7f0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-jw-smith-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-horton-mounted-cardinal",
+      "promptId": "frontier-v1/famous-horton-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL horse+rider north/south WALK frames for horton. Reference is EXACT identity/costume/horse and STYLE: black moustached man brown felt hat indigo coat rust waistcoat green neckcloth tan trousers dispatch satchel on dapple-grey horse dark mane/tail. Preserve tack/saddle/satchels colors, face/clothes, warm outlined hand-painted storybook game, slightly elevated3/4 camera. NOT a new character. TopLEFT SOUTH towardviewer walk nearforehoof planted forward farforehoof lifted, topRIGHT SOUTH opposite foreleg lifted/planted with DISTINCT legpositions. BottomLEFT NORTH awayviewer rearview horse/rider walking nearhindhoof lifted farhindplanted; bottomRIGHT NORTH opposite hindleg lifted/planted. Show BACK of rider head hat coat in bottomrow, tail rear ofhorse not head/frontface. Both hands hold reins. Allfour same rider/horse scale. FULL hooves ears tail hat intact, cutouts max75%cellheight75%width with generous40px transparent gutters between rowscolumns, isolated no touching. Truealpha no shadows ground patches backgrounds text labels grids gore or weapons. Original interpretive identity/horse not portrait evidence. Exactly2 south then2north, no east figures.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-horton-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9536c6a3-19bb-4265-9548-1e1cdf9b7dd5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-horton-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-kimbell-mounted-cardinal",
+      "promptId": "frontier-v1/famous-kimbell-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL horse+rider north/south WALK frames for kimbell. Reference is EXACT identity/costume/horse and STYLE: dark moustached man blue-charcoal felt hat rust-brown jacket ochre neckcloth moss-green trousers satchel on chestnut horse flaxen mane/tail. Preserve tack/saddle/satchels colors, face/clothes, warm outlined hand-painted storybook game, slightly elevated3/4 camera. NOT a new character. TopLEFT SOUTH towardviewer walk nearforehoof planted forward farforehoof lifted, topRIGHT SOUTH opposite foreleg lifted/planted with DISTINCT legpositions. BottomLEFT NORTH awayviewer rearview horse/rider walking nearhindhoof lifted farhindplanted; bottomRIGHT NORTH opposite hindleg lifted/planted. Show BACK of rider head hat coat in bottomrow, tail rear ofhorse not head/frontface. Both hands hold reins. Allfour same rider/horse scale. FULL hooves ears tail hat intact, cutouts max75%cellheight75%width with generous40px transparent gutters between rowscolumns, isolated no touching. Truealpha no shadows ground patches backgrounds text labels grids gore or weapons. Original interpretive identity/horse not portrait evidence. Exactly2 south then2north, no east figures.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-kimbell-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0776fff0-54b1-4a4a-9b31-a1d4c5c54e81.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-kimbell-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-martin-mounted-cardinal",
+      "promptId": "frontier-v1/famous-martin-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL horse+rider north/south WALK frames for martin. Reference is EXACT identity/costume/horse and STYLE: sandy-blond clean-shaven man green felt hat tan jacket blue waistcoat rust neckcloth brown trousers satchel on sorrel horse flaxen mane/tail cream forehead blaze. Preserve tack/saddle/satchels colors, face/clothes, warm outlined hand-painted storybook game, slightly elevated3/4 camera. NOT a new character. TopLEFT SOUTH towardviewer walk nearforehoof planted forward farforehoof lifted, topRIGHT SOUTH opposite foreleg lifted/planted with DISTINCT legpositions. BottomLEFT NORTH awayviewer rearview horse/rider walking nearhindhoof lifted farhindplanted; bottomRIGHT NORTH opposite hindleg lifted/planted. Show BACK of rider head hat coat in bottomrow, tail rear ofhorse not head/frontface. Both hands hold reins. Allfour same rider/horse scale. FULL hooves ears tail hat intact, cutouts max75%cellheight75%width with generous40px transparent gutters between rowscolumns, isolated no touching. Truealpha no shadows ground patches backgrounds text labels grids gore or weapons. Original interpretive identity/horse not portrait evidence. Exactly2 south then2north, no east figures.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-martin-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bb01cfda-0231-44a4-b1e1-de8361e33927.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-martin-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-cos-mounted-cardinal",
+      "promptId": "frontier-v1/famous-cos-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW transparent STRICT2x2 equalcells FOUR FULL mounted cos north/south walk frames. Reference EXACT established rider face/costume/horse/tack/style: moustached officer navy shako gold epaulettes navycoat red cuffs/collar whitecrossbelt creamtrousers blackboots navy/gold saddlecloth on dappledarkgrey horse blackmane/tail. Warmoutlined handpainted storybookgame elevated3/4camera mutedcolors not3Dphotorealism. TOP row SOUTH towardviewer two visibly different alternating forelegwalking positions: cell1nearforehoof forwardplanted farforeknee lifted, cell2oppositeforeleg planted/lifted. BOTTOM row NORTH awayviewer two alternating hindlegsteps: cell3nearhindhoof raised farhindplanted, cell4oppositehind raised/planted. Rearviews show BACK of head hat coat saddle horse rump/tail NO forwardface. Both hands on reins weapons remain sheathed. Same rider/horse colors/markings scale eachcell; full earsplumes hat hooves tail preserved. Max75%cellheight75%width generous40px clearalpha gutters no touching rows/columns. Truealpha no text labels grids backgrounds shadows groundpatches shooting gore. Exactly2south then2north no sideview. Original interpretation not exact portrait/uniform claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-69964aee-01cd-4f76-a7f9-dc976671788c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-cos-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-urrea-mounted-cardinal",
+      "promptId": "frontier-v1/famous-urrea-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW transparent STRICT2x2 equalcells FOUR FULL mounted urrea north/south walk frames. Reference EXACT established rider face/costume/horse/tack/style: moustached officer black bicorne goldtrim greenplume navy/violetcoat gold cuffs/epaulettes palebluesash creamtrousers blackboots navy/gold saddlecloth on bay horse blackmane/tail white hind socks cream forehead stripe. Warmoutlined handpainted storybookgame elevated3/4camera mutedcolors not3Dphotorealism. TOP row SOUTH towardviewer two visibly different alternating forelegwalking positions: cell1nearforehoof forwardplanted farforeknee lifted, cell2oppositeforeleg planted/lifted. BOTTOM row NORTH awayviewer two alternating hindlegsteps: cell3nearhindhoof raised farhindplanted, cell4oppositehind raised/planted. Rearviews show BACK of head hat coat saddle horse rump/tail NO forwardface. Both hands on reins weapons remain sheathed. Same rider/horse colors/markings scale eachcell; full earsplumes hat hooves tail preserved. Max75%cellheight75%width generous40px clearalpha gutters no touching rows/columns. Truealpha no text labels grids backgrounds shadows groundpatches shooting gore. Exactly2south then2north no sideview. Original interpretation not exact portrait/uniform claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-urrea-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b6eded47-e434-4d96-afe7-f1608ef0b380.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-castaneda-mounted-cardinal",
+      "promptId": "frontier-v1/famous-castaneda-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW transparent STRICT2x2 equalcells FOUR FULL mounted castaneda north/south walk frames. Reference EXACT established rider face/costume/horse/tack/style: moustached officer blackhelmet redplume navy/tealcoat redcuffs/collar goldepaulettes whitecrossbelt creamtrousers blackboots navy/gold saddlecloth on bay horse blackmane/tail creamforeheadmark. Warmoutlined handpainted storybookgame elevated3/4camera mutedcolors not3Dphotorealism. TOP row SOUTH towardviewer two visibly different alternating forelegwalking positions: cell1nearforehoof forwardplanted farforeknee lifted, cell2oppositeforeleg planted/lifted. BOTTOM row NORTH awayviewer two alternating hindlegsteps: cell3nearhindhoof raised farhindplanted, cell4oppositehind raised/planted. Rearviews show BACK of head hat coat saddle horse rump/tail NO forwardface. Both hands on reins weapons remain sheathed. Same rider/horse colors/markings scale eachcell; full earsplumes hat hooves tail preserved. Max75%cellheight75%width generous40px clearalpha gutters no touching rows/columns. Truealpha no text labels grids backgrounds shadows groundpatches shooting gore. Exactly2south then2north no sideview. Original interpretation not exact portrait/uniform claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-16688b7b-3df4-4ec3-82f6-63d6a33f64d4.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castaneda-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-houston-mounted-cardinal",
+      "promptId": "frontier-v1/famous-houston-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL mounted houston north/south WALK frames. Reference EXACT face/costume/horse/tack/style: darkbearded man brown hat long brown coat greenwaistcoat blackcravat creamtrousers darkboots rolled greyblanket on chestnut horse redbrownmane/tail whitehind socks cream foreheadblaze. Warmoutlined painted storybookgame camera slightlyelevated3/4 mutedcolors not3Dphotorealism. TOP row SOUTH towardviewer walking: cell1 nearforehoof plantedforward farforeleg lifted, cell2 OPPOSITE forehoof planted/lifted visiblychanged. BOTTOM row NORTH awayviewer walking: cell3 nearhindhoof lifted farhindplanted, cell4 oppositehind lifted/planted. Rearviews show backofhead hat coat saddle horserump tail no frontalface. Bothhands hold reins no gesturing weapons remain sheathed. All4 exactsamecolors markings riderhorse scale full ears hats boots hooves tail intact, max75%cellheight75%width wide40pxtransparent gutters eachcell rows nooverlap. Truealpha no shadows groundpatches scenery labels text grids gore. Exactly2south then2north no eastview. Face/costume/horse artisticinterpretations not likeness claims.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-houston-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5996514c-a781-4647-ac1f-5a2a1d40afd1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-houston-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-santa-anna-mounted-cardinal",
+      "promptId": "frontier-v1/famous-santa-anna-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL mounted santa-anna north/south WALK frames. Reference EXACT face/costume/horse/tack/style: clean-shaven general navy peakedcap ornate navycoat gold epaulettes redcollar/cuffs redsash creamtrousers blackboots navy/goldsaddlecloth on darkbay horse blackmane/tail no blaze. Warmoutlined painted storybookgame camera slightlyelevated3/4 mutedcolors not3Dphotorealism. TOP row SOUTH towardviewer walking: cell1 nearforehoof plantedforward farforeleg lifted, cell2 OPPOSITE forehoof planted/lifted visiblychanged. BOTTOM row NORTH awayviewer walking: cell3 nearhindhoof lifted farhindplanted, cell4 oppositehind lifted/planted. Rearviews show backofhead hat coat saddle horserump tail no frontalface. Bothhands hold reins no gesturing weapons remain sheathed. All4 exactsamecolors markings riderhorse scale full ears hats boots hooves tail intact, max75%cellheight75%width wide40pxtransparent gutters eachcell rows nooverlap. Truealpha no shadows groundpatches scenery labels text grids gore. Exactly2south then2north no eastview. Face/costume/horse artisticinterpretations not likeness claims.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-santa-anna-mounted.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3a234f67-2f7a-4646-b42b-c0dc048625a2.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-52941206-b821-49c2-b436-5b21ee6f987d.png",
+      "refinementPrompt": "Refine this transparent2x2 Santa Anna mounted walk atlas. Keep exactrider face navycap ornatecoat gold epaulettes redcollar/cuffs redsash creamtrousers boots, same darkbayhorse no whiteblaze blackmane/tail saddle/tack style/scale. Correct DIRECTION: topTWO strictly SOUTH towardviewer horsehead body centeredFRONT, riderfront, NOdiagonal; bottomTWO strictly NORTH awayviewer centeredREAR backhat head coat saddle horserump/tail NOdiagonal NOhorsefrontface. Same centered torso orientation within eachrow, DO NOT alternate left/right facing between frames. Animate ONLY alternating forelegs on south and hindlegs on north: cell1 leftforehoof forwarddown right lifted, cell2 reverse; cell3 lefthind lifted solevisible right planted, cell4reverse. Cleardifferentlegposes. Exact4 separate fullcutouts max75%cellheightwidth40pxclearalpha gutters no touching rows, hats/hooves/tails intact. Truealpha no shadows ground backgrounds text grids. Samewarmoutlinedpaintedgame style.",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-santa-anna-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-burleson-mounted-cardinal",
+      "promptId": "frontier-v1/famous-burleson-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL mounted burleson north/south WALK frames. Reference EXACT face/costume/horse/tack/style: older greybearded frontiersman brownhat mossbrown longcoat ochrewaistcoat creamshirt browntrousers boots sword sheathed rolledgreyblanket on darkbay horse blackmane/tail small whiteforeheadstar. Warmoutlined painted storybookgame camera slightlyelevated3/4 mutedcolors not3Dphotorealism. TOP row SOUTH towardviewer walking: cell1 nearforehoof plantedforward farforeleg lifted, cell2 OPPOSITE forehoof planted/lifted visiblychanged. BOTTOM row NORTH awayviewer walking: cell3 nearhindhoof lifted farhindplanted, cell4 oppositehind lifted/planted. Rearviews show backofhead hat coat saddle horserump tail no frontalface. Bothhands hold reins no gesturing weapons remain sheathed. All4 exactsamecolors markings riderhorse scale full ears hats boots hooves tail intact, max75%cellheight75%width wide40pxtransparent gutters eachcell rows nooverlap. Truealpha no shadows groundpatches scenery labels text grids gore. Exactly2south then2north no eastview. Face/costume/horse artisticinterpretations not likeness claims.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-burleson-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7cca60c4-34d8-4a66-955f-80f4bb01a662.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-burleson-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-grant-mounted-cardinal",
+      "promptId": "frontier-v1/famous-grant-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL mounted grant north/south WALK frames. Reference EXACT face/costume/horse/tack/style: slender sandy-brown-haired shortstubble man greenfelt hat tanlongcoat greenwaistcoat burgundy neckcloth olive trousers leatherboots brown satchel on dun-greybrown horse blackmane/tail. Warmoutlined painted storybookgame camera slightlyelevated3/4 mutedcolors not3Dphotorealism. TOP row SOUTH towardviewer walking: cell1 nearforehoof plantedforward farforeleg lifted, cell2 OPPOSITE forehoof planted/lifted visiblychanged. BOTTOM row NORTH awayviewer walking: cell3 nearhindhoof lifted farhindplanted, cell4 oppositehind lifted/planted. Rearviews show backofhead hat coat saddle horserump tail no frontalface. Bothhands hold reins no gesturing weapons remain sheathed. All4 exactsamecolors markings riderhorse scale full ears hats boots hooves tail intact, max75%cellheight75%width wide40pxtransparent gutters eachcell rows nooverlap. Truealpha no shadows groundpatches scenery labels text grids gore. Exactly2south then2north no eastview. Face/costume/horse artisticinterpretations not likeness claims.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-grant-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-00fe4821-41b6-4dc2-ae3e-83e8e2697bd6.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-castrillon-cardinal",
+      "promptId": "frontier-v1/famous-castrillon-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW transparentSTRICT2x2 FOUR fullbody walking Castrillon sprites. Reference EXACT identity andstyle: older moustached general greyinghair navycap navy doublebreasted coat gold epaulettes red collar/cuffs/sash creamtrousers blackboots. Match warmoutlined paintedstorybook style same face/costume/scale. TOP row TWO SOUTH facing towardviewer alternating left/right walking legs arms noticeably different. BOTTOM row TWO NORTH rearview awayviewer alternating legs arms; back ofhat hair coat visible NO frontface. Full hats boots hands intact max75%cellheight75%width40pxclearalpha gutters isolated equalcells. Truealpha no words grids backgrounds groundshadows weaponsfiring gore. Original interpretation not exactuniform/portrait.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castrillon.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cfd91ee7-6460-4051-a5d1-a2c26f79a07e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castrillon-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive character and crate. Two-pose authored motion. Crate-floor anchor; battle renderer uses 1.18 body-height multiplier. Step-down and ground variants reserved for future staging; no new scripted transition."
+    },
+    {
+      "sheet": "famous-castrillon-crate",
+      "promptId": "frontier-v1/famous-castrillon-crate",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW transparent STRICT2x2 FOUR fullbody Castrillon ON AMMUNITION CRATE poses. Reference EXACT face/costume/warmoutlined paintedstorybookstyle: older greying moustached general navy cap navy doublebreasted coat gold epaulettes redcollar/cuffs/sash creamtrousers blackboots. One SMALL squat wooden AMMUNITION crate plain weatheredochreplanks iron straps NO markings/text wide enoughbothboots crateHEIGHT about15%ofstandingbodyheight crateWIDTH45%bodyheight. Composite isolated fullperson+crate same scale perspective elevated3/4. TOPLEFT EAST facing standing BOTH BOOTS oncrate lid, rightarm extended palm rally command. TOPRIGHT SAME figure BOTH BOOTS oncrate rightarm raised rally differentclearpose. BOTTOMLEFT east steppingDOWN rightbootoncrate leftfootlower nearfloor, rightarmbalances. BOTTOMRIGHT east standingBESIDE samecrate BOTHbootsatground loweredarm. Samecratesizefacecostume throughout. Full hat boots crate intact within75%cellheight80%width40pxalpha gutters no celloverlap. Truealpha no groundpatch shadows background text grids gunfire gore death. This is an interpretive crate not exact artifact claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castrillon.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c08265aa-e103-4de4-a0b5-da53b697a92e.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f8e86418-e610-494e-8ff9-37f0ea9cfaa6.png",
+      "refinementPrompt": "Edit ONLY BOTTOM RIGHT cell of this transparent2x2 atlas: REMOVE the separate wooden crate beside the standing man entirely, leaving the same full standing Castrillon figure unchanged on transparent alpha. Preserve ALL other3 cells exactly, including their crates, poses, style, costume face, size and spacing. Keep bottomright hat feet hands intact. No shadows ground backgrounds or text. Truealpha. Exactly4 isolated character cutouts overall; top two stand on crates, bottomleft steps down with crate, bottomright is just standing figure without crate.",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castrillon-crate.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive character and crate. Two-pose authored motion. Crate-floor anchor; battle renderer uses 1.18 body-height multiplier. Step-down and ground variants reserved for future staging; no new scripted transition."
+    },
+    {
+      "id": "travis",
+      "sheet": "famous-travis-gestures",
+      "prompt": "NEW transparent STRICT2x2 equalcells FOUR FULLBODY travis gesture animation keyframes. Reference EXACT existing character identity/costume/face and warm outlined painted storybook game style: young clean-shaven brown-haired man brown broadbrim hat navy coat ochre buttons brown trousers black boots sheathed saber; blank dispatch in left hand. Same slightly elevated3/4 camera same scale stance baseline in all4. All face EAST/right. TOPLEFT command gesture1 arm bent forward palm open at chestheight, TOPRIGHT command gesture2 arm extended forward higher palm open with torso slightlean, clearlydifferenthandposition. BOTTOMLEFT conversation gesture1 relaxed one openhand close to chest, BOTTOMRIGHT conversation gesture2 openhand offered outward waistheight with subtle headdirectionchange. Two authored cycles command TOProw, conversation BOTTOMrow. Serious restrained expressions no caricature no shouting. Feet stay planted, no scene no props except described dispatch/sheathed saber. Hats hands boots intact with40pxalpha gutters; max75%cellheight/width. Truealpha no groundshadow background text labels grids crowds weaponsdrawn gore. Preserve identity exactly not a new design. Original visual interpretation not exact likeness/uniform.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "promptId": "frontier-v1/famous-travis-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a01ad1ff-69c2-470a-b8b7-b3f3e576c316.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-travis-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "houston",
+      "sheet": "famous-houston-gestures",
+      "prompt": "NEW transparent STRICT2x2 equalcells FOUR FULLBODY houston gesture animation keyframes. Reference EXACT existing character identity/costume/face and warm outlined painted storybook game style: middle-aged dark bearded man brown broadbrim hat brown longcoat green waistcoat black neckcloth cream trousers dark boots; BOTH legs healthy no bandages. Same slightly elevated3/4 camera same scale stance baseline in all4. All face EAST/right. TOPLEFT command gesture1 arm bent forward palm open at chestheight, TOPRIGHT command gesture2 arm extended forward higher palm open with torso slightlean, clearlydifferenthandposition. BOTTOMLEFT conversation gesture1 relaxed one openhand close to chest, BOTTOMRIGHT conversation gesture2 openhand offered outward waistheight with subtle headdirectionchange. Two authored cycles command TOProw, conversation BOTTOMrow. Serious restrained expressions no caricature no shouting. Feet stay planted, no scene no props except described dispatch/sheathed saber. Hats hands boots intact with40pxalpha gutters; max75%cellheight/width. Truealpha no groundshadow background text labels grids crowds weaponsdrawn gore. Preserve identity exactly not a new design. Original visual interpretation not exact likeness/uniform.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-houston.png"
+      ],
+      "promptId": "frontier-v1/famous-houston-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-806ba5ca-150c-4e6e-98fc-98a93a3dd7da.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-houston-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "santa-anna",
+      "sheet": "famous-santa-anna-gestures",
+      "prompt": "NEW transparent STRICT2x2 equalcells FOUR FULLBODY santa-anna gesture animation keyframes. Reference EXACT existing character identity/costume/face and warm outlined painted storybook game style: clean-shaven dark-haired general navy officer cap navy coat gold epaulettes red collar cuffs sash cream trousers black boots saber sheathed. Same slightly elevated3/4 camera same scale stance baseline in all4. All face EAST/right. TOPLEFT command gesture1 arm bent forward palm open at chestheight, TOPRIGHT command gesture2 arm extended forward higher palm open with torso slightlean, clearlydifferenthandposition. BOTTOMLEFT conversation gesture1 relaxed one openhand close to chest, BOTTOMRIGHT conversation gesture2 openhand offered outward waistheight with subtle headdirectionchange. Two authored cycles command TOProw, conversation BOTTOMrow. Serious restrained expressions no caricature no shouting. Feet stay planted, no scene no props except described dispatch/sheathed saber. Hats hands boots intact with40pxalpha gutters; max75%cellheight/width. Truealpha no groundshadow background text labels grids crowds weaponsdrawn gore. Preserve identity exactly not a new design. Original visual interpretation not exact likeness/uniform.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-santa-anna.png"
+      ],
+      "promptId": "frontier-v1/famous-santa-anna-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c9ffbfed-f18e-4995-8500-44c513877f6b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-santa-anna-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "austin",
+      "sheet": "famous-austin-gestures",
+      "prompt": "NEW transparent STRICT2x2 equalcells FOUR FULLBODY austin gesture animation keyframes. Reference EXACT existing character identity/costume/face and warm outlined painted storybook game style: clean-shaven brown-haired man charcoal hat dark moss-green frockcoat tan waistcoat white neckstock brown trousers black boots. Same slightly elevated3/4 camera same scale stance baseline in all4. All face EAST/right. TOPLEFT command gesture1 arm bent forward palm open at chestheight, TOPRIGHT command gesture2 arm extended forward higher palm open with torso slightlean, clearlydifferenthandposition. BOTTOMLEFT conversation gesture1 relaxed one openhand close to chest, BOTTOMRIGHT conversation gesture2 openhand offered outward waistheight with subtle headdirectionchange. Two authored cycles command TOProw, conversation BOTTOMrow. Serious restrained expressions no caricature no shouting. Feet stay planted, no scene no props except described dispatch/sheathed saber. Hats hands boots intact with40pxalpha gutters; max75%cellheight/width. Truealpha no groundshadow background text labels grids crowds weaponsdrawn gore. Preserve identity exactly not a new design. Original visual interpretation not exact likeness/uniform.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-austin.png"
+      ],
+      "promptId": "frontier-v1/famous-austin-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-95287f51-67e3-41c9-a762-2c8b1cf3ccb9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-austin-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "moore",
+      "sheet": "famous-moore-gestures",
+      "prompt": "NEW transparent STRICT2x2 equalcells FOUR FULLBODY moore gesture animation keyframes. Reference EXACT existing character identity/costume/face and warm outlined painted storybook game style: dark-bearded brown-haired man brown felt hat brown coat cream waistcoat blue neckcloth brown trousers black boots saber sheathed. Same slightly elevated3/4 camera same scale stance baseline in all4. All face EAST/right. TOPLEFT command gesture1 arm bent forward palm open at chestheight, TOPRIGHT command gesture2 arm extended forward higher palm open with torso slightlean, clearlydifferenthandposition. BOTTOMLEFT conversation gesture1 relaxed one openhand close to chest, BOTTOMRIGHT conversation gesture2 openhand offered outward waistheight with subtle headdirectionchange. Two authored cycles command TOProw, conversation BOTTOMrow. Serious restrained expressions no caricature no shouting. Feet stay planted, no scene no props except described dispatch/sheathed saber. Hats hands boots intact with40pxalpha gutters; max75%cellheight/width. Truealpha no groundshadow background text labels grids crowds weaponsdrawn gore. Preserve identity exactly not a new design. Original visual interpretation not exact likeness/uniform.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-moore.png"
+      ],
+      "promptId": "frontier-v1/famous-moore-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-00f232c3-8c8c-4190-b975-e72427214c3d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-moore-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "almonte",
+      "sheet": "famous-almonte-gestures",
+      "prompt": "NEW transparent STRICT2x2 equalcells FOUR FULLBODY almonte gesture animation keyframes. Reference EXACT existing character identity/costume/face and warm outlined painted storybook game style: clean-shaven wavy black-haired young officer NO HAT navy coat gold embroidery epaulettes redcuffs goldbelt cream trousers blackboots saber sheathed. Same slightly elevated3/4 camera same scale stance baseline in all4. All face EAST/right. TOPLEFT command gesture1 arm bent forward palm open at chestheight, TOPRIGHT command gesture2 arm extended forward higher palm open with torso slightlean, clearlydifferenthandposition. BOTTOMLEFT conversation gesture1 relaxed one openhand close to chest, BOTTOMRIGHT conversation gesture2 openhand offered outward waistheight with subtle headdirectionchange. Two authored cycles command TOProw, conversation BOTTOMrow. Serious restrained expressions no caricature no shouting. Feet stay planted, no scene no props except described dispatch/sheathed saber. Hats hands boots intact with40pxalpha gutters; max75%cellheight/width. Truealpha no groundshadow background text labels grids crowds weaponsdrawn gore. Preserve identity exactly not a new design. Original visual interpretation not exact likeness/uniform.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-almonte.png"
+      ],
+      "promptId": "frontier-v1/famous-almonte-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bc1d956b-cf97-41fd-87d9-165b3ee0e581.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-almonte-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "burleson",
+      "sheet": "famous-burleson-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-burleson.png"
+      ],
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR fullbody burleson gesture KEYFRAMES matching reference EXACT same face/costume/style: greying shortbearded man brown hat olive-brown longcoat tan waistcoat white neckstock brown trousers darkboots sheathedsaber. Warm outlined painterly storybookgame same elevated3/4camera mutedpalette, all EAST/right, sameplantedfeet heightscale baseline. TOPLEFT commanding openhand bent atchestheight TOPRIGHT commanding samehand extendedforward shoulderheight with slighttorsolean DISTINCT armpositions. BOTTOMLEFT conversation one openhand nearwaist closebody BOTTOMRIGHT conversation samehand outward offering with subtlenod. Exactly2command2conversation nootherposes. All hats plume boots hands intact fit75%equalcellheight75%width40pxalpha gutters. Truealpha no shadowsground backdrop textgrids labels people gunfire unsheathedweapons gore. Same character notnewdesign. Originalinterpretation nothistoricalportrait/uniformclaim.",
+      "promptId": "frontier-v1/famous-burleson-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-30934b90-53ac-4167-8895-7d815dd28c5f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-burleson-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "cos",
+      "sheet": "famous-cos-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos.png"
+      ],
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR fullbody cos gesture KEYFRAMES matching reference EXACT same face/costume/style: small darkmoustache darkhair navy tall cylindrical shako brassbadge navyteal coat redcollar/cuffs goldshouldertabs whitecrossbelt creamtrousers blackboots sheathedsaber. Warm outlined painterly storybookgame same elevated3/4camera mutedpalette, all EAST/right, sameplantedfeet heightscale baseline. TOPLEFT commanding openhand bent atchestheight TOPRIGHT commanding samehand extendedforward shoulderheight with slighttorsolean DISTINCT armpositions. BOTTOMLEFT conversation one openhand nearwaist closebody BOTTOMRIGHT conversation samehand outward offering with subtlenod. Exactly2command2conversation nootherposes. All hats plume boots hands intact fit75%equalcellheight75%width40pxalpha gutters. Truealpha no shadowsground backdrop textgrids labels people gunfire unsheathedweapons gore. Same character notnewdesign. Originalinterpretation nothistoricalportrait/uniformclaim.",
+      "promptId": "frontier-v1/famous-cos-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-744353f5-e9ff-4eef-984b-fa8f6deb3276.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-cos-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "urrea",
+      "sheet": "famous-urrea-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-urrea.png"
+      ],
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR fullbody urrea gesture KEYFRAMES matching reference EXACT same face/costume/style: darkmoustache darkhair black bicorne goldrim greenplume darkblue coat gold epaulettes skyblue sash creamtrousers blackboots sheathedsaber. Warm outlined painterly storybookgame same elevated3/4camera mutedpalette, all EAST/right, sameplantedfeet heightscale baseline. TOPLEFT commanding openhand bent atchestheight TOPRIGHT commanding samehand extendedforward shoulderheight with slighttorsolean DISTINCT armpositions. BOTTOMLEFT conversation one openhand nearwaist closebody BOTTOMRIGHT conversation samehand outward offering with subtlenod. Exactly2command2conversation nootherposes. All hats plume boots hands intact fit75%equalcellheight75%width40pxalpha gutters. Truealpha no shadowsground backdrop textgrids labels people gunfire unsheathedweapons gore. Same character notnewdesign. Originalinterpretation nothistoricalportrait/uniformclaim.",
+      "promptId": "frontier-v1/famous-urrea-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-84cd2ecf-4f1e-41d3-aad1-d670debf4b6a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "castaneda",
+      "sheet": "famous-castaneda-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda.png"
+      ],
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR fullbody castaneda gesture KEYFRAMES matching reference EXACT same face/costume/style: darkmoustache darkhair blackcrested cavalry helmet brassbadge RED plume navyteal coat redcuffs/collar goldshouldertabs whitecrossbelt creamtrousers blackboots sheathedsaber. Warm outlined painterly storybookgame same elevated3/4camera mutedpalette, all EAST/right, sameplantedfeet heightscale baseline. TOPLEFT commanding openhand bent atchestheight TOPRIGHT commanding samehand extendedforward shoulderheight with slighttorsolean DISTINCT armpositions. BOTTOMLEFT conversation one openhand nearwaist closebody BOTTOMRIGHT conversation samehand outward offering with subtlenod. Exactly2command2conversation nootherposes. All hats plume boots hands intact fit75%equalcellheight75%width40pxalpha gutters. Truealpha no shadowsground backdrop textgrids labels people gunfire unsheathedweapons gore. Same character notnewdesign. Originalinterpretation nothistoricalportrait/uniformclaim.",
+      "promptId": "frontier-v1/famous-castaneda-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-11c35527-162d-490f-a4e1-7365d293c219.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castaneda-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "deaf-smith",
+      "sheet": "famous-deaf-smith-mounted-cardinal",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL mounted deaf-smith NORTH/SOUTH WALK sprites. Reference EXACT existing identity/costume/horse/tack/style: bearded middle-aged man olive-brown hat fringed buckskin jacket sage vest rust-red neckcloth grey trousers leather satchel; sandy buckskin horse dark mane/tail cream blaze and white hind socks. Warm dark outlined painted storybook frontier game, slightly elevated camera, muted natural palette. TOPLEFT south towardviewer nearforehoof forward planted farforehoof raised; TOPRIGHT south OPPOSITE leg planted/raised clearly different. BOTTOMLEFT north directly awayviewer rearview one hindhoof raised other planted; BOTTOMRIGHT north opposite hindhoof raised/planted. Both rear cells must show BACK of rider head hat coat and horse rump tail, NO frontface no opposing diagonal angles. Same face/horse/clothes/scale across4. Both hands hold reins. Full ears hooves hat tail boots intact within75%each cellheight/width with40px transparent gutters. Truealpha no ground shadows background labels words grid gore. Identity and horse are interpretations not portrait evidence. Exactly2south2north no east.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-deaf-smith-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-deaf-smith-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-53b58aab-6bd7-4b11-9adb-bbf2b249a480.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a31efa2d-3e21-4826-8c19-8d2fc7fc888f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-deaf-smith-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
+    },
+    {
+      "id": "karnes",
+      "sheet": "famous-karnes-mounted-cardinal",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL mounted karnes NORTH/SOUTH WALK sprites. Reference EXACT existing identity/costume/horse/tack/style: red-haired short red-bearded man brown hat plum-brown jacket ochre waistcoat slate neckcloth brown trousers; black horse dark mane/tail. Warm dark outlined painted storybook frontier game, slightly elevated camera, muted natural palette. TOPLEFT south towardviewer nearforehoof forward planted farforehoof raised; TOPRIGHT south OPPOSITE leg planted/raised clearly different. BOTTOMLEFT north directly awayviewer rearview one hindhoof raised other planted; BOTTOMRIGHT north opposite hindhoof raised/planted. Both rear cells must show BACK of rider head hat coat and horse rump tail, NO frontface no opposing diagonal angles. Same face/horse/clothes/scale across4. Both hands hold reins. Full ears hooves hat tail boots intact within75%each cellheight/width with40px transparent gutters. Truealpha no ground shadows background labels words grid gore. Identity and horse are interpretations not portrait evidence. Exactly2south2north no east.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-karnes-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-karnes-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dbe184d5-203e-473f-ada2-8eabb072be32.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-615f3cf2-1a84-4459-8a4c-4566fdcf92b0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-karnes-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
+    },
+    {
+      "id": "lamar",
+      "sheet": "famous-lamar-mounted-cardinal",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL mounted lamar NORTH/SOUTH WALK sprites. Reference EXACT existing identity/costume/horse/tack/style: clean-shaven brown-haired young man charcoal hat teal longcoat ochre waistcoat rust neckcloth tan trousers; pale grey horse dark mane/tail. Warm dark outlined painted storybook frontier game, slightly elevated camera, muted natural palette. TOPLEFT south towardviewer nearforehoof forward planted farforehoof raised; TOPRIGHT south OPPOSITE leg planted/raised clearly different. BOTTOMLEFT north directly awayviewer rearview one hindhoof raised other planted; BOTTOMRIGHT north opposite hindhoof raised/planted. Both rear cells must show BACK of rider head hat coat and horse rump tail, NO frontface no opposing diagonal angles. Same face/horse/clothes/scale across4. Both hands hold reins. Full ears hooves hat tail boots intact within75%each cellheight/width with40px transparent gutters. Truealpha no ground shadows background labels words grid gore. Identity and horse are interpretations not portrait evidence. Exactly2south2north no east.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-lamar-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-lamar-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-151381ba-ad80-4c2b-ab08-b8baf0f1aaa4.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8e2957d3-056a-4337-a01d-faeae05d66c4.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
+    },
+    {
+      "id": "sherman",
+      "sheet": "famous-sherman-mounted-cardinal",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL mounted sherman NORTH/SOUTH WALK sprites. Reference EXACT existing identity/costume/horse/tack/style: brown-haired moustached man tan hat olive-brown coat dark green waistcoat burgundy neckcloth tan trousers; bay horse black mane/tail. Warm dark outlined painted storybook frontier game, slightly elevated camera, muted natural palette. TOPLEFT south towardviewer nearforehoof forward planted farforehoof raised; TOPRIGHT south OPPOSITE leg planted/raised clearly different. BOTTOMLEFT north directly awayviewer rearview one hindhoof raised other planted; BOTTOMRIGHT north opposite hindhoof raised/planted. Both rear cells must show BACK of rider head hat coat and horse rump tail, NO frontface no opposing diagonal angles. Same face/horse/clothes/scale across4. Both hands hold reins. Full ears hooves hat tail boots intact within75%each cellheight/width with40px transparent gutters. Truealpha no ground shadows background labels words grid gore. Identity and horse are interpretations not portrait evidence. Exactly2south2north no east.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-sherman-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-sherman-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3ff55b04-bf35-4786-9a41-aac6cf2996fb.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec655c4e-fb68-4956-b6df-2911a54c1a75.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
+    },
+    {
+      "id": "rusk",
+      "sheet": "famous-rusk-mounted-cardinal",
+      "prompt": "Create NEW transparent STRICT2x2 equalcells FOUR FULL mounted rusk NORTH/SOUTH WALK sprites. Reference EXACT existing identity/costume/horse/tack/style: clean-shaven brown-haired man black hat russet longcoat slate waistcoat black neckcloth tan trousers; dark bay horse narrow cream blaze two white hind socks. Warm dark outlined painted storybook frontier game, slightly elevated camera, muted natural palette. TOPLEFT south towardviewer nearforehoof forward planted farforehoof raised; TOPRIGHT south OPPOSITE leg planted/raised clearly different. BOTTOMLEFT north directly awayviewer rearview one hindhoof raised other planted; BOTTOMRIGHT north opposite hindhoof raised/planted. Both rear cells must show BACK of rider head hat coat and horse rump tail, NO frontface no opposing diagonal angles. Same face/horse/clothes/scale across4. Both hands hold reins. Full ears hooves hat tail boots intact within75%each cellheight/width with40px transparent gutters. Truealpha no ground shadows background labels words grid gore. Identity and horse are interpretations not portrait evidence. Exactly2south2north no east.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-rusk-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-rusk-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2b136f8c-e68f-4c51-9678-7867ef919a1c.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b1ea8045-e742-4b84-a638-1f3b7cc03b97.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
+    },
+    {
+      "id": "fannin",
+      "sheet": "famous-fannin-story-actions",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR FULLBODY storyaction keyframes for fannin. Reference EXACT same identity costume face proportions warm dark outlined handpainted storybookgame slightlyelevated3/4camera mutednaturalpalette: young clean-shaven man brownhat dark teal/navy frockcoat creamshirt browntrousers blackboots sheathedsaber blankdispatch. Readingorder poses: TOPLEFT openpalm command chestlevel TOPRIGHT samehand extended higher command; BOTTOMLEFT BOTH emptyhands raised palmsout chestheight BOTTOMRIGHT both emptyhands higher shoulderheight surrender. Blankdispatch ONLY topcells. No wound/execution/death. AllEAST/right samefacescostumes scale. Noadditionalfigures. All hands hats boots props intact, max75%equalcellheight80%width40pxalpha gutters no touchingcells. Truealpha no ground/shadows/backdrop/text/labels/grid/gore. Originalinterpretation notdocumentedportrait. Clearlydifferentarm/legposes, no duplicateframes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-fannin.png"
+      ],
+      "promptId": "frontier-v1/famous-fannin-story-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-837507dc-0504-446a-b253-9bb84f82dd0d.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-837507dc-0504-446a-b253-9bb84f82dd0d.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-fannin-story-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "milam",
+      "sheet": "famous-milam-story-actions",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR FULLBODY storyaction keyframes for milam. Reference EXACT same identity costume face proportions warm dark outlined handpainted storybookgame slightlyelevated3/4camera mutednaturalpalette: mature darkbearded frontiersman tanhat fringedbuckskin coat browntrousers darkboots. Readingorder poses: TOPLEFT rightarm bent raisedfist rally TOPRIGHT rightarm higher rally; BOTTOMLEFT arm points east at waistlevel BOTTOMRIGHT arm points east shoulderheight. Left hand holds same grounded upright rifle at rest ALL4 never aim/fire. AllEAST/right samefacescostumes scale. Noadditionalfigures. All hands hats boots props intact, max75%equalcellheight80%width40pxalpha gutters no touchingcells. Truealpha no ground/shadows/backdrop/text/labels/grid/gore. Originalinterpretation notdocumentedportrait. Clearlydifferentarm/legposes, no duplicateframes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-milam.png"
+      ],
+      "promptId": "frontier-v1/famous-milam-story-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-10286647-b3b8-4138-a4ee-056dc8787e5b.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-10286647-b3b8-4138-a4ee-056dc8787e5b.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-milam-story-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "crockett",
+      "sheet": "famous-crockett-story-actions",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR FULLBODY storyaction keyframes for crockett. Reference EXACT same identity costume face proportions warm dark outlined handpainted storybookgame slightlyelevated3/4camera mutednaturalpalette: darkbearded man tanfelt hat fringedbuckskin coat grey-browntrousers blackboots. Readingorder poses: TOPLEFT openhand command near chest TOPRIGHT samehand forwardraised, otherhand holding groundeduprightrifle. BOTTOMLEFT seated same low log bothhands resting on groundeduprightrifle BOTTOMRIGHT seated same log onehand on rifle otherhand relaxed onknee. No fall captive violence gore. AllEAST/right samefacescostumes scale. Noadditionalfigures. All hands hats boots props intact, max75%equalcellheight80%width40pxalpha gutters no touchingcells. Truealpha no ground/shadows/backdrop/text/labels/grid/gore. Originalinterpretation notdocumentedportrait. Clearlydifferentarm/legposes, no duplicateframes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-crockett.png"
+      ],
+      "promptId": "frontier-v1/famous-crockett-story-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-64409a26-78ef-4669-a786-ba1db91f5a00.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-64409a26-78ef-4669-a786-ba1db91f5a00.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-crockett-story-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "bowie",
+      "sheet": "famous-bowie-story-actions",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR FULLBODY storyaction keyframes for bowie. Reference EXACT same identity costume face proportions warm dark outlined handpainted storybookgame slightlyelevated3/4camera mutednaturalpalette: darkbearded brownhaired man tanhat olive coat creamshirt blackneckcloth tantrousers darkboots sheathedknife. Readingorder poses: TOPLEFT openhand command bent atchest TOPRIGHT samearm extendedforward. BOTTOMLEFT hatless same Bowie alive reclined on simplelowcanvascot withcreamblanket pillow eyesOPEN onehandonchest otherhandonblanket; BOTTOMRIGHT EXACT samecotblanket pillowalive eyesOPEN onehandresting besidebody otherhandhighernearcollar. Gentle care animation no death no wound no weapons inbed. AllEAST/right samefacescostumes scale. Noadditionalfigures. All hands hats boots props intact, max75%equalcellheight80%width40pxalpha gutters no touchingcells. Truealpha no ground/shadows/backdrop/text/labels/grid/gore. Originalinterpretation notdocumentedportrait. Clearlydifferentarm/legposes, no duplicateframes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-bowie.png"
+      ],
+      "promptId": "frontier-v1/famous-bowie-story-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-43c7556a-b3ae-4a6a-8294-4eef88f19e58.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-43c7556a-b3ae-4a6a-8294-4eef88f19e58.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-bowie-story-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "alavez",
+      "sheet": "famous-alavez-story-actions",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR FULLBODY storyaction keyframes for alavez. Reference EXACT same identity costume face proportions warm dark outlined handpainted storybookgame slightlyelevated3/4camera mutednaturalpalette: browncomplexion woman longblackbraid creamblouse plumlongskirt darktealrebozo darkshoes. Readingorder poses: TOPLEFT arm outward palmup fingersopen beckon TOPRIGHT sameforearm bent inward fingerscurled beckon. BOTTOMLEFT arm points gentlyeastlow TOPRIGHT both? BOTTOMRIGHT SAME arm extended east further higher guides unseen person. Nootherperson no weapon no words. AllEAST/right samefacescostumes scale. Noadditionalfigures. All hands hats boots props intact, max75%equalcellheight80%width40pxalpha gutters no touchingcells. Truealpha no ground/shadows/backdrop/text/labels/grid/gore. Originalinterpretation notdocumentedportrait. Clearlydifferentarm/legposes, no duplicateframes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-alavez.png"
+      ],
+      "promptId": "frontier-v1/famous-alavez-story-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cd7e2a2c-7c13-409d-8079-fd6636aedeec.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cd7e2a2c-7c13-409d-8079-fd6636aedeec.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-alavez-story-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "ben",
+      "sheet": "famous-ben-story-actions",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR FULLBODY storyaction keyframes for ben. Reference EXACT same identity costume face proportions warm dark outlined handpainted storybookgame slightlyelevated3/4camera mutednaturalpalette: browncomplexion moustached darkhaired cook creamrolledshirt brownwaistcoat greyapron tantrousers brownboots. Readingorder poses: TOPLEFT EAST walking with coveredblackiron cookingpot heldatwaist LEFT legFORWARD planted RIGHTknee bent raised; TOPRIGHT OPPOSITE RIGHTlegforward LEFTknee bent raised SAME potcostume face scale. BOTTOMLEFT EAST standing openhandnearchest conversation BOTTOMRIGHT samehand outwardpalmatwaist conversation no pot inbottomrow. AllEAST/right samefacescostumes scale. Noadditionalfigures. All hands hats boots props intact, max75%equalcellheight80%width40pxalpha gutters no touchingcells. Truealpha no ground/shadows/backdrop/text/labels/grid/gore. Originalinterpretation notdocumentedportrait. Clearlydifferentarm/legposes, no duplicateframes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-ben.png"
+      ],
+      "promptId": "frontier-v1/famous-ben-story-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b2ccb344-c58f-4c03-b0a1-df945decd026.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b3906f0b-cf53-45b7-bfe8-229289178dcf.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b2ccb344-c58f-4c03-b0a1-df945decd026.png",
+          "prompt": "Edit this exact transparent 2x2 sprite sheet. Change ONLY TOPRIGHT legs to opposite stride: right leg stretched forward boot planted, left knee bent behind body heel lifted. Top left unchanged. Preserve covered pot hands face apron clothes and bottom conversation row. Maintain same four equal cells full-body scale, warm outlined painted game style, transparent alpha, no scene no labels. No extra limbs. All unaffected cells unchanged.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9028aec4-1902-4649-bc54-7ed150e4d1b1.png"
+        },
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9028aec4-1902-4649-bc54-7ed150e4d1b1.png",
+          "prompt": "Edit ONLY TOP RIGHT sprite lower body of exact transparent 2x2 sheet. Make a clearly DISTINCT PASSING step: supporting LEFT leg almost VERTICAL under hips foot planted directly below body; RIGHT knee bent HIGH FORWARD toward east, raised right boot floating above ground in front. NOT long split-legged stride, NOT same legs as top left. Preserve cook identity face hands black covered pot and apron. Preserve all other cells unchanged and same scale equal grid fullbody transparent alpha warm painted outlined game art.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b3906f0b-cf53-45b7-bfe8-229289178dcf.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-ben-story-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "esparza",
+      "sheet": "famous-esparza-story-actions",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR FULLBODY storyaction keyframes for esparza. Reference EXACT same identity costume face proportions warm dark outlined handpainted storybookgame slightlyelevated3/4camera mutednaturalpalette: blackmoustached wavyblackhaired man NOhat olivebrowncoat redneckcloth creamshirt tantrousers darkboots. Readingorder poses: TOPLEFT EAST twohands hold woodenrammerlong horizontal blackswabhead forward at waistheight leaningforward feetplanted; TOPRIGHT same rammerpushed forward arms extended torsolean. BOTTOMLEFT EAST LEFTlegforward planted RIGHTknee raised holdingONE roundblackcannonballinbothhandsatwaist; BOTTOMRIGHT RIGHTlegforward LEFTknee raised SAME cannonball. NO cannon/background/musketfire. AllEAST/right samefacescostumes scale. Noadditionalfigures. All hands hats boots props intact, max75%equalcellheight80%width40pxalpha gutters no touchingcells. Truealpha no ground/shadows/backdrop/text/labels/grid/gore. Originalinterpretation notdocumentedportrait. Clearlydifferentarm/legposes, no duplicateframes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-esparza.png"
+      ],
+      "promptId": "frontier-v1/famous-esparza-story-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-69f2c6a5-3afe-43c6-a104-718c42817f4c.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-729ab5a6-e9f1-428c-9d40-c590c3c886d5.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-69f2c6a5-3afe-43c6-a104-718c42817f4c.png",
+          "prompt": "Edit this exact transparent 2x2 sprite sheet. Change ONLY BOTTOMRIGHT legs: right boot planted forward on ground, left knee bent with LEFT boot visibly raised behind. Bottom left left foot planted right knee raised unchanged. Preserve cannonball hands face clothes and top rammer row. Maintain same four equal cells full-body scale, warm outlined painted game style, transparent alpha, no scene no labels. No extra limbs. All unaffected cells unchanged.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-729ab5a6-e9f1-428c-9d40-c590c3c886d5.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-esparza-story-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "almeron-dickinson",
+      "sheet": "famous-almeron-dickinson-story-actions",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR FULLBODY Almeron Dickinson gun-service keyframes reference EXACT same identity: shortbrownHAIR beard and moustache, NO HAT, cream rolled-sleeve shirt NAVY WAISTCOAT (NOT coat) tantrousers darkboots. SAMEface beard outfit proportions everycell. Warm outlined handpainted storybook frontier game slightlyelevated3/4camera reference exactstyle. TOPLEFT EAST feetplanted twohands longwoodenrammer horizontal blackswabhead farRIGHT waistheight leaningforward; TOPRIGHT SAME rammer pushedforward armsfullyextended clearlydifferent torsolean. BOTTOMLEFT EAST LEFTlegforward planted RIGHTkneeraised holdingONE roundblackcannonballbothhandsatwaist; BOTTOMRIGHT OPPOSITE RIGHTlegforward LEFTkneeraised SAMEcannonball. Fullheadhandsfeettools intact max75%equalcellheight80%width40pxalpha gutters nooverlap. Truealpha no cannonotherpeople gunfire musket backdrop groundshadow gridlabels words gore. Originalinterpretation notportraitclaim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-almeron-dickinson.png"
+      ],
+      "promptId": "frontier-v1/famous-almeron-dickinson-story-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-694cabf7-7d87-4895-b51b-016e3dd63ea3.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4188196d-cc5a-4a84-bcd0-d5f2e9039166.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-694cabf7-7d87-4895-b51b-016e3dd63ea3.png",
+          "prompt": "Edit this exact transparent 2x2 sprite sheet. Change ONLY BOTTOMRIGHT legs to opposite stride: right leg stretched forward boot planted, left knee bent behind body heel lifted. Bottom left unchanged. Preserve ball hands bearded bareheaded identity cream shirt navy waistcoat and top rammer row. Maintain same four equal cells full-body scale, warm outlined painted game style, transparent alpha, no scene no labels. No extra limbs. All unaffected cells unchanged.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4188196d-cc5a-4a84-bcd0-d5f2e9039166.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-almeron-dickinson-story-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "susanna-travel",
+      "sheet": "famous-susanna-child-travel",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR isolated fullbody cutouts in warm outlined handpainted storybook Texas frontier game, reference STYLE ONLY. Slightly elevated3/4camera muted moss ochre cream rust. Strict equalcellgrid40pxalpha gutters max75%cellheight75%cellwidth; full feet hats hands tools intact no overlappingcells. All EAST/right samecharacter scale face costume. Truealpha no groundshadow backdrop labels text grid cannon otherpeople flames gore. Use reference EXACT identity mother rustdress creamapron beigeheadscarf darkshoes holding Angelina small14montholdgirl browncurlyhair creamdress no bonnet. Child present ALL4 SAMEsmalltoddler not adult and securely heldbotharms mother's left hip. TOPLEFT EAST walking leftlegforward planted rightlegbent passing, TOPRIGHT OPPOSITE rightlegforward leftlegbent passing. BOTTOMLEFT EAST standing holdingchild supportingbackandhips headlookingchild BOTTOMRIGHT gently cradlingchild closer supportingbackandhips withslightsway. NO child separate/disconnected.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-susanna-dickinson.png"
+      ],
+      "promptId": "frontier-v1/famous-susanna-child-travel",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-30740900-cbe6-4b33-8e8b-7bbd357db7be.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1852c65c-a768-421c-bd9f-d1a9aa5b704f.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-30740900-cbe6-4b33-8e8b-7bbd357db7be.png",
+          "prompt": "Edit this exact transparent 2x2 sprite sheet. Change ONLY TOPRIGHT walking legs: leading right boot planted FAR FORWARD, left knee visibly bent trailing with heel lifted. Alter rust skirt folds to clearly opposite stride from top left. Keep child secure, identical mother child identities all cells. Maintain same four equal cells full-body scale, warm outlined painted game style, transparent alpha, no scene no labels. No extra limbs. All unaffected cells unchanged.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec813fc3-f30b-432e-98a0-134f7bdcfbc4.png"
+        },
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec813fc3-f30b-432e-98a0-134f7bdcfbc4.png",
+          "prompt": "Edit ONLY TOP RIGHT sprite lower body of exact transparent 2x2 sheet. Make a clearly DISTINCT PASSING step: supporting LEFT leg almost VERTICAL under hips foot planted directly below body; RIGHT knee bent HIGH FORWARD toward east, raised right boot floating above ground in front. NOT long split-legged stride, NOT same legs as top left. Preserve mother face costume and child securely held, skirt lifts subtly over the raised knee revealing boot. Preserve all other cells unchanged and same scale equal grid fullbody transparent alpha warm painted outlined game art.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1852c65c-a768-421c-bd9f-d1a9aa5b704f.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-susanna-child-travel.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "susanna-travel-ns",
+      "sheet": "famous-susanna-child-cardinal",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR isolated fullbody cutouts in warm outlined handpainted storybook Texas frontier game, reference STYLE ONLY. Slightly elevated3/4camera muted moss ochre cream rust. Strict equalcellgrid40pxalpha gutters max75%cellheight75%cellwidth; full feet hats hands tools intact no overlappingcells. All EAST/right samecharacter scale face costume. Truealpha no groundshadow backdrop labels text grid cannon otherpeople flames gore. Use reference EXACT identity rustdress creamapron beigeheadscarf darkshoes holding small14monthold Angelina browncurlyhair creamdress securelyonleft hip ALL4. TOPLEFT SOUTHtowardviewer leftbootforward rightbootbehind TOPRIGHT SOUTH rightbootforward leftbehind visiblyalternate dress folds. BOTTOMLEFT NORTH awayviewer rearview LEFTbootforward RIGHTraised BOTTOMRIGHT NORTH RIGHTbootforward LEFTraised. Motherbackofscarfdress visible childheadandarm peeks fromhip nofrontfaceofmother. Child presentALL4 SAMEsmalltoddler notadult, securelybotharmssupportbackandhips. Full cutouts no floatingchild.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-susanna-dickinson.png"
+      ],
+      "promptId": "frontier-v1/famous-susanna-child-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed254072-1b3b-4fc3-96d3-298e89b8b714.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-203fca21-028e-4e9d-890e-a6b4dd7e04c4.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed254072-1b3b-4fc3-96d3-298e89b8b714.png",
+          "prompt": "Edit this exact transparent 2x2 sprite sheet. Correct TOP BOTH to TRUE FRONT south camera: mother's face shoulders torso face directly viewer, child on left hip secure. Top left left boot forward, top right right boot forward opposite skirt folds. BOTTOM BOTH true REAR north, bottom left left boot ahead right heel raised, bottom right right boot ahead left heel raised. Clearly opposite leg poses in each row. Preserve mother child clothes identity. Maintain same four equal cells full-body scale, warm outlined painted game style, transparent alpha, no scene no labels. No extra limbs. All unaffected cells unchanged.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-203fca21-028e-4e9d-890e-a6b4dd7e04c4.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-susanna-child-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "settler-rammer",
+      "sheet": "gonzales-settler-rammer",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR isolated fullbody cutouts in warm outlined handpainted storybook Texas frontier game, reference STYLE ONLY. Slightly elevated3/4camera muted moss ochre cream rust. Strict equalcellgrid40pxalpha gutters max75%cellheight75%cellwidth; full feet hats hands tools intact no overlappingcells. All EAST/right samecharacter scale face costume. Truealpha no groundshadow backdrop labels text grid cannon otherpeople flames gore. Civilianrammer brownbearded man brownfelt hat rustrolledshirt leatherwaistcoat greytrousers darkboots no militaryuniform no musket. TOPLEFT feetplanted twohandswoodenrammer waistheight blackswabhead atfarRIGHT slightforwardlean TOPRIGHT SAMErammer clearlypushed60pxforwardbotharms extendedlean. BOTTOMLEFT WITHOUTrammer crouchbothhandsoverears faceeast BOTTOMRIGHT WITHOUTrammer samecrouchheadslightlyhigherhandsnear ears. No inventeduniform.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "promptId": "frontier-v1/gonzales-settler-rammer",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-499334e3-c541-4e90-a83e-34758e67fb0d.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-499334e3-c541-4e90-a83e-34758e67fb0d.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-settler-rammer.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "settler-charge",
+      "sheet": "gonzales-settler-charge",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR isolated fullbody cutouts in warm outlined handpainted storybook Texas frontier game, reference STYLE ONLY. Slightly elevated3/4camera muted moss ochre cream rust. Strict equalcellgrid40pxalpha gutters max75%cellheight75%cellwidth; full feet hats hands tools intact no overlappingcells. All EAST/right samecharacter scale face costume. Truealpha no groundshadow backdrop labels text grid cannon otherpeople flames gore. Distinctcivilianchargecarrier cleanshaven brownhaired youngman creamrolledshirt mosswaistcoat brownbroadbrimhat tantrousers darkboots. TOPLEFT LEFTlegforwardplanted RIGHTkneeraised carryingONE rounddarkcannonball BOTHhands atwaist; TOPRIGHT RIGHTlegforward LEFTkneeraised SAMEballhands faceclothes. BOTTOMLEFT standing holdingSAMEoneballwaist elbowsclose BOTTOMRIGHT standing sameball armsgentlyadjust lowerclosebody. No musket no militaryuniform.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "promptId": "frontier-v1/gonzales-settler-charge",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4be9397d-2cc8-456a-855a-b91829724ac3.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d2ada230-6a44-46af-8158-4dbe70652c2f.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4be9397d-2cc8-456a-855a-b91829724ac3.png",
+          "prompt": "Edit this exact transparent 2x2 sprite sheet. Change ONLY TOPRIGHT legs to opposite stride: right leg stretched forward boot planted, left knee bent behind body heel lifted. Top left unchanged. Preserve ball hands face clothing and bottom row. Maintain same four equal cells full-body scale, warm outlined painted game style, transparent alpha, no scene no labels. No extra limbs. All unaffected cells unchanged.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d2ada230-6a44-46af-8158-4dbe70652c2f.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-settler-charge.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "settler-igniter",
+      "sheet": "gonzales-settler-igniter",
+      "prompt": "NEW transparent STRICT2x2 exactlyFOUR isolated fullbody cutouts in warm outlined handpainted storybook Texas frontier game, reference STYLE ONLY. Slightly elevated3/4camera muted moss ochre cream rust. Strict equalcellgrid40pxalpha gutters max75%cellheight75%cellwidth; full feet hats hands tools intact no overlappingcells. All EAST/right samecharacter scale face costume. Truealpha no groundshadow backdrop labels text grid cannon otherpeople flames gore. Distinctoldergreybearded civiliani gniter bluefelt hat ochrerolledshirt slatewaistcoat browntrousers darkboots. TOPLEFT holdingthin woodenlinstockwith dark slowmatch at farRIGHT waistheight rightarmforward leftarmnearbody; TOPRIGHT sameigniter leanbackdrawinglinstockbackwithrightarm leftpalmnearleftear afterdischarge NOflames. BOTTOMLEFT feetplanted holdinglinstockverticallytorightside ready BOTTOMRIGHT samefeet holdinglinstockverticallywithsmalltorsoheadturn. No musket militaryuniform cannon fireworks gore.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "promptId": "frontier-v1/gonzales-settler-igniter",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f9453fc7-c773-4dfd-82d0-858c96ad969a.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f9453fc7-c773-4dfd-82d0-858c96ad969a.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-settler-igniter.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "travis",
+      "sheet": "famous-travis-foot-cardinal-v2",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body travis keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: young clean-shaven brownhaired officer brown dark hat navy frock coat cream shirt brown trousers black boots sheathed saber folded blank dispatch. Same scale face clothes proportions all4. Slightly elevated camera. TOP TWO true FRONT south toward viewer, not oblique: top LEFT leftboot forward rightbootbehind, top RIGHT rightboot forward leftboot behind with clearly OPPOSITE leg positions and arm swing. BOTTOM TWO true REAR north awayviewer NO frontface, backhat coat apron visible: bottom LEFT leftboot planted ahead rightknee bent heel raised; bottom RIGHT rightboot planted ahead leftknee bent heel raised. Two distinct footfalls per direction. NOT identical legs in each row. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "promptId": "frontier-v1/famous-travis-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-aace1cca-8d0a-478e-a580-bd5326a02c58.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a9a9ad4d-60a4-413d-899e-df5d8c54ab24.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-aace1cca-8d0a-478e-a580-bd5326a02c58.png",
+          "prompt": "Edit exact transparent2x2 sheet. ONLY BOTTOMRIGHT rear sprite: move sheathed saber to SCREEN RIGHT hip to match BOTTOMLEFT, not screen left. Keep held dispatch SCREEN RIGHT as same bottomleft. Feet remain opposite. Preserve face hat costume colors body scale and camera. No mirroring equipment between keyframes. Equalcells40pxalpha gutters no scene text ground shadows no extra limbs.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a9a9ad4d-60a4-413d-899e-df5d8c54ab24.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-travis-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "crockett",
+      "sheet": "famous-crockett-foot-cardinal-v2",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body crockett keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: darkbearded mature frontiersman tan felt hat fringed buckskin coat grey-brown trousers black boots rifle slung securely diagonally across back ALL4. Same scale face clothes proportions all4. Slightly elevated camera. TOP TWO true FRONT south toward viewer, not oblique: top LEFT leftboot forward rightbootbehind, top RIGHT rightboot forward leftboot behind with clearly OPPOSITE leg positions and arm swing. BOTTOM TWO true REAR north awayviewer NO frontface, backhat coat apron visible: bottom LEFT leftboot planted ahead rightknee bent heel raised; bottom RIGHT rightboot planted ahead leftknee bent heel raised. Two distinct footfalls per direction. NOT identical legs in each row. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-crockett.png"
+      ],
+      "promptId": "frontier-v1/famous-crockett-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0f72be99-0522-4bb5-899e-5d53f1376a7e.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed546652-3b01-4bbc-9705-37c6eab1d448.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0f72be99-0522-4bb5-899e-5d53f1376a7e.png",
+          "prompt": "Edit ONLY the slung RIFLE on BOTTOM RIGHT sprite in this exact transparent 2x2 Crockett sheet. It must match BOTTOM LEFT: butt ABOVE LEFT shoulder, barrel runs diagonally DOWN to RIGHT hip, same strap crossing, same gun scale and orientation. Do NOT mirror the rifle between walking frames. All legs arms hands face hair hat clothing and all other three cells unchanged. Preserve true alpha, strict equalcells, outlined painted style. No extra limbs.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-349adb9e-5c0b-4b75-a241-a04cb5ec2117.png"
+        },
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-349adb9e-5c0b-4b75-a241-a04cb5ec2117.png",
+          "prompt": "Fix prop continuity in exact image. BOTTOM RIGHT character's gun is WRONG, reversed. DELETE his existing diagonal gun and replace with identical gun pose to BOTTOM LEFT character: WOODEN BUTT STOCK pokes above LEFT shoulder at upper left of this cell; BLACK METAL BARREL extends diagonally downward across his back toward LOWER RIGHT HIP at lower right of this cell. The gun must form a BACKSLASH \\ descending LEFT TOP to RIGHT BOTTOM, NOT a slash /. Powderhorn and pouch also match bottomleft positions. Preserve both opposite legs, other hands, face clothes scale all other cells. Transparent 2x2 sprite sheet painted outlined style no extra props.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed546652-3b01-4bbc-9705-37c6eab1d448.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-crockett-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "bowie",
+      "sheet": "famous-bowie-foot-cardinal-v2",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body bowie keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: darkbearded brownhaired man tan felt hat olive coat cream shirt black neckcloth tan trousers blackboots sheathed knife, healthy walking no wound. Same scale face clothes proportions all4. Slightly elevated camera. TOP TWO true FRONT south toward viewer, not oblique: top LEFT leftboot forward rightbootbehind, top RIGHT rightboot forward leftboot behind with clearly OPPOSITE leg positions and arm swing. BOTTOM TWO true REAR north awayviewer NO frontface, backhat coat apron visible: bottom LEFT leftboot planted ahead rightknee bent heel raised; bottom RIGHT rightboot planted ahead leftknee bent heel raised. Two distinct footfalls per direction. NOT identical legs in each row. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-bowie.png"
+      ],
+      "promptId": "frontier-v1/famous-bowie-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c87a965d-ea61-4fb3-88a1-344771152ab9.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e73dbe07-b65a-4643-b5cf-c25d8008e13c.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c87a965d-ea61-4fb3-88a1-344771152ab9.png",
+          "prompt": "Edit exact transparent2x2 sheet. ONLY TOPRIGHT front sprite: move sheathed knife to SCREEN LEFT hip to match TOPLEFT, not screen right. Keep legs opposite. Other three sprites unchanged. Preserve face hat costume colors body scale and camera. No mirroring equipment between keyframes. Equalcells40pxalpha gutters no scene text ground shadows no extra limbs.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e73dbe07-b65a-4643-b5cf-c25d8008e13c.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-bowie-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "fannin",
+      "sheet": "famous-fannin-foot-cardinal-v2",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body fannin keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: young clean-shaven brownhaired officer dark brown hat teal/navy frockcoat creamshirt grey-browntrousers blackboots sheathed saber folded blankdispatch. Same scale face clothes proportions all4. Slightly elevated camera. TOP TWO true FRONT south toward viewer, not oblique: top LEFT leftboot forward rightbootbehind, top RIGHT rightboot forward leftboot behind with clearly OPPOSITE leg positions and arm swing. BOTTOM TWO true REAR north awayviewer NO frontface, backhat coat apron visible: bottom LEFT leftboot planted ahead rightknee bent heel raised; bottom RIGHT rightboot planted ahead leftknee bent heel raised. Two distinct footfalls per direction. NOT identical legs in each row. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-fannin.png"
+      ],
+      "promptId": "frontier-v1/famous-fannin-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-80927b30-4df2-401b-a2cd-01122863d9fa.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-80927b30-4df2-401b-a2cd-01122863d9fa.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-fannin-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "milam",
+      "sheet": "famous-milam-foot-cardinal-v2",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body milam keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: darkbearded mature frontiersman tan felt hat fringedbuckskincoat browntrousers blackboots rifle slung securely diagonally across back ALL4. Same scale face clothes proportions all4. Slightly elevated camera. TOP TWO true FRONT south toward viewer, not oblique: top LEFT leftboot forward rightbootbehind, top RIGHT rightboot forward leftboot behind with clearly OPPOSITE leg positions and arm swing. BOTTOM TWO true REAR north awayviewer NO frontface, backhat coat apron visible: bottom LEFT leftboot planted ahead rightknee bent heel raised; bottom RIGHT rightboot planted ahead leftknee bent heel raised. Two distinct footfalls per direction. NOT identical legs in each row. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-milam.png"
+      ],
+      "promptId": "frontier-v1/famous-milam-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2c618e7d-fd1c-4816-ba92-3d75828fb22a.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2c618e7d-fd1c-4816-ba92-3d75828fb22a.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-milam-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "ben",
+      "sheet": "famous-ben-foot-cardinal-v2",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body ben keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: browncomplexion blackmoustached short blackhaired cook NOhat creamrolledshirt brownwaistcoat palegreyapron tantrousers brownboots empty hands. Same scale face clothes proportions all4. Slightly elevated camera. TOP TWO true FRONT south toward viewer, not oblique: top LEFT leftboot forward rightbootbehind, top RIGHT rightboot forward leftboot behind with clearly OPPOSITE leg positions and arm swing. BOTTOM TWO true REAR north awayviewer NO frontface, backhat coat apron visible: bottom LEFT leftboot planted ahead rightknee bent heel raised; bottom RIGHT rightboot planted ahead leftknee bent heel raised. Two distinct footfalls per direction. NOT identical legs in each row. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-ben.png"
+      ],
+      "promptId": "frontier-v1/famous-ben-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bd6a937a-7571-4516-84fd-374ee4c6b26c.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bd6a937a-7571-4516-84fd-374ee4c6b26c.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-ben-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "neill",
+      "sheet": "famous-neill-field-gestures",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body neill keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: mature blackmoustached greyinghaired man tan felt hat navyshortcoat ochrebuttons creamshirt tantrousers blackboots leatherbelts. Same scale face clothes proportions all4. Slightly elevated camera. ALL EAST/right 3/4 view. TOPLEFT open hand at chest height field command TOPRIGHT SAME hand extended forward higher command. BOTTOMLEFT relaxed conversational open hand near chest BOTTOMRIGHT SAME hand offered outward at waist, otherhand by side. Clearly distinct forearm positions. Feet planted. No props except sheathed saber if described, no drawn weapons. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-neill.png"
+      ],
+      "promptId": "frontier-v1/famous-neill-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e5d5cc8a-12f9-4628-9e47-9957e3bb4686.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e5d5cc8a-12f9-4628-9e47-9957e3bb4686.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-neill-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "karnes",
+      "sheet": "famous-karnes-field-gestures",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body karnes keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: reddishbearded redhaired man darkbrown felt hat darkbrown coat ochrewaistcoat bluegrey neckcloth browntrousers brownboots. Same scale face clothes proportions all4. Slightly elevated camera. ALL EAST/right 3/4 view. TOPLEFT open hand at chest height field command TOPRIGHT SAME hand extended forward higher command. BOTTOMLEFT relaxed conversational open hand near chest BOTTOMRIGHT SAME hand offered outward at waist, otherhand by side. Clearly distinct forearm positions. Feet planted. No props except sheathed saber if described, no drawn weapons. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-karnes.png"
+      ],
+      "promptId": "frontier-v1/famous-karnes-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ca4b5ef7-ae52-4647-9a99-e4eca0457c9a.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ca4b5ef7-ae52-4647-9a99-e4eca0457c9a.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-karnes-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "hockley",
+      "sheet": "famous-hockley-field-gestures",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body hockley keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: blackbearded mature man darkbrown hat navyfro ckcoat creamwaistcoat burgundyneckcloth browntrousers blackboots. Same scale face clothes proportions all4. Slightly elevated camera. ALL EAST/right 3/4 view. TOPLEFT open hand at chest height field command TOPRIGHT SAME hand extended forward higher command. BOTTOMLEFT relaxed conversational open hand near chest BOTTOMRIGHT SAME hand offered outward at waist, otherhand by side. Clearly distinct forearm positions. Feet planted. No props except sheathed saber if described, no drawn weapons. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-hockley.png"
+      ],
+      "promptId": "frontier-v1/famous-hockley-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-eefdd906-7d5d-4c07-96b5-b87b4b6650bd.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-eefdd906-7d5d-4c07-96b5-b87b4b6650bd.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-hockley-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "lamar",
+      "sheet": "famous-lamar-field-gestures",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body lamar keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: young clean-shaven longbrownhaired man blackfelt hat darktealfrockcoat tanwaistcoat rustneckcloth creamtrousers blackboots sheathedsaber. Same scale face clothes proportions all4. Slightly elevated camera. ALL EAST/right 3/4 view. TOPLEFT open hand at chest height field command TOPRIGHT SAME hand extended forward higher command. BOTTOMLEFT relaxed conversational open hand near chest BOTTOMRIGHT SAME hand offered outward at waist, otherhand by side. Clearly distinct forearm positions. Feet planted. No props except sheathed saber if described, no drawn weapons. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-lamar.png"
+      ],
+      "promptId": "frontier-v1/famous-lamar-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c29139e1-1191-45a6-9895-28af4655b0f2.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c29139e1-1191-45a6-9895-28af4655b0f2.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "sherman",
+      "sheet": "famous-sherman-field-gestures",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body sherman keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: mature blackmoustached man tanfelt hat olivebrown frockcoat darkgreenwaistcoat burgundyneckcloth creamtrousers blackboots sheathedsaber. Same scale face clothes proportions all4. Slightly elevated camera. ALL EAST/right 3/4 view. TOPLEFT open hand at chest height field command TOPRIGHT SAME hand extended forward higher command. BOTTOMLEFT relaxed conversational open hand near chest BOTTOMRIGHT SAME hand offered outward at waist, otherhand by side. Clearly distinct forearm positions. Feet planted. No props except sheathed saber if described, no drawn weapons. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-sherman.png"
+      ],
+      "promptId": "frontier-v1/famous-sherman-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-590dc6ee-6949-47f9-a246-29116517ed1d.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-590dc6ee-6949-47f9-a246-29116517ed1d.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "rusk",
+      "sheet": "famous-rusk-field-gestures",
+      "prompt": "Generate transparent STRICT 2x2 sprite sheet exactly FOUR full-body rusk keyframes matching reference identity and muted warm outlined handpainted storybook frontier game style. Identity: mature clean-shaven man blackfelt hat rustbrownfrockcoat slatebluewaistcoat whitecollar blackneckcloth tantrousers blackboots. Same scale face clothes proportions all4. Slightly elevated camera. ALL EAST/right 3/4 view. TOPLEFT open hand at chest height field command TOPRIGHT SAME hand extended forward higher command. BOTTOMLEFT relaxed conversational open hand near chest BOTTOMRIGHT SAME hand offered outward at waist, otherhand by side. Clearly distinct forearm positions. Feet planted. No props except sheathed saber if described, no drawn weapons. Full heads hands boots props intact, generous40px alpha gutters, max75%equalcellheight80%width. Truealpha no backdrop floor shadow text labels grid additionalpeople gore. Original interpretive likeness/clothing not portrait claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-rusk.png"
+      ],
+      "promptId": "frontier-v1/famous-rusk-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-95a20617-ed33-4166-87a8-76c719b20c61.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-95a20617-ed33-4166-87a8-76c719b20c61.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2130 usable sprites, 199 PNG atlases, 744 clips** (436 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2494 usable sprites, 266 PNG atlases, 883 clips** (575 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -71,6 +71,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-alavez | 16 | 1254 × 1254 | 1276763 |
 | famous-almonte | 16 | 1254 × 1254 | 1260800 |
 | famous-austin | 16 | 1254 × 1254 | 1051380 |
+| famous-barragan | 16 | 1254 × 1254 | 1356807 |
 | famous-ben | 16 | 1312 × 1199 | 1136424 |
 | twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
@@ -79,6 +80,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-burleson-mounted | 4 | 1254 × 1254 | 1242276 |
 | famous-castaneda | 16 | 1254 × 1254 | 1167969 |
 | famous-castaneda-mounted | 4 | 1226 × 1283 | 1274697 |
+| famous-castrillon-cardinal | 4 | 1254 × 1254 | 874785 |
+| famous-castrillon-crate | 4 | 1254 × 1254 | 1019844 |
 | famous-castrillon | 4 | 1254 × 1254 | 925993 |
 | famous-castrillon-fate | 4 | 1254 × 1254 | 975586 |
 | famous-condelle | 16 | 1254 × 1254 | 1294935 |
@@ -88,6 +91,28 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-deaf-smith | 16 | 1254 × 1254 | 1316988 |
 | famous-deaf-smith-mounted | 4 | 1254 × 1254 | 1298123 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-travis-foot-cardinal-v2 | 4 | 1266 × 1242 | 806349 |
+| famous-crockett-foot-cardinal-v2 | 4 | 1254 × 1254 | 940486 |
+| famous-bowie-foot-cardinal-v2 | 4 | 1254 × 1254 | 789172 |
+| famous-fannin-foot-cardinal-v2 | 4 | 1254 × 1254 | 845083 |
+| famous-milam-foot-cardinal-v2 | 4 | 1254 × 1254 | 1102668 |
+| famous-ben-foot-cardinal-v2 | 4 | 1254 × 1254 | 891817 |
+| famous-neill-field-gestures | 4 | 1254 × 1254 | 1112678 |
+| famous-karnes-field-gestures | 4 | 1310 × 1201 | 977747 |
+| famous-hockley-field-gestures | 4 | 1287 × 1222 | 985605 |
+| famous-lamar-field-gestures | 4 | 1312 × 1199 | 851184 |
+| famous-sherman-field-gestures | 4 | 1240 × 1269 | 1063729 |
+| famous-rusk-field-gestures | 4 | 1312 × 1199 | 946322 |
+| famous-travis-gestures | 4 | 1254 × 1254 | 882290 |
+| famous-houston-gestures | 4 | 1254 × 1254 | 891705 |
+| famous-santa-anna-gestures | 4 | 1254 × 1254 | 896923 |
+| famous-austin-gestures | 4 | 1254 × 1254 | 845901 |
+| famous-moore-gestures | 4 | 1254 × 1254 | 1032551 |
+| famous-almonte-gestures | 4 | 1254 × 1254 | 960703 |
+| famous-burleson-gestures | 4 | 1254 × 1254 | 1055005 |
+| famous-cos-gestures | 4 | 1254 × 1254 | 934593 |
+| famous-urrea-gestures | 4 | 1254 × 1254 | 835148 |
+| famous-castaneda-gestures | 4 | 1254 × 1254 | 929899 |
 | famous-grant | 16 | 1225 × 1284 | 1191949 |
 | famous-grant-mounted | 4 | 1254 × 1254 | 1312009 |
 | famous-grant-gallop | 4 | 1254 × 1254 | 1420237 |
@@ -99,6 +124,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-lamar-mounted | 4 | 1312 × 1199 | 1099794 |
 | famous-mcculloch | 16 | 1330 × 1182 | 1041853 |
 | famous-moore | 16 | 1254 × 1254 | 1092408 |
+| famous-smither-mounted-cardinal | 4 | 1254 × 1254 | 869960 |
+| famous-jw-smith-mounted-cardinal | 4 | 1254 × 1254 | 852204 |
+| famous-horton-mounted-cardinal | 4 | 1254 × 1254 | 865057 |
+| famous-kimbell-mounted-cardinal | 4 | 1254 × 1254 | 932698 |
+| famous-martin-mounted-cardinal | 4 | 1254 × 1254 | 934699 |
+| famous-cos-mounted-cardinal | 4 | 1226 × 1283 | 874302 |
+| famous-urrea-mounted-cardinal | 4 | 1226 × 1283 | 766765 |
+| famous-castaneda-mounted-cardinal | 4 | 1226 × 1283 | 826716 |
+| famous-houston-mounted-cardinal | 4 | 1254 × 1254 | 899605 |
+| famous-santa-anna-mounted-cardinal | 4 | 1226 × 1283 | 825560 |
+| famous-burleson-mounted-cardinal | 4 | 1254 × 1254 | 840561 |
+| famous-grant-mounted-cardinal | 4 | 1254 × 1254 | 885057 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
 | famous-santa-anna-mounted | 4 | 1226 × 1283 | 1192703 |
 | famous-neill | 16 | 1246 × 1263 | 1260451 |
@@ -111,14 +148,39 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-emily-west-picnic | 4 | 1254 × 1254 | 1381954 |
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
+| famous-jw-smith | 16 | 1254 × 1254 | 1449196 |
+| famous-jw-smith-mounted | 4 | 1254 × 1254 | 1287878 |
+| famous-horton | 16 | 1254 × 1254 | 1431695 |
+| famous-horton-mounted | 4 | 1254 × 1254 | 1366983 |
+| famous-kimbell | 16 | 1254 × 1254 | 1435124 |
+| famous-kimbell-mounted | 4 | 1254 × 1254 | 1330420 |
+| famous-martin | 16 | 1254 × 1254 | 1408204 |
+| famous-martin-mounted | 4 | 1254 × 1254 | 1461956 |
 | famous-rusk | 16 | 1312 × 1199 | 1052054 |
 | famous-rusk-mounted | 4 | 1312 × 1199 | 1471219 |
+| famous-sanchez-navarro | 16 | 1254 × 1254 | 1303243 |
+| famous-deaf-smith-mounted-cardinal | 4 | 1254 × 1254 | 857178 |
+| famous-karnes-mounted-cardinal | 4 | 1246 × 1263 | 791766 |
+| famous-lamar-mounted-cardinal | 4 | 1312 × 1199 | 733744 |
+| famous-sherman-mounted-cardinal | 4 | 1240 × 1269 | 813963 |
+| famous-rusk-mounted-cardinal | 4 | 1312 × 1199 | 775666 |
 | famous-seguin-mounted-motion | 4 | 1254 × 1254 | 1217137 |
 | famous-seguin-mounted-ns | 4 | 1254 × 1254 | 798415 |
 | famous-sherman | 16 | 1239 × 1269 | 1115350 |
 | famous-sherman-mounted | 4 | 1240 × 1269 | 1426561 |
+| famous-smither | 16 | 1254 × 1254 | 1300657 |
+| famous-smither-mounted | 4 | 1254 × 1254 | 1401379 |
+| famous-fannin-story-actions | 4 | 1254 × 1254 | 1048552 |
+| famous-milam-story-actions | 4 | 1254 × 1254 | 1203673 |
+| famous-crockett-story-actions | 4 | 1254 × 1254 | 1215175 |
+| famous-bowie-story-actions | 4 | 1254 × 1254 | 1263291 |
+| famous-alavez-story-actions | 4 | 1254 × 1254 | 1133152 |
+| famous-ben-story-actions | 4 | 1312 × 1199 | 865048 |
+| famous-esparza-story-actions | 4 | 1254 × 1254 | 777418 |
+| famous-almeron-dickinson-story-actions | 4 | 1254 × 1254 | 850453 |
 | famous-urrea | 16 | 1254 × 1254 | 955697 |
 | famous-urrea-mounted | 4 | 1226 × 1283 | 1293956 |
+| famous-wp-smith | 16 | 1254 × 1254 | 1120598 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
 | goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
@@ -167,6 +229,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-gunsmith | 1 | 1536 × 1024 | 2035238 |
 | shop-doctor | 1 | 1536 × 1024 | 2118390 |
 | shop-stockman | 1 | 1536 × 1024 | 1863839 |
+| famous-susanna-child-travel | 4 | 1254 × 1254 | 1207824 |
+| famous-susanna-child-cardinal | 4 | 1254 × 1254 | 1204335 |
+| gonzales-settler-rammer | 4 | 1254 × 1254 | 892360 |
+| gonzales-settler-charge | 4 | 1254 × 1254 | 892184 |
+| gonzales-settler-igniter | 4 | 1254 × 1254 | 1022312 |
 | town-buildings-researched | 16 | 1254 × 1254 | 2122682 |
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
@@ -893,6 +960,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | austin-write | famous-austin | State artwork; no motion required |
 | austin-map | famous-austin | State artwork; no motion required |
 | austin-rest | famous-austin | State artwork; no motion required |
+| barragan-walk-e-1 | famous-barragan | barragan-walk-e |
+| barragan-walk-e-2 | famous-barragan | barragan-walk-e |
+| barragan-walk-e-3 | famous-barragan | State artwork; no motion required |
+| barragan-walk-e-4 | famous-barragan | State artwork; no motion required |
+| barragan-walk-s-1 | famous-barragan | barragan-walk-s |
+| barragan-walk-s-2 | famous-barragan | barragan-walk-s |
+| barragan-walk-n-1 | famous-barragan | barragan-walk-n |
+| barragan-walk-n-2 | famous-barragan | barragan-walk-n |
+| barragan-idle | famous-barragan | State artwork; no motion required |
+| barragan-stop | famous-barragan | barragan-intervene |
+| barragan-protect | famous-barragan | barragan-intervene |
+| barragan-guide | famous-barragan | State artwork; no motion required |
+| barragan-speak | famous-barragan | State artwork; no motion required |
+| barragan-listen | famous-barragan | State artwork; no motion required |
+| barragan-point | famous-barragan | State artwork; no motion required |
+| barragan-rest | famous-barragan | State artwork; no motion required |
 | ben-walk-e-1 | famous-ben | ben-walk-e |
 | ben-walk-e-2 | famous-ben | ben-walk-e |
 | ben-walk-e-3 | famous-ben | ben-walk-e |
@@ -985,6 +1068,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | castaneda-mounted-walk-e-2 | famous-castaneda-mounted | castaneda-mounted-walk-e |
 | castaneda-mounted-idle-e | famous-castaneda-mounted | State artwork; no motion required |
 | castaneda-mounted-idle-s | famous-castaneda-mounted | State artwork; no motion required |
+| castrillon-walk-s-1 | famous-castrillon-cardinal | castrillon-walk-s |
+| castrillon-walk-s-2 | famous-castrillon-cardinal | castrillon-walk-s |
+| castrillon-walk-n-1 | famous-castrillon-cardinal | castrillon-walk-n |
+| castrillon-walk-n-2 | famous-castrillon-cardinal | castrillon-walk-n |
+| castrillon-crate-command-1 | famous-castrillon-crate | castrillon-crate-command |
+| castrillon-crate-command-2 | famous-castrillon-crate | castrillon-crate-command |
+| castrillon-crate-step-down | famous-castrillon-crate | State artwork; no motion required |
+| castrillon-crate-ground | famous-castrillon-crate | State artwork; no motion required |
 | castrillon-idle | famous-castrillon | State artwork; no motion required |
 | castrillon-walk-e-1 | famous-castrillon | castrillon-walk-e |
 | castrillon-walk-e-2 | famous-castrillon | castrillon-walk-e |
@@ -1069,6 +1160,94 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| travis-foot-walk-s-v2-1 | famous-travis-foot-cardinal-v2 | travis-foot-walk-s-v2 |
+| travis-foot-walk-s-v2-2 | famous-travis-foot-cardinal-v2 | travis-foot-walk-s-v2 |
+| travis-foot-walk-n-v2-1 | famous-travis-foot-cardinal-v2 | travis-foot-walk-n-v2 |
+| travis-foot-walk-n-v2-2 | famous-travis-foot-cardinal-v2 | travis-foot-walk-n-v2 |
+| crockett-foot-walk-s-v2-1 | famous-crockett-foot-cardinal-v2 | crockett-foot-walk-s-v2 |
+| crockett-foot-walk-s-v2-2 | famous-crockett-foot-cardinal-v2 | crockett-foot-walk-s-v2 |
+| crockett-foot-walk-n-v2-1 | famous-crockett-foot-cardinal-v2 | crockett-foot-walk-n-v2 |
+| crockett-foot-walk-n-v2-2 | famous-crockett-foot-cardinal-v2 | crockett-foot-walk-n-v2 |
+| bowie-foot-walk-s-v2-1 | famous-bowie-foot-cardinal-v2 | bowie-foot-walk-s-v2 |
+| bowie-foot-walk-s-v2-2 | famous-bowie-foot-cardinal-v2 | bowie-foot-walk-s-v2 |
+| bowie-foot-walk-n-v2-1 | famous-bowie-foot-cardinal-v2 | bowie-foot-walk-n-v2 |
+| bowie-foot-walk-n-v2-2 | famous-bowie-foot-cardinal-v2 | bowie-foot-walk-n-v2 |
+| fannin-foot-walk-s-v2-1 | famous-fannin-foot-cardinal-v2 | fannin-foot-walk-s-v2 |
+| fannin-foot-walk-s-v2-2 | famous-fannin-foot-cardinal-v2 | fannin-foot-walk-s-v2 |
+| fannin-foot-walk-n-v2-1 | famous-fannin-foot-cardinal-v2 | fannin-foot-walk-n-v2 |
+| fannin-foot-walk-n-v2-2 | famous-fannin-foot-cardinal-v2 | fannin-foot-walk-n-v2 |
+| milam-foot-walk-s-v2-1 | famous-milam-foot-cardinal-v2 | milam-foot-walk-s-v2 |
+| milam-foot-walk-s-v2-2 | famous-milam-foot-cardinal-v2 | milam-foot-walk-s-v2 |
+| milam-foot-walk-n-v2-1 | famous-milam-foot-cardinal-v2 | milam-foot-walk-n-v2 |
+| milam-foot-walk-n-v2-2 | famous-milam-foot-cardinal-v2 | milam-foot-walk-n-v2 |
+| ben-foot-walk-s-v2-1 | famous-ben-foot-cardinal-v2 | ben-foot-walk-s-v2 |
+| ben-foot-walk-s-v2-2 | famous-ben-foot-cardinal-v2 | ben-foot-walk-s-v2 |
+| ben-foot-walk-n-v2-1 | famous-ben-foot-cardinal-v2 | ben-foot-walk-n-v2 |
+| ben-foot-walk-n-v2-2 | famous-ben-foot-cardinal-v2 | ben-foot-walk-n-v2 |
+| neill-field-command-1 | famous-neill-field-gestures | neill-field-command |
+| neill-field-command-2 | famous-neill-field-gestures | neill-field-command |
+| neill-field-conversation-1 | famous-neill-field-gestures | neill-field-conversation |
+| neill-field-conversation-2 | famous-neill-field-gestures | neill-field-conversation |
+| karnes-field-command-1 | famous-karnes-field-gestures | karnes-field-command |
+| karnes-field-command-2 | famous-karnes-field-gestures | karnes-field-command |
+| karnes-field-conversation-1 | famous-karnes-field-gestures | karnes-field-conversation |
+| karnes-field-conversation-2 | famous-karnes-field-gestures | karnes-field-conversation |
+| hockley-field-command-1 | famous-hockley-field-gestures | hockley-field-command |
+| hockley-field-command-2 | famous-hockley-field-gestures | hockley-field-command |
+| hockley-field-conversation-1 | famous-hockley-field-gestures | hockley-field-conversation |
+| hockley-field-conversation-2 | famous-hockley-field-gestures | hockley-field-conversation |
+| lamar-field-command-1 | famous-lamar-field-gestures | lamar-field-command |
+| lamar-field-command-2 | famous-lamar-field-gestures | lamar-field-command |
+| lamar-field-conversation-1 | famous-lamar-field-gestures | lamar-field-conversation |
+| lamar-field-conversation-2 | famous-lamar-field-gestures | lamar-field-conversation |
+| sherman-field-command-1 | famous-sherman-field-gestures | sherman-field-command |
+| sherman-field-command-2 | famous-sherman-field-gestures | sherman-field-command |
+| sherman-field-conversation-1 | famous-sherman-field-gestures | sherman-field-conversation |
+| sherman-field-conversation-2 | famous-sherman-field-gestures | sherman-field-conversation |
+| rusk-field-command-1 | famous-rusk-field-gestures | rusk-field-command |
+| rusk-field-command-2 | famous-rusk-field-gestures | rusk-field-command |
+| rusk-field-conversation-1 | famous-rusk-field-gestures | rusk-field-conversation |
+| rusk-field-conversation-2 | famous-rusk-field-gestures | rusk-field-conversation |
+| travis-command-gesture-1 | famous-travis-gestures | travis-command-cycle |
+| travis-command-gesture-2 | famous-travis-gestures | travis-command-cycle |
+| travis-conversation-gesture-1 | famous-travis-gestures | travis-conversation-cycle |
+| travis-conversation-gesture-2 | famous-travis-gestures | travis-conversation-cycle |
+| houston-command-gesture-1 | famous-houston-gestures | houston-command-cycle |
+| houston-command-gesture-2 | famous-houston-gestures | houston-command-cycle |
+| houston-conversation-gesture-1 | famous-houston-gestures | houston-conversation-cycle |
+| houston-conversation-gesture-2 | famous-houston-gestures | houston-conversation-cycle |
+| santa-anna-command-gesture-1 | famous-santa-anna-gestures | santa-anna-command-cycle |
+| santa-anna-command-gesture-2 | famous-santa-anna-gestures | santa-anna-command-cycle |
+| santa-anna-conversation-gesture-1 | famous-santa-anna-gestures | santa-anna-conversation-cycle |
+| santa-anna-conversation-gesture-2 | famous-santa-anna-gestures | santa-anna-conversation-cycle |
+| austin-command-gesture-1 | famous-austin-gestures | austin-command-cycle |
+| austin-command-gesture-2 | famous-austin-gestures | austin-command-cycle |
+| austin-conversation-gesture-1 | famous-austin-gestures | austin-conversation-cycle |
+| austin-conversation-gesture-2 | famous-austin-gestures | austin-conversation-cycle |
+| moore-command-gesture-1 | famous-moore-gestures | moore-command-cycle |
+| moore-command-gesture-2 | famous-moore-gestures | moore-command-cycle |
+| moore-conversation-gesture-1 | famous-moore-gestures | moore-conversation-cycle |
+| moore-conversation-gesture-2 | famous-moore-gestures | moore-conversation-cycle |
+| almonte-command-gesture-1 | famous-almonte-gestures | almonte-command-cycle |
+| almonte-command-gesture-2 | famous-almonte-gestures | almonte-command-cycle |
+| almonte-conversation-gesture-1 | famous-almonte-gestures | almonte-conversation-cycle |
+| almonte-conversation-gesture-2 | famous-almonte-gestures | almonte-conversation-cycle |
+| burleson-command-gesture-1 | famous-burleson-gestures | burleson-command-cycle |
+| burleson-command-gesture-2 | famous-burleson-gestures | burleson-command-cycle |
+| burleson-conversation-gesture-1 | famous-burleson-gestures | burleson-conversation-cycle |
+| burleson-conversation-gesture-2 | famous-burleson-gestures | burleson-conversation-cycle |
+| cos-command-gesture-1 | famous-cos-gestures | cos-command-cycle |
+| cos-command-gesture-2 | famous-cos-gestures | cos-command-cycle |
+| cos-conversation-gesture-1 | famous-cos-gestures | cos-conversation-cycle |
+| cos-conversation-gesture-2 | famous-cos-gestures | cos-conversation-cycle |
+| urrea-command-gesture-1 | famous-urrea-gestures | urrea-command-cycle |
+| urrea-command-gesture-2 | famous-urrea-gestures | urrea-command-cycle |
+| urrea-conversation-gesture-1 | famous-urrea-gestures | urrea-conversation-cycle |
+| urrea-conversation-gesture-2 | famous-urrea-gestures | urrea-conversation-cycle |
+| castaneda-command-gesture-1 | famous-castaneda-gestures | castaneda-command-cycle |
+| castaneda-command-gesture-2 | famous-castaneda-gestures | castaneda-command-cycle |
+| castaneda-conversation-gesture-1 | famous-castaneda-gestures | castaneda-conversation-cycle |
+| castaneda-conversation-gesture-2 | famous-castaneda-gestures | castaneda-conversation-cycle |
 | grant-walk-e-1 | famous-grant | grant-walk-e |
 | grant-walk-e-2 | famous-grant | grant-walk-e |
 | grant-walk-e-3 | famous-grant | grant-walk-e |
@@ -1197,6 +1376,54 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | moore-read-note | famous-moore | State artwork; no motion required |
 | moore-field-glass | famous-moore | State artwork; no motion required |
 | moore-at-ease | famous-moore | State artwork; no motion required |
+| smither-mounted-walk-s-1 | famous-smither-mounted-cardinal | smither-mounted-walk-s |
+| smither-mounted-walk-s-2 | famous-smither-mounted-cardinal | smither-mounted-walk-s |
+| smither-mounted-walk-n-1 | famous-smither-mounted-cardinal | smither-mounted-walk-n |
+| smither-mounted-walk-n-2 | famous-smither-mounted-cardinal | smither-mounted-walk-n |
+| jw-smith-mounted-walk-s-1 | famous-jw-smith-mounted-cardinal | jw-smith-mounted-walk-s |
+| jw-smith-mounted-walk-s-2 | famous-jw-smith-mounted-cardinal | jw-smith-mounted-walk-s |
+| jw-smith-mounted-walk-n-1 | famous-jw-smith-mounted-cardinal | jw-smith-mounted-walk-n |
+| jw-smith-mounted-walk-n-2 | famous-jw-smith-mounted-cardinal | jw-smith-mounted-walk-n |
+| horton-mounted-walk-s-1 | famous-horton-mounted-cardinal | horton-mounted-walk-s |
+| horton-mounted-walk-s-2 | famous-horton-mounted-cardinal | horton-mounted-walk-s |
+| horton-mounted-walk-n-1 | famous-horton-mounted-cardinal | horton-mounted-walk-n |
+| horton-mounted-walk-n-2 | famous-horton-mounted-cardinal | horton-mounted-walk-n |
+| kimbell-mounted-walk-s-1 | famous-kimbell-mounted-cardinal | kimbell-mounted-walk-s |
+| kimbell-mounted-walk-s-2 | famous-kimbell-mounted-cardinal | kimbell-mounted-walk-s |
+| kimbell-mounted-walk-n-1 | famous-kimbell-mounted-cardinal | kimbell-mounted-walk-n |
+| kimbell-mounted-walk-n-2 | famous-kimbell-mounted-cardinal | kimbell-mounted-walk-n |
+| martin-mounted-walk-s-1 | famous-martin-mounted-cardinal | martin-mounted-walk-s |
+| martin-mounted-walk-s-2 | famous-martin-mounted-cardinal | martin-mounted-walk-s |
+| martin-mounted-walk-n-1 | famous-martin-mounted-cardinal | martin-mounted-walk-n |
+| martin-mounted-walk-n-2 | famous-martin-mounted-cardinal | martin-mounted-walk-n |
+| cos-mounted-walk-s-1 | famous-cos-mounted-cardinal | cos-mounted-walk-s |
+| cos-mounted-walk-s-2 | famous-cos-mounted-cardinal | cos-mounted-walk-s |
+| cos-mounted-walk-n-1 | famous-cos-mounted-cardinal | cos-mounted-walk-n |
+| cos-mounted-walk-n-2 | famous-cos-mounted-cardinal | cos-mounted-walk-n |
+| urrea-mounted-walk-s-1 | famous-urrea-mounted-cardinal | urrea-mounted-walk-s |
+| urrea-mounted-walk-s-2 | famous-urrea-mounted-cardinal | urrea-mounted-walk-s |
+| urrea-mounted-walk-n-1 | famous-urrea-mounted-cardinal | urrea-mounted-walk-n |
+| urrea-mounted-walk-n-2 | famous-urrea-mounted-cardinal | urrea-mounted-walk-n |
+| castaneda-mounted-walk-s-1 | famous-castaneda-mounted-cardinal | castaneda-mounted-walk-s |
+| castaneda-mounted-walk-s-2 | famous-castaneda-mounted-cardinal | castaneda-mounted-walk-s |
+| castaneda-mounted-walk-n-1 | famous-castaneda-mounted-cardinal | castaneda-mounted-walk-n |
+| castaneda-mounted-walk-n-2 | famous-castaneda-mounted-cardinal | castaneda-mounted-walk-n |
+| houston-mounted-walk-s-1 | famous-houston-mounted-cardinal | houston-mounted-walk-s |
+| houston-mounted-walk-s-2 | famous-houston-mounted-cardinal | houston-mounted-walk-s |
+| houston-mounted-walk-n-1 | famous-houston-mounted-cardinal | houston-mounted-walk-n |
+| houston-mounted-walk-n-2 | famous-houston-mounted-cardinal | houston-mounted-walk-n |
+| santa-anna-mounted-walk-s-1 | famous-santa-anna-mounted-cardinal | santa-anna-mounted-walk-s |
+| santa-anna-mounted-walk-s-2 | famous-santa-anna-mounted-cardinal | santa-anna-mounted-walk-s |
+| santa-anna-mounted-walk-n-1 | famous-santa-anna-mounted-cardinal | santa-anna-mounted-walk-n |
+| santa-anna-mounted-walk-n-2 | famous-santa-anna-mounted-cardinal | santa-anna-mounted-walk-n |
+| burleson-mounted-walk-s-1 | famous-burleson-mounted-cardinal | burleson-mounted-walk-s |
+| burleson-mounted-walk-s-2 | famous-burleson-mounted-cardinal | burleson-mounted-walk-s |
+| burleson-mounted-walk-n-1 | famous-burleson-mounted-cardinal | burleson-mounted-walk-n |
+| burleson-mounted-walk-n-2 | famous-burleson-mounted-cardinal | burleson-mounted-walk-n |
+| grant-mounted-walk-s-1 | famous-grant-mounted-cardinal | grant-mounted-walk-s |
+| grant-mounted-walk-s-2 | famous-grant-mounted-cardinal | grant-mounted-walk-s |
+| grant-mounted-walk-n-1 | famous-grant-mounted-cardinal | grant-mounted-walk-n |
+| grant-mounted-walk-n-2 | famous-grant-mounted-cardinal | grant-mounted-walk-n |
 | houston-mounted-walk-e-1 | famous-houston-mounted | houston-mounted-walk-e |
 | houston-mounted-walk-e-2 | famous-houston-mounted | houston-mounted-walk-e |
 | houston-mounted-idle-e | famous-houston-mounted | State artwork; no motion required |
@@ -1329,6 +1556,86 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | picnic-blanket | famous-picnic-props | State artwork; no motion required |
 | picnic-basket | famous-picnic-props | State artwork; no motion required |
 | picnic-jug-cups | famous-picnic-props | State artwork; no motion required |
+| jw-smith-walk-e-1 | famous-jw-smith | jw-smith-walk-e |
+| jw-smith-walk-e-2 | famous-jw-smith | jw-smith-walk-e |
+| jw-smith-walk-e-3 | famous-jw-smith | State artwork; no motion required |
+| jw-smith-walk-e-4 | famous-jw-smith | State artwork; no motion required |
+| jw-smith-walk-s-1 | famous-jw-smith | jw-smith-walk-s |
+| jw-smith-walk-s-2 | famous-jw-smith | jw-smith-walk-s |
+| jw-smith-walk-n-1 | famous-jw-smith | jw-smith-walk-n |
+| jw-smith-walk-n-2 | famous-jw-smith | jw-smith-walk-n |
+| jw-smith-idle | famous-jw-smith | State artwork; no motion required |
+| jw-smith-parley | famous-jw-smith | State artwork; no motion required |
+| jw-smith-point | famous-jw-smith | State artwork; no motion required |
+| jw-smith-listen | famous-jw-smith | State artwork; no motion required |
+| jw-smith-dispatch | famous-jw-smith | State artwork; no motion required |
+| jw-smith-read | famous-jw-smith | State artwork; no motion required |
+| jw-smith-satchel | famous-jw-smith | State artwork; no motion required |
+| jw-smith-rest | famous-jw-smith | State artwork; no motion required |
+| jw-smith-mounted-walk-e-1 | famous-jw-smith-mounted | jw-smith-mounted-walk-e |
+| jw-smith-mounted-walk-e-2 | famous-jw-smith-mounted | jw-smith-mounted-walk-e |
+| jw-smith-mounted-idle-e | famous-jw-smith-mounted | State artwork; no motion required |
+| jw-smith-mounted-idle-s | famous-jw-smith-mounted | State artwork; no motion required |
+| horton-walk-e-1 | famous-horton | horton-walk-e |
+| horton-walk-e-2 | famous-horton | horton-walk-e |
+| horton-walk-e-3 | famous-horton | State artwork; no motion required |
+| horton-walk-e-4 | famous-horton | State artwork; no motion required |
+| horton-walk-s-1 | famous-horton | horton-walk-s |
+| horton-walk-s-2 | famous-horton | horton-walk-s |
+| horton-walk-n-1 | famous-horton | horton-walk-n |
+| horton-walk-n-2 | famous-horton | horton-walk-n |
+| horton-idle | famous-horton | State artwork; no motion required |
+| horton-parley | famous-horton | State artwork; no motion required |
+| horton-point | famous-horton | State artwork; no motion required |
+| horton-listen | famous-horton | State artwork; no motion required |
+| horton-dispatch | famous-horton | State artwork; no motion required |
+| horton-read | famous-horton | State artwork; no motion required |
+| horton-satchel | famous-horton | State artwork; no motion required |
+| horton-rest | famous-horton | State artwork; no motion required |
+| horton-mounted-walk-e-1 | famous-horton-mounted | horton-mounted-walk-e |
+| horton-mounted-walk-e-2 | famous-horton-mounted | horton-mounted-walk-e |
+| horton-mounted-idle-e | famous-horton-mounted | State artwork; no motion required |
+| horton-mounted-idle-s | famous-horton-mounted | State artwork; no motion required |
+| kimbell-walk-e-1 | famous-kimbell | kimbell-walk-e |
+| kimbell-walk-e-2 | famous-kimbell | kimbell-walk-e |
+| kimbell-walk-e-3 | famous-kimbell | State artwork; no motion required |
+| kimbell-walk-e-4 | famous-kimbell | State artwork; no motion required |
+| kimbell-walk-s-1 | famous-kimbell | kimbell-walk-s |
+| kimbell-walk-s-2 | famous-kimbell | kimbell-walk-s |
+| kimbell-walk-n-1 | famous-kimbell | kimbell-walk-n |
+| kimbell-walk-n-2 | famous-kimbell | kimbell-walk-n |
+| kimbell-idle | famous-kimbell | State artwork; no motion required |
+| kimbell-parley | famous-kimbell | State artwork; no motion required |
+| kimbell-point | famous-kimbell | State artwork; no motion required |
+| kimbell-listen | famous-kimbell | State artwork; no motion required |
+| kimbell-dispatch | famous-kimbell | State artwork; no motion required |
+| kimbell-read | famous-kimbell | State artwork; no motion required |
+| kimbell-satchel | famous-kimbell | State artwork; no motion required |
+| kimbell-rest | famous-kimbell | State artwork; no motion required |
+| kimbell-mounted-walk-e-1 | famous-kimbell-mounted | kimbell-mounted-walk-e |
+| kimbell-mounted-walk-e-2 | famous-kimbell-mounted | kimbell-mounted-walk-e |
+| kimbell-mounted-idle-e | famous-kimbell-mounted | State artwork; no motion required |
+| kimbell-mounted-idle-s | famous-kimbell-mounted | State artwork; no motion required |
+| martin-walk-e-1 | famous-martin | martin-walk-e |
+| martin-walk-e-2 | famous-martin | martin-walk-e |
+| martin-walk-e-3 | famous-martin | State artwork; no motion required |
+| martin-walk-e-4 | famous-martin | State artwork; no motion required |
+| martin-walk-s-1 | famous-martin | martin-walk-s |
+| martin-walk-s-2 | famous-martin | martin-walk-s |
+| martin-walk-n-1 | famous-martin | martin-walk-n |
+| martin-walk-n-2 | famous-martin | martin-walk-n |
+| martin-idle | famous-martin | State artwork; no motion required |
+| martin-parley | famous-martin | State artwork; no motion required |
+| martin-point | famous-martin | State artwork; no motion required |
+| martin-listen | famous-martin | State artwork; no motion required |
+| martin-dispatch | famous-martin | State artwork; no motion required |
+| martin-read | famous-martin | State artwork; no motion required |
+| martin-satchel | famous-martin | State artwork; no motion required |
+| martin-rest | famous-martin | State artwork; no motion required |
+| martin-mounted-walk-e-1 | famous-martin-mounted | martin-mounted-walk-e |
+| martin-mounted-walk-e-2 | famous-martin-mounted | martin-mounted-walk-e |
+| martin-mounted-idle-e | famous-martin-mounted | State artwork; no motion required |
+| martin-mounted-idle-s | famous-martin-mounted | State artwork; no motion required |
 | rusk-walk-e-1 | famous-rusk | rusk-walk-e |
 | rusk-walk-e-2 | famous-rusk | rusk-walk-e |
 | rusk-walk-e-3 | famous-rusk | rusk-walk-e |
@@ -1349,6 +1656,42 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | rusk-mounted-walk-e-2 | famous-rusk-mounted | rusk-mounted-walk-e |
 | rusk-mounted-idle-e | famous-rusk-mounted | State artwork; no motion required |
 | rusk-mounted-stop-e | famous-rusk-mounted | State artwork; no motion required |
+| sanchez-navarro-walk-e-1 | famous-sanchez-navarro | sanchez-navarro-walk-e |
+| sanchez-navarro-walk-e-2 | famous-sanchez-navarro | sanchez-navarro-walk-e |
+| sanchez-navarro-walk-e-3 | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-walk-e-4 | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-walk-s-1 | famous-sanchez-navarro | sanchez-navarro-walk-s |
+| sanchez-navarro-walk-s-2 | famous-sanchez-navarro | sanchez-navarro-walk-s |
+| sanchez-navarro-walk-n-1 | famous-sanchez-navarro | sanchez-navarro-walk-n |
+| sanchez-navarro-walk-n-2 | famous-sanchez-navarro | sanchez-navarro-walk-n |
+| sanchez-navarro-idle | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-parley | famous-sanchez-navarro | sanchez-navarro-parley |
+| sanchez-navarro-listen | famous-sanchez-navarro | sanchez-navarro-parley |
+| sanchez-navarro-dispatch | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-read | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-offer | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-point | famous-sanchez-navarro | State artwork; no motion required |
+| sanchez-navarro-rest | famous-sanchez-navarro | State artwork; no motion required |
+| deaf-smith-mounted-walk-s-1 | famous-deaf-smith-mounted-cardinal | deaf-smith-mounted-walk-s |
+| deaf-smith-mounted-walk-s-2 | famous-deaf-smith-mounted-cardinal | deaf-smith-mounted-walk-s |
+| deaf-smith-mounted-walk-n-1 | famous-deaf-smith-mounted-cardinal | deaf-smith-mounted-walk-n |
+| deaf-smith-mounted-walk-n-2 | famous-deaf-smith-mounted-cardinal | deaf-smith-mounted-walk-n |
+| karnes-mounted-walk-s-1 | famous-karnes-mounted-cardinal | karnes-mounted-walk-s |
+| karnes-mounted-walk-s-2 | famous-karnes-mounted-cardinal | karnes-mounted-walk-s |
+| karnes-mounted-walk-n-1 | famous-karnes-mounted-cardinal | karnes-mounted-walk-n |
+| karnes-mounted-walk-n-2 | famous-karnes-mounted-cardinal | karnes-mounted-walk-n |
+| lamar-mounted-walk-s-1 | famous-lamar-mounted-cardinal | lamar-mounted-walk-s |
+| lamar-mounted-walk-s-2 | famous-lamar-mounted-cardinal | lamar-mounted-walk-s |
+| lamar-mounted-walk-n-1 | famous-lamar-mounted-cardinal | lamar-mounted-walk-n |
+| lamar-mounted-walk-n-2 | famous-lamar-mounted-cardinal | lamar-mounted-walk-n |
+| sherman-mounted-walk-s-1 | famous-sherman-mounted-cardinal | sherman-mounted-walk-s |
+| sherman-mounted-walk-s-2 | famous-sherman-mounted-cardinal | sherman-mounted-walk-s |
+| sherman-mounted-walk-n-1 | famous-sherman-mounted-cardinal | sherman-mounted-walk-n |
+| sherman-mounted-walk-n-2 | famous-sherman-mounted-cardinal | sherman-mounted-walk-n |
+| rusk-mounted-walk-s-1 | famous-rusk-mounted-cardinal | rusk-mounted-walk-s |
+| rusk-mounted-walk-s-2 | famous-rusk-mounted-cardinal | rusk-mounted-walk-s |
+| rusk-mounted-walk-n-1 | famous-rusk-mounted-cardinal | rusk-mounted-walk-n |
+| rusk-mounted-walk-n-2 | famous-rusk-mounted-cardinal | rusk-mounted-walk-n |
 | seguin-mounted-walk-e-1 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
 | seguin-mounted-walk-e-2 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
 | seguin-mounted-canter-e-1 | famous-seguin-mounted-motion | seguin-mounted-canter-e |
@@ -1377,6 +1720,58 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sherman-mounted-walk-e-2 | famous-sherman-mounted | sherman-mounted-walk-e |
 | sherman-mounted-idle-e | famous-sherman-mounted | State artwork; no motion required |
 | sherman-mounted-rally-e | famous-sherman-mounted | State artwork; no motion required |
+| smither-walk-e-1 | famous-smither | smither-walk-e |
+| smither-walk-e-2 | famous-smither | smither-walk-e |
+| smither-walk-e-3 | famous-smither | State artwork; no motion required |
+| smither-walk-e-4 | famous-smither | State artwork; no motion required |
+| smither-walk-s-1 | famous-smither | smither-walk-s |
+| smither-walk-s-2 | famous-smither | smither-walk-s |
+| smither-walk-n-1 | famous-smither | smither-walk-n |
+| smither-walk-n-2 | famous-smither | smither-walk-n |
+| smither-idle | famous-smither | State artwork; no motion required |
+| smither-stop | famous-smither | State artwork; no motion required |
+| smither-speak | famous-smither | State artwork; no motion required |
+| smither-listen | famous-smither | State artwork; no motion required |
+| smither-dispatch | famous-smither | State artwork; no motion required |
+| smither-read | famous-smither | State artwork; no motion required |
+| smither-satchel | famous-smither | State artwork; no motion required |
+| smither-rest | famous-smither | State artwork; no motion required |
+| smither-mounted-walk-e-1 | famous-smither-mounted | smither-mounted-walk-e |
+| smither-mounted-walk-e-2 | famous-smither-mounted | smither-mounted-walk-e |
+| smither-mounted-idle-e | famous-smither-mounted | State artwork; no motion required |
+| smither-mounted-idle-s | famous-smither-mounted | State artwork; no motion required |
+| fannin-story-command-1 | famous-fannin-story-actions | fannin-story-command |
+| fannin-story-command-2 | famous-fannin-story-actions | fannin-story-command |
+| fannin-story-surrender-1 | famous-fannin-story-actions | fannin-story-surrender |
+| fannin-story-surrender-2 | famous-fannin-story-actions | fannin-story-surrender |
+| milam-story-rally-1 | famous-milam-story-actions | milam-story-rally |
+| milam-story-rally-2 | famous-milam-story-actions | milam-story-rally |
+| milam-story-point-1 | famous-milam-story-actions | milam-story-point |
+| milam-story-point-2 | famous-milam-story-actions | milam-story-point |
+| crockett-story-command-1 | famous-crockett-story-actions | crockett-story-command |
+| crockett-story-command-2 | famous-crockett-story-actions | crockett-story-command |
+| crockett-story-rest-1 | famous-crockett-story-actions | crockett-story-rest |
+| crockett-story-rest-2 | famous-crockett-story-actions | crockett-story-rest |
+| bowie-story-command-1 | famous-bowie-story-actions | bowie-story-command |
+| bowie-story-command-2 | famous-bowie-story-actions | bowie-story-command |
+| bowie-story-sick-1 | famous-bowie-story-actions | bowie-story-sick |
+| bowie-story-sick-2 | famous-bowie-story-actions | bowie-story-sick |
+| alavez-story-beckon-1 | famous-alavez-story-actions | alavez-story-beckon |
+| alavez-story-beckon-2 | famous-alavez-story-actions | alavez-story-beckon |
+| alavez-story-guide-1 | famous-alavez-story-actions | alavez-story-guide |
+| alavez-story-guide-2 | famous-alavez-story-actions | alavez-story-guide |
+| ben-story-pot-walk-1 | famous-ben-story-actions | ben-story-pot-walk |
+| ben-story-pot-walk-2 | famous-ben-story-actions | ben-story-pot-walk |
+| ben-story-conversation-1 | famous-ben-story-actions | ben-story-conversation |
+| ben-story-conversation-2 | famous-ben-story-actions | ben-story-conversation |
+| esparza-story-ram-1 | famous-esparza-story-actions | esparza-story-ram |
+| esparza-story-ram-2 | famous-esparza-story-actions | esparza-story-ram |
+| esparza-story-shot-carry-1 | famous-esparza-story-actions | esparza-story-shot-carry |
+| esparza-story-shot-carry-2 | famous-esparza-story-actions | esparza-story-shot-carry |
+| almeron-dickinson-story-ram-1 | famous-almeron-dickinson-story-actions | almeron-dickinson-story-ram |
+| almeron-dickinson-story-ram-2 | famous-almeron-dickinson-story-actions | almeron-dickinson-story-ram |
+| almeron-dickinson-story-shot-carry-1 | famous-almeron-dickinson-story-actions | almeron-dickinson-story-shot-carry |
+| almeron-dickinson-story-shot-carry-2 | famous-almeron-dickinson-story-actions | almeron-dickinson-story-shot-carry |
 | urrea-walk-e-1 | famous-urrea | urrea-walk-e |
 | urrea-walk-e-2 | famous-urrea | urrea-walk-e |
 | urrea-walk-e-3 | famous-urrea | urrea-walk-e |
@@ -1397,6 +1792,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | urrea-mounted-walk-e-2 | famous-urrea-mounted | urrea-mounted-walk-e |
 | urrea-mounted-idle-e | famous-urrea-mounted | State artwork; no motion required |
 | urrea-mounted-idle-s | famous-urrea-mounted | State artwork; no motion required |
+| wp-smith-walk-e-1 | famous-wp-smith | wp-smith-walk-e |
+| wp-smith-walk-e-2 | famous-wp-smith | wp-smith-walk-e |
+| wp-smith-walk-e-3 | famous-wp-smith | State artwork; no motion required |
+| wp-smith-walk-e-4 | famous-wp-smith | State artwork; no motion required |
+| wp-smith-walk-s-1 | famous-wp-smith | wp-smith-walk-s |
+| wp-smith-walk-s-2 | famous-wp-smith | wp-smith-walk-s |
+| wp-smith-walk-n-1 | famous-wp-smith | wp-smith-walk-n |
+| wp-smith-walk-n-2 | famous-wp-smith | wp-smith-walk-n |
+| wp-smith-idle | famous-wp-smith | State artwork; no motion required |
+| wp-smith-speak | famous-wp-smith | wp-smith-address |
+| wp-smith-exhort | famous-wp-smith | wp-smith-address |
+| wp-smith-listen | famous-wp-smith | State artwork; no motion required |
+| wp-smith-book | famous-wp-smith | State artwork; no motion required |
+| wp-smith-read | famous-wp-smith | State artwork; no motion required |
+| wp-smith-point | famous-wp-smith | State artwork; no motion required |
+| wp-smith-rest | famous-wp-smith | State artwork; no motion required |
 | flag-come-and-take-it | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
@@ -1726,6 +2137,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-gunsmith | shop-gunsmith | State artwork; no motion required |
 | shop-doctor | shop-doctor | State artwork; no motion required |
 | shop-stockman | shop-stockman | State artwork; no motion required |
+| susanna-child-walk-e-1 | famous-susanna-child-travel | susanna-child-walk-e |
+| susanna-child-walk-e-2 | famous-susanna-child-travel | susanna-child-walk-e |
+| susanna-child-hold-1 | famous-susanna-child-travel | susanna-child-hold |
+| susanna-child-hold-2 | famous-susanna-child-travel | susanna-child-hold |
+| susanna-child-walk-s-1 | famous-susanna-child-cardinal | susanna-child-walk-s |
+| susanna-child-walk-s-2 | famous-susanna-child-cardinal | susanna-child-walk-s |
+| susanna-child-walk-n-1 | famous-susanna-child-cardinal | susanna-child-walk-n |
+| susanna-child-walk-n-2 | famous-susanna-child-cardinal | susanna-child-walk-n |
+| settler-gun-ram-1 | gonzales-settler-rammer | settler-gun-ram |
+| settler-gun-ram-2 | gonzales-settler-rammer | settler-gun-ram |
+| settler-gun-rammer-cover-1 | gonzales-settler-rammer | settler-gun-rammer-cover |
+| settler-gun-rammer-cover-2 | gonzales-settler-rammer | settler-gun-rammer-cover |
+| settler-gun-carry-1 | gonzales-settler-charge | settler-gun-carry |
+| settler-gun-carry-2 | gonzales-settler-charge | settler-gun-carry |
+| settler-gun-charge-wait-1 | gonzales-settler-charge | settler-gun-charge-wait |
+| settler-gun-charge-wait-2 | gonzales-settler-charge | settler-gun-charge-wait |
+| settler-gun-fire-1 | gonzales-settler-igniter | settler-gun-fire |
+| settler-gun-fire-2 | gonzales-settler-igniter | settler-gun-fire |
+| settler-gun-ready-1 | gonzales-settler-igniter | settler-gun-ready |
+| settler-gun-ready-2 | gonzales-settler-igniter | settler-gun-ready |
 | building-frame-one-storey | town-buildings-researched | State artwork; no motion required |
 | building-frame-storey-half | town-buildings-researched | State artwork; no motion required |
 | building-frame-two-storey | town-buildings-researched | State artwork; no motion required |
@@ -2656,6 +3087,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | austin-walk-e | Pose cycle | 4 | 760 | yes | east |
 | austin-walk-s | Pose cycle | 2 | 580 | yes | south |
 | austin-walk-n | Pose cycle | 2 | 580 | yes | north |
+| barragan-walk-e | Pose cycle | 2 | 560 | yes | east |
+| barragan-walk-s | Pose cycle | 2 | 560 | yes | south |
+| barragan-walk-n | Pose cycle | 2 | 560 | yes | north |
+| barragan-intervene | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | twin-sisters-limbered | Pose cycle | 2 | 600 | yes | east; mirror for west |
 | ben-walk-e | Pose cycle | 4 | 760 | yes | east |
 | ben-walk-s | Pose cycle | 2 | 580 | yes | south |
@@ -2674,6 +3109,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | castaneda-walk-s | Pose cycle | 2 | 580 | yes | south |
 | castaneda-walk-n | Pose cycle | 2 | 580 | yes | north |
 | castaneda-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| castrillon-walk-s | Pose cycle | 2 | 560 | yes | south |
+| castrillon-walk-n | Pose cycle | 2 | 560 | yes | north |
+| castrillon-crate-command | Pose cycle | 2 | 1800 | yes | undefined |
 | castrillon-walk-e | Pose cycle | 2 | 540 | yes | east |
 | castrillon-fall | Pose cycle | 3 | 700 | one-shot | east; mirror for west |
 | condelle-walk-e | Pose cycle | 4 | 760 | yes | east |
@@ -2693,6 +3131,50 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| travis-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| travis-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| crockett-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| crockett-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| bowie-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| bowie-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| fannin-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| fannin-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| milam-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| milam-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| ben-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| ben-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| neill-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| neill-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| karnes-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| karnes-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| hockley-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| hockley-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| lamar-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| lamar-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| sherman-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| sherman-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| rusk-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| rusk-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| travis-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| travis-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| houston-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| houston-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| santa-anna-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| santa-anna-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| austin-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| austin-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| moore-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| moore-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| almonte-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| almonte-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| burleson-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| burleson-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| cos-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| cos-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| urrea-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| urrea-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| castaneda-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| castaneda-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | grant-walk-e | Pose cycle | 4 | 760 | yes | east |
 | grant-walk-s | Pose cycle | 2 | 580 | yes | south |
 | grant-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -2723,6 +3205,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | moore-walk-e | Pose cycle | 4 | 760 | yes | east |
 | moore-walk-s | Pose cycle | 2 | 580 | yes | south |
 | moore-walk-n | Pose cycle | 2 | 580 | yes | north |
+| smither-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| smither-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| jw-smith-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| jw-smith-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| horton-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| horton-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| kimbell-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| kimbell-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| martin-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| martin-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| cos-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| cos-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| urrea-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| urrea-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| castaneda-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| castaneda-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| houston-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| houston-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| santa-anna-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| santa-anna-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| burleson-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| burleson-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| grant-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| grant-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
 | houston-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | santa-anna-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | neill-walk-e | Pose cycle | 4 | 760 | yes | east |
@@ -2750,11 +3256,41 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | emily-west-picnic-converse | Pose cycle | 4 | 4300 | yes | west-facing at a camp table |
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
+| jw-smith-walk-e | Pose cycle | 2 | 560 | yes | east |
+| jw-smith-walk-s | Pose cycle | 2 | 560 | yes | south |
+| jw-smith-walk-n | Pose cycle | 2 | 560 | yes | north |
+| jw-smith-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| horton-walk-e | Pose cycle | 2 | 560 | yes | east |
+| horton-walk-s | Pose cycle | 2 | 560 | yes | south |
+| horton-walk-n | Pose cycle | 2 | 560 | yes | north |
+| horton-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| kimbell-walk-e | Pose cycle | 2 | 560 | yes | east |
+| kimbell-walk-s | Pose cycle | 2 | 560 | yes | south |
+| kimbell-walk-n | Pose cycle | 2 | 560 | yes | north |
+| kimbell-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| martin-walk-e | Pose cycle | 2 | 560 | yes | east |
+| martin-walk-s | Pose cycle | 2 | 560 | yes | south |
+| martin-walk-n | Pose cycle | 2 | 560 | yes | north |
+| martin-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | rusk-walk-e | Pose cycle | 4 | 760 | yes | east |
 | rusk-walk-s | Pose cycle | 2 | 580 | yes | south |
 | rusk-walk-n | Pose cycle | 2 | 580 | yes | north |
 | rusk-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | rusk-stop | Pose cycle | 2 | 1120 | yes | east; mirror for west |
+| sanchez-navarro-walk-e | Pose cycle | 2 | 560 | yes | east |
+| sanchez-navarro-walk-s | Pose cycle | 2 | 560 | yes | south |
+| sanchez-navarro-walk-n | Pose cycle | 2 | 560 | yes | north |
+| sanchez-navarro-parley | Pose cycle | 2 | 1550 | yes | east; mirror for west |
+| deaf-smith-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| deaf-smith-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| karnes-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| karnes-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| lamar-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| lamar-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| sherman-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| sherman-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| rusk-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| rusk-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
 | seguin-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | seguin-mounted-canter-e | Pose cycle | 2 | 380 | yes | east; mirror for west |
 | seguin-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
@@ -2763,10 +3299,34 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sherman-walk-s | Pose cycle | 2 | 580 | yes | south |
 | sherman-walk-n | Pose cycle | 2 | 580 | yes | north |
 | sherman-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| smither-walk-e | Pose cycle | 2 | 560 | yes | east |
+| smither-walk-s | Pose cycle | 2 | 560 | yes | south |
+| smither-walk-n | Pose cycle | 2 | 560 | yes | north |
+| smither-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| fannin-story-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| fannin-story-surrender | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| milam-story-rally | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| milam-story-point | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| crockett-story-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| crockett-story-rest | Pose cycle | 2 | 2400 | yes | east; mirror for west |
+| bowie-story-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| bowie-story-sick | Pose cycle | 2 | 2400 | yes | east; mirror for west |
+| alavez-story-beckon | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| alavez-story-guide | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| ben-story-pot-walk | Pose cycle | 2 | 560 | yes | east; mirror for west |
+| ben-story-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| esparza-story-ram | Pose cycle | 2 | 1300 | yes | east; mirror for west |
+| esparza-story-shot-carry | Pose cycle | 2 | 560 | yes | east; mirror for west |
+| almeron-dickinson-story-ram | Pose cycle | 2 | 1300 | yes | east; mirror for west |
+| almeron-dickinson-story-shot-carry | Pose cycle | 2 | 560 | yes | east; mirror for west |
 | urrea-walk-e | Pose cycle | 4 | 760 | yes | east |
 | urrea-walk-s | Pose cycle | 2 | 580 | yes | south |
 | urrea-walk-n | Pose cycle | 2 | 580 | yes | north |
 | urrea-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| wp-smith-walk-e | Pose cycle | 2 | 560 | yes | east |
+| wp-smith-walk-s | Pose cycle | 2 | 560 | yes | south |
+| wp-smith-walk-n | Pose cycle | 2 | 560 | yes | north |
+| wp-smith-address | Pose cycle | 2 | 1850 | yes | east; mirror for west |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
@@ -2851,6 +3411,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hog-root | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
 | home-chest-opening | Pose cycle | 2 | 1000 | one-shot | east; west by mirroring |
 | home-cradle-rock | rock | 1 | 2000 | yes | east; west by mirroring |
+| susanna-child-walk-e | Pose cycle | 2 | 560 | yes | east |
+| susanna-child-hold | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| susanna-child-walk-s | Pose cycle | 2 | 560 | yes | south |
+| susanna-child-walk-n | Pose cycle | 2 | 560 | yes | north |
+| settler-gun-ram | Pose cycle | 2 | 1300 | yes | east; mirror for west |
+| settler-gun-rammer-cover | Pose cycle | 2 | 900 | one-shot | east; mirror for west |
+| settler-gun-carry | Pose cycle | 2 | 560 | yes | east; mirror for west |
+| settler-gun-charge-wait | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| settler-gun-fire | Pose cycle | 2 | 900 | one-shot | east; mirror for west |
+| settler-gun-ready | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | pine-loblolly-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-loblolly-log-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-loblolly-large-wind | sway | 1 | 3800 | yes | not applicable |

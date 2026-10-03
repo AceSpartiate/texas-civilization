@@ -10,11 +10,11 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 31 | 8 | 18 | 0 |
 | B — Children, babies and sickness | 19 | 7 | 13 | 2 |
-| C — Soldiers, battles and famous people | 22 | 1 | 19 | 1 |
+| C — Soldiers, battles and famous people | 20 | 1 | 17 | 3 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 24 | 2 | 16 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 14 | 2 | 11 | 17 |
-| **Total** | **130** | **22** | **96** | **27** |
+| **Total** | **128** | **22** | **94** | **29** |
 
 ## How a builder works
 
@@ -299,7 +299,7 @@ Skipped:
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 22 to make, 1 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 20 to make, 3 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
@@ -358,17 +358,6 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** 2-4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `drawWorks` in `public/battle-view.js`
   - **Stands in now:** nobody drawn wading (nothing)
-- [ ] **C12** (priority 2) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 4 — **Claude stand-in held back: Astra has drawn the subject** (volunteer), so the page draws hers (`settler-gun-ram`, `settler-gun-carry`, `settler-gun-fire`)
-  - **Deliver:** three settlers serving the Gonzales cart-wheel gun: `settler-gun-ram`, `settler-gun-carry`, `settler-gun-fire`
-  - **Frames:** 2-4 frames each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
-  - **Plugs into:** `drawCannon` in `public/battle-view.js`
-  - **Stands in now:** the carriage-gun crew cycles (`volunteer-gun-ram`, `-shot-carry`, `-fire`) (Astra's library art reused)
-- [ ] **C13** (priority 2) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), items 1 and 3 — **Claude stand-in in place** (`jw-smith-walk-e`, `jw-smith-walk-s`, `jw-smith-walk-n`, `jw-smith-mounted-walk-e`, `kimbell-walk-e`, `kimbell-walk-s`, `kimbell-walk-n`, `kimbell-mounted-walk-e`, `martin-walk-e`, `martin-walk-s`, `martin-walk-n`, `martin-mounted-walk-e`, `horton-walk-e`, `horton-walk-s`, `horton-walk-n`, `horton-mounted-walk-e`, `wp-smith-walk-e`, `wp-smith-walk-s`, `wp-smith-walk-n`, `smither-walk-e`, `smither-walk-s`, `smither-walk-n`, `smither-mounted-walk-e`, `sanchez-navarro-walk-e`, `sanchez-navarro-walk-s`, `sanchez-navarro-walk-n`, `barragan-walk-e`, `barragan-walk-s`, `barragan-walk-n`, `jw-smith-idle`, `jw-smith-speak`, `jw-smith-command`, `jw-smith-point`, `jw-smith-aim`, `jw-smith-fire`, `jw-smith-mounted-idle-e`, `kimbell-idle`, `kimbell-speak`, `kimbell-command`, `kimbell-point`, `kimbell-aim`, `kimbell-fire`, `kimbell-fall`, `kimbell-still`, `kimbell-mounted-idle-e`, `martin-idle`, `martin-speak`, `martin-command`, `martin-point`, `martin-aim`, `martin-fire`, `martin-fall`, `martin-still`, `martin-mounted-idle-e`, `horton-idle`, `horton-speak`, `horton-command`, `horton-point`, `horton-aim`, `horton-fire`, `horton-mounted-idle-e`, `wp-smith-idle`, `wp-smith-speak`, `wp-smith-command`, `wp-smith-point`, `wp-smith-address`, `wp-smith-listen`, `smither-idle`, `smither-speak`, `smither-command`, `smither-point`, `smither-call`, `smither-mounted-idle-e`, `sanchez-navarro-idle`, `sanchez-navarro-speak`, `sanchez-navarro-command`, `sanchez-navarro-point`, `sanchez-navarro-parley`, `sanchez-navarro-listen`, `barragan-idle`, `barragan-speak`, `barragan-command`, `barragan-point`, `barragan-protect`, `barragan-listen`); Astra's replaces it
-  - **Deliver:** a 4×4 sheet each for J. W. Smith, Kimbell, Martin, Horton, W. P. Smith, Smither (Texian officers) and Sánchez Navarro, Barragán (Mexican officers): walk, idle, command, fire, and a still (lying) pose; named `<person>-*` as `PERSON_ART` keys. Austin, Johnson, Neill, Hockley, McCulloch, Sherman, Rusk, Lamar, Deaf Smith, Grant, Urrea and Condelle are delivered (2026-09-28 to 2026-10-02)
-  - **Frames:** 16 each (4 east, 2 south, 2 north walking, 8 poses). **Size:** The delivered famous sheets' contract (`scripts/art-deliveries/famous-people.mjs`): the `volunteer-*` logical height
-  - **Plugs into:** `PERSON_ART` and `drawPerson` in `public/battle-view.js`, `drawFamous` in `public/famous-view.js`
-  - **Stands in now:** the volunteer or regular, riding as the courier or the dragoon, named under the figure (Astra's library art reused)
-  - **Research first:** each person's dress, age and rank in 1835-36 (docs/battle-research/famous-people.md); **original interpretations, never a likeness** - no face is claimed, and a Claude stand-in says so in its prompt
 - [ ] **C14** (priority 2) — [Request 2026-09-26 — the Esparza family](ART_REQUESTS.md#request-2026-09-26--the-esparza-family), items 1-6 — **Claude stand-in in place** (`ana-esparza-walk-e`, `ana-esparza-walk-s`, `ana-esparza-walk-n`, `maria-de-jesus-walk-e`, `maria-de-jesus-walk-s`, `maria-de-jesus-walk-n`, `enrique-esparza-walk-e`, `enrique-esparza-walk-s`, `enrique-esparza-walk-n`, `francisco-esparza-walk-e`, `francisco-esparza-walk-s`, `francisco-esparza-walk-n`, `ana-esparza-carry-toddler`, `burial-party-walk-e`, `ana-esparza-idle`, `ana-esparza-seated`, `ana-esparza-shelter-with-children`, `ana-esparza-hold-blanket`, `maria-de-jesus-idle`, `maria-de-jesus-seated-huddled`, `enrique-esparza-idle`, `enrique-esparza-seated-huddled`, `enrique-esparza-look`, `francisco-esparza-idle`, `francisco-esparza-kneel-at-grave`); Astra's replaces it; **Claude stand-in held back: Astra has drawn the subject** (esparza), so the page draws hers (`esparza-seated`)
   - **Deliver:** `ana-esparza-*` (walk, idle, `shelter-with-children`, `carry-toddler`, `hold-blanket`), `maria-de-jesus-*` (walk, idle, seated huddled), `enrique-esparza-*` (walk, idle, seated huddled, `look`), `burial-party-walk-e` (4; two men carrying a body wholly wrapped on a litter, never a body shown), `francisco-esparza-*` (walk, idle, `kneel-at-grave`), `esparza-seated`
   - **Frames:** the famous-sheet contract. **Size:** Famous sheets: `volunteer-*` height for grown people, the children's for the children
@@ -390,8 +379,8 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** as C1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `poseOf` `cast` in `public/battle-view.js`; `drawFigure` in `public/app.js`
   - **Stands in now:** her work cycle while the others fire (`drawFigure` in `public/app.js`); her hurt rest and her standing figure laid down (Astra's library art reused)
-- [ ] **C15** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), Castrillón and the rest — **Claude stand-in held back: Astra has drawn the subject** (castrillon, crate), so the page draws hers (`castrillon-walk-s`, `castrillon-walk-n`, `ammunition-crate`)
-  - **Deliver:** Castrillón's north and south walks and a scale-matched ammunition crate under his command pose; Travis in the officer's firing cycle at the north battery (request 2026-09-25 the Alamo, item 8); the remaining Tejano cast
+- [ ] **C15** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), Castrillón and the rest — **Claude stand-in held back: Astra has drawn the subject** (crate), so the page draws hers (`ammunition-crate`)
+  - **Deliver:** the remaining Tejano cast, and an `ammunition-crate` prop at the people's scale (Castrillón's north and south walks, his crate rally with the crate in his own frames, and Travis firing at the north battery are delivered, 2026-10-03)
   - **Frames:** as the famous sheets. **Size:** Famous sheets
   - **Plugs into:** `PERSON_ART`
   - **Stands in now:** Castrillón's east walk mirrored; the crate prop at another scale (Astra's library art reused)
@@ -421,6 +410,8 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Research first:** which guns stood where (docs/ALAMO_LAYOUT.md); interpretive silhouettes
 
 Skipped:
+- ~~C12~~ [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for) — skipped: delivered 2026-10-03 (Astra's civilian cannon crew, survivor-travel-gonzales-crew-2026-10-03); Claude's settlers deleted
+- ~~C13~~ [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses) — skipped: delivered 2026-10-03 (Astra's Kimbell, Martin, J. W. Smith, Horton, W. P. Smith, Smither, Sánchez Navarro, Barragán); Claude's sheets deleted
 - ~~CS2~~ [Request 2026-09-27 — Seguín, the ashes, and the later church claim](ART_REQUESTS.md#request-2026-09-27--seguín-the-ashes-and-the-later-church-claim) — skipped: art and storyboard delivered; the trigger is code
 
 ## D — Riders, horses, wagons, carreta, ferry, steamboat

@@ -21,6 +21,49 @@ import { projectWorld } from '../sim/world.mjs';
 const copy = value => JSON.parse(JSON.stringify(value));
 /** Ana Esparza and her four children (sim/people.mjs; `HIST-TEX-605`). */
 const ESPARZA_FAMILY = ['ana-esparza', 'maria-de-jesus', 'enrique-esparza', 'manuel-esparza', 'francisco-child'];
+test('named relief riders and Horton have dedicated art without changing their scenes', () => {
+  for (const id of ['jw-smith', 'horton', 'kimbell', 'martin']) assert.equal(PEOPLE[id].art, id);
+  const relief = ALAMO.phases.find(p => p.people?.some(one => one.id === 'kimbell'));
+  assert.equal(relief.people.find(p => p.id === 'kimbell').pose, 'ride');
+  assert.equal(relief.people.find(p => p.id === 'martin').pose, 'ride');
+  // His courier ride out of the Alamo on March 3 (he also rides out with Sutherland when the bell rings, an earlier phase).
+  const courier = ALAMO.phases.flatMap(p => p.people || []).find(p => p.id === 'jw-smith' && p.keys?.[0]?.[1] === 'travis-quarters');
+  assert.deepEqual(courier.during, [680, 720]);
+  const hortonPhases = ENGAGEMENTS.coleto.phases.filter(p => p.people?.some(one => one.id === 'horton'));
+  assert.equal(hortonPhases.length, 3);
+  assert.ok(hortonPhases.every(p => p.people.find(one => one.id === 'horton').pose === 'ride'));
+});
+test('Smither keeps his Gonzales arrival and reported warning with dedicated art', () => {
+  assert.equal(PEOPLE.smither.art, 'smither');
+  const phase = ENGAGEMENTS.gonzales.phases.find(p => p.id === 'parley');
+  const rider = phase.people.find(p => p.id === 'smither');
+  assert.deepEqual(rider.keys, [[0, 'rise'], [6, 'cornfield']]);
+  assert.deepEqual(rider.during, [0, 12]);
+  const line = phase.lines.find(p => p.person === 'smither');
+  assert.equal(line.text, 'Don’t shoot, don’t shoot!');
+  assert.equal(line.claimId, 'HIST-TEX-474');
+});
+test('W. P. Smith keeps his documented Gonzales address with dedicated art', () => {
+  assert.equal(PEOPLE['wp-smith'].art, 'wp-smith');
+  const phase = ENGAGEMENTS.gonzales.phases.find(p => p.people?.some(one => one.id === 'wp-smith'));
+  assert.equal(phase.people.find(p => p.id === 'wp-smith').pose, 'command');
+  const lines = phase.lines.filter(line => line.person === 'wp-smith');
+  assert.equal(lines.length, 2);
+  assert.ok(lines.every(line => line.claimId === 'HIST-TEX-470'));
+  assert.equal(lines[1].text, 'We must fight, and we will fight!');
+});
+test('Barragán retains his intervention route and timing with dedicated art', () => {
+  assert.equal(PEOPLE.barragan.art, 'barragan');
+  const captain = ALAMO.phases.find(p => p.id === 'end').people.find(p => p.id === 'barragan');
+  assert.deepEqual(captain.keys, [[0, 'plaza'], [9, 'plaza'], [12, 'joe-door']]);
+  assert.equal(captain.pose, 'command');
+});
+test('Sánchez Navarro keeps his named Bexar parley with dedicated art', () => {
+  assert.equal(PEOPLE['sanchez-navarro'].art, 'sanchez-navarro');
+  const phases = ENGAGEMENTS['bexar-storming'].phases.filter(one => one.parley?.people.some(p => p.id === 'sanchez-navarro'));
+  assert.equal(phases.length, 2);
+  for (const phase of phases) assert.equal(phase.parley.people.find(p => p.id === 'sanchez-navarro').side, 'mexican');
+});
 test('Condelle uses his own art at the Morelos battalion without changing his reported words', () => {
   assert.equal(PEOPLE.condelle.art, 'condelle');
   const phase = ENGAGEMENTS['bexar-storming'].phases.find(one => one.id === 'night-8');

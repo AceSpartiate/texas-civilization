@@ -271,53 +271,8 @@ for (const side of ['volunteer', 'regular']) {
   clips['figure-wading'] = clip([1, 2, 3, 4].map(i => [`figure-wading-regular-${i}`, 210]), { prompt: 'The rout into the marsh at San Jacinto: a Mexican infantryman wading, four frames (the clip the page asks for; `figure-wading-volunteer` is a Texian).' });
 }
 
-// ---------------------------------------------------------------------------------------------------- C12: the Gonzales gun's crew
-{
-  const rows = [];
-  const A = SETTLERS['settler-a'], B = SETTLERS['settler-b'], Cc = SETTLERS['settler-c'];
-  const F = frameOf(A), g = PO.g(F);
-  const rammer = (butt, tip) => ink => {
-    ink.shape(capsule(butt, tip, 1.1, 1.1), '#b89a5e', { shade: false, outline: 2.8 });
-    const d = [tip[0] - butt[0], tip[1] - butt[1]], l = Math.hypot(...d), u = [d[0] / l, d[1] / l];
-    ink.shape(capsule(tip, add(tip, [u[0] * 7, u[1] * 7]), 2.6, 2.6), '#6a4a2e', { shade: false, outline: 2.6 });
-  };
-  const ram = [
-    [{ view: 'e', pelvis: PO.P(F), lean: 2, feet: { near: PO.foot(F, 4), far: PO.foot(F, -4) }, hands: { near: PO.at(F, 8, -8), far: PO.at(F, 6, -2) } }, 'standing with the rammer staff upright', [[8, -30], [9, 34]]],
-    [{ view: 'e', pelvis: PO.P(F, 2, -2), lean: 12, feet: { near: PO.foot(F, 10), far: PO.foot(F, -8) }, knees: { near: 1, far: 1 }, hands: { near: PO.at(F, 8, -14), far: PO.at(F, 16, -12) } }, 'bringing the staff down level toward the muzzle', [[-6, -16], [48, -10]]],
-    [{ view: 'e', pelvis: PO.P(F, 6, -5), lean: 24, feet: { near: PO.foot(F, 16), far: PO.foot(F, -10) }, knees: { near: 1, far: 1 }, hands: { near: PO.at(F, 18, -18), far: PO.at(F, 28, -16) } }, 'the thrust: driving the charge home down the barrel', [[6, -20], [64, -13]]],
-    [{ view: 'e', pelvis: PO.P(F, 1, -3), lean: 10, feet: { near: PO.foot(F, 12), far: PO.foot(F, -9) }, knees: { near: 1, far: 1 }, hands: { near: PO.at(F, 6, -16), far: PO.at(F, 14, -14) } }, 'drawing the staff back out', [[-10, -18], [46, -12]]],
-  ];
-  ram.forEach(([p, what, [a, b]], i) => {
-    const name = `settler-gun-ram-${i + 1}`;
-    rows.push([name, `A Gonzales settler of October 1835 in his own clothes (a rust shirt, braces, a black neckcloth, a felt hat, a short beard) serving the little bronze cannon on its cart wheels: ${what} (frame ${i + 1} of 4). ${STYLE}`,
-      () => frame(name, A, p, { after: rammer(PO.at(F, ...a), PO.at(F, ...b)) }), [['volunteer-rammer-carry-1', 1], ['volunteer-ram-1', 1]]]);
-  });
-  const FB = frameOf(B), shot = at => ink => { ink.shape(ellipse(at, 4.2, 4.2), '#3a3836', { off: 0.8, lift: true }); };
-  const carry = [
-    [{ ...PO.kneelPose(FB, { lean: 38 }), tilt: -10, hands: { near: PO.at(FB, 14, -40), far: PO.at(FB, 12, -38) }, elbows: { near: 1, far: 1 } }, 'stooping to lift a round shot from the ground', PO.at(FB, 16, -41)],
-    [{ ...POSES.walk(FB)[0], lean: 4, hands: { near: PO.at(FB, 9, -12), far: PO.at(FB, 7, -11) }, elbows: { near: 1, far: 1 } }, 'carrying the round shot to the gun in both hands', PO.at(FB, 11, -11)],
-  ];
-  carry.forEach(([p, what, at], i) => {
-    const name = `settler-gun-carry-${i + 1}`;
-    rows.push([name, `A second Gonzales settler (a blue shirt with braces, a wide straw hat, trousers rolled at the shin) serving the cart-wheel gun: ${what} (frame ${i + 1} of 2). ${STYLE}`,
-      () => frame(name, B, p, { after: shot(at) }), [['volunteer-roundshot-lift', 1], ['volunteer-roundshot-carry', 1]]]);
-  });
-  const FC = frameOf(Cc);
-  const linstock = (hand, tip) => ink => { ink.line(seg(hand, tip), { colour: '#6a4a2e', width: 2.6 }); ink.shape(ellipse(tip, 1.4, 1.4), '#e8903a', { shade: false, outline: 1.4 }); };
-  const fire = [
-    [{ view: 'e', pelvis: PO.P(FC, 2, -4), lean: 22, feet: { near: PO.foot(FC, 12), far: PO.foot(FC, -8) }, knees: { near: 1, far: 1 }, hands: { near: PO.at(FC, 18, -12), far: PO.at(FC, -4, -20) } }, 'reaching the lit match on its linstock to the touch-hole, leaning away from the gun', [PO.at(FC, 18, -12), PO.at(FC, 34, -26)]],
-    [{ view: 'e', pelvis: PO.P(FC, -3, -1), lean: -6, tilt: -8, feet: { near: PO.foot(FC, 5), far: PO.foot(FC, -7) }, hands: { near: PO.at(FC, 3, 12), far: PO.at(FC, 0, 12) }, elbows: { near: -1, far: -1 } }, 'turned from the shot with his hands over his ears', null],
-  ];
-  fire.forEach(([p, what, stick], i) => {
-    const name = `settler-gun-fire-${i + 1}`;
-    rows.push([name, `A third Gonzales settler (an ochre shirt under a brown waistcoat, bare-headed, a moustache) serving the cart-wheel gun: ${what} (frame ${i + 1} of 2). ${STYLE}`,
-      () => frame(name, Cc, p, { after: stick ? linstock(...stick) : null }), [['volunteer-lanyard-pull', 1], ['volunteer-cover-ears', 1]]]);
-  });
-  sheet('claude-settler-gun', R.battles, 'item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west', rows);
-  clips['settler-gun-ram'] = clip([[1, 260], [2, 240], [3, 360], [4, 300]].map(([i, d]) => [`settler-gun-ram-${i}`, d]), { loop: false, prompt: 'A settler ramming the Gonzales gun: staff up, down, the thrust, back (the volunteer-gun-ram timing).' });
-  clips['settler-gun-carry'] = clip([[1, 420], [2, 420]].map(([i, d]) => [`settler-gun-carry-${i}`, d]), { prompt: 'A settler lifting and carrying round shot to the Gonzales gun.' });
-  clips['settler-gun-fire'] = clip([[1, 360], [2, 700]].map(([i, d]) => [`settler-gun-fire-${i}`, d]), { loop: false, prompt: 'A settler touching off the Gonzales gun with a linstock and turning away, hands over his ears.' });
-}
+// C12, the Gonzales gun's crew (`settler-gun-ram`, `-carry`, `-fire`): Astra delivered her civilian cannon crew on 2026-10-03
+// (survivor-travel-gonzales-crew-2026-10-03), so Claude's three settlers of the same names were deleted when it was merged.
 
 export const SHEETS = sheets;
 export const CLIPS = clips;

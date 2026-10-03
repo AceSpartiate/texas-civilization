@@ -1,0 +1,126 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "travis-foot-walk-s-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "travis-foot-walk-n-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "crockett-foot-walk-s-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "crockett-foot-walk-n-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "bowie-foot-walk-s-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "bowie-foot-walk-n-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "fannin-foot-walk-s-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "fannin-foot-walk-n-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "milam-foot-walk-s-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "milam-foot-walk-n-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "ben-foot-walk-s-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "ben-foot-walk-n-v2",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "neill-field-command",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "neill-field-conversation",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "karnes-field-command",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "karnes-field-conversation",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "hockley-field-command",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "hockley-field-conversation",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "lamar-field-command",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "lamar-field-conversation",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "sherman-field-command",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "sherman-field-conversation",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "rusk-field-command",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "rusk-field-conversation",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

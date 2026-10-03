@@ -61,31 +61,32 @@ test('the subjects the owner saw replaced are Astra\'s again: work, ease, childr
   for (const name of ['rust-chop-1', 'teal-split-1', 'rust-whittle-1', 'indigo-hold-baby-1', 'girl-play-run-1', 'girl-play-run-s-1', 'boy-carry-water-n-1',
     'infant-crawl-1', 'rust-sick-rest-e-1', 'girl-ride-e-1', 'indigo-wagon-driver-e-1', 'rust-ride-wagon-e-1', 'wagon-ox-e-1', 'wagon-ox-open-e-1', 'cart-travel-e-1',
     'carreta-loaded-travel-e-1', 'milk-cow-walk-e-1', 'herd-drove-1', 'lancer-march-1', 'volunteer-mounted-walk-e-1', 'seguin-ride-e-1', 'rust-fire-reload-1',
-    'bearers-carry-1', 'regular-prone-lie', 'castrillon-walk-s-1', 'esparza-seated', 'house-round-back-full-walls', 'house-jacal-wattle', 'pine-loblolly-large-wind',
+    'bearers-carry-1', 'regular-prone-lie', 'esparza-seated', 'house-round-back-full-walls', 'house-jacal-wattle', 'pine-loblolly-large-wind',
     'pine-shortleaf-large', 'cedar-elm-large', 'stump-oak', 'live-oak-mott', 'wood-pile-3', 'hens-pecking-1']) {
     assert.ok(claude.frames[name], `${name} is a Claude frame (the list is current)`);
     assert.ok(!drawable.has(name), `${name}: Claude's drawing of a subject Astra has drawn is drawable`);
     assert.ok(art.withheldStandins().has(name), `${name} is recorded as held back`);
   }
-  for (const clip of ['rust-chop', 'girl-play-run', 'infant-crawl', 'wagon-ox-e', 'milk-cow-walk-e', 'castrillon-walk-s']) {
+  for (const clip of ['rust-chop', 'girl-play-run', 'infant-crawl', 'wagon-ox-e', 'milk-cow-walk-e']) {
     assert.ok(claude.clips[clip], `${clip} is a Claude clip`);
     assert.ok(!clips.has(clip) && !art.clipReady(clip), `${clip}: Claude's clip is offered where Astra has drawn the subject`);
   }
 });
 
 test('Claude\'s art still fills what Astra has not drawn: people, places, icons and effects she has nothing of', () => {
-  for (const name of ['kimbell-idle', 'ana-esparza-idle', 'burial-party-walk-e-1', 'bexar-man-walk-1', 'sutherland-ride-e-1', 'mule-packed-grass-walk-e-1',
+  for (const name of ['ana-esparza-idle', 'burial-party-walk-e-1', 'bexar-man-walk-1', 'sutherland-ride-e-1', 'mule-packed-grass-walk-e-1',
     'mission-concepcion', 'portrait-rust', 'mark-need', 'icon-child-doll', 'fx-dust-1', 'night-grade', 'anacua-large', 'army-camp-texian'])
     assert.ok(drawable.has(name), `${name}: Claude's stand-in for a subject Astra has not drawn is not drawable`);
 });
 
 test('the moment Astra draws a subject, every Claude frame of it steps aside, not only the one of the same name', () => {
   const hers = namePrefixes(Object.keys(astra.frames));
-  assert.equal(standinWithheld('kimbell-walk-e-1', hers), null, 'Kimbell is Claude\'s today');
-  const delivered = namePrefixes([...Object.keys(astra.frames), 'kimbell-idle']);
-  for (const name of Object.keys(claude.frames).filter(name => name.startsWith('kimbell-')))
-    assert.equal(standinWithheld(name, delivered), 'kimbell', `${name} would still be drawn beside her Kimbell`);
-  assert.equal(standinWithheld('kimbell-walk-e-1', namePrefixes([...Object.keys(astra.frames), 'kimbellish-idle'])), null, 'a prefix is a whole name');
+  // Dr. Sutherland: Claude's today (Kimbell was, until Astra's of 2026-10-03).
+  assert.equal(standinWithheld('sutherland-ride-e-1', hers), null, 'Sutherland is Claude\'s today');
+  const delivered = namePrefixes([...Object.keys(astra.frames), 'sutherland-idle']);
+  for (const name of Object.keys(claude.frames).filter(name => name.startsWith('sutherland-')))
+    assert.equal(standinWithheld(name, delivered), 'sutherland', `${name} would still be drawn beside her Sutherland`);
+  assert.equal(standinWithheld('sutherland-ride-e-1', namePrefixes([...Object.keys(astra.frames), 'sutherlandish-idle'])), null, 'a prefix is a whole name');
 });
 
 test('only public/art.js reads Claude\'s library: nothing draws from it around the rule', () => {
