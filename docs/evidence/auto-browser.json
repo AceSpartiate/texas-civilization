@@ -14,7 +14,7 @@
     "pressed off: the hunt in hand finished and nobody went out again",
     "Amos Proofwright sent to plant the field from the panel, then put on auto: the row says \"Auto: plant the field\"",
     "Mary Proofwright on auto and given the harvest before anything is ripe: it is her task, and she waits",
-    "the field planted, grown, brought in and planted again with nobody pressing anything: bare > planted > ripe > bare > planted in 19.8 s",
+    "the field planted, grown, brought in and planted again with nobody pressing anything: bare > planted > ripe > bare > planted in 19.7 s",
     "each row said what auto was doing and, while it waited, why, in the server's words",
     "on, at 1366x768 and 1024x768: both switches read \"Auto ✓\", are pressed, and glow green; the others read \"Auto\" and do not",
     "pressed off: the line goes, and the switch reads \"Auto\" again",
@@ -180,7 +180,7 @@
       4
     ],
     "season": {
-      "seconds": 19.8,
+      "seconds": 19.7,
       "fieldStates": [
         "bare",
         "planted",

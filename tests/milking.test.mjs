@@ -88,6 +88,16 @@ test('no cow, no milking: greyed with its want where the town has the stock pens
   assert.deepEqual(view.household.wants?.['milk-cow'], { cow: [0, 1] }, 'the milking does not say it wants a cow');
   assert.ok(view.household.buy?.includes('cow'), 'the stock pens are not offered as the way to a cow');
   assert.equal(offeredTo(world, household, child, 'milk-cow'), null, 'a child is shown the milking with no cow to milk');
+  // Away from home - in Gonzales - it is refused as any home work is, with no want of a cow, so the bar does not keep it as a
+  // goal over the town's scene (the overlap proof at 1024x600, 2026-10-02).
+  const atHouse = grown.location;
+  grown.location = { ...atHouse, siteId: 'gonzales' };
+  const away = offeredTo(world, household, grown, 'milk-cow');
+  assert.ok(!away || (!away.can && /is not at home/.test(away.why) && !away.short), `away from home the milking is ${JSON.stringify(away)}`);
+  household.herd = { cattle: 2, hogs: 0 };
+  assert.match(choreAvailability(world, household, grown, 'milk-cow').why, /is not at home/, 'milked from Gonzales');
+  household.herd = { cattle: 0, hogs: 3 };
+  grown.location = atHouse;
   // A town with no stock pens: no way to a cow, so not shown at all.
   household.settlementId = 'san-felipe';
   assert.equal(offeredTo(world, household, grown, 'milk-cow'), null, 'shown greyed with no way to get a cow');
