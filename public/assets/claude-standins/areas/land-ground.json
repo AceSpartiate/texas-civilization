@@ -22,31 +22,12 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-fog-banks": {
-      "image": "/assets/claude-standins/claude-fog-banks.png",
-      "width": 1560,
-      "height": 400,
-      "bytes": 137904,
-      "sha256": "10ae0e2fd8eb1b99e3a19c512682f9dcd08ba92c586ac34fdc095e08458d6061",
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "layout": {
-        "rows": 2,
-        "columns": 3,
-        "cell": {
-          "w": 520,
-          "h": 200
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-marsh-edge": {
       "image": "/assets/claude-standins/claude-marsh-edge.png",
       "width": 1020,
       "height": 220,
-      "bytes": 130635,
-      "sha256": "3dfbac2eb1a792d365e288a3f1229f4a8b4c01d973feeffccfe52d1eaf2a9d05",
+      "bytes": 130638,
+      "sha256": "64ab70ae13f83f22db3c32c1a45a8cfb328f879707023295e852e8a0076f5bf9",
       "madeBy": "claude",
       "module": "land-ground",
       "request": "Request 2026-09-25 — San Jacinto",
@@ -166,108 +147,6 @@
       "label": "creek ford",
       "kind": "claude-banks-creeks"
     },
-    "fog-bank-dense-1": {
-      "sheet": "claude-fog-banks",
-      "x": 0,
-      "y": 0,
-      "w": 520,
-      "h": 200,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 200,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "fog-bank-dense-1: item 3: fog banks, 2-4 frames drifting, seen from the map's view",
-      "source": "svg/land-ground/claude-fog-bank-dense-1.svg",
-      "label": "fog bank dense 1",
-      "kind": "claude-fog-banks"
-    },
-    "fog-bank-dense-2": {
-      "sheet": "claude-fog-banks",
-      "x": 520,
-      "y": 0,
-      "w": 520,
-      "h": 200,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 200,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "fog-bank-dense-2: item 3: fog banks, 2-4 frames drifting, seen from the map's view",
-      "source": "svg/land-ground/claude-fog-bank-dense-2.svg",
-      "label": "fog bank dense 2",
-      "kind": "claude-fog-banks"
-    },
-    "fog-bank-dense-3": {
-      "sheet": "claude-fog-banks",
-      "x": 1040,
-      "y": 0,
-      "w": 520,
-      "h": 200,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 200,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "fog-bank-dense-3: item 3: fog banks, 2-4 frames drifting, seen from the map's view",
-      "source": "svg/land-ground/claude-fog-bank-dense-3.svg",
-      "label": "fog bank dense 3",
-      "kind": "claude-fog-banks"
-    },
-    "fog-bank-thin-1": {
-      "sheet": "claude-fog-banks",
-      "x": 0,
-      "y": 200,
-      "w": 520,
-      "h": 200,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 200,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "fog-bank-thin-1: item 3: fog banks, 2-4 frames drifting, seen from the map's view",
-      "source": "svg/land-ground/claude-fog-bank-thin-1.svg",
-      "label": "fog bank thin 1",
-      "kind": "claude-fog-banks"
-    },
-    "fog-bank-thin-2": {
-      "sheet": "claude-fog-banks",
-      "x": 520,
-      "y": 200,
-      "w": 520,
-      "h": 200,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 200,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "fog-bank-thin-2: item 3: fog banks, 2-4 frames drifting, seen from the map's view",
-      "source": "svg/land-ground/claude-fog-bank-thin-2.svg",
-      "label": "fog bank thin 2",
-      "kind": "claude-fog-banks"
-    },
-    "fog-bank-thin-3": {
-      "sheet": "claude-fog-banks",
-      "x": 1040,
-      "y": 200,
-      "w": 520,
-      "h": 200,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 200,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "fog-bank-thin-3: item 3: fog banks, 2-4 frames drifting, seen from the map's view",
-      "source": "svg/land-ground/claude-fog-bank-thin-3.svg",
-      "label": "fog bank thin 3",
-      "kind": "claude-fog-banks"
-    },
     "marsh-edge-1": {
       "sheet": "claude-marsh-edge",
       "x": 0,
@@ -371,52 +250,7 @@
       "kind": "claude-grades"
     }
   },
-  "clips": {
-    "fog-bank-dense": {
-      "frames": [
-        {
-          "sprite": "fog-bank-dense-1",
-          "duration": 1400
-        },
-        {
-          "sprite": "fog-bank-dense-2",
-          "duration": 1400
-        },
-        {
-          "sprite": "fog-bank-dense-3",
-          "duration": 1400
-        }
-      ],
-      "loop": true,
-      "motion": "drift",
-      "direction": "not applicable",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "land-ground"
-    },
-    "fog-bank-thin": {
-      "frames": [
-        {
-          "sprite": "fog-bank-thin-1",
-          "duration": 1400
-        },
-        {
-          "sprite": "fog-bank-thin-2",
-          "duration": 1400
-        },
-        {
-          "sprite": "fog-bank-thin-3",
-          "duration": 1400
-        }
-      ],
-      "loop": true,
-      "motion": "drift",
-      "direction": "not applicable",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "land-ground"
-    }
-  },
+  "clips": {},
   "provenance": {
     "riverbank-cut-e": {
       "kind": "frame",
@@ -487,90 +321,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's creek-ford"
-    },
-    "fog-bank-dense-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "sheet": "claude-fog-banks",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "A dense bank of morning fog lying solid on the river bottom (Concepción, the fog lifting about eight): pale grey-white billows with a soft grey outline, lit from the upper left, lying low on the ground; frame 1 of 3 drifting to the right. Drawn solid; the page lays it at the strength of the phase's fog. Transparent ground.",
-      "source": "public/assets/claude-standins/svg/land-ground/claude-fog-bank-dense-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's fog-bank-dense-1"
-    },
-    "fog-bank-dense-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "sheet": "claude-fog-banks",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "A dense bank of morning fog lying solid on the river bottom (Concepción, the fog lifting about eight): pale grey-white billows with a soft grey outline, lit from the upper left, lying low on the ground; frame 2 of 3 drifting to the right. Drawn solid; the page lays it at the strength of the phase's fog. Transparent ground.",
-      "source": "public/assets/claude-standins/svg/land-ground/claude-fog-bank-dense-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's fog-bank-dense-2"
-    },
-    "fog-bank-dense-3": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "sheet": "claude-fog-banks",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "A dense bank of morning fog lying solid on the river bottom (Concepción, the fog lifting about eight): pale grey-white billows with a soft grey outline, lit from the upper left, lying low on the ground; frame 3 of 3 drifting to the right. Drawn solid; the page lays it at the strength of the phase's fog. Transparent ground.",
-      "source": "public/assets/claude-standins/svg/land-ground/claude-fog-bank-dense-3.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's fog-bank-dense-3"
-    },
-    "fog-bank-thin-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "sheet": "claude-fog-banks",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "A thin fog breaking into wisps as it lifts (Concepción, the fog lifting about eight): pale grey-white billows with a soft grey outline, lit from the upper left, lying low on the ground; frame 1 of 3 drifting to the right. Drawn solid; the page lays it at the strength of the phase's fog. Transparent ground.",
-      "source": "public/assets/claude-standins/svg/land-ground/claude-fog-bank-thin-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's fog-bank-thin-1"
-    },
-    "fog-bank-thin-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "sheet": "claude-fog-banks",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "A thin fog breaking into wisps as it lifts (Concepción, the fog lifting about eight): pale grey-white billows with a soft grey outline, lit from the upper left, lying low on the ground; frame 2 of 3 drifting to the right. Drawn solid; the page lays it at the strength of the phase's fog. Transparent ground.",
-      "source": "public/assets/claude-standins/svg/land-ground/claude-fog-bank-thin-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's fog-bank-thin-2"
-    },
-    "fog-bank-thin-3": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "sheet": "claude-fog-banks",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "A thin fog breaking into wisps as it lifts (Concepción, the fog lifting about eight): pale grey-white billows with a soft grey outline, lit from the upper left, lying low on the ground; frame 3 of 3 drifting to the right. Drawn solid; the page lays it at the strength of the phase's fog. Transparent ground.",
-      "source": "public/assets/claude-standins/svg/land-ground/claude-fog-bank-thin-3.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's fog-bank-thin-3"
     },
     "marsh-edge-1": {
       "kind": "frame",
@@ -655,36 +405,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's dawn-grade"
-    },
-    "fog-bank-dense": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "A dense bank of fog drifting slowly to the right, looping.",
-      "frames": [
-        "fog-bank-dense-1",
-        "fog-bank-dense-2",
-        "fog-bank-dense-3"
-      ],
-      "status": "temporary: replace with Astra's fog-bank-dense"
-    },
-    "fog-bank-thin": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "Thin fog breaking into wisps as it lifts, drifting slowly to the right, looping.",
-      "frames": [
-        "fog-bank-thin-1",
-        "fog-bank-thin-2",
-        "fog-bank-thin-3"
-      ],
-      "status": "temporary: replace with Astra's fog-bank-thin"
     }
   }
 }

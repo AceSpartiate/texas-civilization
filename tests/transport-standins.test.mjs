@@ -43,13 +43,14 @@ const GROUPS = [
   group('horse', 'texian', 'mounted', 'none', -0.25, { mounted: true, drawn: 4, y: -0.1, moving: true, action: 'advance' }),
 ];
 
-test('with Claude\'s sheets loaded: the pack train is mules under grass, the lancers carry lances, a Texian horseman is the volunteer mounted', () => {
+// The Grass Fight's pack mules and the lancers' charge are Astra's since 2026-10-03 (Claude's of the same names deleted when they
+// were merged); a Texian horseman is still Claude's.
+test('with Claude\'s sheets loaded: a Texian horseman is the volunteer mounted', () => {
   const drawn = run(fakeArt(true), GROUPS);
   const clips = new Set(drawn.map(one => one.clip).filter(Boolean));
-  assert.ok(clips.has('mule-packed-grass-walk-e'), `the pack train: ${[...clips].join(', ')}`);
-  assert.ok(clips.has('lancer-idle') || clips.has('lancer-march'), `the lancers: ${[...clips].join(', ')}`);
   assert.ok(clips.has('volunteer-mounted'), `the Texian horsemen: ${[...clips].join(', ')}`);
-  for (const clip of ['mule-packed-grass-walk-e', 'volunteer-mounted']) assert.equal(claude[clip]?.madeBy, 'claude', `${clip} is not Claude's`);
+  assert.equal(claude['volunteer-mounted']?.madeBy, 'claude', 'volunteer-mounted is not Claude\'s');
+  assert.ok(!claude['mule-packed-grass-walk-e'] && !claude['lancer-charge'], 'a Claude frame of Astra\'s mules or lancers is still in the library');
 });
 
 test('until they are loaded, the older stand-ins: horses under packs, the dragoons without lances, the mounted courier', () => {

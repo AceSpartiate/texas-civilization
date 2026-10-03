@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2494 usable sprites, 266 PNG atlases, 883 clips** (575 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2546 usable sprites, 273 PNG atlases, 897 clips** (589 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -42,6 +42,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-cast2-walk | 16 | 1254 × 1254 | 1288383 |
 | people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
+| dragoon-carbine-actions | 4 | 1278 × 1230 | 1451179 |
+| lancer-charge | 4 | 1536 × 1024 | 2066034 |
 | icons-children | 6 | 1254 × 1254 | 874710 |
 | people-children-vertical | 12 | 1254 × 1254 | 1163980 |
 | people-children-idle | 16 | 1254 × 1254 | 1351105 |
@@ -49,6 +51,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-children-care | 12 | 1254 × 1254 | 1425070 |
 | land-clearing | 16 | 1254 × 1254 | 904975 |
 | coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
+| regular-prone-actions | 4 | 1536 × 1024 | 1506423 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
@@ -190,8 +193,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
+| mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
+| ground-fog-banks | 4 | 1774 × 887 | 1018893 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
+| live-oak-mott | 4 | 1774 × 887 | 2439144 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
 | people-mounted-cast1-s | 16 | 1254 × 1254 | 1213409 |
 | people-mounted-cast1-n | 16 | 1254 × 1254 | 1283689 |
@@ -201,6 +207,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wildlife-mustang | 16 | 1254 × 1254 | 1311610 |
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
+| night-settlement-lights | 16 | 1254 × 1254 | 1713707 |
 | town-mexican-river | 1 | 1426 × 1103 | 1719481 |
 | presidio-spanish | 1 | 1536 × 1024 | 2103476 |
 | village-irish-colony | 1 | 1536 × 1024 | 2454172 |
@@ -553,6 +560,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-e | people-cast2-idle | blue-girl-idle-e |
 | blue-girl-idle-w | people-cast2-idle | blue-girl-idle-w |
 | blue-girl-idle-n | people-cast2-idle | blue-girl-idle-n |
+| dragoon-fire-1 | dragoon-carbine-actions | dragoon-fire |
+| dragoon-fire-2 | dragoon-carbine-actions | dragoon-fire |
+| dragoon-carbine-lower | dragoon-carbine-actions | dragoon-fire |
+| dragoon-carbine-rest | dragoon-carbine-actions | dragoon-fire |
+| lancer-charge-1 | lancer-charge | lancer-charge |
+| lancer-charge-2 | lancer-charge | lancer-charge |
+| lancer-charge-3 | lancer-charge | lancer-charge |
+| lancer-charge-4 | lancer-charge | lancer-charge |
 | icon-child-play | icons-children | State artwork; no motion required |
 | icon-child-kindling | icons-children | State artwork; no motion required |
 | icon-child-birds | icons-children | State artwork; no motion required |
@@ -631,6 +646,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | cart-baggage-tilt-1 | coleto-baggage-cart | cart-baggage-tip |
 | cart-baggage-tilt-2 | coleto-baggage-cart | cart-baggage-tip |
 | cart-tipped | coleto-baggage-cart | cart-baggage-tip |
+| regular-prone-lie | regular-prone-actions | State artwork; no motion required |
+| regular-prone-aim | regular-prone-actions | regular-prone-fire-reload |
+| regular-prone-fire | regular-prone-actions | regular-prone-fire-reload |
+| regular-prone-lock | regular-prone-actions | regular-prone-fire-reload |
 | icon-survey-plot | icons-family-actions-1 | State artwork; no motion required |
 | icon-cut-lane | icons-family-actions-1 | State artwork; no motion required |
 | icon-dig-well | icons-family-actions-1 | State artwork; no motion required |
@@ -1840,6 +1859,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | indigo-paint-2 | people-gonzales-paint | indigo-paint |
 | blue-girl-paint-1 | people-gonzales-paint | blue-girl-paint |
 | blue-girl-paint-2 | people-gonzales-paint | blue-girl-paint |
+| mule-packed-grass-walk-e-1 | mule-packed-grass | mule-packed-grass-walk-e |
+| mule-packed-grass-walk-e-2 | mule-packed-grass | mule-packed-grass-walk-e |
+| mule-packed-grass-walk-e-3 | mule-packed-grass | mule-packed-grass-walk-e |
+| mule-packed-grass-walk-e-4 | mule-packed-grass | mule-packed-grass-walk-e |
+| mule-packed-grass-walk-s-1 | mule-packed-grass | mule-packed-grass-walk-s |
+| mule-packed-grass-walk-s-2 | mule-packed-grass | mule-packed-grass-walk-s |
+| mule-packed-grass-walk-s-3 | mule-packed-grass | mule-packed-grass-walk-s |
+| mule-packed-grass-walk-s-4 | mule-packed-grass | mule-packed-grass-walk-s |
+| mule-packed-grass-walk-n-1 | mule-packed-grass | mule-packed-grass-walk-n |
+| mule-packed-grass-walk-n-2 | mule-packed-grass | mule-packed-grass-walk-n |
+| mule-packed-grass-walk-n-3 | mule-packed-grass | mule-packed-grass-walk-n |
+| mule-packed-grass-walk-n-4 | mule-packed-grass | mule-packed-grass-walk-n |
+| mule-packed-grass-idle-e | mule-packed-grass | State artwork; no motion required |
+| mule-packed-grass-idle-s | mule-packed-grass | State artwork; no motion required |
+| mule-packed-grass-idle-n | mule-packed-grass | State artwork; no motion required |
+| grass-bundle-cut | mule-packed-grass | State artwork; no motion required |
+| fog-bank-dense-1 | ground-fog-banks | fog-bank-dense |
+| fog-bank-dense-2 | ground-fog-banks | fog-bank-dense |
+| fog-bank-thin-1 | ground-fog-banks | fog-bank-thin |
+| fog-bank-thin-2 | ground-fog-banks | fog-bank-thin |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -1864,6 +1903,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-hog-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-look-to-stock-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-make-carreta | icons-gather-stock-carreta | State artwork; no motion required |
+| live-oak-mott-dense-1 | live-oak-mott | live-oak-mott-dense-wind |
+| live-oak-mott-dense-2 | live-oak-mott | live-oak-mott-dense-wind |
+| live-oak-mott-open-1 | live-oak-mott | live-oak-mott-open-wind |
+| live-oak-mott-open-2 | live-oak-mott | live-oak-mott-open-wind |
 | rust-ride-e-1 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-2 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-3 | people-mounted-cast1-e | rust-ride-e |
@@ -1984,6 +2027,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-laden-2 | steamboat-laden | steamboat-laden |
 | steamboat-laden-3 | steamboat-laden | steamboat-laden |
 | steamboat-laden-4 | steamboat-laden | steamboat-laden |
+| campfire-night-1 | night-settlement-lights | campfire-night |
+| campfire-night-2 | night-settlement-lights | campfire-night |
+| campfire-night-3 | night-settlement-lights | campfire-night |
+| campfire-night-4 | night-settlement-lights | campfire-night |
+| adobe-night-lit-1 | night-settlement-lights | adobe-night-lit |
+| adobe-night-lit-2 | night-settlement-lights | adobe-night-lit |
+| adobe-night-lit-3 | night-settlement-lights | adobe-night-lit |
+| adobe-night-lit-4 | night-settlement-lights | adobe-night-lit |
+| jacal-night-lit-1 | night-settlement-lights | jacal-night-lit |
+| jacal-night-lit-2 | night-settlement-lights | jacal-night-lit |
+| jacal-night-lit-3 | night-settlement-lights | jacal-night-lit |
+| jacal-night-lit-4 | night-settlement-lights | jacal-night-lit |
+| cabin-night-lit-1 | night-settlement-lights | cabin-night-lit |
+| cabin-night-lit-2 | night-settlement-lights | cabin-night-lit |
+| cabin-night-lit-3 | night-settlement-lights | cabin-night-lit |
+| cabin-night-lit-4 | night-settlement-lights | cabin-night-lit |
 | town-mexican-river | town-mexican-river | State artwork; no motion required |
 | presidio-spanish | presidio-spanish | State artwork; no motion required |
 | village-irish-colony | village-irish-colony | State artwork; no motion required |
@@ -2900,6 +2959,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-w | breathe | 1 | 2200 | yes | west |
 | blue-girl-idle-e | breathe | 1 | 2200 | yes | east |
 | blue-girl-idle-n | breathe | 1 | 2200 | yes | north |
+| dragoon-fire | Pose cycle | 4 | 1000 | one-shot | east; west by mirroring |
+| lancer-charge | Pose cycle | 4 | 640 | yes | east; west by mirroring |
 | girl-walk-s | Pose cycle | 2 | 460 | yes | south |
 | girl-walk-n | Pose cycle | 2 | 460 | yes | north |
 | boy-walk-s | Pose cycle | 2 | 460 | yes | south |
@@ -2945,6 +3006,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
+| regular-prone-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
 | mother-scarf-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
 | mother-scarf-walk-s | Pose cycle | 2 | 560 | yes | south |
 | mother-scarf-walk-n | Pose cycle | 2 | 560 | yes | north |
@@ -3334,6 +3396,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| mule-packed-grass-walk-e | Pose cycle | 4 | 1120 | yes | east |
+| mule-packed-grass-walk-s | Pose cycle | 4 | 1120 | yes | south |
+| mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |
+| fog-bank-dense | Pose cycle | 2 | 12000 | yes | scenery |
+| fog-bank-thin | Pose cycle | 2 | 12000 | yes | scenery |
+| live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
+| live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
@@ -3363,6 +3432,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mustang-gallop | Pose cycle | 8 | 1080 | yes | east; west by mirroring |
 | steamboat-steam | Pose cycle | 4 | 1320 | yes | east; west by mirroring |
 | steamboat-laden | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
+| campfire-night | Pose cycle | 4 | 720 | yes | scenery |
+| adobe-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
+| jacal-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
+| cabin-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | ox-packed-walk-e | Pose cycle | 4 | 960 | yes | east |
 | ox-packed-idle-e | breathe | 1 | 2700 | yes | east |
 | ox-packed-walk-s | Pose cycle | 4 | 960 | yes | south |

@@ -168,6 +168,7 @@ function grade(name, stops, spot, note) {
 }
 export const GRADE_GUTTER = GUTTER / GRADE;
 
+// Retired 2026-10-03 when Astra's own art of the same names was merged (Astra's art wins): the fog banks (`fog-bank-dense`, `fog-bank-thin`).
 export const SHEETS = {
   'claude-banks-creeks': { cell: { w: 420, h: 260 }, columns: 3, request: CONCEPCION, replaceWith: 'items 1 and 7: a ground piece seen from above at the map\'s scale, transparent, laid along the bank or the creek',
     frames: [
@@ -177,10 +178,6 @@ export const SHEETS = {
       { name: 'creek-bed-dry', height: 2, draw: () => pad(creekBedDry(), 420, 260), compare: [['earth-rampart', 1]], prompt: 'A dry creek bed of the Grass Fight: a low cut bank, a bed of sand and grey cobbles with the marks of old water, dry grass along both lips; seen from the three-quarter view, transparent ground.' },
       { name: 'creek-ford', height: 2, draw: () => pad(creekFord(), 420, 260), compare: [['water-ripple', 1]], prompt: 'A creek forded on foot: teal water between a grassy far bank and a sandy near one, a shallow gravel bar across it where the water runs pale and stones break the surface; transparent ground.' },
     ] },
-  'claude-fog-banks': { cell: { w: 520, h: 200 }, columns: 3, request: CONCEPCION, replaceWith: 'item 3: fog banks, 2-4 frames drifting, seen from the map\'s view',
-    frames: ['dense', 'thin'].flatMap(kind => [0, 1, 2].map(f => ({ name: `fog-bank-${kind}-${f + 1}`, height: 2, compare: [['smoke-dense', 1]],
-      prompt: `A ${kind === 'dense' ? 'dense bank of morning fog lying solid on the river bottom' : 'thin fog breaking into wisps as it lifts'} (Concepción, the fog lifting about eight): pale grey-white billows with a soft grey outline, lit from the upper left, lying low on the ground; frame ${f + 1} of 3 drifting to the right. Drawn solid; the page lays it at the strength of the phase's fog. Transparent ground.`,
-      draw: () => fog(kind, f) }))) },
   'claude-marsh-edge': { cell: { w: 340, h: 220 }, columns: 3, request: SANJAC, replaceWith: 'item 4: tiles of cordgrass and open water to scatter along the marsh',
     frames: [1, 2, 3].map(v => ({ name: `marsh-edge-${v}`, height: 1.6, compare: [['marsh-cordgrass', 1], ['water-ripple', 0.6]],
       prompt: `The edge of the marsh behind the Mexican camp at San Jacinto: an irregular pool of open water ringed with dark mud and clumps of cordgrass, a few clumps standing in the water, one or two with a seed head; tile ${v} of 3, to scatter; outlined blades, teal water with pale ripples, transparent ground.`,
@@ -200,7 +197,5 @@ function pad(piece, W, H) {
 }
 
 export const CLIPS = {
-  'fog-bank-dense': { frames: [1, 2, 3].map(n => ({ sprite: `fog-bank-dense-${n}`, duration: 1400 })), loop: true, motion: 'drift', direction: 'not applicable', prompt: 'A dense bank of fog drifting slowly to the right, looping.' },
-  'fog-bank-thin': { frames: [1, 2, 3].map(n => ({ sprite: `fog-bank-thin-${n}`, duration: 1400 })), loop: true, motion: 'drift', direction: 'not applicable', prompt: 'Thin fog breaking into wisps as it lifts, drifting slowly to the right, looping.' },
 };
 void GROUND;

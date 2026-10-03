@@ -3977,6 +3977,120 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk-field-gestures.png",
       "postProcessing": "None; selected imagegen PNG copied unchanged.",
       "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "sheet": "dragoon-carbine-actions",
+      "prompt": "Use case historical-scene. Generate a strict 2x2 transparent sprite atlas of exactly FOUR mounted Mexican dragoon carbine firing keyframes for our warm handpainted outlined storybook Texas Revolution game. Match reference bottom row dragoon: dark navy tunic red collar/cuffs white crossed straps white trousers black cavalry boots black crested brass helmet, chestnut horse white blaze navy saddlecloth red piping. Every frame faces EAST/right at slightly elevated 3/4 camera. SAME horse/rider scale, tack, feet ground height within each equal cell. Top left rider shoulders a short flintlock carbine, horse planted. Top right same planted horse rider carbine at shoulder with slight backward recoil, NO drawn flash or smoke (engine supplies). Bottom left rider lowers carbine diagonally safely across lap. Bottom right rider holds carbine low and upright torso settled. Entire horses hooves helmets tails muzzles visible; sprites occupy max75% cell width/height, wide transparent gutters. True alpha backdrop no floor no shadows no words labels grids enemies violence gore. FOUR complete separate sprites not illustration scene. Distinct arm movement across poses, identical anatomy and clothing.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "promptId": "frontier-v1/dragoon-carbine-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fe3ea156-6408-43d3-b9b0-bfc3271781ad.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fe3ea156-6408-43d3-b9b0-bfc3271781ad.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/dragoon-carbine-actions.png",
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Original interpretive costume and horse; modest authored keyframes. No graphic injury or weapon impact. West mirrors east. Mounting and cardinal transitions remain outstanding."
+    },
+    {
+      "sheet": "lancer-charge",
+      "prompt": "Generate strict 2x2 transparent sprite atlas exactly FOUR east/right facing Mexican lancer cavalry charging gait keyframes for warm outlined handpainted storybook Texas Revolution game. Reference bottom row mounted dragoon costume horse identity. Navy tunic red collar/cuffs white crossed straps white trousers blackboots crested brasshelmet. Chestnut horse whiteblaze blue/red saddlecloth. Long wood lance with small steel point held LEVEL FORWARD ABOVE HORSE HEAD, entire lance tip visible within every cell. Four clearly distinct animated horse gallop poses: top left extended forelegs hindlegs tucked; top right gathered legs beneath belly; bottom left forelegs tucked hindlegs extending; bottom right forelegs reaching downward hindlegs tucked. Rider leaning slightlyforward, same scale anatomy tack face all4. Slight elevated 3/4 east camera. Whole horse rider lance tail visible with wide transparent gutters each sprite max80%equalcellwidth75%height; horizontal lance must not cross into adjacent cell. Truealpha no floor shadows no background no words grid labels otherpeople blood gore no enemy no striking. This is charging movement only, original artistic historical interpretation.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "promptId": "frontier-v1/lancer-charge",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-82cdab0c-0258-4d0a-975e-612937f0eb18.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ac0322d9-5b4a-4756-98f5-4755f2e9f2e4.png",
+      "refinements": [
+        "Edit this exact four-frame sprite sheet: remove ALL brown/black painted background and ambient haze completely, replace with true transparent alpha. Keep the four horses, riders and lance tips intact, same painted style, positions, sizes and 2x2 layout. No ground or shadows. Do not change costume anatomy or poses. Transparent game sprite atlas, every empty pixel between sprites must be alpha zero."
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/lancer-charge.png",
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Original interpretive costume and horse; modest authored keyframes. No graphic injury or weapon impact. West mirrors east. Mounting and cardinal transitions remain outstanding."
+    },
+    {
+      "sheet": "regular-prone-actions",
+      "prompt": "Generate strict 2x2 transparent sprite atlas exactly FOUR full-body east/right-facing Mexican infantry marksman prone firing poses. Match second row regular soldier in reference military-actions: navy tunic red collar white crossed belts white trousers blackboots blackshako redpom brassbadge, warm muted painted outlined storybook style for Texas1836 game. Camera slightly elevated 3/4. Top left lie flat belly down legs trailing LEFT, musket held low and pointed RIGHT, head watchful. Top right SAME belly-down man raises shoulder musket to aim RIGHT supported on elbows. Bottom left SAME prone aiming man with small shoulder recoil, no flash no smoke engine supplies. Bottom right SAME prone man works musket lock with right hand, musket low across forearms, face down toward lock. Whole feet hats muzzle contained eachcell with generous transparent gutters, same scale and length all4, max75%cellwidth65%height. No kneeling or standing. No scenery grass backdrop shadow floor text grid labels blood injury. True zero-alpha empty background; separate animation keyframes.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "promptId": "frontier-v1/regular-prone-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0be029b0-e716-4a90-9eb0-727b6ada5f2d.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0be029b0-e716-4a90-9eb0-727b6ada5f2d.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-prone-actions.png",
+      "postProcessing": "None; generated PNG copied unchanged.",
+      "review": "Interpretive regular uniform for Coleto marksmen, not a documented cazador uniform. Four prone poses; lock handling is a reload shorthand, not a complete musket reload demonstration."
+    },
+    {
+      "sheet": "mule-packed-grass",
+      "prompt": "Generate STRICT 4x4 equal-cell transparent game sprite atlas exactly SIXTEEN separate sprites warm muted handpainted dark olivebrown outlined frontier storybook style matching reference animals. A grey-brown MULE with unmistakably long upright donkey ears, short dark mane, cream muzzle, black tail tuft and simple leather pack saddle carrying TWO BULKY bundles of freshly cut olive-green grass tied with rope, hanging both sides. No rider weapons blanket baggage or money. Same mule proportions coat grassload all15 animalframes. Slightly elevated camera. Row1 FOUR EAST/right walking footfalls, alternating raised front and rear hooves clearly different. Row2 FOUR SOUTH/toward camera walking footfalls long ears visible loads either side. Row3 FOUR NORTH/away walking footfalls tail ears both grassloads visible. Row4 col1 EAST planted idle mule col2 SOUTH planted idle mule col3 NORTH planted idle mule col4 ONE opened rope-bound grassbundle lying on ground, loose green blades spilling out of cut binding, no animal. Whole ears tails hooves grass contained everycell, same scale allanimalframes, generous transparent gutters max75%equalcell width/height. Truealpha no painted background haze floor shadows text labels grid scenery additionalanimals. Exactly16sprites arranged4by4 with clean gutters. Original interpretive grass pack not documented saddle reconstruction.",
+      "promptId": "frontier-v1/mule-packed-grass",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/transport.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-134cbfc6-e3e2-49f4-8f87-cc49f58b6b02.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-134cbfc6-e3e2-49f4-8f87-cc49f58b6b02.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/mule-packed-grass.png",
+      "refinements": [],
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Interpretive mule and grass-pack design. Four modest footfalls per direction; fine pack/hoof registration remains polish. Open bundle is a state prop, not animated cutting."
+    },
+    {
+      "sheet": "live-oak-mott",
+      "prompt": "Generate STRICT2x2 transparent sprite atlas exactly FOUR live-oak MOTT grove sprites matching reference warm handpainted outlined miniature frontier scenery style muted moss/olive green rounded foliage honeybrown twisted oaktrunks. Top left ONE compact grove of FIVE mature spreading liveoaks, overlapping canopies visible branching trunks beneath, small dappled shade just under trunks, no wide terrain tile. Top right EXACT SAME five-tree grove same trunks roots silhouette scale with foliage tips subtly displaced by breeze, leafmass tilted slightly right; animation keyframe not different grove. Bottom left SECOND grove variant THREE larger liveoaks with more open central gap, seen same slightly elevated3/4 view. Bottom right EXACT SAME three-tree variant trunks roots same positions, small leafcluster breeze displacement. Every complete grove roots leaves contained in equalcell with40pxclear gutters, max75%cellwidthheight. TRUE transparent alpha outside groves, shade under tree cluster semitransparent only. No rectangular ground backdrop no horizon buildings people horses weapons labels grid. Four separate sprites not four panels. Original interpretive grove arrangement not claimed map survey. Distinct foliage pose subtle consistent readable.",
+      "promptId": "frontier-v1/live-oak-mott",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-99296a23-4e43-4d1b-bdd8-2a52b131a6a6.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-99296a23-4e43-4d1b-bdd8-2a52b131a6a6.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/live-oak-mott.png",
+      "refinements": [],
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Interpretive three/five oak clusters, two foliage poses each. Fine trunk and canopy registration remains polish. Not a botanical reconstruction or surveyed historical grove."
+    },
+    {
+      "sheet": "night-settlement-lights",
+      "prompt": "Generate STRICT4x4 equal-cell transparent game sprite atlas exactly16sprites. Warm muted outlined handpainted frontier storybook style matching reference buildings. Slightly elevated camera. Row1 FOUR animationkeyframes SAME small campfire stone ring five brown logs, distinct orange golden flame shapes flickering, no smoke; wholefire. Row2 FOUR SAME small flatroof cream adobe house modeled after reference buildings row2col1: front door LEFT, one window RIGHT, darkened browncream exterior night palette, warmgold light INSIDE WINDOW with wooden crossbar; four subtle window-light brightness poses geometry unchanged. Row3 FOUR SAME simple poor jacal mudwall house with rough thatch roof, front wooddoor LEFT small glowing window RIGHT, four warm lamplight brightness poses same geometry. Row4 FOUR SAME small logcabin matching reference row1col1 chimney upperRIGHT, front wooddoor LEFT windowRIGHT: dark night exterior warmgold window four brightnessposes same geometry. No modern glass bright signage interiors visible people. Full roofs chimney walls foundation logs flames contained eachcell max75%cellwidthheight withclear40pxgutters. TRUE TRANSPARENT alpha emptyspace no background landscape groundtile lightingwash shadows rectangularpanels labels text grid. Restrained night lighting not blue neon. Fire never toucheshouses these separate reusable sprites. Original historical interpretive structures.",
+      "promptId": "frontier-v1/night-settlement-lights",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bb9e4b23-6e40-4374-a127-d6ab19869d01.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bb9e4b23-6e40-4374-a127-d6ab19869d01.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/night-settlement-lights.png",
+      "refinements": [],
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Interpretive night-lit building replacements, not exact alpha overlays. Subtle geometry registration across lighting poses remains polish. Four authored campfire flame poses."
+    },
+    {
+      "sheet": "ground-fog-banks",
+      "prompt": "Generate strict2x2 transparent sprite atlas exactly FOUR low ground FOG BANK animation textures for warm painted Texas frontier storybook game. Use reference only as muted painterly style cue, NOT smoke shapes. Top left broad horizontal dense ivory coolgrey mistbank, layered low wisps, soft feathered irregular alpha edges, semi-transparent core. Top right same bank same scale with subtly shifted wisps for slow animation. Bottom left broad horizontal THIN low mistbank much more transparent airy broken bands. Bottom right same thin bank wisps shifted slightly right. Fog lies along ground, width about3timesheight, no rising column no darkoutline no cartoonbubblepuffs no smoke fire terrain objects persons sky or horizon. Exactly4 equal cells withverywide clearalpha gutters, textures max75%cellwidth60%height; true alpha background no grey painted backdrop checkerboard text grid labels. Dense bank translucent max70%opacity thin max35%, irregular holes and tapered horizontal ends. Handpainted soft texture lowcontrast flat diffuse morning light, seamlessvisualsoftedges for overlapping banks.",
+      "promptId": "frontier-v1/ground-fog-banks",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/effects.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ad69a4bd-2070-418a-9d66-507870e1f180.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ad69a4bd-2070-418a-9d66-507870e1f180.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ground-fog-banks.png",
+      "refinements": [],
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Two soft painted density variants, two poses each. Engine modulates opacity; source density/shape are illustrative, not volumetric fog. Frame morphing remains future polish."
     }
   ]
 }

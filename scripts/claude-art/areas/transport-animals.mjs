@@ -90,6 +90,7 @@ const limber = [0, 1, 2, 3].map(i => ({ name: `limber-mules-walk-${i + 1}`, heig
   draw: () => limberFrame(i) }));
 
 const loop = (frames, ms, direction, prompt, extra = {}) => ({ frames: frames.map(f => ({ sprite: f.name, duration: ms })), loop: true, motion: 'none', direction, prompt, ...extra });
+// Retired 2026-10-03 when Astra's own art of the same names was merged (Astra's art wins): the Grass Fight's pack mules (`mule-packed-grass-walk-*`).
 export const SHEETS = {
   'claude-milk-cow': { cell: half(COW), columns: 4, request: 'Request 2026-09-27 — the milk cow on the run, and Béxar before the bell', replaceWith: 'item 1: a gentle dairy cow with a rope trailing from her horns, 4 frames east, 2 north and south, 2 grazing, at the cattle\'s logical height',
     frames: [...cowWalkE, ...cowWalkV('n'), ...cowWalkV('s'), ...cowGraze] },
@@ -97,8 +98,6 @@ export const SHEETS = {
     frames: herdDrove },
   'claude-herd-scatter': { cell: half({ w: 1600, h: 620 }), columns: 2, request: 'Request 2026-09-25 — the south\'s fights: San Patricio by night and Agua Dulce Creek', replaceWith: 'item 4: the herd scattering, at the mustangs\' scale',
     frames: herdScatter },
-  'claude-mules': { cell: half(MULE), columns: 4, request: 'Request 2026-09-25 — Concepción and the Grass Fight', replaceWith: 'item 6: mules packed with grass, east, north and south, 4 frames each, at the scale of horse-walk',
-    frames: muleSets.flat() },
   'claude-limber': { cell: half(LIMBER), columns: 2, request: 'Request 2026-09-25 — Concepción and the Grass Fight', replaceWith: 'item 8: mules at a gun\'s limber, a driver riding the near one, 4 frames east',
     frames: limber },
 };
@@ -109,9 +108,5 @@ export const CLIPS = {
   'milk-cow-graze': { frames: [{ sprite: 'milk-cow-graze-1', duration: 900 }, { sprite: 'milk-cow-graze-2', duration: 700 }], loop: true, motion: 'none', direction: 'east; west by mirroring', prompt: 'The milk cow grazing at the camp: reach and tear, slowly.' },
   'herd-drove': loop(herdDrove, 130, 'east; west by mirroring', 'The herd driven off at the gallop as one mass: a four-frame loop.'),
   'herd-scatter': loop(herdScatter, 130, 'east; west by mirroring', 'The herd scattering, some turned back: a four-frame loop.'),
-  'mule-packed-grass-walk': loop(muleSets[0], 230, 'east; west by mirroring', 'A pack mule under grass walking east: a four-frame loop.'),
-  'mule-packed-grass-walk-e': loop(muleSets[0], 230, 'east; west by mirroring', 'A pack mule under grass walking east: a four-frame loop.'),
-  'mule-packed-grass-walk-s': loop(muleSets[1], 230, 'south', 'A pack mule under grass walking toward the camera: a four-frame loop.'),
-  'mule-packed-grass-walk-n': loop(muleSets[2], 230, 'north', 'A pack mule under grass walking away: a four-frame loop.'),
   'limber-mules-walk': loop(limber, 230, 'east; west by mirroring', 'Mules at a gun\'s limber walking east, a driver riding the near one: a four-frame loop.'),
 };

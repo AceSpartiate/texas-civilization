@@ -142,14 +142,7 @@ sheet('claude-ammunition-crate', R.famous, 'Castrillón and the rest: a scale-ma
 
 // ---------------------------------------------------------------------------------------------------- C16: the Grass Fight; after Concepción
 {
-  sheet('claude-grass-bundle', R.concepcion, 'item 6: `grass-bundle-cut` (a pack slit open, grass spilling), at the scale of the mules that carried them', { w: 400, h: 400 }, [{ name: 'grass-bundle-cut', compare: [['packed-belongings', 0.45], ['horse-graze-1', 1.3]],
-    prompt: `A mule's pack from the Grass Fight, November 26, 1835, slit open on the ground: a burlap bundle tied with rawhide, cut along its side, cut prairie grass (fodder, not the silver the Texians hoped for) spilling out of it. ${STYLE}`,
-    draw: () => prop('grass-bundle-cut', { w: 400, h: 400 }, 200, ink => {
-      ink.shape(blob([[-30, 0], [-32, 16], [-10, 24], [20, 22], [30, 10], [26, -0.5]], 0.7), '#b8a070', { off: 1.4, lift: true });
-      for (const x of [-18, 2, 20]) ink.line(curve([[x, 0], [x + 1.5, 12], [x + 1, 23]]), { colour: '#5a3a22', width: 2.4 });
-      ink.shape(blob([[-4, 18], [6, 22], [30, 10], [44, 2], [48, -0.5], [10, -0.5], [0, 8]], 0.6), '#c8b458', { off: 0.8 });
-      for (let i = 0; i < 9; i++) ink.line(curve([[8 + i * 4, 6 + (i % 3) * 3], [22 + i * 3, 4 + (i % 2) * 5], [40 + i * 2, 1 + (i % 3)]]), { colour: '#8a7a30', width: 1.4 });
-    }) }]);
+  // `grass-bundle-cut`: Astra's (2026-10-03, with her grass-laden mules) retired Claude's when merged.
   const F = frameOf(PADRE), walk = PO.shortWalk(F, POSES.walk(F), 0.7);
   const frames = walk.map((pose, i) => ({ name: `padre-carts-${i + 1}`, compare: [['cart-baggage', 1.25], ['volunteer-march-1', 1]],
     prompt: `After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east ahead of a two-wheeled cart drawn by a mule, leading it, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame ${i + 1} of 4. ${STYLE}`,

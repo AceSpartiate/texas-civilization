@@ -1,0 +1,16 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "live-oak-mott-dense-wind",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "live-oak-mott-open-wind",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

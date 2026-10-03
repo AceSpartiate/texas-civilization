@@ -106,25 +106,14 @@ const foragerDrive = [0, 1, 2, 3].map(i => ({ name: `forager-drive-${i + 1}`, he
   }) }));
 
 const walk = (frames, ms, extra = {}) => ({ frames: frames.map(f => ({ sprite: f.name, duration: ms })), loop: true, motion: 'none', direction: 'east; west by mirroring', ...extra });
+// Retired 2026-10-03 when Astra's own art of the same names was merged (Astra's art wins): the dragoon firing from the saddle and the lancers (`dragoon-fire`, `lancer-charge`); the rest of those two sheets (the dragoon's gallop and carbine, the lancer's walk and idle) were never drawn beside hers (public/art-subjects.js: dragoons and lancers are her subjects) and went with them.
 export const SHEETS = {
-  'claude-dragoon-ride': { cell: half(CELL), columns: 4, request: 'Request 2026-09-27 — Mexican troops after a family on the road', replaceWith: 'items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size',
-    frames: [...gallopE, ...gallopV('n'), ...gallopV('s'), ...carbine, ...fire] },
-  'claude-lancers': { cell: half(TALL), columns: 3, request: 'Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night', replaceWith: 'item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking',
-    frames: [...lancerMarch, ...lancerIdle, ...lancerCharge] },
   'claude-dragoon-wounded': { cell: half({ w: 860, h: 560 }), columns: 2, request: 'Request 2026-09-25 — battles: the pieces the engine stands in for', replaceWith: 'item 3: a dragoon slumped in the saddle, another leading the horse, 2 frames east',
     frames: wounded },
   'claude-foragers': { cell: half(FORAGE), columns: 2, request: 'Request 2026-09-26 — the Mexican advance', replaceWith: 'item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east',
     frames: [...foragerRide, ...foragerDrive] },
 };
 export const CLIPS = {
-  'dragoon-gallop-e': walk(gallopE, 120, { prompt: 'The escort dragoon riding hard east (west mirrored): a four-frame gallop at 120 ms a frame.' }),
-  'dragoon-gallop-n': walk(gallopV('n'), 150, { direction: 'north', prompt: 'The escort dragoon riding hard away (north): a two-frame gallop.' }),
-  'dragoon-gallop-s': walk(gallopV('s'), 150, { direction: 'south', prompt: 'The escort dragoon riding hard toward the camera (south): a two-frame gallop.' }),
-  'dragoon-carbine-fire': { ...walk(carbine, 120), durations: undefined, frames: carbine.map((f, i) => ({ sprite: f.name, duration: [240, 200, 320][i] })), loop: false, beat: 1, prompt: 'The dragoon fires his carbine once from the galloping horse: raise, fire (beat 1), lower.' },
-  'dragoon-fire': { ...walk(fire, 0), frames: [{ sprite: 'dragoon-fire-1', duration: 700 }, { sprite: 'dragoon-fire-2', duration: 500 }], loop: false, beat: 1, prompt: 'A dragoon fires from a standing horse: aim, then the recoil on the shot (beat 1).' },
-  'lancer-march': walk(lancerMarch, 200, { prompt: 'A lancer riding east at the walk, the lance upright: a four-frame loop at the dragoons\' 200 ms.' }),
-  'lancer-idle': { frames: [{ sprite: 'lancer-idle-1', duration: 2200 }], loop: true, motion: 'breathe', direction: 'east; west by mirroring', prompt: 'A lancer on a standing horse, the lance upright, breathing.' },
-  'lancer-charge': walk(lancerCharge, 120, { prompt: 'A lancer charging at the gallop, the lance level: a four-frame loop; never striking.' }),
   'dragoon-wounded-led': walk(wounded, 420, { prompt: 'A wounded dragoon slumped in the saddle, his horse led off at a walk by a comrade on foot: two frames.' }),
   'forager-ride': walk(foragerRide, 230, { prompt: 'A foraging party riding, one leading a pack mule of corn: a four-frame walk loop.' }),
   'forager-drive': walk(foragerDrive, 230, { prompt: 'Two horsemen driving four head of cattle: a four-frame walk loop.' }),

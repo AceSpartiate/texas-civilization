@@ -183,27 +183,7 @@ for (const side of ['volunteer', 'regular']) {
     prompt: `${WHO.volunteer}: on the wall, aiming and firing over the parapet and dropping below it to load, on the fire-reload timing.` });
 }
 
-// ---------------------------------------------------------------------------------------------------- C7: Coleto's marksmen
-{
-  const F = frameOf(CAZADOR), g = PO.g(F), rows = [];
-  // Lying on the belly facing east, propped on the elbows, the legs out behind along the ground.
-  const prone = (headUp, gun, what) => ({ view: 'e', pelvis: [-18 * g, F.B.limb * 0.55 + 1], lean: 80, tilt: headUp, feet: { near: [-62 * g, 2.5], far: [-58 * g, 4] }, knees: { near: -1, far: -1 },
-    tool: gun, elbows: { near: -1, far: -1 }, what });
-  const lie = prone(-58, null, 'lying still in the tall grass, the musket beside him, the head down');
-  lie.hands = { near: PO.at(F, 8, -F.neck / g + 13), far: PO.at(F, 6, -F.neck / g + 14) };
-  const base = [4 * g, F.B.limb * 0.55 + 11];
-  const toG = p => [p[0] / g, (p[1] - (F.neck - 3)) / g];
-  const aimGun = PO.gun(F, 'musket', toG(add(base, [0, 0])), toG(add(base, [70 * g, 2])), { near: 0.14, far: 0.34 });
-  const fireGun = PO.gun(F, 'musket', toG(add(base, [-2, 1])), toG(add(base, [66 * g, 8])), { near: 0.14, far: 0.34 });
-  const poses = [['lie', lie, lie.what, ink => drawGun(ink, [-8 * g, 1.5], [62 * g, 2.5], { kind: 'musket', down: 1 })], ['aim', prone(-66, aimGun, 'propped on his elbows in the grass, aiming the musket along the ground'), 'propped on his elbows in the grass, aiming the musket along the ground'], ['fire', prone(-60, fireGun, ''), 'the shot from the ground, the muzzle kicking up']];
-  poses.forEach(([k, p, what, before]) => {
-    const name = `regular-prone-${k}`;
-    rows.push([name, `A Mexican cazador of a light company at Coleto, the night of March 19, 1836 - the line's blue coatee and white crossbelts, the shako with the green pompom of the light companies (strongly supported by secondary sources) - ${what}, facing east. ${STYLE}`,
-      () => frame(name, CAZADOR, p, { before, cell: { w: 520, h: 400 }, originX: 250 }), [['regular-load', 1], ['regular-reclining', 1]]]);
-  });
-  sheet('claude-prone', R.coleto, 'item 1: `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night), east', rows, { w: 520, h: 400 }, 3);
-  clips['regular-prone-fire-cycle'] = clip([['regular-prone-aim', 700], ['regular-prone-fire', 120], ['regular-prone-lie', 1650]], { loop: false, prompt: 'A cazador lying in the grass: aiming, the shot, and down again to load, as the fire-reload clip is timed.' });
-}
+// C7, Coleto's marksmen in the grass (`regular-prone-*`): Astra's prone marksman (2026-10-03) retired Claude's when merged.
 
 // ---------------------------------------------------------------------------------------------------- C8: after a family on the road
 {

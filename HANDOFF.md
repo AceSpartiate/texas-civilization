@@ -1,5 +1,55 @@
 # Claude handoff — Astra foundation
 
+## Ground fog banks — delivered 2026-10-03
+
+Four transparent frames add dense and thin low painted mist banks, each with two wisp poses. `fog-bank-dense` and `fog-bank-thin` are authored loops with 6000ms per pose. The existing numeric battle.fog rendering now draws three overlapping banks around the visible force centre and blends density variants continuously from the projected density. The existing radial veil is the fallback when clips are unavailable. No server visibility, information asymmetry, route, combat timing or historical outcome changes. No fog is introduced to phases that do not project numeric fog; Coleto's light='fog' wash remains its existing separate behavior.
+
+Opacity is controlled in the renderer so sources remain reusable. Fog is painted after figures and before speech so dialogue remains readable. Existing reduced-motion pause is passed into the clips. This is layered art, not volumetric weather or a surveyed historic mist pattern. Two-pose changes are discrete; crossfading individual keyframes and world-anchored drifting remain future polish. Future staging must not reveal concealed actors or infer hidden information from fog graphics.
+
+The selected PNG is copied unchanged. scripts/art-deliveries/ground-fog-2026-10-03.mjs records the exact prompt, source/reference paths, frame IDs and duration. Prompt/provenance and complete manifest are regenerated. Alpha audit: 61.7% clear alpha, no overlap trimming, every measured object retained. Browser proof scripts/ground-fog-art-proof.mjs verifies both clips render and change pixels with no errors; evidence is docs/evidence/ground-fog-art.png/.json. All ten tests in tests/ground-fog-art.test.mjs and tests/battle-view.test.mjs passed, including density modulation and disappearance at zero fog.
+
+## Night-lit settlement art — delivered 2026-10-03
+
+Sixteen transparent sprites add four authored loops: `campfire-night` (four flame poses, 180ms each) and `adobe-night-lit`, `jacal-night-lit`, `cabin-night-lit` (four light-brightness poses, 700ms each). They retain the warm outlined miniature style. Building art is a full night-lit replacement, not an exact window-only alpha overlay; fine geometry and brightness registration remains polish. Adobe is available for later explicitly lit scenery; San Patricio's existing lit jacal/cabin and campfire now select the new art.
+
+Only scenery already projected as lit during night/dawn selects a replacement. The building stays under the existing darkness wash and actors, while a campfire is also drawn over the wash so its flames remain visible. Existing radial light remains. Missing clips fall back to existing daytime/building/fire art. No new lamp, fire, route, historical event or concealment rule is added. Do not confuse lit windows with a building burning. These are interpretive structures, not surveyed site reconstructions; exact overlay registration, room interiors and window emission masks remain future work.
+
+The selected source PNG is copied unchanged. scripts/art-deliveries/night-lights-2026-10-03.mjs records the exact prompt, reference and source paths, every frame ID and duration. Prompt/provenance records and complete manifest are updated. Alpha audit retains every measured object, with zero overlap trimming. Browser proof scripts/night-lights-art-proof.mjs verifies all four clips render and change pixels with no errors; evidence is docs/evidence/night-lights-art.png/.json. All ten tests in tests/night-lights-art.test.mjs and tests/battle-view.test.mjs passed, including projected light/day/unlit gating.
+
+## Live-oak motts — delivered 2026-10-03
+
+Four transparent sprites supply a dense five-tree grove and an open three-tree grove, each with two foliage poses. `live-oak-mott-dense-wind` and `live-oak-mott-open-wind` are authored 1800ms-per-pose loops. Agua Dulce selects dense for its existing east grove and open for its existing west grove. The geographic spread controls visual scale; no placement, concealment, collision, battle timing or historical outcome changes. Other groves retain the existing rendering. Missing atlas/clip uses the old individual-tree fallback.
+
+These are original interpretive clusters, not surveyed locations or a botanical reconstruction. Fine trunk/leaf registration remains polish; the two-pose loop is restrained ambient motion rather than a complete wind rig. The composite is drawn as background scenery beneath actors; it does not supply a canopy-occlusion system. Do not use it to hide actors the server says are visible. Ground shade is baked within the sprite silhouette. Existing reconstruction boundaries for the positions of Agua Dulce's two groves remain applicable.
+
+Source PNG is copied unchanged. Exact prompt, source/reference paths, four frame IDs and two clips are recorded in scripts/art-deliveries/live-oak-mott-2026-10-03.mjs and the prompt/provenance files. Full manifest regenerated. Alpha audit: 38.2% clear alpha, zero overlap trimming, every measured object retained. Browser proof scripts/live-oak-mott-art-proof.mjs verifies both clips render and change pixels, with zero browser errors. Evidence is docs/evidence/live-oak-mott-art.png/.json. All ten tests in tests/live-oak-mott-art.test.mjs and tests/battle-view.test.mjs passed, including both live scene bindings and the unavailable-art fallback.
+
+## Grass Fight pack mules — delivered 2026-10-03
+
+Sixteen transparent sprites deliver twelve walking frames (four each east, south and north), three matching idle poses and an opened grass bundle. Three authored walk loops use 280ms per frame, with west mirrored from east. Warm outlined storybook mule art replaces the existing horse-plus-baggage stand-in for the Grass Fight pack train. The same projected movement and counts are retained. The train selects cardinal poses from facing; stationary animals use idle sprites. Sampled opened bundles appear beside the train only in the existing grass-discovery phase.
+
+The library and machine manifest inventory every piece. scripts/art-deliveries/grass-fight-mules-2026-10-03.mjs records exact prompt, source PNG, frame IDs, durations and reference. The generated PNG is copied unchanged. Alpha audit: 60.8% clear alpha, no overlap trimming, all measured objects retained. Browser proof scripts/grass-fight-mules-art-proof.mjs verifies all three walking clips render and change pixels, with zero browser errors. Evidence is docs/evidence/grass-fight-mules-art.png/.json. Renderer tests cover cardinal travel, idle, discovery-only grass props and removal of generic baggage.
+
+Claude: the loaded mule remains loaded after discovery; removing individual packs, unladen return variants, turning transitions and cutting/unloading gestures remain future work. Open bundles are state props, not animated cutting. Saddle, coat and bundles are original interpretive designs. Do not change the historical clock or route to match a gait, and do not convert unrelated packhorses to mules. Existing figure='packhorse' is retained as the projection contract, while the Grass Fight renderer selects this art.
+
+## Coleto prone marksmen — delivered 2026-10-03
+
+Four transparent frames add `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire`, and `regular-prone-lock`. `regular-prone-fire-reload` shares the existing infantry 700/120/750/900ms cycle, with the lock pose held through the last two intervals. It is an authored one-shot, east-facing with west mirroring. The lock action is a visual reload shorthand, not a complete musket-loading demonstration. Uniform matches the library's interpretive regular soldier; it is not a documented cazador uniform reconstruction.
+
+The renderer selects prone art only for Mexican regular infantry in Coleto's loose formations during dusk, night and small-hours. Its silhouette height is 35% of a standing figure so the lying body is not enlarged to standing height. The existing shot clock, smoke, flash, routes and historical outcomes remain unchanged. This does not change generic fallen bodies or other battle scenes.
+
+Prompt and unchanged source PNG are recorded in scripts/art-deliveries/coleto-prone-2026-10-03.mjs and the generated provenance files. Atlas audit: 81.8% clear alpha, zero overlap pixels trimmed, all measured objects retained. Manifest inventories all four frames and the clip. Browser proof and screenshot: scripts/coleto-prone-art-proof.mjs and docs/evidence/coleto-prone-art.*. Renderer and art regressions: tests/coleto-prone-art.test.mjs and tests/battle-view.test.mjs. Full loading, cardinal prone directions and uniform variants remain future art work.
+
+## Mounted firing and lancer gait — delivered 2026-10-03
+
+Two transparent PNG atlases add eight intact measured frames and two authored clips: `dragoon-fire` (aim 360ms, recoil 120ms, lower 220ms, settle 300ms; one-shot) and `lancer-charge` (four 160ms gallop poses; loop). Both face east; west is mirrored. Original interpretive navy/red cavalry costume matches the existing military sheet. No impact, injury or gore is depicted.
+
+Mounted dragoon firing now selects the authored pose around its existing shot clock: aim during the final 360ms of the wait; recoil begins when the existing flash fires. Shot count, routes, speed and timing are unchanged. This does not add mounted reload detail. The lancer clip is ready in the art catalog but deliberately awaits an explicit lancer identity/action from battle projection: generic mounted dragoons must not all become charging lancers. Claude should stage it only in the researched lancer movement intervals, never change march speed simply to match a gait. North/south, turns and mount/dismount remain outstanding.
+
+Exact prompts, initial and selected source PNG paths, refinement, sprite IDs and clip durations are in scripts/art-deliveries/cavalry-actions-2026-10-03.mjs. The selected images were copied unchanged. docs/art-prompts.json and docs/art-provenance.json include both records; ART_MANIFEST.md and the machine inventory include every frame. The alpha audit found zero overlap trimming and retained every measured object; clear alpha is 63.1% and 68.3% respectively. The lancer transparency refinement is recorded.
+
+Verification: tests/cavalry-actions-art.test.mjs plus tests/battle-view.test.mjs passed all ten tests. scripts/cavalry-actions-art-proof.mjs verifies both clips render and change pixels between keyframes, with zero browser errors. Evidence: docs/evidence/cavalry-actions-art.png and .json. These are modest keyframes, not complete animation rigs; horse/prop registration remains artistic polish.
+
 ## Standalone player join page — visual refresh, 2026-10-03
 
 The join page now matches the game's painted frontier style. See site/playtexas/README.md for publishing requirements and visual verification. All join logic remains unchanged. Include the CSS and landscape assets in Claude's pending join-words release. Browser checks passed at four viewport sizes; screenshots are in docs/evidence/playtexas-*.png. This page has not been published.
@@ -99,7 +149,58 @@ Neill now has a dedicated 4×4 transparent atlas in `scripts/art-deliveries/famo
 
 Karnes now has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-karnes.mjs`, with directional travel, musket, field gestures, and a two-frame iron crowbar cycle. `PERSON_ART.karnes` binds the sprites. During the Béxar door phase, the named Karnes performs the crowbar action; the duplicate generic worker is suppressed, and he returns to idle when that door opens. This changes presentation only, preserving the dated breach, York’s company, and the townspeople. Source/provenance and the complete sprite/clip inventory are in `docs/art-prompts.json`, `docs/art-provenance.json`, and `docs/ART_MANIFEST.md`. The outfit and horse are artistic interpretations, not portrait claims. A generic reusable crowbar worker and additional facings remain in `docs/ART_REQUESTS.md`.
 
-<!-- ASTRA-MERGE-2 -->
+## Astra's last seventeen commits merged: named riders, commanders, story actions, the Gonzales crew, cavalry, night and fog, the join page — 2026-10-03 (not released)
+
+Branch `astra-merge-2` off local `integration-2026-09-28` (740a87e8), merging Astra's `main` at 3f080d9f (a92d7e5f) and then at
+**0f81401f**, her last; not pushed. Same computer only. Her sections are at the top of this file under its one title; this is ours.
+Her art wins everywhere it lands; the generated atlas, manifest, animation and ART_MANIFEST git merged are what `npm run build:art`
+makes.
+
+**What came**: Sánchez Navarro, Barragán, W. P. Smith, Smither and the four riders (J. W. Smith, Horton, Kimbell, Martin) on their own
+foot and mounted sheets; commanders' command and conversation cycles; north and south walks and mounted walks chosen by the heading
+the server already projects; story actions (Fannin, Milam, Crockett, Bowie, Almeron Dickinson, Esparza, Ben, Alavez, Susanna carrying
+Angelina); Castrillón's crate rally (`crate-command`); the Gonzales gun's civilian crew; mounted carbine fire and the lancers'
+charge; the prone marksman at Coleto; grass-laden mules at the Grass Fight; live-oak motts at Agua Dulce; campfires and lit adobes,
+jacales and cabins at night; ground fog. And `site/playtexas/` (below).
+
+**Conflicts, both sides kept**:
+
+- `public/battle-view.js` - her PERSON_ART updates over the integration's Esparza fallbacks (`woman`, `girl`, `boy`, `small-child`,
+  `townsman`); the parley through `personArt` with her animated named clips; her Gonzales settlers **with the integration's ready
+  stance and recoil timing for a carriage gun** (tests/battle-choreography.test.mjs caught it lost); her mules at the Grass Fight; the
+  integration's cavalry `prefer` (Claude's `volunteer-mounted` for a Texian horseman) with her `dragoon-fire` and `lancer-charge`;
+  her prone marksman joined to the integration's loopholes and bank climbs (one `prone`: Coleto's marksmen at night *and* any part
+  in `cover: 'grass'`, at her lying size); her fog banks with the integration's `drawSmoke(..., battle, clear)`; her Agua Dulce motts
+  then the trees one by one; her lit houses, the integration's fallback pieces, and Claude's `window-lit-*` only over a house she has
+  not painted lit; a campfire burns at night only where the battle says it is lit (her rule; dawn counts as dark).
+- `sim/people.mjs` - her art keys; the integration's Sutherland and Urrea's itinerary. `tests/famous-people.test.mjs` - both, her
+  J. W. Smith check now finding his courier ride (he also rides out with Sutherland at the bell, an earlier phase).
+- `docs/ART_REQUESTS.md` - every request and stand-in row from both sides (checked by heading and row against both parents), then
+  `npm run art:plan` (127 items to make, 30 skipped).
+
+**Claude stand-ins retired, because her art of the same subject landed** (frames, clips, PNG sheets, SVGs, `CLAUDE_PERSON_ART` lines,
+plan items and stand-in rows): the eight famous officers (`scripts/claude-art/areas/famous-officers.mjs` deleted), Castrillón's north
+and south walks, the three Gonzales settlers, the prone cazador, the grass bundle, the night campfire, the fog banks, the pack mules
+under grass, and the dragoon-ride and lancer sheets (her dragoons and lancers are her subjects; Claude's gallop and lancer walk were
+held back already). Plan C7, C12, C13 marked delivered; C15, C16, D2, D8, D12, E13, F8, F10 trimmed to what is still owed (a lancer's
+walk and idle, the dragoon's gallop, the limber mules, the padre's carts, an `ammunition-crate` prop, lit windows for other houses).
+Six stand-in modules were re-rendered (`build:standins --only`); three untouched sheets (`claude-foragers`, `claude-marsh-edge`,
+`claude-smoke-rise`) came out a few hundred bytes different from the last render, records and pictures together.
+
+**Tests changed for what is now true**: her new tests' minimal canvas given gradients (tests/coleto-prone-art.test.mjs);
+tests/battle-view-south.test.mjs's grove is her mott; tests/transport-standins.test.mjs keeps Claude's mounted Texian only;
+tests/famous-people-view.test.mjs's Barragán is `barragan-intervene`; tests/battle-bexar-view.test.mjs's Burleson rides by heading;
+tests/astra-art-wins.test.mjs's example of a Claude-only person is Sutherland now that Kimbell is hers.
+
+**The join page** (`site/playtexas/`, her commit 3f080d9f): `index.html` (markup, every id page.js uses), `style.css` (all the look:
+her painted landscape, parchment panel, forest-green action), `assets/frontier-landscape.png` (an unchanged copy of
+`public/assets/creation-title-landscape.png`), `page.js` and `join-words.js` (snapshots of the join-words branch's logic, unchanged),
+`README.md`, `.nojekyll`; proof `scripts/playtexas-visual-proof.mjs`; screenshots `docs/evidence/playtexas-*.png`. Against branch
+`join-words` every file is byte-identical except one comment line in `index.html` (join-words names `sim/join-words.mjs` as the source of
+the copy; hers still says `public/join-words.js`): take join-words' `index.html` line, the rest merges as is.
+
+**Results**: `npm test` **2160 tests, 2123 pass, 1 fail, 36 skipped** - the one, tests/save-retry.test.mjs's Windows retry timing under the whole suite's load, passes alone (twice). Browser, all green: `test:famous-people` 22 (a Joe-in-the-doorway sample missed once under a parallel run, green alone), `test:battle-gonzales` 12, `test:battle-bexar` 15, `test:battle-cinema` 15, `test:storming` 7, `test:battle-south` 16 (Agua Dulce's groves), `test:battle-coleto` 17, `test:battle-grass` 14, `test:battle-concepcion` 13, `test:battle-alamo` 13, `test:battle-san-jacinto` 15, `test:looks` 12, `test:family-age-art` 9, `test:hunt` 15, `test:work` 5, `test:overlap` (green), and her own proofs: famous cardinal 27 clips, field 24, gestures 30, story 26, cavalry 2, Coleto prone 1, Grass Fight mules 3, ground fog 2, live-oak motts 2, night lights 4, landscape, and the join page at four sizes. tests/claude-standins.test.mjs and tests/astra-art-wins.test.mjs green; every plan item's request heading exists.
+
 ## A mule at the stock pens, and riders in every vehicle requested — owner-decided 2026-10-03 (not released)
 
 Branch `mules` off local `integration-2026-09-28` (9d34d767); not pushed. Same computer only: headless Chrome; no Chromebook, LAN or
@@ -11098,5 +11199,11 @@ Erastus “Deaf” Smith has a 16-frame directional scout sheet and a four-frame
 ## Art update — James Grant (2026-09-28)
 
 Grant now has distinct foot, mounted-walk and four-frame gallop sheets in `scripts/art-deliveries/famous-grant.mjs`. His roster and `PERSON_ART.grant` select them; the existing Agua Dulce horse-herd route uses the mounted walk and the visible ambush interval uses the gallop. Grant disappears from the stage before his later fate, which remains conveyed by the existing account text. No capture, surrender or killing was invented on screen. The foot sheet includes map/pointing poses and a clean, non-graphic bandage variant for Béxar; his face, clothing and horse are interpretations rather than portrait claims. Frames, clips and source records are in the generated art manifest and provenance JSON files. The battle-view regression checks walk versus ambush gallop.
+
+
+
+
+
+
 
 

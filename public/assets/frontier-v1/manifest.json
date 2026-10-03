@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 266,
-    "sprites": 2494,
-    "clips": 883,
-    "poseCycles": 575,
+    "sheets": 273,
+    "sprites": 2546,
+    "clips": 897,
+    "poseCycles": 589,
     "rigs": 4
   },
   "entrypoints": {
@@ -2607,6 +2607,122 @@
         ]
       }
     },
+    "dragoon-carbine-actions": {
+      "image": "atlases/dragoon-carbine-actions.png",
+      "width": 1278,
+      "height": 1230,
+      "bytes": 1451179,
+      "sha256": "a482a286c778107d8464a276b5076c164ad7f367acbbb5019b9855b6751b78d4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.630864,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              16,
+              590
+            ],
+            "columns": [
+              [
+                89,
+                586
+              ],
+              [
+                694,
+                1186
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              622,
+              1202
+            ],
+            "columns": [
+              [
+                85,
+                587
+              ],
+              [
+                713,
+                1222
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "lancer-charge": {
+      "image": "atlases/lancer-charge.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2066034,
+      "sha256": "58bd109466634e5beb23d5ae199e50418dbeec8e121d161d7642a5ee8d238538",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.682587,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              7,
+              462
+            ],
+            "columns": [
+              [
+                13,
+                752
+              ],
+              [
+                788,
+                1528
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              515,
+              990
+            ],
+            "columns": [
+              [
+                21,
+                759
+              ],
+              [
+                766,
+                1528
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "icons-children": {
       "image": "atlases/icons-children.png",
       "width": 1254,
@@ -3290,6 +3406,64 @@
               [
                 652,
                 1231
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "regular-prone-actions": {
+      "image": "atlases/regular-prone-actions.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1506423,
+      "sha256": "ea8c0ae613db3c2f137444b3f7e21d1182609c5f9513576cc48432f14561f6bc",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.817814,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              202,
+              449
+            ],
+            "columns": [
+              [
+                46,
+                799
+              ],
+              [
+                815,
+                1490
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              621,
+              886
+            ],
+            "columns": [
+              [
+                44,
+                799
+              ],
+              [
+                807,
+                1504
               ]
             ]
           }
@@ -14999,6 +15173,188 @@
         ]
       }
     },
+    "mule-packed-grass": {
+      "image": "atlases/mule-packed-grass.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1717695,
+      "sha256": "2f9601f55781c2afa12d837bacf3ecfe7d6eeb96074bc0437c915188b9893061",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.607631,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              52,
+              327
+            ],
+            "columns": [
+              [
+                20,
+                322
+              ],
+              [
+                332,
+                623
+              ],
+              [
+                640,
+                933
+              ],
+              [
+                954,
+                1243
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              340,
+              621
+            ],
+            "columns": [
+              [
+                57,
+                276
+              ],
+              [
+                374,
+                585
+              ],
+              [
+                678,
+                895
+              ],
+              [
+                986,
+                1205
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              633,
+              920
+            ],
+            "columns": [
+              [
+                56,
+                278
+              ],
+              [
+                370,
+                587
+              ],
+              [
+                675,
+                896
+              ],
+              [
+                979,
+                1201
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              919,
+              1197
+            ],
+            "columns": [
+              [
+                24,
+                332
+              ],
+              [
+                374,
+                597
+              ],
+              [
+                664,
+                895
+              ],
+              [
+                927,
+                1235
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "ground-fog-banks": {
+      "image": "atlases/ground-fog-banks.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1018893,
+      "sha256": "3e920d2c46a9e2cfc0a63b4e32ab5b7b92ceef4c6a24867bc95c18e059188651",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.616976,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              185,
+              466
+            ],
+            "columns": [
+              [
+                28,
+                871
+              ],
+              [
+                919,
+                1696
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              627,
+              825
+            ],
+            "columns": [
+              [
+                67,
+                844
+              ],
+              [
+                961,
+                1737
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "house-modules": {
       "image": "atlases/house-modules.png",
       "width": 1448,
@@ -15191,6 +15547,64 @@
               [
                 1339,
                 1763
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "live-oak-mott": {
+      "image": "atlases/live-oak-mott.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2439144,
+      "sha256": "7758b0a4ffa0e4d6a055c177641d11e2f474ca793f74b236a1c2f16ad4648974",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.382194,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              25,
+              447
+            ],
+            "columns": [
+              [
+                29,
+                877
+              ],
+              [
+                918,
+                1767
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              487,
+              857
+            ],
+            "columns": [
+              [
+                27,
+                866
+              ],
+              [
+                917,
+                1759
               ]
             ]
           }
@@ -16175,6 +16589,130 @@
               [
                 656,
                 1247
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "night-settlement-lights": {
+      "image": "atlases/night-settlement-lights.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1713707,
+      "sha256": "ee4b4d28b73aaebac5bb4796d96de6be710df96e342f8bf78c60224578313e46",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.486229,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              88,
+              293
+            ],
+            "columns": [
+              [
+                75,
+                284
+              ],
+              [
+                382,
+                595
+              ],
+              [
+                689,
+                896
+              ],
+              [
+                997,
+                1203
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              377,
+              588
+            ],
+            "columns": [
+              [
+                27,
+                314
+              ],
+              [
+                337,
+                619
+              ],
+              [
+                642,
+                926
+              ],
+              [
+                953,
+                1237
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              653,
+              888
+            ],
+            "columns": [
+              [
+                15,
+                316
+              ],
+              [
+                325,
+                625
+              ],
+              [
+                634,
+                933
+              ],
+              [
+                942,
+                1242
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              925,
+              1188
+            ],
+            "columns": [
+              [
+                21,
+                310
+              ],
+              [
+                330,
+                620
+              ],
+              [
+                638,
+                930
+              ],
+              [
+                948,
+                1239
               ]
             ]
           }
@@ -32530,6 +33068,278 @@
       "locationKits": [],
       "promptId": "frontier-v1/people-cast2-idle"
     },
+    "dragoon-fire-1": {
+      "sheet": "dragoon-carbine-actions",
+      "x": 89,
+      "y": 16,
+      "w": 497,
+      "h": 573,
+      "anchorX": 0.4406,
+      "anchorY": 0.9511,
+      "label": "dragoon fire 1",
+      "kind": "dragoon-carbine-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          18,
+          493,
+          569
+        ],
+        "visiblePixels": 129280,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/dragoon-carbine-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/dragoon-carbine-actions"
+    },
+    "dragoon-fire-2": {
+      "sheet": "dragoon-carbine-actions",
+      "x": 694,
+      "y": 32,
+      "w": 492,
+      "h": 558,
+      "anchorX": 0.4472,
+      "anchorY": 0.948,
+      "label": "dragoon fire 2",
+      "kind": "dragoon-carbine-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          696,
+          34,
+          488,
+          554
+        ],
+        "visiblePixels": 127926,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/dragoon-carbine-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/dragoon-carbine-actions"
+    },
+    "dragoon-carbine-lower": {
+      "sheet": "dragoon-carbine-actions",
+      "x": 85,
+      "y": 622,
+      "w": 502,
+      "h": 579,
+      "anchorX": 0.4382,
+      "anchorY": 0.9447,
+      "label": "dragoon carbine lower",
+      "kind": "dragoon-carbine-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          87,
+          624,
+          498,
+          575
+        ],
+        "visiblePixels": 125639,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/dragoon-carbine-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/dragoon-carbine-actions"
+    },
+    "dragoon-carbine-rest": {
+      "sheet": "dragoon-carbine-actions",
+      "x": 713,
+      "y": 626,
+      "w": 509,
+      "h": 576,
+      "anchorX": 0.4371,
+      "anchorY": 0.9444,
+      "label": "dragoon carbine rest",
+      "kind": "dragoon-carbine-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          715,
+          628,
+          505,
+          572
+        ],
+        "visiblePixels": 126039,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/dragoon-carbine-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/dragoon-carbine-actions"
+    },
+    "lancer-charge-1": {
+      "sheet": "lancer-charge",
+      "x": 13,
+      "y": 7,
+      "w": 739,
+      "h": 448,
+      "anchorX": 0.4641,
+      "anchorY": 0.9397,
+      "label": "lancer charge 1",
+      "kind": "lancer-charge",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          15,
+          9,
+          735,
+          444
+        ],
+        "visiblePixels": 112175,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/lancer-charge"
+    },
+    "lancer-charge-2": {
+      "sheet": "lancer-charge",
+      "x": 788,
+      "y": 9,
+      "w": 740,
+      "h": 453,
+      "anchorX": 0.4216,
+      "anchorY": 0.9294,
+      "label": "lancer charge 2",
+      "kind": "lancer-charge",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          790,
+          11,
+          736,
+          449
+        ],
+        "visiblePixels": 106009,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/lancer-charge"
+    },
+    "lancer-charge-3": {
+      "sheet": "lancer-charge",
+      "x": 21,
+      "y": 515,
+      "w": 738,
+      "h": 417,
+      "anchorX": 0.1118,
+      "anchorY": 0.9281,
+      "label": "lancer charge 3",
+      "kind": "lancer-charge",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          23,
+          517,
+          734,
+          413
+        ],
+        "visiblePixels": 108567,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/lancer-charge"
+    },
+    "lancer-charge-4": {
+      "sheet": "lancer-charge",
+      "x": 766,
+      "y": 525,
+      "w": 762,
+      "h": 465,
+      "anchorX": 0.5919,
+      "anchorY": 0.929,
+      "label": "lancer charge 4",
+      "kind": "lancer-charge",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          768,
+          527,
+          758,
+          461
+        ],
+        "visiblePixels": 109798,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/lancer-charge"
+    },
     "icon-child-play": {
       "sheet": "icons-children",
       "x": 15,
@@ -35207,6 +36017,140 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/coleto-baggage-cart"
+    },
+    "regular-prone-lie": {
+      "sheet": "regular-prone-actions",
+      "x": 46,
+      "y": 202,
+      "w": 753,
+      "h": 246,
+      "anchorX": 0.6341,
+      "anchorY": 0.9268,
+      "label": "regular prone lie",
+      "kind": "regular-prone-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          204,
+          749,
+          242
+        ],
+        "visiblePixels": 69649,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-prone-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-prone-actions"
+    },
+    "regular-prone-aim": {
+      "sheet": "regular-prone-actions",
+      "x": 815,
+      "y": 204,
+      "w": 675,
+      "h": 245,
+      "anchorX": 0.3726,
+      "anchorY": 0.9265,
+      "label": "regular prone aim",
+      "kind": "regular-prone-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          206,
+          671,
+          241
+        ],
+        "visiblePixels": 60552,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-prone-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-prone-fire-reload"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-prone-actions"
+    },
+    "regular-prone-fire": {
+      "sheet": "regular-prone-actions",
+      "x": 44,
+      "y": 621,
+      "w": 755,
+      "h": 261,
+      "anchorX": 0.2801,
+      "anchorY": 0.9272,
+      "label": "regular prone fire",
+      "kind": "regular-prone-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          46,
+          623,
+          751,
+          257
+        ],
+        "visiblePixels": 68324,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-prone-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-prone-fire-reload"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-prone-actions"
+    },
+    "regular-prone-lock": {
+      "sheet": "regular-prone-actions",
+      "x": 807,
+      "y": 642,
+      "w": 697,
+      "h": 244,
+      "anchorX": 0.4584,
+      "anchorY": 0.9262,
+      "label": "regular prone lock",
+      "kind": "regular-prone-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          809,
+          644,
+          693,
+          240
+        ],
+        "visiblePixels": 62784,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-prone-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-prone-fire-reload"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-prone-actions"
     },
     "icon-survey-plot": {
       "sheet": "icons-family-actions-1",
@@ -76578,6 +77522,678 @@
       "locationKits": [],
       "promptId": "frontier-v1/people-gonzales-paint"
     },
+    "mule-packed-grass-walk-e-1": {
+      "sheet": "mule-packed-grass",
+      "x": 20,
+      "y": 53,
+      "w": 302,
+      "h": 272,
+      "anchorX": 0.4238,
+      "anchorY": 0.9265,
+      "label": "mule packed grass walk e 1",
+      "kind": "mule-packed-grass",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          55,
+          298,
+          268
+        ],
+        "visiblePixels": 38533,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-e-2": {
+      "sheet": "mule-packed-grass",
+      "x": 332,
+      "y": 52,
+      "w": 291,
+      "h": 275,
+      "anchorX": 0.3471,
+      "anchorY": 0.9345,
+      "label": "mule packed grass walk e 2",
+      "kind": "mule-packed-grass",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          334,
+          54,
+          287,
+          271
+        ],
+        "visiblePixels": 37537,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-e-3": {
+      "sheet": "mule-packed-grass",
+      "x": 640,
+      "y": 52,
+      "w": 293,
+      "h": 273,
+      "anchorX": 0.3652,
+      "anchorY": 0.9524,
+      "label": "mule packed grass walk e 3",
+      "kind": "mule-packed-grass",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          642,
+          54,
+          289,
+          269
+        ],
+        "visiblePixels": 36771,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-e-4": {
+      "sheet": "mule-packed-grass",
+      "x": 954,
+      "y": 54,
+      "w": 289,
+      "h": 270,
+      "anchorX": 0.3633,
+      "anchorY": 0.9593,
+      "label": "mule packed grass walk e 4",
+      "kind": "mule-packed-grass",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          956,
+          56,
+          285,
+          266
+        ],
+        "visiblePixels": 37260,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-s-1": {
+      "sheet": "mule-packed-grass",
+      "x": 57,
+      "y": 340,
+      "w": 219,
+      "h": 280,
+      "anchorX": 0.5936,
+      "anchorY": 0.95,
+      "label": "mule packed grass walk s 1",
+      "kind": "mule-packed-grass",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          59,
+          342,
+          215,
+          276
+        ],
+        "visiblePixels": 29861,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-s-2": {
+      "sheet": "mule-packed-grass",
+      "x": 374,
+      "y": 343,
+      "w": 211,
+      "h": 275,
+      "anchorX": 0.4265,
+      "anchorY": 0.9636,
+      "label": "mule packed grass walk s 2",
+      "kind": "mule-packed-grass",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          376,
+          345,
+          207,
+          271
+        ],
+        "visiblePixels": 29487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-s-3": {
+      "sheet": "mule-packed-grass",
+      "x": 678,
+      "y": 341,
+      "w": 217,
+      "h": 280,
+      "anchorX": 0.5253,
+      "anchorY": 0.9607,
+      "label": "mule packed grass walk s 3",
+      "kind": "mule-packed-grass",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          680,
+          343,
+          213,
+          276
+        ],
+        "visiblePixels": 29960,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-s-4": {
+      "sheet": "mule-packed-grass",
+      "x": 986,
+      "y": 343,
+      "w": 219,
+      "h": 276,
+      "anchorX": 0.4338,
+      "anchorY": 0.9638,
+      "label": "mule packed grass walk s 4",
+      "kind": "mule-packed-grass",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          988,
+          345,
+          215,
+          272
+        ],
+        "visiblePixels": 30582,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-n-1": {
+      "sheet": "mule-packed-grass",
+      "x": 56,
+      "y": 633,
+      "w": 222,
+      "h": 286,
+      "anchorX": 0.4595,
+      "anchorY": 0.9266,
+      "label": "mule packed grass walk n 1",
+      "kind": "mule-packed-grass",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          58,
+          635,
+          218,
+          284
+        ],
+        "visiblePixels": 31528,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-n-2": {
+      "sheet": "mule-packed-grass",
+      "x": 370,
+      "y": 633,
+      "w": 217,
+      "h": 282,
+      "anchorX": 0.4885,
+      "anchorY": 0.9291,
+      "label": "mule packed grass walk n 2",
+      "kind": "mule-packed-grass",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          372,
+          635,
+          213,
+          278
+        ],
+        "visiblePixels": 30261,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-n-3": {
+      "sheet": "mule-packed-grass",
+      "x": 675,
+      "y": 634,
+      "w": 221,
+      "h": 283,
+      "anchorX": 0.5475,
+      "anchorY": 0.9435,
+      "label": "mule packed grass walk n 3",
+      "kind": "mule-packed-grass",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          677,
+          636,
+          217,
+          279
+        ],
+        "visiblePixels": 29407,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-walk-n-4": {
+      "sheet": "mule-packed-grass",
+      "x": 979,
+      "y": 634,
+      "w": 222,
+      "h": 286,
+      "anchorX": 0.4842,
+      "anchorY": 0.9266,
+      "label": "mule packed grass walk n 4",
+      "kind": "mule-packed-grass",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          981,
+          636,
+          218,
+          282
+        ],
+        "visiblePixels": 30784,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mule-packed-grass-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-idle-e": {
+      "sheet": "mule-packed-grass",
+      "x": 24,
+      "y": 919,
+      "w": 308,
+      "h": 277,
+      "anchorX": 0.4123,
+      "anchorY": 0.9422,
+      "label": "mule packed grass idle e",
+      "kind": "mule-packed-grass",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          26,
+          919,
+          304,
+          275
+        ],
+        "visiblePixels": 39946,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-idle-s": {
+      "sheet": "mule-packed-grass",
+      "x": 374,
+      "y": 919,
+      "w": 223,
+      "h": 277,
+      "anchorX": 0.5135,
+      "anchorY": 0.9278,
+      "label": "mule packed grass idle s",
+      "kind": "mule-packed-grass",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          376,
+          921,
+          219,
+          273
+        ],
+        "visiblePixels": 31324,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "mule-packed-grass-idle-n": {
+      "sheet": "mule-packed-grass",
+      "x": 664,
+      "y": 919,
+      "w": 231,
+      "h": 278,
+      "anchorX": 0.4848,
+      "anchorY": 0.9568,
+      "label": "mule packed grass idle n",
+      "kind": "mule-packed-grass",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          666,
+          921,
+          227,
+          274
+        ],
+        "visiblePixels": 31355,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "grass-bundle-cut": {
+      "sheet": "mule-packed-grass",
+      "x": 927,
+      "y": 999,
+      "w": 308,
+      "h": 193,
+      "anchorX": 0.4205,
+      "anchorY": 0.9275,
+      "label": "grass bundle cut",
+      "kind": "mule-packed-grass",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          929,
+          1001,
+          304,
+          189
+        ],
+        "visiblePixels": 33770,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/mule-packed-grass.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/mule-packed-grass"
+    },
+    "fog-bank-dense-1": {
+      "sheet": "ground-fog-banks",
+      "x": 28,
+      "y": 185,
+      "w": 843,
+      "h": 281,
+      "anchorX": 0.4543,
+      "anchorY": 0.9288,
+      "label": "fog bank dense 1",
+      "kind": "ground-fog-banks",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          30,
+          187,
+          839,
+          277
+        ],
+        "visiblePixels": 129525,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ground-fog-banks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "fog-bank-dense"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ground-fog-banks"
+    },
+    "fog-bank-dense-2": {
+      "sheet": "ground-fog-banks",
+      "x": 919,
+      "y": 192,
+      "w": 777,
+      "h": 271,
+      "anchorX": 0.473,
+      "anchorY": 0.9299,
+      "label": "fog bank dense 2",
+      "kind": "ground-fog-banks",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          921,
+          194,
+          773,
+          267
+        ],
+        "visiblePixels": 115857,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ground-fog-banks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "fog-bank-dense"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ground-fog-banks"
+    },
+    "fog-bank-thin-1": {
+      "sheet": "ground-fog-banks",
+      "x": 67,
+      "y": 627,
+      "w": 777,
+      "h": 183,
+      "anchorX": 0.5154,
+      "anchorY": 0.929,
+      "label": "fog bank thin 1",
+      "kind": "ground-fog-banks",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          69,
+          629,
+          773,
+          179
+        ],
+        "visiblePixels": 69914,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ground-fog-banks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "fog-bank-thin"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ground-fog-banks"
+    },
+    "fog-bank-thin-2": {
+      "sheet": "ground-fog-banks",
+      "x": 961,
+      "y": 638,
+      "w": 776,
+      "h": 187,
+      "anchorX": 0.5548,
+      "anchorY": 0.9251,
+      "label": "fog bank thin 2",
+      "kind": "ground-fog-banks",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          963,
+          640,
+          772,
+          183
+        ],
+        "visiblePixels": 71332,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ground-fog-banks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "fog-bank-thin"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ground-fog-banks"
+    },
     "house-round-sill": {
       "sheet": "house-modules",
       "x": 29,
@@ -77381,6 +78997,142 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/icons-gather-stock-carreta"
+    },
+    "live-oak-mott-dense-1": {
+      "sheet": "live-oak-mott",
+      "x": 29,
+      "y": 25,
+      "w": 848,
+      "h": 422,
+      "anchorX": 0.52,
+      "anchorY": 0.9313,
+      "label": "live oak mott dense 1",
+      "kind": "live-oak-mott",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          27,
+          844,
+          418
+        ],
+        "visiblePixels": 230775,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/live-oak-mott.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "live-oak-mott-dense-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/live-oak-mott"
+    },
+    "live-oak-mott-dense-2": {
+      "sheet": "live-oak-mott",
+      "x": 918,
+      "y": 25,
+      "w": 849,
+      "h": 422,
+      "anchorX": 0.5147,
+      "anchorY": 0.9408,
+      "label": "live oak mott dense 2",
+      "kind": "live-oak-mott",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          920,
+          27,
+          845,
+          418
+        ],
+        "visiblePixels": 229938,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/live-oak-mott.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "live-oak-mott-dense-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/live-oak-mott"
+    },
+    "live-oak-mott-open-1": {
+      "sheet": "live-oak-mott",
+      "x": 27,
+      "y": 487,
+      "w": 839,
+      "h": 370,
+      "anchorX": 0.5018,
+      "anchorY": 0.9297,
+      "label": "live oak mott open 1",
+      "kind": "live-oak-mott",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          489,
+          835,
+          366
+        ],
+        "visiblePixels": 202633,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/live-oak-mott.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "live-oak-mott-open-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/live-oak-mott"
+    },
+    "live-oak-mott-open-2": {
+      "sheet": "live-oak-mott",
+      "x": 917,
+      "y": 491,
+      "w": 842,
+      "h": 366,
+      "anchorX": 0.4988,
+      "anchorY": 0.9317,
+      "label": "live oak mott open 2",
+      "kind": "live-oak-mott",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          919,
+          493,
+          838,
+          362
+        ],
+        "visiblePixels": 200454,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/live-oak-mott.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "live-oak-mott-open-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/live-oak-mott"
     },
     "rust-ride-e-1": {
       "sheet": "people-mounted-cast1-e",
@@ -81557,6 +83309,550 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/steamboat-laden"
+    },
+    "campfire-night-1": {
+      "sheet": "night-settlement-lights",
+      "x": 75,
+      "y": 95,
+      "w": 209,
+      "h": 198,
+      "anchorX": 0.4976,
+      "anchorY": 0.9293,
+      "label": "campfire night 1",
+      "kind": "night-settlement-lights",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          97,
+          205,
+          194
+        ],
+        "visiblePixels": 19921,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "campfire-night"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "campfire-night-2": {
+      "sheet": "night-settlement-lights",
+      "x": 382,
+      "y": 95,
+      "w": 213,
+      "h": 197,
+      "anchorX": 0.4671,
+      "anchorY": 0.9289,
+      "label": "campfire night 2",
+      "kind": "night-settlement-lights",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          384,
+          97,
+          209,
+          193
+        ],
+        "visiblePixels": 20924,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "campfire-night"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "campfire-night-3": {
+      "sheet": "night-settlement-lights",
+      "x": 689,
+      "y": 104,
+      "w": 207,
+      "h": 189,
+      "anchorX": 0.4952,
+      "anchorY": 0.9259,
+      "label": "campfire night 3",
+      "kind": "night-settlement-lights",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          691,
+          106,
+          203,
+          185
+        ],
+        "visiblePixels": 19577,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "campfire-night"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "campfire-night-4": {
+      "sheet": "night-settlement-lights",
+      "x": 997,
+      "y": 88,
+      "w": 206,
+      "h": 205,
+      "anchorX": 0.4903,
+      "anchorY": 0.9268,
+      "label": "campfire night 4",
+      "kind": "night-settlement-lights",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          999,
+          90,
+          202,
+          201
+        ],
+        "visiblePixels": 19916,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "campfire-night"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "adobe-night-lit-1": {
+      "sheet": "night-settlement-lights",
+      "x": 27,
+      "y": 377,
+      "w": 287,
+      "h": 210,
+      "anchorX": 0.4878,
+      "anchorY": 0.9286,
+      "label": "adobe night lit 1",
+      "kind": "night-settlement-lights",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          379,
+          283,
+          206
+        ],
+        "visiblePixels": 52646,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "adobe-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "adobe-night-lit-2": {
+      "sheet": "night-settlement-lights",
+      "x": 337,
+      "y": 378,
+      "w": 282,
+      "h": 210,
+      "anchorX": 0.4858,
+      "anchorY": 0.9286,
+      "label": "adobe night lit 2",
+      "kind": "night-settlement-lights",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          339,
+          380,
+          278,
+          206
+        ],
+        "visiblePixels": 51735,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "adobe-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "adobe-night-lit-3": {
+      "sheet": "night-settlement-lights",
+      "x": 642,
+      "y": 378,
+      "w": 284,
+      "h": 210,
+      "anchorX": 0.4877,
+      "anchorY": 0.9286,
+      "label": "adobe night lit 3",
+      "kind": "night-settlement-lights",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          644,
+          380,
+          280,
+          206
+        ],
+        "visiblePixels": 52025,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "adobe-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "adobe-night-lit-4": {
+      "sheet": "night-settlement-lights",
+      "x": 953,
+      "y": 378,
+      "w": 284,
+      "h": 210,
+      "anchorX": 0.4842,
+      "anchorY": 0.9286,
+      "label": "adobe night lit 4",
+      "kind": "night-settlement-lights",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          955,
+          380,
+          280,
+          206
+        ],
+        "visiblePixels": 51863,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "adobe-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "jacal-night-lit-1": {
+      "sheet": "night-settlement-lights",
+      "x": 15,
+      "y": 653,
+      "w": 301,
+      "h": 234,
+      "anchorX": 0.4967,
+      "anchorY": 0.9316,
+      "label": "jacal night lit 1",
+      "kind": "night-settlement-lights",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          17,
+          655,
+          297,
+          230
+        ],
+        "visiblePixels": 53399,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jacal-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "jacal-night-lit-2": {
+      "sheet": "night-settlement-lights",
+      "x": 325,
+      "y": 653,
+      "w": 300,
+      "h": 235,
+      "anchorX": 0.4983,
+      "anchorY": 0.9277,
+      "label": "jacal night lit 2",
+      "kind": "night-settlement-lights",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          327,
+          655,
+          296,
+          231
+        ],
+        "visiblePixels": 53420,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jacal-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "jacal-night-lit-3": {
+      "sheet": "night-settlement-lights",
+      "x": 634,
+      "y": 654,
+      "w": 299,
+      "h": 233,
+      "anchorX": 0.5,
+      "anchorY": 0.927,
+      "label": "jacal night lit 3",
+      "kind": "night-settlement-lights",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          636,
+          656,
+          295,
+          229
+        ],
+        "visiblePixels": 53478,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jacal-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "jacal-night-lit-4": {
+      "sheet": "night-settlement-lights",
+      "x": 942,
+      "y": 654,
+      "w": 300,
+      "h": 233,
+      "anchorX": 0.4967,
+      "anchorY": 0.927,
+      "label": "jacal night lit 4",
+      "kind": "night-settlement-lights",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          944,
+          656,
+          296,
+          229
+        ],
+        "visiblePixels": 53289,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jacal-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "cabin-night-lit-1": {
+      "sheet": "night-settlement-lights",
+      "x": 21,
+      "y": 925,
+      "w": 289,
+      "h": 263,
+      "anchorX": 0.5121,
+      "anchorY": 0.9278,
+      "label": "cabin night lit 1",
+      "kind": "night-settlement-lights",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          23,
+          927,
+          285,
+          259
+        ],
+        "visiblePixels": 58367,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cabin-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "cabin-night-lit-2": {
+      "sheet": "night-settlement-lights",
+      "x": 330,
+      "y": 925,
+      "w": 290,
+      "h": 263,
+      "anchorX": 0.5103,
+      "anchorY": 0.9278,
+      "label": "cabin night lit 2",
+      "kind": "night-settlement-lights",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          332,
+          927,
+          286,
+          259
+        ],
+        "visiblePixels": 58368,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cabin-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "cabin-night-lit-3": {
+      "sheet": "night-settlement-lights",
+      "x": 638,
+      "y": 925,
+      "w": 292,
+      "h": 263,
+      "anchorX": 0.5103,
+      "anchorY": 0.9278,
+      "label": "cabin night lit 3",
+      "kind": "night-settlement-lights",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          640,
+          927,
+          288,
+          259
+        ],
+        "visiblePixels": 58583,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cabin-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "cabin-night-lit-4": {
+      "sheet": "night-settlement-lights",
+      "x": 948,
+      "y": 925,
+      "w": 291,
+      "h": 263,
+      "anchorX": 0.512,
+      "anchorY": 0.9278,
+      "label": "cabin night lit 4",
+      "kind": "night-settlement-lights",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          950,
+          927,
+          287,
+          259
+        ],
+        "visiblePixels": 58556,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cabin-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
     },
     "town-mexican-river": {
       "sheet": "town-mexican-river",
@@ -110687,6 +112983,54 @@
       "motion": "breathe",
       "direction": "north"
     },
+    "dragoon-fire": {
+      "frames": [
+        {
+          "sprite": "dragoon-fire-1",
+          "duration": 360
+        },
+        {
+          "sprite": "dragoon-fire-2",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-carbine-lower",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-carbine-rest",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "lancer-charge": {
+      "frames": [
+        {
+          "sprite": "lancer-charge-1",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-2",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-3",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-4",
+          "duration": 160
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "girl-walk-s": {
       "frames": [
         {
@@ -111310,6 +113654,30 @@
       "authored": true,
       "motion": "none",
       "direction": "east; mirror for west"
+    },
+    "regular-prone-fire-reload": {
+      "frames": [
+        {
+          "sprite": "regular-prone-aim",
+          "duration": 700
+        },
+        {
+          "sprite": "regular-prone-fire",
+          "duration": 120
+        },
+        {
+          "sprite": "regular-prone-lock",
+          "duration": 750
+        },
+        {
+          "sprite": "regular-prone-lock",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
     },
     "mother-scarf-walk": {
       "frames": [
@@ -117550,6 +119918,142 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "mule-packed-grass-walk-e": {
+      "frames": [
+        {
+          "sprite": "mule-packed-grass-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-e-2",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-e-3",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-e-4",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "mule-packed-grass-walk-s": {
+      "frames": [
+        {
+          "sprite": "mule-packed-grass-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-s-2",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-s-3",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-s-4",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mule-packed-grass-walk-n": {
+      "frames": [
+        {
+          "sprite": "mule-packed-grass-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-n-2",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-n-3",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-n-4",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "fog-bank-dense": {
+      "frames": [
+        {
+          "sprite": "fog-bank-dense-1",
+          "duration": 6000
+        },
+        {
+          "sprite": "fog-bank-dense-2",
+          "duration": 6000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "fog-bank-thin": {
+      "frames": [
+        {
+          "sprite": "fog-bank-thin-1",
+          "duration": 6000
+        },
+        {
+          "sprite": "fog-bank-thin-2",
+          "duration": 6000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "live-oak-mott-dense-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-mott-dense-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "live-oak-mott-dense-2",
+          "duration": 1800
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
+    "live-oak-mott-open-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-mott-open-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "live-oak-mott-open-2",
+          "duration": 1800
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
     "rust-ride-e": {
       "frames": [
         {
@@ -118261,6 +120765,102 @@
       "authored": true,
       "motion": "rock",
       "direction": "east; west by mirroring"
+    },
+    "campfire-night": {
+      "frames": [
+        {
+          "sprite": "campfire-night-1",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-2",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-3",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "adobe-night-lit": {
+      "frames": [
+        {
+          "sprite": "adobe-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "jacal-night-lit": {
+      "frames": [
+        {
+          "sprite": "jacal-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "cabin-night-lit": {
+      "frames": [
+        {
+          "sprite": "cabin-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
     },
     "ox-packed-walk-e": {
       "frames": [
@@ -128707,7 +131307,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 266,
+    "sourceCount": 273,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -94,7 +94,7 @@ const TEX = 'texian', MEX = 'mexican';
 const say = (id, at, side, role, kind, text, extra = {}) => ({ id, at, side, role, kind, text, ...extra });
 /** Jack's infantry, about a hundred from many companies: a sample of sixty. */
 const jack = (style, at, extra = {}) => ({ id: 'jack', side: TEX, name: 'Jack’s infantry', count: 100, drawn: 40, style, ...at, ...extra });
-/** The pack animals. stand-in: docs/ART_REQUESTS.md, 2026-09-25 "pack mules under bundles of cut grass" (a horse and a pack). */
+/** The pack animals: Astra's grass-laden mules (2026-10-03, public/battle-view.js `packhorse` at the Grass Fight). */
 const train = at => ({ id: 'train', side: MEX, name: 'The pack train', count: 40, drawn: 16, style: 'column', figure: 'packhorse', fire: 'none', ...at });
 
 export const GRASS_FIGHT = Object.freeze({
