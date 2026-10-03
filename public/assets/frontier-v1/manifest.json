@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 270,
-    "sprites": 2522,
-    "clips": 889,
-    "poseCycles": 581,
+    "sheets": 271,
+    "sprites": 2526,
+    "clips": 891,
+    "poseCycles": 583,
     "rigs": 4
   },
   "entrypoints": {
@@ -15489,6 +15489,64 @@
               [
                 1339,
                 1763
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "live-oak-mott": {
+      "image": "atlases/live-oak-mott.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2439144,
+      "sha256": "7758b0a4ffa0e4d6a055c177641d11e2f474ca793f74b236a1c2f16ad4648974",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.382194,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              25,
+              447
+            ],
+            "columns": [
+              [
+                29,
+                877
+              ],
+              [
+                918,
+                1767
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              487,
+              857
+            ],
+            "columns": [
+              [
+                27,
+                866
+              ],
+              [
+                917,
+                1759
               ]
             ]
           }
@@ -78622,6 +78680,142 @@
       "locationKits": [],
       "promptId": "frontier-v1/icons-gather-stock-carreta"
     },
+    "live-oak-mott-dense-1": {
+      "sheet": "live-oak-mott",
+      "x": 29,
+      "y": 25,
+      "w": 848,
+      "h": 422,
+      "anchorX": 0.52,
+      "anchorY": 0.9313,
+      "label": "live oak mott dense 1",
+      "kind": "live-oak-mott",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          27,
+          844,
+          418
+        ],
+        "visiblePixels": 230775,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/live-oak-mott.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "live-oak-mott-dense-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/live-oak-mott"
+    },
+    "live-oak-mott-dense-2": {
+      "sheet": "live-oak-mott",
+      "x": 918,
+      "y": 25,
+      "w": 849,
+      "h": 422,
+      "anchorX": 0.5147,
+      "anchorY": 0.9408,
+      "label": "live oak mott dense 2",
+      "kind": "live-oak-mott",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          920,
+          27,
+          845,
+          418
+        ],
+        "visiblePixels": 229938,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/live-oak-mott.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "live-oak-mott-dense-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/live-oak-mott"
+    },
+    "live-oak-mott-open-1": {
+      "sheet": "live-oak-mott",
+      "x": 27,
+      "y": 487,
+      "w": 839,
+      "h": 370,
+      "anchorX": 0.5018,
+      "anchorY": 0.9297,
+      "label": "live oak mott open 1",
+      "kind": "live-oak-mott",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          489,
+          835,
+          366
+        ],
+        "visiblePixels": 202633,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/live-oak-mott.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "live-oak-mott-open-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/live-oak-mott"
+    },
+    "live-oak-mott-open-2": {
+      "sheet": "live-oak-mott",
+      "x": 917,
+      "y": 491,
+      "w": 842,
+      "h": 366,
+      "anchorX": 0.4988,
+      "anchorY": 0.9317,
+      "label": "live oak mott open 2",
+      "kind": "live-oak-mott",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          919,
+          493,
+          838,
+          362
+        ],
+        "visiblePixels": 200454,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/live-oak-mott.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "live-oak-mott-open-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/live-oak-mott"
+    },
     "rust-ride-e-1": {
       "sheet": "people-mounted-cast1-e",
       "x": 75,
@@ -118934,6 +119128,38 @@
       "motion": "none",
       "direction": "north"
     },
+    "live-oak-mott-dense-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-mott-dense-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "live-oak-mott-dense-2",
+          "duration": 1800
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
+    "live-oak-mott-open-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-mott-open-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "live-oak-mott-open-2",
+          "duration": 1800
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
     "rust-ride-e": {
       "frames": [
         {
@@ -130091,7 +130317,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 270,
+    "sourceCount": 271,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

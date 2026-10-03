@@ -8929,6 +8929,38 @@
       "motion": "none",
       "direction": "north"
     },
+    "live-oak-mott-dense-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-mott-dense-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "live-oak-mott-dense-2",
+          "duration": 1800
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
+    "live-oak-mott-open-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-mott-open-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "live-oak-mott-open-2",
+          "duration": 1800
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
     "rust-ride-e": {
       "frames": [
         {

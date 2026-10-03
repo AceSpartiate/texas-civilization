@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2522 usable sprites, 270 PNG atlases, 889 clips** (581 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2526 usable sprites, 271 PNG atlases, 891 clips** (583 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -196,6 +196,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
+| live-oak-mott | 4 | 1774 × 887 | 2439144 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
 | people-mounted-cast1-s | 16 | 1254 × 1254 | 1213409 |
 | people-mounted-cast1-n | 16 | 1254 × 1254 | 1283689 |
@@ -1896,6 +1897,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-hog-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-look-to-stock-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-make-carreta | icons-gather-stock-carreta | State artwork; no motion required |
+| live-oak-mott-dense-1 | live-oak-mott | live-oak-mott-dense-wind |
+| live-oak-mott-dense-2 | live-oak-mott | live-oak-mott-dense-wind |
+| live-oak-mott-open-1 | live-oak-mott | live-oak-mott-open-wind |
+| live-oak-mott-open-2 | live-oak-mott | live-oak-mott-open-wind |
 | rust-ride-e-1 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-2 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-3 | people-mounted-cast1-e | rust-ride-e |
@@ -3372,6 +3377,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mule-packed-grass-walk-e | Pose cycle | 4 | 1120 | yes | east |
 | mule-packed-grass-walk-s | Pose cycle | 4 | 1120 | yes | south |
 | mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |
+| live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
+| live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |

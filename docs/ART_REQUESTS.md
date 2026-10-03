@@ -1527,3 +1527,8 @@ Coleto item 1 now has four transparent prone poses and a registered firing clip,
 
 Concepcion/Grass Fight item 6 now has east/south/north four-pose mule walking, matching idle frames and an opened grass bundle. The Grass Fight pack train uses these sprites. See ART_DELIVERY_2026-10-03-GRASS-MULES.md for integration and remaining unloading/cutting work.
 
+
+## Delivered 2026-10-03 — live-oak motts
+
+Southern fights item 5 now has dense/open composite oak groves with two-pose foliage loops. Agua Dulce's existing groves use these clips, with the old individual-tree fallback retained. See ART_DELIVERY_2026-10-03-OAK-MOTTS.md for visual scale, provenance and remaining canopy polish.
+

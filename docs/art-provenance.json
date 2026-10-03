@@ -3908,6 +3908,21 @@
       "refinements": [],
       "postProcessing": "None; PNG copied unchanged.",
       "review": "Interpretive mule and grass-pack design. Four modest footfalls per direction; fine pack/hoof registration remains polish. Open bundle is a state prop, not animated cutting."
+    },
+    {
+      "sheet": "live-oak-mott",
+      "promptId": "frontier-v1/live-oak-mott",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-99296a23-4e43-4d1b-bdd8-2a52b131a6a6.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-99296a23-4e43-4d1b-bdd8-2a52b131a6a6.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/live-oak-mott.png",
+      "refinements": [],
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Interpretive three/five oak clusters, two foliage poses each. Fine trunk and canopy registration remains polish. Not a botanical reconstruction or surveyed historical grove."
     }
   ],
   "rejectedAttempts": [
