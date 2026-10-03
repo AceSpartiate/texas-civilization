@@ -342,7 +342,7 @@ export function tendHerd(world, household, entity, { mounted = false } = {}) {
   const before = skill;
   if (entity.herding?.last !== day) entity.herding = { days: (entity.herding?.days || 0) + 1, last: day };
   const after = herdingOf(entity);
-  const rode = work === 'hogs' ? `${entity.name} minded the hogs in the timber` : mounted ? `${entity.name} rode the range` : `${entity.name} went out after the stock on foot`;
+  const rode = work === 'hogs' ? `${entity.name} minded the hogs in the timber` : `${entity.name} ${mounted ? 'rode' : 'walked'} the range and counted the stock`;
   const foundWords = found.cattle + found.hogs ? ` and brought in ${herdWords({ herd: found })} that had strayed` : '';
   const flesh = [herd.cattle > 0 && work === 'all' && `the cattle ${conditionOf(world, household, 'cattle', day)}`, herd.hogs > 0 && `the hogs ${conditionOf(world, household, 'hogs', day)}`].filter(Boolean).join(', ');
   record(world, 'stock', {

@@ -65,7 +65,9 @@ test('a hand with stock: dealt with the person, grown by the days at it, never p
   const hands = new Set(Object.values(world.entities).filter(one => one.kind === 'person').map(one => herdingDealt(one.id)));
   assert.deepEqual([...hands].sort(), [1, 2, 3], 'the class was dealt only some of the hands');
   // A day at it is a day learned - one a day however many rides - and every LEARN_DAYS days a hand better, never past three.
-  const learner = kin(world, household, 'p-learner', 20);
+  // Somebody dealt the least knack, so every step of the learning shows.
+  const learnerId = Array.from({ length: 50 }, (_, i) => `p-learner-${i}`).find(id => herdingDealt(id) === 1);
+  const learner = kin(world, household, learnerId, 20);
   const start = herdingOf(learner);
   tendHerd(world, household, learner, { mounted: true });
   tendHerd(world, household, learner, { mounted: true });
@@ -81,6 +83,9 @@ test('a hand with stock: dealt with the person, grown by the days at it, never p
   assert.equal(view.entities.find(one => one.id === learner.id).hand, 3);
   assert.equal(view.entities.find(one => one.id === learner.id).rangeDays, learner.herding.days);
   validateWorld(world);
+  // A save whose days at the stock cannot be is refused at the door.
+  learner.herding = { days: 0, last: 1 };
+  assert.throws(() => validateWorld(world), /Invalid days at the stock/);
 });
 
 test('who may: a child of seven minds the hogs, cattle from twelve, on the horse when it is free; once a day', () => {
@@ -139,8 +144,10 @@ test('minded through the month, the herd raises more of its young: the rates as 
   const pigs = monthOf(world, household, { from: november, to: november, minded: CARE_DAYS }).hogs - 100;
   assert.ok(Math.abs(pigs - 100 * PIG_SHARE * (1 + RAISED_BONUS)) <= 1, `a herd of hogs fully minded farrowed ${pigs}`);
   // A worse hand minds less in the same days.
-  household.herdCare = Array.from({ length: CARE_DAYS }, (_, i) => ({ d: november - 1 - i, h: 0.6, c: 0.6 }));
-  assert.ok(careOf(world, household, 'hogs', november) < 1, 'a hand new to stock minds as well as the best');
+  const handOf = level => kin(world, household, Array.from({ length: 80 }, (_, i) => `p-hand-${level}-${i}`).find(id => herdingDealt(id) === level && !world.entities[id]), 30);
+  const mindedBy = person => { household.herdCare = []; for (let i = CARE_DAYS; i >= 1; i--) { world.minute = (november - i) * DAY + 9 * 60; tendHerd(world, household, person, { mounted: true }); } return careOf(world, household, 'hogs', november); };
+  assert.ok(mindedBy(handOf(1)) < 1, 'a hand new to stock minds as well as the best');
+  assert.equal(mindedBy(handOf(3)), 1, 'the best hand out the month minded it less than fully');
 });
 
 test('strays are out on the range, not gone: a hand brings them in by their knack, and what is not found goes for good', () => {
@@ -219,12 +226,20 @@ test('selling stock at the pens: chosen before anybody leaves, driven in at the 
   assert.match(quote.how, /Drives 2 cattle and 3 hogs to the stock pens, at an ox's pace\./);
   assert.equal(quote.after.money, 2 * SALE_COIN.cattle.fair + 3 * SALE_COIN.hogs.fair, 'the quote is not by the flesh');
   // More than the herd has is refused before anybody goes.
-  assert.equal(errandQuote(world, household, grown, [{ id: 'stockman:sell-cattle', n: 7 }], {}).can, false);
+  household.herd = { cattle: 6, hogs: 2 };
+  const short = errandQuote(world, household, grown, [{ id: 'stockman:sell-hogs', n: 3 }], {});
+  assert.equal(short.can, false, 'more hogs were sold than the herd has');
+  assert.match(short.why, /only 2 hogs in the timber/);
+  household.herd = { cattle: 6, hogs: 12 };
   applyAction(world, household.id, { action: 'chore', entityId: grown.id, chore: 'visit-shop', errand: list });
   assert.deepEqual(grown.drives, { cattle: 2, hogs: 3 }, 'the stock was not driven in');
   for (let tick = 0; tick < 400 && !grown.travel; tick++) stepWorld(world);
   assert.ok(grown.travel, 'the drover never set out');
   assert.ok(grown.travel.speed <= 0.66, `the drover went at ${grown.travel.speed}, not at the cattle's pace`);
+  // Sold at the pens, the drover is driving nothing home: the road home goes at the drover's own pace.
+  for (let tick = 0; tick < 1200 && grown.chore && !(grown.chore.step >= 3 && grown.travel); tick++) stepWorld(world);
+  assert.ok(grown.travel, 'the drover never started home');
+  assert.equal(grown.drives, undefined, 'the drover is driving home the stock he sold');
   finish(world, grown, 1200);
   assert.equal(grown.chore, null, 'the errand never ended');
   assert.deepEqual(herdOf(household), { cattle: 4, hogs: 9 }, 'the stock sold is still in the herd');
@@ -287,11 +302,14 @@ test('the page draws the herd near the house at night and with the herder when s
   const base = { home: at, bounds: { minX: 8, maxX: 12, minY: 8, maxY: 12 }, seed: 'hh-1', time: 0, scale: 4000, herd: { cattle: 6, hogs: 6 } };
   const spread = figures => Math.max(...figures.map(one => Math.hypot(one.x - at.x, one.y - at.y)));
   const day = herdFigures({ ...base, hour: 12 }), night = herdFigures({ ...base, hour: 23 });
-  assert.ok(spread(night) < spread(day), 'the herd is as far out at night as by day');
+  assert.ok(spread(night) < 0.15 && spread(day) > 0.2, `the herd is as far out at night (${spread(night)}) as by day (${spread(day)})`);
   const herder = { x: 11.5, y: 11.5 };
   const driven = herdFigures({ ...base, hour: 12, herder });
   const near = figures => figures.filter(one => one.kind === 'cattle').reduce((sum, one) => sum + Math.hypot(one.x - herder.x, one.y - herder.y), 0);
   assert.ok(near(driven) < near(day), 'the cattle do not follow the herder');
   // Inside the family's land, every one.
   for (const one of [...day, ...night, ...driven]) assert.ok(one.x >= 8 && one.x <= 12 && one.y >= 8 && one.y <= 12, `a beast off the land at ${one.x},${one.y}`);
+  // A labor is small (177 acres, about half a mile on a side): the herd is kept on it however far out it would graze.
+  const labor = { minX: 9.9, maxX: 10.1, minY: 9.9, maxY: 10.1 };
+  for (const one of herdFigures({ ...base, hour: 12, bounds: labor })) assert.ok(one.x >= labor.minX && one.x <= labor.maxX && one.y >= labor.minY && one.y <= labor.maxY, `a beast off a labor at ${one.x},${one.y}`);
 });

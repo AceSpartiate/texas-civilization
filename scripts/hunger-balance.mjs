@@ -26,6 +26,10 @@ import { applyAction, projectWorld, rollFamily, stepWorld } from '../sim/world.m
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { THINK_EVERY, thinkFor } from '../sim/neighbours.mjs';
 import { STUDY_TICK_MS } from '../sim/crops.mjs';
+import * as stock from '../sim/stock.mjs';
+// Asked through the module so the harness runs against a tree from before the herder too (`herdingOf` since 2026-10-03).
+const { hasStock, herdOf } = stock;
+const herdingOf = one => stock.herdingOf?.(one) ?? 1;
 
 const arg = (name, fallback) => { const at = process.argv.indexOf(`--${name}`); return at > 0 ? process.argv[at + 1] : fallback; };
 const seeds = arg('seeds', 'hunger-1,hunger-2,hunger-3').split(',');
@@ -38,6 +42,9 @@ function runClass(seed, mode) {
   // As a served class makes it: the director runs any family nobody plays (every family here is played).
   const world = createGonzalesWorld(seed, families, { map: 'colonies', neighbours: true });
   for (const household of Object.values(world.households)) { rollFamily(world, household); household.played = true; }
+  // A herd alone (`herdonly`): every family drove stock in, as a student's lobby choice does; the others are dealt it by the director's
+  // own rule on their first turn (sim/neighbours.mjs `dealStock`, three in four).
+  if (mode === 'herdonly') for (const household of Object.values(world.households)) { household.stock = true; delete household.herd; }
   world.status = 'running';
   const households = Object.values(world.households);
   const people = households.reduce((sum, household) => sum + household.members.length, 0);
@@ -53,7 +60,8 @@ function runClass(seed, mode) {
   const war = new Set();
   // Food in the house at each period's end, the median family's.
   const foodAtEnd = {};
-  let ticks = 0;
+  let ticks = 0, herdFood = 0;
+  const stockAtStart = households.filter(household => hasStock(household)).length;
   // A student who does one thing about food (owner, 2026-10-02): one grown person, not the head of the family where there is another,
   // sent to the first of the gathering works the family's land offers and put on auto, and nothing else ever given.
   const FOOD_WORKS = ['fish-the-water', 'gather-oysters', 'cut-bee-tree', 'take-small-game'];
@@ -78,12 +86,40 @@ function runClass(seed, mode) {
       try { applyAction(world, household.id, { action: 'chore', entityId: one.id, chore: work }); return; } catch { /* the next */ }
     }
   };
+  // A herder (owner, 2026-10-03; sim/stock.mjs): the best hand with stock of twelve or more who is not the head of the family, put on
+  // auto at *Ride the range after the stock*, once; the harness, not a rule. `herdonly` gives that one order and, when the house is down
+  // to two days, has the herd butchered - a hog, else a beef - and nothing else, to ask whether a herd alone feeds a family.
+  const herded = new Set();
+  const herder = household => {
+    if (herded.has(household.id) || !hasStock(household)) return;
+    const view = projectWorld(world, household.id, 'student', { includeMap: false });
+    const free = household.members.map(id => world.entities[id]).filter(one => one && !['dead', 'captured'].includes(one.health?.condition) && !one.service && (one.age ?? 30) >= 12 && !one.chore)
+      .sort((a, b) => (b.id !== household.principalId) - (a.id !== household.principalId) || herdingOf(b) - herdingOf(a));
+    for (const one of free) {
+      if (!(view.work?.[one.id] || []).some(entry => entry.id === 'look-to-stock' && entry.can)) continue;
+      try { applyAction(world, household.id, { action: 'chore', entityId: one.id, chore: 'look-to-stock' }); applyAction(world, household.id, { action: 'set-auto', entityId: one.id, auto: true }); herded.add(household.id); return; } catch { /* the next */ }
+    }
+  };
+  const butcherWhenShort = household => {
+    const eaters = household.members.filter(id => !['dead', 'captured'].includes(world.entities[id]?.health?.condition)).length;
+    if ((household.resources.food ?? 0) > eaters * 0.35 * 2) return;
+    const herd = herdOf(household), work = herd.hogs > 0 ? 'butcher-hog' : herd.cattle > 0 ? 'butcher-beef' : null;
+    if (!work) return;
+    const view = projectWorld(world, household.id, 'student', { includeMap: false });
+    const one = household.members.map(id => world.entities[id]).find(person => person && !person.chore && (view.work?.[person.id] || []).some(entry => entry.id === work && entry.can));
+    if (one) try { applyAction(world, household.id, { action: 'chore', entityId: one.id, chore: work }); } catch { /* refused */ }
+  };
   const turn = () => {
+    if (mode === 'herdonly') {
+      households.forEach((household, index) => { if (!household.arriving && (world.tick + index) % THINK_EVERY === 0) { herder(household); butcherWhenShort(household); } });
+      return;
+    }
+    if (mode === 'ranching') households.forEach((household, index) => { if (!household.arriving && (world.tick + index) % THINK_EVERY === 0) herder(household); });
     if (mode === 'gathering') {
       households.forEach((household, index) => { if (!household.arriving && (world.tick + index) % THINK_EVERY === 0) gatherer(household); });
       return;
     }
-    if (mode !== 'playing' && mode !== 'milking') return;
+    if (mode !== 'playing' && mode !== 'milking' && mode !== 'ranching') return;
     households.forEach((household, index) => {
       if (household.arriving || (world.tick + index) % THINK_EVERY !== 0) return;
       if (mode === 'milking') milker(household);
@@ -106,7 +142,10 @@ function runClass(seed, mode) {
         if (rank > (worst.get(person.householdId) || 0)) worst.set(person.householdId, rank);
       }
       for (const event of world.events.slice(-40)) {
-        if (event.hunger !== 'died' || seen.has(event.id)) continue;
+        if (seen.has(event.id)) continue;
+        // The herd's food to the family that killed it (sim/stock.mjs: a hog's pork, the beef's kept share), counted once.
+        if (event.claimId === 'FIC-GONZ-182' && event.actorId) { seen.add(event.id); const pork = /salted it down: ([0-9.]+) food/.exec(event.text || ''); herdFood += pork ? Number(pork[1]) : /killed a .*beef/.test(event.text || '') ? 15 : 0; continue; }
+        if (event.hunger !== 'died') continue;
         seen.add(event.id);
         const person = world.entities[event.actorId];
         deaths.push({ period, day: Math.round(event.minute / DAY), age: person.age ?? null, road: /on the road/.test(event.text) || Boolean(world.households[person.householdId]?.flight && world.households[person.householdId].flight.status !== 'home'), householdId: person.householdId, realSecondsStarving: starvingAt.has(person.id) ? Math.round((ticks - starvingAt.get(person.id)) * STUDY_TICK_MS / 1000) : null });
@@ -133,6 +172,9 @@ function runClass(seed, mode) {
     foodAtEnd,
     kinds: Object.fromEntries([['lone', lone], ['big', big], ['war', war]].map(([kind, set]) => [kind, { families: set.size, hit: [...hit].filter(id => set.has(id)).length, deaths: deaths.filter(d => set.has(d.householdId)).length }])),
     leastRealSecondsStarving: deaths.length ? Math.min(...deaths.map(d => d.realSecondsStarving ?? Infinity)) : null,
+    // The herd (owner, 2026-10-03): families that started with stock, the food their herds gave them, and the herd at the end.
+    stockFamilies: stockAtStart, herdFood: Math.round(herdFood),
+    herdEnd: (() => { const kept = households.filter(household => hasStock(household)).map(household => herdOf(household)); const mid = list => { const sorted = list.sort((a, b) => a - b); return sorted.length ? sorted[Math.floor(sorted.length / 2)] : 0; }; return { families: kept.length, cattle: mid(kept.map(h => h.cattle)), hogs: mid(kept.map(h => h.hogs)) }; })(),
   };
 }
 
@@ -148,7 +190,7 @@ const summary = Object.fromEntries(modes.map(mode => {
   const mine = rows.filter(row => row.mode === mode);
   const mean = key => Math.round((mine.reduce((sum, row) => sum + row[key], 0) / mine.length) * 10) / 10;
   const kind = name => Object.fromEntries(['families', 'hit', 'deaths'].map(key => [key, mine.reduce((sum, row) => sum + row.kinds[name][key], 0)]));
-  return [mode, { kinds: { lone: kind('lone'), big: kind('big'), war: kind('war') }, foodAtEnd: Object.fromEntries([1, 2, 3].map(period => [period, Math.round(mine.reduce((sum, row) => sum + (row.foodAtEnd[period] || 0), 0) / mine.length * 10) / 10])), classes: mine.length, deathsPerClass: mean('deaths'), period1: mean('period1'), period2: mean('period2'), period3: mean('period3'), onRoad: mean('onRoad'), familiesHitPerClass: mean('familiesHit'), familiesHungryPerClass: mean('familiesHungry'), familiesWeakPerClass: mean('familiesWeak'), familiesStarvingPerClass: mean('familiesStarving'), hungryDaysMedian: mean('hungryDaysMedian'), wipedPerClass: mean('wiped'), peoplePerClass: mean('people'), classesWithAnyDeath: mine.filter(row => row.deaths > 0).length }];
+  return [mode, { kinds: { lone: kind('lone'), big: kind('big'), war: kind('war') }, foodAtEnd: Object.fromEntries([1, 2, 3].map(period => [period, Math.round(mine.reduce((sum, row) => sum + (row.foodAtEnd[period] || 0), 0) / mine.length * 10) / 10])), classes: mine.length, herdFoodPerClass: mean('herdFood'), stockFamiliesPerClass: mean('stockFamilies'), deathsPerClass: mean('deaths'), period1: mean('period1'), period2: mean('period2'), period3: mean('period3'), onRoad: mean('onRoad'), familiesHitPerClass: mean('familiesHit'), familiesHungryPerClass: mean('familiesHungry'), familiesWeakPerClass: mean('familiesWeak'), familiesStarvingPerClass: mean('familiesStarving'), hungryDaysMedian: mean('hungryDaysMedian'), wipedPerClass: mean('wiped'), peoplePerClass: mean('people'), classesWithAnyDeath: mine.filter(row => row.deaths > 0).length }];
 }));
 console.log(JSON.stringify(summary, null, 1));
 if (out) { mkdirSync('docs/evidence', { recursive: true }); writeFileSync(out, `${JSON.stringify({ measured: new Date().toISOString().slice(0, 10), families, seeds, summary, rows }, null, 1)}\n`); }

@@ -36,7 +36,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'fish-road': 'Sit at the water while the family waits at the crossing, and take food out of the river.',
   'butcher-beef': 'Kill a beef: the family keeps what it can and the neighbours get the rest, because it will not keep.',
   'butcher-hog': 'Kill a hog and salt it down, which is meat that keeps.',
-  'look-to-stock': 'Ride the range after the stock: count it, mark the calves, bring in strays. Minded through the month the herd is fatter and raises more young, and the hand gets better at it.',
+  'look-to-stock': 'Ride the range after the stock to count it, mark the calves and bring in strays; a herd minded through the month is fatter and raises more young.',
   'sell-cotton': 'Carry the cotton to the store in town and trade it for food or coin.',
   'fetch-powder': 'Go to the store in town and buy powder and lead.',
   'fetch-seed': 'Go to the store in town and buy seed.',

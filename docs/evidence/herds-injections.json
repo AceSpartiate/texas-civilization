@@ -1,0 +1,455 @@
+{
+ "record": "herds-injections",
+ "date": "2026-10-03",
+ "caught": 37,
+ "only": 35,
+ "of": 37,
+ "injections": [
+  {
+   "name": "the hand never grows with the days",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "a hand with stock",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "a hand with stock: dealt with the person, grown by the days at it, never past three, and nothing stored for a class saved before",
+    "strays are out on the range, not gone: a hand brings them in by their knack, and what is not found goes for good"
+   ]
+  },
+  {
+   "name": "every ride a day learned",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "a hand with stock",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a hand with stock: dealt with the person, grown by the days at it, never past three, and nothing stored for a class saved before"
+   ]
+  },
+  {
+   "name": "a hand past three",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "a hand with stock",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "a hand with stock: dealt with the person, grown by the days at it, never past three, and nothing stored for a class saved before",
+    "strays are out on the range, not gone: a hand brings them in by their knack, and what is not found goes for good"
+   ]
+  },
+  {
+   "name": "the hand not sent to the page",
+   "files": [
+    "sim/world.mjs"
+   ],
+   "expected": "a hand with stock",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a hand with stock: dealt with the person, grown by the days at it, never past three, and nothing stored for a class saved before"
+   ]
+  },
+  {
+   "name": "days at the stock that cannot be are opened",
+   "files": [
+    "sim/world.mjs"
+   ],
+   "expected": "a hand with stock",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a hand with stock: dealt with the person, grown by the days at it, never past three, and nothing stored for a class saved before"
+   ]
+  },
+  {
+   "name": "a child of five minds the stock",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "who may:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "who may: a child of seven minds the hogs, cattle from twelve, on the horse when it is free; once a day"
+   ]
+  },
+  {
+   "name": "a child of seven works the cattle",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "who may:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "who may: a child of seven minds the hogs, cattle from twelve, on the horse when it is free; once a day"
+   ]
+  },
+  {
+   "name": "out after the stock twice a day",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "who may:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "who may: a child of seven minds the hogs, cattle from twelve, on the horse when it is free; once a day"
+   ]
+  },
+  {
+   "name": "never on the horse",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "who may:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "who may: a child of seven minds the hogs, cattle from twelve, on the horse when it is free; once a day"
+   ]
+  },
+  {
+   "name": "two riders on one horse",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "who may:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "who may: a child of seven minds the hogs, cattle from twelve, on the horse when it is free; once a day"
+   ]
+  },
+  {
+   "name": "minding raises no more calves",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "minded through the month",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "minded through the month, the herd raises more of its young: the rates as they always were with nobody minding, half again minded"
+   ]
+  },
+  {
+   "name": "a herd nobody minds raises fewer than it always did",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "minded through the month",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "minded through the month, the herd raises more of its young: the rates as they always were with nobody minding, half again minded"
+   ]
+  },
+  {
+   "name": "minded hogs raise no more pigs",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "minded through the month",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "minded through the month, the herd raises more of its young: the rates as they always were with nobody minding, half again minded"
+   ]
+  },
+  {
+   "name": "the young not written for the page",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "minded through the month",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "minded through the month, the herd raises more of its young: the rates as they always were with nobody minding, half again minded"
+   ]
+  },
+  {
+   "name": "every hand minds as the best",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "minded through the month",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "minded through the month, the herd raises more of its young: the rates as they always were with nobody minding, half again minded"
+   ]
+  },
+  {
+   "name": "strays vanish instead of going out on the range",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "strays are out on the range",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "strays are out on the range, not gone: a hand brings them in by their knack, and what is not found goes for good"
+   ]
+  },
+  {
+   "name": "every hand finds every stray",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "strays are out on the range",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "strays are out on the range, not gone: a hand brings them in by their knack, and what is not found goes for good"
+   ]
+  },
+  {
+   "name": "strays never go for good",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "strays are out on the range",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "strays are out on the range, not gone: a hand brings them in by their knack, and what is not found goes for good"
+   ]
+  },
+  {
+   "name": "the strays brought in not said",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "strays are out on the range",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "strays are out on the range, not gone: a hand brings them in by their knack, and what is not found goes for good"
+   ]
+  },
+  {
+   "name": "a minded herd never fat",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "a minded herd is fat",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a minded herd is fat in its season and gives more meat and a better price; one left alone is thin in its lean months"
+   ]
+  },
+  {
+   "name": "a herd left alone never thin",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "a minded herd is fat",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a minded herd is fat in its season and gives more meat and a better price; one left alone is thin in its lean months"
+   ]
+  },
+  {
+   "name": "pork not by the flesh",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "a minded herd is fat",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a minded herd is fat in its season and gives more meat and a better price; one left alone is thin in its lean months"
+   ]
+  },
+  {
+   "name": "a beef gives no hide",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "a minded herd is fat",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a minded herd is fat in its season and gives more meat and a better price; one left alone is thin in its lean months"
+   ]
+  },
+  {
+   "name": "the price not by the flesh",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "a minded herd is fat",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a minded herd is fat in its season and gives more meat and a better price; one left alone is thin in its lean months"
+   ]
+  },
+  {
+   "name": "stock sold stays in the herd",
+   "files": [
+    "sim/stock.mjs"
+   ],
+   "expected": "selling stock at the pens",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "selling stock at the pens: chosen before anybody leaves, driven in at the cattle's pace, coin by the flesh, out of the herd"
+   ]
+  },
+  {
+   "name": "stock driven in at a walker's pace",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "selling stock at the pens",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "selling stock at the pens: chosen before anybody leaves, driven in at the cattle's pace, coin by the flesh, out of the herd"
+   ]
+  },
+  {
+   "name": "the drover still driving what he sold",
+   "files": [
+    "sim/errands.mjs"
+   ],
+   "expected": "selling stock at the pens",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "selling stock at the pens: chosen before anybody leaves, driven in at the cattle's pace, coin by the flesh, out of the herd"
+   ]
+  },
+  {
+   "name": "more sold than the herd has",
+   "files": [
+    "sim/errands.mjs"
+   ],
+   "expected": "selling stock at the pens",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "selling stock at the pens: chosen before anybody leaves, driven in at the cattle's pace, coin by the flesh, out of the herd"
+   ]
+  },
+  {
+   "name": "the drive to the pens not said",
+   "files": [
+    "sim/errands.mjs"
+   ],
+   "expected": "selling stock at the pens",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "selling stock at the pens: chosen before anybody leaves, driven in at the cattle's pace, coin by the flesh, out of the herd"
+   ]
+  },
+  {
+   "name": "the herd not counted at the end",
+   "files": [
+    "sim/farm-sale.mjs"
+   ],
+   "expected": "the herd counts at the end",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the herd counts at the end: sold with an intact farm at the pens' price by its flesh, and nothing for a herd left on the range"
+   ]
+  },
+  {
+   "name": "a big herd's group miscounted",
+   "files": [
+    "public/herd-view.js"
+   ],
+   "expected": "the page draws the real herd",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the page draws the real herd: a figure a head up to a cap, the young smaller, one group with its count for a big herd, fewer zoomed out"
+   ]
+  },
+  {
+   "name": "no cap on figures drawn",
+   "files": [
+    "public/herd-view.js"
+   ],
+   "expected": "the page draws the real herd",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the page draws the real herd: a figure a head up to a cap, the young smaller, one group with its count for a big herd, fewer zoomed out"
+   ]
+  },
+  {
+   "name": "the young drawn as big as the rest",
+   "files": [
+    "public/herd-view.js"
+   ],
+   "expected": "the page draws the real herd",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the page draws the real herd: a figure a head up to a cap, the young smaller, one group with its count for a big herd, fewer zoomed out"
+   ]
+  },
+  {
+   "name": "the hover names nobody minding",
+   "files": [
+    "public/herd-view.js"
+   ],
+   "expected": "the page draws the real herd",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the page draws the real herd: a figure a head up to a cap, the young smaller, one group with its count for a big herd, fewer zoomed out"
+   ]
+  },
+  {
+   "name": "out on the range at night",
+   "files": [
+    "public/herd-view.js"
+   ],
+   "expected": "the page draws the herd near the house",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the page draws the herd near the house at night and with the herder when somebody is out after it"
+   ]
+  },
+  {
+   "name": "the herd pays the herder no mind",
+   "files": [
+    "public/herd-view.js"
+   ],
+   "expected": "the page draws the herd near the house",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the page draws the herd near the house at night and with the herder when somebody is out after it"
+   ]
+  },
+  {
+   "name": "a beast off the family's land",
+   "files": [
+    "public/herd-view.js"
+   ],
+   "expected": "the page draws the herd near the house",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the page draws the herd near the house at night and with the herder when somebody is out after it"
+   ]
+  }
+ ]
+}

@@ -178,7 +178,8 @@ test('a herd nobody rides out after strays, and a day on the range stops it for 
   send(world, household, person, 'look-to-stock');
   workThrough(world, person);
   assert.equal(household.herdLookedDay, Math.floor(world.minute / DAY), 'the ride did not count');
-  assert.ok(world.events.some(event => /rode the range and counted the stock/.test(event.text || '')), 'the ride was never said');
+  // On the horse when the family's is free, on foot when it is not (owner, 2026-10-03; sim/stock.mjs `tendHerd`).
+  assert.ok(world.events.some(event => /(rode|walked) the range and counted the stock/.test(event.text || '')), 'the ride was never said');
   assert.equal(LOOKED_TO_DAYS, 30);
   validateWorld(world);
 });
