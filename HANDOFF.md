@@ -109,6 +109,58 @@ Barragán now has his own 16-frame transparent atlas in `scripts/art-deliveries/
 
 Sánchez Navarro now has a dedicated 16-frame transparent atlas in `scripts/art-deliveries/famous-sanchez-navarro.mjs`. His roster art key and `PERSON_ART` bind the existing Béxar parley to his own idle, replacing the generic Mexican figure. East/south/north walks, open-palm parley, listening, dispatch holding/offering, reading, pointing and seated rest are registered. Four clips provide directional walking and a two-pose conversation gesture. East gait uses the first two frames; the other two repeat the same silhouette family and are retained as variants, not advertised as four unique gait phases. Dedicated conversation/document gestures remain available for future projected poses; no words, timeline or outcomes changed. Costume and likeness are interpretations, not historical portrait evidence. The PNG is copied unchanged from imagegen; exact prompt/source provenance and every frame/clip appear in the art records. Atlas checks retained every pixel with no overlap trimming. Renderer and roster/parley regression tests verify the integration. Barragán remains the next outstanding Mexican officer.
 
+## Astra's last seventeen commits merged: named riders, commanders, story actions, the Gonzales crew, cavalry, night and fog, the join page — 2026-10-03 (not released)
+
+Branch `astra-merge-2` off local `integration-2026-09-28` (740a87e8), merging Astra's `main` at 3f080d9f (a92d7e5f) and then at
+**0f81401f**, her last; not pushed. Same computer only. Her sections are at the top of this file under its one title; this is ours.
+Her art wins everywhere it lands; the generated atlas, manifest, animation and ART_MANIFEST git merged are what `npm run build:art`
+makes.
+
+**What came**: Sánchez Navarro, Barragán, W. P. Smith, Smither and the four riders (J. W. Smith, Horton, Kimbell, Martin) on their own
+foot and mounted sheets; commanders' command and conversation cycles; north and south walks and mounted walks chosen by the heading
+the server already projects; story actions (Fannin, Milam, Crockett, Bowie, Almeron Dickinson, Esparza, Ben, Alavez, Susanna carrying
+Angelina); Castrillón's crate rally (`crate-command`); the Gonzales gun's civilian crew; mounted carbine fire and the lancers'
+charge; the prone marksman at Coleto; grass-laden mules at the Grass Fight; live-oak motts at Agua Dulce; campfires and lit adobes,
+jacales and cabins at night; ground fog. And `site/playtexas/` (below).
+
+**Conflicts, both sides kept**:
+
+- `public/battle-view.js` - her PERSON_ART updates over the integration's Esparza fallbacks (`woman`, `girl`, `boy`, `small-child`,
+  `townsman`); the parley through `personArt` with her animated named clips; her Gonzales settlers **with the integration's ready
+  stance and recoil timing for a carriage gun** (tests/battle-choreography.test.mjs caught it lost); her mules at the Grass Fight; the
+  integration's cavalry `prefer` (Claude's `volunteer-mounted` for a Texian horseman) with her `dragoon-fire` and `lancer-charge`;
+  her prone marksman joined to the integration's loopholes and bank climbs (one `prone`: Coleto's marksmen at night *and* any part
+  in `cover: 'grass'`, at her lying size); her fog banks with the integration's `drawSmoke(..., battle, clear)`; her Agua Dulce motts
+  then the trees one by one; her lit houses, the integration's fallback pieces, and Claude's `window-lit-*` only over a house she has
+  not painted lit; a campfire burns at night only where the battle says it is lit (her rule; dawn counts as dark).
+- `sim/people.mjs` - her art keys; the integration's Sutherland and Urrea's itinerary. `tests/famous-people.test.mjs` - both, her
+  J. W. Smith check now finding his courier ride (he also rides out with Sutherland at the bell, an earlier phase).
+- `docs/ART_REQUESTS.md` - every request and stand-in row from both sides (checked by heading and row against both parents), then
+  `npm run art:plan` (127 items to make, 30 skipped).
+
+**Claude stand-ins retired, because her art of the same subject landed** (frames, clips, PNG sheets, SVGs, `CLAUDE_PERSON_ART` lines,
+plan items and stand-in rows): the eight famous officers (`scripts/claude-art/areas/famous-officers.mjs` deleted), Castrillón's north
+and south walks, the three Gonzales settlers, the prone cazador, the grass bundle, the night campfire, the fog banks, the pack mules
+under grass, and the dragoon-ride and lancer sheets (her dragoons and lancers are her subjects; Claude's gallop and lancer walk were
+held back already). Plan C7, C12, C13 marked delivered; C15, C16, D2, D8, D12, E13, F8, F10 trimmed to what is still owed (a lancer's
+walk and idle, the dragoon's gallop, the limber mules, the padre's carts, an `ammunition-crate` prop, lit windows for other houses).
+Six stand-in modules were re-rendered (`build:standins --only`); three untouched sheets (`claude-foragers`, `claude-marsh-edge`,
+`claude-smoke-rise`) came out a few hundred bytes different from the last render, records and pictures together.
+
+**Tests changed for what is now true**: her new tests' minimal canvas given gradients (tests/coleto-prone-art.test.mjs);
+tests/battle-view-south.test.mjs's grove is her mott; tests/transport-standins.test.mjs keeps Claude's mounted Texian only;
+tests/famous-people-view.test.mjs's Barragán is `barragan-intervene`; tests/battle-bexar-view.test.mjs's Burleson rides by heading;
+tests/astra-art-wins.test.mjs's example of a Claude-only person is Sutherland now that Kimbell is hers.
+
+**The join page** (`site/playtexas/`, her commit 3f080d9f): `index.html` (markup, every id page.js uses), `style.css` (all the look:
+her painted landscape, parchment panel, forest-green action), `assets/frontier-landscape.png` (an unchanged copy of
+`public/assets/creation-title-landscape.png`), `page.js` and `join-words.js` (snapshots of the join-words branch's logic, unchanged),
+`README.md`, `.nojekyll`; proof `scripts/playtexas-visual-proof.mjs`; screenshots `docs/evidence/playtexas-*.png`. Against branch
+`join-words` every file is byte-identical except one comment line in `index.html` (join-words names `sim/join-words.mjs` as the source of
+the copy; hers still says `public/join-words.js`): take join-words' `index.html` line, the rest merges as is.
+
+**Results**: `npm test` **2160 tests, 2123 pass, 1 fail, 36 skipped** - the one, tests/save-retry.test.mjs's Windows retry timing under the whole suite's load, passes alone (twice). Browser, all green: `test:famous-people` 22 (a Joe-in-the-doorway sample missed once under a parallel run, green alone), `test:battle-gonzales` 12, `test:battle-bexar` 15, `test:battle-cinema` 15, `test:storming` 7, `test:battle-south` 16 (Agua Dulce's groves), `test:battle-coleto` 17, `test:battle-grass` 14, `test:battle-concepcion` 13, `test:battle-alamo` 13, `test:battle-san-jacinto` 15, `test:looks` 12, `test:family-age-art` 9, `test:hunt` 15, `test:work` 5, `test:overlap` (green), and her own proofs: famous cardinal 27 clips, field 24, gestures 30, story 26, cavalry 2, Coleto prone 1, Grass Fight mules 3, ground fog 2, live-oak motts 2, night lights 4, landscape, and the join page at four sizes. tests/claude-standins.test.mjs and tests/astra-art-wins.test.mjs green; every plan item's request heading exists.
+
 ## Join words: "3 words ... related to the texas revolution", port 1835 — owner-decided 2026-10-03 (not released)
 
 Branch `join-words-2` off local `integration-2026-09-28` (b66067ee, with join-words and herds); not pushed, nothing published.
