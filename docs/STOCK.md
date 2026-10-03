@@ -208,7 +208,8 @@ FICTIONAL FOR GAMEPLAY. This amends §5's *no milk* and §8's *a little milk a d
   along, and at home again. A child on auto takes it up among its jobs, after the eggs (sim/childhood.mjs `JOBS_FIRST`).
 - **No cow, no milking.** A family at home with no cattle is offered it **greyed, with its want - a cow** - only where its own town
   has the stock pens (§7, *"Buy a cow and calf"*), and the want's next step is that purchase; where the town has none it is not
-  offered at all. A child is offered it only where there is a cow. On the road it is never offered without the cow along.
+  offered at all. A child is offered it only where there is a cow. Away from home it is refused, *"... is not at home."*,
+  with no want, and so not kept on the bar (2026-10-02, the overlap proof in Gonzales). On the road it is never offered without the cow along.
 - `ceiling:` **one milk cow** however big the herd. Worth counting cows only if a dairy ever comes into the game.
 - The families the director runs are not milked: §8's 0.2 a day on the road is gone for them.
 

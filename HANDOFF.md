@@ -61,6 +61,28 @@ starts where they have to aim and hit the moving animal. if they miss, the anima
    the hunter alone would miss, and sooner than waiting for it to come closer; (B) a clean hit brings more (the whole of the meat, or a
    hide worth more at the tanner); (C) a hit in the field counts toward the hunter's hand, like an afternoon at the mark, to the same cap.
 
+## Milking fix: not a goal away from home — 2026-10-02 (not released)
+
+Branch `milking-fix` off local `integration-2026-09-28` (0649f922, with milking c88a6ddb); not pushed. Same computer only.
+
+- **The overlap (`test:overlap`, three faults at 1024x600, *student town-scene-asked*): a real bug, fixed in the game.** A grown
+  person in Gonzales was refused *Milk the cow* for want of a cow (sim/milking.mjs `refusal`, asked before the chore table's own
+  "not at home"), so the bar kept it as a greyed goal with its want. The bar grew a second row over the town; with less room under the
+  messages the town's scene stood beside them instead, over the bar and the land card. Now a person away from home is refused it
+  *"... is not at home."* first, with no want of a cow (`lacks` answers only the no-cow refusal), and the bar hides it as it hides
+  every home work away from home. tests/milking.test.mjs's no-cow test now holds it; `test:milking-injections` **18 of 18** (two new:
+  the away check removed, the want said whatever the refusal); the overlap proof's town section fails with exactly the three faults
+  with the away check removed, and is clean with it.
+- **`test:auto`: not reproduced.** Passed six times here - on this branch alone, beside `test:overlap` twice, on 0649f922 and on
+  c88a6ddb itself - every check, the harvest on auto included (the field bare > planted > ripe > bare > planted in about 20 s). Nothing
+  in the milking reaches the field on auto: a grown person's greyed milking is not taken up by auto, and children are not set to it in
+  that proof. If it fails again, the run's own assertion text (the field's states, or which wait timed out) is wanted to go further.
+- `ceiling:` (not changed, found here) the town's scene placed *beside* the messages (public/app.js `standClear`) keeps clear of the
+  messages and the family's column but not of the ability bar or a land card; it is clean now because the bar is one row in town.
+  Worth fitting it to the bar if a person in town ever has more than one tile there.
+- Runs: `test:overlap` twice (197 screens, 0 faults), `test:auto` twice (14), `test:children` 16, `test:field-click` 18, `npm test`
+  **2072 tests, 2036 pass, 0 fail, 36 skipped**.
+
 ## Milking the cow, and the owner's four food answers — owner-decided 2026-10-02 (not released)
 
 Branch `milking` off local `integration-2026-09-28` (ba1ece77, with food-sources, tier3-road, tier3-sick and carry-kids); not pushed.
