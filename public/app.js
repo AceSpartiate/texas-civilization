@@ -8747,7 +8747,7 @@ const JOIN_SITE_NAME = 'playtexas.github.io';
 /**
  * **Join words** (owner, 2026-10-03, "Fewest words, no server"; docs/HOST_PAGE.md §2.17), at the top of the card when this
  * computer's address is a private one: *Go to playtexas.github.io and type* two or three words, numbered and large, *then the class
- * code*; the page there turns the words into this computer's bare address (public/join-words.js), which asks for the code as it
+ * code*; the page there turns the words into this computer's bare address (sim/join-words.mjs), which asks for the code as it
  * always has. The server makes them (`joinWords`, server/app.mjs `joinView`), for the
  * address the teacher has chosen as the students' network or, until then, its best guess - and the address, the QR code and the
  * words all follow that choice. The QR code stays the address itself: a scan goes straight to this computer, with or without the

@@ -18,7 +18,7 @@ const T = {
   host: 'the Host is given the words for the students\' network, can choose another of this computer\'s addresses, and no student sees them',
   card: 'the Host\'s card and the join form: the words, then the class code, large; the code first on the bare address',
 };
-const W = 'public/join-words.js';
+const W = 'sim/join-words.mjs';
 const INJECTIONS = [
   { name: 'a word on the list changed (crane spelt crate: two words with one start, and the frozen list moved)', expect: [T.list],
     file: W, from: ' crane ', to: ' cratee ' },

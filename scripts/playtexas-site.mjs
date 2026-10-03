@@ -2,10 +2,10 @@
 //
 // Its source is site/playtexas/ in this repository, complete and self-contained: index.html (markup), style.css and assets/ (all of
 // the look - Astra's, 2026-10-03),
-// page.js (the logic), join-words.js - a byte-for-byte copy of the game's public/join-words.js, so the page decodes exactly what the
+// page.js (the logic), join-words.js - a byte-for-byte copy of the game's sim/join-words.mjs, so the page decodes exactly what the
 // game encodes (tests/join-words.test.mjs fails if they differ) - and .nojekyll (GitHub Pages serves the files as they are).
 //
-//   node scripts/playtexas-site.mjs --sync             copy public/join-words.js into site/playtexas/
+//   node scripts/playtexas-site.mjs --sync             copy sim/join-words.mjs into site/playtexas/
 //   node scripts/playtexas-site.mjs --check            exit 1 if the copy differs from the game's
 //   node scripts/playtexas-site.mjs <folder>           sync, then copy the site's files into <folder> (a clone of the
 //                                                      playtexas.github.io repository), touching nothing else there
@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const site = join(root, 'site', 'playtexas');
-const game = join(root, 'public', 'join-words.js'), copy = join(site, 'join-words.js');
+const game = join(root, 'sim', 'join-words.mjs'), copy = join(site, 'join-words.js');
 const same = () => existsSync(copy) && readFileSync(copy).equals(readFileSync(game));
 const args = process.argv.slice(2), publish = args[0] === '--publish', arg = publish ? args[1] : args[0];
 
@@ -27,11 +27,11 @@ if (!arg) {
   process.exit(2);
 }
 if (arg === '--check') {
-  if (same()) { console.log('site/playtexas/join-words.js is the game\'s public/join-words.js.'); process.exit(0); }
-  console.error('site/playtexas/join-words.js differs from public/join-words.js. Run: node scripts/playtexas-site.mjs --sync');
+  if (same()) { console.log('site/playtexas/join-words.js is the game\'s sim/join-words.mjs.'); process.exit(0); }
+  console.error('site/playtexas/join-words.js differs from sim/join-words.mjs. Run: node scripts/playtexas-site.mjs --sync');
   process.exit(1);
 }
-if (!same()) { copyFileSync(game, copy); console.log('Copied public/join-words.js into site/playtexas/.'); }
+if (!same()) { copyFileSync(game, copy); console.log('Copied sim/join-words.mjs into site/playtexas/.'); }
 if (arg === '--sync') process.exit(0);
 
 const target = resolve(arg);

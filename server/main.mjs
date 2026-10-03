@@ -5,7 +5,7 @@ import { createClassroom, EMPTY_PAUSE_MS, PACES } from './app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveDataDir, resolveSavePath, joinCandidates, soloPaths } from './deployment.mjs';
 import { createVoice } from './voice/service.mjs';
-import { encodeJoin, JOIN_SITE } from '../public/join-words.js';
+import { encodeJoin, JOIN_SITE } from '../sim/join-words.mjs';
 import { fileURLToPath } from 'node:url';
 import { cpus } from 'node:os';
 

@@ -38,7 +38,7 @@ import { advanceEndSequence, beginEndSequence, dueChange, endSequenceStep, endSe
 import { CLASS_SCRIPT_VERSION, CLASS_VIDEO_ID } from '../sim/class-flashback.mjs';
 import { classSchedule } from './class-days.mjs';
 // Join words (owner, 2026-10-03; docs/HOST_PAGE.md §2.17): the module the page at playtexas.github.io decodes them with.
-import { encodeJoin, isClassroomAddress, joinLink, JOIN_SITE } from '../public/join-words.js';
+import { encodeJoin, isClassroomAddress, joinLink, JOIN_SITE } from '../sim/join-words.mjs';
 // A fight's real-time floor (owner, 2026-09-30, "it happened too fast"; docs/BATTLES.md §15.1).
 import { battleTickFloorMs } from '../sim/battle-stage.mjs';
 
@@ -578,7 +578,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
    * **Join words** (owner, 2026-10-03, "is it possible to use a word or phrase instead like a webpage?"; docs/HOST_PAGE.md §2.17):
    * which of this computer's addresses the Host's page shows - the server's best guess (`joinUrls[0]`) until the teacher chooses
    * the students' network (`join-network`) - and the two or three words that carry that address and its port to the page at
-   * playtexas.github.io (public/join-words.js; owner, "Fewest words, no server"). The words lead to the bare address, which asks
+   * playtexas.github.io (sim/join-words.mjs; owner, "Fewest words, no server"). The words lead to the bare address, which asks
    * for the class code: the code is not in them, and `url` - the address with the code, for the card and its QR code - is.
    * The choice is this computer's, not the class's: it is kept while the server runs, through New Class, and not in the save,
    * since tomorrow the laptop may be on another network. No words when the address is not a private one; the page never sends

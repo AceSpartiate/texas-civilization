@@ -733,7 +733,7 @@ SSE is appropriate for low-frequency authoritative snapshots and keeps the first
 ## The join-words page, playtexas.github.io — 2026-10-03 (not released)
 
 Owner-decided ([HOST_PAGE.md](HOST_PAGE.md) §2.17, "Fewest words, no server"). Students type two or three words at
-**playtexas.github.io**; the page works out the teacher's laptop's private address from them (public/join-words.js, the game's own
+**playtexas.github.io**; the page works out the teacher's laptop's private address from them (sim/join-words.mjs, the game's own
 module) and navigates there, where the class code is asked for. There is no server and nothing to register: any number of teachers
 at any number of schools use the same page, because each class's words come from its own laptop's address. The page is free
 (GitHub Pages) and is the only thing of the game on the Internet; it carries no class, no student and no code, and fetches nothing.
@@ -745,7 +745,7 @@ at any number of schools use the same page, because each class's words come from
 | `index.html` | the markup, plain and semantic; the hooks are listed in a comment at its top | keep every id |
 | `style.css`, `assets/` | **all of the look** — Astra's (2026-10-03: the game's painted creation landscape, a parchment panel) | Astra; her visuals win |
 | `page.js` | the logic: reads the words, says what is wrong, goes to the class. No styling, no art | Claude |
-| `join-words.js` | a byte-for-byte copy of `public/join-words.js`; `tests/join-words.test.mjs` fails if they differ | never edited here: `node scripts/playtexas-site.mjs --sync` |
+| `join-words.js` | a byte-for-byte copy of `sim/join-words.mjs`; `tests/join-words.test.mjs` fails if they differ | never edited here: `node scripts/playtexas-site.mjs --sync` |
 | `.nojekyll` | GitHub Pages serves the files as they are | — |
 | `README.md` | Astra's hand-off note; not published | Astra |
 

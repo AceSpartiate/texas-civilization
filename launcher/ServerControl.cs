@@ -29,7 +29,7 @@ public sealed record ServerStatus(
     public string? PrimaryJoinUrl => !string.IsNullOrEmpty(ChosenJoinUrl) ? ChosenJoinUrl
         : JoinUrls.Count == 0 ? null
         : string.IsNullOrEmpty(ClassCode) ? JoinUrls[0] : $"{JoinUrls[0].TrimEnd('/')}/{ClassCode}";
-    // JoinWords: the words for playtexas.github.io, made by the server (public/join-words.js) for that same address, e.g. "ahead
+    // JoinWords: the words for playtexas.github.io, made by the server (sim/join-words.mjs) for that same address, e.g. "ahead
     // oar jolly keyhole rubber". Null when the address is not a private one, or before the class has been read.
 }
 

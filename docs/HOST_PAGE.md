@@ -407,7 +407,7 @@ easier to navigate around local district wifi signals blocking the game."* The a
 GitHub Pages site of the `playtexas` organization. Then: *"could we make the join words be a join word? singular?"* - told that one
 word cannot carry an address with no server, the owner chose, by multiple choice, **"Fewest words, no server"**.
 
-- **The words carry only the laptop's address, with no server anywhere.** public/join-words.js turns the Host laptop's private
+- **The words carry only the laptop's address, with no server anywhere.** sim/join-words.mjs turns the Host laptop's private
   address on the classroom network (and its port, only when it is not 1835) into words from a 2048-word list written for the game
   (public domain; common, easy-to-spell words for middle schoolers; every word starts with its own four letters; no two sound
   alike; no numbers, days, months, harm, drink, religion or bodies). **192.168.x.x: 2 words. 10.x.x.x or 172.16-31.x.x: 3 words.**

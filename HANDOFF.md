@@ -10,7 +10,7 @@ The owner asked for *"a word or phrase instead like a webpage"* that *"autodirec
 teachers at many schools, local hosting kept; chose **playtexas.github.io**; then asked for *"a join word? singular?"* and, told one
 word cannot carry an address with no server, chose **"Fewest words, no server"**.
 
-- **public/join-words.js**: the laptop's private address (and port when not 1835) as words from a 2048-word list written for the
+- **sim/join-words.mjs**: the laptop's private address (and port when not 1835) as words from a 2048-word list written for the
   game (public domain). **192.168.x.x: 2 words; 10.x or 172.16-31.x: 3**; another port 4-5. The word count says the form; the rest
   is check bits (a word not on the list refused with suggestions; a wrong-but-listed word, a swap, a dropped or added word refused
   but 1 in 64 on two words, 1 in 256+ on three - measured in the test). First four letters read; order matters. Only private

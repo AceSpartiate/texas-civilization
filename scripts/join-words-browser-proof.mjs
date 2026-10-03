@@ -2,7 +2,7 @@
 //
 // Walked here, with the class server listening on this computer's real classroom address (the first private one it has):
 //   1. The Host's card: "Go to playtexas.github.io and type:" the words, numbered and large, then the class code; the address and
-//      its QR code still carry the code. The words are the ones public/join-words.js makes for this computer's address and port.
+//      its QR code still carry the code. The words are the ones sim/join-words.mjs makes for this computer's address and port.
 //   2. The network choice: choosing another of this computer's addresses changes the words, and choosing back restores them.
 //   3. The page (site/playtexas/, served from a tiny local server as GitHub Pages would serve it): a word that is not on the list
 //      is refused in words; the real words, typed loosely (capitals, hyphens), go to the laptop's bare address, where the class
@@ -21,7 +21,7 @@ import { tmpdir } from 'node:os';
 import { extname, join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
 import { joinCandidates } from '../server/deployment.mjs';
-import { encodeJoin, isClassroomAddress } from '../public/join-words.js';
+import { encodeJoin, isClassroomAddress } from '../sim/join-words.mjs';
 import { qrSvg } from '../public/qr.js';
 
 const require = createRequire(import.meta.url);

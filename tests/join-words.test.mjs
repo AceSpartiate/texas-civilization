@@ -8,7 +8,7 @@ import { createHash } from 'node:crypto';
 import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { WORDS, DEFAULT_PORT, JOIN_SITE, decodeJoin, encodeJoin, isClassroomAddress, joinLink, suggestWords, wordIndex, wordsStartingWith } from '../public/join-words.js';
+import { WORDS, DEFAULT_PORT, JOIN_SITE, decodeJoin, encodeJoin, isClassroomAddress, joinLink, suggestWords, wordIndex, wordsStartingWith } from '../sim/join-words.mjs';
 import { createClassroom } from '../server/app.mjs';
 
 const site = new URL('../site/playtexas/', import.meta.url);
@@ -139,8 +139,8 @@ test('a typo is caught rather than sending a student somewhere else', () => {
 
 test('the page at playtexas.github.io decodes with the game\'s own module, and is self-contained', () => {
   // Byte for byte the game's module (scripts/playtexas-site.mjs --sync makes the copy).
-  assert.ok(readFileSync(new URL('join-words.js', site)).equals(readFileSync(new URL('../public/join-words.js', import.meta.url))),
-    'site/playtexas/join-words.js is not public/join-words.js: run node scripts/playtexas-site.mjs --sync');
+  assert.ok(readFileSync(new URL('join-words.js', site)).equals(readFileSync(new URL('../sim/join-words.mjs', import.meta.url))),
+    'site/playtexas/join-words.js is not sim/join-words.mjs: run node scripts/playtexas-site.mjs --sync');
   // The page's own files, and beyond them only the look's pictures (Astra's assets/) and her hand-off README (not published).
   const files = readdirSync(site, { recursive: true }).map(name => String(name).replace(/\\/g, '/')).sort();
   for (const needed of ['.nojekyll', 'index.html', 'join-words.js', 'page.js', 'style.css']) assert.ok(files.includes(needed), `site/playtexas/${needed} is missing`);
