@@ -1532,3 +1532,8 @@ Concepcion/Grass Fight item 6 now has east/south/north four-pose mule walking, m
 
 Southern fights item 5 now has dense/open composite oak groves with two-pose foliage loops. Agua Dulce's existing groves use these clips, with the old individual-tree fallback retained. See ART_DELIVERY_2026-10-03-OAK-MOTTS.md for visual scale, provenance and remaining canopy polish.
 
+
+## Delivered 2026-10-03 — night-lit houses and campfire
+
+Southern fights item 2 now has four authored flame/light loops and sixteen transparent frames. San Patricio's existing projected lights select lit jacal/cabin and fire art. Adobe variant is registered for later staging. These are full building variants; exact window-only overlays remain future work. See ART_DELIVERY_2026-10-03-NIGHT-LIGHTS.md.
+

@@ -9673,6 +9673,102 @@
       "motion": "rock",
       "direction": "east; west by mirroring"
     },
+    "campfire-night": {
+      "frames": [
+        {
+          "sprite": "campfire-night-1",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-2",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-3",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "adobe-night-lit": {
+      "frames": [
+        {
+          "sprite": "adobe-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "jacal-night-lit": {
+      "frames": [
+        {
+          "sprite": "jacal-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "cabin-night-lit": {
+      "frames": [
+        {
+          "sprite": "cabin-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
     "ox-packed-walk-e": {
       "frames": [
         {

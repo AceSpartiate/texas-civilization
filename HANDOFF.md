@@ -1,3 +1,11 @@
+## Night-lit settlement art — delivered 2026-10-03
+
+Sixteen transparent sprites add four authored loops: `campfire-night` (four flame poses, 180ms each) and `adobe-night-lit`, `jacal-night-lit`, `cabin-night-lit` (four light-brightness poses, 700ms each). They retain the warm outlined miniature style. Building art is a full night-lit replacement, not an exact window-only alpha overlay; fine geometry and brightness registration remains polish. Adobe is available for later explicitly lit scenery; San Patricio's existing lit jacal/cabin and campfire now select the new art.
+
+Only scenery already projected as lit during night/dawn selects a replacement. The building stays under the existing darkness wash and actors, while a campfire is also drawn over the wash so its flames remain visible. Existing radial light remains. Missing clips fall back to existing daytime/building/fire art. No new lamp, fire, route, historical event or concealment rule is added. Do not confuse lit windows with a building burning. These are interpretive structures, not surveyed site reconstructions; exact overlay registration, room interiors and window emission masks remain future work.
+
+The selected source PNG is copied unchanged. scripts/art-deliveries/night-lights-2026-10-03.mjs records the exact prompt, reference and source paths, every frame ID and duration. Prompt/provenance records and complete manifest are updated. Alpha audit retains every measured object, with zero overlap trimming. Browser proof scripts/night-lights-art-proof.mjs verifies all four clips render and change pixels with no errors; evidence is docs/evidence/night-lights-art.png/.json. All ten tests in tests/night-lights-art.test.mjs and tests/battle-view.test.mjs passed, including projected light/day/unlit gating.
+
 ## Live-oak motts — delivered 2026-10-03
 
 Four transparent sprites supply a dense five-tree grove and an open three-tree grove, each with two foliage poses. `live-oak-mott-dense-wind` and `live-oak-mott-open-wind` are authored 1800ms-per-pose loops. Agua Dulce selects dense for its existing east grove and open for its existing west grove. The geographic spread controls visual scale; no placement, concealment, collision, battle timing or historical outcome changes. Other groves retain the existing rendering. Missing atlas/clip uses the old individual-tree fallback.
@@ -4612,6 +4620,7 @@ Erastus “Deaf” Smith has a 16-frame directional scout sheet and a four-frame
 ## Art update — James Grant (2026-09-28)
 
 Grant now has distinct foot, mounted-walk and four-frame gallop sheets in `scripts/art-deliveries/famous-grant.mjs`. His roster and `PERSON_ART.grant` select them; the existing Agua Dulce horse-herd route uses the mounted walk and the visible ambush interval uses the gallop. Grant disappears from the stage before his later fate, which remains conveyed by the existing account text. No capture, surrender or killing was invented on screen. The foot sheet includes map/pointing poses and a clean, non-graphic bandage variant for Béxar; his face, clothing and horse are interpretations rather than portrait claims. Frames, clips and source records are in the generated art manifest and provenance JSON files. The battle-view regression checks walk versus ambush gallop.
+
 
 
 

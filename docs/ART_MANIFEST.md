@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2526 usable sprites, 271 PNG atlases, 891 clips** (583 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2542 usable sprites, 272 PNG atlases, 895 clips** (587 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -206,6 +206,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wildlife-mustang | 16 | 1254 × 1254 | 1311610 |
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
+| night-settlement-lights | 16 | 1254 × 1254 | 1713707 |
 | town-mexican-river | 1 | 1426 × 1103 | 1719481 |
 | presidio-spanish | 1 | 1536 × 1024 | 2103476 |
 | village-irish-colony | 1 | 1536 × 1024 | 2454172 |
@@ -2021,6 +2022,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-laden-2 | steamboat-laden | steamboat-laden |
 | steamboat-laden-3 | steamboat-laden | steamboat-laden |
 | steamboat-laden-4 | steamboat-laden | steamboat-laden |
+| campfire-night-1 | night-settlement-lights | campfire-night |
+| campfire-night-2 | night-settlement-lights | campfire-night |
+| campfire-night-3 | night-settlement-lights | campfire-night |
+| campfire-night-4 | night-settlement-lights | campfire-night |
+| adobe-night-lit-1 | night-settlement-lights | adobe-night-lit |
+| adobe-night-lit-2 | night-settlement-lights | adobe-night-lit |
+| adobe-night-lit-3 | night-settlement-lights | adobe-night-lit |
+| adobe-night-lit-4 | night-settlement-lights | adobe-night-lit |
+| jacal-night-lit-1 | night-settlement-lights | jacal-night-lit |
+| jacal-night-lit-2 | night-settlement-lights | jacal-night-lit |
+| jacal-night-lit-3 | night-settlement-lights | jacal-night-lit |
+| jacal-night-lit-4 | night-settlement-lights | jacal-night-lit |
+| cabin-night-lit-1 | night-settlement-lights | cabin-night-lit |
+| cabin-night-lit-2 | night-settlement-lights | cabin-night-lit |
+| cabin-night-lit-3 | night-settlement-lights | cabin-night-lit |
+| cabin-night-lit-4 | night-settlement-lights | cabin-night-lit |
 | town-mexican-river | town-mexican-river | State artwork; no motion required |
 | presidio-spanish | presidio-spanish | State artwork; no motion required |
 | village-irish-colony | village-irish-colony | State artwork; no motion required |
@@ -3408,6 +3425,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mustang-gallop | Pose cycle | 8 | 1080 | yes | east; west by mirroring |
 | steamboat-steam | Pose cycle | 4 | 1320 | yes | east; west by mirroring |
 | steamboat-laden | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
+| campfire-night | Pose cycle | 4 | 720 | yes | scenery |
+| adobe-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
+| jacal-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
+| cabin-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | ox-packed-walk-e | Pose cycle | 4 | 960 | yes | east |
 | ox-packed-idle-e | breathe | 1 | 2700 | yes | east |
 | ox-packed-walk-s | Pose cycle | 4 | 960 | yes | south |

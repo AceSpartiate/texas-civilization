@@ -3923,6 +3923,21 @@
       "refinements": [],
       "postProcessing": "None; PNG copied unchanged.",
       "review": "Interpretive three/five oak clusters, two foliage poses each. Fine trunk and canopy registration remains polish. Not a botanical reconstruction or surveyed historical grove."
+    },
+    {
+      "sheet": "night-settlement-lights",
+      "promptId": "frontier-v1/night-settlement-lights",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bb9e4b23-6e40-4374-a127-d6ab19869d01.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bb9e4b23-6e40-4374-a127-d6ab19869d01.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/night-settlement-lights.png",
+      "refinements": [],
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Interpretive night-lit building replacements, not exact alpha overlays. Subtle geometry registration across lighting poses remains polish. Four authored campfire flame poses."
     }
   ],
   "rejectedAttempts": [

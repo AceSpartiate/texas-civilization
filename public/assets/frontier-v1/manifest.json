@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 271,
-    "sprites": 2526,
-    "clips": 891,
-    "poseCycles": 583,
+    "sheets": 272,
+    "sprites": 2542,
+    "clips": 895,
+    "poseCycles": 587,
     "rigs": 4
   },
   "entrypoints": {
@@ -16531,6 +16531,130 @@
               [
                 656,
                 1247
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "night-settlement-lights": {
+      "image": "atlases/night-settlement-lights.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1713707,
+      "sha256": "ee4b4d28b73aaebac5bb4796d96de6be710df96e342f8bf78c60224578313e46",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.486229,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              88,
+              293
+            ],
+            "columns": [
+              [
+                75,
+                284
+              ],
+              [
+                382,
+                595
+              ],
+              [
+                689,
+                896
+              ],
+              [
+                997,
+                1203
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              377,
+              588
+            ],
+            "columns": [
+              [
+                27,
+                314
+              ],
+              [
+                337,
+                619
+              ],
+              [
+                642,
+                926
+              ],
+              [
+                953,
+                1237
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              653,
+              888
+            ],
+            "columns": [
+              [
+                15,
+                316
+              ],
+              [
+                325,
+                625
+              ],
+              [
+                634,
+                933
+              ],
+              [
+                942,
+                1242
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              925,
+              1188
+            ],
+            "columns": [
+              [
+                21,
+                310
+              ],
+              [
+                330,
+                620
+              ],
+              [
+                638,
+                930
+              ],
+              [
+                948,
+                1239
               ]
             ]
           }
@@ -82992,6 +83116,550 @@
       "locationKits": [],
       "promptId": "frontier-v1/steamboat-laden"
     },
+    "campfire-night-1": {
+      "sheet": "night-settlement-lights",
+      "x": 75,
+      "y": 95,
+      "w": 209,
+      "h": 198,
+      "anchorX": 0.4976,
+      "anchorY": 0.9293,
+      "label": "campfire night 1",
+      "kind": "night-settlement-lights",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          97,
+          205,
+          194
+        ],
+        "visiblePixels": 19921,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "campfire-night"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "campfire-night-2": {
+      "sheet": "night-settlement-lights",
+      "x": 382,
+      "y": 95,
+      "w": 213,
+      "h": 197,
+      "anchorX": 0.4671,
+      "anchorY": 0.9289,
+      "label": "campfire night 2",
+      "kind": "night-settlement-lights",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          384,
+          97,
+          209,
+          193
+        ],
+        "visiblePixels": 20924,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "campfire-night"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "campfire-night-3": {
+      "sheet": "night-settlement-lights",
+      "x": 689,
+      "y": 104,
+      "w": 207,
+      "h": 189,
+      "anchorX": 0.4952,
+      "anchorY": 0.9259,
+      "label": "campfire night 3",
+      "kind": "night-settlement-lights",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          691,
+          106,
+          203,
+          185
+        ],
+        "visiblePixels": 19577,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "campfire-night"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "campfire-night-4": {
+      "sheet": "night-settlement-lights",
+      "x": 997,
+      "y": 88,
+      "w": 206,
+      "h": 205,
+      "anchorX": 0.4903,
+      "anchorY": 0.9268,
+      "label": "campfire night 4",
+      "kind": "night-settlement-lights",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          999,
+          90,
+          202,
+          201
+        ],
+        "visiblePixels": 19916,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "campfire-night"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "adobe-night-lit-1": {
+      "sheet": "night-settlement-lights",
+      "x": 27,
+      "y": 377,
+      "w": 287,
+      "h": 210,
+      "anchorX": 0.4878,
+      "anchorY": 0.9286,
+      "label": "adobe night lit 1",
+      "kind": "night-settlement-lights",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          379,
+          283,
+          206
+        ],
+        "visiblePixels": 52646,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "adobe-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "adobe-night-lit-2": {
+      "sheet": "night-settlement-lights",
+      "x": 337,
+      "y": 378,
+      "w": 282,
+      "h": 210,
+      "anchorX": 0.4858,
+      "anchorY": 0.9286,
+      "label": "adobe night lit 2",
+      "kind": "night-settlement-lights",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          339,
+          380,
+          278,
+          206
+        ],
+        "visiblePixels": 51735,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "adobe-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "adobe-night-lit-3": {
+      "sheet": "night-settlement-lights",
+      "x": 642,
+      "y": 378,
+      "w": 284,
+      "h": 210,
+      "anchorX": 0.4877,
+      "anchorY": 0.9286,
+      "label": "adobe night lit 3",
+      "kind": "night-settlement-lights",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          644,
+          380,
+          280,
+          206
+        ],
+        "visiblePixels": 52025,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "adobe-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "adobe-night-lit-4": {
+      "sheet": "night-settlement-lights",
+      "x": 953,
+      "y": 378,
+      "w": 284,
+      "h": 210,
+      "anchorX": 0.4842,
+      "anchorY": 0.9286,
+      "label": "adobe night lit 4",
+      "kind": "night-settlement-lights",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          955,
+          380,
+          280,
+          206
+        ],
+        "visiblePixels": 51863,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "adobe-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "jacal-night-lit-1": {
+      "sheet": "night-settlement-lights",
+      "x": 15,
+      "y": 653,
+      "w": 301,
+      "h": 234,
+      "anchorX": 0.4967,
+      "anchorY": 0.9316,
+      "label": "jacal night lit 1",
+      "kind": "night-settlement-lights",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          17,
+          655,
+          297,
+          230
+        ],
+        "visiblePixels": 53399,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jacal-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "jacal-night-lit-2": {
+      "sheet": "night-settlement-lights",
+      "x": 325,
+      "y": 653,
+      "w": 300,
+      "h": 235,
+      "anchorX": 0.4983,
+      "anchorY": 0.9277,
+      "label": "jacal night lit 2",
+      "kind": "night-settlement-lights",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          327,
+          655,
+          296,
+          231
+        ],
+        "visiblePixels": 53420,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jacal-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "jacal-night-lit-3": {
+      "sheet": "night-settlement-lights",
+      "x": 634,
+      "y": 654,
+      "w": 299,
+      "h": 233,
+      "anchorX": 0.5,
+      "anchorY": 0.927,
+      "label": "jacal night lit 3",
+      "kind": "night-settlement-lights",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          636,
+          656,
+          295,
+          229
+        ],
+        "visiblePixels": 53478,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jacal-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "jacal-night-lit-4": {
+      "sheet": "night-settlement-lights",
+      "x": 942,
+      "y": 654,
+      "w": 300,
+      "h": 233,
+      "anchorX": 0.4967,
+      "anchorY": 0.927,
+      "label": "jacal night lit 4",
+      "kind": "night-settlement-lights",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          944,
+          656,
+          296,
+          229
+        ],
+        "visiblePixels": 53289,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jacal-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "cabin-night-lit-1": {
+      "sheet": "night-settlement-lights",
+      "x": 21,
+      "y": 925,
+      "w": 289,
+      "h": 263,
+      "anchorX": 0.5121,
+      "anchorY": 0.9278,
+      "label": "cabin night lit 1",
+      "kind": "night-settlement-lights",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          23,
+          927,
+          285,
+          259
+        ],
+        "visiblePixels": 58367,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cabin-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "cabin-night-lit-2": {
+      "sheet": "night-settlement-lights",
+      "x": 330,
+      "y": 925,
+      "w": 290,
+      "h": 263,
+      "anchorX": 0.5103,
+      "anchorY": 0.9278,
+      "label": "cabin night lit 2",
+      "kind": "night-settlement-lights",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          332,
+          927,
+          286,
+          259
+        ],
+        "visiblePixels": 58368,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cabin-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "cabin-night-lit-3": {
+      "sheet": "night-settlement-lights",
+      "x": 638,
+      "y": 925,
+      "w": 292,
+      "h": 263,
+      "anchorX": 0.5103,
+      "anchorY": 0.9278,
+      "label": "cabin night lit 3",
+      "kind": "night-settlement-lights",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          640,
+          927,
+          288,
+          259
+        ],
+        "visiblePixels": 58583,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cabin-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
+    "cabin-night-lit-4": {
+      "sheet": "night-settlement-lights",
+      "x": 948,
+      "y": 925,
+      "w": 291,
+      "h": 263,
+      "anchorX": 0.512,
+      "anchorY": 0.9278,
+      "label": "cabin night lit 4",
+      "kind": "night-settlement-lights",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          950,
+          927,
+          287,
+          259
+        ],
+        "visiblePixels": 58556,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/night-settlement-lights.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cabin-night-lit"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/night-settlement-lights"
+    },
     "town-mexican-river": {
       "sheet": "town-mexican-river",
       "x": 46,
@@ -119872,6 +120540,102 @@
       "motion": "rock",
       "direction": "east; west by mirroring"
     },
+    "campfire-night": {
+      "frames": [
+        {
+          "sprite": "campfire-night-1",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-2",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-3",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "adobe-night-lit": {
+      "frames": [
+        {
+          "sprite": "adobe-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "jacal-night-lit": {
+      "frames": [
+        {
+          "sprite": "jacal-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "cabin-night-lit": {
+      "frames": [
+        {
+          "sprite": "cabin-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
     "ox-packed-walk-e": {
       "frames": [
         {
@@ -130317,7 +131081,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 271,
+    "sourceCount": 272,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -18,6 +18,7 @@
 // tells app.js which pose they are in (`memberPose`) so they fire and load with the men around them.
 // Relative, so the same module loads in the page (as /speech.js) and under node for tests/battle-view.test.mjs.
 import { drawSpeech, speechAlpha } from './speech.js';
+const NIGHT_BUILDING_CLIPS = Object.freeze({ 'adobe-flat': 'adobe-night-lit', 'house-jacal': 'jacal-night-lit', 'jacal-poor': 'jacal-night-lit', 'cabin-small': 'cabin-night-lit' });
 
 /** Miles between figures, by style. A person is drawn 0.019 miles tall (sim/house-footprint.mjs `PERSON_MILES`). */
 const LAYOUT = Object.freeze({
@@ -895,7 +896,12 @@ export function createBattleView(art) {
           if (!art.drawSprite(ctx, i % 3 === 2 ? 'mesquite-large' : 'live-oak-large', q.x, q.y, figurePx * 3.2)) { ctx.fillStyle = '#5d7148'; ctx.beginPath(); ctx.arc(q.x, q.y - figurePx, figurePx * 1.1, 0, Math.PI * 2); ctx.fill(); }
         }
       } else if (item.kind === 'campfire') {
+        if (item.lit && ['night', 'dawn'].includes(battle.light) && art.animated(ctx, 'campfire-night', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) { count++; continue; }
         if (!art.animated(ctx, 'campfire', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) art.drawSprite(ctx, 'campfire', p.x, p.y, figurePx * 0.9);
+      } else if (item.lit && ['night', 'dawn'].includes(battle.light) &&
+        NIGHT_BUILDING_CLIPS[item.sprite] &&
+        art.animated(ctx, NIGHT_BUILDING_CLIPS[item.sprite], p.x, p.y, figurePx * (item.size || 2.4), item.id, { timeMs: time, flip: item.flip })) {
+        // Only projected lamplight gets a night-lit replacement; actors remain in front.
       } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })) {
         ctx.fillStyle = '#8a7658'; ctx.fillRect(p.x - figurePx, p.y - figurePx * 1.2, figurePx * 2, figurePx * 1.2);
       }
@@ -939,6 +945,7 @@ export function createBattleView(art) {
       if (!item.lit) continue;
       const p = camera.toScreen(item);
       glow(ctx, p.x, p.y - figurePx * (item.kind === 'campfire' ? 0.2 : 0.6), figurePx * (item.kind === 'campfire' ? 2.6 : 1.8), 'rgba(255,184,96,.55)');
+      if (item.kind === 'campfire') art.animated(ctx, 'campfire-night', p.x, p.y, figurePx * 0.9, item.id, { timeMs: now });
       lit++;
     }
     return { lit };
@@ -1598,3 +1605,4 @@ export function createBattleView(art) {
   const isMember = id => view.members.has(id);
   return { draw, memberPose, memberDrawn, isMember, get evidence() { return view.evidence; }, get smoke() { return view.smoke.length; } };
 }
+
