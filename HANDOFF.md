@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## Both setup containers: classic is the default again — owner-decided 2026-10-03 (not released)
+## Released as v2026.10.03.2 — 2026-10-03
+
+Main at 34b5dee5, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.03.2>). Contents: paths all automatic (Cut a path gone), the plain launcher installed and carried in the set of changes when the launcher changes, and both setup formats (`TexasRevolutionSetup.exe` classic with the plain launcher inside, 779 MB; `TexasRevolutionSetup-Appended.exe`, 691 MB). No set of changes this time, as designed: every launcher before this one takes the whole setup once more. On 34b5dee5: `npm test` 2184 tests, 2148 pass, 0 fail, 36 skipped; all 107 browser proofs green two at a time (`test:claude-art`, the stand-in injection harness, left out). The field-click proof was red 3 runs in 5 on 1638f5ca from a race in the proof (the maker sent to bring the crop in looked free before the server started them on it); fixed in 34b5dee5 and green 5 in 5 alone. Not proved: ThreatDown with either setup, SmartScreen, a real download of a set of changes carrying a launcher (the first will be the next release with a launcher change). Same computer only; no Chromebook, LAN or classroom claim.
+
+## Both setup containers: classic is the default again — owner-decided 2026-10-03 (released in v2026.10.03.2)
 
 Branch `setup-both` from main at f8fb8653; not pushed, not released. The owner emailed `TexasRevolutionInstaller.exe` to a
 coworker and ThreatDown (Malwarebytes business) blocked it; the classic v2026.10.03.1 setup (game embedded as a .NET
@@ -273,7 +277,7 @@ the copy; hers still says `public/join-words.js`): take join-words' `index.html`
 
 **Results**: `npm test` **2160 tests, 2123 pass, 1 fail, 36 skipped** - the one, tests/save-retry.test.mjs's Windows retry timing under the whole suite's load, passes alone (twice). Browser, all green: `test:famous-people` 22 (a Joe-in-the-doorway sample missed once under a parallel run, green alone), `test:battle-gonzales` 12, `test:battle-bexar` 15, `test:battle-cinema` 15, `test:storming` 7, `test:battle-south` 16 (Agua Dulce's groves), `test:battle-coleto` 17, `test:battle-grass` 14, `test:battle-concepcion` 13, `test:battle-alamo` 13, `test:battle-san-jacinto` 15, `test:looks` 12, `test:family-age-art` 9, `test:hunt` 15, `test:work` 5, `test:overlap` (green), and her own proofs: famous cardinal 27 clips, field 24, gestures 30, story 26, cavalry 2, Coleto prone 1, Grass Fight mules 3, ground fog 2, live-oak motts 2, night lights 4, landscape, and the join page at four sizes. tests/claude-standins.test.mjs and tests/astra-art-wins.test.mjs green; every plan item's request heading exists.
 
-## Paths all automatic: "All automatic" — owner-decided 2026-10-03 (not released)
+## Paths all automatic: "All automatic" — owner-decided 2026-10-03 (released in v2026.10.03.2)
 
 Branch `auto-paths` off `origin/main` (4b98b7d9); not pushed, not published. Same computer only: headless Chrome at 1366x768; no
 Chromebook, LAN or classroom claim. The owner, verbatim: *"i don't want players to have to micromanage the paths that we added
