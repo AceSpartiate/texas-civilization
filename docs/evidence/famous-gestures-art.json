@@ -1,0 +1,156 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "deaf-smith-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "deaf-smith-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "karnes-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "karnes-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "lamar-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "lamar-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "sherman-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "sherman-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "rusk-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "rusk-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "travis-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "travis-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "houston-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "houston-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "santa-anna-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "santa-anna-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "austin-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "austin-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "moore-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "moore-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "almonte-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "almonte-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "burleson-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "burleson-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "cos-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "cos-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "urrea-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "urrea-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "castaneda-command-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "castaneda-conversation-cycle",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

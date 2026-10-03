@@ -41,12 +41,22 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
 }
 
 test('named mounted people turn north and south with the projected route heading', () => {
-  for (const id of ['smither', 'jw-smith', 'horton', 'kimbell', 'martin', 'cos', 'urrea', 'castaneda', 'houston', 'santa-anna', 'burleson', 'grant']) {
+  for (const id of ['smither', 'jw-smith', 'horton', 'kimbell', 'martin', 'cos', 'urrea', 'castaneda', 'houston', 'santa-anna', 'burleson', 'grant', 'deaf-smith', 'karnes', 'lamar', 'sherman', 'rusk']) {
     for (const [heading, dir] of [['north', 'n'], ['south', 's']]) {
       const art = fakeArt(), view = createBattleView(art);
       const rider = { id, art: id, name: id, side: 'texian', x: 0, y: 0, right: false, pose: 'ride', moving: true, heading };
       run(view, minute => night(minute, [], { people: [rider] }), { seconds: 1 });
       assert.ok(art.drawn.some(one => one.clip === `${id}-mounted-walk-${dir}` && one.flip === false), `${id}: ${heading}`);
+    }
+  }
+});
+
+test('named commanders use identity-specific authored gesture cycles', () => {
+  for (const id of ['travis', 'houston', 'santa-anna', 'austin', 'moore', 'almonte', 'burleson', 'cos', 'urrea', 'castaneda']) {
+    for (const [pose, cycle] of [['command', 'command'], ['speak', 'conversation']]) {
+      const art = fakeArt(), view = createBattleView(art);
+      run(view, minute => night(minute, [], { people: [{ id, art: id, x: 0, y: 0, pose, right: true }] }), { seconds: 1 });
+      assert.ok(art.drawn.some(one => one.clip === `${id}-${cycle}-cycle`), `${id}: ${pose}`);
     }
   }
 });

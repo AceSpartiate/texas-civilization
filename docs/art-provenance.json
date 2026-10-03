@@ -3157,6 +3157,226 @@
       "sourceType": "generated",
       "license": "Generated for this project",
       "historicalStatus": "Interpretive art, not portrait or artifact evidence"
+    },
+    {
+      "id": "travis",
+      "sheet": "famous-travis-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "promptId": "frontier-v1/famous-travis-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a01ad1ff-69c2-470a-b8b7-b3f3e576c316.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-travis-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "houston",
+      "sheet": "famous-houston-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-houston.png"
+      ],
+      "promptId": "frontier-v1/famous-houston-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-806ba5ca-150c-4e6e-98fc-98a93a3dd7da.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-houston-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "santa-anna",
+      "sheet": "famous-santa-anna-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-santa-anna.png"
+      ],
+      "promptId": "frontier-v1/famous-santa-anna-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c9ffbfed-f18e-4995-8500-44c513877f6b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-santa-anna-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "austin",
+      "sheet": "famous-austin-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-austin.png"
+      ],
+      "promptId": "frontier-v1/famous-austin-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-95287f51-67e3-41c9-a762-2c8b1cf3ccb9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-austin-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "moore",
+      "sheet": "famous-moore-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-moore.png"
+      ],
+      "promptId": "frontier-v1/famous-moore-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-00f232c3-8c8c-4190-b975-e72427214c3d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-moore-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "almonte",
+      "sheet": "famous-almonte-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-almonte.png"
+      ],
+      "promptId": "frontier-v1/famous-almonte-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bc1d956b-cf97-41fd-87d9-165b3ee0e581.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-almonte-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "burleson",
+      "sheet": "famous-burleson-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-burleson.png"
+      ],
+      "promptId": "frontier-v1/famous-burleson-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-30934b90-53ac-4167-8895-7d815dd28c5f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-burleson-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "cos",
+      "sheet": "famous-cos-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos.png"
+      ],
+      "promptId": "frontier-v1/famous-cos-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-744353f5-e9ff-4eef-984b-fa8f6deb3276.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-cos-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "urrea",
+      "sheet": "famous-urrea-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-urrea.png"
+      ],
+      "promptId": "frontier-v1/famous-urrea-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-84cd2ecf-4f1e-41d3-aad1-d670debf4b6a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "castaneda",
+      "sheet": "famous-castaneda-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda.png"
+      ],
+      "promptId": "frontier-v1/famous-castaneda-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-11c35527-162d-490f-a4e1-7365d293c219.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castaneda-gestures.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Identity-preserving two-pose command and conversation gestures. Original interpretive costume/likeness. Planted stance, no new weapons, dialogue, event or outcome."
+    },
+    {
+      "id": "deaf-smith",
+      "sheet": "famous-deaf-smith-mounted-cardinal",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-deaf-smith-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-deaf-smith-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-53b58aab-6bd7-4b11-9adb-bbf2b249a480.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a31efa2d-3e21-4826-8c19-8d2fc7fc888f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-deaf-smith-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
+    },
+    {
+      "id": "karnes",
+      "sheet": "famous-karnes-mounted-cardinal",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-karnes-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-karnes-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dbe184d5-203e-473f-ada2-8eabb072be32.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-615f3cf2-1a84-4459-8a4c-4566fdcf92b0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-karnes-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
+    },
+    {
+      "id": "lamar",
+      "sheet": "famous-lamar-mounted-cardinal",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-lamar-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-lamar-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-151381ba-ad80-4c2b-ab08-b8baf0f1aaa4.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8e2957d3-056a-4337-a01d-faeae05d66c4.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
+    },
+    {
+      "id": "sherman",
+      "sheet": "famous-sherman-mounted-cardinal",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-sherman-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-sherman-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3ff55b04-bf35-4786-9a41-aac6cf2996fb.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec655c4e-fb68-4956-b6df-2911a54c1a75.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
+    },
+    {
+      "id": "rusk",
+      "sheet": "famous-rusk-mounted-cardinal",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-rusk-mounted.png"
+      ],
+      "promptId": "frontier-v1/famous-rusk-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2b136f8c-e68f-4c51-9678-7867ef919a1c.png",
+      "refinementPrompt": "Edit ONLY the WALKING LEGS/HOOVES of the horses in this 2x2 sprite atlas. All faces clothing rider heads hands tack coats scale layout transparency must remain unchanged. TOPLEFT frontal horse: LEFT leg as seen by viewer raised bent at knee with hoof 60px ABOVE ground and RIGHT foreleg straight planted. TOPRIGHT frontal horse: RIGHT foreleg as seen by viewer raised bent at knee hoof 60px ABOVE ground and LEFT foreleg straight planted. This is essential: opposite visibly alternating FRONT legs, NOT two copies of same pose. BOTTOMLEFT rear horse: LEFT hindhoof viewerleft lifted high RIGHT planted. BOTTOMRIGHT rear horse RIGHT hindhoof lifted LEFT planted. Preserve fullbody silhouettes, full boots hats tails ears margins and truealpha. No background text shadows. Exactly4 horse+rider cutouts.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b1ea8045-e742-4b84-a638-1f3b7cc03b97.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk-mounted-cardinal.png",
+      "postProcessing": "None; selected refined PNG copied unchanged.",
+      "review": "Two-pose cardinal walk with visibly alternating hoof placement. Same identity/costume/horse palette. Fine horse marking and tack details remain interpretive. No full skeletal rig, turning transition, speed or route change."
     }
   ],
   "rejectedAttempts": [

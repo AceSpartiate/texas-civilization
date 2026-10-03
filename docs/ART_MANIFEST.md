@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2334 usable sprites, 226 PNG atlases, 803 clips** (495 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2394 usable sprites, 241 PNG atlases, 833 clips** (525 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -91,6 +91,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-deaf-smith | 16 | 1254 × 1254 | 1316988 |
 | famous-deaf-smith-mounted | 4 | 1254 × 1254 | 1298123 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-travis-gestures | 4 | 1254 × 1254 | 882290 |
+| famous-houston-gestures | 4 | 1254 × 1254 | 891705 |
+| famous-santa-anna-gestures | 4 | 1254 × 1254 | 896923 |
+| famous-austin-gestures | 4 | 1254 × 1254 | 845901 |
+| famous-moore-gestures | 4 | 1254 × 1254 | 1032551 |
+| famous-almonte-gestures | 4 | 1254 × 1254 | 960703 |
+| famous-burleson-gestures | 4 | 1254 × 1254 | 1055005 |
+| famous-cos-gestures | 4 | 1254 × 1254 | 934593 |
+| famous-urrea-gestures | 4 | 1254 × 1254 | 835148 |
+| famous-castaneda-gestures | 4 | 1254 × 1254 | 929899 |
 | famous-grant | 16 | 1225 × 1284 | 1191949 |
 | famous-grant-mounted | 4 | 1254 × 1254 | 1312009 |
 | famous-grant-gallop | 4 | 1254 × 1254 | 1420237 |
@@ -137,6 +147,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-rusk | 16 | 1312 × 1199 | 1052054 |
 | famous-rusk-mounted | 4 | 1312 × 1199 | 1471219 |
 | famous-sanchez-navarro | 16 | 1254 × 1254 | 1303243 |
+| famous-deaf-smith-mounted-cardinal | 4 | 1254 × 1254 | 857178 |
+| famous-karnes-mounted-cardinal | 4 | 1246 × 1263 | 791766 |
+| famous-lamar-mounted-cardinal | 4 | 1312 × 1199 | 733744 |
+| famous-sherman-mounted-cardinal | 4 | 1240 × 1269 | 813963 |
+| famous-rusk-mounted-cardinal | 4 | 1312 × 1199 | 775666 |
 | famous-seguin-mounted-motion | 4 | 1254 × 1254 | 1217137 |
 | famous-seguin-mounted-ns | 4 | 1254 × 1254 | 798415 |
 | famous-sherman | 16 | 1239 × 1269 | 1115350 |
@@ -1120,6 +1135,46 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| travis-command-gesture-1 | famous-travis-gestures | travis-command-cycle |
+| travis-command-gesture-2 | famous-travis-gestures | travis-command-cycle |
+| travis-conversation-gesture-1 | famous-travis-gestures | travis-conversation-cycle |
+| travis-conversation-gesture-2 | famous-travis-gestures | travis-conversation-cycle |
+| houston-command-gesture-1 | famous-houston-gestures | houston-command-cycle |
+| houston-command-gesture-2 | famous-houston-gestures | houston-command-cycle |
+| houston-conversation-gesture-1 | famous-houston-gestures | houston-conversation-cycle |
+| houston-conversation-gesture-2 | famous-houston-gestures | houston-conversation-cycle |
+| santa-anna-command-gesture-1 | famous-santa-anna-gestures | santa-anna-command-cycle |
+| santa-anna-command-gesture-2 | famous-santa-anna-gestures | santa-anna-command-cycle |
+| santa-anna-conversation-gesture-1 | famous-santa-anna-gestures | santa-anna-conversation-cycle |
+| santa-anna-conversation-gesture-2 | famous-santa-anna-gestures | santa-anna-conversation-cycle |
+| austin-command-gesture-1 | famous-austin-gestures | austin-command-cycle |
+| austin-command-gesture-2 | famous-austin-gestures | austin-command-cycle |
+| austin-conversation-gesture-1 | famous-austin-gestures | austin-conversation-cycle |
+| austin-conversation-gesture-2 | famous-austin-gestures | austin-conversation-cycle |
+| moore-command-gesture-1 | famous-moore-gestures | moore-command-cycle |
+| moore-command-gesture-2 | famous-moore-gestures | moore-command-cycle |
+| moore-conversation-gesture-1 | famous-moore-gestures | moore-conversation-cycle |
+| moore-conversation-gesture-2 | famous-moore-gestures | moore-conversation-cycle |
+| almonte-command-gesture-1 | famous-almonte-gestures | almonte-command-cycle |
+| almonte-command-gesture-2 | famous-almonte-gestures | almonte-command-cycle |
+| almonte-conversation-gesture-1 | famous-almonte-gestures | almonte-conversation-cycle |
+| almonte-conversation-gesture-2 | famous-almonte-gestures | almonte-conversation-cycle |
+| burleson-command-gesture-1 | famous-burleson-gestures | burleson-command-cycle |
+| burleson-command-gesture-2 | famous-burleson-gestures | burleson-command-cycle |
+| burleson-conversation-gesture-1 | famous-burleson-gestures | burleson-conversation-cycle |
+| burleson-conversation-gesture-2 | famous-burleson-gestures | burleson-conversation-cycle |
+| cos-command-gesture-1 | famous-cos-gestures | cos-command-cycle |
+| cos-command-gesture-2 | famous-cos-gestures | cos-command-cycle |
+| cos-conversation-gesture-1 | famous-cos-gestures | cos-conversation-cycle |
+| cos-conversation-gesture-2 | famous-cos-gestures | cos-conversation-cycle |
+| urrea-command-gesture-1 | famous-urrea-gestures | urrea-command-cycle |
+| urrea-command-gesture-2 | famous-urrea-gestures | urrea-command-cycle |
+| urrea-conversation-gesture-1 | famous-urrea-gestures | urrea-conversation-cycle |
+| urrea-conversation-gesture-2 | famous-urrea-gestures | urrea-conversation-cycle |
+| castaneda-command-gesture-1 | famous-castaneda-gestures | castaneda-command-cycle |
+| castaneda-command-gesture-2 | famous-castaneda-gestures | castaneda-command-cycle |
+| castaneda-conversation-gesture-1 | famous-castaneda-gestures | castaneda-conversation-cycle |
+| castaneda-conversation-gesture-2 | famous-castaneda-gestures | castaneda-conversation-cycle |
 | grant-walk-e-1 | famous-grant | grant-walk-e |
 | grant-walk-e-2 | famous-grant | grant-walk-e |
 | grant-walk-e-3 | famous-grant | grant-walk-e |
@@ -1544,6 +1599,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sanchez-navarro-offer | famous-sanchez-navarro | State artwork; no motion required |
 | sanchez-navarro-point | famous-sanchez-navarro | State artwork; no motion required |
 | sanchez-navarro-rest | famous-sanchez-navarro | State artwork; no motion required |
+| deaf-smith-mounted-walk-s-1 | famous-deaf-smith-mounted-cardinal | deaf-smith-mounted-walk-s |
+| deaf-smith-mounted-walk-s-2 | famous-deaf-smith-mounted-cardinal | deaf-smith-mounted-walk-s |
+| deaf-smith-mounted-walk-n-1 | famous-deaf-smith-mounted-cardinal | deaf-smith-mounted-walk-n |
+| deaf-smith-mounted-walk-n-2 | famous-deaf-smith-mounted-cardinal | deaf-smith-mounted-walk-n |
+| karnes-mounted-walk-s-1 | famous-karnes-mounted-cardinal | karnes-mounted-walk-s |
+| karnes-mounted-walk-s-2 | famous-karnes-mounted-cardinal | karnes-mounted-walk-s |
+| karnes-mounted-walk-n-1 | famous-karnes-mounted-cardinal | karnes-mounted-walk-n |
+| karnes-mounted-walk-n-2 | famous-karnes-mounted-cardinal | karnes-mounted-walk-n |
+| lamar-mounted-walk-s-1 | famous-lamar-mounted-cardinal | lamar-mounted-walk-s |
+| lamar-mounted-walk-s-2 | famous-lamar-mounted-cardinal | lamar-mounted-walk-s |
+| lamar-mounted-walk-n-1 | famous-lamar-mounted-cardinal | lamar-mounted-walk-n |
+| lamar-mounted-walk-n-2 | famous-lamar-mounted-cardinal | lamar-mounted-walk-n |
+| sherman-mounted-walk-s-1 | famous-sherman-mounted-cardinal | sherman-mounted-walk-s |
+| sherman-mounted-walk-s-2 | famous-sherman-mounted-cardinal | sherman-mounted-walk-s |
+| sherman-mounted-walk-n-1 | famous-sherman-mounted-cardinal | sherman-mounted-walk-n |
+| sherman-mounted-walk-n-2 | famous-sherman-mounted-cardinal | sherman-mounted-walk-n |
+| rusk-mounted-walk-s-1 | famous-rusk-mounted-cardinal | rusk-mounted-walk-s |
+| rusk-mounted-walk-s-2 | famous-rusk-mounted-cardinal | rusk-mounted-walk-s |
+| rusk-mounted-walk-n-1 | famous-rusk-mounted-cardinal | rusk-mounted-walk-n |
+| rusk-mounted-walk-n-2 | famous-rusk-mounted-cardinal | rusk-mounted-walk-n |
 | seguin-mounted-walk-e-1 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
 | seguin-mounted-walk-e-2 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
 | seguin-mounted-canter-e-1 | famous-seguin-mounted-motion | seguin-mounted-canter-e |
@@ -2931,6 +3006,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| travis-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| travis-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| houston-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| houston-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| santa-anna-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| santa-anna-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| austin-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| austin-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| moore-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| moore-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| almonte-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| almonte-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| burleson-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| burleson-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| cos-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| cos-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| urrea-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| urrea-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| castaneda-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| castaneda-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | grant-walk-e | Pose cycle | 4 | 760 | yes | east |
 | grant-walk-s | Pose cycle | 2 | 580 | yes | south |
 | grant-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -3037,6 +3132,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sanchez-navarro-walk-s | Pose cycle | 2 | 560 | yes | south |
 | sanchez-navarro-walk-n | Pose cycle | 2 | 560 | yes | north |
 | sanchez-navarro-parley | Pose cycle | 2 | 1550 | yes | east; mirror for west |
+| deaf-smith-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| deaf-smith-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| karnes-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| karnes-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| lamar-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| lamar-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| sherman-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| sherman-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| rusk-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| rusk-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
 | seguin-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | seguin-mounted-canter-e | Pose cycle | 2 | 380 | yes | east; mirror for west |
 | seguin-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |

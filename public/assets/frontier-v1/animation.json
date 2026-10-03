@@ -5353,6 +5353,326 @@
       "motion": "none",
       "direction": "north"
     },
+    "travis-command-cycle": {
+      "frames": [
+        {
+          "sprite": "travis-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "travis-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "travis-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "houston-command-cycle": {
+      "frames": [
+        {
+          "sprite": "houston-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "houston-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "houston-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "houston-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "houston-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "santa-anna-command-cycle": {
+      "frames": [
+        {
+          "sprite": "santa-anna-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "santa-anna-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "santa-anna-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "santa-anna-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "santa-anna-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "austin-command-cycle": {
+      "frames": [
+        {
+          "sprite": "austin-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "austin-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "austin-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "austin-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "austin-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "moore-command-cycle": {
+      "frames": [
+        {
+          "sprite": "moore-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "moore-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "moore-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "moore-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "moore-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "almonte-command-cycle": {
+      "frames": [
+        {
+          "sprite": "almonte-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "almonte-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "almonte-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "almonte-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "almonte-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "burleson-command-cycle": {
+      "frames": [
+        {
+          "sprite": "burleson-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "burleson-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "burleson-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "burleson-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "burleson-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "cos-command-cycle": {
+      "frames": [
+        {
+          "sprite": "cos-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "cos-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "cos-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "cos-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "cos-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "urrea-command-cycle": {
+      "frames": [
+        {
+          "sprite": "urrea-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "urrea-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "urrea-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "urrea-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "urrea-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "castaneda-command-cycle": {
+      "frames": [
+        {
+          "sprite": "castaneda-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "castaneda-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "castaneda-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "castaneda-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "castaneda-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "grant-walk-e": {
       "frames": [
         {
@@ -7200,6 +7520,166 @@
       "authored": true,
       "motion": "none",
       "direction": "east; mirror for west"
+    },
+    "deaf-smith-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "deaf-smith-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "deaf-smith-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "deaf-smith-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "deaf-smith-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "deaf-smith-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "karnes-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "karnes-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "karnes-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "karnes-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "karnes-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "karnes-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "lamar-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "lamar-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "lamar-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "lamar-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "lamar-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "lamar-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "sherman-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "sherman-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "sherman-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "sherman-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "sherman-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "sherman-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "rusk-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "rusk-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "rusk-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "rusk-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "rusk-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "rusk-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
     },
     "seguin-mounted-walk-e": {
       "frames": [

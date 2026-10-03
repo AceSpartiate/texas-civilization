@@ -1,5 +1,13 @@
 # Art requests for Astra
 
+## Historical gestures and scout riding — delivered 2026-10-03
+
+This second batch adds **15 transparent atlases, 60 frames and 30 authored clips**. Deaf Smith, Karnes, Lamar, Sherman and Rusk now have two-pose north/south mounted walking, selected from battle heading. Their special rescue/rally/stop scene bindings are preserved. Ten figures — Travis, Houston, Santa Anna, Austin, Moore, Almonte, Burleson, Cos, Urrea and Castañeda — now have two-pose command and conversation cycles. Existing command scenes select the new gestures; `PERSON_ART.speak` exposes the conversation art for future explicit dialogue staging. No new speech or conversation has been added.
+
+Claude: read `scripts/art-deliveries/famous-gestures-2026-10-03.mjs` and `famous-scouts-cardinal-2026-10-03.mjs` for exact IDs, durations, prompts, refinement prompts and original/final PNG paths. Selected art was generated with the built-in image tool and copied unchanged. The catalog and complete machine-readable manifest list every new frame/clip. Reproduce browser evidence with `scripts/famous-gestures-art-proof.mjs`; it checks all 30 clips render and change pixels between keyframes.
+
+These are restrained two-pose cycles, not complete rigs or lip-sync. A raised hand can change the overall silhouette height slightly under the existing sprite sizing system; finer body/prop registration remains polish. Horse markings and tack vary in small details across directional sheets and remain artistic interpretations. Faster gaits, mount/dismount and turn transitions remain outstanding. Campaign columns still do not project heading. No historical event, timeline, outcome, visibility, character injury or movement speed changed.
+
 ## Mounted cardinal movement and Castrillón — delivered 2026-10-03
 
 Fourteen new transparent atlases deliver **56 frames and 27 authored clips** in the established painted, outlined storybook style. Smither, John W. Smith, Horton, Kimbell, Martin, Cos, Urrea, Castañeda, Houston, Santa Anna, Burleson and Grant each have two-pose north/south riding cycles. The battlefield renderer selects them from the projected heading; existing east/west art remains available. Castrillón gains north/south walking and two rally gestures standing on an ammunition crate, now selected during his existing San Jacinto crate scene. His timing, words and fate are preserved. Step-down and ground figures are registered variants for later staging.

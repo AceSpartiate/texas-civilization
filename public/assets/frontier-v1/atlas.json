@@ -7700,6 +7700,586 @@
         ]
       }
     },
+    "famous-travis-gestures": {
+      "image": "atlases/famous-travis-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 882290,
+      "sha256": "f40fc765677f7f541eb49909a62df7b30554b23c50773e5c07d9809697a4d962",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.745758,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              39,
+              610
+            ],
+            "columns": [
+              [
+                195,
+                556
+              ],
+              [
+                769,
+                1170
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              647,
+              1218
+            ],
+            "columns": [
+              [
+                212,
+                518
+              ],
+              [
+                775,
+                1143
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-houston-gestures": {
+      "image": "atlases/famous-houston-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 891705,
+      "sha256": "891d459474c05edba713f4ede1061449db7c5436c4e39feeca526b6ea521d4c3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.734122,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              33,
+              603
+            ],
+            "columns": [
+              [
+                220,
+                597
+              ],
+              [
+                751,
+                1173
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              638,
+              1210
+            ],
+            "columns": [
+              [
+                226,
+                491
+              ],
+              [
+                761,
+                1142
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-santa-anna-gestures": {
+      "image": "atlases/famous-santa-anna-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 896923,
+      "sha256": "ae34e7c989efb40b125e69fb186550bdea6061a3df278e35599b24a2b2d63072",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.747652,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              24,
+              610
+            ],
+            "columns": [
+              [
+                188,
+                542
+              ],
+              [
+                771,
+                1176
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              639,
+              1220
+            ],
+            "columns": [
+              [
+                214,
+                464
+              ],
+              [
+                770,
+                1143
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-austin-gestures": {
+      "image": "atlases/famous-austin-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 845901,
+      "sha256": "df087b50f541ce200ce08301bb04f910c497344d13abf3a61dd4911c0b061a26",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.731513,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              69,
+              615
+            ],
+            "columns": [
+              [
+                162,
+                535
+              ],
+              [
+                725,
+                1143
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              648,
+              1196
+            ],
+            "columns": [
+              [
+                186,
+                487
+              ],
+              [
+                744,
+                1158
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-moore-gestures": {
+      "image": "atlases/famous-moore-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1032551,
+      "sha256": "c6b402d527e3cd00f233606e364fb621e30d7e27ea2162491a8bdddbc8fb7138",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.686073,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              40,
+              614
+            ],
+            "columns": [
+              [
+                190,
+                550
+              ],
+              [
+                711,
+                1173
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              633,
+              1212
+            ],
+            "columns": [
+              [
+                205,
+                517
+              ],
+              [
+                745,
+                1183
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-almonte-gestures": {
+      "image": "atlases/famous-almonte-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 960703,
+      "sha256": "5e6aa170134541e2c96f6d252888cf38f6c6989f3bd595d76faae34d3b162434",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.743262,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              18,
+              592
+            ],
+            "columns": [
+              [
+                199,
+                522
+              ],
+              [
+                736,
+                1123
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              624,
+              1200
+            ],
+            "columns": [
+              [
+                203,
+                481
+              ],
+              [
+                770,
+                1142
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-burleson-gestures": {
+      "image": "atlases/famous-burleson-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1055005,
+      "sha256": "1dad71cbfbf566d8554f45176d0d07f3b63e8ec43bd679d38b79e25507b2c883",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.672532,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              12,
+              619
+            ],
+            "columns": [
+              [
+                173,
+                572
+              ],
+              [
+                729,
+                1213
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              621,
+              1230
+            ],
+            "columns": [
+              [
+                188,
+                537
+              ],
+              [
+                751,
+                1173
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-cos-gestures": {
+      "image": "atlases/famous-cos-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 934593,
+      "sha256": "8a6aa984c143793a7f340edc7a6ce222bec1cb041fcc8ac5a6010c368ec5dca3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.727863,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              26,
+              618
+            ],
+            "columns": [
+              [
+                213,
+                575
+              ],
+              [
+                727,
+                1140
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              638,
+              1227
+            ],
+            "columns": [
+              [
+                216,
+                531
+              ],
+              [
+                725,
+                1146
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-urrea-gestures": {
+      "image": "atlases/famous-urrea-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 835148,
+      "sha256": "77317d1591d78b61bf5cf3bb9afa7e42f73fb7b6490b21298b84b15aa1bbc6bf",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.760342,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              39,
+              596
+            ],
+            "columns": [
+              [
+                235,
+                570
+              ],
+              [
+                743,
+                1155
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              632,
+              1196
+            ],
+            "columns": [
+              [
+                234,
+                504
+              ],
+              [
+                748,
+                1119
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castaneda-gestures": {
+      "image": "atlases/famous-castaneda-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 929899,
+      "sha256": "34bd94a4d6c1c422b64a83b4bd7361e2bb68db6b2c406cd010bfab66890ce4ac",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.732064,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              8,
+              606
+            ],
+            "columns": [
+              [
+                161,
+                522
+              ],
+              [
+                725,
+                1147
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              615,
+              1221
+            ],
+            "columns": [
+              [
+                175,
+                442
+              ],
+              [
+                732,
+                1149
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-grant": {
       "image": "atlases/famous-grant.png",
       "width": 1225,
@@ -11682,6 +12262,296 @@
               [
                 994,
                 1213
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-deaf-smith-mounted-cardinal": {
+      "image": "atlases/famous-deaf-smith-mounted-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 857178,
+      "sha256": "782cf26233e3ee4828ebf419133dd1889b205471e33e4231d7257f7ad5fe00fb",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.767907,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              26,
+              625
+            ],
+            "columns": [
+              [
+                238,
+                498
+              ],
+              [
+                758,
+                1016
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              635,
+              1217
+            ],
+            "columns": [
+              [
+                261,
+                508
+              ],
+              [
+                761,
+                1000
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-karnes-mounted-cardinal": {
+      "image": "atlases/famous-karnes-mounted-cardinal.png",
+      "width": 1246,
+      "height": 1263,
+      "bytes": 791766,
+      "sha256": "a454ab8da119a707b7038b924d463c84ea398d6a13f229e6e3b2237aecb6e0e8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.783723,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              31,
+              618
+            ],
+            "columns": [
+              [
+                212,
+                469
+              ],
+              [
+                775,
+                1031
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              640,
+              1213
+            ],
+            "columns": [
+              [
+                220,
+                479
+              ],
+              [
+                766,
+                1023
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-lamar-mounted-cardinal": {
+      "image": "atlases/famous-lamar-mounted-cardinal.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 733744,
+      "sha256": "033adc6b74593ac4c3493574dbfcb0a1f2a2a45330b5758a393d943ee65b1fe7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.803273,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              35,
+              585
+            ],
+            "columns": [
+              [
+                272,
+                513
+              ],
+              [
+                810,
+                1053
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              613,
+              1146
+            ],
+            "columns": [
+              [
+                270,
+                513
+              ],
+              [
+                808,
+                1053
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-sherman-mounted-cardinal": {
+      "image": "atlases/famous-sherman-mounted-cardinal.png",
+      "width": 1240,
+      "height": 1269,
+      "bytes": 813963,
+      "sha256": "9b2f9027b20cee69dfe6c331fa1ce02c013e565aabc7fc9cbf7c133e78b12bb8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.786633,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              29,
+              616
+            ],
+            "columns": [
+              [
+                229,
+                471
+              ],
+              [
+                783,
+                1024
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              663,
+              1231
+            ],
+            "columns": [
+              [
+                224,
+                469
+              ],
+              [
+                781,
+                1032
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-rusk-mounted-cardinal": {
+      "image": "atlases/famous-rusk-mounted-cardinal.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 775666,
+      "sha256": "3ed7e92bfce313900ce59b251d71c0fd60c2f04f1ae7bbd5c7eacdf90e97797d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.791385,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              15,
+              584
+            ],
+            "columns": [
+              [
+                268,
+                522
+              ],
+              [
+                831,
+                1079
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              605,
+              1168
+            ],
+            "columns": [
+              [
+                247,
+                502
+              ],
+              [
+                821,
+                1075
               ]
             ]
           }
@@ -42644,6 +43514,1006 @@
         "retainedFraction": 1
       }
     },
+    "travis-command-gesture-1": {
+      "sheet": "famous-travis-gestures",
+      "x": 195,
+      "y": 39,
+      "w": 361,
+      "h": 565,
+      "anchorX": 0.4169,
+      "anchorY": 0.9558,
+      "logicalHeight": 571,
+      "label": "travis command gesture 1",
+      "kind": "famous-travis-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          197,
+          41,
+          357,
+          561
+        ],
+        "visiblePixels": 94421,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-command-gesture-2": {
+      "sheet": "famous-travis-gestures",
+      "x": 769,
+      "y": 49,
+      "w": 401,
+      "h": 561,
+      "anchorX": 0.3853,
+      "anchorY": 0.9554,
+      "logicalHeight": 571,
+      "label": "travis command gesture 2",
+      "kind": "famous-travis-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          771,
+          51,
+          397,
+          557
+        ],
+        "visiblePixels": 96960,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-conversation-gesture-1": {
+      "sheet": "famous-travis-gestures",
+      "x": 212,
+      "y": 647,
+      "w": 306,
+      "h": 571,
+      "anchorX": 0.5098,
+      "anchorY": 0.9475,
+      "logicalHeight": 571,
+      "label": "travis conversation gesture 1",
+      "kind": "famous-travis-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          214,
+          649,
+          302,
+          567
+        ],
+        "visiblePixels": 90540,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "travis-conversation-gesture-2": {
+      "sheet": "famous-travis-gestures",
+      "x": 775,
+      "y": 654,
+      "w": 368,
+      "h": 564,
+      "anchorX": 0.4144,
+      "anchorY": 0.9539,
+      "logicalHeight": 571,
+      "label": "travis conversation gesture 2",
+      "kind": "famous-travis-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          777,
+          656,
+          364,
+          560
+        ],
+        "visiblePixels": 94261,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-command-gesture-1": {
+      "sheet": "famous-houston-gestures",
+      "x": 220,
+      "y": 33,
+      "w": 377,
+      "h": 569,
+      "anchorX": 0.4271,
+      "anchorY": 0.9385,
+      "logicalHeight": 572,
+      "label": "houston command gesture 1",
+      "kind": "famous-houston-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          222,
+          35,
+          373,
+          565
+        ],
+        "visiblePixels": 102025,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-command-gesture-2": {
+      "sheet": "famous-houston-gestures",
+      "x": 751,
+      "y": 36,
+      "w": 422,
+      "h": 567,
+      "anchorX": 0.3661,
+      "anchorY": 0.94,
+      "logicalHeight": 572,
+      "label": "houston command gesture 2",
+      "kind": "famous-houston-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          753,
+          38,
+          418,
+          563
+        ],
+        "visiblePixels": 100907,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-conversation-gesture-1": {
+      "sheet": "famous-houston-gestures",
+      "x": 226,
+      "y": 638,
+      "w": 265,
+      "h": 572,
+      "anchorX": 0.5623,
+      "anchorY": 0.9406,
+      "logicalHeight": 572,
+      "label": "houston conversation gesture 1",
+      "kind": "famous-houston-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          228,
+          640,
+          261,
+          568
+        ],
+        "visiblePixels": 95145,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-conversation-gesture-2": {
+      "sheet": "famous-houston-gestures",
+      "x": 761,
+      "y": 642,
+      "w": 381,
+      "h": 567,
+      "anchorX": 0.3924,
+      "anchorY": 0.9506,
+      "logicalHeight": 572,
+      "label": "houston conversation gesture 2",
+      "kind": "famous-houston-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          763,
+          644,
+          377,
+          563
+        ],
+        "visiblePixels": 101184,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-command-gesture-1": {
+      "sheet": "famous-santa-anna-gestures",
+      "x": 188,
+      "y": 28,
+      "w": 354,
+      "h": 582,
+      "anchorX": 0.4251,
+      "anchorY": 0.9553,
+      "logicalHeight": 585,
+      "label": "santa anna command gesture 1",
+      "kind": "famous-santa-anna-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          190,
+          30,
+          350,
+          578
+        ],
+        "visiblePixels": 91832,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-command-gesture-2": {
+      "sheet": "famous-santa-anna-gestures",
+      "x": 771,
+      "y": 24,
+      "w": 405,
+      "h": 585,
+      "anchorX": 0.3383,
+      "anchorY": 0.947,
+      "logicalHeight": 585,
+      "label": "santa anna command gesture 2",
+      "kind": "famous-santa-anna-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          773,
+          26,
+          401,
+          581
+        ],
+        "visiblePixels": 96743,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-conversation-gesture-1": {
+      "sheet": "famous-santa-anna-gestures",
+      "x": 214,
+      "y": 639,
+      "w": 250,
+      "h": 580,
+      "anchorX": 0.518,
+      "anchorY": 0.9517,
+      "logicalHeight": 585,
+      "label": "santa anna conversation gesture 1",
+      "kind": "famous-santa-anna-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          216,
+          641,
+          246,
+          576
+        ],
+        "visiblePixels": 85575,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-conversation-gesture-2": {
+      "sheet": "famous-santa-anna-gestures",
+      "x": 770,
+      "y": 643,
+      "w": 373,
+      "h": 577,
+      "anchorX": 0.4062,
+      "anchorY": 0.948,
+      "logicalHeight": 585,
+      "label": "santa anna conversation gesture 2",
+      "kind": "famous-santa-anna-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          772,
+          645,
+          369,
+          573
+        ],
+        "visiblePixels": 91001,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-command-gesture-1": {
+      "sheet": "famous-austin-gestures",
+      "x": 162,
+      "y": 69,
+      "w": 373,
+      "h": 546,
+      "anchorX": 0.4357,
+      "anchorY": 0.9432,
+      "logicalHeight": 548,
+      "label": "austin command gesture 1",
+      "kind": "famous-austin-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          164,
+          71,
+          369,
+          542
+        ],
+        "visiblePixels": 102186,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-command-gesture-2": {
+      "sheet": "famous-austin-gestures",
+      "x": 725,
+      "y": 69,
+      "w": 418,
+      "h": 546,
+      "anchorX": 0.4115,
+      "anchorY": 0.9396,
+      "logicalHeight": 548,
+      "label": "austin command gesture 2",
+      "kind": "famous-austin-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          727,
+          71,
+          414,
+          542
+        ],
+        "visiblePixels": 100405,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-conversation-gesture-1": {
+      "sheet": "famous-austin-gestures",
+      "x": 186,
+      "y": 648,
+      "w": 301,
+      "h": 548,
+      "anchorX": 0.5166,
+      "anchorY": 0.9434,
+      "logicalHeight": 548,
+      "label": "austin conversation gesture 1",
+      "kind": "famous-austin-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          188,
+          650,
+          297,
+          544
+        ],
+        "visiblePixels": 96270,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "austin-conversation-gesture-2": {
+      "sheet": "famous-austin-gestures",
+      "x": 744,
+      "y": 649,
+      "w": 414,
+      "h": 547,
+      "anchorX": 0.3901,
+      "anchorY": 0.9525,
+      "logicalHeight": 548,
+      "label": "austin conversation gesture 2",
+      "kind": "famous-austin-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          746,
+          651,
+          410,
+          543
+        ],
+        "visiblePixels": 104980,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-command-gesture-1": {
+      "sheet": "famous-moore-gestures",
+      "x": 190,
+      "y": 40,
+      "w": 360,
+      "h": 572,
+      "anchorX": 0.4736,
+      "anchorY": 0.9545,
+      "logicalHeight": 579,
+      "label": "moore command gesture 1",
+      "kind": "famous-moore-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          192,
+          42,
+          356,
+          568
+        ],
+        "visiblePixels": 113569,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-command-gesture-2": {
+      "sheet": "famous-moore-gestures",
+      "x": 711,
+      "y": 44,
+      "w": 462,
+      "h": 570,
+      "anchorX": 0.3842,
+      "anchorY": 0.9491,
+      "logicalHeight": 579,
+      "label": "moore command gesture 2",
+      "kind": "famous-moore-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          713,
+          46,
+          458,
+          566
+        ],
+        "visiblePixels": 120735,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-conversation-gesture-1": {
+      "sheet": "famous-moore-gestures",
+      "x": 205,
+      "y": 633,
+      "w": 312,
+      "h": 579,
+      "anchorX": 0.5064,
+      "anchorY": 0.9603,
+      "logicalHeight": 579,
+      "label": "moore conversation gesture 1",
+      "kind": "famous-moore-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          207,
+          635,
+          308,
+          575
+        ],
+        "visiblePixels": 111942,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "moore-conversation-gesture-2": {
+      "sheet": "famous-moore-gestures",
+      "x": 745,
+      "y": 638,
+      "w": 438,
+      "h": 574,
+      "anchorX": 0.3756,
+      "anchorY": 0.9512,
+      "logicalHeight": 579,
+      "label": "moore conversation gesture 2",
+      "kind": "famous-moore-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          747,
+          640,
+          434,
+          570
+        ],
+        "visiblePixels": 122222,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-command-gesture-1": {
+      "sheet": "famous-almonte-gestures",
+      "x": 199,
+      "y": 18,
+      "w": 323,
+      "h": 574,
+      "anchorX": 0.4365,
+      "anchorY": 0.9564,
+      "logicalHeight": 576,
+      "label": "almonte command gesture 1",
+      "kind": "famous-almonte-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          201,
+          20,
+          319,
+          570
+        ],
+        "visiblePixels": 93711,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-command-gesture-2": {
+      "sheet": "famous-almonte-gestures",
+      "x": 736,
+      "y": 24,
+      "w": 387,
+      "h": 568,
+      "anchorX": 0.376,
+      "anchorY": 0.9542,
+      "logicalHeight": 576,
+      "label": "almonte command gesture 2",
+      "kind": "famous-almonte-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          738,
+          26,
+          383,
+          564
+        ],
+        "visiblePixels": 94271,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-conversation-gesture-1": {
+      "sheet": "famous-almonte-gestures",
+      "x": 203,
+      "y": 624,
+      "w": 278,
+      "h": 576,
+      "anchorX": 0.5018,
+      "anchorY": 0.9479,
+      "logicalHeight": 576,
+      "label": "almonte conversation gesture 1",
+      "kind": "famous-almonte-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          205,
+          626,
+          274,
+          572
+        ],
+        "visiblePixels": 89916,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "almonte-conversation-gesture-2": {
+      "sheet": "famous-almonte-gestures",
+      "x": 770,
+      "y": 630,
+      "w": 372,
+      "h": 570,
+      "anchorX": 0.3831,
+      "anchorY": 0.9526,
+      "logicalHeight": 576,
+      "label": "almonte conversation gesture 2",
+      "kind": "famous-almonte-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          772,
+          632,
+          368,
+          566
+        ],
+        "visiblePixels": 95310,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-command-gesture-1": {
+      "sheet": "famous-burleson-gestures",
+      "x": 173,
+      "y": 12,
+      "w": 399,
+      "h": 607,
+      "anchorX": 0.4975,
+      "anchorY": 0.9506,
+      "logicalHeight": 609,
+      "label": "burleson command gesture 1",
+      "kind": "famous-burleson-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          175,
+          14,
+          395,
+          603
+        ],
+        "visiblePixels": 125727,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-command-gesture-2": {
+      "sheet": "famous-burleson-gestures",
+      "x": 729,
+      "y": 14,
+      "w": 484,
+      "h": 605,
+      "anchorX": 0.4008,
+      "anchorY": 0.9554,
+      "logicalHeight": 609,
+      "label": "burleson command gesture 2",
+      "kind": "famous-burleson-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          731,
+          16,
+          480,
+          601
+        ],
+        "visiblePixels": 128691,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-conversation-gesture-1": {
+      "sheet": "famous-burleson-gestures",
+      "x": 188,
+      "y": 621,
+      "w": 349,
+      "h": 609,
+      "anchorX": 0.5201,
+      "anchorY": 0.9475,
+      "logicalHeight": 609,
+      "label": "burleson conversation gesture 1",
+      "kind": "famous-burleson-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          190,
+          623,
+          345,
+          605
+        ],
+        "visiblePixels": 116070,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-conversation-gesture-2": {
+      "sheet": "famous-burleson-gestures",
+      "x": 751,
+      "y": 625,
+      "w": 422,
+      "h": 605,
+      "anchorX": 0.4301,
+      "anchorY": 0.9488,
+      "logicalHeight": 609,
+      "label": "burleson conversation gesture 2",
+      "kind": "famous-burleson-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          753,
+          627,
+          418,
+          601
+        ],
+        "visiblePixels": 122909,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cos-command-gesture-1": {
+      "sheet": "famous-cos-gestures",
+      "x": 213,
+      "y": 26,
+      "w": 362,
+      "h": 592,
+      "anchorX": 0.4296,
+      "anchorY": 0.9493,
+      "logicalHeight": 592,
+      "label": "cos command gesture 1",
+      "kind": "famous-cos-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          215,
+          28,
+          358,
+          588
+        ],
+        "visiblePixels": 101824,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cos-command-gesture-2": {
+      "sheet": "famous-cos-gestures",
+      "x": 727,
+      "y": 29,
+      "w": 413,
+      "h": 589,
+      "anchorX": 0.3777,
+      "anchorY": 0.9457,
+      "logicalHeight": 592,
+      "label": "cos command gesture 2",
+      "kind": "famous-cos-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          729,
+          31,
+          409,
+          585
+        ],
+        "visiblePixels": 103632,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cos-conversation-gesture-1": {
+      "sheet": "famous-cos-gestures",
+      "x": 216,
+      "y": 638,
+      "w": 315,
+      "h": 589,
+      "anchorX": 0.4968,
+      "anchorY": 0.9338,
+      "logicalHeight": 592,
+      "label": "cos conversation gesture 1",
+      "kind": "famous-cos-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          218,
+          640,
+          311,
+          585
+        ],
+        "visiblePixels": 95237,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cos-conversation-gesture-2": {
+      "sheet": "famous-cos-gestures",
+      "x": 725,
+      "y": 638,
+      "w": 421,
+      "h": 589,
+      "anchorX": 0.3765,
+      "anchorY": 0.944,
+      "logicalHeight": 592,
+      "label": "cos conversation gesture 2",
+      "kind": "famous-cos-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          727,
+          640,
+          417,
+          585
+        ],
+        "visiblePixels": 102654,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-command-gesture-1": {
+      "sheet": "famous-urrea-gestures",
+      "x": 235,
+      "y": 39,
+      "w": 335,
+      "h": 557,
+      "anchorX": 0.3746,
+      "anchorY": 0.9443,
+      "logicalHeight": 561,
+      "label": "urrea command gesture 1",
+      "kind": "famous-urrea-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          237,
+          41,
+          331,
+          553
+        ],
+        "visiblePixels": 88942,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-command-gesture-2": {
+      "sheet": "famous-urrea-gestures",
+      "x": 743,
+      "y": 42,
+      "w": 412,
+      "h": 554,
+      "anchorX": 0.3192,
+      "anchorY": 0.944,
+      "logicalHeight": 561,
+      "label": "urrea command gesture 2",
+      "kind": "famous-urrea-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          745,
+          44,
+          408,
+          550
+        ],
+        "visiblePixels": 91624,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-conversation-gesture-1": {
+      "sheet": "famous-urrea-gestures",
+      "x": 234,
+      "y": 636,
+      "w": 270,
+      "h": 560,
+      "anchorX": 0.4444,
+      "anchorY": 0.9446,
+      "logicalHeight": 561,
+      "label": "urrea conversation gesture 1",
+      "kind": "famous-urrea-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          236,
+          638,
+          266,
+          556
+        ],
+        "visiblePixels": 84436,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-conversation-gesture-2": {
+      "sheet": "famous-urrea-gestures",
+      "x": 748,
+      "y": 632,
+      "w": 371,
+      "h": 561,
+      "anchorX": 0.3396,
+      "anchorY": 0.9483,
+      "logicalHeight": 561,
+      "label": "urrea conversation gesture 2",
+      "kind": "famous-urrea-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          750,
+          634,
+          367,
+          557
+        ],
+        "visiblePixels": 90479,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castaneda-command-gesture-1": {
+      "sheet": "famous-castaneda-gestures",
+      "x": 161,
+      "y": 9,
+      "w": 361,
+      "h": 597,
+      "anchorX": 0.3587,
+      "anchorY": 0.9514,
+      "logicalHeight": 606,
+      "label": "castaneda command gesture 1",
+      "kind": "famous-castaneda-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          163,
+          11,
+          357,
+          593
+        ],
+        "visiblePixels": 96856,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castaneda-command-gesture-2": {
+      "sheet": "famous-castaneda-gestures",
+      "x": 725,
+      "y": 8,
+      "w": 422,
+      "h": 598,
+      "anchorX": 0.3104,
+      "anchorY": 0.9548,
+      "logicalHeight": 606,
+      "label": "castaneda command gesture 2",
+      "kind": "famous-castaneda-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          727,
+          10,
+          418,
+          594
+        ],
+        "visiblePixels": 99010,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castaneda-conversation-gesture-1": {
+      "sheet": "famous-castaneda-gestures",
+      "x": 175,
+      "y": 615,
+      "w": 267,
+      "h": 606,
+      "anchorX": 0.5019,
+      "anchorY": 0.9505,
+      "logicalHeight": 606,
+      "label": "castaneda conversation gesture 1",
+      "kind": "famous-castaneda-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          177,
+          617,
+          263,
+          602
+        ],
+        "visiblePixels": 90947,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castaneda-conversation-gesture-2": {
+      "sheet": "famous-castaneda-gestures",
+      "x": 732,
+      "y": 616,
+      "w": 417,
+      "h": 605,
+      "anchorX": 0.3213,
+      "anchorY": 0.9521,
+      "logicalHeight": 606,
+      "label": "castaneda conversation gesture 2",
+      "kind": "famous-castaneda-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          734,
+          618,
+          413,
+          601
+        ],
+        "visiblePixels": 102314,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
     "grant-walk-e-1": {
       "sheet": "famous-grant",
       "x": 73,
@@ -53236,6 +55106,506 @@
           265
         ],
         "visiblePixels": 32585,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-mounted-walk-s-1": {
+      "sheet": "famous-deaf-smith-mounted-cardinal",
+      "x": 238,
+      "y": 26,
+      "w": 260,
+      "h": 599,
+      "anchorX": 0.5538,
+      "anchorY": 0.9399,
+      "logicalHeight": 599,
+      "label": "deaf smith mounted walk s 1",
+      "kind": "famous-deaf-smith-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          240,
+          28,
+          256,
+          595
+        ],
+        "visiblePixels": 90935,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-mounted-walk-s-2": {
+      "sheet": "famous-deaf-smith-mounted-cardinal",
+      "x": 758,
+      "y": 26,
+      "w": 258,
+      "h": 599,
+      "anchorX": 0.3236,
+      "anchorY": 0.9366,
+      "logicalHeight": 599,
+      "label": "deaf smith mounted walk s 2",
+      "kind": "famous-deaf-smith-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          760,
+          28,
+          254,
+          595
+        ],
+        "visiblePixels": 90743,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-mounted-walk-n-1": {
+      "sheet": "famous-deaf-smith-mounted-cardinal",
+      "x": 261,
+      "y": 635,
+      "w": 247,
+      "h": 582,
+      "anchorX": 0.581,
+      "anchorY": 0.9725,
+      "logicalHeight": 599,
+      "label": "deaf smith mounted walk n 1",
+      "kind": "famous-deaf-smith-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          263,
+          637,
+          243,
+          578
+        ],
+        "visiblePixels": 79119,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "deaf-smith-mounted-walk-n-2": {
+      "sheet": "famous-deaf-smith-mounted-cardinal",
+      "x": 761,
+      "y": 637,
+      "w": 239,
+      "h": 564,
+      "anchorX": 0.4958,
+      "anchorY": 0.9291,
+      "logicalHeight": 599,
+      "label": "deaf smith mounted walk n 2",
+      "kind": "famous-deaf-smith-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          763,
+          639,
+          235,
+          560
+        ],
+        "visiblePixels": 79159,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-mounted-walk-s-1": {
+      "sheet": "famous-karnes-mounted-cardinal",
+      "x": 212,
+      "y": 31,
+      "w": 257,
+      "h": 586,
+      "anchorX": 0.6109,
+      "anchorY": 0.9727,
+      "logicalHeight": 587,
+      "label": "karnes mounted walk s 1",
+      "kind": "famous-karnes-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          214,
+          33,
+          253,
+          582
+        ],
+        "visiblePixels": 83229,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-mounted-walk-s-2": {
+      "sheet": "famous-karnes-mounted-cardinal",
+      "x": 775,
+      "y": 31,
+      "w": 256,
+      "h": 587,
+      "anchorX": 0.4023,
+      "anchorY": 0.9693,
+      "logicalHeight": 587,
+      "label": "karnes mounted walk s 2",
+      "kind": "famous-karnes-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          777,
+          33,
+          252,
+          583
+        ],
+        "visiblePixels": 82969,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-mounted-walk-n-1": {
+      "sheet": "famous-karnes-mounted-cardinal",
+      "x": 220,
+      "y": 640,
+      "w": 259,
+      "h": 557,
+      "anchorX": 0.5579,
+      "anchorY": 0.9641,
+      "logicalHeight": 587,
+      "label": "karnes mounted walk n 1",
+      "kind": "famous-karnes-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          222,
+          642,
+          255,
+          553
+        ],
+        "visiblePixels": 74507,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "karnes-mounted-walk-n-2": {
+      "sheet": "famous-karnes-mounted-cardinal",
+      "x": 766,
+      "y": 640,
+      "w": 257,
+      "h": 573,
+      "anchorX": 0.4261,
+      "anchorY": 0.9668,
+      "logicalHeight": 587,
+      "label": "karnes mounted walk n 2",
+      "kind": "famous-karnes-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          768,
+          642,
+          253,
+          569
+        ],
+        "visiblePixels": 77245,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "lamar-mounted-walk-s-1": {
+      "sheet": "famous-lamar-mounted-cardinal",
+      "x": 272,
+      "y": 35,
+      "w": 241,
+      "h": 550,
+      "anchorX": 0.5892,
+      "anchorY": 0.9818,
+      "logicalHeight": 550,
+      "label": "lamar mounted walk s 1",
+      "kind": "famous-lamar-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          274,
+          37,
+          237,
+          546
+        ],
+        "visiblePixels": 71934,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "lamar-mounted-walk-s-2": {
+      "sheet": "famous-lamar-mounted-cardinal",
+      "x": 810,
+      "y": 35,
+      "w": 243,
+      "h": 550,
+      "anchorX": 0.4012,
+      "anchorY": 0.9836,
+      "logicalHeight": 550,
+      "label": "lamar mounted walk s 2",
+      "kind": "famous-lamar-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          812,
+          37,
+          239,
+          546
+        ],
+        "visiblePixels": 72484,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "lamar-mounted-walk-n-1": {
+      "sheet": "famous-lamar-mounted-cardinal",
+      "x": 270,
+      "y": 613,
+      "w": 243,
+      "h": 529,
+      "anchorX": 0.5885,
+      "anchorY": 0.9811,
+      "logicalHeight": 550,
+      "label": "lamar mounted walk n 1",
+      "kind": "famous-lamar-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          272,
+          615,
+          239,
+          525
+        ],
+        "visiblePixels": 68601,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "lamar-mounted-walk-n-2": {
+      "sheet": "famous-lamar-mounted-cardinal",
+      "x": 808,
+      "y": 613,
+      "w": 245,
+      "h": 533,
+      "anchorX": 0.4102,
+      "anchorY": 0.9831,
+      "logicalHeight": 550,
+      "label": "lamar mounted walk n 2",
+      "kind": "famous-lamar-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          810,
+          615,
+          241,
+          529
+        ],
+        "visiblePixels": 70047,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sherman-mounted-walk-s-1": {
+      "sheet": "famous-sherman-mounted-cardinal",
+      "x": 229,
+      "y": 29,
+      "w": 242,
+      "h": 587,
+      "anchorX": 0.6198,
+      "anchorY": 0.9761,
+      "logicalHeight": 587,
+      "label": "sherman mounted walk s 1",
+      "kind": "famous-sherman-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          231,
+          31,
+          238,
+          583
+        ],
+        "visiblePixels": 79011,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sherman-mounted-walk-s-2": {
+      "sheet": "famous-sherman-mounted-cardinal",
+      "x": 783,
+      "y": 30,
+      "w": 241,
+      "h": 586,
+      "anchorX": 0.3942,
+      "anchorY": 0.9795,
+      "logicalHeight": 587,
+      "label": "sherman mounted walk s 2",
+      "kind": "famous-sherman-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          785,
+          32,
+          237,
+          582
+        ],
+        "visiblePixels": 79345,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sherman-mounted-walk-n-1": {
+      "sheet": "famous-sherman-mounted-cardinal",
+      "x": 224,
+      "y": 663,
+      "w": 245,
+      "h": 566,
+      "anchorX": 0.6061,
+      "anchorY": 0.977,
+      "logicalHeight": 587,
+      "label": "sherman mounted walk n 1",
+      "kind": "famous-sherman-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          226,
+          665,
+          241,
+          562
+        ],
+        "visiblePixels": 70649,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sherman-mounted-walk-n-2": {
+      "sheet": "famous-sherman-mounted-cardinal",
+      "x": 781,
+      "y": 663,
+      "w": 251,
+      "h": 568,
+      "anchorX": 0.4143,
+      "anchorY": 0.9718,
+      "logicalHeight": 587,
+      "label": "sherman mounted walk n 2",
+      "kind": "famous-sherman-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          783,
+          665,
+          247,
+          564
+        ],
+        "visiblePixels": 72627,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-mounted-walk-s-1": {
+      "sheet": "famous-rusk-mounted-cardinal",
+      "x": 268,
+      "y": 15,
+      "w": 254,
+      "h": 566,
+      "anchorX": 0.6024,
+      "anchorY": 0.977,
+      "logicalHeight": 569,
+      "label": "rusk mounted walk s 1",
+      "kind": "famous-rusk-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          270,
+          17,
+          250,
+          562
+        ],
+        "visiblePixels": 76704,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-mounted-walk-s-2": {
+      "sheet": "famous-rusk-mounted-cardinal",
+      "x": 831,
+      "y": 15,
+      "w": 248,
+      "h": 569,
+      "anchorX": 0.3831,
+      "anchorY": 0.9736,
+      "logicalHeight": 569,
+      "label": "rusk mounted walk s 2",
+      "kind": "famous-rusk-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          833,
+          17,
+          244,
+          565
+        ],
+        "visiblePixels": 74602,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-mounted-walk-n-1": {
+      "sheet": "famous-rusk-mounted-cardinal",
+      "x": 247,
+      "y": 605,
+      "w": 255,
+      "h": 562,
+      "anchorX": 0.6235,
+      "anchorY": 0.9751,
+      "logicalHeight": 569,
+      "label": "rusk mounted walk n 1",
+      "kind": "famous-rusk-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          249,
+          607,
+          251,
+          558
+        ],
+        "visiblePixels": 75743,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rusk-mounted-walk-n-2": {
+      "sheet": "famous-rusk-mounted-cardinal",
+      "x": 821,
+      "y": 606,
+      "w": 254,
+      "h": 562,
+      "anchorX": 0.3406,
+      "anchorY": 0.9733,
+      "logicalHeight": 569,
+      "label": "rusk mounted walk n 2",
+      "kind": "famous-rusk-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          823,
+          608,
+          250,
+          558
+        ],
+        "visiblePixels": 76083,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
