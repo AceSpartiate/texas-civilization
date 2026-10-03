@@ -21,8 +21,15 @@ easy to type, and related to the texas revolution."** and the port: **keep 1835*
   untouched; the Host card and launcher text examples; the injection script (17 node + 3 browser); TEACHER.md, DEPLOYMENT.md,
   HOST_PAGE.md. The Host card, launcher and server needed no code change: they show whatever the module makes.
 
-**Evidence**: tests/join-words.test.mjs 9 of 9 (all 65,536 192.168 addresses and a third of 172.16-31 round-trip). Browser
-proofs: see the end of this section once run.
+- *Glory* was on the first list and is off it: tests/glory-words.test.mjs forbids the word anywhere a student or the Host can read it
+  (docs/MONEY_AND_GLORY.md); *plenty* took its place.
+
+**Evidence**: tests/join-words.test.mjs 9 of 9 (all 65,536 192.168 addresses and a third of 172.16-31 round-trip; the rates above
+written by the test). `test:join-words` green at 1440x900, 1366x768, 1024x600 and 480x800 with Astra's page, and her
+`playtexas-visual-proof.mjs` green; test:join-card (8), test:code-address (7), test:overlap (197 screens, 0 faults) green;
+`node scripts/join-words-injections.mjs --browser` **20 of 20** caught ([record](docs/evidence/join-words-injections.json)).
+`npm test`: **2147 tests, 2110 pass, 1 fail, 36 skipped** - the one is tests/errands.test.mjs's *the popup's facts are ... small*
+("12451 bytes"), which fails the same at the base b66067ee with none of this branch (integration's own, since the herds merge).
 
 ## Join words and playtexas.github.io: "Fewest words, no server" — owner-decided 2026-10-03 (not released)
 

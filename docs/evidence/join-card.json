@@ -5,12 +5,12 @@
   "verdict": "PASS",
   "checks": 8,
   "passed": [
-    "1920x1080: the lobby shows http://127.0.0.1:59286/A174A4 at 22px on 2 lines with the code unbroken, code A174A4 at 26px, and a 180px QR code of the address with the code",
-    "1366x768: the lobby shows http://127.0.0.1:59286/A174A4 at 22px on 2 lines with the code unbroken, code A174A4 at 26px, and a 180px QR code of the address with the code",
-    "1024x768: the lobby shows http://127.0.0.1:59286/A174A4 at 22px on 2 lines with the code unbroken, code A174A4 at 26px, and a 180px QR code of the address with the code",
-    "once the class runs the card folds to one line: \"Join 127.0.0.1:59286/A174A4\"",
+    "1920x1080: the lobby shows http://127.0.0.1:51081/9F5C96 at 22px on 2 lines with the code unbroken, code 9F5C96 at 26px, and a 180px QR code of the address with the code",
+    "1366x768: the lobby shows http://127.0.0.1:51081/9F5C96 at 22px on 2 lines with the code unbroken, code 9F5C96 at 26px, and a 180px QR code of the address with the code",
+    "1024x768: the lobby shows http://127.0.0.1:51081/9F5C96 at 22px on 2 lines with the code unbroken, code 9F5C96 at 26px, and a 180px QR code of the address with the code",
+    "once the class runs the card folds to one line: \"Join 127.0.0.1:51081/9F5C96\"",
     "the teacher opens it again with the keyboard for a latecomer, and it stays open across ticks",
-    "a student who scans it has the class code A174A4 already in the join form, and the address bar is clean",
+    "a student who scans it has the class code 9F5C96 already in the join form, and the address bar is clean",
     "no request from the Host's page left the class's own server (the QR code is made in the page)",
     "no page errors"
   ]
