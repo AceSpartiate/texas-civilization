@@ -127,7 +127,7 @@ export const PEOPLE = Object.freeze({
   // ---------------------------------------------------------------- 1835
   moore: person('moore', 'Moore', TX, 'moore', 1, 'HIST-TEX-474', { fullName: 'John Henry Moore' }),
   castaneda: person('castaneda', 'Castañeda', MX, 'castaneda', 1, 'HIST-TEX-474', { fullName: 'Francisco de Castañeda' }),
-  'wp-smith': person('wp-smith', 'W. P. Smith', TX, 'officer', 2, 'HIST-TEX-470', { fullName: 'the Reverend W. P. Smith' }),
+  'wp-smith': person('wp-smith', 'W. P. Smith', TX, 'wp-smith', 2, 'HIST-TEX-470', { fullName: 'the Reverend W. P. Smith' }),
   smither: person('smither', 'Smither', TX, 'rider', 2, 'HIST-TEX-474', { fullName: 'Launcelot Smither' }),
   austin: person('austin', 'Austin', TX, 'austin', 1, 'HIST-TEX-553', {
     fullName: 'Stephen F. Austin',

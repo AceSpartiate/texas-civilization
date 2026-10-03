@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 201,
-    "sprites": 2162,
-    "clips": 752,
-    "poseCycles": 444,
+    "sheets": 202,
+    "sprites": 2178,
+    "clips": 756,
+    "poseCycles": 448,
     "rigs": 4
   },
   "entrypoints": {
@@ -10638,6 +10638,130 @@
               [
                 820,
                 1057
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-wp-smith": {
+      "image": "atlases/famous-wp-smith.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1120598,
+      "sha256": "8321ad738773e4f3754231a708af233c0b8de57c2d604c94fbb9af0575ada103",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.694296,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              38,
+              335
+            ],
+            "columns": [
+              [
+                62,
+                293
+              ],
+              [
+                400,
+                559
+              ],
+              [
+                670,
+                896
+              ],
+              [
+                1015,
+                1190
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              351,
+              634
+            ],
+            "columns": [
+              [
+                86,
+                246
+              ],
+              [
+                403,
+                565
+              ],
+              [
+                704,
+                855
+              ],
+              [
+                1014,
+                1167
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              649,
+              930
+            ],
+            "columns": [
+              [
+                89,
+                231
+              ],
+              [
+                403,
+                582
+              ],
+              [
+                711,
+                931
+              ],
+              [
+                1029,
+                1171
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              943,
+              1220
+            ],
+            "columns": [
+              [
+                83,
+                230
+              ],
+              [
+                393,
+                564
+              ],
+              [
+                708,
+                915
+              ],
+              [
+                1015,
+                1208
               ]
             ]
           }
@@ -60566,6 +60690,550 @@
       "locationKits": [],
       "promptId": "frontier-v1/famous-urrea-mounted"
     },
+    "wp-smith-walk-e-1": {
+      "sheet": "famous-wp-smith",
+      "x": 62,
+      "y": 43,
+      "w": 231,
+      "h": 291,
+      "anchorX": 0.513,
+      "anchorY": 0.9278,
+      "logicalHeight": 295,
+      "label": "wp smith walk e 1",
+      "kind": "famous-wp-smith",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          64,
+          45,
+          227,
+          287
+        ],
+        "visiblePixels": 30041,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wp-smith-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-walk-e-2": {
+      "sheet": "famous-wp-smith",
+      "x": 400,
+      "y": 38,
+      "w": 159,
+      "h": 295,
+      "anchorX": 0.4371,
+      "anchorY": 0.939,
+      "logicalHeight": 295,
+      "label": "wp smith walk e 2",
+      "kind": "famous-wp-smith",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          402,
+          40,
+          155,
+          291
+        ],
+        "visiblePixels": 26005,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wp-smith-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-walk-e-3": {
+      "sheet": "famous-wp-smith",
+      "x": 670,
+      "y": 45,
+      "w": 226,
+      "h": 290,
+      "anchorX": 0.5088,
+      "anchorY": 0.9276,
+      "logicalHeight": 295,
+      "label": "wp smith walk e 3",
+      "kind": "famous-wp-smith",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          672,
+          47,
+          222,
+          286
+        ],
+        "visiblePixels": 28833,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-walk-e-4": {
+      "sheet": "famous-wp-smith",
+      "x": 1015,
+      "y": 43,
+      "w": 175,
+      "h": 292,
+      "anchorX": 0.4686,
+      "anchorY": 0.9521,
+      "logicalHeight": 295,
+      "label": "wp smith walk e 4",
+      "kind": "famous-wp-smith",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1017,
+          45,
+          171,
+          288
+        ],
+        "visiblePixels": 26857,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-walk-s-1": {
+      "sheet": "famous-wp-smith",
+      "x": 86,
+      "y": 352,
+      "w": 160,
+      "h": 282,
+      "anchorX": 0.4531,
+      "anchorY": 0.9468,
+      "logicalHeight": 295,
+      "label": "wp smith walk s 1",
+      "kind": "famous-wp-smith",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          354,
+          156,
+          278
+        ],
+        "visiblePixels": 25429,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wp-smith-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-walk-s-2": {
+      "sheet": "famous-wp-smith",
+      "x": 403,
+      "y": 351,
+      "w": 162,
+      "h": 283,
+      "anchorX": 0.5031,
+      "anchorY": 0.9399,
+      "logicalHeight": 295,
+      "label": "wp smith walk s 2",
+      "kind": "famous-wp-smith",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          353,
+          158,
+          279
+        ],
+        "visiblePixels": 25598,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wp-smith-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-walk-n-1": {
+      "sheet": "famous-wp-smith",
+      "x": 704,
+      "y": 352,
+      "w": 151,
+      "h": 282,
+      "anchorX": 0.5762,
+      "anchorY": 0.9291,
+      "logicalHeight": 295,
+      "label": "wp smith walk n 1",
+      "kind": "famous-wp-smith",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          354,
+          147,
+          278
+        ],
+        "visiblePixels": 25213,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wp-smith-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-walk-n-2": {
+      "sheet": "famous-wp-smith",
+      "x": 1014,
+      "y": 352,
+      "w": 153,
+      "h": 282,
+      "anchorX": 0.598,
+      "anchorY": 0.9397,
+      "logicalHeight": 295,
+      "label": "wp smith walk n 2",
+      "kind": "famous-wp-smith",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          354,
+          149,
+          278
+        ],
+        "visiblePixels": 25458,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wp-smith-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-idle": {
+      "sheet": "famous-wp-smith",
+      "x": 89,
+      "y": 650,
+      "w": 142,
+      "h": 280,
+      "anchorX": 0.5317,
+      "anchorY": 0.9357,
+      "logicalHeight": 295,
+      "label": "wp smith idle",
+      "kind": "famous-wp-smith",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          652,
+          138,
+          276
+        ],
+        "visiblePixels": 26139,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-speak": {
+      "sheet": "famous-wp-smith",
+      "x": 403,
+      "y": 649,
+      "w": 179,
+      "h": 281,
+      "anchorX": 0.4246,
+      "anchorY": 0.9324,
+      "logicalHeight": 295,
+      "label": "wp smith speak",
+      "kind": "famous-wp-smith",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          651,
+          175,
+          277
+        ],
+        "visiblePixels": 27563,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wp-smith-address"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-exhort": {
+      "sheet": "famous-wp-smith",
+      "x": 711,
+      "y": 650,
+      "w": 220,
+      "h": 280,
+      "anchorX": 0.3591,
+      "anchorY": 0.9393,
+      "logicalHeight": 295,
+      "label": "wp smith exhort",
+      "kind": "famous-wp-smith",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          652,
+          216,
+          276
+        ],
+        "visiblePixels": 28142,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wp-smith-address"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-listen": {
+      "sheet": "famous-wp-smith",
+      "x": 1029,
+      "y": 649,
+      "w": 142,
+      "h": 281,
+      "anchorX": 0.5317,
+      "anchorY": 0.9431,
+      "logicalHeight": 295,
+      "label": "wp smith listen",
+      "kind": "famous-wp-smith",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1031,
+          651,
+          138,
+          277
+        ],
+        "visiblePixels": 26085,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-book": {
+      "sheet": "famous-wp-smith",
+      "x": 83,
+      "y": 943,
+      "w": 147,
+      "h": 275,
+      "anchorX": 0.5374,
+      "anchorY": 0.9382,
+      "logicalHeight": 295,
+      "label": "wp smith book",
+      "kind": "famous-wp-smith",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          85,
+          945,
+          143,
+          271
+        ],
+        "visiblePixels": 25319,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-read": {
+      "sheet": "famous-wp-smith",
+      "x": 393,
+      "y": 943,
+      "w": 171,
+      "h": 275,
+      "anchorX": 0.4737,
+      "anchorY": 0.9418,
+      "logicalHeight": 295,
+      "label": "wp smith read",
+      "kind": "famous-wp-smith",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          395,
+          945,
+          167,
+          271
+        ],
+        "visiblePixels": 26332,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-point": {
+      "sheet": "famous-wp-smith",
+      "x": 708,
+      "y": 945,
+      "w": 207,
+      "h": 273,
+      "anchorX": 0.3865,
+      "anchorY": 0.9377,
+      "logicalHeight": 295,
+      "label": "wp smith point",
+      "kind": "famous-wp-smith",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          710,
+          947,
+          203,
+          269
+        ],
+        "visiblePixels": 27299,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
+    "wp-smith-rest": {
+      "sheet": "famous-wp-smith",
+      "x": 1015,
+      "y": 970,
+      "w": 193,
+      "h": 250,
+      "anchorX": 0.5,
+      "anchorY": 0.928,
+      "logicalHeight": 295,
+      "label": "wp smith rest",
+      "kind": "famous-wp-smith",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1017,
+          972,
+          189,
+          246
+        ],
+        "visiblePixels": 27579,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-wp-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-wp-smith"
+    },
     "flag-come-and-take-it": {
       "sheet": "flag-come-and-take-it",
       "x": 142,
@@ -99853,6 +100521,70 @@
       "motion": "none",
       "direction": "east"
     },
+    "wp-smith-walk-e": {
+      "frames": [
+        {
+          "sprite": "wp-smith-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "wp-smith-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "wp-smith-walk-s": {
+      "frames": [
+        {
+          "sprite": "wp-smith-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "wp-smith-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "wp-smith-walk-n": {
+      "frames": [
+        {
+          "sprite": "wp-smith-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "wp-smith-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "wp-smith-address": {
+      "frames": [
+        {
+          "sprite": "wp-smith-speak",
+          "duration": 850
+        },
+        {
+          "sprite": "wp-smith-exhort",
+          "duration": 1000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "flag-come-and-take-it-wind": {
       "frames": [
         {
@@ -110978,7 +111710,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 201,
+    "sourceCount": 202,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

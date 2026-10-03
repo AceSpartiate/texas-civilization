@@ -6722,6 +6722,70 @@
       "motion": "none",
       "direction": "east"
     },
+    "wp-smith-walk-e": {
+      "frames": [
+        {
+          "sprite": "wp-smith-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "wp-smith-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "wp-smith-walk-s": {
+      "frames": [
+        {
+          "sprite": "wp-smith-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "wp-smith-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "wp-smith-walk-n": {
+      "frames": [
+        {
+          "sprite": "wp-smith-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "wp-smith-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "wp-smith-address": {
+      "frames": [
+        {
+          "sprite": "wp-smith-speak",
+          "duration": 850
+        },
+        {
+          "sprite": "wp-smith-exhort",
+          "duration": 1000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "flag-come-and-take-it-wind": {
       "frames": [
         {

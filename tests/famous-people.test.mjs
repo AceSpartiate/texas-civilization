@@ -19,6 +19,15 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld } from '../sim/world.mjs';
 
 const copy = value => JSON.parse(JSON.stringify(value));
+test('W. P. Smith keeps his documented Gonzales address with dedicated art', () => {
+  assert.equal(PEOPLE['wp-smith'].art, 'wp-smith');
+  const phase = ENGAGEMENTS.gonzales.phases.find(p => p.people?.some(one => one.id === 'wp-smith'));
+  assert.equal(phase.people.find(p => p.id === 'wp-smith').pose, 'command');
+  const lines = phase.lines.filter(line => line.person === 'wp-smith');
+  assert.equal(lines.length, 2);
+  assert.ok(lines.every(line => line.claimId === 'HIST-TEX-470'));
+  assert.equal(lines[1].text, 'We must fight, and we will fight!');
+});
 test('Barragán retains his intervention route and timing with dedicated art', () => {
   assert.equal(PEOPLE.barragan.art, 'barragan');
   const captain = ALAMO.phases.find(p => p.id === 'end').people.find(p => p.id === 'barragan');

@@ -40,6 +40,13 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('W. P. Smith delivers his address with his own civilian art', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const speaker = { id: 'wp-smith', art: 'wp-smith', name: 'W. P. Smith', side: 'texian', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => night(minute, [], { people: [speaker] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'wp-smith-address'));
+});
+
 test('Barragán intervenes using his own protective gesture', () => {
   const art = fakeArt(), view = createBattleView(art);
   const captain = { id: 'barragan', art: 'barragan', name: 'Barragán', side: 'mexican', x: 0, y: 0, right: true, pose: 'command' };

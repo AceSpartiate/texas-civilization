@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2162 usable sprites, 201 PNG atlases, 752 clips** (444 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2178 usable sprites, 202 PNG atlases, 756 clips** (448 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -121,6 +121,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-sherman-mounted | 4 | 1240 × 1269 | 1426561 |
 | famous-urrea | 16 | 1254 × 1254 | 955697 |
 | famous-urrea-mounted | 4 | 1226 × 1283 | 1293956 |
+| famous-wp-smith | 16 | 1254 × 1254 | 1120598 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
 | goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
@@ -1431,6 +1432,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | urrea-mounted-walk-e-2 | famous-urrea-mounted | urrea-mounted-walk-e |
 | urrea-mounted-idle-e | famous-urrea-mounted | State artwork; no motion required |
 | urrea-mounted-idle-s | famous-urrea-mounted | State artwork; no motion required |
+| wp-smith-walk-e-1 | famous-wp-smith | wp-smith-walk-e |
+| wp-smith-walk-e-2 | famous-wp-smith | wp-smith-walk-e |
+| wp-smith-walk-e-3 | famous-wp-smith | State artwork; no motion required |
+| wp-smith-walk-e-4 | famous-wp-smith | State artwork; no motion required |
+| wp-smith-walk-s-1 | famous-wp-smith | wp-smith-walk-s |
+| wp-smith-walk-s-2 | famous-wp-smith | wp-smith-walk-s |
+| wp-smith-walk-n-1 | famous-wp-smith | wp-smith-walk-n |
+| wp-smith-walk-n-2 | famous-wp-smith | wp-smith-walk-n |
+| wp-smith-idle | famous-wp-smith | State artwork; no motion required |
+| wp-smith-speak | famous-wp-smith | wp-smith-address |
+| wp-smith-exhort | famous-wp-smith | wp-smith-address |
+| wp-smith-listen | famous-wp-smith | State artwork; no motion required |
+| wp-smith-book | famous-wp-smith | State artwork; no motion required |
+| wp-smith-read | famous-wp-smith | State artwork; no motion required |
+| wp-smith-point | famous-wp-smith | State artwork; no motion required |
+| wp-smith-rest | famous-wp-smith | State artwork; no motion required |
 | flag-come-and-take-it | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
@@ -2809,6 +2826,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | urrea-walk-s | Pose cycle | 2 | 580 | yes | south |
 | urrea-walk-n | Pose cycle | 2 | 580 | yes | north |
 | urrea-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| wp-smith-walk-e | Pose cycle | 2 | 560 | yes | east |
+| wp-smith-walk-s | Pose cycle | 2 | 560 | yes | south |
+| wp-smith-walk-n | Pose cycle | 2 | 560 | yes | north |
+| wp-smith-address | Pose cycle | 2 | 1850 | yes | east; mirror for west |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
