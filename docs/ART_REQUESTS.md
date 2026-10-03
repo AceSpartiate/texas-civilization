@@ -1517,3 +1517,8 @@ The famous-person delivery in `scripts/art-deliveries/famous-grant.mjs` adds six
 
 The mounted carbine request now has four authored poses in dragoon-carbine-actions and a live dragoon-fire binding. The lancer-charge request has four registered gallop frames, available for explicit lancer staging; generic dragoons retain their existing movement. See ART_DELIVERY_2026-10-03-CAVALRY.md for integration, animation limits and tests.
 
+
+## Delivered 2026-10-03 — Coleto prone marksmen
+
+Coleto item 1 now has four transparent prone poses and a registered firing clip, bound to existing Mexican loose formations in dusk/night/small-hours. See ART_DELIVERY_2026-10-03-COLETO-PRONE.md for timing, scaling, provenance and remaining full-reload work.
+

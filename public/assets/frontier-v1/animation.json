@@ -2594,6 +2594,30 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "regular-prone-fire-reload": {
+      "frames": [
+        {
+          "sprite": "regular-prone-aim",
+          "duration": 700
+        },
+        {
+          "sprite": "regular-prone-fire",
+          "duration": 120
+        },
+        {
+          "sprite": "regular-prone-lock",
+          "duration": 750
+        },
+        {
+          "sprite": "regular-prone-lock",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "mother-scarf-walk": {
       "frames": [
         {

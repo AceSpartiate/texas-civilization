@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2502 usable sprites, 268 PNG atlases, 885 clips** (577 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2506 usable sprites, 269 PNG atlases, 886 clips** (578 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -51,6 +51,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-children-care | 12 | 1254 × 1254 | 1425070 |
 | land-clearing | 16 | 1254 × 1254 | 904975 |
 | coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
+| regular-prone-actions | 4 | 1536 × 1024 | 1506423 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
@@ -641,6 +642,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | cart-baggage-tilt-1 | coleto-baggage-cart | cart-baggage-tip |
 | cart-baggage-tilt-2 | coleto-baggage-cart | cart-baggage-tip |
 | cart-tipped | coleto-baggage-cart | cart-baggage-tip |
+| regular-prone-lie | regular-prone-actions | State artwork; no motion required |
+| regular-prone-aim | regular-prone-actions | regular-prone-fire-reload |
+| regular-prone-fire | regular-prone-actions | regular-prone-fire-reload |
+| regular-prone-lock | regular-prone-actions | regular-prone-fire-reload |
 | icon-survey-plot | icons-family-actions-1 | State artwork; no motion required |
 | icon-cut-lane | icons-family-actions-1 | State artwork; no motion required |
 | icon-dig-well | icons-family-actions-1 | State artwork; no motion required |
@@ -2957,6 +2962,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
+| regular-prone-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
 | mother-scarf-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
 | mother-scarf-walk-s | Pose cycle | 2 | 560 | yes | south |
 | mother-scarf-walk-n | Pose cycle | 2 | 560 | yes | north |

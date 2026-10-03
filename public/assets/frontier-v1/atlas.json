@@ -3396,6 +3396,64 @@
         ]
       }
     },
+    "regular-prone-actions": {
+      "image": "atlases/regular-prone-actions.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1506423,
+      "sha256": "ea8c0ae613db3c2f137444b3f7e21d1182609c5f9513576cc48432f14561f6bc",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.817814,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              202,
+              449
+            ],
+            "columns": [
+              [
+                46,
+                799
+              ],
+              [
+                815,
+                1490
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              621,
+              886
+            ],
+            "columns": [
+              [
+                44,
+                799
+              ],
+              [
+                807,
+                1504
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "icons-family-actions-1": {
       "image": "atlases/icons-family-actions-1.png",
       "width": 1254,
@@ -32100,6 +32158,102 @@
           244
         ],
         "visiblePixels": 95888,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-prone-lie": {
+      "sheet": "regular-prone-actions",
+      "x": 46,
+      "y": 202,
+      "w": 753,
+      "h": 246,
+      "anchorX": 0.6341,
+      "anchorY": 0.9268,
+      "label": "regular prone lie",
+      "kind": "regular-prone-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          204,
+          749,
+          242
+        ],
+        "visiblePixels": 69649,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-prone-aim": {
+      "sheet": "regular-prone-actions",
+      "x": 815,
+      "y": 204,
+      "w": 675,
+      "h": 245,
+      "anchorX": 0.3726,
+      "anchorY": 0.9265,
+      "label": "regular prone aim",
+      "kind": "regular-prone-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          206,
+          671,
+          241
+        ],
+        "visiblePixels": 60552,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-prone-fire": {
+      "sheet": "regular-prone-actions",
+      "x": 44,
+      "y": 621,
+      "w": 755,
+      "h": 261,
+      "anchorX": 0.2801,
+      "anchorY": 0.9272,
+      "label": "regular prone fire",
+      "kind": "regular-prone-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          46,
+          623,
+          751,
+          257
+        ],
+        "visiblePixels": 68324,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-prone-lock": {
+      "sheet": "regular-prone-actions",
+      "x": 807,
+      "y": 642,
+      "w": 697,
+      "h": 244,
+      "anchorX": 0.4584,
+      "anchorY": 0.9262,
+      "label": "regular prone lock",
+      "kind": "regular-prone-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          809,
+          644,
+          693,
+          240
+        ],
+        "visiblePixels": 62784,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

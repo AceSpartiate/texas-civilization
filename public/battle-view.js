@@ -527,7 +527,8 @@ export function createBattleView(art) {
         if (offScreen(point)) continue;
         // On a flat roof behind its parapet: drawn standing up on the house, not in the street below it.
         if (side.cover === 'roof') point.y -= figurePx * 0.5;
-        const size = kind === 'dragoon' || kind === 'rider' ? figurePx * 1.35 : figurePx;
+        const prone = battle.id === 'coleto' && ['dusk', 'night', 'small-hours'].includes(battle.phase) && side.side === 'mexican' && side.style === 'loose' && kind === 'regular';
+        const size = prone ? figurePx * 0.35 : kind === 'dragoon' || kind === 'rider' ? figurePx * 1.35 : figurePx;
         const seed = seedKey;
         // Which way this man faces: out of his face of a square, or the way his body of men faces.
         const right = slot.out ? (facing.x * slot.out.along - facing.y * slot.out.across) >= 0 : sideRight;
@@ -656,6 +657,7 @@ export function createBattleView(art) {
           const t = (time + (slot.phase ?? hash(`${seed}:p`)) * 20000) % cycle;
           if (t < wait) {
             sprite = slot.kneel ? `${kind}-load` : `${kind}-${right ? 'e' : 'w'}`; still = true; flip = slot.kneel ? !right : false;
+            if (prone) { sprite = 'regular-prone-lie'; flip = !right; }
             // Under a bank (Concepción's riverbank, the Grass Fight's creek beds): dropped below the lip to load, up on the cut step
             // to fire. stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 2 - the loading figure
             // drawn lower, kneeling, until a climbing pose exists.
@@ -663,6 +665,7 @@ export function createBattleView(art) {
           }
           else {
             clip = `${kind}-fire-reload`; timeMs = t - wait;
+            if (prone) clip = 'regular-prone-fire-reload';
             const shotKey = `${seed}:${Math.floor((time + (slot.phase ?? 0) * 20000) / cycle)}`;
             if (timeMs >= AIM_MS && timeMs < AIM_MS + 400 && !view.shotsSeen.has(shotKey) && !still) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
