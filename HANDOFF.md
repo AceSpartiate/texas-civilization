@@ -99,8 +99,6 @@ Neill now has a dedicated 4×4 transparent atlas in `scripts/art-deliveries/famo
 
 Karnes now has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-karnes.mjs`, with directional travel, musket, field gestures, and a two-frame iron crowbar cycle. `PERSON_ART.karnes` binds the sprites. During the Béxar door phase, the named Karnes performs the crowbar action; the duplicate generic worker is suppressed, and he returns to idle when that door opens. This changes presentation only, preserving the dated breach, York’s company, and the townspeople. Source/provenance and the complete sprite/clip inventory are in `docs/art-prompts.json`, `docs/art-provenance.json`, and `docs/ART_MANIFEST.md`. The outfit and horse are artistic interpretations, not portrait claims. A generic reusable crowbar worker and additional facings remain in `docs/ART_REQUESTS.md`.
 
-# Claude handoff — Astra foundation
-
 ## The family figures' missing poses: test:hunt fixed, the art requested — 2026-10-03 (not released)
 
 Branch `astra-poses` off local `integration-2026-09-28` (0348bfbb, with astra-merge); not pushed. Same computer only. The owner's
