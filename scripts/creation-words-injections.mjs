@@ -102,7 +102,7 @@ const INJECTIONS = [
   {
     name: 'the looks pop-up loses its step line, so a second parent is an unannounced second screen',
     file: APPEARANCE,
-    from: "    step.textContent = `Step 4 of 4. ${of > 1 ? `Parent ${index + 1} of ${of}. ` : ''}Done ${last ? 'finishes your family' : 'brings up the next parent'}.`;",
+    from: "    step.textContent = `Step ${steps} of ${steps}. ${of > 1 ? `Parent ${index + 1} of ${of}. ` : ''}${last ? 'Save when ready to meet your family.' : 'Save this look, then choose the next parent.'}`;",
     to: "    step.textContent = '';",
   },
   {

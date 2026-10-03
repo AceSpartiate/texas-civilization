@@ -179,7 +179,8 @@ try {
   observed.about = hoeing;
   assert.deepEqual(hoeing.strokes, ['about'], `working about the place is drawn as ${hoeing.strokes}`);
   assert.ok(hoeing.clips.every(clip => /-work$/.test(clip)), `working about the place is drawn in ${hoeing.clips}, not the hoeing cycle`);
-  assert.ok(hoeing.frames.length >= 3, `the hoeing cycle showed ${hoeing.frames.length} frames in 2.4 seconds`);
+  // Astra's family figures (2026-10-02) have a two-pose work cycle; the old cast's had more. Two is a cycle that moves.
+  assert.ok(hoeing.frames.length >= 2, `the hoeing cycle showed ${hoeing.frames.length} frames in 2.4 seconds`);
   assert.ok(hoeing.marks.some(n => n > 0) && hoeing.marks.includes(0), `the dust was never thrown, or never settled: ${hoeing.marks}`);
   assert.ok(hoeing.prints >= 3, `the pixels round the hoer changed ${hoeing.prints} times`);
   await closeUp(page, [about.id], 'about-close');
@@ -212,7 +213,8 @@ try {
   const middle = spots.reduce((sum, spot) => sum + spot.x, 0) / spots.length;
   for (const [i, one] of crew.entries()) {
     const seen = house[one.id];
-    assert.ok(seen.frames.length >= 3 && seen.marks.some(n => n > 0), `${one.name} on the house: frames ${seen.frames}, marks ${seen.marks}`);
+    // Two poses or more: Astra's family figures (2026-10-02) have a two-pose work cycle.
+    assert.ok(seen.frames.length >= 2 && seen.marks.some(n => n > 0), `${one.name} on the house: frames ${seen.frames}, marks ${seen.marks}`);
     // Felling for the house is the hoeing cycle with a drawn axe over it (the stand-in), or - for a figure whose library holds
     // a cycle of the work itself, `-chop` and `-notch` since 2026-09-28 (Claude-drawn, all eight) - that cycle, with its own axe
     // and the chips.

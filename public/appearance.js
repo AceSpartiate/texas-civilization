@@ -10,6 +10,7 @@
 
 import { drawAvatarFigure, drawAvatarPortrait } from '/avatar-art.js';
 import { loadArt, onArtReady } from '/art.js';
+import { SKIN_COLOURS, HAIR_COLOURS, CLOTHING_COLOURS } from '/looks-art.js';
 
 const PARTS = Object.freeze([
   ['skin', 'Skin'],
@@ -24,6 +25,10 @@ let actions = null;
 let showing = null; // the parent's id the pop-up is drawn for
 let picked = null;  // what is chosen in the pop-up so far
 let saving = false;
+let previewWalking = false;
+let previewDirection = 's';
+let previewPerson = null;
+const COLOURS = { skin: SKIN_COLOURS, hair: HAIR_COLOURS, clothing: CLOTHING_COLOURS };
 
 const make = (tag, text, className) => {
   const node = document.createElement(tag);
@@ -44,19 +49,22 @@ const placeOf = (family, id) => {
 };
 
 function draw(person, { index = 0, of = 1, steps = 4 } = {}) {
+  previewPerson = person;
   const box = document.querySelector('#looks');
   document.querySelector('#looks-title').textContent = `How ${person.given || person.name} looks`;
-  document.querySelector('#looks-role').textContent = person.role ? capital(person.role) : '';
+  document.querySelector('#looks-role').textContent = `${person.role === 'mother' ? 'Mom' : 'Dad'}${Number.isFinite(person.age) ? ` · Age ${person.age}` : ''}`;
   // Which parent of how many, and what Done does next. A family with two parents showed the father, took Done, and put the
   // mother up with nothing having said there was a second screen (2026-09-21) - the same fault as the map click. Counted
   // over every parent of the family, not over the ones still waiting, so the total does not shrink as they are answered.
   const step = document.querySelector('#looks-step');
   if (step) {
     const last = index + 1 >= of;
-    step.textContent = `Step ${steps} of ${steps}. ${of > 1 ? `Parent ${index + 1} of ${of}. ` : ''}Done ${last ? 'finishes your family' : 'brings up the next parent'}.`;
+    // The step counter (four steps, three without a die) and Astra's Save wording (2026-10-02), whose button says the same.
+    step.textContent = `Step ${steps} of ${steps}. ${of > 1 ? `Parent ${index + 1} of ${of}. ` : ''}${last ? 'Save when ready to meet your family.' : 'Save this look, then choose the next parent.'}`;
   }
-  drawAvatarPortrait(document.querySelector('#looks-preview'), picked, person.sex);
-  drawAvatarFigure(document.querySelector('#looks-figure'), picked, person.sex);
+  drawAvatarPortrait(document.querySelector('#looks-preview'), picked, person.sex, person);
+  drawAvatarFigure(document.querySelector('#looks-figure'), picked, person.sex, person, { walking: previewWalking, direction: previewDirection });
+  document.querySelector('#looks-summary').textContent = `${capital(picked.skin)} skin · ${picked.hair} hair · ${picked.clothing} clothes`;
   const rows = document.querySelector('#looks-parts');
   rows.replaceChildren(...PARTS.map(([part, label]) => {
     const row = make('fieldset', null, 'looks-part');
@@ -70,16 +78,26 @@ function draw(person, { index = 0, of = 1, steps = 4 } = {}) {
       option.setAttribute('aria-pressed', String(picked[part] === value));
       const words = part === 'head' ? HEAD_WORDS[value] || value : capital(value);
       option.setAttribute('aria-label', `${label || 'Head'}: ${words}`);
-      const canvas = make('canvas');
-      canvas.width = canvas.height = 64;
-      drawAvatarPortrait(canvas, { ...picked, [part]: value }, person.sex);
-      option.append(canvas, make('span', words));
+      if (part === 'head') {
+        const canvas = make('canvas');
+        canvas.width = canvas.height = 96;
+        drawAvatarPortrait(canvas, { ...picked, [part]: value }, person.sex, person);
+        option.append(canvas);
+      } else {
+        const swatch = make('span', null, 'looks-swatch');
+        swatch.style.backgroundColor = COLOURS[part][value];
+        swatch.setAttribute('aria-hidden', 'true');
+        option.append(swatch);
+        option.classList.add('looks-colour-option');
+      }
+      option.append(make('span', words));
       options.append(option);
     }
     row.append(options);
     return row;
   }));
   box.dataset.entityId = person.id;
+  document.querySelector('#looks-done').textContent = index + 1 < of ? 'Save & choose the next parent' : 'Save & meet your family';
 }
 
 /** Show the pop-up while a parent waits to be chosen for, and only once the family has its last name. */
@@ -92,6 +110,9 @@ export function renderLooks(family, { blocked = false } = {}) {
   if (!next) { box.hidden = true; showing = null; return; }
   if (showing !== next.id) {
     showing = next.id;
+    previewWalking = false;
+    previewDirection = 's';
+    document.querySelector('#looks-walk').setAttribute('aria-pressed', 'false');
     picked = { ...next.appearance };
     document.querySelector('#looks-error').textContent = '';
     draw(next, placeOf(family, next.id));
@@ -112,7 +133,23 @@ export function bindLooks({ command, refresh, family }) {
     const person = waiting(book).find(one => one.id === showing);
     if (person) draw(person, placeOf(book, person.id));
   });
-  loadArt({ sheets: ['people-cast2-idle'] });
+  loadArt({ sheets: ['people-cast2-idle', ...['mother-scarf', 'mother-braid', 'mother-loose', 'mother-straw', 'father-hat', 'father-beard', 'father-moustache', 'father-straw'].map(name => `people-family-${name}`)] });
+  document.querySelector('#looks-walk')?.addEventListener('click', event => {
+    previewWalking = !previewWalking;
+    event.currentTarget.setAttribute('aria-pressed', String(previewWalking));
+  });
+  document.querySelector('#looks-turn')?.addEventListener('click', () => {
+    const directions = ['s', 'e', 'n', 'w'];
+    previewDirection = directions[(directions.indexOf(previewDirection) + 1) % 4];
+  });
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  function animatePreview(time) {
+    if (showing && previewPerson && !document.querySelector('#looks')?.hidden) {
+      drawAvatarFigure(document.querySelector('#looks-figure'), picked, previewPerson.sex, previewPerson, { walking: previewWalking, direction: previewDirection, time: reduced.matches ? 0 : time });
+    }
+    requestAnimationFrame(animatePreview);
+  }
+  requestAnimationFrame(animatePreview);
   document.querySelector('#looks-parts')?.addEventListener('click', event => {
     const option = event.target.closest('button[data-part]');
     if (!option || !picked) return;

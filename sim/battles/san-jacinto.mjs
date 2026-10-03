@@ -363,8 +363,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       guns: { 'twin-sister-1': [0, 3], 'twin-sister-2': [1, 4], 'mexican-gun': [5] },
       people: [
         ...LINE_OFFICERS,
-        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'command' },
-        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork' },
+        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'gun' },
+        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork', pose: 'gun' },
         { id: 'castrillon', at: 'crate', face: 'close', pose: 'command', during: [3, 6] },
       ],
       lines: [
@@ -385,8 +385,8 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       guns: { 'twin-sister-1': [1], 'twin-sister-2': [1], 'mexican-gun': [] },
       people: [
         ...LINE_OFFICERS,
-        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'command' },
-        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork' },
+        { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'gun' },
+        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork', pose: 'gun' },
         { id: 'castrillon', at: 'crate', face: 'close', pose: 'command' },
       ],
       falls: [{ side: MEX, count: 3, at: 1, claimId: 'HIST-TEX-067' }],
@@ -456,7 +456,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       texian: { style: 'loose', at: 'marshEdge', action: 'hold', fire: 'scattered', spread: { width: 0.5, depth: 0.12 } },
       mexican: { style: 'rout', keys: [[0, 'marsh'], [100, 'lake']], action: 'withdraw', face: 'away', fire: 'none', surrendering: 0.35 },
       // Houston, wounded, and Rusk trying to stop it (`HIST-TEX-524`), at the bank.
-      people: [{ id: 'houston', with: 'texian', offset: { along: -0.02, across: 0.02 }, pose: 'ride' }, { id: 'rusk', with: 'texian', offset: { along: -0.01, across: 0.05 }, pose: 'command' }],
+      people: [{ id: 'houston', with: 'texian', offset: { along: -0.02, across: 0.02 }, pose: 'ride' }, { id: 'rusk', with: 'texian', offset: { along: -0.01, across: 0.05 }, pose: 'stop' }],
       falls: [
         { side: MEX, count: 3, at: 10, claimId: 'HIST-TEX-524' },
         { side: MEX, count: 3, at: 30, claimId: 'HIST-TEX-524' },

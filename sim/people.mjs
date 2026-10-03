@@ -198,7 +198,7 @@ export const PEOPLE = Object.freeze({
   castaneda: person('castaneda', 'Castañeda', MX, 'castaneda', 1, 'HIST-TEX-474', { fullName: 'Francisco de Castañeda' }),
   'wp-smith': person('wp-smith', 'W. P. Smith', TX, 'wp-smith', 2, 'HIST-TEX-470', { fullName: 'the Reverend W. P. Smith' }),
   smither: person('smither', 'Smither', TX, 'smither', 2, 'HIST-TEX-474', { fullName: 'Launcelot Smither' }),
-  austin: person('austin', 'Austin', TX, 'officer', 1, 'HIST-TEX-553', {
+  austin: person('austin', 'Austin', TX, 'austin', 1, 'HIST-TEX-553', {
     fullName: 'Stephen F. Austin',
     // Commander of the volunteer army from October 11 to November 25, 1835: with the army wherever it marches (sim/army.mjs).
     map: [{ from: 'organised', until: 'austin-leaves', with: 'army:force', doing: 'command', claimId: 'HIST-TEX-553' }],
@@ -222,23 +222,23 @@ export const PEOPLE = Object.freeze({
     // Killed passing into the Veramendi yard (`HIST-TEX-039`): the phase's own named fall draws him down there.
     fate: { kind: 'killed', battle: 'bexar-storming', phase: 'milam', at: 0, claimId: 'HIST-TEX-039', byFall: true },
   }),
-  johnson: person('johnson', 'Johnson', TX, 'officer', 2, 'HIST-TEX-039', { fullName: 'Francis W. Johnson' }),
-  karnes: person('karnes', 'Karnes', TX, 'frontiersman', 2, 'HIST-TEX-038', { fullName: 'Henry Wax Karnes' }),
-  'deaf-smith': person('deaf-smith', 'Deaf Smith', TX, 'rider', 2, 'HIST-TEX-555', { fullName: 'Erastus (Deaf) Smith' }),
-  neill: person('neill', 'Neill', TX, 'officer', 2, 'HIST-TEX-565', {
+  johnson: person('johnson', 'Johnson', TX, 'johnson', 2, 'HIST-TEX-039', { fullName: 'Francis W. Johnson' }),
+  karnes: person('karnes', 'Karnes', TX, 'frontiersman', 2, 'HIST-TEX-038', { fullName: 'Henry Wax Karnes', art: 'karnes' }),
+  'deaf-smith': person('deaf-smith', 'Deaf Smith', TX, 'deaf-smith', 2, 'HIST-TEX-555', { fullName: 'Erastus (Deaf) Smith' }),
+  neill: person('neill', 'Neill', TX, 'neill', 2, 'HIST-TEX-565', {
     fullName: 'James C. Neill',
     fate: { kind: 'wounded', battle: 'san-jacinto', phase: 'skirmish', at: 13, claimId: 'HIST-TEX-565' },
   }),
   condelle: person('condelle', 'Condelle', MX, 'condelle', 2, 'HIST-TEX-491', { fullName: 'Colonel Nicolás Condelle' }),
   'sanchez-navarro': person('sanchez-navarro', 'Sánchez Navarro', MX, 'sanchez-navarro', 2, 'HIST-TEX-491', { fullName: 'José Juan Sánchez Navarro' }),
   // ---------------------------------------------------------------- the south and Goliad
-  grant: person('grant', 'Grant', TX, 'rider', 2, 'HIST-TEX-556', {
+  grant: person('grant', 'Grant', TX, 'grant', 2, 'HIST-TEX-556', {
     fullName: 'James Grant',
     // Killed after he had surrendered and dismounted: told, not drawn; last seen riding with the lancers after him.
     fate: { kind: 'killed', told: true, battle: 'agua-dulce', phase: 'ambush', at: 16, claimId: 'HIST-TEX-556' },
   }),
   // With his column from Refugio (`HIST-TEX-591` to `-593`), except while Coleto draws him on its field.
-  urrea: person('urrea', 'Urrea', MX, 'general', 1, 'HIST-TEX-063', { fullName: 'José de Urrea',
+  urrea: person('urrea', 'Urrea', MX, 'urrea', 1, 'HIST-TEX-063', { fullName: 'José de Urrea',
     map: [
       { from: on(1836, 3, 14, 6), until: 'fannin-marches', with: 'column:urrea', doing: 'ride', claimId: 'HIST-TEX-591' },
       { from: on(1836, 3, 21, 7, 30), until: on(1836, 4, 25, 15), with: 'column:urrea', doing: 'ride', claimId: 'HIST-TEX-591' },
@@ -252,11 +252,11 @@ export const PEOPLE = Object.freeze({
     fate: { kind: 'wounded', battle: 'san-jacinto', phase: 'charge', at: 3, claimId: 'HIST-TEX-564' },
     map: [{ from: on(1836, 3, 11, 16), until: 'san-jacinto-field', with: 'houston', doing: 'command', claimId: 'HIST-TEX-564' }],
   }),
-  rusk: person('rusk', 'Rusk', TX, 'officer', 2, 'HIST-TEX-524', { fullName: 'Thomas J. Rusk' }),
-  sherman: person('sherman', 'Sherman', TX, 'rider', 2, 'HIST-TEX-565', { fullName: 'Sidney Sherman' }),
-  lamar: person('lamar', 'Lamar', TX, 'rider', 2, 'HIST-TEX-565', { fullName: 'Mirabeau B. Lamar' }),
-  hockley: person('hockley', 'Hockley', TX, 'officer', 2, 'HIST-TEX-558', { fullName: 'George W. Hockley' }),
-  mcculloch: person('mcculloch', 'McCulloch', TX, 'officer', 2, 'HIST-TEX-558', { fullName: 'Ben McCulloch' }),
+  rusk: person('rusk', 'Rusk', TX, 'rusk', 2, 'HIST-TEX-524', { fullName: 'Thomas J. Rusk' }),
+  sherman: person('sherman', 'Sherman', TX, 'sherman', 2, 'HIST-TEX-565', { fullName: 'Sidney Sherman' }),
+  lamar: person('lamar', 'Lamar', TX, 'lamar', 2, 'HIST-TEX-565', { fullName: 'Mirabeau B. Lamar' }),
+  hockley: person('hockley', 'Hockley', TX, 'hockley', 2, 'HIST-TEX-558', { fullName: 'George W. Hockley' }),
+  mcculloch: person('mcculloch', 'McCulloch', TX, 'mcculloch', 2, 'HIST-TEX-558', { fullName: 'Ben McCulloch' }),
   almonte: person('almonte', 'Almonte', MX, 'almonte', 2, 'HIST-TEX-568', { fullName: 'Juan Nepomuceno Almonte' }),
   'emily-west': person('emily-west', 'Emily West', TX, 'emily-west', 1, 'HIST-TEX-569', {
     fullName: 'Emily D. West',
@@ -279,7 +279,7 @@ export const PEOPLE = Object.freeze({
 });
 
 /** The poses a person may be given in a phase (public/battle-view.js draws each; a stand-in where the art has none). */
-export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'offer-sword', 'receive-sword', 'sword-down', 'prisoner', 'interpret', 'carry', 'gun']);
+export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'offer-sword', 'receive-sword', 'sword-down', 'prisoner', 'interpret', 'carry', 'gun', 'work', 'stop', 'escape']);
 /** What may befall a famous person in the window. `told` fates are never drawn. */
 export const FATE_KINDS = Object.freeze(['killed', 'executed', 'wounded', 'captured']);
 /** A person by id, or throw: every name the engine draws is one of these. */

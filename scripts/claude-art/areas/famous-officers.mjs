@@ -5,8 +5,9 @@
 // the battles have riding; and Castrillón's north and south walks, which his delivered sheet lacks.
 //
 // Not drawn here, because Astra has delivered them on `main` since the plan was written (2026-09-28: famous-austin, -urrea,
-// -deaf-smith, -karnes, -neill, -lamar, -sherman, -rusk, -hockley, -mcculloch, -johnson, -grant): a Claude stand-in for any of
-// them would only lose to hers in the loader.
+// -deaf-smith, -karnes, -neill, -lamar, -sherman, -rusk, -hockley, -mcculloch, -johnson, -grant), nor Condelle, whom she delivered
+// on 2026-10-02 (famous-condelle; Claude's sheet of him was deleted when it was merged): a Claude stand-in for any of them would
+// only lose to hers in the loader.
 //
 // Every face is an original interpretation, never a likeness (docs/BATTLES.md §2c); the dress and what is known of each
 // person, with sources and how sure each detail is, are in scripts/claude-art/battle-kit/figures.mjs. Drawn from the person
@@ -22,7 +23,7 @@ import { person, clip, STYLE, NO_GORE, NO_LIKENESS } from '../battle-kit/sheet.m
 
 export const AREA = 'battles';
 export const DATE = '2026-09-28';
-export const PEOPLE = ['jw-smith', 'kimbell', 'martin', 'horton', 'wp-smith', 'smither', 'condelle', 'sanchez-navarro', 'barragan'];
+export const PEOPLE = ['jw-smith', 'kimbell', 'martin', 'horton', 'wp-smith', 'smither', 'sanchez-navarro', 'barragan'];
 const MEXICAN = new Set(['condelle', 'sanchez-navarro', 'barragan', 'castrillon']);
 const REQUEST = 'Request 2026-09-26 — the famous people: the roster\'s remaining figures and poses';
 const REPLACE = 'a 4×4 famous sheet as scripts/art-deliveries/famous-people.mjs delivers them: four east, two south, two north walking frames and the poses, the `volunteer-*` logical height, east mirrored for west, no gore, no likeness claimed';
@@ -49,7 +50,6 @@ function posesOf(id) {
   if (id === 'sanchez-navarro') out.push(['parley', { ...o.speak, mouth: undefined, hands: { near: PO.at(F, 15, -4), far: PO.at(F, 1, -arm * 0.88) },
     after: (ink, j) => ink.shape(`M ${j.handNear[0] - 1} ${j.handNear[1] + 2} l 7 2.5 l 1.2 -7 l -7 -2.5 Z`, '#f2ead8', { shade: false, outline: 2.2 }) }, 'holding out a folded paper at the parley over the terms']);
   if (id === 'barragan') out.push(['protect', { ...o.point, hands: { near: PO.at(F, 24, 10), far: PO.at(F, -2, -arm * 0.86) }, mouth: 'open' }, 'stepping in with the left hand at his sabre and the right arm out, palm up, to stop two soldiers']);
-  if (id === 'condelle') out.push(['address', { ...o.command, hands: { near: PO.at(F, 8, 22), far: o.command.hands.far } }, 'rallying his battalion, the sword held up']);
   if (mx) out.push(['listen', { ...o.stand, tilt: 6, hands: { near: PO.at(F, 5, -12), far: PO.at(F, -2, -arm * 0.88) } }, 'listening, a hand at the sword hilt']);
   return out;
 }

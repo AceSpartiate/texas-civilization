@@ -1,16 +1,16 @@
 {
   "proof": "npm run test:lone-parent",
-  "when": "2026-09-30T23:15:42.733Z",
+  "when": "2026-10-03T05:10:06.003Z",
   "pass": [
     "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
-    "on the land the ability waits, glowing (card-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Serafina raise a house.\"",
+    "on the land the ability waits, glowing (card-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Lucinda raise a house.\"",
     "Not now folds it to its glowing icon, which waits and opens it again: offered, never pressed on the student",
-    "the scenes open on black with the travel said on it: \"Serafina and the children walk to the nearest farm.\"",
+    "the scenes open on black with the travel said on it: \"Lucinda and the children walk to the nearest farm.\"",
     "a reload in the middle of the second farm takes the scenes up at the same line",
     "the four scenes in order, 26 presses of Continue, 6 fades to and from black, every figure and building drawn",
     "home: 4 people, two parents on the panel, a round-log house standing, and the ability gone",
-    "the family took his name - the page reads \"The Whitlow family\" - and Amos, the new husband, is its main person and principal",
-    "fades to black take 1115, 1118 ms; with less motion asked for, 297 ms - shorter, never a cut",
+    "the family took his name - the page reads \"The Whitlow family\" - and Elias, the new husband, is its main person and principal",
+    "fades to black take 1107, 1116 ms; with less motion asked for, 281 ms - shorter, never a cut",
     "no page errors on the student's, the other student's or the Host's page"
   ],
   "observed": {
@@ -33,7 +33,7 @@
     ],
     "card": {
       "title": "Ask the neighbours for help",
-      "says": "Take the children to the farms nearby and ask the neighbours to help Serafina raise a house.",
+      "says": "Take the children to the farms nearby and ask the neighbours to help Lucinda raise a house.",
       "note": "The family is away about 4 hours.",
       "glow": "card-glow",
       "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
@@ -53,11 +53,11 @@
     "between": {
       "mode": "between",
       "dark": 1,
-      "between": "Serafina and the children walk to the nearest farm."
+      "between": "Lucinda and the children walk to the nearest farm."
     },
     "fades": [
-      0.44,
-      0.58
+      0.46,
+      0.59
     ],
     "reload": {
       "scene": "second",
@@ -70,34 +70,34 @@
         "lines": [
           {
             "step": 0,
-            "who": "Jethro Salcedo",
+            "who": "Cipriano Salcedo",
             "said": "Good evening! You must be the new family on the creek. Come in, come in."
           },
           {
             "step": 1,
-            "who": "Serafina Hollister",
-            "said": "We are. I'm Serafina, and these are Lavinia and Obed. We've no house yet, and only my two hands to raise one."
+            "who": "Lucinda Hollister",
+            "said": "We are. I'm Lucinda, and these are Orpha and Jasper. We've no house yet, and only my two hands to raise one."
           },
           {
             "step": 2,
-            "who": "Patience Salcedo",
+            "who": "Ysabel Salcedo",
             "said": "Then you won't raise it alone. Nobody should sleep under the sky with neighbours this near."
           },
           {
             "step": 3,
-            "who": "Jethro Salcedo",
+            "who": "Cipriano Salcedo",
             "said": "We'll come with our axes. And go and ask the Whitlows, by the big pecan. They have strong arms, and good hearts."
           },
           {
             "step": 4,
-            "who": "Serafina Hollister",
+            "who": "Lucinda Hollister",
             "said": "We'll come back. Thank you, both of you."
           }
         ],
         "drawn": [
           {
             "id": "hh-1-parent-1",
-            "clip": "rust-woman-idle-e",
+            "clip": "mother-scarf-idle-e",
             "x": 570,
             "y": 561,
             "h": 205,
@@ -105,7 +105,7 @@
           },
           {
             "id": "hh-1-nb-1-p1",
-            "clip": "rust-greet",
+            "clip": "father-straw-speak",
             "x": 796,
             "y": 561,
             "h": 205,
@@ -156,49 +156,49 @@
         "lines": [
           {
             "step": 0,
-            "who": "Cipriano Whitlow",
-            "said": "Welcome! Sit down and rest. Simeon ran over to say you'd be coming."
+            "who": "Isaac Whitlow",
+            "said": "Welcome! Sit down and rest. Teodoro ran over to say you'd be coming."
           },
           {
             "step": 1,
-            "who": "Serafina Hollister",
+            "who": "Lucinda Hollister",
             "said": "Then you know why we've come. I'm asking for a day's help with a house."
           },
           {
             "step": 2,
-            "who": "Lucinda Whitlow",
-            "said": "You'll have it. And you'll have Amos too - the best hand with an axe on this creek."
+            "who": "Temperance Whitlow",
+            "said": "You'll have it. And you'll have Elias too - the best hand with an axe on this creek."
           },
           {
             "step": 3,
-            "who": "Amos",
+            "who": "Elias",
             "said": "Mother says that about everybody."
           },
           {
             "step": 4,
-            "who": "Serafina Hollister",
+            "who": "Lucinda Hollister",
             "said": "Then I hope she's right about you."
           },
           {
             "step": 5,
-            "who": "Lucinda Whitlow",
-            "said": "Amos hasn't taken his eyes off you since you came through the gate."
+            "who": "Temperance Whitlow",
+            "said": "Elias hasn't taken his eyes off you since you came through the gate."
           },
           {
             "step": 6,
-            "who": "Amos",
+            "who": "Elias",
             "said": "Mother!"
           },
           {
             "step": 7,
-            "who": "Amos",
-            "said": "I'll fetch my axe and come right behind you, Serafina."
+            "who": "Elias",
+            "said": "I'll fetch my axe and come right behind you, Lucinda."
           }
         ],
         "drawn": [
           {
             "id": "hh-1-parent-1",
-            "clip": "rust-woman-idle-e",
+            "clip": "mother-scarf-idle-e",
             "x": 570,
             "y": 561,
             "h": 205,
@@ -206,7 +206,7 @@
           },
           {
             "id": "hh-1-nb-2-p1",
-            "clip": "ochre-greet",
+            "clip": "father-moustache-speak",
             "x": 796,
             "y": 561,
             "h": 205,
@@ -214,7 +214,7 @@
           },
           {
             "id": "hh-1-nb-2-p2",
-            "clip": "indigo-idle-w",
+            "clip": "mother-straw-idle-e",
             "x": 898,
             "y": 561,
             "h": 205,
@@ -222,7 +222,7 @@
           },
           {
             "id": "hh-1-spouse",
-            "clip": "rust-shy",
+            "clip": "elder-shy",
             "x": 1001,
             "y": 561,
             "h": 205,
@@ -262,17 +262,17 @@
           },
           {
             "step": 1,
-            "who": "Jethro Salcedo",
+            "who": "Cipriano Salcedo",
             "said": "There - walls up and the roof on. You'll sleep dry tonight."
           },
           {
             "step": 2,
-            "who": "Amos",
-            "said": "I've worked beside you today, Serafina, and I'd gladly work beside you every day after, if you'll have me."
+            "who": "Elias",
+            "said": "I've worked beside you today, Lucinda, and I'd gladly work beside you every day after, if you'll have me."
           },
           {
             "step": 3,
-            "who": "Serafina Hollister",
+            "who": "Lucinda Hollister",
             "said": "I will."
           },
           {
@@ -282,13 +282,13 @@
           },
           {
             "step": 5,
-            "who": "Amos",
-            "said": "I take you, Serafina, to be my wife, and I will keep faith with you alone."
+            "who": "Elias",
+            "said": "I take you, Lucinda, to be my wife, and I will keep faith with you alone."
           },
           {
             "step": 6,
-            "who": "Serafina Hollister",
-            "said": "I take you, Amos, to be my husband, and I will keep faith with you alone."
+            "who": "Lucinda Hollister",
+            "said": "I take you, Elias, to be my husband, and I will keep faith with you alone."
           },
           {
             "step": 7,
@@ -297,7 +297,7 @@
           },
           {
             "step": 8,
-            "who": "Cipriano Whitlow",
+            "who": "Isaac Whitlow",
             "said": "The Salcedos brought cornbread and a ham, and we brought tamales. Let's eat - and somebody find the fiddle!"
           },
           {
@@ -317,7 +317,7 @@
           },
           {
             "id": "hh-1-parent-1",
-            "clip": "rust-woman-idle-e",
+            "clip": "mother-scarf-idle-e",
             "x": 633,
             "y": 561,
             "h": 205,
@@ -325,7 +325,7 @@
           },
           {
             "id": "hh-1-spouse",
-            "clip": "rust-idle-w",
+            "clip": "elder-idle-w",
             "x": 733,
             "y": 561,
             "h": 205,
@@ -333,7 +333,7 @@
           },
           {
             "id": "hh-1-nb-1-p1",
-            "clip": "rust-idle-e",
+            "clip": "father-straw-idle-e",
             "x": 298,
             "y": 561,
             "h": 205,
@@ -349,7 +349,7 @@
           },
           {
             "id": "hh-1-nb-2-p1",
-            "clip": "ochre-idle-w",
+            "clip": "father-moustache-idle-e",
             "x": 980,
             "y": 561,
             "h": 205,
@@ -357,7 +357,7 @@
           },
           {
             "id": "hh-1-nb-2-p2",
-            "clip": "indigo-idle-w",
+            "clip": "mother-straw-idle-e",
             "x": 1074,
             "y": 561,
             "h": 205,
@@ -403,24 +403,24 @@
         "lines": [
           {
             "step": 0,
-            "who": "Serafina Whitlow",
+            "who": "Lucinda Whitlow",
             "said": "Our own roof. I can hardly believe it."
           },
           {
             "step": 1,
-            "who": "Amos",
+            "who": "Elias",
             "said": "And a good one. The Salcedos and my family built it to last."
           },
           {
             "step": 2,
             "who": "",
-            "said": "Amos is one of the family now, and Serafina and the children take his name. The Whitlow family has two parents again, a roof of its own, and two families of neighbours who will not forget this day."
+            "said": "Elias is one of the family now, and Lucinda and the children take his name. The Whitlow family has two parents again, a roof of its own, and two families of neighbours who will not forget this day."
           }
         ],
         "drawn": [
           {
             "id": "hh-1-parent-1",
-            "clip": "rust-woman-idle-s",
+            "clip": "mother-scarf-idle-s",
             "x": 636,
             "y": 561,
             "h": 205,
@@ -428,7 +428,7 @@
           },
           {
             "id": "hh-1-spouse",
-            "clip": "rust-idle-s",
+            "clip": "elder-idle-s",
             "x": 730,
             "y": 561,
             "h": 205,
@@ -496,15 +496,15 @@
     },
     "named": {
       "heading": "The Whitlow family",
-      "main": "Amos"
+      "main": "Elias"
     },
     "fadeMs": {
       "full": [
-        1115,
-        1118
+        1107,
+        1116
       ],
       "reduced": [
-        297
+        281
       ]
     }
   },

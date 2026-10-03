@@ -46,6 +46,34 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('Condelle commands and walks using his own officer art', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const condelle = { id: 'condelle', art: 'condelle', name: 'Condelle', side: 'mexican', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => night(minute, [], { id: 'bexar-storming', phase: 'night-8', people: [condelle] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'condelle-command'));
+  assert.ok(!art.drawn.some(one => one.clip === 'regular-idle-e'));
+  art.drawn.length = 0;
+  run(view, minute => night(minute, [], { people: [{ ...condelle, moving: true }] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'condelle-walk-e'));
+});
+
+test('Grant rides his own horse and gallops only during the Agua Dulce ambush', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const grant = { id: 'grant', art: 'grant', name: 'Grant', side: 'texian', x: 0, y: 0, right: true, pose: 'ride', moving: true };
+  run(view, minute => night(minute, [], { id: 'agua-dulce', phase: 'herd', light: undefined, people: [grant] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'grant-mounted-walk-e'));
+  art.drawn.length = 0;
+  run(view, minute => night(minute, [], { id: 'agua-dulce', phase: 'ambush', light: undefined, people: [grant] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'grant-mounted-gallop-e'));
+});
+
+test('Johnson escapes through the back door in his own running animation', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const johnson = { id: 'johnson', art: 'johnson', name: 'Johnson', side: 'texian', x: 0.04, y: 0, right: true, pose: 'escape', moving: true };
+  run(view, minute => night(minute, [part('back-door', 4, 0.04, { moving: true })], { phase: 'houses', people: [johnson] }), { seconds: 1, art });
+  assert.ok(art.drawn.some(one => one.clip === 'johnson-escape-e'));
+});
+
 test('a side in parts is drawn part by part: men asleep lying down, men in a house unseen but firing from it, men giving up with their hands up', () => {
   const art = fakeArt(), view = createBattleView(art);
   const texParts = [

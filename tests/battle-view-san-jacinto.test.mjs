@@ -41,6 +41,58 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null } = {}) 
   return last;
 }
 
+test('Lamar rides in his own art and reaches down during the April 20 rescue beat', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const lamar = { id: 'lamar', art: 'lamar', name: 'Lamar', side: 'texian', x: 0, y: 0, right: true, pose: 'ride' };
+  const scene = minute => battle(minute + 100000, { phase: 'skirmish', phaseMinute: minute, people: [lamar] });
+  run(view, scene, { seconds: 1, from: 20000 });
+  assert.ok(art.drawn.some(one => one.clip === 'lamar-mounted-walk-e'));
+  art.drawn.length = 0;
+  run(view, scene, { seconds: 1, from: 45000 });
+  assert.ok(art.drawn.some(one => one.sprite === 'lamar-mounted-rescue-e'));
+  art.drawn.length = 0;
+  run(view, scene, { seconds: 1, from: 51000 });
+  assert.ok(art.drawn.some(one => one.clip === 'lamar-mounted-walk-e'));
+});
+
+test('Sherman rides in his own art and signals the April 20 sortie', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const sherman = { id: 'sherman', art: 'sherman', name: 'Sherman', side: 'texian', x: 0, y: 0, right: true, pose: 'ride' };
+  const scene = minute => battle(minute + 100000, { phase: 'skirmish', phaseMinute: minute, people: [sherman] });
+  run(view, scene, { seconds: 1, from: 20000 });
+  assert.ok(art.drawn.some(one => one.clip === 'sherman-mounted-walk-e'));
+  art.drawn.length = 0;
+  run(view, scene, { seconds: 1, from: 23000 });
+  assert.ok(art.drawn.some(one => one.sprite === 'sherman-mounted-rally-e'));
+  art.drawn.length = 0;
+  run(view, scene, { seconds: 1, from: 26000 });
+  assert.ok(art.drawn.some(one => one.clip === 'sherman-mounted-walk-e'));
+});
+
+test('Rusk rides in his own art and uses his open-hand stop gesture on the bank', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const rusk = { id: 'rusk', art: 'rusk', name: 'Rusk', side: 'texian', x: 0, y: 0, right: true };
+  run(view, minute => battle(minute, { phase: 'skirmish', people: [{ ...rusk, pose: 'ride' }] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'rusk-mounted-walk-e'));
+  art.drawn.length = 0;
+  run(view, minute => battle(minute, { phase: 'killing', people: [{ ...rusk, pose: 'stop' }] }), { seconds: 1, from: 1000 });
+  assert.ok(art.drawn.some(one => one.clip === 'rusk-stop'));
+});
+
+test('Hockley commands the Twin Sisters with his own battery poses', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const hockley = { id: 'hockley', art: 'hockley', name: 'Hockley', side: 'texian', x: 0, y: 0, right: true, pose: 'gun' };
+  run(view, minute => battle(minute, { phase: 'guns', people: [hockley] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'hockley-battery-command'));
+});
+
+test('McCulloch serves a Twin Sister in his own gun crew poses', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const mcculloch = { id: 'mcculloch', art: 'mcculloch', name: 'McCulloch', side: 'texian', x: 0, y: 0, right: true, pose: 'gun' };
+  run(view, minute => battle(minute, { phase: 'guns', people: [mcculloch] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'mcculloch-gun-service'));
+});
+
 test('only the named Twin Sisters use their dedicated service crew', () => {
   const art = fakeArt(), view = createBattleView(art);
   const guns = [
@@ -86,6 +138,14 @@ test('Burleson commands in his own officer art', () => {
   const person = { id: 'burleson', art: 'burleson', name: 'Burleson', side: 'texian', x: 0, y: 0, right: true, pose: 'command' };
   run(view, minute => battle(minute, { people: [person] }), { seconds: 1 });
   assert.ok(art.drawn.some(one => one.sprite === 'burleson-command'));
+});
+
+test('Deaf Smith rides on his own scout sheet', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const person = { id: 'deaf-smith', art: 'deaf-smith', name: 'Deaf Smith', side: 'texian', x: 0, y: 0, right: true, pose: 'ride' };
+  run(view, minute => battle(minute, { people: [person] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'deaf-smith-mounted-walk-e'));
+  assert.ok(!art.drawn.some(one => one.clip === 'mounted-courier-e'));
 });
 
 test('the San Jacinto sword exchange uses both named figures', () => {

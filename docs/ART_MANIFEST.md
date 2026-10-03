@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1722 usable sprites, 166 PNG atlases, 564 clips** (336 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2130 usable sprites, 199 PNG atlases, 744 clips** (436 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -53,6 +53,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
+| people-family-mother-scarf | 16 | 1254 × 1254 | 1353965 |
+| people-family-father-straw | 16 | 1254 × 1254 | 1351306 |
+| people-family-father-beard | 16 | 1254 × 1254 | 1206234 |
+| people-family-father-moustache | 16 | 1254 × 1254 | 1208170 |
+| people-family-mother-braid | 16 | 1254 × 1254 | 1282847 |
+| people-family-mother-loose | 16 | 1254 × 1254 | 1288223 |
+| people-family-mother-straw | 16 | 1254 × 1254 | 1437175 |
+| people-family-youth-boy | 16 | 1254 × 1254 | 1278306 |
+| people-family-youth-girl | 16 | 1254 × 1254 | 1537178 |
+| people-family-father-hat | 16 | 1254 × 1254 | 1292458 |
 | famous-bonham | 16 | 1254 × 1254 | 1241019 |
 | famous-almeron-dickinson | 16 | 1254 × 1254 | 905031 |
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
@@ -60,6 +70,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
 | famous-alavez | 16 | 1254 × 1254 | 1276763 |
 | famous-almonte | 16 | 1254 × 1254 | 1260800 |
+| famous-austin | 16 | 1254 × 1254 | 1051380 |
 | famous-ben | 16 | 1312 × 1199 | 1136424 |
 | twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
@@ -70,13 +81,27 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-castaneda-mounted | 4 | 1226 × 1283 | 1274697 |
 | famous-castrillon | 4 | 1254 × 1254 | 925993 |
 | famous-castrillon-fate | 4 | 1254 × 1254 | 975586 |
+| famous-condelle | 16 | 1254 × 1254 | 1294935 |
 | famous-cos | 16 | 1254 × 1254 | 1237092 |
 | famous-cos-mounted | 4 | 1226 × 1283 | 1307008 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
+| famous-deaf-smith | 16 | 1254 × 1254 | 1316988 |
+| famous-deaf-smith-mounted | 4 | 1254 × 1254 | 1298123 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-grant | 16 | 1225 × 1284 | 1191949 |
+| famous-grant-mounted | 4 | 1254 × 1254 | 1312009 |
+| famous-grant-gallop | 4 | 1254 × 1254 | 1420237 |
+| famous-hockley | 16 | 1246 × 1262 | 904693 |
+| famous-johnson | 16 | 1312 × 1199 | 1121505 |
+| famous-karnes | 16 | 1246 × 1263 | 1230841 |
+| famous-karnes-mounted | 4 | 1246 × 1263 | 1175856 |
+| famous-lamar | 16 | 1312 × 1199 | 932028 |
+| famous-lamar-mounted | 4 | 1312 × 1199 | 1099794 |
+| famous-mcculloch | 16 | 1330 × 1182 | 1041853 |
 | famous-moore | 16 | 1254 × 1254 | 1092408 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
 | famous-santa-anna-mounted | 4 | 1226 × 1283 | 1192703 |
+| famous-neill | 16 | 1246 × 1263 | 1260451 |
 | famous-crockett | 16 | 1254 × 1254 | 1237962 |
 | famous-travis | 16 | 1254 × 1254 | 1163935 |
 | famous-bowie | 16 | 1254 × 1254 | 1280882 |
@@ -86,6 +111,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-emily-west-picnic | 4 | 1254 × 1254 | 1381954 |
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
+| famous-rusk | 16 | 1312 × 1199 | 1052054 |
+| famous-rusk-mounted | 4 | 1312 × 1199 | 1471219 |
+| famous-seguin-mounted-motion | 4 | 1254 × 1254 | 1217137 |
+| famous-seguin-mounted-ns | 4 | 1254 × 1254 | 798415 |
+| famous-sherman | 16 | 1239 × 1269 | 1115350 |
+| famous-sherman-mounted | 4 | 1240 × 1269 | 1426561 |
+| famous-urrea | 16 | 1254 × 1254 | 955697 |
+| famous-urrea-mounted | 4 | 1226 × 1283 | 1293956 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
 | goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
@@ -584,6 +617,166 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-beef | icons-family-subsistence | State artwork; no motion required |
 | icon-butcher-hog | icons-family-subsistence | State artwork; no motion required |
 | icon-look-to-stock | icons-family-subsistence | State artwork; no motion required |
+| mother-scarf-walk-e-1 | people-family-mother-scarf | mother-scarf-walk |
+| mother-scarf-walk-e-2 | people-family-mother-scarf | mother-scarf-walk |
+| mother-scarf-walk-e-3 | people-family-mother-scarf | mother-scarf-walk |
+| mother-scarf-walk-e-4 | people-family-mother-scarf | mother-scarf-walk |
+| mother-scarf-walk-s-1 | people-family-mother-scarf | mother-scarf-walk-s |
+| mother-scarf-walk-s-2 | people-family-mother-scarf | mother-scarf-walk-s |
+| mother-scarf-walk-n-1 | people-family-mother-scarf | mother-scarf-walk-n |
+| mother-scarf-walk-n-2 | people-family-mother-scarf | mother-scarf-walk-n |
+| mother-scarf-idle-s | people-family-mother-scarf | mother-scarf-idle-s, mother-scarf-listen-s |
+| mother-scarf-idle-e | people-family-mother-scarf | mother-scarf-idle-e, mother-scarf-speak |
+| mother-scarf-idle-n | people-family-mother-scarf | mother-scarf-idle-n, mother-scarf-listen-n |
+| mother-scarf-work-1 | people-family-mother-scarf | mother-scarf-work |
+| mother-scarf-work-2 | people-family-mother-scarf | mother-scarf-work |
+| mother-scarf-rest | people-family-mother-scarf | mother-scarf-rest |
+| mother-scarf-injured-rest | people-family-mother-scarf | mother-scarf-injured-rest |
+| mother-scarf-quiet | people-family-mother-scarf | State artwork; no motion required |
+| father-straw-walk-e-1 | people-family-father-straw | father-straw-walk |
+| father-straw-walk-e-2 | people-family-father-straw | father-straw-walk |
+| father-straw-walk-e-3 | people-family-father-straw | father-straw-walk |
+| father-straw-walk-e-4 | people-family-father-straw | father-straw-walk |
+| father-straw-walk-s-1 | people-family-father-straw | father-straw-walk-s |
+| father-straw-walk-s-2 | people-family-father-straw | father-straw-walk-s |
+| father-straw-walk-n-1 | people-family-father-straw | father-straw-walk-n |
+| father-straw-walk-n-2 | people-family-father-straw | father-straw-walk-n |
+| father-straw-idle-s | people-family-father-straw | father-straw-idle-s, father-straw-listen-s |
+| father-straw-idle-e | people-family-father-straw | father-straw-idle-e, father-straw-speak |
+| father-straw-idle-n | people-family-father-straw | father-straw-idle-n, father-straw-listen-n |
+| father-straw-work-1 | people-family-father-straw | father-straw-work |
+| father-straw-work-2 | people-family-father-straw | father-straw-work |
+| father-straw-rest | people-family-father-straw | father-straw-rest |
+| father-straw-injured-rest | people-family-father-straw | father-straw-injured-rest |
+| father-straw-quiet | people-family-father-straw | State artwork; no motion required |
+| father-beard-walk-e-1 | people-family-father-beard | father-beard-walk |
+| father-beard-walk-e-2 | people-family-father-beard | father-beard-walk |
+| father-beard-walk-e-3 | people-family-father-beard | father-beard-walk |
+| father-beard-walk-e-4 | people-family-father-beard | father-beard-walk |
+| father-beard-walk-s-1 | people-family-father-beard | father-beard-walk-s |
+| father-beard-walk-s-2 | people-family-father-beard | father-beard-walk-s |
+| father-beard-walk-n-1 | people-family-father-beard | father-beard-walk-n |
+| father-beard-walk-n-2 | people-family-father-beard | father-beard-walk-n |
+| father-beard-idle-s | people-family-father-beard | father-beard-idle-s, father-beard-listen-s |
+| father-beard-idle-e | people-family-father-beard | father-beard-idle-e, father-beard-speak |
+| father-beard-idle-n | people-family-father-beard | father-beard-idle-n, father-beard-listen-n |
+| father-beard-work-1 | people-family-father-beard | father-beard-work |
+| father-beard-work-2 | people-family-father-beard | father-beard-work |
+| father-beard-rest | people-family-father-beard | father-beard-rest |
+| father-beard-injured-rest | people-family-father-beard | father-beard-injured-rest |
+| father-beard-quiet | people-family-father-beard | State artwork; no motion required |
+| father-moustache-walk-e-1 | people-family-father-moustache | father-moustache-walk |
+| father-moustache-walk-e-2 | people-family-father-moustache | father-moustache-walk |
+| father-moustache-walk-e-3 | people-family-father-moustache | father-moustache-walk |
+| father-moustache-walk-e-4 | people-family-father-moustache | father-moustache-walk |
+| father-moustache-walk-s-1 | people-family-father-moustache | father-moustache-walk-s |
+| father-moustache-walk-s-2 | people-family-father-moustache | father-moustache-walk-s |
+| father-moustache-walk-n-1 | people-family-father-moustache | father-moustache-walk-n |
+| father-moustache-walk-n-2 | people-family-father-moustache | father-moustache-walk-n |
+| father-moustache-idle-s | people-family-father-moustache | father-moustache-idle-s, father-moustache-listen-s |
+| father-moustache-idle-e | people-family-father-moustache | father-moustache-idle-e, father-moustache-speak |
+| father-moustache-idle-n | people-family-father-moustache | father-moustache-idle-n, father-moustache-listen-n |
+| father-moustache-work-1 | people-family-father-moustache | father-moustache-work |
+| father-moustache-work-2 | people-family-father-moustache | father-moustache-work |
+| father-moustache-rest | people-family-father-moustache | father-moustache-rest |
+| father-moustache-injured-rest | people-family-father-moustache | father-moustache-injured-rest |
+| father-moustache-quiet | people-family-father-moustache | State artwork; no motion required |
+| mother-braid-walk-e-1 | people-family-mother-braid | mother-braid-walk |
+| mother-braid-walk-e-2 | people-family-mother-braid | mother-braid-walk |
+| mother-braid-walk-e-3 | people-family-mother-braid | mother-braid-walk |
+| mother-braid-walk-e-4 | people-family-mother-braid | mother-braid-walk |
+| mother-braid-walk-s-1 | people-family-mother-braid | mother-braid-walk-s |
+| mother-braid-walk-s-2 | people-family-mother-braid | mother-braid-walk-s |
+| mother-braid-walk-n-1 | people-family-mother-braid | mother-braid-walk-n |
+| mother-braid-walk-n-2 | people-family-mother-braid | mother-braid-walk-n |
+| mother-braid-idle-s | people-family-mother-braid | mother-braid-idle-s, mother-braid-listen-s |
+| mother-braid-idle-e | people-family-mother-braid | mother-braid-idle-e, mother-braid-speak |
+| mother-braid-idle-n | people-family-mother-braid | mother-braid-idle-n, mother-braid-listen-n |
+| mother-braid-work-1 | people-family-mother-braid | mother-braid-work |
+| mother-braid-work-2 | people-family-mother-braid | mother-braid-work |
+| mother-braid-rest | people-family-mother-braid | mother-braid-rest |
+| mother-braid-injured-rest | people-family-mother-braid | mother-braid-injured-rest |
+| mother-braid-quiet | people-family-mother-braid | State artwork; no motion required |
+| mother-loose-walk-e-1 | people-family-mother-loose | mother-loose-walk |
+| mother-loose-walk-e-2 | people-family-mother-loose | mother-loose-walk |
+| mother-loose-walk-e-3 | people-family-mother-loose | mother-loose-walk |
+| mother-loose-walk-e-4 | people-family-mother-loose | mother-loose-walk |
+| mother-loose-walk-s-1 | people-family-mother-loose | mother-loose-walk-s |
+| mother-loose-walk-s-2 | people-family-mother-loose | mother-loose-walk-s |
+| mother-loose-walk-n-1 | people-family-mother-loose | mother-loose-walk-n |
+| mother-loose-walk-n-2 | people-family-mother-loose | mother-loose-walk-n |
+| mother-loose-idle-s | people-family-mother-loose | mother-loose-idle-s, mother-loose-listen-s |
+| mother-loose-idle-e | people-family-mother-loose | mother-loose-idle-e, mother-loose-speak |
+| mother-loose-idle-n | people-family-mother-loose | mother-loose-idle-n, mother-loose-listen-n |
+| mother-loose-work-1 | people-family-mother-loose | mother-loose-work |
+| mother-loose-work-2 | people-family-mother-loose | mother-loose-work |
+| mother-loose-rest | people-family-mother-loose | mother-loose-rest |
+| mother-loose-injured-rest | people-family-mother-loose | mother-loose-injured-rest |
+| mother-loose-quiet | people-family-mother-loose | State artwork; no motion required |
+| mother-straw-walk-e-1 | people-family-mother-straw | mother-straw-walk |
+| mother-straw-walk-e-2 | people-family-mother-straw | mother-straw-walk |
+| mother-straw-walk-e-3 | people-family-mother-straw | mother-straw-walk |
+| mother-straw-walk-e-4 | people-family-mother-straw | mother-straw-walk |
+| mother-straw-walk-s-1 | people-family-mother-straw | mother-straw-walk-s |
+| mother-straw-walk-s-2 | people-family-mother-straw | mother-straw-walk-s |
+| mother-straw-walk-n-1 | people-family-mother-straw | mother-straw-walk-n |
+| mother-straw-walk-n-2 | people-family-mother-straw | mother-straw-walk-n |
+| mother-straw-idle-s | people-family-mother-straw | mother-straw-idle-s, mother-straw-listen-s |
+| mother-straw-idle-e | people-family-mother-straw | mother-straw-idle-e, mother-straw-speak |
+| mother-straw-idle-n | people-family-mother-straw | mother-straw-idle-n, mother-straw-listen-n |
+| mother-straw-work-1 | people-family-mother-straw | mother-straw-work |
+| mother-straw-work-2 | people-family-mother-straw | mother-straw-work |
+| mother-straw-rest | people-family-mother-straw | mother-straw-rest |
+| mother-straw-injured-rest | people-family-mother-straw | mother-straw-injured-rest |
+| mother-straw-quiet | people-family-mother-straw | State artwork; no motion required |
+| youth-boy-walk-e-1 | people-family-youth-boy | youth-boy-walk |
+| youth-boy-walk-e-2 | people-family-youth-boy | youth-boy-walk |
+| youth-boy-walk-e-3 | people-family-youth-boy | youth-boy-walk |
+| youth-boy-walk-e-4 | people-family-youth-boy | youth-boy-walk |
+| youth-boy-walk-s-1 | people-family-youth-boy | youth-boy-walk-s |
+| youth-boy-walk-s-2 | people-family-youth-boy | youth-boy-walk-s |
+| youth-boy-walk-n-1 | people-family-youth-boy | youth-boy-walk-n |
+| youth-boy-walk-n-2 | people-family-youth-boy | youth-boy-walk-n |
+| youth-boy-idle-s | people-family-youth-boy | youth-boy-idle-s, youth-boy-listen-s |
+| youth-boy-idle-e | people-family-youth-boy | youth-boy-idle-e, youth-boy-speak |
+| youth-boy-idle-n | people-family-youth-boy | youth-boy-idle-n, youth-boy-listen-n |
+| youth-boy-work-1 | people-family-youth-boy | youth-boy-work |
+| youth-boy-work-2 | people-family-youth-boy | youth-boy-work |
+| youth-boy-rest | people-family-youth-boy | youth-boy-rest |
+| youth-boy-injured-rest | people-family-youth-boy | youth-boy-injured-rest |
+| youth-boy-quiet | people-family-youth-boy | State artwork; no motion required |
+| youth-girl-walk-e-1 | people-family-youth-girl | youth-girl-walk |
+| youth-girl-walk-e-2 | people-family-youth-girl | youth-girl-walk |
+| youth-girl-walk-e-3 | people-family-youth-girl | youth-girl-walk |
+| youth-girl-walk-e-4 | people-family-youth-girl | youth-girl-walk |
+| youth-girl-walk-s-1 | people-family-youth-girl | youth-girl-walk-s |
+| youth-girl-walk-s-2 | people-family-youth-girl | youth-girl-walk-s |
+| youth-girl-walk-n-1 | people-family-youth-girl | youth-girl-walk-n |
+| youth-girl-walk-n-2 | people-family-youth-girl | youth-girl-walk-n |
+| youth-girl-idle-s | people-family-youth-girl | youth-girl-idle-s, youth-girl-listen-s |
+| youth-girl-idle-e | people-family-youth-girl | youth-girl-idle-e, youth-girl-speak |
+| youth-girl-idle-n | people-family-youth-girl | youth-girl-idle-n, youth-girl-listen-n |
+| youth-girl-work-1 | people-family-youth-girl | youth-girl-work |
+| youth-girl-work-2 | people-family-youth-girl | youth-girl-work |
+| youth-girl-rest | people-family-youth-girl | youth-girl-rest |
+| youth-girl-injured-rest | people-family-youth-girl | youth-girl-injured-rest |
+| youth-girl-quiet | people-family-youth-girl | State artwork; no motion required |
+| father-hat-walk-e-1 | people-family-father-hat | father-hat-walk |
+| father-hat-walk-e-2 | people-family-father-hat | father-hat-walk |
+| father-hat-walk-e-3 | people-family-father-hat | father-hat-walk |
+| father-hat-walk-e-4 | people-family-father-hat | father-hat-walk |
+| father-hat-walk-s-1 | people-family-father-hat | father-hat-walk-s |
+| father-hat-walk-s-2 | people-family-father-hat | father-hat-walk-s |
+| father-hat-walk-n-1 | people-family-father-hat | father-hat-walk-n |
+| father-hat-walk-n-2 | people-family-father-hat | father-hat-walk-n |
+| father-hat-idle-s | people-family-father-hat | father-hat-idle-s, father-hat-listen-s |
+| father-hat-idle-e | people-family-father-hat | father-hat-idle-e, father-hat-speak |
+| father-hat-idle-n | people-family-father-hat | father-hat-idle-n, father-hat-listen-n |
+| father-hat-work-1 | people-family-father-hat | father-hat-work |
+| father-hat-work-2 | people-family-father-hat | father-hat-work |
+| father-hat-rest | people-family-father-hat | father-hat-rest |
+| father-hat-injured-rest | people-family-father-hat | father-hat-injured-rest |
+| father-hat-quiet | people-family-father-hat | State artwork; no motion required |
 | bonham-walk-e-1 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-2 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-3 | famous-bonham | bonham-walk-e |
@@ -684,6 +877,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | almonte-prisoner | famous-almonte | State artwork; no motion required |
 | almonte-interpret | famous-almonte | State artwork; no motion required |
 | almonte-listen | famous-almonte | State artwork; no motion required |
+| austin-walk-e-1 | famous-austin | austin-walk-e |
+| austin-walk-e-2 | famous-austin | austin-walk-e |
+| austin-walk-e-3 | famous-austin | austin-walk-e |
+| austin-walk-e-4 | famous-austin | austin-walk-e |
+| austin-walk-s-1 | famous-austin | austin-walk-s |
+| austin-walk-s-2 | famous-austin | austin-walk-s |
+| austin-walk-n-1 | famous-austin | austin-walk-n |
+| austin-walk-n-2 | famous-austin | austin-walk-n |
+| austin-idle | famous-austin | State artwork; no motion required |
+| austin-command | famous-austin | State artwork; no motion required |
+| austin-point | famous-austin | State artwork; no motion required |
+| austin-speak | famous-austin | State artwork; no motion required |
+| austin-read-letter | famous-austin | State artwork; no motion required |
+| austin-write | famous-austin | State artwork; no motion required |
+| austin-map | famous-austin | State artwork; no motion required |
+| austin-rest | famous-austin | State artwork; no motion required |
 | ben-walk-e-1 | famous-ben | ben-walk-e |
 | ben-walk-e-2 | famous-ben | ben-walk-e |
 | ben-walk-e-3 | famous-ben | ben-walk-e |
@@ -784,6 +993,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | castrillon-stumble | famous-castrillon-fate | castrillon-fall |
 | castrillon-kneel | famous-castrillon-fate | castrillon-fall |
 | castrillon-still | famous-castrillon-fate | State artwork; no motion required |
+| condelle-walk-e-1 | famous-condelle | condelle-walk-e |
+| condelle-walk-e-2 | famous-condelle | condelle-walk-e |
+| condelle-walk-e-3 | famous-condelle | condelle-walk-e |
+| condelle-walk-e-4 | famous-condelle | condelle-walk-e |
+| condelle-walk-s-1 | famous-condelle | condelle-walk-s |
+| condelle-walk-s-2 | famous-condelle | condelle-walk-s |
+| condelle-walk-n-1 | famous-condelle | condelle-walk-n |
+| condelle-walk-n-2 | famous-condelle | condelle-walk-n |
+| condelle-idle | famous-condelle | State artwork; no motion required |
+| condelle-command-palm | famous-condelle | condelle-command |
+| condelle-point | famous-condelle | condelle-command |
+| condelle-read-map | famous-condelle | State artwork; no motion required |
+| condelle-speak | famous-condelle | State artwork; no motion required |
+| condelle-listen | famous-condelle | State artwork; no motion required |
+| condelle-saber-low | famous-condelle | State artwork; no motion required |
+| condelle-rest | famous-condelle | State artwork; no motion required |
 | cos-walk-e-1 | famous-cos | cos-walk-e |
 | cos-walk-e-2 | famous-cos | cos-walk-e |
 | cos-walk-e-3 | famous-cos | cos-walk-e |
@@ -808,6 +1033,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | crockett-captive-2 | famous-crockett-fate | crockett-captive |
 | crockett-still-side | famous-crockett-fate | State artwork; no motion required |
 | crockett-still-turn | famous-crockett-fate | State artwork; no motion required |
+| deaf-smith-walk-e-1 | famous-deaf-smith | deaf-smith-walk-e |
+| deaf-smith-walk-e-2 | famous-deaf-smith | deaf-smith-walk-e |
+| deaf-smith-walk-e-3 | famous-deaf-smith | deaf-smith-walk-e |
+| deaf-smith-walk-e-4 | famous-deaf-smith | deaf-smith-walk-e |
+| deaf-smith-walk-s-1 | famous-deaf-smith | deaf-smith-walk-s |
+| deaf-smith-walk-s-2 | famous-deaf-smith | deaf-smith-walk-s |
+| deaf-smith-walk-n-1 | famous-deaf-smith | deaf-smith-walk-n |
+| deaf-smith-walk-n-2 | famous-deaf-smith | deaf-smith-walk-n |
+| deaf-smith-idle | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-report | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-point | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-read-dispatch | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-track | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-wounded-seated | famous-deaf-smith | State artwork; no motion required |
+| deaf-smith-axe-ready | famous-deaf-smith | deaf-smith-axe-work |
+| deaf-smith-axe-chop | famous-deaf-smith | deaf-smith-axe-work |
+| deaf-smith-mounted-walk-e-1 | famous-deaf-smith-mounted | deaf-smith-mounted-walk-e |
+| deaf-smith-mounted-walk-e-2 | famous-deaf-smith-mounted | deaf-smith-mounted-walk-e |
+| deaf-smith-mounted-idle-e | famous-deaf-smith-mounted | State artwork; no motion required |
+| deaf-smith-mounted-idle-s | famous-deaf-smith-mounted | State artwork; no motion required |
 | esparza-walk-e-1 | famous-esparza | esparza-walk-e |
 | esparza-walk-e-2 | famous-esparza | esparza-walk-e |
 | esparza-walk-e-3 | famous-esparza | esparza-walk-e |
@@ -824,6 +1069,118 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| grant-walk-e-1 | famous-grant | grant-walk-e |
+| grant-walk-e-2 | famous-grant | grant-walk-e |
+| grant-walk-e-3 | famous-grant | grant-walk-e |
+| grant-walk-e-4 | famous-grant | grant-walk-e |
+| grant-walk-s-1 | famous-grant | grant-walk-s |
+| grant-walk-s-2 | famous-grant | grant-walk-s |
+| grant-walk-n-1 | famous-grant | grant-walk-n |
+| grant-walk-n-2 | famous-grant | grant-walk-n |
+| grant-idle | famous-grant | State artwork; no motion required |
+| grant-point-herd | famous-grant | State artwork; no motion required |
+| grant-read-map | famous-grant | State artwork; no motion required |
+| grant-satchel | famous-grant | State artwork; no motion required |
+| grant-call | famous-grant | State artwork; no motion required |
+| grant-track | famous-grant | State artwork; no motion required |
+| grant-bandaged-seated | famous-grant | State artwork; no motion required |
+| grant-arm-sling | famous-grant | State artwork; no motion required |
+| grant-mounted-walk-e-1 | famous-grant-mounted | grant-mounted-walk-e |
+| grant-mounted-walk-e-2 | famous-grant-mounted | grant-mounted-walk-e |
+| grant-mounted-idle-e | famous-grant-mounted | State artwork; no motion required |
+| grant-mounted-idle-s | famous-grant-mounted | State artwork; no motion required |
+| grant-mounted-gallop-e-1 | famous-grant-gallop | grant-mounted-gallop-e |
+| grant-mounted-gallop-e-2 | famous-grant-gallop | grant-mounted-gallop-e |
+| grant-mounted-gallop-e-3 | famous-grant-gallop | grant-mounted-gallop-e |
+| grant-mounted-gallop-e-4 | famous-grant-gallop | grant-mounted-gallop-e |
+| hockley-walk-e-1 | famous-hockley | hockley-walk-e |
+| hockley-walk-e-2 | famous-hockley | hockley-walk-e |
+| hockley-walk-e-3 | famous-hockley | hockley-walk-e |
+| hockley-walk-e-4 | famous-hockley | hockley-walk-e |
+| hockley-walk-s-1 | famous-hockley | hockley-walk-s |
+| hockley-walk-s-2 | famous-hockley | hockley-walk-s |
+| hockley-walk-n-1 | famous-hockley | hockley-walk-n |
+| hockley-walk-n-2 | famous-hockley | hockley-walk-n |
+| hockley-idle | famous-hockley | State artwork; no motion required |
+| hockley-point | famous-hockley | hockley-battery-command |
+| hockley-fire-signal | famous-hockley | hockley-battery-command |
+| hockley-observe | famous-hockley | State artwork; no motion required |
+| hockley-brace | famous-hockley | hockley-battery-command |
+| hockley-reload-signal | famous-hockley | State artwork; no motion required |
+| hockley-plan | famous-hockley | State artwork; no motion required |
+| hockley-speak | famous-hockley | State artwork; no motion required |
+| johnson-walk-e-1 | famous-johnson | johnson-walk-e |
+| johnson-walk-e-2 | famous-johnson | johnson-walk-e |
+| johnson-walk-e-3 | famous-johnson | johnson-walk-e |
+| johnson-walk-e-4 | famous-johnson | johnson-walk-e |
+| johnson-walk-s-1 | famous-johnson | johnson-walk-s |
+| johnson-walk-s-2 | famous-johnson | johnson-walk-s |
+| johnson-walk-n-1 | famous-johnson | johnson-walk-n |
+| johnson-walk-n-2 | famous-johnson | johnson-walk-n |
+| johnson-idle | famous-johnson | State artwork; no motion required |
+| johnson-point | famous-johnson | johnson-command |
+| johnson-gather | famous-johnson | johnson-command |
+| johnson-map | famous-johnson | State artwork; no motion required |
+| johnson-escape-e-1 | famous-johnson | johnson-escape-e |
+| johnson-escape-e-2 | famous-johnson | johnson-escape-e |
+| johnson-door-crouch | famous-johnson | State artwork; no motion required |
+| johnson-look-back | famous-johnson | State artwork; no motion required |
+| karnes-walk-e-1 | famous-karnes | karnes-walk-e |
+| karnes-walk-e-2 | famous-karnes | karnes-walk-e |
+| karnes-walk-e-3 | famous-karnes | karnes-walk-e |
+| karnes-walk-e-4 | famous-karnes | karnes-walk-e |
+| karnes-walk-s-1 | famous-karnes | karnes-walk-s |
+| karnes-walk-s-2 | famous-karnes | karnes-walk-s |
+| karnes-walk-n-1 | famous-karnes | karnes-walk-n |
+| karnes-walk-n-2 | famous-karnes | karnes-walk-n |
+| karnes-idle | famous-karnes | State artwork; no motion required |
+| karnes-command | famous-karnes | State artwork; no motion required |
+| karnes-aim | famous-karnes | State artwork; no motion required |
+| karnes-fire | famous-karnes | State artwork; no motion required |
+| karnes-crowbar-set | famous-karnes | karnes-crowbar-work |
+| karnes-crowbar-lever | famous-karnes | karnes-crowbar-work |
+| karnes-listen | famous-karnes | State artwork; no motion required |
+| karnes-rest | famous-karnes | State artwork; no motion required |
+| karnes-mounted-walk-e-1 | famous-karnes-mounted | karnes-mounted-walk-e |
+| karnes-mounted-walk-e-2 | famous-karnes-mounted | karnes-mounted-walk-e |
+| karnes-mounted-idle-e | famous-karnes-mounted | State artwork; no motion required |
+| karnes-mounted-idle-s | famous-karnes-mounted | State artwork; no motion required |
+| lamar-walk-e-1 | famous-lamar | lamar-walk-e |
+| lamar-walk-e-2 | famous-lamar | lamar-walk-e |
+| lamar-walk-e-3 | famous-lamar | lamar-walk-e |
+| lamar-walk-e-4 | famous-lamar | lamar-walk-e |
+| lamar-walk-s-1 | famous-lamar | lamar-walk-s |
+| lamar-walk-s-2 | famous-lamar | lamar-walk-s |
+| lamar-walk-n-1 | famous-lamar | lamar-walk-n |
+| lamar-walk-n-2 | famous-lamar | lamar-walk-n |
+| lamar-idle | famous-lamar | State artwork; no motion required |
+| lamar-command | famous-lamar | State artwork; no motion required |
+| lamar-salute | famous-lamar | State artwork; no motion required |
+| lamar-saber-low | famous-lamar | State artwork; no motion required |
+| lamar-reach | famous-lamar | State artwork; no motion required |
+| lamar-withdraw-signal | famous-lamar | State artwork; no motion required |
+| lamar-listen | famous-lamar | State artwork; no motion required |
+| lamar-rest | famous-lamar | State artwork; no motion required |
+| lamar-mounted-walk-e-1 | famous-lamar-mounted | lamar-mounted-walk-e |
+| lamar-mounted-walk-e-2 | famous-lamar-mounted | lamar-mounted-walk-e |
+| lamar-mounted-idle-e | famous-lamar-mounted | State artwork; no motion required |
+| lamar-mounted-rescue-e | famous-lamar-mounted | State artwork; no motion required |
+| mcculloch-walk-e-1 | famous-mcculloch | mcculloch-walk-e |
+| mcculloch-walk-e-2 | famous-mcculloch | mcculloch-walk-e |
+| mcculloch-walk-e-3 | famous-mcculloch | mcculloch-walk-e |
+| mcculloch-walk-e-4 | famous-mcculloch | mcculloch-walk-e |
+| mcculloch-walk-s-1 | famous-mcculloch | mcculloch-walk-s |
+| mcculloch-walk-s-2 | famous-mcculloch | mcculloch-walk-s |
+| mcculloch-walk-n-1 | famous-mcculloch | mcculloch-walk-n |
+| mcculloch-walk-n-2 | famous-mcculloch | mcculloch-walk-n |
+| mcculloch-idle | famous-mcculloch | State artwork; no motion required |
+| mcculloch-hold-shot | famous-mcculloch | mcculloch-gun-service |
+| mcculloch-ram | famous-mcculloch | mcculloch-gun-service |
+| mcculloch-step-back | famous-mcculloch | State artwork; no motion required |
+| mcculloch-inspect | famous-mcculloch | State artwork; no motion required |
+| mcculloch-brace | famous-mcculloch | mcculloch-gun-service |
+| mcculloch-powder-pouch | famous-mcculloch | State artwork; no motion required |
+| mcculloch-listen | famous-mcculloch | State artwork; no motion required |
 | moore-walk-e-1 | famous-moore | moore-walk-e |
 | moore-walk-e-2 | famous-moore | moore-walk-e |
 | moore-walk-e-3 | famous-moore | moore-walk-e |
@@ -848,6 +1205,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | santa-anna-mounted-walk-e-2 | famous-santa-anna-mounted | santa-anna-mounted-walk-e |
 | santa-anna-mounted-idle-e | famous-santa-anna-mounted | State artwork; no motion required |
 | santa-anna-mounted-walk-s | famous-santa-anna-mounted | State artwork; no motion required |
+| neill-walk-e-1 | famous-neill | neill-walk-e |
+| neill-walk-e-2 | famous-neill | neill-walk-e |
+| neill-walk-e-3 | famous-neill | neill-walk-e |
+| neill-walk-e-4 | famous-neill | neill-walk-e |
+| neill-walk-s-1 | famous-neill | neill-walk-s |
+| neill-walk-s-2 | famous-neill | neill-walk-s |
+| neill-walk-n-1 | famous-neill | neill-walk-n |
+| neill-walk-n-2 | famous-neill | neill-walk-n |
+| neill-idle | famous-neill | State artwork; no motion required |
+| neill-command | famous-neill | State artwork; no motion required |
+| neill-rammer | famous-neill | neill-gun-service |
+| neill-sight | famous-neill | neill-gun-service |
+| neill-brace | famous-neill | neill-gun-service |
+| neill-pass-shot | famous-neill | State artwork; no motion required |
+| neill-wounded-seated | famous-neill | State artwork; no motion required |
+| neill-recover | famous-neill | State artwork; no motion required |
 | crockett-walk-e-1 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-2 | famous-crockett | crockett-walk-e |
 | crockett-walk-e-3 | famous-crockett | crockett-walk-e |
@@ -956,6 +1329,74 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | picnic-blanket | famous-picnic-props | State artwork; no motion required |
 | picnic-basket | famous-picnic-props | State artwork; no motion required |
 | picnic-jug-cups | famous-picnic-props | State artwork; no motion required |
+| rusk-walk-e-1 | famous-rusk | rusk-walk-e |
+| rusk-walk-e-2 | famous-rusk | rusk-walk-e |
+| rusk-walk-e-3 | famous-rusk | rusk-walk-e |
+| rusk-walk-e-4 | famous-rusk | rusk-walk-e |
+| rusk-walk-s-1 | famous-rusk | rusk-walk-s |
+| rusk-walk-s-2 | famous-rusk | rusk-walk-s |
+| rusk-walk-n-1 | famous-rusk | rusk-walk-n |
+| rusk-walk-n-2 | famous-rusk | rusk-walk-n |
+| rusk-idle | famous-rusk | State artwork; no motion required |
+| rusk-command | famous-rusk | State artwork; no motion required |
+| rusk-stop-one | famous-rusk | rusk-stop |
+| rusk-stop-both | famous-rusk | rusk-stop |
+| rusk-reach | famous-rusk | State artwork; no motion required |
+| rusk-read | famous-rusk | State artwork; no motion required |
+| rusk-write | famous-rusk | State artwork; no motion required |
+| rusk-rest | famous-rusk | State artwork; no motion required |
+| rusk-mounted-walk-e-1 | famous-rusk-mounted | rusk-mounted-walk-e |
+| rusk-mounted-walk-e-2 | famous-rusk-mounted | rusk-mounted-walk-e |
+| rusk-mounted-idle-e | famous-rusk-mounted | State artwork; no motion required |
+| rusk-mounted-stop-e | famous-rusk-mounted | State artwork; no motion required |
+| seguin-mounted-walk-e-1 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
+| seguin-mounted-walk-e-2 | famous-seguin-mounted-motion | seguin-mounted-walk-e |
+| seguin-mounted-canter-e-1 | famous-seguin-mounted-motion | seguin-mounted-canter-e |
+| seguin-mounted-canter-e-2 | famous-seguin-mounted-motion | seguin-mounted-canter-e |
+| seguin-mounted-walk-s-1 | famous-seguin-mounted-ns | seguin-mounted-walk-s |
+| seguin-mounted-walk-s-2 | famous-seguin-mounted-ns | seguin-mounted-walk-s |
+| seguin-mounted-walk-n-1 | famous-seguin-mounted-ns | seguin-mounted-walk-n |
+| seguin-mounted-walk-n-2 | famous-seguin-mounted-ns | seguin-mounted-walk-n |
+| sherman-walk-e-1 | famous-sherman | sherman-walk-e |
+| sherman-walk-e-2 | famous-sherman | sherman-walk-e |
+| sherman-walk-e-3 | famous-sherman | sherman-walk-e |
+| sherman-walk-e-4 | famous-sherman | sherman-walk-e |
+| sherman-walk-s-1 | famous-sherman | sherman-walk-s |
+| sherman-walk-s-2 | famous-sherman | sherman-walk-s |
+| sherman-walk-n-1 | famous-sherman | sherman-walk-n |
+| sherman-walk-n-2 | famous-sherman | sherman-walk-n |
+| sherman-idle | famous-sherman | State artwork; no motion required |
+| sherman-command | famous-sherman | State artwork; no motion required |
+| sherman-rally | famous-sherman | State artwork; no motion required |
+| sherman-glass | famous-sherman | State artwork; no motion required |
+| sherman-folded-banner | famous-sherman | State artwork; no motion required |
+| sherman-point | famous-sherman | State artwork; no motion required |
+| sherman-listen | famous-sherman | State artwork; no motion required |
+| sherman-rest | famous-sherman | State artwork; no motion required |
+| sherman-mounted-walk-e-1 | famous-sherman-mounted | sherman-mounted-walk-e |
+| sherman-mounted-walk-e-2 | famous-sherman-mounted | sherman-mounted-walk-e |
+| sherman-mounted-idle-e | famous-sherman-mounted | State artwork; no motion required |
+| sherman-mounted-rally-e | famous-sherman-mounted | State artwork; no motion required |
+| urrea-walk-e-1 | famous-urrea | urrea-walk-e |
+| urrea-walk-e-2 | famous-urrea | urrea-walk-e |
+| urrea-walk-e-3 | famous-urrea | urrea-walk-e |
+| urrea-walk-e-4 | famous-urrea | urrea-walk-e |
+| urrea-walk-s-1 | famous-urrea | urrea-walk-s |
+| urrea-walk-s-2 | famous-urrea | urrea-walk-s |
+| urrea-walk-n-1 | famous-urrea | urrea-walk-n |
+| urrea-walk-n-2 | famous-urrea | urrea-walk-n |
+| urrea-idle | famous-urrea | State artwork; no motion required |
+| urrea-command | famous-urrea | State artwork; no motion required |
+| urrea-point | famous-urrea | State artwork; no motion required |
+| urrea-map | famous-urrea | State artwork; no motion required |
+| urrea-dispatch | famous-urrea | State artwork; no motion required |
+| urrea-address | famous-urrea | State artwork; no motion required |
+| urrea-receive-paper | famous-urrea | State artwork; no motion required |
+| urrea-rest | famous-urrea | State artwork; no motion required |
+| urrea-mounted-walk-e-1 | famous-urrea-mounted | urrea-mounted-walk-e |
+| urrea-mounted-walk-e-2 | famous-urrea-mounted | urrea-mounted-walk-e |
+| urrea-mounted-idle-e | famous-urrea-mounted | State artwork; no motion required |
+| urrea-mounted-idle-s | famous-urrea-mounted | State artwork; no motion required |
 | flag-come-and-take-it | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
@@ -2073,6 +2514,126 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
+| mother-scarf-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| mother-scarf-walk-s | Pose cycle | 2 | 560 | yes | south |
+| mother-scarf-walk-n | Pose cycle | 2 | 560 | yes | north |
+| mother-scarf-idle-s | breathe | 1 | 1500 | yes | south |
+| mother-scarf-idle-e | breathe | 1 | 1500 | yes | east |
+| mother-scarf-idle-n | breathe | 1 | 1500 | yes | north |
+| mother-scarf-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-scarf-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-scarf-work | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-scarf-listen-s | breathe | 1 | 1500 | yes | undefined |
+| mother-scarf-listen-n | breathe | 1 | 1500 | yes | undefined |
+| mother-scarf-speak | breathe | 1 | 1500 | yes | undefined |
+| father-straw-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| father-straw-walk-s | Pose cycle | 2 | 560 | yes | south |
+| father-straw-walk-n | Pose cycle | 2 | 560 | yes | north |
+| father-straw-idle-s | breathe | 1 | 1500 | yes | south |
+| father-straw-idle-e | breathe | 1 | 1500 | yes | east |
+| father-straw-idle-n | breathe | 1 | 1500 | yes | north |
+| father-straw-rest | Still state | 1 | 1500 | yes | undefined |
+| father-straw-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| father-straw-work | Pose cycle | 2 | 1300 | yes | undefined |
+| father-straw-listen-s | breathe | 1 | 1500 | yes | undefined |
+| father-straw-listen-n | breathe | 1 | 1500 | yes | undefined |
+| father-straw-speak | breathe | 1 | 1500 | yes | undefined |
+| father-beard-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| father-beard-walk-s | Pose cycle | 2 | 560 | yes | south |
+| father-beard-walk-n | Pose cycle | 2 | 560 | yes | north |
+| father-beard-idle-s | breathe | 1 | 1500 | yes | south |
+| father-beard-idle-e | breathe | 1 | 1500 | yes | east |
+| father-beard-idle-n | breathe | 1 | 1500 | yes | north |
+| father-beard-rest | Still state | 1 | 1500 | yes | undefined |
+| father-beard-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| father-beard-work | Pose cycle | 2 | 1300 | yes | undefined |
+| father-beard-listen-s | breathe | 1 | 1500 | yes | undefined |
+| father-beard-listen-n | breathe | 1 | 1500 | yes | undefined |
+| father-beard-speak | breathe | 1 | 1500 | yes | undefined |
+| father-moustache-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| father-moustache-walk-s | Pose cycle | 2 | 560 | yes | south |
+| father-moustache-walk-n | Pose cycle | 2 | 560 | yes | north |
+| father-moustache-idle-s | breathe | 1 | 1500 | yes | south |
+| father-moustache-idle-e | breathe | 1 | 1500 | yes | east |
+| father-moustache-idle-n | breathe | 1 | 1500 | yes | north |
+| father-moustache-rest | Still state | 1 | 1500 | yes | undefined |
+| father-moustache-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| father-moustache-work | Pose cycle | 2 | 1300 | yes | undefined |
+| father-moustache-listen-s | breathe | 1 | 1500 | yes | undefined |
+| father-moustache-listen-n | breathe | 1 | 1500 | yes | undefined |
+| father-moustache-speak | breathe | 1 | 1500 | yes | undefined |
+| mother-braid-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| mother-braid-walk-s | Pose cycle | 2 | 560 | yes | south |
+| mother-braid-walk-n | Pose cycle | 2 | 560 | yes | north |
+| mother-braid-idle-s | breathe | 1 | 1500 | yes | south |
+| mother-braid-idle-e | breathe | 1 | 1500 | yes | east |
+| mother-braid-idle-n | breathe | 1 | 1500 | yes | north |
+| mother-braid-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-braid-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-braid-work | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-braid-listen-s | breathe | 1 | 1500 | yes | undefined |
+| mother-braid-listen-n | breathe | 1 | 1500 | yes | undefined |
+| mother-braid-speak | breathe | 1 | 1500 | yes | undefined |
+| mother-loose-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| mother-loose-walk-s | Pose cycle | 2 | 560 | yes | south |
+| mother-loose-walk-n | Pose cycle | 2 | 560 | yes | north |
+| mother-loose-idle-s | breathe | 1 | 1500 | yes | south |
+| mother-loose-idle-e | breathe | 1 | 1500 | yes | east |
+| mother-loose-idle-n | breathe | 1 | 1500 | yes | north |
+| mother-loose-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-loose-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-loose-work | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-loose-listen-s | breathe | 1 | 1500 | yes | undefined |
+| mother-loose-listen-n | breathe | 1 | 1500 | yes | undefined |
+| mother-loose-speak | breathe | 1 | 1500 | yes | undefined |
+| mother-straw-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| mother-straw-walk-s | Pose cycle | 2 | 560 | yes | south |
+| mother-straw-walk-n | Pose cycle | 2 | 560 | yes | north |
+| mother-straw-idle-s | breathe | 1 | 1500 | yes | south |
+| mother-straw-idle-e | breathe | 1 | 1500 | yes | east |
+| mother-straw-idle-n | breathe | 1 | 1500 | yes | north |
+| mother-straw-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-straw-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-straw-work | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-straw-listen-s | breathe | 1 | 1500 | yes | undefined |
+| mother-straw-listen-n | breathe | 1 | 1500 | yes | undefined |
+| mother-straw-speak | breathe | 1 | 1500 | yes | undefined |
+| youth-boy-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| youth-boy-walk-s | Pose cycle | 2 | 560 | yes | south |
+| youth-boy-walk-n | Pose cycle | 2 | 560 | yes | north |
+| youth-boy-idle-s | breathe | 1 | 1500 | yes | south |
+| youth-boy-idle-e | breathe | 1 | 1500 | yes | east |
+| youth-boy-idle-n | breathe | 1 | 1500 | yes | north |
+| youth-boy-rest | Still state | 1 | 1500 | yes | undefined |
+| youth-boy-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| youth-boy-work | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-boy-listen-s | breathe | 1 | 1500 | yes | undefined |
+| youth-boy-listen-n | breathe | 1 | 1500 | yes | undefined |
+| youth-boy-speak | breathe | 1 | 1500 | yes | undefined |
+| youth-girl-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| youth-girl-walk-s | Pose cycle | 2 | 560 | yes | south |
+| youth-girl-walk-n | Pose cycle | 2 | 560 | yes | north |
+| youth-girl-idle-s | breathe | 1 | 1500 | yes | south |
+| youth-girl-idle-e | breathe | 1 | 1500 | yes | east |
+| youth-girl-idle-n | breathe | 1 | 1500 | yes | north |
+| youth-girl-rest | Still state | 1 | 1500 | yes | undefined |
+| youth-girl-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| youth-girl-work | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-girl-listen-s | breathe | 1 | 1500 | yes | undefined |
+| youth-girl-listen-n | breathe | 1 | 1500 | yes | undefined |
+| youth-girl-speak | breathe | 1 | 1500 | yes | undefined |
+| father-hat-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| father-hat-walk-s | Pose cycle | 2 | 560 | yes | south |
+| father-hat-walk-n | Pose cycle | 2 | 560 | yes | north |
+| father-hat-idle-s | breathe | 1 | 1500 | yes | south |
+| father-hat-idle-e | breathe | 1 | 1500 | yes | east |
+| father-hat-idle-n | breathe | 1 | 1500 | yes | north |
+| father-hat-rest | Still state | 1 | 1500 | yes | undefined |
+| father-hat-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| father-hat-work | Pose cycle | 2 | 1300 | yes | undefined |
+| father-hat-listen-s | breathe | 1 | 1500 | yes | undefined |
+| father-hat-listen-n | breathe | 1 | 1500 | yes | undefined |
+| father-hat-speak | breathe | 1 | 1500 | yes | undefined |
 | bonham-walk-e | Pose cycle | 4 | 760 | yes | east |
 | bonham-walk-s | Pose cycle | 2 | 580 | yes | south |
 | bonham-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -2092,6 +2653,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | almonte-walk-e | Pose cycle | 4 | 760 | yes | east |
 | almonte-walk-s | Pose cycle | 2 | 580 | yes | south |
 | almonte-walk-n | Pose cycle | 2 | 580 | yes | north |
+| austin-walk-e | Pose cycle | 4 | 760 | yes | east |
+| austin-walk-s | Pose cycle | 2 | 580 | yes | south |
+| austin-walk-n | Pose cycle | 2 | 580 | yes | north |
 | twin-sisters-limbered | Pose cycle | 2 | 600 | yes | east; mirror for west |
 | ben-walk-e | Pose cycle | 4 | 760 | yes | east |
 | ben-walk-s | Pose cycle | 2 | 580 | yes | south |
@@ -2112,19 +2676,59 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | castaneda-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | castrillon-walk-e | Pose cycle | 2 | 540 | yes | east |
 | castrillon-fall | Pose cycle | 3 | 700 | one-shot | east; mirror for west |
+| condelle-walk-e | Pose cycle | 4 | 760 | yes | east |
+| condelle-walk-s | Pose cycle | 2 | 580 | yes | south |
+| condelle-walk-n | Pose cycle | 2 | 580 | yes | north |
+| condelle-command | Pose cycle | 2 | 1500 | yes | east; mirror for west |
 | cos-walk-e | Pose cycle | 4 | 760 | yes | east |
 | cos-walk-s | Pose cycle | 2 | 580 | yes | south |
 | cos-walk-n | Pose cycle | 2 | 580 | yes | north |
 | cos-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | crockett-captive | Pose cycle | 2 | 3100 | yes | east; mirror for west |
+| deaf-smith-walk-e | Pose cycle | 4 | 760 | yes | east |
+| deaf-smith-walk-s | Pose cycle | 2 | 580 | yes | south |
+| deaf-smith-walk-n | Pose cycle | 2 | 580 | yes | north |
+| deaf-smith-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| deaf-smith-axe-work | Pose cycle | 2 | 700 | one-shot | east; mirror for west |
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| grant-walk-e | Pose cycle | 4 | 760 | yes | east |
+| grant-walk-s | Pose cycle | 2 | 580 | yes | south |
+| grant-walk-n | Pose cycle | 2 | 580 | yes | north |
+| grant-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| grant-mounted-gallop-e | Pose cycle | 4 | 540 | yes | east; mirror for west |
+| hockley-walk-e | Pose cycle | 4 | 760 | yes | east |
+| hockley-walk-s | Pose cycle | 2 | 580 | yes | south |
+| hockley-walk-n | Pose cycle | 2 | 580 | yes | north |
+| hockley-battery-command | Pose cycle | 3 | 1100 | yes | east; mirror for west |
+| johnson-walk-e | Pose cycle | 4 | 760 | yes | east |
+| johnson-walk-s | Pose cycle | 2 | 580 | yes | south |
+| johnson-walk-n | Pose cycle | 2 | 580 | yes | north |
+| johnson-command | Pose cycle | 2 | 1020 | yes | east; mirror for west |
+| johnson-escape-e | Pose cycle | 2 | 350 | yes | east; mirror for west |
+| karnes-walk-e | Pose cycle | 4 | 760 | yes | east |
+| karnes-walk-s | Pose cycle | 2 | 580 | yes | south |
+| karnes-walk-n | Pose cycle | 2 | 580 | yes | north |
+| karnes-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| karnes-crowbar-work | Pose cycle | 2 | 680 | yes | east; mirror for west |
+| lamar-walk-e | Pose cycle | 4 | 760 | yes | east |
+| lamar-walk-s | Pose cycle | 2 | 580 | yes | south |
+| lamar-walk-n | Pose cycle | 2 | 580 | yes | north |
+| lamar-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| mcculloch-walk-e | Pose cycle | 4 | 760 | yes | east |
+| mcculloch-walk-s | Pose cycle | 2 | 580 | yes | south |
+| mcculloch-walk-n | Pose cycle | 2 | 580 | yes | north |
+| mcculloch-gun-service | Pose cycle | 3 | 1080 | yes | east; mirror for west |
 | moore-walk-e | Pose cycle | 4 | 760 | yes | east |
 | moore-walk-s | Pose cycle | 2 | 580 | yes | south |
 | moore-walk-n | Pose cycle | 2 | 580 | yes | north |
 | houston-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | santa-anna-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
+| neill-walk-e | Pose cycle | 4 | 760 | yes | east |
+| neill-walk-s | Pose cycle | 2 | 580 | yes | south |
+| neill-walk-n | Pose cycle | 2 | 580 | yes | north |
+| neill-gun-service | Pose cycle | 3 | 1120 | yes | east; mirror for west |
 | crockett-walk-e | Pose cycle | 4 | 760 | yes | east |
 | crockett-walk-s | Pose cycle | 2 | 580 | yes | south |
 | crockett-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -2146,6 +2750,23 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | emily-west-picnic-converse | Pose cycle | 4 | 4300 | yes | west-facing at a camp table |
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
+| rusk-walk-e | Pose cycle | 4 | 760 | yes | east |
+| rusk-walk-s | Pose cycle | 2 | 580 | yes | south |
+| rusk-walk-n | Pose cycle | 2 | 580 | yes | north |
+| rusk-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| rusk-stop | Pose cycle | 2 | 1120 | yes | east; mirror for west |
+| seguin-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| seguin-mounted-canter-e | Pose cycle | 2 | 380 | yes | east; mirror for west |
+| seguin-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| seguin-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| sherman-walk-e | Pose cycle | 4 | 760 | yes | east |
+| sherman-walk-s | Pose cycle | 2 | 580 | yes | south |
+| sherman-walk-n | Pose cycle | 2 | 580 | yes | north |
+| sherman-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| urrea-walk-e | Pose cycle | 4 | 760 | yes | east |
+| urrea-walk-s | Pose cycle | 2 | 580 | yes | south |
+| urrea-walk-n | Pose cycle | 2 | 580 | yes | north |
+| urrea-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |

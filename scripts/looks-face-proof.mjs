@@ -46,12 +46,21 @@ const shots = [];
  * hair's own paint. Measured on the art, 2026-09-28, as the averages of its painted regions.
  */
 const FIGURES = {
-  rust: { face: [.331, .655, .162, .278], skin: [214, 140, 81], hair: [[60, 37, 24]] },
   elder: { face: [.327, .667, .118, .262], skin: [104, 62, 37], hair: [[151, 131, 114], [108, 91, 79], [200, 192, 180]] },
   ochre: { face: [.327, .667, .097, .281], skin: [248, 154, 84], hair: [[69, 43, 26]] },
   'rust-woman': { face: [.350, .675, .108, .293], skin: [233, 130, 62], hair: [[77, 44, 21]] },
   teal: { face: [.301, .667, .067, .280], skin: [173, 92, 45], hair: [[58, 40, 30]] },
-  indigo: { face: [.324, .665, .073, .265], skin: [203, 107, 49], hair: [[63, 43, 32]] },
+  // Astra's family figures of 2026-10-02 (public/avatar-identity.js `PARENT_VARIANTS`): the felt hat, the beard, the moustache
+  // and the straw hat; the braid, the loose hair, the headscarf and the woman's straw hat. Since then no parent is drawn as her
+  // rust man or her indigo woman. Measured the same way on her south idles (2026-10-02).
+  'father-hat': { face: [.30, .65, .099, .264], skin: [244, 138, 67], hair: [[71, 38, 18], [75, 38, 15], [75, 39, 18]] },
+  'father-beard': { face: [.33, .68, .104, .253], skin: [236, 138, 70], hair: [[75, 42, 23], [73, 42, 22]] },
+  'father-moustache': { face: [.32, .67, .100, .298], skin: [247, 143, 73], hair: [[73, 43, 25], [72, 42, 24]] },
+  'father-straw': { face: [.37, .65, .088, .257], skin: [239, 138, 65], hair: [[68, 39, 18], [68, 37, 16]] },
+  'mother-braid': { face: [.34, .68, .084, .274], skin: [241, 135, 65], hair: [[73, 42, 27], [73, 40, 24]] },
+  'mother-loose': { face: [.34, .70, .095, .293], skin: [239, 136, 66], hair: [[70, 42, 25], [61, 36, 22]] },
+  'mother-scarf': { face: [.34, .66, .099, .282], skin: [243, 136, 63], hair: [[74, 42, 23], [71, 40, 21]] },
+  'mother-straw': { face: [.34, .69, .114, .301], skin: [247, 139, 59], hair: [[74, 42, 23], [72, 41, 22]] },
 };
 /**
  * Her children's figures (2026-09-29, the family's start): dyed to the child's own tone since that day, where until then they were
@@ -62,6 +71,9 @@ const CHILDREN = {
   // The boy's sandy hair has dark brown strands painted through it, at the crown and the fringe (measured at the top of his head).
   boy: { face: [.273, .727, .101, .308], skin: [247, 164, 101], hair: [[198, 134, 66], [197, 133, 65], [122, 75, 31], [94, 59, 29], [142, 88, 37], [128, 79, 34]] },
   smallchild: { face: [.243, .75, .11, .358], skin: [225, 127, 57], hair: [[77, 44, 24]] },
+  // Her adolescents of 2026-10-02, between the children and the grown (ten to seventeen).
+  'youth-boy': { face: [.29, .72, .121, .313], skin: [245, 146, 76], hair: [[90, 49, 27]] },
+  'youth-girl': { face: [.25, .72, .098, .325], skin: [231, 130, 61], hair: [[73, 42, 26], [74, 43, 26], [65, 38, 22]] },
 };
 /** At most this share of a head's pixels may take the hair dye while painted in no hair colour (the release had 3.4-8.4%). */
 const STRAY_LIMIT = .005;
@@ -177,7 +189,9 @@ try {
     // The walking figure beside the preview and on the map: every frame of the walk.
     let worst = 0;
     for (const frame of [1, 2, 3, 4]) {
-      const walk = await measure(page, `${variant}-walk-${frame}`, figure, null);
+      // Her 2026-10-02 figures name their east walk `-walk-e-N`.
+      let walk = await measure(page, `${variant}-walk-${frame}`, figure, null);
+      if (walk.missing) walk = await measure(page, `${variant}-walk-e-${frame}`, figure, null);
       if (walk.missing) continue;
       const share = walk.stray / walk.head;
       worst = Math.max(worst, share);
@@ -200,7 +214,8 @@ try {
     assert.ok(undyedShare <= UNDYED_LIMIT, `${variant}: ${standing.undyed} of ${standing.face} pixels of the face's own paint keep the painted skin when the skin choice changes (${(undyedShare * 100).toFixed(1)}%) - the child is not drawn in the family's tone`);
     let worst = 0;
     for (const frame of [1, 2, 3, 4]) {
-      const walk = await measure(page, `${variant}-walk-${frame}`, figure, null);
+      let walk = await measure(page, `${variant}-walk-${frame}`, figure, null);
+      if (walk.missing) walk = await measure(page, `${variant}-walk-e-${frame}`, figure, null);
       if (walk.missing) continue;
       worst = Math.max(worst, walk.stray / walk.head);
       assert.ok(walk.stray / walk.head <= STRAY_LIMIT, `${variant}-walk-${frame}: the hair choice dyes ${walk.stray} of ${walk.head} head pixels painted in no hair colour`);
@@ -252,8 +267,8 @@ try {
           pictures += await student.locator('#looks canvas').count();
         }
         observed.everyChoice = (observed.everyChoice || 0) + pictures;
-        // A father's "Moustache" is painted on the bareheaded man (stand-in, public/person-palette.js): its picture is not
-        // the "Bareheaded" one, whichever of the two was drawn first (the recoloured frame is cached by what it shows).
+        // A father's "Moustache" is Astra's moustached father since 2026-10-02 (until then a moustache painted on the bareheaded
+        // man): its picture is not the "Bareheaded" one, whichever of the two was drawn first.
         const tile = value => student.locator(`#looks-parts button[data-part="head"][data-value="${value}"] canvas`);
         if (await tile('moustache').count() && await tile('bareheaded').count()) {
           for (const value of ['moustache', 'bareheaded']) {

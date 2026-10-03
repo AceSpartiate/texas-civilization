@@ -27,7 +27,6 @@ export const CLAUDE_PERSON_ART = Object.freeze({
   horton: famous('horton', { fires: true, rides: true }),
   'wp-smith': famous('wp-smith', { extra: { command: 'wp-smith-address', address: 'wp-smith-address', listen: 'wp-smith-listen' } }),
   smither: famous('smither', { rides: true, extra: { call: 'smither-call' } }),
-  condelle: famous('condelle', { mx: true, extra: { address: 'condelle-address' } }),
   'sanchez-navarro': famous('sanchez-navarro', { mx: true, extra: { parley: 'sanchez-navarro-parley' } }),
   barragan: famous('barragan', { mx: true, extra: { protect: 'barragan-protect' } }),
   'ana-esparza': { stand: 'ana-esparza-idle', seated: 'ana-esparza-seated', sick: 'ana-esparza-seated', shelter: 'ana-esparza-shelter-with-children', carry: 'clip:ana-esparza-carry-toddler', blanket: 'ana-esparza-hold-blanket', walk: 'ana-esparza-walk-e', fallback: 'woman', ...BURIAL },

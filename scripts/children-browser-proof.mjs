@@ -172,8 +172,9 @@ try {
   const sitting = await drawnOver(page, kid.id, 2000);
   assert.ok(sitting.clips.some(clip => /play-sit-doll|rest/.test(clip)), `the child with a doll was not drawn sitting: ${sitting.clips}`);
   ok(`with a corn-husk doll the child is drawn sitting (${sitting.clips.join(', ')})`);
-  // The hens are work: the child is drawn in Astra's grown sowing at a child's size (the stand-in, public/app.js `drawAtWork`) -
-  // never Claude's `-scatter`, a Claude drawing of her child, while her child is in the library (owner, 2026-09-29).
+  // The hens are work: the child is drawn in her own young figure, standing (Astra, 2026-10-02, docs/FAMILY_ART_2026-10-02.md:
+  // "Do not add an adult fallback for unavailable child actions"; until then her grown sowing at a child's size) - never Claude's
+  // `-scatter`, a Claude drawing of her child, while her child is in the library (owner, 2026-09-29).
   // The doll is put down first: play lasts until the day ends (2026-09-29).
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="stop-chore"]').click();
   await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, kid.id, { timeout: 30000 });
@@ -184,11 +185,12 @@ try {
   await page.waitForFunction(tick => window.__snapshot.world.tick > tick, tickNow, { timeout: 15000 });
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-hens"]').click();
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-hens', kid.id, { timeout: 15000 });
-  await page.waitForFunction(id => /-sow$/.test(window.__workDrawn?.[id]?.clip || ''), kid.id, { timeout: 60000 })
+  await page.waitForFunction(id => /^(girl|boy|smallchild)-/.test(window.__workDrawn?.[id]?.clip || '') && window.__workDrawn[id].activity === 'child-hens', kid.id, { timeout: 60000 })
     .catch(async error => { console.log('DEBUG hens', JSON.stringify(await page.evaluate(id => ({ work: window.__workDrawn?.[id], clip: window.__clipsDrawn?.[id], chore: window.__snapshot.world.entities.find(one => one.id === id)?.chore }), kid.id))); throw error; });
   observed.hens = await page.evaluate(id => window.__workDrawn[id].clip, kid.id);
   await shot(page, 'hens-1366');
-  ok(`scattering corn for the hens the child is drawn in Astra's ${observed.hens}, not Claude's scatter`);
+  assert.ok(!/scatter/.test(observed.hens), `the child at the hens is drawn in Claude's ${observed.hens}`);
+  ok(`scattering corn for the hens the child is drawn in Astra's own young ${observed.hens}, not a grown figure and not Claude's scatter`);
 
   // 3. The child's own automation turns itself off, with a notice on the row.
   const autoSwitch = page.locator(`.panel-row[data-entity-id="${kid.id}"] .panel-auto`);
@@ -222,7 +224,8 @@ try {
   assert.match(observed.held.babyLife || '', /^Held by/);
   // Holding the baby: Astra's figure at the harvest's carry, the baby drawn with them (owner, 2026-09-29: her art always wins) -
   // never Claude's `-hold-baby`, a Claude drawing of her figure.
-  assert.match(held.clip || '', /carry$/, `the carer is not drawn as Astra's figure carrying: ${held.clip}`);
+  // Her family figures of 2026-10-02 have no carry cycle: their walk (public/avatar-identity.js `avatarBinding`).
+  assert.match(held.clip || '', /carry$|^(father|mother|youth)-[a-z]+-walk$/, `the carer is not drawn as Astra's figure carrying: ${held.clip}`);
   await shot(page, 'baby-held-1366');
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.baby?.state === 'nap', baby.id, { timeout: 30000 });
   const after = await person(page, carer.id);

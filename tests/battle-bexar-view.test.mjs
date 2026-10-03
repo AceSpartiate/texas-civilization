@@ -81,6 +81,19 @@ test('in the houses most men are out of sight: the fire is flashes and smoke at 
   assert.ok(art.drawn.some(one => one.clip === 'rust-work' || one.clip === 'teal-work'), 'nobody digs the trench at night');
 });
 
+test('Neill serves his own gun during the Béxar feint', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  play(view, 'feint', { seconds: 2, into: tick => 4 + tick });
+  assert.ok(art.drawn.some(one => one.clip === 'neill-gun-service'), 'Neill was not drawn serving his own gun');
+});
+
+test('Johnson takes command in his own art at seven on the seventh', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  play(view, 'night-7', { seconds: 2, into: tick => 179 + tick });
+  assert.ok(art.drawn.some(one => one.sprite === 'johnson-idle' || one.clip === 'johnson-walk-e'), JSON.stringify([...new Set(art.drawn.map(one => one.sprite || one.clip).filter(name => /johnson/.test(name)))]));
+  assert.ok(art.drawn.some(one => one.clip === 'johnson-command'));
+});
+
 test('Burleson rides into the Béxar talks on his own mounted sheet', () => {
   const art = fakeArt(), view = createBattleView(art);
   play(view, 'parley', { seconds: 2, into: tick => 55 + tick });
@@ -111,7 +124,9 @@ test('Karnes\'s door: a man at the bar until it gives, then the hole; the family
   const art = fakeArt(), view = createBattleView(art);
   // Minute by minute through the door (the bar from minute 1, open at 5) and the family let out.
   const shown = play(view, 'karnes', { seconds: 30, into: tick => tick });
-  assert.ok(art.drawn.some(one => one.clip === 'volunteer-gun-ram' && one.paused !== undefined), 'nobody worked at the door with the bar');
+  assert.ok(art.drawn.some(one => one.clip === 'karnes-crowbar-work'), `Karnes did not work at the door with his crowbar: ${JSON.stringify([...new Set(art.drawn.map(one => one.clip || one.sprite).filter(name => /karnes|gun-ram/.test(name)))])}`);
+  assert.ok(!art.drawn.some(one => one.clip === 'volunteer-gun-ram'), 'a generic worker was duplicated beside Karnes');
+  assert.ok(art.drawn.some(one => one.sprite === 'karnes-idle'), 'Karnes did not return to an idle pose after the door gave');
   assert.ok(art.drawn.some(one => one.sprite === 'wall-breach'), 'the door never gave');
   assert.ok(shown.breachesOpened >= 1);
   assert.ok(shown.civiliansSeen >= 3, `the family inside was not seen: ${shown.civiliansSeen}`);
@@ -174,5 +189,8 @@ test('with Claude\'s temporary sheets loaded: the barricade, the trench dug by a
   assert.ok(art.drawn.some(one => /^(volunteer|regular)-loophole-fire/.test(one.clip || one.sprite || '')), 'nobody was drawn at a loophole');
   const door = fakeArt({ claude: true });
   play(createBattleView(door), 'karnes', { seconds: 30, into: tick => tick });
-  assert.ok(door.drawn.some(one => one.clip === 'volunteer-crowbar') && !door.drawn.some(one => one.clip === 'volunteer-gun-ram'), 'the door is forced with the rammer');
+  // Karnes forces it himself since Astra drew him with his crowbar (2026-09-28): her `karnes-crowbar-work`, and neither the rammer
+  // nor Claude's generic `volunteer-crowbar` beside him.
+  assert.ok(door.drawn.some(one => one.clip === 'karnes-crowbar-work'), 'Karnes is not at the door with his own crowbar');
+  assert.ok(!door.drawn.some(one => one.clip === 'volunteer-gun-ram' || one.clip === 'volunteer-crowbar'), 'the door is forced with the rammer or by a second man');
 });

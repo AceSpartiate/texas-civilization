@@ -515,7 +515,12 @@ export function entityClip(entity, observed = false) {
   const grown = castVariant(entity, observed), young = entity.kind === 'person' && figureOf(entity, observed);
   if (!young || young === grown) return clip;
   const pose = clip.id.slice(grown.length + 1);
-  return CHILD_POSES[young].includes(pose) ? { ...clip, id: `${young}-${pose}` } : clip;
+  if (CHILD_POSES[young].includes(pose)) return { ...clip, id: `${young}-${pose}` };
+  // An unavailable task/conversation pose must never turn a child into an adult.
+  const childPose = pose.startsWith('injured') && young !== 'infant' ? 'injured-rest'
+    : pose.includes('rest') ? 'rest'
+    : young !== 'infant' && pose.endsWith('-n') ? 'idle-n' : 'idle-s';
+  return { ...clip, id: `${young}-${childPose}`, upright: true };
 }
 /**
  * A pose the delivered library has no picture of, asked for by name with the delivered pose it falls back to: the binding's

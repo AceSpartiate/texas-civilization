@@ -149,7 +149,7 @@ export const SAN_PATRICIO = Object.freeze({
       // 03:05 - 03:10. One house gives up at once; another fights, and a Mexican officer is killed at its door; Johnson and a
       // few go out the back of theirs.
       id: 'houses', minutes: 5, title: 'The houses', step: 1, contact: true, claimId: 'HIST-TEX-510',
-      people: [{ id: 'johnson', with: 'back-door', offset: { along: 0.004, across: 0 } }, { id: 'urrea', with: 'at-square', offset: { along: -0.01, across: 0.004 }, pose: 'command' }],
+      people: [{ id: 'johnson', with: 'back-door', offset: { along: 0.004, across: 0 }, pose: 'escape' }, { id: 'urrea', with: 'at-square', offset: { along: -0.01, across: 0.004 }, pose: 'command' }],
       caption: 'The men in one house give up at once. From another the Texians fire back, and a Mexican officer is killed at the door. Out of the back of a third, Colonel Johnson and a few others slip away into the dark.',
       texian: texians(handsUp('square', 'prisoners', 2), handsUp('house-a', 'prisoners', 3), inside('house-b', 'scattered'), inside('house-c'),
         { keys: [[0, 'house-c'], [1, 'back-door'], [5, 'escape']], style: 'rout', pose: 'stand', action: 'withdraw', face: 'away' }),

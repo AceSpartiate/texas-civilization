@@ -2371,6 +2371,423 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-moore.png",
       "postProcessing": "ImageGen gutter correction from first draft; corrected sheet copied unchanged. Atlas builder measures alpha components and reading-order cells.",
       "review": "Distinct dark-bearded militia commander with parley and field-command poses for Gonzales."
+    },
+    {
+      "sheet": "famous-austin",
+      "promptId": "frontier-v1/famous-austin",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-moore.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec22fa53-375e-4576-b5cf-be800e6c7b7e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-austin.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct clean-shaven civilian commander with campaign-letter and map gestures for the 1835 volunteer army."
+    },
+    {
+      "sheet": "famous-urrea",
+      "promptId": "frontier-v1/famous-urrea",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a066890d-34b1-4989-b714-5a05631d60ff.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea.png",
+      "postProcessing": "ImageGen gutter correction from first draft; corrected sheet copied unchanged. Atlas builder measures alpha components and reading-order cells.",
+      "review": "A distinct bicorne, deep-indigo coat and pale-blue sash establish Urrea across the southern campaign scenes."
+    },
+    {
+      "sheet": "famous-urrea-mounted",
+      "promptId": "frontier-v1/famous-urrea-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-6cb8d87f-3f20-4d44-a193-6a2682b2ca3e.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7fd22476-39ab-42aa-9d79-0e4e6cc89128.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated mounted travel and halt for Agua Dulce and Coleto; mount appearance is artistic interpretation."
+    },
+    {
+      "sheet": "famous-seguin-mounted-motion",
+      "promptId": "frontier-v1/famous-seguin-mounted-motion",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b0c155f8-34d3-43eb-846e-a0590890615c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-seguin-mounted-motion.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "The original mounted east/south key poses remain; new walk and canter clips add distinct leg and stride silhouettes while preserving Seguín and his horse."
+    },
+    {
+      "sheet": "famous-seguin-mounted-ns",
+      "promptId": "frontier-v1/famous-seguin-mounted-ns",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin-mounted-motion.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3884dba8-6810-4edb-8ca9-88ce4332755f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-seguin-mounted-ns.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Matches Seguín and his established chestnut horse; distinct south and north two-step walks complete his cardinal mounted travel."
+    },
+    {
+      "sheet": "famous-deaf-smith",
+      "promptId": "frontier-v1/famous-deaf-smith",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-moore.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a8656d3b-cc48-4ea1-ad57-469b4059eb25.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-deaf-smith.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Buckskin, sage and red-neckcloth scout silhouette; report, tracking, dispatch, non-graphic wound and optional bridge axe frames."
+    },
+    {
+      "sheet": "famous-deaf-smith-mounted",
+      "promptId": "frontier-v1/famous-deaf-smith-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a8656d3b-cc48-4ea1-ad57-469b4059eb25.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-seguin-mounted-motion.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2cc7e493-a0cd-4771-9adb-126d7d2fb4e3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-deaf-smith-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated horse and rider travel for the Grass Fight alarm and Vince’s Bridge party; horse appearance is an artistic interpretation."
+    },
+    {
+      "sheet": "famous-karnes",
+      "promptId": "frontier-v1/famous-karnes",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3f84f02a-ce35-4fb3-ac35-604dda7ac487.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-karnes.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated named Béxar crowbar action and Concepción musket poses. Door edge belongs to the action sprite."
+    },
+    {
+      "sheet": "famous-karnes-mounted",
+      "promptId": "frontier-v1/famous-karnes-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3f84f02a-ce35-4fb3-ac35-604dda7ac487.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3c4ab73a-5587-4e24-a9a6-3128cffd3edb.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-karnes-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Horse gait and mounted rest are available for later scout and cavalry staging; horse appearance is an artistic interpretation."
+    },
+    {
+      "sheet": "famous-neill",
+      "promptId": "frontier-v1/famous-neill",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-karnes.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c3ca2fe6-1a72-444c-bd07-964f3bbeca62.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-neill.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct artillery command and gun-service poses; non-graphic hip wound for the existing April 20 fate. Costume is interpretive."
+    },
+    {
+      "sheet": "famous-lamar",
+      "promptId": "frontier-v1/famous-lamar",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct dark-teal cavalry figure and command, salute, reach and signal poses. Clothing and face are artistic interpretations."
+    },
+    {
+      "sheet": "famous-lamar-mounted",
+      "promptId": "frontier-v1/famous-lamar-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ebd41b8f-e585-4490-9970-0a1632453282.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated mounted gait and reach for the existing April 20 rescue beat; horse coat is interpretive."
+    },
+    {
+      "sheet": "famous-sherman",
+      "promptId": "frontier-v1/famous-sherman",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f9f85b38-611b-4b7d-a37d-a1eb722e2ae9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct field commander silhouette and signal poses. Folded cloth is deliberately unmarked; it is not a reconstruction of the Kentucky flag."
+    },
+    {
+      "sheet": "famous-sherman-mounted",
+      "promptId": "frontier-v1/famous-sherman-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f9f85b38-611b-4b7d-a37d-a1eb722e2ae9.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2b3093c7-5ef0-4630-a236-96f15dafa995.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated horse-and-rider walk and rally signal for the existing April 20 skirmish."
+    },
+    {
+      "sheet": "famous-rusk",
+      "promptId": "frontier-v1/famous-rusk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-682d1146-3c92-4c58-867b-a927f3f10778.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Two-stage nonverbal halt gesture for the existing San Jacinto aftermath, and period document poses available for later scenes."
+    },
+    {
+      "sheet": "famous-rusk-mounted",
+      "promptId": "frontier-v1/famous-rusk-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-682d1146-3c92-4c58-867b-a927f3f10778.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7c303667-e4f1-4ae0-94b0-0d7c23d38fe8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Identity-preserving mounted gait for April 20; mounted stop available to later staging. Horse is interpretive."
+    },
+    {
+      "sheet": "famous-hockley",
+      "promptId": "frontier-v1/famous-hockley",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e87b0e68-bd51-47ac-a345-38a01b892dc3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-hockley.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "A command-and-brace cycle at the Twin Sisters, distinct from a gunner physically loading or ramming a cannon. Outfit and face are interpretive."
+    },
+    {
+      "sheet": "famous-mcculloch",
+      "promptId": "frontier-v1/famous-mcculloch",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-21888220-4973-4b01-b3f8-589ea6c1a16f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-mcculloch.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Named physical service cycle for one Twin Sister, visually distinct from Hockley commanding the battery."
+    },
+    {
+      "sheet": "famous-johnson",
+      "promptId": "frontier-v1/famous-johnson",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2af4c8cb-181e-4d1d-8d62-30b78aacd8fa.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-johnson.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Dedicated Béxar command loop and San Patricio back-door escape gait, with historical route and timing owned by the simulation."
+    },
+    {
+      "sheet": "famous-grant",
+      "promptId": "frontier-v1/famous-grant",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-52f9abcb-99c8-48dc-99fb-7a720c738942.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2d227500-132b-4790-bc23-b7c0149096fc.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Travel, map and non-graphic Bexar-wound variants; no killed or captive pose because the later fate is told, not shown."
+    },
+    {
+      "sheet": "famous-grant-mounted",
+      "promptId": "frontier-v1/famous-grant-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2d227500-132b-4790-bc23-b7c0149096fc.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-29266921-c917-4885-b2a7-e34f33fd6422.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant-mounted.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Identity-preserving mounted travel for the horse herd route."
+    },
+    {
+      "sheet": "famous-grant-gallop",
+      "promptId": "frontier-v1/famous-grant-gallop",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-29266921-c917-4885-b2a7-e34f33fd6422.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6621715-50ce-46af-9c3b-1f55f27985d6.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant-gallop.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Fast ride while Grant remains visible during the existing Agua Dulce pursuit; later fate remains off-screen."
+    },
+    {
+      "sheet": "famous-condelle",
+      "promptId": "frontier-v1/famous-condelle",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-866cb396-d421-43a6-8195-16d2cc1b6bb4.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-condelle.png",
+      "spacingRefinement": "Reformat this entire 16-character sprite sheet into a STRICT clean 4x4 equally spaced grid on true transparent alpha. Preserve all 16 pose identities in reading order, character appearance and exact warm outlined style. SCALE EVERY CUTOUT DOWN to occupy no more than 78 percent of its grid-cell height and 78 percent of its width, center each independently in its equal cell. Leave at least 25 transparent pixels between all neighboring silhouettes both horizontally AND vertically, including hats and boots. Absolutely no touching characters or overlapping adjacent row pixels. Ensure top row has four walking poses with alternating planted/passing legs, second row 2 south then 2 north walking, third idle/palm command/point/map, fourth speak/listen/saber low/seated rest. Full body cutouts with safe outer margins. Keep true transparent background without checkerboard, no shadows, text or grid.",
+      "originalPrompt": "Use case: historical-scene. Create a production-ready transparent PNG 4 columns by 4 rows character sprite atlas, exactly 16 separate full-body cutouts with generous transparent gutters. Reference image is STYLE ONLY: match its warm outlined storybook farm-game illustration, thin dark olive-brown contour, restrained flat shaded cream/rust/moss/ochre palette, slightly elevated three-quarter camera, readable small game proportions. New subject: original interpretive Colonel Nicolas Condelle for Texas Revolution Bexar 1835, distinct from reference officer: older stout officer with square face, short greying sideburns, thick grey moustache, dark navy shako, dark navy coat with rust collar and cuffs, muted gold epaulettes, cream trousers and dark boots, sheathed saber. Uniform is an artistic interpretation, no exact portrait or unit insignia claim. Same face/body/costume in all 16 cells. Row 1 four genuinely different EAST-facing walking gait frames alternating leading legs/arms, from contact to passing to opposite contact to passing. Row 2 two SOUTH-facing walk frames then two NORTH-facing walk frames. Row 3 east idle hands at sides, east open palm command gesture, east extended pointing command gesture, east reading folded map. Row 4 east speaking hand lifted to chest, east listening, east hand resting on sheathed sword hilt, east seated rest. Keep all feet/headwear/props intact, constant scale and foot baseline within rows, equal grid cells, no intercell overlap. No firing, no blood, no death, no background, no ground patch or shadow, no text, no grid lines. True transparent alpha.",
+      "refinementPrompt": "Edit only the TOP ROW of this transparent 4x4 atlas. Preserve the other 12 cells exactly unchanged, preserve the same character, style, full-body scale, hat, face, navy uniform, alpha and grid. The top row currently repeats a stride; replace its four cells with a genuine four-frame EAST walking loop: cell1 left boot forward/right boot behind contact; cell2 left boot planted under body with right knee bent swinging forward (passing); cell3 RIGHT boot forward/LEFT boot behind opposite contact, reverse arm swing visibly; cell4 right boot planted under body with LEFT knee bent swinging forward opposite passing. Substantially different leg silhouettes, upright torso/head fixed at same elevation, natural readable marching, keep each figure fully within its cell with generous alpha gutters. Do not mirror facing: all face screen-right. No shadows or text.",
+      "refinementSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-89e7f254-8ae8-4caf-b0b2-147fb27c6d90.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Distinct officer for the existing Morelos battalion staging at Bexar. Face and uniform are artistic interpretations. No new speech, fate or historical timing."
+    },
+    {
+      "sheet": "people-family-mother-scarf",
+      "promptId": "frontier-v1/people-family-mother-scarf",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "refinementPrompt": "Edit all16 figures in this transparent sprite sheet ONLY at headwear: replace every bonnet/cap/brim with a plain cream fabric HEADSCARF wrapped close around the head and tied at the nape, a small knot with two short cloth tails visible from side/back. No projecting brim, no rounded bonnet pouch, no chin straps. Brown hair mostly covered, face and little hair at forehead unchanged. Keep all16 poses, clothes, body silhouettes, camera, warm outlined painted style, dimensions and true transparent background. Preserve generously isolated alpha gutters; do not let cutouts touch other cells. This must read differently from a bonnet and from straw hat.",
+      "refinementSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-2842732a-347e-4e6d-90c0-47402c8d6469.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9761b9b5-8ee8-4136-8865-4891df868519.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-mother-scarf.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-father-straw",
+      "promptId": "frontier-v1/people-family-father-straw",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e9afaedc-52d7-4bc9-8fe2-79852986f2ea.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-father-straw.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-father-beard",
+      "promptId": "frontier-v1/people-family-father-beard",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ca15389e-90c3-4054-ae0e-ef5c81d4611c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-father-beard.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-father-moustache",
+      "promptId": "frontier-v1/people-family-father-moustache",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bd13c8d2-5e0c-4957-9ada-c5798a3d9c92.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-father-moustache.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-mother-braid",
+      "promptId": "frontier-v1/people-family-mother-braid",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7fc410f2-beba-47e0-853b-23ad6f160713.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-mother-braid.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-mother-loose",
+      "promptId": "frontier-v1/people-family-mother-loose",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7929e676-8e7e-4f85-8093-2bdcd8c0b120.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-mother-loose.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-mother-straw",
+      "promptId": "frontier-v1/people-family-mother-straw",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5d48ed24-ab65-4dfb-9010-847b7fd6a406.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-mother-straw.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-youth-boy",
+      "promptId": "frontier-v1/people-family-youth-boy",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-edbb434f-74ec-454c-abd4-d529c9fd5a48.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-youth-boy.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-youth-girl",
+      "promptId": "frontier-v1/people-family-youth-girl",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-587775a8-5b00-4e0d-a08d-982ba5a46e7f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-youth-girl.png",
+      "postProcessing": "None. Built-in PNG copied unchanged; atlas builder measures alpha components.",
+      "review": "Warm outlined identity retained across directional travel, work and rest. Some gait silhouettes differ modestly. Additional task-specific props use presentation pose aliases rather than inventing simulation state."
+    },
+    {
+      "sheet": "people-family-father-hat",
+      "promptId": "frontier-v1/people-family-father-hat",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e9afaedc-52d7-4bc9-8fe2-79852986f2ea.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3c898308-a249-4e72-b9f6-2324dd395517.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-family-father-hat.png",
+      "postProcessing": "None. PNG copied unchanged.",
+      "review": "Clean-shaven felt hat distinguishes the hat choice from hat and beard; standing, walking, work and rest stay the same identity."
     }
   ],
   "rejectedAttempts": [

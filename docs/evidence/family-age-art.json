@@ -1,0 +1,87 @@
+{
+  "verdict": "PASS",
+  "cases": [
+    {
+      "label": "Infant",
+      "band": "infant",
+      "age": 1,
+      "variant": "infant",
+      "height": 96.75,
+      "drawn": true,
+      "portraitDrawn": true
+    },
+    {
+      "label": "Toddler",
+      "band": "small",
+      "age": 3,
+      "variant": "smallchild",
+      "height": 118.25000000000001,
+      "drawn": true,
+      "portraitDrawn": true
+    },
+    {
+      "label": "Girl",
+      "band": "child",
+      "age": 7,
+      "variant": "girl",
+      "height": 150.5,
+      "drawn": true,
+      "portraitDrawn": true
+    },
+    {
+      "label": "Boy",
+      "band": "child",
+      "age": 7,
+      "variant": "boy",
+      "height": 150.5,
+      "drawn": true,
+      "portraitDrawn": true
+    },
+    {
+      "label": "Teen girl",
+      "band": "youth",
+      "age": 13,
+      "variant": "youth-girl",
+      "height": 193.5,
+      "drawn": true,
+      "portraitDrawn": true
+    },
+    {
+      "label": "Teen boy",
+      "band": "youth",
+      "age": 13,
+      "variant": "youth-boy",
+      "height": 193.5,
+      "drawn": true,
+      "portraitDrawn": true
+    },
+    {
+      "label": "Mom",
+      "band": "adult",
+      "age": 35,
+      "variant": "mother-scarf",
+      "height": 215,
+      "drawn": true,
+      "portraitDrawn": true
+    },
+    {
+      "label": "Dad",
+      "band": "adult",
+      "age": 35,
+      "variant": "father-hat",
+      "height": 215,
+      "drawn": true,
+      "portraitDrawn": true
+    },
+    {
+      "label": "Child / darker palette",
+      "band": "child",
+      "age": 7,
+      "variant": "girl",
+      "height": 150.5,
+      "drawn": true,
+      "portraitDrawn": true
+    }
+  ],
+  "errors": []
+}

@@ -59,7 +59,8 @@ export function figureOf(person) {
   if (band === 'infant') return { figure: 'infant', grown: false, appearance: person.appearance || null };
   if (band === 'small') return { figure: 'smallchild', grown: false, appearance: person.appearance || null };
   if (band === 'child') return { figure: person.sex === 'female' ? 'girl' : 'boy', grown: false, appearance: person.appearance || null };
-  return { figure: avatarVariant(person?.appearance, person?.sex || 'male'), grown: true, appearance: person?.appearance || null };
+  // An adolescent is Astra's adolescent figure, a grown person her figure for their head (public/avatar-identity.js, 2026-10-02).
+  return { figure: avatarVariant(person?.appearance, person?.sex || 'male', person || {}), grown: true, appearance: person?.appearance || null };
 }
 
 /**
@@ -68,7 +69,8 @@ export function figureOf(person) {
  */
 export function clipFor(person, pose, face, ready = clipReady) {
   const { figure, grown } = figureOf(person);
-  const idle = { id: `${figure}-idle-${face}`, flip: false };
+  // Astra's family figures of 2026-10-02 (`father-*`, `mother-*`, `youth-*`) have no west idle: the east one is mirrored.
+  const idle = face === 'w' && /^(father|mother|youth)-/.test(figure) ? { id: `${figure}-idle-e`, flip: true } : { id: `${figure}-idle-${face}`, flip: false };
   if (!grown || !pose || pose === 'idle') return idle;
   if (pose === 'front') return { id: `${figure}-idle-s`, flip: false };
   // The officer's reading pose is the elder's own (request item 2); the scene's four poses are every cast figure's (item 1).

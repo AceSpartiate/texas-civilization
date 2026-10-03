@@ -48,6 +48,7 @@
     "test:end-sequence": "node scripts/end-sequence-browser-proof.mjs",
     "test:looks": "node scripts/looks-browser-proof.mjs",
     "test:looks-face": "node scripts/looks-face-proof.mjs",
+    "test:family-age-art": "node scripts/family-age-art-proof.mjs",
     "test:creation": "node scripts/creation-browser-proof.mjs",
     "test:furniture": "node scripts/furniture-browser-proof.mjs",
     "test:shops": "node scripts/shops-browser-proof.mjs",

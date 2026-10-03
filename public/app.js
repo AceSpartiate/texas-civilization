@@ -36,7 +36,7 @@ import { bindFlashback, renderFlashback } from '/flashback.js';
 import { createCourtship } from '/courtship.js';
 import { bindNeighbours, openNeighbours, renderNeighbours } from '/neighbours.js';
 import { bindLooks, renderLooks } from '/appearance.js';
-import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
+import { avatarBinding, avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
 import { bindCreation, creationStep, metFamily, renderCreation, showTitle } from '/creation.js';
 import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away, wadesOf } from '/map-base.js';
@@ -481,20 +481,32 @@ function drawnClipOf(binding, clip, entity) {
   if (binding.drawn.holding && entity.id) babiesHeldNow.add(entity.id);
   return { clip: name, upright: west || Boolean(binding.drawn.upright) };
 }
+/**
+ * Somebody with chosen looks, in Astra's figure for their age and head (public/avatar-identity.js `avatarBinding`, 2026-10-02):
+ * the pose `entityClip` asks for, in the family figure her art draws them as. Where her figure has no picture of that pose (her
+ * new parents and adolescents have one work cycle, not the old cast's sowing, carrying or mending), the binding is her nearest
+ * pose, and the work table's stroke follows the pose she drew, with no Claude cycle in its place.
+ */
+function familyBinding(entity) {
+  const asked = entityClip(entity, entity.observed), binding = avatarBinding(entity, asked);
+  if (!binding.work) return binding;
+  const variant = avatarVariant(entity.appearance, entity.sex, entity), pose = binding.id.slice(variant.length + 1);
+  return asked.id.endsWith(`-${pose}`) ? binding : { ...binding, work: { ...binding.work, pose, drawn: null } };
+}
 function miniPerson(ctx, x, y, size, entity) {
   // A child is drawn smaller than a grown person, in their own figure or a grown one (public/motion.js `entityClip`).
   if (!entity.side) size *= figureScale(entity);
   if (entity.appearance) {
-    const binding = entityClip(entity, entity.observed);
-    const cast = avatarVariant(entity.appearance, entity.sex);
-    const clip = binding.id.replace(/^(rust-woman|blue-girl|indigo|ochre|elder|rust|teal|blue)-/, `${cast}-`);
+    const binding = familyBinding(entity);
+    const clip = binding.id;
     // The pose each of the family was last drawn in, by id: presentation evidence for the proofs (npm run test:children), read by
     // nothing in the application.
     const own = drawnClipOf(binding, clip, entity);
-    if (entity.id) { (window.__clipsDrawn ??= {})[entity.id] = own?.clip || clip; (window.__flipsDrawn ??= {})[entity.id] = (own ? own.upright : binding.upright) ? false : Boolean(entity.flip); }
+    const flip = own ? (own.upright ? false : entity.flip) : binding.flip ?? (binding.upright ? false : entity.flip);
+    if (entity.id) { (window.__clipsDrawn ??= {})[entity.id] = own?.clip || clip; (window.__flipsDrawn ??= {})[entity.id] = Boolean(flip); }
     if (binding.work) { if (drawAtWork(ctx, binding, own?.clip || clip, x, y, size, entity)) return; }
     else if (animated(ctx, own?.clip || clip, x, y, size, entity.id, {
-      paused: own ? false : binding.frozen, flip: (own ? own.upright : binding.upright) ? false : entity.flip,
+      paused: own ? false : binding.frozen, flip,
       gait: entity.gait, appearance: entity.appearance,
     })) return;
   }
@@ -547,7 +559,7 @@ function recliningAvatar(ctx, x, y, size, entity) {
   ctx.save();
   ctx.translate(x + size * .43, y - size * .14);
   ctx.rotate(Math.PI / 2);
-  drawAvatar(ctx, 0, 0, size * .9, entity.appearance, entity.sex);
+  drawAvatar(ctx, 0, 0, size * .9, entity.appearance, entity.sex, { person: entity });
   ctx.restore();
 }
 // Juniper is an ox and must stay one; the sprite chosen is stable per animal so the same
@@ -1271,13 +1283,13 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     // for", item 1); the recoloured idle laid down or the hoeing cycle while it loads. Chosen as every drawn pose is, by a
     // binding's `drawn` through `drawnClipOf` (public/motion.js): the hoeing cycle is its fallback, the battle pose the one drawn.
     const cast = entity.appearance ? pose.cast || (entity.fallen && 'reclining') : null;
-    const variant = cast ? avatarVariant(entity.appearance, entity.sex) : null;
+    const variant = cast ? avatarVariant(entity.appearance, entity.sex, entity) : null;
     const own = cast ? drawnClipOf({ id: `${variant}-work`, drawn: { from: 'work', pose: cast === 'fire-reload' ? cast : `battle-${cast}` } }, `${variant}-work`, entity) : null;
-    if (own && drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: (pose.timeMs || 0) / 165, working: true, flip: pose.flip, clip: own.clip })) done = true;
+    if (own && drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: (pose.timeMs || 0) / 165, working: true, flip: pose.flip, clip: own.clip, person: entity })) done = true;
     // Presentation evidence for the battle proofs, read by nothing in the application: the cast poses each member was drawn in.
     if (done && entity.id) ((window.__memberCastDrawn ??= {})[entity.id] ??= new Set()).add(own.clip);
     else if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
-    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip });
+    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip, person: entity });
     else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
     // Where he was drawn, on the ground - his cosmetic step aside included, so his shot's smoke, the clearing in the smoke round him
@@ -5469,7 +5481,7 @@ function renderFamilyPanel(world) {
     const face = `${clip}:${entity.band || ''}:${principal}:${JSON.stringify(entity.appearance || null)}`;
     if (row.face !== face) {
       row.face = face;
-      if (entity.appearance) drawAvatarPortrait(row.canvas, entity.appearance, entity.sex);
+      if (entity.appearance) drawAvatarPortrait(row.canvas, entity.appearance, entity.sex, entity);
       else drawPortrait(row.canvas, { clip, figure, band: entity.band, principal, tint: hashOf(id) }, { drawClip, drawSprite, spriteFrame });
     }
     // The icons, from the server's own lists. The journeys, the yard and rest are on the main person's row: the server's rule.
