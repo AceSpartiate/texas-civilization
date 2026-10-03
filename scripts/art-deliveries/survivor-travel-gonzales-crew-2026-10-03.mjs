@@ -304,4 +304,3 @@ export const promptEntries=[
 ];
 export const provenanceEntries=promptEntries.map(({prompt,...entry})=>entry);
 export const notes=['Two-pose story actions and transport. Guide and charge-wait variants await explicit scene staging. Historical likeness and tools are interpretations, not evidence; no dialogue or new event added.'];
-
