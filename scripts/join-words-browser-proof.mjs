@@ -26,7 +26,12 @@ import { qrSvg } from '../public/qr.js';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
-const VIEW = { width: 1366, height: 768 };
+// The students' pages at VIEW (e.g. VIEW=480x800; 1366x768 by default); the Host's page at it too unless it is narrower than a
+// teacher's laptop, when the Host stays at 1366x768. Evidence other than the default size is kept with the width in its name.
+const [viewWidth, viewHeight] = (process.env.VIEW || '1366x768').split('x').map(Number);
+const VIEW = { width: viewWidth || 1366, height: viewHeight || 768 };
+const HOST_VIEW = VIEW.width >= 1024 ? VIEW : { width: 1366, height: 768 };
+const SUFFIX = VIEW.width === 1366 && VIEW.height === 768 ? '' : `-${VIEW.width}`;
 const pass = [], observed = {}, errors = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const dir = mkdtempSync(join(tmpdir(), 'texas-join-words-proof-'));
@@ -63,7 +68,7 @@ try {
   const bare = `http://${lan}:${port}/`;
 
   // ------------------------------------------------------------------ 1. the Host's card
-  const hostContext = await browser.newContext({ viewport: VIEW });
+  const hostContext = await browser.newContext({ viewport: HOST_VIEW });
   const host = await hostContext.newPage();
   host.on('pageerror', error => errors.push(`host: ${error.message}`));
   await host.goto(`http://127.0.0.1:${port}/host#${app.state.hostKey}`);
@@ -81,7 +86,7 @@ try {
   assert.equal(card.address, `${bare}${code}`, 'the address under the words no longer carries the code');
   assert.equal(card.qr, qrSvg(`${bare}${code}`, { label: 'x' }).match(/<path d="([^"]+)"/)[1], 'the QR code is not the coded address');
   observed.card = card;
-  await host.screenshot({ path: 'docs/evidence/join-words-host.png' });
+  await host.screenshot({ path: `docs/evidence/join-words-host${SUFFIX}.png` });
   ok(`1: the Host shows "playtexas.github.io" and ${words.map((word, at) => `${at + 1} ${word}`).join(' ')} at ${card.size}px, then the class code ${code}; the address and QR code are ${card.address}`);
 
   // ------------------------------------------------------------------ 2. choosing the students' network
@@ -110,13 +115,13 @@ try {
   await student.goto(siteUrl, { waitUntil: 'load' });
   await student.locator('#words').waitFor({ state: 'visible' });
   assert.deepEqual(missing, [], `the page asked for files it does not have: ${missing.join(', ')}`);
-  await student.screenshot({ path: 'docs/evidence/join-words-page.png' });
+  await student.screenshot({ path: `docs/evidence/join-words-page${SUFFIX}.png` });
   await student.locator('#words').fill(`${words[0]} crame`);
   await student.locator('#go').click();
   observed.refused = (await student.locator('#say').textContent()).trim();
   assert.match(observed.refused, /Word 2, "crame", is not one of the words/);
   assert.equal(await student.locator('#say').getAttribute('class'), 'is-error');
-  await student.screenshot({ path: 'docs/evidence/join-words-page-refused.png' });
+  await student.screenshot({ path: `docs/evidence/join-words-page-refused${SUFFIX}.png` });
   await student.locator('#words').fill('');
   await student.locator('#words').pressSequentially(words.map(word => word.toUpperCase()).join('-'), { delay: 10 });
   observed.read = await student.locator('#read li').allTextContents();
@@ -132,7 +137,7 @@ try {
   assert.ok(form.codeFirst, 'the class code box is not first');
   assert.ok(form.codeSize >= 28, `the code box at ${form.codeSize}px`);
   observed.form = form;
-  await student.screenshot({ path: 'docs/evidence/join-words-class.png' });
+  await student.screenshot({ path: `docs/evidence/join-words-class${SUFFIX}.png` });
   await student.locator('#join [name=code]').fill(code.toLowerCase());
   await student.locator('#join [name=name]').fill('Came by words');
   await student.getByRole('button', { name: 'Join', exact: true }).click();
@@ -165,7 +170,7 @@ try {
   assert.match(back.tell, new RegExp(`${lan.replace(/\./g, '\\.')}, port ${closed}`));
   assert.equal(back.words, dead.join(' '));
   observed.cameBack = back;
-  await failed.screenshot({ path: 'docs/evidence/join-words-didnt-work.png' });
+  await failed.screenshot({ path: `docs/evidence/join-words-didnt-work${SUFFIX}.png` });
   ok(`5: words for a port nothing answers on (${dead.join(' ')}) left the student at ${observed.failedAt}; Back brought the page with "Didn't work?" open, "${back.say}", and what to tell the teacher: ${back.tell}`);
 
   assert.deepEqual(errors, [], `page errors: ${errors.join('; ')}`);
@@ -180,5 +185,5 @@ try {
   await app.close();
   site.close();
   rmSync(dir, { recursive: true, force: true });
-  writeFileSync('docs/evidence/join-words-browser.json', `${JSON.stringify({ record: 'join-words', date: new Date().toISOString().slice(0, 10), sameComputerOnly: true, address: 'this computer\'s own first private address', ...record, passed: pass }, null, 2)}\n`);
+  writeFileSync(`docs/evidence/join-words-browser${SUFFIX}.json`, `${JSON.stringify({ record: 'join-words', date: new Date().toISOString().slice(0, 10), sameComputerOnly: true, view: VIEW, address: 'this computer\'s own first private address', ...record, passed: pass }, null, 2)}\n`);
 }

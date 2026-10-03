@@ -6,7 +6,7 @@
   "results": [
     {
       "name": "a word on the list changed (crane spelt crate: two words with one start, and the frozen list moved)",
-      "file": "public/join-words.js",
+      "file": "sim/join-words.mjs",
       "expect": [
         "the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen"
       ],
@@ -21,7 +21,7 @@
     },
     {
       "name": "no check bits: every word pair is some address",
-      "file": "public/join-words.js",
+      "file": "sim/join-words.mjs",
       "expect": [
         "a typo is caught rather than sending a student somewhere else",
         "the list: 2048 words, a to z, 3 to 8 letters, each starting with its own four letters, and frozen"
@@ -38,7 +38,7 @@
     },
     {
       "name": "the decoder takes words without making them again (no check at all)",
-      "file": "public/join-words.js",
+      "file": "sim/join-words.mjs",
       "expect": [
         "a typo is caught rather than sending a student somewhere else"
       ],
@@ -51,7 +51,7 @@
     },
     {
       "name": "any address is a classroom address: the page could be sent to the Internet",
-      "file": "public/join-words.js",
+      "file": "sim/join-words.mjs",
       "expect": [
         "only the three private ranges: the page can never be sent to the Internet"
       ],
@@ -65,7 +65,7 @@
     },
     {
       "name": "another port is not carried: the words lead to 1835 whatever the server listens on",
-      "file": "public/join-words.js",
+      "file": "sim/join-words.mjs",
       "expect": [
         "every address round-trips: the words lead back to the address and port that made them, and to the bare address",
         "fewest words: 2 for 192.168 on the usual port, 3 for 10.x and 172.16-31, more only for another port"
@@ -81,7 +81,7 @@
     },
     {
       "name": "no two-word form: 192.168 takes the long way",
-      "file": "public/join-words.js",
+      "file": "sim/join-words.mjs",
       "expect": [
         "fewest words: 2 for 192.168 on the usual port, 3 for 10.x and 172.16-31, more only for another port"
       ],
@@ -98,7 +98,7 @@
     },
     {
       "name": "every letter of a word is read, so a misspelling after the fourth is refused",
-      "file": "public/join-words.js",
+      "file": "sim/join-words.mjs",
       "expect": [
         "typing is forgiven where it can be: case, hyphens, commas, spaces, and anything after the fourth letter"
       ],
@@ -183,7 +183,7 @@
     },
     {
       "name": "the words carry the class code into the address they lead to",
-      "file": "public/join-words.js",
+      "file": "sim/join-words.mjs",
       "expect": [
         "every address round-trips: the words lead back to the address and port that made them, and to the bare address",
         "the Host is given the words for the students' network, can choose another of this computer's addresses, and no student sees them"
