@@ -347,8 +347,12 @@ try {
   await page.locator(`.panel-row[data-entity-id="${first.id}"] .panel-icon[data-key="visit-shop"]`).click();
   await page.locator('#errand').waitFor({ state: 'visible' });
   await page.waitForFunction(() => document.querySelector('#errand [data-line="stockman:horse"]'));
-  const pens = await page.evaluate(() => [...document.querySelectorAll('#errand [data-line^="stockman:"]')].map(line => ({ id: line.dataset.line, label: line.querySelector('.errand-label').textContent, price: line.querySelector('.errand-price').textContent, shut: line.dataset.shut === 'true' })));
-  observed.pens = pens;
+  const lines = await page.evaluate(() => [...document.querySelectorAll('#errand [data-line^="stockman:"]')].map(line => ({ id: line.dataset.line, label: line.querySelector('.errand-label').textContent, price: line.querySelector('.errand-price').textContent, shut: line.dataset.shut === 'true' })));
+  observed.pens = lines;
+  // The family's own herd sold since 2026-10-03 (docs/STOCK.md §10): both lines offered, shut while there is none on the range to
+  // drive in; the selling itself is proved by scripts/herds-browser-proof.mjs.
+  assert.deepEqual(lines.filter(one => one.id.startsWith('stockman:sell-')).map(one => one.id), ['stockman:sell-cattle', 'stockman:sell-hogs']);
+  const pens = lines.filter(one => !one.id.startsWith('stockman:sell-'));
   // The mule since 2026-10-03 (docs/TOWNS.md §4h): bought and ridden in scripts/shops-browser-proof.mjs.
   assert.deepEqual(pens.map(one => one.id), ['stockman:horse', 'stockman:mule', 'stockman:ox', 'stockman:cattle', 'stockman:hog']);
   assert.deepEqual(pens.map(one => one.price), ['25 reales', '8 reales', '15 reales', '10 reales', '4 reales or 14 food']);
