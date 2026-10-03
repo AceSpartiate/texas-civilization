@@ -9,12 +9,12 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 28 | 7 | 18 | 0 |
-| B — Children, babies and sickness | 15 | 6 | 11 | 2 |
+| B — Children, babies and sickness | 18 | 7 | 13 | 2 |
 | C — Soldiers, battles and famous people | 21 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 14 | 2 | 11 | 17 |
-| **Total** | **113** | **20** | **93** | **27** |
+| **Total** | **116** | **21** | **95** | **27** |
 
 ## How a builder works
 
@@ -180,7 +180,7 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
 
 ## B — Children, babies and sickness
 
-Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 15 to make, 2 skipped.
+Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 18 to make, 2 skipped.
 
 - [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `girl-scatter`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `boy-scatter`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`, `smallchild-scatter`)
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)
@@ -212,6 +212,11 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 1 each. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
   - **Plugs into:** `.panel-hunger-mark` in `panelRow` and `.food-icon` in `paintLarder`, `public/app.js` and `public/style.css`
   - **Stands in now:** a bowl and a sack drawn in the style sheet as masks, coloured by the stage (drawn in code (canvas or CSS))
+- [ ] **B17** (priority 1) — [Request 2026-10-03 — the children's own actions](ART_REQUESTS.md#request-2026-10-03--the-childrens-own-actions), items 1 and 2 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`)
+  - **Deliver:** `<child>-play` (running, skipping, a hoop or ball, 4, east, `-n`, `-s`) and `<child>-play-sit` (sitting at play indoors, 2, east), for `boy`, `girl` and `smallchild`
+  - **Frames:** 4 + 2 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `CHILD_POSES` in `public/avatar-identity.js`; play drawing in `drawWorld`, `public/app.js`
+  - **Stands in now:** the child standing (`idle-s`), by the rule of no adult fallback (Astra's library art reused)
 - [ ] **B6** (priority 2) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 4 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-speak`, `girl-tug`, `boy-speak`, `boy-tug`, `smallchild-speak`, `smallchild-tug`)
   - **Deliver:** `girl-speak`, `boy-speak`, `smallchild-speak` (2, east) and `-tug` (tugging at a grown person's sleeve, 2, east)
   - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -257,6 +262,16 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%; Ground piece: seen from above at the map's scale, transparent, tiles or scatters
   - **Plugs into:** `PANEL_ICONS['cut-path']`, `['fence-yard']` in `public/family-panel.js`; `drawLandPaths` in `public/app.js`
   - **Stands in now:** the lane's and the plot fence's icons; a stroked brown verge with a packed line down the middle (drawn in code (canvas or CSS))
+- [ ] **B18** (priority 2) — [Request 2026-10-03 — the children's own actions](ART_REQUESTS.md#request-2026-10-03--the-childrens-own-actions), items 3 and 5 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-speak`, `boy-speak`, `smallchild-speak`)
+  - **Deliver:** `<child>-feed-hens`, `<child>-gather-eggs` (2, east each) and `<child>-listen-s`, `<child>-speak-s` (2 each), for `boy` and `girl` (talking for `smallchild` too)
+  - **Frames:** 2 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `CHILD_POSES` in `public/avatar-identity.js`; work drawing in `drawWorld`
+  - **Stands in now:** the child standing (`idle-s`) (Astra's library art reused)
+- [ ] **B19** (priority 3) — [Request 2026-10-03 — the children's own actions](ART_REQUESTS.md#request-2026-10-03--the-childrens-own-actions), item 6
+  - **Deliver:** `<child>-lead` (walking with a small child by the hand, 4, east, `-n`, `-s`) for `boy` and `girl`
+  - **Frames:** 4 frames, east, `-n`, `-s`. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `CHILD_POSES`; the little-ones job on the road in `drawWorld`
+  - **Stands in now:** the two children walking side by side (Astra's library art reused)
 
 Skipped:
 - ~~B12~~ [Request 2026-09-12 — families that look like who they are, and a rider who gets down](ART_REQUESTS.md#request-2026-09-12--families-that-look-like-who-they-are-and-a-rider-who-gets-down) — skipped: covered by B1, B6, B7 and B8; the scaling rule stays
