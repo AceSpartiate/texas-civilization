@@ -66,7 +66,9 @@ const RULES = [
   [/^herd-/, 'horses', ['mustang', 'horse']],
   [/^milk-cow-/, 'cow', ['cow']],
   [/^limber-mules/, 'limber', ['limber']],
-  [/^mule-/, 'mule', ['mule']],
+  // The family's mule on its halter or saddled (Claude's, 2026-10-03) is not her Grass Fight pack mule (`mule-packed-grass-*`):
+  // a prefix of plain `mule` withheld it the day hers came, and a bought mule was drawn as a horse (test:shops, 2026-10-03).
+  [/^mule-/, 'mule', ['mule-idle', 'mule-walk', 'mule-saddled']],
   [/^cart-/, 'cart', ['cart-open']],
   [/^carreta-/, 'carreta', ['carreta']],
   [/^wagon-ox/, 'wagon', ['wagon-covered', 'ox-walk']],

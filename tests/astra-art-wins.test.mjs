@@ -74,7 +74,8 @@ test('the subjects the owner saw replaced are Astra\'s again: work, ease, childr
 });
 
 test('Claude\'s art still fills what Astra has not drawn: people, places, icons and effects she has nothing of', () => {
-  for (const name of ['ana-esparza-idle', 'burial-party-walk-e-1', 'bexar-man-walk-1', 'sutherland-ride-e-1', 'mule-packed-grass-walk-e-1',
+  for (const name of ['ana-esparza-idle', 'burial-party-walk-e-1', 'bexar-man-walk-1', 'sutherland-ride-e-1', 'mule-packed-grass-walk-e-1', 'mule-idle-1',
+    'mule-walk-e-1', 'mule-saddled-walk-e-1',
     'mission-concepcion', 'portrait-rust', 'mark-need', 'icon-child-doll', 'fx-dust-1', 'night-grade', 'anacua-large', 'army-camp-texian'])
     assert.ok(drawable.has(name), `${name}: Claude's stand-in for a subject Astra has not drawn is not drawable`);
 });

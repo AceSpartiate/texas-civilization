@@ -6788,6 +6788,7 @@ let cardCrowding = null, crowdingRefused = null;
 function releaseCrowding() { if (!cardCrowding) return; cardCrowding = null; placement.boxes = null; renderMilitaryNotice(window.__snapshot?.world); }
 // The window's own size is checked too, and costs nothing: a resize is seen by the observer only after the next layout, and a
 // card placed in between used the wide screen's boxes on a phone (found by the art proof, 2026-09-17).
+const HOST_COLUMN = ['#host-controls', '#host-pace', '#recover', '#join-links', '#class-days', '#late'];
 function placementBoxes() {
   if (placement.boxes && placement.boxes.viewport === `${innerWidth}x${innerHeight}`) return placement.boxes;
   const canvas = $('#world-map'), panel = $('#selection'), family = $('#family-panel');
@@ -6807,13 +6808,15 @@ function placementBoxes() {
     // Panels that stand down the right-hand side - the messages, packing the wagon, a town scene, the house plot, the
     // walk-through - are a wall the card turns back from, as it turns back from the screen's edge. (The messages were a
     // roof until 2026-09-28, and a card under a long message had 76px left above the map's buttons at 1280x689.)
-    beside: ['#military-notice', '#wagon-load', '#town-scene', '#house-plot', '#house-placement', '#tutorial'].map(selector => document.querySelector(selector)).filter(element => element && !element.hidden).map(element => element.getBoundingClientRect()).filter(box => box.height && box.left > innerWidth / 2),
+    // The Host's column down the right (pace, Recover, the join card, class days, late students) is a wall too: the card for a
+    // person standing near the right edge opened under the late students' box, its × covered (test:host-view, 2026-10-03).
+    beside: ['#military-notice', '#wagon-load', '#town-scene', '#house-plot', '#house-placement', '#tutorial', ...HOST_COLUMN].map(selector => document.querySelector(selector)).filter(element => element && !element.hidden).map(element => element.getBoundingClientRect()).filter(box => box.height && box.left > innerWidth / 2),
     // And on the left, a land chooser standing beside the folded faces (docs/FAMILY_PANEL.md §12.13) is part of the family's side.
     aside: ['#site-choose', '#survey-choose'].map(selector => document.querySelector(selector)).filter(element => element && !element.hidden).map(element => element.getBoundingClientRect()).filter(box => box.height && box.right < innerWidth / 2 + 80),
   };
   if (!placement.observer && typeof ResizeObserver === 'function') {
     placement.observer = new ResizeObserver(() => { placement.boxes = null; });
-    for (const element of [canvas, panel, family, $('#journal-toggle'), $('#map-nav'), $('#ending-open'), $('#tutorial'), $('#lesson'), $('#military-notice'), $('#solo-controls'), $('#wagon-load'), $('#town-scene'), $('#house-plot'), $('#house-placement'), $('#error'), $('#site-choose'), $('#survey-choose'), ...document.querySelectorAll('.panel-icons')]) if (element) placement.observer.observe(element);
+    for (const element of [canvas, panel, family, $('#journal-toggle'), $('#map-nav'), $('#ending-open'), $('#tutorial'), $('#lesson'), $('#military-notice'), $('#solo-controls'), $('#wagon-load'), $('#town-scene'), $('#house-plot'), $('#house-placement'), $('#error'), $('#site-choose'), $('#survey-choose'), ...HOST_COLUMN.map(selector => $(selector)), ...document.querySelectorAll('.panel-icons')]) if (element) placement.observer.observe(element);
     window.addEventListener('resize', () => { placement.boxes = null; });
   }
   return placement.boxes;
