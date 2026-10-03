@@ -1,8 +1,8 @@
 {
   "record": "Naming the family and How We Look, in a browser (owner, 2026-09-17)",
-  "date": "2026-09-26",
+  "date": "2026-10-03",
   "verdict": "PASS",
-  "note": "Same computer only. A student joined, rolled, gave the family its last name in the pop-up, chose each parent's looks from pictures, and reloaded. The pictures are Claude-drawn stand-ins; the figure on the map is unchanged (layered people art, docs/ART_REQUESTS.md). No LAN or district claim.",
+  "note": "Local browser proof: both parents use painted headwear cards, pigment swatches, animated walking and turn controls. Choices save and survive reload; panel portraits use the same age-aware renderer. Desktop fit is checked at 1366x768. The narrow-width check is a layout sanity check, not official phone support.",
   "checks": [
     "before the roll nothing is asked, and the button at the bottom reads Journal",
     "after the roll the \"Family Last Name\" box comes up, before the looks, and Escape does not close it",

@@ -2546,6 +2546,1626 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "mother-scarf-walk": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-scarf-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-scarf-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-scarf-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "mother-scarf-walk-s": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mother-scarf-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mother-scarf-walk-n": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mother-scarf-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "mother-scarf-idle-s": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "mother-scarf-idle-e": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "mother-scarf-idle-n": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "mother-scarf-rest": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "mother-scarf-injured-rest": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "mother-scarf-work": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "mother-scarf-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "mother-scarf-listen-s": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-scarf-listen-n": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-scarf-speak": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-straw-walk": {
+      "frames": [
+        {
+          "sprite": "father-straw-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "father-straw-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "father-straw-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "father-straw-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "father-straw-walk-s": {
+      "frames": [
+        {
+          "sprite": "father-straw-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "father-straw-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "father-straw-walk-n": {
+      "frames": [
+        {
+          "sprite": "father-straw-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "father-straw-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "father-straw-idle-s": {
+      "frames": [
+        {
+          "sprite": "father-straw-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "father-straw-idle-e": {
+      "frames": [
+        {
+          "sprite": "father-straw-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "father-straw-idle-n": {
+      "frames": [
+        {
+          "sprite": "father-straw-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "father-straw-rest": {
+      "frames": [
+        {
+          "sprite": "father-straw-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "father-straw-injured-rest": {
+      "frames": [
+        {
+          "sprite": "father-straw-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "father-straw-work": {
+      "frames": [
+        {
+          "sprite": "father-straw-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "father-straw-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "father-straw-listen-s": {
+      "frames": [
+        {
+          "sprite": "father-straw-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-straw-listen-n": {
+      "frames": [
+        {
+          "sprite": "father-straw-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-straw-speak": {
+      "frames": [
+        {
+          "sprite": "father-straw-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-beard-walk": {
+      "frames": [
+        {
+          "sprite": "father-beard-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "father-beard-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "father-beard-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "father-beard-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "father-beard-walk-s": {
+      "frames": [
+        {
+          "sprite": "father-beard-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "father-beard-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "father-beard-walk-n": {
+      "frames": [
+        {
+          "sprite": "father-beard-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "father-beard-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "father-beard-idle-s": {
+      "frames": [
+        {
+          "sprite": "father-beard-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "father-beard-idle-e": {
+      "frames": [
+        {
+          "sprite": "father-beard-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "father-beard-idle-n": {
+      "frames": [
+        {
+          "sprite": "father-beard-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "father-beard-rest": {
+      "frames": [
+        {
+          "sprite": "father-beard-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "father-beard-injured-rest": {
+      "frames": [
+        {
+          "sprite": "father-beard-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "father-beard-work": {
+      "frames": [
+        {
+          "sprite": "father-beard-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "father-beard-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "father-beard-listen-s": {
+      "frames": [
+        {
+          "sprite": "father-beard-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-beard-listen-n": {
+      "frames": [
+        {
+          "sprite": "father-beard-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-beard-speak": {
+      "frames": [
+        {
+          "sprite": "father-beard-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-moustache-walk": {
+      "frames": [
+        {
+          "sprite": "father-moustache-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "father-moustache-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "father-moustache-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "father-moustache-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "father-moustache-walk-s": {
+      "frames": [
+        {
+          "sprite": "father-moustache-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "father-moustache-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "father-moustache-walk-n": {
+      "frames": [
+        {
+          "sprite": "father-moustache-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "father-moustache-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "father-moustache-idle-s": {
+      "frames": [
+        {
+          "sprite": "father-moustache-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "father-moustache-idle-e": {
+      "frames": [
+        {
+          "sprite": "father-moustache-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "father-moustache-idle-n": {
+      "frames": [
+        {
+          "sprite": "father-moustache-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "father-moustache-rest": {
+      "frames": [
+        {
+          "sprite": "father-moustache-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "father-moustache-injured-rest": {
+      "frames": [
+        {
+          "sprite": "father-moustache-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "father-moustache-work": {
+      "frames": [
+        {
+          "sprite": "father-moustache-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "father-moustache-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "father-moustache-listen-s": {
+      "frames": [
+        {
+          "sprite": "father-moustache-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-moustache-listen-n": {
+      "frames": [
+        {
+          "sprite": "father-moustache-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-moustache-speak": {
+      "frames": [
+        {
+          "sprite": "father-moustache-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-braid-walk": {
+      "frames": [
+        {
+          "sprite": "mother-braid-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-braid-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-braid-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-braid-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "mother-braid-walk-s": {
+      "frames": [
+        {
+          "sprite": "mother-braid-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mother-braid-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mother-braid-walk-n": {
+      "frames": [
+        {
+          "sprite": "mother-braid-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mother-braid-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "mother-braid-idle-s": {
+      "frames": [
+        {
+          "sprite": "mother-braid-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "mother-braid-idle-e": {
+      "frames": [
+        {
+          "sprite": "mother-braid-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "mother-braid-idle-n": {
+      "frames": [
+        {
+          "sprite": "mother-braid-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "mother-braid-rest": {
+      "frames": [
+        {
+          "sprite": "mother-braid-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "mother-braid-injured-rest": {
+      "frames": [
+        {
+          "sprite": "mother-braid-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "mother-braid-work": {
+      "frames": [
+        {
+          "sprite": "mother-braid-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "mother-braid-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "mother-braid-listen-s": {
+      "frames": [
+        {
+          "sprite": "mother-braid-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-braid-listen-n": {
+      "frames": [
+        {
+          "sprite": "mother-braid-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-braid-speak": {
+      "frames": [
+        {
+          "sprite": "mother-braid-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-loose-walk": {
+      "frames": [
+        {
+          "sprite": "mother-loose-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-loose-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-loose-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-loose-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "mother-loose-walk-s": {
+      "frames": [
+        {
+          "sprite": "mother-loose-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mother-loose-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mother-loose-walk-n": {
+      "frames": [
+        {
+          "sprite": "mother-loose-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mother-loose-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "mother-loose-idle-s": {
+      "frames": [
+        {
+          "sprite": "mother-loose-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "mother-loose-idle-e": {
+      "frames": [
+        {
+          "sprite": "mother-loose-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "mother-loose-idle-n": {
+      "frames": [
+        {
+          "sprite": "mother-loose-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "mother-loose-rest": {
+      "frames": [
+        {
+          "sprite": "mother-loose-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "mother-loose-injured-rest": {
+      "frames": [
+        {
+          "sprite": "mother-loose-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "mother-loose-work": {
+      "frames": [
+        {
+          "sprite": "mother-loose-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "mother-loose-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "mother-loose-listen-s": {
+      "frames": [
+        {
+          "sprite": "mother-loose-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-loose-listen-n": {
+      "frames": [
+        {
+          "sprite": "mother-loose-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-loose-speak": {
+      "frames": [
+        {
+          "sprite": "mother-loose-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-straw-walk": {
+      "frames": [
+        {
+          "sprite": "mother-straw-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-straw-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-straw-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "mother-straw-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "mother-straw-walk-s": {
+      "frames": [
+        {
+          "sprite": "mother-straw-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mother-straw-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mother-straw-walk-n": {
+      "frames": [
+        {
+          "sprite": "mother-straw-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mother-straw-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "mother-straw-idle-s": {
+      "frames": [
+        {
+          "sprite": "mother-straw-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "mother-straw-idle-e": {
+      "frames": [
+        {
+          "sprite": "mother-straw-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "mother-straw-idle-n": {
+      "frames": [
+        {
+          "sprite": "mother-straw-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "mother-straw-rest": {
+      "frames": [
+        {
+          "sprite": "mother-straw-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "mother-straw-injured-rest": {
+      "frames": [
+        {
+          "sprite": "mother-straw-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "mother-straw-work": {
+      "frames": [
+        {
+          "sprite": "mother-straw-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "mother-straw-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "mother-straw-listen-s": {
+      "frames": [
+        {
+          "sprite": "mother-straw-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-straw-listen-n": {
+      "frames": [
+        {
+          "sprite": "mother-straw-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "mother-straw-speak": {
+      "frames": [
+        {
+          "sprite": "mother-straw-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "youth-boy-walk": {
+      "frames": [
+        {
+          "sprite": "youth-boy-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "youth-boy-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "youth-boy-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "youth-boy-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "youth-boy-walk-s": {
+      "frames": [
+        {
+          "sprite": "youth-boy-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "youth-boy-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "youth-boy-walk-n": {
+      "frames": [
+        {
+          "sprite": "youth-boy-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "youth-boy-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "youth-boy-idle-s": {
+      "frames": [
+        {
+          "sprite": "youth-boy-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "youth-boy-idle-e": {
+      "frames": [
+        {
+          "sprite": "youth-boy-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "youth-boy-idle-n": {
+      "frames": [
+        {
+          "sprite": "youth-boy-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "youth-boy-rest": {
+      "frames": [
+        {
+          "sprite": "youth-boy-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "youth-boy-injured-rest": {
+      "frames": [
+        {
+          "sprite": "youth-boy-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "youth-boy-work": {
+      "frames": [
+        {
+          "sprite": "youth-boy-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "youth-boy-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "youth-boy-listen-s": {
+      "frames": [
+        {
+          "sprite": "youth-boy-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "youth-boy-listen-n": {
+      "frames": [
+        {
+          "sprite": "youth-boy-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "youth-boy-speak": {
+      "frames": [
+        {
+          "sprite": "youth-boy-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "youth-girl-walk": {
+      "frames": [
+        {
+          "sprite": "youth-girl-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "youth-girl-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "youth-girl-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "youth-girl-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "youth-girl-walk-s": {
+      "frames": [
+        {
+          "sprite": "youth-girl-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "youth-girl-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "youth-girl-walk-n": {
+      "frames": [
+        {
+          "sprite": "youth-girl-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "youth-girl-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "youth-girl-idle-s": {
+      "frames": [
+        {
+          "sprite": "youth-girl-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "youth-girl-idle-e": {
+      "frames": [
+        {
+          "sprite": "youth-girl-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "youth-girl-idle-n": {
+      "frames": [
+        {
+          "sprite": "youth-girl-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "youth-girl-rest": {
+      "frames": [
+        {
+          "sprite": "youth-girl-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "youth-girl-injured-rest": {
+      "frames": [
+        {
+          "sprite": "youth-girl-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "youth-girl-work": {
+      "frames": [
+        {
+          "sprite": "youth-girl-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "youth-girl-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "youth-girl-listen-s": {
+      "frames": [
+        {
+          "sprite": "youth-girl-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "youth-girl-listen-n": {
+      "frames": [
+        {
+          "sprite": "youth-girl-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "youth-girl-speak": {
+      "frames": [
+        {
+          "sprite": "youth-girl-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-hat-walk": {
+      "frames": [
+        {
+          "sprite": "father-hat-walk-e-1",
+          "duration": 200
+        },
+        {
+          "sprite": "father-hat-walk-e-2",
+          "duration": 200
+        },
+        {
+          "sprite": "father-hat-walk-e-3",
+          "duration": 200
+        },
+        {
+          "sprite": "father-hat-walk-e-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "father-hat-walk-s": {
+      "frames": [
+        {
+          "sprite": "father-hat-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "father-hat-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "father-hat-walk-n": {
+      "frames": [
+        {
+          "sprite": "father-hat-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "father-hat-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "father-hat-idle-s": {
+      "frames": [
+        {
+          "sprite": "father-hat-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "south"
+    },
+    "father-hat-idle-e": {
+      "frames": [
+        {
+          "sprite": "father-hat-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "east"
+    },
+    "father-hat-idle-n": {
+      "frames": [
+        {
+          "sprite": "father-hat-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "direction": "north"
+    },
+    "father-hat-rest": {
+      "frames": [
+        {
+          "sprite": "father-hat-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "father-hat-injured-rest": {
+      "frames": [
+        {
+          "sprite": "father-hat-injured-rest",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "none"
+    },
+    "father-hat-work": {
+      "frames": [
+        {
+          "sprite": "father-hat-work-1",
+          "duration": 650
+        },
+        {
+          "sprite": "father-hat-work-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "father-hat-listen-s": {
+      "frames": [
+        {
+          "sprite": "father-hat-idle-s",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-hat-listen-n": {
+      "frames": [
+        {
+          "sprite": "father-hat-idle-n",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
+    "father-hat-speak": {
+      "frames": [
+        {
+          "sprite": "father-hat-idle-e",
+          "duration": 1500
+        }
+      ],
+      "loop": true,
+      "authored": false,
+      "motion": "breathe"
+    },
     "bonham-walk-e": {
       "frames": [
         {
@@ -3314,6 +4934,78 @@
         }
       ],
       "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "condelle-walk-e": {
+      "frames": [
+        {
+          "sprite": "condelle-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "condelle-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "condelle-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "condelle-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "condelle-walk-s": {
+      "frames": [
+        {
+          "sprite": "condelle-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "condelle-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "condelle-walk-n": {
+      "frames": [
+        {
+          "sprite": "condelle-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "condelle-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "condelle-command": {
+      "frames": [
+        {
+          "sprite": "condelle-command-palm",
+          "duration": 650
+        },
+        {
+          "sprite": "condelle-point",
+          "duration": 850
+        }
+      ],
+      "loop": true,
       "authored": true,
       "motion": "none",
       "direction": "east; mirror for west"

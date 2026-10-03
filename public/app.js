@@ -27,7 +27,7 @@ import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt }
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
-import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
+import { avatarBinding, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
 import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
 import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away, wadesOf } from '/map-base.js';
@@ -266,11 +266,9 @@ function miniPerson(ctx, x, y, size, entity) {
   // A child is drawn smaller than a grown person, in their own figure or a grown one (public/motion.js `entityClip`).
   if (!entity.side) size *= figureScale(entity);
   if (entity.appearance) {
-    const binding = entityClip(entity, entity.observed);
-    const cast = avatarVariant(entity.appearance, entity.sex);
-    const clip = binding.id.replace(/^(rust-woman|blue-girl|indigo|ochre|elder|rust|teal|blue)-/, `${cast}-`);
-    if (animated(ctx, clip, x, y, size, entity.id, {
-      paused: binding.frozen, flip: binding.upright ? false : entity.flip,
+    const binding = avatarBinding(entity, entityClip(entity, entity.observed));
+    if (animated(ctx, binding.id, x, y, size, entity.id, {
+      paused: binding.frozen, flip: binding.flip ?? (binding.upright ? false : entity.flip),
       gait: entity.gait, appearance: entity.appearance,
     })) return;
   }
@@ -320,7 +318,7 @@ function recliningAvatar(ctx, x, y, size, entity) {
   ctx.save();
   ctx.translate(x + size * .43, y - size * .14);
   ctx.rotate(Math.PI / 2);
-  drawAvatar(ctx, 0, 0, size * .9, entity.appearance, entity.sex);
+  drawAvatar(ctx, 0, 0, size * .9, entity.appearance, entity.sex, { person: entity });
   ctx.restore();
 }
 // Juniper is an ox and must stay one; the sprite chosen is stable per animal so the same
@@ -830,7 +828,7 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     const drawnSize = size * (pose.scale || 1);
     let done;
     if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
-    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip });
+    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip, person: entity });
     else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
     if (marks.ground) battleView.memberDrawn(entity.id, marks.ground, size);
@@ -3886,7 +3884,7 @@ function renderFamilyPanel(world) {
     const face = `${clip}:${entity.band || ''}:${principal}:${JSON.stringify(entity.appearance || null)}`;
     if (row.face !== face) {
       row.face = face;
-      if (entity.appearance) drawAvatarPortrait(row.canvas, entity.appearance, entity.sex);
+      if (entity.appearance) drawAvatarPortrait(row.canvas, entity.appearance, entity.sex, entity);
       else drawPortrait(row.canvas, { clip, figure, band: entity.band, principal, tint: hashOf(id) }, { drawClip, drawSprite, spriteFrame });
     }
     // The icons, from the server's own lists. The journeys, the yard and rest are on the main person's row: the server's rule.

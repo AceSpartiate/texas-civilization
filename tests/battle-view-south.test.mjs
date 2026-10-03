@@ -40,6 +40,17 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('Condelle commands and walks using his own officer art', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const condelle = { id: 'condelle', art: 'condelle', name: 'Condelle', side: 'mexican', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => night(minute, [], { id: 'bexar-storming', phase: 'night-8', people: [condelle] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'condelle-command'));
+  assert.ok(!art.drawn.some(one => one.clip === 'regular-idle-e'));
+  art.drawn.length = 0;
+  run(view, minute => night(minute, [], { people: [{ ...condelle, moving: true }] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'condelle-walk-e'));
+});
+
 test('Grant rides his own horse and gallops only during the Agua Dulce ambush', () => {
   const art = fakeArt(), view = createBattleView(art);
   const grant = { id: 'grant', art: 'grant', name: 'Grant', side: 'texian', x: 0, y: 0, right: true, pose: 'ride', moving: true };

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1954 usable sprites, 188 PNG atlases, 620 clips** (392 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2130 usable sprites, 199 PNG atlases, 744 clips** (436 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -53,6 +53,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
+| people-family-mother-scarf | 16 | 1254 × 1254 | 1353965 |
+| people-family-father-straw | 16 | 1254 × 1254 | 1351306 |
+| people-family-father-beard | 16 | 1254 × 1254 | 1206234 |
+| people-family-father-moustache | 16 | 1254 × 1254 | 1208170 |
+| people-family-mother-braid | 16 | 1254 × 1254 | 1282847 |
+| people-family-mother-loose | 16 | 1254 × 1254 | 1288223 |
+| people-family-mother-straw | 16 | 1254 × 1254 | 1437175 |
+| people-family-youth-boy | 16 | 1254 × 1254 | 1278306 |
+| people-family-youth-girl | 16 | 1254 × 1254 | 1537178 |
+| people-family-father-hat | 16 | 1254 × 1254 | 1292458 |
 | famous-bonham | 16 | 1254 × 1254 | 1241019 |
 | famous-almeron-dickinson | 16 | 1254 × 1254 | 905031 |
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
@@ -71,6 +81,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-castaneda-mounted | 4 | 1226 × 1283 | 1274697 |
 | famous-castrillon | 4 | 1254 × 1254 | 925993 |
 | famous-castrillon-fate | 4 | 1254 × 1254 | 975586 |
+| famous-condelle | 16 | 1254 × 1254 | 1294935 |
 | famous-cos | 16 | 1254 × 1254 | 1237092 |
 | famous-cos-mounted | 4 | 1226 × 1283 | 1307008 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
@@ -606,6 +617,166 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-beef | icons-family-subsistence | State artwork; no motion required |
 | icon-butcher-hog | icons-family-subsistence | State artwork; no motion required |
 | icon-look-to-stock | icons-family-subsistence | State artwork; no motion required |
+| mother-scarf-walk-e-1 | people-family-mother-scarf | mother-scarf-walk |
+| mother-scarf-walk-e-2 | people-family-mother-scarf | mother-scarf-walk |
+| mother-scarf-walk-e-3 | people-family-mother-scarf | mother-scarf-walk |
+| mother-scarf-walk-e-4 | people-family-mother-scarf | mother-scarf-walk |
+| mother-scarf-walk-s-1 | people-family-mother-scarf | mother-scarf-walk-s |
+| mother-scarf-walk-s-2 | people-family-mother-scarf | mother-scarf-walk-s |
+| mother-scarf-walk-n-1 | people-family-mother-scarf | mother-scarf-walk-n |
+| mother-scarf-walk-n-2 | people-family-mother-scarf | mother-scarf-walk-n |
+| mother-scarf-idle-s | people-family-mother-scarf | mother-scarf-idle-s, mother-scarf-listen-s |
+| mother-scarf-idle-e | people-family-mother-scarf | mother-scarf-idle-e, mother-scarf-speak |
+| mother-scarf-idle-n | people-family-mother-scarf | mother-scarf-idle-n, mother-scarf-listen-n |
+| mother-scarf-work-1 | people-family-mother-scarf | mother-scarf-work |
+| mother-scarf-work-2 | people-family-mother-scarf | mother-scarf-work |
+| mother-scarf-rest | people-family-mother-scarf | mother-scarf-rest |
+| mother-scarf-injured-rest | people-family-mother-scarf | mother-scarf-injured-rest |
+| mother-scarf-quiet | people-family-mother-scarf | State artwork; no motion required |
+| father-straw-walk-e-1 | people-family-father-straw | father-straw-walk |
+| father-straw-walk-e-2 | people-family-father-straw | father-straw-walk |
+| father-straw-walk-e-3 | people-family-father-straw | father-straw-walk |
+| father-straw-walk-e-4 | people-family-father-straw | father-straw-walk |
+| father-straw-walk-s-1 | people-family-father-straw | father-straw-walk-s |
+| father-straw-walk-s-2 | people-family-father-straw | father-straw-walk-s |
+| father-straw-walk-n-1 | people-family-father-straw | father-straw-walk-n |
+| father-straw-walk-n-2 | people-family-father-straw | father-straw-walk-n |
+| father-straw-idle-s | people-family-father-straw | father-straw-idle-s, father-straw-listen-s |
+| father-straw-idle-e | people-family-father-straw | father-straw-idle-e, father-straw-speak |
+| father-straw-idle-n | people-family-father-straw | father-straw-idle-n, father-straw-listen-n |
+| father-straw-work-1 | people-family-father-straw | father-straw-work |
+| father-straw-work-2 | people-family-father-straw | father-straw-work |
+| father-straw-rest | people-family-father-straw | father-straw-rest |
+| father-straw-injured-rest | people-family-father-straw | father-straw-injured-rest |
+| father-straw-quiet | people-family-father-straw | State artwork; no motion required |
+| father-beard-walk-e-1 | people-family-father-beard | father-beard-walk |
+| father-beard-walk-e-2 | people-family-father-beard | father-beard-walk |
+| father-beard-walk-e-3 | people-family-father-beard | father-beard-walk |
+| father-beard-walk-e-4 | people-family-father-beard | father-beard-walk |
+| father-beard-walk-s-1 | people-family-father-beard | father-beard-walk-s |
+| father-beard-walk-s-2 | people-family-father-beard | father-beard-walk-s |
+| father-beard-walk-n-1 | people-family-father-beard | father-beard-walk-n |
+| father-beard-walk-n-2 | people-family-father-beard | father-beard-walk-n |
+| father-beard-idle-s | people-family-father-beard | father-beard-idle-s, father-beard-listen-s |
+| father-beard-idle-e | people-family-father-beard | father-beard-idle-e, father-beard-speak |
+| father-beard-idle-n | people-family-father-beard | father-beard-idle-n, father-beard-listen-n |
+| father-beard-work-1 | people-family-father-beard | father-beard-work |
+| father-beard-work-2 | people-family-father-beard | father-beard-work |
+| father-beard-rest | people-family-father-beard | father-beard-rest |
+| father-beard-injured-rest | people-family-father-beard | father-beard-injured-rest |
+| father-beard-quiet | people-family-father-beard | State artwork; no motion required |
+| father-moustache-walk-e-1 | people-family-father-moustache | father-moustache-walk |
+| father-moustache-walk-e-2 | people-family-father-moustache | father-moustache-walk |
+| father-moustache-walk-e-3 | people-family-father-moustache | father-moustache-walk |
+| father-moustache-walk-e-4 | people-family-father-moustache | father-moustache-walk |
+| father-moustache-walk-s-1 | people-family-father-moustache | father-moustache-walk-s |
+| father-moustache-walk-s-2 | people-family-father-moustache | father-moustache-walk-s |
+| father-moustache-walk-n-1 | people-family-father-moustache | father-moustache-walk-n |
+| father-moustache-walk-n-2 | people-family-father-moustache | father-moustache-walk-n |
+| father-moustache-idle-s | people-family-father-moustache | father-moustache-idle-s, father-moustache-listen-s |
+| father-moustache-idle-e | people-family-father-moustache | father-moustache-idle-e, father-moustache-speak |
+| father-moustache-idle-n | people-family-father-moustache | father-moustache-idle-n, father-moustache-listen-n |
+| father-moustache-work-1 | people-family-father-moustache | father-moustache-work |
+| father-moustache-work-2 | people-family-father-moustache | father-moustache-work |
+| father-moustache-rest | people-family-father-moustache | father-moustache-rest |
+| father-moustache-injured-rest | people-family-father-moustache | father-moustache-injured-rest |
+| father-moustache-quiet | people-family-father-moustache | State artwork; no motion required |
+| mother-braid-walk-e-1 | people-family-mother-braid | mother-braid-walk |
+| mother-braid-walk-e-2 | people-family-mother-braid | mother-braid-walk |
+| mother-braid-walk-e-3 | people-family-mother-braid | mother-braid-walk |
+| mother-braid-walk-e-4 | people-family-mother-braid | mother-braid-walk |
+| mother-braid-walk-s-1 | people-family-mother-braid | mother-braid-walk-s |
+| mother-braid-walk-s-2 | people-family-mother-braid | mother-braid-walk-s |
+| mother-braid-walk-n-1 | people-family-mother-braid | mother-braid-walk-n |
+| mother-braid-walk-n-2 | people-family-mother-braid | mother-braid-walk-n |
+| mother-braid-idle-s | people-family-mother-braid | mother-braid-idle-s, mother-braid-listen-s |
+| mother-braid-idle-e | people-family-mother-braid | mother-braid-idle-e, mother-braid-speak |
+| mother-braid-idle-n | people-family-mother-braid | mother-braid-idle-n, mother-braid-listen-n |
+| mother-braid-work-1 | people-family-mother-braid | mother-braid-work |
+| mother-braid-work-2 | people-family-mother-braid | mother-braid-work |
+| mother-braid-rest | people-family-mother-braid | mother-braid-rest |
+| mother-braid-injured-rest | people-family-mother-braid | mother-braid-injured-rest |
+| mother-braid-quiet | people-family-mother-braid | State artwork; no motion required |
+| mother-loose-walk-e-1 | people-family-mother-loose | mother-loose-walk |
+| mother-loose-walk-e-2 | people-family-mother-loose | mother-loose-walk |
+| mother-loose-walk-e-3 | people-family-mother-loose | mother-loose-walk |
+| mother-loose-walk-e-4 | people-family-mother-loose | mother-loose-walk |
+| mother-loose-walk-s-1 | people-family-mother-loose | mother-loose-walk-s |
+| mother-loose-walk-s-2 | people-family-mother-loose | mother-loose-walk-s |
+| mother-loose-walk-n-1 | people-family-mother-loose | mother-loose-walk-n |
+| mother-loose-walk-n-2 | people-family-mother-loose | mother-loose-walk-n |
+| mother-loose-idle-s | people-family-mother-loose | mother-loose-idle-s, mother-loose-listen-s |
+| mother-loose-idle-e | people-family-mother-loose | mother-loose-idle-e, mother-loose-speak |
+| mother-loose-idle-n | people-family-mother-loose | mother-loose-idle-n, mother-loose-listen-n |
+| mother-loose-work-1 | people-family-mother-loose | mother-loose-work |
+| mother-loose-work-2 | people-family-mother-loose | mother-loose-work |
+| mother-loose-rest | people-family-mother-loose | mother-loose-rest |
+| mother-loose-injured-rest | people-family-mother-loose | mother-loose-injured-rest |
+| mother-loose-quiet | people-family-mother-loose | State artwork; no motion required |
+| mother-straw-walk-e-1 | people-family-mother-straw | mother-straw-walk |
+| mother-straw-walk-e-2 | people-family-mother-straw | mother-straw-walk |
+| mother-straw-walk-e-3 | people-family-mother-straw | mother-straw-walk |
+| mother-straw-walk-e-4 | people-family-mother-straw | mother-straw-walk |
+| mother-straw-walk-s-1 | people-family-mother-straw | mother-straw-walk-s |
+| mother-straw-walk-s-2 | people-family-mother-straw | mother-straw-walk-s |
+| mother-straw-walk-n-1 | people-family-mother-straw | mother-straw-walk-n |
+| mother-straw-walk-n-2 | people-family-mother-straw | mother-straw-walk-n |
+| mother-straw-idle-s | people-family-mother-straw | mother-straw-idle-s, mother-straw-listen-s |
+| mother-straw-idle-e | people-family-mother-straw | mother-straw-idle-e, mother-straw-speak |
+| mother-straw-idle-n | people-family-mother-straw | mother-straw-idle-n, mother-straw-listen-n |
+| mother-straw-work-1 | people-family-mother-straw | mother-straw-work |
+| mother-straw-work-2 | people-family-mother-straw | mother-straw-work |
+| mother-straw-rest | people-family-mother-straw | mother-straw-rest |
+| mother-straw-injured-rest | people-family-mother-straw | mother-straw-injured-rest |
+| mother-straw-quiet | people-family-mother-straw | State artwork; no motion required |
+| youth-boy-walk-e-1 | people-family-youth-boy | youth-boy-walk |
+| youth-boy-walk-e-2 | people-family-youth-boy | youth-boy-walk |
+| youth-boy-walk-e-3 | people-family-youth-boy | youth-boy-walk |
+| youth-boy-walk-e-4 | people-family-youth-boy | youth-boy-walk |
+| youth-boy-walk-s-1 | people-family-youth-boy | youth-boy-walk-s |
+| youth-boy-walk-s-2 | people-family-youth-boy | youth-boy-walk-s |
+| youth-boy-walk-n-1 | people-family-youth-boy | youth-boy-walk-n |
+| youth-boy-walk-n-2 | people-family-youth-boy | youth-boy-walk-n |
+| youth-boy-idle-s | people-family-youth-boy | youth-boy-idle-s, youth-boy-listen-s |
+| youth-boy-idle-e | people-family-youth-boy | youth-boy-idle-e, youth-boy-speak |
+| youth-boy-idle-n | people-family-youth-boy | youth-boy-idle-n, youth-boy-listen-n |
+| youth-boy-work-1 | people-family-youth-boy | youth-boy-work |
+| youth-boy-work-2 | people-family-youth-boy | youth-boy-work |
+| youth-boy-rest | people-family-youth-boy | youth-boy-rest |
+| youth-boy-injured-rest | people-family-youth-boy | youth-boy-injured-rest |
+| youth-boy-quiet | people-family-youth-boy | State artwork; no motion required |
+| youth-girl-walk-e-1 | people-family-youth-girl | youth-girl-walk |
+| youth-girl-walk-e-2 | people-family-youth-girl | youth-girl-walk |
+| youth-girl-walk-e-3 | people-family-youth-girl | youth-girl-walk |
+| youth-girl-walk-e-4 | people-family-youth-girl | youth-girl-walk |
+| youth-girl-walk-s-1 | people-family-youth-girl | youth-girl-walk-s |
+| youth-girl-walk-s-2 | people-family-youth-girl | youth-girl-walk-s |
+| youth-girl-walk-n-1 | people-family-youth-girl | youth-girl-walk-n |
+| youth-girl-walk-n-2 | people-family-youth-girl | youth-girl-walk-n |
+| youth-girl-idle-s | people-family-youth-girl | youth-girl-idle-s, youth-girl-listen-s |
+| youth-girl-idle-e | people-family-youth-girl | youth-girl-idle-e, youth-girl-speak |
+| youth-girl-idle-n | people-family-youth-girl | youth-girl-idle-n, youth-girl-listen-n |
+| youth-girl-work-1 | people-family-youth-girl | youth-girl-work |
+| youth-girl-work-2 | people-family-youth-girl | youth-girl-work |
+| youth-girl-rest | people-family-youth-girl | youth-girl-rest |
+| youth-girl-injured-rest | people-family-youth-girl | youth-girl-injured-rest |
+| youth-girl-quiet | people-family-youth-girl | State artwork; no motion required |
+| father-hat-walk-e-1 | people-family-father-hat | father-hat-walk |
+| father-hat-walk-e-2 | people-family-father-hat | father-hat-walk |
+| father-hat-walk-e-3 | people-family-father-hat | father-hat-walk |
+| father-hat-walk-e-4 | people-family-father-hat | father-hat-walk |
+| father-hat-walk-s-1 | people-family-father-hat | father-hat-walk-s |
+| father-hat-walk-s-2 | people-family-father-hat | father-hat-walk-s |
+| father-hat-walk-n-1 | people-family-father-hat | father-hat-walk-n |
+| father-hat-walk-n-2 | people-family-father-hat | father-hat-walk-n |
+| father-hat-idle-s | people-family-father-hat | father-hat-idle-s, father-hat-listen-s |
+| father-hat-idle-e | people-family-father-hat | father-hat-idle-e, father-hat-speak |
+| father-hat-idle-n | people-family-father-hat | father-hat-idle-n, father-hat-listen-n |
+| father-hat-work-1 | people-family-father-hat | father-hat-work |
+| father-hat-work-2 | people-family-father-hat | father-hat-work |
+| father-hat-rest | people-family-father-hat | father-hat-rest |
+| father-hat-injured-rest | people-family-father-hat | father-hat-injured-rest |
+| father-hat-quiet | people-family-father-hat | State artwork; no motion required |
 | bonham-walk-e-1 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-2 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-3 | famous-bonham | bonham-walk-e |
@@ -822,6 +993,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | castrillon-stumble | famous-castrillon-fate | castrillon-fall |
 | castrillon-kneel | famous-castrillon-fate | castrillon-fall |
 | castrillon-still | famous-castrillon-fate | State artwork; no motion required |
+| condelle-walk-e-1 | famous-condelle | condelle-walk-e |
+| condelle-walk-e-2 | famous-condelle | condelle-walk-e |
+| condelle-walk-e-3 | famous-condelle | condelle-walk-e |
+| condelle-walk-e-4 | famous-condelle | condelle-walk-e |
+| condelle-walk-s-1 | famous-condelle | condelle-walk-s |
+| condelle-walk-s-2 | famous-condelle | condelle-walk-s |
+| condelle-walk-n-1 | famous-condelle | condelle-walk-n |
+| condelle-walk-n-2 | famous-condelle | condelle-walk-n |
+| condelle-idle | famous-condelle | State artwork; no motion required |
+| condelle-command-palm | famous-condelle | condelle-command |
+| condelle-point | famous-condelle | condelle-command |
+| condelle-read-map | famous-condelle | State artwork; no motion required |
+| condelle-speak | famous-condelle | State artwork; no motion required |
+| condelle-listen | famous-condelle | State artwork; no motion required |
+| condelle-saber-low | famous-condelle | State artwork; no motion required |
+| condelle-rest | famous-condelle | State artwork; no motion required |
 | cos-walk-e-1 | famous-cos | cos-walk-e |
 | cos-walk-e-2 | famous-cos | cos-walk-e |
 | cos-walk-e-3 | famous-cos | cos-walk-e |
@@ -2327,6 +2514,126 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
+| mother-scarf-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| mother-scarf-walk-s | Pose cycle | 2 | 560 | yes | south |
+| mother-scarf-walk-n | Pose cycle | 2 | 560 | yes | north |
+| mother-scarf-idle-s | breathe | 1 | 1500 | yes | south |
+| mother-scarf-idle-e | breathe | 1 | 1500 | yes | east |
+| mother-scarf-idle-n | breathe | 1 | 1500 | yes | north |
+| mother-scarf-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-scarf-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-scarf-work | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-scarf-listen-s | breathe | 1 | 1500 | yes | undefined |
+| mother-scarf-listen-n | breathe | 1 | 1500 | yes | undefined |
+| mother-scarf-speak | breathe | 1 | 1500 | yes | undefined |
+| father-straw-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| father-straw-walk-s | Pose cycle | 2 | 560 | yes | south |
+| father-straw-walk-n | Pose cycle | 2 | 560 | yes | north |
+| father-straw-idle-s | breathe | 1 | 1500 | yes | south |
+| father-straw-idle-e | breathe | 1 | 1500 | yes | east |
+| father-straw-idle-n | breathe | 1 | 1500 | yes | north |
+| father-straw-rest | Still state | 1 | 1500 | yes | undefined |
+| father-straw-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| father-straw-work | Pose cycle | 2 | 1300 | yes | undefined |
+| father-straw-listen-s | breathe | 1 | 1500 | yes | undefined |
+| father-straw-listen-n | breathe | 1 | 1500 | yes | undefined |
+| father-straw-speak | breathe | 1 | 1500 | yes | undefined |
+| father-beard-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| father-beard-walk-s | Pose cycle | 2 | 560 | yes | south |
+| father-beard-walk-n | Pose cycle | 2 | 560 | yes | north |
+| father-beard-idle-s | breathe | 1 | 1500 | yes | south |
+| father-beard-idle-e | breathe | 1 | 1500 | yes | east |
+| father-beard-idle-n | breathe | 1 | 1500 | yes | north |
+| father-beard-rest | Still state | 1 | 1500 | yes | undefined |
+| father-beard-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| father-beard-work | Pose cycle | 2 | 1300 | yes | undefined |
+| father-beard-listen-s | breathe | 1 | 1500 | yes | undefined |
+| father-beard-listen-n | breathe | 1 | 1500 | yes | undefined |
+| father-beard-speak | breathe | 1 | 1500 | yes | undefined |
+| father-moustache-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| father-moustache-walk-s | Pose cycle | 2 | 560 | yes | south |
+| father-moustache-walk-n | Pose cycle | 2 | 560 | yes | north |
+| father-moustache-idle-s | breathe | 1 | 1500 | yes | south |
+| father-moustache-idle-e | breathe | 1 | 1500 | yes | east |
+| father-moustache-idle-n | breathe | 1 | 1500 | yes | north |
+| father-moustache-rest | Still state | 1 | 1500 | yes | undefined |
+| father-moustache-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| father-moustache-work | Pose cycle | 2 | 1300 | yes | undefined |
+| father-moustache-listen-s | breathe | 1 | 1500 | yes | undefined |
+| father-moustache-listen-n | breathe | 1 | 1500 | yes | undefined |
+| father-moustache-speak | breathe | 1 | 1500 | yes | undefined |
+| mother-braid-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| mother-braid-walk-s | Pose cycle | 2 | 560 | yes | south |
+| mother-braid-walk-n | Pose cycle | 2 | 560 | yes | north |
+| mother-braid-idle-s | breathe | 1 | 1500 | yes | south |
+| mother-braid-idle-e | breathe | 1 | 1500 | yes | east |
+| mother-braid-idle-n | breathe | 1 | 1500 | yes | north |
+| mother-braid-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-braid-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-braid-work | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-braid-listen-s | breathe | 1 | 1500 | yes | undefined |
+| mother-braid-listen-n | breathe | 1 | 1500 | yes | undefined |
+| mother-braid-speak | breathe | 1 | 1500 | yes | undefined |
+| mother-loose-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| mother-loose-walk-s | Pose cycle | 2 | 560 | yes | south |
+| mother-loose-walk-n | Pose cycle | 2 | 560 | yes | north |
+| mother-loose-idle-s | breathe | 1 | 1500 | yes | south |
+| mother-loose-idle-e | breathe | 1 | 1500 | yes | east |
+| mother-loose-idle-n | breathe | 1 | 1500 | yes | north |
+| mother-loose-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-loose-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-loose-work | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-loose-listen-s | breathe | 1 | 1500 | yes | undefined |
+| mother-loose-listen-n | breathe | 1 | 1500 | yes | undefined |
+| mother-loose-speak | breathe | 1 | 1500 | yes | undefined |
+| mother-straw-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| mother-straw-walk-s | Pose cycle | 2 | 560 | yes | south |
+| mother-straw-walk-n | Pose cycle | 2 | 560 | yes | north |
+| mother-straw-idle-s | breathe | 1 | 1500 | yes | south |
+| mother-straw-idle-e | breathe | 1 | 1500 | yes | east |
+| mother-straw-idle-n | breathe | 1 | 1500 | yes | north |
+| mother-straw-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-straw-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| mother-straw-work | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-straw-listen-s | breathe | 1 | 1500 | yes | undefined |
+| mother-straw-listen-n | breathe | 1 | 1500 | yes | undefined |
+| mother-straw-speak | breathe | 1 | 1500 | yes | undefined |
+| youth-boy-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| youth-boy-walk-s | Pose cycle | 2 | 560 | yes | south |
+| youth-boy-walk-n | Pose cycle | 2 | 560 | yes | north |
+| youth-boy-idle-s | breathe | 1 | 1500 | yes | south |
+| youth-boy-idle-e | breathe | 1 | 1500 | yes | east |
+| youth-boy-idle-n | breathe | 1 | 1500 | yes | north |
+| youth-boy-rest | Still state | 1 | 1500 | yes | undefined |
+| youth-boy-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| youth-boy-work | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-boy-listen-s | breathe | 1 | 1500 | yes | undefined |
+| youth-boy-listen-n | breathe | 1 | 1500 | yes | undefined |
+| youth-boy-speak | breathe | 1 | 1500 | yes | undefined |
+| youth-girl-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| youth-girl-walk-s | Pose cycle | 2 | 560 | yes | south |
+| youth-girl-walk-n | Pose cycle | 2 | 560 | yes | north |
+| youth-girl-idle-s | breathe | 1 | 1500 | yes | south |
+| youth-girl-idle-e | breathe | 1 | 1500 | yes | east |
+| youth-girl-idle-n | breathe | 1 | 1500 | yes | north |
+| youth-girl-rest | Still state | 1 | 1500 | yes | undefined |
+| youth-girl-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| youth-girl-work | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-girl-listen-s | breathe | 1 | 1500 | yes | undefined |
+| youth-girl-listen-n | breathe | 1 | 1500 | yes | undefined |
+| youth-girl-speak | breathe | 1 | 1500 | yes | undefined |
+| father-hat-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
+| father-hat-walk-s | Pose cycle | 2 | 560 | yes | south |
+| father-hat-walk-n | Pose cycle | 2 | 560 | yes | north |
+| father-hat-idle-s | breathe | 1 | 1500 | yes | south |
+| father-hat-idle-e | breathe | 1 | 1500 | yes | east |
+| father-hat-idle-n | breathe | 1 | 1500 | yes | north |
+| father-hat-rest | Still state | 1 | 1500 | yes | undefined |
+| father-hat-injured-rest | Still state | 1 | 1500 | yes | undefined |
+| father-hat-work | Pose cycle | 2 | 1300 | yes | undefined |
+| father-hat-listen-s | breathe | 1 | 1500 | yes | undefined |
+| father-hat-listen-n | breathe | 1 | 1500 | yes | undefined |
+| father-hat-speak | breathe | 1 | 1500 | yes | undefined |
 | bonham-walk-e | Pose cycle | 4 | 760 | yes | east |
 | bonham-walk-s | Pose cycle | 2 | 580 | yes | south |
 | bonham-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -2369,6 +2676,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | castaneda-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | castrillon-walk-e | Pose cycle | 2 | 540 | yes | east |
 | castrillon-fall | Pose cycle | 3 | 700 | one-shot | east; mirror for west |
+| condelle-walk-e | Pose cycle | 4 | 760 | yes | east |
+| condelle-walk-s | Pose cycle | 2 | 580 | yes | south |
+| condelle-walk-n | Pose cycle | 2 | 580 | yes | north |
+| condelle-command | Pose cycle | 2 | 1500 | yes | east; mirror for west |
 | cos-walk-e | Pose cycle | 4 | 760 | yes | east |
 | cos-walk-s | Pose cycle | 2 | 580 | yes | south |
 | cos-walk-n | Pose cycle | 2 | 580 | yes | north |

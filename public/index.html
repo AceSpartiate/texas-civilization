@@ -468,8 +468,15 @@
       <h2 id="looks-title">How we look</h2>
       <form id="looks-form">
         <p id="looks-step"></p>
-        <div id="looks-top"><canvas id="looks-preview" width="192" height="192" aria-hidden="true"></canvas><canvas id="looks-figure" width="140" height="192" aria-hidden="true"></canvas><div class="looks-intro"><strong>This is how they’ll look in the world.</strong><p id="looks-note">Choose the portrait, clothes and headwear together. Chosen once, their look stays with them. Children are not asked for; they take after their parents. Appearance changes nothing in the game.</p></div></div>
-        <div id="looks-parts"></div>
+        <div id="looks-studio">
+          <div id="looks-top">
+            <div class="looks-portrait-caption"><canvas id="looks-preview" width="192" height="192" aria-hidden="true"></canvas><div class="looks-intro"><strong>Your family, your look.</strong><p id="looks-note">Children inherit your family's colors and grow into their own age-appropriate figures. Saved looks stay with you.</p></div></div>
+            <canvas id="looks-figure" width="300" height="400" aria-label="Full character preview"></canvas>
+            <div class="looks-preview-controls"><button id="looks-turn" type="button">Turn</button><button id="looks-walk" type="button" aria-pressed="false">See walking</button></div>
+            <p id="looks-summary"></p>
+          </div>
+          <div id="looks-parts"></div>
+        </div>
         <p id="looks-error" role="alert"></p>
         <button id="looks-done" type="submit">Done</button>
       </form>

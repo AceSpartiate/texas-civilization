@@ -160,7 +160,7 @@ export const PEOPLE = Object.freeze({
     fullName: 'James C. Neill',
     fate: { kind: 'wounded', battle: 'san-jacinto', phase: 'skirmish', at: 13, claimId: 'HIST-TEX-565' },
   }),
-  condelle: person('condelle', 'Condelle', MX, 'general', 2, 'HIST-TEX-491', { fullName: 'Colonel Nicolás Condelle' }),
+  condelle: person('condelle', 'Condelle', MX, 'condelle', 2, 'HIST-TEX-491', { fullName: 'Colonel Nicolás Condelle' }),
   'sanchez-navarro': person('sanchez-navarro', 'Sánchez Navarro', MX, 'general', 2, 'HIST-TEX-491', { fullName: 'José Juan Sánchez Navarro' }),
   // ---------------------------------------------------------------- the south and Goliad
   grant: person('grant', 'Grant', TX, 'grant', 2, 'HIST-TEX-556', {

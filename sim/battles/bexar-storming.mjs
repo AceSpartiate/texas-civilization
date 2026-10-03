@@ -495,7 +495,7 @@ export const BEXAR_STORMING = Object.freeze({
       // DISPUTED); Condelle withdraws the plaza guns and will not surrender (`HIST-TEX-040`, `-491`).
       id: 'night-8', minutes: 420, background: 120, contact: true, title: 'The last night', claimId: 'HIST-TEX-040',
       // Colonel Condelle with his Morelos battalion, whose words Sánchez Navarro reported (`HIST-TEX-491`).
-      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'condelle', with: 'morelos', offset: { along: 0.006, across: 0 } }],
+      people: [{ id: 'johnson', with: 'johnson', offset: { along: 0.01, across: 0.004 } }, { id: 'burleson', with: 'reserve', offset: { along: 0.02, across: 0 } }, { id: 'cos', with: 'mexican', offset: { along: -0.01, across: 0 } }, { id: 'condelle', with: 'morelos', offset: { along: 0.006, across: 0 }, pose: 'command' }],
       caption: 'The last night. The Mexican guns fire without stopping. In the dark General Cos draws his men back into the Alamo, and some of his cavalry companies ride away south. From the houses the Texians see only the firing slacken and men moving toward the Alamo.',
       texian: inTheHouse(),
       mexican: { style: 'column', keys: [[0, 'barricade'], [150, 'barricade'], [400, 'alamoWest']], action: 'withdraw', fire: 'none', face: 'away' },

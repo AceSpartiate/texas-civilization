@@ -19,6 +19,12 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld } from '../sim/world.mjs';
 
 const copy = value => JSON.parse(JSON.stringify(value));
+test('Condelle uses his own art at the Morelos battalion without changing his reported words', () => {
+  assert.equal(PEOPLE.condelle.art, 'condelle');
+  const phase = ENGAGEMENTS['bexar-storming'].phases.find(one => one.id === 'night-8');
+  assert.equal(phase.people.find(one => one.id === 'condelle').pose, 'command');
+  assert.equal(phase.lines.find(one => one.person === 'condelle').text, 'El Batallón Morelos no se ha rendido nunca.');
+});
 test('Austin has his own art throughout his 1835 army itinerary', () => {
   assert.equal(PEOPLE.austin.art, 'austin');
   assert.equal(PEOPLE.austin.map[0].doing, 'command');

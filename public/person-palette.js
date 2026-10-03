@@ -11,7 +11,14 @@ const sources = {
   indigo: { skin: [210, 137, 81], hair: [65, 47, 39], clothing: [71, 102, 132] },
   ochre: { skin: [224, 151, 90], hair: [73, 51, 36], clothing: [124, 89, 52] },
   'blue-girl': { skin: [222, 151, 96], hair: [67, 46, 35], clothing: [70, 103, 134] },
+  girl: { skin: [222, 151, 96], hair: [67, 46, 35], clothing: [179, 102, 72], child: true },
+  boy: { skin: [222, 151, 96], hair: [207, 153, 68], clothing: [115, 83, 52], child: true },
+  smallchild: { skin: [222, 151, 96], hair: [67, 46, 35], clothing: [224, 204, 169], child: true },
+  infant: { skin: [222, 151, 96], hair: [67, 46, 35], clothing: [224, 204, 169], child: true },
 };
+for (const name of ['father-hat', 'father-beard', 'father-moustache', 'father-straw', 'mother-braid', 'mother-loose', 'mother-scarf', 'mother-straw', 'youth-boy', 'youth-girl']) {
+  sources[name] = { skin: [218, 157, 96], hair: [64, 45, 32], clothing: [151, 76, 48] };
+}
 const rgb = hex => [1, 3, 5].map(index => Number.parseInt(hex.slice(index, index + 2), 16));
 const light = (r, g, b) => .299 * r + .587 * g + .114 * b;
 const clamp = n => Math.max(0, Math.min(255, Math.round(n)));
@@ -26,33 +33,42 @@ export function recolourPersonFrame(imageData, frameName, appearance) {
     clothing: rgb(CLOTHING_COLOURS[appearance.clothing] || CLOTHING_COLOURS.rust),
   };
   const { data, width, height } = imageData;
-  const isWoman = ['teal', 'rust-woman', 'indigo', 'blue-girl'].includes(variant);
-  const hatted = ['rust', 'elder', 'rust-woman'].includes(variant);
+  const isWoman = ['teal', 'rust-woman', 'indigo', 'blue-girl', 'girl', 'youth-girl'].includes(variant) || variant.startsWith('mother-');
+  const hatted = ['rust', 'elder', 'rust-woman', 'father-hat', 'father-straw', 'mother-straw', 'mother-scarf'].includes(variant);
   for (let index = 0; index < data.length; index += 4) {
     if (data[index + 3] < 32) continue;
     const r = data[index], g = data[index + 1], b = data[index + 2];
     const brightness = light(r, g, b);
     // Ink, edge antialiasing, bright apron and white shirt stay painted as authored.
-    if (brightness < 38 || Math.min(r, g, b) > 174 && Math.max(r, g, b) - Math.min(r, g, b) < 38) continue;
+    if (brightness < 38) continue;
+    const neutral = Math.min(r, g, b) > 174 && Math.max(r, g, b) - Math.min(r, g, b) < 38;
     const x = (index / 4 % width) / width, y = Math.floor(index / 4 / width) / height;
     // The face extends up under the brim. A y-only cut left its forehead in the
     // original pigment, producing the conspicuous two-tone skin in the chooser.
+    if (neutral && !(variant === 'smallchild' && y > .38 && y < .87)) continue;
     const face = y > .115 && y < .385 && x > .29 && x < .72;
-    const hands = y > .36 && y < .77 && (x < .245 || x > .755);
+    const hands = variant !== 'infant' && y > .36 && y < .77 && (x < .245 || x > .755);
     const skinPigment = r > g * (variant === 'elder' ? 1.3 : 1.37)
-      && g > b * 1.24 && brightness > 48;
+      && g > b * 1.24 && brightness > Math.max(48, light(...source.skin) * .5);
+    // Peach pigment has balanced red/green and green/blue steps. Rust fabric is much
+    // redder: a position-only hand mask used to dye sleeves as skin and folded hands as cloth.
+    const peach = skinPigment && r - g < (g - b) * 1.8;
+    const exposed = variant !== 'infant' && y > .35 && y < .60 && peach
+      && brightness > Math.max(95, light(...source.skin) * .6);
     let part = null;
-    if ((face || hands) && skinPigment) part = 'skin';
-    else if (y < .385 && y > (hatted ? .18 : .015) && x > .17 && x < .83
-      && brightness < (variant === 'elder' ? 207 : 162)
+    const childFeet = source.child && variant !== 'infant' && y > .88;
+    if ((face && skinPigment) || (hands && peach) || (childFeet && skinPigment) || exposed) part = 'skin';
+    else if ((y < .385 || isWoman && y < .65 && (x < .35 || x > .68)) && y > (hatted ? .18 : .015) && x > .17 && x < .83
+      && brightness < (variant === 'elder' || variant === 'boy' ? 225 : 130)
+      && (variant === 'elder' || r - g < Math.max(1, g - b) * 2)
       && (!hatted || y > .245 || x < .34 || x > .66)) {
       // Leave eyes, black outline and hat bands intact. The source sheet supplies the
       // actual hairstyle; this palette pass only dyes its interior strands.
       if (variant === 'elder' ? Math.max(r, g, b) - Math.min(r, g, b) < 45 : r >= g && g >= b * .8) part = 'hair';
-    } else if (y > .245 && y < .88 && x > .07 && x < .93) {
+    } else if (variant !== 'infant' && y > .245 && y < .88 && x > .07 && x < .93) {
       const nearWhite = Math.min(r, g, b) > 115 && Math.max(r, g, b) - Math.min(r, g, b) < 39;
-      const skinLikely = skinPigment && hands;
-      if (!nearWhite && !skinLikely && brightness > 42) part = 'clothing';
+      const skinLikely = peach && hands;
+      if ((!nearWhite || variant === 'smallchild') && !skinLikely && brightness > 42) part = 'clothing';
     }
     if (!part) continue;
     const original = source[part], desired = target[part];
