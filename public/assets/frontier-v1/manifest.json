@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 204,
-    "sprites": 2198,
-    "clips": 760,
-    "poseCycles": 452,
+    "sheets": 212,
+    "sprites": 2278,
+    "clips": 776,
+    "poseCycles": 468,
     "rigs": 4
   },
   "entrypoints": {
@@ -9852,6 +9852,734 @@
               [
                 722,
                 1197
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-jw-smith": {
+      "image": "atlases/famous-jw-smith.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1449196,
+      "sha256": "e53b56788e5adc96f9c807935e340405b919c66a6802b541ac08c9a1edfcd722",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.626198,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              21,
+              328
+            ],
+            "columns": [
+              [
+                55,
+                309
+              ],
+              [
+                405,
+                590
+              ],
+              [
+                683,
+                927
+              ],
+              [
+                1019,
+                1205
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              326,
+              642
+            ],
+            "columns": [
+              [
+                70,
+                256
+              ],
+              [
+                396,
+                576
+              ],
+              [
+                703,
+                874
+              ],
+              [
+                1017,
+                1187
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              642,
+              947
+            ],
+            "columns": [
+              [
+                82,
+                248
+              ],
+              [
+                407,
+                617
+              ],
+              [
+                705,
+                952
+              ],
+              [
+                1023,
+                1204
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              943,
+              1241
+            ],
+            "columns": [
+              [
+                77,
+                312
+              ],
+              [
+                408,
+                590
+              ],
+              [
+                704,
+                892
+              ],
+              [
+                1008,
+                1217
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-jw-smith-mounted": {
+      "image": "atlases/famous-jw-smith-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1287878,
+      "sha256": "3692f03ad07682e0d1fb179e71856f5e2b5238fb43f503fc57318a325e4e4432",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.638011,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              23,
+              577
+            ],
+            "columns": [
+              [
+                47,
+                621
+              ],
+              [
+                659,
+                1228
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              620,
+              1196
+            ],
+            "columns": [
+              [
+                67,
+                627
+              ],
+              [
+                790,
+                1051
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-horton": {
+      "image": "atlases/famous-horton.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1431695,
+      "sha256": "4f2298c9bde312753d08fc2f550b8d758b782a8ccdefcce6d6701801ae414a14",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.639445,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              9,
+              327
+            ],
+            "columns": [
+              [
+                60,
+                321
+              ],
+              [
+                405,
+                605
+              ],
+              [
+                687,
+                939
+              ],
+              [
+                1035,
+                1227
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              324,
+              640
+            ],
+            "columns": [
+              [
+                73,
+                259
+              ],
+              [
+                400,
+                578
+              ],
+              [
+                700,
+                870
+              ],
+              [
+                1018,
+                1184
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              633,
+              943
+            ],
+            "columns": [
+              [
+                88,
+                255
+              ],
+              [
+                404,
+                618
+              ],
+              [
+                705,
+                964
+              ],
+              [
+                1028,
+                1207
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              940,
+              1237
+            ],
+            "columns": [
+              [
+                69,
+                314
+              ],
+              [
+                404,
+                589
+              ],
+              [
+                707,
+                889
+              ],
+              [
+                1012,
+                1225
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-horton-mounted": {
+      "image": "atlases/famous-horton-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1366983,
+      "sha256": "2ba54ebdbbf796c00360ed8ddf9a9f74216f06e17736d4c824ce97ea8a90881b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.645998,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              36,
+              590
+            ],
+            "columns": [
+              [
+                35,
+                616
+              ],
+              [
+                649,
+                1241
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              645,
+              1218
+            ],
+            "columns": [
+              [
+                57,
+                621
+              ],
+              [
+                811,
+                1066
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-kimbell": {
+      "image": "atlases/famous-kimbell.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1435124,
+      "sha256": "ded95a2b888a25709ec2e4a3f2c7951dc24444feefaae3271da79ad76d8cd8c9",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.637411,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              17,
+              324
+            ],
+            "columns": [
+              [
+                55,
+                311
+              ],
+              [
+                400,
+                591
+              ],
+              [
+                687,
+                932
+              ],
+              [
+                1030,
+                1221
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              330,
+              645
+            ],
+            "columns": [
+              [
+                68,
+                258
+              ],
+              [
+                397,
+                580
+              ],
+              [
+                697,
+                872
+              ],
+              [
+                1016,
+                1187
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              642,
+              943
+            ],
+            "columns": [
+              [
+                83,
+                241
+              ],
+              [
+                401,
+                610
+              ],
+              [
+                711,
+                951
+              ],
+              [
+                1011,
+                1199
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              941,
+              1233
+            ],
+            "columns": [
+              [
+                62,
+                308
+              ],
+              [
+                408,
+                587
+              ],
+              [
+                705,
+                892
+              ],
+              [
+                1007,
+                1217
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-kimbell-mounted": {
+      "image": "atlases/famous-kimbell-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1330420,
+      "sha256": "2d56a5df06da7551583dac760a6574a02ac6d7150f003edbd5feaa9f29a513cf",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.658201,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              46,
+              583
+            ],
+            "columns": [
+              [
+                41,
+                616
+              ],
+              [
+                662,
+                1229
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              629,
+              1202
+            ],
+            "columns": [
+              [
+                65,
+                641
+              ],
+              [
+                816,
+                1073
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-martin": {
+      "image": "atlases/famous-martin.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1408204,
+      "sha256": "6dafb611d678229edd32f792738d3d0b33a2d1848e3f16e8359733d9849d510a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.649507,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              20,
+              323
+            ],
+            "columns": [
+              [
+                53,
+                309
+              ],
+              [
+                402,
+                582
+              ],
+              [
+                681,
+                927
+              ],
+              [
+                1026,
+                1208
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              321,
+              632
+            ],
+            "columns": [
+              [
+                79,
+                261
+              ],
+              [
+                399,
+                575
+              ],
+              [
+                705,
+                868
+              ],
+              [
+                1023,
+                1185
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              630,
+              931
+            ],
+            "columns": [
+              [
+                96,
+                249
+              ],
+              [
+                405,
+                612
+              ],
+              [
+                713,
+                970
+              ],
+              [
+                1026,
+                1200
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              929,
+              1222
+            ],
+            "columns": [
+              [
+                75,
+                307
+              ],
+              [
+                399,
+                586
+              ],
+              [
+                703,
+                885
+              ],
+              [
+                1011,
+                1220
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-martin-mounted": {
+      "image": "atlases/famous-martin-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1461956,
+      "sha256": "37dcc085006a4499a49429e2d04086c719aafbd32462b3fd2d0a7cbf5d003c21",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.624184,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              31,
+              590
+            ],
+            "columns": [
+              [
+                29,
+                637
+              ],
+              [
+                656,
+                1239
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              621,
+              1214
+            ],
+            "columns": [
+              [
+                59,
+                645
+              ],
+              [
+                814,
+                1088
               ]
             ]
           }
@@ -58004,6 +58732,2710 @@
       "locationKits": [],
       "promptId": "frontier-v1/famous-picnic-props"
     },
+    "jw-smith-walk-e-1": {
+      "sheet": "famous-jw-smith",
+      "x": 55,
+      "y": 21,
+      "w": 254,
+      "h": 305,
+      "anchorX": 0.5039,
+      "anchorY": 0.9279,
+      "logicalHeight": 314,
+      "label": "jw smith walk e 1",
+      "kind": "famous-jw-smith",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          57,
+          23,
+          250,
+          304
+        ],
+        "visiblePixels": 35000,
+        "trimmedPixels": 4,
+        "retainedFraction": 0.999886
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-walk-e-2": {
+      "sheet": "famous-jw-smith",
+      "x": 405,
+      "y": 22,
+      "w": 185,
+      "h": 305,
+      "anchorX": 0.4162,
+      "anchorY": 0.9607,
+      "logicalHeight": 314,
+      "label": "jw smith walk e 2",
+      "kind": "famous-jw-smith",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          24,
+          181,
+          303
+        ],
+        "visiblePixels": 31841,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-walk-e-3": {
+      "sheet": "famous-jw-smith",
+      "x": 683,
+      "y": 22,
+      "w": 244,
+      "h": 306,
+      "anchorX": 0.5102,
+      "anchorY": 0.9281,
+      "logicalHeight": 314,
+      "label": "jw smith walk e 3",
+      "kind": "famous-jw-smith",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          685,
+          24,
+          240,
+          304
+        ],
+        "visiblePixels": 34056,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-walk-e-4": {
+      "sheet": "famous-jw-smith",
+      "x": 1019,
+      "y": 21,
+      "w": 186,
+      "h": 307,
+      "anchorX": 0.4516,
+      "anchorY": 0.9609,
+      "logicalHeight": 314,
+      "label": "jw smith walk e 4",
+      "kind": "famous-jw-smith",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1021,
+          23,
+          182,
+          305
+        ],
+        "visiblePixels": 31668,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-walk-s-1": {
+      "sheet": "famous-jw-smith",
+      "x": 70,
+      "y": 326,
+      "w": 186,
+      "h": 314,
+      "anchorX": 0.4892,
+      "anchorY": 0.9331,
+      "logicalHeight": 314,
+      "label": "jw smith walk s 1",
+      "kind": "famous-jw-smith",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          72,
+          326,
+          182,
+          312
+        ],
+        "visiblePixels": 31814,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-walk-s-2": {
+      "sheet": "famous-jw-smith",
+      "x": 396,
+      "y": 327,
+      "w": 180,
+      "h": 313,
+      "anchorX": 0.5306,
+      "anchorY": 0.9329,
+      "logicalHeight": 314,
+      "label": "jw smith walk s 2",
+      "kind": "famous-jw-smith",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          328,
+          176,
+          310
+        ],
+        "visiblePixels": 31452,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-walk-n-1": {
+      "sheet": "famous-jw-smith",
+      "x": 703,
+      "y": 328,
+      "w": 171,
+      "h": 314,
+      "anchorX": 0.5819,
+      "anchorY": 0.9331,
+      "logicalHeight": 314,
+      "label": "jw smith walk n 1",
+      "kind": "famous-jw-smith",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          705,
+          328,
+          167,
+          314
+        ],
+        "visiblePixels": 30840,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-walk-n-2": {
+      "sheet": "famous-jw-smith",
+      "x": 1017,
+      "y": 328,
+      "w": 170,
+      "h": 314,
+      "anchorX": 0.5853,
+      "anchorY": 0.9363,
+      "logicalHeight": 314,
+      "label": "jw smith walk n 2",
+      "kind": "famous-jw-smith",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1019,
+          329,
+          166,
+          312
+        ],
+        "visiblePixels": 31186,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-idle": {
+      "sheet": "famous-jw-smith",
+      "x": 82,
+      "y": 642,
+      "w": 166,
+      "h": 301,
+      "anchorX": 0.5331,
+      "anchorY": 0.9302,
+      "logicalHeight": 314,
+      "label": "jw smith idle",
+      "kind": "famous-jw-smith",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          84,
+          644,
+          162,
+          300
+        ],
+        "visiblePixels": 31200,
+        "trimmedPixels": 10,
+        "retainedFraction": 0.999679
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-parley": {
+      "sheet": "famous-jw-smith",
+      "x": 407,
+      "y": 642,
+      "w": 210,
+      "h": 301,
+      "anchorX": 0.4262,
+      "anchorY": 0.9302,
+      "logicalHeight": 314,
+      "label": "jw smith parley",
+      "kind": "famous-jw-smith",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          409,
+          644,
+          206,
+          300
+        ],
+        "visiblePixels": 33433,
+        "trimmedPixels": 17,
+        "retainedFraction": 0.999492
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-point": {
+      "sheet": "famous-jw-smith",
+      "x": 705,
+      "y": 642,
+      "w": 247,
+      "h": 304,
+      "anchorX": 0.4028,
+      "anchorY": 0.9309,
+      "logicalHeight": 314,
+      "label": "jw smith point",
+      "kind": "famous-jw-smith",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          707,
+          643,
+          243,
+          303
+        ],
+        "visiblePixels": 34391,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-listen": {
+      "sheet": "famous-jw-smith",
+      "x": 1023,
+      "y": 642,
+      "w": 181,
+      "h": 305,
+      "anchorX": 0.4558,
+      "anchorY": 0.941,
+      "logicalHeight": 314,
+      "label": "jw smith listen",
+      "kind": "famous-jw-smith",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1025,
+          643,
+          177,
+          302
+        ],
+        "visiblePixels": 33204,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-dispatch": {
+      "sheet": "famous-jw-smith",
+      "x": 77,
+      "y": 943,
+      "w": 235,
+      "h": 295,
+      "anchorX": 0.366,
+      "anchorY": 0.9288,
+      "logicalHeight": 314,
+      "label": "jw smith dispatch",
+      "kind": "famous-jw-smith",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          79,
+          943,
+          231,
+          293
+        ],
+        "visiblePixels": 32736,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-read": {
+      "sheet": "famous-jw-smith",
+      "x": 408,
+      "y": 943,
+      "w": 182,
+      "h": 297,
+      "anchorX": 0.4808,
+      "anchorY": 0.9293,
+      "logicalHeight": 314,
+      "label": "jw smith read",
+      "kind": "famous-jw-smith",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          410,
+          943,
+          178,
+          295
+        ],
+        "visiblePixels": 32267,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-satchel": {
+      "sheet": "famous-jw-smith",
+      "x": 704,
+      "y": 946,
+      "w": 188,
+      "h": 295,
+      "anchorX": 0.5293,
+      "anchorY": 0.9288,
+      "logicalHeight": 314,
+      "label": "jw smith satchel",
+      "kind": "famous-jw-smith",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          947,
+          184,
+          292
+        ],
+        "visiblePixels": 32392,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-rest": {
+      "sheet": "famous-jw-smith",
+      "x": 1008,
+      "y": 966,
+      "w": 209,
+      "h": 267,
+      "anchorX": 0.5359,
+      "anchorY": 0.9288,
+      "logicalHeight": 314,
+      "label": "jw smith rest",
+      "kind": "famous-jw-smith",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1010,
+          968,
+          205,
+          263
+        ],
+        "visiblePixels": 33527,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith"
+    },
+    "jw-smith-mounted-walk-e-1": {
+      "sheet": "famous-jw-smith-mounted",
+      "x": 47,
+      "y": 23,
+      "w": 574,
+      "h": 553,
+      "anchorX": 0.5035,
+      "anchorY": 0.9711,
+      "logicalHeight": 576,
+      "label": "jw smith mounted walk e 1",
+      "kind": "famous-jw-smith-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          49,
+          25,
+          570,
+          549
+        ],
+        "visiblePixels": 146712,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith-mounted"
+    },
+    "jw-smith-mounted-walk-e-2": {
+      "sheet": "famous-jw-smith-mounted",
+      "x": 659,
+      "y": 26,
+      "w": 569,
+      "h": 551,
+      "anchorX": 0.3989,
+      "anchorY": 0.9673,
+      "logicalHeight": 576,
+      "label": "jw smith mounted walk e 2",
+      "kind": "famous-jw-smith-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          661,
+          28,
+          565,
+          547
+        ],
+        "visiblePixels": 143762,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith-mounted"
+    },
+    "jw-smith-mounted-idle-e": {
+      "sheet": "famous-jw-smith-mounted",
+      "x": 67,
+      "y": 621,
+      "w": 560,
+      "h": 565,
+      "anchorX": 0.45,
+      "anchorY": 0.9593,
+      "logicalHeight": 576,
+      "label": "jw smith mounted idle e",
+      "kind": "famous-jw-smith-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          69,
+          623,
+          556,
+          561
+        ],
+        "visiblePixels": 148059,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith-mounted"
+    },
+    "jw-smith-mounted-idle-s": {
+      "sheet": "famous-jw-smith-mounted",
+      "x": 790,
+      "y": 620,
+      "w": 261,
+      "h": 576,
+      "anchorX": 0.5019,
+      "anchorY": 0.941,
+      "logicalHeight": 576,
+      "label": "jw smith mounted idle s",
+      "kind": "famous-jw-smith-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          792,
+          622,
+          257,
+          572
+        ],
+        "visiblePixels": 83865,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-jw-smith-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-jw-smith-mounted"
+    },
+    "horton-walk-e-1": {
+      "sheet": "famous-horton",
+      "x": 60,
+      "y": 9,
+      "w": 261,
+      "h": 315,
+      "anchorX": 0.5038,
+      "anchorY": 0.927,
+      "logicalHeight": 318,
+      "label": "horton walk e 1",
+      "kind": "famous-horton",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          11,
+          257,
+          313
+        ],
+        "visiblePixels": 35586,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-walk-e-2": {
+      "sheet": "famous-horton",
+      "x": 405,
+      "y": 11,
+      "w": 200,
+      "h": 315,
+      "anchorX": 0.4075,
+      "anchorY": 0.9587,
+      "logicalHeight": 318,
+      "label": "horton walk e 2",
+      "kind": "famous-horton",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          13,
+          196,
+          311
+        ],
+        "visiblePixels": 32541,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-walk-e-3": {
+      "sheet": "famous-horton",
+      "x": 687,
+      "y": 9,
+      "w": 252,
+      "h": 316,
+      "anchorX": 0.494,
+      "anchorY": 0.9272,
+      "logicalHeight": 318,
+      "label": "horton walk e 3",
+      "kind": "famous-horton",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          689,
+          11,
+          248,
+          312
+        ],
+        "visiblePixels": 35014,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-walk-e-4": {
+      "sheet": "famous-horton",
+      "x": 1035,
+      "y": 9,
+      "w": 192,
+      "h": 318,
+      "anchorX": 0.3958,
+      "anchorY": 0.956,
+      "logicalHeight": 318,
+      "label": "horton walk e 4",
+      "kind": "famous-horton",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1037,
+          11,
+          188,
+          314
+        ],
+        "visiblePixels": 32347,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-walk-s-1": {
+      "sheet": "famous-horton",
+      "x": 73,
+      "y": 324,
+      "w": 186,
+      "h": 314,
+      "anchorX": 0.5618,
+      "anchorY": 0.9968,
+      "logicalHeight": 318,
+      "label": "horton walk s 1",
+      "kind": "famous-horton",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          324,
+          182,
+          315
+        ],
+        "visiblePixels": 31605,
+        "trimmedPixels": 14,
+        "retainedFraction": 0.999557
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-walk-s-2": {
+      "sheet": "famous-horton",
+      "x": 400,
+      "y": 329,
+      "w": 178,
+      "h": 304,
+      "anchorX": 0.4522,
+      "anchorY": 0.9539,
+      "logicalHeight": 318,
+      "label": "horton walk s 2",
+      "kind": "famous-horton",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          402,
+          331,
+          174,
+          301
+        ],
+        "visiblePixels": 29732,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-walk-n-1": {
+      "sheet": "famous-horton",
+      "x": 700,
+      "y": 328,
+      "w": 170,
+      "h": 312,
+      "anchorX": 0.5706,
+      "anchorY": 0.9519,
+      "logicalHeight": 318,
+      "label": "horton walk n 1",
+      "kind": "famous-horton",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          702,
+          330,
+          166,
+          310
+        ],
+        "visiblePixels": 29952,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-walk-n-2": {
+      "sheet": "famous-horton",
+      "x": 1018,
+      "y": 328,
+      "w": 166,
+      "h": 303,
+      "anchorX": 0.5663,
+      "anchorY": 0.9274,
+      "logicalHeight": 318,
+      "label": "horton walk n 2",
+      "kind": "famous-horton",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1020,
+          330,
+          162,
+          299
+        ],
+        "visiblePixels": 29499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-idle": {
+      "sheet": "famous-horton",
+      "x": 88,
+      "y": 638,
+      "w": 167,
+      "h": 303,
+      "anchorX": 0.5299,
+      "anchorY": 0.9406,
+      "logicalHeight": 318,
+      "label": "horton idle",
+      "kind": "famous-horton",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          90,
+          637,
+          163,
+          304
+        ],
+        "visiblePixels": 31826,
+        "trimmedPixels": 12,
+        "retainedFraction": 0.999623
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-parley": {
+      "sheet": "famous-horton",
+      "x": 404,
+      "y": 633,
+      "w": 214,
+      "h": 307,
+      "anchorX": 0.4299,
+      "anchorY": 0.9414,
+      "logicalHeight": 318,
+      "label": "horton parley",
+      "kind": "famous-horton",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          406,
+          634,
+          210,
+          305
+        ],
+        "visiblePixels": 33847,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-point": {
+      "sheet": "famous-horton",
+      "x": 705,
+      "y": 640,
+      "w": 259,
+      "h": 302,
+      "anchorX": 0.3629,
+      "anchorY": 0.9305,
+      "logicalHeight": 318,
+      "label": "horton point",
+      "kind": "famous-horton",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          707,
+          641,
+          255,
+          299
+        ],
+        "visiblePixels": 35152,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-listen": {
+      "sheet": "famous-horton",
+      "x": 1028,
+      "y": 636,
+      "w": 179,
+      "h": 307,
+      "anchorX": 0.5363,
+      "anchorY": 0.9446,
+      "logicalHeight": 318,
+      "label": "horton listen",
+      "kind": "famous-horton",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          638,
+          175,
+          303
+        ],
+        "visiblePixels": 32743,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-dispatch": {
+      "sheet": "famous-horton",
+      "x": 69,
+      "y": 941,
+      "w": 245,
+      "h": 295,
+      "anchorX": 0.3755,
+      "anchorY": 0.9288,
+      "logicalHeight": 318,
+      "label": "horton dispatch",
+      "kind": "famous-horton",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          71,
+          941,
+          241,
+          293
+        ],
+        "visiblePixels": 33014,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-read": {
+      "sheet": "famous-horton",
+      "x": 404,
+      "y": 940,
+      "w": 185,
+      "h": 297,
+      "anchorX": 0.5,
+      "anchorY": 0.9293,
+      "logicalHeight": 318,
+      "label": "horton read",
+      "kind": "famous-horton",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          406,
+          942,
+          181,
+          293
+        ],
+        "visiblePixels": 30958,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-satchel": {
+      "sheet": "famous-horton",
+      "x": 707,
+      "y": 946,
+      "w": 182,
+      "h": 289,
+      "anchorX": 0.5357,
+      "anchorY": 0.9308,
+      "logicalHeight": 318,
+      "label": "horton satchel",
+      "kind": "famous-horton",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          709,
+          948,
+          178,
+          285
+        ],
+        "visiblePixels": 30572,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-rest": {
+      "sheet": "famous-horton",
+      "x": 1012,
+      "y": 977,
+      "w": 213,
+      "h": 254,
+      "anchorX": 0.6174,
+      "anchorY": 0.9291,
+      "logicalHeight": 318,
+      "label": "horton rest",
+      "kind": "famous-horton",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1014,
+          979,
+          209,
+          250
+        ],
+        "visiblePixels": 31946,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton"
+    },
+    "horton-mounted-walk-e-1": {
+      "sheet": "famous-horton-mounted",
+      "x": 35,
+      "y": 36,
+      "w": 581,
+      "h": 554,
+      "anchorX": 0.5009,
+      "anchorY": 0.9801,
+      "logicalHeight": 573,
+      "label": "horton mounted walk e 1",
+      "kind": "famous-horton-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          37,
+          38,
+          577,
+          550
+        ],
+        "visiblePixels": 147911,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton-mounted"
+    },
+    "horton-mounted-walk-e-2": {
+      "sheet": "famous-horton-mounted",
+      "x": 649,
+      "y": 36,
+      "w": 592,
+      "h": 553,
+      "anchorX": 0.4046,
+      "anchorY": 0.9638,
+      "logicalHeight": 573,
+      "label": "horton mounted walk e 2",
+      "kind": "famous-horton-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          651,
+          38,
+          588,
+          549
+        ],
+        "visiblePixels": 145552,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton-mounted"
+    },
+    "horton-mounted-idle-e": {
+      "sheet": "famous-horton-mounted",
+      "x": 57,
+      "y": 650,
+      "w": 564,
+      "h": 557,
+      "anchorX": 0.4415,
+      "anchorY": 0.9641,
+      "logicalHeight": 573,
+      "label": "horton mounted idle e",
+      "kind": "famous-horton-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          59,
+          652,
+          560,
+          553
+        ],
+        "visiblePixels": 144958,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton-mounted"
+    },
+    "horton-mounted-idle-s": {
+      "sheet": "famous-horton-mounted",
+      "x": 811,
+      "y": 645,
+      "w": 255,
+      "h": 573,
+      "anchorX": 0.5,
+      "anchorY": 0.9773,
+      "logicalHeight": 573,
+      "label": "horton mounted idle s",
+      "kind": "famous-horton-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          813,
+          647,
+          251,
+          569
+        ],
+        "visiblePixels": 80043,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-horton-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-horton-mounted"
+    },
+    "kimbell-walk-e-1": {
+      "sheet": "famous-kimbell",
+      "x": 55,
+      "y": 19,
+      "w": 256,
+      "h": 303,
+      "anchorX": 0.4941,
+      "anchorY": 0.9274,
+      "logicalHeight": 315,
+      "label": "kimbell walk e 1",
+      "kind": "famous-kimbell",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          57,
+          21,
+          252,
+          299
+        ],
+        "visiblePixels": 34042,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-walk-e-2": {
+      "sheet": "famous-kimbell",
+      "x": 400,
+      "y": 17,
+      "w": 191,
+      "h": 307,
+      "anchorX": 0.3822,
+      "anchorY": 0.9511,
+      "logicalHeight": 315,
+      "label": "kimbell walk e 2",
+      "kind": "famous-kimbell",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          402,
+          19,
+          187,
+          303
+        ],
+        "visiblePixels": 31271,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-walk-e-3": {
+      "sheet": "famous-kimbell",
+      "x": 687,
+      "y": 18,
+      "w": 245,
+      "h": 305,
+      "anchorX": 0.498,
+      "anchorY": 0.9279,
+      "logicalHeight": 315,
+      "label": "kimbell walk e 3",
+      "kind": "famous-kimbell",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          689,
+          20,
+          241,
+          301
+        ],
+        "visiblePixels": 33345,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-walk-e-4": {
+      "sheet": "famous-kimbell",
+      "x": 1030,
+      "y": 17,
+      "w": 191,
+      "h": 307,
+      "anchorX": 0.3822,
+      "anchorY": 0.9577,
+      "logicalHeight": 315,
+      "label": "kimbell walk e 4",
+      "kind": "famous-kimbell",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1032,
+          19,
+          187,
+          303
+        ],
+        "visiblePixels": 31103,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-walk-s-1": {
+      "sheet": "famous-kimbell",
+      "x": 68,
+      "y": 330,
+      "w": 190,
+      "h": 312,
+      "anchorX": 0.4868,
+      "anchorY": 0.9295,
+      "logicalHeight": 315,
+      "label": "kimbell walk s 1",
+      "kind": "famous-kimbell",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          70,
+          332,
+          186,
+          309
+        ],
+        "visiblePixels": 31454,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-walk-s-2": {
+      "sheet": "famous-kimbell",
+      "x": 397,
+      "y": 330,
+      "w": 183,
+      "h": 312,
+      "anchorX": 0.5,
+      "anchorY": 0.9295,
+      "logicalHeight": 315,
+      "label": "kimbell walk s 2",
+      "kind": "famous-kimbell",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          399,
+          332,
+          179,
+          308
+        ],
+        "visiblePixels": 30934,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-walk-n-1": {
+      "sheet": "famous-kimbell",
+      "x": 697,
+      "y": 330,
+      "w": 175,
+      "h": 313,
+      "anchorX": 0.5629,
+      "anchorY": 0.9297,
+      "logicalHeight": 315,
+      "label": "kimbell walk n 1",
+      "kind": "famous-kimbell",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          332,
+          171,
+          310
+        ],
+        "visiblePixels": 30633,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-walk-n-2": {
+      "sheet": "famous-kimbell",
+      "x": 1016,
+      "y": 330,
+      "w": 171,
+      "h": 315,
+      "anchorX": 0.5819,
+      "anchorY": 0.927,
+      "logicalHeight": 315,
+      "label": "kimbell walk n 2",
+      "kind": "famous-kimbell",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1018,
+          332,
+          167,
+          311
+        ],
+        "visiblePixels": 30821,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-idle": {
+      "sheet": "famous-kimbell",
+      "x": 83,
+      "y": 642,
+      "w": 158,
+      "h": 299,
+      "anchorX": 0.5253,
+      "anchorY": 0.9331,
+      "logicalHeight": 315,
+      "label": "kimbell idle",
+      "kind": "famous-kimbell",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          85,
+          643,
+          154,
+          297
+        ],
+        "visiblePixels": 30255,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-parley": {
+      "sheet": "famous-kimbell",
+      "x": 401,
+      "y": 644,
+      "w": 209,
+      "h": 299,
+      "anchorX": 0.4258,
+      "anchorY": 0.9331,
+      "logicalHeight": 315,
+      "label": "kimbell parley",
+      "kind": "famous-kimbell",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          403,
+          646,
+          205,
+          295
+        ],
+        "visiblePixels": 33216,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-point": {
+      "sheet": "famous-kimbell",
+      "x": 711,
+      "y": 643,
+      "w": 240,
+      "h": 299,
+      "anchorX": 0.3771,
+      "anchorY": 0.9331,
+      "logicalHeight": 315,
+      "label": "kimbell point",
+      "kind": "famous-kimbell",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          645,
+          236,
+          295
+        ],
+        "visiblePixels": 34094,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-listen": {
+      "sheet": "famous-kimbell",
+      "x": 1011,
+      "y": 645,
+      "w": 188,
+      "h": 298,
+      "anchorX": 0.5665,
+      "anchorY": 0.9295,
+      "logicalHeight": 315,
+      "label": "kimbell listen",
+      "kind": "famous-kimbell",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          647,
+          184,
+          294
+        ],
+        "visiblePixels": 33260,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-dispatch": {
+      "sheet": "famous-kimbell",
+      "x": 62,
+      "y": 941,
+      "w": 246,
+      "h": 291,
+      "anchorX": 0.372,
+      "anchorY": 0.9381,
+      "logicalHeight": 315,
+      "label": "kimbell dispatch",
+      "kind": "famous-kimbell",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          64,
+          943,
+          242,
+          287
+        ],
+        "visiblePixels": 33193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-read": {
+      "sheet": "famous-kimbell",
+      "x": 408,
+      "y": 943,
+      "w": 179,
+      "h": 289,
+      "anchorX": 0.5084,
+      "anchorY": 0.9273,
+      "logicalHeight": 315,
+      "label": "kimbell read",
+      "kind": "famous-kimbell",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          410,
+          945,
+          175,
+          285
+        ],
+        "visiblePixels": 30039,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-satchel": {
+      "sheet": "famous-kimbell",
+      "x": 705,
+      "y": 944,
+      "w": 187,
+      "h": 288,
+      "anchorX": 0.5321,
+      "anchorY": 0.934,
+      "logicalHeight": 315,
+      "label": "kimbell satchel",
+      "kind": "famous-kimbell",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          707,
+          946,
+          183,
+          284
+        ],
+        "visiblePixels": 31208,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-rest": {
+      "sheet": "famous-kimbell",
+      "x": 1007,
+      "y": 956,
+      "w": 210,
+      "h": 277,
+      "anchorX": 0.5167,
+      "anchorY": 0.9278,
+      "logicalHeight": 315,
+      "label": "kimbell rest",
+      "kind": "famous-kimbell",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1009,
+          958,
+          206,
+          273
+        ],
+        "visiblePixels": 35295,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell"
+    },
+    "kimbell-mounted-walk-e-1": {
+      "sheet": "famous-kimbell-mounted",
+      "x": 41,
+      "y": 46,
+      "w": 575,
+      "h": 536,
+      "anchorX": 0.513,
+      "anchorY": 0.9646,
+      "logicalHeight": 567,
+      "label": "kimbell mounted walk e 1",
+      "kind": "famous-kimbell-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          48,
+          571,
+          532
+        ],
+        "visiblePixels": 138056,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell-mounted"
+    },
+    "kimbell-mounted-walk-e-2": {
+      "sheet": "famous-kimbell-mounted",
+      "x": 662,
+      "y": 53,
+      "w": 567,
+      "h": 530,
+      "anchorX": 0.4039,
+      "anchorY": 0.9792,
+      "logicalHeight": 567,
+      "label": "kimbell mounted walk e 2",
+      "kind": "famous-kimbell-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          664,
+          55,
+          563,
+          526
+        ],
+        "visiblePixels": 134543,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell-mounted"
+    },
+    "kimbell-mounted-idle-e": {
+      "sheet": "famous-kimbell-mounted",
+      "x": 65,
+      "y": 629,
+      "w": 576,
+      "h": 560,
+      "anchorX": 0.4523,
+      "anchorY": 0.9625,
+      "logicalHeight": 567,
+      "label": "kimbell mounted idle e",
+      "kind": "famous-kimbell-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          67,
+          631,
+          572,
+          556
+        ],
+        "visiblePixels": 144168,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell-mounted"
+    },
+    "kimbell-mounted-idle-s": {
+      "sheet": "famous-kimbell-mounted",
+      "x": 816,
+      "y": 635,
+      "w": 257,
+      "h": 567,
+      "anchorX": 0.5195,
+      "anchorY": 0.9295,
+      "logicalHeight": 567,
+      "label": "kimbell mounted idle s",
+      "kind": "famous-kimbell-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          818,
+          637,
+          253,
+          563
+        ],
+        "visiblePixels": 80324,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-kimbell-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-kimbell-mounted"
+    },
+    "martin-walk-e-1": {
+      "sheet": "famous-martin",
+      "x": 53,
+      "y": 22,
+      "w": 256,
+      "h": 299,
+      "anchorX": 0.4961,
+      "anchorY": 0.9298,
+      "logicalHeight": 307,
+      "label": "martin walk e 1",
+      "kind": "famous-martin",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          24,
+          252,
+          296
+        ],
+        "visiblePixels": 32449,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-walk-e-2": {
+      "sheet": "famous-martin",
+      "x": 402,
+      "y": 20,
+      "w": 180,
+      "h": 302,
+      "anchorX": 0.4028,
+      "anchorY": 0.947,
+      "logicalHeight": 307,
+      "label": "martin walk e 2",
+      "kind": "famous-martin",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          404,
+          22,
+          176,
+          298
+        ],
+        "visiblePixels": 29499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-walk-e-3": {
+      "sheet": "famous-martin",
+      "x": 681,
+      "y": 24,
+      "w": 246,
+      "h": 299,
+      "anchorX": 0.5041,
+      "anchorY": 0.9298,
+      "logicalHeight": 307,
+      "label": "martin walk e 3",
+      "kind": "famous-martin",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          683,
+          26,
+          242,
+          295
+        ],
+        "visiblePixels": 31178,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-walk-e-4": {
+      "sheet": "famous-martin",
+      "x": 1026,
+      "y": 20,
+      "w": 182,
+      "h": 302,
+      "anchorX": 0.4396,
+      "anchorY": 0.9437,
+      "logicalHeight": 307,
+      "label": "martin walk e 4",
+      "kind": "famous-martin",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1028,
+          22,
+          178,
+          298
+        ],
+        "visiblePixels": 29569,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-walk-s-1": {
+      "sheet": "famous-martin",
+      "x": 79,
+      "y": 321,
+      "w": 182,
+      "h": 307,
+      "anchorX": 0.4945,
+      "anchorY": 0.9283,
+      "logicalHeight": 307,
+      "label": "martin walk s 1",
+      "kind": "famous-martin",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          322,
+          178,
+          304
+        ],
+        "visiblePixels": 30182,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-walk-s-2": {
+      "sheet": "famous-martin",
+      "x": 399,
+      "y": 322,
+      "w": 176,
+      "h": 307,
+      "anchorX": 0.5114,
+      "anchorY": 0.9283,
+      "logicalHeight": 307,
+      "label": "martin walk s 2",
+      "kind": "famous-martin",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          324,
+          172,
+          303
+        ],
+        "visiblePixels": 29692,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-walk-n-1": {
+      "sheet": "famous-martin",
+      "x": 705,
+      "y": 327,
+      "w": 163,
+      "h": 304,
+      "anchorX": 0.6135,
+      "anchorY": 0.9342,
+      "logicalHeight": 307,
+      "label": "martin walk n 1",
+      "kind": "famous-martin",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          707,
+          329,
+          159,
+          300
+        ],
+        "visiblePixels": 28109,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-walk-n-2": {
+      "sheet": "famous-martin",
+      "x": 1023,
+      "y": 327,
+      "w": 162,
+      "h": 305,
+      "anchorX": 0.5833,
+      "anchorY": 0.9279,
+      "logicalHeight": 307,
+      "label": "martin walk n 2",
+      "kind": "famous-martin",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1025,
+          329,
+          158,
+          301
+        ],
+        "visiblePixels": 28829,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-idle": {
+      "sheet": "famous-martin",
+      "x": 96,
+      "y": 630,
+      "w": 153,
+      "h": 299,
+      "anchorX": 0.5196,
+      "anchorY": 0.9431,
+      "logicalHeight": 307,
+      "label": "martin idle",
+      "kind": "famous-martin",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          98,
+          632,
+          149,
+          297
+        ],
+        "visiblePixels": 29590,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-parley": {
+      "sheet": "famous-martin",
+      "x": 405,
+      "y": 630,
+      "w": 207,
+      "h": 301,
+      "anchorX": 0.4179,
+      "anchorY": 0.9369,
+      "logicalHeight": 307,
+      "label": "martin parley",
+      "kind": "famous-martin",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          632,
+          203,
+          297
+        ],
+        "visiblePixels": 33032,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-point": {
+      "sheet": "famous-martin",
+      "x": 713,
+      "y": 631,
+      "w": 257,
+      "h": 300,
+      "anchorX": 0.3658,
+      "anchorY": 0.9333,
+      "logicalHeight": 307,
+      "label": "martin point",
+      "kind": "famous-martin",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          715,
+          633,
+          253,
+          296
+        ],
+        "visiblePixels": 34000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-listen": {
+      "sheet": "famous-martin",
+      "x": 1026,
+      "y": 633,
+      "w": 174,
+      "h": 296,
+      "anchorX": 0.4741,
+      "anchorY": 0.9358,
+      "logicalHeight": 307,
+      "label": "martin listen",
+      "kind": "famous-martin",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1028,
+          635,
+          170,
+          292
+        ],
+        "visiblePixels": 31875,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-dispatch": {
+      "sheet": "famous-martin",
+      "x": 75,
+      "y": 929,
+      "w": 232,
+      "h": 289,
+      "anchorX": 0.3793,
+      "anchorY": 0.9308,
+      "logicalHeight": 307,
+      "label": "martin dispatch",
+      "kind": "famous-martin",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          930,
+          228,
+          286
+        ],
+        "visiblePixels": 31867,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-read": {
+      "sheet": "famous-martin",
+      "x": 399,
+      "y": 932,
+      "w": 187,
+      "h": 288,
+      "anchorX": 0.484,
+      "anchorY": 0.9271,
+      "logicalHeight": 307,
+      "label": "martin read",
+      "kind": "famous-martin",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          934,
+          183,
+          284
+        ],
+        "visiblePixels": 30271,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-satchel": {
+      "sheet": "famous-martin",
+      "x": 703,
+      "y": 938,
+      "w": 182,
+      "h": 282,
+      "anchorX": 0.5357,
+      "anchorY": 0.9291,
+      "logicalHeight": 307,
+      "label": "martin satchel",
+      "kind": "famous-martin",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          705,
+          940,
+          178,
+          278
+        ],
+        "visiblePixels": 29994,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-rest": {
+      "sheet": "famous-martin",
+      "x": 1011,
+      "y": 957,
+      "w": 209,
+      "h": 265,
+      "anchorX": 0.5096,
+      "anchorY": 0.9283,
+      "logicalHeight": 307,
+      "label": "martin rest",
+      "kind": "famous-martin",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          959,
+          205,
+          261
+        ],
+        "visiblePixels": 33113,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin"
+    },
+    "martin-mounted-walk-e-1": {
+      "sheet": "famous-martin-mounted",
+      "x": 29,
+      "y": 31,
+      "w": 608,
+      "h": 558,
+      "anchorX": 0.5025,
+      "anchorY": 0.9588,
+      "logicalHeight": 593,
+      "label": "martin mounted walk e 1",
+      "kind": "famous-martin-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          33,
+          604,
+          554
+        ],
+        "visiblePixels": 148412,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin-mounted"
+    },
+    "martin-mounted-walk-e-2": {
+      "sheet": "famous-martin-mounted",
+      "x": 656,
+      "y": 35,
+      "w": 583,
+      "h": 555,
+      "anchorX": 0.4194,
+      "anchorY": 0.9586,
+      "logicalHeight": 593,
+      "label": "martin mounted walk e 2",
+      "kind": "famous-martin-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          658,
+          37,
+          579,
+          551
+        ],
+        "visiblePixels": 144725,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin-mounted"
+    },
+    "martin-mounted-idle-e": {
+      "sheet": "famous-martin-mounted",
+      "x": 59,
+      "y": 628,
+      "w": 586,
+      "h": 571,
+      "anchorX": 0.4633,
+      "anchorY": 0.965,
+      "logicalHeight": 593,
+      "label": "martin mounted idle e",
+      "kind": "famous-martin-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          630,
+          582,
+          567
+        ],
+        "visiblePixels": 153878,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin-mounted"
+    },
+    "martin-mounted-idle-s": {
+      "sheet": "famous-martin-mounted",
+      "x": 814,
+      "y": 621,
+      "w": 274,
+      "h": 593,
+      "anchorX": 0.5091,
+      "anchorY": 0.9292,
+      "logicalHeight": 593,
+      "label": "martin mounted idle s",
+      "kind": "famous-martin-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          816,
+          623,
+          270,
+          589
+        ],
+        "visiblePixels": 90019,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-martin-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-martin-mounted"
+    },
     "rusk-walk-e-1": {
       "sheet": "famous-rusk",
       "x": 90,
@@ -101019,6 +104451,262 @@
       "motion": "none",
       "direction": "east-facing; turns toward the battle"
     },
+    "jw-smith-walk-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "jw-smith-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "jw-smith-walk-s": {
+      "frames": [
+        {
+          "sprite": "jw-smith-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "jw-smith-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "jw-smith-walk-n": {
+      "frames": [
+        {
+          "sprite": "jw-smith-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "jw-smith-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "jw-smith-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "jw-smith-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "horton-walk-e": {
+      "frames": [
+        {
+          "sprite": "horton-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "horton-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "horton-walk-s": {
+      "frames": [
+        {
+          "sprite": "horton-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "horton-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "horton-walk-n": {
+      "frames": [
+        {
+          "sprite": "horton-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "horton-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "horton-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "horton-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "kimbell-walk-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "kimbell-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "kimbell-walk-s": {
+      "frames": [
+        {
+          "sprite": "kimbell-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "kimbell-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "kimbell-walk-n": {
+      "frames": [
+        {
+          "sprite": "kimbell-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "kimbell-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "kimbell-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "kimbell-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "martin-walk-e": {
+      "frames": [
+        {
+          "sprite": "martin-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "martin-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "martin-walk-s": {
+      "frames": [
+        {
+          "sprite": "martin-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "martin-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "martin-walk-n": {
+      "frames": [
+        {
+          "sprite": "martin-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "martin-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "martin-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "martin-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "rusk-walk-e": {
       "frames": [
         {
@@ -112632,7 +116320,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 204,
+    "sourceCount": 212,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

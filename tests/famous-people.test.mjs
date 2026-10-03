@@ -19,6 +19,17 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld } from '../sim/world.mjs';
 
 const copy = value => JSON.parse(JSON.stringify(value));
+test('named relief riders and Horton have dedicated art without changing their scenes', () => {
+  for (const id of ['jw-smith', 'horton', 'kimbell', 'martin']) assert.equal(PEOPLE[id].art, id);
+  const relief = ALAMO.phases.find(p => p.people?.some(one => one.id === 'kimbell'));
+  assert.equal(relief.people.find(p => p.id === 'kimbell').pose, 'ride');
+  assert.equal(relief.people.find(p => p.id === 'martin').pose, 'ride');
+  const courier = ALAMO.phases.find(p => p.people?.some(one => one.id === 'jw-smith')).people.find(p => p.id === 'jw-smith');
+  assert.deepEqual(courier.during, [680, 720]);
+  const hortonPhases = ENGAGEMENTS.coleto.phases.filter(p => p.people?.some(one => one.id === 'horton'));
+  assert.equal(hortonPhases.length, 3);
+  assert.ok(hortonPhases.every(p => p.people.find(one => one.id === 'horton').pose === 'ride'));
+});
 test('Smither keeps his Gonzales arrival and reported warning with dedicated art', () => {
   assert.equal(PEOPLE.smither.art, 'smither');
   const phase = ENGAGEMENTS.gonzales.phases.find(p => p.id === 'parley');

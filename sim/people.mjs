@@ -107,9 +107,9 @@ export const PEOPLE = Object.freeze({
   barragan: person('barragan', 'Barragán', MX, 'barragan', 2, 'HIST-TEX-502', { fullName: 'Captain Barragán, who saved Joe' }),
   seguin: person('seguin', 'Seguín', TX, 'seguin', 1, 'HIST-TEX-551', { fullName: 'Juan Nepomuceno Seguín' }),
   // Killed on March 6 with every man of the relief; where in the fort is not recorded, so his death is told, not drawn.
-  kimbell: person('kimbell', 'Kimbell', TX, 'rider', 2, 'HIST-TEX-057', { fullName: 'George C. Kimbell' }),
-  martin: person('martin', 'Martin', TX, 'rider', 2, 'HIST-TEX-057', { fullName: 'Albert Martin' }),
-  'jw-smith': person('jw-smith', 'J. W. Smith', TX, 'rider', 2, 'HIST-TEX-552', { fullName: 'John W. Smith' }),
+  kimbell: person('kimbell', 'Kimbell', TX, 'kimbell', 2, 'HIST-TEX-057', { fullName: 'George C. Kimbell' }),
+  martin: person('martin', 'Martin', TX, 'martin', 2, 'HIST-TEX-057', { fullName: 'Albert Martin' }),
+  'jw-smith': person('jw-smith', 'J. W. Smith', TX, 'jw-smith', 2, 'HIST-TEX-552', { fullName: 'John W. Smith' }),
   castrillon: person('castrillon', 'Castrillón', MX, 'castrillon', 2, 'HIST-TEX-561', {
     fullName: 'Manuel Fernández Castrillón',
     // At San Jacinto he stood on an ammunition crate trying to rally his men, then turned and walked away from the Texians and
@@ -169,7 +169,7 @@ export const PEOPLE = Object.freeze({
     fate: { kind: 'killed', told: true, battle: 'agua-dulce', phase: 'ambush', at: 16, claimId: 'HIST-TEX-556' },
   }),
   urrea: person('urrea', 'Urrea', MX, 'urrea', 2, 'HIST-TEX-063', { fullName: 'José de Urrea' }),
-  horton: person('horton', 'Horton', TX, 'rider', 2, 'HIST-TEX-563', { fullName: 'Albert Clinton Horton' }),
+  horton: person('horton', 'Horton', TX, 'horton', 2, 'HIST-TEX-563', { fullName: 'Albert Clinton Horton' }),
   // ---------------------------------------------------------------- San Jacinto
   houston: person('houston', 'Houston', TX, 'houston', 1, 'HIST-TEX-564', {
     fullName: 'Sam Houston',

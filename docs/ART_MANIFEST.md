@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2198 usable sprites, 204 PNG atlases, 760 clips** (452 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2278 usable sprites, 212 PNG atlases, 776 clips** (468 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -112,6 +112,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-emily-west-picnic | 4 | 1254 × 1254 | 1381954 |
 | famous-santa-anna-picnic | 4 | 1254 × 1254 | 1236551 |
 | famous-picnic-props | 4 | 1254 × 1254 | 1557526 |
+| famous-jw-smith | 16 | 1254 × 1254 | 1449196 |
+| famous-jw-smith-mounted | 4 | 1254 × 1254 | 1287878 |
+| famous-horton | 16 | 1254 × 1254 | 1431695 |
+| famous-horton-mounted | 4 | 1254 × 1254 | 1366983 |
+| famous-kimbell | 16 | 1254 × 1254 | 1435124 |
+| famous-kimbell-mounted | 4 | 1254 × 1254 | 1330420 |
+| famous-martin | 16 | 1254 × 1254 | 1408204 |
+| famous-martin-mounted | 4 | 1254 × 1254 | 1461956 |
 | famous-rusk | 16 | 1312 × 1199 | 1052054 |
 | famous-rusk-mounted | 4 | 1312 × 1199 | 1471219 |
 | famous-sanchez-navarro | 16 | 1254 × 1254 | 1303243 |
@@ -1350,6 +1358,86 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | picnic-blanket | famous-picnic-props | State artwork; no motion required |
 | picnic-basket | famous-picnic-props | State artwork; no motion required |
 | picnic-jug-cups | famous-picnic-props | State artwork; no motion required |
+| jw-smith-walk-e-1 | famous-jw-smith | jw-smith-walk-e |
+| jw-smith-walk-e-2 | famous-jw-smith | jw-smith-walk-e |
+| jw-smith-walk-e-3 | famous-jw-smith | State artwork; no motion required |
+| jw-smith-walk-e-4 | famous-jw-smith | State artwork; no motion required |
+| jw-smith-walk-s-1 | famous-jw-smith | jw-smith-walk-s |
+| jw-smith-walk-s-2 | famous-jw-smith | jw-smith-walk-s |
+| jw-smith-walk-n-1 | famous-jw-smith | jw-smith-walk-n |
+| jw-smith-walk-n-2 | famous-jw-smith | jw-smith-walk-n |
+| jw-smith-idle | famous-jw-smith | State artwork; no motion required |
+| jw-smith-parley | famous-jw-smith | State artwork; no motion required |
+| jw-smith-point | famous-jw-smith | State artwork; no motion required |
+| jw-smith-listen | famous-jw-smith | State artwork; no motion required |
+| jw-smith-dispatch | famous-jw-smith | State artwork; no motion required |
+| jw-smith-read | famous-jw-smith | State artwork; no motion required |
+| jw-smith-satchel | famous-jw-smith | State artwork; no motion required |
+| jw-smith-rest | famous-jw-smith | State artwork; no motion required |
+| jw-smith-mounted-walk-e-1 | famous-jw-smith-mounted | jw-smith-mounted-walk-e |
+| jw-smith-mounted-walk-e-2 | famous-jw-smith-mounted | jw-smith-mounted-walk-e |
+| jw-smith-mounted-idle-e | famous-jw-smith-mounted | State artwork; no motion required |
+| jw-smith-mounted-idle-s | famous-jw-smith-mounted | State artwork; no motion required |
+| horton-walk-e-1 | famous-horton | horton-walk-e |
+| horton-walk-e-2 | famous-horton | horton-walk-e |
+| horton-walk-e-3 | famous-horton | State artwork; no motion required |
+| horton-walk-e-4 | famous-horton | State artwork; no motion required |
+| horton-walk-s-1 | famous-horton | horton-walk-s |
+| horton-walk-s-2 | famous-horton | horton-walk-s |
+| horton-walk-n-1 | famous-horton | horton-walk-n |
+| horton-walk-n-2 | famous-horton | horton-walk-n |
+| horton-idle | famous-horton | State artwork; no motion required |
+| horton-parley | famous-horton | State artwork; no motion required |
+| horton-point | famous-horton | State artwork; no motion required |
+| horton-listen | famous-horton | State artwork; no motion required |
+| horton-dispatch | famous-horton | State artwork; no motion required |
+| horton-read | famous-horton | State artwork; no motion required |
+| horton-satchel | famous-horton | State artwork; no motion required |
+| horton-rest | famous-horton | State artwork; no motion required |
+| horton-mounted-walk-e-1 | famous-horton-mounted | horton-mounted-walk-e |
+| horton-mounted-walk-e-2 | famous-horton-mounted | horton-mounted-walk-e |
+| horton-mounted-idle-e | famous-horton-mounted | State artwork; no motion required |
+| horton-mounted-idle-s | famous-horton-mounted | State artwork; no motion required |
+| kimbell-walk-e-1 | famous-kimbell | kimbell-walk-e |
+| kimbell-walk-e-2 | famous-kimbell | kimbell-walk-e |
+| kimbell-walk-e-3 | famous-kimbell | State artwork; no motion required |
+| kimbell-walk-e-4 | famous-kimbell | State artwork; no motion required |
+| kimbell-walk-s-1 | famous-kimbell | kimbell-walk-s |
+| kimbell-walk-s-2 | famous-kimbell | kimbell-walk-s |
+| kimbell-walk-n-1 | famous-kimbell | kimbell-walk-n |
+| kimbell-walk-n-2 | famous-kimbell | kimbell-walk-n |
+| kimbell-idle | famous-kimbell | State artwork; no motion required |
+| kimbell-parley | famous-kimbell | State artwork; no motion required |
+| kimbell-point | famous-kimbell | State artwork; no motion required |
+| kimbell-listen | famous-kimbell | State artwork; no motion required |
+| kimbell-dispatch | famous-kimbell | State artwork; no motion required |
+| kimbell-read | famous-kimbell | State artwork; no motion required |
+| kimbell-satchel | famous-kimbell | State artwork; no motion required |
+| kimbell-rest | famous-kimbell | State artwork; no motion required |
+| kimbell-mounted-walk-e-1 | famous-kimbell-mounted | kimbell-mounted-walk-e |
+| kimbell-mounted-walk-e-2 | famous-kimbell-mounted | kimbell-mounted-walk-e |
+| kimbell-mounted-idle-e | famous-kimbell-mounted | State artwork; no motion required |
+| kimbell-mounted-idle-s | famous-kimbell-mounted | State artwork; no motion required |
+| martin-walk-e-1 | famous-martin | martin-walk-e |
+| martin-walk-e-2 | famous-martin | martin-walk-e |
+| martin-walk-e-3 | famous-martin | State artwork; no motion required |
+| martin-walk-e-4 | famous-martin | State artwork; no motion required |
+| martin-walk-s-1 | famous-martin | martin-walk-s |
+| martin-walk-s-2 | famous-martin | martin-walk-s |
+| martin-walk-n-1 | famous-martin | martin-walk-n |
+| martin-walk-n-2 | famous-martin | martin-walk-n |
+| martin-idle | famous-martin | State artwork; no motion required |
+| martin-parley | famous-martin | State artwork; no motion required |
+| martin-point | famous-martin | State artwork; no motion required |
+| martin-listen | famous-martin | State artwork; no motion required |
+| martin-dispatch | famous-martin | State artwork; no motion required |
+| martin-read | famous-martin | State artwork; no motion required |
+| martin-satchel | famous-martin | State artwork; no motion required |
+| martin-rest | famous-martin | State artwork; no motion required |
+| martin-mounted-walk-e-1 | famous-martin-mounted | martin-mounted-walk-e |
+| martin-mounted-walk-e-2 | famous-martin-mounted | martin-mounted-walk-e |
+| martin-mounted-idle-e | famous-martin-mounted | State artwork; no motion required |
+| martin-mounted-idle-s | famous-martin-mounted | State artwork; no motion required |
 | rusk-walk-e-1 | famous-rusk | rusk-walk-e |
 | rusk-walk-e-2 | famous-rusk | rusk-walk-e |
 | rusk-walk-e-3 | famous-rusk | rusk-walk-e |
@@ -2827,6 +2915,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | emily-west-picnic-converse | Pose cycle | 4 | 4300 | yes | west-facing at a camp table |
 | santa-anna-picnic-converse | Pose cycle | 3 | 3450 | yes | east-facing at a camp chair |
 | santa-anna-picnic-alarm | Pose cycle | 2 | 1750 | one-shot | east-facing; turns toward the battle |
+| jw-smith-walk-e | Pose cycle | 2 | 560 | yes | east |
+| jw-smith-walk-s | Pose cycle | 2 | 560 | yes | south |
+| jw-smith-walk-n | Pose cycle | 2 | 560 | yes | north |
+| jw-smith-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| horton-walk-e | Pose cycle | 2 | 560 | yes | east |
+| horton-walk-s | Pose cycle | 2 | 560 | yes | south |
+| horton-walk-n | Pose cycle | 2 | 560 | yes | north |
+| horton-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| kimbell-walk-e | Pose cycle | 2 | 560 | yes | east |
+| kimbell-walk-s | Pose cycle | 2 | 560 | yes | south |
+| kimbell-walk-n | Pose cycle | 2 | 560 | yes | north |
+| kimbell-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| martin-walk-e | Pose cycle | 2 | 560 | yes | east |
+| martin-walk-s | Pose cycle | 2 | 560 | yes | south |
+| martin-walk-n | Pose cycle | 2 | 560 | yes | north |
+| martin-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | rusk-walk-e | Pose cycle | 4 | 760 | yes | east |
 | rusk-walk-s | Pose cycle | 2 | 580 | yes | south |
 | rusk-walk-n | Pose cycle | 2 | 580 | yes | north |

@@ -6362,6 +6362,262 @@
       "motion": "none",
       "direction": "east-facing; turns toward the battle"
     },
+    "jw-smith-walk-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "jw-smith-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "jw-smith-walk-s": {
+      "frames": [
+        {
+          "sprite": "jw-smith-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "jw-smith-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "jw-smith-walk-n": {
+      "frames": [
+        {
+          "sprite": "jw-smith-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "jw-smith-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "jw-smith-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "jw-smith-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "horton-walk-e": {
+      "frames": [
+        {
+          "sprite": "horton-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "horton-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "horton-walk-s": {
+      "frames": [
+        {
+          "sprite": "horton-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "horton-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "horton-walk-n": {
+      "frames": [
+        {
+          "sprite": "horton-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "horton-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "horton-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "horton-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "kimbell-walk-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "kimbell-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "kimbell-walk-s": {
+      "frames": [
+        {
+          "sprite": "kimbell-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "kimbell-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "kimbell-walk-n": {
+      "frames": [
+        {
+          "sprite": "kimbell-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "kimbell-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "kimbell-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "kimbell-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "martin-walk-e": {
+      "frames": [
+        {
+          "sprite": "martin-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "martin-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "martin-walk-s": {
+      "frames": [
+        {
+          "sprite": "martin-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "martin-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "martin-walk-n": {
+      "frames": [
+        {
+          "sprite": "martin-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "martin-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "martin-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "martin-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "rusk-walk-e": {
       "frames": [
         {

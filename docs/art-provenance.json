@@ -2855,6 +2855,114 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-smither-mounted.png",
       "postProcessing": "None; copied unchanged.",
       "review": "Interpretive chestnut mount with raised-palm warning. No exact horse or gesture claim. East walk mirrors west; south idle delivered, mounted north/south walking remains future work."
+    },
+    {
+      "sheet": "famous-jw-smith",
+      "promptId": "frontier-v1/famous-jw-smith",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1495021c-4306-4460-b445-a23f4677b898.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-jw-smith.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Interpretive face/costume, not portrait evidence. Contact/passing first two east poses form runtime gait; extra two are variants rather than four distinct phases. Directional foot walks, civilian parley and dispatch/rest gestures."
+    },
+    {
+      "sheet": "famous-jw-smith-mounted",
+      "promptId": "frontier-v1/famous-jw-smith-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-jw-smith.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-65661e7b-0506-4e31-8551-c373e243364a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-jw-smith-mounted.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Rider matches own foot identity. Horse is an original visual interpretation. East two-pose walk mirrors west; south idle available. Mounted north/south gait remains requested. No route, dialogue, firing or fate changes."
+    },
+    {
+      "sheet": "famous-horton",
+      "promptId": "frontier-v1/famous-horton",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-62703d34-f2b3-470b-866b-f7a171a76904.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-horton.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Interpretive face/costume, not portrait evidence. Contact/passing first two east poses form runtime gait; extra two are variants rather than four distinct phases. Directional foot walks, civilian parley and dispatch/rest gestures."
+    },
+    {
+      "sheet": "famous-horton-mounted",
+      "promptId": "frontier-v1/famous-horton-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-horton.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-34e3beb5-b44e-4202-8cdc-36b9f56570ef.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-horton-mounted.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Rider matches own foot identity. Horse is an original visual interpretation. East two-pose walk mirrors west; south idle available. Mounted north/south gait remains requested. No route, dialogue, firing or fate changes."
+    },
+    {
+      "sheet": "famous-kimbell",
+      "promptId": "frontier-v1/famous-kimbell",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-80388c4c-9fa6-44e9-80b9-431259534487.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-kimbell.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Interpretive face/costume, not portrait evidence. Contact/passing first two east poses form runtime gait; extra two are variants rather than four distinct phases. Directional foot walks, civilian parley and dispatch/rest gestures."
+    },
+    {
+      "sheet": "famous-kimbell-mounted",
+      "promptId": "frontier-v1/famous-kimbell-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-kimbell.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5634095f-61b8-4ab3-9df2-685b72ee155c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-kimbell-mounted.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Rider matches own foot identity. Horse is an original visual interpretation. East two-pose walk mirrors west; south idle available. Mounted north/south gait remains requested. No route, dialogue, firing or fate changes."
+    },
+    {
+      "sheet": "famous-martin",
+      "promptId": "frontier-v1/famous-martin",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-58cafd6c-b05a-4bcc-a88e-00704cc0a093.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-martin.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Interpretive face/costume, not portrait evidence. Contact/passing first two east poses form runtime gait; extra two are variants rather than four distinct phases. Directional foot walks, civilian parley and dispatch/rest gestures."
+    },
+    {
+      "sheet": "famous-martin-mounted",
+      "promptId": "frontier-v1/famous-martin-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-martin.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-230b5e02-68d9-4961-aacf-ebb1269aaffe.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-martin-mounted.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Rider matches own foot identity. Horse is an original visual interpretation. East two-pose walk mirrors west; south idle available. Mounted north/south gait remains requested. No route, dialogue, firing or fate changes."
     }
   ],
   "rejectedAttempts": [

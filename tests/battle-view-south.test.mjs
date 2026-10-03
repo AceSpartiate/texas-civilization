@@ -40,6 +40,21 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('the remaining named riders use their own mounted identities', () => {
+  for (const id of ['jw-smith', 'horton', 'kimbell', 'martin']) {
+    const art = fakeArt(), view = createBattleView(art);
+    const rider = { id, art: id, name: id, side: 'texian', x: 0, y: 0, right: true, pose: 'ride', moving: true };
+    run(view, minute => night(minute, [], { people: [rider] }), { seconds: 1 });
+    assert.ok(art.drawn.some(one => one.clip === `${id}-mounted-walk-e`), id);
+  }
+});
+
+test('J. W. Smith has his own foot figure opposite Sánchez Navarro at parley', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  run(view, minute => night(minute, [], { parley: { x: 0, y: 0, people: [{ id: 'jw-smith', name: 'Smith', side: 'texian' }, { id: 'sanchez-navarro', name: 'Sánchez Navarro', side: 'mexican' }] } }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'jw-smith-idle'));
+});
+
 test('Smither rides his own horse in the Gonzales approach', () => {
   const art = fakeArt(), view = createBattleView(art);
   const rider = { id: 'smither', art: 'smither', name: 'Smither', side: 'texian', x: 0, y: 0, right: true, pose: 'ride', moving: true };
