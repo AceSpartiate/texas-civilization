@@ -231,6 +231,8 @@ person's 3 and got away.*
 - B When running, each grown person carries one small child, so a family with enough grown people goes at a grown pace.
 - C Only when running from soldiers, everybody runs at a grown pace (the old behaviour, in the chase only).
 
+**Answered 2026-10-02: "Adults carry small kids"** (closer to B) - built on branch `carry-kids`, the section at the top.
+
 ## Released as v2026.10.02.1 — 2026-10-02
 
 Main at 7964210d, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.02.1>), with a small update from v2026.10.01.1 (865 KB, 16 files). On 5f749394: `npm test` 2016 tests, 1 fail (save-retry timing, fixed in 7964210d and proved by injection); 21 browser proofs for everything changed since v2026.10.01.1 all green. Same computer only: no Chromebook, LAN or classroom claim.
