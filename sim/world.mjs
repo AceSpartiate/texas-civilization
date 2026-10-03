@@ -88,7 +88,7 @@ import { seatOfTravel } from './company.mjs';
 import { defaultLoad, donePacking, householdFromLoad, loadForWagons, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
 import { editPlot, houseInvalid, houseProjection, houseSettled, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
 // The way across the family's own land, its paths and its yard (owner, 2026-10-02).
-import { advanceLandPaths, landPathsInvalid, landPathsProjection, pathById, walkRouteInvalid, walkedShown } from './land-paths.mjs';
+import { advanceLandPaths, landPathsInvalid, landPathsProjection, pathOrderRefusal, walkRouteInvalid, walkedShown } from './land-paths.mjs';
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
 import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotWorkRefusal, plotsInvalid } from './survey.mjs';
@@ -953,7 +953,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'cut-path', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot', 'plant-field', 'roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'aim-shot', 'fire-shot', 'rename', 'work', 'rest', 'travel', 'set-main', 'set-auto']);
+export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot', 'plant-field', 'roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'aim-shot', 'fire-shot', 'rename', 'work', 'rest', 'travel', 'set-main', 'set-auto']);
 /**
  * One order from a student's family.
  *
@@ -972,6 +972,10 @@ export function applyAction(world, householdId, input, realTime = {}) {
   // Watching another family, with nobody of their own to order (owner, 2026-09-29; sim/watching.mjs): refused in words.
   const watching = household && watchRefusal(world, household, input);
   if (watching) throw new Error(watching);
+  // *Cut a path* from a page loaded before every path went automatic (owner, 2026-10-03, "All automatic"; sim/land-paths.mjs):
+  // refused in words, before the lesson or the lobby can say anything else of it.
+  const trodden = pathOrderRefusal(input);
+  if (trodden) throw new Error(trodden);
   const notYet = lessonRefusal(world, household, input);
   if (notYet) throw new Error(notYet);
   applyOneAction(world, householdId, input, realTime);
@@ -1117,13 +1121,6 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
     const placed = input.x !== undefined && input.y !== undefined;
     beginChore(world, household, entity, 'fell-trees', { beginTravel, modeAvailability }, DEFAULT_MODE, placed ? { ground: { x: Number(input.x), y: Number(input.y) } } : {});
     noteOrder(entity, 'fell-trees', DEFAULT_MODE, {}, household);
-    return;
-  }
-  // A path cut out to a place on the family's own land, chosen on the map (owner, 2026-10-02; sim/land-paths.mjs). The server decides
-  // whether it can be, and from where it begins. Not remembered for auto: a path is cut once.
-  if (input.action === 'cut-path') {
-    beginChore(world, household, entity, 'cut-path', { beginTravel, modeAvailability }, DEFAULT_MODE, { place: { x: Number(input.x), y: Number(input.y) } });
-    released(world, entity);
     return;
   }
   // Hunting a place on the family's own land, chosen on the map (sim/hunting.mjs). The server decides whether it can be.
@@ -1486,7 +1483,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // As the family knows it (sim/scrape.mjs `householdAsKnown`): a farm the Mexican army's foragers burned while nobody of the
   // family could see is drawn as they left it until the smoke or the word reaches them.
   const known = household && householdAsKnown(household);
-  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), ...landPathsProjection(known), crops: cropSummary(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known), ...(known.tent && { tent: { x: known.tent.x, y: known.tent.y } }) } : null;
+  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), ...landPathsProjection(world, known), crops: cropSummary(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known), ...(known.tent && { tent: { x: known.tent.x, y: known.tent.y } }) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -1606,7 +1603,7 @@ function ownWar(world, household, view) {
 }
 const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
 /** The orders refused to somebody called aside by the family's little ones: their own work and their own journeys. */
-const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-trees', 'cut-path', 'hunt-land', 'clear-plot', 'fence-plot', 'plant-field', 'town-help']);
+const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-trees', 'hunt-land', 'clear-plot', 'fence-plot', 'plant-field', 'town-help']);
 /**
  * The orders refused to somebody away with the family at the neighbours' farms (sim/courtship.mjs): the same work and journeys,
  * and a trade, which is made standing with another family. The game's own questions are not refused: they are the game's.
@@ -1701,8 +1698,8 @@ export function validateWorld(world) {
     // A hunt on the family's own land knows where it is and how good the ground is (sim/hunting.mjs). Absent on every other chore.
     const hunted = entity.chore?.id === 'hunt-land' ? entity.chore.ground : undefined;
     if (entity.chore?.id === 'fell-trees' && (!Number.isFinite(entity.chore.ground?.x) || !Number.isFinite(entity.chore.ground?.y))) throw new Error('Invalid felling place');
-    // A path being cut is one of the family's own (sim/land-paths.mjs); a way across the land is points (absent when nobody walks one).
-    if (entity.chore?.id === 'cut-path' && !pathById(world.households[entity.householdId], entity.chore.pathId)) throw new Error('Invalid path being cut');
+    // A way across the land is points (absent when nobody walks one). A path being cut in a class saved before 2026-10-03 is not
+    // checked: the work is gone, and whoever was at it leaves off on the first tick (sim/chores.mjs `RETIRED`).
     { const badWay = walkRouteInvalid(entity); if (badWay) throw new Error(badWay); }
     if (hunted !== undefined && (!Number.isFinite(hunted?.x) || !Number.isFinite(hunted.y) || !(hunted.game >= 0 && hunted.game <= 1) || typeof hunted.cover !== 'string' || !Number.isFinite(hunted.toward?.x) || !Number.isFinite(hunted.toward?.y) || (hunted.quarry !== undefined && !GAME[hunted.quarry]))) throw new Error('Invalid hunting place');
     // A sighting on a hunt and the aim taken up (sim/hunt-aim.mjs, 2026-10-02): what was seen, and when the student began to aim.

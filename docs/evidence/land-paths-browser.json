@@ -1,14 +1,15 @@
 {
-  "record": "Paths, the way round the trees and the fenced yard, in a browser (owner, 2026-10-02)",
+  "record": "Paths all automatic, the way round the trees and the fenced yard with its gate, in a browser (owner, 2026-10-02 and 2026-10-03)",
   "date": "2026-10-03",
   "verdict": "PASS",
   "note": "Same computer only: headless Chrome at 1366x768. No Chromebook, LAN or classroom claim.",
   "checks": [
-    "the family's trodden ways are drawn on its land: path-1 0.2252 mi, path-2 0.0764 mi",
-    "walked round the trees: 18 frames on her way drawn on the server's walked points (at worst 0 mi off), 14 of them on a bending way, none over a tree; trees in front drawn over her: 10",
-    "Cut a path from the bar (Cut a path out from the house to a place you choose on the map, felling the trees in its way.); the place tapped says: \"A path of 0.09 of a mile beside the house, through 0.09 of a mile of timber. 13 trees stand in its way: 14 logs for the pile. About 4.5 hours of work.\"",
-    "the path is cut (13 trees felled onto the pile) and drawn; walked home along the paths, 11 of 11 sixty-fourths of a mile of the way on them",
-    "Fence a yard from the bar: rails drawn round the house at {\"fence\":\"sound\",\"left\":649,\"top\":260,\"right\":809,\"bottom\":409}",
+    "the family's trodden ways are drawn on its land: path-1 0.228 mi, path-2 0.0764 mi, path-3 0.052 mi, path-4 0.0786 mi, path-5 0.0722 mi",
+    "walked round the trees: 27 frames on her way drawn on the server's walked points (at worst 0 mi off), 19 of them on a bending way, none over a tree; trees in front drawn over her: 10",
+    "no Cut a path on any row (26 kinds of icon on the rows)",
+    "the ways trodden on their own and drawn: water, plot-1, woodpile, stock-cattle, stock-hogs - every one round the trees, nobody sent",
+    "Fence a yard from the bar: rails drawn round the house at {\"fence\":\"sound\",\"left\":649,\"top\":260,\"right\":809,\"bottom\":409,\"gate\":[{\"x\":704,\"y\":409},{\"x\":679,\"y\":409}]}",
+    "the yard's gate left open at [{\"x\":704,\"y\":409},{\"x\":679,\"y\":409}], a way trodden to it, and all 6 ways laid through it, none over the rails",
     "a child at tag stays inside the yard's rails: 40 frames, all inside",
     "no page errors"
   ],
@@ -30,35 +31,120 @@
     "trodden": [
       {
         "id": "path-1",
-        "miles": 0.2252
+        "miles": 0.228
       },
       {
         "id": "path-2",
         "miles": 0.0764
+      },
+      {
+        "id": "path-3",
+        "miles": 0.052
+      },
+      {
+        "id": "path-4",
+        "miles": 0.0786
+      },
+      {
+        "id": "path-5",
+        "miles": 0.0722
       }
     ],
     "walkedOff": 0,
     "inFront": 10,
-    "icon": "Cut a path out from the house to a place you choose on the map, felling the trees in its way.",
-    "chooser": {
-      "title": "Where Jethro cuts a path to",
-      "text": "A path of 0.09 of a mile beside the house, through 0.09 of a mile of timber. 13 trees stand in its way: 14 logs for the pile. About 4.5 hours of work.",
-      "send": "Cut the path"
-    },
-    "cut": {
-      "points": [
-        {
-          "x": 91.2432,
-          "y": 44.6503
-        },
-        {
-          "x": 91.33,
-          "y": 44.683
-        }
-      ],
-      "felled": 13
-    },
-    "homeOnPath": "11 of 11 sixty-fourths of a mile",
+    "rowKeys": [
+      "survey-plot",
+      "cut-lane",
+      "fence-yard",
+      "plant-field",
+      "fence-plot",
+      "practise-shooting",
+      "visit-shop",
+      "make-furniture",
+      "buy-furniture",
+      "fell-trees",
+      "hunt-land",
+      "butcher-beef",
+      "butcher-hog",
+      "look-to-stock",
+      "take-small-game",
+      "fish-the-water",
+      "cut-bee-tree",
+      "make-carreta",
+      "milk-cow",
+      "travel-gonzales",
+      "visit",
+      "work",
+      "rest",
+      "go-inside",
+      "survey-plot",
+      "cut-lane",
+      "fence-yard",
+      "plant-field",
+      "fence-plot",
+      "visit-shop",
+      "make-furniture",
+      "buy-furniture",
+      "fell-trees",
+      "hunt-land",
+      "butcher-beef",
+      "butcher-hog",
+      "look-to-stock",
+      "take-small-game",
+      "fish-the-water",
+      "cut-bee-tree",
+      "make-carreta",
+      "milk-cow",
+      "child-play",
+      "stop-chore",
+      "survey-plot",
+      "cut-lane",
+      "fence-yard",
+      "plant-field",
+      "fence-plot",
+      "practise-shooting",
+      "visit-shop",
+      "make-furniture",
+      "buy-furniture",
+      "fell-trees",
+      "hunt-land",
+      "butcher-beef",
+      "butcher-hog",
+      "look-to-stock",
+      "take-small-game",
+      "fish-the-water",
+      "cut-bee-tree",
+      "make-carreta",
+      "milk-cow"
+    ],
+    "ways": [
+      {
+        "to": "water",
+        "points": 6,
+        "trees": 0
+      },
+      {
+        "to": "plot-1",
+        "points": 3,
+        "trees": 0
+      },
+      {
+        "to": "woodpile",
+        "points": 2,
+        "trees": 0
+      },
+      {
+        "to": "stock-cattle",
+        "points": 2,
+        "trees": 0
+      },
+      {
+        "to": "stock-hogs",
+        "points": 2,
+        "trees": 0
+      }
+    ],
+    "felledForWays": 0,
     "yardLine": "",
     "yardTrees": 0,
     "yard": {
@@ -67,22 +153,85 @@
         "minY": 44.755,
         "maxX": 91.24,
         "maxY": 44.825,
-        "fence": "sound"
+        "fence": "sound",
+        "gate": 91.185
       },
       "drawn": {
         "fence": "sound",
         "left": 649,
         "top": 260,
         "right": 809,
-        "bottom": 409
+        "bottom": 409,
+        "gate": [
+          {
+            "x": 704,
+            "y": 409
+          },
+          {
+            "x": 679,
+            "y": 409
+          }
+        ]
       }
-    }
+    },
+    "gate": {
+      "at": {
+        "x": 91.185,
+        "y": 44.825
+      },
+      "drawn": [
+        {
+          "x": 704,
+          "y": 409
+        },
+        {
+          "x": 679,
+          "y": 409
+        }
+      ]
+    },
+    "waysOut": [
+      {
+        "to": "water",
+        "gate": true,
+        "overRails": 0,
+        "trees": 0
+      },
+      {
+        "to": "plot-1",
+        "gate": true,
+        "overRails": 0,
+        "trees": 0
+      },
+      {
+        "to": "woodpile",
+        "gate": true,
+        "overRails": 0,
+        "trees": 0
+      },
+      {
+        "to": "stock-cattle",
+        "gate": true,
+        "overRails": 0,
+        "trees": 0
+      },
+      {
+        "to": "stock-hogs",
+        "gate": true,
+        "overRails": 0,
+        "trees": 0
+      },
+      {
+        "to": "yard-gate",
+        "gate": true,
+        "overRails": 0,
+        "trees": 0
+      }
+    ]
   },
   "shots": [
     "docs/evidence/land-paths-round-the-trees.png",
-    "docs/evidence/land-paths-chooser.png",
-    "docs/evidence/land-paths-cutting.png",
-    "docs/evidence/land-paths-on-the-path.png",
+    "docs/evidence/land-paths-ways.png",
     "docs/evidence/land-paths-yard.png"
   ]
 }

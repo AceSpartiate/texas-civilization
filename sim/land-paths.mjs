@@ -1,4 +1,4 @@
-// Going about the family's own land round its trees, the paths a family treads and cuts, and the yard it fences.
+// Going about the family's own land round its trees, the ways a family treads to what it places, and the yard it fences.
 //
 // The owner, 2026-10-02: "it's weird seeing characters walk over trees. paths should be cut to facilitate quick, reasonable
 // movement on a families land. there should be an option to fence in a yard too. if there's a fenced in yard then kids on
@@ -14,12 +14,16 @@
 //      walked in a tick go to the page (`walked`), which draws the person along exactly those, so the page never cuts a corner
 //      the server did not. A tree is not a wall: where the only way to a place is through the timber - out to fell, or to hunt -
 //      the way goes between the trunks, as close to the edge as it can (`TREE_COST`).
-//   2. **Paths** (`household.paths`). A few are **trodden** without anybody being sent: from the house to running water near
-//      enough to carry, and to every cleared plot, once the house stands and as each plot is cleared - the ways a family wears by
-//      using them, laid round the trees (`advanceLandPaths`). More are **cut** as work (*Cut a path*, sim/chores.mjs `cut-path`):
-//      a straight line from the house, a path or the lane out to a place the student chose, felling every tree whose trunk stands
-//      in the way (onto the pile, as felling does) and grubbing the brush. Walking a path is quicker than the open country and
-//      much quicker than timber or brush (`PATH_PACE`), and the way across the land prefers one.
+//   2. **Paths** (`household.paths`), **all trodden on their own** (owner, 2026-10-03: "i don't want players to have to
+//      micromanage the paths that we added earlier. this should be an automated thing based on where they put things." - chosen
+//      by multiple choice, "All automatic"). Once the house stands the family has a way from the door to everything it places:
+//      running water near enough to carry, each cleared plot, the yard's gate once the yard is fenced, the woodpile and the
+//      ground the herd is brought in to at night - laid round the trees, nobody sent and nothing felled for them
+//      (`advanceLandPaths`, `troddenTo`). A new way appears when the thing is placed, a way is laid again when where it begins
+//      changes (out through the gate once the yard is fenced), and a way to something that is gone goes with it. *Cut a path*,
+//      the order of 2026-10-02 that felled the trees along a straight line, is gone (`pathOrderRefusal`); a path cut in a class
+//      saved before stays, and the stakes of one left part cut come up (`leaveOffCutting`). Walking a path is quicker than the
+//      open country and much quicker than timber or brush (`PATH_PACE`), and the way across the land prefers one.
 //   3. **The yard** (`household.yard`): rails round the house's own ground, from the same rails a plot's fence is split from,
 //      at half a plot's work, felling the trees standing inside it at felling's own time (owner, 2026-10-03, "Auto kids; fell trees";
 //      sim/chores.mjs `fence-yard`). The little ones' play stays inside it, and a child on their own
@@ -36,8 +40,10 @@ import { COVER_PACE, landAround, onRealLand } from './ground.mjs';
 import { countsTrees, PATCH_MILES, patchAt, patchCover, treeInCell, TREE_MILES, woodsRule } from './woods.mjs';
 import { holdingOf } from './grants.mjs';
 import { housesOnLand, houseFront } from './house-placement.mjs';
-import { PLOT_SIDE, groundAt, plotsOf, squareOf } from './fields.mjs';
-import { polylineLength, pointAlong } from './geography.mjs';
+import { CABIN_PEOPLE, PERSON_MILES } from './house-footprint.mjs';
+import { PLOT_SIDE, plotsOf, squareOf } from './fields.mjs';
+import { polylineLength } from './geography.mjs';
+import { herdOf } from './stock.mjs';
 
 const r4 = value => { const fixed = Math.round(value * 10000) / 10000; return fixed === 0 ? 0 : fixed; };
 const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -51,6 +57,15 @@ export const STROLL_MILES = 1;
 export const PATH_PACE = 0.8;
 /** What the way-finding counts a cell with a standing tree in it, against the same ground without: never a wall, nearly one. */
 export const TREE_COST = 20;
+/**
+ * And what it counts one when it lays a trodden way (owner, 2026-10-03, "All automatic": the ways "wind round trees"): a way worn
+ * by use is worn where the family walks round the trunks, so it squeezes past one only where going round would be some hundred cells
+ * (about two fifths of a mile) further. At `TREE_COST` a way out of a fenced yard into thick timber was laid through a tree's cell
+ * rather than round the stand (found 2026-10-03). Laid once, not walked every tick; the dearer search measured no slower.
+ * ceiling: somebody walking about the land still counts a tree at `TREE_COST`, so where no way helps they may step between two
+ * trunks a trodden way would have gone round; walking the ways themselves keeps them clear.
+ */
+export const WAY_TREE_COST = 100;
 /** And a cell beside one: a way keeps a trunk's width off where the ground lets it. */
 export const NEAR_TREE = 2.5;
 /** What wading a creek costs the way-finding, against dry ground: it is crossed, where it must be, and not walked along. */
@@ -63,20 +78,8 @@ const MOST_OPENED = 80000;
 const MOST_CELLS = 250000;
 /** How greedy the way-finding is: its estimate of the way left, in cells of open ground. Above one it finds a way a little longer than the best, quicker. */
 const ESTIMATE = 1.2;
-/** How far either side of a path's line a tree stands in its way, and is felled to cut it: about thirteen feet. */
-export const PATH_HALF = 0.0025;
-/** The longest single path a family cuts, in miles: from the house, a path or the lane out to the place chosen. */
-export const PATH_MOST = 0.6;
-/** Shorter than this, a place is near enough to walk to as it is. */
+/** Shorter than this, a way is laid straight: near enough to the door to walk to as it is, with nothing to find. */
 export const PATH_LEAST = 0.03;
-/**
- * Ticks of one person's work to clear a mile of a path's line, by the ground, before its trees (each felled at felling's own
- * time, sim/felling.mjs `fellAndCarryTicks`): a mark through the grass, the undergrowth of the timber, and brush grubbed out.
- * Half the lane's (sim/homesite.mjs `LANE_TICKS_PER_MILE`), because a footpath is narrower than a wagon's lane.
- */
-export const PATH_TICKS_PER_MILE = Object.freeze({ prairie: 3, timber: 12, brush: 15 });
-/** How much of a path's line one spell of work clears where nothing is felled: a long way through grass, a short one through brush. */
-const PATH_STRETCH = Object.freeze({ prairie: 0.2, timber: 0.05, brush: 0.05 });
 
 // ------------------------------------------------------------------------------------------------ the land, a patch at a time
 
@@ -143,7 +146,10 @@ export const findsWays = world => onRealLand(world) && countsTrees(woodsRule(wor
 
 /** The family's paths, or none: a class saved before them has none, the correct empty value. */
 export const pathsOf = household => Array.isArray(household?.paths) ? household.paths : [];
-/** How much of a path is made, in miles from its first point: all of a trodden one, as far as the cutting has got on one being cut. */
+/**
+ * How much of a path is made, in miles from its first point: all of a trodden one, and as far as the cutting got on one a class
+ * saved before 2026-10-03 left part cut (until its stakes come up on the next tick, `leaveOffCutting`).
+ */
 export const madeMiles = path => (Number.isFinite(path.cut) ? Math.min(path.cut, polylineLength(path.points)) : polylineLength(path.points));
 /** The made part of a polyline: its first `miles`. */
 function firstMiles(points, miles) {
@@ -195,9 +201,11 @@ function groundFor(world, household) {
   const houses = housesOnLand(world, household).map(house => house.footprint).filter(box => Number.isFinite(box?.minX));
   const cleared = plotsOf(world, household).filter(plot => plot.state === 'cleared' && Number.isFinite(plot.x)).map(squareOf);
   const ways = madeWays(world, household);
+  // The yard's rails while they stand, and the gate in them (owner, 2026-10-03, "All automatic"): nobody climbs them.
+  const gate = yardGate(world, household), rails = gate ? { box: household.yard, gate } : null;
   const kept = new Map(), marked = new Map();
   return {
-    world, real, felled, houses, cleared, ways,
+    world, real, felled, houses, cleared, ways, rails,
     /** A patch, by its numbers, kept for this one search so its key is built once. */
     patch(px, py) { const key = px * 100003 + py; let patch = kept.get(key); if (!patch) { patch = patchOf(world, px, py); kept.set(key, patch); } return patch; },
     /** The cells of a grid `size` miles a side that the made ways run through. */
@@ -233,6 +241,17 @@ function markWay(cells, points, size) {
   }
 }
 const inBox = (box, x, y) => x >= box.minX && x <= box.maxX && y >= box.minY && y <= box.maxY;
+/**
+ * Whether a cell of a grid, its lower corner at (x0, y0) and `size` a side, lies on the fenced yard's rails and not in its gate:
+ * a way in or out of the yard goes through the gate (`yardGate`), never over the rails (owner, 2026-10-03, "All automatic": paths
+ * "to the yard gate"). The gate is the stretch of the front rail `GATE_HALF` either side of its middle, whatever the grid.
+ */
+function onRails({ box, gate }, x0, y0, size) {
+  const x1 = x0 + size, y1 = y0 + size;
+  if (x1 < box.minX || x0 > box.maxX || y1 < box.minY || y0 > box.maxY) return false;
+  if (x0 > box.minX && x1 < box.maxX && y0 > box.minY && y1 < box.maxY) return false;
+  return !(y0 <= box.maxY && y1 >= box.maxY && x1 >= gate.x - GATE_HALF && x0 <= gate.x + GATE_HALF);
+}
 /** Whether a standing tree is in one of the woods' tree cells. */
 function standing(ground, column, row) {
   const px = Math.floor(column / PER_PATCH), py = Math.floor(row / PER_PATCH), patch = ground.patch(px, py);
@@ -248,13 +267,14 @@ function waterIn(ground, column, row) {
 const coverAt = (ground, x, y) => ground.patch(Math.floor(x / PATCH_MILES), Math.floor(y / PATCH_MILES)).cover;
 
 /**
- * What a cell of a grid `k` tree cells a side costs the way-finding, against a cell of open ground: Infinity for a river or a
- * house, a path's own pace on a path, and otherwise the ground's pace (`COVER_PACE.foot`) - many times over where a tree stands
+ * What a cell of a grid `k` tree cells a side costs the way-finding, against a cell of open ground: Infinity for a river, a
+ * house or the fenced yard's rails (but its gate), a path's own pace on a path, and otherwise the ground's pace (`COVER_PACE.foot`) - many times over where a tree stands
  * in it (`TREE_COST`), and more where one stands beside it (`NEAR_TREE`), so a way keeps clear of the trunks where it can.
  */
-function cellCost(ground, gx, gy, k, pathCells) {
+function cellCost(ground, gx, gy, k, pathCells, treeCost = TREE_COST) {
   const size = k * TREE_MILES, x = (gx + 0.5) * size, y = (gy + 0.5) * size;
   if (ground.houses.some(box => inBox(box, x, y))) return Infinity;
+  if (ground.rails && onRails(ground.rails, gx * size, gy * size, size)) return Infinity;
   const onPath = pathCells.has(cellKey(gx, gy));
   if (!ground.real) return onPath ? PATH_PACE : 1;
   let water = 0, tree = false, near = false;
@@ -265,7 +285,8 @@ function cellCost(ground, gx, gy, k, pathCells) {
   }
   if (water === 2) return Infinity;
   const wade = water === 1 ? WADE_COST : 1;
-  // A path's own cells, unless a trunk still stands in one: a path cut fells only what stands in its line (`PATH_HALF`).
+  // A path's own cells, unless a trunk still stands in one: a trodden way goes round the trees, and a path cut before 2026-10-03
+  // felled only what stood in its line.
   if (onPath && !tree) return PATH_PACE * wade;
   if (!tree) {
     for (let row = r0 - 1; row <= r0 + k && !near; row++) for (let column = c0 - 1; column <= c0 + k && !near; column++) {
@@ -273,7 +294,7 @@ function cellCost(ground, gx, gy, k, pathCells) {
     }
   }
   const pace = ground.cleared.some(box => inBox(box, x, y)) ? 1 : COVER_PACE.foot[coverAt(ground, x, y)] || 1;
-  return pace * wade * (tree ? TREE_COST : near ? NEAR_TREE : 1);
+  return pace * wade * (tree ? treeCost : near ? NEAR_TREE : 1);
 }
 /** How long a mile takes here, for somebody walking, against open ground: a path's pace, open, or the timber's or the brush's. */
 function paceAt(ground, point) {
@@ -325,11 +346,11 @@ class Heap {
  * round a stand rather than between its trunks. Straight, as it always was, on a map whose trees are not counted, or when no
  * way is found.
  */
-export function landRoute(world, household, from, to, ground = null) {
+export function landRoute(world, household, from, to, ground = null, treeCost = TREE_COST) {
   const straight = [{ x: from.x, y: from.y }, { x: to.x, y: to.y }];
   if (dist(from, to) < TREE_MILES * 1.5) return straight;
   ground ||= groundFor(world, household);
-  if (!ground.real && !ground.ways.length && !ground.houses.length) return straight;
+  if (!ground.real && !ground.ways.length && !ground.houses.length && !ground.rails) return straight;
   // The box searched: round both places, wider for a longer way, and no further than a little past the family's own line.
   const reach = Math.max(0.08, dist(from, to) * 0.35);
   const bounds = holdingOf(world, household)?.bounds;
@@ -351,7 +372,7 @@ export function landRoute(world, household, from, to, ground = null) {
     if (costs[i] >= 0) return costs[i];
     const gx = gx0 + (i % width), gy = gy0 + Math.floor(i / width);
     // Where somebody is, and where they are going, can always be stood on: the door of a house, the tree being felled.
-    const c = i === startIndex || i === goalIndex ? Math.min(cellCost(ground, gx, gy, k, pathCells), TREE_COST) : cellCost(ground, gx, gy, k, pathCells);
+    const c = i === startIndex || i === goalIndex ? Math.min(cellCost(ground, gx, gy, k, pathCells, treeCost), TREE_COST) : cellCost(ground, gx, gy, k, pathCells, treeCost);
     costs[i] = c === Infinity ? 1e9 : c;
     return costs[i];
   };
@@ -393,14 +414,26 @@ export function landRoute(world, household, from, to, ground = null) {
   // The cost along the cells as found, so a straight stretch is taken in its place only where it costs no more.
   const along = [0];
   for (let n = 1; n < cellsWalked.length; n++) along.push(along[n - 1] + dist(centre(cellsWalked[n - 1]), centre(cellsWalked[n])) / size * (cost(cellsWalked[n - 1]) + cost(cellsWalked[n])) / 2);
+  // Every cell the straight line passes through, each for the length of the line inside it (a walk of the grid, not samples along
+  // the line: three samples a cell missed the corner of a tree's cell a straight stretch clipped, found 2026-10-03 when the ways out
+  // of a fenced yard had to bend round its rails). A line through a cell's very corner touches the two beside it too: it is not
+  // taken past a tree or a wall there, as the search itself never slips a diagonal between them.
   const lineCost = (a, b) => {
-    const p = centre(a), q = centre(b), length = dist(p, q) / size, steps = Math.max(1, Math.ceil(length * 3));
-    let total = 0;
-    for (let n = 0; n < steps; n++) {
-      const t = (n + 0.5) / steps, x = p.x + (q.x - p.x) * t, y = p.y + (q.y - p.y) * t;
-      const c = cost(index(Math.floor(x / size), Math.floor(y / size)));
+    const p = centre(a), q = centre(b);
+    const x = p.x / size, y = p.y / size, dx = q.x / size - x, dy = q.y / size - y, length = Math.hypot(dx, dy);
+    const sx = Math.sign(dx), sy = Math.sign(dy), stepX = sx ? 1 / Math.abs(dx) : Infinity, stepY = sy ? 1 / Math.abs(dy) : Infinity;
+    let cx = Math.floor(x), cy = Math.floor(y), t = 0, total = 0;
+    let nextX = sx > 0 ? (cx + 1 - x) / dx : sx < 0 ? (x - cx) / -dx : Infinity, nextY = sy > 0 ? (cy + 1 - y) / dy : sy < 0 ? (y - cy) / -dy : Infinity;
+    for (let guard = 0; guard < 4096; guard++) {
+      const c = cost(index(cx, cy)), out = Math.min(nextX, nextY, 1);
       if (c >= 1e9) return Infinity;
-      total += c * length / steps;
+      total += c * (out - t) * length;
+      if (out >= 1) return total;
+      t = out;
+      if (Math.abs(nextX - nextY) < 1e-12) {
+        if (Math.max(cost(index(cx + sx, cy)), cost(index(cx, cy + sy))) >= TREE_COST) return Infinity;
+        cx += sx; cy += sy; nextX += stepX; nextY += stepY;
+      } else if (nextX < nextY) { cx += sx; nextX += stepX; } else { cy += sy; nextY += stepY; }
     }
     return total;
   };
@@ -497,10 +530,24 @@ export function treeCellAt(world, point) {
 /** The points somebody walked this tick, for the page to draw them along, or null. */
 export const walkedShown = (world, entity) => (entity.walked?.tick === world.tick && entity.walked.points?.length > 1 ? entity.walked.points : null);
 
-// ------------------------------------------------------------------------------------------------ paths trodden by use
+// ------------------------------------------------------------------------------------------------ the ways trodden to what the family places
 
-/** Paths trodden on one tick, at most, across the class: a class opened with every house standing treads them over a few ticks. */
+/** Ways found on one tick, at most, across the class: a class opened with every house standing treads them over a few ticks. */
 const TRODDEN_A_TICK = 3;
+/** Half the opening in the yard's front rail, in miles, before the door: where the ways out of a fenced yard go through it. */
+export const GATE_HALF = 0.006;
+/** How far from the house's mark the herd is brought in at night, and how flat its ring: public/herd-view.js `NIGHT_OUT`, `nightGround`. */
+const NIGHT_OUT = 0.05, NIGHT_FLAT = 0.6;
+/**
+ * Where the logs are stacked, from the house's mark, in a person's drawn height (sim/house-footprint.mjs `PERSON_MILES`): left of the
+ * house and a little before it, where public/app.js draws the family's wood pile (`wood-pile-*`, x `- yard * .95 - figure * 1.2 * .7`,
+ * y `+ yard * .36`, a yard being `CABIN_PEOPLE` figures).
+ * ceiling: the page floors a figure at 7 pixels and caps it at 150 (public/app.js `camera.figure`), so zoomed far out or very far in
+ * the pile is drawn a little off the end of its way; at the zooms a family's land is worked at the two meet. Drawing the pile at
+ * this point (as the tent is drawn at sim/settling.mjs `tentPoint`) is the way out if that ever shows.
+ */
+const PILE_AT = Object.freeze({ x: -(0.95 * CABIN_PEOPLE + 1.2 * 0.7), y: 0.36 * CABIN_PEOPLE });
+
 /** Where a path begins at the house: the front of it as the map draws it, or the yard by the camp. */
 export function doorOf(world, household) {
   const front = houseFront(world, household);
@@ -508,10 +555,77 @@ export function doorOf(world, household) {
   const site = world.map.sites[household.homeSiteId];
   return { x: r4(site.x - 0.025), y: r4(site.y + 0.035) };
 }
-/** The places a family treads a way to without being sent: running water near enough to carry, and every cleared plot. */
-function troddenTo(world, household) {
+/**
+ * Where along the front rail of a yard its gate is hung (the front is the side the door faces, the yard's `maxY`, `YARD_FRONT`):
+ * as near straight out before the door as leaves no standing tree in the opening - a tree whose trunk stands just outside the rails
+ * is not felled with the yard - and a gate's width in from the corners.
+ */
+function gateAlong(world, yard, door) {
+  const least = yard.minX + GATE_HALF * 2, most = yard.maxX - GATE_HALF * 2;
+  const straight = Math.min(most, Math.max(least, door.x));
+  if (!findsWays(world)) return r4(straight);
+  const clear = x => {
+    for (let row = Math.floor((yard.maxY - TREE_MILES) / TREE_MILES); row <= Math.floor((yard.maxY + TREE_MILES) / TREE_MILES); row++) {
+      for (let column = Math.floor((x - GATE_HALF) / TREE_MILES); column <= Math.floor((x + GATE_HALF) / TREE_MILES); column++) {
+        if (treeCellAt(world, { x: (column + 0.5) * TREE_MILES, y: (row + 0.5) * TREE_MILES })) return false;
+      }
+    }
+    return true;
+  };
+  for (let step = 0; step <= (most - least) / (TREE_MILES / 2) + 1; step++) {
+    for (const x of step ? [straight + step * TREE_MILES / 2, straight - step * TREE_MILES / 2] : [straight]) {
+      if (x >= least && x <= most && clear(x)) return r4(x);
+    }
+  }
+  return r4(straight);
+}
+/**
+ * The gate in the fenced yard's front rail: where it was hung when the rails went up (`raiseYard`), or, for a yard fenced in a
+ * class saved before the gate was kept (2026-10-03), where it would be hung now (`gateAlong`). Null where no sound rails stand: a
+ * yard whose rails the Scrape pulled down has no gate to go through.
+ */
+export function yardGate(world, household) {
+  const yard = yardFenced(household) ? household.yard : null;
+  if (!yard) return null;
+  return { x: Number.isFinite(yard.gate) ? yard.gate : gateAlong(world, yard, doorOf(world, household)), y: r4(yard.maxY) };
+}
+/** Where the family stacks its logs beside the house (`PILE_AT`). */
+export function woodpileAt(world, household) {
+  const site = world.map.sites[household.homeSiteId];
+  return site ? { x: r4(site.x + PILE_AT.x * PERSON_MILES), y: r4(site.y + PILE_AT.y * PERSON_MILES) } : null;
+}
+/** A number in [0, 1) the same every time for these parts: FNV-1a, the very hash public/herd-view.js `hashed` draws the herd by. */
+function hashed(...parts) {
+  let hash = 0x811c9dc5;
+  for (const char of parts.join(':')) { hash ^= char.charCodeAt(0); hash = Math.imul(hash, 0x01000193) >>> 0; }
+  return hash / 0x100000000;
+}
+/**
+ * Where a kind of the family's stock is brought in to at night, near the house: the ground public/herd-view.js `nightGround` draws
+ * it standing on from eight in the evening to six. The family has no pen (docs/STOCK.md: an open range), so this is its stock's
+ * place; tests/land-paths.test.mjs holds the two to the same point.
+ */
+export function stockGround(world, household, kind) {
+  const site = world.map.sites[household.homeSiteId];
+  if (!site) return null;
+  const angle = hashed(site.id, kind, 'ground') * Math.PI * 2 + (kind === 'hogs' ? Math.PI * 0.7 : 0);
+  return { x: r4(site.x + Math.cos(angle) * NIGHT_OUT), y: r4(site.y + Math.sin(angle) * NIGHT_OUT * NIGHT_FLAT) };
+}
+
+/**
+ * The places a family treads a way to without being sent (owner, 2026-10-03, "All automatic": "Paths appear on their own from the
+ * house to everything the family places: water, each field, the yard gate, the woodpile and the stock pens"), each with what it is
+ * (`to`, kept on the path) and where the way ends:
+ *   - `water`: running water near enough to carry, a few rods short of the bank (a house that needs a well has none near; the well
+ *     is dug by the door, sim/chores.mjs `dig-well`, so it wants no way of its own);
+ *   - every cleared plot, by its id, at the side nearest the door a step inside its rails;
+ *   - `yard-gate`, once rails stand round the yard;
+ *   - `woodpile`, wherever the class keeps a pile of logs (the classes that count their trees, sim/woodpile.mjs `keepsPile`);
+ *   - `stock-cattle`, `stock-hogs`, where each kind the family has is brought in at night (`stockGround`).
+ * Not the tent: it stands only until the house has a roof (sim/shelter.mjs), and a way begins at the house once it stands.
+ */
+export function troddenTo(world, household, door = doorOf(world, household)) {
   const wanted = [];
-  const door = doorOf(world, household);
   if (onRealLand(world) && household.site && household.site.needsWell === false) {
     const running = landAround().nearestWater(door, info => info.perennial, 0.4);
     if (running) {
@@ -528,185 +642,99 @@ function troddenTo(world, household) {
     const at = { x: Math.min(box.maxX - inset, Math.max(box.minX + inset, door.x)), y: Math.min(box.maxY - inset, Math.max(box.minY + inset, door.y)) };
     wanted.push({ to: plot.id, at: { x: r4(at.x), y: r4(at.y) } });
   }
+  const gate = yardGate(world, household);
+  if (gate) wanted.push({ to: 'yard-gate', at: gate });
+  if (countsTrees(woodsRule(world))) { const pile = woodpileAt(world, household); if (pile) wanted.push({ to: 'woodpile', at: pile }); }
+  const herd = herdOf(household);
+  for (const kind of ['cattle', 'hogs']) if (herd[kind] > 0) wanted.push({ to: `stock-${kind}`, at: stockGround(world, household, kind) });
   return wanted;
 }
 const nextPathId = household => `path-${pathsOf(household).reduce((most, path) => Math.max(most, Number(path.id.slice(5)) || 0), 0) + 1}`;
+const near = (a, b) => dist(a, b) < 0.002;
+/** Whether a trodden way still begins at the door, ends where its place is, and was laid with the yard's rails as they stand now. */
+const laidRight = (path, door, railed, at) => near(path.points[0], door) && near(path.points.at(-1), at) && Boolean(path.gate) === railed;
+/**
+ * A way laid from the door to a place, and whether one was found for it (near the door it is laid straight). Out of a fenced yard it
+ * goes through the gate, because the way-finding does not cross the rails (`onRails`).
+ */
+function layWay(world, household, door, at) {
+  if (dist(door, at) < PATH_LEAST) return { points: [{ ...door }, { ...at }], found: 0 };
+  return { points: landRoute(world, household, door, at, null, WAY_TREE_COST).map(p => ({ x: r4(p.x), y: r4(p.y) })), found: 1 };
+}
+/** What a family's trodden ways are laid from: if none of it changed since it was last found to want nothing more, it wants nothing. */
+function lookedAt(world, household, door, gate) {
+  const home = world.map.sites[household.homeSiteId], herd = herdOf(household), yard = yardFenced(household) ? household.yard : null;
+  return [world.seed, home.x, home.y, door.x, door.y, gate ? `${gate.x},${gate.y}` : '-', yard ? `${yard.minX},${yard.minY},${yard.maxX},${yard.maxY}` : '-',
+    plotsOf(world, household).filter(plot => plot.state === 'cleared').map(plot => plot.id).join(','), household.site?.needsWell, herd.cattle > 0, herd.hogs > 0,
+    // And the paths themselves, so a copy of the class (a save opened again in the same process) is looked at on its own.
+    pathsOf(household).length].join(':');
+}
 
 /**
- * Every tick: a family whose house stands treads a way to running water near enough to carry and to each cleared plot it has no
- * way to yet (`settled` says whose house stands; sim/houses.mjs `houseSettled`). Laid round the trees, as the family would walk it.
+ * A path left part cut in a class saved before the paths went automatic (owner, 2026-10-03): nobody will cut the rest, so the stakes
+ * of what was still to cut come up and the part cut stays a path. Nothing is felled and no log moves.
+ */
+function leaveOffCutting(household) {
+  if (!pathsOf(household).some(path => Number.isFinite(path.cut))) return;
+  household.paths = pathsOf(household).flatMap(path => {
+    if (!Number.isFinite(path.cut)) return [path];
+    const made = madeMiles(path);
+    if (made < TREE_MILES) return [];
+    const { cut, ...rest } = path;
+    return [{ ...rest, points: firstMiles(path.points, made).map(p => ({ x: r4(p.x), y: r4(p.y) })) }];
+  });
+}
+
+/**
+ * Every tick: a family whose house stands (`settled`, sim/houses.mjs `houseSettled`) treads a way from the door to each place in
+ * `troddenTo` it has no way to yet, laid round the trees as the family would walk it; lays a way again whose start has moved (the
+ * door of a new house, out through the gate once the yard is fenced, from the door again once its rails are down); and lets a way go
+ * whose place is gone (a herd all sold or lost, the yard's rails pulled down). A path cut in a class saved before stays as it is.
+ * ceiling: a way to something gone goes at once, not grown over through a season; the grass taking it back is the way out if a class
+ * ever misses one.
+ * The yard's rails are a wall to the way-finding but for the gate (`onRails`), so the ways out of a fenced yard, and everybody
+ * walking in or out of it, go through the gate.
  */
 export function advanceLandPaths(world, settled) {
+  for (const household of Object.values(world.households)) leaveOffCutting(household);
   let laid = 0;
   for (const household of Object.values(world.households)) {
     if (laid >= TRODDEN_A_TICK) return;
     if (household.choosingSite || !settled(household) || !world.map.sites[household.homeSiteId]) continue;
-    // Looked at again only when the house, the plots or the paths have changed since it was last found to want nothing more.
-    const home = world.map.sites[household.homeSiteId];
-    const looked = `${world.seed}:${home.x},${home.y}:${plotsOf(world, household).filter(plot => plot.state === 'cleared').map(plot => plot.id).join(',')}:${pathsOf(household).length}:${household.site?.needsWell}`;
+    const door = doorOf(world, household), gate = yardGate(world, household);
+    // Looked at again only when the house, its yard, the plots, the water or the herd have changed since it last wanted nothing.
+    const looked = lookedAt(world, household, door, gate);
     if (wantsNothing.get(household.id) === looked) continue;
-    const before = laid;
-    const have = new Set(pathsOf(household).map(path => path.to).filter(Boolean));
-    for (const { to, at } of troddenTo(world, household)) {
-      if (have.has(to) || laid >= TRODDEN_A_TICK) continue;
-      const door = doorOf(world, household);
-      if (dist(door, at) < PATH_LEAST) { household.paths = [...pathsOf(household), { id: nextPathId(household), kind: 'trodden', to, points: [door, at] }]; continue; }
-      const points = landRoute(world, household, door, at).map(p => ({ x: r4(p.x), y: r4(p.y) }));
-      household.paths = [...pathsOf(household), { id: nextPathId(household), kind: 'trodden', to, points }];
-      laid++;
+    const wanted = troddenTo(world, household, door);
+    const places = new Set(wanted.map(one => one.to));
+    // A way to something gone goes with it; a cut path, and a way laid before ways said where they go, stays.
+    if (pathsOf(household).some(path => path.kind === 'trodden' && path.to && !places.has(path.to))) household.paths = pathsOf(household).filter(path => path.kind !== 'trodden' || !path.to || places.has(path.to));
+    let behind = false;
+    for (const { to, at } of wanted) {
+      // Laid while the rails stand (`gate` on the path): a way laid before they went up, or before they came down, is laid again.
+      const railed = Boolean(gate);
+      const was = pathsOf(household).find(path => path.kind === 'trodden' && path.to === to);
+      if (was && laidRight(was, door, railed, at)) continue;
+      if (laid >= TRODDEN_A_TICK) { behind = true; break; }
+      // Found without the way it replaces, so a way laid again is not drawn along the line it was.
+      const index = was ? pathsOf(household).indexOf(was) : -1;
+      if (was) household.paths = pathsOf(household).filter(path => path !== was);
+      const way = layWay(world, household, door, at);
+      laid += way.found;
+      const paths = [...pathsOf(household)];
+      paths.splice(was ? index : paths.length, 0, { id: was ? was.id : nextPathId(household), kind: 'trodden', to, points: way.points, ...(railed && { gate: true }) });
+      household.paths = paths;
     }
-    if (laid === before && laid < TRODDEN_A_TICK) wantsNothing.set(household.id, `${world.seed}:${home.x},${home.y}:${plotsOf(world, household).filter(plot => plot.state === 'cleared').map(plot => plot.id).join(',')}:${pathsOf(household).length}:${household.site?.needsWell}`);
+    if (!behind) wantsNothing.set(household.id, lookedAt(world, household, door, gate));
   }
 }
-/** What each family was last found to want nothing more with: the house, its cleared plots, its paths and its water (`advanceLandPaths`). */
+/** What each family was last found to want nothing more with (`advanceLandPaths`, `lookedAt`). */
 const wantsNothing = new Map();
 
-// ------------------------------------------------------------------------------------------------ cutting a path
-
-/** The nearest point of a polyline to a place, and how far along it that is. */
-function nearestOn(points, point) {
-  let best = null, travelled = 0;
-  for (let i = 1; i < points.length; i++) {
-    const a = points[i - 1], b = points[i], dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy);
-    const t = length ? Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / (length * length))) : 0;
-    const at = { x: a.x + dx * t, y: a.y + dy * t }, d = dist(at, point);
-    if (!best || d < best.d) best = { at, d, miles: travelled + length * t };
-    travelled += length;
-  }
-  return best;
-}
-/** Where a path to this place would begin: the nearest point of the house's door, a path the family has, or its lane. */
-export function pathStart(world, household, point) {
-  let best = { at: doorOf(world, household), d: dist(doorOf(world, household), point) };
-  for (const way of madeWays(world, household)) { const near = nearestOn(way, point); if (near && near.d < best.d) best = near; }
-  return { x: r4(best.at.x), y: r4(best.at.y) };
-}
-
-/**
- * The standing trees whose trunks are within `PATH_HALF` of a straight line, each with how far along the line it stands, nearest
- * the start first: the trees a path cut along that line fells. Read from the patches the way-finding keeps, so it costs nothing new.
- */
-export function treesInTheWay(world, a, b) {
-  if (!findsWays(world)) return [];
-  const felled = world.woods?.felled || {}, seen = new Set(), found = [];
-  const length = dist(a, b), steps = Math.max(1, Math.ceil(length / (TREE_MILES / 2)));
-  const ux = length ? (b.x - a.x) / length : 0, uy = length ? (b.y - a.y) / length : 0;
-  for (let s = 0; s <= steps; s++) {
-    const x = a.x + (b.x - a.x) * s / steps, y = a.y + (b.y - a.y) * s / steps;
-    const gx = Math.floor(x / TREE_MILES), gy = Math.floor(y / TREE_MILES);
-    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
-      const cx = gx + dx, cy = gy + dy, key = cellKey(cx, cy);
-      if (seen.has(key)) continue;
-      seen.add(key);
-      const px = Math.floor(cx / PER_PATCH), py = Math.floor(cy / PER_PATCH), patch = patchOf(world, px, py);
-      const index = patch.cells[(cy - py * PER_PATCH) * PER_PATCH + (cx - px * PER_PATCH)];
-      if (index < 0) continue;
-      const tree = patch.trees[index];
-      if (felled[tree.id]) continue;
-      const along = (tree.x - a.x) * ux + (tree.y - a.y) * uy;
-      if (along < -PATH_HALF || along > length + PATH_HALF) continue;
-      if (toSegment(tree, a, b) > PATH_HALF) continue;
-      found.push({ ...tree, along });
-    }
-  }
-  return found.sort((p, q) => p.along - q.along || p.id.localeCompare(q.id));
-}
-
-/** The ground at stretches of a straight line, in miles of prairie, timber and brush (sim/fields.mjs `groundAt`). */
-function groundMiles(world, a, b) {
-  const miles = { prairie: 0, timber: 0, brush: 0 }, length = dist(a, b), steps = Math.max(1, Math.ceil(length / PATCH_MILES * 2));
-  for (let s = 0; s < steps; s++) {
-    const t = (s + 0.5) / steps;
-    miles[groundAt(world, { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t })] += length / steps;
-  }
-  return miles;
-}
-
-/** The family's path being cut to this place, if one is part made and ends here. */
-const unfinishedTo = (household, point) => pathsOf(household).find(path => path.kind === 'cut' && madeMiles(path) < polylineLength(path.points) - 1e-6 && dist(path.points.at(-1), point) < 0.01);
-
-/**
- * Why a path cannot be cut to this place, or null, and the line it would follow. Asked when the student looks and when the person
- * is sent. `fellTicks` is felling's own time for a tree (sim/felling.mjs `fellAndCarryTicks`), handed in.
- */
-export function cutPathPlan(world, household, point) {
-  if (!household) return { why: 'No family to cut a path for.' };
-  if (world.status === 'lobby') return { why: 'The family cuts its paths once the class has begun.' };
-  if (household.choosingSite) return { why: 'Choose where the house will stand first.' };
-  if (!Number.isFinite(point?.x) || !Number.isFinite(point?.y)) return { why: 'Choose a place on your land to cut a path to.' };
-  const to = { x: r4(point.x), y: r4(point.y) };
-  const bounds = holdingOf(world, household).bounds;
-  if (to.x < bounds.minX || to.x > bounds.maxX || to.y < bounds.minY || to.y > bounds.maxY) return { why: 'That is not your land.' };
-  const resume = unfinishedTo(household, to);
-  if (resume) return { path: resume, from: resume.points[0], to: resume.points.at(-1) };
-  if (onRealLand(world)) {
-    const land = landAround();
-    const height = land.heightAt(to.x, to.y);
-    if (!Number.isFinite(height) || height < 0.3) return { why: 'That is in the water.' };
-    const river = land.nearestWater(to, info => info.kind !== 'creek', RIVER_MILES);
-    if (river) return { why: 'That is in the water.' };
-  }
-  if (pathsOf(household).some(path => madeMiles(path) >= polylineLength(path.points) - 1e-6 && dist(path.points.at(-1), to) < 0.02)) return { why: 'There is a path there already.' };
-  const from = pathStart(world, household, to);
-  const length = dist(from, to);
-  if (length < PATH_LEAST) return { why: 'That is near enough to a path or the house to walk to as it is.' };
-  if (length > PATH_MOST) return { why: `That is too far for one path: choose somewhere within ${PATH_MOST} of a mile of the house, a path or the lane.` };
-  if (onRealLand(world)) {
-    const crossing = landAround().crossings(from, to);
-    if (crossing.barrier || crossing.rivers) return { why: 'A path cannot be cut across the river.' };
-  }
-  return { from, to };
-}
-
-/** What cutting the path in a plan would take: the trees felled, their logs, the ground, and the ticks of one hand's work. */
-export function cutPathWork(world, household, plan, fellTicks) {
-  const a = plan.path ? pointAlong(plan.path.points, madeMiles(plan.path)) : plan.from, b = plan.to;
-  const trees = treesInTheWay(world, a, b);
-  const ground = groundMiles(world, a, b);
-  const ticks = trees.reduce((sum, tree) => sum + fellTicks(tree), 0) + Object.entries(ground).reduce((sum, [kind, miles]) => sum + miles * PATH_TICKS_PER_MILE[kind], 0);
-  return { trees: trees.length, logs: trees.reduce((sum, tree) => sum + tree.logs, 0), ground, miles: dist(a, b), ticks, wantsAxe: trees.length > 0 || ground.timber + ground.brush > 0.005 };
-}
-
-/** The path a cutter is at, by id. */
-export const pathById = (household, id) => pathsOf(household).find(path => path.id === id) || null;
-/** A path laid out to be cut: stored at once, its stakes drawn, and cut from its first point outward. Returns it. */
-export function stakePath(world, household, plan) {
-  if (plan.path) return plan.path;
-  const path = { id: nextPathId(household), kind: 'cut', points: [{ ...plan.from }, { ...plan.to }], cut: 0 };
-  household.paths = [...pathsOf(household), path];
-  return path;
-}
-/** Where the cutting of a path has got to: the point a cutter goes out to. */
-export const pathFront = (household, id) => { const path = pathById(household, id); return path ? (({ x, y }) => ({ x: r4(x), y: r4(y) }))(pointAlong(path.points, madeMiles(path))) : null; };
-
-/**
- * What a cutter does next on a path: done; fell a tree in the way (the next one along that nobody else is felling); or clear a
- * stretch of the line, as much as a spell clears of its ground. `taken` are the trees others of the family are felling now.
- */
-export function nextOnPath(world, household, id, taken = new Set()) {
-  const path = pathById(household, id);
-  if (!path) return { done: true };
-  const length = polylineLength(path.points), made = madeMiles(path);
-  if (made >= length - 1e-6) return { done: true };
-  const front = pointAlong(path.points, made), end = path.points.at(-1);
-  const ground = groundAt(world, front);
-  const stretch = Math.min(length - made, PATH_STRETCH[ground] || PATH_STRETCH.prairie);
-  const tree = treesInTheWay(world, front, end).find(one => one.along <= stretch + PATH_HALF && !taken.has(one.id));
-  if (tree) return { tree, at: { x: tree.x, y: tree.y } };
-  // Somebody else is felling the last tree in this stretch: wait for it, beside them.
-  if (treesInTheWay(world, front, end).some(one => one.along <= stretch + PATH_HALF)) return { wait: true, at: { x: r4(front.x), y: r4(front.y) } };
-  return { stretch, ground, ticks: stretch * PATH_TICKS_PER_MILE[ground], at: { x: r4(front.x), y: r4(front.y) } };
-}
-/** A stretch of the line cleared. Returns true when that reached the end. */
-export function clearStretch(world, household, entity, id, miles) {
-  const path = pathById(household, id);
-  if (!path) return true;
-  const length = polylineLength(path.points);
-  path.cut = r4(Math.min(length, madeMiles(path) + miles));
-  if (path.cut < length - 1e-6) return false;
-  delete path.cut;
-  return true;
-}
+/** Why *Cut a path* is refused: the order of 2026-10-02, gone since the owner made every path automatic (2026-10-03). */
+export const PATHS_TRODDEN_WHY = 'Nobody needs to cut paths now: the family treads its own ways from the house to the water, each field, the yard gate, the woodpile and the stock, round the trees.';
+/** An order to cut a path, from a page loaded before the paths went automatic or a command saved before: refused in words. */
+export const pathOrderRefusal = input => (input?.action === 'cut-path' || (input?.action === 'chore' && input.chore === 'cut-path') ? PATHS_TRODDEN_WHY : null);
 
 // ------------------------------------------------------------------------------------------------ the yard
 
@@ -797,6 +825,8 @@ export function raiseYard(world, household, entity, felled = { trees: 0, logs: 0
   const box = yardGround(world, household);
   if (!box) return;
   household.yard = { minX: box.minX, minY: box.minY, maxX: box.maxX, maxY: box.maxY, fence: 'sound' };
+  // The gate hung in the front rail, where the ways out go through (owner, 2026-10-03, "All automatic"): kept, so it never moves.
+  household.yard.gate = gateAlong(world, household.yard, doorOf(world, household));
   const trees = felled.trees ? ` ${felled.trees === 1 ? 'A tree inside it came down' : `${felled.trees} trees inside it came down`}, and ${felled.logs === 1 ? 'one log went' : `${felled.logs} logs went`} onto the pile.` : '';
   record(world, 'property', {
     actorId: entity?.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-1103',
@@ -815,13 +845,16 @@ export function keepInYard(household, point, inset = 0.004) {
 
 // ------------------------------------------------------------------------------------------------ the page, and saves
 
-/** For the family's own land line: its paths, as far as each is made, and its yard. Absent where there are none. */
-export function landPathsProjection(household) {
+/**
+ * For the family's own land line: its paths, as far as each is made, with what a trodden one goes to; and its yard, with the gate
+ * the page leaves open in its front rail while the rails stand. Absent where there are none.
+ */
+export function landPathsProjection(world, household) {
   const paths = pathsOf(household);
-  const yard = yardOf(household);
+  const yard = yardOf(household), gate = yard && yardGate(world, household);
   return {
-    ...(paths.length && { paths: paths.map(path => ({ id: path.id, kind: path.kind, points: path.points, ...(Number.isFinite(path.cut) && { cut: path.cut }) })) }),
-    ...(yard && { yard: { minX: yard.minX, minY: yard.minY, maxX: yard.maxX, maxY: yard.maxY, fence: yard.fence } }),
+    ...(paths.length && { paths: paths.map(path => ({ id: path.id, kind: path.kind, points: path.points, ...(path.to && { to: path.to }), ...(Number.isFinite(path.cut) && { cut: path.cut }) })) }),
+    ...(yard && { yard: { minX: yard.minX, minY: yard.minY, maxX: yard.maxX, maxY: yard.maxY, fence: yard.fence, ...(gate && { gate: { ...gate, half: GATE_HALF } }) } }),
   };
 }
 
@@ -835,12 +868,16 @@ export function landPathsInvalid(household) {
       if (!Array.isArray(path.points) || path.points.length < 2 || path.points.some(p => !Number.isFinite(p?.x) || !Number.isFinite(p?.y))) return 'Invalid path';
       if (path.cut !== undefined && (path.kind !== 'cut' || !Number.isFinite(path.cut) || path.cut < 0)) return 'Invalid path cutting';
       if (path.to !== undefined && typeof path.to !== 'string') return 'Invalid path';
+      // Out through the yard's gate (2026-10-03): only a trodden way. Absent on every way laid before, which is laid again if it must be.
+      if (path.gate !== undefined && (path.gate !== true || path.kind !== 'trodden')) return 'Invalid path';
       ids.add(path.id);
     }
   }
   if (household.yard !== undefined) {
     const yard = household.yard;
     if (![yard?.minX, yard?.minY, yard?.maxX, yard?.maxY].every(Number.isFinite) || yard.maxX <= yard.minX || yard.maxY <= yard.minY || !['sound', 'ruined'].includes(yard.fence)) return 'Invalid yard';
+    // Where its gate hangs (2026-10-03): absent on a yard fenced before, whose gate is where it would be hung now (`yardGate`).
+    if (yard.gate !== undefined && (!Number.isFinite(yard.gate) || yard.gate < yard.minX || yard.gate > yard.maxX)) return 'Invalid yard gate';
   }
   return null;
 }

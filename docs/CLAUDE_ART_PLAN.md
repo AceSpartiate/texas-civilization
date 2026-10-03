@@ -272,11 +272,11 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 1 icon; 2 frames each, east. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%; People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `PANEL_ICONS['milk-cow']` in `public/family-panel.js`; the work art of `public/work-art.js`
   - **Stands in now:** the cow on a rope (`icon-flee-cow`) for the icon; the tending pose (`care`) for the milking (drawn in code (canvas or CSS))
-- [ ] **B16** (priority 2) — [Request 2026-10-02 — paths and the yard](ART_REQUESTS.md#request-2026-10-02--paths-and-the-yard), items 1 to 3
-  - **Deliver:** `icon-cut-path` (a trodden path between two stumps, an axe leaning on one), `icon-fence-yard` (a cabin's corner with a low rail fence round its dooryard) and `ground-path-straight`, `ground-path-bend` (worn earth a person's width across, from above, tiling along a line)
+- [ ] **B16** (priority 2) — [Request 2026-10-02 — paths and the yard](ART_REQUESTS.md#request-2026-10-02--paths-and-the-yard), items 2 and 3 (item 1, `icon-cut-path`, withdrawn 2026-10-03: no path is cut now)
+  - **Deliver:** `icon-fence-yard` (a cabin's corner with a low rail fence round its dooryard) and `ground-path-straight`, `ground-path-bend` (worn earth a person's width across, from above, tiling along a line)
   - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%; Ground piece: seen from above at the map's scale, transparent, tiles or scatters
-  - **Plugs into:** `PANEL_ICONS['cut-path']`, `['fence-yard']` in `public/family-panel.js`; `drawLandPaths` in `public/app.js`
-  - **Stands in now:** the lane's and the plot fence's icons; a stroked brown verge with a packed line down the middle (drawn in code (canvas or CSS))
+  - **Plugs into:** `PANEL_ICONS['fence-yard']` in `public/family-panel.js`; `drawLandPaths` in `public/app.js`
+  - **Stands in now:** the plot fence's icon; a stroked brown verge with a packed line down the middle (drawn in code (canvas or CSS))
 - [ ] **B18** (priority 2) — [Request 2026-10-03 — the children's own actions](ART_REQUESTS.md#request-2026-10-03--the-childrens-own-actions), items 3 and 5 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-speak`, `boy-speak`, `smallchild-speak`)
   - **Deliver:** `<child>-feed-hens`, `<child>-gather-eggs` (2, east each) and `<child>-listen-s`, `<child>-speak-s` (2 each), for `boy` and `girl` (talking for `smallchild` too)
   - **Frames:** 2 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372

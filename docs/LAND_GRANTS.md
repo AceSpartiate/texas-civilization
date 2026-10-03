@@ -530,7 +530,7 @@ the felling are docs/WOODS_AND_BUILDING.md §6.12; the yard's effect on the litt
 
 ### 10.1 The way across the family's land (`FIC-GONZ-1100`)
 
-Somebody sent about the family's own land - out to survey, clear, fence, plant, fell, hunt or cut a path, and back to the yard - was
+Somebody sent about the family's own land - out to survey, clear, fence, plant, fell or hunt, and back to the yard - was
 moved in a straight line a tick at a time, over whatever stood between; the woods are drawn tree by tree from the very grid the
 server counts (sim/woods.mjs), so a student watched people walk through trunks and over crowns. Now:
 
@@ -554,33 +554,59 @@ server counts (sim/woods.mjs), so a student watched people walk through trunks a
   `PERSON_MILES`), so in open woods a figure still brushes the crowns beside it; the trees drawn in front of them are what make it
   read as among and not over. A grid as fine as the drawing is the way out, if that is ever not enough.
 - `ceiling:` a way is found once for each place a person sets out for, on the server's one thread: 1.5 to 7 milliseconds on
-  average and about 45 at worst, measured on three families of one class (2026-10-02). A cache of ways by place is the way out if a
-  class of thirty shows it.
+  average and about 45 at worst, measured on three families of one class (2026-10-02). Re-measured 2026-10-03 with the paths
+  automatic, three families of class `smoke-paths` on this machine: a walk set out about the land 1.3 ms on average, 6.9 at worst
+  (150 walks, with and without a fenced yard); a trodden way 0.8 ms on average and 3.2 at worst found first (patches cold), 0.3 and
+  0.8 after, 0.5 and 1.3 out of a fenced yard; a whole tick of `advanceLandPaths` 1.5 ms at worst. A cache of ways by place is the way
+  out if a class of thirty shows it.
 - `ceiling:` the Host's map and a neighbour's people are drawn as before, between their ticks in a straight line.
 
-### 10.2 Paths (`FIC-GONZ-1101`, `-1092`)
+### 10.2 Paths, all trodden on their own (`FIC-GONZ-1101`, amended 2026-10-03) — owner-decided 2026-10-03
 
-**Decided by the builder, as the brief recommended: a few trodden without anybody being sent, more cut as work.** A family wears a
-way by using it - nobody cuts grass to walk on it - but a way through the timber is cut, and cutting is felling.
+The owner, verbatim, 2026-10-03: *"i don't want players to have to micromanage the paths that we added earlier. this should be an
+automated thing based on where they put things."* Offered three ways by multiple choice, the owner chose **"All automatic"**:
+*Remove the Cut a path button. Paths appear on their own from the house to everything the family places: water, each field, the
+yard gate, the woodpile and the stock pens. They wind round trees, and no one is sent to fell anything.*
 
-- **Trodden** (`advanceLandPaths`): once the house stands (sim/houses.mjs `houseSettled`), the family has a way from the door to
-  running water near enough to carry (a house with no well needed) and to every cleared plot, laid round the trees as the family
-  would walk it, and another to each plot as it is cleared. Laid at most three a tick across the class, so a class saved with every
-  house standing treads them over its first ticks. Not said in the journal: they are seen.
-- **Cut a path** (sim/chores.mjs `cut-path`, on the bar, the place tapped on the map like felling's): a straight line from the
-  nearest of the house's door, a path the family has or its lane, out to the place chosen - no shorter than `PATH_LEAST` (0.03
-  mile), no longer than `PATH_MOST` (0.6), not over a river nor into one. Every tree whose trunk stands within `PATH_HALF` (about
-  thirteen feet) of the line is felled at felling's own time (sim/felling.mjs `fellAndCarryTicks`), its logs onto the pile, and the
-  line itself is cleared a stretch at a time: `PATH_TICKS_PER_MILE` 3 through grass, 12 through the timber's undergrowth, 15 through
-  brush, half the lane's, at the family's pace (sim/work-pace.mjs). It wants the axe wherever a tree or brush stands in it, and is
-  refused without it, greyed with the axe it wants. The place chooser says before anybody goes how long the path is, what it runs
-  through, how many trees stand in its way, the logs and the hours. The work stays on the path: called in, the next sent goes on
-  from where the cutting got to. Many may work at one path, each felling a different tree.
+- **What gets a way** (`troddenTo`, `advanceLandPaths`): once the house stands (sim/houses.mjs `houseSettled`), a way from the
+  door (sim/house-placement.mjs `houseFront`) to
+  - **running water** near enough to carry, a few rods short of the bank (only a house that needs no well has it; a well is dug by
+    the door, sim/chores.mjs `dig-well`, and wants no way of its own);
+  - **every cleared plot**, at the side nearest the door a step inside its rails;
+  - **the yard's gate**, once rails stand round the yard (`yardGate`, below);
+  - **the woodpile**, where the page draws the family's logs, left of the house and a little before it (`woodpileAt`, `PILE_AT`), in
+    every class that keeps a pile of logs (the classes that count their trees, sim/woodpile.mjs `keepsPile`);
+  - **where the stock is brought in at night**, one way for the cattle and one for the hogs, each while the family has any
+    (`stockGround`): the family has no pen - an open range, docs/STOCK.md - so the stock's place is the ground near the house
+    where public/herd-view.js draws each kind standing from eight in the evening to six (`nightGround`; the test holds the two to
+    the same point).
+  Not the tent: it stands only until the house has a roof (sim/shelter.mjs), and the ways begin at the house once it stands.
+- **When**: a new way appears on the tick after the thing is placed - a plot cleared, the yard's rails up, stock bought - laid
+  round the trees. A way is **laid again** when where it begins changes: the door of the house that stands now, or the yard's rails
+  going up or coming down (a way records `gate: true` when it was laid with the rails standing). A way to **something that is gone
+  goes with it**: the hogs all sold or lost, the yard's rails pulled down by the Scrape (its gate with them). `ceiling:` a way goes
+  at once, not grown over through a season; the grass taking it back is the way out if a class ever misses one. At most three ways
+  are found a tick across the class (`TRODDEN_A_TICK`), so a class opened with every house standing treads them over its first
+  ticks. Not said in the journal: they are seen.
+- **Round the trees, nothing felled**: a trodden way counts a cell with a standing tree as `WAY_TREE_COST` (100) times its ground,
+  against `TREE_COST` (20) for somebody walking about, so a way is worn round the trunks and squeezes past one only where going
+  round would be some two fifths of a mile further. (At 20 a way out of a fenced yard into thick timber was laid through a tree's
+  cell, found 2026-10-03.) Nobody is sent and no tree comes down for a way.
+- **The yard's gate, and the rails a wall**: the gate is an opening `GATE_HALF` (0.006 mile) either side of its middle in the front
+  rail, straight out before the door, slid along the rail to where no standing tree is in the opening (`gateAlong`); hung when the
+  rails go up and kept on the yard (`yard.gate`), so it never moves. While the rails stand **the way-finding does not cross them**
+  but at the gate (`onRails`): every way out of the yard, and everybody walking in or out of it, goes through the gate. The page
+  leaves the gate open in the drawn rails (public/app.js `drawYardFence`, `land.yard.gate`). A yard fenced in a class saved before has
+  no kept gate; it is where it would be hung now.
+- **Cut a path is gone.** The bar's *Cut a path* (2026-10-02: a straight line from the house felled clear, at felling's time) is
+  removed from the action bar and the map's place chooser. A page loaded before, or a command saved before, sending it is refused in
+  words, *"Nobody needs to cut paths now: the family treads its own ways from the house to the water, each field, the yard gate, the
+  woodpile and the stock, round the trees."* (`pathOrderRefusal` in sim/world.mjs `applyAction`, and `/api/plot?job=cut-path` in
+  server/app.mjs).
 - **Walking a path is quicker**: `PATH_PACE` 0.8 of open ground's time, against 1.3 through timber and 1.6 through brush, and the
-  way across the land prefers it. The lane, as far as it is cut, counts as a path.
+  way across the land prefers it. The lane, as far as it is cut, counts as a path, and so does a path cut in a class saved before.
 - **Drawn** (public/app.js `drawLandPaths`): a soft trodden-earth verge with a packed line down the middle, under the woods and the
-  grass; the part of a path still to cut as a line of stakes, as the lane's is. Through the timber the stumps of the trees cut for it
-  are what show it most. `stand-in:` docs/ART_REQUESTS.md, request 2026-10-02 "paths and the yard".
+  grass. `stand-in:` docs/ART_REQUESTS.md, request 2026-10-02 "paths and the yard" (the trodden-path tile).
 
 ### 10.3 The yard (`FIC-GONZ-1103`)
 
@@ -608,16 +634,27 @@ The owner answered the four questions of 2026-10-02:
 
 1. *How much a fenced yard calms a child on auto:* **half as often disobedient, as built** (docs/CHILDREN.md §14).
 2. and 4. together, **"Auto kids; fell trees"**: the yard calms **children on their own automation**, as built; and **fencing the yard
-   fells the trees standing inside it**, at felling's own time per tree, their logs onto the pile, as *Cut a path* does - the felling
-   paid, never the free logs of the first version, and the added work said on the yard's line (§10.3).
-3. *A path cut through thick timber:* **felling's own time, and felling's logs, as built** (§10.2).
+   fells the trees standing inside it**, at felling's own time per tree, their logs onto the pile, as *Cut a path* then did - the
+   felling paid, never the free logs of the first version, and the added work said on the yard's line (§10.3).
+3. *A path cut through thick timber:* **felling's own time, and felling's logs, as built** - since withdrawn with *Cut a path* itself
+   (2026-10-03, "All automatic", §10.2): no path is cut now, and no tree is felled for one.
 
 ### 10.4 Old saves and the lesson
 
 No save version moved: a class saved before has no paths, no yard and nobody part way along a way, and those are the correct empty
 values (`landPathsInvalid`, `walkRouteInvalid`); a family whose house stands has its ways trodden on the first ticks after the class
-opens, as a family whose house has just gone up does. Cutting a path and fencing the yard are held back while a family is walked
-through its first farm work (sim/lesson.mjs `LATER_WORK`).
+opens, as a family whose house has just gone up does. Fencing the yard is held back while a family is walked through its first farm
+work (sim/lesson.mjs `LATER_WORK`).
 
-Proof: `tests/land-paths.test.mjs` (7 tests, every one watched failing under its own injection, `node scripts/land-paths-injections.mjs`)
+**Since paths went automatic (2026-10-03), still no save version moved.** A class saved before opens as it was: its trodden ways are
+kept and laid again only where the rule now lays them differently, and the ways it never had (the woodpile, the stock, the gate) are
+trodden on its first ticks; a path it cut stays a path. **A class saved with somebody part way through cutting a path opens** - the
+chore is work that no longer exists, so on the first tick they leave off and it is said (*"... left off cutting the path
+unfinished."*, sim/chores.mjs `RETIRED`, the same way retired field work was left off in §5), the tree they were felling still
+stands, and the path keeps what was cut while the stakes of the rest come up (`leaveOffCutting`). It is dropped rather than finished
+because finishing it would keep the felling-along-a-line machinery alive for one old chore, against the owner's decision; nothing is
+lost that the family had - the cut part stays and no log moves. A yard with no kept gate, and a way with no `gate` mark, are the
+correct empty values (`yardGate` hangs it where it would go; the way is laid again).
+
+Proof: `tests/land-paths.test.mjs` (9 tests, every one watched failing under its own injection, `node scripts/land-paths-injections.mjs`)
 and `npm run test:land-paths` (docs/evidence/land-paths-*.png, docs/evidence/land-paths-browser.json).

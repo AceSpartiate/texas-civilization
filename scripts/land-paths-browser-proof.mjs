@@ -1,15 +1,18 @@
 // Paths, the way round the trees, and the fenced yard, in a real browser (owner, 2026-10-02: "it's weird seeing characters walk
 // over trees. paths should be cut to facilitate quick, reasonable movement on a families land. there should be an option to fence
-// in a yard too. if there's a fenced in yard then kids on auto play will not be disobedient as often."; sim/land-paths.mjs).
+// in a yard too. if there's a fenced in yard then kids on auto play will not be disobedient as often."; and 2026-10-03, "All
+// automatic": "i don't want players to have to micromanage the paths that we added earlier. this should be an automated thing based
+// on where they put things."; sim/land-paths.mjs).
 //
 // tests/land-paths.test.mjs proves the rules. This proves what a student sees on a family's land in the timber, at 1366x768:
 //
 //   - the ways the family has trodden to its water and its plot, drawn on the land once the house stands;
 //   - somebody sent across the woods walks round the trees: every place the page draws them over a tick is on the points the server
 //     walked them, and none of those is a standing tree's cell; and a tree in front of them is drawn over them;
-//   - *Cut a path* from the bar, the place tapped on the map, the line drawn and what it would take said; the trees in its way come
-//     down and the path is drawn; the cutter walks home along it;
-//   - *Fence a yard* from the bar, its rails drawn round the house, and a child at play kept inside them.
+//   - no *Cut a path* on anybody's row; the ways trodden on their own to everything the family places - the water, the plot, the
+//     woodpile, where the cattle and the hogs come in at night - drawn, each round the trees, and nothing felled for them;
+//   - *Fence a yard* from the bar, its rails drawn round the house with the gate left open, a way trodden to the gate and every way
+//     out laid again through it, never over the rails; and a child at play kept inside them.
 //
 // Same computer only: headless Chrome. Run: npm run test:land-paths
 import assert from 'node:assert/strict';
@@ -20,7 +23,8 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction } from '../sim/world.mjs';
 import { settleMeans } from '../sim/means.mjs';
 import { keepFoundingFamilies, settle, taught } from '../tests/support/settled.mjs';
-import { treeCellAt, treesInBox, yardBox } from '../sim/land-paths.mjs';
+import { treeCellAt, treesInBox, yardBox, yardGate } from '../sim/land-paths.mjs';
+import { plotsOf } from '../sim/fields.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
 
@@ -37,8 +41,6 @@ mkdirSync('docs/evidence', { recursive: true });
 // A family on the real land whose house is set on open ground with a stand of timber north of it (found by search, 2026-10-02):
 // from it, a place across the woods whose straight line runs over 36 trees and whose way round them over none.
 const SEED = 'land-paths-10', SITE = { x: 91.213, y: 44.77 }, ACROSS = { x: 91.447, y: 44.595 };
-// The path is cut half way there: into the timber, and short enough to watch.
-const CUT_TO = { x: +((SITE.x + ACROSS.x) / 2).toFixed(3), y: +((SITE.y + ACROSS.y) / 2).toFixed(3) };
 const worldFactory = (seed, count) => {
   const world = createGonzalesWorld(seed, count, { map: 'colonies' });
   settleMeans(world); settle(world);
@@ -49,6 +51,8 @@ const worldFactory = (seed, count) => {
   const household = world.households['hh-1'];
   household.improvements = { ...household.improvements, cabin: 'sound' };
   household.resources.powder = Math.max(household.resources.powder || 0, 6);
+  // Stock on the range, so the ways to where the cattle and the hogs come in at night are trodden (sim/stock.mjs, docs/STOCK.md).
+  household.herd = { cattle: 4, hogs: 3 };
   // A little one of the family to play in the yard: the youngest made six, a child of the yard's age.
   const young = household.members.map(id => world.entities[id]).filter(one => one.kind === 'person' && one.kin?.role !== 'father' && one.kin?.role !== 'mother').sort((a, b) => a.age - b.age)[0];
   if (young && !(young.age >= 2 && young.age < 10)) young.age = 6;
@@ -102,6 +106,32 @@ const drawnFeet = (page, id) => page.evaluate(id => {
 }, id);
 const toSegment = (p, a, b) => { const dx = b.x - a.x, dy = b.y - a.y, l = dx * dx + dy * dy, t = l ? Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / l)) : 0; return Math.hypot(p.x - a.x - dx * t, p.y - a.y - dy * t); };
 const offLine = (p, points) => Math.min(...points.slice(1).map((b, i) => toSegment(p, points[i], b)));
+/** The standing trees a polyline runs over (the very cells the map draws trees in), its two ends left out, as tests/land-paths.test.mjs counts. */
+const treesOver = points => {
+  const ids = new Set();
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], b = points[i], steps = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 0.0005));
+    for (let k = 0; k <= steps; k++) {
+      const at = { x: a.x + (b.x - a.x) * k / steps, y: a.y + (b.y - a.y) * k / steps };
+      if (Math.hypot(at.x - points[0].x, at.y - points[0].y) < 0.006 || Math.hypot(at.x - points.at(-1).x, at.y - points.at(-1).y) < 0.006) continue;
+      const id = treeCellAt(world(), at);
+      if (id) ids.add(id);
+    }
+  }
+  return ids.size;
+};
+/** Where a polyline crosses the yard's rails other than at the gate. */
+const overRails = (points, yard, gate) => {
+  const inside = p => p.x > yard.minX && p.x < yard.maxX && p.y > yard.minY && p.y < yard.maxY, crossed = [];
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], b = points[i], steps = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 0.0003));
+    for (let k = 1; k <= steps; k++) {
+      const p = { x: a.x + (b.x - a.x) * (k - 1) / steps, y: a.y + (b.y - a.y) * (k - 1) / steps }, q = { x: a.x + (b.x - a.x) * k / steps, y: a.y + (b.y - a.y) * k / steps };
+      if (inside(p) !== inside(q) && !(Math.abs(q.y - yard.maxY) < 0.006 && Math.abs(q.x - gate.x) < 0.01)) crossed.push(q);
+    }
+  }
+  return crossed;
+};
 
 try {
   const page = await (await browser.newContext({ viewport: { width: 1366, height: 768 } })).newPage();
@@ -174,54 +204,27 @@ try {
   await page.waitForFunction(id => !window.__snapshot?.world.entities.find(one => one.id === id)?.walked, mother, { timeout: 30000 }).catch(() => {});
   await command(page, { action: 'stop-chore', entityId: mother });
 
-  // 3. Cut a path from the bar, the place tapped on the map.
+  // 3. No Cut a path on anybody's row; the ways trodden on their own to everything the family places, drawn, round the trees.
   await asMain(page, father);
-  const icon = page.locator(`.panel-row[data-entity-id="${father}"] .panel-icon[data-key="cut-path"]`);
-  await icon.waitFor({ state: 'visible', timeout: 15000 }).catch(async error => {
-    const why = await page.evaluate(id => ({ keys: [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)].map(one => one.dataset.key), work: window.__snapshot.world.work[id]?.filter(entry => ['cut-path', 'fence-yard'].includes(entry.id)) }), father);
-    throw new Error(`${error.message}: ${JSON.stringify(why)}`);
-  });
-  observed.icon = await icon.getAttribute('data-summary');
-  await icon.click();
-  await page.locator('#survey-choose').waitFor({ state: 'visible' });
+  await page.locator(`.panel-row[data-entity-id="${father}"] .panel-icon[data-key="fence-yard"]`).waitFor({ state: 'visible', timeout: 15000 });
+  observed.rowKeys = await page.evaluate(() => [...document.querySelectorAll('.panel-row .panel-icon')].map(one => one.dataset.key));
+  assert.ok(observed.rowKeys.length > 0 && !observed.rowKeys.includes('cut-path'), `no Cut a path on any row: ${observed.rowKeys.join(', ')}`);
+  assert.ok(!(await page.evaluate(() => Object.values(window.__snapshot.world.work || {}).flat().some(entry => entry.id === 'cut-path'))), 'nor in the work the server sends');
+  ok(`no Cut a path on any row (${new Set(observed.rowKeys).size} kinds of icon on the rows)`);
+  const wanted = ['woodpile', 'stock-cattle', 'stock-hogs', ...plotsOf(world(), hh()).filter(plot => plot.state === 'cleared').map(plot => plot.id), ...(hh().site?.needsWell === false ? ['water'] : [])];
+  await page.waitForFunction(wanted => wanted.every(to => (window.__pathsDrawn || []).some(path => path.to === to && path.worn.length > 1)), wanted, { timeout: 30000 });
   await tipsAway(page);
-  await closeOn(page, { x: (SITE.x + ACROSS.x) / 2, y: (SITE.y + ACROSS.y) / 2 });
-  const target = await onPage(page, CUT_TO);
-  await page.mouse.click(target.x, target.y);
-  await page.waitForFunction(() => /A path of|The rest of the path/.test(document.querySelector('#survey-text')?.textContent || ''), null, { timeout: 15000 });
-  observed.chooser = { title: await page.locator('#survey-title').textContent(), text: await page.locator('#survey-text').textContent(), send: await page.locator('#survey-send').textContent() };
-  assert.match(observed.chooser.text, /trees? stands? in its way/);
-  await shot(page, 'chooser');
-  ok(`Cut a path from the bar (${observed.icon}); the place tapped says: "${observed.chooser.text}"`);
-  await page.locator('#survey-send').click();
-  await page.waitForFunction(() => (window.__snapshot?.world.land?.paths || []).some(path => path.kind === 'cut'), null, { timeout: 15000 });
-  await page.waitForTimeout(2500);
-  await shot(page, 'cutting');
-  await page.waitForFunction(() => { const path = (window.__snapshot?.world.land?.paths || []).find(one => one.kind === 'cut'); return path && path.cut === undefined; }, null, { timeout: 120000, polling: 200 });
-  const cut = hh().paths.find(path => path.kind === 'cut');
-  observed.cut = { points: cut.points, felled: Object.values(world().woods.felled).filter(one => one.by === 'hh-1').length };
-  assert.ok(observed.cut.felled > 0, 'trees came down for it');
-  // Walked home along it: every point walked keeps to the path.
-  const home = [];
-  for (let t = 0; t < 200 && home.length < 30; t++) {
-    const seen = await drawnFeet(page, father);
-    if (seen?.walked?.length > 1) home.push(seen);
-    if (home.length === 3) await shot(page, 'on-the-path');
-    await page.waitForTimeout(35);
-  }
-  assert.ok(home.length >= 2, `seen walking home (${home.length} frames)`);
-  // The way home keeps to the path until it turns off for the yard by the door.
-  // Every point of every tick's walk home, once each; and along it, at a sixty-fourth of a mile, how much lies on the path.
-  const walkedHome = [...new Map(home.flatMap(sample => sample.walked).map(point => [`${point.x},${point.y}`, point])).values()];
-  const along = [];
-  for (let i = 1; i < walkedHome.length; i++) { const a = walkedHome[i - 1], b = walkedHome[i], n = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / (1 / 64))); for (let k = 0; k < n; k++) along.push({ x: a.x + (b.x - a.x) * k / n, y: a.y + (b.y - a.y) * k / n }); }
-  // On a path: the one cut, or the trodden way to the water it was cut from.
-  const ways = hh().paths.map(path => path.points);
-  const onPath = along.filter(point => Math.min(...ways.map(points => offLine(point, points))) < 0.004).length;
-  observed.homeOnPath = `${onPath} of ${along.length} sixty-fourths of a mile`;
-  assert.ok(onPath >= along.length / 2, `the way home keeps to the paths (${observed.homeOnPath} on them)`);
-  assert.ok((await page.evaluate(() => window.__pathsDrawn.find(path => path.kind === 'cut')?.worn.length || 0)) > 1, 'the cut path is drawn');
-  ok(`the path is cut (${observed.cut.felled} trees felled onto the pile) and drawn; walked home along the paths, ${observed.homeOnPath} of the way on them`);
+  await closeOn(page, SITE);
+  await page.waitForFunction(wanted => wanted.every(to => (window.__pathsDrawn || []).some(path => path.to === to && path.worn.length > 1)), wanted, { timeout: 15000 });
+  await page.waitForTimeout(400);
+  await shot(page, 'ways');
+  const felledBefore = Object.values(world().woods?.felled || {}).filter(one => one.by === 'hh-1').length;
+  observed.ways = hh().paths.filter(path => path.kind === 'trodden').map(path => ({ to: path.to, points: path.points.length, trees: treesOver(path.points) }));
+  for (const to of wanted) assert.ok(observed.ways.some(way => way.to === to), `a way to ${to}`);
+  for (const way of observed.ways) assert.equal(way.trees, 0, `the way to ${way.to} runs over no standing tree`);
+  assert.ok(hh().members.every(id => world().entities[id].chore?.id !== 'cut-path'), 'nobody sent to cut one');
+  observed.felledForWays = felledBefore;
+  ok(`the ways trodden on their own and drawn: ${observed.ways.map(way => way.to).join(', ')} - every one round the trees, nobody sent`);
 
   // 4. Fence a yard from the bar, and a child at play inside it.
   const fence = page.locator(`.panel-row[data-entity-id="${father}"] .panel-icon[data-key="fence-yard"]`);
@@ -241,6 +244,20 @@ try {
   await page.waitForFunction(() => window.__yardDrawn?.fence === 'sound', null, { timeout: 15000 });
   observed.yard = { box: hh().yard, drawn: await page.evaluate(() => window.__yardDrawn) };
   ok(`Fence a yard from the bar${observed.yardTrees ? ` ("${observed.yardLine}"), its ${observed.yardTrees} trees felled first` : ""}: rails drawn round the house at ${JSON.stringify(observed.yard.drawn)}`);
+  // The gate left open in the rails, a way trodden to it, and every way out of the yard laid again through it, never over the rails.
+  const gate = yardGate(world(), hh());
+  await page.waitForFunction(() => (window.__pathsDrawn || []).some(path => path.to === 'yard-gate'), null, { timeout: 30000 });
+  for (let i = 0; i < 40 && hh().paths.some(path => path.kind === 'trodden' && !path.gate); i++) await page.waitForTimeout(300);
+  const yardNowBox = hh().yard;
+  observed.gate = { at: gate, drawn: (await page.evaluate(() => window.__yardDrawn)).gate };
+  observed.waysOut = hh().paths.filter(path => path.kind === 'trodden').map(path => ({ to: path.to, gate: path.gate === true, overRails: overRails(path.points, yardNowBox, gate).length, trees: treesOver(path.points) }));
+  assert.ok(observed.waysOut.some(way => way.to === 'yard-gate'), 'a way to the gate');
+  for (const way of observed.waysOut) {
+    assert.equal(way.gate, true, `the way to ${way.to} laid again with the rails up`);
+    assert.equal(way.overRails, 0, `the way to ${way.to} goes out through the gate, never over the rails`);
+  }
+  assert.equal(observed.gate.drawn?.length, 2, 'the gate left open in the drawn rails');
+  ok(`the yard's gate left open at ${JSON.stringify(observed.gate.drawn)}, a way trodden to it, and all ${observed.waysOut.length} ways laid through it, none over the rails`);
   await command(page, { action: 'stop-chore', entityId: child });
   const played = await command(page, { action: 'chore', entityId: child, chore: 'child-tag' });
   assert.equal(played.status, 200, JSON.stringify(played.body));
@@ -260,7 +277,7 @@ try {
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
   ok('no page errors');
   writeFileSync('docs/evidence/land-paths-browser.json', `${JSON.stringify({
-    record: 'Paths, the way round the trees and the fenced yard, in a browser (owner, 2026-10-02)',
+    record: 'Paths all automatic, the way round the trees and the fenced yard with its gate, in a browser (owner, 2026-10-02 and 2026-10-03)',
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
     note: 'Same computer only: headless Chrome at 1366x768. No Chromebook, LAN or classroom claim.',

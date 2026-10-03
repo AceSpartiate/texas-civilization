@@ -796,9 +796,11 @@ function postOak(ctx, x, y, size, tint = 0, lean = 0, gale = false) {
 // below that the procedural zigzag draws it, because a sprite scaled to four pixels is a
 // smear. The procedural weight is capped because `size` grows with the zoom, and an
 // uncapped rail becomes a wall across the field.
-function railFence(ctx, points, size, broken = false) {
+function railFence(ctx, points, size, broken = false, { open = false } = {}) {
+  // An open run of rails (`open`) has no rail from its last point back to its first: the yard's gate (`drawYardFence`).
+  const sides = open ? points.length - 1 : points.length;
   if (broken && hasSprite('fence-broken') && size > 20) {
-    for (let i = 0; i < points.length; i++) {
+    for (let i = 0; i < sides; i++) {
       const a = points[i], b = points[(i + 1) % points.length];
       const length = Math.hypot(b.x - a.x, b.y - a.y), count = Math.max(1, Math.ceil(length / (size * 1.4)));
       for (let n = 0; n < count; n++) {
@@ -810,7 +812,7 @@ function railFence(ctx, points, size, broken = false) {
     return;
   }
   if (hasSprite('fence-rail') && size > 20) {
-    for (let i = 0; i < points.length; i++) {
+    for (let i = 0; i < sides; i++) {
       const a = points[i], b = points[(i + 1) % points.length];
       const length = Math.hypot(b.x - a.x, b.y - a.y), count = Math.max(1, Math.ceil(length / (size * .7)));
       for (let n = 0; n < count; n++) {
@@ -824,7 +826,8 @@ function railFence(ctx, points, size, broken = false) {
   ctx.strokeStyle = '#8a6c46'; ctx.lineWidth = Math.max(1.2, Math.min(9, size * .09)); ctx.lineJoin = 'round';
   ctx.beginPath();
   points.forEach((point, index) => index ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
-  ctx.closePath(); ctx.stroke();
+  if (!open) ctx.closePath();
+  ctx.stroke();
   ctx.strokeStyle = '#b7955f'; ctx.lineWidth = Math.max(.7, Math.min(5, size * .05));
   ctx.stroke();
 }
@@ -3228,12 +3231,6 @@ function drawPlots(ctx, world, camera) {
       const at = camera.toScreen(plotPick.point), radius = plotJob === 'fell-trees' ? Math.max(6, camera.scale * 0.05) : Math.max(6, Math.min(40, camera.scale * 0.03));
       ctx.save(); ctx.setLineDash([6, 4]); ctx.lineWidth = 2; ctx.strokeStyle = plotPick.facts?.can ? '#b5452f' : '#8a8171';
       ctx.beginPath(); ctx.arc(at.x, at.y, radius, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
-    } else if (plotJob === 'cut-path') {
-      // The line the path would follow, from where the server says it begins (sim/land-paths.mjs `pathStart`), and a ring at its end.
-      const to = camera.toScreen(plotPick.point), from = plotPick.facts?.from ? camera.toScreen(plotPick.facts.from) : null;
-      ctx.save(); ctx.setLineDash([6, 4]); ctx.lineWidth = 2.5; ctx.strokeStyle = plotPick.facts?.can ? '#b5452f' : '#8a8171';
-      if (from) { ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(to.x, to.y); ctx.stroke(); }
-      ctx.beginPath(); ctx.arc(to.x, to.y, Math.max(5, camera.figure * .2), 0, Math.PI * 2); ctx.stroke(); ctx.restore();
     } else if (target) square(target, { stroke: plotPick.facts?.can ? '#b5452f' : '#8a8171', fill: plotPick.facts?.can ? 'rgba(181,69,47,.12)' : 'rgba(138,129,113,.12)', dash: [6, 4] });
   }
   window.__plotsDrawn = drawn;
@@ -3279,29 +3276,35 @@ function drawLandPaths(ctx, world, camera) {
       ctx.strokeStyle = 'rgba(107,79,42,.7)'; ctx.lineWidth = Math.max(1.2, width * .3); ctx.stroke();
     }
     ctx.restore();
-    drawn.push({ id: path.id, kind: path.kind, made: +made.toFixed(4), miles: +total.toFixed(4), worn: worn.length > 1 ? worn.map(camera.toScreen).map(p => ({ x: Math.round(p.x), y: Math.round(p.y) })) : [] });
+    drawn.push({ id: path.id, kind: path.kind, ...(path.to && { to: path.to }), made: +made.toFixed(4), miles: +total.toFixed(4), worn: worn.length > 1 ? worn.map(camera.toScreen).map(p => ({ x: Math.round(p.x), y: Math.round(p.y) })) : [] });
   }
   // Presentation evidence for the proofs (scripts/land-paths-browser-proof.mjs), read by nothing in the application.
   window.__pathsDrawn = drawn;
 }
-/** The yard's rails, drawn with the field's (`railFence`), over the woods; and where they were drawn, for the proofs. */
+/**
+ * The yard's rails, drawn with the field's (`railFence`), over the woods; and where they were drawn, for the proofs. While they stand
+ * the front rail is left open at the gate the server says the ways go out through (sim/land-paths.mjs `yardGate`, owner 2026-10-03,
+ * "All automatic"): the rails run round from one side of the gate to the other.
+ */
 function drawYardFence(ctx, world, camera) {
   const yard = !hostView(world) && world.land?.yard;
   window.__yardDrawn = null;
   if (!yard) return;
   const a = camera.toScreen({ x: yard.minX, y: yard.minY }), b = camera.toScreen({ x: yard.maxX, y: yard.maxY });
-  const corners = [{ x: a.x, y: a.y }, { x: b.x, y: a.y }, { x: b.x, y: b.y }, { x: a.x, y: b.y }];
+  const gate = yard.fence !== 'ruined' && yard.gate ? [camera.toScreen({ x: yard.gate.x + yard.gate.half, y: yard.maxY }), camera.toScreen({ x: yard.gate.x - yard.gate.half, y: yard.maxY })] : null;
+  // Round from the gate's one post (or the front corner where there is no gate) by the side, the back and the other side to its other.
+  const corners = gate ? [gate[0], { x: b.x, y: b.y }, { x: b.x, y: a.y }, { x: a.x, y: a.y }, { x: a.x, y: b.y }, gate[1]] : [{ x: a.x, y: a.y }, { x: b.x, y: a.y }, { x: b.x, y: b.y }, { x: a.x, y: b.y }];
   if (camera.scale > 40) {
     // The top rail as one line under the delivered rail pictures, so the yard reads as one enclosure and not a ring of marks.
     if (yard.fence !== 'ruined') {
       ctx.save(); ctx.lineJoin = 'round';
-      ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
+      ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); if (!gate) ctx.closePath();
       ctx.strokeStyle = 'rgba(110,82,50,.85)'; ctx.lineWidth = Math.max(1.5, Math.min(6, camera.figure * .07)); ctx.stroke();
       ctx.restore();
     }
-    railFence(ctx, corners, camera.figure, yard.fence === 'ruined');
+    railFence(ctx, corners, camera.figure, yard.fence === 'ruined', { open: Boolean(gate) });
   }
-  window.__yardDrawn = { fence: yard.fence, left: Math.round(a.x), top: Math.round(a.y), right: Math.round(b.x), bottom: Math.round(b.y) };
+  window.__yardDrawn = { fence: yard.fence, left: Math.round(a.x), top: Math.round(a.y), right: Math.round(b.x), bottom: Math.round(b.y), ...(gate && { gate: gate.map(p => ({ x: Math.round(p.x), y: Math.round(p.y) })) }) };
 }
 /**
  * A tree of the woods as it is drawn: its picture, the picture it borrows while its own is missing, and its height on the screen.
@@ -7524,8 +7527,6 @@ const PLOT_JOB_WORDS = {
   'fence-plot': { title: name => `Which plot ${name} fences`, hint: 'Tap one of your cleared plots to rail it in.', send: 'Fence it' },
   'fell-trees': { title: name => `Where ${name} fells`, hint: 'Tap timber on your land, inside the dashed line, to see what stands there to fell.', send: 'Fell there' },
   'hunt-land': { title: name => `Where ${name} hunts`, hint: 'Tap a place on your land, inside the dashed line, to see what game there is there.', send: 'Hunt there' },
-  // A path cut out to a place (owner, 2026-10-02; sim/land-paths.mjs): the line it would follow is drawn while the student looks.
-  'cut-path': { title: name => `Where ${name} cuts a path to`, hint: 'Tap a place on your land to see the path that would be cut to it from the house.', send: 'Cut the path' },
   // Each plot its own crop (owner, 2026-09-30): every bare plot unless one is tapped, and the crop is the button pressed.
   'plant-field': { title: name => `What ${name} plants`, hint: '', send: '' },
 };
@@ -7553,7 +7554,7 @@ function renderSurvey(world) {
   // A plot tapped on the map: what it is now - bare, growing, ripe or staked (owner, 2026-09-30).
   const tapped = plotFromMap ? pickedPlot(world) : null, stage = plotStage(tapped);
   const growingCrop = ['growing', 'ripe'].includes(stage) ? tapped.crop || 'corn' : null;
-  $('#survey-eyebrow').textContent = growingCrop ? 'FIELD' : plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : plotJob === 'cut-path' ? 'PATH' : plotJob === 'plant-field' ? 'PLANTING' : 'FENCING';
+  $('#survey-eyebrow').textContent = growingCrop ? 'FIELD' : plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : plotJob === 'plant-field' ? 'PLANTING' : 'FENCING';
   $('#survey-title').textContent = growingCrop ? `${CROP_WORD[growingCrop] || growingCrop} ${stage === 'ripe' ? 'ripe' : 'growing'}` : words.title(person.name);
   // Survey's facts say what the clearing would be; a plot's words already carry it. A refusal still names the plot.
   const surveyWork = plotJob === 'survey-plot' && facts?.spells ? ` Clearing it would be ${facts.spells} spells of work.` : '';
