@@ -951,7 +951,8 @@ on a families land."* The whole rule is docs/LAND_GRANTS.md §10; what it change
   own time, its logs onto the family's one pile (§6.7), and it wants the axe (§6.1). A path through the timber is the slow, log-giving
   kind; through the grass it is a few minutes' marking.
 - **A tree in front of somebody is drawn over them**, so a person among the trees is seen behind the ones nearer the viewer.
-- The yard does not fell the trees inside it (docs/LAND_GRANTS.md §10.3).
+- **Fencing the yard fells the trees standing inside it** (owner-decided 2026-10-03, "Auto kids; fell trees"; docs/LAND_GRANTS.md
+  §10.3): at felling's own time each, their logs onto the pile, before the rails; the yard's icon says how many, the hours and the logs.
 
 ## 7. Old saves
 

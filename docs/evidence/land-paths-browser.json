@@ -5,7 +5,7 @@
   "note": "Same computer only: headless Chrome at 1366x768. No Chromebook, LAN or classroom claim.",
   "checks": [
     "the family's trodden ways are drawn on its land: path-1 0.2252 mi, path-2 0.0764 mi",
-    "walked round the trees: 29 frames on her way drawn on the server's walked points (at worst 0 mi off), 19 of them on a bending way, none over a tree; trees in front drawn over her: 10",
+    "walked round the trees: 18 frames on her way drawn on the server's walked points (at worst 0 mi off), 14 of them on a bending way, none over a tree; trees in front drawn over her: 10",
     "Cut a path from the bar (Cut a path out from the house to a place you choose on the map, felling the trees in its way.); the place tapped says: \"A path of 0.09 of a mile beside the house, through 0.09 of a mile of timber. 13 trees stand in its way: 14 logs for the pile. About 4.5 hours of work.\"",
     "the path is cut (13 trees felled onto the pile) and drawn; walked home along the paths, 11 of 11 sixty-fourths of a mile of the way on them",
     "Fence a yard from the bar: rails drawn round the house at {\"fence\":\"sound\",\"left\":649,\"top\":260,\"right\":809,\"bottom\":409}",
@@ -59,6 +59,8 @@
       "felled": 13
     },
     "homeOnPath": "11 of 11 sixty-fourths of a mile",
+    "yardLine": "",
+    "yardTrees": 0,
     "yard": {
       "box": {
         "minX": 91.165,

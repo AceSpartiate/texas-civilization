@@ -21,12 +21,13 @@
 //      in the way (onto the pile, as felling does) and grubbing the brush. Walking a path is quicker than the open country and
 //      much quicker than timber or brush (`PATH_PACE`), and the way across the land prefers one.
 //   3. **The yard** (`household.yard`): rails round the house's own ground, from the same rails a plot's fence is split from,
-//      at half a plot's work (sim/chores.mjs `fence-yard`). The little ones' play stays inside it, and a child on their own
+//      at half a plot's work, felling the trees standing inside it at felling's own time (owner, 2026-10-03, "Auto kids; fell trees";
+//      sim/chores.mjs `fence-yard`). The little ones' play stays inside it, and a child on their own
 //      automation at home with a yard round them is half as often disobedient (sim/obedience.mjs `YARD_KEEPS`).
 //
 // Nothing here is stored that an old save lacks a correct empty value for: no paths, no yard, nobody part way along a way. So
 // **no save version moved.** A class saved with a house standing is trodden its paths on the first ticks after it opens, as a
-// family whose house has just gone up is. Every number here is the game's own (`FIC-GONZ-1100` to `-1094`).
+// family whose house has just gone up is. Every number here is the game's own (`FIC-GONZ-1100` to `-1104`).
 // ceiling: the grid is about 21 feet a side and a person is drawn about a hundred feet tall (sim/house-footprint.mjs
 // `PERSON_MILES`), so in open woods a figure still brushes the crowns it passes; the page draws a tree in front of somebody over
 // them (public/app.js `treesInFront`), which is what makes walking among trees read as among and not over.
@@ -761,21 +762,47 @@ export function yardRefusal(world, household, settled) {
   return null;
 }
 
+/** The ground a yard's rails go round: the yard as it stands when its rails were pulled down, else where one would go. */
+export const yardGround = (world, household) => { const was = yardOf(household); return was && was.fence === 'ruined' ? was : yardBox(world, household); };
+
 /**
- * The rails go up round the yard. A tree standing inside it is left standing - a dooryard shade tree - and not felled for nothing:
- * felling it is felling's work (found 2026-10-02: a house set in the timber took twenty-two trees and thirty-nine logs onto the pile
- * with four ticks of rail-splitting when the yard felled them).
+ * Every standing tree inside a box, from the patches the way-finding keeps (the very trees the map draws), nearest its middle
+ * first: the trees fencing the yard fells (owner, 2026-10-03, "Auto kids; fell trees").
  */
-export function raiseYard(world, household, entity) {
+export function treesInBox(world, box) {
+  if (!findsWays(world) || !box) return [];
+  const felled = world.woods?.felled || {}, found = [];
+  const middle = { x: (box.minX + box.maxX) / 2, y: (box.minY + box.maxY) / 2 };
+  for (let row = Math.floor(box.minY / TREE_MILES); row <= Math.floor(box.maxY / TREE_MILES); row++) {
+    for (let column = Math.floor(box.minX / TREE_MILES); column <= Math.floor(box.maxX / TREE_MILES); column++) {
+      const px = Math.floor(column / PER_PATCH), py = Math.floor(row / PER_PATCH), patch = patchOf(world, px, py);
+      const index = patch.cells[(row - py * PER_PATCH) * PER_PATCH + (column - px * PER_PATCH)];
+      if (index < 0) continue;
+      const tree = patch.trees[index];
+      if (felled[tree.id] || !inBox(box, tree.x, tree.y)) continue;
+      found.push(tree);
+    }
+  }
+  return found.sort((a, b) => dist(a, middle) - dist(b, middle) || a.id.localeCompare(b.id));
+}
+
+/**
+ * The rails go up round the yard. The trees that stood inside it are down by now, felled one at a time at felling's own time
+ * before the rails (owner, 2026-10-03, "Auto kids; fell trees"; sim/chores.mjs `fellYard`): never felled for nothing (found
+ * 2026-10-02: a version that felled them with the rails gave a house in the timber thirty-nine logs for four ticks of splitting).
+ * `felled` is what this person brought down for it, said in the line.
+ */
+export function raiseYard(world, household, entity, felled = { trees: 0, logs: 0 }) {
   const was = yardOf(household);
-  const box = was && was.fence === 'ruined' ? was : yardBox(world, household);
+  const box = yardGround(world, household);
   if (!box) return;
   household.yard = { minX: box.minX, minY: box.minY, maxX: box.maxX, maxY: box.maxY, fence: 'sound' };
+  const trees = felled.trees ? ` ${felled.trees === 1 ? 'A tree inside it came down' : `${felled.trees} trees inside it came down`}, and ${felled.logs === 1 ? 'one log went' : `${felled.logs} logs went`} onto the pile.` : '';
   record(world, 'property', {
     actorId: entity?.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-1103',
     text: was?.fence === 'ruined'
-      ? `${entity?.name || 'The family'} set the rails back up round the yard.`
-      : `${entity?.name || 'The family'} split rails and fenced a yard round the house. The little ones play inside it.`,
+      ? `${entity?.name || 'The family'} set the rails back up round the yard.${trees}`
+      : `${entity?.name || 'The family'} split rails and fenced a yard round the house.${trees} The little ones play inside it.`,
   });
 }
 

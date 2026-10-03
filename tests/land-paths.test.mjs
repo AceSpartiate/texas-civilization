@@ -8,7 +8,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { choreAvailability, choresFor, cutPathFacts, yardFacts, yardFenceBy } from '../sim/chores.mjs';
+import { choreAvailability, choresFor, cutPathFacts, yardFacts, yardFenceBy, yardTrees } from '../sim/chores.mjs';
+import { fellAndCarryTicks } from '../sim/felling.mjs';
+import { WORK_PACE } from '../sim/work-pace.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
 import { landAround } from '../sim/ground.mjs';
@@ -21,7 +23,7 @@ import { PLAY_REACH } from '../sim/children.mjs';
 import { setChildAuto } from '../sim/childhood.mjs';
 import { beginChore } from '../sim/chores.mjs';
 import {
-  PATH_PACE, YARD_SHARE, doorOf, landRoute, pathsOf, treeCellAt, treesInTheWay, walkLand, yardBox, yardMiddle,
+  PATH_PACE, YARD_SHARE, doorOf, landRoute, pathsOf, treeCellAt, treesInBox, treesInTheWay, walkLand, yardBox, yardMiddle,
 } from '../sim/land-paths.mjs';
 import { walkedFrom } from '../public/motion.js';
 
@@ -191,7 +193,7 @@ test('Cut a path: the trees in its way come down onto the pile, it wants an axe,
   validateWorld(JSON.parse(JSON.stringify(world)));
 });
 
-test('Fence a yard: half a plot\'s rails, refused before the house and without an axe, drawn on the land, pulled down in the Scrape', () => {
+test('Fence a yard: half a plot\'s rails and the trees inside felled at felling\'s time, refused before the house and without an axe, drawn on the land, pulled down in the Scrape', () => {
   const { world, household } = onTheLand();
   const worker = world.entities[household.principalId];
   assert.match(choreAvailability(world, household, worker, 'fence-yard').why, /Raise the house/);
@@ -210,13 +212,30 @@ test('Fence a yard: half a plot\'s rails, refused before the house and without a
   const greyed = choresFor(noAxe, noAxe.households[household.id], noAxe.entities[worker.id]).find(entry => entry.id === 'fence-yard');
   assert.equal(greyed?.can, false);
   assert.deepEqual(greyed.lack, { axe: [0, 1] });
-  // Fenced.
+  // The trees standing inside it (owner, 2026-10-03, "Auto kids; fell trees"): said on the bar and in the yard's words before anybody
+  // goes - how many, the hours more, the logs - and felled at felling's own time, their logs onto the pile, before the rails go up.
   const box = yardBox(world, household);
+  const inside = treesInBox(world, box), extra = yardTrees(world, household);
+  assert.ok(inside.length >= 3, `trees inside the yard: ${inside.length}`);
+  const line = choresFor(world, household, worker).find(entry => entry.id === 'fence-yard')?.estimate;
+  assert.match(line, new RegExp(`^${inside.length} trees inside: about .+ more, ${extra.logs} logs for the pile\\.$`));
+  assert.ok(yardFacts(world, household).words.endsWith(line), 'and in the yard\'s own words');
+  const logs = () => Object.values(household.logs || {}).reduce((sum, n) => sum + n, 0), before = logs();
   applyAction(world, household.id, { action: 'chore', entityId: worker.id, chore: 'fence-yard' });
-  let ticks = 0;
-  for (; ticks < 100 && worker.chore?.id === 'fence-yard'; ticks++) stepWorld(world);
+  let ticks = 0, railsBegun = null;
+  for (; ticks < 400 && worker.chore?.id === 'fence-yard'; ticks++) {
+    stepWorld(world);
+    if (railsBegun === null && /splitting rails|carrying rails|mesquite/.test(worker.chore?.doing || '')) railsBegun = ticks;
+  }
   assert.deepEqual(household.yard, { ...box, fence: 'sound' });
-  assert.ok(ticks <= yardFence.ticks + 3, `fenced in ${ticks} ticks`);
+  for (const tree of inside) assert.ok(world.woods.felled[tree.id], `${tree.id} felled`);
+  assert.deepEqual(treesInBox(world, box), [], 'nothing left standing inside the rails');
+  assert.equal(logs() - before, extra.logs, 'their logs onto the pile');
+  // Paid for: the felling took felling's time - at the quickest hand's pace and the family's, not less - before the rails were split.
+  const felling = extra.ticks * 0.7 * WORK_PACE;
+  assert.ok(railsBegun !== null && railsBegun >= Math.floor(felling), `the rails were begun after ${railsBegun} ticks of felling, where felling ${inside.length} trees takes ${felling}`);
+  assert.equal(extra.ticks, inside.reduce((sum, tree) => sum + fellAndCarryTicks(tree), 0));
+  assert.ok(world.events.some(event => /fenced a yard round the house\. \d+ trees inside it came down/.test(event.text)), 'said with the trees');
   assert.match(choreAvailability(world, household, worker, 'fence-yard').why, /The yard is fenced/);
   // No plot inside it, and the house within it.
   const home = world.map.sites[household.homeSiteId];
