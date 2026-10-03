@@ -142,7 +142,7 @@ Same computer only: no Chromebook, LAN or classroom claim.
   1.01, careless 5.24; 41 of 62 under six; measles 34 and whooping cough 18 still lead. HISTORY.md: `FIC-GONZ-041`, `-054`, `-477`,
   `-673`, `-674`, `-734` amended; no new claim IDs.
 
-**For the owner** (one real choice, the rest built as the rows recommend): *the deaths after 3.16.* (a) **Keep the retune, 3.12 in
+**Answered 2026-10-02: "Keep 3.1"** (the retune as built). **For the owner** (one real choice, the rest built as the rows recommend): *the deaths after 3.16.* (a) **Keep the retune, 3.12 in
 a hundred** (recommended: the owner's "about three", and babies carried by a family that pushes on now die as §3.6 meant);
 (b) the deeper cut, 2.97 (dying 0.35/0.5), which spares more of the older children and the grown than the babies; (c) no retune,
 3.52, if "about three" was meant loosely.
