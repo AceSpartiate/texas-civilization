@@ -215,7 +215,8 @@ export function landAround(box) { // eslint-disable-line no-unused-vars
     if (nearestWater(point, info => info.kind === 'creek', TIMBER_FROM_CREEK)) return 'timber';
     return grade(point) > BRUSH_GRADE ? 'brush' : 'open';
   };
-  land = { heightAt: terrain.heightAt, nearestWater, waterNear, crossings, grade, coverAt, nearCreek };
+  // `segmentsNear` is read by the way people find across their own land (sim/land-paths.mjs), which marks the water cell by cell.
+  land = { heightAt: terrain.heightAt, nearestWater, waterNear, crossings, grade, coverAt, nearCreek, segmentsNear };
   return land;
 }
 

@@ -18,6 +18,8 @@ export const PANEL_SUMMARIES = Object.freeze({
   'survey-plot': 'Walk out to a place you choose on your land and stake out ten acres.',
   'cut-lane': 'Cut the brush and timber out of the lane between the house and the road.',
   'dig-well': 'Dig down by the house until there is water, so nobody has to carry it from the creek.',
+  'cut-path': 'Cut a path out from the house to a place you choose on the map, felling the trees in its way.',
+  'fence-yard': 'Split rails and fence a yard round the house for the little ones to play in.',
   'plant-field': 'Put in corn to eat or cotton to sell, on every bare plot or one you choose on the map.',
   'harvest-field': 'Cut the crop on every ripe plot and carry it in: corn is food, cotton goes to the store.',
   'clear-plot': 'Grub, cut and break a staked plot you choose on the map so it can be planted.',
@@ -148,6 +150,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // Fetching logs from the timber uses registered `icon-fetch-logs`; the glyph is a load fallback.
   ['fetch-logs', { glyph: 'fetch-logs' }],
   ['make-carreta', { sprite: 'icon-make-carreta' }],
+  // A path and the yard (owner, 2026-10-02; sim/land-paths.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-10-02 "paths and the
+  // yard" - `icon-cut-path` and `icon-fence-yard`: until they are drawn, cutting the lane and fencing a plot, which they are kin to.
+  ['cut-path', { sprite: 'icon-cut-lane' }], ['fence-yard', { sprite: 'icon-fence-plot' }],
   // The house's rooms on the bar (owner, 2026-09-30, "Move Idle and House off"; public/app.js `HOUSE_ICON`). stand-in:
   // docs/ART_REQUESTS.md, request 2026-09-30 "the House icon on the bar" - `icon-go-inside`; until it is drawn, the house the family
   // raises, which it is.
@@ -182,7 +187,7 @@ export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-gua
  * until 2026-09-28; it is one press now, to the nearest timber on the family's land (owner: "I should be able to set one person on
  * felling trees ... set each to auto, and eventually get a house").
  */
-export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'plant-field']);
+export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'plant-field', 'cut-path']);
 /**
  * Work that glows as another on the row (sim/chores.mjs `partOf`): fetching logs from off the land, which *Fell trees* begins for a
  * family whose land has no timber, and the retired haul of a class saved in the middle of one, are both felling.

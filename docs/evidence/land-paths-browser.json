@@ -1,0 +1,86 @@
+{
+  "record": "Paths, the way round the trees and the fenced yard, in a browser (owner, 2026-10-02)",
+  "date": "2026-10-03",
+  "verdict": "PASS",
+  "note": "Same computer only: headless Chrome at 1366x768. No Chromebook, LAN or classroom claim.",
+  "checks": [
+    "the family's trodden ways are drawn on its land: path-1 0.2252 mi, path-2 0.0764 mi",
+    "walked round the trees: 29 frames on her way drawn on the server's walked points (at worst 0 mi off), 19 of them on a bending way, none over a tree; trees in front drawn over her: 10",
+    "Cut a path from the bar (Cut a path out from the house to a place you choose on the map, felling the trees in its way.); the place tapped says: \"A path of 0.09 of a mile beside the house, through 0.09 of a mile of timber. 13 trees stand in its way: 14 logs for the pile. About 4.5 hours of work.\"",
+    "the path is cut (13 trees felled onto the pile) and drawn; walked home along the paths, 11 of 11 sixty-fourths of a mile of the way on them",
+    "Fence a yard from the bar: rails drawn round the house at {\"fence\":\"sound\",\"left\":649,\"top\":260,\"right\":809,\"bottom\":409}",
+    "a child at tag stays inside the yard's rails: 40 frames, all inside",
+    "no page errors"
+  ],
+  "observed": {
+    "camera": {
+      "kind": "home",
+      "scale": 2131.5789473684213,
+      "named": true,
+      "cx": 91.29795803795332,
+      "cy": 44.72573555953415,
+      "following": false,
+      "watching": null,
+      "figure": 40.5,
+      "house": {
+        "size": 133.65,
+        "one": false
+      }
+    },
+    "trodden": [
+      {
+        "id": "path-1",
+        "miles": 0.2252
+      },
+      {
+        "id": "path-2",
+        "miles": 0.0764
+      }
+    ],
+    "walkedOff": 0,
+    "inFront": 10,
+    "icon": "Cut a path out from the house to a place you choose on the map, felling the trees in its way.",
+    "chooser": {
+      "title": "Where Jethro cuts a path to",
+      "text": "A path of 0.09 of a mile beside the house, through 0.09 of a mile of timber. 13 trees stand in its way: 14 logs for the pile. About 4.5 hours of work.",
+      "send": "Cut the path"
+    },
+    "cut": {
+      "points": [
+        {
+          "x": 91.2432,
+          "y": 44.6503
+        },
+        {
+          "x": 91.33,
+          "y": 44.683
+        }
+      ],
+      "felled": 13
+    },
+    "homeOnPath": "11 of 11 sixty-fourths of a mile",
+    "yard": {
+      "box": {
+        "minX": 91.165,
+        "minY": 44.755,
+        "maxX": 91.24,
+        "maxY": 44.825,
+        "fence": "sound"
+      },
+      "drawn": {
+        "fence": "sound",
+        "left": 649,
+        "top": 260,
+        "right": 809,
+        "bottom": 409
+      }
+    }
+  },
+  "shots": [
+    "docs/evidence/land-paths-round-the-trees.png",
+    "docs/evidence/land-paths-chooser.png",
+    "docs/evidence/land-paths-cutting.png",
+    "docs/evidence/land-paths-on-the-path.png",
+    "docs/evidence/land-paths-yard.png"
+  ]
+}

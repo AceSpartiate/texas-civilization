@@ -328,8 +328,13 @@ export const STEPS = Object.freeze([
   },
 ]);
 
+/**
+ * Farm work no step names, held back on every step all the same until the lesson is over (owner, 2026-10-02; sim/land-paths.mjs):
+ * cutting a path and fencing the yard. A student taught one farm task at a time is not also offered the land's improvements.
+ */
+export const LATER_WORK = Object.freeze(['cut-path', 'chore:cut-path', 'chore:fence-yard']);
 /** Every action id the lesson knows about: what a family is told it may do once the lesson is over. */
-export const ALL_ACTIONS = Object.freeze([...new Set([...ALWAYS, ...STEPS.flatMap(step => step.allow())])]);
+export const ALL_ACTIONS = Object.freeze([...new Set([...ALWAYS, ...STEPS.flatMap(step => step.allow()), ...LATER_WORK])]);
 
 /**
  * Work a step names that the lesson never holds back on any step (2026-09-28): going to town, where food and remedies are
@@ -347,7 +352,7 @@ export const NEVER_HELD = Object.freeze(['chore:visit-shop', 'hunt-land', 'chore
  * steps and most of it will not wait. Built from `STEPS`, so a step's new work is held back the day it is added. The `order`
  * step's list is every work there is (`ANY_WORK`) and is not a farm step's own: it is left out.
  */
-export const FARM_WORK = Object.freeze([...new Set(STEPS.filter(step => step.id !== 'order').flatMap(step => step.allow()))].filter(id => !NEVER_HELD.includes(id)));
+export const FARM_WORK = Object.freeze([...new Set([...STEPS.filter(step => step.id !== 'order').flatMap(step => step.allow()), ...LATER_WORK])].filter(id => !NEVER_HELD.includes(id)));
 
 /** What this step holds back: every farm step's work that is not its own. */
 const shutBy = (step, world, household) => { const own = new Set(step.allow(world, household)); return FARM_WORK.filter(id => !own.has(id)); };

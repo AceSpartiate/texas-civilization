@@ -169,6 +169,7 @@
     "test:read-aloud-injections": "node scripts/read-aloud-injections.mjs",
     "test:web-setup": "node scripts/verify-web-setup.mjs",
     "test:web-setup-injections": "node scripts/web-setup-injections.mjs",
-    "measure:voice-burst": "node scripts/voice-burst.mjs"
+    "measure:voice-burst": "node scripts/voice-burst.mjs",
+    "test:land-paths": "node scripts/land-paths-browser-proof.mjs"
   }
 }

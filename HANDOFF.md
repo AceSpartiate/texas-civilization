@@ -1,5 +1,93 @@
 # Claude handoff — Astra foundation
 
+## Paths, nobody walking over a tree, and the fenced yard — owner-decided 2026-10-02 (not released)
+
+Branch `land-paths` off local `integration-2026-09-28` (c88a6ddb); not pushed. Same computer only: headless Chrome at 1366x768; no
+Chromebook, LAN or classroom claim. The owner, verbatim: *"it's weird seeing characters walk over trees. paths should be cut to
+facilitate quick, reasonable movement on a families land. there should be an option to fence in a yard too. if there's a fenced in
+yard then kids on auto play will not be disobedient as often."* The whole rule: docs/LAND_GRANTS.md §10, docs/WOODS_AND_BUILDING.md
+§6.11, docs/CHILDREN.md §13; claims `FIC-GONZ-1090` to `-1094` (a block clear of the parallel builders').
+
+**What a student sees**
+
+- **Nobody walks over a tree.** Everybody walked about the family's own land - out to survey, clear, fence, plant, fell, hunt, cut a
+  path, and home to the yard - goes round the standing trees (the very trees the map draws, one cell of the woods' grid each), the
+  rivers and the house, and keeps to a path where one helps. The page draws them along the exact points the server walked them
+  (`walked`, a tick's worth), never the straight line between ticks, and draws a tree in front of somebody over them, so a person in
+  the woods is seen among the trees and behind the near ones. Where the only way is through the timber (to fell, to the hunt's
+  places) the way goes between the trunks.
+- **Paths.** Once the house stands the family treads a way from the door to running water near enough to carry and to every cleared
+  plot (and to each plot cleared later), drawn as a trodden-earth line. **Cut a path** (the bar; tap a place on the map, as for
+  felling) cuts a straight path out from the house, a path or the lane: the chooser draws the line and says *"A path of 0.09 of a mile
+  beside the house, through 0.09 of a mile of timber. 13 trees stand in its way: 14 logs for the pile. About 4.5 hours of work."*;
+  the trees in its way are felled at felling's time onto the pile and the brush grubbed out; it wants the axe (greyed with it where
+  there is none). Walking a path takes 0.8 of open ground's time (timber 1.3, brush 1.6).
+- **Fence a yard** (the bar, once the house stands): rails round the house's drawn ground and the dooryard before it, cut back from the
+  field; half a plot fence's work and logs by the country, never under two ticks; wants the axe. Drawn as swept earth in a rail fence.
+  **A child on auto at home with the yard fenced dawdles, wanders off and switches auto off half as often** (at a roll of 1: 30 → 15
+  in 100 jobs, 6 → 3 and 5 → 2.5 in 100 a tick), and **play stays inside the rails**, on the server and on the page.
+
+**Design decisions made here** (recommended in the brief, or the honest reading): paths a few trodden by use and more cut as work (a
+family wears a way by using it; a way through timber is felling); trees inside a fenced yard left standing (a version that felled
+them gave a house in the timber 39 logs for four ticks of rail-splitting); the yard keeps children on auto only (the owner's words);
+cutting and fencing the yard held back during the guided start (`LATER_WORK`); the yard and path chores are not repeated by auto.
+
+**Built**: new `sim/land-paths.mjs`; `sim/survey.mjs` (`stroll` → `walkLand`, `strollTarget('pathFront')`), `sim/chores.mjs`
+(`cut-path`, `fence-yard`, the `cutPath` step, `work: 'yard'`, `raise: 'yard'`, `walk`/`stalk` through `stepTo`, `cutPathFacts`,
+`yardFacts`, `yardFenceBy`), `sim/world.mjs` (`cut-path` action, `advanceLandPaths` in the tick, `walked` and `land.paths`/`land.yard`
+on the projection, validation), `sim/obedience.mjs` (`YARD_KEEPS`, `keptByYard`), `sim/children.mjs` (play kept in the yard),
+`sim/improvements.mjs` (the Scrape pulls the yard's rails down), `sim/lesson.mjs` (`LATER_WORK`), `sim/ground.mjs` (`segmentsNear` on
+the land), `server/app.mjs` (`/api/plot?job=cut-path`); page `public/motion.js` (`walkedFrom`, `walkingShare`), `public/app.js`
+(`drawLandPaths`, `drawYardFence`, `treesInFront`, `treeLook`, the cut-path chooser and its line, separation eased in at a walk's end,
+nobody inside the yard drawn out of it), `public/woods-view.js` (`treesNear`), `public/map-base.js` (the ground's key),
+`public/family-panel.js` (sentences, stand-in icons, `ON_MAP`), `public/work-art.js` (the two works drawn). **No save version moved**:
+no paths, no yard, nobody part way along a way are the correct empty values; a class saved with houses standing has its ways trodden
+on its first ticks. Stand-ins: docs/ART_REQUESTS.md *Request 2026-10-02 — paths and the yard* (`icon-cut-path`, `icon-fence-yard`, a
+trodden-path tile), plan item B16.
+
+**Cost**: a way is found once for each place a person sets out for - 1.5 to 7 ms on average and about 45 ms at worst on three
+families of one class, measured on this machine; the page reads only the tree tiles under each person on the land each frame.
+
+**Evidence**:
+
+- New `tests/land-paths.test.mjs` (7 tests: the way round the trees, walked and drawn along the points walked and carried on the
+  projection for its tick only; a path quicker than the same line cleared of its trees and kept to; the ways trodden once the house
+  stands, round the trees, laid once, an old save with none; *Cut a path* - the trees in its way felled onto the pile, refused without
+  an axe with the axe it lacks, held back in the lesson, too near, off the land, there already; *Fence a yard* - half a plot's rails,
+  refused before the house and without an axe (greyed with it), drawn, pulled down in the Scrape; a child on auto with the yard half
+  as often disobedient, measured over 4,000 ticks against the die's own rates, and only on auto with sound rails; play kept inside the
+  rails). `node scripts/land-paths-injections.mjs`: **16 of 16** caught, 15 by their own test alone (the way-finding blind to trees
+  also fails the trodden ways, which are laid by it) - [record](docs/evidence/land-paths-injections.json).
+- `npm run test:land-paths` (7 checks; [record](docs/evidence/land-paths-browser.json); screenshots
+  `docs/evidence/land-paths-round-the-trees.png`, `-chooser.png`, `-cutting.png`, `-on-the-path.png`, `-yard.png`): the trodden
+  ways drawn; the mother sent across a stand of timber walks round it, drawn in 31 frames on the server's walked points, none of them
+  a standing tree's cell, with trees in front of her drawn over her; *Cut a path* from the bar and a tap, *"A path of 0.09 of a mile
+  beside the house, through 0.09 of a mile of timber. 13 trees stand in its way: 14 logs for the pile. About 4.5 hours of work."*, 13
+  trees felled, the father home along the paths; *Fence a yard* from the bar, its rails drawn, a child at tag inside them in all 40
+  frames. `node scripts/land-paths-browser-injections.mjs`: **3 of 3** caught (the straight-line walk, no tree drawn in front, no
+  rails) - [record](docs/evidence/land-paths-browser-injections.json). The page's own clamp keeping a child drawn inside the rails is
+  a guard this proof does not reach (removing it, the proof passed): said in the script.
+- Changed for the rule, not weakened: tests/family-commands.test.mjs (*Cut a path* is chosen on the map, like felling, so the idle
+  test skips it with the others); tests/family-roll.test.mjs (the per-person tick bound 1,160 → 1,215: the two new works on every
+  grown person's row, measured 1,197; the kin carried twice still breaks it); tests/work-art.test.mjs needed `WORK['cut-path']`,
+  `['fence-yard']`; tests/claude-standins.test.mjs needed plan item B16 (`node scripts/claude-art/write-plan.mjs`).
+- `npm test`: **2066 tests, 2030 pass, 0 fail, 36 skipped**. Browser, green: `test:land-paths`, `test:farm`, `test:children` 16,
+  `test:movement`, `test:travel-drawn`, `test:field-click` 18, `test:family-panel` (red once on its touch-screen Send tap, green on
+  the rerun), `test:auto` 14 (red once at the reaper's row, green on the rerun). **`test:overlap` red** at 1024x600, *"ability bar and
+  town scene share 80x94px ... Milk the cow ... under town scene"*: the same three findings with *Cut a path* and *Fence a yard*
+  hidden from every row, so it is not this branch's (the milking's bar on integration); left for its builder.
+  `node scripts/check-doc-links.mjs` clean.
+
+**Owner questions** (multiple choice, recommended first)
+
+1. *How much a fenced yard calms a child on auto:* (a) **half as often disobedient, as built**; (b) a third as often; (c) a quarter.
+2. *Whom the yard calms:* (a) **children on their own automation, as you said, as built**; (b) every small child at home inside it,
+   told what to do or not.
+3. *Trees standing inside the yard when it is fenced:* (a) **left standing, as built** - felling them is felling's work; (b) felled
+   with the fencing, their logs onto the pile, the fencing taking their felling time too.
+4. *A path cut through thick timber* (e.g. 25 trees in a fifth of a mile, about 15 hours): (a) **at felling's own time, giving
+   felling's logs, as built**; (b) half that time, the path's narrow line counted lighter than felling.
+
 ## Milking the cow, and the owner's four food answers — owner-decided 2026-10-02 (not released)
 
 Branch `milking` off local `integration-2026-09-28` (ba1ece77, with food-sources, tier3-road, tier3-sick and carry-kids); not pushed.

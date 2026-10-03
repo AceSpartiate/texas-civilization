@@ -37,6 +37,16 @@ const along = ([low, high], roll) => low + (high - low) * (Math.min(OBEDIENCE_DI
 export const dawdleChance = roll => along(OBEDIENCE_RATES.dawdle, roll);
 export const wanderChance = roll => along(OBEDIENCE_RATES.wander, roll);
 export const autoOffChance = roll => along(OBEDIENCE_RATES.autoOff, roll);
+/**
+ * A fenced yard (owner, 2026-10-02: "if there's a fenced in yard then kids on auto play will not be disobedient as often"; sim/land-paths.mjs,
+ * docs/CHILDREN.md §13, `FIC-GONZ-1094`): a child on their own automation at home, with rails round the yard, dawdles, wanders off
+ * and switches their automation off **half as often** as the same child without one. Every rate of the die times this, so the die
+ * stays a straight line and a harder child is still harder. A child told what to do by the student is as they always were.
+ */
+export const YARD_KEEPS = 0.5;
+/** Whether a yard keeps this child: on their own automation, at home and not on a road, and the family's yard fenced. */
+export const keptByYard = (household, entity) => entity?.auto === true && household?.yard?.fence === 'sound' && !entity.travel && entity.location?.siteId === household.homeSiteId;
+const keepOf = (world, entity) => (keptByYard(world.households?.[entity.householdId], entity) ? YARD_KEEPS : 1);
 /** How long a child dawdles before starting, in ticks: two for the lower half of the die, one for the upper. */
 export const dawdleTicks = roll => (roll <= OBEDIENCE_DIE / 2 ? 2 : 1);
 
@@ -55,7 +65,7 @@ export function beginsJob(world, household, entity, doing) {
   const state = entity.chore;
   if (!state) return;
   const roll = obedienceOf(world, entity);
-  if (stirredShare(world, entity.id, `dawdle:${world.tick}:${state.id}`) >= dawdleChance(roll)) return;
+  if (stirredShare(world, entity.id, `dawdle:${world.tick}:${state.id}`) >= dawdleChance(roll) * keepOf(world, entity)) return;
   state.dawdle = dawdleTicks(roll);
   state.doing = 'dawdling instead of starting';
   record(world, 'consequence', {
@@ -65,6 +75,6 @@ export function beginsJob(world, household, entity, doing) {
 }
 
 /** Whether a child at a job wanders off from it this tick: a stirred share of the class, the child and the tick, against their roll. */
-export const wandersOff = (world, entity) => stirredShare(world, entity.id, `wander:${world.tick}`) < wanderChance(obedienceOf(world, entity));
+export const wandersOff = (world, entity) => stirredShare(world, entity.id, `wander:${world.tick}`) < wanderChance(obedienceOf(world, entity)) * keepOf(world, entity);
 /** Whether a child on their own automation switches it off this tick (sim/childhood.mjs). */
-export const tiresOfAuto = (world, entity) => stirredShare(world, entity.id, `auto-off:${world.tick}`) < autoOffChance(obedienceOf(world, entity));
+export const tiresOfAuto = (world, entity) => stirredShare(world, entity.id, `auto-off:${world.tick}`) < autoOffChance(obedienceOf(world, entity)) * keepOf(world, entity);

@@ -35,7 +35,8 @@ export function groundInputs(world) {
   let kept = groundOfWorld.get(world);
   if (kept !== undefined) return kept;
   const host = world.role === 'host';
-  const landOf = land => land ? [land.plots || null, land.grant || null, land.lane || null, land.choosingSite ?? null] : null;
+  // The family's paths and its yard are drawn in the ground too (owner, 2026-10-02; sim/land-paths.mjs).
+  const landOf = land => land ? [land.plots || null, land.grant || null, land.lane || null, land.choosingSite ?? null, land.paths || null, land.yard || null] : null;
   const lands = host
     ? Object.entries(world.overview?.lands || {}).sort(([a], [b]) => a.localeCompare(b)).map(([id, land]) => [id, land.homeSiteId || null, land.field || null, landOf(land)])
     : [[world.householdId || null, world.household?.homeSiteId || null, world.household?.field || null, landOf(world.land)]];

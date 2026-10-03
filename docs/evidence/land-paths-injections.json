@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-03",
+  "files": [
+    "tests/land-paths.test.mjs"
+  ],
+  "caught": 16,
+  "of": 16,
+  "results": [
+    {
+      "injection": "the way-finding does not see the trees (people walk over them, as before)",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a way across the family's land goes round the standing trees, and the person walks it, drawn along the points walked",
+        "once the house stands the family treads a way to its water and its plots; a class saved with none opens with none and validates"
+      ]
+    },
+    {
+      "injection": "the page draws a land walk as the straight line between ticks, not the points walked",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a way across the family's land goes round the standing trees, and the person walks it, drawn along the points walked"
+      ]
+    },
+    {
+      "injection": "the projection does not carry the points walked",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a way across the family's land goes round the standing trees, and the person walks it, drawn along the points walked"
+      ]
+    },
+    {
+      "injection": "a path is no quicker than the open ground",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "walking a path is quicker than the country it crosses, and the way found keeps to it"
+      ]
+    },
+    {
+      "injection": "the way-finding does not know where the paths run",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "walking a path is quicker than the country it crosses, and the way found keeps to it"
+      ]
+    },
+    {
+      "injection": "no way is trodden when the house stands",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "once the house stands the family treads a way to its water and its plots; a class saved with none opens with none and validates"
+      ]
+    },
+    {
+      "injection": "a trodden way is laid straight over the trees",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "once the house stands the family treads a way to its water and its plots; a class saved with none opens with none and validates"
+      ]
+    },
+    {
+      "injection": "cutting a path walks past the trees in its way and fells none",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Cut a path: the trees in its way come down onto the pile, it wants an axe, it is held back in the lesson, and it is walked"
+      ]
+    },
+    {
+      "injection": "a path through the timber is cut without an axe",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Cut a path: the trees in its way come down onto the pile, it wants an axe, it is held back in the lesson, and it is walked"
+      ]
+    },
+    {
+      "injection": "the lesson does not hold back paths and the yard",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Cut a path: the trees in its way come down onto the pile, it wants an axe, it is held back in the lesson, and it is walked"
+      ]
+    },
+    {
+      "injection": "a yard costs a whole plot's fence",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Fence a yard: half a plot's rails, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+      ]
+    },
+    {
+      "injection": "the yard is fenced without an axe",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Fence a yard: half a plot's rails, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+      ]
+    },
+    {
+      "injection": "the Scrape's burning leaves the yard's rails standing",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Fence a yard: half a plot's rails, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+      ]
+    },
+    {
+      "injection": "a fenced yard does nothing for a child's obedience",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a child on auto at home with a fenced yard is disobedient half as often, and only then"
+      ]
+    },
+    {
+      "injection": "the yard keeps a child told what to do as well as one on auto",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a child on auto at home with a fenced yard is disobedient half as often, and only then"
+      ]
+    },
+    {
+      "injection": "play is not kept inside the yard",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the little ones at play keep inside the fenced yard"
+      ]
+    }
+  ]
+}

@@ -430,3 +430,32 @@ small children at home) were not asked again: seven, and a warning, as built.
   east, and at the refuge the families camped there take them in; a neighbour's wagon turning in for them is the way out.
 
 Evidence: HANDOFF.md, "Small children until the day ends; follow and watch (not released)".
+
+---
+
+## 13. Amendment, 2026-10-02 — the fenced yard
+
+The owner, 2026-10-02: *"there should be an option to fence in a yard too. if there's a fenced in yard then kids on auto play will not
+be disobedient as often."* The yard itself - where it goes, what it costs, how it is drawn - is docs/LAND_GRANTS.md §10.3
+(sim/land-paths.mjs). What it changes for the little ones (`FIC-GONZ-1094`):
+
+- **Half as often disobedient** (`YARD_KEEPS` 0.5, sim/obedience.mjs `keptByYard`): a child of two to nine **on their own
+  automation**, at home and not on a road, with sound rails round the family's yard, dawdles, wanders off from a job and switches
+  their automation off half as often as the same child without one. Every rate of the die (§4) is multiplied, so the die stays a
+  straight line and a harder child is still harder:
+
+  | Effect | At a roll of 1, no yard → yard | At a roll of 20, no yard → yard |
+  | --- | --- | --- |
+  | Dawdling before a job | 30 → 15 in 100 jobs | 2 → 1 in 100 |
+  | Wandering off from a job | 6 → 3 in 100 a tick | 1 in 500 → 1 in 1,000 a tick |
+  | Switching their automation off | 5 → 2.5 in 100 a tick | 1 in 500 → 1 in 1,000 a tick |
+
+  So the hardest child on auto keeps at it about forty ticks on average before tiring of it, where it kept at it about twenty. A child
+  the student told what to do is as they always were: the owner's words are about kids on auto, and a child sent to the eggs by hand
+  is doing as they are told. The roll stays hidden; nothing on any wire changes but the yard itself.
+- **Play stays inside the yard** (sim/children.mjs `playStep`, sim/land-paths.mjs `keepInYard`): every kind of play is begun inside
+  the rails and kept there - tag, the stick horse, the hoop down the lane and back, hiding behind the house - and the page never draws
+  a child the server has inside the yard out over the fence (public/app.js `drawEntity`). That is the yard's effect, seen: the little
+  ones in the fenced dooryard, not scattered about the land. No line says so.
+- `ceiling:` the yard keeps a child on auto at home wherever on the land their job puts them; a job never takes a small child out of
+  the yard today (the children's jobs are done where they stand), so a rule by where they stand would read the same.

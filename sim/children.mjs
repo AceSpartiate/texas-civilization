@@ -57,6 +57,8 @@ import { BABY_UNDER } from './furniture.mjs';
 import { share, stirredShare } from './shares.mjs';
 // Whether a child starts a job at once (sim/obedience.mjs, docs/CHILDREN.md §4): rolled as the job is given.
 import { beginsJob } from './obedience.mjs';
+// The family's fenced yard, which the little ones' play keeps inside (owner, 2026-10-02; sim/land-paths.mjs).
+import { keepInYard } from './land-paths.mjs';
 import { dayInvalid } from './child-day.mjs';
 
 const DAY = 1440;
@@ -320,6 +322,8 @@ export function playStep(world, household, entity) {
   const home = world.map.sites[household.homeSiteId];
   // Tag and hiding are played where the others are: one spot of the yard for the whole family. The rest begin where they stand.
   state.from ??= ['run', 'hide'].includes(kind.move) ? { x: r4(home.x - .012), y: r4(home.y + .026) } : { x: entity.location.x, y: entity.location.y };
+  // Inside the yard's rails, where there are any: the play is begun and kept there (owner, 2026-10-02).
+  state.from = keepInYard(household, state.from, PLAY_REACH * 0.5);
   const n = state.moves = (state.moves || 0) + 1;
   const turn = stirredShare(world, entity.id, `play-way:${state.began ?? 0}`) * Math.PI * 2;
   const ux = Math.cos(turn), uy = Math.sin(turn);
@@ -333,7 +337,7 @@ export function playStep(world, household, entity) {
     if (n <= 2) { dx = -uy * PLAY_REACH * 1.3; dy = ux * PLAY_REACH * 1.3; doing = n === 1 ? 'running off to hide' : 'hiding behind the house, very still'; }
     else doing = 'coming out to be found';
   } else { moves = n === 1; dx = ux * 0.004; dy = uy * 0.004; }
-  if (moves) entity.location = { x: r4(state.from.x + dx), y: r4(state.from.y + dy), siteId: household.homeSiteId };
+  if (moves) entity.location = { ...keepInYard(household, { x: r4(state.from.x + dx), y: r4(state.from.y + dy) }), siteId: household.homeSiteId };
   state.doing = doing;
 }
 

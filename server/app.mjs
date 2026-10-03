@@ -13,7 +13,7 @@ import { createWorld, stepWorld, projectPage, projectMap, applyAction, validateW
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
 import { beginNextPeriod, continueEnded, endedEarly, periodOf } from '../sim/periods.mjs';
 import { dateOf } from '../sim/directors.mjs';
-import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
+import { choreCatalogue, cutPathFacts, modeCatalogue } from '../sim/chores.mjs';
 import { GOODS } from '../sim/trade.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
 import { SUGGEST_JOBS, suggestPlaces } from '../sim/suggest.mjs';
@@ -1516,8 +1516,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (!identity.householdId) return json(res, 403, { error: 'Only a family surveys its land.' });
         const household = state.world.households[identity.householdId];
         const point = { x: Number(url.searchParams.get('x')), y: Number(url.searchParams.get('y')) }, job = url.searchParams.get('job');
-        // Or what a hunt there would find (sim/hunting.mjs).
-        return json(res, 200, { mapId: mapKey(), facts: job === 'hunt-land' ? huntFacts(state.world, household, point) : job === 'fell-trees' ? fellFacts(state.world, household, point) : plotFacts(state.world, household, point, job) });
+        // Or what a hunt there would find (sim/hunting.mjs), or a path cut out to it (sim/land-paths.mjs, owner 2026-10-02).
+        return json(res, 200, { mapId: mapKey(), facts: job === 'hunt-land' ? huntFacts(state.world, household, point) : job === 'fell-trees' ? fellFacts(state.world, household, point) : job === 'cut-path' ? cutPathFacts(state.world, household, point) : plotFacts(state.world, household, point, job) });
       }
       // One tile of the woods (sim/woods-view.mjs): the land itself, the same for everybody, so no family is needed to ask.
       if (req.method === 'GET' && url.pathname === '/api/woods') {

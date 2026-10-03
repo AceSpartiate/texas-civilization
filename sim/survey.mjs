@@ -17,7 +17,8 @@
 import { record } from './events.mjs';
 import { TOOL_LIFE } from './tools.mjs';
 import { distanceToPolyline } from './terrain.mjs';
-import { COVER_PACE, landAround, onRealLand } from './ground.mjs';
+import { landAround, onRealLand } from './ground.mjs';
+import { pathFront, walkLand } from './land-paths.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
 import { housesOnLand } from './house-placement.mjs';
@@ -28,8 +29,6 @@ export { PLOT_ACRES, PLOT_SIDE, groundAt, plotsOf } from './fields.mjs';
 
 /** A plot comes no nearer the house than this: the yard, the woodpile and the path to the door. */
 export const YARD_MILES = 0.04;
-/** Walking about one's own land, in miles a tick: the pace of the road on foot (sim/travel.mjs `WALK_SPEED`). */
-const STROLL_MILES = 1;
 
 const round = (value, places = 3) => { const fixed = +value.toFixed(places); return fixed === 0 ? 0 : fixed; };
 
@@ -185,6 +184,8 @@ export function fieldRound(world, household, ids = null) {
 export function strollTarget(world, household, entity, towards) {
   if (towards === 'plot') return entity.chore?.plot || null;
   if (towards === 'ground') return entity.chore?.ground || null;
+  // Out to where the cutting of a path has got (sim/land-paths.mjs, *Cut a path*).
+  if (towards === 'pathFront') return pathFront(household, entity.chore?.pathId);
   if (towards === 'fields') {
     const next = fieldRound(world, household, entity.chore?.plots || null)[entity.chore?.visited || 0];
     return next ? { x: next.x, y: next.y } : null;
@@ -197,21 +198,11 @@ export const moreFields = (world, household, entity) => (entity.chore?.visited |
 
 /**
  * One tick's walk about the family's own land: towards the place, at walking pace, slower through timber and brush on the
- * real land. The person never leaves home (`siteId` stays), because they never leave their own land. Returns true on arrival.
+ * real land and quicker on a path, round the trees, the water and the houses (sim/land-paths.mjs `walkLand`, owner 2026-10-02:
+ * "it's weird seeing characters walk over trees"). The person never leaves home (`siteId` stays), because they never leave their
+ * own land. Returns true on arrival.
  */
-export function stroll(world, household, entity, target) {
-  const here = entity.location, dx = target.x - here.x, dy = target.y - here.y, left = Math.hypot(dx, dy);
-  const ground = onRealLand(world) ? groundAt(world, here) : 'prairie';
-  const step = STROLL_MILES / (COVER_PACE.foot[ground === 'prairie' ? 'open' : ground] || 1);
-  if (left <= step) {
-    entity.location = { x: target.x, y: target.y, siteId: household.homeSiteId };
-    entity.exertion = Math.round(((entity.exertion || 0) + left) * 10000) / 10000;
-    return true;
-  }
-  entity.location = { x: round(here.x + dx * step / left, 4), y: round(here.y + dy * step / left, 4), siteId: household.homeSiteId };
-  entity.exertion = Math.round(((entity.exertion || 0) + step) * 10000) / 10000;
-  return false;
-}
+export const stroll = (world, household, entity, target) => walkLand(world, household, entity, target);
 
 /** The stakes go in: the plot exists, staked and uncleared, unless somebody took the ground while this person walked out. */
 export function stakePlot(world, household, entity) {

@@ -180,9 +180,12 @@ export function ruin(world, household, kinds, { by = null, text = null, visibili
     }
     if (kind === 'fence') {
       // Rails come down round every plot that had them.
+      // And round the yard (owner, 2026-10-02; sim/land-paths.mjs): the rails are pulled down, the ground it took in is still there.
       const standing = clearedPlots(household).filter(plot => plot.fence === 'sound');
-      if (!standing.length) continue;
+      const yard = household.yard?.fence === 'sound';
+      if (!standing.length && !yard) continue;
       for (const plot of keepPlots(world, household)) if (plot.fence === 'sound') plot.fence = 'ruined';
+      if (yard) household.yard = { ...household.yard, fence: 'ruined' };
       ruined.push('fence');
       continue;
     }
