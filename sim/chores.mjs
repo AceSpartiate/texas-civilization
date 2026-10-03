@@ -1227,7 +1227,7 @@ const horseHome = (world, household, entity) => !userOf(world, household, 'horse
   && beastsOf(world, household, 'horse').some(beast => kept(beast) && !beast.travel && beast.location?.siteId === household.homeSiteId && (!beast.borrowedBy || beast.borrowedBy === entity?.id));
 const hasHerd = household => herdOf(household).cattle + herdOf(household).hogs > 0;
 CHORES['look-to-stock'] = {
-  name: 'Ride the range after the stock', skill: 'herding', where: 'home', stock: 'look', crew: 'join', child: true,
+  name: 'Ride the range after the stock', skill: 'herding', where: 'home', stock: 'look', crew: 'join', child: true, grown: true,
   // The horse when it is free and the hand works cattle: theirs until the day on the range is done (sim/keeping.mjs).
   takes: (world, household, entity) => (herdWork(entity) === 'all' && horseHome(world, household, entity) ? ['horse'] : []),
   // A child under seven is never offered it; a child of seven to eleven only where there are hogs to mind.

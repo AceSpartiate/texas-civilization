@@ -35,7 +35,8 @@ const TICK_MINUTES = 20;
  */
 export function familyWork(chore) {
   if (!chore || !['home', 'neighbour'].includes(chore.where)) return false;
-  if (chore.winter || chore.war || chore.flight || chore.road || chore.camp || chore.child || chore.nurses) return false;
+  // `grown`: a work a child may take up that is a grown person's too (the herder's, sim/chores.mjs `look-to-stock`), at the family's pace.
+  if (chore.winter || chore.war || chore.flight || chore.road || chore.camp || (chore.child && !chore.grown) || chore.nurses) return false;
   return !(chore.steps || []).some(step => step.travel === 'town');
 }
 

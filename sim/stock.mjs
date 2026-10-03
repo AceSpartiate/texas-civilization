@@ -236,6 +236,8 @@ export const STRAYS_GONE = 0.5;
 /** Minding at or over this much is a herd in good flesh in its season. */
 export const FAT_CARE = 0.5;
 export const CONDITIONS = Object.freeze(['thin', 'fair', 'fat']);
+/** "fat ", "thin " or nothing: the flesh as the record says it, before "beef" or "hog". */
+const fleshWord = flesh => (flesh === 'fat' || flesh === 'thin' ? `${flesh} ` : '');
 /** What a beef and a hog give in each condition: the fair one is what they always gave (`BEEF_FOOD`, `PORK_FOOD`). */
 export const BEEF_BY = Object.freeze({ thin: 32, fair: BEEF_FOOD, fat: 48 });
 /** A fat hog gives no more than a hog costs at the pens in food (sim/shops.mjs `HOG_FOOD`, 14): food never buys more food. */
@@ -453,8 +455,8 @@ export function divideBeef(world, household, entity, neighbours) {
   record(world, 'stock', {
     actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-182',
     text: given.length
-      ? `${entity.name} killed a ${condition === 'fair' ? '' : `${condition} `}beef: ${BEEF_KEPT} food is what the family can keep, and the rest went to ${given.length === 1 ? 'the nearest family' : `the ${given.length} nearest families`}. The hide is kept for the tanner. The family has ${herdWords(household)}.`
-      : `${entity.name} killed a ${condition === 'fair' ? '' : `${condition} `}beef: ${BEEF_KEPT} food is all the family can keep, and with nobody near to divide the rest with, it was lost. The hide is kept for the tanner. The family has ${herdWords(household)}.`,
+      ? `${entity.name} killed a ${fleshWord(condition)}beef: ${BEEF_KEPT} food is what the family can keep, and the rest went to ${given.length === 1 ? 'the nearest family' : `the ${given.length} nearest families`}. The hide is kept for the tanner. The family has ${herdWords(household)}.`
+      : `${entity.name} killed a ${fleshWord(condition)}beef: ${BEEF_KEPT} food is all the family can keep, and with nobody near to divide the rest with, it was lost. The hide is kept for the tanner. The family has ${herdWords(household)}.`,
   });
   return BEEF_KEPT;
 }
@@ -467,7 +469,7 @@ export function killHog(world, household, entity) {
   const pork = PORK_BY[condition];
   record(world, 'stock', {
     actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-182',
-    text: `${entity.name} killed a ${condition === 'fair' ? '' : `${condition} `}hog and salted it down: ${pork} food that will keep. The family has ${herdWords(household)}.`,
+    text: `${entity.name} killed a ${fleshWord(condition)}hog and salted it down: ${pork} food that will keep. The family has ${herdWords(household)}.`,
   });
   return pork;
 }
