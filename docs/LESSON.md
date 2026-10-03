@@ -406,6 +406,7 @@ take when several are due at once (the same order as the "!"s):
 | `field` | somebody can clear ground or plant (the server's own `can`) | clear ground, then tap a plot on the map or "Plant the field" (the plot tapped since 2026-09-30, docs/LAND_GRANTS.md §5.3); corn feeds, cotton sells; planting uses seed and the crop takes time to ripen |
 | `town` | somebody can be sent to town | "Go to town to trade" buys and sells at the store; they are away for the trip, and coin spent is gone from the score |
 | `star` | the farm is the student's (no guided start running) | ★ is the main person; ☆ changes who; "!" means somebody needs an answer |
+| `tent` | somebody could put up the tent: the family on its land with no roof and no tent (owner, 2026-10-02; sim/shelter.mjs) | "Put up the tent" gives somewhere dry until the house stands; when it rains the children and anyone without a job go in |
 | `cart` | the family could make a carreta but for what it has not got (`world.household.wants['make-carreta']`), and no wagon of its own stands free at home (owner, 2026-09-30; docs/WOODS_AND_BUILDING.md §6.9) | wagon busy? a carreta, a small ox cart, is made at home from the axe, 3 logs and a hide; a hunt brings a hide |
 
 **The rules.**

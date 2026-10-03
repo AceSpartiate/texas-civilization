@@ -1,0 +1,237 @@
+{
+ "record": "house-time-measure",
+ "date": "2026-10-02",
+ "note": "scripts/house-time-measure.mjs, six colonies classes of fifteen rolled families (seeds house-a to house-f), the round-log cabin planned, grown people on it on auto, children on their own auto. Ticks from the first order to the first pen roofed; real minutes at Study 9.5 s, Brisk 4 s, Quick 1 s a tick. Before: integration-2026-09-28 (c88a6ddb). After: branch shelter (HOUSE_PACE and FELL_PACE 0.5, and the shelter rule). Measured once more with the shelter switched off on the branch (a temporary switch, removed): pair p90 172, family p90 131, medians unchanged. Same computer only.",
+ "before": {
+  "seeds": [
+   "house-a",
+   "house-b",
+   "house-c",
+   "house-d",
+   "house-e",
+   "house-f"
+  ],
+  "count": 15,
+  "modes": {
+   "stocked": {
+    "families": 90,
+    "unfinished": 0,
+    "hands": 1,
+    "logsTicks": {
+     "median": 1,
+     "p90": 1
+    },
+    "roofTicks": {
+     "median": 93,
+     "p90": 126,
+     "max": 302
+    },
+    "wholeTicks": {
+     "median": 101,
+     "p90": 152
+    },
+    "roofMinutes": {
+     "study": {
+      "median": 14.73,
+      "p90": 19.95
+     },
+     "brisk": {
+      "median": 6.2,
+      "p90": 8.4
+     },
+     "quick": {
+      "median": 1.55,
+      "p90": 2.1
+     }
+    }
+   },
+   "pair": {
+    "families": 79,
+    "unfinished": 3,
+    "hands": 2,
+    "logsTicks": {
+     "median": 44,
+     "p90": 124
+    },
+    "roofTicks": {
+     "median": 159,
+     "p90": 277,
+     "max": 410
+    },
+    "wholeTicks": {
+     "median": 174,
+     "p90": 287
+    },
+    "roofMinutes": {
+     "study": {
+      "median": 25.18,
+      "p90": 43.86
+     },
+     "brisk": {
+      "median": 10.6,
+      "p90": 18.47
+     },
+     "quick": {
+      "median": 2.65,
+      "p90": 4.62
+     }
+    }
+   },
+   "family": {
+    "families": 90,
+    "unfinished": 3,
+    "hands": 5,
+    "logsTicks": {
+     "median": 44,
+     "p90": 113
+    },
+    "roofTicks": {
+     "median": 107,
+     "p90": 240,
+     "max": 410
+    },
+    "wholeTicks": {
+     "median": 109.5,
+     "p90": 216
+    },
+    "roofMinutes": {
+     "study": {
+      "median": 16.94,
+      "p90": 38
+     },
+     "brisk": {
+      "median": 7.13,
+      "p90": 16
+     },
+     "quick": {
+      "median": 1.78,
+      "p90": 4
+     }
+    }
+   }
+  }
+ },
+ "after": {
+  "seeds": [
+   "house-a",
+   "house-b",
+   "house-c",
+   "house-d",
+   "house-e",
+   "house-f"
+  ],
+  "count": 15,
+  "modes": {
+   "stocked": {
+    "families": 90,
+    "unfinished": 0,
+    "hands": 1,
+    "logsTicks": {
+     "median": 1,
+     "p90": 1
+    },
+    "roofTicks": {
+     "median": 47,
+     "p90": 98,
+     "max": 102
+    },
+    "wholeTicks": {
+     "median": 51,
+     "p90": 102
+    },
+    "roofMinutes": {
+     "study": {
+      "median": 7.44,
+      "p90": 15.52
+     },
+     "brisk": {
+      "median": 3.13,
+      "p90": 6.53
+     },
+     "quick": {
+      "median": 0.78,
+      "p90": 1.63
+     }
+    }
+   },
+   "pair": {
+    "families": 79,
+    "unfinished": 3,
+    "hands": 2,
+    "logsTicks": {
+     "median": 27,
+     "p90": 66
+    },
+    "roofTicks": {
+     "median": 98,
+     "p90": 172,
+     "max": 286
+    },
+    "wholeTicks": {
+     "median": 104,
+     "p90": 180
+    },
+    "roofMinutes": {
+     "study": {
+      "median": 15.52,
+      "p90": 27.23
+     },
+     "brisk": {
+      "median": 6.53,
+      "p90": 11.47
+     },
+     "quick": {
+      "median": 1.63,
+      "p90": 2.87
+     }
+    }
+   },
+   "family": {
+    "families": 90,
+    "unfinished": 3,
+    "hands": 5,
+    "logsTicks": {
+     "median": 28,
+     "p90": 66
+    },
+    "roofTicks": {
+     "median": 82,
+     "p90": 155,
+     "max": 292
+    },
+    "wholeTicks": {
+     "median": 86,
+     "p90": 160
+    },
+    "roofMinutes": {
+     "study": {
+      "median": 12.98,
+      "p90": 24.54
+     },
+     "brisk": {
+      "median": 5.47,
+      "p90": 10.33
+     },
+     "quick": {
+      "median": 1.37,
+      "p90": 2.58
+     }
+    }
+   }
+  }
+ },
+ "withoutShelter": {
+  "pair": {
+   "roofTicks": {
+    "median": 98,
+    "p90": 172
+   }
+  },
+  "family": {
+   "roofTicks": {
+    "median": 82,
+    "p90": 131
+   }
+  }
+ }
+}

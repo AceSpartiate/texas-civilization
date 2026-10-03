@@ -166,10 +166,11 @@ test('the panel says what the next stage wants, not only what the whole plan wan
   assert.deepEqual(sills.house.wants.logs, { sill: 4 }, 'the sills want their four sill logs and nothing else');
   assert.equal(sills.house.wants.piece, 'the round-log pen');
   assert.ok(sills.house.wants.hours > 0, 'the stage asks for no work at all');
-  // Two spells of the sills: an hour's work since the family's work was halved (owner, 2026-09-29; sim/work-pace.mjs), two before.
-  assert.equal(sills.house.wants.hours, 1);
+  // Two spells of the sills: half an hour's work since the house went at half again (owner, 2026-10-02; sim/work-pace.mjs
+  // `HOUSE_PACE`), an hour since the family's work was halved (2026-09-29), two before.
+  assert.equal(sills.house.wants.hours, 0.5);
   assert.equal(nextLine(sills.house, sills.logs),
-    'Next: laying the sills on the round-log pen. It wants 4 sill logs and about 1 hour\u2019s work; 3 sound and 1 poor at the house.');
+    'Next: laying the sills on the round-log pen. It wants 4 sill logs and about half an hour\u2019s work; 3 sound and 1 poor at the house.');
   // The whole plan's want is a different, larger number: that is the line this one was added beside.
   assert.ok(plotNeeds(household.house.pieces).logs.wall > 4, 'the plan wants no more wall logs than one stage does');
 

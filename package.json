@@ -132,6 +132,8 @@
     "test:mexican-advance": "node scripts/mexican-advance-browser-proof.mjs",
     "test:mexican-advance-injections": "node scripts/mexican-advance-injections.mjs",
     "test:children": "node scripts/children-browser-proof.mjs",
+    "test:shelter": "node scripts/shelter-browser-proof.mjs",
+    "test:shelter-injections": "node scripts/shelter-injections.mjs",
     "test:work": "node scripts/work-browser-proof.mjs",
     "test:chatter": "node scripts/chatter-browser-proof.mjs",
     "test:chatter-injections": "node scripts/chatter-injections.mjs",

@@ -17,10 +17,12 @@ import { needsOf } from '../public/family-panel.js';
 import { OBEDIENCE_RATES, autoOffChance, dawdleChance, wanderChance, wandersOff, tiresOfAuto } from '../sim/obedience.mjs';
 import { stirredShare } from '../sim/shares.mjs';
 import { settle, taught } from './support/settled.mjs';
+import { fairWeather } from './support/weather.mjs';
 
 /** A class already on its land, one family played, with both parents and a child of `age` to hand. */
 function family(seed, age = 6) {
-  const world = taught(settle(createGonzalesWorld(seed, 8, { map: 'colonies' })));
+  // Fair weather: in rain or a norther every child goes in out of it (sim/shelter.mjs), and these are the rules of an ordinary day.
+  const world = fairWeather(taught(settle(createGonzalesWorld(seed, 8, { map: 'colonies' }))));
   for (const household of Object.values(world.households)) rollFamily(world, household);
   const people = household => household.members.map(id => world.entities[id]);
   const household = Object.values(world.households).find(h => people(h).some(p => p.kin?.role === 'father') && people(h).some(p => p.kin?.role === 'mother')

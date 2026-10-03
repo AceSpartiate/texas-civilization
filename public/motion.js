@@ -593,6 +593,9 @@ function grownClip(entity, observed) {
   // The family's little ones and what they do to it (docs/CHILDREN.md): a baby crawling, crying, held or asleep, a grown-up holding
   // one or stopped to listen to a child, a child gone to find them, and a child at play drawn at the play. Only the family's own:
   // a neighbour's are drawn by their broad task, which says none of this.
+  // In out of the weather (sim/shelter.mjs, owner 2026-10-02): walking in, then sitting under the tent or the wagon with the others.
+  // Inside a house nobody is drawn at all (public/app.js); under the tent or the wagon, the seated rest every figure holds.
+  if (entity.kind === 'person' && entity.shelter) return entity.shelter.phase === 'in' ? { id: `${variant}-rest`, upright: true } : { id: `${variant}-walk` };
   if (!observed && entity.kind === 'person') {
     const little = littleClip(entity, variant);
     if (little) return little;

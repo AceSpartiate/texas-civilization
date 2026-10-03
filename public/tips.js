@@ -46,6 +46,9 @@ export const TIPS = Object.freeze({
   // The farm's first works, until the tutorial is rebuilt (owner, 2026-09-28: "Yes, add them"). Worded to stay true whichever
   // way the work goes - one wood pile or none, auto or by hand, crops ripening by the calendar or by the minute.
   house: 'Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.',
+  // The tent until the house stands (owner, 2026-10-02: "families should put up tents to get out of the rain if their house isn't
+  // finished"; sim/shelter.mjs). Met the first time somebody could put it up.
+  tent: '“Put up the tent” gives your family somewhere dry until the house stands. When it rains, the children and anyone without a job go in.',
   // Since 2026-09-30 a plot is tapped on the map to choose its crop (owner: "let me click on the fields").
   field: 'To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.',
   town: '“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.',
@@ -59,7 +62,7 @@ export const TIPS = Object.freeze({
  * Which tip goes first when several are due at once: the ones whose thing will not wait (¡Alto!, the road, the order to leave,
  * sickness, the call, the army) before the ones that will. The same order as the "!"s (public/family-panel.js `NEED_KINDS`).
  */
-export const TIP_ORDER = Object.freeze(['alto', 'road', 'flight', 'sick', 'call', 'army', 'watch', 'resume', 'rest', 'route', 'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'field', 'town', 'star', 'cart']);
+export const TIP_ORDER = Object.freeze(['alto', 'road', 'flight', 'sick', 'call', 'army', 'watch', 'resume', 'rest', 'route', 'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'tent', 'field', 'town', 'star', 'cart']);
 
 /** The winter's joining, enlisting and voting (sim/winter.mjs `WINTER_CHORES`), as the page sees them on a work list. */
 const WINTER_WORK = new Set(['enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'join-seguin']);
@@ -109,6 +112,8 @@ export function tipsPresent(world, { errandOpen = false } = {}) {
     order: world.status === 'running' && !(world.lesson && !world.lesson.done) && Boolean(world.land) && !world.land.arriving && own.length > 0,
     // The house: the first time the family, on its land with its site chosen and still camped, can plan one or raise one.
     house: !leading && Boolean(land) && !land.arriving && !land.choosingSite && land.shelter === 'camp' && Boolean(land.choices?.length || land.plot || open('build-house')),
+    // The tent: the first time somebody could put it up - the family camped on its land with no roof and no tent.
+    tent: !leading && open('pitch-tent'),
     // The field: the first time somebody can clear ground or plant it.
     field: !leading && (open('clear-plot') || open('plant-field')),
     // Going to town: the first time somebody can be sent (the errand's own tip, `store`, stands inside the errand once it opens).

@@ -202,6 +202,9 @@ export const WORK = Object.freeze({
   // the work.
   'milk-cow': { stroke: 'tend', spread: 0.5 },
   'milk-road': { stroke: 'tend', spread: 0.5 },
+  // Putting up the tent (sim/shelter.mjs, owner 2026-10-02). stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - pegging the sheet
+  // down is the post-setting hammer of the house's sills until a `-pitch-tent` pose is drawn.
+  'pitch-tent': { stroke: 'notch', spread: 0.5 },
   'road-lookout': { stroke: 'walk' },
   'road-sing': { stroke: 'walk' },
   'road-little-ones': { stroke: 'walk' },

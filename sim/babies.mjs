@@ -109,6 +109,8 @@ function letGo(world, person) {
 export function leaveAside(world, entity) {
   if (entity.aside?.kind === 'baby') letGo(world, entity);
   if (entity.aside?.kind === 'talk') for (const id of [...entity.aside.childIds]) { const child = world.entities[id]; if (child) { endTalk(world, child); child.idleSince = world.tick; } }
+  // Sitting with the children out of the weather (sim/shelter.mjs): they stay in, and somebody else comes to them next tick.
+  if (entity.aside?.kind === 'shelter') { delete entity.aside; delete entity.shelter; }
 }
 
 /** She (or the last grown person at home) picks the baby up and takes it: the owner's "won't ... travel without the baby". */
@@ -221,7 +223,8 @@ function ride(baby, carrier) {
 /** Who comes to a crying baby at this place: see the rule at the top. Returns { minder } or { holder } or { carer } or {}. */
 export function whoComes(world, household, baby, place) {
   const people = household.members.map(id => world.entities[id]).filter(person => person && person.id !== baby.id);
-  const minder = people.find(person => person.chore?.id === 'child-mind' && ableAt(person, place));
+  // Whoever is sitting with the children out of the weather has the little ones already (sim/shelter.mjs, owner 2026-10-02).
+  const minder = people.find(person => (person.chore?.id === 'child-mind' || person.aside?.kind === 'shelter') && ableAt(person, place));
   if (minder) return { minder };
   const holder = people.find(person => person.aside?.kind === 'baby' && ableAt(person, place));
   if (holder) return { holder };
@@ -340,6 +343,8 @@ export function advanceBabies(world) {
       if (state === 'nap' && world.tick < baby.baby.until) continue;
       if (state === 'cry') { if (slow && played) comfort(world, household, baby, place); else baby.baby = { state: 'awake', spot }; continue; }
       if (state !== 'awake' || !baby.baby) baby.baby = { state: 'awake', spot };
+      // In out of the weather (sim/shelter.mjs): it stays where it was carried in, and may still cry for somebody.
+      if (baby.shelter) { if (slow && stirredShare(world, baby.id, `cry:${world.tick}`) < CRY_PER_TICK * (baby.health?.condition === 'sick' ? 2 : 1)) baby.baby = { ...baby.baby, state: 'cry', cried: world.tick }; continue; }
       // Crawling: a few yards this way and that from where it was set down, drawn from one place to the next over the tick.
       const turn = stirredShare(world, baby.id, `crawl:${world.tick}`) * Math.PI * 2, far = CRAWL_REACH * stirredShare(world, baby.id, `crawl-far:${world.tick}`);
       baby.location = { x: r4(spot.x + Math.cos(turn) * far), y: r4(spot.y + Math.sin(turn) * far), siteId: place };
@@ -468,7 +473,7 @@ export function babiesInvalid(world) {
     if (entity.baby?.state === 'held' && world.entities[entity.baby.by]?.aside?.kind !== 'baby') return 'A baby held by nobody';
     if (entity.carriedBy !== undefined && !world.entities[entity.carriedBy]) return 'A baby carried by nobody';
     if (entity.aside?.kind === 'baby' && (!Array.isArray(entity.aside.babyIds) || !Number.isInteger(entity.aside.until) || !Number.isFinite(entity.aside.was?.x))) return 'Invalid baby aside';
-    if (entity.aside !== undefined && !['baby', 'talk'].includes(entity.aside?.kind)) return 'Invalid aside';
+    if (entity.aside !== undefined && !['baby', 'talk', 'shelter'].includes(entity.aside?.kind)) return 'Invalid aside';
     if (entity.comforted !== undefined && (!Number.isInteger(entity.comforted?.day) || !Number.isInteger(entity.comforted?.ticks))) return 'Invalid comforting';
   }
   return null;

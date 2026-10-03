@@ -430,3 +430,36 @@ small children at home) were not asked again: seven, and a warning, as built.
   east, and at the refuge the families camped there take them in; a neighbour's wagon turning in for them is the way out.
 
 Evidence: HANDOFF.md, "Small children until the day ends; follow and watch (not released)".
+
+---
+
+## 13. Amendment, 2026-10-02 — the children always go in out of the weather, and somebody of ten or more goes with them
+
+Owner, 2026-10-02, verbatim: *"kids should always seek shelter, and a 10+yo character should have to accompany them and play with them
+since they can't play outdoors."* Built in `sim/shelter.mjs` (`FIC-GONZ-1093`); the family's half - the tent, who goes in and where -
+is docs/SETTLING_IN.md §4c.
+
+- **Every child under ten goes in** on a day of rain, a storm or a norther, babies too (a baby in somebody's arms goes where it is
+  carried). Whatever they were set to - a job, a kind of play, their own automation - **waits where it stands** (sim/aside.mjs
+  `heldIndoors`, read by `advanceChore`; sim/childhood.mjs passes a sheltering child by) and goes on when it clears. A child given an
+  order meanwhile keeps it for then. A sheltering child does not go to talk to anybody (§3): they are inside with somebody.
+- **Somebody of ten or more sits with them and plays with them**, chosen each tick in this order: the nearest of ten or more already
+  in out of the weather; else the nearest **older brother or sister of ten to fifteen** at work near the house (the elder child who
+  minded the little ones, `HIST-TEX-645`); else the nearest **grown person** at work near the house. Their work stands exactly where
+  it is (`aside` of kind `shelter`), and they go back to it, and to where they were, when the weather clears. Somebody free who comes
+  in later takes over from a worker called in, who goes back to the work.
+- **Never** somebody out on the land after game, fish, oysters, honey, timber or the stock, nursing the sick, or on a road
+  (`CANNOT_LEAVE`): their work is out there.
+- **A student's order wins.** Unlike a child's talk (§3), sitting with the children refuses nothing: the person's bar is open, and an
+  order sends them; they are not called in again that day (`shelterExcused`) and somebody else comes in, or nobody.
+- **With nobody who can come**, the children keep each other company, said once a day in the family's record.
+- **On the same terms as the talk and the crying baby** (§3, §6): only in a family somebody plays, in the waking day, on a calendar of
+  an hour a tick or slower, and not in a guided start. A family nobody plays sends its children in and stops nobody for them.
+- **A baby who cries** in shelter is jogged on the companion's hip, as a child minding the little ones does it (`whoComes`).
+- On the row: the roof or tent mark on each child's portrait, and the companion's one line, *"Inside with Tom and Ann, out of the
+  weather."*
+- `ceiling:` the companion "plays with them" in the picture - all of them sitting in the tent's mouth, or gone into the house - and in
+  no words; indoor play of its own (cat's cradle, a story) is the way out if a class wants to see it.
+- Measured (docs/WOODS_AND_BUILDING.md §6.11): in a family raising its house, the companion costs the slowest tenth of families about
+  a fifth more time to the roof (155 ticks against 131); the medians do not move.
+

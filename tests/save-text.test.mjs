@@ -56,7 +56,9 @@ test("the projection's shortcuts give what they replaced: the newest events, the
   assert.ok(world.events.some(event => event.visibility === 'sealed'), 'the played class has no sealed events to leave out');
   assert.ok(Object.keys(world.woods?.felled || {}).length > 0, 'the played class felled no trees');
   for (const [householdId, role] of [...Object.keys(world.households).map(id => [id, 'student']), [undefined, 'host']]) {
-    const expected = world.events.filter(e => e.visibility !== 'sealed')
+    // Not the family's ambient lines (a child gone to a parent, the family gone in out of the rain), which the projection's window
+    // leaves out by its own rule (sim/world.mjs `projectWorld`); found when the shelter's lines (2026-10-02) fell inside the window.
+    const expected = world.events.filter(e => e.visibility !== 'sealed' && !e.ambient)
       .filter(e => (householdId && e.householdId === householdId) || (role === 'host' && e.visibility === 'public'))
       .slice(-PROJECTED_EVENTS).map(e => e.id);
     assert.ok(expected.length === PROJECTED_EVENTS, `${householdId || 'the Host'} saw too few events for the slice to matter`);

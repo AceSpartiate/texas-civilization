@@ -178,7 +178,7 @@ const present = (household, person) => person && !GONE.includes(person.health?.c
   && person.service?.status !== 'serving';
 /** Whether this child is somebody the talk is about right now: small, at home, awake to it, and with nothing whatever to do. */
 function idleChild(world, household, child) {
-  return isSmallChild(child) && present(household, child) && !child.chore && !child.auto && !child.carriedBy;
+  return isSmallChild(child) && present(household, child) && !child.chore && !child.auto && !child.carriedBy && !child.shelter;
 }
 /**
  * Somebody nursing the sick (sim/disease.mjs `nurse-home`, sim/road.mjs `tend-sick`): a child with nothing to do does not call them
@@ -380,6 +380,9 @@ export function advanceChildhood(world, travel) {
       // The notice leaves the row after `NOTICE_TICKS`, and is kept while the child has been given nothing since: that is the "!".
       if (entity.autoNotice && world.tick - entity.autoNotice.tick >= NOTICE_TICKS && !autoOffAsking(entity)) delete entity.autoNotice;
       if (!isSmallChild(entity) || GONE.includes(entity.health?.condition)) continue;
+      // In out of the weather (sim/shelter.mjs, owner 2026-10-02): no play about the yard, no wandering off from a job, and their
+      // own automation takes nothing up - the children are inside with somebody, until it clears.
+      if (entity.shelter) continue;
       if (entity.chore && isPlay(entity.chore.id)) playStep(world, household, entity);
       else if (entity.chore && household.played && !household.absent) wanderFromJob(world, household, entity, travel);
       advanceChildAuto(world, household, entity, travel);

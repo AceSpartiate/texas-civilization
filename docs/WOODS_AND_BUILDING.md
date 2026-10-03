@@ -819,6 +819,63 @@ a hunt was the one way, and an invisible one.)
 - **Every gettable lack** (docs/FAMILY_PANEL.md §23a): small game and the bee tree, which were hidden with no powder or no axe, are
   now greyed with the powder or the axe they want; felling and furniture with no felling axe the same.
 
+### 6.11 The first house quicker again — owner-decided 2026-10-02 (not released)
+
+> "it takes too long to build the house at the start of the game."
+>
+> — the owner, 2026-10-02
+
+**Status: built the same day** (`sim/work-pace.mjs` `HOUSE_PACE`, `FELL_PACE`, `houseHours`; `tests/house-pace.test.mjs`; claim
+`FIC-GONZ-1090`). This amends §6.8's lengths for the house and the felling, and nothing else.
+
+**Where the time went** (measured first, `scripts/house-time-measure.mjs`: six colonies classes of fifteen rolled families, each
+family's round-log cabin planned, its grown people on it on auto, its children on their own auto, counted from the first order to
+the pen roofed). A pair - one felling, one building - took a median **159 ticks, 25.2 real minutes at Study** (p90 43.9); every grown
+person of the family on it **107 ticks, 16.9 minutes** (p90 38.0); one hand building from a full pile **93 ticks, 14.7 minutes**.
+The felling was the larger share: a family's one felling axe fells the fifty logs before or between the courses (the house's
+builders share that axe, docs/TOWNS.md §4c), and nothing of the house goes faster than its logs come in. And a lone builder's four
+two-handed courses, at a third of a spell a step, were half the walls.
+
+**The target**: the family under its own roof in **about ten to fifteen real minutes at Study** when it works on the house - inside
+the first quarter of a class period, and close to the first news of the cannon, about 13 minutes in (§3 of docs/SETTLING_IN.md).
+
+**What changed** - two factors of their own, as §6.8's ceiling asks ("that work's own table is the place"), kept as factors for the
+reason §6.8's is one: a house's spells and a piece's progress are saved.
+
+- **`HOUSE_PACE = 0.5`**: every spell on a house, the family's own and a neighbour's raising, half again as quick - a quarter of an
+  hour of the calendar. A step is still at least the tick it is begun in, so a lone builder on the two-handed courses (a third of a
+  spell a step) is held by the tick, not the spell: **the house-raising still helps**, and a second pair of hands is still what
+  makes the upper courses go.
+- **`FELL_PACE = 0.5`**: every tree felled and dragged onto the pile, and the felling and loading of a wagon load fetched from off the
+  land, half again as quick. Everything else of the felling - the walk out, the logs a tree gives - as it was.
+- **The words follow** (`houseHours`): the chooser (a round-log cabin chosen whole *"About 10 hours"*, was 20; a jacal 6), the plan
+  (the round-log plan 8.5 hours, was 17), the next stage (the sills *"about half an hour's work"*, was an hour), a neighbour's hours
+  at a raising, and a wagon load of logs.
+- **Unchanged**: the spells, the logs, the stages and their rain holds (`FIC-GONZ-290`), the two-handed courses, the helpers' curve,
+  the shared axe, and every other work's pace.
+
+**After** (the same six classes, the same families):
+
+| Round-log pen roofed, median (p90) | before | **after** |
+| --- | --- | --- |
+| A pair, one felling and one building, on auto: ticks | 159 (277) | **98 (172)** |
+| … real minutes at Study / Brisk / Quick | 25.2 / 10.6 / 2.7 | **15.5 / 6.5 / 1.6** |
+| The family's grown people on it: ticks | 107 (240) | **82 (155)** |
+| … real minutes at Study / Brisk / Quick | 16.9 / 7.1 / 1.8 | **13.0 / 5.5 / 1.4** |
+| One hand building from a full log pile: ticks (minutes at Study) | 93 (14.7) | **47 (7.4)** |
+
+- The **pair** is held now by the lone builder's two-handed courses and by the axe (the builder waits while the feller has it); a
+  student who puts a second person on the house when the logs are in has it up in about the family's time.
+- The **shelter** of the same day (docs/SETTLING_IN.md §4c) costs a family that is building on a wet day: whoever is called in to
+  sit with the children leaves the house a while. Measured with it and without it, the medians do not move and the slowest tenth
+  of families take **155 ticks against 131** (the pair, 172 either way); a lone parent on a wet stretch is the family it costs most.
+- Old saves: nothing saved moves. A class saved in the middle of a spell keeps the ticks that spell had left (`chore.wait`); every
+  spell after it goes at the new pace. **No save version moved.**
+- `ceiling:` one factor each for the house and the felling; furniture and the carreta take their logs from the same quicker
+  felling. If a class finds felling for them too quick, their own tables are the place.
+- Evidence: [house-time-measure.json](evidence/house-time-measure.json); `npm run test:shelter-injections` (the house's and the
+  felling's paces and words among its rows).
+
 ## 7. Old saves
 
 A class saved before this has no `woods`, no log pile and its house as `{ layout, work }`. It keeps exactly that: its

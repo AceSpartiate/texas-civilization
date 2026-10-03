@@ -2141,3 +2141,13 @@ it'"*. This widens §23 from two works to every one.
   was hidden), proof `npm run test:field-click`, every check proved by injection (`node scripts/field-click-injections.mjs`,
   [record](evidence/field-click-injections.json)). Same computer only.
 
+## Amendment, 2026-10-02 — in out of the weather: a mark on the portrait, and the one line of whoever sits with the children (owner-decided)
+
+docs/SETTLING_IN.md §4c and docs/CHILDREN.md §13 (`sim/shelter.mjs`). A person in out of the weather carries a small mark in the
+portrait's top right - a roof for the house, a tent for the tent, the wagon or the open camp (`.panel-shelter-mark`, `data-at`; the
+row carries `data-sheltering`) - with its words only on hover and for a screen reader (*"In out of the weather: under the tent, with
+the children."*). The person sitting with the children has one line on their row, the server's *"Inside with Tom and Ann, out of the
+weather."* (`shelterLine`, through `life`). Their bar is **not** shut: an order sends them, and somebody else comes in (docs/CHILDREN.md
+§13). *Put up the tent* (`pitch-tent`) is a new icon, a stroked tent until `icon-pitch-tent` is drawn. `stand-in:` the mark is drawn in
+the style sheet until `mark-shelter-house` and `mark-shelter-tent` are (docs/ART_REQUESTS.md, request 2026-10-02).
+

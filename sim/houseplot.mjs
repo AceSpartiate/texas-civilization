@@ -30,7 +30,7 @@ import { record } from './events.mjs';
 import { improvementsOf, setImprovement } from './improvements.mjs';
 import { USE_ORDER } from './felling.mjs';
 import { rainHold } from './weather.mjs';
-import { workHours } from './work-pace.mjs';
+import { houseHours } from './work-pace.mjs';
 
 /** The house plot is this many eight-foot cells wide and deep. */
 export const PLOT_COLUMNS = 8;
@@ -337,7 +337,7 @@ export function stageWants(pieces, here = null) {
   // Logs are wanted once, at the start of a stage: a stage part done has already taken them off the pile.
   const wants = next.piece.progress === 0 ? { ...(logs.wall && { wall: logs.wall }), ...(logs.sill && { sill: logs.sill }), ...(logs.any && { any: logs.any }) } : {};
   // A spell is three ticks of work at the family's pace (sim/houses.mjs `SPELL_TICKS`, sim/work-pace.mjs), to the half hour.
-  return { doing: next.stage.doing, piece: pieceWords(pieces, next.piece), logs: wants, hours: Math.round(workHours(next.stage.work * 3) * 2) / 2 };
+  return { doing: next.stage.doing, piece: pieceWords(pieces, next.piece), logs: wants, hours: Math.round(houseHours(next.stage.work * 3) * 2) / 2 };
 }
 
 const WHERE = ['west', 'east'];
@@ -496,7 +496,7 @@ export function plotNeeds(pieces) {
       thirds += stage.work * THIRDS - (i === p.stage ? p.progress : 0);
     });
   }
-  return { logs, hours: Math.round(workHours(Math.round(thirds / THIRDS) * 3) * 2) / 2, tools: [...tools] };
+  return { logs, hours: Math.round(houseHours(Math.round(thirds / THIRDS) * 3) * 2) / 2, tools: [...tools] };
 }
 
 /** How far up the first pen is, as the picture of a house going up: site, walls, roofing, finished. */

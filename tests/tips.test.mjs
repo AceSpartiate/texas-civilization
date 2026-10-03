@@ -188,6 +188,11 @@ test('the house, the field and going to town each have a tip the first time the 
   const refused = ids => ({ ...seen, work: Object.fromEntries(Object.entries(seen.work).map(([id, list]) => [id, list.map(entry => (ids.includes(entry.id) ? { ...entry, can: false } : entry))])) });
   assert.ok(!tipsPresent(refused(['clear-plot', 'plant-field'])).includes('field'), 'the field tip came when nobody could clear or plant');
   assert.ok(!tipsPresent(refused(['visit-shop'])).includes('town'), 'the town tip came when nobody could go to town');
+  // The tent (owner, 2026-10-02; sim/shelter.mjs): due with the house, while somebody could put it up; not once it is up.
+  assert.ok(due.includes('tent') && due.indexOf('house') < due.indexOf('tent'), `the tent tip is not due after the house's: ${due.join(', ')}`);
+  assert.ok(!tipsPresent(refused(['pitch-tent'])).includes('tent'), 'the tent tip came when nobody could put it up');
+  assert.match(TIPS.tent, /Put up the tent/);
+  assert.match(TIPS.tent, /children/);
   // Never on the Host's page, and never over the errand: its own tip, or nothing.
   assert.deepEqual(tipsPresent({ ...seen, role: 'host' }), []);
   assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { seen: ['store'], errandOpen: true }), { show: null, retire: null });
@@ -199,7 +204,7 @@ test('a tip is shown once: until it is put away or its thing goes, and never aga
   const call = { request: { status: 'open', kind: 'call', answerers: { [world.households['hh-1'].members[0]]: [{ id: 'turn-out', can: true }] } } };
   const flight = { flight: { status: 'ordered' } };
   // The start of the game's own tips already put away, as a student in the middle of a class has.
-  for (const tip of ['order', 'house', 'field', 'town', 'star']) send(world, 'hh-1', { action: 'seen-tip', tip });
+  for (const tip of ['order', 'house', 'tent', 'field', 'town', 'star']) send(world, 'hh-1', { action: 'seen-tip', tip });
   let seen = view(world, 'hh-1');
   // The call appears: its tip is shown.
   let now = tipToShow(withThing(seen, call), { seen: [], showing: null });

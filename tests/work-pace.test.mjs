@@ -25,7 +25,7 @@ import { treeById, woodsRule } from '../sim/woods.mjs';
 import { landAround } from '../sim/ground.mjs';
 import { HOUSES, SPELL_TICKS, houseBuilt, houseCatalogue } from '../sim/houses.mjs';
 import { tooYoung } from '../sim/family.mjs';
-import { familyWork } from '../sim/work-pace.mjs';
+import { FELL_PACE, HOUSE_PACE, familyWork } from '../sim/work-pace.mjs';
 import { settle } from './support/settled.mjs';
 
 /** An ordinary hand: skill two at everything, no hidden strength to speed or slow heavy work. */
@@ -104,7 +104,10 @@ test('felling: every tree half its ticks of felling and dragging, and the same l
   const felled = Object.keys(world.woods.felled).map(id => treeById(id, { rule: woodsRule(world), nearCreek: landAround().nearCreek }));
   assert.ok(felled.length >= 8, `only ${felled.length} trees were felled`);
   const work = felled.reduce((sum, tree) => sum + fellAndCarryTicks(tree), 0);
-  assert.ok(Math.abs(atTrees - work * 0.5) <= 1, `${felled.length} trees of ${work} ticks' work took ${atTrees} ticks at the trees`);
+  // Half again since 2026-10-02 (owner: "it takes too long to build the house at the start of the game"; `FELL_PACE`): a quarter of
+  // the old ticks, and never under a tick a tree, which is what a tree is begun in.
+  const paced = Math.max(felled.length, work * 0.5 * FELL_PACE);
+  assert.ok(Math.abs(atTrees - paced) <= 1, `${felled.length} trees of ${work} ticks' work took ${atTrees} ticks at the trees`);
   // Felled, the trees' logs are on the pile as they always were.
   assert.equal(pile() - before, felled.reduce((sum, tree) => sum + tree.logs, 0), 'the logs did not come in whole');
   validateWorld(world);
@@ -127,10 +130,13 @@ test('a jacal raised by one ordinary hand takes half the ticks it did, and the s
   // 24 spells of three ticks: 72 ticks of one ordinary hand's work, and a tick's walk over, until 2026-09-29; 36 and the walk now.
   const work = HOUSES.jacal.work * SPELL_TICKS;
   assert.equal(work, 72, 'the jacal\'s table changed: this test pins the pace, not the table');
-  assert.ok(ticks >= work * 0.5 && ticks <= work * 0.5 + 2, `one hand raised a jacal in ${ticks} ticks`);
+  // Since 2026-10-02 a spell is a quarter of its three ticks (`HOUSE_PACE`), and still at least the tick it is begun in: 24 and the
+  // walk, held by the tick rather than the spell.
+  const paced = Math.max(HOUSES.jacal.work, work * 0.5 * HOUSE_PACE);
+  assert.ok(ticks >= paced && ticks <= paced + 2, `one hand raised a jacal in ${ticks} ticks`);
   assert.equal(household.house.work, HOUSES.jacal.work, 'the jacal wants a different number of spells');
-  // The chooser says so: twelve hours of one person's work, not twenty-four.
-  assert.equal(houseCatalogue().find(one => one.id === 'jacal').hours, 12);
+  // The chooser says so: six hours of one person's work, not twelve (and twenty-four before 2026-09-29).
+  assert.equal(houseCatalogue().find(one => one.id === 'jacal').hours, 6);
   validateWorld(world);
 });
 

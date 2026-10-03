@@ -332,7 +332,7 @@ export function ambientable(world, e, held = heldNow(world)) {
   if (e.travel?.purpose === 'march' && !world.army?.camp) return false;
   // Halted in the wagon or on the horse (sim/company.mjs): drawn in their seat, as they are.
   if (e.travel && (e.travel.drives || e.travel.rides || e.travel.saddle || e.travel.carried)) return false;
-  if (e.talk || e.aside || e.carriedBy || e.townHelp || held.has(e.id)) return false;
+  if (e.talk || e.aside || e.shelter || e.carriedBy || e.townHelp || held.has(e.id)) return false;
   if (bandOf(e) === 'infant') return false;
   if (heldByBattle(world, e) || e.service?.down || Number.isFinite(e.service?.offMap) || (Number.isFinite(e.service?.fellAt) && e.service.fellAt <= world.minute)) return false;
   return true;

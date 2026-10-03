@@ -38,6 +38,8 @@ registerRoadChores();
 registerFlightWork();
 // Milking the cow, at home and on the road (owner, 2026-10-02; sim/milking.mjs).
 registerMilking();
+// The tent until the house stands, and going in out of the weather (owner, 2026-10-02; sim/shelter.mjs).
+registerShelter();
 // Resting a day on the road, camping apart from a crowd, nursing at home (sim/disease.mjs), on the same terms.
 registerDiseaseChores();
 // Who acts for a family, a child who steps up and goes for help, a family taken in, and anybody left behind (sim/acting.mjs,
@@ -57,7 +59,7 @@ import { childAction, childrenInvalid } from './children.mjs';
 // child who goes to a parent, a child's own automation and obedience, and a baby that crawls, cries and is held.
 import { advanceChildhood, autoOffAsking, childAutoShown, childLine, childhoodInvalid, isSmallChild, released, setChildAuto, talkLines } from './childhood.mjs';
 import { advanceBabies, babiesInvalid, babyLine, babyLines, babyWord, carryBabies, hipPace, isBaby, settleTheUnable, takeBabyAlong } from './babies.mjs';
-import { asideWhy } from './aside.mjs';
+import { asideRefuses, asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
 import { helpTownScene, townScenesFor } from './town-scenes.mjs';
@@ -106,6 +108,7 @@ import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
 import { foragedInvalid } from './gathering.mjs';
 import { milkingInvalid, registerMilking } from './milking.mjs';
+import { advanceShelter, registerShelter, shelterInvalid, shelterLine, shelterShown } from './shelter.mjs';
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
 import { liftWants } from './wants.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
@@ -737,6 +740,9 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   advanceChildhood(world, { beginTravel, modeAvailability });
   advanceBabies(world);
   advanceFlightWork(world);
+  // In out of the weather (sim/shelter.mjs, owner 2026-10-02): the tent put up, everybody with no task and every child gone in, and
+  // somebody of ten or more with the children; out again when it clears. Before auto, so the one sitting with them is not given work.
+  advanceShelter(world, { beginTravel, modeAvailability });
   // People on auto take up their last order again, and a family whose main person is on auto goes when told (sim/auto.mjs).
   advanceAuto(world, { beginTravel, modeAvailability });
   advanceTown(world);
@@ -1016,7 +1022,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // is not given new work or sent anywhere until the child has something to do or the baby is down (sim/aside.mjs, owner
   // 2026-09-26: "this conversation stops the parent from doing their task until the kid is given a new task"). The family's
   // answers to the calls, the army and the road are not refused: they are the game's questions, and a journey lets them go.
-  if (entity.aside && ASIDE_REFUSED.has(input.action)) throw new Error(asideWhy(entity, id => world.entities[id]?.given || world.entities[id]?.name || 'a child'));
+  // Sitting with the children out of the weather is not one of these (sim/shelter.mjs): an order sends them, and somebody else comes in.
+  if (asideRefuses(entity) && ASIDE_REFUSED.has(input.action)) throw new Error(asideWhy(entity, id => world.entities[id]?.given || world.entities[id]?.name || 'a child'));
   const mode = input.mode || orderMode(world, household, entity, input);
   // The student's main person (sim/family.mjs `mainPersonId`, docs/FAMILY_PANEL.md §11.3): one at a time, anybody of the
   // family who can act and is old enough to be sent - refused above, in the words every order gets. Choosing another recalls
@@ -1437,7 +1444,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // As the family knows it (sim/scrape.mjs `householdAsKnown`): a farm the Mexican army's foragers burned while nobody of the
   // family could see is drawn as they left it until the smoke or the word reaches them.
   const known = household && householdAsKnown(household);
-  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), crops: cropSummary(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known) } : null;
+  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), crops: cropSummary(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known), ...(known.tent && { tent: { x: known.tent.x, y: known.tent.y } }) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -1566,7 +1573,7 @@ const VISITING_REFUSED = new Set([...ASIDE_REFUSED, 'offer']);
 /** One person's share of the family's little ones, for the family's own projection (sim/childhood.mjs, sim/babies.mjs). */
 function littleOnes(world, household, e) {
   // The child with the milk cow on the Scrape says so on their row (sim/flight-work.mjs `cowLine`, owner 2026-09-27).
-  const life = babyLine(world, household, e) || cowLine(world, household, e) || childLine(world, e);
+  const life = babyLine(world, household, e) || cowLine(world, household, e) || childLine(world, e) || shelterLine(world, e);
   // A baby's one short word, for its row when the column is too tight for the sentence (owner, 2026-09-27: "Show a short word").
   const lifeWord = life && babyWord(world, household, e);
   return {
@@ -1574,6 +1581,8 @@ function littleOnes(world, household, e) {
     ...(lifeWord && { lifeWord }),
     ...(e.talk && { talk: { with: e.talk.withId, phase: e.talk.phase } }),
     ...(e.aside && { aside: { kind: e.aside.kind } }),
+    // In out of the weather (sim/shelter.mjs): where, whether in yet, and whether they sit with the children. The picture says the rest.
+    ...shelterShown(e),
     ...(isBaby(e) && { baby: { state: e.carriedBy ? 'carried' : e.baby?.state || 'awake' } }),
     ...(e.carriedBy && { carriedBy: e.carriedBy }),
     // A child on their own automation is shown what they are at, and never how long it has left (that is their roll).
@@ -1787,7 +1796,7 @@ export function validateWorld(world) {
   if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world) || actingInvalid(world);
   if (badChildren) throw new Error(badChildren);
-  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || foragedInvalid(world) || milkingInvalid(world);
+  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || foragedInvalid(world) || milkingInvalid(world) || shelterInvalid(world);
   if (badLedger) throw new Error(badLedger);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');

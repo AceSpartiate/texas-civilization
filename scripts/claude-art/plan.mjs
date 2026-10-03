@@ -49,6 +49,7 @@ const CAST = '`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, 
 const R = {
   hunger: "Request 2026-09-30 — the hunger mark and the food gauge's sack",
   milking: 'Request 2026-10-02 — the milking icon and the milking pose',
+  shelter: 'Request 2026-10-02 — the tent, and going in out of the weather',
   goInside: 'Request 2026-09-30 — the House icon on the bar',
   work: 'Request 2026-09-28 — people at work',
   ambient: 'Request 2026-09-28 — ambient life',
@@ -344,6 +345,15 @@ export const ITEMS = [
   { id: 'F15', area: 'F', priority: 3, request: R.garden, item: '', deliver: '`garden-young`, `garden-mature`', names: [], frames: '2', size: 'as `corn-young`', standIn: 'none', kind: 'none', plugs: '`public/field-surface.js`', status: 'skipped: withdrawn 2026-09-28 (crops no longer follow the seasons)' },
   { id: 'F16', area: 'F', priority: 1, request: R.wedding, item: 'item 6', deliver: '`icon-ask-neighbours` (a parent and a child walking up a track toward a neighbour\'s cabin with smoke from its chimney)', names: ['icon-ask-neighbours'],
     frames: '1', size: ICON, standIn: 'Claude\'s `icon-ask-neighbours`; without it a stroked glyph on the special button', kind: 'claude', plugs: 'the special button (`#ask-neighbours` in `public/app.js`)', status: 'open', phrases: ['a cabin with smoke and a heart over it'] },
+  // The tent until the house stands, and going in out of the weather (sim/shelter.mjs, owner 2026-10-02).
+  { id: 'E30', area: 'E', priority: 2, request: R.shelter, item: 'item 1', deliver: '`homestead-tent` (a wagon sheet stretched over a ridge pole between two forked posts, pegged down at the sides, the front open, a bedroll inside)', names: ['homestead-tent'],
+    frames: '1', size: BUILDING, standIn: 'the library\'s canvas `tent` (a pegged A-tent of new canvas)', kind: 'library', plugs: 'the tent drawn at `world.land.tent` (`tentAt`) in `drawWorld`, `public/app.js`', status: 'open', phrases: ['the wagon sheet stretched over a ridge pole'] },
+  { id: 'F30', area: 'F', priority: 2, request: R.shelter, item: 'item 2', deliver: '`icon-pitch-tent` (a wagon sheet tent going up: a person pegging down one side)', names: ['icon-pitch-tent'],
+    frames: '1', size: ICON, standIn: 'a stroked tent (`LITTLE_GLYPHS[\'pitch-tent\']`)', kind: 'code', plugs: '`PANEL_ICONS[\'pitch-tent\']` in `public/family-panel.js`', status: 'open', phrases: ['icon-pitch-tent'] },
+  { id: 'F31', area: 'F', priority: 3, request: R.shelter, item: 'item 3', deliver: '`mark-shelter-house` (a cabin\'s roof with rain slanting past it) and `mark-shelter-tent` (the wagon sheet tent with rain slanting past it)', names: ['mark-shelter-house', 'mark-shelter-tent'],
+    frames: '2', size: MARK, standIn: 'a roof and a tent drawn in the style sheet as masks', kind: 'code', plugs: '`.panel-shelter-mark` (`data-at`) in `public/style.css`, made in `panelRow`, `public/app.js`', status: 'open', phrases: ['the shelter mark'] },
+  { id: 'A30', area: 'A', priority: 3, request: R.shelter, item: 'item 4', deliver: 'for each of the eight cast figures: `-pitch-tent` (knelt, driving a tent peg with a maul, 2 frames, east)', names: ['<cast>-pitch-tent*'],
+    frames: '2 frames each, east', size: PEOPLE, standIn: 'the house\'s notching stroke (`notch`, the hoeing cycle with a drawn axe)', kind: 'library', plugs: '`WORK[\'pitch-tent\']` in `public/work-art.js`', status: 'open', phrases: ['-pitch-tent'] },
   // Requests delivered whole or withdrawn: kept on the list, skipped, so nobody draws them again.
   ...[
     ['B', 'Request 2026-09-21 — the children\'s icons', 'delivered 2026-09-22 (`icons-children.png`)'],

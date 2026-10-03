@@ -3823,6 +3823,17 @@ function drawWorldNow(world) {
         const drawn = c => homesteadHouse(c, q.x, q.y, view.shelter === 'camp' ? yard : size, site.id, view);
         familyHouses.push({ own: ownLand, siteId: site.id, box: () => drawnBox(drawn), item: { y: q.y, draw: () => drawn(ctx) } });
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, view.shelter === 'camp' ? yard : size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
+      // The family's tent until its house has a roof (sim/shelter.mjs, owner 2026-10-02), where the server put it beside the camp:
+      // the family's own, and every family's on the Host's map. stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - the wagon sheet
+      // stretched over a ridge pole (`homestead-tent`); until it is drawn, the library's canvas tent.
+      const tentAt = settlement ? null : ownLand ? world.land?.tent : theirs?.tent;
+      if (tentAt) {
+        // The canvas tent's anchor is its back corner peg; drawn a third of its height to the east, its open door stands on the
+        // place itself, so the family sheltering there is drawn sitting in the doorway (and a little before it) rather than beside it.
+        const spot = camera.toScreen(tentAt), tall = Math.max(6, camera.figure * 1.7);
+        standing.push({ y: spot.y - 1, draw: () => { if (!drawSprite(ctx, 'homestead-tent', spot.x, spot.y, tall)) drawSprite(ctx, 'tent', spot.x + tall * 0.36, spot.y - tall * 0.04, tall); } });
+        (window.__tentsDrawn ??= {})[site.id] = { x: Math.round(spot.x), y: Math.round(spot.y), size: Math.round(tall) };
+      } else if (window.__tentsDrawn?.[site.id]) delete window.__tentsDrawn[site.id];
       // A new town's shops, each keeper's own building at its place (sim/shops.mjs, docs/TOWNS.md). Drawn for anybody, as
       // a town's buildings are; who is standing in them is still only seen by somebody who is there.
       // Each trade now has its own art (docs/ART_REQUESTS.md, request 2026-09-16).
@@ -3979,7 +3990,11 @@ function drawWorldNow(world) {
   // person carrying a child of two to five on the road; until then the child's own figure at the carrier's hip.
   const roadCarrier = one => (one.travel?.afoot && one.travel.carried && one.band !== 'infant' ? one.travel.carried : null);
   const carriedOn = one => one.carriedBy || roadCarrier(one);
+  // Who has gone into the house out of the weather (sim/shelter.mjs, owner 2026-10-02): seen walking to the door, then not drawn -
+  // they are inside. Under the tent or the wagon they are drawn sitting there (public/motion.js). Read by the proofs only.
+  window.__inside = [];
   for (const entity of [...entities].sort((a, b) => Boolean(carriedOn(a)) - Boolean(carriedOn(b)))) {
+    if (entity.kind === 'person' && entity.shelter?.at === 'house' && entity.shelter.phase === 'in' && !entity.travel) { window.__inside.push(entity.id); continue; }
     const holder = entity.carriedBy || (entity.baby?.state === 'held' ? entity.baby.by : null);
     if (holder && babiesHeldLast.has(holder)) { window.__babiesInArms[entity.id] = holder; continue; }
     const carrier = carriedOn(entity) ? carriedAt.get(carriedOn(entity)) : null;
@@ -5404,6 +5419,13 @@ function renderFamilyPanel(world) {
     const hunger = hungerOf(entity);
     setData(row.item, 'hunger', hunger);
     if (row.hungerMark.hidden !== (hunger === 'fed')) row.hungerMark.hidden = hunger === 'fed';
+    // In out of the weather (sim/shelter.mjs): the roof or the tent on the portrait, and with whom for the reader and the hover.
+    const shelterAt = entity.shelter?.at || '';
+    if (row.shelterMark.hidden !== !shelterAt) row.shelterMark.hidden = !shelterAt;
+    setData(row.shelterMark, 'at', shelterAt);
+    setData(row.item, 'sheltering', String(Boolean(shelterAt)));
+    const shelterTitle = shelterAt ? `In out of the weather: ${{ house: 'in the house', tent: 'under the tent', wagon: 'under the wagon', open: 'at the camp, with nothing over them' }[shelterAt]}${entity.shelter.minding ? ', with the children' : ''}.` : '';
+    if (row.shelterMark.title !== shelterTitle) { row.shelterMark.title = shelterTitle; row.shelterMark.setAttribute('aria-label', shelterTitle); }
     const portraitLabel = `${entity.name}, ${role}${age}${HUNGER_WORDS[hunger] ? `, ${HUNGER_WORDS[hunger]}` : ''}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. ${focused ? `Go back to ${entity.name}` : `Make ${entity.name} your main person`}, follow them and show their actions${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
     // What only the card said of them (owner 2026-09-29: the card is gone): a lasting wound, and having had the measles.
@@ -6033,7 +6055,12 @@ function panelRow(id) {
   const hungerMark = element('span', '', 'panel-hunger-mark');
   hungerMark.setAttribute('aria-hidden', 'true');
   hungerMark.hidden = true;
-  portrait.append(canvas, star, idleMark, sickMark, hungerMark);
+  // In out of the weather (sim/shelter.mjs, owner 2026-10-02): a roof or a tent in the portrait's top right while the server says they
+  // are in, the house, the tent or the wagon (public/style.css `data-at`). No words. stand-in: docs/ART_REQUESTS.md, request 2026-10-02
+  // "the shelter mark" - drawn in the style sheet until Astra's `mark-shelter-house` and `mark-shelter-tent` are registered.
+  const shelterMark = element('span', '', 'panel-shelter-mark');
+  shelterMark.hidden = true;
+  portrait.append(canvas, star, idleMark, sickMark, hungerMark, shelterMark);
   // The "!": its own button beside the portrait (a button cannot hold a button), shown only while somebody waits on them.
   const attention = panelMark('button', '!', 'panel-attention', 'mark-need');
   attention.type = 'button';
@@ -6104,7 +6131,7 @@ function panelRow(id) {
   const makeMain = element('button', '', 'panel-make-main');
   makeMain.type = 'button';
   makeMain.dataset.focus = id;
-  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, focus, auto, autoSays, life, sick, sickMark, hungerMark, word, note, why, away, makeMain, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, focus, auto, autoSays, life, sick, sickMark, hungerMark, shelterMark, word, note, why, away, makeMain, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }

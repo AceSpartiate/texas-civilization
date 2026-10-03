@@ -1,0 +1,366 @@
+{
+ "record": "shelter-injections",
+ "date": "2026-10-03",
+ "caught": 28,
+ "only": 19,
+ "of": 28,
+ "injections": [
+  {
+   "name": "a dry norther sends nobody in",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "the weather that sends people in",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the weather that sends people in: rain, a storm and a norther, wet or dry; never fog or a fair day"
+   ]
+  },
+  {
+   "name": "fog sends people in",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "the weather that sends people in",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the weather that sends people in: rain, a storm and a norther, wet or dry; never fog or a fair day"
+   ]
+  },
+  {
+   "name": "the children stay out in the rain",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "rain: everybody with no task",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "rain: everybody with no task and every child goes in under the tent; somebody at a task keeps at it; out again when it clears",
+    "somebody of ten or more sits with the children: one already in first; else the nearest at work near the house, whose work stands",
+    "a student's order wins: the one with the children sent to new work goes to it, and is not called in again that day",
+    "the companion: somebody free before anybody at work, an older child of ten to fifteen before a grown person, and never the timber",
+    "with nobody of ten or more who can come, the children keep each other company, and the family is told once",
+    "a family nobody plays: its children go in out of the rain, and nobody is called in to them",
+    "the first turn of the weather with no roof and no tent: whoever is free puts it up, and everybody else goes under the wagon meanwhile",
+    "with a roof the family goes into the house, and the page is told so; the shelter saves and opens again as it was"
+   ]
+  },
+  {
+   "name": "somebody at a task goes in too",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "rain: everybody with no task",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "rain: everybody with no task and every child goes in under the tent; somebody at a task keeps at it; out again when it clears",
+    "somebody of ten or more sits with the children: one already in first; else the nearest at work near the house, whose work stands",
+    "the companion: somebody free before anybody at work, an older child of ten to fifteen before a grown person, and never the timber"
+   ]
+  },
+  {
+   "name": "nobody comes out when it clears",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "rain: everybody with no task",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "rain: everybody with no task and every child goes in under the tent; somebody at a task keeps at it; out again when it clears",
+    "somebody of ten or more sits with the children: one already in first; else the nearest at work near the house, whose work stands"
+   ]
+  },
+  {
+   "name": "a child's job goes on inside",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "rain: everybody with no task",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "rain: everybody with no task and every child goes in under the tent; somebody at a task keeps at it; out again when it clears"
+   ]
+  },
+  {
+   "name": "the page is not told who is in",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "rain: everybody with no task",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "rain: everybody with no task and every child goes in under the tent; somebody at a task keeps at it; out again when it clears",
+    "somebody of ten or more sits with the children: one already in first; else the nearest at work near the house, whose work stands"
+   ]
+  },
+  {
+   "name": "nobody sits with the children",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "somebody of ten or more sits with the children",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "somebody of ten or more sits with the children: one already in first; else the nearest at work near the house, whose work stands",
+    "a student's order wins: the one with the children sent to new work goes to it, and is not called in again that day",
+    "the companion: somebody free before anybody at work, an older child of ten to fifteen before a grown person, and never the timber",
+    "with nobody of ten or more who can come, the children keep each other company, and the family is told once"
+   ]
+  },
+  {
+   "name": "the feller is called in from the timber",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "somebody of ten or more sits with the children",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "somebody of ten or more sits with the children: one already in first; else the nearest at work near the house, whose work stands",
+    "the companion: somebody free before anybody at work, an older child of ten to fifteen before a grown person, and never the timber"
+   ]
+  },
+  {
+   "name": "the companion's work goes on without them",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "somebody of ten or more sits with the children",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "somebody of ten or more sits with the children: one already in first; else the nearest at work near the house, whose work stands"
+   ]
+  },
+  {
+   "name": "the companion's row says nothing",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "somebody of ten or more sits with the children",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "somebody of ten or more sits with the children: one already in first; else the nearest at work near the house, whose work stands"
+   ]
+  },
+  {
+   "name": "the companion is refused orders",
+   "files": [
+    "sim/aside.mjs"
+   ],
+   "expected": "a student's order wins",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a student's order wins: the one with the children sent to new work goes to it, and is not called in again that day"
+   ]
+  },
+  {
+   "name": "an order does not send the companion",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "a student's order wins",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a student's order wins: the one with the children sent to new work goes to it, and is not called in again that day"
+   ]
+  },
+  {
+   "name": "the one sent is called in again the same day",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "a student's order wins",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a student's order wins: the one with the children sent to new work goes to it, and is not called in again that day"
+   ]
+  },
+  {
+   "name": "a grown person called in before an older child",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "the companion: somebody free before",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the companion: somebody free before anybody at work, an older child of ten to fifteen before a grown person, and never the timber"
+   ]
+  },
+  {
+   "name": "a worker called in before somebody free",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "the companion: somebody free before",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "rain: everybody with no task and every child goes in under the tent; somebody at a task keeps at it; out again when it clears",
+    "a student's order wins: the one with the children sent to new work goes to it, and is not called in again that day",
+    "the companion: somebody free before anybody at work, an older child of ten to fifteen before a grown person, and never the timber",
+    "the first turn of the weather with no roof and no tent: whoever is free puts it up, and everybody else goes under the wagon meanwhile"
+   ]
+  },
+  {
+   "name": "the children alone, and nobody told",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "with nobody of ten or more who can come",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "with nobody of ten or more who can come, the children keep each other company, and the family is told once"
+   ]
+  },
+  {
+   "name": "a family nobody plays is stopped for its children",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "a family nobody plays",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a family nobody plays: its children go in out of the rain, and nobody is called in to them"
+   ]
+  },
+  {
+   "name": "nobody puts the tent up by themself",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "the first turn of the weather",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the first turn of the weather with no roof and no tent: whoever is free puts it up, and everybody else goes under the wagon meanwhile"
+   ]
+  },
+  {
+   "name": "never under the wagon",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "the first turn of the weather",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the first turn of the weather with no roof and no tent: whoever is free puts it up, and everybody else goes under the wagon meanwhile"
+   ]
+  },
+  {
+   "name": "the tent left standing under a roof",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "the tent: offered",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the tent: offered to anybody of ten or more while there is no roof, put up by the camp, and struck when a pen is roofed"
+   ]
+  },
+  {
+   "name": "the tent put up away from the camp",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "the tent: offered",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the tent: offered to anybody of ten or more while there is no roof, put up by the camp, and struck when a pen is roofed"
+   ]
+  },
+  {
+   "name": "never into the house",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "with a roof the family goes into the house",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "with a roof the family goes into the house, and the page is told so; the shelter saves and opens again as it was"
+   ]
+  },
+  {
+   "name": "a shelter that cannot be is opened",
+   "files": [
+    "sim/world.mjs"
+   ],
+   "expected": "with a roof the family goes into the house",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "with a roof the family goes into the house, and the page is told so; the shelter saves and opens again as it was"
+   ]
+  },
+  {
+   "name": "the house at its old pace",
+   "files": [
+    "sim/work-pace.mjs"
+   ],
+   "expected": "one ordinary hand raises",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the paces: a house's spells and a tree felled each go at half the family's pace, and nothing else does",
+    "the words follow: the chooser and the plan say the house's hours at its new pace",
+    "one ordinary hand raises a round-log pen from a full log pile in under seventy ticks (a hundred and sixteen before)"
+   ]
+  },
+  {
+   "name": "felling at its old pace",
+   "files": [
+    "sim/work-pace.mjs"
+   ],
+   "expected": "one ordinary hand fells",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the paces: a house's spells and a tree felled each go at half the family's pace, and nothing else does",
+    "one ordinary hand fells forty logs onto the pile in under forty-five ticks (fifty-eight before)"
+   ]
+  },
+  {
+   "name": "fetching logs left at the old pace",
+   "files": [
+    "sim/work-pace.mjs"
+   ],
+   "expected": "the paces:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the paces: a house's spells and a tree felled each go at half the family's pace, and nothing else does"
+   ]
+  },
+  {
+   "name": "the chooser says the old hours",
+   "files": [
+    "sim/houses.mjs"
+   ],
+   "expected": "the words follow",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the words follow: the chooser and the plan say the house's hours at its new pace"
+   ]
+  }
+ ]
+}
