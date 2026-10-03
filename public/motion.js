@@ -728,6 +728,20 @@ export const AMBIENT_DRAWN = Object.freeze({
   whittle: 'whittle', harness: 'mend-harness', mend: 'sew', shell: 'shell-corn', rifle: 'clean-rifle', wash: 'wash',
   pipe: 'pipe', cards: 'cards', dominoes: 'cards', sweep: 'sweep', water: 'carry-water',
 });
+/**
+ * The points somebody was walked along this tick about their own land (`walked`, sim/land-paths.mjs), with their length, when they
+ * begin where the figure was and end where it is: otherwise null, and the figure is drawn as it always was. Never a journey.
+ */
+export function walkedFrom(previous, entity) {
+  const points = entity?.walked;
+  if (!Array.isArray(points) || points.length < 2 || entity.travel || previous?.travel || !previous?.location || !entity.location) return null;
+  const first = points[0], last = points.at(-1);
+  if (Math.hypot(first.x - previous.location.x, first.y - previous.location.y) > 0.002) return null;
+  if (Math.hypot(last.x - entity.location.x, last.y - entity.location.y) > 0.002) return null;
+  let miles = 0;
+  for (let i = 1; i < points.length; i++) miles += Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y);
+  return miles > 1e-6 ? { points, miles } : null;
+}
 /** The point `miles` along a road, for a caller drawing somebody somewhere other than where `position` puts them. */
 export const alongRoute = (points, miles) => along(points, miles);
 function along(points, distance) {
@@ -837,10 +851,23 @@ export class ProjectionMotion {
       // `base`: the Host is sent only the stretch of road round each traveller (sim/overview.mjs `roadWindow`).
       return along(oldTravel.points, this.progressAt(record, entity, now) - (oldTravel.base || 0)) || entity.location;
     }
+    // Walked about their own land this tick (sim/land-paths.mjs, owner 2026-10-02: "it's weird seeing characters walk over trees"):
+    // along the very points the server walked them, round the trees, and never the straight line between where they were and are.
+    const walked = walkedFrom(previous, entity);
+    if (walked) return along(walked.points, walked.miles * f);
     if (previous.location.siteId && previous.location.siteId === entity.location.siteId && Math.hypot(previous.location.x - entity.location.x, previous.location.y - entity.location.y) < .6) {
       return { x: previous.location.x + (entity.location.x - previous.location.x) * f, y: previous.location.y + (entity.location.y - previous.location.y) * f };
     }
     return entity.location;
+  }
+  /**
+   * How far through this tick's walk across their own land somebody is drawn, 0 to 1, or null while no walk is drawn
+   * (`walkedFrom`): what eases a figure's separation back in only as they come to where they were going (public/app.js).
+   */
+  walkingShare(entity, now, reducedMotion = false) {
+    const record = this.records.get(entity.id), previous = record?.previous;
+    if (!previous || reducedMotion || !walkedFrom(previous, entity)) return null;
+    return Math.min(1, Math.max(0, (now - record.at) / record.duration));
   }
   /**
    * Which way somebody not on a journey is being moved over the ground this frame - 'e', 'w', 'n' or 's' - or null while they
@@ -854,6 +881,13 @@ export class ProjectionMotion {
     if (!(now - record.at < record.duration * 1.25)) return null;
     const from = previous.location, to = entity.location;
     if (!from || !to || from.siteId !== to.siteId) return null;
+    // Along the points walked round the trees: the way of the stretch they are on now.
+    const walked = walkedFrom(previous, entity);
+    if (walked) {
+      const f = Math.min(1, Math.max(0, (now - record.at) / record.duration));
+      const a = along(walked.points, walked.miles * Math.max(0, f - 0.02)), b = along(walked.points, walked.miles * Math.min(1, f + 0.02));
+      if (Math.hypot(b.x - a.x, b.y - a.y) > 1e-7) return headingOf(b.x - a.x, b.y - a.y);
+    }
     const dx = to.x - from.x, dy = to.y - from.y, far = Math.hypot(dx, dy);
     if (!(far > 1e-6) || far >= .6) return null;
     return headingOf(dx, dy);

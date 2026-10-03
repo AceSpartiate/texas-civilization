@@ -233,7 +233,10 @@ test('a family of twenty fits the tick: what it is sent grows by the person, and
   assert.ok(twenty.all < 27900, `a family of twenty is sent ${twenty.all} bytes a tick`);
   // Since 2026-09-27 a person who has had the measles carries it (sim/disease.mjs `hadMeasles`, shown on the card), about half the
   // people: measured on these seeds at 1,143 a person. The bound moves to 1,160, which the kin carried twice still breaks.
-  assert.ok((twenty.people - four.people) / 16 < 1160,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
+  // Since 2026-10-02 every grown person of a family on its land has *Cut a path* on the row, and *Fence a yard* while a house stands
+  // with no yard fenced round it (sim/land-paths.mjs, owner 2026-10-02): measured on these seeds at 1,197 a person, the whole still
+  // under the 27,900 above. The bound moves to 1,215, which the kin carried twice (about sixty bytes a person more) still breaks.
+  assert.ok((twenty.people - four.people) / 16 < 1215,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
 });
 
 test('the hidden stats differ on average between men and women, and people overlap', () => {

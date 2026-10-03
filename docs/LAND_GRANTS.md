@@ -520,3 +520,89 @@ a suggested house site set, the map moved and Enter looking at its middle, ten a
 it staked cleared from a suggestion, with the small child who stops the surveyor given something to do from the panel,
 also by the keyboard). Each was seen failing under an injected regression (`npm run
 test:tier2-classroom-injections`). Same computer, headless Chrome: no Chromebook, and no screen reader was tried.
+
+## 10. Paths, the way across the land, and the yard — owner-decided 2026-10-02 (not released)
+
+The owner, verbatim, 2026-10-02: *"it's weird seeing characters walk over trees. paths should be cut to facilitate quick, reasonable
+movement on a families land. there should be an option to fence in a yard too. if there's a fenced in yard then kids on auto play
+will not be disobedient as often."* Built in `sim/land-paths.mjs`; claims `FIC-GONZ-1100` to `-1094` (HISTORY.md). The trees and
+the felling are docs/WOODS_AND_BUILDING.md §6.12; the yard's effect on the little ones is docs/CHILDREN.md §14.
+
+### 10.1 The way across the family's land (`FIC-GONZ-1100`)
+
+Somebody sent about the family's own land - out to survey, clear, fence, plant, fell, hunt or cut a path, and back to the yard - was
+moved in a straight line a tick at a time, over whatever stood between; the woods are drawn tree by tree from the very grid the
+server counts (sim/woods.mjs), so a student watched people walk through trunks and over crowns. Now:
+
+- **The server finds a way** (`landRoute`) on the woods' own grid of tree cells (a 256th of a mile, about 21 feet), round every
+  standing tree, the rivers and the houses as the map draws them, wading a creek where it must, and cheaper on a path. A cell with a
+  standing tree costs twenty times its ground (`TREE_COST`), a cell beside one two and a half times (`NEAR_TREE`): never a wall, so
+  a way out to fell a tree or hunt in the timber still gets there, between the trunks. The ground's own pace is the going's
+  (`COVER_PACE.foot`: open 1, timber 1.3, brush 1.6). A long way across a league is found on a grid of two or four tree cells
+  (`MOST_CELLS`), which steps round a stand rather than between its trunks. On a map whose trees are not counted (the invented
+  Gonzales country) the way is straight, as it always was, and only a path changes the pace.
+- **The person walks it** (`walkLand`, behind sim/survey.mjs `stroll`): the way is kept until they arrive and found again only when
+  where they are going changes. Each tick spends a mile of open going, piece by piece of the way at the pace of the ground under
+  each piece - quicker on a path, slower in timber and brush (until now the whole tick went at the pace of the ground they set out
+  from). A step across the yard in one tick (`walk`, the hunt's stalk) is still made in its tick, and drawn walking the way round.
+- **The page draws them along the very points walked** (`walked`, sent for the tick it was walked in; public/motion.js `walkedFrom`),
+  never the straight line between two ticks, and eases their separation from the others and their place at the work in over the
+  last quarter of the walk, so they are not drawn beside their way and over a tree they went round. **A tree in front of somebody is
+  drawn again over them** (public/app.js `treesInFront`): the woods are drawn into the kept ground under everybody, and a person
+  walking behind a tree was drawn over its crown.
+- `ceiling:` a person is drawn about a hundred feet tall and a tree's crown three of its cells across (sim/house-footprint.mjs
+  `PERSON_MILES`), so in open woods a figure still brushes the crowns beside it; the trees drawn in front of them are what make it
+  read as among and not over. A grid as fine as the drawing is the way out, if that is ever not enough.
+- `ceiling:` a way is found once for each place a person sets out for, on the server's one thread: 1.5 to 7 milliseconds on
+  average and about 45 at worst, measured on three families of one class (2026-10-02). A cache of ways by place is the way out if a
+  class of thirty shows it.
+- `ceiling:` the Host's map and a neighbour's people are drawn as before, between their ticks in a straight line.
+
+### 10.2 Paths (`FIC-GONZ-1101`, `-1092`)
+
+**Decided by the builder, as the brief recommended: a few trodden without anybody being sent, more cut as work.** A family wears a
+way by using it - nobody cuts grass to walk on it - but a way through the timber is cut, and cutting is felling.
+
+- **Trodden** (`advanceLandPaths`): once the house stands (sim/houses.mjs `houseSettled`), the family has a way from the door to
+  running water near enough to carry (a house with no well needed) and to every cleared plot, laid round the trees as the family
+  would walk it, and another to each plot as it is cleared. Laid at most three a tick across the class, so a class saved with every
+  house standing treads them over its first ticks. Not said in the journal: they are seen.
+- **Cut a path** (sim/chores.mjs `cut-path`, on the bar, the place tapped on the map like felling's): a straight line from the
+  nearest of the house's door, a path the family has or its lane, out to the place chosen - no shorter than `PATH_LEAST` (0.03
+  mile), no longer than `PATH_MOST` (0.6), not over a river nor into one. Every tree whose trunk stands within `PATH_HALF` (about
+  thirteen feet) of the line is felled at felling's own time (sim/felling.mjs `fellAndCarryTicks`), its logs onto the pile, and the
+  line itself is cleared a stretch at a time: `PATH_TICKS_PER_MILE` 3 through grass, 12 through the timber's undergrowth, 15 through
+  brush, half the lane's, at the family's pace (sim/work-pace.mjs). It wants the axe wherever a tree or brush stands in it, and is
+  refused without it, greyed with the axe it wants. The place chooser says before anybody goes how long the path is, what it runs
+  through, how many trees stand in its way, the logs and the hours. The work stays on the path: called in, the next sent goes on
+  from where the cutting got to. Many may work at one path, each felling a different tree.
+- **Walking a path is quicker**: `PATH_PACE` 0.8 of open ground's time, against 1.3 through timber and 1.6 through brush, and the
+  way across the land prefers it. The lane, as far as it is cut, counts as a path.
+- **Drawn** (public/app.js `drawLandPaths`): a soft trodden-earth verge with a packed line down the middle, under the woods and the
+  grass; the part of a path still to cut as a line of stakes, as the lane's is. Through the timber the stumps of the trees cut for it
+  are what show it most. `stand-in:` docs/ART_REQUESTS.md, request 2026-10-02 "paths and the yard".
+
+### 10.3 The yard (`FIC-GONZ-1103`)
+
+- **Fence a yard** (sim/chores.mjs `fence-yard`, on the bar once the house stands and until a sound fence stands round the yard):
+  rails round the house's own ground and the dooryard before it, where the little ones play - the houses' drawn footprints with
+  `YARD_MARGIN` (0.02 mile) at the sides and back and `YARD_FRONT` (0.035) before the door, and the play spot, cut back from any plot
+  of the field and kept inside the family's line (`yardBox`). Refused where the field comes too close to leave room.
+- **Cost and time, in the plot fence's model** (`yardFenceBy`): the rails a plot's fence would take at the yard's middle - from the
+  timber at hand, mesquite, logs off the pile where the timber is far, or carried from far off (sim/fields.mjs `fenceWork`,
+  sim/woodpile.mjs `fenceBy`) - at **half** a plot's work and half its logs (`YARD_SHARE`), never under two ticks. It wants an axe for
+  the splitting (greyed with it on the bar without one). `ceiling:` a plot's fence still asks for none (its own ceiling, sim/chores.mjs).
+- A tree standing inside the yard is left standing, a dooryard shade tree: felling it is felling's work (found 2026-10-02: a house in
+  the timber took twenty-two trees and thirty-nine logs with four ticks of rail-splitting when the yard felled them).
+- Drawn as a swept-earth dooryard inside a rail fence (public/app.js `drawYardFence`), its rails pulled down by the Scrape's burning
+  with the field's (sim/improvements.mjs `ruin`, `fence`).
+
+### 10.4 Old saves and the lesson
+
+No save version moved: a class saved before has no paths, no yard and nobody part way along a way, and those are the correct empty
+values (`landPathsInvalid`, `walkRouteInvalid`); a family whose house stands has its ways trodden on the first ticks after the class
+opens, as a family whose house has just gone up does. Cutting a path and fencing the yard are held back while a family is walked
+through its first farm work (sim/lesson.mjs `LATER_WORK`).
+
+Proof: `tests/land-paths.test.mjs` (7 tests, every one watched failing under its own injection, `node scripts/land-paths-injections.mjs`)
+and `npm run test:land-paths` (docs/evidence/land-paths-*.png, docs/evidence/land-paths-browser.json).

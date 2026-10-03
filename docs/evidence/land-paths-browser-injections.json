@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-03",
+  "caught": 3,
+  "of": 3,
+  "results": [
+    {
+      "injection": "the page draws a land walk as the straight line between ticks",
+      "caught": true,
+      "stopped": "AssertionError [ERR_ASSERTION]: seen on her way (0 frames)\r"
+    },
+    {
+      "injection": "no tree is drawn over somebody in front of it",
+      "caught": true,
+      "stopped": "AssertionError [ERR_ASSERTION]: a tree in front of her is drawn over her as she goes among them\r"
+    },
+    {
+      "injection": "the yard's rails are not drawn",
+      "caught": true,
+      "stopped": "page.waitForFunction: Timeout 15000ms exceeded.\r"
+    }
+  ]
+}

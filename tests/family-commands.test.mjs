@@ -158,7 +158,7 @@ test('idle is somebody who could be set to something and is not: not a child, no
   const worker = household.members.find(id => id !== household.principalId && view(world, 'hh-1').work[id]?.some(entry => entry.can));
   assert.ok(worker, 'nobody but the principal can be set to anything');
   household.resources.powder = 6;
-  const chore = view(world, 'hh-1').work[worker].find(entry => entry.can && !['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'fell-trees'].includes(entry.id));
+  const chore = view(world, 'hh-1').work[worker].find(entry => entry.can && !['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'fell-trees', 'cut-path'].includes(entry.id));
   // A family comes in off the road working about the place (sim/routines.mjs counts them): busy, not idle.
   assert.equal(world.entities[worker].task, 'work');
   assert.equal(rows()[worker], false, 'somebody working about the place is shown idle');

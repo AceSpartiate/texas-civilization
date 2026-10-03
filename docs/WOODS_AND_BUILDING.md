@@ -939,6 +939,19 @@ reason §6.8's is one: a house's spells and a piece's progress are saved.
   felling. If a class finds felling for them too quick, their own tables are the place.
 - Evidence: [house-time-measure.json](evidence/house-time-measure.json); `npm run test:shelter-injections` (the house's and the
   felling's paces and words among its rows).
+### 6.12 Nobody walks over a tree, and paths cut through the timber — owner-decided 2026-10-02 (not released)
+
+The owner, 2026-10-02: *"it's weird seeing characters walk over trees. paths should be cut to facilitate quick, reasonable movement
+on a families land."* The whole rule is docs/LAND_GRANTS.md §10; what it changes in the woods:
+
+- **The trees the map draws are the trees people go round.** The way across the family's land is found on the woods' own grid of tree
+  cells, from the same trees (sim/woods.mjs `treeInCell`), so a standing tree is never under a walker's feet unless they are going to
+  it - to fell it, or to the hunt's places in the timber. A felled tree is a stump, and stumps are walked over.
+- **Cutting a path is felling along a line**: every tree whose trunk stands within about thirteen feet of it comes down at felling's
+  own time, its logs onto the family's one pile (§6.7), and it wants the axe (§6.1). A path through the timber is the slow, log-giving
+  kind; through the grass it is a few minutes' marking.
+- **A tree in front of somebody is drawn over them**, so a person among the trees is seen behind the ones nearer the viewer.
+- The yard does not fell the trees inside it (docs/LAND_GRANTS.md §10.3).
 
 ## 7. Old saves
 

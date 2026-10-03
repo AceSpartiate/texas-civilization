@@ -145,6 +145,20 @@ export function treesVisible(camera, canvas, catalogue) {
 }
 
 /**
+ * Every tree fetched within `reach` miles of a place, as `{ x, y, kind, size }`: only the tiles under that square are read, so
+ * asking it for each person on the land each frame costs a few hundred comparisons (public/app.js `treesInFront`).
+ */
+export function treesNear(at, reach, catalogue) {
+  const box = { minX: at.x - reach, minY: at.y - reach, maxX: at.x + reach, maxY: at.y + reach }, found = [];
+  for (const { key } of keysFor('trees', catalogue.tiles.trees, box)) {
+    for (const [x, y, kind, size] of tiles.get(key)?.trees || []) {
+      if (x >= box.minX && x <= box.maxX && y >= box.minY && y <= box.maxY) found.push({ x, y, kind: catalogue.kinds[kind], size });
+    }
+  }
+  return found;
+}
+
+/**
  * The woods under the ground detail, as far as the view needs: the timber and brush patches as a canopy from close up to
  * the middle distance - kept faintly under the trees close in, so a stand reads as woods between its trunks - handing over
  * to the mile-by-mile shade of timber further out, which fades away where the province's cover belts take over.

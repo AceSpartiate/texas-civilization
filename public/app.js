@@ -30,7 +30,7 @@ import { GALE_POSES, GALE_SMOKE, drawFogShape, drawHighWater, drawWeatherAir, dr
 const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
 import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
-import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
+import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesNear, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding, setEndingReader } from '/ending.js';
 import { bindFlashback, renderFlashback } from '/flashback.js';
 import { createCourtship } from '/courtship.js';
@@ -1020,7 +1020,18 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
     : stableOffset(entity.id);
   // Facing the work: read by `drawFigure` for this figure only (`marks` is made for each).
   marks.workFace = atWork ? workSlotOut.face : null;
-  const x = point.x + offset.x * spread, y = point.y + offset.y * spread * .8;
+  // Walking their way across the land this tick (sim/land-paths.mjs, owner 2026-10-02): drawn on it, the separation and the place at
+  // the work eased in over the last quarter of the walk, so they are never drawn beside their way and over a tree they went round.
+  const walking = !entity.travel && !marks.observed ? motionProjection.walkingShare(entity, marks.now ?? performance.now(), marks.frozen) : null;
+  const onWay = walking === null ? 1 : Math.max(0, Math.min(1, (walking - .75) / .25));
+  if (walking !== null) (window.__walking ??= {})[entity.id] = +walking.toFixed(3); else if (window.__walking) delete window.__walking[entity.id];
+  let x = point.x + offset.x * spread * onWay, y = point.y + offset.y * spread * .8 * onWay;
+  // Somebody the server has inside the family's fenced yard is drawn inside its rails (owner, 2026-10-02): the separation never
+  // carries a child at play out over the fence.
+  const yard = marks.yard, at = entity.location;
+  if (yard && at && !entity.travel && at.x >= yard.box.minX && at.x <= yard.box.maxX && at.y >= yard.box.minY && at.y <= yard.box.maxY) {
+    x = Math.min(yard.right - 3, Math.max(yard.left + 3, x)); y = Math.min(yard.bottom - 2, Math.max(yard.top + 3, y));
+  }
   // Everything is drawn standing on (x, y), so `size` is a height and the click target
   // is the body above that point, not a circle centred on the feet.
   const height = drawnHeightOf(entity, size, seat);
@@ -2910,16 +2921,9 @@ function drawGroundDetail(ctx, world, camera) {
     for (const tree of treesVisible(camera, canvas, woodsCatalogue)) {
       if (cleared.length && inCleared(tree.x, tree.y)) continue;
       if (channels.length && inWater(tree.x, tree.y)) continue;
-      // The kind's picture, optional per-size pictures, and physical height come from the woods catalogue (sim/woods.mjs `KINDS`).
-      const point = camera.toScreen(tree), height = figure * SIZE.timberTree * TREE_SIZES[tree.size] * (tree.kind.scale || 1);
-      const sizeName = ['pole', 'log', 'large'][tree.size];
-      const sizedTree = `${tree.kind.picture}-${sizeName}`;
-      const deliveredSizes = tree.kind.sized ?? ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum'].includes(tree.kind.picture);
+      const point = camera.toScreen(tree), look = treeLook(tree, figure);
       const mix = windAt ? windAt(tree.x) : null;
-      const picture = tree.kind.pictures?.[tree.size] || (deliveredSizes ? sizedTree : tree.kind.picture);
-      // The kind's own art first where it has some (`own`, sim/woods.mjs): the picture it borrowed is what is drawn while that
-      // sheet is missing. stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of 1836, remaining species.
-      scattered.push({ tree: tree.kind.own ? `${tree.kind.own}-${sizeName}` : picture, standIn: tree.kind.own ? picture : null, height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
+      scattered.push({ ...look, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
     }
     // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs). The
     // trunk is `log-fallen-hardwood` (trees-colonies-2, 2026-09-21) where a hardwood was cut and the softer `log-fallen`
@@ -3182,6 +3186,12 @@ function drawPlots(ctx, world, camera) {
       const at = camera.toScreen(plotPick.point), radius = plotJob === 'fell-trees' ? Math.max(6, camera.scale * 0.05) : Math.max(6, Math.min(40, camera.scale * 0.03));
       ctx.save(); ctx.setLineDash([6, 4]); ctx.lineWidth = 2; ctx.strokeStyle = plotPick.facts?.can ? '#b5452f' : '#8a8171';
       ctx.beginPath(); ctx.arc(at.x, at.y, radius, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+    } else if (plotJob === 'cut-path') {
+      // The line the path would follow, from where the server says it begins (sim/land-paths.mjs `pathStart`), and a ring at its end.
+      const to = camera.toScreen(plotPick.point), from = plotPick.facts?.from ? camera.toScreen(plotPick.facts.from) : null;
+      ctx.save(); ctx.setLineDash([6, 4]); ctx.lineWidth = 2.5; ctx.strokeStyle = plotPick.facts?.can ? '#b5452f' : '#8a8171';
+      if (from) { ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(to.x, to.y); ctx.stroke(); }
+      ctx.beginPath(); ctx.arc(to.x, to.y, Math.max(5, camera.figure * .2), 0, Math.PI * 2); ctx.stroke(); ctx.restore();
     } else if (target) square(target, { stroke: plotPick.facts?.can ? '#b5452f' : '#8a8171', fill: plotPick.facts?.can ? 'rgba(181,69,47,.12)' : 'rgba(138,129,113,.12)', dash: [6, 4] });
   }
   window.__plotsDrawn = drawn;
@@ -3190,6 +3200,117 @@ function drawPlots(ctx, world, camera) {
     for(const piece of plotArt(plot)){const x=r.left+(r.right-r.left)*piece.x,y=r.top+(r.bottom-r.top)*piece.y;drawSprite(ctx,piece.sprite,x,y,size);decorations.push({plotId:plot.id,sprite:piece.sprite,x,y});}
   }
   window.__plotArtDrawn=decorations;
+}
+/**
+ * The family's paths and the ground of its yard, under the woods (owner, 2026-10-02; sim/land-paths.mjs): a trodden-earth way
+ * along every path as far as it is made - a soft worn verge with a packed line down the middle, like the lane but narrower -
+ * the stakes of the part still to cut as a dashed line, and the yard's swept earth. Only the family's own; its rails are drawn
+ * over the woods with the field's (`drawYardFence`).
+ * stand-in: docs/ART_REQUESTS.md, request 2026-10-02 "paths and the yard" - drawn procedurally, as the roads are, until a
+ * trodden-path tile and a paling are drawn.
+ */
+function drawLandPaths(ctx, world, camera) {
+  const land = !hostView(world) && world.land;
+  const drawn = [];
+  if (!land) { window.__pathsDrawn = drawn; return; }
+  const yard = land.yard;
+  if (yard) {
+    const a = camera.toScreen({ x: yard.minX, y: yard.minY }), b = camera.toScreen({ x: yard.maxX, y: yard.maxY });
+    ctx.save(); ctx.fillStyle = 'rgba(176,146,98,.4)'; ctx.fillRect(a.x, a.y, b.x - a.x, b.y - a.y); ctx.restore();
+  }
+  const width = Math.max(1.5, Math.min(26, camera.scale * .004 + camera.figure * .16));
+  for (const path of land.paths || []) {
+    const total = path.points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p.x - path.points[i].x, p.y - path.points[i].y), 0);
+    const made = Number.isFinite(path.cut) ? Math.min(total, path.cut) : total;
+    const [worn, staked] = made >= total - 1e-6 ? [path.points, []] : made <= 1e-6 ? [[], path.points] : splitAlong(path.points, made);
+    ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    if (worn.length > 1) {
+      const line = worn.map(camera.toScreen);
+      ctx.beginPath(); line.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+      ctx.strokeStyle = 'rgba(160,128,86,.42)'; ctx.lineWidth = width; ctx.stroke();
+      ctx.strokeStyle = 'rgba(122,94,60,.55)'; ctx.lineWidth = Math.max(1, width * .4); ctx.stroke();
+    }
+    if (staked.length > 1) {
+      const line = staked.map(camera.toScreen);
+      ctx.setLineDash([Math.max(3, width * .6), Math.max(4, width)]);
+      ctx.beginPath(); line.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+      ctx.strokeStyle = 'rgba(107,79,42,.7)'; ctx.lineWidth = Math.max(1.2, width * .3); ctx.stroke();
+    }
+    ctx.restore();
+    drawn.push({ id: path.id, kind: path.kind, made: +made.toFixed(4), miles: +total.toFixed(4), worn: worn.length > 1 ? worn.map(camera.toScreen).map(p => ({ x: Math.round(p.x), y: Math.round(p.y) })) : [] });
+  }
+  // Presentation evidence for the proofs (scripts/land-paths-browser-proof.mjs), read by nothing in the application.
+  window.__pathsDrawn = drawn;
+}
+/** The yard's rails, drawn with the field's (`railFence`), over the woods; and where they were drawn, for the proofs. */
+function drawYardFence(ctx, world, camera) {
+  const yard = !hostView(world) && world.land?.yard;
+  window.__yardDrawn = null;
+  if (!yard) return;
+  const a = camera.toScreen({ x: yard.minX, y: yard.minY }), b = camera.toScreen({ x: yard.maxX, y: yard.maxY });
+  const corners = [{ x: a.x, y: a.y }, { x: b.x, y: a.y }, { x: b.x, y: b.y }, { x: a.x, y: b.y }];
+  if (camera.scale > 40) {
+    // The top rail as one line under the delivered rail pictures, so the yard reads as one enclosure and not a ring of marks.
+    if (yard.fence !== 'ruined') {
+      ctx.save(); ctx.lineJoin = 'round';
+      ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
+      ctx.strokeStyle = 'rgba(110,82,50,.85)'; ctx.lineWidth = Math.max(1.5, Math.min(6, camera.figure * .07)); ctx.stroke();
+      ctx.restore();
+    }
+    railFence(ctx, corners, camera.figure, yard.fence === 'ruined');
+  }
+  window.__yardDrawn = { fence: yard.fence, left: Math.round(a.x), top: Math.round(a.y), right: Math.round(b.x), bottom: Math.round(b.y) };
+}
+/**
+ * A tree of the woods as it is drawn: its picture, the picture it borrows while its own is missing, and its height on the screen.
+ * The kind's picture, optional per-size pictures, and physical height come from the woods catalogue (sim/woods.mjs `KINDS`).
+ * The kind's own art first where it has some (`own`, sim/woods.mjs): the picture it borrowed is what is drawn while that
+ * sheet is missing. stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of 1836, remaining species.
+ */
+function treeLook(tree, figure) {
+  const height = figure * SIZE.timberTree * TREE_SIZES[tree.size] * (tree.kind.scale || 1);
+  const sizeName = ['pole', 'log', 'large'][tree.size];
+  const deliveredSizes = tree.kind.sized ?? ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum'].includes(tree.kind.picture);
+  const picture = tree.kind.pictures?.[tree.size] || (deliveredSizes ? `${tree.kind.picture}-${sizeName}` : tree.kind.picture);
+  return { tree: tree.kind.own ? `${tree.kind.own}-${sizeName}` : picture, standIn: tree.kind.own ? picture : null, height };
+}
+/** How wide a tree's crown is drawn, as a share of its height either side of its trunk; a person's figure, of theirs. */
+const CROWN_HALF = 0.42, FIGURE_HALF = 0.28;
+/**
+ * The trees standing in front of somebody on the family's land and over their figure, drawn again after them in the order of the
+ * ground (owner, 2026-10-02: "it's weird seeing characters walk over trees"). The woods are drawn into the kept ground, under
+ * everybody; a person walking behind a tree was drawn over its crown. Now a tree whose trunk stands nearer the viewer than their
+ * feet, and whose crown reaches over them, is drawn again over them, so they are seen among the trees and behind the ones in front.
+ * `people` are `{ point, figure }` on the screen. Only while the trees are drawn one by one; cheap, because only the tiles under
+ * each person are read.
+ */
+function treesInFront(ctx, world, camera, canvas, people, standing) {
+  const shown = [];
+  if (!woodsShown(world) || !woodsCatalogue || !people.length) { window.__treesInFront = shown; return; }
+  const strength = woodsLayersFor(camera, canvas).trees;
+  if (!(strength > 0.02)) { window.__treesInFront = shown; return; }
+  const figure = camera.figure, reach = figure * SIZE.timberTree * 1.2 / camera.scale;
+  const seen = new Set();
+  for (const person of people) {
+    const at = camera.toWorld(person.point);
+    for (const tree of treesNear(at, reach, woodsCatalogue)) {
+      const key = `${tree.x},${tree.y}`;
+      if (seen.has(key)) continue;
+      const point = camera.toScreen(tree), look = treeLook(tree, figure);
+      // In front (nearer the viewer, lower on the screen), and its crown over the figure's body.
+      if (point.y <= person.point.y || point.y - look.height >= person.point.y) continue;
+      if (Math.abs(point.x - person.point.x) >= look.height * CROWN_HALF + person.figure * FIGURE_HALF) continue;
+      seen.add(key);
+      standing.push({ y: point.y, draw: () => {
+        const was = ctx.globalAlpha; ctx.globalAlpha = was * strength;
+        if (!drawSprite(ctx, look.tree, point.x, point.y, look.height) && !(look.standIn && drawSprite(ctx, look.standIn, point.x, point.y, look.height))) postOak(ctx, point.x, point.y, look.height, Math.round(tree.x * 1e5));
+        ctx.globalAlpha = was;
+      } });
+      shown.push({ x: Math.round(point.x), y: Math.round(point.y), over: person.id });
+    }
+  }
+  // Presentation evidence for the proofs (scripts/land-paths-browser-proof.mjs), read by nothing in the application.
+  window.__treesInFront = shown;
 }
 /** A polyline cut in two at a distance along it, in world miles: the part before and the part after. */
 function splitAlong(points, miles) {
@@ -3673,10 +3794,13 @@ function drawWorldNow(world) {
     ground.fillStyle = '#9fbe73'; ground.fillRect(0, 0, canvas.width, canvas.height);
     window.__relief = drawRelief(ground, world, camera);
     if (woodsShown(world) && woodsCatalogue) drawWoodsCover(ground, camera, canvas, woodsCatalogue);
+    // The family's paths and its yard's swept earth, under the trees and the grass (owner, 2026-10-02).
+    try { drawLandPaths(ground, world, camera); } catch { /* the ground without its paths */ }
     drawGroundDetail(ground, world, camera);
     drawTerrain(ground, world, camera);
     drawHolding(ground, world, camera);
     drawPlots(ground, world, camera);
+    try { drawYardFence(ground, world, camera); } catch { /* the ground without the yard's rails */ }
     // The ground's own clips (the oaks' wind) are kept with it, and still named on the frames that only lay it down.
     // ceiling: the trees in the kept ground stand still between redraws of it; a few swaying trees drawn on each frame over
     // the kept ground is the way out, if the stillness is missed.
@@ -3969,6 +4093,11 @@ function drawWorldNow(world) {
   }
   drawnAt.clear();
   seatedDrawn.clear();
+  // The family's people standing or walking on their own land this frame, for the trees drawn in front of them (`treesInFront`).
+  const onLand = [];
+  // The family's fenced yard on the screen, which nobody the server has inside it is drawn out of (`drawEntity`).
+  const yardBox = !host && world.land?.yard?.fence === 'sound' ? world.land.yard : null;
+  const yardRect = yardBox ? (() => { const a = camera.toScreen({ x: yardBox.minX, y: yardBox.minY }), b = camera.toScreen({ x: yardBox.maxX, y: yardBox.maxY }); return { box: yardBox, left: a.x, top: a.y, right: b.x, bottom: b.y }; })() : null;
   const chosen = selectedEntity(world);
   const pending = [];
   // Six names around one cabin is a smear, not information. Below this size - which a
@@ -4065,8 +4194,10 @@ function drawWorldNow(world) {
     const yard = little ? yardHeadings.update(entity.id, ground.x, ground.y) : null;
     if (little) (window.__yardHeading ??= {})[entity.id] = yard; else if (window.__yardHeading) delete window.__yardHeading[entity.id];
     const shown = yard ? { ...held, yardHeading: yard } : held;
+    // On the family's own land: the trees in front of them are drawn again over them (`treesInFront`, owner 2026-10-02).
+    if (!host && !carrier && !inTown && !entity.travel && entity.kind === 'person' && entity.location?.siteId === world.household?.homeSiteId) onLand.push({ id: entity.id, point, figure: camera.figure * figureScale(entity) });
     standing.push({ y: point.y, draw: () => drawEntity(ctx, shown, point, roomForNames, camera.figure, {
-      selected: entity.id === chosen?.id, mark, entities, workmates: entities,
+      selected: entity.id === chosen?.id, mark, entities, workmates: entities, yard: yardRect,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
       now: frameNow, frozen, running, tickMs, sight, placed: Boolean(inTown),
     }) });
@@ -4092,6 +4223,7 @@ function drawWorldNow(world) {
       } });
     }
   }
+  treesInFront(ctx, world, camera, canvas, onLand, standing);
   // The Host's page and a page watching another family are as they were: nobody's row is greyed there.
   noteUnseen(host || world.watching ? new Map() : unseenNext, world);
   const margin = camera.figure * 4, shownObserved = [];
@@ -7265,6 +7397,8 @@ const PLOT_JOB_WORDS = {
   'fence-plot': { title: name => `Which plot ${name} fences`, hint: 'Tap one of your cleared plots to rail it in.', send: 'Fence it' },
   'fell-trees': { title: name => `Where ${name} fells`, hint: 'Tap timber on your land, inside the dashed line, to see what stands there to fell.', send: 'Fell there' },
   'hunt-land': { title: name => `Where ${name} hunts`, hint: 'Tap a place on your land, inside the dashed line, to see what game there is there.', send: 'Hunt there' },
+  // A path cut out to a place (owner, 2026-10-02; sim/land-paths.mjs): the line it would follow is drawn while the student looks.
+  'cut-path': { title: name => `Where ${name} cuts a path to`, hint: 'Tap a place on your land to see the path that would be cut to it from the house.', send: 'Cut the path' },
   // Each plot its own crop (owner, 2026-09-30): every bare plot unless one is tapped, and the crop is the button pressed.
   'plant-field': { title: name => `What ${name} plants`, hint: '', send: '' },
 };
@@ -7292,7 +7426,7 @@ function renderSurvey(world) {
   // A plot tapped on the map: what it is now - bare, growing, ripe or staked (owner, 2026-09-30).
   const tapped = plotFromMap ? pickedPlot(world) : null, stage = plotStage(tapped);
   const growingCrop = ['growing', 'ripe'].includes(stage) ? tapped.crop || 'corn' : null;
-  $('#survey-eyebrow').textContent = growingCrop ? 'FIELD' : plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : plotJob === 'plant-field' ? 'PLANTING' : 'FENCING';
+  $('#survey-eyebrow').textContent = growingCrop ? 'FIELD' : plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : plotJob === 'cut-path' ? 'PATH' : plotJob === 'plant-field' ? 'PLANTING' : 'FENCING';
   $('#survey-title').textContent = growingCrop ? `${CROP_WORD[growingCrop] || growingCrop} ${stage === 'ripe' ? 'ripe' : 'growing'}` : words.title(person.name);
   // Survey's facts say what the clearing would be; a plot's words already carry it. A refusal still names the plot.
   const surveyWork = plotJob === 'survey-plot' && facts?.spells ? ` Clearing it would be ${facts.spells} spells of work.` : '';
