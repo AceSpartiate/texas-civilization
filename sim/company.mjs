@@ -121,7 +121,7 @@ export const ridersIn = vehicle => (vehicle?.cart || vehicle?.carreta ? CART_RID
  * table of means (`meansRoll` 2, sim/means.mjs; owner 2026-09-25: "the horse should carry a rider"), and none in a class before.
  */
 // Not a horse lamed in a chase until it mends (sim/beasts.mjs `lame`, triage 2026-09-29 3.2).
-// A mule bought at the stock pens (2026-10-03, `FIC-GONZ-1130`) is one more seat as a horse is: one rider, the sick or the youngest,
+// A mule bought at the stock pens (2026-10-03, `FIC-GONZ-1110`) is one more seat as a horse is: one rider, the sick or the youngest,
 // dealt after the horses. ceiling: its pack is not counted on the family's road - a mule carrying a rider carries no more of the
 // load than a horse does; a pack mule in the flight's room (sim/scrape.mjs `flightRoom`) is the way out.
 export const riddenHorses = (world, movers = []) => (world?.meansRoll === 2 ? movers.filter(entity => isMount(entity) && (!entity.condition || entity.condition === 'sound') && !lame(world, entity))

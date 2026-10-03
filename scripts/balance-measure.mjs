@@ -104,6 +104,7 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
   const { COTTON_SEED_PER_PLOT } = await import('../sim/improvements.mjs');
   const { ownCrops } = await import('../sim/crops.mjs');
   const { farmFate } = await import('../sim/advance.mjs');
+  const { farmAtEnd } = await import('../sim/farm-sale.mjs');
   const { flightProjection, packFlight } = await import('../sim/scrape.mjs');
   const { findPath } = await import('../sim/geography.mjs');
   const { herdOf } = await import('../sim/stock.mjs');
@@ -353,6 +354,9 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
       cottonForFood: round2(world.events.filter(event => event.householdId === household.id && /sold [\d.]+ cotton .*(for|brought home) [\d.]+ food/.test(event.text)).reduce((sum, event) => sum + Number(event.text.match(/sold ([\d.]+) cotton/)[1]), 0)),
       flight: flight?.status ?? null, burned: Boolean(flight?.burned), burnedBy: flight?.burnedBy?.hand || (flight?.burned ? 'texian' : null),
       stockLeftDriven: Boolean(household.herdLeft?.driven), herd: { cattle: herd.cattle || 0, hogs: herd.hogs || 0 },
+      // The herd sold with the farm at the end (owner, 2026-10-03; sim/farm-sale.mjs `HERD_WITH_FARM`), inside `sale`: read out so the same
+      // classes can be scored without it (scripts/herds-ending-measure.mjs).
+      herdSold: (farmAtEnd(world, household).items || []).find(item => /stock on the range/.test(item.what))?.reales ?? 0,
       overWeight,
       // The owner's rule of 2026-09-16 (sim/family.mjs `canFight`): no woman is offered the fighting. Counted, never assumed.
       womenFought: awards.filter(award => award.role === 'fought' && world.entities[award.personId]?.sex === 'female').length,

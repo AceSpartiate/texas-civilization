@@ -57,7 +57,7 @@ import { MODES } from './travel.mjs';
 import { hasWords, holderOf, userOf } from './keeping.mjs';
 import { toolWords } from './tools.mjs';
 import { LEAD_MOST, LEAD_PACE, beastWords, beastsOf, kept, wagonWith } from './beasts.mjs';
-import { herdWords, hasStock } from './stock.mjs';
+import { herdOf, herdWords, hasStock, salePrice, sellStock } from './stock.mjs';
 import { shownWays, waysFor } from './going.mjs';
 import { purseOf } from './town.mjs';
 
@@ -73,6 +73,8 @@ const goodWords = (good, amount) => `${amount} ${good === 'hides' && amount === 
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const loads = amount => { const shown = Math.round(amount * 10) / 10; return `${shown} ${shown === 1 ? 'load' : 'loads'}`; };
 const cap = text => text.charAt(0).toUpperCase() + text.slice(1);
+/** "1 head of cattle", "3 cattle", "1 hog": the family's own stock as a line says it. */
+const headWords = (kind, n) => (kind === 'cattle' ? (n === 1 ? 'head of cattle' : 'cattle') : n === 1 ? 'hog' : 'hogs');
 /** The family's own town: sim/chores.mjs `townOf`, written out here because that module imports this one. */
 const townOf = household => household.settlementId || 'gonzales';
 const MODE_WORDS = Object.freeze({ foot: 'Goes on foot', horse: 'Rides the horse', mule: 'Rides the mule', wagon: 'Takes the wagon' });
@@ -89,6 +91,7 @@ const mostOf = offer => offer.most ?? (offer.kind === 'sell' && offer.once ? 1 :
 /** What one of this line is: a purchase, a lot sold, or a food ground. */
 function eachWords(offer) {
   if (offer.kind === 'service') return '1 food ground';
+  if (offer.herd) return `1 ${headWords(offer.herd, 1)}`;
   if (offer.kind === 'buy') return per(offer) === 1 ? `1 ${offer.good === 'cotton' ? 'bale' : offer.good === 'hides' ? 'hide' : offer.good}` : `${per(offer)} ${offer.good}`;
   return offer.brings ? Object.entries(offer.brings).map(([good, amount]) => goodWords(good, amount)).join(', ') : null;
 }
@@ -127,12 +130,14 @@ export function errandOffers(world, household, entity, town = null) {
   for (const trade of tradesAt(world, siteId)) {
     for (const offer of TRADES[trade].offers) {
       // A shop that has all it can use of what it buys is shut to it, and says how fast it sells on (sim/market.mjs).
-      const now = offer.kind === 'buy' ? priceNow(world, siteId, trade, offer) : null;
+      // The family's own stock is paid by its flesh today (sim/stock.mjs `salePrice`), not by a market.
+      const flesh = offer.herd ? salePrice(world, household, offer.herd) : null;
+      const now = flesh ? { coinEach: flesh.each, per: 1 } : offer.kind === 'buy' ? priceNow(world, siteId, trade, offer) : null;
       const shut = offer.refuse(world, household, entity)
         || (offer.kind === 'buy' && !now ? marketWords(world, siteId, trade, offer.good) : null)
         || (offer.takes && userOf(world, household, offer.takes, entity) ? hasWords(userOf(world, household, offer.takes, entity), [offer.takes], world, entity) : null);
       const most = mostOf(offer);
-      const market = offer.kind === 'buy' ? marketWords(world, siteId, trade, offer.good) : null;
+      const market = flesh ? `The ${offer.herd} are ${flesh.condition} today.` : offer.kind === 'buy' ? marketWords(world, siteId, trade, offer.good) : null;
       lines.push({
         id: `${trade}:${offer.id}`, trade, shop: cap(TRADES[trade].shop), keeper: keeperAt(world, siteId, trade)?.name || null,
         label: offer.label, kind: offer.kind, does: market ? `${offer.does} ${market}` : offer.does, price: priceWords(offer, now), each: eachWords(offer), pays: pays(offer), most,
@@ -164,6 +169,8 @@ function reckon(world, household, entity, list, town = null) {
   const pack = { food: 0, other: 0 };
   // What comes home on the hoof (sim/beasts.mjs): a horse or an ox led on a halter, cattle and hogs driven. None of it is a load.
   const leads = [], drives = {};
+  // The family's own stock driven in to sell (`herd` lines), against what is on the range.
+  const herdLeft = { ...herdOf(household) }, sells = {};
   const foodFrom = amount => { const inHand = Math.min(pack.food, amount); pack.food = round(pack.food - inHand); out += amount - inHand; };
   for (const raw of inTurn(list)) {
     const found = parse(raw?.id);
@@ -199,6 +206,16 @@ function reckon(world, household, entity, list, town = null) {
       if (offer.leads) for (let i = 0; i < n; i++) leads.push(offer.leads);
       for (const [kind, head] of Object.entries(offer.drives || {})) drives[kind] = (drives[kind] || 0) + head * n;
       lines.push({ ...line, costs: pay === 'coin' ? reales(price * n) : `${price * n} food`, ...(offer.brings && { gives: Object.entries(offer.brings).map(([good, amount]) => goodWords(good, amount * n)).join(', ') }) });
+    } else if (offer.herd) {
+      // The family's own stock sold at the pens (owner, 2026-10-03; sim/stock.mjs `sellStock`): out of the herd, never a load - it
+      // is driven to town at its own pace (`sells`) - and paid by the head at the flesh it is in today.
+      const kind = offer.herd;
+      if ((herdLeft[kind] ?? 0) < n) return { why: `There ${herdLeft[kind] === 1 ? 'is' : 'are'} only ${herdLeft[kind] ?? 0} ${headWords(kind, herdLeft[kind] ?? 0)} ${kind === 'cattle' ? 'on the range' : 'in the timber'} to sell.` };
+      herdLeft[kind] -= n;
+      sells[kind] = (sells[kind] || 0) + n;
+      const { each, condition } = salePrice(world, household, kind);
+      have.money = round(have.money + each * n);
+      lines.push({ ...line, gives: reales(each * n), costs: `${n} ${headWords(kind, n)}, ${condition}` });
     } else if (offer.kind === 'buy') {
       const units = n * per(offer);
       if (have[offer.good] + 1e-9 < units) return { why: `There will not be ${units} ${offer.good} in the house to sell.` };
@@ -230,7 +247,7 @@ function reckon(world, household, entity, list, town = null) {
   const home = pack.food + pack.other;
   // What is bought comes home in the new wagon, so only what is carried to town has to fit the way there.
   if (newWagon && home > MODES.wagon.carry + 1e-9) return { why: `That is ${loads(home)} to bring home, and the new wagon carries ${MODES.wagon.carry}. Send less.` };
-  return { lines, out: round(out), home: round(home), load: round(newWagon ? out : Math.max(out, home)), after: have, wagon, newWagon, leads, drives, town: siteId };
+  return { lines, out: round(out), home: round(home), load: round(newWagon ? out : Math.max(out, home)), after: have, wagon, newWagon, leads, drives, sells, town: siteId };
 }
 
 /**
@@ -312,7 +329,10 @@ export function errandQuote(world, household, entity, list, { modeAvailability, 
   const way = chooseMode(world, household, entity, reckoned.load, reckoned.wagon, modeAvailability, { town: reckoned.town, home, newWagon: reckoned.newWagon, leadsHorse: reckoned.leads.some(role => role === 'horse' || role === 'mule') });
   const ways = shownWays(way.ways);
   const base = { load: reckoned.load, lines: reckoned.lines, stock: stockOf(household), after: reckoned.after, ways, ...(way.mode && { quickest: way.mode }), ...(home && { home: home.words }) };
-  const andHome = home ? ` ${home.words}` : '';
+  // The family's own stock driven in to sell (owner, 2026-10-03): said, at the pace it holds the drover to on the way there.
+  const sold = Object.entries(reckoned.sells || {});
+  const there = sold.length ? ` Drives ${sold.map(([kind, n]) => `${n} ${headWords(kind, n)}`).join(' and ')} to the stock pens, at an ox's pace.` : '';
+  const andHome = `${there}${home ? ` ${home.words}` : ''}`;
   if (mode && mode !== way.mode) {
     const chosen = ways.find(one => one.id === mode);
     if (!chosen) return { ...base, can: false, why: 'No such way of going.' };
@@ -372,6 +392,22 @@ export function carryOutErrand(world, household, entity, state) {
       if (done < line.n) say(`${entity.name} could ${done ? `do only ${done} of ${line.n}` : 'not'}: ${offer.label.toLowerCase()} - ${why || 'it could not be done'}${done ? '' : ' Nothing was paid for it.'}`);
       continue;
     }
+    if (offer.herd) {
+      // The family's own stock at the pens (sim/stock.mjs `sellStock`): as many of those driven in as the herd still has, at the
+      // flesh they are in, coin outside the keeper's purse. They are off the drover's hands either way: what was not sold walks home.
+      const kind = offer.herd, sale = sellStock(world, household, kind, line.n);
+      if (entity.drives?.[kind]) {
+        const left = entity.drives[kind] - line.n;
+        if (left > 0) entity.drives[kind] = left; else delete entity.drives[kind];
+        if (!Object.keys(entity.drives).length) delete entity.drives;
+      }
+      if (sale.sold) {
+        household.resources.money = (household.resources.money ?? 0) + sale.got;
+        say(`${entity.name} sold ${sale.sold} ${headWords(kind, sale.sold)}, ${sale.condition}, to ${keeper.name} at the stock pens for ${reales(sale.got)}.`, { coin: sale.got, claimId: 'FIC-GONZ-1134' });
+      }
+      if (sale.sold < line.n) say(`There ${herdOf(household)[kind] === 1 ? 'was' : 'were'} only ${sale.sold} of the ${line.n} ${headWords(kind, line.n)} to sell by then.`);
+      continue;
+    }
     if (offer.kind === 'buy') {
       const wanted = line.n, lot = per(offer);
       const inHouse = Math.floor((household.resources[offer.good] ?? 0) / lot + 1e-9);
@@ -416,6 +452,20 @@ export function carryOutErrand(world, household, entity, state) {
     const wagon = wagonWith(world, entity, holderOf);
     if (wagon?.borrowedBy === entity.id) wagon.laden = true;
   }
+}
+
+/**
+ * The family's own stock an errand drives in to sell, by kind (owner, 2026-10-03): written on the drover as the errand begins
+ * (`entity.drives`, sim/beasts.mjs), so the road to town goes at the cattle's pace as the road home does with stock bought, and taken
+ * off them at the pens (`carryOutErrand`).
+ */
+export function herdDrivenIn(errand = []) {
+  const sells = {};
+  for (const line of errand) {
+    const kind = parse(line?.id)?.offer?.herd;
+    if (kind) sells[kind] = (sells[kind] || 0) + line.n;
+  }
+  return sells;
 }
 
 /** A stored errand that could not have been sent (sim/world.mjs `validateWorld`). */

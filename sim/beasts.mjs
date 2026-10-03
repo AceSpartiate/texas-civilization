@@ -27,7 +27,7 @@
  * what it is, and `userOf` holds one a person: two wagons are two loads out at once, each behind its own ox.
  *
  * **The mule** (owner, 2026-10-03: "we should also add the ability to buy a mule in town. mules were a lot cheaper than horses.";
- * docs/TOWNS.md §4h, `FIC-GONZ-1130`): an animal of `species: 'mule'`, a part of its own (`roleOf` 'mule') beside the horse, the ox
+ * docs/TOWNS.md §4h, `FIC-GONZ-1110`): an animal of `species: 'mule'`, a part of its own (`roleOf` 'mule') beside the horse, the ox
  * and the wagon. Nobody starts with one; the stock pens sell it, and the first a family buys is `hh-1-mule`, the next
  * `hh-1-mule-2`. It is a mount like the horse (`MOUNTS`, `isMount`): one rider at a time, lamed in a chase as a horse is, led
  * home on a halter at anybody's pace, set down in the yard beside the horses. It is not a horse wherever the war asks for one
@@ -98,7 +98,7 @@ export const kept = beast => !['taken', 'lost', 'dead'].includes(beast?.conditio
 export const BEAST_NAMES = Object.freeze({
   horse: ['Dandy the gelding', 'Kit the mare', 'Pardo the gelding', 'Nell the mare', 'Blue the gelding', 'Chico the gelding'],
   ox: ['Buck the ox', 'Berry the ox', 'Duke the ox', 'Brindle the ox', 'Star the ox', 'Pomp the ox'],
-  // The mule has no first: the first bought is the first here (`FIC-GONZ-1130`, invented; a she-mule is a molly, a he a john).
+  // The mule has no first: the first bought is the first here (`FIC-GONZ-1110`, invented; a she-mule is a molly, a he a john).
   mule: ['Jack the mule', 'Molly the mule', 'Pete the mule', 'Kate the mule', 'Toby the mule', 'Nance the mule'],
   // The family wagon is the first; the rest are counted, as a family would say them (`FIC-GONZ-391`).
   wagon: ['Second wagon', 'Third wagon', 'Fourth wagon', 'Fifth wagon'],

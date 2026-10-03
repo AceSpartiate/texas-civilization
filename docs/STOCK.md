@@ -93,9 +93,11 @@ that fled ended with nothing**, and that is the loudest thing this module does: 
 ## 5. Ceilings
 
 - `ceiling:` the herd is **two numbers on the household**, not a drove of animals on the map. Where they graze, which cow
-  is whose, the brand and the mark are all outside it.
+  is whose, the brand and the mark are all outside it. **Amended 2026-10-03 (§10):** the page draws the counts as a herd on the land,
+  and a herder minds it; it is still counts on the household.
 - `ceiling:` **the drive to Natchitoches is not modelled**, and it was the real cattle money (`HIST-TEX-263`: the cattle
-  "are usually driven for sale to Natchitoches"). Nothing here sells stock for coin at all. The store's purse holds two
+  "are usually driven for sale to Natchitoches"). Nothing here sells stock for coin at all. **Amended 2026-10-03 (§10.5):** the stock pens buy a
+  family's own head for coin by its flesh; the drive itself is still not modelled (§10.7, question 4). The store's purse holds two
   reales; a cattle drive is a different kind of journey and belongs with the trade the game does not yet have.
 - `ceiling:` **a share of a beef reaches ten miles**, because this game's families stand further apart than the record's
   neighbours did. A league is two and a half miles square, so a real colonist's nearest house was under three miles off;
@@ -218,3 +220,115 @@ FICTIONAL FOR GAMEPLAY. This amends §5's *no milk* and §8's *a little milk a d
 Evidence: `tests/milking.test.mjs` (seven tests), each regression seen failing under
 [milking-injections.json](evidence/milking-injections.json) (16 of 16 caught); `tests/flight-work.test.mjs`'s milk test now proves
 she gives nothing by herself.
+
+## 10. The herder, the herd on the land, and the herd that pays (owner, 2026-10-03; not released)
+
+> "when players bring cattle and hogs, why don't we see their real herds? shouldn't a character that's assigned to tend the herd
+> have appropriate skills and abilities for that? it should be a path to making food and wealth too."
+>
+> "there's already an action for looking after the animals on the range, change and adapt it. you have creative freedom with this
+> new ranching gameplay."
+
+Owner-decided 2026-10-03 (`FIC-GONZ-1130` to `-1135`, on `HIST-TEX-1130`, `-1131`, `-264`, `-641`, `-440`). This amends §3's *riding
+the range* and *killing a beef/hog*, §5's first two ceilings, and §6's list of invented numbers. **§2's four rules still hold**: the
+herd feeds itself and increases with nobody minding it at the rates it always had; a beef is divided; it strays from a range nobody
+rides; it is left on the range in the Scrape (§3, §8). What is new is what *minding* it buys, who does it, and what the herd pays.
+
+### 10.1 The herd on the land (public/herd-view.js)
+
+- **The real count is drawn.** Until today the page drew one longhorn and one hog beside any house whose family chose stock in the
+  lobby, whatever the herd had become. Now every head of `household.herd` is drawn on the family's land: a figure a head up to
+  `HERD_DRAWN_MOST` (24), and for a bigger herd a few head and **one group standing for the rest, with its count beside it ("×54")**.
+  Drawn far fewer as the camera pulls back (8 figures under 300 pixels to the mile, 2 groups under 150): the class's own camera on
+  the land is about 400, where every head is drawn. Each beast's place is hashed from the family and its number and drifts slowly,
+  so nothing is drawn from a random stream and a reload draws the same herd.
+- **Where**: cattle out on the land, hogs nearer and in the timber where the page knows timber stands; **in near the house at night**
+  (from eight in the evening to six, the server's clock, `ranch.night`); kept inside the family's land (a labor's half a mile too).
+- **The young**: the calves and pigs dropped in the last 75 days (`herdYoung`, `YOUNG_DAYS`) are drawn at three fifths, beside one of
+  the grown head. Stand-in: the grown clips drawn smaller ([ART_REQUESTS.md](ART_REQUESTS.md), request 2026-10-03).
+- **Following the herder**: while somebody of the family is out after the stock, the herd is drawn gathered about them, walking; on the
+  family's horse, the horse is drawn by them and not in the yard (a stand-in until a mounted herder is drawn).
+- **The hover** says what the server said: *"9 cattle, fair · 14 hogs, fair · 2 calves · 4 pigs · minded now by Silas, the best hand
+  with stock"* - the counts, the flesh, the young, the strays still out, who minded it and when (or *nobody minding them*).
+- **Taken herds vanish**: a herd left on the range in the Scrape is `herd` 0 and `herdLeft`, so nothing is drawn at the house; what is
+  found again on coming home is drawn again. `ceiling:` the herd left is not drawn on the abandoned farm while the family is away.
+- **The Host's map** draws every family's herd the same way (sim/overview.mjs `herd`, `ranch`).
+
+### 10.2 The hand with stock (`herdingOf`)
+
+- **Dealt** with the person, 1 to 3, hashed from the id and the word as the other knacks are (sim/chores.mjs `skillsFor`); **learned**:
+  one better for every `LEARN_DAYS` (8) days out after the stock, never past 3. Nothing is stored for anybody who never tended - a class
+  saved before today derives the same hand from the id - so **no save version moved**.
+- It **paces the day's work** (the chore's skill is `herding`), **minds the herd** (a day counts 0.6, 0.8 or 1, `CARE_WEIGHT`) and
+  **finds strays** (a quarter, a half, three quarters of those still out, `FIND_SHARE`).
+- **Shown, not explained**: a longhorn's-head **horn on the portrait** of a good hand (bronze, two notches) and the best (gold, three),
+  lit green on whoever is out after the herd now; the row's words *"a good hand with stock"*, *"the best hand with stock"*; and the
+  family's record says when a hand gets better (*"Silas is the best hand with stock on this land now, after 16 days at it."*).
+
+### 10.3 Who minds what, and how
+
+- *Ride the range after the stock* (`look-to-stock`, **the same id**: every saved order, auto task and test still names it).
+- **A child of seven** (`HOGS_FROM_AGE`) minds the hogs in the timber: the hogs are looked to (`hogsLookedDay`) and not the cattle. A
+  child on auto minds them among its jobs, after the milking (sim/childhood.mjs `JOBS_FIRST`).
+- **From twelve** (`CATTLE_FROM_AGE`; Dilue Harris's brother of thirteen was sent to help drive cattle, `HIST-TEX-641`) cattle and hogs,
+  **on the family's horse when nobody else has it** (`takes`, held until the day is done - exclusive use, sim/keeping.mjs); on foot a
+  day counts half for the cattle (`MOUNTED_CARE`): a league of prairie is not gathered on foot.
+- **Once a day a person** (*"Silas has been out after the stock today; the herd will keep until tomorrow."*), the gathering's daily
+  rule (docs/HUNGER.md §10); another of the family may go. On auto, the herder goes out every day it can.
+
+### 10.4 What minding does (`careOf`, read over the last thirty days)
+
+| | Nobody minding (as always) | Fully minded (8 days of the best hand) |
+| --- | --- | --- |
+| Calves (March-May) and pigs (October-December) | `CALF_SHARE` 0.12, `PIG_SHARE` 0.25 a month | half as many again (`RAISED_BONUS`): the wolves get fewer (`HIST-TEX-264`) |
+| Flesh (`conditionOf`) | fair; **thin** in its lean months (cattle February-March, hogs July-August) | **fat** in its season (cattle May-December, hogs October-February), fair out of it |
+| A beef | 32 / **40** / 48 food thin / fair / fat; the family keeps 15 of any; **and its hide** for the tanner | the same, fat |
+| A hog | 9 / **12** / 14 food (never more than the 14 food a hog costs at the pens) | the same, fat |
+| Strays | out on the range (`herdStrayed`); half of what is still out gone for good at each month's counting | a day out brings in the hand's share |
+
+### 10.5 What the herd pays
+
+- **Food**: butchering, as §3, now by the flesh. Untended, a herd gives what it always did.
+- **Coin**: *Sell cattle* and *Sell hogs* at the stock pens (Gonzales, San Felipe, Columbia, Victoria), chosen on the town errand
+  before anybody leaves (docs/TOWNS.md §4b): driven in at the cattle's pace (`LEAD_PACE`, said on the errand: *"Drives 2 cattle to the
+  stock pens, at an ox's pace."*), at most 4 cattle and 6 hogs a trip, paid by the head at its flesh - **a steer 3 / 4 / 6 reales**
+  (Almonte's bullock at four to six pesos, `HIST-TEX-1131`), **a hog 1 / 2 / 3** - coin outside the keeper's purse. Under the pens'
+  own prices, so only a herd fattened by minding sells for more than it cost.
+- **Hides**: a beef killed gives a hide (`BEEF_HIDES`), which the tanner buys (1 real or 2 food) or a carreta is lashed with.
+- **At the end**: the stock on the range is sold with an intact farm, each head at the pens' price by its flesh (docs/MONEY_AND_GLORY.md
+  §5c, `HERD_WITH_FARM`) - built as recommended and put to the owner (§10.7).
+
+### 10.6 Measured
+
+docs/BALANCE.md §21.
+
+### 10.7 For the owner (multiple choice, recommended first)
+
+1. **The herd at the end.** (A) **Sold with an intact farm**, each head at the pens' price by its flesh - as built; (B) sold at the end
+   whatever became of the farm, so a burned family that came home with stock sells it too; (C) not counted - only coin from stock sold
+   during the class counts.
+2. **How a hand is got.** (A) **Dealt 1-3 and learned by days at it** (8 days a step) - as built; (B) dealt only, fixed for the class as
+   farming and hands are; (C) learned only: everybody starts new to stock.
+3. **Who works cattle.** (A) **Anybody of twelve or more, on the horse if it is free** - as built; (B) men and boys of twelve and up
+   only, as the record's cow hunts were, women and girls minding the hogs and milking; (C) from ten.
+4. **The cattle drive.** The record's cattle money was a drive to Natchitoches or New Orleans at twice the Texas price (`HIST-TEX-1131`).
+   (A) **Not built: the stock pens buy for the trader who drives them on** - as built; (B) a drive as a journey of its own, weeks away
+   with the surplus at twice the price, a later build.
+5. **Tallow.** (A) **A beef gives its hide, nothing more** - as built; (B) tallow too, a new good the store buys for candles and soap.
+6. **The families nobody plays.** (A) **The director rides the range when it is about to stray and never sells** - as built; (B) the
+   director keeps a herder on the stock and sells surplus steers each autumn.
+
+### 10.8 Ceilings
+
+- `ceiling:` the herd is still two numbers and a few fields on the household (`herd`, `herdYoung`, `herdStrayed`, `herdCare`), not a
+  drove of animals with ids; the page draws the counts. A beast's own age, steers told from cows, and a brand per beast are outside it.
+- `ceiling:` a month's minding is read from the last thirty days (`herdCare`, at most 30 entries), not a herd's whole history.
+- `ceiling:` stock driven in to sell is taken from the herd at the pens, not when it leaves; the head on the road are still counted
+  (and drawn) at home until they are sold.
+- `ceiling:` the stock pens buy any number a family drives in, a trip at a time; there is no market for stock that fills.
+
+Evidence: `tests/herds.test.mjs` (nine tests), each regression seen failing under
+[herds-injections.json](evidence/herds-injections.json) (37 of 37 caught, 35 by the test written for it alone);
+`npm run test:herds` ([record](evidence/herds-browser.json), 8 checks: the herd of 9 cattle and 14 hogs drawn as 23 figures, 6 young;
+the herder out on the horse, the herd about him, the horn lit; the hover; 2 cattle sold at the pens for 8 reales and 7 left drawn;
+a herd of 200 drawn as 24 figures with groups of 54 and 124).

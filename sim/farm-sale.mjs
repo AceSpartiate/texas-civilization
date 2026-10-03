@@ -35,6 +35,7 @@ import { plotLayout } from './houseplot.mjs';
 import { clearedPlots } from './fields.mjs';
 import { improvementsOf } from './improvements.mjs';
 import { interimStandings } from './periods.mjs';
+import { SALE_COIN, conditionOf, herdOf, herdWords } from './stock.mjs';
 
 /** Farm land (the labor) sells at a real for this many acres: the ending's rate for promised land (sim/winter.mjs `ACRES_PER_REAL`). */
 export const FARM_ACRES_PER_REAL = 20;
@@ -46,6 +47,13 @@ export const HOUSE_REALES = Object.freeze(Object.fromEntries(Object.entries(HOUS
 export const CLEARED_PLOT_REALES = 10, FENCED_PLOT_REALES = 5;
 /** A well dug. */
 export const WELL_REALES = 5;
+/**
+ * The herd on the range goes with the farm (owner, 2026-10-03: the herd "should be a path to making food and wealth too"; docs/STOCK.md
+ * §10, `FIC-GONZ-1135`): each head at what the stock pens pay for it in the flesh it is in at the end (sim/stock.mjs `SALE_COIN`), so a
+ * herd kept and minded counts and a herd left on the range in the spring and not found again does not. Put to the owner as a
+ * question (docs/STOCK.md §10.7); false counts the herd at nothing, as before.
+ */
+export const HERD_WITH_FARM = true;
 /**
  * The glory a burned farm is counted, where there was nothing left to sell. Chosen by the balance measure (docs/BALANCE.md §17):
  * the glory that moves the median burned family's final number by as much as the median intact family's farm sale moves its own.
@@ -102,6 +110,11 @@ export function farmReckoning(world, household, { left = true } = {}) {
     items.push({ what: `${cleared.length * 10} acres of cleared field${fenced === cleared.length ? ', fenced' : fenced ? `, ${fenced * 10} of them fenced` : ''}`, reales: cleared.length * CLEARED_PLOT_REALES + fenced * FENCED_PLOT_REALES });
   }
   if (household.well) items.push({ what: 'The well', reales: WELL_REALES });
+  const herd = herdOf(household);
+  if (HERD_WITH_FARM && herd.cattle + herd.hogs > 0) {
+    const worth = herd.cattle * SALE_COIN.cattle[conditionOf(world, household, 'cattle')] + herd.hogs * SALE_COIN.hogs[conditionOf(world, household, 'hogs')];
+    if (worth > 0) items.push({ what: `The stock on the range (${herdWords(household)})`, reales: worth });
+  }
   const total = items.reduce((sum, item) => sum + item.reales, 0);
   return { kind: 'sale', items, total, words: `The farm was sold for ${reales(total)}: ${items.map(item => `${item.what.replace(/^The /, 'the ')} ${reales(item.reales)}`).join(', ')}.` };
 }

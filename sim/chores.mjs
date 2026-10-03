@@ -54,11 +54,11 @@ import { GAME, gameDrawn, huntWait, huntingPlace, huntRefusal, killYield, placeW
 import { VIEW, aimPath, boundedT, handOf, judgeShot } from './hunt-aim.mjs';
 import { weatherAt } from './weather.mjs';
 import { FORAGE, FORAGE_REACH, fishingWater, forageDays, forageFacts, forageRefusal, noteForaged, onSaltWater } from './gathering.mjs';
-import { BEEF_FAMILIES, BEEF_FOOD, BEEF_KEPT, BEEF_MILES, LOOKED_TO_DAYS, PORK_FOOD, butcherRefusal, divideBeef, herdOf, herdWords, killHog, lookedToStock } from './stock.mjs';
+import { BEEF_FAMILIES, BEEF_FOOD, BEEF_KEPT, BEEF_MILES, CATTLE_FROM_AGE, HOGS_FROM_AGE, LOOKED_TO_DAYS, PORK_FOOD, butcherRefusal, divideBeef, herdOf, herdWords, herdWork, herdingOf, killHog, tendHerd, tendedToday } from './stock.mjs';
 import { fellAndCarryTicks, fellRefusal, fellTree, fellingGround, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { STORE_BALE_COIN, TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
-import { carryOutErrand, planErrand } from './errands.mjs';
+import { carryOutErrand, herdDrivenIn, planErrand } from './errands.mjs';
 import { quickestWay } from './going.mjs';
 import { ROLES as BEASTS, hasWords, holderOf, letGo, takeToWar, userOf, vehicleCarry, warRifleWords } from './keeping.mjs';
 import { beastsOf, kept, wagonWith } from './beasts.mjs';
@@ -880,6 +880,11 @@ export const CHORES = {
   'visit-shop': {
     name: 'Go to town to trade', skill: 'hands', where: 'home', shops: true, errand: true,
     plan: (world, household, entity, extra, deps) => planErrand(world, household, entity, extra.errand, { ...deps, mode: extra.errandMode, town: extra.errandTown }),
+    // The family's own stock sold at the pens is driven in at its pace (owner, 2026-10-03; sim/errands.mjs `herdDrivenIn`).
+    begin: (world, household, entity) => {
+      const sells = herdDrivenIn(entity.chore.errand);
+      for (const [kind, n] of Object.entries(sells)) entity.drives = { ...entity.drives, [kind]: (entity.drives?.[kind] || 0) + n };
+    },
     describe: "Choose what to buy and sell in the family's own town before they go: the store, the smith, the gunsmith, the tavern and the rest, each at its own price in coin or food. They take the horse or the wagon if the load wants it.",
     steps: [
       { travel: 'town', doing: 'on the road to {town} to trade' },
@@ -1214,10 +1219,28 @@ CHORES['butcher-hog'] = {
     { walk: 'yard', doing: 'carrying the pork in' },
   ],
 };
+// The herder's work (owner, 2026-10-03: "there's already an action for looking after the animals on the range, change and adapt
+// it"; sim/stock.mjs `tendHerd`, docs/STOCK.md §10). The same id it always had, so every saved order, auto task and test still
+// names it. It is now paced by the hand's own knack with stock (`skill: 'herding'`, sim/stock.mjs `herdingOf`), taken by a child of
+// seven for the hogs and by anybody of twelve for the cattle too, on the family's horse when nobody else has it, and once a day.
+const horseHome = (world, household, entity) => !userOf(world, household, 'horse', entity)
+  && beastsOf(world, household, 'horse').some(beast => kept(beast) && !beast.travel && beast.location?.siteId === household.homeSiteId && (!beast.borrowedBy || beast.borrowedBy === entity?.id));
+const hasHerd = household => herdOf(household).cattle + herdOf(household).hogs > 0;
 CHORES['look-to-stock'] = {
-  name: 'Ride the range after the stock', skill: 'hands', where: 'home', stock: 'look', crew: 'join',
-  offered: (world, household) => herdOf(household).cattle + herdOf(household).hogs > 0,
-  describe: `A day out on the range and through the timber: the stock is counted, the calves are marked, and nothing strays for ${LOOKED_TO_DAYS} days. A herd nobody rides out after loses head every month, because a league of grazing land is open range and always was.`,
+  name: 'Ride the range after the stock', skill: 'herding', where: 'home', stock: 'look', crew: 'join', child: true, grown: true,
+  // The horse when it is free and the hand works cattle: theirs until the day on the range is done (sim/keeping.mjs).
+  takes: (world, household, entity) => (herdWork(entity) === 'all' && horseHome(world, household, entity) ? ['horse'] : []),
+  // A child under seven is never offered it; a child of seven to eleven only where there are hogs to mind.
+  offered: (world, household, entity) => hasHerd(household) && (!entity || herdWork(entity) === 'all' || (herdWork(entity) === 'hogs' && herdOf(household).hogs > 0)),
+  refusal: (world, household, entity) => {
+    const work = herdWork(entity);
+    if (!work) return `${entity.name} is only ${entity.age}, and too small to mind stock.`;
+    if (work === 'hogs' && herdOf(household).hogs < 1) return `There are no hogs to mind, and ${entity.name} is too young to work cattle.`;
+    if (tendedToday(world, entity)) return `${entity.name} has been out after the stock today; the herd will keep until tomorrow.`;
+    return null;
+  },
+  begin: (world, household, entity) => { if (entity.chore.with?.includes('horse')) entity.chore.mounted = true; },
+  describe: `A day out on the range and through the timber, on the horse when it is free: the stock counted, the calves marked, strays brought in, and nothing strays for ${LOOKED_TO_DAYS} days. Minded through the month the herd raises more of its young and is fatter - more meat, a better price at the stock pens - and whoever minds it gets better at it. A child of ${HOGS_FROM_AGE} can mind the hogs; cattle are worked from ${CATTLE_FROM_AGE}.`,
   steps: [
     { walk: 'field', doing: 'setting out to look to the stock' },
     { work: 6, doing: 'riding the range after the stock' },
@@ -2548,7 +2571,7 @@ export function haulFor(entity, choreId, modeId = DEFAULT_MODE) {
 /** One step of one person's chore. Called once per tick per working person. */
 function advanceChore(world, household, entity, { beginTravel, modeAvailability }) {
   const chore = CHORES[entity.chore.id];
-  const skill = entity.skills?.[chore.skill] ?? 1;
+  const skill = chore.skill === 'herding' ? herdingOf(entity) : entity.skills?.[chore.skill] ?? 1;
   // A travel step owns the person until the road is behind them. A road chore (sim/road.mjs) runs where the family has
   // halted on its way east: the road is still theirs, but the ground has stopped going past.
   // A road chore that goes on while the family moves (`moving`: watching the road behind, singing the little ones along;
@@ -3133,7 +3156,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     if (step.stock) {
       // The three of them in one place (sim/stock.mjs): the beef divided, the hog salted down, the range ridden. The
       // first two fall through to the ordinary produce rule so the carrying cap is decided in one place for every chore.
-      if (step.stock === 'look') { lookedToStock(world, household, entity); continue; }
+      if (step.stock === 'look') { tendHerd(world, household, entity, { mounted: Boolean(state.mounted) }); continue; }
       const kept = step.stock === 'beef'
         ? divideBeef(world, household, entity, beefNeighbours(world, household))
         : killHog(world, household, entity);
@@ -3266,6 +3289,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
  * still bare deserves to know the afternoon was lost, not to wonder.
  */
 export function abandonChore(world, household, entity, chore = CHORES[entity.chore?.id]) {
+  // Stock driven in to sell that never left the land (sim/errands.mjs `herdDrivenIn`): back on the range, and nobody is held to its
+  // pace. On the road it comes home with them, and is let go on arrival as stock bought is (sim/world.mjs).
+  if (entity.chore?.id === 'visit-shop' && entity.drives && !entity.travel && entity.location?.siteId === household.homeSiteId) delete entity.drives;
   entity.chore = null;
   if (entity.task === 'work') entity.task = 'rest';
   record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} left off ${chore ? chore.name.toLowerCase() : 'the work'} unfinished.` });

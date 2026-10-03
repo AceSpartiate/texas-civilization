@@ -25,6 +25,7 @@ import { holdingOf } from './grants.mjs';
 import { laneState } from './homesite.mjs';
 import { landView, pieced } from './houses.mjs';
 import { plotProjection } from './survey.mjs';
+import { hasStock, herdOf, herdOnPage } from './stock.mjs';
 
 /**
  * How much of a journey's road rides along, in miles either side of where the traveller is.
@@ -108,6 +109,8 @@ function overviewLand(world, household) {
     ...(household.field && { field: { crop: household.field.crop, state: household.field.state } }),
     ...(logs && { logs }),
     ...(household.stock && { stock: true }),
+    // The herd as it is (owner, 2026-10-03; sim/stock.mjs): what the family's own page draws, drawn for the teacher too.
+    ...(hasStock(household) && { herd: herdOf(household), ranch: herdOnPage(world, household) }),
     ...(household.arriving && { arriving: true }),
     // The family's tent until its house has a roof (sim/shelter.mjs, owner 2026-10-02).
     ...(household.tent && { tent: { x: household.tent.x, y: household.tent.y } }),

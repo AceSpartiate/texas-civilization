@@ -1421,3 +1421,24 @@ rolled, spouse and neighbour name) failed on its injections - the released sim/f
 (*"an Anglo-American family was dealt the Tejano name Gregorio"*; an Anglo lone parent marrying into *"a Salcedo"* family), and the
 neighbours named by the family's start (*"a Villa father ... Alvin"*). `tests/starts.test.mjs`'s class without starts now holds the
 names of each family's place; scripts/starts-injections.mjs has an injection for it.
+
+## Amendment, 2026-10-03 — a hand with stock (owner-decided; not released)
+
+The owner, 2026-10-03: *"shouldn't a character that's assigned to tend the herd have appropriate skills and abilities for that?"*
+([STOCK.md](STOCK.md) §10, `FIC-GONZ-1130`). This adds a fourth knack beside farming, hunting and hands; it is **not** one of §4's
+hidden stats, and it reaches the page.
+
+- **Dealt with the person**, 1 to 3, hashed from the person's id and the word *herding* exactly as sim/chores.mjs `skillsFor` deals the
+  other three (sim/stock.mjs `herdingDealt`). It is rolled with the family in the sense that it comes with each person the die makes,
+  and it never depends on sex or the family's start. **Nothing is written at founding**: the hand is derived from the id wherever it is
+  asked, so every person of a class saved before 2026-10-03 has the same hand they would have been dealt, and no save version moved.
+- **Learned, unlike farming and hands** (which §4's argument keeps fixed for the life of a class): one better for every eight days out
+  after the stock (`LEARN_DAYS`, `person.herding.days`), never past 3. Stock is learned by working it, and the cost is the days a hand
+  is not farming, hunting or building - the same trade the town and the neighbours exist for.
+- **Age, not sex**: a child of seven minds the hogs; cattle from twelve, on the family's horse when it is free (STOCK.md §10.3). Whether
+  cattle should be the men's and boys' work only is put to the owner (STOCK.md §10.7, question 3).
+- **Seen**: the row's words (*"a good hand with stock"*, *"the best hand with stock"*) and a horn on the portrait of a good hand or the
+  best, lit while out after the herd (public/family-panel.js `standing`, `herdMarkOf`). The page is sent `hand` (and `rangeDays`) only
+  for a family with stock.
+
+Evidence: `tests/herds.test.mjs` *a hand with stock* and *who may*, under [herds-injections.json](evidence/herds-injections.json).

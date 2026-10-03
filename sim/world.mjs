@@ -110,6 +110,7 @@ import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
 import { foragedInvalid } from './gathering.mjs';
 import { milkingInvalid, registerMilking } from './milking.mjs';
+import { herdInvalid, herdingOf, ranchShown } from './stock.mjs';
 import { advanceShelter, registerShelter, shelterInvalid, shelterLine, shelterShown } from './shelter.mjs';
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
 import { liftWants } from './wants.mjs';
@@ -1355,7 +1356,10 @@ function projectHousehold(world, household) {
   // What the story has already said of the family's hunger (sim/hunger.mjs): the server's bookkeeping; the rows carry the stage.
   delete shown.hungerTold;
   delete shown.handoverFed;
-  return { ...shown, ...(main !== household.principalId && { mainId: main }),
+  // The herd's month of minding (sim/stock.mjs): the server's log; the page gets what it draws and tells (`ranch`).
+  delete shown.herdCare;
+  const ranch = ranchShown(world, household);
+  return { ...shown, ...(main !== household.principalId && { mainId: main }), ...(ranch && { ranch }),
     ...(acting && acting.id !== main && { actingId: acting.id }), ...(acting?.how === 'child' && { steppedUp: true }),
     ...(taken && { takenIn: { householdId: taken.id, name: householdName(world, taken), ids: [...household.takenIn.ids] } }),
     // The family's food as a gauge (sim/hunger.mjs `larderShown`): days it lasts at today's eating, and the worst stage among them.
@@ -1412,7 +1416,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   visibleEvents.reverse();
   const knownIds = new Set(visibleEvents.map(e => e.id));
   const events = visibleEvents.map(e => ({ id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: e.causes.filter(id => knownIds.has(id)) }));
-  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e, world)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), ...((e.carreta || e.style === 'carreta') && { carreta: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(Number.isFinite(e.service.fellAt) && e.service.fellAt <= world.minute && { seenFall: true }), ...(Number.isFinite(e.service.offMap) && { offMap: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }), ...(e.service.down && { down: true }), ...(e.service.kind === 'matamoros' && (e.service.fight || e.service.fate) && e.service.status === 'serving' && { unreachable: recallRefusal(e, world) }) } }), ...(e.voted && { voted: true }), ...(e.kind === 'person' && heldByBattle(world, e) && { held: heldByBattle(world, e) }), ...(e.kind === 'person' && lyingOnField(world, e) && { fallen: true }), ...(e.auto && { auto: true, autoTask: autoShown(world, world.households[e.householdId], e) }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
+  const entities = Object.values(world.entities).filter(e => e.householdId === householdId && householdId).map(e => ({ id: e.id, name: e.name, ...(e.given && { given: e.given }), kind: e.kind, householdId: e.householdId, depth: e.depth, principal: e.principal, ...(e.kind === 'person' && seenAs(e, world)), ...(Number.isFinite(e.age) && { age: e.age }), ...seenTravel(world, e), health: e.health, task: e.task, skills: e.skills, ...(e.kind === 'person' && (world.households[e.householdId]?.herd || world.households[e.householdId]?.stock) && { hand: herdingOf(e), ...(e.herding && { rangeDays: e.herding.days }) }), chore: choreShown(world, household, e), condition: e.condition, species: e.species, laden: e.laden, ...(e.cart && { cart: true }), ...((e.carreta || e.style === 'carreta') && { carreta: true }), borrowedBy: e.borrowedBy, ...(e.marks && { marks: e.marks }), ...(e.service && { service: { kind: e.service.kind, status: e.service.status, siteId: e.service.siteId, ...(e.service.acres && { acres: e.service.acres }), ...(e.service.besieged && { besieged: true }), ...(Number.isFinite(e.service.fellAt) && e.service.fellAt <= world.minute && { seenFall: true }), ...(Number.isFinite(e.service.offMap) && { offMap: true }), ...(e.service.riding && { riding: true }), ...(['coming', 'open'].includes(e.service.courier) && { courier: e.service.courier }), ...(e.service.drilled && { drilled: e.service.drilled }), ...(e.service.bound && { bound: true }), ...(e.service.leave === 'open' && { leave: 'open' }), ...(e.service.road === 'open' && { road: 'open' }), ...(e.service.down && { down: true }), ...(e.service.kind === 'matamoros' && (e.service.fight || e.service.fate) && e.service.status === 'serving' && { unreachable: recallRefusal(e, world) }) } }), ...(e.voted && { voted: true }), ...(e.kind === 'person' && heldByBattle(world, e) && { held: heldByBattle(world, e) }), ...(e.kind === 'person' && lyingOnField(world, e) && { fallen: true }), ...(e.auto && { auto: true, autoTask: autoShown(world, world.households[e.householdId], e) }), ...(e.kind === 'person' && decisionPressing(world, e.id) && { pressing: true }),
     // How many real milliseconds their soonest open question has left before it lapses (sim/decision-budget.mjs), for the
     // countdown on the "!" (docs/audits/2026-09-28-design.md S33). Absent when nothing is spending, the correct empty value.
     ...(() => { const left = e.kind === 'person' ? decisionLeft(world, e.id) : null; return left === null ? {} : { decisionLeftMs: left }; })(),
@@ -1828,7 +1832,7 @@ export function validateWorld(world) {
   if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world) || actingInvalid(world);
   if (badChildren) throw new Error(badChildren);
-  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || foragedInvalid(world) || milkingInvalid(world) || shelterInvalid(world);
+  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || foragedInvalid(world) || milkingInvalid(world) || shelterInvalid(world) || herdInvalid(world);
   if (badLedger) throw new Error(badLedger);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');

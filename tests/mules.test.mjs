@@ -1,5 +1,5 @@
 // A mule bought in town (owner, 2026-10-03: "we should also add the ability to buy a mule in town. mules were a lot cheaper than
-// horses."; docs/TOWNS.md §4h, sim/beasts.mjs, `FIC-GONZ-1130` on `HIST-TEX-1110`).
+// horses."; docs/TOWNS.md §4h, sim/beasts.mjs, `FIC-GONZ-1110` on `HIST-TEX-1110`).
 //
 // Held here: the stock pens sell a mule for coin only, a lot cheaper than a horse; it is led home on a halter at its leader's own
 // pace and stands in the yard; no family is offered "On the mule" until it has one; it carries one rider, slower than the horse,

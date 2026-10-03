@@ -28,7 +28,7 @@ import { purseOf, purseHeld } from './town.mjs';
 import { marketRefusal, marketSale, recordSale } from './market.mjs';
 import { addTool, allWorn, toolCount } from './tools.mjs';
 import { BEASTS_MOST, BEAST_WORDS, LEAD_MOST, addBeast, beastsOf, kept } from './beasts.mjs';
-import { addToHerd } from './stock.mjs';
+import { SALE_COIN, SALE_MOST, addToHerd, herdOf } from './stock.mjs';
 // What the doctor does for the sick (sim/disease.mjs): used only inside the counter's `give`, so the cycle through it is safe.
 import { doctorSees } from './disease.mjs';
 /**
@@ -285,8 +285,8 @@ export const TRADES = Object.freeze({
     offers: [
       {
         id: 'hides', kind: 'buy', label: 'Sell the hides', coinEach: HIDE_COIN, foodEach: HIDE_FOOD, good: 'hides',
-        does: `${reales(HIDE_COIN)} or ${HIDE_FOOD} food for each hide from a deer taken.`,
-        refuse: (world, household) => (household.resources.hides ?? 0) >= 1 ? null : 'There are no hides in the house. A deer taken brings one home.',
+        does: `${reales(HIDE_COIN)} or ${HIDE_FOOD} food for each hide from a deer taken or a beef killed.`,
+        refuse: (world, household) => (household.resources.hides ?? 0) >= 1 ? null : 'There are no hides in the house. A deer taken or a beef killed brings one home.',
       },
       {
         // Owner, 2026-09-30 ("Tanner sells"): the second way to the carreta's lashings, beside a hunt.
@@ -399,6 +399,19 @@ export const TRADES = Object.freeze({
         does: 'A hog for the mast, driven home. Hogs farrow on the autumn mast, and a hog killed salts down and keeps.',
         refuse: () => null,
         give: (world, household, entity) => boughtStock(world, household, entity, 'hogs', 1),
+      },
+      // The family's own stock sold (owner, 2026-10-03: "it should be a path to making food and wealth too"; sim/stock.mjs
+      // `sellStock`, docs/STOCK.md §10): driven in from the range at the cattle's pace and paid by the head at the flesh they are in
+      // (`SALE_COIN`), coin only and outside the keeper's purse - the trader drives them on east (sim/errands.mjs `herd` lines).
+      {
+        id: 'sell-cattle', kind: 'buy', label: 'Sell cattle', herd: 'cattle', coinEach: SALE_COIN.cattle.fair, most: SALE_MOST.cattle,
+        does: `Cattle driven in from the range to the stock trader, who drives them on to Natchitoches: ${reales(SALE_COIN.cattle.thin)} a head thin, ${reales(SALE_COIN.cattle.fair)} in fair flesh, ${reales(SALE_COIN.cattle.fat)} fat. A herd minded on the range is fatter.`,
+        refuse: (world, household) => (herdOf(household).cattle >= 1 ? null : 'There are no cattle on the range to sell.'),
+      },
+      {
+        id: 'sell-hogs', kind: 'buy', label: 'Sell hogs', herd: 'hogs', coinEach: SALE_COIN.hogs.fair, most: SALE_MOST.hogs,
+        does: `Hogs driven in from the timber to the stock trader: ${reales(SALE_COIN.hogs.thin)} a head thin, ${reales(SALE_COIN.hogs.fair)} fair, ${reales(SALE_COIN.hogs.fat)} fattened on the mast.`,
+        refuse: (world, household) => (herdOf(household).hogs >= 1 ? null : 'There are no hogs in the timber to sell.'),
       },
     ],
   },
@@ -601,7 +614,7 @@ export const tradesAt = (world, siteId) => Object.keys(TRADES).filter(trade => O
 /** Every counter option for a trade: an offer paid in coin and in food, or a sale for coin or food, or a service. */
 export function counterOptions(trade) {
   return [
-    ...TRADES[trade].offers.flatMap(offer => offer.kind === 'service'
+    ...TRADES[trade].offers.filter(offer => !offer.herd).flatMap(offer => offer.kind === 'service'
       ? [{ id: `${trade}:${offer.id}`, label: offer.label, note: offer.does }]
       : offer.kind === 'buy'
         // A keeper who does not pay in food for a thing - the store, buying food itself - offers only the coin (2026-09-17).

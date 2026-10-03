@@ -1217,3 +1217,51 @@ Measured with `scripts/hunger-balance.mjs` (six classes of fifteen, all three pe
 
 The families the director runs are unchanged in kind: its hands are on chores, paid by the chore, so §14's 210-class record does not
 move with the 0.3 gone and was not run again. Starting food and the handover's three days are left as they are.
+
+## 21. The herder and the herd that pays (2026-10-03, owner-decided; not released)
+
+The owner, 2026-10-03: the herd *"should be a path to making food and wealth too"*, and the herder should have *"appropriate skills"*
+([STOCK.md](STOCK.md) §10). The question for balance: **does a herd now make food too easy, or decide who wins?**
+
+**Food** (`node scripts/hunger-balance.mjs --seeds hunger-1,hunger-2,hunger-3,hunger-4`, four classes of fifteen, all three periods;
+*before* = integration 9d34d767 with the same harness, [evidence/herds-balance-before.json](evidence/herds-balance-before.json);
+*now* = this branch, [evidence/herds-balance.json](evidence/herds-balance.json)). Two new kinds of student in the harness:
+*ranching* plays as *playing* does and also puts the best hand with stock of twelve or more (not the head of the family) on auto at
+*Ride the range after the stock*, and would sell cattle over eight at the pens; *herdonly* drives stock in and does nothing but tend
+the herd and kill a hog (else a beef) when the house is down to two days.
+
+| Per class of 15 | playing, before | playing, now | **ranching, now** | herd only, before | **herd only, now** |
+| --- | --- | --- | --- | --- | --- |
+| Deaths by hunger | 3.3 (all on the road east) | 1.0 (all on the road east) | **3.3 (all on the road east)** | 146 | **126.3** |
+| ... at home, periods 1-2 | 0 | 0 | **0** | 44.3 | **28.3** |
+| Food at the end of periods 1 / 2 / 3, median family | 46.9 / 66.9 / 20.5 | 43.9 / 69.7 / 20.8 | **49.5 / 65.0 / 20.8** | 12.1 / 7.7 / 0 | **11.6 / 8.6 / 0** |
+| Food from the herd, the class | 13.5 | 20.3 | **14.5** | 3,304 | **3,702** |
+| The herd at the end of period 2, median family with one | 6 cattle, 22 hogs | 6-7 cattle, 23 hogs | **7 cattle, 29-30 hogs** | 6-7, 1-23 | **7, 1-23** |
+
+- **A herd alone does not feed a family.** Tending the herd and killing from it is all a *herdonly* family does, and **126 of about 130
+  people a class still die**, a fifth fewer than before (the hogs raised by minding; the fat pork). Untended, the rule of §2 is as it
+  was: 6 cattle and 12 hogs give about 250 food a family over the whole game, not a year's eating.
+- **Minded, a herd grows rather than feeds**: a ranching family ends the second period with **29-30 hogs and 7 cattle against 22-23 and
+  6** for one that only rides the range when it is about to stray. The food students actually take from it stays small (14.5 a class:
+  a family that plays sensibly does not need to kill), and **nobody of a played family dies at home either way**.
+- **The sale was not exercised by the harness**: the cattle of a ranching family never passed the eight it keeps before selling (6
+  cattle and 12% calves, minded half again). The sale is proved in `tests/herds.test.mjs` and `npm run test:herds` (2 head fair, 8
+  reales); what selling does to a class is in the ending measure below. A harness that sells hogs too is the way to measure it in play.
+- Deaths on the road east move between 1 and 3.3 a class across runs of four classes; that is the noise of four classes, not the herd
+  (the ranching and playing families meet the road the same).
+- The harness ran before the herder's work was put back at the family's pace (`grown`, the last commit): that changes how long a day on
+  the range takes a hand, not what it yields.
+
+**The ending** (`node scripts/balance-measure.mjs --sizes 5,15,30 --classes 10,10,10`, the director's strategies over 30 classes and 500
+families, [evidence/herds-ending-measure.json](evidence/herds-ending-measure.json), scored with and without the herd's line by
+`node scripts/herds-ending-measure.mjs`):
+
+| | |
+| --- | --- |
+| Families with a herd still on the range at the end of an intact farm | **47 of 500** (most families fled and left theirs, §3) |
+| The herd's line of the sale, median (range) | **76 reales** (22 to 84), against a median farm sale of **181** |
+| What it moves a family's final number, median / mean | **+3,960 / +6,588** (glory multiplies it, as every real) |
+| Classes whose winner changed | **0 of 30** (8 winners had a herd sold, with or without its line) |
+
+So the herd at the end moves the middle of the table and not the winner, as the farm's sale did (§17). It is put to the owner
+(STOCK.md §10.7, question 1) with the measure.

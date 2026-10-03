@@ -1,5 +1,52 @@
 # Claude handoff — Astra foundation
 
+## The herder, the herd on the land, and the herd that pays — owner-decided 2026-10-03 (not released)
+
+Branch `herds` off local `integration-2026-09-28` (9d34d767); not pushed. Same computer only: headless Chrome; no Chromebook, LAN or
+classroom claim. Claims `FIC-GONZ-1130` to `-1135`, `HIST-TEX-1130`, `-1131`; docs/STOCK.md §10 (the whole design), MONEY_AND_GLORY.md
+§5c, FAMILY_CREATION.md (a hand with stock), TOWNS.md §4d amendment, BALANCE.md §21, ART_REQUESTS.md request 2026-10-03.
+
+The owner: *"when players bring cattle and hogs, why don't we see their real herds? shouldn't a character that's assigned to tend the herd
+have appropriate skills and abilities for that? it should be a path to making food and wealth too."* and *"there's already an action for
+looking after the animals on the range, change and adapt it. you have creative freedom."*
+
+**Built:**
+- **The real herd drawn** (public/herd-view.js `herdFigures`, `drawHerd` in public/app.js): every head of `household.herd` on the
+  family's land, a figure a head up to 24, a big herd as a few head and a group with its count ("×54"); far fewer zoomed out; the
+  young of the last 75 days smaller beside a grown head; cattle out, hogs nearer in the timber; in near the house at night (the server's
+  clock); gathered about whoever is out after the stock. The hover says the counts, the flesh, the young, the strays and who minded it.
+  The Host's map draws every family's herd. Until today one longhorn and one hog stood beside any stock family's house.
+- **The herder's work is the old action** (`look-to-stock`, same id): paced, minding and finding by a **hand with stock** (1-3, dealt
+  from the id like the other knacks, one better per 8 days at it, never past 3; nothing stored for anybody who never tended, so no save
+  version moved). A child of 7 minds the hogs; cattle from 12, on the family's horse when free (held until the day is done); once a day
+  a person; a child on auto minds the hogs among its jobs. Shown by a horn on the portrait (bronze a good hand, gold the best, lit green
+  while out) and the row's words.
+- **What minding buys** (read over the last thirty days): up to half as many young again (the wolves get fewer), a herd **fat** in its
+  season (more meat: a beef 48, a hog 14) where a herd left alone is **thin** in its lean months (32, 9); strays are out on the range,
+  found by the hand's share, half gone for good at each month's counting. Untended, every rate is what it always was.
+- **Wealth**: *Sell cattle* / *Sell hogs* at the stock pens on the town errand, driven in at the cattle's pace, paid by the head by
+  flesh (a steer 3/4/6 reales, a hog 1/2/3; under the pens' prices so only a fattened herd profits); a beef gives a hide for the tanner;
+  the herd on the range is **sold with an intact farm at the end** (as recommended, an owner question).
+
+**Measured** (BALANCE.md §21): a herd alone does not feed a family (herd-only students: 126 of about 130 a class die, against 146);
+a played family loses nobody at home either way; a minded herd ends period 2 at 29-30 hogs and 7 cattle against 22-23 and 6; the herd at
+the end is 47 families of 500, median 76 reales against a median farm sale of 181, and changes the winner in 0 of 30 classes.
+
+**Evidence**: tests/herds.test.mjs, 9 tests, **37 of 37** injections caught (35 by their own test alone,
+[record](docs/evidence/herds-injections.json), `npm run test:herds-injections`); `npm run test:herds` green, 8 checks with screenshots
+([record](docs/evidence/herds-browser.json): 9 cattle and 14 hogs drawn as 23 figures with 6 young; the herder out on the horse, herd
+about him, horn lit; the hover; 2 cattle sold for 8 reales and 7 drawn after; 200 head drawn as 24 figures). Green on the branch:
+test:hunger (8), test:scrape (7), test:children (16), test:auto (14), test:shops (5), test:overlap, test:whole-game (15),
+test:solo-game (17). `npm test`: **2128 tests, 2088 pass, 3 fail, 36 skipped** on the run before the last commit - two under the load
+of the whole suite (battle floor timing, the thirty-household capacity; both green alone) and two this branch caused and fixed in the
+last commit (the herder's work had left the family's pace; the flesh word read as a person's condition): those files and the herd's
+own, 30 tests, 30 pass.
+
+**For the owner** (docs/STOCK.md §10.7, multiple choice, recommended first): the herd at the end (sold with an intact farm / sold whatever
+the farm / not counted); how a hand is got (dealt and learned / dealt only / learned only); who works cattle (twelve and up on the horse /
+men and boys only / from ten); the cattle drive to Natchitoches (not built / a journey of its own later); tallow (hide only / tallow too);
+the families nobody plays (ride the range only, never sell / keep a herder and sell surplus each autumn).
+
 ## A mule at the stock pens, and riders in every vehicle requested — owner-decided 2026-10-03 (not released)
 
 Branch `mules` off local `integration-2026-09-28` (9d34d767); not pushed. Same computer only: headless Chrome; no Chromebook, LAN or
@@ -7,7 +54,7 @@ classroom claim. Kept clear of the `herds` branch's herd economics: a mule is no
 2026-10-03: *"create art requests if they don't already exist for having characters in vehicles. what i mean by vehicles is anything
 they can ride. we should also add the ability to buy a mule in town. mules were a lot cheaper than horses."*
 
-- **The mule** (docs/TOWNS.md §4h; claims `HIST-TEX-1110`, `FIC-GONZ-1130`): sold at the stock pens wherever horses are (Gonzales,
+- **The mule** (docs/TOWNS.md §4h; claims `HIST-TEX-1110`, `FIC-GONZ-1110`): sold at the stock pens wherever horses are (Gonzales,
   San Felipe, Columbia, Victoria) for **10 reales, coin only** against the horse's 25. Sourced: Holley 1836 gives Texas mules caught
   with the mustangs at "two to five" dollars and the mustang at three or four; no broken mule's price was found, so ten is the game's,
   set above the wild price as the broken horse is. A part of its own (`species: 'mule'`, `roleOf` 'mule', `hh-1-mule`, *Jack the
@@ -44,6 +91,8 @@ they can ride. we should also add the ability to buy a mule in town. mules were 
   1. *Should a mule draw a vehicle?* (a) **No, as built** - only an ox draws the wagon, cart and carreta, so a ten-real mule does not
      replace a fifteen-real ox; (b) a mule draws a cart or carreta but not the wagon; (c) a mule draws anything an ox does.
   2. *The mule's price*: (a) **ten reales, as built** (two-fifths of a horse); (b) five, the wild-caught price; (c) fifteen, an ox's.
+
+**At the merge with `herds` (2026-10-03):** the herd builder took `FIC-GONZ-1130` in parallel, so the mule claim is renumbered `FIC-GONZ-1110` (beside `HIST-TEX-1110`).
 
 ## The owner's answers on paths and the yard: "Auto kids; fell trees" — owner-decided 2026-10-03 (not released)
 

@@ -11,10 +11,10 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | A — People at work and ambient poses | 31 | 8 | 18 | 0 |
 | B — Children, babies and sickness | 19 | 7 | 13 | 2 |
 | C — Soldiers, battles and famous people | 22 | 1 | 19 | 1 |
-| D — Riders, horses, wagons, carreta, ferry, steamboat | 24 | 2 | 16 | 4 |
+| D — Riders, horses, wagons, carreta, ferry, steamboat | 25 | 2 | 16 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 19 | 3 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 14 | 2 | 11 | 17 |
-| **Total** | **130** | **22** | **96** | **27** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 16 | 2 | 11 | 17 |
+| **Total** | **133** | **22** | **96** | **27** |
 
 ## How a builder works
 
@@ -425,7 +425,7 @@ Skipped:
 
 ## D — Riders, horses, wagons, carreta, ferry, steamboat
 
-Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 24 to make, 4 skipped.
+Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 25 to make, 4 skipped.
 
 - [ ] **D1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1 — **Claude stand-in held back: Astra has drawn the subject** (cow), so the page draws hers (`milk-cow-walk-e`, `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze`)
   - **Deliver:** `milk-cow-walk-e` (4), `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze` (2): a gentle dairy cow of the 1830s with a rope trailing from her horns
@@ -493,6 +493,11 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Frames:** east, south, north. **Size:** As D5: the scale of `wagon-covered`, anchored at the hip
   - **Plugs into:** `passengerClip` and `bedLayout` in `public/motion.js`
   - **Stands in now:** their figure cut at the waist in the bed (Astra's library art reused)
+- [ ] **D30** (priority 2) — [Request 2026-10-03 — the herd and the herder](ART_REQUESTS.md#request-2026-10-03--the-herd-and-the-herder), item 5
+  - **Deliver:** for each of the eight cast figures and `boy`, `girl`: `-ride-herd` (on the family's horse at a walk, a coiled rope in hand, turning a cow, 4, east, and `-idle`)
+  - **Frames:** 4 frames, east, and 2 idle. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
+  - **Plugs into:** `drawHerd` (`chore.mounted`) and `rangeHorses` in `public/app.js`
+  - **Stands in now:** the family's horse grazing beside the herder, who is drawn on foot at the search stroke (Astra's library art reused)
 - [ ] **D10** (priority 3) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 3 — **Claude stand-in held back: Astra has drawn the subject** (dragoon), so the page draws hers (`dragoon-wounded-led`)
   - **Deliver:** `dragoon-wounded-led-1`..`-2` (a man slumped in the saddle, another leading the horse)
   - **Frames:** 2 frames, east. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
@@ -675,7 +680,7 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 14 to make, 17 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 16 to make, 17 skipped.
 
 - [ ] **F1** (priority 1) — [Request 2026-09-15 — face portraits for the family panel](ART_REQUESTS.md#request-2026-09-15--face-portraits-for-the-family-panel) — **Claude stand-in in place** (`portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant`); Astra's replaces it
   - **Deliver:** `portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`
@@ -712,6 +717,11 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** `PANEL_ICONS['pitch-tent']` in `public/family-panel.js`
   - **Stands in now:** a stroked tent (`LITTLE_GLYPHS['pitch-tent']`) (drawn in code (canvas or CSS))
+- [ ] **F32** (priority 2) — [Request 2026-10-03 — the herd and the herder](ART_REQUESTS.md#request-2026-10-03--the-herd-and-the-herder), items 1 and 2
+  - **Deliver:** `cattle-longhorn-<coat>-walk` for `red`, `pied`, `dun` (a range longhorn walking, 4, east, `-n`, `-s`), `calf-graze`, `calf-walk` (a longhorn calf, 2 and 4) and `piglet-root`, `piglet-walk` (a sucking pig, 2 and 4)
+  - **Frames:** 4 walking, 2 grazing or rooting, east (mirrored west). **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside (the longhorn's `cattle-longhorn-*` height; a calf and a pig about three fifths of it)
+  - **Plugs into:** `herdFigures` in `public/herd-view.js`, drawn by `drawHerd` in `public/app.js`
+  - **Stands in now:** Astra's farmyard `cow-walk` for a longhorn walking; the longhorn and the rooting hog drawn at three fifths for the young (Astra's library art reused)
 - [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (pine-loblolly-pole, cedar-pole, mesquite-pole, live-oak-pole, elm-pole, post-oak-pole, blackjack-pole, pecan-pole, hackberry-pole, sweetgum-pole, pine-loblolly-log, cedar-log, mesquite-log, live-oak-log, elm-log, post-oak-log, blackjack-log, pecan-log, hackberry-log, sweetgum-log, pine-loblolly-large, cedar-large, mesquite-large, live-oak-large, elm-large, post-oak-large, blackjack-large, pecan-large, hackberry-large, sweetgum-large, pine-longleaf-pole, pine-longleaf-log, pine-longleaf-large, palm-sabal-pole, palm-sabal-log, palm-sabal-large, cypress-bald-pole, cypress-bald-log, cypress-bald-large, magnolia-log, magnolia-large, beech-log, beech-large, cottonwood, scrub, reeds, prickly-pear, marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`pine-loblolly-pole-wind`, `cedar-pole-wind`, `mesquite-pole-wind`, `live-oak-pole-wind`, `elm-pole-wind`, `post-oak-pole-wind`, `blackjack-pole-wind`, `pecan-pole-wind`, `hackberry-pole-wind`, `sweetgum-pole-wind`, `pine-loblolly-log-wind`, `cedar-log-wind`, `mesquite-log-wind`, `live-oak-log-wind`, `elm-log-wind`, `post-oak-log-wind`, `blackjack-log-wind`, `pecan-log-wind`, `hackberry-log-wind`, `sweetgum-log-wind`, `pine-loblolly-large-wind`, `cedar-large-wind`, `mesquite-large-wind`, `live-oak-large-wind`, `elm-large-wind`, `post-oak-large-wind`, `blackjack-large-wind`, `pecan-large-wind`, `hackberry-large-wind`, `sweetgum-large-wind`, `pine-longleaf-pole-wind`, `pine-longleaf-log-wind`, `pine-longleaf-large-wind`, `palm-sabal-pole-wind`, `palm-sabal-log-wind`, `palm-sabal-large-wind`, `cypress-bald-pole-wind`, `cypress-bald-log-wind`, `cypress-bald-large-wind`, `magnolia-log-wind`, `magnolia-large-wind`, `beech-log-wind`, `beech-large-wind`, `cottonwood-wind`, `scrub-wind`, `reeds-wind`, `prickly-pear-wind`, `marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
   - **Deliver:** a gale silhouette for each remaining tree kind and ground mark - pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` (`<tree>-wind`)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite
@@ -749,6 +759,11 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 2. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
   - **Plugs into:** `.panel-shelter-mark` (`data-at`) in `public/style.css`, made in `panelRow`, `public/app.js`
   - **Stands in now:** a roof and a tent drawn in the style sheet as masks (drawn in code (canvas or CSS))
+- [ ] **F33** (priority 3) — [Request 2026-10-03 — the herd and the herder](ART_REQUESTS.md#request-2026-10-03--the-herd-and-the-herder), items 3 and 4
+  - **Deliver:** `herd-cattle-group`, `herd-hogs-group` (a knot of six to eight head grazing as one sprite, 2 frames) and `mark-herd` (a longhorn's head in the panel's mark style)
+  - **Frames:** 2 each; 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside; Mark: 96×96, transparent, no text, reads at 22–24 CSS px
+  - **Plugs into:** `drawHerd` in `public/app.js`; `.panel-herd-mark` in `public/style.css`, made in `panelRow`
+  - **Stands in now:** one longhorn or hog with its count beside it for a group; a horned head drawn in the style sheet as a mask for the mark (drawn in code (canvas or CSS))
 
 Skipped:
 - ~~F11~~ [Request 2026-09-19 — the country of 1836: trees and ground cover](ART_REQUESTS.md#request-2026-09-19--the-country-of-1836-trees-and-ground-cover) — skipped: delivered 2026-09-22 (the `stand-in:` comment in public/ground-classes.js is stale)

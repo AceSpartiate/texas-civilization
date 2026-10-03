@@ -2,14 +2,12 @@
   "record": "The shops of the towns, in a browser: docs/TOWNS.md",
   "date": "2026-10-03",
   "verdict": "PASS",
-  "note": "Same computer only. A student pressed Go to town to trade on the family panel, read every shop of Gonzales and its prices in the popup, put a meal at the tavern paid in food on the list and sent the person; the keepers were in sight while the person was in Gonzales, and the meal is in the story. Since 2026-10-03 the same person bought a mule at the stock pens, led it home, saw it standing in the yard, and rode it to town chosen on its way card, drawn in its saddle (Claude's stand-in mule). Every other trade is proved in tests/shops.test.mjs and tests/mules.test.mjs; the load and the wagon in scripts/errand-browser-proof.mjs. No LAN or district claim.",
+  "note": "Same computer only. A student pressed Go to town to trade on the family panel, read every shop of Gonzales and its prices in the popup, put a meal at the tavern paid in food on the list and sent the person; the keepers were in sight while the person was in Gonzales, and the meal is in the story. Every other trade is proved in tests/shops.test.mjs; the load and the wagon in scripts/errand-browser-proof.mjs. No LAN or district claim.",
   "checks": [
     "the family panel offers the street: \"Choose what they should buy and sell at the shops in town, then send them with the list.\"",
     "in Gonzales the popup lists 10 shops, every offer with its price: The store · Marta Ibarra; The blacksmith's · Josiah Pike; The gunsmith's · Tobias Rhine; The doctor's · Dr. Felipe Arocha; The tavern · Hannah Deering; The tanner's · Calvin Oakes; The wheelwright's · Rafael Cantú; The mill · Micajah Hobbs; The weaver's · Lucía Benavides; The stock pens · Anselmo Treviño",
     "12 townspeople are in sight in Gonzales: Marta Ibarra, Josiah Pike, Anselmo Lozano, Ruth Crandall, Tobias Rhine, Dr. Felipe Arocha, Hannah Deering, Calvin Oakes, Rafael Cantú, Micajah Hobbs, Lucía Benavides, Anselmo Treviño",
     "a meal at the tavern, paid in food, is in the family's story: \"Polly ate at the tavern. Nobody there knew anything the family had not heard.\"",
-    "a mule is bought at the stock pens for 10 reales against a horse's 25 reales (\"Rides the horse: 0 of 7 loads. Leads the new mule home on a halter.\"), led home drawn mule-walk-n, and stands in the yard drawn mule-idle, 29 px from the horse",
-    "the mule is chosen on its way card (\"On the mule4 miles an hour · about 3.5 hours there · 2 loads of the 10 it carriesHardly tiring.\"), \"Rides the mule: 2 of 10 loads, as you chose. The horse would be quicker.\", and its rider is drawn in the saddle of mule-saddled-walk-s",
     "no page errors"
   ],
   "observed": {
@@ -49,102 +47,6 @@
       "Lucía Benavides",
       "Anselmo Treviño"
     ],
-    "story": "Polly ate at the tavern. Nobody there knew anything the family had not heard.",
-    "pens": [
-      {
-        "id": "stockman:horse",
-        "label": "Buy a horse",
-        "price": "25 reales"
-      },
-      {
-        "id": "stockman:mule",
-        "label": "Buy a mule",
-        "price": "10 reales"
-      },
-      {
-        "id": "stockman:ox",
-        "label": "Buy an ox",
-        "price": "15 reales"
-      },
-      {
-        "id": "stockman:cattle",
-        "label": "Buy a cow and calf",
-        "price": "10 reales"
-      },
-      {
-        "id": "stockman:hog",
-        "label": "Buy a hog",
-        "price": "4 reales or 14 food"
-      }
-    ],
-    "muleHow": "Rides the horse: 0 of 7 loads. Leads the new mule home on a halter.",
-    "muleLed": "mule-walk-n",
-    "muleYard": {
-      "mule": {
-        "x": 541.3180474836128,
-        "y": -1203.8144124266144,
-        "size": 74.25000000000001
-      },
-      "horse": {
-        "x": 564.1642013297667,
-        "y": -1222.0913355035375,
-        "size": 74.25000000000001
-      },
-      "clip": "mule-idle"
-    },
-    "muleCard": "On the mule4 miles an hour · about 3.5 hours there · 2 loads of the 10 it carriesHardly tiring.",
-    "muleRideHow": "Rides the mule: 2 of 10 loads, as you chose. The horse would be quicker.",
-    "muleRidden": {
-      "seat": {
-        "seat": "horse",
-        "direction": "s",
-        "art": null,
-        "rig": null,
-        "parts": [
-          {
-            "part": "rider",
-            "x": 720,
-            "y": -148,
-            "height": 50,
-            "shown": 0.6300000000000001
-          },
-          {
-            "part": "horse",
-            "x": 720,
-            "y": -125,
-            "height": 74
-          }
-        ],
-        "mount": "mule",
-        "mountId": "hh-1-mule"
-      },
-      "clip": "mule-saddled-walk-s"
-    },
-    "muleRiddenSeen": {
-      "seat": {
-        "seat": "horse",
-        "direction": "n",
-        "art": null,
-        "rig": null,
-        "parts": [
-          {
-            "part": "horse",
-            "x": 913,
-            "y": 980,
-            "height": 135
-          },
-          {
-            "part": "rider",
-            "x": 913,
-            "y": 939,
-            "height": 90,
-            "shown": 0.6300000000000001
-          }
-        ],
-        "mount": "mule",
-        "mountId": "hh-1-mule"
-      },
-      "clip": "mule-saddled-walk-n"
-    }
+    "story": "Polly ate at the tavern. Nobody there knew anything the family had not heard."
   }
 }

@@ -305,7 +305,7 @@ export function modeWith(world, entity) {
 }
 
 /**
- * Whether this person has a horse with them - **not a mule** (owner, 2026-10-03, "buy a mule in town"; `FIC-GONZ-1130`). What the war
+ * Whether this person has a horse with them - **not a mule** (owner, 2026-10-03, "buy a mule in town"; `FIC-GONZ-1110`). What the war
  * asks of a mounted man: the scouts at Houston's camp (sim/camp.mjs), the Texian horse at the Grass Fight (sim/concepcion-grass.mjs)
  * and Horton's horsemen at Coleto (sim/fannin.mjs). The ranging companies of November 1835 were to come "with a good and sufficient
  * horse" (TSHA, *Texas Rangers*; `HIST-TEX-1110`), and a mule's walk does not keep up with a mounted enemy. A mule carries a man to

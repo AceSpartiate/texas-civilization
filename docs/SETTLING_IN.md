@@ -291,7 +291,7 @@ second amendment of that day). Claims `FIC-GONZ-397`, `FIC-GONZ-398`, `HIST-TEX-
 
 > "we should also add the ability to buy a mule in town. mules were a lot cheaper than horses." — the owner, 2026-10-03
 
-A family that has bought a mule ([TOWNS.md](TOWNS.md) §4h, `FIC-GONZ-1130`) has **one more seat** on its journeys together: every
+A family that has bought a mule ([TOWNS.md](TOWNS.md) §4h, `FIC-GONZ-1110`) has **one more seat** on its journeys together: every
 sound mule going with it carries one rider, dealt **after the horses' seats** in the same order - the sick, then the youngest
 (`riddenHorses` puts the mules after the horses; `seatPlan` unchanged). A lame mule carries nobody, as a lame horse. The means line
 says it: *"2 ride the horse and the mule and 4 walk."* In the flight east a family whose every one rides goes at the mule's four

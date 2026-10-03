@@ -1,6 +1,6 @@
 {
   "record": "whole-game-browser",
-  "date": "2026-10-02",
+  "date": "2026-10-03",
   "verdict": "PASS",
   "browser": "154.0.8037.93",
   "task": "One class from the lobby to the road home through all three periods, a student and the Host in the browser the whole way: nothing stalls, refuses wrongly or throws.",
@@ -9,34 +9,34 @@
     "the student joined as hh-1 in columbia and rolled a family of 8: Silas Proofwright (father, 31), Mary Proofwright (mother, 34), Delia Proofwright (daughter, 12), Moses Proofwright (son, 10), Obed Proofwright (son, 8), Eliza Proofwright (daughter, 6), Matilda Proofwright (daughter, 3), Joseph Proofwright (son, 2)",
     "the Host started the class with five families joined",
     "the family arrived and the house site was chosen on its grant at (99.0104, 22.799599999999998)",
-    "6 of the family set to auto from the panel: Silas Proofwright, Mary Proofwright, Delia Proofwright, Moses Proofwright, Obed Proofwright, Matilda Proofwright",
+    "8 of the family set to auto from the panel: Silas Proofwright, Mary Proofwright, Delia Proofwright, Moses Proofwright, Obed Proofwright, Eliza Proofwright, Matilda Proofwright, Joseph Proofwright",
     "4 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Silas Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (1971 ticks, 234.7 s)",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (2092 ticks, 234.8 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
     "Silas Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 35.3 s)",
+    "the second period ended on its own at minute 241920 (300 ticks, 37.1 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "nobody of the family starved by the spring, Mary Proofwright bringing food in on fish-the-water",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1176 ticks, 131.2 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1200 ticks, 135.5 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
-        "ticks": 1971,
-        "seconds": 234.7,
+        "ticks": 2092,
+        "seconds": 234.8,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 35.3,
+        "seconds": 37.1,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 1176,
-        "seconds": 131.2,
+        "ticks": 1200,
+        "seconds": 135.5,
         "endedAtMinute": 302580
       }
     },
@@ -56,7 +56,9 @@
       "Delia Proofwright",
       "Moses Proofwright",
       "Obed Proofwright",
-      "Matilda Proofwright"
+      "Eliza Proofwright",
+      "Matilda Proofwright",
+      "Joseph Proofwright"
     ],
     "fisher": {
       "id": "hh-1-parent-2",
@@ -116,7 +118,7 @@
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 401.2
+    "totalSeconds": 407.40000000000003
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

@@ -68,7 +68,7 @@ Coin in either direction is in the ending's account.
 | **Doctor** | see the doctor 2 / 3 | Tired: well at once. Hurt: mends in half the time left. Refused for somebody well. |
 | | bring the doctor to the wounded 3 / 5 | Since 2026-10-02 (triage 3.8, not released): somebody lying wounded cannot walk to town, so whoever goes brings the doctor out to the house. Every wound of the family lying there mends in half the time left. Refused with nobody lying wounded at home. |
 | **Tavern** | a meal and the talk 1 / 1 | Eight miles off the legs, and the family learns every public report it has not had, as *Talk at the tavern*. |
-| **Tanner, saddler, cobbler** | sell hides, 1 real or 2 food each | A deer taken brings a hide home. |
+| **Tanner, saddler, cobbler** | sell hides, 1 real or 2 food each | A deer taken brings a hide home, and since 2026-10-03 a beef killed (STOCK.md §10.5). |
 | | a rawhide 2 reales / 4 food (§4g, owner 2026-09-30) | A hide in the house: a carreta is lashed with one. Twice what he pays for one. |
 | | shoes 2 / 4 | A mile on foot tires the family 15% less. |
 | | a saddle 3 / 6 | A mile on the horse tires the rider a quarter less. Refused with no horse. |
@@ -357,6 +357,14 @@ Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [inje
   with no `species` (a class saved before there were horses) is an ox, and a class saved before this has no stock pens - like
   every trade added after a class began, it is not added to a class in progress (§6). No save version moved.
 
+**Amended 2026-10-03 — the stock pens buy a family's own head** ([STOCK.md](STOCK.md) §10.5, `FIC-GONZ-1134`; owner: *"it should be a
+path to making food and wealth too"*). Two lines on the stock pens' counter, chosen on the errand like every other: *Sell cattle* (a
+steer 3, 4 or 6 reales thin, fair or fat, at most 4 a trip) and *Sell hogs* (1, 2 or 3, at most 6). Coin only, outside the keeper's
+purse (the trader drives them on east). The head are driven in at the cattle's pace (*"Drives 2 cattle to the stock pens, at an ox's
+pace."*), are not a load, and leave the herd at the counter. The popup says the flesh the herd is in today (*"The cattle are fat
+today."*). The old walk along the street (`visit-shop-street`, retired) never offers them. The horse, ox, cow-and-calf and hog lines are
+unchanged.
+
 ### 4e. The families nobody plays buy a rifle again (owner, 2026-09-24)
 
 > "have automatic families buy a replacement rifle."
@@ -454,7 +462,7 @@ followed, *"Tanner sells"*: **the tanner sells a rawhide for 2 reales or 4 food*
 > — the owner, 2026-10-03
 
 **Status: built the same day** on branch `mules` (`sim/beasts.mjs`, `sim/shops.mjs` `stockman` → `mule`, `sim/travel.mjs`
-`MODES.mule`). Claims `FIC-GONZ-1130`, on `HIST-TEX-1110`. It amends §4d (a fifth line at the pens) and §4b (one more thing one person
+`MODES.mule`). Claims `FIC-GONZ-1110`, on `HIST-TEX-1110`. It amends §4d (a fifth line at the pens) and §4b (one more thing one person
 at a time has); the art is docs/ART_REQUESTS.md, *request 2026-10-03 — riders in every vehicle*.
 
 - **Where, and for how much.** Wherever horses are sold: the stock pens of Gonzales, San Felipe, Columbia and Victoria (§4d), kept by
