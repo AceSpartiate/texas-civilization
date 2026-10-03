@@ -318,6 +318,8 @@ docs/BALANCE.md §21.
 6. **The families nobody plays.** (A) **The director rides the range when it is about to stray and never sells** - as built; (B) the
    director keeps a herder on the stock and sells surplus steers each autumn.
 
+**The owner's answers (2026-10-03):** the herd at the end is sold with an intact farm (as built); a hand with stock is set at the start and learned by tending (as built); cattle are worked by anyone 12 and up (as built); a beef gives its meat and its hide, no tallow (as built); families nobody plays only ride the range (as built); and **a cattle drive to Natchitoches at twice the Texas price is to be built later, as its own journey** - a next task.
+
 ### 10.8 Ceilings
 
 - `ceiling:` the herd is still two numbers and a few fields on the household (`herd`, `herdYoung`, `herdStrayed`, `herdCare`), not a
