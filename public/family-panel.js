@@ -36,7 +36,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'fish-road': 'Sit at the water while the family waits at the crossing, and take food out of the river.',
   'butcher-beef': 'Kill a beef: the family keeps what it can and the neighbours get the rest, because it will not keep.',
   'butcher-hog': 'Kill a hog and salt it down, which is meat that keeps.',
-  'look-to-stock': 'Ride the range and through the timber after the stock, and mark the calves.',
+  'look-to-stock': 'Ride the range after the stock: count it, mark the calves, bring in strays. Minded through the month the herd is fatter and raises more young, and the hand gets better at it.',
   'sell-cotton': 'Carry the cotton to the store in town and trade it for food or coin.',
   'fetch-powder': 'Go to the store in town and buy powder and lead.',
   'fetch-seed': 'Go to the store in town and buy seed.',
@@ -620,7 +620,24 @@ export function standing(entity) {
   if (hunting >= 3) words.push('the best shot on this land');
   else if (hunting >= 2) words.push('a steady shot');
   if ((entity?.service?.drilled ?? 0) >= DRILLED_ROW) words.push('steady in the line');
+  // A hand with stock (owner, 2026-10-03; sim/stock.mjs `herdingOf`), sent only for a family with stock (`hand`).
+  if (entity?.hand >= 3) words.push('the best hand with stock');
+  else if (entity?.hand >= 2) words.push('a good hand with stock');
   return words.join(', ');
+}
+
+/**
+ * The horn on a person's portrait (owner, 2026-10-03: "show it visually"; sim/stock.mjs `herdingOf`): `{ hand, out, words }` for a good
+ * hand or the best (`hand`, sent only for a family with stock), and for whoever is out after the herd now (`out`, lit) whatever their
+ * hand; null otherwise. Its notches are the hand; the words are the hover's.
+ */
+export function herdMarkOf(entity) {
+  if (!entity || !Number.isFinite(entity.hand) || ['dead', 'captured'].includes(entity.health?.condition)) return null;
+  const out = entity.chore?.id === 'look-to-stock';
+  if (entity.hand < 2 && !out) return null;
+  const hand = ['', 'New to stock', 'A good hand with stock', 'The best hand with stock on this land'][entity.hand] || 'New to stock';
+  const days = entity.rangeDays ? `: ${entity.rangeDays} ${entity.rangeDays === 1 ? 'day' : 'days'} at it` : '';
+  return { hand: entity.hand, out, words: `${hand}${days}.${out ? ' Out after the herd now.' : ''}` };
 }
 
 /**

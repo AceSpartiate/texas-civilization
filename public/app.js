@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands } from '/family-panel.js';
+import { herdMarkOf, actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, tipToShow, tipsToReread } from '/tips.js';
 import { mountErrand } from '/errand.js';
@@ -53,6 +53,7 @@ import { createBattleView, personArt } from '/battle-view.js';
 // The class view watching a fight like a film (owner, 2026-09-30; docs/BATTLES.md §15.3, docs/HOST_PAGE.md §2.15).
 import { createCinema, familyColour } from '/battle-cinema.js';
 import { createChaseView } from '/chase-view.js';
+import { FAR_SCALE, herdFigures, herdHover } from '/herd-view.js';
 import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error', '#away-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
@@ -2313,6 +2314,12 @@ function installMapNavigation() {
   canvas.addEventListener('pointerleave', () => hoverPlot(null));
   canvas.addEventListener('pointermove', event => {
     if (event.pointerType === 'mouse' && !active.size) hoverPlot(event);
+    // Over a family's herd (`drawHerd`): its words drawn above it - the counts, the flesh, who minded it.
+    if (event.pointerType === 'mouse' && !active.size) {
+      const at = localPoint(event);
+      const over = herdsDrawn.find(herd => at.x >= herd.box.minX && at.x <= herd.box.maxX && at.y >= herd.box.minY && at.y <= herd.box.maxY)?.siteId || null;
+      if (over !== herdHoverId) { herdHoverId = over; requestMapDraw(); }
+    }
     // Measured here too, as a wheel is: a pointer that has only hovered since the page opened is read against the canvas as
     // it was at start-up, hidden behind the title screen with no size, and put the preview at no number at all - nothing was
     // drawn until the first press on the map (2026-09-23, scripts/house-plot-browser-proof.mjs).
@@ -3731,8 +3738,65 @@ export function drawWorld(world) {
   });
   if (log.length > 4000) log.splice(0, log.length - 4000);
 }
+/**
+ * The family's herd on its land, every head the server counts (public/herd-view.js `herdFigures`, owner 2026-10-03): pushed into the
+ * frame's standing things so each beast sorts with the house, the trees and the people. A group of a big herd says its count beside
+ * it when the camera is near, and the hover over the herd says what the server said of it (`herdHover`). stand-in: docs/ART_REQUESTS.md,
+ * request 2026-10-03 - the herd: the young are the grown clips drawn smaller, until a calf and a sucking pig are drawn.
+ */
+function drawHerd(ctx, world, camera, site, standing, { herd, ranch, bounds, own, entities }) {
+  // Whoever of the family is out after the stock on this land, at work there: the herd draws in about them.
+  const herder = own ? entities.find(one => one.kind === 'person' && one.chore?.id === 'look-to-stock' && !one.travel && one.location?.siteId === site.id && (one.chore.step ?? -1) >= 1) : null;
+  const herderAt = herder ? motionProjection.position(herder, performance.now(), reducedMotion.matches) : null;
+  const timber = woodsCatalogue ? (x, y) => treesNear({ x, y }, 0.02, woodsCatalogue).length > 0 : null;
+  const figures = herdFigures({ herd: { ...herd, ...(ranch?.young && { young: ranch.young }) }, home: site, bounds, hour: ranch?.night ? 23 : 12, seed: site.id, time: reducedMotion.matches ? 0 : animationTime / 1000, scale: camera.scale, herder: herderAt, timber });
+  if (!figures.length) return;
+  const box = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+  const clips = new Set();
+  figures.forEach((one, n) => {
+    const p = camera.toScreen(one), size = camera.figure * one.size;
+    box.minX = Math.min(box.minX, p.x - size * .7); box.maxX = Math.max(box.maxX, p.x + size * .7);
+    box.minY = Math.min(box.minY, p.y - size); box.maxY = Math.max(box.maxY, p.y + size * .15);
+    standing.push({ y: p.y, draw: () => {
+      // The walking clips are Astra's farmyard animals; a sheet not yet loaded falls back to the longhorn and the hog standing.
+      const clip = clipReady(one.clip) ? one.clip : one.kind === 'cattle' ? `cattle-longhorn-${one.coat}-graze` : 'hog-root';
+      if (animated(ctx, clip, p.x, p.y, size, `${site.id}:herd:${one.kind}:${n}`, { flip: one.flip })) clips.add(clip);
+      if (one.count > 1 && camera.scale >= FAR_SCALE) {
+        ctx.save(); ctx.font = `bold ${Math.max(10, Math.round(size * .32))}px Georgia`; ctx.textAlign = 'left'; ctx.lineWidth = 3;
+        ctx.strokeStyle = '#f2e6c9'; ctx.strokeText(`×${one.count}`, p.x + size * .45, p.y - size * .55);
+        ctx.fillStyle = '#4c422e'; ctx.fillText(`×${one.count}`, p.x + size * .45, p.y - size * .55); ctx.restore();
+      }
+    } });
+  });
+  // The family's horse under the herder (`chore.mounted`). stand-in: docs/ART_REQUESTS.md, request 2026-10-03 - the herder on horseback
+  // working cattle; until it is drawn the horse grazes beside the herder at their work, and is not drawn in the yard (`rangeHorses`).
+  if (herder?.chore?.mounted && herderAt) {
+    const p = camera.toScreen(herderAt), size = camera.figure * 1.45;
+    standing.push({ y: p.y - 0.5, draw: () => animated(ctx, clipReady('horse-graze') ? 'horse-graze' : 'horse-chestnut-idle', p.x - camera.figure * .75, p.y, size, `${site.id}:range-horse`) });
+  }
+  const words = herdHover(herd, ranch);
+  herdsDrawn.push({ siteId: site.id, box, words });
+  if (herdHoverId === site.id && words) {
+    // Over everything standing, above the herd: the server's words for it.
+    standing.push({ y: Infinity, draw: () => {
+      ctx.save(); ctx.font = '13px Georgia'; const width = ctx.measureText(words).width + 14, x = Math.min(Math.max(4, (box.minX + box.maxX) / 2 - width / 2), ctx.canvas.width - width - 4), y = Math.max(4, box.minY - 26);
+      ctx.fillStyle = 'rgba(246,236,212,.96)'; ctx.strokeStyle = '#6b5a3a'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.rect(x, y, width, 22); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#3a2f1c'; ctx.textBaseline = 'middle'; ctx.fillText(words, x + 7, y + 11); ctx.restore();
+      window.__herdHoverShown = { siteId: site.id, words, x: Math.round(x), y: Math.round(y) };
+    } });
+  }
+  // Presentation evidence for the proofs (scripts/herds-browser-proof.mjs), read by nothing in the application.
+  if (own) {
+    const sum = (kind, young) => figures.filter(one => one.kind === kind && (young === undefined || one.young === young)).reduce((total, one) => total + one.count, 0);
+    window.__herdDrawn = { figures: figures.length, cattle: sum('cattle'), hogs: sum('hogs'), young: figures.filter(one => one.young).length, groups: figures.filter(one => one.count > 1).map(one => ({ kind: one.kind, count: one.count })),
+      herder: herder ? herder.id : null, night: Boolean(ranch?.night), clips: [...clips], kinds: [...new Set(figures.map(one => one.clip))], box: { x: Math.round(box.minX), y: Math.round(box.minY), w: Math.round(box.maxX - box.minX), h: Math.round(box.maxY - box.minY) }, words };
+  }
+}
+/** The herds drawn this frame, for the hover (`hoverHerd`), and the one the mouse is over. */
+let herdsDrawn = [], herdHoverId = null;
 function drawWorldNow(world) {
   noteTick(world);
+  herdsDrawn = [];
   window.__animationClips = new Set();
   const canvas = $('#world-map'), main = canvas.getContext('2d');
   fitCanvas();
@@ -4025,14 +4089,12 @@ function drawWorldNow(world) {
         } });
       }
       if (ownLand) { window.__logPileDrawn = pile; window.__woodPileSprite = pile && spriteReady(`wood-pile-${pile}`) ? `wood-pile-${pile}` : null; }
-      // Own land only: these grazing animals illustrate the projected stock choice; the herd is not an entity yet.
-      if (theirs ? theirs.stock && !theirs.arriving : ownLand && world.household?.stock && world.land && !world.land.arriving) {
-        const coat = ['red', 'pied', 'dun'][Array.from(site.id).reduce((sum, letter) => sum + letter.charCodeAt(0), 0) % 3];
-        for (const [dx, dy, flip, clip, scale] of [[1.25, .35, false, `cattle-longhorn-${coat}-graze`, .55], [1.7, .55, true, 'hog-root', .3]]) {
-          const x = q.x + yard * dx, y = q.y + yard * dy;
-          standing.push({ y, draw: () => animated(ctx, clip, x, y, yard * scale, `${site.id}:${clip}`, { flip }) });
-        }
-      }
+      // The family's real herd (owner, 2026-10-03; public/herd-view.js): every head the server counts, drawn on the land - the young
+      // smaller, a big herd as a few head and a group with its count on the hover, in near the house at night, about whoever of the
+      // family is out after the stock. Until 2026-10-03 one longhorn and one hog stood beside any house that chose stock, whatever
+      // the herd had become. On the Host's map every family's herd, where it grazes and comes in at night.
+      const herdHere = theirs ? (!theirs.arriving && theirs.herd) : ownLand && world.land && !world.land.arriving ? world.household?.herd || (world.household?.stock ? { cattle: 6, hogs: 12 } : null) : null;
+      if (herdHere && (herdHere.cattle > 0 || herdHere.hogs > 0)) drawHerd(ctx, world, camera, site, standing, { herd: herdHere, ranch: theirs ? theirs.ranch : world.household?.ranch, bounds: theirs ? theirs.grant : world.land?.grant?.bounds, own: ownLand && !theirs, entities: theirs ? [] : entitiesOf(world) });
     } else if (CROSSING_KINDS.includes(site.kind)) {
       // A ford, a ferry or a bridge where a road meets the water (docs/MAP_ACCURACY.md §10): drawn where its road meets the
       // water (`over`, for a place that stands off it), lying across the water (`across`, the build's; else read off the drawn
@@ -4149,7 +4211,16 @@ function drawWorldNow(world) {
   // Who has gone into the house out of the weather (sim/shelter.mjs, owner 2026-10-02): seen walking to the door, then not drawn -
   // they are inside. Under the tent or the wagon they are drawn sitting there (public/motion.js). Read by the proofs only.
   window.__inside = [];
+  // The family's horse out on the range under whoever is after the stock (sim/chores.mjs `look-to-stock`, `chore.mounted`): drawn by
+  // the herd beside them (`drawHerd`), not standing in the yard as well.
+  const rangeHorses = new Set();
+  for (const rider of entities) {
+    if (rider.kind !== 'person' || rider.chore?.id !== 'look-to-stock' || !rider.chore.mounted) continue;
+    const horse = entities.find(one => one.kind === 'animal' && one.species === 'horse' && one.householdId === rider.householdId && !one.travel && !rangeHorses.has(one.id));
+    if (horse) rangeHorses.add(horse.id);
+  }
   for (const entity of [...entities].sort((a, b) => Boolean(carriedOn(a)) - Boolean(carriedOn(b)))) {
+    if (rangeHorses.has(entity.id)) continue;
     if (entity.kind === 'person' && entity.shelter?.at === 'house' && entity.shelter.phase === 'in' && !entity.travel) { window.__inside.push(entity.id); continue; }
     const holder = entity.carriedBy || (entity.baby?.state === 'held' ? entity.baby.by : null);
     if (holder && babiesHeldLast.has(holder)) { window.__babiesInArms[entity.id] = holder; continue; }
@@ -5585,6 +5656,13 @@ function renderFamilyPanel(world) {
     setData(row.item, 'sheltering', String(Boolean(shelterAt)));
     const shelterTitle = shelterAt ? `In out of the weather: ${{ house: 'in the house', tent: 'under the tent', wagon: 'under the wagon', open: 'at the camp, with nothing over them' }[shelterAt]}${entity.shelter.minding ? ', with the children' : ''}.` : '';
     if (row.shelterMark.title !== shelterTitle) { row.shelterMark.title = shelterTitle; row.shelterMark.setAttribute('aria-label', shelterTitle); }
+    // A hand with stock (sim/stock.mjs `herdingOf`, owner 2026-10-03): shown for a good hand or the best, and for whoever is out after
+    // the herd now (lit); its notches are the hand (`herdMarkOf`, public/family-panel.js).
+    const herdShown = herdMarkOf(entity);
+    if (row.herdMark.hidden !== !herdShown) row.herdMark.hidden = !herdShown;
+    setData(row.herdMark, 'hand', herdShown ? String(herdShown.hand) : '');
+    setData(row.herdMark, 'out', herdShown?.out ? 'true' : '');
+    if (row.herdMark.title !== (herdShown?.words || '')) { row.herdMark.title = herdShown?.words || ''; row.herdMark.setAttribute('aria-label', herdShown?.words || ''); }
     const portraitLabel = `${entity.name}, ${role}${age}${HUNGER_WORDS[hunger] ? `, ${HUNGER_WORDS[hunger]}` : ''}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. ${focused ? `Go back to ${entity.name}` : `Make ${entity.name} your main person`}, follow them and show their actions${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
     // What only the card said of them (owner 2026-09-29: the card is gone): a lasting wound, and having had the measles.
@@ -6221,7 +6299,10 @@ function panelRow(id) {
   // "the shelter mark" - drawn in the style sheet until Astra's `mark-shelter-house` and `mark-shelter-tent` are registered.
   const shelterMark = element('span', '', 'panel-shelter-mark');
   shelterMark.hidden = true;
-  portrait.append(canvas, star, idleMark, sickMark, hungerMark, shelterMark);
+  // A hand with stock (owner, 2026-10-03; sim/stock.mjs `herdingOf`): a horn on the portrait, its notches the hand, lit while out after the herd.
+  const herdMark = element('span', '', 'panel-herd-mark');
+  herdMark.hidden = true;
+  portrait.append(canvas, star, idleMark, sickMark, hungerMark, shelterMark, herdMark);
   // The "!": its own button beside the portrait (a button cannot hold a button), shown only while somebody waits on them.
   const attention = panelMark('button', '!', 'panel-attention', 'mark-need');
   attention.type = 'button';
@@ -6292,7 +6373,7 @@ function panelRow(id) {
   const makeMain = element('button', '', 'panel-make-main');
   makeMain.type = 'button';
   makeMain.dataset.focus = id;
-  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, focus, auto, autoSays, life, sick, sickMark, hungerMark, shelterMark, word, note, why, away, makeMain, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, focus, auto, autoSays, life, sick, sickMark, hungerMark, shelterMark, herdMark, word, note, why, away, makeMain, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
