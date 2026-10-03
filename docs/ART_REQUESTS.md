@@ -1522,3 +1522,8 @@ The mounted carbine request now has four authored poses in dragoon-carbine-actio
 
 Coleto item 1 now has four transparent prone poses and a registered firing clip, bound to existing Mexican loose formations in dusk/night/small-hours. See ART_DELIVERY_2026-10-03-COLETO-PRONE.md for timing, scaling, provenance and remaining full-reload work.
 
+
+## Delivered 2026-10-03 — grass-laden pack mules
+
+Concepcion/Grass Fight item 6 now has east/south/north four-pose mule walking, matching idle frames and an opened grass bundle. The Grass Fight pack train uses these sprites. See ART_DELIVERY_2026-10-03-GRASS-MULES.md for integration and remaining unloading/cutting work.
+

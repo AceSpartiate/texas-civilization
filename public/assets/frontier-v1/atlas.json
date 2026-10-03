@@ -15157,6 +15157,130 @@
         ]
       }
     },
+    "mule-packed-grass": {
+      "image": "atlases/mule-packed-grass.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1717695,
+      "sha256": "2f9601f55781c2afa12d837bacf3ecfe7d6eeb96074bc0437c915188b9893061",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.607631,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              52,
+              327
+            ],
+            "columns": [
+              [
+                20,
+                322
+              ],
+              [
+                332,
+                623
+              ],
+              [
+                640,
+                933
+              ],
+              [
+                954,
+                1243
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              340,
+              621
+            ],
+            "columns": [
+              [
+                57,
+                276
+              ],
+              [
+                374,
+                585
+              ],
+              [
+                678,
+                895
+              ],
+              [
+                986,
+                1205
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              633,
+              920
+            ],
+            "columns": [
+              [
+                56,
+                278
+              ],
+              [
+                370,
+                587
+              ],
+              [
+                675,
+                896
+              ],
+              [
+                979,
+                1201
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              919,
+              1197
+            ],
+            "columns": [
+              [
+                24,
+                332
+              ],
+              [
+                374,
+                597
+              ],
+              [
+                664,
+                895
+              ],
+              [
+                927,
+                1235
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "house-modules": {
       "image": "atlases/house-modules.png",
       "width": 1448,
@@ -62392,6 +62516,390 @@
           369
         ],
         "visiblePixels": 60037,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-e-1": {
+      "sheet": "mule-packed-grass",
+      "x": 20,
+      "y": 53,
+      "w": 302,
+      "h": 272,
+      "anchorX": 0.4238,
+      "anchorY": 0.9265,
+      "label": "mule packed grass walk e 1",
+      "kind": "mule-packed-grass",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          55,
+          298,
+          268
+        ],
+        "visiblePixels": 38533,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-e-2": {
+      "sheet": "mule-packed-grass",
+      "x": 332,
+      "y": 52,
+      "w": 291,
+      "h": 275,
+      "anchorX": 0.3471,
+      "anchorY": 0.9345,
+      "label": "mule packed grass walk e 2",
+      "kind": "mule-packed-grass",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          334,
+          54,
+          287,
+          271
+        ],
+        "visiblePixels": 37537,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-e-3": {
+      "sheet": "mule-packed-grass",
+      "x": 640,
+      "y": 52,
+      "w": 293,
+      "h": 273,
+      "anchorX": 0.3652,
+      "anchorY": 0.9524,
+      "label": "mule packed grass walk e 3",
+      "kind": "mule-packed-grass",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          642,
+          54,
+          289,
+          269
+        ],
+        "visiblePixels": 36771,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-e-4": {
+      "sheet": "mule-packed-grass",
+      "x": 954,
+      "y": 54,
+      "w": 289,
+      "h": 270,
+      "anchorX": 0.3633,
+      "anchorY": 0.9593,
+      "label": "mule packed grass walk e 4",
+      "kind": "mule-packed-grass",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          956,
+          56,
+          285,
+          266
+        ],
+        "visiblePixels": 37260,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-s-1": {
+      "sheet": "mule-packed-grass",
+      "x": 57,
+      "y": 340,
+      "w": 219,
+      "h": 280,
+      "anchorX": 0.5936,
+      "anchorY": 0.95,
+      "label": "mule packed grass walk s 1",
+      "kind": "mule-packed-grass",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          59,
+          342,
+          215,
+          276
+        ],
+        "visiblePixels": 29861,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-s-2": {
+      "sheet": "mule-packed-grass",
+      "x": 374,
+      "y": 343,
+      "w": 211,
+      "h": 275,
+      "anchorX": 0.4265,
+      "anchorY": 0.9636,
+      "label": "mule packed grass walk s 2",
+      "kind": "mule-packed-grass",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          376,
+          345,
+          207,
+          271
+        ],
+        "visiblePixels": 29487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-s-3": {
+      "sheet": "mule-packed-grass",
+      "x": 678,
+      "y": 341,
+      "w": 217,
+      "h": 280,
+      "anchorX": 0.5253,
+      "anchorY": 0.9607,
+      "label": "mule packed grass walk s 3",
+      "kind": "mule-packed-grass",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          680,
+          343,
+          213,
+          276
+        ],
+        "visiblePixels": 29960,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-s-4": {
+      "sheet": "mule-packed-grass",
+      "x": 986,
+      "y": 343,
+      "w": 219,
+      "h": 276,
+      "anchorX": 0.4338,
+      "anchorY": 0.9638,
+      "label": "mule packed grass walk s 4",
+      "kind": "mule-packed-grass",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          988,
+          345,
+          215,
+          272
+        ],
+        "visiblePixels": 30582,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-n-1": {
+      "sheet": "mule-packed-grass",
+      "x": 56,
+      "y": 633,
+      "w": 222,
+      "h": 286,
+      "anchorX": 0.4595,
+      "anchorY": 0.9266,
+      "label": "mule packed grass walk n 1",
+      "kind": "mule-packed-grass",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          58,
+          635,
+          218,
+          284
+        ],
+        "visiblePixels": 31528,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-n-2": {
+      "sheet": "mule-packed-grass",
+      "x": 370,
+      "y": 633,
+      "w": 217,
+      "h": 282,
+      "anchorX": 0.4885,
+      "anchorY": 0.9291,
+      "label": "mule packed grass walk n 2",
+      "kind": "mule-packed-grass",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          372,
+          635,
+          213,
+          278
+        ],
+        "visiblePixels": 30261,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-n-3": {
+      "sheet": "mule-packed-grass",
+      "x": 675,
+      "y": 634,
+      "w": 221,
+      "h": 283,
+      "anchorX": 0.5475,
+      "anchorY": 0.9435,
+      "label": "mule packed grass walk n 3",
+      "kind": "mule-packed-grass",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          677,
+          636,
+          217,
+          279
+        ],
+        "visiblePixels": 29407,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-walk-n-4": {
+      "sheet": "mule-packed-grass",
+      "x": 979,
+      "y": 634,
+      "w": 222,
+      "h": 286,
+      "anchorX": 0.4842,
+      "anchorY": 0.9266,
+      "label": "mule packed grass walk n 4",
+      "kind": "mule-packed-grass",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          981,
+          636,
+          218,
+          282
+        ],
+        "visiblePixels": 30784,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-idle-e": {
+      "sheet": "mule-packed-grass",
+      "x": 24,
+      "y": 919,
+      "w": 308,
+      "h": 277,
+      "anchorX": 0.4123,
+      "anchorY": 0.9422,
+      "label": "mule packed grass idle e",
+      "kind": "mule-packed-grass",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          26,
+          919,
+          304,
+          275
+        ],
+        "visiblePixels": 39946,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-idle-s": {
+      "sheet": "mule-packed-grass",
+      "x": 374,
+      "y": 919,
+      "w": 223,
+      "h": 277,
+      "anchorX": 0.5135,
+      "anchorY": 0.9278,
+      "label": "mule packed grass idle s",
+      "kind": "mule-packed-grass",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          376,
+          921,
+          219,
+          273
+        ],
+        "visiblePixels": 31324,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mule-packed-grass-idle-n": {
+      "sheet": "mule-packed-grass",
+      "x": 664,
+      "y": 919,
+      "w": 231,
+      "h": 278,
+      "anchorX": 0.4848,
+      "anchorY": 0.9568,
+      "label": "mule packed grass idle n",
+      "kind": "mule-packed-grass",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          666,
+          921,
+          227,
+          274
+        ],
+        "visiblePixels": 31355,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grass-bundle-cut": {
+      "sheet": "mule-packed-grass",
+      "x": 927,
+      "y": 999,
+      "w": 308,
+      "h": 193,
+      "anchorX": 0.4205,
+      "anchorY": 0.9275,
+      "label": "grass bundle cut",
+      "kind": "mule-packed-grass",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          929,
+          1001,
+          304,
+          189
+        ],
+        "visiblePixels": 33770,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

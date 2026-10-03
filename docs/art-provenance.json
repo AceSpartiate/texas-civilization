@@ -3893,6 +3893,21 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/regular-prone-actions.png",
       "postProcessing": "None; generated PNG copied unchanged.",
       "review": "Interpretive regular uniform for Coleto marksmen, not a documented cazador uniform. Four prone poses; lock handling is a reload shorthand, not a complete musket reload demonstration."
+    },
+    {
+      "sheet": "mule-packed-grass",
+      "promptId": "frontier-v1/mule-packed-grass",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/transport.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-134cbfc6-e3e2-49f4-8f87-cc49f58b6b02.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-134cbfc6-e3e2-49f4-8f87-cc49f58b6b02.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/mule-packed-grass.png",
+      "refinements": [],
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Interpretive mule and grass-pack design. Four modest footfalls per direction; fine pack/hoof registration remains polish. Open bundle is a state prop, not animated cutting."
     }
   ],
   "rejectedAttempts": [

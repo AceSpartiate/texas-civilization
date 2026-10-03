@@ -1,3 +1,11 @@
+## Grass Fight pack mules — delivered 2026-10-03
+
+Sixteen transparent sprites deliver twelve walking frames (four each east, south and north), three matching idle poses and an opened grass bundle. Three authored walk loops use 280ms per frame, with west mirrored from east. Warm outlined storybook mule art replaces the existing horse-plus-baggage stand-in for the Grass Fight pack train. The same projected movement and counts are retained. The train selects cardinal poses from facing; stationary animals use idle sprites. Sampled opened bundles appear beside the train only in the existing grass-discovery phase.
+
+The library and machine manifest inventory every piece. scripts/art-deliveries/grass-fight-mules-2026-10-03.mjs records exact prompt, source PNG, frame IDs, durations and reference. The generated PNG is copied unchanged. Alpha audit: 60.8% clear alpha, no overlap trimming, all measured objects retained. Browser proof scripts/grass-fight-mules-art-proof.mjs verifies all three walking clips render and change pixels, with zero browser errors. Evidence is docs/evidence/grass-fight-mules-art.png/.json. Renderer tests cover cardinal travel, idle, discovery-only grass props and removal of generic baggage.
+
+Claude: the loaded mule remains loaded after discovery; removing individual packs, unladen return variants, turning transitions and cutting/unloading gestures remain future work. Open bundles are state props, not animated cutting. Saddle, coat and bundles are original interpretive designs. Do not change the historical clock or route to match a gait, and do not convert unrelated packhorses to mules. Existing figure='packhorse' is retained as the projection contract, while the Grass Fight renderer selects this art.
+
 ## Coleto prone marksmen — delivered 2026-10-03
 
 Four transparent frames add `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire`, and `regular-prone-lock`. `regular-prone-fire-reload` shares the existing infantry 700/120/750/900ms cycle, with the lock pose held through the last two intervals. It is an authored one-shot, east-facing with west mirroring. The lock action is a visual reload shorthand, not a complete musket-loading demonstration. Uniform matches the library's interpretive regular soldier; it is not a documented cazador uniform reconstruction.
@@ -4596,6 +4604,7 @@ Erastus “Deaf” Smith has a 16-frame directional scout sheet and a four-frame
 ## Art update — James Grant (2026-09-28)
 
 Grant now has distinct foot, mounted-walk and four-frame gallop sheets in `scripts/art-deliveries/famous-grant.mjs`. His roster and `PERSON_ART.grant` select them; the existing Agua Dulce horse-herd route uses the mounted walk and the visible ambush interval uses the gallop. Grant disappears from the stage before his later fate, which remains conveyed by the existing account text. No capture, surrender or killing was invented on screen. The foot sheet includes map/pointing poses and a clean, non-graphic bandage variant for Béxar; his face, clothing and horse are interpretations rather than portrait claims. Frames, clips and source records are in the generated art manifest and provenance JSON files. The battle-view regression checks walk versus ambush gallop.
+
 
 
 

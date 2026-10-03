@@ -588,10 +588,15 @@ export function createBattleView(art) {
         }
         // The people of the town, let out of a house the men broke into: women, children and old men walking away unhurt. They
         // never fire and are never drawn falling (sim/battle-stage.mjs `checkEngagement`; `HIST-TEX-043`).
-        // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 6 - the Grass Fight's pack train is a
-        // horse with a pack on its back, until the mules under grass are drawn.
+        // The Grass Fight's existing pack-train projection now uses grass-laden mules.
         if (side.figure === 'packhorse') {
-          figures.push({ y: point.y, kind: 'packhorse', side: side.side, point, size: figurePx * 1.3, clip: moving ? 'horse-walk' : 'horse-graze', flip: !right, seed });
+          const mule = battle.id === 'grass-fight';
+          const dir = Math.abs(facing.y) > Math.abs(facing.x) * 1.2 ? (facing.y >= 0 ? 's' : 'n') : 'e';
+          figures.push({ y: point.y, kind: 'packhorse', side: side.side, point, size: figurePx * 1.3,
+            clip: mule ? moving ? `mule-packed-grass-walk-${dir}` : null : moving ? 'horse-walk' : 'horse-graze',
+            sprite: mule && !moving ? `mule-packed-grass-idle-${dir}` : null,
+            mule, grassOpened: mule && battle.phase === 'grass' && slot.index % 5 === 0,
+            flip: mule ? dir === 'e' && !right : !right, seed });
           drawnBy[side.key].push(point);
           continue;
         }
@@ -723,6 +728,12 @@ export function createBattleView(art) {
     for (const f of figures) {
       if (f.kind === 'fallen') { drawFallen(ctx, f, now); continue; }
       if (f.kind === 'packhorse') {
+        if (f.mule) {
+          if (f.clip) art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.flip, paused: reducedMotion });
+          else art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
+          if (f.grassOpened) art.drawSprite(ctx, 'grass-bundle-cut', f.point.x + f.size * 0.65, f.point.y + f.size * 0.08, f.size * 0.3);
+          continue;
+        }
         if (!art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.flip, paused: reducedMotion })) { ctx.fillStyle = '#7a5a3a'; ctx.fillRect(f.point.x - f.size * 0.35, f.point.y - f.size * 0.45, f.size * 0.7, f.size * 0.25); }
         if (!art.drawSprite(ctx, 'packed-belongings', f.point.x, f.point.y - f.size * 0.42, f.size * 0.45)) { ctx.fillStyle = '#b9a46a'; ctx.fillRect(f.point.x - f.size * 0.2, f.point.y - f.size * 0.62, f.size * 0.4, f.size * 0.18); }
         continue;

@@ -1,0 +1,8 @@
+## Grass Fight pack mules — delivered 2026-10-03
+
+Sixteen transparent sprites deliver twelve walking frames (four each east, south and north), three matching idle poses and an opened grass bundle. Three authored walk loops use 280ms per frame, with west mirrored from east. Warm outlined storybook mule art replaces the existing horse-plus-baggage stand-in for the Grass Fight pack train. The same projected movement and counts are retained. The train selects cardinal poses from facing; stationary animals use idle sprites. Sampled opened bundles appear beside the train only in the existing grass-discovery phase.
+
+The library and machine manifest inventory every piece. scripts/art-deliveries/grass-fight-mules-2026-10-03.mjs records exact prompt, source PNG, frame IDs, durations and reference. The generated PNG is copied unchanged. Alpha audit: 60.8% clear alpha, no overlap trimming, all measured objects retained. Browser proof scripts/grass-fight-mules-art-proof.mjs verifies all three walking clips render and change pixels, with zero browser errors. Evidence is docs/evidence/grass-fight-mules-art.png/.json. Renderer tests cover cardinal travel, idle, discovery-only grass props and removal of generic baggage.
+
+Claude: the loaded mule remains loaded after discovery; removing individual packs, unladen return variants, turning transitions and cutting/unloading gestures remain future work. Open bundles are state props, not animated cutting. Saddle, coat and bundles are original interpretive designs. Do not change the historical clock or route to match a gait, and do not convert unrelated packhorses to mules. Existing figure='packhorse' is retained as the projection contract, while the Grass Fight renderer selects this art.
+

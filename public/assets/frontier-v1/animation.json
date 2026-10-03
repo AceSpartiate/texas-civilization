@@ -8857,6 +8857,78 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "mule-packed-grass-walk-e": {
+      "frames": [
+        {
+          "sprite": "mule-packed-grass-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-e-2",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-e-3",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-e-4",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "mule-packed-grass-walk-s": {
+      "frames": [
+        {
+          "sprite": "mule-packed-grass-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-s-2",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-s-3",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-s-4",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mule-packed-grass-walk-n": {
+      "frames": [
+        {
+          "sprite": "mule-packed-grass-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-n-2",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-n-3",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-n-4",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "rust-ride-e": {
       "frames": [
         {

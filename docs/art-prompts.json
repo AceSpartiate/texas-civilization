@@ -4027,6 +4027,22 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/regular-prone-actions.png",
       "postProcessing": "None; generated PNG copied unchanged.",
       "review": "Interpretive regular uniform for Coleto marksmen, not a documented cazador uniform. Four prone poses; lock handling is a reload shorthand, not a complete musket reload demonstration."
+    },
+    {
+      "sheet": "mule-packed-grass",
+      "prompt": "Generate STRICT 4x4 equal-cell transparent game sprite atlas exactly SIXTEEN separate sprites warm muted handpainted dark olivebrown outlined frontier storybook style matching reference animals. A grey-brown MULE with unmistakably long upright donkey ears, short dark mane, cream muzzle, black tail tuft and simple leather pack saddle carrying TWO BULKY bundles of freshly cut olive-green grass tied with rope, hanging both sides. No rider weapons blanket baggage or money. Same mule proportions coat grassload all15 animalframes. Slightly elevated camera. Row1 FOUR EAST/right walking footfalls, alternating raised front and rear hooves clearly different. Row2 FOUR SOUTH/toward camera walking footfalls long ears visible loads either side. Row3 FOUR NORTH/away walking footfalls tail ears both grassloads visible. Row4 col1 EAST planted idle mule col2 SOUTH planted idle mule col3 NORTH planted idle mule col4 ONE opened rope-bound grassbundle lying on ground, loose green blades spilling out of cut binding, no animal. Whole ears tails hooves grass contained everycell, same scale allanimalframes, generous transparent gutters max75%equalcell width/height. Truealpha no painted background haze floor shadows text labels grid scenery additionalanimals. Exactly16sprites arranged4by4 with clean gutters. Original interpretive grass pack not documented saddle reconstruction.",
+      "promptId": "frontier-v1/mule-packed-grass",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/transport.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-134cbfc6-e3e2-49f4-8f87-cc49f58b6b02.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-134cbfc6-e3e2-49f4-8f87-cc49f58b6b02.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/mule-packed-grass.png",
+      "refinements": [],
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Interpretive mule and grass-pack design. Four modest footfalls per direction; fine pack/hoof registration remains polish. Open bundle is a state prop, not animated cutting."
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2506 usable sprites, 269 PNG atlases, 886 clips** (578 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2522 usable sprites, 270 PNG atlases, 889 clips** (581 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -193,6 +193,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
+| mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
@@ -1855,6 +1856,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | indigo-paint-2 | people-gonzales-paint | indigo-paint |
 | blue-girl-paint-1 | people-gonzales-paint | blue-girl-paint |
 | blue-girl-paint-2 | people-gonzales-paint | blue-girl-paint |
+| mule-packed-grass-walk-e-1 | mule-packed-grass | mule-packed-grass-walk-e |
+| mule-packed-grass-walk-e-2 | mule-packed-grass | mule-packed-grass-walk-e |
+| mule-packed-grass-walk-e-3 | mule-packed-grass | mule-packed-grass-walk-e |
+| mule-packed-grass-walk-e-4 | mule-packed-grass | mule-packed-grass-walk-e |
+| mule-packed-grass-walk-s-1 | mule-packed-grass | mule-packed-grass-walk-s |
+| mule-packed-grass-walk-s-2 | mule-packed-grass | mule-packed-grass-walk-s |
+| mule-packed-grass-walk-s-3 | mule-packed-grass | mule-packed-grass-walk-s |
+| mule-packed-grass-walk-s-4 | mule-packed-grass | mule-packed-grass-walk-s |
+| mule-packed-grass-walk-n-1 | mule-packed-grass | mule-packed-grass-walk-n |
+| mule-packed-grass-walk-n-2 | mule-packed-grass | mule-packed-grass-walk-n |
+| mule-packed-grass-walk-n-3 | mule-packed-grass | mule-packed-grass-walk-n |
+| mule-packed-grass-walk-n-4 | mule-packed-grass | mule-packed-grass-walk-n |
+| mule-packed-grass-idle-e | mule-packed-grass | State artwork; no motion required |
+| mule-packed-grass-idle-s | mule-packed-grass | State artwork; no motion required |
+| mule-packed-grass-idle-n | mule-packed-grass | State artwork; no motion required |
+| grass-bundle-cut | mule-packed-grass | State artwork; no motion required |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -3352,6 +3369,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| mule-packed-grass-walk-e | Pose cycle | 4 | 1120 | yes | east |
+| mule-packed-grass-walk-s | Pose cycle | 4 | 1120 | yes | south |
+| mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |

@@ -1,0 +1,21 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "mule-packed-grass-walk-e",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "mule-packed-grass-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "mule-packed-grass-walk-n",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}
