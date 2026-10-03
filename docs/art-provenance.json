@@ -3631,6 +3631,221 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-settler-igniter.png",
       "postProcessing": "None; selected generated PNG copied unchanged.",
       "review": "Original interpretive identity/costume. Modest authored two-pose cycles. No new dialogue, event, outcome or speed. Fine body/prop registration remains polish."
+    },
+    {
+      "id": "travis",
+      "sheet": "famous-travis-foot-cardinal-v2",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "promptId": "frontier-v1/famous-travis-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-aace1cca-8d0a-478e-a580-bd5326a02c58.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a9a9ad4d-60a4-413d-899e-df5d8c54ab24.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-aace1cca-8d0a-478e-a580-bd5326a02c58.png",
+          "prompt": "Edit exact transparent2x2 sheet. ONLY BOTTOMRIGHT rear sprite: move sheathed saber to SCREEN RIGHT hip to match BOTTOMLEFT, not screen left. Keep held dispatch SCREEN RIGHT as same bottomleft. Feet remain opposite. Preserve face hat costume colors body scale and camera. No mirroring equipment between keyframes. Equalcells40pxalpha gutters no scene text ground shadows no extra limbs.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a9a9ad4d-60a4-413d-899e-df5d8c54ab24.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-travis-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "crockett",
+      "sheet": "famous-crockett-foot-cardinal-v2",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-crockett.png"
+      ],
+      "promptId": "frontier-v1/famous-crockett-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0f72be99-0522-4bb5-899e-5d53f1376a7e.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed546652-3b01-4bbc-9705-37c6eab1d448.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0f72be99-0522-4bb5-899e-5d53f1376a7e.png",
+          "prompt": "Edit ONLY the slung RIFLE on BOTTOM RIGHT sprite in this exact transparent 2x2 Crockett sheet. It must match BOTTOM LEFT: butt ABOVE LEFT shoulder, barrel runs diagonally DOWN to RIGHT hip, same strap crossing, same gun scale and orientation. Do NOT mirror the rifle between walking frames. All legs arms hands face hair hat clothing and all other three cells unchanged. Preserve true alpha, strict equalcells, outlined painted style. No extra limbs.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-349adb9e-5c0b-4b75-a241-a04cb5ec2117.png"
+        },
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-349adb9e-5c0b-4b75-a241-a04cb5ec2117.png",
+          "prompt": "Fix prop continuity in exact image. BOTTOM RIGHT character's gun is WRONG, reversed. DELETE his existing diagonal gun and replace with identical gun pose to BOTTOM LEFT character: WOODEN BUTT STOCK pokes above LEFT shoulder at upper left of this cell; BLACK METAL BARREL extends diagonally downward across his back toward LOWER RIGHT HIP at lower right of this cell. The gun must form a BACKSLASH \\ descending LEFT TOP to RIGHT BOTTOM, NOT a slash /. Powderhorn and pouch also match bottomleft positions. Preserve both opposite legs, other hands, face clothes scale all other cells. Transparent 2x2 sprite sheet painted outlined style no extra props.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed546652-3b01-4bbc-9705-37c6eab1d448.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-crockett-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "bowie",
+      "sheet": "famous-bowie-foot-cardinal-v2",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-bowie.png"
+      ],
+      "promptId": "frontier-v1/famous-bowie-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c87a965d-ea61-4fb3-88a1-344771152ab9.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e73dbe07-b65a-4643-b5cf-c25d8008e13c.png",
+      "refinements": [
+        {
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c87a965d-ea61-4fb3-88a1-344771152ab9.png",
+          "prompt": "Edit exact transparent2x2 sheet. ONLY TOPRIGHT front sprite: move sheathed knife to SCREEN LEFT hip to match TOPLEFT, not screen right. Keep legs opposite. Other three sprites unchanged. Preserve face hat costume colors body scale and camera. No mirroring equipment between keyframes. Equalcells40pxalpha gutters no scene text ground shadows no extra limbs.",
+          "resultPath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e73dbe07-b65a-4643-b5cf-c25d8008e13c.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-bowie-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "fannin",
+      "sheet": "famous-fannin-foot-cardinal-v2",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-fannin.png"
+      ],
+      "promptId": "frontier-v1/famous-fannin-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-80927b30-4df2-401b-a2cd-01122863d9fa.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-80927b30-4df2-401b-a2cd-01122863d9fa.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-fannin-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "milam",
+      "sheet": "famous-milam-foot-cardinal-v2",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-milam.png"
+      ],
+      "promptId": "frontier-v1/famous-milam-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2c618e7d-fd1c-4816-ba92-3d75828fb22a.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2c618e7d-fd1c-4816-ba92-3d75828fb22a.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-milam-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "ben",
+      "sheet": "famous-ben-foot-cardinal-v2",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-ben.png"
+      ],
+      "promptId": "frontier-v1/famous-ben-foot-cardinal-v2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bd6a937a-7571-4516-84fd-374ee4c6b26c.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bd6a937a-7571-4516-84fd-374ee4c6b26c.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-ben-foot-cardinal-v2.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "neill",
+      "sheet": "famous-neill-field-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-neill.png"
+      ],
+      "promptId": "frontier-v1/famous-neill-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e5d5cc8a-12f9-4628-9e47-9957e3bb4686.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e5d5cc8a-12f9-4628-9e47-9957e3bb4686.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-neill-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "karnes",
+      "sheet": "famous-karnes-field-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-karnes.png"
+      ],
+      "promptId": "frontier-v1/famous-karnes-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ca4b5ef7-ae52-4647-9a99-e4eca0457c9a.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ca4b5ef7-ae52-4647-9a99-e4eca0457c9a.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-karnes-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "hockley",
+      "sheet": "famous-hockley-field-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-hockley.png"
+      ],
+      "promptId": "frontier-v1/famous-hockley-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-eefdd906-7d5d-4c07-96b5-b87b4b6650bd.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-eefdd906-7d5d-4c07-96b5-b87b4b6650bd.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-hockley-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "lamar",
+      "sheet": "famous-lamar-field-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-lamar.png"
+      ],
+      "promptId": "frontier-v1/famous-lamar-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c29139e1-1191-45a6-9895-28af4655b0f2.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c29139e1-1191-45a6-9895-28af4655b0f2.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "sherman",
+      "sheet": "famous-sherman-field-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-sherman.png"
+      ],
+      "promptId": "frontier-v1/famous-sherman-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-590dc6ee-6949-47f9-a246-29116517ed1d.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-590dc6ee-6949-47f9-a246-29116517ed1d.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-sherman-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "id": "rusk",
+      "sheet": "famous-rusk-field-gestures",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-rusk.png"
+      ],
+      "promptId": "frontier-v1/famous-rusk-field-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-95a20617-ed33-4166-87a8-76c719b20c61.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-95a20617-ed33-4166-87a8-76c719b20c61.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk-field-gestures.png",
+      "postProcessing": "None; selected imagegen PNG copied unchanged.",
+      "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
     }
   ],
   "rejectedAttempts": [

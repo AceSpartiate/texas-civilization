@@ -5353,6 +5353,390 @@
       "motion": "none",
       "direction": "north"
     },
+    "travis-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "travis-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "travis-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "travis-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "travis-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "travis-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "crockett-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "crockett-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "crockett-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "crockett-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "crockett-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "crockett-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "bowie-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "bowie-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "bowie-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "bowie-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "bowie-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "bowie-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "fannin-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "fannin-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "fannin-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "fannin-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "fannin-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "fannin-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "milam-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "milam-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "milam-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "milam-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "milam-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "milam-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ben-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "ben-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ben-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ben-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "ben-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ben-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "neill-field-command": {
+      "frames": [
+        {
+          "sprite": "neill-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "neill-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "neill-field-conversation": {
+      "frames": [
+        {
+          "sprite": "neill-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "neill-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "karnes-field-command": {
+      "frames": [
+        {
+          "sprite": "karnes-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "karnes-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "karnes-field-conversation": {
+      "frames": [
+        {
+          "sprite": "karnes-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "karnes-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "hockley-field-command": {
+      "frames": [
+        {
+          "sprite": "hockley-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "hockley-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "hockley-field-conversation": {
+      "frames": [
+        {
+          "sprite": "hockley-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "hockley-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "lamar-field-command": {
+      "frames": [
+        {
+          "sprite": "lamar-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "lamar-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "lamar-field-conversation": {
+      "frames": [
+        {
+          "sprite": "lamar-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "lamar-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "sherman-field-command": {
+      "frames": [
+        {
+          "sprite": "sherman-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "sherman-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "sherman-field-conversation": {
+      "frames": [
+        {
+          "sprite": "sherman-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "sherman-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "rusk-field-command": {
+      "frames": [
+        {
+          "sprite": "rusk-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "rusk-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "rusk-field-conversation": {
+      "frames": [
+        {
+          "sprite": "rusk-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "rusk-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "travis-command-cycle": {
       "frames": [
         {

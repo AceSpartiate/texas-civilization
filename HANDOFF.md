@@ -1,3 +1,11 @@
+## Named foot movement and field gestures — delivered 2026-10-03
+
+This batch adds **12 transparent atlases, 48 frames and 24 authored clips**. Travis, Crockett, Bowie, Fannin, Milam and Ben now have new two-pose front/rear walking cycles, selected from projected battlefield north/south heading. East/west retains the established walking art. Neill, Karnes, Hockley, Lamar, Sherman and Rusk gain their own two-pose field command and conversation gestures. Command scenes use the new clips; conversation clips are available through `PERSON_ART.speak` for explicit staging.
+
+Claude: `scripts/art-deliveries/famous-field-actions-2026-10-03.mjs` records every frame/clip, duration, exact prompt, reference and selected source PNG. The generated manifest/catalog inventories the full batch. Reproduce the 24-clip drawing/frame-change evidence using `scripts/famous-field-art-proof.mjs`; results are in `docs/evidence/famous-field-art.png/.json`. `tests/famous-field-art.test.mjs` verifies heading selection, clip inventory and preservation of Karnes's crowbar, Rusk's stop, Lamar's mounted rescue and Sherman's mounted rally bindings.
+
+These are modest two-pose cycles, not full animation rigs or turn transitions. Equipment placement and fine body registration remain artistic polish. Bowie’s healthy walk is only selected where the simulation projects walking; his live sickbed and still-bed remain separate. Campaign map headings are still not projected, so campaign rendering retains east/west. No new words, injury, route, speed, visibility or historical outcome changed; costumes and likenesses are interpretations.
+
 ## Story actions, survivor travel and Gonzales crew — delivered 2026-10-03
 
 This batch adds **13 transparent atlases, 52 frames and 26 authored clips** in the existing painted, outlined storybook style. Fannin gains command/surrender cycles; Milam rally/point; Crockett command/seated rest; Bowie command/live sickbed care; Alavez beckon/guide; Ben pot carrying/conversation; Esparza and Almeron Dickinson rammer/shot-carry actions. Existing projected poses select these animations. Bowie's still/death art stays separate. Alavez beckons during her existing stationary rescue staging and retains her existing walk and route.

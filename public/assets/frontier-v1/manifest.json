@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 254,
-    "sprites": 2446,
-    "clips": 859,
-    "poseCycles": 551,
+    "sheets": 266,
+    "sprites": 2494,
+    "clips": 883,
+    "poseCycles": 575,
     "rigs": 4
   },
   "entrypoints": {
@@ -7710,6 +7710,702 @@
               [
                 952,
                 1202
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-travis-foot-cardinal-v2": {
+      "image": "atlases/famous-travis-foot-cardinal-v2.png",
+      "width": 1266,
+      "height": 1242,
+      "bytes": 806349,
+      "sha256": "375cea6eabae0b2cc78dc5dec2a0df019150973a0423b1513ac102fe54b72fc7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.754777,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              20,
+              615
+            ],
+            "columns": [
+              [
+                244,
+                528
+              ],
+              [
+                749,
+                1026
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              637,
+              1216
+            ],
+            "columns": [
+              [
+                238,
+                528
+              ],
+              [
+                737,
+                1027
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-crockett-foot-cardinal-v2": {
+      "image": "atlases/famous-crockett-foot-cardinal-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 940486,
+      "sha256": "b5882fe1990e2254c84b90f20cf04370cca5273e298f558069b6992a514a2bec",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.745395,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              25,
+              599
+            ],
+            "columns": [
+              [
+                266,
+                551
+              ],
+              [
+                703,
+                994
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              629,
+              1210
+            ],
+            "columns": [
+              [
+                259,
+                565
+              ],
+              [
+                688,
+                997
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-bowie-foot-cardinal-v2": {
+      "image": "atlases/famous-bowie-foot-cardinal-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 789172,
+      "sha256": "18bd7cdb3a3d0db23617b3e313a24567bf2c24e4620a85b799ccb38b130bcb02",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.762533,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              35,
+              615
+            ],
+            "columns": [
+              [
+                252,
+                525
+              ],
+              [
+                726,
+                999
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              649,
+              1208
+            ],
+            "columns": [
+              [
+                256,
+                525
+              ],
+              [
+                728,
+                1001
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-fannin-foot-cardinal-v2": {
+      "image": "atlases/famous-fannin-foot-cardinal-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 845083,
+      "sha256": "20b8dc897f7d0b2826059f34985d02e88d12170b2639963bbde132f0fed0b427",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.74438,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              26,
+              610
+            ],
+            "columns": [
+              [
+                239,
+                532
+              ],
+              [
+                728,
+                1021
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              629,
+              1223
+            ],
+            "columns": [
+              [
+                239,
+                544
+              ],
+              [
+                703,
+                998
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-milam-foot-cardinal-v2": {
+      "image": "atlases/famous-milam-foot-cardinal-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1102668,
+      "sha256": "420c1b293f214b3ee1d03a26a660f3e661839bbf1cde50c239b0ccc0f896311d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.727959,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              26,
+              603
+            ],
+            "columns": [
+              [
+                246,
+                554
+              ],
+              [
+                697,
+                1003
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              618,
+              1208
+            ],
+            "columns": [
+              [
+                243,
+                563
+              ],
+              [
+                694,
+                1010
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-ben-foot-cardinal-v2": {
+      "image": "atlases/famous-ben-foot-cardinal-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 891817,
+      "sha256": "208219a028d2904d0d2c3d990400e53f868bef1c139c1ba929f3e30600a8660c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.764737,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              27,
+              614
+            ],
+            "columns": [
+              [
+                273,
+                558
+              ],
+              [
+                703,
+                980
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              644,
+              1204
+            ],
+            "columns": [
+              [
+                283,
+                549
+              ],
+              [
+                696,
+                958
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-neill-field-gestures": {
+      "image": "atlases/famous-neill-field-gestures.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1112678,
+      "sha256": "d818e5e42a24f0955aaace447c49d95a01a03e19fc44575cca024fdd99e9604b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.688087,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              24,
+              619
+            ],
+            "columns": [
+              [
+                194,
+                608
+              ],
+              [
+                725,
+                1218
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              628,
+              1224
+            ],
+            "columns": [
+              [
+                210,
+                535
+              ],
+              [
+                733,
+                1170
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-karnes-field-gestures": {
+      "image": "atlases/famous-karnes-field-gestures.png",
+      "width": 1310,
+      "height": 1201,
+      "bytes": 977747,
+      "sha256": "6b91e72df6299a940cd1385e5a686814fb254cf90205e1c5efb3aa975b8b1a8e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.738542,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              31,
+              585
+            ],
+            "columns": [
+              [
+                213,
+                568
+              ],
+              [
+                754,
+                1213
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              610,
+              1170
+            ],
+            "columns": [
+              [
+                221,
+                533
+              ],
+              [
+                785,
+                1181
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-hockley-field-gestures": {
+      "image": "atlases/famous-hockley-field-gestures.png",
+      "width": 1287,
+      "height": 1222,
+      "bytes": 985605,
+      "sha256": "1b1abb9bb148e3f4a2ce68aa0e1edd864af4024e9f982187109c981bbf1dd3af",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.743344,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              28,
+              603
+            ],
+            "columns": [
+              [
+                235,
+                579
+              ],
+              [
+                803,
+                1243
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              623,
+              1188
+            ],
+            "columns": [
+              [
+                243,
+                515
+              ],
+              [
+                796,
+                1174
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-lamar-field-gestures": {
+      "image": "atlases/famous-lamar-field-gestures.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 851184,
+      "sha256": "b2f6903d9ed5903f1b1c893beb4754b596988797d96716c8002a0c8a05661672",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.773706,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              43,
+              604
+            ],
+            "columns": [
+              [
+                266,
+                608
+              ],
+              [
+                789,
+                1153
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              612,
+              1161
+            ],
+            "columns": [
+              [
+                275,
+                531
+              ],
+              [
+                787,
+                1139
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-sherman-field-gestures": {
+      "image": "atlases/famous-sherman-field-gestures.png",
+      "width": 1240,
+      "height": 1269,
+      "bytes": 1063729,
+      "sha256": "e5bb6ea1a7d33446355d3b604cdab1be639e442f4fc14f29ddd27f890a320aca",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.709995,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              25,
+              624
+            ],
+            "columns": [
+              [
+                159,
+                541
+              ],
+              [
+                730,
+                1170
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              638,
+              1229
+            ],
+            "columns": [
+              [
+                180,
+                473
+              ],
+              [
+                740,
+                1163
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-rusk-field-gestures": {
+      "image": "atlases/famous-rusk-field-gestures.png",
+      "width": 1312,
+      "height": 1199,
+      "bytes": 946322,
+      "sha256": "e72adc271b0cec35300bfdebdc0b02bae490d0ea775b58ea235ae9eeecf886d3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.756276,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              15,
+              586
+            ],
+            "columns": [
+              [
+                249,
+                561
+              ],
+              [
+                798,
+                1168
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              606,
+              1172
+            ],
+            "columns": [
+              [
+                261,
+                519
+              ],
+              [
+                795,
+                1156
               ]
             ]
           }
@@ -52571,6 +53267,1686 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-esparza"
+    },
+    "travis-foot-walk-s-v2-1": {
+      "sheet": "famous-travis-foot-cardinal-v2",
+      "x": 244,
+      "y": 22,
+      "w": 284,
+      "h": 593,
+      "anchorX": 0.4296,
+      "anchorY": 0.9477,
+      "logicalHeight": 594,
+      "label": "travis foot walk s v2 1",
+      "kind": "famous-travis-foot-cardinal-v2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          246,
+          24,
+          280,
+          589
+        ],
+        "visiblePixels": 92952,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-travis-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-travis-foot-cardinal-v2"
+    },
+    "travis-foot-walk-s-v2-2": {
+      "sheet": "famous-travis-foot-cardinal-v2",
+      "x": 749,
+      "y": 20,
+      "w": 277,
+      "h": 594,
+      "anchorX": 0.5397,
+      "anchorY": 0.9545,
+      "logicalHeight": 594,
+      "label": "travis foot walk s v2 2",
+      "kind": "famous-travis-foot-cardinal-v2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          751,
+          22,
+          273,
+          590
+        ],
+        "visiblePixels": 92693,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-travis-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-travis-foot-cardinal-v2"
+    },
+    "travis-foot-walk-n-v2-1": {
+      "sheet": "famous-travis-foot-cardinal-v2",
+      "x": 238,
+      "y": 637,
+      "w": 290,
+      "h": 579,
+      "anchorX": 0.4569,
+      "anchorY": 0.9534,
+      "logicalHeight": 594,
+      "label": "travis foot walk n v2 1",
+      "kind": "famous-travis-foot-cardinal-v2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          240,
+          639,
+          286,
+          575
+        ],
+        "visiblePixels": 90982,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-travis-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-travis-foot-cardinal-v2"
+    },
+    "travis-foot-walk-n-v2-2": {
+      "sheet": "famous-travis-foot-cardinal-v2",
+      "x": 737,
+      "y": 637,
+      "w": 290,
+      "h": 573,
+      "anchorX": 0.431,
+      "anchorY": 0.9494,
+      "logicalHeight": 594,
+      "label": "travis foot walk n v2 2",
+      "kind": "famous-travis-foot-cardinal-v2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          739,
+          639,
+          286,
+          569
+        ],
+        "visiblePixels": 91678,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-travis-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-travis-foot-cardinal-v2"
+    },
+    "crockett-foot-walk-s-v2-1": {
+      "sheet": "famous-crockett-foot-cardinal-v2",
+      "x": 266,
+      "y": 25,
+      "w": 285,
+      "h": 574,
+      "anchorX": 0.6158,
+      "anchorY": 0.9495,
+      "logicalHeight": 581,
+      "label": "crockett foot walk s v2 1",
+      "kind": "famous-crockett-foot-cardinal-v2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          268,
+          27,
+          281,
+          570
+        ],
+        "visiblePixels": 94471,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "crockett-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-foot-cardinal-v2"
+    },
+    "crockett-foot-walk-s-v2-2": {
+      "sheet": "famous-crockett-foot-cardinal-v2",
+      "x": 703,
+      "y": 27,
+      "w": 291,
+      "h": 572,
+      "anchorX": 0.421,
+      "anchorY": 0.9545,
+      "logicalHeight": 581,
+      "label": "crockett foot walk s v2 2",
+      "kind": "famous-crockett-foot-cardinal-v2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          705,
+          29,
+          287,
+          568
+        ],
+        "visiblePixels": 92838,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "crockett-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-foot-cardinal-v2"
+    },
+    "crockett-foot-walk-n-v2-1": {
+      "sheet": "famous-crockett-foot-cardinal-v2",
+      "x": 259,
+      "y": 629,
+      "w": 306,
+      "h": 580,
+      "anchorX": 0.433,
+      "anchorY": 0.9586,
+      "logicalHeight": 581,
+      "label": "crockett foot walk n v2 1",
+      "kind": "famous-crockett-foot-cardinal-v2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          261,
+          631,
+          302,
+          576
+        ],
+        "visiblePixels": 97041,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "crockett-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-foot-cardinal-v2"
+    },
+    "crockett-foot-walk-n-v2-2": {
+      "sheet": "famous-crockett-foot-cardinal-v2",
+      "x": 688,
+      "y": 629,
+      "w": 309,
+      "h": 581,
+      "anchorX": 0.4304,
+      "anchorY": 0.9535,
+      "logicalHeight": 581,
+      "label": "crockett foot walk n v2 2",
+      "kind": "famous-crockett-foot-cardinal-v2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          690,
+          631,
+          305,
+          577
+        ],
+        "visiblePixels": 96178,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-crockett-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "crockett-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-crockett-foot-cardinal-v2"
+    },
+    "bowie-foot-walk-s-v2-1": {
+      "sheet": "famous-bowie-foot-cardinal-v2",
+      "x": 252,
+      "y": 35,
+      "w": 273,
+      "h": 578,
+      "anchorX": 0.6172,
+      "anchorY": 0.955,
+      "logicalHeight": 578,
+      "label": "bowie foot walk s v2 1",
+      "kind": "famous-bowie-foot-cardinal-v2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          254,
+          37,
+          269,
+          574
+        ],
+        "visiblePixels": 90403,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bowie-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bowie-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bowie-foot-cardinal-v2"
+    },
+    "bowie-foot-walk-s-v2-2": {
+      "sheet": "famous-bowie-foot-cardinal-v2",
+      "x": 726,
+      "y": 37,
+      "w": 273,
+      "h": 578,
+      "anchorX": 0.5897,
+      "anchorY": 0.9516,
+      "logicalHeight": 578,
+      "label": "bowie foot walk s v2 2",
+      "kind": "famous-bowie-foot-cardinal-v2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          728,
+          39,
+          269,
+          574
+        ],
+        "visiblePixels": 90522,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bowie-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bowie-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bowie-foot-cardinal-v2"
+    },
+    "bowie-foot-walk-n-v2-1": {
+      "sheet": "famous-bowie-foot-cardinal-v2",
+      "x": 256,
+      "y": 649,
+      "w": 269,
+      "h": 559,
+      "anchorX": 0.5688,
+      "anchorY": 0.9338,
+      "logicalHeight": 578,
+      "label": "bowie foot walk n v2 1",
+      "kind": "famous-bowie-foot-cardinal-v2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          258,
+          651,
+          265,
+          555
+        ],
+        "visiblePixels": 88098,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bowie-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bowie-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bowie-foot-cardinal-v2"
+    },
+    "bowie-foot-walk-n-v2-2": {
+      "sheet": "famous-bowie-foot-cardinal-v2",
+      "x": 728,
+      "y": 651,
+      "w": 273,
+      "h": 554,
+      "anchorX": 0.4084,
+      "anchorY": 0.9585,
+      "logicalHeight": 578,
+      "label": "bowie foot walk n v2 2",
+      "kind": "famous-bowie-foot-cardinal-v2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          730,
+          653,
+          269,
+          550
+        ],
+        "visiblePixels": 87213,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-bowie-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "bowie-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-bowie-foot-cardinal-v2"
+    },
+    "fannin-foot-walk-s-v2-1": {
+      "sheet": "famous-fannin-foot-cardinal-v2",
+      "x": 239,
+      "y": 27,
+      "w": 293,
+      "h": 577,
+      "anchorX": 0.5427,
+      "anchorY": 0.9515,
+      "logicalHeight": 594,
+      "label": "fannin foot walk s v2 1",
+      "kind": "famous-fannin-foot-cardinal-v2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          241,
+          29,
+          289,
+          573
+        ],
+        "visiblePixels": 90563,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-fannin-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "fannin-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-fannin-foot-cardinal-v2"
+    },
+    "fannin-foot-walk-s-v2-2": {
+      "sheet": "famous-fannin-foot-cardinal-v2",
+      "x": 728,
+      "y": 26,
+      "w": 293,
+      "h": 584,
+      "anchorX": 0.4266,
+      "anchorY": 0.9486,
+      "logicalHeight": 594,
+      "label": "fannin foot walk s v2 2",
+      "kind": "famous-fannin-foot-cardinal-v2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          730,
+          28,
+          289,
+          580
+        ],
+        "visiblePixels": 91143,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-fannin-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "fannin-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-fannin-foot-cardinal-v2"
+    },
+    "fannin-foot-walk-n-v2-1": {
+      "sheet": "famous-fannin-foot-cardinal-v2",
+      "x": 239,
+      "y": 631,
+      "w": 305,
+      "h": 590,
+      "anchorX": 0.559,
+      "anchorY": 0.9288,
+      "logicalHeight": 594,
+      "label": "fannin foot walk n v2 1",
+      "kind": "famous-fannin-foot-cardinal-v2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          241,
+          633,
+          301,
+          586
+        ],
+        "visiblePixels": 98096,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-fannin-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "fannin-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-fannin-foot-cardinal-v2"
+    },
+    "fannin-foot-walk-n-v2-2": {
+      "sheet": "famous-fannin-foot-cardinal-v2",
+      "x": 703,
+      "y": 629,
+      "w": 295,
+      "h": 594,
+      "anchorX": 0.5746,
+      "anchorY": 0.9293,
+      "logicalHeight": 594,
+      "label": "fannin foot walk n v2 2",
+      "kind": "famous-fannin-foot-cardinal-v2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          705,
+          631,
+          291,
+          590
+        ],
+        "visiblePixels": 99472,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-fannin-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "fannin-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-fannin-foot-cardinal-v2"
+    },
+    "milam-foot-walk-s-v2-1": {
+      "sheet": "famous-milam-foot-cardinal-v2",
+      "x": 246,
+      "y": 26,
+      "w": 308,
+      "h": 572,
+      "anchorX": 0.4789,
+      "anchorY": 0.9476,
+      "logicalHeight": 590,
+      "label": "milam foot walk s v2 1",
+      "kind": "famous-milam-foot-cardinal-v2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          248,
+          28,
+          304,
+          568
+        ],
+        "visiblePixels": 99355,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-milam-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-milam-foot-cardinal-v2"
+    },
+    "milam-foot-walk-s-v2-2": {
+      "sheet": "famous-milam-foot-cardinal-v2",
+      "x": 697,
+      "y": 30,
+      "w": 306,
+      "h": 573,
+      "anchorX": 0.5327,
+      "anchorY": 0.9599,
+      "logicalHeight": 590,
+      "label": "milam foot walk s v2 2",
+      "kind": "famous-milam-foot-cardinal-v2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          699,
+          32,
+          302,
+          569
+        ],
+        "visiblePixels": 100364,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-milam-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-milam-foot-cardinal-v2"
+    },
+    "milam-foot-walk-n-v2-1": {
+      "sheet": "famous-milam-foot-cardinal-v2",
+      "x": 243,
+      "y": 619,
+      "w": 320,
+      "h": 579,
+      "anchorX": 0.4453,
+      "anchorY": 0.9465,
+      "logicalHeight": 590,
+      "label": "milam foot walk n v2 1",
+      "kind": "famous-milam-foot-cardinal-v2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          245,
+          621,
+          316,
+          575
+        ],
+        "visiblePixels": 103894,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-milam-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-milam-foot-cardinal-v2"
+    },
+    "milam-foot-walk-n-v2-2": {
+      "sheet": "famous-milam-foot-cardinal-v2",
+      "x": 694,
+      "y": 618,
+      "w": 316,
+      "h": 590,
+      "anchorX": 0.5158,
+      "anchorY": 0.9407,
+      "logicalHeight": 590,
+      "label": "milam foot walk n v2 2",
+      "kind": "famous-milam-foot-cardinal-v2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          696,
+          620,
+          312,
+          586
+        ],
+        "visiblePixels": 101120,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-milam-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-milam-foot-cardinal-v2"
+    },
+    "ben-foot-walk-s-v2-1": {
+      "sheet": "famous-ben-foot-cardinal-v2",
+      "x": 273,
+      "y": 27,
+      "w": 285,
+      "h": 587,
+      "anchorX": 0.5754,
+      "anchorY": 0.9404,
+      "logicalHeight": 587,
+      "label": "ben foot walk s v2 1",
+      "kind": "famous-ben-foot-cardinal-v2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          275,
+          29,
+          281,
+          583
+        ],
+        "visiblePixels": 91439,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben-foot-cardinal-v2"
+    },
+    "ben-foot-walk-s-v2-2": {
+      "sheet": "famous-ben-foot-cardinal-v2",
+      "x": 703,
+      "y": 29,
+      "w": 277,
+      "h": 585,
+      "anchorX": 0.4675,
+      "anchorY": 0.947,
+      "logicalHeight": 587,
+      "label": "ben foot walk s v2 2",
+      "kind": "famous-ben-foot-cardinal-v2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          705,
+          31,
+          273,
+          581
+        ],
+        "visiblePixels": 87721,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-foot-walk-s-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben-foot-cardinal-v2"
+    },
+    "ben-foot-walk-n-v2-1": {
+      "sheet": "famous-ben-foot-cardinal-v2",
+      "x": 283,
+      "y": 645,
+      "w": 266,
+      "h": 556,
+      "anchorX": 0.6278,
+      "anchorY": 0.9532,
+      "logicalHeight": 587,
+      "label": "ben foot walk n v2 1",
+      "kind": "famous-ben-foot-cardinal-v2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          285,
+          647,
+          262,
+          552
+        ],
+        "visiblePixels": 85986,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben-foot-cardinal-v2"
+    },
+    "ben-foot-walk-n-v2-2": {
+      "sheet": "famous-ben-foot-cardinal-v2",
+      "x": 696,
+      "y": 644,
+      "w": 262,
+      "h": 560,
+      "anchorX": 0.6126,
+      "anchorY": 0.9482,
+      "logicalHeight": 587,
+      "label": "ben foot walk n v2 2",
+      "kind": "famous-ben-foot-cardinal-v2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          698,
+          646,
+          258,
+          556
+        ],
+        "visiblePixels": 84854,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-ben-foot-cardinal-v2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ben-foot-walk-n-v2"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-ben-foot-cardinal-v2"
+    },
+    "neill-field-command-1": {
+      "sheet": "famous-neill-field-gestures",
+      "x": 194,
+      "y": 24,
+      "w": 414,
+      "h": 592,
+      "anchorX": 0.4312,
+      "anchorY": 0.9291,
+      "logicalHeight": 596,
+      "label": "neill field command 1",
+      "kind": "famous-neill-field-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          196,
+          26,
+          410,
+          588
+        ],
+        "visiblePixels": 116603,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-neill-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "neill-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-neill-field-gestures"
+    },
+    "neill-field-command-2": {
+      "sheet": "famous-neill-field-gestures",
+      "x": 725,
+      "y": 26,
+      "w": 493,
+      "h": 593,
+      "anchorX": 0.3712,
+      "anchorY": 0.9292,
+      "logicalHeight": 596,
+      "label": "neill field command 2",
+      "kind": "famous-neill-field-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          727,
+          28,
+          489,
+          589
+        ],
+        "visiblePixels": 121631,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-neill-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "neill-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-neill-field-gestures"
+    },
+    "neill-field-conversation-1": {
+      "sheet": "famous-neill-field-gestures",
+      "x": 210,
+      "y": 632,
+      "w": 325,
+      "h": 585,
+      "anchorX": 0.5492,
+      "anchorY": 0.9299,
+      "logicalHeight": 596,
+      "label": "neill field conversation 1",
+      "kind": "famous-neill-field-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          212,
+          634,
+          321,
+          581
+        ],
+        "visiblePixels": 107987,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-neill-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "neill-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-neill-field-gestures"
+    },
+    "neill-field-conversation-2": {
+      "sheet": "famous-neill-field-gestures",
+      "x": 733,
+      "y": 628,
+      "w": 437,
+      "h": 596,
+      "anchorX": 0.4119,
+      "anchorY": 0.9295,
+      "logicalHeight": 596,
+      "label": "neill field conversation 2",
+      "kind": "famous-neill-field-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          735,
+          630,
+          433,
+          592
+        ],
+        "visiblePixels": 120283,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-neill-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "neill-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-neill-field-gestures"
+    },
+    "karnes-field-command-1": {
+      "sheet": "famous-karnes-field-gestures",
+      "x": 213,
+      "y": 31,
+      "w": 355,
+      "h": 554,
+      "anchorX": 0.4577,
+      "anchorY": 0.9296,
+      "logicalHeight": 559,
+      "label": "karnes field command 1",
+      "kind": "famous-karnes-field-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          215,
+          33,
+          351,
+          550
+        ],
+        "visiblePixels": 94263,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-karnes-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "karnes-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-karnes-field-gestures"
+    },
+    "karnes-field-command-2": {
+      "sheet": "famous-karnes-field-gestures",
+      "x": 754,
+      "y": 31,
+      "w": 459,
+      "h": 553,
+      "anchorX": 0.3649,
+      "anchorY": 0.9295,
+      "logicalHeight": 559,
+      "label": "karnes field command 2",
+      "kind": "famous-karnes-field-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          756,
+          33,
+          455,
+          549
+        ],
+        "visiblePixels": 100059,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-karnes-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "karnes-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-karnes-field-gestures"
+    },
+    "karnes-field-conversation-1": {
+      "sheet": "famous-karnes-field-gestures",
+      "x": 221,
+      "y": 610,
+      "w": 312,
+      "h": 559,
+      "anchorX": 0.5304,
+      "anchorY": 0.9284,
+      "logicalHeight": 559,
+      "label": "karnes field conversation 1",
+      "kind": "famous-karnes-field-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          223,
+          612,
+          308,
+          555
+        ],
+        "visiblePixels": 91917,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-karnes-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "karnes-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-karnes-field-gestures"
+    },
+    "karnes-field-conversation-2": {
+      "sheet": "famous-karnes-field-gestures",
+      "x": 785,
+      "y": 615,
+      "w": 396,
+      "h": 555,
+      "anchorX": 0.3914,
+      "anchorY": 0.9297,
+      "logicalHeight": 559,
+      "label": "karnes field conversation 2",
+      "kind": "famous-karnes-field-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          787,
+          617,
+          392,
+          551
+        ],
+        "visiblePixels": 94992,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-karnes-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "karnes-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-karnes-field-gestures"
+    },
+    "hockley-field-command-1": {
+      "sheet": "famous-hockley-field-gestures",
+      "x": 235,
+      "y": 28,
+      "w": 344,
+      "h": 574,
+      "anchorX": 0.4477,
+      "anchorY": 0.9373,
+      "logicalHeight": 575,
+      "label": "hockley field command 1",
+      "kind": "famous-hockley-field-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          237,
+          30,
+          340,
+          570
+        ],
+        "visiblePixels": 93699,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley-field-gestures"
+    },
+    "hockley-field-command-2": {
+      "sheet": "famous-hockley-field-gestures",
+      "x": 803,
+      "y": 28,
+      "w": 440,
+      "h": 575,
+      "anchorX": 0.3466,
+      "anchorY": 0.9304,
+      "logicalHeight": 575,
+      "label": "hockley field command 2",
+      "kind": "famous-hockley-field-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          805,
+          30,
+          436,
+          571
+        ],
+        "visiblePixels": 99274,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley-field-gestures"
+    },
+    "hockley-field-conversation-1": {
+      "sheet": "famous-hockley-field-gestures",
+      "x": 243,
+      "y": 623,
+      "w": 272,
+      "h": 562,
+      "anchorX": 0.5386,
+      "anchorY": 0.9448,
+      "logicalHeight": 575,
+      "label": "hockley field conversation 1",
+      "kind": "famous-hockley-field-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          245,
+          625,
+          268,
+          558
+        ],
+        "visiblePixels": 86786,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley-field-gestures"
+    },
+    "hockley-field-conversation-2": {
+      "sheet": "famous-hockley-field-gestures",
+      "x": 796,
+      "y": 627,
+      "w": 378,
+      "h": 561,
+      "anchorX": 0.418,
+      "anchorY": 0.9358,
+      "logicalHeight": 575,
+      "label": "hockley field conversation 2",
+      "kind": "famous-hockley-field-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          798,
+          629,
+          374,
+          557
+        ],
+        "visiblePixels": 93792,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-hockley-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "hockley-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-hockley-field-gestures"
+    },
+    "lamar-field-command-1": {
+      "sheet": "famous-lamar-field-gestures",
+      "x": 266,
+      "y": 43,
+      "w": 342,
+      "h": 561,
+      "anchorX": 0.4254,
+      "anchorY": 0.9358,
+      "logicalHeight": 561,
+      "label": "lamar field command 1",
+      "kind": "famous-lamar-field-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          268,
+          45,
+          338,
+          557
+        ],
+        "visiblePixels": 85611,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar-field-gestures"
+    },
+    "lamar-field-command-2": {
+      "sheet": "famous-lamar-field-gestures",
+      "x": 789,
+      "y": 43,
+      "w": 364,
+      "h": 561,
+      "anchorX": 0.3984,
+      "anchorY": 0.9358,
+      "logicalHeight": 561,
+      "label": "lamar field command 2",
+      "kind": "famous-lamar-field-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          791,
+          45,
+          360,
+          557
+        ],
+        "visiblePixels": 85391,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar-field-gestures"
+    },
+    "lamar-field-conversation-1": {
+      "sheet": "famous-lamar-field-gestures",
+      "x": 275,
+      "y": 616,
+      "w": 256,
+      "h": 543,
+      "anchorX": 0.5371,
+      "anchorY": 0.9392,
+      "logicalHeight": 561,
+      "label": "lamar field conversation 1",
+      "kind": "famous-lamar-field-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          277,
+          618,
+          252,
+          539
+        ],
+        "visiblePixels": 77058,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar-field-gestures"
+    },
+    "lamar-field-conversation-2": {
+      "sheet": "famous-lamar-field-gestures",
+      "x": 787,
+      "y": 612,
+      "w": 352,
+      "h": 549,
+      "anchorX": 0.4134,
+      "anchorY": 0.9472,
+      "logicalHeight": 561,
+      "label": "lamar field conversation 2",
+      "kind": "famous-lamar-field-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          789,
+          614,
+          348,
+          545
+        ],
+        "visiblePixels": 83767,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-lamar-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lamar-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-lamar-field-gestures"
+    },
+    "sherman-field-command-1": {
+      "sheet": "famous-sherman-field-gestures",
+      "x": 159,
+      "y": 25,
+      "w": 382,
+      "h": 599,
+      "anchorX": 0.4162,
+      "anchorY": 0.9299,
+      "logicalHeight": 599,
+      "label": "sherman field command 1",
+      "kind": "famous-sherman-field-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          161,
+          27,
+          378,
+          595
+        ],
+        "visiblePixels": 108511,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman-field-gestures"
+    },
+    "sherman-field-command-2": {
+      "sheet": "famous-sherman-field-gestures",
+      "x": 730,
+      "y": 35,
+      "w": 440,
+      "h": 588,
+      "anchorX": 0.4068,
+      "anchorY": 0.9337,
+      "logicalHeight": 599,
+      "label": "sherman field command 2",
+      "kind": "famous-sherman-field-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          732,
+          37,
+          436,
+          584
+        ],
+        "visiblePixels": 110842,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman-field-gestures"
+    },
+    "sherman-field-conversation-1": {
+      "sheet": "famous-sherman-field-gestures",
+      "x": 180,
+      "y": 638,
+      "w": 293,
+      "h": 591,
+      "anchorX": 0.5307,
+      "anchorY": 0.9323,
+      "logicalHeight": 599,
+      "label": "sherman field conversation 1",
+      "kind": "famous-sherman-field-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          182,
+          640,
+          289,
+          587
+        ],
+        "visiblePixels": 101342,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman-field-gestures"
+    },
+    "sherman-field-conversation-2": {
+      "sheet": "famous-sherman-field-gestures",
+      "x": 740,
+      "y": 641,
+      "w": 423,
+      "h": 585,
+      "anchorX": 0.4102,
+      "anchorY": 0.9419,
+      "logicalHeight": 599,
+      "label": "sherman field conversation 2",
+      "kind": "famous-sherman-field-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          742,
+          643,
+          419,
+          581
+        ],
+        "visiblePixels": 108703,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-sherman-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sherman-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-sherman-field-gestures"
+    },
+    "rusk-field-command-1": {
+      "sheet": "famous-rusk-field-gestures",
+      "x": 249,
+      "y": 15,
+      "w": 312,
+      "h": 567,
+      "anchorX": 0.4792,
+      "anchorY": 0.9383,
+      "logicalHeight": 569,
+      "label": "rusk field command 1",
+      "kind": "famous-rusk-field-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          251,
+          17,
+          308,
+          563
+        ],
+        "visiblePixels": 90038,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-rusk-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rusk-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-rusk-field-gestures"
+    },
+    "rusk-field-command-2": {
+      "sheet": "famous-rusk-field-gestures",
+      "x": 798,
+      "y": 17,
+      "w": 370,
+      "h": 569,
+      "anchorX": 0.3905,
+      "anchorY": 0.942,
+      "logicalHeight": 569,
+      "label": "rusk field command 2",
+      "kind": "famous-rusk-field-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          800,
+          19,
+          366,
+          565
+        ],
+        "visiblePixels": 92723,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-rusk-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rusk-field-command"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-rusk-field-gestures"
+    },
+    "rusk-field-conversation-1": {
+      "sheet": "famous-rusk-field-gestures",
+      "x": 261,
+      "y": 606,
+      "w": 258,
+      "h": 561,
+      "anchorX": 0.5271,
+      "anchorY": 0.9287,
+      "logicalHeight": 569,
+      "label": "rusk field conversation 1",
+      "kind": "famous-rusk-field-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          263,
+          608,
+          254,
+          557
+        ],
+        "visiblePixels": 83498,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-rusk-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rusk-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-rusk-field-gestures"
+    },
+    "rusk-field-conversation-2": {
+      "sheet": "famous-rusk-field-gestures",
+      "x": 795,
+      "y": 608,
+      "w": 361,
+      "h": 564,
+      "anchorX": 0.4266,
+      "anchorY": 0.9379,
+      "logicalHeight": 569,
+      "label": "rusk field conversation 2",
+      "kind": "famous-rusk-field-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          797,
+          610,
+          357,
+          560
+        ],
+        "visiblePixels": 91538,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-rusk-field-gestures.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rusk-field-conversation"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-rusk-field-gestures"
     },
     "travis-command-gesture-1": {
       "sheet": "famous-travis-gestures",
@@ -111742,6 +114118,390 @@
       "motion": "none",
       "direction": "north"
     },
+    "travis-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "travis-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "travis-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "travis-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "travis-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "travis-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "crockett-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "crockett-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "crockett-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "crockett-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "crockett-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "crockett-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "bowie-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "bowie-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "bowie-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "bowie-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "bowie-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "bowie-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "fannin-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "fannin-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "fannin-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "fannin-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "fannin-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "fannin-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "milam-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "milam-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "milam-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "milam-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "milam-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "milam-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ben-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "ben-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ben-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ben-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "ben-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ben-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "neill-field-command": {
+      "frames": [
+        {
+          "sprite": "neill-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "neill-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "neill-field-conversation": {
+      "frames": [
+        {
+          "sprite": "neill-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "neill-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "karnes-field-command": {
+      "frames": [
+        {
+          "sprite": "karnes-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "karnes-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "karnes-field-conversation": {
+      "frames": [
+        {
+          "sprite": "karnes-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "karnes-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "hockley-field-command": {
+      "frames": [
+        {
+          "sprite": "hockley-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "hockley-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "hockley-field-conversation": {
+      "frames": [
+        {
+          "sprite": "hockley-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "hockley-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "lamar-field-command": {
+      "frames": [
+        {
+          "sprite": "lamar-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "lamar-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "lamar-field-conversation": {
+      "frames": [
+        {
+          "sprite": "lamar-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "lamar-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "sherman-field-command": {
+      "frames": [
+        {
+          "sprite": "sherman-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "sherman-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "sherman-field-conversation": {
+      "frames": [
+        {
+          "sprite": "sherman-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "sherman-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "rusk-field-command": {
+      "frames": [
+        {
+          "sprite": "rusk-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "rusk-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "rusk-field-conversation": {
+      "frames": [
+        {
+          "sprite": "rusk-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "rusk-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "travis-command-cycle": {
       "frames": [
         {
@@ -125947,7 +128707,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 254,
+    "sourceCount": 266,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

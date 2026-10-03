@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2446 usable sprites, 254 PNG atlases, 859 clips** (551 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2494 usable sprites, 266 PNG atlases, 883 clips** (575 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -91,6 +91,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-deaf-smith | 16 | 1254 × 1254 | 1316988 |
 | famous-deaf-smith-mounted | 4 | 1254 × 1254 | 1298123 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-travis-foot-cardinal-v2 | 4 | 1266 × 1242 | 806349 |
+| famous-crockett-foot-cardinal-v2 | 4 | 1254 × 1254 | 940486 |
+| famous-bowie-foot-cardinal-v2 | 4 | 1254 × 1254 | 789172 |
+| famous-fannin-foot-cardinal-v2 | 4 | 1254 × 1254 | 845083 |
+| famous-milam-foot-cardinal-v2 | 4 | 1254 × 1254 | 1102668 |
+| famous-ben-foot-cardinal-v2 | 4 | 1254 × 1254 | 891817 |
+| famous-neill-field-gestures | 4 | 1254 × 1254 | 1112678 |
+| famous-karnes-field-gestures | 4 | 1310 × 1201 | 977747 |
+| famous-hockley-field-gestures | 4 | 1287 × 1222 | 985605 |
+| famous-lamar-field-gestures | 4 | 1312 × 1199 | 851184 |
+| famous-sherman-field-gestures | 4 | 1240 × 1269 | 1063729 |
+| famous-rusk-field-gestures | 4 | 1312 × 1199 | 946322 |
 | famous-travis-gestures | 4 | 1254 × 1254 | 882290 |
 | famous-houston-gestures | 4 | 1254 × 1254 | 891705 |
 | famous-santa-anna-gestures | 4 | 1254 × 1254 | 896923 |
@@ -1148,6 +1160,54 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| travis-foot-walk-s-v2-1 | famous-travis-foot-cardinal-v2 | travis-foot-walk-s-v2 |
+| travis-foot-walk-s-v2-2 | famous-travis-foot-cardinal-v2 | travis-foot-walk-s-v2 |
+| travis-foot-walk-n-v2-1 | famous-travis-foot-cardinal-v2 | travis-foot-walk-n-v2 |
+| travis-foot-walk-n-v2-2 | famous-travis-foot-cardinal-v2 | travis-foot-walk-n-v2 |
+| crockett-foot-walk-s-v2-1 | famous-crockett-foot-cardinal-v2 | crockett-foot-walk-s-v2 |
+| crockett-foot-walk-s-v2-2 | famous-crockett-foot-cardinal-v2 | crockett-foot-walk-s-v2 |
+| crockett-foot-walk-n-v2-1 | famous-crockett-foot-cardinal-v2 | crockett-foot-walk-n-v2 |
+| crockett-foot-walk-n-v2-2 | famous-crockett-foot-cardinal-v2 | crockett-foot-walk-n-v2 |
+| bowie-foot-walk-s-v2-1 | famous-bowie-foot-cardinal-v2 | bowie-foot-walk-s-v2 |
+| bowie-foot-walk-s-v2-2 | famous-bowie-foot-cardinal-v2 | bowie-foot-walk-s-v2 |
+| bowie-foot-walk-n-v2-1 | famous-bowie-foot-cardinal-v2 | bowie-foot-walk-n-v2 |
+| bowie-foot-walk-n-v2-2 | famous-bowie-foot-cardinal-v2 | bowie-foot-walk-n-v2 |
+| fannin-foot-walk-s-v2-1 | famous-fannin-foot-cardinal-v2 | fannin-foot-walk-s-v2 |
+| fannin-foot-walk-s-v2-2 | famous-fannin-foot-cardinal-v2 | fannin-foot-walk-s-v2 |
+| fannin-foot-walk-n-v2-1 | famous-fannin-foot-cardinal-v2 | fannin-foot-walk-n-v2 |
+| fannin-foot-walk-n-v2-2 | famous-fannin-foot-cardinal-v2 | fannin-foot-walk-n-v2 |
+| milam-foot-walk-s-v2-1 | famous-milam-foot-cardinal-v2 | milam-foot-walk-s-v2 |
+| milam-foot-walk-s-v2-2 | famous-milam-foot-cardinal-v2 | milam-foot-walk-s-v2 |
+| milam-foot-walk-n-v2-1 | famous-milam-foot-cardinal-v2 | milam-foot-walk-n-v2 |
+| milam-foot-walk-n-v2-2 | famous-milam-foot-cardinal-v2 | milam-foot-walk-n-v2 |
+| ben-foot-walk-s-v2-1 | famous-ben-foot-cardinal-v2 | ben-foot-walk-s-v2 |
+| ben-foot-walk-s-v2-2 | famous-ben-foot-cardinal-v2 | ben-foot-walk-s-v2 |
+| ben-foot-walk-n-v2-1 | famous-ben-foot-cardinal-v2 | ben-foot-walk-n-v2 |
+| ben-foot-walk-n-v2-2 | famous-ben-foot-cardinal-v2 | ben-foot-walk-n-v2 |
+| neill-field-command-1 | famous-neill-field-gestures | neill-field-command |
+| neill-field-command-2 | famous-neill-field-gestures | neill-field-command |
+| neill-field-conversation-1 | famous-neill-field-gestures | neill-field-conversation |
+| neill-field-conversation-2 | famous-neill-field-gestures | neill-field-conversation |
+| karnes-field-command-1 | famous-karnes-field-gestures | karnes-field-command |
+| karnes-field-command-2 | famous-karnes-field-gestures | karnes-field-command |
+| karnes-field-conversation-1 | famous-karnes-field-gestures | karnes-field-conversation |
+| karnes-field-conversation-2 | famous-karnes-field-gestures | karnes-field-conversation |
+| hockley-field-command-1 | famous-hockley-field-gestures | hockley-field-command |
+| hockley-field-command-2 | famous-hockley-field-gestures | hockley-field-command |
+| hockley-field-conversation-1 | famous-hockley-field-gestures | hockley-field-conversation |
+| hockley-field-conversation-2 | famous-hockley-field-gestures | hockley-field-conversation |
+| lamar-field-command-1 | famous-lamar-field-gestures | lamar-field-command |
+| lamar-field-command-2 | famous-lamar-field-gestures | lamar-field-command |
+| lamar-field-conversation-1 | famous-lamar-field-gestures | lamar-field-conversation |
+| lamar-field-conversation-2 | famous-lamar-field-gestures | lamar-field-conversation |
+| sherman-field-command-1 | famous-sherman-field-gestures | sherman-field-command |
+| sherman-field-command-2 | famous-sherman-field-gestures | sherman-field-command |
+| sherman-field-conversation-1 | famous-sherman-field-gestures | sherman-field-conversation |
+| sherman-field-conversation-2 | famous-sherman-field-gestures | sherman-field-conversation |
+| rusk-field-command-1 | famous-rusk-field-gestures | rusk-field-command |
+| rusk-field-command-2 | famous-rusk-field-gestures | rusk-field-command |
+| rusk-field-conversation-1 | famous-rusk-field-gestures | rusk-field-conversation |
+| rusk-field-conversation-2 | famous-rusk-field-gestures | rusk-field-conversation |
 | travis-command-gesture-1 | famous-travis-gestures | travis-command-cycle |
 | travis-command-gesture-2 | famous-travis-gestures | travis-command-cycle |
 | travis-conversation-gesture-1 | famous-travis-gestures | travis-conversation-cycle |
@@ -3071,6 +3131,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| travis-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| travis-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| crockett-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| crockett-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| bowie-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| bowie-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| fannin-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| fannin-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| milam-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| milam-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| ben-foot-walk-s-v2 | Pose cycle | 2 | 700 | yes | south |
+| ben-foot-walk-n-v2 | Pose cycle | 2 | 700 | yes | north |
+| neill-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| neill-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| karnes-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| karnes-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| hockley-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| hockley-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| lamar-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| lamar-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| sherman-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| sherman-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| rusk-field-command | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| rusk-field-conversation | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | travis-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | travis-conversation-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | houston-command-cycle | Pose cycle | 2 | 1800 | yes | east; mirror for west |
