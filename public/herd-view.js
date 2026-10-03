@@ -16,7 +16,8 @@
 /** The most figures one herd is drawn as, near; and fewer as the camera pulls back (`drawnMost`). Kept low for Chromebooks. */
 export const HERD_DRAWN_MOST = 24;
 /** Pixels to the mile under which a herd is drawn as a group a kind, and between that and `NEAR_SCALE` as a few head. */
-export const FAR_SCALE = 600, NEAR_SCALE = 1500;
+// The class's own camera on the family's land stands about 400 pixels to the mile (a person about 8 pixels tall): a herd is every head there.
+export const FAR_SCALE = 150, NEAR_SCALE = 300;
 /** How big each is drawn, against a person's figure: the longhorn as the milk cow is drawn, the hog about half, the young smaller. */
 export const HERD_SIZE = Object.freeze({ cattle: 1.15, hogs: 0.62 });
 export const YOUNG_SIZE = 0.6;
@@ -134,7 +135,7 @@ const HAND = Object.freeze({ 1: 'new to stock', 2: 'a good hand with stock', 3: 
 /**
  * What the herd's hover says, from what the server sent (`world.household.herd`, `world.household.ranch`): the counts, the flesh of
  * each kind, the young, the strays still out, and who minded it last - "6 cattle, fat · 12 hogs, fair · 3 calves · 2 strayed ·
- * minded today by Asa, the best hand with stock".
+ * minded today by Asa, the best hand with stock". Whoever is out after it now (`keeper.now`, the page's own) is said first.
  */
 export function herdHover(herd, ranch = null) {
   if (!herd) return '';
@@ -147,7 +148,7 @@ export function herdHover(herd, ranch = null) {
   const strayed = (ranch?.strayed?.cattle || 0) + (ranch?.strayed?.hogs || 0);
   if (strayed) parts.push(`${strayed} strayed`);
   const keeper = ranch?.keeper;
-  if (keeper) parts.push(`minded ${keeper.days === 0 ? 'today' : keeper.days === 1 ? 'yesterday' : `${keeper.days} days ago`} by ${keeper.name}, ${HAND[keeper.hand] || HAND[1]}`);
+  if (keeper) parts.push(`${keeper.now ? 'minded now' : `minded ${keeper.days === 0 ? 'today' : keeper.days === 1 ? 'yesterday' : `${keeper.days} days ago`}`} by ${keeper.name}, ${HAND[keeper.hand] || HAND[1]}`);
   else if (herd.cattle || herd.hogs) parts.push('nobody minding them');
   return parts.filter(Boolean).join(' · ');
 }

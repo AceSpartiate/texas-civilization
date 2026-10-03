@@ -1,0 +1,156 @@
+{
+  "record": "The real herd, the herder and a sale at the pens, in a browser (sim/stock.mjs, public/herd-view.js)",
+  "date": "2026-10-03",
+  "verdict": "PASS",
+  "note": "Same computer only, headless Chrome at 1366x768. One real class through the join flow on the invented country (seed herds-proof). No LAN or district claim.",
+  "checks": [
+    "the family's herd of 9 cattle and 14 hogs is drawn on its land as 23 figures, 6 of them young (clips cattle-longhorn-dun-idle, cattle-longhorn-pied-graze, cow-walk, cattle-longhorn-pied-idle, cattle-longhorn-red-graze, hog-root, pig-walk, hog-idle)",
+    "Silas (a hand of 3) is out after the stock on the family's horse; the herd is drawn about them and the horn on the row is lit (\"The best hand with stock on this land. Out after the herd now.\")",
+    "hovering the herd says \"9 cattle, fair · 14 hogs, fair · 2 calves · 4 pigs · minded now by Silas, the best hand with stock\"",
+    "the record says: \"Silas Proofwright rode the range and counted the stock: 9 cattle and 14 hogs, the cattle fair, the hogs fair. The calves are marked, and nothing will stray for a month.\"",
+    "\"Hannah Proofwright sold 2 cattle, fair, to Anselmo Treviño at the stock pens for 8 reales.\" - the family has 7 cattle and 11 reales",
+    "the herd drawn on the land is the herd less the two sold (7 cattle)",
+    "a herd of 60 cattle and 140 hogs is drawn as 24 figures, with groups of 54 cattle and 124 hogs",
+    "no page errors"
+  ],
+  "observed": {
+    "range": {
+      "figures": 23,
+      "cattle": 9,
+      "hogs": 14,
+      "young": 6,
+      "groups": [],
+      "herder": null,
+      "night": false,
+      "clips": [
+        "cattle-longhorn-dun-idle",
+        "cattle-longhorn-pied-graze",
+        "cow-walk",
+        "cattle-longhorn-pied-idle",
+        "cattle-longhorn-red-graze",
+        "hog-root",
+        "pig-walk",
+        "hog-idle"
+      ],
+      "kinds": [
+        "cow-walk",
+        "cattle-longhorn-pied-graze",
+        "cattle-longhorn-red-graze",
+        "cattle-longhorn-dun-idle",
+        "cattle-longhorn-pied-idle",
+        "pig-walk",
+        "hog-idle",
+        "hog-root"
+      ],
+      "box": {
+        "x": 683,
+        "y": 210,
+        "w": 148,
+        "h": 99
+      },
+      "words": "9 cattle, fair · 14 hogs, fair · 2 calves · 4 pigs · nobody minding them"
+    },
+    "herder": {
+      "id": "hh-1-parent-1",
+      "name": "Silas Proofwright",
+      "hand": 3,
+      "mounted": true,
+      "drawn": {
+        "figures": 23,
+        "cattle": 9,
+        "hogs": 14,
+        "young": 6,
+        "groups": [],
+        "herder": "hh-1-parent-1",
+        "night": false,
+        "clips": [
+          "cow-walk",
+          "pig-walk"
+        ],
+        "kinds": [
+          "cow-walk",
+          "pig-walk"
+        ],
+        "box": {
+          "x": 838,
+          "y": 352,
+          "w": 99,
+          "h": 70
+        },
+        "words": "9 cattle, fair · 14 hogs, fair · 2 calves · 4 pigs · minded now by Silas, the best hand with stock"
+      },
+      "mark": {
+        "hand": "3",
+        "out": "true",
+        "title": "The best hand with stock on this land. Out after the herd now."
+      }
+    },
+    "hover": {
+      "siteId": "home-1",
+      "words": "9 cattle, fair · 14 hogs, fair · 2 calves · 4 pigs · minded now by Silas, the best hand with stock",
+      "x": 619,
+      "y": 328
+    },
+    "rode": "Silas Proofwright rode the range and counted the stock: 9 cattle and 14 hogs, the cattle fair, the hogs fair. The calves are marked, and nothing will stray for a month.",
+    "sale": {
+      "text": "Hannah Proofwright sold 2 cattle, fair, to Anselmo Treviño at the stock pens for 8 reales.",
+      "herd": {
+        "cattle": 7,
+        "hogs": 14
+      },
+      "money": 11
+    },
+    "big": {
+      "figures": 24,
+      "cattle": 60,
+      "hogs": 140,
+      "young": 0,
+      "groups": [
+        {
+          "kind": "cattle",
+          "count": 54
+        },
+        {
+          "kind": "hogs",
+          "count": 124
+        }
+      ],
+      "herder": null,
+      "night": false,
+      "clips": [
+        "cattle-longhorn-dun-idle",
+        "cattle-longhorn-pied-graze",
+        "cow-walk",
+        "cattle-longhorn-pied-idle",
+        "hog-root",
+        "cattle-longhorn-red-graze",
+        "pig-walk",
+        "hog-idle"
+      ],
+      "kinds": [
+        "cow-walk",
+        "cattle-longhorn-pied-graze",
+        "cattle-longhorn-red-graze",
+        "cattle-longhorn-dun-idle",
+        "cattle-longhorn-pied-idle",
+        "pig-walk",
+        "hog-idle",
+        "hog-root"
+      ],
+      "box": {
+        "x": 683,
+        "y": 295,
+        "w": 76,
+        "h": 49
+      },
+      "words": "60 cattle, fair · 140 hogs, fair · nobody minding them"
+    }
+  },
+  "screenshots": [
+    "docs/evidence/herds-range-1366.png",
+    "docs/evidence/herds-herder-1366.png",
+    "docs/evidence/herds-hover-1366.png",
+    "docs/evidence/herds-sale-1366.png",
+    "docs/evidence/herds-big-herd-1366.png"
+  ]
+}

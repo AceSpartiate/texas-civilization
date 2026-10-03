@@ -3747,7 +3747,10 @@ export function drawWorld(world) {
 function drawHerd(ctx, world, camera, site, standing, { herd, ranch, bounds, own, entities }) {
   // Whoever of the family is out after the stock on this land, at work there: the herd draws in about them.
   const herder = own ? entities.find(one => one.kind === 'person' && one.chore?.id === 'look-to-stock' && !one.travel && one.location?.siteId === site.id && (one.chore.step ?? -1) >= 1) : null;
-  const herderAt = herder ? motionProjection.position(herder, performance.now(), reducedMotion.matches) : null;
+  // Where the herder was drawn last frame (`drawnAt`, at their work as `atTheirWork` places them), back on the ground; else where
+  // the server has them.
+  const seen = herder && drawnAt.get(herder.id);
+  const herderAt = !herder ? null : seen && camera.toWorld ? camera.toWorld({ x: seen.x, y: seen.y + seen.size * .45 }) : motionProjection.position(herder, performance.now(), reducedMotion.matches);
   const timber = woodsCatalogue ? (x, y) => treesNear({ x, y }, 0.02, woodsCatalogue).length > 0 : null;
   const figures = herdFigures({ herd: { ...herd, ...(ranch?.young && { young: ranch.young }) }, home: site, bounds, hour: ranch?.night ? 23 : 12, seed: site.id, time: reducedMotion.matches ? 0 : animationTime / 1000, scale: camera.scale, herder: herderAt, timber });
   if (!figures.length) return;
@@ -3774,7 +3777,8 @@ function drawHerd(ctx, world, camera, site, standing, { herd, ranch, bounds, own
     const p = camera.toScreen(herderAt), size = camera.figure * 1.45;
     standing.push({ y: p.y - 0.5, draw: () => animated(ctx, clipReady('horse-graze') ? 'horse-graze' : 'horse-chestnut-idle', p.x - camera.figure * .75, p.y, size, `${site.id}:range-horse`) });
   }
-  const words = herdHover(herd, ranch);
+  // Whoever is out after the herd now is who is minding it, before the server's record of the last day out says so.
+  const words = herdHover(herd, herder ? { ...ranch, keeper: { name: herder.given || herder.name.split(' ')[0], hand: herder.hand || 1, now: true } } : ranch);
   herdsDrawn.push({ siteId: site.id, box, words });
   if (herdHoverId === site.id && words) {
     // Over everything standing, above the herd: the server's words for it.
@@ -3789,7 +3793,7 @@ function drawHerd(ctx, world, camera, site, standing, { herd, ranch, bounds, own
   if (own) {
     const sum = (kind, young) => figures.filter(one => one.kind === kind && (young === undefined || one.young === young)).reduce((total, one) => total + one.count, 0);
     window.__herdDrawn = { figures: figures.length, cattle: sum('cattle'), hogs: sum('hogs'), young: figures.filter(one => one.young).length, groups: figures.filter(one => one.count > 1).map(one => ({ kind: one.kind, count: one.count })),
-      herder: herder ? herder.id : null, night: Boolean(ranch?.night), clips: [...clips], kinds: [...new Set(figures.map(one => one.clip))], box: { x: Math.round(box.minX), y: Math.round(box.minY), w: Math.round(box.maxX - box.minX), h: Math.round(box.maxY - box.minY) }, words };
+      herder: herder ? herder.id : null, night: Boolean(ranch?.night), get clips() { return [...clips]; }, kinds: [...new Set(figures.map(one => one.clip))], box: { x: Math.round(box.minX), y: Math.round(box.minY), w: Math.round(box.maxX - box.minX), h: Math.round(box.maxY - box.minY) }, words };
   }
 }
 /** The herds drawn this frame, for the hover (`hoverHerd`), and the one the mouse is over. */

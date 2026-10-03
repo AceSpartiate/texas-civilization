@@ -288,13 +288,15 @@ test('the page draws the real herd: a figure a head up to a cap, the young small
   const big = drawn({ cattle: 40, hogs: 90 });
   assert.ok(big.some(one => one.count > 1), 'a big herd is drawn head by head');
   // Zoomed out: fewer figures, the same head counted.
-  const far = herdFigures({ ...base, herd: { cattle: 6, hogs: 12 }, scale: 300 });
+  const far = herdFigures({ ...base, herd: { cattle: 6, hogs: 12 }, scale: 100 });
   assert.ok(far.length < 18 && far.length > 0, `zoomed out ${far.length} figures`);
   assert.equal(count(far, 'cattle') + count(far, 'hogs'), 18);
   // Nothing drawn for no herd.
   assert.equal(drawn({ cattle: 0, hogs: 0 }).length, 0);
   // The hover says what the server said: the counts, the flesh and who minded it.
   assert.match(herdHover({ cattle: 6, hogs: 12 }, { condition: { cattle: 'fat', hogs: 'fair' }, keeper: { name: 'Asa', hand: 3, days: 0 } }), /6 cattle, fat · 12 hogs, fair · minded today by Asa, the best hand with stock/);
+  assert.match(herdHover({ cattle: 2, hogs: 0 }, { keeper: { name: 'Tom', hand: 1, now: true } }), /2 cattle · minded now by Tom, new to stock/);
+  assert.match(herdHover({ cattle: 2, hogs: 0 }, {}), /nobody minding them/);
 });
 
 test('the page draws the herd near the house at night and with the herder when somebody is out after it', () => {
