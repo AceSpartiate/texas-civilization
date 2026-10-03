@@ -881,7 +881,11 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   // always for a cart or carreta, whose ox is drawn by itself, or a wagon come to harm.
   // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request 2026-09-16, item 1.
   const box = mount.wagon || {};
-  const rigClip = seat === 'wagon' && !box.cart && !box.carreta && (!box.condition || box.condition === 'sound') ? wagonRigClip(box, direction, aboard.length) : null;
+  // Not with a mule in harness (2026-10-03, sim/draught.mjs): the one-drawing rig has its ox painted in, so a mule-drawn wagon is drawn
+  // apart, the family's mule before it. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 - riders in every vehicle (item 9, the
+  // mule in harness).
+  const muleDrawn = seat === 'wagon' && mount.ox?.species === 'mule';
+  const rigClip = seat === 'wagon' && !muleDrawn && !box.cart && !box.carreta && (!box.condition || box.condition === 'sound') ? wagonRigClip(box, direction, aboard.length) : null;
   const rig = Boolean(rigClip) && clipReady(rigClip.id);
   // Whoever rides in this wagon behind its driver (sim/company.mjs; owner, 2026-09-25), sat in it after the wagon and before the
   // driver, so the driver is drawn in front of them. They are not drawn again beside it (public/motion.js `carriedWithRider`).
@@ -959,7 +963,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   }
   // `art` is the delivered clip if one was drawn, and null while the composite stand-in stands in for it: the one fact a
   // proof needs to tell "Astra's painted rider" from "a cropped figure over a horse" without reading pixels.
-  seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, rig: rig ? rigClip.id : null, parts: drawn, ...(onMule && { mount: 'mule', mountId: mount.horse.id }) });
+  seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, rig: rig ? rigClip.id : null, parts: drawn, ...(onMule && { mount: 'mule', mountId: mount.horse.id }), ...(muleDrawn && { draws: 'mule', drawnBy: mount.ox.id }) });
 }
 /**
  * How tall somebody is drawn, in pixels, from the camera's figure size: everything is drawn standing on its point, so this

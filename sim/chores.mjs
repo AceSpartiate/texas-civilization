@@ -60,8 +60,8 @@ import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { STORE_BALE_COIN, TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { carryOutErrand, herdDrivenIn, planErrand } from './errands.mjs';
 import { quickestWay } from './going.mjs';
-import { ROLES as BEASTS, hasWords, holderOf, letGo, takeToWar, userOf, vehicleCarry, warRifleWords } from './keeping.mjs';
-import { beastsOf, kept, wagonWith } from './beasts.mjs';
+import { ROLES as BEASTS, hasWords, holderOf, letGo, takeToWar, teamFor, userOf, vehicleCarry, warRifleWords } from './keeping.mjs';
+import { beastsOf, kept, roleOf, wagonWith } from './beasts.mjs';
 import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
@@ -1892,7 +1892,9 @@ function byNearness(world, household, plots) {
  */
 function heldBy(world, household, entity, chore, modeId, choreId, extra = {}) {
   const own = typeof chore.takes === 'function' ? chore.takes(world, household, entity) : chore.takes || [];
-  const road = chore.steps.some(step => step.travel) ? MODES[modeId]?.needs || [] : [];
+  // The wagon's road holds what will really draw it - an ox, or since 2026-10-03 a mule (sim/draught.mjs, `teamFor`) - and the vehicle.
+  const team = modeId === 'wagon' ? [...new Set(teamFor(world, entity).team.map(roleOf))] : [];
+  const road = chore.steps.some(step => step.travel) ? (team.length ? [...team, 'wagon'] : MODES[modeId]?.needs || []) : [];
   const axe = axeFor(world, household, choreId, extra);
   return { held: [...new Set([...own, ...(axe ? ['axe'] : []), ...road])], shares: axe === 'home' ? ['axe'] : [] };
 }

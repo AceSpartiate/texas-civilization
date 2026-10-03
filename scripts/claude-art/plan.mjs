@@ -252,6 +252,14 @@ export const ITEMS = [
   { id: 'D25', area: 'D', priority: 3, request: R.vehicles, item: 'item 8', deliver: '`steamboat-laden-deck`: the laden underway loop (request 2026-09-18) with a clear stretch of main deck forward, its deck line marked, for a family\'s own man and his horse or mule among the painted army',
     names: ['steamboat-laden-deck*'],
     frames: '4, as `steamboat-laden`', size: 'As `steamboat-laden`', standIn: '`steamboat-laden` alone, nobody\'s own figure aboard', kind: 'library', plugs: 'the Yellow Stone in `drawWorld`, `public/app.js` (`yellowStone`)', status: 'open' },
+  // The mule in harness (owner, 2026-10-03: "yes, but speed should adjust if it's too heavy. mules would be perfect for the carreta
+  // right though?"; sim/draught.mjs).
+  { id: 'D26', area: 'D', priority: 2, request: R.vehicles, item: 'item 9', deliver: 'the family\'s mule in harness, without the vehicle: `mule-harness-walk-e`, `-s`, `-n` (one mule, collar or breast strap, traces, bridle, 4 each) and `mule-pair-harness-walk-e`, `-s`, `-n` (two side by side, 4 each)',
+    names: ['mule-harness-walk*', 'mule-pair-harness-walk*'],
+    frames: '4 frames a heading', size: 'The scale of `horse-walk` (1.5 of a person), ground anchor', standIn: 'Claude\'s `mule-walk-*` on its halter where the ox would stand; a pair\'s second walking alongside', kind: 'claude', plugs: '`miniAnimal` (the `ox` part of `seatLayout(\'wagon\', ...)`) in `public/app.js`', status: 'open', phrases: ['riders in every vehicle (item 9'] },
+  { id: 'D27', area: 'D', priority: 3, request: R.vehicles, item: 'item 10', deliver: 'the covered wagon behind a mule as one rig: `wagon-mule-e`, `-s`, `-n` (loaded and empty covers, 4 each, as `wagon-ox-*`) and `wagon-mules-*` with the pair',
+    names: ['wagon-mule-*', 'wagon-mules-*'],
+    frames: '4 frames a heading', size: 'The scale of `wagon-covered` and `horse-walk`', standIn: 'the mule and the side-view wagon drawn apart (`muleDrawn` in `drawSeated`)', kind: 'library', plugs: '`wagonRigClip` and `WAGON_RIG` in `public/motion.js`', status: 'open' },
   { id: 'B12', area: 'B', priority: 3, request: R.families, item: 'priority 1', deliver: 'any later child-specific action pose the game asks a child in (today every child action pose it needs is B1, B6, B7 and B8)', names: [],
     frames: '—', size: PEOPLE, standIn: 'a grown figure drawn smaller (90% at 10-17, 70% at 5-9, 55% at 2-4, 45% an infant); keep the scaling when the art lands', kind: 'library', plugs: '`CHILD_POSES` and `entityClip` in `public/motion.js`', status: 'skipped: covered by B1, B6, B7 and B8; the scaling rule stays', phrases: ['Until there is child art'] },
 

@@ -193,6 +193,11 @@ button:disabled{opacity:.4;cursor:default}
 .going-way-facts,.going-way-tiring{font-size:12px;opacity:.9}
 .going-way-brings{font-size:12px;font-weight:600}
 .going-way-why{font-size:12px;color:#8a3b22;font-weight:600}
+.going-way-speed{display:flex;flex-direction:column;gap:2px;width:100%}
+.going-way-bar{display:block;font-size:11px;line-height:14px;padding:0 4px;border-radius:3px;background:linear-gradient(90deg,#d9b25e var(--w),rgba(0,0,0,.06) var(--w));color:#3f3524}
+.going-way-bar-laden{background:linear-gradient(90deg,#a9824a var(--w),rgba(0,0,0,.06) var(--w))}
+.going-way[aria-pressed=true] .going-way-bar{background:linear-gradient(90deg,#e6c06a var(--w),rgba(255,255,255,.7) var(--w))}
+.going-way[aria-pressed=true] .going-way-bar-laden{background:linear-gradient(90deg,#c39a56 var(--w),rgba(255,255,255,.7) var(--w))}
 #errand .going-way{padding:4px 7px}
 #errand .going-way-tiring{display:none}
 #errand-why{margin:4px 0 0;font-size:13px;color:#8a3b22}

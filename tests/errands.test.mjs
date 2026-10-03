@@ -380,7 +380,9 @@ test('the popup\'s facts are the family\'s own: its own town, its own stock, nob
   household(world).resources.cotton = 3;
   const facts = errandFor(world, 'hh-1', rosa.id, [{ id: 'store:cotton', n: 3, pay: 'coin' }]);
   const wire = JSON.stringify(facts);
-  assert.ok(wire.length < 12000, `the popup's facts are ${wire.length} bytes`);
+  // 13,000 since 2026-10-03: the stock pens' sell-cattle and sell-hogs lines (herds) and the draught teams (mules) together
+  // measured 12,499 bytes; each alone passed 12,000. A leak of other families' things would still blow well past it.
+  assert.ok(wire.length < 13000, `the popup's facts are ${wire.length} bytes`);
   assert.doesNotMatch(wire, /hh-2|hh-3|"purse"/, 'another family, or a keeper\'s purse, is in the popup');
   for (const other of Object.values(world.households).filter(one => one.id !== 'hh-1')) {
     for (const id of other.members) assert.ok(!wire.includes(world.entities[id].name), `${world.entities[id].name} of another family is in the popup`);

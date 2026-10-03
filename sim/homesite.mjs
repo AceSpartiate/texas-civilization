@@ -143,7 +143,7 @@ export function chooseSite(world, household, point) {
     const movers = [...household.members, ...household.property].map(id => world.entities[id]).filter(entity => entity?.travel?.causeId === causeId && entity.travel.purpose === 'arrive');
     // A family with no vehicle carries its packs over on foot (sim/company.mjs `setOut`), somebody on the horse.
     // ceiling: the ground's slowing is the wagon's here, however the family goes; the move is a few hundred yards of its own land.
-    setOut(movers, drawnVehicles(movers), entity => entity.travel, riddenHorses(world, movers));
+    setOut(movers, drawnVehicles(movers), entity => entity.travel, riddenHorses(world, movers), world);
   }
 }
 

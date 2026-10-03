@@ -11,10 +11,10 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | A — People at work and ambient poses | 31 | 8 | 18 | 0 |
 | B — Children, babies and sickness | 19 | 7 | 13 | 2 |
 | C — Soldiers, battles and famous people | 22 | 1 | 19 | 1 |
-| D — Riders, horses, wagons, carreta, ferry, steamboat | 25 | 2 | 16 | 4 |
+| D — Riders, horses, wagons, carreta, ferry, steamboat | 27 | 2 | 16 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 16 | 2 | 11 | 17 |
-| **Total** | **133** | **22** | **96** | **27** |
+| **Total** | **135** | **22** | **96** | **27** |
 
 ## How a builder works
 
@@ -425,7 +425,7 @@ Skipped:
 
 ## D — Riders, horses, wagons, carreta, ferry, steamboat
 
-Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 25 to make, 4 skipped.
+Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 27 to make, 4 skipped.
 
 - [ ] **D1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1 — **Claude stand-in held back: Astra has drawn the subject** (cow), so the page draws hers (`milk-cow-walk-e`, `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze`)
   - **Deliver:** `milk-cow-walk-e` (4), `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze` (2): a gentle dairy cow of the 1830s with a rope trailing from her horns
@@ -493,6 +493,11 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Frames:** east, south, north. **Size:** As D5: the scale of `wagon-covered`, anchored at the hip
   - **Plugs into:** `passengerClip` and `bedLayout` in `public/motion.js`
   - **Stands in now:** their figure cut at the waist in the bed (Astra's library art reused)
+- [ ] **D26** (priority 2) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 9
+  - **Deliver:** the family's mule in harness, without the vehicle: `mule-harness-walk-e`, `-s`, `-n` (one mule, collar or breast strap, traces, bridle, 4 each) and `mule-pair-harness-walk-e`, `-s`, `-n` (two side by side, 4 each)
+  - **Frames:** 4 frames a heading. **Size:** The scale of `horse-walk` (1.5 of a person), ground anchor
+  - **Plugs into:** `miniAnimal` (the `ox` part of `seatLayout('wagon', ...)`) in `public/app.js`
+  - **Stands in now:** Claude's `mule-walk-*` on its halter where the ox would stand; a pair's second walking alongside (Claude-drawn)
 - [ ] **D30** (priority 2) — [Request 2026-10-03 — the herd and the herder](ART_REQUESTS.md#request-2026-10-03--the-herd-and-the-herder), item 5
   - **Deliver:** for each of the eight cast figures and `boy`, `girl`: `-ride-herd` (on the family's horse at a walk, a coiled rope in hand, turning a cow, 4, east, and `-idle`)
   - **Frames:** 4 frames, east, and 2 idle. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
@@ -554,6 +559,11 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Frames:** 4, as `steamboat-laden`. **Size:** As `steamboat-laden`
   - **Plugs into:** the Yellow Stone in `drawWorld`, `public/app.js` (`yellowStone`)
   - **Stands in now:** `steamboat-laden` alone, nobody's own figure aboard (Astra's library art reused)
+- [ ] **D27** (priority 3) — [Request 2026-10-03 — riders in every vehicle](ART_REQUESTS.md#request-2026-10-03--riders-in-every-vehicle), item 10
+  - **Deliver:** the covered wagon behind a mule as one rig: `wagon-mule-e`, `-s`, `-n` (loaded and empty covers, 4 each, as `wagon-ox-*`) and `wagon-mules-*` with the pair
+  - **Frames:** 4 frames a heading. **Size:** The scale of `wagon-covered` and `horse-walk`
+  - **Plugs into:** `wagonRigClip` and `WAGON_RIG` in `public/motion.js`
+  - **Stands in now:** the mule and the side-view wagon drawn apart (`muleDrawn` in `drawSeated`) (Astra's library art reused)
 
 Skipped:
 - ~~D16~~ [Request 2026-09-12 — families that look like who they are, and a rider who gets down](ART_REQUESTS.md#request-2026-09-12--families-that-look-like-who-they-are-and-a-rider-who-gets-down) — skipped: delivered 2026-09-14; the remaining work is code, not art

@@ -61,7 +61,7 @@ function sendHome(world, household, movers, from, { mode, causeId }) {
   const path = findWay(world, HERE, home, mode, { ferries: false, origin: from });
   if (!path) return null;
   const journey = () => ({ from: null, to: home, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: mode === 'wagon' ? WAGON_SPEED : WALK_SPEED, mode, purpose: 'return', silent: true, causeId, ...(path.pace?.length && { pace: path.pace }), ...(path.offRoad?.length && { offRoad: path.offRoad.map(run => [...run]) }) });
-  if (world.meansRoll) setOut(movers, mode === 'wagon' ? drawnVehicles(movers) : [], journey, riddenHorses(world, movers));
+  if (world.meansRoll) setOut(movers, mode === 'wagon' ? drawnVehicles(movers) : [], journey, riddenHorses(world, movers), world);
   for (const entity of movers) {
     if (!world.meansRoll) entity.travel = journey();
     entity.location = { ...path.points[0], siteId: null };
@@ -78,7 +78,7 @@ function turnAround(world, household) {
   if (!leader) return null;
   const at = { x: leader.location.x, y: leader.location.y };
   const all = beastsAll(world, household), with_ = movers.filter(entity => entity.kind !== 'person');
-  const mode = flight.mode === 'wagon' && with_.some(entity => entity.kind === 'wagon') && with_.some(isOx) ? 'wagon' : 'foot';
+  const mode = flight.mode === 'wagon' && with_.some(entity => entity.kind === 'wagon') && with_.some(entity => isOx(entity) || entity.species === 'mule') ? 'wagon' : 'foot';
   const place = nearestPlace(world, at);
   const causeId = record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-780', text: `With the news from San Jacinto the family turned for home on the road${place ? ` near ${place.name}` : ''}.` });
   for (const entity of movers) delete entity.travel;

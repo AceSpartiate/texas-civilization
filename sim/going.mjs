@@ -19,7 +19,8 @@
  */
 import { DEFAULT_MODE, MODES, groundLeft, milesAnHour, offeredModes, FARMING_TICK_MINUTES } from './travel.mjs';
 import { findWay } from './ways.mjs';
-import { vehicleCarry } from './keeping.mjs';
+import { teamFor, vehicleCarry } from './keeping.mjs';
+import { mph, teamWords, vehicleKind } from './draught.mjs';
 import { beastsOf, kept } from './beasts.mjs';
 
 /**
@@ -34,9 +35,9 @@ const round1 = value => Math.round(value * 10) / 10;
 const loadsWord = amount => { const shown = round1(amount); return `${shown} ${shown === 1 ? 'load' : 'loads'}`; };
 
 /** Hours of going for this way over this path, and its miles: null when the way there is not known. */
-function timeOf(path, modeId) {
+function timeOf(path, modeId, speed = MODES[modeId].speed) {
   if (!path) return null;
-  const ticks = groundLeft({ points: path.points, pace: path.pace, distance: path.distance, progress: 0 }) / MODES[modeId].speed;
+  const ticks = groundLeft({ points: path.points, pace: path.pace, distance: path.distance, progress: 0 }) / speed;
   return { miles: round1(path.distance), hours: round1(ticks * FARMING_TICK_MINUTES / 60) };
 }
 /** "about 3 hours", "about 40 minutes": how long the going takes, one way. */
@@ -84,14 +85,25 @@ function oneWay(world, entity, id, { to = null, point = null, load = 0, needsWag
   const where = world.map.sites[from];
   const mode = MODES[id];
   const path = from && to && world.map.sites[to] ? findWay(world, from, to, id) : null;
-  const time = timeOf(path, id) || (point && where ? (() => {
+  // With a vehicle: what would draw it, and its pace empty and laden (sim/draught.mjs; owner, 2026-10-03: a mule pulls, "but speed
+  // should adjust if it's too heavy"). The way's name says the team and the vehicle - "With the mule and carreta" - and the card
+  // shows both paces as bars (public/going.js `drawWays`). An ox's two miles an hour is the same laden or not, as it always was.
+  const drawn = id === 'wagon' && entity.householdId ? teamFor(world, entity, { laden: false }) : null;
+  const team = drawn?.team.length ? drawn.team : null;
+  const speed = team ? drawn.pace : mode.speed;
+  const laden = team ? teamFor(world, entity, { laden: true }).pace : speed;
+  const time = timeOf(path, id, speed) || (point && where ? (() => {
     const miles = Math.hypot(point.x - where.x, point.y - where.y);
-    return { miles: round1(miles), hours: round1(miles / milesAnHour(mode.speed)) };
+    return { miles: round1(miles), hours: round1(miles / milesAnHour(speed)) };
   })() : null);
   // What this way carries: a carreta made at home carries less than the wagon (sim/keeping.mjs `vehicleCarry`, owner 2026-09-25).
   const carry = vehicleCarry(world, entity, id), carreta = id === 'wagon' && carry !== mode.carry;
+  const kind = drawn?.vehicle ? vehicleKind(drawn.vehicle) : carreta ? 'carreta' : 'wagon';
+  const name = id !== 'wagon' ? mode.name : team ? `With ${teamWords(team)} and ${kind}` : carreta ? 'With the ox and carreta' : mode.name;
   const base = {
-    id, name: carreta ? 'With the ox and carreta' : mode.name, carry, pace: `${round1(milesAnHour(mode.speed))} miles an hour`, tiring: TIRING[id],
+    id, name, carry, pace: `${round1(milesAnHour(speed))} miles an hour`, tiring: TIRING[id],
+    // The paces for the bars: empty, and laden when the load slows it (`heavy`, in words for the bar's title and a reader).
+    ...(team && { mph: mph(speed), ...(laden < speed - 1e-9 && { ladenMph: mph(laden), heavy: `laden, ${mph(laden)} mph` }) }),
     ...(time && { miles: time.miles, hours: time.hours, time: hoursWords(time.hours) }),
     ...(load > 0 && { carrying: `${loadsWord(load)} of the ${carry} it carries` }),
     ...(haul && { brings: `Brings home ${Math.min(haul.got, carry)} ${haul.resource}${haul.got > carry ? ` of ${haul.got}; the rest is left behind` : ''}.` }),

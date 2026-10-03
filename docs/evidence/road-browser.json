@@ -8,7 +8,7 @@
     "the wagon bogged on a rain day; the \"!\" opened the card at the question with three priced answers, and the Host's row read bogged; Unload and dig it out was pressed and the wagon came free with the ox spent",
     "Hunt from the camp pressed on Lucinda Proofwright's row: the icon glows, the family is halted, the card says so and the Host's row reads camped: hunt from the camp",
     "the hunt ended and the family went on",
-    "camped at San Felipe as Santa Anna's column neared, the \"!\" opened the warning (about 16 miles off); Go on east to Lynchburg was pressed and the family is on the road again",
+    "camped at San Felipe as Santa Anna's column neared, the \"!\" opened the warning (about 19 miles off); Go on east to Lynchburg was pressed and the family is on the road again",
     "at phone width the page does not scroll sideways",
     "no page errors"
   ],
@@ -19,7 +19,7 @@
       "fledAt": 861
     },
     "bogAfter": {
-      "seconds": 158,
+      "seconds": 159,
       "tick": 965
     },
     "bogNeed": "road",
@@ -63,17 +63,17 @@
     ],
     "roadWarnings": [],
     "pursuitReached": {
-      "tick": 1388,
+      "tick": 1347,
       "danger": {
         "id": "santa-anna",
         "name": "Santa Anna’s column",
-        "miles": 16.21,
+        "miles": 19.3,
         "towardName": "San Felipe de Austin",
-        "minute": 275540,
+        "minute": 275360,
         "asked": true
       }
     },
-    "dangerCard": "The family is camped at San Felipe de Austin with the other families from the west. It is raining. Mexican troops could see the family from about 200 yards: the wagon on the road, in the open, in the rain. Change where we go Santa Anna’s column is about 16 miles off, making for San Felipe de Austin. Soldiers come after a family only when they can see it, and as it is now they could see the wagon from about 200 yards (on the road, in the open, in the rain). Go on east to Lynchburg About 62 miles. The family sets out the moment it is pressed, with the wagon. Stay as we are, and take the risk The family keeps its camp. If soldiers come near enough to see it, they call on it to halt; a family they take loses the wagon, the animals and the goods, and may lose the men. Leave the wagon and go on on foot The wagon and the ox stay where they are. The family carries 3.75 room’s worth (food first) and the rest is lost; on foot it goes faster, and people on foot are seen from a third as far off as a wagon in the open.",
+    "dangerCard": "The family is camped at San Felipe de Austin with the other families from the west. It is raining. Mexican troops could see the family from about 200 yards: the wagon on the road, in the open, in the rain. Change where we go Santa Anna’s column is about 19 miles off, making for San Felipe de Austin. Soldiers come after a family only when they can see it, and as it is now they could see the wagon from about 200 yards (on the road, in the open, in the rain). Go on east to Lynchburg About 62 miles. The family sets out the moment it is pressed, with the wagon. Stay as we are, and take the risk The family keeps its camp. If soldiers come near enough to see it, they call on it to halt; a family they take loses the wagon, the animals and the goods, and may lose the men. Leave the wagon and go on on foot The wagon and the ox stay where they are. The family carries 3.75 room’s worth (food first) and the rest is lost; on foot it goes faster, and people on foot are seen from a third as far off as a wagon in the open.",
     "hostWaiting": 1
   },
   "screenshots": [

@@ -293,7 +293,7 @@ export function setOutOnLeg(world, household, path, { from, to, way, causeId, tr
   const mode = vehicles.length ? 'wagon' : 'foot';
   const journey = () => ({ from, to, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: mode === 'wagon' ? WAGON_SPEED : WALK_SPEED, mode, purpose: 'flee', silent: true, causeId, ...(path.pace?.length && { pace: path.pace.map(run => [...run]) }), ...(path.offRoad?.length && { offRoad: path.offRoad.map(run => [...run]) }), ...(way === 'country' && { way: 'country' }) });
   const movers = [...goers, ...with_];
-  if (world.meansRoll) setOut(movers, vehicles, journey, riddenHorses(world, movers));
+  if (world.meansRoll) setOut(movers, vehicles, journey, riddenHorses(world, movers), world);
   for (const entity of movers) {
     entity.chore = null;
     if (!world.meansRoll) entity.travel = journey();

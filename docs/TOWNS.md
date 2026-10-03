@@ -466,12 +466,14 @@ followed, *"Tanner sells"*: **the tanner sells a rawhide for 2 reales or 4 food*
 at a time has); the art is docs/ART_REQUESTS.md, *request 2026-10-03 — riders in every vehicle*.
 
 - **Where, and for how much.** Wherever horses are sold: the stock pens of Gonzales, San Felipe, Columbia and Victoria (§4d), kept by
-  the same traders. **Ten reales, coin only** (`MULE_COIN`), two-fifths of a horse's 25. The record read gives Texas mules cheap and
+  the same traders. **Eight reales, coin only** (`MULE_COIN`), a third of a horse's 25: **the owner's own price, 2026-10-03** (asked
+  ten, eight or fifteen: *"8"*). It was built at ten that morning, on this reasoning: the record read gives Texas mules cheap and
   plentiful - running with the mustangs, *"Good jacks bring about twenty dollars in the home market, and mules from two to five"*
   (Holley, *Texas*, 1836, pp. 98-99, the wild-caught price beside the mustang's three or four dollars), and raised in such numbers
   that *"many of which are carried to the United States"* for the good price they fetched there (p. 67). **No price for a broken
   mule in Texas was found**, so the game sets one above the wild mule as it set the broken horse (twenty to thirty) above the caught
-  mustang: ten. Coin only, as the horse: twenty food would be a whole wagon load carried to town. `ceiling:` the price is the game's.
+  mustang: ten, and the owner made it eight. Coin only, as the horse: sixteen food would be most of a wagon load carried to town.
+  `ceiling:` the price is the game's.
 - **What it does.** A mule is its own animal beside the horse, the ox and the wagon (`species: 'mule'`; the first bought is
   `hh-1-mule`, *Jack the mule*, then *Molly the mule*, ...; at most four, `BEASTS_MOST`). Nobody starts with one.
   - **Ridden by one person**, a way of going of its own, **On the mule**: four miles an hour to the family horse's five and the
@@ -496,18 +498,48 @@ at a time has); the art is docs/ART_REQUESTS.md, *request 2026-10-03 — riders 
   November 1835 were to come *"with a good and sufficient horse"* (TSHA, `HIST-TEX-1110`). A mule still carries a man to the gathering
   and home - the Rev. W. P. Smith addressed the Gonzales men *"seated on his favorite mule"* - and he serves on foot. So a cheap mount
   never stands in for the horse the war's mounted work needs.
-- **It draws no vehicle** (`isOx`): the wagon, the cart and the carreta go behind an ox, one ox to a vehicle, as before. `ceiling:` a
-  mule in a cart's shafts is historical (the army's trains, Mexican carts); `isOx` in sim/beasts.mjs and the ox in `MODES.wagon.needs`
-  are where it would be let in - an owner's question.
-- **Drawn** (docs/ART_REQUESTS.md, request 2026-10-03, items 1-3): Claude's brown mule standing and led on its halter, saddled under a
-  rider whose own figure sits it; until those sheets load, the chestnut horse a little smaller. Stand-ins marked `stand-in:`.
+- ~~**It draws no vehicle**~~ - **it pulls: owner-decided 2026-10-03.** Asked whether a mule should draw a vehicle, the owner:
+  *"yes, but speed should adjust if it's too heavy. mules would be perfect for the carreta right though?"* (sim/draught.mjs,
+  `FIC-GONZ-1111`, on `HIST-TEX-1111`):
+  - **The rule: the pull against the weight.** A vehicle weighs its own weight - the wagon 10, a cart 8, a carreta 5 - and, laden,
+    its full load (the wagon's and the cart's 20, the carreta's 12), counted in loads. Each beast brings its **pull**, the weight it
+    draws at its own walk, and its **pace**: **the ox 30 at two miles an hour, a mule 18 at two and a half, the horse 20 at 2.7**
+    (`DRAUGHT`; the horse is in the table and not hitched - it carries a rider). A team goes at its slowest beast's walk while its pull
+    together is at least the weight, and slower by pull over weight past that. At most two to a vehicle.
+  - **So**: the ox draws everything at the two miles an hour it always has, laden or not - nothing about an ox changed. **One mule
+    draws the carreta laden at two and a half, quicker than the ox** (the owner's "perfect for the carreta"); an empty wagon or cart
+    as quick; **a laden cart at 1.6 and a laden wagon at 1.5** - too heavy, and slower than the ox. **A pair of mules draws the laden
+    wagon at two and a half**, better than one mule and better than the ox.
+  - **Who draws.** Sent with the wagon, cart or carreta, a person takes the quickest team for it laden of the oxen and mules free
+    where they stand - so the team that takes it out is the team that brings it home: the ox for the wagon (a lone mule would be slower
+    laden), a mule for the carreta (the ox stays home free), both mules for a family with two and no ox. It is out with them as an ox
+    is (`userOf`); the refusal names it (*"Rosa has the mule, on the road to Gonzales."*). On the family's journeys together each
+    vehicle in turn takes the quickest beast left - the ox to the wagon and the mule to the carreta - and a beast left over joins the
+    slowest vehicle it makes quicker; a mule in harness carries no rider; the train keeps the slowest team's pace (sim/company.mjs
+    `setOut`). The flight east, its room and the way home count a mule as something that draws.
+  - **On the way card** the wagon's way names its team - *"With the mule and carreta"*, *"With two mules and wagon"*, *"With the ox and
+    wagon"* as before - and shows its pace as a bar, with a second, shorter bar *"laden 1.5"* when the load slows it (`mph`,
+    `ladenMph`; public/going.js). Few words: the bars are the cue.
+  - `ceiling:` a vehicle is empty or laden: a part load weighs as nothing going out and as a full one coming home (`laden`).
+  - **History** (`HIST-TEX-1111`): the carreta was an ox cart - Smithwick has the Tejano plough lashed "to the horns of a pair of
+    oxen" beside "Carts with great, clumsy, solid wooden wheels", and the carters of the 1857 Cart War moved freight "Using oxcarts"
+    (TSHA). Mules were draught animals in Texas too - the Mexican gun at Concepción was got away "by six mules", its gunners "jumped on
+    the mules attached to the caisson" (Smithwick) - but no source read shows a mule between a carreta's shafts. So, to the owner's
+    question: **usually oxen; mules pulled guns and wagons; a mule in the carreta is the game's choice**, and a good one for a light
+    cart.
+- **Drawn** (docs/ART_REQUESTS.md, request 2026-10-03, items 1-3, and 9-10 for the mule in harness): Claude's brown mule standing and
+  led on its halter, saddled under a rider whose own figure sits it; until those sheets load, the chestnut horse a little smaller. A
+  mule in harness is the same mule where the ox would stand; a mule-drawn wagon is drawn apart, not as the ox rig. Stand-ins marked
+  `stand-in:`.
 - **Old saves**: a class saved before has no mule and opens as it was; an animal with no species is still an ox. The pens offer one
   more line. No save version moved.
 - **Families nobody plays** buy no mule (`ceiling:`, as they buy no horse, §4e).
-- **Proof**: tests/mules.test.mjs (7) and tests/mules-drawn.test.mjs (3); `npm run test:mules-injections`, 21 of 21 caught by their
-  own test alone ([record](evidence/mules-injections.json)); `npm run test:shops` buys the mule, sees it led home and standing in the
-  yard beside Bess (`mule-idle`), and rides it to town chosen on its way card, drawn in its saddle
-  ([record](evidence/shops-browser.json), [yard](evidence/mule-yard.png), [ridden](evidence/mule-ridden.png)).
+- **Proof**: tests/mules.test.mjs (7), tests/mules-drawn.test.mjs (3) and, for the pulling, tests/draught.test.mjs (4);
+  `npm run test:mules-injections`, 35 of 35 caught by their own test alone ([record](evidence/mules-injections.json)); `npm run
+  test:shops` buys the mule for 8, sees it led home and standing in the yard beside Bess (`mule-idle`), rides it to town chosen on its
+  way card, drawn in its saddle, then buys a second and sends the family's vehicle behind the pair, its way card reading *"With two
+  mules and cart"* with a 2.5 mph bar ([record](evidence/shops-browser.json), [yard](evidence/mule-yard.png),
+  [ridden](evidence/mule-ridden.png), [the card](evidence/mule-pair-card.png), [the pair drawing](evidence/mule-pair-wagon.png)).
 
 ## 5. How a student uses it
 

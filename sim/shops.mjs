@@ -70,16 +70,17 @@ export const TUNED_SHOTS = 10;
 export const HORSE_COIN = 25, OX_COIN = 15, COW_CALF_COIN = 10, HOG_COIN = 4, HOG_FOOD = 14;
 /**
  * A mule at the stock pens (owner, 2026-10-03: "we should also add the ability to buy a mule in town. mules were a lot cheaper than
- * horses."; docs/TOWNS.md §4h, `FIC-GONZ-1130`, on `HIST-TEX-1110`): **ten reales**, two-fifths of a horse. The record read gives
+ * horses."; docs/TOWNS.md §4h, `FIC-GONZ-1110`, on `HIST-TEX-1110`): **eight reales**, the owner's own figure (2026-10-03, asked the
+ * price: "8"), a third of a horse. Built at ten the same morning, for the reasons below; the owner chose eight. The record read gives
  * mules in Texas cheap and plentiful: running with the mustangs, "Good jacks bring about twenty dollars in the home market, and
  * mules from two to five" (Holley, *Texas*, 1836, pp. 98-99) - the wild-caught price, beside the mustang's "three or four dollars"
  * (`HIST-TEX-440`) - and "Large quantities of mules are raised annually, many of which are carried to the United States" for the
  * good price they fetched there (Holley p. 67). **No price for a broken mule in Texas was found.** So the game sets a broken mule
  * as it set the horse, above the wild one: the mustang caught is three or four dollars and the broken horse twenty to thirty, so the
- * mule caught at two to five is ten broken - "a lot cheaper than horses", as the owner said. Coin only, as the horse is: twenty
- * food is a whole wagon load carried to town. ceiling: the price is the game's own; a broken mule's price from the record replaces it.
+ * mule caught at two to five was ten broken - "a lot cheaper than horses", as the owner said. Coin only, as the horse is: sixteen
+ * food is most of a wagon load carried to town. ceiling: the price is the game's own; a broken mule's price from the record replaces it.
  */
-export const MULE_COIN = 10;
+export const MULE_COIN = 8;
 /**
  * A new wagon at the wheelwright's (owner, 2026-09-25: "wheelwright sells one, very expensive."; docs/TOWNS.md §4f,
  * `FIC-GONZ-392`, on `HIST-TEX-441`). **No price for a wagon in Texas before 1836 was found.** The one number the record gives is
@@ -375,10 +376,11 @@ export const TRADES = Object.freeze({
         give: (world, household, entity) => boughtBeast(world, household, entity, 'horse'),
       },
       // The mule (owner, 2026-10-03; `MULE_COIN`): ridden by one person as a horse is, slower, and carrying a pack (sim/travel.mjs
-      // `MODES.mule`). It is no horse where the war asks for one, and it draws no wagon (sim/beasts.mjs).
+      // `MODES.mule`). It is no horse where the war asks for one. Since the owner's answer of the same day it draws a vehicle too:
+      // the carreta at a good pace, a laden wagon slowly (sim/draught.mjs).
       {
         id: 'mule', kind: 'sell', label: 'Buy a mule', coin: MULE_COIN, food: null, most: LEAD_MOST, leads: 'mule',
-        does: 'A broken mule, led home on a halter: far cheaper than a horse. One rider, at four miles an hour to the horse\'s five, and it carries ten loads to the horse\'s seven. The scouts and the mounted companies still want a horse, and it draws no wagon.',
+        does: 'A broken mule, led home on a halter: far cheaper than a horse. One rider, at four miles an hour to the horse\'s five, and it carries ten loads to the horse\'s seven. It draws the carreta quicker than the ox, a laden wagon slower. The scouts and the mounted companies still want a horse.',
         refuse: (world, household) => beastsFull(world, household, 'mule'),
         give: (world, household, entity) => boughtBeast(world, household, entity, 'mule'),
       },

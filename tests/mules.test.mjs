@@ -4,7 +4,7 @@
 // Held here: the stock pens sell a mule for coin only, a lot cheaper than a horse; it is led home on a halter at its leader's own
 // pace and stands in the yard; no family is offered "On the mule" until it has one; it carries one rider, slower than the horse,
 // and a pack the horse cannot; one person at a time has it, and the next is told who; a mule lamed in a chase carries nobody until
-// it mends, and the family is told it is lame; it is no horse where the war asks for one and draws no vehicle; and the flight east
+// it mends, and the family is told it is lame; it is no horse where the war asks for one and draws a vehicle where no ox does better (tests/draught.test.mjs); and the flight east
 // takes it with the rest, and the soldiers take it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -15,6 +15,7 @@ import { modeWith, ridesAHorse, userOf } from '../sim/keeping.mjs';
 import { LAME_DAYS, addBeast, beastsOf, yardSpot } from '../sim/beasts.mjs';
 import { HORSE_COIN, MULE_COIN, TRADES } from '../sim/shops.mjs';
 import { drawnVehicles, riddenHorses, seatPlan } from '../sim/company.mjs';
+import { vehicleTeams } from '../sim/draught.mjs';
 import { campRefusal } from '../sim/camp.mjs';
 import { houstonCamp } from '../sim/houston.mjs';
 import { REFUGES, flee } from '../sim/scrape.mjs';
@@ -49,7 +50,7 @@ test('the stock pens sell a mule for coin only, a lot cheaper than a horse', () 
   const line = lines.find(one => one.id === 'stockman:mule');
   assert.ok(line, 'the stock pens sell no mule');
   assert.equal(line.price, `${MULE_COIN} reales`);
-  assert.equal(MULE_COIN, 10);
+  assert.equal(MULE_COIN, 8, 'the owner\'s price (2026-10-03: "8")');
   // "a lot cheaper than horses": not more than half a horse.
   assert.ok(MULE_COIN * 2 <= HORSE_COIN, `a mule at ${MULE_COIN} is not a lot cheaper than a horse at ${HORSE_COIN}`);
   assert.deepEqual(line.pays, ['coin']);
@@ -145,7 +146,7 @@ test('a mule lamed in a chase carries nobody until it mends, and the family is t
   assert.deepEqual(riddenHorses(world, [beast]), [beast]);
 });
 
-test('a mule is no horse where the war asks for one, carries a seat on the family\'s road, and draws no wagon', () => {
+test('a mule is no horse where the war asks for one, carries a seat on the family\'s road, and draws a vehicle only where no ox does better', () => {
   const world = running('mules-war');
   const beast = muleAtHome(world);
   const man = person(world, 'thomas');
@@ -165,11 +166,13 @@ test('a mule is no horse where the war asks for one, carries a seat on the famil
   horse.location = { ...man.location }; horse.borrowedBy = man.id;
   assert.equal(ridesAHorse(world, man), true);
   assert.equal(campRefusal(world, world.households['hh-1'], man, 'camp-scout'), null);
-  // The family's road: a seat on the mule after the horse's; and it draws no wagon in place of the ox.
+  // The family's road: a seat on the mule after the horse's. Since the owner's answer of the same day (2026-10-03, "yes, but speed
+  // should adjust if it's too heavy") it draws a vehicle with no ox, and the wagon goes behind the ox when there is one
+  // (tests/draught.test.mjs holds the paces).
   world.meansRoll = 2;
   const wagon = world.entities['hh-1-wagon'];
-  assert.deepEqual(drawnVehicles([wagon, beast]), [], 'the mule drew the wagon');
-  assert.deepEqual(drawnVehicles([wagon, beast, world.entities['hh-1-animal']]), [wagon]);
+  assert.deepEqual(drawnVehicles([wagon, beast]), [wagon], 'the mule could not draw the wagon');
+  assert.deepEqual(vehicleTeams(world, [wagon, beast, world.entities['hh-1-animal']], { laden: true }).map(team => team.team.map(one => one.id)), [['hh-1-animal']]);
   const people = world.households['hh-1'].members.map(id => world.entities[id]);
   const plan = seatPlan(people, [], riddenHorses(world, [beast, world.entities['hh-1-horse']]));
   assert.equal([...plan.values()].filter(seat => seat.saddle).length, 2, 'the mule carried no rider on the family\'s road');

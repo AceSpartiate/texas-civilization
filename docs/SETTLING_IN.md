@@ -296,11 +296,21 @@ sound mule going with it carries one rider, dealt **after the horses' seats** in
 (`riddenHorses` puts the mules after the horses; `seatPlan` unchanged). A lame mule carries nobody, as a lame horse. The means line
 says it: *"2 ride the horse and the mule and 4 walk."* In the flight east a family whose every one rides goes at the mule's four
 miles an hour when anybody sits a mule, the horse's five otherwise (sim/flight-route.mjs `mountedPace`); left in the mud, the wagon
-and the ox are lost and the mule goes on, as the horse does (sim/road.mjs `abandonWagon`). **A mule draws no vehicle**: the
-wagons, carts and carretas go behind an ox, one to each (`drawnVehicles`, sim/beasts.mjs `isOx`). Drawn: the rider's own figure over
+and the ox are lost and the mule goes on, as the horse does (sim/road.mjs `abandonWagon`). Drawn: the rider's own figure over
 Claude's saddled mule (docs/ART_REQUESTS.md, request 2026-10-03). `ceiling:` the mule's pack is not counted on these journeys - it
 carries a rider and no more of the load than a horse does; a pack mule's room in the flight (sim/scrape.mjs `flightRoom`) is the way
 out.
+
+**And it pulls - owner-decided 2026-10-03.** Asked whether a mule should draw a vehicle: *"yes, but speed should adjust if it's too
+heavy. mules would be perfect for the carreta right though?"*; and its price, *"8"* ([TOWNS.md](TOWNS.md) §4h, sim/draught.mjs,
+`FIC-GONZ-1111`). Rule 1's "one ox to every vehicle" becomes **what draws each vehicle best**: each vehicle in turn takes the quickest
+of the oxen and mules going (so a wagon and a carreta put the ox to the wagon and the mule to the carreta, and a carreta alone takes the
+mule), and a beast left over joins the slowest vehicle it makes quicker, two at most (`vehicleTeams`). A mule in harness is no seat.
+**The family goes at its slowest vehicle's pace for what draws it**, every vehicle counted laden (a family's journey carries its goods):
+the ox's two miles an hour, as always; one mule with the carreta two and a half; one mule with the laden wagon one and a half, which
+then holds the whole family to it; two mules with the wagon two and a half (`companyPace`'s `vehiclePace`). Walkers still keep up or
+hold it back as before. With only oxen nothing changed: one to a vehicle in order, the rest walking along. The page yokes the beast the
+server harnessed (`travel.draws`; public/motion.js `wagonTeams`).
 
 ---
 

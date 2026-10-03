@@ -175,7 +175,8 @@ function ownRoom(world, household) {
   const standing = beast => beast && !beast.travel && beast.location.siteId === household.homeSiteId && (!beast.condition || beast.condition === 'sound');
   // Every wagon standing at home that an ox standing there can draw, one ox to a wagon (sim/beasts.mjs): a family fitted out
   // with two wagons loads two, and the room is the wagons' together - the same rule as the load in (owner, 2026-09-25).
-  const drawn = Math.min(beastsOf(world, household, 'wagon').filter(standing).length, beastsOf(world, household, 'ox').filter(standing).length);
+  // Since 2026-10-03 a mule standing there draws one too (sim/draught.mjs).
+  const drawn = Math.min(beastsOf(world, household, 'wagon').filter(standing).length, [...beastsOf(world, household, 'ox'), ...beastsOf(world, household, 'mule')].filter(standing).length);
   // A cart (sim/means.mjs) holds what it held on the road in, three quarters of a wagon's, and a carreta made at home
   // (sim/carreta.mjs) five eighths: each vehicle its own room against a wagon's sixteen. The family wagon is the cart, and loads first.
   const loaded = beastsOf(world, household, 'wagon').filter(standing).slice(0, drawn);
@@ -413,7 +414,7 @@ export function flee(world, household, { take = {}, refuge, route }) {
   const journey = () => ({ from: household.homeSiteId, to: refuge, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed, mode, purpose: 'flee', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }), ...(path.offRoad?.length && { offRoad: path.offRoad.map(run => [...run]) }) });
   // Who rides and who walks, and the pace of the slowest, in a class made since the means were rolled (sim/company.mjs): the
   // youngest and the sick in the wagons, the rest beside them, and a family on foot at the pace of its smallest walker.
-  if (world.meansRoll) setOut(travellers, mode === 'wagon' ? drawnVehicles(travellers) : [], journey, riddenHorses(world, travellers));
+  if (world.meansRoll) setOut(travellers, mode === 'wagon' ? drawnVehicles(travellers) : [], journey, riddenHorses(world, travellers), world);
   for (const entity of travellers) {
     entity.chore = null;
     if (!world.meansRoll) entity.travel = journey();
@@ -651,14 +652,14 @@ export function turnHome(world, causeId, only = null) {
     // Home with the wagon only when every beast the family has is there with it, the wagon and an ox among them: as it was when a
     // family had one of each (all three at the refuge), and the same rule for one that bought more (sim/beasts.mjs).
     const all = beasts(world, household), there = all.filter(beast => beast.location.siteId === at);
-    const mode = flight.mode === 'wagon' && there.length === all.length && there.some(beast => roleOf(beast) === 'wagon') && there.some(beast => roleOf(beast) === 'ox') ? 'wagon' : 'foot';
+    const mode = flight.mode === 'wagon' && there.length === all.length && there.some(beast => roleOf(beast) === 'wagon') && there.some(beast => ['ox', 'mule'].includes(roleOf(beast))) ? 'wagon' : 'foot';
     const path = findWay(world, at, household.homeSiteId, mode, { ferries: false });
     if (!goers.length || !path) continue;
     const departure = tell(world, household, `With the news from San Jacinto the family turned for home from ${world.map.sites[at].name}.`, { causes: cause ? [cause] : [] });
     const home = [...goers, ...beasts(world, household).filter(beast => beast.location.siteId === at && !beast.travel)];
     const journey = () => ({ from: at, to: household.homeSiteId, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: mode === 'wagon' ? WAGON_SPEED : WALK_SPEED, mode, purpose: 'return', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }) });
     // Home as they went (sim/company.mjs), in a class made since the means were rolled.
-    if (world.meansRoll) setOut(home, mode === 'wagon' ? drawnVehicles(home) : [], journey, riddenHorses(world, home));
+    if (world.meansRoll) setOut(home, mode === 'wagon' ? drawnVehicles(home) : [], journey, riddenHorses(world, home), world);
     for (const entity of home) {
       if (!world.meansRoll) entity.travel = journey();
       entity.location = { ...path.points[0], siteId: null };
