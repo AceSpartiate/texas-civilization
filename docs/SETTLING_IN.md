@@ -301,14 +301,30 @@ second amendment of that day). Claims `FIC-GONZ-397`, `FIC-GONZ-398`, `HIST-TEX-
 `FIC-GONZ-1091` to `-1093`). The children's half is docs/CHILDREN.md §13. With it, the first house goes up quicker
 (docs/WOODS_AND_BUILDING.md §6.11).
 
-**The tent** (`pitch-tent`, *Put up the tent*). The emigrants' guides told a family to carry "tents or sail cloth, for covering,
+**The owner's answers, 2026-10-03** (owner-decided, to the four questions of HANDOFF.md):
+
+1. **Who sits with the children when nobody is free**: the nearest at work near the house is called in, an older child first - **as
+   built** (docs/CHILDREN.md §13).
+2. **Sending that person away**: **yes, as built** - a student's order wins, and somebody else comes in.
+3. **Work in a storm**: **no change, as built** - work in hand goes on; only the roof and the daubing wait for a dry day.
+4. **The tent**: **"Automatic on arrival"** - the family puts it up by itself as it makes camp on its land, with no button; it comes
+   down when the first room is roofed. The *Put up the tent* button and its tip are gone. The first-bad-weather putting up is kept only
+   for a family that somehow has no tent - a class saved before this, or a family home again to a burned house. Built below.
+
+**The tent**. The emigrants' guides told a family to carry "tents or sail cloth, for covering,
 until the house is built" (`HIST-TEX-1090`, `HIST-GONZ-027`); the game's tent is the wagon sheet stretched over a ridge pole by the
 camp.
 
-- On the bar of anybody of ten or more while the family has **no roof and no tent** and is living on its land; about half an hour's
-  work at the family's pace. A tip at first meeting (`tent`) says so once.
-- **Put up by itself** the first time the weather turns on a family with no roof and no tent: whoever of ten or more is standing
-  free goes and puts it up, and everybody else waits under the wagon meanwhile. A family nobody plays does the same.
+- **Up with the camp** (2026-10-03, answer 4; sim/settling.mjs `pitchTent`): the tick the family's last wagon wheel comes in off the
+  road onto its land, with no roof there, the tent stands beside the camp, and the arrival says so (*"... so they camp by the wagon and
+  put up the tent."*). On the real land it waits while the family stands at the surveyor's mark choosing where the house goes, and
+  goes up where the wagon is drawn up (*"... the family makes camp beside it and puts up the tent."*). Every family, played or not.
+  **No button and no tip**: `pitch-tent` is on nobody's bar (`offered` is never true), and the `tent` tip is retired - a class saved
+  having seen it still opens (sim/tips.mjs `RETIRED_TIPS`).
+- **Late, only where it is missing**: a family with no roof and no tent all the same - a class saved before, or one home again to
+  ashes - has it put up the first time the weather turns, by whoever of ten or more is standing free, everybody else under the
+  wagon meanwhile (`tentByItself`). Until 2026-10-03 that was how every family's first tent went up, and *Put up the tent* was on the
+  bar with a tip at first meeting.
 - **Struck** the day a pen is roofed: the canvas goes back on the wagon.
 - Drawn by the camp at a fixed place on the land (`tentPoint`), on the family's own map and on the Host's. `stand-in:` the library's
   canvas tent, until the wagon sheet is drawn (docs/ART_REQUESTS.md, request 2026-10-02).

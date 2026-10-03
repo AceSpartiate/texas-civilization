@@ -8,7 +8,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { TIP_IDS } from '../sim/tips.mjs';
+import { RETIRED_TIPS, TIP_IDS, markTipSeen, tipsInvalid } from '../sim/tips.mjs';
 import { TIPS, TIP_ORDER, tipToShow, tipsPresent } from '../public/tips.js';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
@@ -188,11 +188,9 @@ test('the house, the field and going to town each have a tip the first time the 
   const refused = ids => ({ ...seen, work: Object.fromEntries(Object.entries(seen.work).map(([id, list]) => [id, list.map(entry => (ids.includes(entry.id) ? { ...entry, can: false } : entry))])) });
   assert.ok(!tipsPresent(refused(['clear-plot', 'plant-field'])).includes('field'), 'the field tip came when nobody could clear or plant');
   assert.ok(!tipsPresent(refused(['visit-shop'])).includes('town'), 'the town tip came when nobody could go to town');
-  // The tent (owner, 2026-10-02; sim/shelter.mjs): due with the house, while somebody could put it up; not once it is up.
-  assert.ok(due.includes('tent') && due.indexOf('house') < due.indexOf('tent'), `the tent tip is not due after the house's: ${due.join(', ')}`);
-  assert.ok(!tipsPresent(refused(['pitch-tent'])).includes('tent'), 'the tent tip came when nobody could put it up');
-  assert.match(TIPS.tent, /Put up the tent/);
-  assert.match(TIPS.tent, /children/);
+  // No tent tip: the tent goes up by itself on arrival and has no button to explain (owner, 2026-10-03, "Automatic on arrival").
+  assert.equal(TIPS.tent, undefined, 'a tip for a tent nobody puts up');
+  assert.ok(!due.includes('tent'));
   // Never on the Host's page, and never over the errand: its own tip, or nothing.
   assert.deepEqual(tipsPresent({ ...seen, role: 'host' }), []);
   assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { seen: ['store'], errandOpen: true }), { show: null, retire: null });
@@ -204,7 +202,7 @@ test('a tip is shown once: until it is put away or its thing goes, and never aga
   const call = { request: { status: 'open', kind: 'call', answerers: { [world.households['hh-1'].members[0]]: [{ id: 'turn-out', can: true }] } } };
   const flight = { flight: { status: 'ordered' } };
   // The start of the game's own tips already put away, as a student in the middle of a class has.
-  for (const tip of ['order', 'house', 'tent', 'field', 'town', 'star']) send(world, 'hh-1', { action: 'seen-tip', tip });
+  for (const tip of ['order', 'house', 'field', 'town', 'star']) send(world, 'hh-1', { action: 'seen-tip', tip });
   let seen = view(world, 'hh-1');
   // The call appears: its tip is shown.
   let now = tipToShow(withThing(seen, call), { seen: [], showing: null });
@@ -241,4 +239,14 @@ test('while the town errand is open only its own tip stands, and the one over th
   assert.deepEqual(tipToShow(withThing(seen, call), { seen: ['store'], showing: 'call', errandOpen: true }), { show: null, retire: null });
   // The popup closed: the store's is retired, and the order tip, still due and never put away, stands again.
   assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { showing: 'store' }), { show: 'order', retire: 'store' });
+});
+
+// The tent's tip went with its button (owner, 2026-10-03, "Automatic on arrival"): a class saved having seen it still opens, and
+// nobody can mark it seen again.
+test('a retired tip saved as seen still opens, and is never shown or marked again', () => {
+  assert.deepEqual(RETIRED_TIPS, ['tent']);
+  assert.ok(!TIP_IDS.includes('tent') && !TIP_ORDER.includes('tent') && TIPS.tent === undefined);
+  assert.equal(tipsInvalid({ tipsSeen: ['house', 'tent'] }), null, 'a class that saw the tent tip does not open');
+  assert.equal(tipsInvalid({ tipsSeen: ['nonsense'] }), 'Invalid tips seen');
+  assert.throws(() => markTipSeen({}, { played: true, tipsSeen: [] }, 'tent'), /no such tip/);
 });

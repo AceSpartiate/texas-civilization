@@ -1,5 +1,33 @@
 # Claude handoff — Astra foundation
 
+## The owner's four shelter answers; the tent up on arrival — owner-decided 2026-10-03 (not released)
+
+Branch `shelter-2` off local `integration-2026-09-28` (96462b66, with shelter, land-paths, hunt-aim, milking-fix and Astra's art);
+not pushed. Same computer only. The owner answered the four questions of *The first house quicker, the tent, and going in out of the
+weather* (below), recorded in docs/SETTLING_IN.md §4c:
+
+1. Who sits with the children when nobody is free: **the nearest worker nearby, as built**.
+2. Sending that person away: **yes, as built**.
+3. Work in a storm: **no change, as built**.
+4. The tent: **"Automatic on arrival"** - built here.
+
+**The tent up on arrival** (sim/settling.mjs `pitchTent`, `tentPoint` moved there from sim/shelter.mjs; `FIC-GONZ-1091` amended):
+the tick a family comes in off the road onto its land with no roof, its tent goes up by the camp and the arrival line says so
+(*"There is no house yet, so they camp by the wagon and put up the tent."*); on the real land not at the surveyor's mark but where
+the wagon is drawn up once the site is chosen. Every family, played or not. Struck when the first room is roofed, as before.
+**Removed**: *Put up the tent* from every bar (`pitch-tent` `offered` is never true) and the `tent` tip (public/tips.js; sim/tips.mjs
+keeps `tent` in `RETIRED_TIPS` so a class saved having seen it opens). **Kept**: the tent drawn, and the first-bad-weather putting up
+(`tentByItself`, the `pitch-tent` work on nobody's bar) for a family that somehow has none - an old save, or home again to ashes.
+No save version moved.
+
+**Evidence**: tests/shelter.test.mjs - the tent up on arrival and on nobody's bar; on the real land none at the mark and up at the
+chosen site; the late putting up renamed for the old save. tests/tips.test.mjs - no tent tip; a retired tip saved as seen opens and
+cannot be marked again. `npm run test:shelter-injections` (now with tests/tips.test.mjs): **33 of 33** caught by the test written for
+them (21 alone), five new: no tent on arrival, the tent at the surveyor's mark, the button back on the bar, the tip back, and a class
+that saw the retired tip refused - [record](docs/evidence/shelter-injections.json). `test:shelter` (6 checks) green: the tent up with
+the camp and drawn, nobody's bar with the button, then the rain and the clearing as before - [record](docs/evidence/shelter-browser.json).
+`test:overlap` green. `npm test`: **2119 tests, 2081 pass, 2 fail, 36 skipped** - neither this branch's: the art plan's B16 heading, missing on 96462b66 and restored on integration since (0348bfbb), and `capacity` timing out under load (passes alone).
+
 ## Family creation and children — 2026-10-02
 
 The parent studio now offers pigment swatches, distinct painted headwear cards, a large world figure, Turn and See walking. Ten new atlases add eight parent identities and two adolescent figures, with 160 frames and 120 clips. All six head choices for each parent select distinct art. Family portraits and world rendering now share the age-aware `public/avatar-identity.js` selector; infants, toddlers, children and adolescents no longer inherit an adult body through the appearance path. Child pigment recoloring now displays the simulation's inherited colors. A missing child action retains a young idle/rest pose. Existing saves and inheritance rules remain compatible. Read `docs/FAMILY_ART_2026-10-02.md` for bindings, delivered poses, documented work/dialogue/transport refinements and validation commands. Parent and age-comparison browser evidence is in `docs/evidence/`.
@@ -287,6 +315,9 @@ old saves, which read as no tent and nobody in. **No save version moved.** `shel
    roof and daub wait; B. a storm stops everything but the stock; C. rain stops fieldwork too.
 4. The tent: **A. (as built)** a quick work on the bar, put up by itself at the first turn of the weather; B. put up automatically on
    arrival, no button.
+
+**Answered by the owner 2026-10-03** (docs/SETTLING_IN.md §4c): 1 A, 2 A, 3 A, and 4 **B, "Automatic on arrival"** - built on
+`shelter-2` (above).
 
 ## The shot aimed by the student: a sighting, and a first-person field — owner-decided 2026-10-02 (not released)
 

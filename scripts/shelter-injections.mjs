@@ -7,11 +7,11 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const FILES = ['tests/shelter.test.mjs', 'tests/house-pace.test.mjs'];
+const FILES = ['tests/shelter.test.mjs', 'tests/house-pace.test.mjs', 'tests/tips.test.mjs'];
 const T = {
-  weather: 'the weather that sends people in', tent: 'the tent: offered', rain: 'rain: everybody with no task',
+  weather: 'the weather that sends people in', tent: 'the tent goes up by itself', site: 'on the real land the tent waits for the site', retired: 'a retired tip saved as seen', rain: 'rain: everybody with no task',
   companion: 'somebody of ten or more sits with the children', order: "a student's order wins", prefer: 'the companion: somebody free before',
-  alone: 'with nobody of ten or more who can come', unplayed: 'a family nobody plays', first: 'the first turn of the weather', house: 'with a roof the family goes into the house',
+  alone: 'with nobody of ten or more who can come', unplayed: 'a family nobody plays', first: 'a family with no roof and no tent all the same', house: 'with a roof the family goes into the house',
   paces: 'the paces:', words: 'the words follow', build: 'one ordinary hand raises', fell: 'one ordinary hand fells',
 };
 const one = (file, from, to) => ({ file, from, to });
@@ -38,7 +38,12 @@ const INJECTIONS = [
   { name: 'nobody puts the tent up by themself', edits: [one(S, '  if (housed(household) || household.tent || !travel) return;', '  return;')], expect: T.first },
   { name: 'never under the wagon', edits: [one(S, "  if (wagon) return { at: 'wagon', x: r4(wagon.location.x), y: r4(wagon.location.y) };", '')], expect: T.first },
   { name: 'the tent left standing under a roof', edits: [one(S, '    if (household.tent && housed(household)) delete household.tent;\n', '')], expect: T.tent },
-  { name: 'the tent put up away from the camp', edits: [one(S, '  household.tent = { x: at.x, y: at.y, minute: world.minute };', '  household.tent = { x: at.x + 0.01, y: at.y, minute: world.minute };')], expect: T.tent },
+  { name: 'the tent put up away from the camp', edits: [one('sim/settling.mjs', '  household.tent = { x: at.x, y: at.y, minute: world.minute };', '  household.tent = { x: at.x + 0.01, y: at.y, minute: world.minute };')], expect: T.tent },
+  { name: 'no tent on arrival', edits: [one('sim/settling.mjs', '  if (household.tent || housed(household) || household.choosingSite) return false;', '  return false;')], expect: T.tent },
+  { name: 'the tent put up at the surveyor\'s mark', edits: [one('sim/settling.mjs', '  if (household.tent || housed(household) || household.choosingSite) return false;', '  if (household.tent || housed(household)) return false;')], expect: T.site },
+  { name: 'the tent\'s button back on the bar', edits: [one(S, 'const tentOffered = () => false;', 'const tentOffered = () => true;')], expect: T.tent },
+  { name: 'the tent tip back', edits: [one('public/tips.js', "  house: 'Press", "  tent: 'Put up the tent.',\n  house: 'Press")], expect: 'the house, the field and going to town' },
+  { name: 'a class that saw the retired tip does not open', edits: [one('sim/tips.mjs', ' && !RETIRED_TIPS.includes(id)) ||', ') ||')], expect: T.retired },
   { name: 'never into the house', edits: [one(S, "  if (housed(household)) { const door = houseDoor(world, household); if (door) return { at: 'house', ...door }; }", '')], expect: T.house },
   { name: 'a shelter that cannot be is opened', edits: [one('sim/world.mjs', ' || milkingInvalid(world) || shelterInvalid(world);', ' || milkingInvalid(world);')], expect: T.house },
   { name: 'the house at its old pace', edits: [one('sim/work-pace.mjs', 'export const HOUSE_PACE = 0.5;', 'export const HOUSE_PACE = 1;')], expect: T.build },

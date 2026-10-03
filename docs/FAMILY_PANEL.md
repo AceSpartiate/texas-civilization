@@ -2177,6 +2177,6 @@ portrait's top right - a roof for the house, a tent for the tent, the wagon or t
 row carries `data-sheltering`) - with its words only on hover and for a screen reader (*"In out of the weather: under the tent, with
 the children."*). The person sitting with the children has one line on their row, the server's *"Inside with Tom and Ann, out of the
 weather."* (`shelterLine`, through `life`). Their bar is **not** shut: an order sends them, and somebody else comes in (docs/CHILDREN.md
-§13). *Put up the tent* (`pitch-tent`) is a new icon, a stroked tent until `icon-pitch-tent` is drawn. `stand-in:` the mark is drawn in
+§13). *Put up the tent* (`pitch-tent`) has an icon, a stroked tent until `icon-pitch-tent` is drawn; since 2026-10-03 ("Automatic on arrival") it is on nobody's bar and glows on a row only while somebody puts up a tent the family did not have. `stand-in:` the mark is drawn in
 the style sheet until `mark-shelter-house` and `mark-shelter-tent` are (docs/ART_REQUESTS.md, request 2026-10-02).
 

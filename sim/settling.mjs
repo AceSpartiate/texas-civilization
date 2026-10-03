@@ -23,6 +23,7 @@ import { WAGON_SPEED } from './travel.mjs';
 import { onRealLand, paceOf } from './ground.mjs';
 import { loadSentence, wagonsOf } from './wagon.mjs';
 import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
+import { CABIN_PEOPLE, PERSON_MILES } from './house-footprint.mjs';
 
 /**
  * How much of the usual rest a person gets lying out by the wagon at their own land.
@@ -43,6 +44,32 @@ export const CAMP_SPOILAGE_PER_DAY = 0.03;
 
 /** Whether this family has a roof over it. A class saved before arrivals always has. */
 export const housed = household => improvementsOf(household).cabin === 'sound';
+
+/**
+ * Where the family's tent stands: beside the camp, a few yards off the mark the camp is drawn at (public/app.js `homesteadCamp`, a
+ * camp the size of a house to its left). Fixed for the land, so the tent never moves and is never a new place (sim/shelter.mjs).
+ * ceiling: the tent stands at the camp whatever the house's placement; a house placed hard against the mark is drawn over it.
+ */
+export function tentPoint(world, household) {
+  const site = world.map.sites[household.homeSiteId];
+  if (!site) return null;
+  const r4 = value => Math.round(value * 10000) / 10000;
+  return { x: r4(site.x - 1.4 * CABIN_PEOPLE * PERSON_MILES), y: r4(site.y + 0.3 * CABIN_PEOPLE * PERSON_MILES) };
+}
+
+/**
+ * The tent goes up as the family makes camp on its land (owner, 2026-10-03, by multiple choice: "Automatic on arrival"; sim/shelter.mjs,
+ * docs/SETTLING_IN.md §4c, `FIC-GONZ-1091`): the wagon sheet over a ridge pole, somewhere dry until the house has a roof. Not while the
+ * family still stands at the surveyor's mark choosing where the house goes - the camp moves with the wagon to the chosen site, and the
+ * tent goes up there - and never where there is a roof already. True when it went up.
+ */
+export function pitchTent(world, household) {
+  if (household.tent || housed(household) || household.choosingSite) return false;
+  const at = tentPoint(world, household);
+  if (!at) return false;
+  household.tent = { x: at.x, y: at.y, minute: world.minute };
+  return true;
+}
 
 /** The fork where this family's own track leaves the road, which is where it begins. */
 export function forkOf(world, household) {
@@ -168,14 +195,16 @@ export function advanceArrivals(world) {
     // The wagon drawn over to the site the family chose: said once, and not as a second arrival on the land.
     if (household.site && world.events.some(event => event.type === 'site-chosen' && event.householdId === household.id)
       && !world.events.some(event => event.type === 'arrival' && event.householdId === household.id && event.purpose === 'site')) {
-      record(world, 'arrival', { householdId: household.id, importance: 2, destination: household.homeSiteId, purpose: 'site', claimId: 'FIC-GONZ-026', text: household.means?.afoot && !wagonsOf(world, household).length ? (housed(household) ? 'The packs are carried up to the house.' : 'The packs are carried over to where the house will stand, and the family makes camp there.') : housed(household) ? 'The wagon is drawn up at the house.' : 'The wagon is drawn up where the house will stand, and the family makes camp beside it.' });
+      const tent = pitchTent(world, household) ? ' and puts up the tent' : '';
+      record(world, 'arrival', { householdId: household.id, importance: 2, destination: household.homeSiteId, purpose: 'site', claimId: 'FIC-GONZ-026', text: household.means?.afoot && !wagonsOf(world, household).length ? (housed(household) ? 'The packs are carried up to the house.' : `The packs are carried over to where the house will stand, and the family makes camp there${tent}.`) : housed(household) ? 'The wagon is drawn up at the house.' : `The wagon is drawn up where the house will stand, and the family makes camp beside it${tent}.` });
       continue;
     }
+    const tent = pitchTent(world, household);
     record(world, 'arrival', {
       householdId: household.id, importance: 2, destination: household.homeSiteId, purpose: 'arrive', claimId: 'FIC-GONZ-024',
       // What the wagon brought is said once, here, and not every time it was repacked in the lobby.
       text: [
-        housed(household) ? 'The family has reached its own land.' : `The family has reached its own land. There is no house yet, so they camp ${campWord(world, household)}.`,
+        housed(household) ? 'The family has reached its own land.' : `The family has reached its own land. There is no house yet, so they camp ${campWord(world, household)}${tent ? ' and put up the tent' : ''}.`,
         ...(household.load ? [loadSentence(household.load)] : []),
         // The food carried on foot beside the vehicles (sim/means.mjs `ARRIVAL_DAYS`), said once with what was unloaded.
         ...(household.packs?.food ? [household.means?.afoot ? `They carried ${household.packs.food} food on their backs, in sacks and bundles, and the ox carried the rest.` : `They carried ${household.packs.food} food more on foot, in sacks and bundles.`] : []),

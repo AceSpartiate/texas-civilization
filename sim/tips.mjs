@@ -16,8 +16,13 @@
  */
 export const TIP_IDS = Object.freeze([
   'alto', 'road', 'flight', 'route', 'sick', 'rest', 'call', 'army', 'watch', 'resume',
-  'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'tent', 'field', 'town', 'star', 'cart',
+  'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'field', 'town', 'star', 'cart',
 ]);
+/**
+ * Tips there once were, which a saved class may hold as seen and nothing shows any more: `tent`, retired with the button it was about
+ * when the tent began going up by itself on arrival (owner, 2026-10-03, "Automatic on arrival").
+ */
+export const RETIRED_TIPS = Object.freeze(['tent']);
 
 /** The tips this family's student has seen, in the order they were put away. */
 export const tipsSeenOf = household => (Array.isArray(household?.tipsSeen) ? household.tipsSeen : []);
@@ -41,6 +46,6 @@ export function markTipSeen(world, household, tip) {
 export function tipsInvalid(household) {
   const seen = household.tipsSeen;
   if (seen === undefined) return null;
-  if (!Array.isArray(seen) || seen.some(id => !TIP_IDS.includes(id)) || new Set(seen).size !== seen.length) return 'Invalid tips seen';
+  if (!Array.isArray(seen) || seen.some(id => !TIP_IDS.includes(id) && !RETIRED_TIPS.includes(id)) || new Set(seen).size !== seen.length) return 'Invalid tips seen';
   return null;
 }
