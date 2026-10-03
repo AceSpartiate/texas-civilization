@@ -49,6 +49,7 @@
 import { CARRETA_CARRY, DEFAULT_MODE, MODES } from './travel.mjs';
 import { TOOL_WORDS, loseTool, toolCount } from './tools.mjs';
 import { BEAST_WORDS, allBeasts, beastsOf, kept, lame } from './beasts.mjs';
+import { DRAUGHT_ROLES, bestTeam, drawPace, loadOf } from './draught.mjs';
 import { record } from './events.mjs';
 
 /** The plain word for each piece of property, used in every sentence about it. */
@@ -299,13 +300,39 @@ export function usesInvalid(world) {
  */
 export function modeWith(world, entity) {
   const household = world.households[entity.householdId];
-  const found = Object.values(MODES).find(mode => mode.needs.length
-    && mode.needs.every(role => beastsOf(world, household, role).some(beast => holderOf(world, beast) === entity && !entity.leads?.includes(beast.id))));
+  const holds = role => beastsOf(world, household, role).some(beast => holderOf(world, beast) === entity && !entity.leads?.includes(beast.id));
+  // A wagon with what draws it - an ox or, since 2026-10-03, a mule (sim/draught.mjs) - is the wagon, before a mule is a mount.
+  if (holds('wagon') && DRAUGHT_ROLES.some(holds)) return 'wagon';
+  const found = Object.values(MODES).find(mode => mode.needs.length && mode.id !== 'wagon' && mode.needs.every(holds));
   return found ? found.id : DEFAULT_MODE;
 }
 
 /**
- * Whether this person has a horse with them - **not a mule** (owner, 2026-10-03, "buy a mule in town"; `FIC-GONZ-1130`). What the war
+ * What would draw the vehicle this person takes (`beastFor` 'wagon') if they went with it now: the quickest team of the oxen and
+ * mules they have with them or that stand here free (sim/draught.mjs `bestTeam`, owner 2026-10-03: a mule pulls, "but speed should
+ * adjust if it's too heavy"). Not one they lead home on a halter. Empty when nothing can. `laden`: the pace with the load counted full
+ * (or empty); left out, as the vehicle is now.
+ */
+export function teamFor(world, entity, { laden } = {}) {
+  const household = world.households[entity.householdId];
+  if (!household) return { vehicle: null, team: [], pace: 0 };
+  const vehicle = beastsOf(world, household, 'wagon').find(one => holderOf(world, one) === entity) || beastFor(world, entity, 'wagon');
+  const leading = entity.leads || [];
+  const usable = beast => !leading.includes(beast.id) && (!beast.condition || beast.condition === 'sound') && !(beast.species === 'mule' && lame(world, beast))
+    && (holderOf(world, beast) === entity || (!holderOf(world, beast) && !beast.travel && beast.location?.siteId === entity.location?.siteId));
+  // Less any held by work somebody else was given (the ox dragging logs, `chore.with`): the one rule, `userOf`, says when every copy
+  // is out; otherwise each held by work is one fewer of that kind free here.
+  const heldByWork = role => (household.members || []).filter(id => id !== entity.id && world.entities[id]?.chore?.with?.includes(role)).length;
+  const pool = DRAUGHT_ROLES.flatMap(role => (userOf(world, household, role, entity) ? [] : beastsOf(world, household, role).filter(usable).slice(0, Math.max(0, beastsOf(world, household, role).filter(kept).length - heldByWork(role)))));
+  const load = loadOf(vehicle || {}, laden ?? Boolean(vehicle?.laden));
+  // Chosen for the vehicle laden - a vehicle goes out to bring something home - so the team that takes it out is the team that draws
+  // it back: an ox before a lone mule for the wagon, a pair of mules before one, a mule for the carreta. Its pace is for the load now.
+  const team = bestTeam(pool, vehicle || {}, loadOf(vehicle || {}, true));
+  return { vehicle, team, pace: drawPace(team.map(beast => beast.species === 'mule' ? 'mule' : 'ox'), vehicle || {}, load) };
+}
+
+/**
+ * Whether this person has a horse with them - **not a mule** (owner, 2026-10-03, "buy a mule in town"; `FIC-GONZ-1110`). What the war
  * asks of a mounted man: the scouts at Houston's camp (sim/camp.mjs), the Texian horse at the Grass Fight (sim/concepcion-grass.mjs)
  * and Horton's horsemen at Coleto (sim/fannin.mjs). The ranging companies of November 1835 were to come "with a good and sufficient
  * horse" (TSHA, *Texas Rangers*; `HIST-TEX-1110`), and a mule's walk does not keep up with a mounted enemy. A mule carries a man to

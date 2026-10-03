@@ -38,6 +38,7 @@ import { canAnswerCalls, eatenADay, householdName, mainPersonId, tooYoung } from
 import { actingId } from './acting.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { BEAST_ROLES, beastsOf, isMount } from './beasts.mjs';
+import { draughtRole } from './draught.mjs';
 import { findWay } from './ways.mjs';
 import { CARRIED_ROOM, FLIGHT_SPACE, REFUGES, share } from './scrape.mjs';
 // The tools, the chest and the spinning wheel in the load (owner, 2026-09-29, D9 (a)): carried on, left with the wagon, or taken.
@@ -230,10 +231,11 @@ export function reseat(world, household) {
   const { people: goers, beasts: with_ } = withFamily(world, household);
   const movers = [...goers, ...with_].filter(one => one.travel);
   if (!movers.some(one => one.kind === 'person')) return;
-  setOut(movers, household.flight.mode === 'wagon' ? drawnVehicles(movers) : [], entity => entity.travel, riddenHorses(world, movers));
+  setOut(movers, household.flight.mode === 'wagon' ? drawnVehicles(movers) : [], entity => entity.travel, riddenHorses(world, movers), world);
   mountedPace(world, movers);
 }
-const wagonWith = (world, household) => { const { beasts: with_ } = withFamily(world, household); return ['wagon', 'ox'].every(kind => with_.some(beast => beast.kind === kind || beast.species === kind)); };
+// A wagon and something to draw it: an ox, or since 2026-10-03 a mule (sim/draught.mjs).
+const wagonWith = (world, household) => { const { beasts: with_ } = withFamily(world, household); return with_.some(beast => beast.kind === 'wagon') && with_.some(beast => draughtRole(beast)); };
 const oxSpent = household => Number.isFinite(household.flight?.oxSpentUntil);
 /** Digging out takes `DIG_HOURS`, twice that with an ox already spent from the last time. */
 export const digHours = household => oxSpent(household) ? DIG_HOURS * 2 : DIG_HOURS;
@@ -404,7 +406,8 @@ export function pressOn(world, household) {
 export function moveOn(world, household, refuge) {
   const flight = household.flight, at = flight.refuge;
   const { people: goers, beasts: with_ } = withFamily(world, household);
-  const mode = ['wagon', 'ox'].every(kind => with_.some(beast => (beast.kind === kind || beast.species === kind) && (!beast.condition || beast.condition === 'sound'))) ? 'wagon' : 'foot';
+  // By the wagon when something sound is with it to draw it - an ox or a mule (sim/draught.mjs).
+  const mode = drawnVehicles(with_, world).length ? 'wagon' : 'foot';
   // The flight's crossings are its own waits (sim/scrape.mjs), not the ferries' ordinary hour.
   const path = findWay(world, at, refuge, mode, { ferries: false }) || findWay(world, at, refuge, 'foot', { ferries: false });
   if (!goers.length || !path) return false;

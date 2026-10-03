@@ -466,7 +466,7 @@ function repace(world, household) {
     else for (const one of movers) one.travel.halted = true;
     return;
   }
-  const hurtOx = flight.mode === 'wagon' && beasts.some(beast => lame(world, beast) && isOx(beast));
+  const hurtOx = flight.mode === 'wagon' && beasts.some(beast => lame(world, beast) && (isOx(beast) || Boolean(beast.travel?.draws)));
   const mounted = people.filter(one => one.travel).every(one => one.travel.saddle || one.travel.carried);
   for (const one of people) if (one.travel?.saddle) { const horse = beasts.find(beast => beast.id === one.travel.rides); if (!horse || lame(world, horse)) { delete one.travel.saddle; one.travel.afoot = true; } }
   const stillMounted = mounted && people.filter(one => one.travel).every(one => one.travel.saddle || one.travel.carried);
@@ -883,7 +883,7 @@ export function runMph(world, household, option = 'run') {
   }
   if (option === 'cow-run') return 3;
   if (seenAs(world, household) === 'mounted') return FAMILY_RUN_MPH;
-  if (drawnVehicles(beasts).length) return beasts.some(beast => lame(world, beast) && isOx(beast)) ? 1 : 2;
+  if (drawnVehicles(beasts).length) return beasts.some(beast => lame(world, beast) && (isOx(beast) || Boolean(beast.travel?.draws))) ? 1 : 2;
   if (leader?.travel) return round(leader.travel.speed * 3, 1);
   return 3;
 }

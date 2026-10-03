@@ -3,14 +3,23 @@
   "files": [
     "tests/mules.test.mjs",
     "tests/mules-drawn.test.mjs",
-    "tests/riding.test.mjs"
+    "tests/riding.test.mjs",
+    "tests/draught.test.mjs"
   ],
-  "caught": 21,
-  "only": 21,
-  "of": 21,
+  "caught": 35,
+  "only": 35,
+  "of": 35,
   "results": [
     {
       "injection": "the mule priced as a horse",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the stock pens sell a mule for coin only, a lot cheaper than a horse"
+      ]
+    },
+    {
+      "injection": "the mule at ten, before the owner said eight",
       "caught": true,
       "only": true,
       "failed": [
@@ -63,6 +72,8 @@
       "caught": true,
       "only": true,
       "failed": [
+        "a family with a mule and no ox takes its wagon behind the mule, quick out empty and slow home laden, and the card shows both",
+        "the carreta goes behind the mule, the wagon behind the ox, and a pair of mules draws the wagon together",
         "one rider at a time, slower than the horse, faster than walking; the next is told who has it"
       ]
     },
@@ -105,7 +116,7 @@
       "only": true,
       "failed": [
         "a mule lamed in a chase carries nobody until it mends, and the family is told it is lame",
-        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws no wagon"
+        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws a vehicle only where no ox does better"
       ]
     },
     {
@@ -113,15 +124,130 @@
       "caught": true,
       "only": true,
       "failed": [
-        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws no wagon"
+        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws a vehicle only where no ox does better"
       ]
     },
     {
-      "injection": "a mule draws the wagon as an ox (every animal not a horse was an ox)",
+      "injection": "the ox slowed by a laden wagon (its pull short of the weight)",
       "caught": true,
       "only": true,
       "failed": [
-        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws no wagon"
+        "the pull against the weight: the ox as it always was, a mule quick with the carreta and slow with a laden wagon, a pair of mules well",
+        "the carreta goes behind the mule, the wagon behind the ox, and a pair of mules draws the wagon together",
+        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws a vehicle only where no ox does better"
+      ]
+    },
+    {
+      "injection": "the mule no quicker in harness than the ox",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the pull against the weight: the ox as it always was, a mule quick with the carreta and slow with a laden wagon, a pair of mules well",
+        "a family with a mule and no ox takes its wagon behind the mule, quick out empty and slow home laden, and the card shows both",
+        "the carreta goes behind the mule, the wagon behind the ox, and a pair of mules draws the wagon together",
+        "on the family's journey together a mule in harness carries nobody, and the train keeps the team's pace"
+      ]
+    },
+    {
+      "injection": "the load weighs nothing",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the pull against the weight: the ox as it always was, a mule quick with the carreta and slow with a laden wagon, a pair of mules well",
+        "a family with a mule and no ox takes its wagon behind the mule, quick out empty and slow home laden, and the card shows both",
+        "the carreta goes behind the mule, the wagon behind the ox, and a pair of mules draws the wagon together",
+        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws a vehicle only where no ox does better"
+      ]
+    },
+    {
+      "injection": "a mule draws nothing (only the ox, as before the owner's answer)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a family with a mule and no ox takes its wagon behind the mule, quick out empty and slow home laden, and the card shows both",
+        "the carreta goes behind the mule, the wagon behind the ox, and a pair of mules draws the wagon together",
+        "on the family's journey together a mule in harness carries nobody, and the train keeps the team's pace",
+        "a mule is no horse where the war asks for one, carries a seat on the family's road, and draws a vehicle only where no ox does better"
+      ]
+    },
+    {
+      "injection": "no pair: one beast to a vehicle",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the carreta goes behind the mule, the wagon behind the ox, and a pair of mules draws the wagon together"
+      ]
+    },
+    {
+      "injection": "the team chosen for the vehicle empty, so a lone mule takes the wagon from the ox",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the carreta goes behind the mule, the wagon behind the ox, and a pair of mules draws the wagon together"
+      ]
+    },
+    {
+      "injection": "the family's vehicles take the first beast, not the best (the ox to the carreta)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "on the family's journey together a mule in harness carries nobody, and the train keeps the team's pace"
+      ]
+    },
+    {
+      "injection": "the beasts in harness do not say what they draw",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a family with a mule and no ox takes its wagon behind the mule, quick out empty and slow home laden, and the card shows both"
+      ]
+    },
+    {
+      "injection": "the laden wagon comes home at the empty pace",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a family with a mule and no ox takes its wagon behind the mule, quick out empty and slow home laden, and the card shows both"
+      ]
+    },
+    {
+      "injection": "the way's card sends no pace for the bars",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a family with a mule and no ox takes its wagon behind the mule, quick out empty and slow home laden, and the card shows both"
+      ]
+    },
+    {
+      "injection": "the card draws no laden bar",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a family with a mule and no ox takes its wagon behind the mule, quick out empty and slow home laden, and the card shows both"
+      ]
+    },
+    {
+      "injection": "a mule in harness on the family's journey is given a rider",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "on the family's journey together a mule in harness carries nobody, and the train keeps the team's pace"
+      ]
+    },
+    {
+      "injection": "the family's train keeps the ox's pace behind a mule",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "on the family's journey together a mule in harness carries nobody, and the train keeps the team's pace"
+      ]
+    },
+    {
+      "injection": "the page yokes the ox walking along, not the mule in harness",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "on the family's journey together a mule in harness carries nobody, and the train keeps the team's pace"
       ]
     },
     {

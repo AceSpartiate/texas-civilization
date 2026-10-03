@@ -351,7 +351,7 @@ try {
   observed.pens = pens;
   // The mule since 2026-10-03 (docs/TOWNS.md §4h): bought and ridden in scripts/shops-browser-proof.mjs.
   assert.deepEqual(pens.map(one => one.id), ['stockman:horse', 'stockman:mule', 'stockman:ox', 'stockman:cattle', 'stockman:hog']);
-  assert.deepEqual(pens.map(one => one.price), ['25 reales', '10 reales', '15 reales', '10 reales', '4 reales or 14 food']);
+  assert.deepEqual(pens.map(one => one.price), ['25 reales', '8 reales', '15 reales', '10 reales', '4 reales or 14 food']);
   assert.ok(pens.every(one => !one.shut), `a line at the stock pens is shut: ${JSON.stringify(pens)}`);
   await setCount(page, 'stockman:horse', 1);
   await page.waitForFunction(() => !document.querySelector('#errand-send').disabled && /Leads the new horse home on a halter\./.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });

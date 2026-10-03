@@ -44,7 +44,7 @@ export const WALK_SPEED = 1;
 export const HORSE_SPEED = 5 / 3;
 /**
  * A mule bought at the stock pens, ridden (owner, 2026-10-03: "we should also add the ability to buy a mule in town. mules were a
- * lot cheaper than horses."; docs/TOWNS.md §4h, `FIC-GONZ-1130`): four miles an hour, a saddle animal's steady walk
+ * lot cheaper than horses."; docs/TOWNS.md §4h, `FIC-GONZ-1110`): four miles an hour, a saddle animal's steady walk
  * (`HIST-TEX-093`: a saddle horse walks near four) without the family horse's spells of trot. Slower than the horse, faster than
  * walking, and it carries more than either (`MODES.mule.carry`): what a mule was kept for was the pack, and a walk it kept up all
  * day. Invented; no source read times a riding mule against a horse on a Texas road.
@@ -166,7 +166,7 @@ export const MODES = Object.freeze({
     id: 'horse', name: 'On the horse', speed: HORSE_SPEED, carry: 7, exertion: .3, needs: ['horse'], crossesFord: true,
     describe: `Five miles an hour, thirty-five in a day, and hardly tiring, but the horse carries little and only one of you can be on it. ${FERRY_WORDS}`,
   }),
-  // The mule (owner, 2026-10-03; `FIC-GONZ-1130`): one rider and a pack, between the horse and walking in pace. `owned`: offered
+  // The mule (owner, 2026-10-03; `FIC-GONZ-1110`): one rider and a pack, between the horse and walking in pace. `owned`: offered
   // only to a family that has one. Every family has had a horse and an ox to be refused, and almost none will ever buy a mule, so
   // the chooser does not grow a fourth card telling every student "Your family has no mule" (sim/going.mjs `waysFor`,
   // sim/world.mjs `travelModesFor`, `offeredModes` here).

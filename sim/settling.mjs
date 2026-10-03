@@ -126,7 +126,7 @@ export function seatTheCompany(world, household) {
   if (!world.meansRoll) return;
   const movers = [...household.members, ...household.property].map(id => world.entities[id]).filter(entity => entity?.travel?.purpose === 'arrive' && entity.travel.progress === 0);
   if (!movers.length) return;
-  setOut(movers, drawnVehicles(movers), entity => entity.travel, riddenHorses(world, movers));
+  setOut(movers, drawnVehicles(movers), entity => entity.travel, riddenHorses(world, movers), world);
 }
 
 /**

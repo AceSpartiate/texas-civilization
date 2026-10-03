@@ -125,7 +125,7 @@ try {
   const pens = await page.evaluate(() => [...document.querySelectorAll('#errand [data-line^="stockman:"]')].map(line => ({ id: line.dataset.line, label: line.querySelector('.errand-label').textContent, price: line.querySelector('.errand-price').textContent })));
   observed.pens = pens;
   const muleLine = pens.find(one => one.id === 'stockman:mule'), horseLine = pens.find(one => one.id === 'stockman:horse');
-  assert.equal(muleLine.price, '10 reales');
+  assert.equal(muleLine.price, '8 reales');
   assert.ok(parseInt(muleLine.price, 10) * 2 <= parseInt(horseLine.price, 10), `a mule (${muleLine.price}) is not a lot cheaper than a horse (${horseLine.price})`);
   await setCount(page, 'stockman:mule', 1);
   await page.waitForFunction(() => !document.querySelector('#errand-send').disabled && /Leads the new mule home on a halter\./.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });
@@ -191,13 +191,57 @@ try {
   app.setPace(pace);
   ok(`the mule is chosen on its way card ("${observed.muleCard}"), "${observed.muleRideHow}", and its rider is drawn in the saddle of ${observed.muleRidden.clip}`);
 
+  // ---------------------------- a second mule, and the pair drawing the wagon (owner, 2026-10-03: "yes, but speed should adjust if
+  // it's too heavy"; sim/draught.mjs): two mules draw the laden wagon at two and a half miles an hour, quicker than the ox, so the
+  // wagon's way names them and its bar says so, and the wagon goes behind them with the mule drawn where the ox would stand.
+  await idle(page, worker);
+  await asMain(page, worker);
+  await page.locator(`.panel-row[data-entity-id="${worker}"] .panel-icon[data-key="visit-shop"]`).click();
+  await page.locator('#errand').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => document.querySelector('#errand [data-line="stockman:mule"]'));
+  await setCount(page, 'stockman:mule', 1);
+  await page.waitForFunction(() => !document.querySelector('#errand-send').disabled && /Leads the new mule home/.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });
+  await page.locator('#errand-send').click();
+  await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
+  await page.waitForFunction(() => window.__snapshot?.world.entities.some(e => e.id === 'hh-1-mule-2'), null, { timeout: 120000 });
+  await idle(page, worker);
+  app.setPace(5000);
+  await asMain(page, worker);
+  await page.locator(`.panel-row[data-entity-id="${worker}"] .panel-icon[data-key="visit-shop"]`).click();
+  await page.locator('#errand').waitFor({ state: 'visible' });
+  await page.waitForFunction(() => document.querySelectorAll('#errand .errand-line').length > 5);
+  await setCount(page, 'store:seed', 1);
+  await page.locator('#errand [data-line="store:seed"] [data-act="pay-coin"]').click();
+  await page.locator('#errand [data-way="wagon"]').waitFor({ state: 'visible', timeout: 15000 });
+  await page.waitForFunction(() => /With two mules and (wagon|cart|carreta)/.test(document.querySelector('#errand [data-way="wagon"]')?.textContent || ''), null, { timeout: 15000 });
+  observed.pairCard = await page.evaluate(() => { const card = document.querySelector('#errand [data-way="wagon"]'); return { text: card.textContent, bars: [...card.querySelectorAll('.going-way-bar')].map(bar => ({ text: bar.textContent, width: bar.style.getPropertyValue('--w') })) }; });
+  assert.deepEqual(observed.pairCard.bars.map(bar => bar.text), ['2.5 mph'], `the wagon's card does not show the pair's pace as a bar: ${JSON.stringify(observed.pairCard)}`);
+  await page.locator('#errand [data-way="wagon"]').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: 'test-results/shops-mule-pair-card.png' });
+  await page.screenshot({ path: 'docs/evidence/mule-pair-card.png', clip: await page.locator('#errand [data-way="wagon"]').boundingBox() });
+  await page.locator('#errand [data-way="wagon"]').click();
+  await page.waitForFunction(() => !document.querySelector('#errand-send').disabled && /^Takes the wagon/.test(document.querySelector('#errand-how').textContent), null, { timeout: 15000 });
+  await page.locator('#errand-send').click();
+  await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
+  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.travel?.mode === 'wagon', worker, { timeout: 30000 });
+  const drawing = ['hh-1-mule', 'hh-1-mule-2'].map(id => app.state.world.entities[id].travel?.draws);
+  assert.deepEqual(drawing, ['hh-1-wagon', 'hh-1-wagon'], `the pair is not in harness to the wagon: ${drawing}`);
+  assert.equal(app.state.world.entities['hh-1-animal'].borrowedBy, null, 'the ox went with the mules');
+  await page.waitForFunction(id => window.__seatedDrawn?.[id]?.draws === 'mule', worker, { timeout: 60000 });
+  await inView(page, worker);
+  observed.pairDrawn = await page.evaluate(id => ({ seat: window.__seatedDrawn[id], mules: window.__mulesDrawn }), worker);
+  if (await page.locator('#selection-close').isVisible().catch(() => false)) await page.locator('#selection-close').click();
+  await page.screenshot({ path: 'docs/evidence/mule-pair-wagon.png', clip: await around(page, worker) });
+  app.setPace(pace);
+  ok(`with a second mule the vehicle's way reads "${observed.pairCard.text}" with its pace as a bar (${observed.pairCard.bars.map(bar => `${bar.text} at ${bar.width}`).join(', ')}); sent, both mules are in harness to the family's vehicle (hh-1-wagon, this family's cart) and the ox stays home, and it is drawn behind the mule (${observed.pairDrawn.mules['hh-1-mule']})`);
+
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
   ok('no page errors');
   writeFileSync('docs/evidence/shops-browser.json', `${JSON.stringify({
     record: 'The shops of the towns, in a browser: docs/TOWNS.md',
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
-    note: 'Same computer only. A student pressed Go to town to trade on the family panel, read every shop of Gonzales and its prices in the popup, put a meal at the tavern paid in food on the list and sent the person; the keepers were in sight while the person was in Gonzales, and the meal is in the story. Since 2026-10-03 the same person bought a mule at the stock pens, led it home, saw it standing in the yard, and rode it to town chosen on its way card, drawn in its saddle (Claude\'s stand-in mule). Every other trade is proved in tests/shops.test.mjs and tests/mules.test.mjs; the load and the wagon in scripts/errand-browser-proof.mjs. No LAN or district claim.',
+    note: 'Same computer only. A student pressed Go to town to trade on the family panel, read every shop of Gonzales and its prices in the popup, put a meal at the tavern paid in food on the list and sent the person; the keepers were in sight while the person was in Gonzales, and the meal is in the story. Since 2026-10-03 the same person bought a mule at the stock pens, led it home, saw it standing in the yard, and rode it to town chosen on its way card, drawn in its saddle (Claude\'s stand-in mule); then bought a second, saw the wagon\'s way name the pair with its pace as a bar, and sent the wagon behind both mules with the ox left home (the owner\'s answers of the same day: the price 8, and a mule pulls at a pace for the weight). Every other trade is proved in tests/shops.test.mjs and tests/mules.test.mjs; the load and the wagon in scripts/errand-browser-proof.mjs. No LAN or district claim.',
     checks: pass,
     observed,
   }, null, 2)}\n`);

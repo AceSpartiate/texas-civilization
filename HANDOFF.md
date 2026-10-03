@@ -1,5 +1,45 @@
 # Claude handoff — Astra foundation
 
+## The mule pulls, at a pace for the weight; and costs 8 — owner-decided 2026-10-03 (not released)
+
+Branch `mules-2` off local `integration-2026-09-28` (740a87e8, with `mules`); not pushed. Same computer only. The owner answered the
+two questions of the section below: (1) should a mule pull? *"yes, but speed should adjust if it's too heavy. mules would be perfect
+for the carreta right though?"*; (2) its price: *"8"*. Recorded in docs/TOWNS.md §4h, docs/SETTLING_IN.md §4b, HISTORY.md
+(`HIST-TEX-1111`, `FIC-GONZ-1111`, `FIC-GONZ-1110` amended), GAME.md.
+
+- **Price**: `MULE_COIN` 8, coin only (horse 25).
+- **The pull against the weight** (new `sim/draught.mjs`): a vehicle weighs its own weight (wagon 10, cart 8, carreta 5) plus, laden,
+  its full load (20, 20, 12); each beast has a **pull** and a **pace** - ox 30 at `WAGON_SPEED` (two miles an hour), mule 18 at 2.5,
+  horse 20 at 2.7 (in the table, not hitched: it carries a rider). A team goes at its slowest beast's walk while its pull covers the
+  weight, slower by pull over weight past that; two beasts at most. **The ox is exactly what it was** (its pull is a laden wagon's
+  weight, so every ox pace in the game is unchanged). One mule: carreta laden **2.5 mph** (quicker than the ox), laden cart 1.6,
+  laden wagon **1.5**; two mules: laden wagon 2.5.
+- **Who draws** (`teamFor` in sim/keeping.mjs): sent with the vehicle, a person takes the quickest team *for it laden* from the oxen and
+  mules free where they stand (so the team out is the team home): ox for the wagon over a lone mule, a mule for the carreta, both mules
+  when there are two; work holding the ox (dragging logs) still refuses it. The beasts in harness carry `travel.draws`; the pace out is
+  the empty pace, home laden the laden one (`laden` flag). `modeWith` reads a held wagon plus an ox **or a mule** as the wagon.
+  Family journeys together (`vehicleTeams`, `setOut`): each vehicle in turn takes the quickest beast left, a spare joins the slowest
+  vehicle it speeds, every vehicle counted laden, the train at the slowest team's pace, a mule in harness no seat. The flight, its room
+  (`flightRoom`), the way home, `moveOn` and the chase count a mule as something that draws.
+- **On screen**: the vehicle's way is named for its team - *"With the mule and carreta"*, *"With two mules and wagon"*, *"With the ox
+  and wagon"* as ever - and shows its pace as a bar, with a shorter *"laden 1.5"* bar when the load slows it (public/going.js,
+  `.going-way-bar`). The page yokes the harnessed mule where the ox would stand (`wagonTeams` reads `draws`) and draws a mule-drawn
+  wagon apart rather than as the ox rig.
+- **History** (`HIST-TEX-1111`), the owner's question answered honestly: carretas were usually drawn by oxen (Smithwick's ox-yoked
+  Tejano carts; the 1857 Cart War's "oxcarts"); mules were draught beasts in Texas in 1835 (the Concepción gun got away "by six mules",
+  "the mules attached to the caisson"); no source read shows a mule in a carreta's shafts - so it is the game's choice, a plausible one.
+- **Art**: request 2026-10-03 *riders in every vehicle* gains items 9 (`mule-harness-walk-*`, `mule-pair-harness-walk-*`, plan
+  **D26**) and 10 (`wagon-mule-*`, `wagon-mules-*`, **D27**); stand-ins marked and listed; `npm run art:plan` (132 items).
+- **Evidence**: tests/draught.test.mjs (4); tests/mules.test.mjs updated (the price 8; a mule draws where no ox does better);
+  `npm run test:mules-injections` **35 of 35** caught by their own test alone, 14 new for the pulling
+  ([record](docs/evidence/mules-injections.json)); tests/errands.test.mjs caught the one bug found on the way (the ox held by log
+  hauling was handed to the wagon until `teamFor` asked `userOf`). `npm run test:shops` **8 checks**: the mule bought for 8, then a
+  second, and the family's vehicle (this seed's cart) sent behind the pair - its card *"With two mules and cart · 2.5 mph"* with the
+  bar, both mules `draws` it, the ox left home ([card](docs/evidence/mule-pair-card.png), [drawn](docs/evidence/mule-pair-wagon.png)).
+  `npm run test:errand` 16 (its stock-pens prices now 8), `test:riding` 16, `test:wagons` 4, `test:road` 7, all PASS. `npm test`: **2133
+  tests, 2097 pass, 0 fail, 36 skipped** (the art plan and stand-in tests among them). Claims renumbered at the coordinator's word:
+  the mule is `FIC-GONZ-1110` (the herds branch has 1130-1135), the pull rule `FIC-GONZ-1111`.
+
 ## A mule at the stock pens, and riders in every vehicle requested — owner-decided 2026-10-03 (not released)
 
 Branch `mules` off local `integration-2026-09-28` (9d34d767); not pushed. Same computer only: headless Chrome; no Chromebook, LAN or
@@ -7,7 +47,7 @@ classroom claim. Kept clear of the `herds` branch's herd economics: a mule is no
 2026-10-03: *"create art requests if they don't already exist for having characters in vehicles. what i mean by vehicles is anything
 they can ride. we should also add the ability to buy a mule in town. mules were a lot cheaper than horses."*
 
-- **The mule** (docs/TOWNS.md §4h; claims `HIST-TEX-1110`, `FIC-GONZ-1130`): sold at the stock pens wherever horses are (Gonzales,
+- **The mule** (docs/TOWNS.md §4h; claims `HIST-TEX-1110`, `FIC-GONZ-1110`): sold at the stock pens wherever horses are (Gonzales,
   San Felipe, Columbia, Victoria) for **10 reales, coin only** against the horse's 25. Sourced: Holley 1836 gives Texas mules caught
   with the mustangs at "two to five" dollars and the mustang at three or four; no broken mule's price was found, so ten is the game's,
   set above the wild price as the broken horse is. A part of its own (`species: 'mule'`, `roleOf` 'mule', `hh-1-mule`, *Jack the
@@ -40,7 +80,7 @@ they can ride. we should also add the ability to buy a mule in town. mules were 
   tests/claude-standins.test.mjs and tests/astra-art-wins.test.mjs green. `npm test`: **2129 tests, 2092 pass, 1 fail, 36 skipped** -
   the one, tests/battle-floor.test.mjs's floor timing under the whole suite's load, passes alone (4 of 4); the same base
   (9d34d767) run clean was 2119 tests, 0 fail.
-- **Owner questions** (recommended first):
+- **Owner questions** - **answered 2026-10-03** (the section above): 1, *"yes, but speed should adjust if it's too heavy"*; 2, *"8"*. As asked:
   1. *Should a mule draw a vehicle?* (a) **No, as built** - only an ox draws the wagon, cart and carreta, so a ten-real mule does not
      replace a fifteen-real ox; (b) a mule draws a cart or carreta but not the wagon; (c) a mule draws anything an ox does.
   2. *The mule's price*: (a) **ten reales, as built** (two-fifths of a horse); (b) five, the wild-caught price; (c) fifteen, an ox's.

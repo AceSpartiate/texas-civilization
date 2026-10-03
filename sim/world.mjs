@@ -14,7 +14,7 @@ import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProje
 import { heldByBattle, lyingOnField } from './battle-stage.mjs';
 import { abandonChore, advanceChores, answerChore, askProjection, beginAim, beginChore, fireShot, registerChores, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
-import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, userOf, usesInvalid } from './keeping.mjs';
+import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, teamFor, userOf, usesInvalid } from './keeping.mjs';
 import { beastsInvalid, beastsOf, fitOut, kept, lame, ledPace, yardSpot } from './beasts.mjs';
 import { SERVING_ACTIONS, recallFromService, recallRefusal, servingWhy, winterInvalid } from './winter.mjs';
 import { answerCourier } from './alamo.mjs';
@@ -328,6 +328,17 @@ export function modeAvailability(world, entity, modeId, path = null) {
   // child's work with a road in it (sim/acting.mjs `child-help`, owner 2026-09-28: "The oldest child steps up").
   if (tooYoung(entity) && !(modeId === 'foot' && entity.chore?.id === 'child-help')) return { can: false, why: tooYoungWhy(entity) };
   for (const role of mode.needs) {
+    // What draws the wagon, cart or carreta is an ox or, since 2026-10-03, a mule (owner: a mule pulls, "but speed should adjust if
+    // it's too heavy"; sim/draught.mjs): either free for this person will do, and the refusals below are about the ox only when
+    // there is no mule to say anything of.
+    if (mode.id === 'wagon' && role === 'ox' && teamFor(world, entity).team.length) continue;
+    if (mode.id === 'wagon' && role === 'ox' && !beastsOf(world, world.households[entity.householdId], 'ox').some(kept)) {
+      const mules = beastsOf(world, world.households[entity.householdId], 'mule').filter(kept);
+      if (mules.length) {
+        const holder = userOf(world, world.households[entity.householdId], 'mule', entity);
+        return { can: false, why: holder ? hasWords(holder, ['mule'], world, entity) : 'The mule is not here to draw it.' };
+      }
+    }
     // A class saved before there were horses has no horse, which is a true thing about
     // that class rather than a broken one, and the control says so plainly.
     const owned = beastsOf(world, world.households[entity.householdId], role);
@@ -400,11 +411,13 @@ export function travelRefusal(world, entity, destination, modeId = DEFAULT_MODE)
  * `silent` keeps the family's event log about the family: three more arrival lines for
  * one trip to town would bury the one that matters.
  */
-function harness(world, entity, mode, path, causeId, taking) {
+function harness(world, entity, mode, path, causeId, taking, drawn = null) {
   for (const beast of taking) {
     beast.borrowedBy = entity.id;
     const pace = path.pace || paceOf(path.points, path.ground, mode.id);
-    beast.travel = { from: entity.travel.from, to: entity.travel.to, points: path.points, progress: 0, distance: path.distance, speed: entity.travel.speed, mode: mode.id, purpose: 'harness', causeId, silent: true, ...(pace.length && { pace }) };
+    // The beasts in harness say what they draw (sim/draught.mjs), so the page yokes the mule or the ox that is really drawing it.
+    const draws = drawn?.vehicle && drawn.team.includes(beast) ? drawn.vehicle.id : null;
+    beast.travel = { from: entity.travel.from, to: entity.travel.to, points: path.points, progress: 0, distance: path.distance, speed: entity.travel.speed, mode: mode.id, purpose: 'harness', causeId, silent: true, ...(pace.length && { pace }), ...(draws && { draws }) };
     beast.location = { ...path.points[0], siteId: null };
   }
   // What they bought and lead home on a halter walks beside them (sim/beasts.mjs): on the same road at the same pace, theirs
@@ -474,19 +487,22 @@ export function beginTravel(world, entity, destination, causeId, purpose = 'visi
     .filter(ford => Number.isFinite(ford.at)).sort((a, b) => a.at - b.at);
   // An ox led home on its halter, or cattle and hogs driven, set the pace home: whoever brings them walks at theirs (sim/beasts.mjs
   // `LEAD_PACE`). A led horse keeps up with anybody.
-  const own = riding ? RIDER_SPEED : mode.speed * wagonSpeedShare(world, entity, mode.id);
+  // With the wagon, cart or carreta: what draws it, and its pace for the weight (sim/draught.mjs; owner, 2026-10-03). The ox draws
+  // every vehicle at `WAGON_SPEED`, laden or not, as it always has; a mule the carreta quicker, a laden wagon slower.
+  const drawn = !riding && mode.id === 'wagon' ? teamFor(world, entity) : null;
+  const own = riding ? RIDER_SPEED : (drawn?.team.length ? drawn.pace : mode.speed) * wagonSpeedShare(world, entity, mode.id);
   const led = riding ? null : ledPace(world, entity);
   entity.travel = { from, to: destination, points, progress: 0, distance, speed: led ? Math.min(own, led) : own, mode: mode.id, purpose, causeId: departure, ...(pace.length && { pace }), ...(fords.length && { fords }) };
   // Whatever beasts the work held for this road are on it with them now, held by the road; any it does not take are let go
   // with the rest (sim/keeping.mjs `intoTheRoad`). The rifle a hunt holds stays with the hunt.
-  const taking = riding ? [] : mode.needs.map(role => beastFor(world, entity, role));
+  const taking = riding ? [] : drawn?.team.length ? [...drawn.team, drawn.vehicle] : mode.needs.map(role => beastFor(world, entity, role));
   if (!riding) { leaveBehind(world, entity, taking); intoTheRoad(entity, BEASTS); }
   entity.location = { ...points[0], siteId: null }; entity.task = 'travel';
   // Whoever leaves is let go of the family's little ones: a child talking with them, a baby they held; and the last woman of
   // age at home does not leave a baby behind - she takes it with her (sim/babies.mjs, owner 2026-09-26). On foot with a baby
   // on her hip she goes a quarter slower (owner 2026-09-27, `hipPace`) - before anything she leads is put on the road at her pace.
   if (entity.kind === 'person' && world.households[entity.householdId]) { takeBabyAlong(world, entity); hipPace(world, entity); }
-  if (!riding) harness(world, entity, mode, path, departure, taking);
+  if (!riding) harness(world, entity, mode, path, departure, taking, drawn);
 }
 /** How far along a line a point stands, in miles: the nearest place on it, measured from the start. */
 function alongAt(points, point) {
@@ -578,7 +594,7 @@ export function seenTravel(world, entity) {
     };
   }
   // Who drives, rides and walks on a family's journey together (sim/company.mjs): the family's own, so its page draws them there.
-  return { location: entity.location, travel: { from: travel.from, to: travel.to, points: travel.points, progress: travel.progress, distance: travel.distance, speed: travel.speed, step, mode: travel.mode, ...seatOfTravel(travel) } };
+  return { location: entity.location, travel: { from: travel.from, to: travel.to, points: travel.points, progress: travel.progress, distance: travel.distance, speed: travel.speed, step, mode: travel.mode, ...seatOfTravel(travel), ...(travel.draws && { draws: travel.draws }) } };
 }
 /** A route as sent by a page: the stops as place ids and a way for each, nothing else read. */
 const routeInput = raw => ({ stops: Array.isArray(raw?.stops) ? raw.stops.map(String).slice(0, 12) : [], ways: Array.isArray(raw?.ways) ? raw.ways.map(String).slice(0, 12) : [] });

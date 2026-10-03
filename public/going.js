@@ -68,6 +68,16 @@ export function drawWays(host, { ways = [], quickest = null, chosen = null } = {
     button.append(element('span', way.id === quickest ? `${way.name} (quickest)` : way.name, 'going-way-name'));
     const facts = [way.pace, way.time && `${way.time} there`, way.carrying || `carries ${way.carry}`].filter(Boolean).join(' · ');
     button.append(element('span', facts, 'going-way-facts'));
+    // With a vehicle (owner, 2026-10-03: a mule pulls, "but speed should adjust if it's too heavy"): its pace as a bar, and laden as
+    // a second, shorter one when the load slows what draws it (sim/going.mjs `mph`, `ladenMph`). Five miles an hour is a full bar.
+    if (way.mph) {
+      const speed = element('span', '', 'going-way-speed');
+      speed.title = way.heavy ? `${way.mph} mph empty; ${way.heavy}` : `${way.mph} mph, laden or empty`;
+      const bar = (value, className, words) => { const one = element('span', words, className); one.style.setProperty('--w', `${Math.min(100, Math.round(value / 5 * 100))}%`); return one; };
+      speed.append(bar(way.mph, 'going-way-bar', `${way.mph} mph`));
+      if (way.ladenMph) speed.append(bar(way.ladenMph, 'going-way-bar going-way-bar-laden', `laden ${way.ladenMph}`));
+      button.append(speed);
+    }
     if (way.brings) button.append(element('span', way.brings, 'going-way-brings'));
     // An animal bought on the errand, led or driven home, and the pace it holds them to (sim/going.mjs `homeWords`).
     if (way.leads) button.append(element('span', way.leads, 'going-way-brings'));

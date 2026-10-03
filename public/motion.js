@@ -182,7 +182,9 @@ export function wagonTeams(householdId, entities = []) {
   const aboard = own.filter(entity => entity.kind === 'person' && !entity.carrier && entity.travel?.mode === 'wagon');
   const young = ['child', 'small', 'infant'];
   const order = [...aboard.filter(entity => entity.principal), ...aboard.filter(entity => !entity.principal && !young.includes(entity.band)), ...aboard.filter(entity => !entity.principal && young.includes(entity.band))];
-  const oxen = own.filter(entity => entity.kind === 'animal' && !MOUNT_SPECIES.includes(entity.species) && entity.travel?.mode === 'wagon');
+  // What draws: every ox on the wagon's road, and since 2026-10-03 a mule the server says is in harness (`travel.draws`,
+  // sim/draught.mjs) - never a mule only walking along or ridden.
+  const oxen = own.filter(entity => entity.kind === 'animal' && entity.travel?.mode === 'wagon' && (Boolean(entity.travel.draws) || !MOUNT_SPECIES.includes(entity.species)));
   const taken = new Set(), yoked = new Set();
   const teams = wagons.map(wagon => ({ wagon, driverId: null, ox: null }));
   // A family's journey together in a class made since 2026-09-25 (sim/company.mjs): the server has said who drives each wagon, who
@@ -209,14 +211,20 @@ export function wagonTeams(householdId, entities = []) {
     team.driverId = order.find(entity => !taken.has(entity.id))?.id || null;
     if (team.driverId) taken.add(team.driverId);
   }
-  // The ox each wagon goes behind: the one that went with its driver, else the next of the family's.
+  // The beast the server put in harness to this vehicle first (`draws`); then the ox each wagon goes behind: the one that went with
+  // its driver, else the next of the family's.
   for (const team of teams) {
-    team.ox = oxen.find(ox => !yoked.has(ox.id) && team.driverId && ox.borrowedBy === team.driverId && ox.borrowedBy === team.wagon.borrowedBy) || null;
+    team.ox = oxen.find(ox => !yoked.has(ox.id) && ox.travel.draws === team.wagon.id) || null;
     if (team.ox) yoked.add(team.ox.id);
   }
   for (const team of teams) {
     if (team.ox) continue;
-    team.ox = oxen.find(ox => !yoked.has(ox.id) && (!ox.borrowedBy || ox.borrowedBy === team.wagon.borrowedBy)) || null;
+    team.ox = oxen.find(ox => !yoked.has(ox.id) && !ox.travel.draws && team.driverId && ox.borrowedBy === team.driverId && ox.borrowedBy === team.wagon.borrowedBy) || null;
+    if (team.ox) yoked.add(team.ox.id);
+  }
+  for (const team of teams) {
+    if (team.ox) continue;
+    team.ox = oxen.find(ox => !yoked.has(ox.id) && !ox.travel.draws && (!ox.borrowedBy || ox.borrowedBy === team.wagon.borrowedBy)) || null;
     if (team.ox) yoked.add(team.ox.id);
   }
   return teams;
@@ -258,7 +266,7 @@ export function carriedWithRider(entity, entities = []) {
     const driver = team?.driverId && entities.find(other => other.id === team.driverId);
     return Boolean(driver && seatOf(driver, entities) === 'wagon');
   }
-  if ((entity.kind === 'wagon' || (entity.kind === 'animal' && !MOUNT_SPECIES.includes(entity.species))) && entity.travel?.mode === 'wagon') {
+  if ((entity.kind === 'wagon' || (entity.kind === 'animal' && (!MOUNT_SPECIES.includes(entity.species) || Boolean(entity.travel?.draws)))) && entity.travel?.mode === 'wagon') {
     const team = wagonTeams(entity.householdId, entities).find(one => one.wagon.id === entity.id || one.ox?.id === entity.id);
     const driver = team?.driverId && entities.find(other => other.id === team.driverId);
     return Boolean(driver && seatOf(driver, entities) === 'wagon');

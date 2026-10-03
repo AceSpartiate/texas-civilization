@@ -54,7 +54,8 @@ import { addBeast, beastsOf, yardSpot, BEASTS_MOST } from './beasts.mjs';
 import { packForRoom, wagonsOf } from './wagon.mjs';
 import { MODES } from './travel.mjs';
 import { putOnTheRoad, sayTheArrival } from './settling.mjs';
-import { drawnVehicles, riddenHorses, seatWords } from './company.mjs';
+import { riddenHorses, seatWords } from './company.mjs';
+import { vehicleTeams } from './draught.mjs';
 
 /** The table a class made since the owner's second amendment of 2026-09-25 rolls on, stored as `world.meansRoll`. */
 export const MEANS_TABLE = 2;
@@ -214,8 +215,10 @@ export function meansProjection(world, household) {
   if (!household?.means) return null;
   const band = bandFor(household.means.roll, bandsOf(world));
   const people = household.members.map(id => world.entities[id]).filter(Boolean);
-  const vehicles = drawnVehicles([...wagonsOf(world, household), ...beastsOf(world, household, 'ox')]);
-  const horses = riddenHorses(world, [...beastsOf(world, household, 'horse'), ...beastsOf(world, household, 'mule')]);
+  // What draws each vehicle - an ox, or a mule bought in town (sim/draught.mjs, 2026-10-03) - and a mule in harness carries nobody.
+  const teams = vehicleTeams(world, [...wagonsOf(world, household), ...beastsOf(world, household, 'ox'), ...beastsOf(world, household, 'mule')], { laden: true });
+  const vehicles = teams.map(team => team.vehicle), hitched = new Set(teams.flatMap(team => team.team.map(beast => beast.id)));
+  const horses = riddenHorses(world, [...beastsOf(world, household, 'horse'), ...beastsOf(world, household, 'mule')]).filter(one => !hitched.has(one.id));
   const coin = household.means.coin;
   return { roll: household.means.roll, band: band.id, name: band.name, words: meansWords(band, coin, household.heritage), ...(coin && { coin }), seats: seatWords(people, vehicles, horses) };
 }

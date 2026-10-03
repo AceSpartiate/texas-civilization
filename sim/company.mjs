@@ -65,7 +65,8 @@
 // on the first table (`world.meansRoll === true`) keeps the horse led.
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { SENT_FROM_AGE, sexOf } from './family.mjs';
-import { isMount, isOx, lame } from './beasts.mjs';
+import { isMount, lame } from './beasts.mjs';
+import { vehicleTeams } from './draught.mjs';
 
 /** Riders a wagon takes beside its driver (`FIC-GONZ-394`, invented): a loaded family wagon's bed had room for a few. */
 export const WAGON_RIDERS = 4;
@@ -121,7 +122,7 @@ export const ridersIn = vehicle => (vehicle?.cart || vehicle?.carreta ? CART_RID
  * table of means (`meansRoll` 2, sim/means.mjs; owner 2026-09-25: "the horse should carry a rider"), and none in a class before.
  */
 // Not a horse lamed in a chase until it mends (sim/beasts.mjs `lame`, triage 2026-09-29 3.2).
-// A mule bought at the stock pens (2026-10-03, `FIC-GONZ-1130`) is one more seat as a horse is: one rider, the sick or the youngest,
+// A mule bought at the stock pens (2026-10-03, `FIC-GONZ-1110`) is one more seat as a horse is: one rider, the sick or the youngest,
 // dealt after the horses. ceiling: its pack is not counted on the family's road - a mule carrying a rider carries no more of the
 // load than a horse does; a pack mule in the flight's room (sim/scrape.mjs `flightRoom`) is the way out.
 export const riddenHorses = (world, movers = []) => (world?.meansRoll === 2 ? movers.filter(entity => isMount(entity) && (!entity.condition || entity.condition === 'sound') && !lame(world, entity))
@@ -180,11 +181,13 @@ export function seatPlan(people, vehicles = [], horses = []) {
 }
 
 /** The pace of a family moving together: the ox's with a vehicle, and never faster than its slowest walker. Babies are carried. */
-export function companyPace(people, plan, vehicles = []) {
+// `vehiclePace`: the slowest vehicle's pace for what draws it (sim/draught.mjs, 2026-10-03) - the ox's `WAGON_SPEED`, as it always was,
+// unless a mule draws one.
+export function companyPace(people, plan, vehicles = [], vehiclePace = WAGON_SPEED) {
   const walkers = people.filter(person => plan.get(person.id)?.afoot && !plan.get(person.id)?.carried);
   // A carrier of a small child at `CARRYING_SPEED` (owner, 2026-10-02); a carried child, like a baby, sets no pace.
   const slowest = walkers.length ? Math.min(...walkers.map(person => walkerPace(person, plan.get(person.id)))) : WALK_SPEED;
-  return vehicles.length ? Math.min(WAGON_SPEED, slowest) : Math.min(WALK_SPEED, slowest);
+  return vehicles.length ? Math.min(vehiclePace, slowest) : Math.min(WALK_SPEED, slowest);
 }
 
 /**
@@ -202,25 +205,29 @@ export const seatOfTravel = travel => seatFields(travel && { drives: travel.driv
  * with each person's seat on it. `vehicles` are the wagons and carts going, each with an ox; `horses` those that carry a rider
  * (`riddenHorses`). A family going with no vehicle goes on foot, whatever way the journey was begun (`mode`). Returns the pace.
  */
-export function setOut(movers, vehicles, base, horses = []) {
+export function setOut(movers, vehicles, base, horses = [], world = null) {
   const people = movers.filter(entity => entity.kind === 'person');
-  const plan = seatPlan(people, vehicles, horses);
-  const speed = companyPace(people, plan, vehicles);
+  // What draws each vehicle going (sim/draught.mjs; owner 2026-10-03: a mule pulls, "but speed should adjust if it's too heavy"): a
+  // family's journey together carries its goods, so every vehicle is counted laden. A mule in harness carries no rider.
+  const teams = vehicles.length ? vehicleTeams(world, movers, { laden: true }).filter(team => vehicles.includes(team.vehicle)) : [];
+  const hitched = new Map(teams.flatMap(team => team.team.map(beast => [beast.id, team.vehicle.id])));
+  const plan = seatPlan(people, vehicles, horses.filter(horse => !hitched.has(horse.id)));
+  const speed = companyPace(people, plan, vehicles, teams.length ? Math.min(...teams.map(team => team.pace)) : WAGON_SPEED);
   for (const entity of movers) {
-    const { drives, rides, saddle, afoot, carried: by, carrying, ...rest } = base(entity);
+    const { drives, rides, saddle, afoot, carried: by, carrying, draws, ...rest } = base(entity);
     if (!vehicles.length && rest.mode === 'wagon') rest.mode = 'foot';
-    entity.travel = { ...rest, speed, ...(entity.kind === 'person' && seatFields(plan.get(entity.id))) };
+    entity.travel = { ...rest, speed, ...(entity.kind === 'person' && seatFields(plan.get(entity.id))), ...(hitched.has(entity.id) && { draws: hitched.get(entity.id) }) };
   }
   return speed;
 }
 
-/** The vehicles among these movers that an ox among them can draw, one ox to a vehicle, the family wagon first. */
-export function drawnVehicles(movers) {
-  const wagons = movers.filter(entity => entity.kind === 'wagon' && (!entity.condition || entity.condition === 'sound'));
-  // The ox alone draws: a horse never has, and a mule bought in town does not (2026-10-03; ceiling: a mule in a cart's shafts is
-  // historical, and `isOx` is where it would be let in).
-  const oxen = movers.filter(entity => isOx(entity) && (!entity.condition || entity.condition === 'sound'));
-  return wagons.slice(0, oxen.length);
+/**
+ * The vehicles among these movers that something among them can draw, the family wagon first: one ox to a vehicle as always, and
+ * since 2026-10-03 (owner: "yes, but speed should adjust if it's too heavy. mules would be perfect for the carreta right though?") a
+ * mule too, put where it draws best (sim/draught.mjs `vehicleTeams`).
+ */
+export function drawnVehicles(movers, world = null) {
+  return vehicleTeams(world, movers).map(team => team.vehicle);
 }
 
 /** "the horse", "the horses", "the mule", "the horse and the mule": the mounts a family's riders are on, in words. */
