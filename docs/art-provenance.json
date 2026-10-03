@@ -3846,6 +3846,38 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-rusk-field-gestures.png",
       "postProcessing": "None; selected imagegen PNG copied unchanged.",
       "review": "Modest two-pose directional or field-gesture cycle. Original interpretive identity and clothing. Equipment/hand registration across views remains polish, not a full rig. No new dialogue or event."
+    },
+    {
+      "sheet": "dragoon-carbine-actions",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "promptId": "frontier-v1/dragoon-carbine-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fe3ea156-6408-43d3-b9b0-bfc3271781ad.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fe3ea156-6408-43d3-b9b0-bfc3271781ad.png",
+      "refinements": [],
+      "runtimeFile": "public/assets/frontier-v1/atlases/dragoon-carbine-actions.png",
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Original interpretive costume and horse; modest authored keyframes. No graphic injury or weapon impact. West mirrors east. Mounting and cardinal transitions remain outstanding."
+    },
+    {
+      "sheet": "lancer-charge",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "promptId": "frontier-v1/lancer-charge",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-82cdab0c-0258-4d0a-975e-612937f0eb18.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ac0322d9-5b4a-4756-98f5-4755f2e9f2e4.png",
+      "refinements": [
+        "Edit this exact four-frame sprite sheet: remove ALL brown/black painted background and ambient haze completely, replace with true transparent alpha. Keep the four horses, riders and lance tips intact, same painted style, positions, sizes and 2x2 layout. No ground or shadows. Do not change costume anatomy or poses. Transparent game sprite atlas, every empty pixel between sprites must be alpha zero."
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/lancer-charge.png",
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Original interpretive costume and horse; modest authored keyframes. No graphic injury or weapon impact. West mirrors east. Mounting and cardinal transitions remain outstanding."
     }
   ],
   "rejectedAttempts": [

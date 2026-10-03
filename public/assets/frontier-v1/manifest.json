@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 266,
-    "sprites": 2494,
-    "clips": 883,
-    "poseCycles": 575,
+    "sheets": 268,
+    "sprites": 2502,
+    "clips": 885,
+    "poseCycles": 577,
     "rigs": 4
   },
   "entrypoints": {
@@ -2601,6 +2601,122 @@
               [
                 941,
                 1069
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "dragoon-carbine-actions": {
+      "image": "atlases/dragoon-carbine-actions.png",
+      "width": 1278,
+      "height": 1230,
+      "bytes": 1451179,
+      "sha256": "a482a286c778107d8464a276b5076c164ad7f367acbbb5019b9855b6751b78d4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.630864,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              16,
+              590
+            ],
+            "columns": [
+              [
+                89,
+                586
+              ],
+              [
+                694,
+                1186
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              622,
+              1202
+            ],
+            "columns": [
+              [
+                85,
+                587
+              ],
+              [
+                713,
+                1222
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "lancer-charge": {
+      "image": "atlases/lancer-charge.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2066034,
+      "sha256": "58bd109466634e5beb23d5ae199e50418dbeec8e121d161d7642a5ee8d238538",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.682587,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              7,
+              462
+            ],
+            "columns": [
+              [
+                13,
+                752
+              ],
+              [
+                788,
+                1528
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              515,
+              990
+            ],
+            "columns": [
+              [
+                21,
+                759
+              ],
+              [
+                766,
+                1528
               ]
             ]
           }
@@ -32529,6 +32645,278 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/people-cast2-idle"
+    },
+    "dragoon-fire-1": {
+      "sheet": "dragoon-carbine-actions",
+      "x": 89,
+      "y": 16,
+      "w": 497,
+      "h": 573,
+      "anchorX": 0.4406,
+      "anchorY": 0.9511,
+      "label": "dragoon fire 1",
+      "kind": "dragoon-carbine-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          18,
+          493,
+          569
+        ],
+        "visiblePixels": 129280,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/dragoon-carbine-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/dragoon-carbine-actions"
+    },
+    "dragoon-fire-2": {
+      "sheet": "dragoon-carbine-actions",
+      "x": 694,
+      "y": 32,
+      "w": 492,
+      "h": 558,
+      "anchorX": 0.4472,
+      "anchorY": 0.948,
+      "label": "dragoon fire 2",
+      "kind": "dragoon-carbine-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          696,
+          34,
+          488,
+          554
+        ],
+        "visiblePixels": 127926,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/dragoon-carbine-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/dragoon-carbine-actions"
+    },
+    "dragoon-carbine-lower": {
+      "sheet": "dragoon-carbine-actions",
+      "x": 85,
+      "y": 622,
+      "w": 502,
+      "h": 579,
+      "anchorX": 0.4382,
+      "anchorY": 0.9447,
+      "label": "dragoon carbine lower",
+      "kind": "dragoon-carbine-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          87,
+          624,
+          498,
+          575
+        ],
+        "visiblePixels": 125639,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/dragoon-carbine-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/dragoon-carbine-actions"
+    },
+    "dragoon-carbine-rest": {
+      "sheet": "dragoon-carbine-actions",
+      "x": 713,
+      "y": 626,
+      "w": 509,
+      "h": 576,
+      "anchorX": 0.4371,
+      "anchorY": 0.9444,
+      "label": "dragoon carbine rest",
+      "kind": "dragoon-carbine-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          715,
+          628,
+          505,
+          572
+        ],
+        "visiblePixels": 126039,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/dragoon-carbine-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/dragoon-carbine-actions"
+    },
+    "lancer-charge-1": {
+      "sheet": "lancer-charge",
+      "x": 13,
+      "y": 7,
+      "w": 739,
+      "h": 448,
+      "anchorX": 0.4641,
+      "anchorY": 0.9397,
+      "label": "lancer charge 1",
+      "kind": "lancer-charge",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          15,
+          9,
+          735,
+          444
+        ],
+        "visiblePixels": 112175,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/lancer-charge"
+    },
+    "lancer-charge-2": {
+      "sheet": "lancer-charge",
+      "x": 788,
+      "y": 9,
+      "w": 740,
+      "h": 453,
+      "anchorX": 0.4216,
+      "anchorY": 0.9294,
+      "label": "lancer charge 2",
+      "kind": "lancer-charge",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          790,
+          11,
+          736,
+          449
+        ],
+        "visiblePixels": 106009,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/lancer-charge"
+    },
+    "lancer-charge-3": {
+      "sheet": "lancer-charge",
+      "x": 21,
+      "y": 515,
+      "w": 738,
+      "h": 417,
+      "anchorX": 0.1118,
+      "anchorY": 0.9281,
+      "label": "lancer charge 3",
+      "kind": "lancer-charge",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          23,
+          517,
+          734,
+          413
+        ],
+        "visiblePixels": 108567,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/lancer-charge"
+    },
+    "lancer-charge-4": {
+      "sheet": "lancer-charge",
+      "x": 766,
+      "y": 525,
+      "w": 762,
+      "h": 465,
+      "anchorX": 0.5919,
+      "anchorY": 0.929,
+      "label": "lancer charge 4",
+      "kind": "lancer-charge",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          768,
+          527,
+          758,
+          461
+        ],
+        "visiblePixels": 109798,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/lancer-charge"
     },
     "icon-child-play": {
       "sheet": "icons-children",
@@ -110687,6 +111075,54 @@
       "motion": "breathe",
       "direction": "north"
     },
+    "dragoon-fire": {
+      "frames": [
+        {
+          "sprite": "dragoon-fire-1",
+          "duration": 360
+        },
+        {
+          "sprite": "dragoon-fire-2",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-carbine-lower",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-carbine-rest",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "lancer-charge": {
+      "frames": [
+        {
+          "sprite": "lancer-charge-1",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-2",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-3",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-4",
+          "duration": 160
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "girl-walk-s": {
       "frames": [
         {
@@ -128707,7 +129143,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 266,
+    "sourceCount": 268,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

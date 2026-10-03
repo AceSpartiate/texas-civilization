@@ -1512,3 +1512,8 @@ The public 1837 collection and funeral are documented; Seguín alone with a clot
 
 The famous-person delivery in `scripts/art-deliveries/famous-grant.mjs` adds sixteen foot frames, four mounted-walk frames and four mounted-gallop frames. Grant's own horse now appears in the existing Agua Dulce approach and pursuit, with the faster gait confined to the visible ambush interval. His later surrender and death remain off-screen as already staged. The clean bandage and arm-sling poses can support his earlier Béxar injury without graphic treatment. The generated manifest lists every frame and animation clip; the source and prompt records are in the art JSON files. Costume, face and horse are interpretive game art, not portrait evidence.
 
+
+## Delivered 2026-10-03 — mounted carbine and lancer gait
+
+The mounted carbine request now has four authored poses in dragoon-carbine-actions and a live dragoon-fire binding. The lancer-charge request has four registered gallop frames, available for explicit lancer staging; generic dragoons retain their existing movement. See ART_DELIVERY_2026-10-03-CAVALRY.md for integration, animation limits and tests.
+

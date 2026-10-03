@@ -1,0 +1,16 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "dragoon-fire",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "lancer-charge",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

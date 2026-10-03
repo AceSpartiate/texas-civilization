@@ -637,12 +637,14 @@ export function createBattleView(art) {
           // Alamo's walls) are drawn as the library's dragoons, without lances, until a lancer set exists.
           clip = kind === 'rider' ? (moving ? 'mounted-courier-e' : 'mounted-courier-listen') : moving ? 'dragoon-march' : right ? 'dragoon-idle-e' : 'dragoon-idle-w';
           flip = kind === 'rider' ? !right : moving ? !right : false;
-          // A dragoon firing his carbine from the saddle: the flash and the smoke from where his hands are, on his own long
-          // wait between shots. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a dragoon firing from the saddle" - the
-          // library has no mounted firing pose, so the rider holds his pose and only the shot is drawn.
+          // Authored shoulder/recoil/lower poses share the existing shot clock. The
+          // 360ms aim precedes discharge; smoke and flash remain engine effects.
           if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 6 === 0))) {
             const wait = 9000 + hash(`${seed}:dw`) * 16000, shifted = time + hash(`${seed}:dp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:d${Math.floor(shifted / wait)}`;
+            if (kind === 'dragoon' && (t < 640 || t >= wait - 360)) {
+              clip = 'dragoon-fire'; timeMs = t >= wait - 360 ? t - (wait - 360) : t + 360; flip = !right;
+            }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };

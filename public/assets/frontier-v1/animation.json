@@ -1922,6 +1922,54 @@
       "motion": "breathe",
       "direction": "north"
     },
+    "dragoon-fire": {
+      "frames": [
+        {
+          "sprite": "dragoon-fire-1",
+          "duration": 360
+        },
+        {
+          "sprite": "dragoon-fire-2",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-carbine-lower",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-carbine-rest",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "lancer-charge": {
+      "frames": [
+        {
+          "sprite": "lancer-charge-1",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-2",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-3",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-4",
+          "duration": 160
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "girl-walk-s": {
       "frames": [
         {

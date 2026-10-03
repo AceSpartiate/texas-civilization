@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2494 usable sprites, 266 PNG atlases, 883 clips** (575 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2502 usable sprites, 268 PNG atlases, 885 clips** (577 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -42,6 +42,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-cast2-walk | 16 | 1254 × 1254 | 1288383 |
 | people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
+| dragoon-carbine-actions | 4 | 1278 × 1230 | 1451179 |
+| lancer-charge | 4 | 1536 × 1024 | 2066034 |
 | icons-children | 6 | 1254 × 1254 | 874710 |
 | people-children-vertical | 12 | 1254 × 1254 | 1163980 |
 | people-children-idle | 16 | 1254 × 1254 | 1351105 |
@@ -553,6 +555,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-e | people-cast2-idle | blue-girl-idle-e |
 | blue-girl-idle-w | people-cast2-idle | blue-girl-idle-w |
 | blue-girl-idle-n | people-cast2-idle | blue-girl-idle-n |
+| dragoon-fire-1 | dragoon-carbine-actions | dragoon-fire |
+| dragoon-fire-2 | dragoon-carbine-actions | dragoon-fire |
+| dragoon-carbine-lower | dragoon-carbine-actions | dragoon-fire |
+| dragoon-carbine-rest | dragoon-carbine-actions | dragoon-fire |
+| lancer-charge-1 | lancer-charge | lancer-charge |
+| lancer-charge-2 | lancer-charge | lancer-charge |
+| lancer-charge-3 | lancer-charge | lancer-charge |
+| lancer-charge-4 | lancer-charge | lancer-charge |
 | icon-child-play | icons-children | State artwork; no motion required |
 | icon-child-kindling | icons-children | State artwork; no motion required |
 | icon-child-birds | icons-children | State artwork; no motion required |
@@ -2900,6 +2910,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-w | breathe | 1 | 2200 | yes | west |
 | blue-girl-idle-e | breathe | 1 | 2200 | yes | east |
 | blue-girl-idle-n | breathe | 1 | 2200 | yes | north |
+| dragoon-fire | Pose cycle | 4 | 1000 | one-shot | east; west by mirroring |
+| lancer-charge | Pose cycle | 4 | 640 | yes | east; west by mirroring |
 | girl-walk-s | Pose cycle | 2 | 460 | yes | south |
 | girl-walk-n | Pose cycle | 2 | 460 | yes | north |
 | boy-walk-s | Pose cycle | 2 | 460 | yes | south |
