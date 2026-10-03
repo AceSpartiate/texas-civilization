@@ -40,6 +40,13 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('Barragán intervenes using his own protective gesture', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const captain = { id: 'barragan', art: 'barragan', name: 'Barragán', side: 'mexican', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => night(minute, [], { people: [captain] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'barragan-intervene'));
+});
+
 test('Sánchez Navarro has his own figure in the Bexar parley', () => {
   const art = fakeArt(), view = createBattleView(art);
   run(view, minute => night(minute, [], { parley: { x: 0, y: 0, people: [{ id: 'jw-smith', name: 'Smith', side: 'texian' }, { id: 'sanchez-navarro', name: 'Sánchez Navarro', side: 'mexican' }] } }), { seconds: 1 });

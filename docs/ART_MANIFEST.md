@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2146 usable sprites, 200 PNG atlases, 748 clips** (440 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2162 usable sprites, 201 PNG atlases, 752 clips** (444 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -71,6 +71,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-alavez | 16 | 1254 × 1254 | 1276763 |
 | famous-almonte | 16 | 1254 × 1254 | 1260800 |
 | famous-austin | 16 | 1254 × 1254 | 1051380 |
+| famous-barragan | 16 | 1254 × 1254 | 1356807 |
 | famous-ben | 16 | 1312 × 1199 | 1136424 |
 | twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
@@ -894,6 +895,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | austin-write | famous-austin | State artwork; no motion required |
 | austin-map | famous-austin | State artwork; no motion required |
 | austin-rest | famous-austin | State artwork; no motion required |
+| barragan-walk-e-1 | famous-barragan | barragan-walk-e |
+| barragan-walk-e-2 | famous-barragan | barragan-walk-e |
+| barragan-walk-e-3 | famous-barragan | State artwork; no motion required |
+| barragan-walk-e-4 | famous-barragan | State artwork; no motion required |
+| barragan-walk-s-1 | famous-barragan | barragan-walk-s |
+| barragan-walk-s-2 | famous-barragan | barragan-walk-s |
+| barragan-walk-n-1 | famous-barragan | barragan-walk-n |
+| barragan-walk-n-2 | famous-barragan | barragan-walk-n |
+| barragan-idle | famous-barragan | State artwork; no motion required |
+| barragan-stop | famous-barragan | barragan-intervene |
+| barragan-protect | famous-barragan | barragan-intervene |
+| barragan-guide | famous-barragan | State artwork; no motion required |
+| barragan-speak | famous-barragan | State artwork; no motion required |
+| barragan-listen | famous-barragan | State artwork; no motion required |
+| barragan-point | famous-barragan | State artwork; no motion required |
+| barragan-rest | famous-barragan | State artwork; no motion required |
 | ben-walk-e-1 | famous-ben | ben-walk-e |
 | ben-walk-e-2 | famous-ben | ben-walk-e |
 | ben-walk-e-3 | famous-ben | ben-walk-e |
@@ -2673,6 +2690,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | austin-walk-e | Pose cycle | 4 | 760 | yes | east |
 | austin-walk-s | Pose cycle | 2 | 580 | yes | south |
 | austin-walk-n | Pose cycle | 2 | 580 | yes | north |
+| barragan-walk-e | Pose cycle | 2 | 560 | yes | east |
+| barragan-walk-s | Pose cycle | 2 | 560 | yes | south |
+| barragan-walk-n | Pose cycle | 2 | 560 | yes | north |
+| barragan-intervene | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | twin-sisters-limbered | Pose cycle | 2 | 600 | yes | east; mirror for west |
 | ben-walk-e | Pose cycle | 4 | 760 | yes | east |
 | ben-walk-s | Pose cycle | 2 | 580 | yes | south |

@@ -5880,6 +5880,130 @@
         ]
       }
     },
+    "famous-barragan": {
+      "image": "atlases/famous-barragan.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1356807,
+      "sha256": "83aa2751e75f211c0db1ea11ee5920c1017afb35d42db78ab796a0b2e58240fa",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.640042,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              37,
+              333
+            ],
+            "columns": [
+              [
+                73,
+                289
+              ],
+              [
+                385,
+                593
+              ],
+              [
+                690,
+                903
+              ],
+              [
+                1008,
+                1214
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              344,
+              648
+            ],
+            "columns": [
+              [
+                76,
+                254
+              ],
+              [
+                387,
+                572
+              ],
+              [
+                699,
+                887
+              ],
+              [
+                1016,
+                1197
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              657,
+              955
+            ],
+            "columns": [
+              [
+                79,
+                234
+              ],
+              [
+                388,
+                618
+              ],
+              [
+                704,
+                913
+              ],
+              [
+                960,
+                1203
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              955,
+              1243
+            ],
+            "columns": [
+              [
+                78,
+                289
+              ],
+              [
+                402,
+                552
+              ],
+              [
+                706,
+                948
+              ],
+              [
+                995,
+                1215
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-ben": {
       "image": "atlases/famous-ben.png",
       "width": 1312,
@@ -35674,6 +35798,406 @@
           272
         ],
         "visiblePixels": 23785,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-walk-e-1": {
+      "sheet": "famous-barragan",
+      "x": 73,
+      "y": 38,
+      "w": 216,
+      "h": 293,
+      "anchorX": 0.4861,
+      "anchorY": 0.9283,
+      "logicalHeight": 304,
+      "label": "barragan walk e 1",
+      "kind": "famous-barragan",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          40,
+          212,
+          289
+        ],
+        "visiblePixels": 32898,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-walk-e-2": {
+      "sheet": "famous-barragan",
+      "x": 385,
+      "y": 38,
+      "w": 208,
+      "h": 294,
+      "anchorX": 0.4327,
+      "anchorY": 0.9286,
+      "logicalHeight": 304,
+      "label": "barragan walk e 2",
+      "kind": "famous-barragan",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          387,
+          40,
+          204,
+          290
+        ],
+        "visiblePixels": 32234,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-walk-e-3": {
+      "sheet": "famous-barragan",
+      "x": 690,
+      "y": 38,
+      "w": 213,
+      "h": 295,
+      "anchorX": 0.4742,
+      "anchorY": 0.9288,
+      "logicalHeight": 304,
+      "label": "barragan walk e 3",
+      "kind": "famous-barragan",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          692,
+          40,
+          209,
+          291
+        ],
+        "visiblePixels": 33231,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-walk-e-4": {
+      "sheet": "famous-barragan",
+      "x": 1008,
+      "y": 37,
+      "w": 206,
+      "h": 295,
+      "anchorX": 0.449,
+      "anchorY": 0.9288,
+      "logicalHeight": 304,
+      "label": "barragan walk e 4",
+      "kind": "famous-barragan",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1010,
+          39,
+          202,
+          291
+        ],
+        "visiblePixels": 31530,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-walk-s-1": {
+      "sheet": "famous-barragan",
+      "x": 76,
+      "y": 348,
+      "w": 178,
+      "h": 300,
+      "anchorX": 0.4719,
+      "anchorY": 0.93,
+      "logicalHeight": 304,
+      "label": "barragan walk s 1",
+      "kind": "famous-barragan",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          78,
+          350,
+          174,
+          296
+        ],
+        "visiblePixels": 30200,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-walk-s-2": {
+      "sheet": "famous-barragan",
+      "x": 387,
+      "y": 346,
+      "w": 185,
+      "h": 301,
+      "anchorX": 0.5027,
+      "anchorY": 0.9269,
+      "logicalHeight": 304,
+      "label": "barragan walk s 2",
+      "kind": "famous-barragan",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          389,
+          348,
+          181,
+          297
+        ],
+        "visiblePixels": 30379,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-walk-n-1": {
+      "sheet": "famous-barragan",
+      "x": 699,
+      "y": 345,
+      "w": 188,
+      "h": 303,
+      "anchorX": 0.5186,
+      "anchorY": 0.9274,
+      "logicalHeight": 304,
+      "label": "barragan walk n 1",
+      "kind": "famous-barragan",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          701,
+          347,
+          184,
+          299
+        ],
+        "visiblePixels": 32475,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-walk-n-2": {
+      "sheet": "famous-barragan",
+      "x": 1016,
+      "y": 344,
+      "w": 181,
+      "h": 304,
+      "anchorX": 0.5387,
+      "anchorY": 0.9342,
+      "logicalHeight": 304,
+      "label": "barragan walk n 2",
+      "kind": "famous-barragan",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1018,
+          346,
+          177,
+          300
+        ],
+        "visiblePixels": 31223,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-idle": {
+      "sheet": "famous-barragan",
+      "x": 79,
+      "y": 657,
+      "w": 155,
+      "h": 296,
+      "anchorX": 0.5645,
+      "anchorY": 0.9291,
+      "logicalHeight": 304,
+      "label": "barragan idle",
+      "kind": "famous-barragan",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          659,
+          151,
+          292
+        ],
+        "visiblePixels": 29940,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-stop": {
+      "sheet": "famous-barragan",
+      "x": 388,
+      "y": 657,
+      "w": 230,
+      "h": 296,
+      "anchorX": 0.413,
+      "anchorY": 0.9324,
+      "logicalHeight": 304,
+      "label": "barragan stop",
+      "kind": "famous-barragan",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          659,
+          226,
+          292
+        ],
+        "visiblePixels": 34369,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-protect": {
+      "sheet": "famous-barragan",
+      "x": 704,
+      "y": 657,
+      "w": 209,
+      "h": 298,
+      "anchorX": 0.4474,
+      "anchorY": 0.9329,
+      "logicalHeight": 304,
+      "label": "barragan protect",
+      "kind": "famous-barragan",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          659,
+          205,
+          294
+        ],
+        "visiblePixels": 32475,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-guide": {
+      "sheet": "famous-barragan",
+      "x": 960,
+      "y": 657,
+      "w": 243,
+      "h": 296,
+      "anchorX": 0.6584,
+      "anchorY": 0.9324,
+      "logicalHeight": 304,
+      "label": "barragan guide",
+      "kind": "famous-barragan",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          962,
+          659,
+          239,
+          292
+        ],
+        "visiblePixels": 33400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-speak": {
+      "sheet": "famous-barragan",
+      "x": 78,
+      "y": 956,
+      "w": 211,
+      "h": 287,
+      "anchorX": 0.455,
+      "anchorY": 0.9303,
+      "logicalHeight": 304,
+      "label": "barragan speak",
+      "kind": "famous-barragan",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          958,
+          207,
+          283
+        ],
+        "visiblePixels": 31407,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-listen": {
+      "sheet": "famous-barragan",
+      "x": 402,
+      "y": 955,
+      "w": 150,
+      "h": 288,
+      "anchorX": 0.5367,
+      "anchorY": 0.941,
+      "logicalHeight": 304,
+      "label": "barragan listen",
+      "kind": "famous-barragan",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          404,
+          957,
+          146,
+          284
+        ],
+        "visiblePixels": 27608,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-point": {
+      "sheet": "famous-barragan",
+      "x": 706,
+      "y": 958,
+      "w": 242,
+      "h": 285,
+      "anchorX": 0.3719,
+      "anchorY": 0.9404,
+      "logicalHeight": 304,
+      "label": "barragan point",
+      "kind": "famous-barragan",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          960,
+          238,
+          281
+        ],
+        "visiblePixels": 31553,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barragan-rest": {
+      "sheet": "famous-barragan",
+      "x": 995,
+      "y": 977,
+      "w": 220,
+      "h": 265,
+      "anchorX": 0.6023,
+      "anchorY": 0.9283,
+      "logicalHeight": 304,
+      "label": "barragan rest",
+      "kind": "famous-barragan",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          997,
+          979,
+          216,
+          261
+        ],
+        "visiblePixels": 33782,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

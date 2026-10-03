@@ -2801,6 +2801,19 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-sanchez-navarro.png",
       "postProcessing": "None; copied unchanged.",
       "review": "Clear isolated poses and matching shipped officer style. East frames 3 and 4 repeat the contact/passing silhouette family; the runtime deliberately uses the first two as a modest two-pose walk rather than claiming four distinct gait phases. Costume and likeness are interpretations."
+    },
+    {
+      "sheet": "famous-barragan",
+      "promptId": "frontier-v1/famous-barragan",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-sanchez-navarro.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7e3d7f6a-9642-4acb-975a-41e80e0ec5f1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-barragan.png",
+      "postProcessing": "None; copied unchanged.",
+      "review": "Original interpretive face and costume. Protective unarmed gestures for the existing Joe intervention. Runtime walk uses a restrained two-pose cadence; the other east poses are retained as variants."
     }
   ],
   "rejectedAttempts": [

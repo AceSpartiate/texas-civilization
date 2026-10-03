@@ -4574,6 +4574,70 @@
       "motion": "none",
       "direction": "north"
     },
+    "barragan-walk-e": {
+      "frames": [
+        {
+          "sprite": "barragan-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "barragan-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "barragan-walk-s": {
+      "frames": [
+        {
+          "sprite": "barragan-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "barragan-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "barragan-walk-n": {
+      "frames": [
+        {
+          "sprite": "barragan-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "barragan-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "barragan-intervene": {
+      "frames": [
+        {
+          "sprite": "barragan-stop",
+          "duration": 800
+        },
+        {
+          "sprite": "barragan-protect",
+          "duration": 1000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "twin-sisters-limbered": {
       "frames": [
         {

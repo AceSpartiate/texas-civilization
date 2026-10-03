@@ -104,7 +104,7 @@ export const PEOPLE = Object.freeze({
     fullName: 'Ben, a cook with the Mexican army (Almonte’s servant in the Handbook’s Dickinson entry, Santa Anna’s cook in its Joe entry)',
     map: [{ from: 'survivors-leave', until: 'fall-confirmed', road: ['bexar', 'gonzales'], doing: 'walk', claimId: 'HIST-TEX-548' }],
   }),
-  barragan: person('barragan', 'Barragán', MX, 'general', 2, 'HIST-TEX-502', { fullName: 'Captain Barragán, who saved Joe' }),
+  barragan: person('barragan', 'Barragán', MX, 'barragan', 2, 'HIST-TEX-502', { fullName: 'Captain Barragán, who saved Joe' }),
   seguin: person('seguin', 'Seguín', TX, 'seguin', 1, 'HIST-TEX-551', { fullName: 'Juan Nepomuceno Seguín' }),
   // Killed on March 6 with every man of the relief; where in the fort is not recorded, so his death is told, not drawn.
   kimbell: person('kimbell', 'Kimbell', TX, 'rider', 2, 'HIST-TEX-057', { fullName: 'George C. Kimbell' }),
