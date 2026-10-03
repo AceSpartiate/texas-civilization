@@ -70,9 +70,9 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
  */
 export const PERSON_ART = Object.freeze({
   ...Object.fromEntries(['jw-smith', 'horton', 'kimbell', 'martin'].map(id => [id, {
-    stand: `${id}-idle`, command: `${id}-parley`, point: `${id}-point`, speak: `${id}-parley`, listen: `${id}-listen`, write: `${id}-read`, seated: `${id}-rest`, walk: `${id}-walk-e`, ride: `clip:${id}-mounted-walk-e`, rideIdle: `${id}-mounted-idle-e`,
+    stand: `${id}-idle`, command: `${id}-parley`, point: `${id}-point`, speak: `${id}-parley`, listen: `${id}-listen`, write: `${id}-read`, seated: `${id}-rest`, walk: `${id}-walk-e`, ride: `clip:${id}-mounted-walk-e`, rideIdle: `${id}-mounted-idle-e`, rideNorth: `clip:${id}-mounted-walk-n`, rideSouth: `clip:${id}-mounted-walk-s`,
   }])),
-  smither: { stand: 'smither-idle', command: 'smither-stop', point: 'smither-dispatch', speak: 'smither-speak', listen: 'smither-listen', write: 'smither-read', seated: 'smither-rest', walk: 'smither-walk-e', ride: 'clip:smither-mounted-walk-e', rideIdle: 'smither-mounted-idle-e' },
+  smither: { stand: 'smither-idle', command: 'smither-stop', point: 'smither-dispatch', speak: 'smither-speak', listen: 'smither-listen', write: 'smither-read', seated: 'smither-rest', walk: 'smither-walk-e', ride: 'clip:smither-mounted-walk-e', rideIdle: 'smither-mounted-idle-e', rideNorth: 'clip:smither-mounted-walk-n', rideSouth: 'clip:smither-mounted-walk-s' },
   'wp-smith': { stand: 'wp-smith-idle', command: 'clip:wp-smith-address', point: 'wp-smith-point', speak: 'wp-smith-exhort', listen: 'wp-smith-listen', write: 'wp-smith-read', seated: 'wp-smith-rest', walk: 'wp-smith-walk-e' },
   barragan: { stand: 'barragan-idle', command: 'clip:barragan-intervene', point: 'barragan-point', speak: 'barragan-speak', listen: 'barragan-listen', seated: 'barragan-rest', walk: 'barragan-walk-e' },
   'sanchez-navarro': { stand: 'sanchez-navarro-idle', command: 'sanchez-navarro-point', point: 'sanchez-navarro-point', write: 'sanchez-navarro-read', speak: 'sanchez-navarro-parley', listen: 'sanchez-navarro-listen', seated: 'sanchez-navarro-rest', walk: 'sanchez-navarro-walk-e' },
@@ -90,17 +90,17 @@ export const PERSON_ART = Object.freeze({
   bonham: { stand: 'bonham-idle', command: 'bonham-point', point: 'bonham-point', gun: 'bonham-serve-gun', fire: ['bonham-aim', 'bonham-fire', 'bonham-reload'], still: 'bonham-still', walk: 'bonham-walk-e' },
   'almeron-dickinson': { stand: 'almeron-dickinson-idle', command: 'almeron-dickinson-command', gun: 'almeron-dickinson-serve-gun', carry: 'almeron-dickinson-shot-carry', fire: ['almeron-dickinson-ram', 'almeron-dickinson-fire', 'almeron-dickinson-ram'], still: 'almeron-dickinson-still', walk: 'almeron-dickinson-walk-e' },
   esparza: { stand: 'esparza-idle', command: 'esparza-point', point: 'esparza-point', gun: 'esparza-serve-gun', carry: 'esparza-shot-carry', fire: ['esparza-aim', 'esparza-fire', 'esparza-aim'], still: 'esparza-still', walk: 'esparza-walk-e' },
-  houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', ride: 'clip:houston-mounted-walk-e', rideIdle: 'houston-mounted-idle-e', walk: 'houston-walk-e' },
-  'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', ride: 'clip:santa-anna-mounted-walk-e', rideIdle: 'santa-anna-mounted-idle-e', walk: 'santa-anna-walk-e' },
+  houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', ride: 'clip:houston-mounted-walk-e', rideIdle: 'houston-mounted-idle-e', rideNorth: 'clip:houston-mounted-walk-n', rideSouth: 'clip:houston-mounted-walk-s', walk: 'houston-walk-e' },
+  'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', ride: 'clip:santa-anna-mounted-walk-e', rideIdle: 'santa-anna-mounted-idle-e', rideNorth: 'clip:santa-anna-mounted-walk-n', rideSouth: 'clip:santa-anna-mounted-walk-s', walk: 'santa-anna-walk-e' },
   'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },
-  castrillon: { stand: 'castrillon-idle', command: 'castrillon-command', walk: 'castrillon-walk-e', fall: 'castrillon-fall', still: 'castrillon-still' },
+  castrillon: { stand: 'castrillon-idle', command: 'castrillon-command', 'crate-command': 'clip:castrillon-crate-command', walk: 'castrillon-walk-e', walkNorth: 'castrillon-walk-n', walkSouth: 'castrillon-walk-s', fall: 'castrillon-fall', still: 'castrillon-still' },
   almonte: { stand: 'almonte-idle', command: 'almonte-command', surrender: 'almonte-surrender', 'offer-sword': 'almonte-offer-sword', prisoner: 'almonte-prisoner', interpret: 'almonte-interpret', write: 'almonte-journal', walk: 'almonte-walk-e' },
-  burleson: { stand: 'burleson-idle', command: 'burleson-command', point: 'burleson-point', listen: 'burleson-listen', 'receive-sword': 'burleson-receive-sword', 'sword-down': 'burleson-sword-down', seated: 'burleson-rest', ride: 'clip:burleson-mounted-walk-e', rideIdle: 'burleson-mounted-idle-e', walk: 'burleson-walk-e' },
-  cos: { stand: 'cos-idle', command: 'cos-command', point: 'cos-point', write: 'cos-sign-terms', surrender: 'cos-sword-down', prisoner: 'cos-prisoner', ride: 'clip:cos-mounted-walk-e', rideIdle: 'cos-mounted-idle-e', walk: 'cos-walk-e' },
-  castaneda: { stand: 'castaneda-idle', command: 'castaneda-halt', speak: 'castaneda-parley', listen: 'castaneda-listen', point: 'castaneda-withdraw', ride: 'clip:castaneda-mounted-walk-e', rideIdle: 'castaneda-mounted-idle-e', walk: 'castaneda-walk-e' },
+  burleson: { stand: 'burleson-idle', command: 'burleson-command', point: 'burleson-point', listen: 'burleson-listen', 'receive-sword': 'burleson-receive-sword', 'sword-down': 'burleson-sword-down', seated: 'burleson-rest', ride: 'clip:burleson-mounted-walk-e', rideIdle: 'burleson-mounted-idle-e', rideNorth: 'clip:burleson-mounted-walk-n', rideSouth: 'clip:burleson-mounted-walk-s', walk: 'burleson-walk-e' },
+  cos: { stand: 'cos-idle', command: 'cos-command', point: 'cos-point', write: 'cos-sign-terms', surrender: 'cos-sword-down', prisoner: 'cos-prisoner', ride: 'clip:cos-mounted-walk-e', rideIdle: 'cos-mounted-idle-e', rideNorth: 'clip:cos-mounted-walk-n', rideSouth: 'clip:cos-mounted-walk-s', walk: 'cos-walk-e' },
+  castaneda: { stand: 'castaneda-idle', command: 'castaneda-halt', speak: 'castaneda-parley', listen: 'castaneda-listen', point: 'castaneda-withdraw', ride: 'clip:castaneda-mounted-walk-e', rideIdle: 'castaneda-mounted-idle-e', rideNorth: 'clip:castaneda-mounted-walk-n', rideSouth: 'clip:castaneda-mounted-walk-s', walk: 'castaneda-walk-e' },
   moore: { stand: 'moore-idle', command: 'moore-command', point: 'moore-point', speak: 'moore-parley', listen: 'moore-listen', walk: 'moore-walk-e' },
   austin: { stand: 'austin-idle', command: 'austin-command', point: 'austin-point', speak: 'austin-speak', write: 'austin-write', walk: 'austin-walk-e' },
-  urrea: { stand: 'urrea-idle', command: 'urrea-command', point: 'urrea-point', speak: 'urrea-address', ride: 'clip:urrea-mounted-walk-e', rideIdle: 'urrea-mounted-idle-e', walk: 'urrea-walk-e' },
+  urrea: { stand: 'urrea-idle', command: 'urrea-command', point: 'urrea-point', speak: 'urrea-address', ride: 'clip:urrea-mounted-walk-e', rideIdle: 'urrea-mounted-idle-e', rideNorth: 'clip:urrea-mounted-walk-n', rideSouth: 'clip:urrea-mounted-walk-s', walk: 'urrea-walk-e' },
   'deaf-smith': { stand: 'deaf-smith-idle', report: 'deaf-smith-report', point: 'deaf-smith-point', wounded: 'deaf-smith-wounded-seated', ride: 'clip:deaf-smith-mounted-walk-e', rideIdle: 'deaf-smith-mounted-idle-e', walk: 'deaf-smith-walk-e' },
   karnes: { stand: 'karnes-idle', command: 'karnes-command', point: 'karnes-command', listen: 'karnes-listen', work: 'clip:karnes-crowbar-work', fire: ['karnes-aim', 'karnes-fire', 'karnes-aim'], ride: 'clip:karnes-mounted-walk-e', rideIdle: 'karnes-mounted-idle-e', walk: 'karnes-walk-e' },
   neill: { stand: 'neill-idle', command: 'neill-command', point: 'neill-command', gun: 'clip:neill-gun-service', wounded: 'neill-wounded-seated', walk: 'neill-walk-e' },
@@ -110,7 +110,7 @@ export const PERSON_ART = Object.freeze({
   hockley: { stand: 'hockley-idle', command: 'hockley-point', point: 'hockley-point', gun: 'clip:hockley-battery-command', walk: 'hockley-walk-e' },
   mcculloch: { stand: 'mcculloch-idle', gun: 'clip:mcculloch-gun-service', listen: 'mcculloch-listen', walk: 'mcculloch-walk-e' },
   johnson: { stand: 'johnson-idle', command: 'clip:johnson-command', point: 'johnson-point', escape: 'clip:johnson-escape-e', walk: 'johnson-walk-e' },
-  grant: { stand: 'grant-idle', point: 'grant-point-herd', write: 'grant-read-map', wounded: 'grant-bandaged-seated', ride: 'clip:grant-mounted-walk-e', rideIdle: 'grant-mounted-idle-e', rideGallop: 'grant-mounted-gallop-e', walk: 'grant-walk-e' },
+  grant: { stand: 'grant-idle', point: 'grant-point-herd', write: 'grant-read-map', wounded: 'grant-bandaged-seated', ride: 'clip:grant-mounted-walk-e', rideIdle: 'grant-mounted-idle-e', rideNorth: 'clip:grant-mounted-walk-n', rideSouth: 'clip:grant-mounted-walk-s', rideGallop: 'grant-mounted-gallop-e', walk: 'grant-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -1243,7 +1243,10 @@ export function createBattleView(art) {
     }
     const pose = hurt ? 'wounded' : person.moving && !['ride', 'escape'].includes(person.pose) ? 'walk' : person.pose || 'stand';
     const named = own?.[pose];
+    if (pose === 'crate-command' && own?.['crate-command']) return clip(own['crate-command'].slice(5), time, { size: figurePx * 1.18 });
     if (pose === 'walk') {
+      const directedWalk = person.heading === 'north' ? own?.walkNorth : person.heading === 'south' ? own?.walkSouth : null;
+      if (directedWalk) return clip(directedWalk, time, { flip: false });
       if (own?.walk) return clip(own.walk) || clip(`${kind}-march`);
       return clip(`${kind}-march`);
     }

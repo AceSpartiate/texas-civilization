@@ -40,6 +40,25 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('named mounted people turn north and south with the projected route heading', () => {
+  for (const id of ['smither', 'jw-smith', 'horton', 'kimbell', 'martin', 'cos', 'urrea', 'castaneda', 'houston', 'santa-anna', 'burleson', 'grant']) {
+    for (const [heading, dir] of [['north', 'n'], ['south', 's']]) {
+      const art = fakeArt(), view = createBattleView(art);
+      const rider = { id, art: id, name: id, side: 'texian', x: 0, y: 0, right: false, pose: 'ride', moving: true, heading };
+      run(view, minute => night(minute, [], { people: [rider] }), { seconds: 1 });
+      assert.ok(art.drawn.some(one => one.clip === `${id}-mounted-walk-${dir}` && one.flip === false), `${id}: ${heading}`);
+    }
+  }
+});
+
+test('Castrillon walks cardinal directions and rallies above a crate', () => {
+  for (const [pose, heading, expected] of [['walk', 'north', 'castrillon-walk-n'], ['walk', 'south', 'castrillon-walk-s'], ['crate-command', 'east', 'castrillon-crate-command']]) {
+    const art = fakeArt(), view = createBattleView(art);
+    run(view, minute => night(minute, [], { people: [{ id: 'castrillon', art: 'castrillon', x: 0, y: 0, pose, heading, moving: pose === 'walk', right: true }] }), { seconds: 1 });
+    assert.ok(art.drawn.some(one => one.clip === expected), expected);
+  }
+});
+
 test('the remaining named riders use their own mounted identities', () => {
   for (const id of ['jw-smith', 'horton', 'kimbell', 'martin']) {
     const art = fakeArt(), view = createBattleView(art);

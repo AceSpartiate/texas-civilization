@@ -6798,6 +6798,122 @@
         ]
       }
     },
+    "famous-castrillon-cardinal": {
+      "image": "atlases/famous-castrillon-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 874785,
+      "sha256": "ced8404f9ca4a694400579c8553af601dea3e5be2a78560acda47ed919908fee",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.759877,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              30,
+              623
+            ],
+            "columns": [
+              [
+                201,
+                487
+              ],
+              [
+                751,
+                1034
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              644,
+              1222
+            ],
+            "columns": [
+              [
+                210,
+                504
+              ],
+              [
+                738,
+                1044
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castrillon-crate": {
+      "image": "atlases/famous-castrillon-crate.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1019844,
+      "sha256": "384b9312daa76542b8f289b90d176592c87ceeac5f6512963643c66a07452247",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.717897,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              30,
+              662
+            ],
+            "columns": [
+              [
+                195,
+                593
+              ],
+              [
+                773,
+                1091
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              674,
+              1222
+            ],
+            "columns": [
+              [
+                158,
+                599
+              ],
+              [
+                871,
+                1126
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-castrillon": {
       "image": "atlases/famous-castrillon.png",
       "width": 1254,
@@ -8678,6 +8794,702 @@
               [
                 1030,
                 1178
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-smither-mounted-cardinal": {
+      "image": "atlases/famous-smither-mounted-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 869960,
+      "sha256": "3b5d93932db337697d4b1a04e43a39c54ec0e6885b003283878c56727efaf52e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.780512,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              32,
+              603
+            ],
+            "columns": [
+              [
+                245,
+                507
+              ],
+              [
+                747,
+                1010
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              644,
+              1216
+            ],
+            "columns": [
+              [
+                254,
+                514
+              ],
+              [
+                765,
+                1025
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-jw-smith-mounted-cardinal": {
+      "image": "atlases/famous-jw-smith-mounted-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 852204,
+      "sha256": "6e29e2e38c7d5896cc514766fbd452e1842a3d0026b2c18a11c07f3a217a62db",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.766402,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              18,
+              605
+            ],
+            "columns": [
+              [
+                231,
+                514
+              ],
+              [
+                767,
+                1040
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              635,
+              1220
+            ],
+            "columns": [
+              [
+                224,
+                506
+              ],
+              [
+                756,
+                1032
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-horton-mounted-cardinal": {
+      "image": "atlases/famous-horton-mounted-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 865057,
+      "sha256": "898c61841b27bf1ec3171b6b7dcc089355605e642c22ea4bc0d3f5b717fe63a2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.773852,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              26,
+              601
+            ],
+            "columns": [
+              [
+                245,
+                500
+              ],
+              [
+                770,
+                1022
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              645,
+              1223
+            ],
+            "columns": [
+              [
+                233,
+                506
+              ],
+              [
+                762,
+                1033
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-kimbell-mounted-cardinal": {
+      "image": "atlases/famous-kimbell-mounted-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 932698,
+      "sha256": "b2491cb053520df4dc5836e05c3481541169574009bb54db31bef8dc7d667190",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.763645,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              20,
+              606
+            ],
+            "columns": [
+              [
+                245,
+                519
+              ],
+              [
+                772,
+                1041
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              640,
+              1217
+            ],
+            "columns": [
+              [
+                246,
+                538
+              ],
+              [
+                759,
+                1053
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-martin-mounted-cardinal": {
+      "image": "atlases/famous-martin-mounted-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 934699,
+      "sha256": "6aa8e78e41158c33120c49ffa0feffca2a5dfe3b3e829ca402c81da7808b15dd",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.766072,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              25,
+              614
+            ],
+            "columns": [
+              [
+                216,
+                497
+              ],
+              [
+                772,
+                1034
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              637,
+              1224
+            ],
+            "columns": [
+              [
+                231,
+                495
+              ],
+              [
+                775,
+                1033
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-cos-mounted-cardinal": {
+      "image": "atlases/famous-cos-mounted-cardinal.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 874302,
+      "sha256": "85adc82df78142c9f51f80666708e52b4a4fb90977a0ad6ab72cc3849920e9fa",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.785125,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              23,
+              618
+            ],
+            "columns": [
+              [
+                289,
+                534
+              ],
+              [
+                774,
+                1016
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              645,
+              1241
+            ],
+            "columns": [
+              [
+                286,
+                545
+              ],
+              [
+                771,
+                1033
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-urrea-mounted-cardinal": {
+      "image": "atlases/famous-urrea-mounted-cardinal.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 766765,
+      "sha256": "03848235cba85ae7821c9534d772fce0fe990537350a91f9e85c3ccdd9e693c9",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.805104,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              20,
+              611
+            ],
+            "columns": [
+              [
+                245,
+                480
+              ],
+              [
+                753,
+                989
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              638,
+              1237
+            ],
+            "columns": [
+              [
+                230,
+                482
+              ],
+              [
+                766,
+                1019
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castaneda-mounted-cardinal": {
+      "image": "atlases/famous-castaneda-mounted-cardinal.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 826716,
+      "sha256": "4e67e6ece95a192b0e6fcc785e727168e76f64dd2028c5144da162600675b974",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.793261,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              8,
+              622
+            ],
+            "columns": [
+              [
+                255,
+                502
+              ],
+              [
+                751,
+                998
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              644,
+              1242
+            ],
+            "columns": [
+              [
+                247,
+                494
+              ],
+              [
+                756,
+                1001
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-houston-mounted-cardinal": {
+      "image": "atlases/famous-houston-mounted-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 899605,
+      "sha256": "844d8f3a430ac28ef6f8107ebfe9b4ddf158f4cff818d26a0b10dbeed0032550",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.773923,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              18,
+              608
+            ],
+            "columns": [
+              [
+                238,
+                514
+              ],
+              [
+                761,
+                1032
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              637,
+              1213
+            ],
+            "columns": [
+              [
+                264,
+                511
+              ],
+              [
+                792,
+                1035
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-santa-anna-mounted-cardinal": {
+      "image": "atlases/famous-santa-anna-mounted-cardinal.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 825560,
+      "sha256": "fca7cfc5718d26e80fcdddc8d3b5a29e51f0ecf9a8751178e9069fb72befc809",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.789889,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              17,
+              635
+            ],
+            "columns": [
+              [
+                256,
+                506
+              ],
+              [
+                737,
+                984
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              654,
+              1230
+            ],
+            "columns": [
+              [
+                259,
+                507
+              ],
+              [
+                745,
+                995
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-burleson-mounted-cardinal": {
+      "image": "atlases/famous-burleson-mounted-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 840561,
+      "sha256": "ecd0e169b3192b3b265662d9dd1b004fd793055fbe5cf07b024588f07d5fa6fc",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.7773,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              14,
+              614
+            ],
+            "columns": [
+              [
+                293,
+                529
+              ],
+              [
+                734,
+                973
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              634,
+              1228
+            ],
+            "columns": [
+              [
+                285,
+                528
+              ],
+              [
+                726,
+                974
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-grant-mounted-cardinal": {
+      "image": "atlases/famous-grant-mounted-cardinal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 885057,
+      "sha256": "322dfbe31221746696fcf7bc37112d82bf63788fdaab70550c5504bb9118a344",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.775331,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              14,
+              614
+            ],
+            "columns": [
+              [
+                248,
+                500
+              ],
+              [
+                766,
+                1012
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              636,
+              1212
+            ],
+            "columns": [
+              [
+                257,
+                498
+              ],
+              [
+                782,
+                1019
               ]
             ]
           }
@@ -39532,6 +40344,206 @@
         "retainedFraction": 1
       }
     },
+    "castrillon-walk-s-1": {
+      "sheet": "famous-castrillon-cardinal",
+      "x": 201,
+      "y": 30,
+      "w": 286,
+      "h": 592,
+      "anchorX": 0.5734,
+      "anchorY": 0.9443,
+      "logicalHeight": 592,
+      "label": "castrillon walk s 1",
+      "kind": "famous-castrillon-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          203,
+          32,
+          282,
+          588
+        ],
+        "visiblePixels": 89722,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-walk-s-2": {
+      "sheet": "famous-castrillon-cardinal",
+      "x": 751,
+      "y": 31,
+      "w": 283,
+      "h": 592,
+      "anchorX": 0.5742,
+      "anchorY": 0.9392,
+      "logicalHeight": 592,
+      "label": "castrillon walk s 2",
+      "kind": "famous-castrillon-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          753,
+          33,
+          279,
+          588
+        ],
+        "visiblePixels": 90460,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-walk-n-1": {
+      "sheet": "famous-castrillon-cardinal",
+      "x": 210,
+      "y": 648,
+      "w": 294,
+      "h": 573,
+      "anchorX": 0.5663,
+      "anchorY": 0.9302,
+      "logicalHeight": 592,
+      "label": "castrillon walk n 1",
+      "kind": "famous-castrillon-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          212,
+          650,
+          290,
+          569
+        ],
+        "visiblePixels": 82824,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-walk-n-2": {
+      "sheet": "famous-castrillon-cardinal",
+      "x": 738,
+      "y": 644,
+      "w": 306,
+      "h": 578,
+      "anchorX": 0.4608,
+      "anchorY": 0.9291,
+      "logicalHeight": 592,
+      "label": "castrillon walk n 2",
+      "kind": "famous-castrillon-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          740,
+          646,
+          302,
+          574
+        ],
+        "visiblePixels": 87296,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-crate-command-1": {
+      "sheet": "famous-castrillon-crate",
+      "x": 195,
+      "y": 30,
+      "w": 398,
+      "h": 631,
+      "anchorX": 0.3693,
+      "anchorY": 0.9287,
+      "logicalHeight": 631,
+      "label": "castrillon crate command 1",
+      "kind": "famous-castrillon-crate",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          197,
+          32,
+          394,
+          627
+        ],
+        "visiblePixels": 114960,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-crate-command-2": {
+      "sheet": "famous-castrillon-crate",
+      "x": 773,
+      "y": 32,
+      "w": 318,
+      "h": 630,
+      "anchorX": 0.4528,
+      "anchorY": 0.9286,
+      "logicalHeight": 631,
+      "label": "castrillon crate command 2",
+      "kind": "famous-castrillon-crate",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          775,
+          34,
+          314,
+          626
+        ],
+        "visiblePixels": 112677,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-crate-step-down": {
+      "sheet": "famous-castrillon-crate",
+      "x": 158,
+      "y": 674,
+      "w": 441,
+      "h": 548,
+      "anchorX": 0.2993,
+      "anchorY": 0.9288,
+      "logicalHeight": 631,
+      "label": "castrillon crate step down",
+      "kind": "famous-castrillon-crate",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          160,
+          676,
+          437,
+          544
+        ],
+        "visiblePixels": 107148,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castrillon-crate-ground": {
+      "sheet": "famous-castrillon-crate",
+      "x": 871,
+      "y": 677,
+      "w": 255,
+      "h": 540,
+      "anchorX": 0.5863,
+      "anchorY": 0.9463,
+      "logicalHeight": 631,
+      "label": "castrillon crate ground",
+      "kind": "famous-castrillon-crate",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          873,
+          679,
+          251,
+          536
+        ],
+        "visiblePixels": 80943,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
     "castrillon-idle": {
       "sheet": "famous-castrillon",
       "x": 202,
@@ -44828,6 +45840,1206 @@
           260
         ],
         "visiblePixels": 22784,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-mounted-walk-s-1": {
+      "sheet": "famous-smither-mounted-cardinal",
+      "x": 245,
+      "y": 32,
+      "w": 262,
+      "h": 571,
+      "anchorX": 0.4618,
+      "anchorY": 0.9755,
+      "logicalHeight": 572,
+      "label": "smither mounted walk s 1",
+      "kind": "famous-smither-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          247,
+          34,
+          258,
+          567
+        ],
+        "visiblePixels": 82378,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-mounted-walk-s-2": {
+      "sheet": "famous-smither-mounted-cardinal",
+      "x": 747,
+      "y": 34,
+      "w": 263,
+      "h": 567,
+      "anchorX": 0.4753,
+      "anchorY": 0.97,
+      "logicalHeight": 572,
+      "label": "smither mounted walk s 2",
+      "kind": "famous-smither-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          749,
+          36,
+          259,
+          563
+        ],
+        "visiblePixels": 83061,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-mounted-walk-n-1": {
+      "sheet": "famous-smither-mounted-cardinal",
+      "x": 254,
+      "y": 644,
+      "w": 260,
+      "h": 563,
+      "anchorX": 0.5615,
+      "anchorY": 0.9716,
+      "logicalHeight": 572,
+      "label": "smither mounted walk n 1",
+      "kind": "famous-smither-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          256,
+          646,
+          256,
+          559
+        ],
+        "visiblePixels": 76764,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smither-mounted-walk-n-2": {
+      "sheet": "famous-smither-mounted-cardinal",
+      "x": 765,
+      "y": 644,
+      "w": 260,
+      "h": 572,
+      "anchorX": 0.5865,
+      "anchorY": 0.9738,
+      "logicalHeight": 572,
+      "label": "smither mounted walk n 2",
+      "kind": "famous-smither-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          767,
+          646,
+          256,
+          568
+        ],
+        "visiblePixels": 77347,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "jw-smith-mounted-walk-s-1": {
+      "sheet": "famous-jw-smith-mounted-cardinal",
+      "x": 231,
+      "y": 18,
+      "w": 283,
+      "h": 587,
+      "anchorX": 0.4788,
+      "anchorY": 0.9284,
+      "logicalHeight": 587,
+      "label": "jw smith mounted walk s 1",
+      "kind": "famous-jw-smith-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          233,
+          20,
+          279,
+          583
+        ],
+        "visiblePixels": 91293,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "jw-smith-mounted-walk-s-2": {
+      "sheet": "famous-jw-smith-mounted-cardinal",
+      "x": 767,
+      "y": 18,
+      "w": 273,
+      "h": 587,
+      "anchorX": 0.5275,
+      "anchorY": 0.9284,
+      "logicalHeight": 587,
+      "label": "jw smith mounted walk s 2",
+      "kind": "famous-jw-smith-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          769,
+          20,
+          269,
+          583
+        ],
+        "visiblePixels": 86768,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "jw-smith-mounted-walk-n-1": {
+      "sheet": "famous-jw-smith-mounted-cardinal",
+      "x": 224,
+      "y": 635,
+      "w": 282,
+      "h": 585,
+      "anchorX": 0.5656,
+      "anchorY": 0.9761,
+      "logicalHeight": 587,
+      "label": "jw smith mounted walk n 1",
+      "kind": "famous-jw-smith-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          226,
+          637,
+          278,
+          581
+        ],
+        "visiblePixels": 82481,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "jw-smith-mounted-walk-n-2": {
+      "sheet": "famous-jw-smith-mounted-cardinal",
+      "x": 756,
+      "y": 635,
+      "w": 276,
+      "h": 585,
+      "anchorX": 0.404,
+      "anchorY": 0.9744,
+      "logicalHeight": 587,
+      "label": "jw smith mounted walk n 2",
+      "kind": "famous-jw-smith-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          758,
+          637,
+          272,
+          581
+        ],
+        "visiblePixels": 82787,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "horton-mounted-walk-s-1": {
+      "sheet": "famous-horton-mounted-cardinal",
+      "x": 245,
+      "y": 27,
+      "w": 255,
+      "h": 574,
+      "anchorX": 0.3608,
+      "anchorY": 0.9756,
+      "logicalHeight": 578,
+      "label": "horton mounted walk s 1",
+      "kind": "famous-horton-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          247,
+          29,
+          251,
+          570
+        ],
+        "visiblePixels": 79634,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "horton-mounted-walk-s-2": {
+      "sheet": "famous-horton-mounted-cardinal",
+      "x": 770,
+      "y": 26,
+      "w": 252,
+      "h": 575,
+      "anchorX": 0.5833,
+      "anchorY": 0.9774,
+      "logicalHeight": 578,
+      "label": "horton mounted walk s 2",
+      "kind": "famous-horton-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          772,
+          28,
+          248,
+          571
+        ],
+        "visiblePixels": 79931,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "horton-mounted-walk-n-1": {
+      "sheet": "famous-horton-mounted-cardinal",
+      "x": 233,
+      "y": 645,
+      "w": 273,
+      "h": 578,
+      "anchorX": 0.4707,
+      "anchorY": 0.9291,
+      "logicalHeight": 578,
+      "label": "horton mounted walk n 1",
+      "kind": "famous-horton-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          235,
+          647,
+          269,
+          574
+        ],
+        "visiblePixels": 85964,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "horton-mounted-walk-n-2": {
+      "sheet": "famous-horton-mounted-cardinal",
+      "x": 762,
+      "y": 645,
+      "w": 271,
+      "h": 578,
+      "anchorX": 0.3838,
+      "anchorY": 0.9758,
+      "logicalHeight": 578,
+      "label": "horton mounted walk n 2",
+      "kind": "famous-horton-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          764,
+          647,
+          267,
+          574
+        ],
+        "visiblePixels": 84476,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "kimbell-mounted-walk-s-1": {
+      "sheet": "famous-kimbell-mounted-cardinal",
+      "x": 245,
+      "y": 20,
+      "w": 274,
+      "h": 586,
+      "anchorX": 0.4106,
+      "anchorY": 0.9727,
+      "logicalHeight": 586,
+      "label": "kimbell mounted walk s 1",
+      "kind": "famous-kimbell-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          247,
+          22,
+          270,
+          582
+        ],
+        "visiblePixels": 87395,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "kimbell-mounted-walk-s-2": {
+      "sheet": "famous-kimbell-mounted-cardinal",
+      "x": 772,
+      "y": 21,
+      "w": 269,
+      "h": 584,
+      "anchorX": 0.5985,
+      "anchorY": 0.976,
+      "logicalHeight": 586,
+      "label": "kimbell mounted walk s 2",
+      "kind": "famous-kimbell-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          774,
+          23,
+          265,
+          580
+        ],
+        "visiblePixels": 86424,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "kimbell-mounted-walk-n-1": {
+      "sheet": "famous-kimbell-mounted-cardinal",
+      "x": 246,
+      "y": 640,
+      "w": 292,
+      "h": 577,
+      "anchorX": 0.476,
+      "anchorY": 0.9393,
+      "logicalHeight": 586,
+      "label": "kimbell mounted walk n 1",
+      "kind": "famous-kimbell-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          248,
+          642,
+          288,
+          573
+        ],
+        "visiblePixels": 85004,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "kimbell-mounted-walk-n-2": {
+      "sheet": "famous-kimbell-mounted-cardinal",
+      "x": 759,
+      "y": 641,
+      "w": 294,
+      "h": 571,
+      "anchorX": 0.5085,
+      "anchorY": 0.937,
+      "logicalHeight": 586,
+      "label": "kimbell mounted walk n 2",
+      "kind": "famous-kimbell-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          761,
+          643,
+          290,
+          567
+        ],
+        "visiblePixels": 85365,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "martin-mounted-walk-s-1": {
+      "sheet": "famous-martin-mounted-cardinal",
+      "x": 216,
+      "y": 25,
+      "w": 281,
+      "h": 589,
+      "anchorX": 0.4662,
+      "anchorY": 0.9779,
+      "logicalHeight": 589,
+      "label": "martin mounted walk s 1",
+      "kind": "famous-martin-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          218,
+          27,
+          277,
+          585
+        ],
+        "visiblePixels": 88942,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "martin-mounted-walk-s-2": {
+      "sheet": "famous-martin-mounted-cardinal",
+      "x": 772,
+      "y": 28,
+      "w": 262,
+      "h": 586,
+      "anchorX": 0.4809,
+      "anchorY": 0.942,
+      "logicalHeight": 589,
+      "label": "martin mounted walk s 2",
+      "kind": "famous-martin-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          774,
+          30,
+          258,
+          582
+        ],
+        "visiblePixels": 85278,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "martin-mounted-walk-n-1": {
+      "sheet": "famous-martin-mounted-cardinal",
+      "x": 231,
+      "y": 637,
+      "w": 264,
+      "h": 582,
+      "anchorX": 0.517,
+      "anchorY": 0.9296,
+      "logicalHeight": 589,
+      "label": "martin mounted walk n 1",
+      "kind": "famous-martin-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          233,
+          639,
+          260,
+          578
+        ],
+        "visiblePixels": 83154,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "martin-mounted-walk-n-2": {
+      "sheet": "famous-martin-mounted-cardinal",
+      "x": 775,
+      "y": 637,
+      "w": 258,
+      "h": 587,
+      "anchorX": 0.3915,
+      "anchorY": 0.9761,
+      "logicalHeight": 589,
+      "label": "martin mounted walk n 2",
+      "kind": "famous-martin-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          777,
+          639,
+          254,
+          583
+        ],
+        "visiblePixels": 80707,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cos-mounted-walk-s-1": {
+      "sheet": "famous-cos-mounted-cardinal",
+      "x": 289,
+      "y": 23,
+      "w": 245,
+      "h": 595,
+      "anchorX": 0.4245,
+      "anchorY": 0.9765,
+      "logicalHeight": 596,
+      "label": "cos mounted walk s 1",
+      "kind": "famous-cos-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          291,
+          25,
+          241,
+          591
+        ],
+        "visiblePixels": 77296,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cos-mounted-walk-s-2": {
+      "sheet": "famous-cos-mounted-cardinal",
+      "x": 774,
+      "y": 24,
+      "w": 242,
+      "h": 591,
+      "anchorX": 0.6508,
+      "anchorY": 0.9289,
+      "logicalHeight": 596,
+      "label": "cos mounted walk s 2",
+      "kind": "famous-cos-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          776,
+          26,
+          238,
+          587
+        ],
+        "visiblePixels": 75605,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cos-mounted-walk-n-1": {
+      "sheet": "famous-cos-mounted-cardinal",
+      "x": 286,
+      "y": 649,
+      "w": 259,
+      "h": 585,
+      "anchorX": 0.556,
+      "anchorY": 0.9795,
+      "logicalHeight": 596,
+      "label": "cos mounted walk n 1",
+      "kind": "famous-cos-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          288,
+          651,
+          255,
+          581
+        ],
+        "visiblePixels": 76059,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cos-mounted-walk-n-2": {
+      "sheet": "famous-cos-mounted-cardinal",
+      "x": 771,
+      "y": 645,
+      "w": 262,
+      "h": 596,
+      "anchorX": 0.3721,
+      "anchorY": 0.9748,
+      "logicalHeight": 596,
+      "label": "cos mounted walk n 2",
+      "kind": "famous-cos-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          773,
+          647,
+          258,
+          592
+        ],
+        "visiblePixels": 79983,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-mounted-walk-s-1": {
+      "sheet": "famous-urrea-mounted-cardinal",
+      "x": 245,
+      "y": 20,
+      "w": 235,
+      "h": 589,
+      "anchorX": 0.4213,
+      "anchorY": 0.9762,
+      "logicalHeight": 599,
+      "label": "urrea mounted walk s 1",
+      "kind": "famous-urrea-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          247,
+          22,
+          231,
+          585
+        ],
+        "visiblePixels": 66713,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-mounted-walk-s-2": {
+      "sheet": "famous-urrea-mounted-cardinal",
+      "x": 753,
+      "y": 22,
+      "w": 236,
+      "h": 589,
+      "anchorX": 0.6208,
+      "anchorY": 0.9779,
+      "logicalHeight": 599,
+      "label": "urrea mounted walk s 2",
+      "kind": "famous-urrea-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          755,
+          24,
+          232,
+          585
+        ],
+        "visiblePixels": 68380,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-mounted-walk-n-1": {
+      "sheet": "famous-urrea-mounted-cardinal",
+      "x": 230,
+      "y": 638,
+      "w": 252,
+      "h": 599,
+      "anchorX": 0.5873,
+      "anchorY": 0.9716,
+      "logicalHeight": 599,
+      "label": "urrea mounted walk n 1",
+      "kind": "famous-urrea-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          232,
+          640,
+          248,
+          595
+        ],
+        "visiblePixels": 71273,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "urrea-mounted-walk-n-2": {
+      "sheet": "famous-urrea-mounted-cardinal",
+      "x": 766,
+      "y": 641,
+      "w": 253,
+      "h": 593,
+      "anchorX": 0.5257,
+      "anchorY": 0.9292,
+      "logicalHeight": 599,
+      "label": "urrea mounted walk n 2",
+      "kind": "famous-urrea-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          768,
+          643,
+          249,
+          589
+        ],
+        "visiblePixels": 70185,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castaneda-mounted-walk-s-1": {
+      "sheet": "famous-castaneda-mounted-cardinal",
+      "x": 255,
+      "y": 8,
+      "w": 247,
+      "h": 614,
+      "anchorX": 0.4332,
+      "anchorY": 0.9756,
+      "logicalHeight": 614,
+      "label": "castaneda mounted walk s 1",
+      "kind": "famous-castaneda-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          257,
+          10,
+          243,
+          610
+        ],
+        "visiblePixels": 76099,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castaneda-mounted-walk-s-2": {
+      "sheet": "famous-castaneda-mounted-cardinal",
+      "x": 751,
+      "y": 10,
+      "w": 247,
+      "h": 610,
+      "anchorX": 0.5587,
+      "anchorY": 0.9738,
+      "logicalHeight": 614,
+      "label": "castaneda mounted walk s 2",
+      "kind": "famous-castaneda-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          753,
+          12,
+          243,
+          606
+        ],
+        "visiblePixels": 74985,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castaneda-mounted-walk-n-1": {
+      "sheet": "famous-castaneda-mounted-cardinal",
+      "x": 247,
+      "y": 644,
+      "w": 247,
+      "h": 598,
+      "anchorX": 0.5951,
+      "anchorY": 0.9783,
+      "logicalHeight": 614,
+      "label": "castaneda mounted walk n 1",
+      "kind": "famous-castaneda-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          249,
+          646,
+          243,
+          594
+        ],
+        "visiblePixels": 72414,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "castaneda-mounted-walk-n-2": {
+      "sheet": "famous-castaneda-mounted-cardinal",
+      "x": 756,
+      "y": 647,
+      "w": 245,
+      "h": 595,
+      "anchorX": 0.6,
+      "anchorY": 0.9782,
+      "logicalHeight": 614,
+      "label": "castaneda mounted walk n 2",
+      "kind": "famous-castaneda-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          758,
+          649,
+          241,
+          591
+        ],
+        "visiblePixels": 71722,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-mounted-walk-s-1": {
+      "sheet": "famous-houston-mounted-cardinal",
+      "x": 238,
+      "y": 18,
+      "w": 276,
+      "h": 590,
+      "anchorX": 0.4783,
+      "anchorY": 0.9339,
+      "logicalHeight": 590,
+      "label": "houston mounted walk s 1",
+      "kind": "famous-houston-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          240,
+          20,
+          272,
+          586
+        ],
+        "visiblePixels": 88163,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-mounted-walk-s-2": {
+      "sheet": "famous-houston-mounted-cardinal",
+      "x": 761,
+      "y": 20,
+      "w": 271,
+      "h": 584,
+      "anchorX": 0.4649,
+      "anchorY": 0.9298,
+      "logicalHeight": 590,
+      "label": "houston mounted walk s 2",
+      "kind": "famous-houston-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          763,
+          22,
+          267,
+          580
+        ],
+        "visiblePixels": 86390,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-mounted-walk-n-1": {
+      "sheet": "famous-houston-mounted-cardinal",
+      "x": 264,
+      "y": 637,
+      "w": 247,
+      "h": 576,
+      "anchorX": 0.5304,
+      "anchorY": 0.9288,
+      "logicalHeight": 590,
+      "label": "houston mounted walk n 1",
+      "kind": "famous-houston-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          266,
+          639,
+          243,
+          572
+        ],
+        "visiblePixels": 74635,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "houston-mounted-walk-n-2": {
+      "sheet": "famous-houston-mounted-cardinal",
+      "x": 792,
+      "y": 638,
+      "w": 243,
+      "h": 572,
+      "anchorX": 0.5,
+      "anchorY": 0.9371,
+      "logicalHeight": 590,
+      "label": "houston mounted walk n 2",
+      "kind": "famous-houston-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          794,
+          640,
+          239,
+          568
+        ],
+        "visiblePixels": 74939,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-mounted-walk-s-1": {
+      "sheet": "famous-santa-anna-mounted-cardinal",
+      "x": 256,
+      "y": 17,
+      "w": 250,
+      "h": 616,
+      "anchorX": 0.438,
+      "anchorY": 0.9821,
+      "logicalHeight": 618,
+      "label": "santa anna mounted walk s 1",
+      "kind": "famous-santa-anna-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          258,
+          19,
+          246,
+          612
+        ],
+        "visiblePixels": 81079,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-mounted-walk-s-2": {
+      "sheet": "famous-santa-anna-mounted-cardinal",
+      "x": 737,
+      "y": 17,
+      "w": 247,
+      "h": 618,
+      "anchorX": 0.5668,
+      "anchorY": 0.9806,
+      "logicalHeight": 618,
+      "label": "santa anna mounted walk s 2",
+      "kind": "famous-santa-anna-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          739,
+          19,
+          243,
+          614
+        ],
+        "visiblePixels": 80213,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-mounted-walk-n-1": {
+      "sheet": "famous-santa-anna-mounted-cardinal",
+      "x": 259,
+      "y": 654,
+      "w": 248,
+      "h": 576,
+      "anchorX": 0.5141,
+      "anchorY": 0.9288,
+      "logicalHeight": 618,
+      "label": "santa anna mounted walk n 1",
+      "kind": "famous-santa-anna-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          261,
+          656,
+          244,
+          572
+        ],
+        "visiblePixels": 71194,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "santa-anna-mounted-walk-n-2": {
+      "sheet": "famous-santa-anna-mounted-cardinal",
+      "x": 745,
+      "y": 655,
+      "w": 250,
+      "h": 575,
+      "anchorX": 0.518,
+      "anchorY": 0.9287,
+      "logicalHeight": 618,
+      "label": "santa anna mounted walk n 2",
+      "kind": "famous-santa-anna-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          747,
+          657,
+          246,
+          571
+        ],
+        "visiblePixels": 72134,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-mounted-walk-s-1": {
+      "sheet": "famous-burleson-mounted-cardinal",
+      "x": 293,
+      "y": 14,
+      "w": 236,
+      "h": 600,
+      "anchorX": 0.4025,
+      "anchorY": 0.9783,
+      "logicalHeight": 600,
+      "label": "burleson mounted walk s 1",
+      "kind": "famous-burleson-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          295,
+          16,
+          232,
+          596
+        ],
+        "visiblePixels": 83729,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-mounted-walk-s-2": {
+      "sheet": "famous-burleson-mounted-cardinal",
+      "x": 734,
+      "y": 14,
+      "w": 239,
+      "h": 600,
+      "anchorX": 0.5565,
+      "anchorY": 0.9767,
+      "logicalHeight": 600,
+      "label": "burleson mounted walk s 2",
+      "kind": "famous-burleson-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          736,
+          16,
+          235,
+          596
+        ],
+        "visiblePixels": 85220,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-mounted-walk-n-1": {
+      "sheet": "famous-burleson-mounted-cardinal",
+      "x": 285,
+      "y": 634,
+      "w": 243,
+      "h": 594,
+      "anchorX": 0.535,
+      "anchorY": 0.9714,
+      "logicalHeight": 600,
+      "label": "burleson mounted walk n 1",
+      "kind": "famous-burleson-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          287,
+          636,
+          239,
+          590
+        ],
+        "visiblePixels": 78025,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "burleson-mounted-walk-n-2": {
+      "sheet": "famous-burleson-mounted-cardinal",
+      "x": 726,
+      "y": 635,
+      "w": 248,
+      "h": 593,
+      "anchorX": 0.4516,
+      "anchorY": 0.9781,
+      "logicalHeight": 600,
+      "label": "burleson mounted walk n 2",
+      "kind": "famous-burleson-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          728,
+          637,
+          244,
+          589
+        ],
+        "visiblePixels": 79428,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-walk-s-1": {
+      "sheet": "famous-grant-mounted-cardinal",
+      "x": 248,
+      "y": 14,
+      "w": 252,
+      "h": 600,
+      "anchorX": 0.4067,
+      "anchorY": 0.93,
+      "logicalHeight": 600,
+      "label": "grant mounted walk s 1",
+      "kind": "famous-grant-mounted-cardinal",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          250,
+          16,
+          248,
+          596
+        ],
+        "visiblePixels": 85104,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-walk-s-2": {
+      "sheet": "famous-grant-mounted-cardinal",
+      "x": 766,
+      "y": 14,
+      "w": 246,
+      "h": 595,
+      "anchorX": 0.4512,
+      "anchorY": 0.9782,
+      "logicalHeight": 600,
+      "label": "grant mounted walk s 2",
+      "kind": "famous-grant-mounted-cardinal",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          768,
+          16,
+          242,
+          591
+        ],
+        "visiblePixels": 84323,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-walk-n-1": {
+      "sheet": "famous-grant-mounted-cardinal",
+      "x": 257,
+      "y": 636,
+      "w": 241,
+      "h": 575,
+      "anchorX": 0.6162,
+      "anchorY": 0.9704,
+      "logicalHeight": 600,
+      "label": "grant mounted walk n 1",
+      "kind": "famous-grant-mounted-cardinal",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          259,
+          638,
+          237,
+          571
+        ],
+        "visiblePixels": 74611,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "grant-mounted-walk-n-2": {
+      "sheet": "famous-grant-mounted-cardinal",
+      "x": 782,
+      "y": 639,
+      "w": 237,
+      "h": 573,
+      "anchorX": 0.3629,
+      "anchorY": 0.9703,
+      "logicalHeight": 600,
+      "label": "grant mounted walk n 2",
+      "kind": "famous-grant-mounted-cardinal",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          784,
+          641,
+          233,
+          569
+        ],
+        "visiblePixels": 74374,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

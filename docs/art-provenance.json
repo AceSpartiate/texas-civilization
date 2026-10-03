@@ -2963,6 +2963,200 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-martin-mounted.png",
       "postProcessing": "None; copied unchanged.",
       "review": "Rider matches own foot identity. Horse is an original visual interpretation. East two-pose walk mirrors west; south idle available. Mounted north/south gait remains requested. No route, dialogue, firing or fate changes."
+    },
+    {
+      "sheet": "famous-smither-mounted-cardinal",
+      "promptId": "frontier-v1/famous-smither-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-smither-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a24e6702-8561-4972-bc07-99a7a2f88584.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-smither-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-jw-smith-mounted-cardinal",
+      "promptId": "frontier-v1/famous-jw-smith-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-jw-smith-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-aafecdf9-57ba-44b8-a2f7-cce41b6ab7f0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-jw-smith-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-horton-mounted-cardinal",
+      "promptId": "frontier-v1/famous-horton-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-horton-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9536c6a3-19bb-4265-9548-1e1cdf9b7dd5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-horton-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-kimbell-mounted-cardinal",
+      "promptId": "frontier-v1/famous-kimbell-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-kimbell-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0776fff0-54b1-4a4a-9b31-a1d4c5c54e81.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-kimbell-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-martin-mounted-cardinal",
+      "promptId": "frontier-v1/famous-martin-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-martin-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bb01cfda-0231-44a4-b1e1-de8361e33927.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-martin-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-cos-mounted-cardinal",
+      "promptId": "frontier-v1/famous-cos-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-cos-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-69964aee-01cd-4f76-a7f9-dc976671788c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-cos-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-urrea-mounted-cardinal",
+      "promptId": "frontier-v1/famous-urrea-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-urrea-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b6eded47-e434-4d96-afe7-f1608ef0b380.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-urrea-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-castaneda-mounted-cardinal",
+      "promptId": "frontier-v1/famous-castaneda-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castaneda-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-16688b7b-3df4-4ec3-82f6-63d6a33f64d4.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castaneda-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-houston-mounted-cardinal",
+      "promptId": "frontier-v1/famous-houston-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-houston-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5996514c-a781-4647-ac1f-5a2a1d40afd1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-houston-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-santa-anna-mounted-cardinal",
+      "promptId": "frontier-v1/famous-santa-anna-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-santa-anna-mounted.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3a234f67-2f7a-4646-b42b-c0dc048625a2.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-52941206-b821-49c2-b436-5b21ee6f987d.png",
+      "refinementPrompt": "Refine this transparent2x2 Santa Anna mounted walk atlas. Keep exactrider face navycap ornatecoat gold epaulettes redcollar/cuffs redsash creamtrousers boots, same darkbayhorse no whiteblaze blackmane/tail saddle/tack style/scale. Correct DIRECTION: topTWO strictly SOUTH towardviewer horsehead body centeredFRONT, riderfront, NOdiagonal; bottomTWO strictly NORTH awayviewer centeredREAR backhat head coat saddle horserump/tail NOdiagonal NOhorsefrontface. Same centered torso orientation within eachrow, DO NOT alternate left/right facing between frames. Animate ONLY alternating forelegs on south and hindlegs on north: cell1 leftforehoof forwarddown right lifted, cell2 reverse; cell3 lefthind lifted solevisible right planted, cell4reverse. Cleardifferentlegposes. Exact4 separate fullcutouts max75%cellheightwidth40pxclearalpha gutters no touching rows, hats/hooves/tails intact. Truealpha no shadows ground backgrounds text grids. Samewarmoutlinedpaintedgame style.",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-santa-anna-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-burleson-mounted-cardinal",
+      "promptId": "frontier-v1/famous-burleson-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-burleson-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7cca60c4-34d8-4a66-955f-80f4bb01a662.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-burleson-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-grant-mounted-cardinal",
+      "promptId": "frontier-v1/famous-grant-mounted-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-grant-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-00fe4821-41b6-4dc2-ae3e-83e8e2697bd6.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant-mounted-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Identity-preserving two-pose south and north horse walks. Same established costume/horse palette; interpretive markings/tack can vary in small details. No new route, event, speed or historical claim. Exposed hoof and tail silhouettes alternate; modest two-pose gait, not a full skeletal rig."
+    },
+    {
+      "sheet": "famous-castrillon-cardinal",
+      "promptId": "frontier-v1/famous-castrillon-cardinal",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW transparentSTRICT2x2 FOUR fullbody walking Castrillon sprites. Reference EXACT identity andstyle: older moustached general greyinghair navycap navy doublebreasted coat gold epaulettes red collar/cuffs/sash creamtrousers blackboots. Match warmoutlined paintedstorybook style same face/costume/scale. TOP row TWO SOUTH facing towardviewer alternating left/right walking legs arms noticeably different. BOTTOM row TWO NORTH rearview awayviewer alternating legs arms; back ofhat hair coat visible NO frontface. Full hats boots hands intact max75%cellheight75%width40pxclearalpha gutters isolated equalcells. Truealpha no words grids backgrounds groundshadows weaponsfiring gore. Original interpretation not exactuniform/portrait.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castrillon.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cfd91ee7-6460-4051-a5d1-a2c26f79a07e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castrillon-cardinal.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive character and crate. Two-pose authored motion. Crate-floor anchor; battle renderer uses 1.18 body-height multiplier. Step-down and ground variants reserved for future staging; no new scripted transition.",
+      "sourceType": "generated",
+      "license": "Generated for this project",
+      "historicalStatus": "Interpretive art, not portrait or artifact evidence"
+    },
+    {
+      "sheet": "famous-castrillon-crate",
+      "promptId": "frontier-v1/famous-castrillon-crate",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "NEW transparent STRICT2x2 FOUR fullbody Castrillon ON AMMUNITION CRATE poses. Reference EXACT face/costume/warmoutlined paintedstorybookstyle: older greying moustached general navy cap navy doublebreasted coat gold epaulettes redcollar/cuffs/sash creamtrousers blackboots. One SMALL squat wooden AMMUNITION crate plain weatheredochreplanks iron straps NO markings/text wide enoughbothboots crateHEIGHT about15%ofstandingbodyheight crateWIDTH45%bodyheight. Composite isolated fullperson+crate same scale perspective elevated3/4. TOPLEFT EAST facing standing BOTH BOOTS oncrate lid, rightarm extended palm rally command. TOPRIGHT SAME figure BOTH BOOTS oncrate rightarm raised rally differentclearpose. BOTTOMLEFT east steppingDOWN rightbootoncrate leftfootlower nearfloor, rightarmbalances. BOTTOMRIGHT east standingBESIDE samecrate BOTHbootsatground loweredarm. Samecratesizefacecostume throughout. Full hat boots crate intact within75%cellheight80%width40pxalpha gutters no celloverlap. Truealpha no groundpatch shadows background text grids gunfire gore death. This is an interpretive crate not exact artifact claim.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-castrillon.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c08265aa-e103-4de4-a0b5-da53b697a92e.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f8e86418-e610-494e-8ff9-37f0ea9cfaa6.png",
+      "refinementPrompt": "Edit ONLY BOTTOM RIGHT cell of this transparent2x2 atlas: REMOVE the separate wooden crate beside the standing man entirely, leaving the same full standing Castrillon figure unchanged on transparent alpha. Preserve ALL other3 cells exactly, including their crates, poses, style, costume face, size and spacing. Keep bottomright hat feet hands intact. No shadows ground backgrounds or text. Truealpha. Exactly4 isolated character cutouts overall; top two stand on crates, bottomleft steps down with crate, bottomright is just standing figure without crate.",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-castrillon-crate.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Original interpretive character and crate. Two-pose authored motion. Crate-floor anchor; battle renderer uses 1.18 body-height multiplier. Step-down and ground variants reserved for future staging; no new scripted transition.",
+      "sourceType": "generated",
+      "license": "Generated for this project",
+      "historicalStatus": "Interpretive art, not portrait or artifact evidence"
     }
   ],
   "rejectedAttempts": [

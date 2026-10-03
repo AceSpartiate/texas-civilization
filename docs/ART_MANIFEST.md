@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2278 usable sprites, 212 PNG atlases, 776 clips** (468 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2334 usable sprites, 226 PNG atlases, 803 clips** (495 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -80,6 +80,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-burleson-mounted | 4 | 1254 × 1254 | 1242276 |
 | famous-castaneda | 16 | 1254 × 1254 | 1167969 |
 | famous-castaneda-mounted | 4 | 1226 × 1283 | 1274697 |
+| famous-castrillon-cardinal | 4 | 1254 × 1254 | 874785 |
+| famous-castrillon-crate | 4 | 1254 × 1254 | 1019844 |
 | famous-castrillon | 4 | 1254 × 1254 | 925993 |
 | famous-castrillon-fate | 4 | 1254 × 1254 | 975586 |
 | famous-condelle | 16 | 1254 × 1254 | 1294935 |
@@ -100,6 +102,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-lamar-mounted | 4 | 1312 × 1199 | 1099794 |
 | famous-mcculloch | 16 | 1330 × 1182 | 1041853 |
 | famous-moore | 16 | 1254 × 1254 | 1092408 |
+| famous-smither-mounted-cardinal | 4 | 1254 × 1254 | 869960 |
+| famous-jw-smith-mounted-cardinal | 4 | 1254 × 1254 | 852204 |
+| famous-horton-mounted-cardinal | 4 | 1254 × 1254 | 865057 |
+| famous-kimbell-mounted-cardinal | 4 | 1254 × 1254 | 932698 |
+| famous-martin-mounted-cardinal | 4 | 1254 × 1254 | 934699 |
+| famous-cos-mounted-cardinal | 4 | 1226 × 1283 | 874302 |
+| famous-urrea-mounted-cardinal | 4 | 1226 × 1283 | 766765 |
+| famous-castaneda-mounted-cardinal | 4 | 1226 × 1283 | 826716 |
+| famous-houston-mounted-cardinal | 4 | 1254 × 1254 | 899605 |
+| famous-santa-anna-mounted-cardinal | 4 | 1226 × 1283 | 825560 |
+| famous-burleson-mounted-cardinal | 4 | 1254 × 1254 | 840561 |
+| famous-grant-mounted-cardinal | 4 | 1254 × 1254 | 885057 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
 | famous-santa-anna-mounted | 4 | 1226 × 1283 | 1192703 |
 | famous-neill | 16 | 1246 × 1263 | 1260451 |
@@ -1014,6 +1028,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | castaneda-mounted-walk-e-2 | famous-castaneda-mounted | castaneda-mounted-walk-e |
 | castaneda-mounted-idle-e | famous-castaneda-mounted | State artwork; no motion required |
 | castaneda-mounted-idle-s | famous-castaneda-mounted | State artwork; no motion required |
+| castrillon-walk-s-1 | famous-castrillon-cardinal | castrillon-walk-s |
+| castrillon-walk-s-2 | famous-castrillon-cardinal | castrillon-walk-s |
+| castrillon-walk-n-1 | famous-castrillon-cardinal | castrillon-walk-n |
+| castrillon-walk-n-2 | famous-castrillon-cardinal | castrillon-walk-n |
+| castrillon-crate-command-1 | famous-castrillon-crate | castrillon-crate-command |
+| castrillon-crate-command-2 | famous-castrillon-crate | castrillon-crate-command |
+| castrillon-crate-step-down | famous-castrillon-crate | State artwork; no motion required |
+| castrillon-crate-ground | famous-castrillon-crate | State artwork; no motion required |
 | castrillon-idle | famous-castrillon | State artwork; no motion required |
 | castrillon-walk-e-1 | famous-castrillon | castrillon-walk-e |
 | castrillon-walk-e-2 | famous-castrillon | castrillon-walk-e |
@@ -1226,6 +1248,54 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | moore-read-note | famous-moore | State artwork; no motion required |
 | moore-field-glass | famous-moore | State artwork; no motion required |
 | moore-at-ease | famous-moore | State artwork; no motion required |
+| smither-mounted-walk-s-1 | famous-smither-mounted-cardinal | smither-mounted-walk-s |
+| smither-mounted-walk-s-2 | famous-smither-mounted-cardinal | smither-mounted-walk-s |
+| smither-mounted-walk-n-1 | famous-smither-mounted-cardinal | smither-mounted-walk-n |
+| smither-mounted-walk-n-2 | famous-smither-mounted-cardinal | smither-mounted-walk-n |
+| jw-smith-mounted-walk-s-1 | famous-jw-smith-mounted-cardinal | jw-smith-mounted-walk-s |
+| jw-smith-mounted-walk-s-2 | famous-jw-smith-mounted-cardinal | jw-smith-mounted-walk-s |
+| jw-smith-mounted-walk-n-1 | famous-jw-smith-mounted-cardinal | jw-smith-mounted-walk-n |
+| jw-smith-mounted-walk-n-2 | famous-jw-smith-mounted-cardinal | jw-smith-mounted-walk-n |
+| horton-mounted-walk-s-1 | famous-horton-mounted-cardinal | horton-mounted-walk-s |
+| horton-mounted-walk-s-2 | famous-horton-mounted-cardinal | horton-mounted-walk-s |
+| horton-mounted-walk-n-1 | famous-horton-mounted-cardinal | horton-mounted-walk-n |
+| horton-mounted-walk-n-2 | famous-horton-mounted-cardinal | horton-mounted-walk-n |
+| kimbell-mounted-walk-s-1 | famous-kimbell-mounted-cardinal | kimbell-mounted-walk-s |
+| kimbell-mounted-walk-s-2 | famous-kimbell-mounted-cardinal | kimbell-mounted-walk-s |
+| kimbell-mounted-walk-n-1 | famous-kimbell-mounted-cardinal | kimbell-mounted-walk-n |
+| kimbell-mounted-walk-n-2 | famous-kimbell-mounted-cardinal | kimbell-mounted-walk-n |
+| martin-mounted-walk-s-1 | famous-martin-mounted-cardinal | martin-mounted-walk-s |
+| martin-mounted-walk-s-2 | famous-martin-mounted-cardinal | martin-mounted-walk-s |
+| martin-mounted-walk-n-1 | famous-martin-mounted-cardinal | martin-mounted-walk-n |
+| martin-mounted-walk-n-2 | famous-martin-mounted-cardinal | martin-mounted-walk-n |
+| cos-mounted-walk-s-1 | famous-cos-mounted-cardinal | cos-mounted-walk-s |
+| cos-mounted-walk-s-2 | famous-cos-mounted-cardinal | cos-mounted-walk-s |
+| cos-mounted-walk-n-1 | famous-cos-mounted-cardinal | cos-mounted-walk-n |
+| cos-mounted-walk-n-2 | famous-cos-mounted-cardinal | cos-mounted-walk-n |
+| urrea-mounted-walk-s-1 | famous-urrea-mounted-cardinal | urrea-mounted-walk-s |
+| urrea-mounted-walk-s-2 | famous-urrea-mounted-cardinal | urrea-mounted-walk-s |
+| urrea-mounted-walk-n-1 | famous-urrea-mounted-cardinal | urrea-mounted-walk-n |
+| urrea-mounted-walk-n-2 | famous-urrea-mounted-cardinal | urrea-mounted-walk-n |
+| castaneda-mounted-walk-s-1 | famous-castaneda-mounted-cardinal | castaneda-mounted-walk-s |
+| castaneda-mounted-walk-s-2 | famous-castaneda-mounted-cardinal | castaneda-mounted-walk-s |
+| castaneda-mounted-walk-n-1 | famous-castaneda-mounted-cardinal | castaneda-mounted-walk-n |
+| castaneda-mounted-walk-n-2 | famous-castaneda-mounted-cardinal | castaneda-mounted-walk-n |
+| houston-mounted-walk-s-1 | famous-houston-mounted-cardinal | houston-mounted-walk-s |
+| houston-mounted-walk-s-2 | famous-houston-mounted-cardinal | houston-mounted-walk-s |
+| houston-mounted-walk-n-1 | famous-houston-mounted-cardinal | houston-mounted-walk-n |
+| houston-mounted-walk-n-2 | famous-houston-mounted-cardinal | houston-mounted-walk-n |
+| santa-anna-mounted-walk-s-1 | famous-santa-anna-mounted-cardinal | santa-anna-mounted-walk-s |
+| santa-anna-mounted-walk-s-2 | famous-santa-anna-mounted-cardinal | santa-anna-mounted-walk-s |
+| santa-anna-mounted-walk-n-1 | famous-santa-anna-mounted-cardinal | santa-anna-mounted-walk-n |
+| santa-anna-mounted-walk-n-2 | famous-santa-anna-mounted-cardinal | santa-anna-mounted-walk-n |
+| burleson-mounted-walk-s-1 | famous-burleson-mounted-cardinal | burleson-mounted-walk-s |
+| burleson-mounted-walk-s-2 | famous-burleson-mounted-cardinal | burleson-mounted-walk-s |
+| burleson-mounted-walk-n-1 | famous-burleson-mounted-cardinal | burleson-mounted-walk-n |
+| burleson-mounted-walk-n-2 | famous-burleson-mounted-cardinal | burleson-mounted-walk-n |
+| grant-mounted-walk-s-1 | famous-grant-mounted-cardinal | grant-mounted-walk-s |
+| grant-mounted-walk-s-2 | famous-grant-mounted-cardinal | grant-mounted-walk-s |
+| grant-mounted-walk-n-1 | famous-grant-mounted-cardinal | grant-mounted-walk-n |
+| grant-mounted-walk-n-2 | famous-grant-mounted-cardinal | grant-mounted-walk-n |
 | houston-mounted-walk-e-1 | famous-houston-mounted | houston-mounted-walk-e |
 | houston-mounted-walk-e-2 | famous-houston-mounted | houston-mounted-walk-e |
 | houston-mounted-idle-e | famous-houston-mounted | State artwork; no motion required |
@@ -2839,6 +2909,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | castaneda-walk-s | Pose cycle | 2 | 580 | yes | south |
 | castaneda-walk-n | Pose cycle | 2 | 580 | yes | north |
 | castaneda-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| castrillon-walk-s | Pose cycle | 2 | 560 | yes | south |
+| castrillon-walk-n | Pose cycle | 2 | 560 | yes | north |
+| castrillon-crate-command | Pose cycle | 2 | 1800 | yes | undefined |
 | castrillon-walk-e | Pose cycle | 2 | 540 | yes | east |
 | castrillon-fall | Pose cycle | 3 | 700 | one-shot | east; mirror for west |
 | condelle-walk-e | Pose cycle | 4 | 760 | yes | east |
@@ -2888,6 +2961,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | moore-walk-e | Pose cycle | 4 | 760 | yes | east |
 | moore-walk-s | Pose cycle | 2 | 580 | yes | south |
 | moore-walk-n | Pose cycle | 2 | 580 | yes | north |
+| smither-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| smither-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| jw-smith-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| jw-smith-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| horton-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| horton-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| kimbell-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| kimbell-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| martin-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| martin-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| cos-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| cos-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| urrea-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| urrea-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| castaneda-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| castaneda-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| houston-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| houston-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| santa-anna-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| santa-anna-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| burleson-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| burleson-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
+| grant-mounted-walk-s | Pose cycle | 2 | 600 | yes | south |
+| grant-mounted-walk-n | Pose cycle | 2 | 600 | yes | north |
 | houston-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | santa-anna-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | neill-walk-e | Pose cycle | 4 | 760 | yes | east |
