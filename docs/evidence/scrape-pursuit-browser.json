@@ -1,6 +1,6 @@
 {
   "record": "scrape-pursuit-browser",
-  "date": "2026-10-02",
+  "date": "2026-10-03",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768.",
   "pass": [
     "1366: the student chose two stops, one from the list and one by tapping the map, the first across country, and the family set out",
@@ -36,7 +36,7 @@
       "width": 1
     },
     "1366-card": {
-      "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 13 miles across country, at about 1.5 miles an hour.",
+      "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 13 miles across country, at about 2 miles an hour.",
       "seen": "Mexican troops could see the family from about 200 yards: people on foot off the road, in the open, in the rain."
     },
     "warnedAuto": {
@@ -64,7 +64,13 @@
           "alto"
         ],
         "heard": [],
-        "spoken": []
+        "spoken": [
+          {
+            "id": "alto",
+            "x": 401,
+            "y": 665
+          }
+        ]
       },
       "ask": [
         "halt",
@@ -94,21 +100,21 @@
         ],
         "heard": [
           {
-            "x": 474,
-            "y": 543,
+            "x": 473,
+            "y": 544,
             "size": 1
           },
           {
-            "x": 489,
-            "y": 570,
+            "x": 488,
+            "y": 571,
             "size": 1
           }
         ],
         "spoken": [
           {
             "id": "fire",
-            "x": 453,
-            "y": 580
+            "x": 452,
+            "y": 581
           }
         ]
       },
@@ -368,7 +374,7 @@
       "width": 1
     },
     "1024-card": {
-      "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 13 miles across country, at about 1.5 miles an hour.",
+      "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 13 miles across country, at about 2 miles an hour.",
       "seen": "Mexican troops could see the family from about 200 yards: people on foot off the road, in the open, in the rain."
     },
     "1024-alto": {
@@ -390,7 +396,13 @@
           "alto"
         ],
         "heard": [],
-        "spoken": []
+        "spoken": [
+          {
+            "id": "alto",
+            "x": 235,
+            "y": 661
+          }
+        ]
       },
       "ask": [
         "halt",
