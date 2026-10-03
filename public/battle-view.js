@@ -786,8 +786,7 @@ export function createBattleView(art) {
       flashes++;
     }
     // Fog lying over the field (the phase's `fog`, 0 to 1): Concepción's morning, thinning as it lifts about eight.
-    // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 3 - a pale veil until a fog bank exists.
-    const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds) : 0;
+    const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds, time, reducedMotion) : 0;
     const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds);
     const bubbles = drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn, drawnBy);
     view.civiliansSeen = Math.max(view.civiliansSeen, civilians);
@@ -1441,12 +1440,25 @@ export function createBattleView(art) {
   }
 
   /** A pale veil of fog over the field, thickest at its middle, at the phase's density (0 to 1). Returns the density drawn. */
-  function drawFog(ctx, battle, camera, bounds) {
+  function drawFog(ctx, battle, camera, bounds, time, paused) {
     const shown = [...battle.sides, ...(battle.groups || [])].filter(side => side.action !== 'gone');
     if (!shown.length) return 0;
     const centre = { x: shown.reduce((s, side) => s + side.x, 0) / shown.length, y: shown.reduce((s, side) => s + side.y, 0) / shown.length };
     const c = camera.toScreen(centre), edge = camera.toScreen({ x: centre.x + 0.9, y: centre.y });
     const radius = Math.max(80, Math.hypot(edge.x - c.x, edge.y - c.y));
+    const density = Math.max(0, Math.min(1, battle.fog));
+    let banks = 0;
+    ctx.save();
+    for (let i = 0; i < 3; i++) {
+      const x = c.x + (i - 1) * radius * 0.42, y = c.y + (i - 1) * radius * 0.13;
+      for (const [variant, alpha] of [['dense', density * density * 0.45], ['thin', density * (1 - density) * 0.45]]) {
+        if (alpha <= 0) continue;
+        ctx.globalAlpha = alpha;
+        if (art.animated(ctx, `fog-bank-${variant}`, x, y, Math.min(radius * 0.34, 260), `fog:${i}`, { timeMs: time + i * 1300, paused })) banks++;
+      }
+    }
+    ctx.restore();
+    if (banks) return battle.fog;
     const g = ctx.createRadialGradient(c.x, c.y, radius * 0.1, c.x, c.y, radius);
     g.addColorStop(0, `rgba(226,229,226,${0.78 * battle.fog})`); g.addColorStop(0.6, `rgba(226,229,226,${0.6 * battle.fog})`); g.addColorStop(1, 'rgba(226,229,226,0)');
     ctx.save(); ctx.fillStyle = g;

@@ -1,3 +1,11 @@
+## Ground fog banks — delivered 2026-10-03
+
+Four transparent frames add dense and thin low painted mist banks, each with two wisp poses. `fog-bank-dense` and `fog-bank-thin` are authored loops with 6000ms per pose. The existing numeric battle.fog rendering now draws three overlapping banks around the visible force centre and blends density variants continuously from the projected density. The existing radial veil is the fallback when clips are unavailable. No server visibility, information asymmetry, route, combat timing or historical outcome changes. No fog is introduced to phases that do not project numeric fog; Coleto's light='fog' wash remains its existing separate behavior.
+
+Opacity is controlled in the renderer so sources remain reusable. Fog is painted after figures and before speech so dialogue remains readable. Existing reduced-motion pause is passed into the clips. This is layered art, not volumetric weather or a surveyed historic mist pattern. Two-pose changes are discrete; crossfading individual keyframes and world-anchored drifting remain future polish. Future staging must not reveal concealed actors or infer hidden information from fog graphics.
+
+The selected PNG is copied unchanged. scripts/art-deliveries/ground-fog-2026-10-03.mjs records the exact prompt, source/reference paths, frame IDs and duration. Prompt/provenance and complete manifest are regenerated. Alpha audit: 61.7% clear alpha, no overlap trimming, every measured object retained. Browser proof scripts/ground-fog-art-proof.mjs verifies both clips render and change pixels with no errors; evidence is docs/evidence/ground-fog-art.png/.json. All ten tests in tests/ground-fog-art.test.mjs and tests/battle-view.test.mjs passed, including density modulation and disappearance at zero fog.
+
 ## Night-lit settlement art — delivered 2026-10-03
 
 Sixteen transparent sprites add four authored loops: `campfire-night` (four flame poses, 180ms each) and `adobe-night-lit`, `jacal-night-lit`, `cabin-night-lit` (four light-brightness poses, 700ms each). They retain the warm outlined miniature style. Building art is a full night-lit replacement, not an exact window-only alpha overlay; fine geometry and brightness registration remains polish. Adobe is available for later explicitly lit scenery; San Patricio's existing lit jacal/cabin and campfire now select the new art.
@@ -4620,6 +4628,7 @@ Erastus “Deaf” Smith has a 16-frame directional scout sheet and a four-frame
 ## Art update — James Grant (2026-09-28)
 
 Grant now has distinct foot, mounted-walk and four-frame gallop sheets in `scripts/art-deliveries/famous-grant.mjs`. His roster and `PERSON_ART.grant` select them; the existing Agua Dulce horse-herd route uses the mounted walk and the visible ambush interval uses the gallop. Grant disappears from the stage before his later fate, which remains conveyed by the existing account text. No capture, surrender or killing was invented on screen. The foot sheet includes map/pointing poses and a clean, non-graphic bandage variant for Béxar; his face, clothing and horse are interpretations rather than portrait claims. Frames, clips and source records are in the generated art manifest and provenance JSON files. The battle-view regression checks walk versus ambush gallop.
+
 
 
 

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2542 usable sprites, 272 PNG atlases, 895 clips** (587 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2546 usable sprites, 273 PNG atlases, 897 clips** (589 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -194,6 +194,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
+| ground-fog-banks | 4 | 1774 × 887 | 1018893 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
@@ -1874,6 +1875,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mule-packed-grass-idle-s | mule-packed-grass | State artwork; no motion required |
 | mule-packed-grass-idle-n | mule-packed-grass | State artwork; no motion required |
 | grass-bundle-cut | mule-packed-grass | State artwork; no motion required |
+| fog-bank-dense-1 | ground-fog-banks | fog-bank-dense |
+| fog-bank-dense-2 | ground-fog-banks | fog-bank-dense |
+| fog-bank-thin-1 | ground-fog-banks | fog-bank-thin |
+| fog-bank-thin-2 | ground-fog-banks | fog-bank-thin |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -3394,6 +3399,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mule-packed-grass-walk-e | Pose cycle | 4 | 1120 | yes | east |
 | mule-packed-grass-walk-s | Pose cycle | 4 | 1120 | yes | south |
 | mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |
+| fog-bank-dense | Pose cycle | 2 | 12000 | yes | scenery |
+| fog-bank-thin | Pose cycle | 2 | 12000 | yes | scenery |
 | live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |

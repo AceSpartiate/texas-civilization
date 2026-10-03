@@ -1537,3 +1537,8 @@ Southern fights item 5 now has dense/open composite oak groves with two-pose fol
 
 Southern fights item 2 now has four authored flame/light loops and sixteen transparent frames. San Patricio's existing projected lights select lit jacal/cabin and fire art. Adobe variant is registered for later staging. These are full building variants; exact window-only overlays remain future work. See ART_DELIVERY_2026-10-03-NIGHT-LIGHTS.md.
 
+
+## Delivered 2026-10-03 — dense and thin ground fog
+
+Concepcion item 3 now has dense/thin two-pose transparent mist banks. Numeric battle fog selects these layered clips, retaining the old veil as a missing-art fallback. Coleto's separate light=fog wash is unchanged. See ART_DELIVERY_2026-10-03-GROUND-FOG.md for opacity and remaining keyframe smoothing.
+

@@ -8929,6 +8929,38 @@
       "motion": "none",
       "direction": "north"
     },
+    "fog-bank-dense": {
+      "frames": [
+        {
+          "sprite": "fog-bank-dense-1",
+          "duration": 6000
+        },
+        {
+          "sprite": "fog-bank-dense-2",
+          "duration": 6000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "fog-bank-thin": {
+      "frames": [
+        {
+          "sprite": "fog-bank-thin-1",
+          "duration": 6000
+        },
+        {
+          "sprite": "fog-bank-thin-2",
+          "duration": 6000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
     "live-oak-mott-dense-wind": {
       "frames": [
         {

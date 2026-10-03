@@ -15281,6 +15281,64 @@
         ]
       }
     },
+    "ground-fog-banks": {
+      "image": "atlases/ground-fog-banks.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1018893,
+      "sha256": "3e920d2c46a9e2cfc0a63b4e32ab5b7b92ceef4c6a24867bc95c18e059188651",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.616976,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              185,
+              466
+            ],
+            "columns": [
+              [
+                28,
+                871
+              ],
+              [
+                919,
+                1696
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              627,
+              825
+            ],
+            "columns": [
+              [
+                67,
+                844
+              ],
+              [
+                961,
+                1737
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "house-modules": {
       "image": "atlases/house-modules.png",
       "width": 1448,
@@ -63082,6 +63140,102 @@
           189
         ],
         "visiblePixels": 33770,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fog-bank-dense-1": {
+      "sheet": "ground-fog-banks",
+      "x": 28,
+      "y": 185,
+      "w": 843,
+      "h": 281,
+      "anchorX": 0.4543,
+      "anchorY": 0.9288,
+      "label": "fog bank dense 1",
+      "kind": "ground-fog-banks",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          30,
+          187,
+          839,
+          277
+        ],
+        "visiblePixels": 129525,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fog-bank-dense-2": {
+      "sheet": "ground-fog-banks",
+      "x": 919,
+      "y": 192,
+      "w": 777,
+      "h": 271,
+      "anchorX": 0.473,
+      "anchorY": 0.9299,
+      "label": "fog bank dense 2",
+      "kind": "ground-fog-banks",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          921,
+          194,
+          773,
+          267
+        ],
+        "visiblePixels": 115857,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fog-bank-thin-1": {
+      "sheet": "ground-fog-banks",
+      "x": 67,
+      "y": 627,
+      "w": 777,
+      "h": 183,
+      "anchorX": 0.5154,
+      "anchorY": 0.929,
+      "label": "fog bank thin 1",
+      "kind": "ground-fog-banks",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          69,
+          629,
+          773,
+          179
+        ],
+        "visiblePixels": 69914,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "fog-bank-thin-2": {
+      "sheet": "ground-fog-banks",
+      "x": 961,
+      "y": 638,
+      "w": 776,
+      "h": 187,
+      "anchorX": 0.5548,
+      "anchorY": 0.9251,
+      "label": "fog bank thin 2",
+      "kind": "ground-fog-banks",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          963,
+          640,
+          772,
+          183
+        ],
+        "visiblePixels": 71332,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
