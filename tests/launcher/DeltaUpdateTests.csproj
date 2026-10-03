@@ -25,6 +25,7 @@
     <Compile Include="..\..\launcher\UpdateSwap.cs" Link="launcher\UpdateSwap.cs" />
     <Compile Include="..\..\launcher\Updates.cs" Link="launcher\Updates.cs" />
     <Compile Include="..\..\launcher\AppPaths.cs" Link="launcher\AppPaths.cs" />
+    <Compile Include="..\..\launcher\SetupLayout.cs" Link="launcher\SetupLayout.cs" />
   </ItemGroup>
 
 </Project>

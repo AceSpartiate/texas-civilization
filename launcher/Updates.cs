@@ -3,8 +3,9 @@ using System.Text.Json;
 namespace TexasRevolution.Launcher;
 
 /// <param name="DownloadUrl">The update archive: the game with its runtime, no launcher.</param>
-/// <param name="SetupUrl">The setup program: the launcher with the game inside it. Preferred,
-/// because it is the only asset that carries the launcher (launcher/Updater.cs).</param>
+/// <param name="SetupUrl">The setup program: the launcher with the game appended. Preferred to the
+/// archive, because it carries the launcher (launcher/Updater.cs); a set of changes that carries the
+/// launcher is preferred to both.</param>
 /// <param name="ManifestUrl">The release's list of files (<see cref="ReleaseManifest.AssetName"/>), from 2026-09-26.</param>
 /// <param name="Patches">Its sets of changes, by the release each starts from (<see cref="DeltaUpdate"/>).</param>
 public sealed record ReleaseInfo(string Tag, string Name, string PageUrl, string? DownloadUrl, long Size, string? SetupUrl = null, long SetupSize = 0,
@@ -74,7 +75,8 @@ public static class Updates
                     download = assetUrl;
                     size = assetSize;
                 }
-                // The launcher travels only inside the setup program, so that is what updates it.
+                // The whole download, launcher included, when no set of changes will do. Exactly this
+                // name: the small setup a teacher emails (TexasRevolutionInstaller.exe) is not it.
                 if (setup is null && assetName.Equals("TexasRevolutionSetup.exe", StringComparison.OrdinalIgnoreCase))
                 {
                     setup = assetUrl;

@@ -1,5 +1,70 @@
 # Claude handoff — Astra foundation
 
+## A launcher change rides in the small update — owner-decided 2026-10-03 (not released)
+
+Branch `launcher-patch`, not merged, not released. The owner noticed that v2026.10.03.1 changed the launcher (the join
+words) and every installed copy downloaded the whole 690 MB again: the installed `TexasRevolution.exe` *was* the setup
+program, the game embedded in it, so `release-changes.ps1` made no set of changes across a launcher change. The owner's
+choice, verbatim: **"Small launcher in patch"** — build a second launcher without the game inside (about 90 MB, mostly
+.NET) and put it in the patch when the launcher changes, so a launcher change costs about 90 MB instead of 690 MB, and
+everything else stays small.
+
+**What was built** (docs/DEPLOYMENT.md, *A launcher change rides in the small update*):
+
+- **The installed exe is now the plain launcher, not the setup.** `package.ps1` publishes the launcher once with no game;
+  the setup program is that launcher with the game zip appended and a 32-byte trailer (`New-SetupProgram`,
+  `launcher/SetupLayout.cs`). .NET still runs it as the launcher (checked before building on: a published launcher with
+  50 MB appended ran `--status` normally). The setup installs the first part of itself — the plain launcher — never the
+  whole thing; the csproj no longer embeds `payload.zip`. Saves about 600 MB of disk per install. A memory stick takes
+  `TexasRevolutionSetup.exe` itself (the old "installed exe carries an older game" ceiling is gone).
+- **The list** gains `"launcherExe": {"size", "sha256"}` (no path: it only ever goes to `TexasRevolution.exe`). `format`
+  stays 1 — additive, and old launchers refuse by launcher id anyway.
+- **The set.** From a base whose launcher differs and whose list has `launcherExe`: `TexasRevolution-Launcher-And-Changes-From-<tag>.patch`,
+  the changed files plus the plain launcher (stored). From a base whose launcher differs and whose list has no
+  `launcherExe` (every release up to v2026.10.03.1): none, because its launcher cannot take one — so **every copy
+  installed today takes one more whole download** (the next setup, which installs the plain launcher); accepted. The new
+  name does not start `TexasRevolution-Changes-From-`, so old launchers never see it and never promise "only what
+  changed" and then refuse.
+- **The launcher** accepts a list whose launcher differs when it names `launcherExe` (still refuses when it does not),
+  takes the exe out of the set, hashes it against the list, checks staging holds the files plus the launcher, runs the
+  staged launcher with the new `--launcher-id` verb (must answer the list's id) before touching anything, and swaps it
+  in through the existing `UpdateSwap` (rename to `.old`, journal, rollback). `TexasRevolutionInstaller.exe` (websetup/)
+  is unchanged.
+- `ceiling:` (release-changes.ps1) each launcher-carrying set holds the whole ~84 MB launcher, so a launcher change
+  spends the budget after about six earlier releases; one shared launcher asset would reach all twenty.
+
+**Measured** (`package.ps1` from this branch into the scratchpad, `-BaseManifests` = the published v2026.10.03.1 list
+from `gh release download`, plus a copy of it given a `launcherExe` and renamed `v2026.10.03.1-as-if`, i.e. as if that
+release had been built with this change): setup **691,465,549 bytes** (v2026.10.03.1's was 691,458,298); plain launcher
+**87,595,770 bytes**; update archive 603,869,747; small installer 173,568. Set from `v2026.10.03.1-as-if`, launcher
+changed: **87,792,933 bytes** (TexasRevolution.exe, public/voice/manifest.json, release.txt) — 7.9x less than the setup.
+From the real v2026.10.03.1 list: no set, *"a launcher from before 2026-10-03 …"*, as designed.
+
+**Evidence** (same computer, nothing published, the owner's install and data folders untouched — every install went
+under the worktree's `data\`, the voice cache was pointed at the scratchpad):
+- `scripts/verify-delta-update.ps1 -OldSetup <v2026.10.03.1 setup>` ([evidence](docs/evidence/launcher-delta-update.json)):
+  **15 PASS**. Three releases packaged by `package.ps1`; C has one launcher source changed (new id). B installed by its
+  own setup (installs the 87,595,770-byte plain launcher, not the 691 MB setup); B's installed launcher updated to C with
+  `--update --release-api` against the local stand-in for GitHub: **88,487,665 bytes downloaded** (list + the
+  launcher-carrying set) instead of the 691,465,814-byte setup; no .exe or .zip fetched; launcher swapped for C's by hash;
+  tree byte for byte a fresh install of C, launcher included; save untouched; the new launcher then opened, said
+  v-e2e.3 and its own id, deleted `.old`, and found itself up to date. **Rollback:** the same update with a file held open
+  in `server\` failed after the launcher was swapped, and B came back byte for byte (B's launcher, game, stamp; no `.old`,
+  no backup). A list without `launcherExe` got no set. Every earlier scenario (same-launcher changes 882,391 bytes,
+  tampered, cut off, no set, no list, all cut) still passes, and the v2026.10.03.1 launcher took B — the new setup
+  format — through its own path and ended byte for byte a fresh install of B.
+- `scripts/verify-update.ps1` ([evidence](docs/evidence/launcher-update.json)): 7 PASS with setups built the new way
+  (the setup installs the plain launcher; self-swap, rollback, interrupted swap, archive without launcher).
+- `tests/launcher`: 29 of 29 (9 new: launcher-accept, -stage, -hash, -missing, -verify, -rollback, -list, -asset,
+  setup-layout); `scripts/launcher-delta-injections.ps1` ([evidence](docs/evidence/launcher-delta-injections.json)):
+  **31 of 31** injections caught by exactly the tests written for them (10 new; four older ones now also trip the
+  matching launcher test, recorded as such).
+- `npm test`: 2182 tests, 2146 pass, 0 fail, 36 skipped.
+
+**Not proved**: a real GitHub release or download; a school network or proxy; how an antivirus product or SmartScreen treats
+a setup with appended data (nothing here blocked it, but that was not examined); the LauncherForm window path (the headless
+`--update` runs the same `Updater` code); `test:claude-art` and the browser proofs (nothing they cover changed).
+
 ## Released as v2026.10.03.1 — 2026-10-03
 
 Main at 75b17913, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.03.1>). No small update this time: the launcher changed (the join words), so every launcher takes the whole setup program (about 660 MB); the notes tell teachers so. Contents: triage Tier 3 (road, sickness, carrying kids), food only from real sources with seed, milking, the hunt shot, the quicker house and the tent, paths and the fenced yard, herds and the herder, the mule, join words at playtexas.github.io, and Astra's art up to 0f81401f. The full proof run on a4cebef3 (108 browser proofs, two at a time) found four real faults, each fixed and re-proved alone: test:errand did not know the herd's sale lines at the pens; the mule's speed bar was set at 11px (test:overlap); a bought mule was drawn as a horse because Astra's Grass Fight pack mules withheld every Claude `mule-` frame (public/art-subjects.js, tests/astra-art-wins.test.mjs); and on the Host's page a person's card opened under the late students' box (the Host's column is now a wall the card is held off, both ways). On 75b17913: `npm test` 2182 tests, 2146 pass, 0 fail, 36 skipped; re-run alone and green: host-view, overlap, family-panel, panels, tips, art, looks, host-live, errand, shops, field-click (and battle-alamo, host-lobby, host-bell, join-card on 41ee59a5). field-click, battle-alamo, shops and host-view had also missed timing waits under the two-at-a-time load. Not run to the end: `test:claude-art` (the stand-in injection harness; stopped after 90 minutes to free the tree). Same computer only; no Chromebook, LAN or classroom claim.

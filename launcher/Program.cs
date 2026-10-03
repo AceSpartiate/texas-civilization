@@ -16,14 +16,26 @@ internal static class Program
     /// </summary>
     /// <remarks>
     /// Sitting in a folder with a classroom beside it, this is the launcher. Sitting
-    /// anywhere else - a Downloads folder, a memory stick - it is the setup program for the
-    /// game it carries. The alternative was two downloads, or a setup program that embeds a
-    /// launcher that embeds .NET, and both are worse.
+    /// anywhere else - a Downloads folder, a memory stick - with a game appended to it, it is
+    /// the setup program for that game (SetupLayout.cs); it installs itself without the game.
+    /// The alternative was two downloads, or a setup program that embeds a launcher that embeds
+    /// .NET, and both are worse.
     /// </remarks>
     [STAThread]
     private static int Main(string[] args)
     {
         var verb = args.FirstOrDefault()?.TrimStart('-', '/').ToLowerInvariant();
+
+        // Which launcher this is, and nothing else: no folder looked at, nothing tidied, nothing
+        // started. An update that brings a new launcher in its set of changes runs it with this
+        // before anything is replaced (Updater.ProveLauncherAsync), so a launcher that will not
+        // start is found while the old one is still in place.
+        if (verb == "launcher-id")
+        {
+            AttachConsole(ParentProcess);
+            Console.WriteLine(DeltaUpdate.LauncherId ?? "(none)");
+            return DeltaUpdate.LauncherId is null ? 1 : 0;
+        }
 
         if (verb == "uninstall")
         {

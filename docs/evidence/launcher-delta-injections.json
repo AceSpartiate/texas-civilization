@@ -1,10 +1,10 @@
 ﻿{
-    "recordedAt":  "2026-09-30T22:08:30.5095370Z",
+    "recordedAt":  "2026-10-03T19:57:30.4319752Z",
     "machine":  "development computer",
     "script":  "scripts/launcher-delta-injections.ps1",
     "tests":  "tests/launcher (dotnet run)",
-    "baselinePassed":  20,
-    "caught":  21,
+    "baselinePassed":  29,
+    "caught":  31,
     "injections":  [
                        {
                            "injection":  "damaged installed file treated as unchanged",
@@ -28,9 +28,10 @@
                        {
                            "injection":  "a changed file is not checked against its hash",
                            "file":  "launcher\\DeltaUpdate.cs",
-                           "expected":  "hash-tampered",
+                           "expected":  "hash-tampered+launcher-hash",
                            "failed":  [
-                                          "hash-tampered"
+                                          "hash-tampered",
+                                          "launcher-hash"
                                       ],
                            "caught":  true
                        },
@@ -55,9 +56,10 @@
                        {
                            "injection":  "a stray staged file is not noticed",
                            "file":  "launcher\\DeltaUpdate.cs",
-                           "expected":  "verify-extra",
+                           "expected":  "verify-extra+launcher-verify",
                            "failed":  [
-                                          "verify-extra"
+                                          "verify-extra",
+                                          "launcher-verify"
                                       ],
                            "caught":  true
                        },
@@ -98,7 +100,7 @@
                            "caught":  true
                        },
                        {
-                           "injection":  "a different launcher is ignored",
+                           "injection":  "a different launcher with no launcher file in its list is accepted",
                            "file":  "launcher\\DeltaUpdate.cs",
                            "expected":  "fallback-launcher",
                            "failed":  [
@@ -116,11 +118,12 @@
                            "caught":  true
                        },
                        {
-                           "injection":  "the same launcher is refused (nothing ever takes the changes)",
+                           "injection":  "every list with a launcher id is refused (nothing ever takes the changes)",
                            "file":  "launcher\\DeltaUpdate.cs",
-                           "expected":  "accept",
+                           "expected":  "accept+launcher-accept",
                            "failed":  [
-                                          "accept"
+                                          "accept",
+                                          "launcher-accept"
                                       ],
                            "caught":  true
                        },
@@ -145,9 +148,10 @@
                        {
                            "injection":  "a retired file is deleted rather than kept for rollback",
                            "file":  "launcher\\UpdateSwap.cs",
-                           "expected":  "swap-rollback",
+                           "expected":  "swap-rollback+launcher-rollback",
                            "failed":  [
-                                          "swap-rollback"
+                                          "swap-rollback",
+                                          "launcher-rollback"
                                       ],
                            "caught":  true
                        },
@@ -163,9 +167,10 @@
                        {
                            "injection":  "a set of changes named .zip, which old launchers take for the game",
                            "file":  "launcher\\DeltaUpdate.cs",
-                           "expected":  "assets",
+                           "expected":  "assets+launcher-asset",
                            "failed":  [
-                                          "assets"
+                                          "assets",
+                                          "launcher-asset"
                                       ],
                            "caught":  true
                        },
@@ -181,9 +186,10 @@
                        {
                            "injection":  "the check promises the whole size when only the changes come",
                            "file":  "launcher\\DeltaUpdate.cs",
-                           "expected":  "estimate",
+                           "expected":  "estimate+launcher-asset",
                            "failed":  [
-                                          "estimate"
+                                          "estimate",
+                                          "launcher-asset"
                                       ],
                            "caught":  true
                        },
@@ -193,6 +199,99 @@
                            "expected":  "plain-sizes",
                            "failed":  [
                                           "plain-sizes"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a new launcher in the list is never taken",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "launcher-accept+launcher-stage+launcher-verify+launcher-rollback",
+                           "failed":  [
+                                          "launcher-accept",
+                                          "launcher-stage",
+                                          "launcher-verify",
+                                          "launcher-rollback"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a staged build missing a listed file passes",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "launcher-verify",
+                           "failed":  [
+                                          "launcher-verify"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "the list moves the launcher where it says",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "launcher-list",
+                           "failed":  [
+                                          "launcher-list"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a damaged launcher entry is accepted",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "launcher-list",
+                           "failed":  [
+                                          "launcher-list"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a set carrying the launcher named so launchers from before read it",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "launcher-asset",
+                           "failed":  [
+                                          "launcher-asset"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a set carrying the launcher is not recognised",
+                           "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "launcher-asset",
+                           "failed":  [
+                                          "launcher-asset"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a failed swap leaves the new launcher in place",
+                           "file":  "launcher\\UpdateSwap.cs",
+                           "expected":  "launcher-rollback",
+                           "failed":  [
+                                          "launcher-rollback"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "the setup installs itself whole, game and all",
+                           "file":  "launcher\\SetupLayout.cs",
+                           "expected":  "setup-layout",
+                           "failed":  [
+                                          "setup-layout"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a setup whose lengths do not add up is read",
+                           "file":  "launcher\\SetupLayout.cs",
+                           "expected":  "setup-layout",
+                           "failed":  [
+                                          "setup-layout"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "the setup unpacks over the class data",
+                           "file":  "launcher\\SetupLayout.cs",
+                           "expected":  "setup-layout",
+                           "failed":  [
+                                          "setup-layout"
                                       ],
                            "caught":  true
                        }

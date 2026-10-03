@@ -9,7 +9,9 @@ namespace TexasRevolution.Launcher;
 /// <c>TexasRevolution.exe</c> becomes <c>TexasRevolution.exe.old</c>, the new one is copied in
 /// under the real name, and the next launch deletes the old. Until 2026-09-16 the update
 /// archive carried the game and never the launcher, and a launcher change reached a machine
-/// only when its teacher ran a newer setup program over the top.
+/// only when its teacher ran a newer setup program over the top. From 2026-10-03 the new
+/// launcher may also come in a set of changes (<see cref="DeltaUpdate"/>), staged beside the
+/// game and swapped in here exactly the same way.
 ///
 /// <para>Every top-level file or folder the new build carries is first moved aside into
 /// <c>.update-backup</c> (a rename, on the same volume) and only then copied in. A journal in

@@ -23,14 +23,17 @@ A teacher can still do it first, and it is one click: right-click the zip → Pr
 
 ## The setup program
 
-`TexasRevolutionSetup.exe` is the same binary as the launcher, carrying the game inside it
-as an embedded zip. Run from a folder with no classroom beside it, it is a setup program;
-run from inside an installation, it is the launcher. That is why the payload it carries is
-the **game and never the launcher**: the setup copies *itself* into place once it has
-unpacked, so .NET is downloaded once rather than twice. A download of 136 MB becomes an
-installation of about 267 MB, the difference being that the installed copy still carries its
-own payload — which is also what lets a teacher copy that one exe onto a memory stick and
-install it on the next machine.
+`TexasRevolutionSetup.exe` is the plain launcher with the game appended to it (from 2026-10-03,
+`launcher/SetupLayout.cs`): the launcher's own single-file bundle, then the game as a zip, then a
+32-byte trailer saying where one ends and the other begins. Windows and .NET run it exactly as
+they run the launcher alone, so run from a folder with no classroom beside it, it is a setup
+program; run from inside an installation, it is the launcher. .NET is in the download once. It
+installs the game and **the plain launcher at its own head** — about 90 MB, no game in it — never
+itself. Until 2026-10-03 the game was an embedded resource and the setup copied *itself* into
+place, so every installed `TexasRevolution.exe` was the whole 690 MB setup program: the
+installation was about 600 MB larger than it needed to be, and a launcher change could only
+reach it as another whole setup program (*A launcher change rides in the small update*, below).
+A memory stick now takes `TexasRevolutionSetup.exe` itself, which is the file that installs.
 
 It installs per-user, under `%LOCALAPPDATA%\Programs\TexasRevolution`: no administrator, no
 Program Files, no UAC prompt, and nothing a managed machine is likely to refuse. It registers
@@ -509,7 +512,7 @@ a journal of what was moved and added; if anything fails part way, all of it - l
 `release.txt` - is put back, and the error says the previous version is still installed. A launch
 that finds a swap marker (the power went mid-swap) rolls back before anything else. `data` is not
 in a build and is never touched. The installed launcher is exactly what a fresh install makes -
-the setup program, with its payload - so it can still be copied onto a memory stick, and the plain
+from 2026-10-03 the plain launcher with no game in it - and the plain
 emblem is rewritten beside it on each launch, keeping the setup and installed emblems apart. A
 release with no setup program falls back to the update archive, which updates the game and keeps
 the launcher.
@@ -551,12 +554,14 @@ what's new?"* From this release an update first downloads only what changed
   installed file that already hashes as listed into staging, downloads the one set of changes,
   takes out of it only the files still needed, hashes each against the list, checks that staging
   holds exactly the listed files, and swaps the result in through the same swap and rollback as
-  before. The staged build is byte for byte what the setup program would have unpacked. It keeps
-  the running launcher, which is why a set is only ever made between releases with the same
-  launcher id.
+  before. The staged build is byte for byte what the setup program would have unpacked. Between
+  releases with the same launcher id it keeps the running launcher; from 2026-10-03 a set between
+  releases whose launchers differ carries the new plain launcher (*A launcher change rides in the
+  small update*, below).
 - **The whole download is the fallback**, with the reason said in one line: no list (every
   release before this one), no set of changes from the installed release (more than 20 releases
-  behind, or past the budget), a changed launcher, a list for a newer launcher, a file that does
+  behind, or past the budget), a changed launcher with no launcher in the set (every launcher from
+  before 2026-10-03), a list for a newer launcher, a file that does
   not hash as listed, a set of changes cut off or damaged, a launcher nobody packaged (a working
   copy). A first install is the setup program as always.
 - **What the teacher sees.** The check says *"Only what changed is downloaded: about 45 KB"* or
@@ -600,11 +605,68 @@ brings them this launcher, and the release after it is the first they can take a
 Launchers from before 2026-09-16 take the update archive, which is unchanged.
 
 ceiling: an interrupted download starts again rather than resuming; the unchanged files are
-copied twice on the local disk (into staging, then by the swap); after a small update the
-installed launcher, carried on a memory stick, installs the older game it was built with and
-then offers the update; sets of changes reach back only 20 releases or one archive's worth of
-upload. Each is marked in `launcher/Updater.cs`, `launcher/DeltaUpdate.cs` or
-`scripts/release-changes.ps1` with what would justify more.
+copied twice on the local disk (into staging, then by the swap); sets of changes reach back only
+20 releases or one archive's worth of upload, and a set that carries the launcher spends about
+90 MB of that each. Each is marked in `launcher/Updater.cs`, `launcher/DeltaUpdate.cs` or
+`scripts/release-changes.ps1` with what would justify more. (Until 2026-10-03 there was a fourth:
+after a small update the installed launcher, carried on a memory stick, installed the older game
+it was built with. The installed launcher carries no game now.)
+
+### A launcher change rides in the small update — 2026-10-03
+
+Owner, 2026-10-03, after v2026.10.03.1 changed the launcher (the join words) and every installed
+copy downloaded the whole 690 MB again. The choice, verbatim: **"Small launcher in patch"** —
+build a second launcher without the game inside (about 90 MB, mostly .NET) and put it in the
+patch when the launcher changes, so a launcher change costs about 90 MB instead of 690 MB, and
+everything else stays small.
+
+- **The plain launcher.** `scripts/package.ps1` publishes the launcher once, with no game
+  (`-p:LauncherId`, `-p:InformationalVersion` as before), and makes the setup program from it
+  (`New-SetupProgram` in `scripts/release-changes.ps1`: launcher + game zip + trailer). The setup
+  installs that plain launcher (`launcher/SetupLayout.cs`, `Installer.cs`). The project no longer
+  embeds `payload.zip` at all, so one publish makes both, and the plain launcher a set carries is
+  byte for byte the head of the setup program. A copy is left beside the outputs as
+  `TexasRevolution-Launcher-<stamp>.exe` to look at; it is not attached to a release.
+- **The list.** `TexasRevolution-manifest.json` gains `"launcherExe": {"size", "sha256"}` - the
+  plain launcher's size and hash, with no path: it only ever goes to `TexasRevolution.exe`, so a
+  list cannot send it anywhere else, and `files` still may not name it. Additive, so `format`
+  stays 1: an old launcher reads past it.
+- **The set.** From an earlier release whose launcher differs *and whose own list has
+  `launcherExe`* (so its launcher is one that can take a new one), `release-changes.ps1` makes
+  `TexasRevolution-Launcher-And-Changes-From-<tag>.patch`: the changed game files and the plain
+  launcher as `TexasRevolution.exe` (stored, not recompressed). From an earlier release whose
+  launcher differs and whose list has no `launcherExe` - every release up to and including
+  v2026.10.03.1 - it makes none: *"a launcher from before 2026-10-03, which cannot take a new
+  launcher from a set of changes: it takes the whole setup program"*. The new name does not begin
+  `TexasRevolution-Changes-From-`, so a launcher from before never sees it, never offers "only what
+  changed" and then refuses the list; it says the setup program's size and takes it, as it always
+  did. Sets carrying the launcher count against the same budget as the rest.
+- **The launcher.** `DeltaUpdate.Refusal` accepts a list whose launcher differs when it names
+  `launcherExe`, and still refuses one that does not ("that release brings a new launcher").
+  `Updater.StageChangesAsync` adds the launcher to the files needed from the set
+  (`DeltaUpdate.WithLauncher`), takes it out and hashes it against the list like every other file,
+  checks staging holds exactly the listed files *and* the launcher (`VerifyStaged`), and runs the
+  staged launcher once with `--launcher-id` (it must answer with the list's launcher id) before
+  anything is replaced - the proof the whole download gets from running the setup program to
+  unpack it. Then the same `UpdateSwap`: the running launcher renamed to `.old`, the new one copied
+  in first, everything journalled, all of it put back if any later part fails. The progress line
+  says *"Downloading 90 MB of changes (the new launcher and 12 files)…"*.
+- **Every launcher already installed takes one more whole download.** Launchers up to
+  v2026.10.03.1 compare launcher ids and know nothing of `launcherExe`; no set is made for them.
+  They take the next release's `TexasRevolutionSetup.exe` as before - which now installs the plain
+  launcher - and from then on a launcher change reaches them as a set of about 90 MB. Accepted by
+  the owner's choice.
+- **Kept**: `TexasRevolutionInstaller.exe` (websetup/) is unchanged; it downloads and runs
+  `TexasRevolutionSetup.exe`, which installs as before. The update archive is unchanged (game
+  only). Same-launcher sets are unchanged.
+
+Proved on this computer: `tests/launcher` (29 tests; nine new for this), every one seen failing
+under `scripts/launcher-delta-injections.ps1` ([evidence](evidence/launcher-delta-injections.json));
+`scripts/verify-update.ps1` ([evidence](evidence/launcher-update.json)) with setups built the new
+way; and `scripts/verify-delta-update.ps1` ([evidence](evidence/launcher-delta-update.json)),
+which now packages a third release C with one launcher source changed and has B's installed plain
+launcher take C as a set carrying C's launcher, then the same with the swap failing part way.
+Numbers and what is not proved: HANDOFF.md, *A launcher change rides in the small update*.
 
 **Publishing a release that installed launchers will take.** The launcher asks GitHub for the
 latest release, compares its tag with the installed `release.txt`, and downloads its list and
@@ -618,8 +680,10 @@ its `.zip` whose name does **not** contain `NeedsNode` (`launcher/Updates.cs`). 
 2. Every output attached: `TexasRevolutionSetup.exe` (what updates the launcher, and the fallback),
    `TexasRevolutionInstaller.exe` (the small setup teachers pass on; *The small setup*, above — on every release, or the
    stable link to it stops answering), `TexasRevolution-Gonzales-<stamp>.zip` (the update archive older launchers take), the
-   `-NeedsNode.zip`, and everything in `changes-<stamp>\` (`TexasRevolution-manifest.json` and the
-   `TexasRevolution-Changes-From-<tag>.patch` sets). From the destination folder:
+   `-NeedsNode.zip`, and everything in `changes-<stamp>\` (`TexasRevolution-manifest.json`, the
+   `TexasRevolution-Changes-From-<tag>.patch` sets and, when the launcher changed, the
+   `TexasRevolution-Launcher-And-Changes-From-<tag>.patch` sets). Not `TexasRevolution-Launcher-<stamp>.exe`,
+   which is only a copy of what those sets carry. From the destination folder:
 
    ```powershell
    $s = '<yyyy.mm.dd.n>'

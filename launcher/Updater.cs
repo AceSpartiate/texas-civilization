@@ -24,11 +24,13 @@ public sealed record StagedUpdate(string Payload, bool ChangesOnly, long Downloa
 /// the installed release, a few hundred kilobytes where the whole game is a quarter of a
 /// gigabyte. The unchanged files are copied from the installation into staging, so what is
 /// swapped in is the complete new build, verified file by file, through the same swap and
-/// rollback. It keeps the launcher that is running, which is why a set of changes is only ever
-/// published between releases whose launcher is the same.</para>
+/// rollback. Between releases with the same launcher it keeps the launcher that is running; from
+/// 2026-10-03, when the launcher has changed, the set of changes carries the new plain launcher
+/// (about 90 MB), which is hashed, asked its id and swapped in with the rest - so a launcher change
+/// costs about 90 MB rather than the whole 690 MB setup program.</para>
 ///
 /// <para>Otherwise - and whenever the small download cannot be used for any reason - it
-/// downloads the release's setup program. That is the launcher with the game inside it, and it
+/// downloads the release's setup program. That is the launcher with the game appended, and it
 /// already knows how to unpack itself (<c>--extract</c>), so the staged copy is exactly what a
 /// fresh install would be. Running it to unpack is also the proof that the new launcher starts
 /// at all, before anything of the old one is touched. A release with no setup program falls
@@ -71,11 +73,14 @@ public sealed class Updater
         var manifest = ReleaseManifest.Parse(manifestBytes);
         if (DeltaUpdate.Refusal(manifest, release.Tag, DeltaUpdate.LauncherId) is { } why) throw new DeltaUnusable(why);
 
+        // A release whose launcher is not this one: its set of changes carries the new launcher (2026-10-03).
+        var newLauncher = DeltaUpdate.NeedsLauncher(manifest, DeltaUpdate.LauncherId);
+
         var payload = Path.Combine(Staging, "changes", "TexasRevolution");
         Directory.CreateDirectory(payload);
         var total = Math.Max(1, manifest.Files.Sum(file => file.Size));
         var read = new Progress<long>(done => progress.Report(((int)(done * 35 / total), "Checking the files already on this computer…")));
-        var needed = await Task.Run(() => DeltaUpdate.CopyUnchanged(installed, manifest, payload, read, cancel), cancel);
+        var needed = DeltaUpdate.WithLauncher(await Task.Run(() => DeltaUpdate.CopyUnchanged(installed, manifest, payload, read, cancel), cancel), manifest, DeltaUpdate.LauncherId);
 
         long downloaded = manifestBytes.Length;
         if (needed.Count > 0)
@@ -84,7 +89,8 @@ public sealed class Updater
                 throw new DeltaUnusable($"that release has no set of changes from {installedTag}");
             var file = Path.Combine(Staging, "changes.patch");
             var size = patch.Size > 0 ? patch.Size : needed.Sum(entry => entry.Size);
-            var files = needed.Count == 1 ? "1 file" : $"{needed.Count} files";
+            var gameFiles = needed.Count - (newLauncher ? 1 : 0);
+            var files = (newLauncher ? "the new launcher and " : "") + (gameFiles == 1 ? "1 file" : $"{gameFiles} files");
             progress.Report((36, $"Downloading {DeltaUpdate.Plain(size)} of changes ({files})…"));
             downloaded += await DownloadAsync(patch.Url, file, size,
                 (done, of) => progress.Report((36 + (int)(done * 50 / of), $"Downloading {DeltaUpdate.Plain(of)} of changes… {DeltaUpdate.Plain(done)} so far")), cancel);
@@ -92,10 +98,30 @@ public sealed class Updater
             await Task.Run(() => DeltaUpdate.ApplyPatch(file, needed, payload, cancel), cancel);
         }
         File.WriteAllBytes(Path.Combine(payload, ReleaseManifest.FileName), manifestBytes);
-        DeltaUpdate.VerifyStaged(payload, manifest);
+        DeltaUpdate.VerifyStaged(payload, manifest, newLauncher);
         Check(payload, release.Tag);
+        if (newLauncher) await ProveLauncherAsync(Path.Combine(payload, UpdateSwap.ExeName), manifest.Launcher!, cancel);
         progress.Report((90, $"Ready to install. Downloaded {DeltaUpdate.Plain(downloaded)} instead of the whole game."));
         return new StagedUpdate(payload, true, downloaded, null, needed.Count);
+    }
+
+    /// <summary>
+    /// Run the staged new launcher once, asking only for its launcher id, before anything of this one is
+    /// touched - the same proof the whole download gets from running the setup program to unpack it.
+    /// </summary>
+    /// <exception cref="DeltaUnusable">It would not start, or says it is some other launcher.</exception>
+    private static async Task ProveLauncherAsync(string exe, string expectedId, CancellationToken cancel)
+    {
+        var start = new ProcessStartInfo(exe, "--launcher-id") { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = Staging };
+        using var process = Process.Start(start) ?? throw new DeltaUnusable("Windows would not start the new launcher");
+        var output = process.StandardOutput.ReadToEndAsync(cancel);
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancel);
+        timeout.CancelAfter(TimeSpan.FromMinutes(2));
+        try { await process.WaitForExitAsync(timeout.Token); }
+        catch (OperationCanceledException) when (!cancel.IsCancellationRequested) { try { process.Kill(); } catch { } throw new DeltaUnusable("the new launcher did not answer"); }
+        var said = (await output).Trim();
+        if (process.ExitCode != 0 || !string.Equals(said, expectedId, StringComparison.OrdinalIgnoreCase))
+            throw new DeltaUnusable("the new launcher did not say it was the one its list names");
     }
 
     /// <summary>The whole release: its setup program, or failing that its update archive.</summary>

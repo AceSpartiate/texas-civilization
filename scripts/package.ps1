@@ -2,10 +2,10 @@
 #
 # These come out of this, and a release attaches all of them:
 #
-#   TexasRevolutionSetup.exe   the whole thing - a setup program that carries the game and
-#                              becomes the launcher once it has installed it; what an installed
-#                              launcher downloads when the small update cannot be used - so this
-#                              name always means the whole setup
+#   TexasRevolutionSetup.exe   the whole thing - the plain launcher with the game appended
+#                              (launcher/SetupLayout.cs), which installs the game and the plain
+#                              launcher; what an installed launcher downloads when the small update
+#                              cannot be used - so this name always means the whole setup
 #   TexasRevolutionInstaller.exe  the small setup (websetup/), about 170 KB, to email to a colleague:
 #                              it downloads the latest TexasRevolutionSetup.exe and runs it
 #   ...-Gonzales-<stamp>.zip   the game with its runtime and no launcher: what launchers from
@@ -16,6 +16,11 @@
 #     TexasRevolution-manifest.json                 every shipped file's path, size and SHA-256
 #     TexasRevolution-Changes-From-<tag>.patch      the files changed since each recent release
 #                                                   that had the same launcher
+#     TexasRevolution-Launcher-And-Changes-From-<tag>.patch   the same plus the plain launcher (about
+#                                                   90 MB), from each recent release with another
+#                                                   launcher that can take one (from 2026-10-03)
+#   TexasRevolution-Launcher-<stamp>.exe   the plain launcher on its own, the head of the setup and
+#                              what those sets carry. Kept here to look at; not attached to a release.
 #
 # The sets of changes are made against the published releases' lists, fetched with gh (read
 # only), or against the lists in -BaseManifests. Without either, the release still ships and
@@ -132,12 +137,43 @@ New-Item -ItemType Directory -Force (Join-Path $app 'docs') | Out-Null
 Copy-Item -LiteralPath (Join-Path $root 'docs\RECOVERY.md') -Destination (Join-Path $app 'docs') -Force
 if (@(Get-ChildItem -LiteralPath (Join-Path $app 'docs') -Recurse -Force).Count -ne 1) { throw 'Only docs\RECOVERY.md ships from docs' }
 
-# ---------------------------------------------------------------- the list of files
-# Last thing written into the package, so it lists everything else in it. The launcher's id goes
-# into both the list and the setup program below: a set of changes is only used between releases
-# whose launcher is the same.
+# ---------------------------------------------------------------- the plain launcher
+# The launcher with no game in it (owner, 2026-10-03: "Small launcher in patch"): about 90 MB,
+# mostly .NET. It is what the setup program installs, the head of the setup program itself, and
+# what a set of changes carries when the launcher changes - so a launcher change costs about 90 MB
+# instead of the whole setup program. Built before the list, which records its size and hash.
 $launcherId = Get-LauncherId $launcherDir
-$manifest = Write-ReleaseManifest $app $Tag $launcherId
+$plainLauncher = $null
+if (-not $SkipLauncher) {
+  # A payload.zip left by a packaging run from before 2026-10-03 is no longer read by the project;
+  # removed anyway, so nothing that looks like a game sits beside the sources.
+  $stalePayload = Join-Path $launcherDir 'payload.zip'
+  if (Test-Path -LiteralPath $stalePayload) { Remove-Item -LiteralPath $stalePayload -Force }
+  $published = Join-Path $launcherDir 'bin\package'
+  if (Test-Path -LiteralPath $published) { Remove-Item -LiteralPath $published -Recurse -Force }
+  Push-Location $launcherDir
+  try {
+    & dotnet publish -c Release -r win-x64 --self-contained true `
+      -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
+      "-p:InformationalVersion=$Tag" "-p:LauncherId=$launcherId" `
+      -o bin\package -v quiet | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw 'The launcher did not build.' }
+  } finally { Pop-Location }
+  $built = Join-Path $published 'TexasRevolution.exe'
+  if (-not (Test-Path -LiteralPath $built)) { throw 'The launcher built but produced no exe.' }
+  $plainLauncher = Join-Path $stage 'TexasRevolution.exe'
+  Copy-Item -LiteralPath $built -Destination $plainLauncher -Force
+  # It must carry no game: a launcher with a trailer would install as a setup program.
+  $probe = [IO.File]::OpenRead($plainLauncher)
+  try { $tail = New-Object byte[] 13; [void]$probe.Seek(-32, 'End'); [void]$probe.Read($tail, 0, 13) } finally { $probe.Dispose() }
+  if ([Text.Encoding]::ASCII.GetString($tail) -eq $script:SetupMagic) { throw 'The plain launcher carries a game.' }
+}
+
+# ---------------------------------------------------------------- the list of files
+# Last thing written into the package, so it lists everything else in it. The launcher's id and
+# the plain launcher's size and hash go into it: a set of changes between releases with the same
+# launcher keeps the running one, and between releases with different launchers carries this one.
+$manifest = Write-ReleaseManifest $app $Tag $launcherId $plainLauncher
 
 # ---------------------------------------------------------------- the update archive
 # What an installed launcher downloads when it updates (launcher/Updater.cs): the game with
@@ -150,29 +186,14 @@ if (Test-Path -LiteralPath $update) { Remove-Item -LiteralPath $update -Force }
 Compress-Archive -Path $app -DestinationPath $update -CompressionLevel Optimal
 
 # ---------------------------------------------------------------- the setup program
-# The payload is the game and never the launcher: the setup copies itself into place once
-# it has unpacked, so .NET is downloaded once rather than twice. It is the update archive.
-$payload = Join-Path $launcherDir 'payload.zip'
+# The plain launcher with the game appended (launcher/SetupLayout.cs, 2026-10-03): .NET is in the
+# download once, and the setup installs the plain launcher - never itself, game and all, as it did
+# until 2026-10-03. The game it carries is the update archive.
 $setup = Join-Path $Destination 'TexasRevolutionSetup.exe'
+$plainCopy = Join-Path $Destination "TexasRevolution-Launcher-$Stamp.exe"
 if (-not $SkipLauncher) {
-  if (Test-Path -LiteralPath $payload) { Remove-Item -LiteralPath $payload -Force }
-  Copy-Item -LiteralPath $update -Destination $payload -Force
-  Push-Location $launcherDir
-  try {
-    & dotnet publish -c Release -r win-x64 --self-contained true `
-      -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
-      "-p:InformationalVersion=$Tag" "-p:LauncherId=$launcherId" `
-      -o bin\package -v quiet | Out-Null
-    if ($LASTEXITCODE -ne 0) { throw 'The setup program did not build.' }
-  } finally {
-    Pop-Location
-    # Removed straight away: an ordinary `dotnet build` afterwards should produce the plain
-    # launcher for a working copy, not one carrying a stale game inside it.
-    if (Test-Path -LiteralPath $payload) { Remove-Item -LiteralPath $payload -Force }
-  }
-  $built = Join-Path $launcherDir 'bin\package\TexasRevolution.exe'
-  if (-not (Test-Path -LiteralPath $built)) { throw 'The setup program built but produced no exe.' }
-  Copy-Item -LiteralPath $built -Destination $setup -Force
+  New-SetupProgram $plainLauncher $update $setup
+  Copy-Item -LiteralPath $plainLauncher -Destination $plainCopy -Force
 }
 
 # ---------------------------------------------------------------- the small setup
@@ -196,7 +217,7 @@ if ($BaseManifests) {
   New-Item -ItemType Directory -Force $fetched | Out-Null
   $bases = @(Save-PublishedManifests $Repo $PatchBases $fetched)
 }
-$made = Write-ReleaseChanges $app $manifest $bases $changes (Get-Item -LiteralPath $update).Length
+$made = Write-ReleaseChanges $app $manifest $bases $changes (Get-Item -LiteralPath $update).Length $plainLauncher
 
 # ---------------------------------------------------------------- the smaller package
 # No Node runtime and no launcher: for a machine that already has Node, using Launch.vbs as it
@@ -209,14 +230,14 @@ if (Test-Path -LiteralPath $needsNode) { Remove-Item -LiteralPath $needsNode -Fo
 Compress-Archive -Path $app -DestinationPath $needsNode -CompressionLevel Optimal
 
 Remove-Item -LiteralPath $stage -Recurse -Force
-foreach ($file in @($setup, $update, $needsNode)) {
+foreach ($file in @($setup, $plainCopy, $update, $needsNode)) {
   if (Test-Path -LiteralPath $file) { '{0}  {1} MB' -f $file, [math]::Round((Get-Item -LiteralPath $file).Length / 1MB, 1) }
 }
 '{0}  {1} KB' -f $installer, [math]::Ceiling((Get-Item -LiteralPath $installer).Length / 1KB)
 "launcher id $launcherId; $($manifest.Files.Count) files listed"
 foreach ($entry in $made) {
   if ($entry.PSObject.Properties['Skipped']) { "  no set of changes from $($entry.From): $($entry.Skipped)" }
-  else { '  {0}  {1} files, {2} KB' -f $entry.Asset, $entry.Files, [math]::Ceiling($entry.Bytes / 1KB) }
+  else { '  {0}  {1} files{3}, {2} KB' -f $entry.Asset, $entry.Files, [math]::Ceiling($entry.Bytes / 1KB), $(if ($entry.Launcher) { ' (the launcher among them)' } else { '' }) }
 }
 if (-not @($made | Where-Object { -not $_.PSObject.Properties['Skipped'] }).Count) { '  no sets of changes: every launcher takes the whole download for this release' }
 # The exact command, so nothing the small update needs is left off the release.

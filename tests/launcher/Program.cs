@@ -61,7 +61,7 @@ void Write(string root, IDictionary<string, string> files)
     }
 }
 
-byte[] ManifestJson(IDictionary<string, string> files, string release, string? launcher = Launcher, int format = 1)
+byte[] ManifestJson(IDictionary<string, string> files, string release, string? launcher = Launcher, int format = 1, string? launcherExe = null)
 {
     var entries = files.OrderBy(file => file.Key, StringComparer.Ordinal).Select(file =>
     {
@@ -69,8 +69,12 @@ byte[] ManifestJson(IDictionary<string, string> files, string release, string? l
         return $"{{\"path\":\"{file.Key}\",\"size\":{bytes.Length},\"sha256\":\"{Hex(bytes)}\"}}";
     });
     var id = launcher is null ? "" : $"\"launcher\":\"{launcher}\",";
-    return Encoding.UTF8.GetBytes($"{{\"format\":{format},\"release\":\"{release}\",{id}\"files\":[{string.Join(",", entries)}]}}");
+    var exe = launcherExe is null ? "" : $"\"launcherExe\":{{\"size\":{Encoding.UTF8.GetByteCount(launcherExe)},\"sha256\":\"{Hex(Encoding.UTF8.GetBytes(launcherExe))}\"}},";
+    return Encoding.UTF8.GetBytes($"{{\"format\":{format},\"release\":\"{release}\",{id}{exe}\"files\":[{string.Join(",", entries)}]}}");
 }
+
+// The new plain launcher a release with a different launcher brings in its set of changes (2026-10-03).
+const string NewLauncherBytes = "the new launcher, about 90 MB in a real release";
 
 string Patch(IDictionary<string, string> files, IEnumerable<string> paths, Func<string, string>? tamper = null)
 {
@@ -311,6 +315,164 @@ Test("plain-sizes: sizes are said as a teacher would say them", () =>
     Assert(DeltaUpdate.Plain(412 * 1024) == "412 KB", DeltaUpdate.Plain(412 * 1024));
     Assert(DeltaUpdate.Plain(160L * 1024 * 1024) == "160 MB", DeltaUpdate.Plain(160L * 1024 * 1024));
     Assert(DeltaUpdate.Plain(5 * 1024 * 1024 + 300 * 1024) == "5.3 MB", DeltaUpdate.Plain(5 * 1024 * 1024 + 300 * 1024));
+});
+
+// ---------------------------------------------------------------- a new launcher in the set of changes (2026-10-03)
+// Owner, 2026-10-03: "Small launcher in patch". v2 here has another launcher; its list names its plain
+// launcher file, and its set of changes carries that file as TexasRevolution.exe.
+
+var v2WithExe = new Dictionary<string, string>(v2) { [UpdateSwap.ExeName] = NewLauncherBytes };
+
+(string Staged, ReleaseManifest Manifest) StageNewLauncher(string installed, Func<string, string>? tamper = null, bool leaveOutExe = false)
+{
+    var bytes = ManifestJson(v2, "v2", OtherLauncher, launcherExe: NewLauncherBytes);
+    var manifest = ReleaseManifest.Parse(bytes);
+    var staged = Folder("staged");
+    var needed = DeltaUpdate.WithLauncher(DeltaUpdate.CopyUnchanged(installed, manifest, staged), manifest, Launcher);
+    var paths = needed.Select(file => file.Path).Where(path => !(leaveOutExe && path == UpdateSwap.ExeName));
+    DeltaUpdate.ApplyPatch(Patch(v2WithExe, paths, tamper), needed, staged);
+    File.WriteAllBytes(Path.Combine(staged, ReleaseManifest.FileName), bytes);
+    DeltaUpdate.VerifyStaged(staged, manifest, withLauncher: true);
+    return (staged, manifest);
+}
+
+Test("launcher-accept: a different launcher whose list names its launcher file takes the changes, and brings it", () =>
+{
+    var manifest = ReleaseManifest.Parse(ManifestJson(v2, "v2", OtherLauncher, launcherExe: NewLauncherBytes));
+    var reason = DeltaUpdate.Refusal(manifest, "v2", Launcher);
+    Assert(reason is null, "the list was refused: " + reason);
+    Assert(manifest.LauncherExe is { Path: UpdateSwap.ExeName } exe && exe.Size == NewLauncherBytes.Length, "the launcher file was not read");
+    var needed = DeltaUpdate.WithLauncher(new List<ManifestFile>(), manifest, Launcher);
+    Assert(needed.Count == 1 && needed[0].Path == UpdateSwap.ExeName, "the new launcher is not among the files to take");
+    // The same launcher keeps the one running, whatever the list says about its file.
+    var same = ReleaseManifest.Parse(ManifestJson(v2, "v2", Launcher, launcherExe: NewLauncherBytes));
+    Assert(DeltaUpdate.WithLauncher(new List<ManifestFile>(), same, Launcher).Count == 0, "the same launcher was taken again");
+});
+
+Test("launcher-stage: the new launcher is staged, checked and swapped in with the game; the old one renamed aside", () =>
+{
+    var installed = InstallV1();
+    var save = Hex(File.ReadAllBytes(Path.Combine(installed, "data", "classroom.json")));
+    var (staged, _) = StageNewLauncher(installed);
+    Assert(File.ReadAllText(Path.Combine(staged, UpdateSwap.ExeName)) == NewLauncherBytes, "the new launcher was not staged");
+    UpdateSwap.Apply(staged, installed, DeltaUpdate.Retired(installed, staged));
+    Assert(File.ReadAllText(Path.Combine(installed, UpdateSwap.ExeName)) == NewLauncherBytes, "the installed launcher is not the new one");
+    Assert(File.ReadAllText(Path.Combine(installed, UpdateSwap.OldExeName)) == "the running launcher", "the running launcher was not renamed aside");
+    Assert(File.ReadAllText(Path.Combine(installed, "server", "main.mjs")) == v2["server/main.mjs"], "the game did not move to v2");
+    Assert(Hex(File.ReadAllBytes(Path.Combine(installed, "data", "classroom.json"))) == save, "the class data changed");
+});
+
+Test("launcher-hash: a new launcher that does not hash as listed is refused", () =>
+{
+    var installed = InstallV1();
+    try { StageNewLauncher(installed, text => text == NewLauncherBytes ? text.Replace("new", "NEW") : text); }
+    catch (DeltaUnusable) { return; }
+    throw new Exception("a tampered launcher was accepted");
+});
+
+Test("launcher-missing: a set of changes without the new launcher it needs is refused", () =>
+{
+    var installed = InstallV1();
+    try { StageNewLauncher(installed, leaveOutExe: true); }
+    catch (DeltaUnusable) { return; }
+    throw new Exception("a set without the new launcher was accepted");
+});
+
+Test("launcher-verify: the staged build must hold the new launcher when one is brought, and not otherwise", () =>
+{
+    var installed = InstallV1();
+    var (staged, manifest) = StageNewLauncher(installed);
+    // Brought but not expected: a launcher the list did not call for is a stray file.
+    try { DeltaUpdate.VerifyStaged(staged, manifest, withLauncher: false); throw new Exception("a staged launcher nobody asked for passed"); }
+    catch (DeltaUnusable) { }
+    File.Delete(Path.Combine(staged, UpdateSwap.ExeName));
+    try { DeltaUpdate.VerifyStaged(staged, manifest, withLauncher: true); throw new Exception("a staged build without its new launcher passed"); }
+    catch (DeltaUnusable) { }
+});
+
+Test("launcher-rollback: a swap that fails after the new launcher went in puts the old launcher back", () =>
+{
+    var installed = InstallV1();
+    var before = Read(installed);
+    var (staged, _) = StageNewLauncher(installed);
+    using (File.Open(Path.Combine(installed, "server", "main.mjs"), FileMode.Open, FileAccess.Read, FileShare.None))
+    {
+        try { UpdateSwap.Apply(staged, installed, DeltaUpdate.Retired(installed, staged)); throw new Exception("the swap did not fail with server\\ held open"); }
+        catch (IOException) { }
+        catch (UnauthorizedAccessException) { }
+    }
+    var after = Read(installed);
+    Assert(File.ReadAllText(Path.Combine(installed, UpdateSwap.ExeName)) == "the running launcher", "the old launcher was not put back");
+    Assert(after.Count == before.Count && before.All(file => after.TryGetValue(file.Key, out var hash) && hash == file.Value),
+        "after the rollback: " + string.Join(", ", before.Keys.Where(key => !after.ContainsKey(key) || after[key] != before[key]).Concat(after.Keys.Where(key => !before.ContainsKey(key)))));
+});
+
+Test("launcher-list: the list cannot move the launcher or carry a damaged one", () =>
+{
+    var placed = ReleaseManifest.Parse(Encoding.UTF8.GetBytes($"{{\"format\":1,\"release\":\"v2\",\"launcher\":\"{OtherLauncher}\",\"launcherExe\":{{\"path\":\"../elsewhere.exe\",\"size\":5,\"sha256\":\"{new string('a', 64)}\"}},\"files\":[{{\"path\":\"a.txt\",\"size\":1,\"sha256\":\"{new string('b', 64)}\"}}]}}"));
+    Assert(placed.LauncherExe?.Path == UpdateSwap.ExeName, "the list put the launcher at " + placed.LauncherExe?.Path);
+    foreach (var bad in new[] { $"{{\"size\":0,\"sha256\":\"{new string('a', 64)}\"}}", "{\"size\":5,\"sha256\":\"abc\"}" })
+    {
+        try { ReleaseManifest.Parse(Encoding.UTF8.GetBytes($"{{\"format\":1,\"release\":\"v2\",\"launcher\":\"{OtherLauncher}\",\"launcherExe\":{bad},\"files\":[{{\"path\":\"a.txt\",\"size\":1,\"sha256\":\"{new string('b', 64)}\"}}]}}")); }
+        catch (DeltaUnusable) { continue; }
+        throw new Exception($"a damaged launcher entry was accepted: {bad}");
+    }
+});
+
+Test("launcher-asset: a set carrying the launcher is found, under a name no launcher from before reads", () =>
+{
+    var name = DeltaUpdate.PatchAssetName("v1", withLauncher: true);
+    Assert(!name.StartsWith(DeltaUpdate.PatchPrefix, StringComparison.OrdinalIgnoreCase), name + " would be read by a launcher from before, which would offer the changes and then refuse them");
+    Assert(!name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase), name + " would be taken for the game");
+    var release = Updates.Parse($$"""
+        {"tag_name":"v2","html_url":"page","name":"v2","assets":[
+          {"name":"{{name}}","browser_download_url":"u/launcher-patch","size":94371840},
+          {"name":"TexasRevolutionSetup.exe","browser_download_url":"u/setup","size":690000000}]}
+        """);
+    Assert(release.Patches is not null && release.Patches.TryGetValue("v1", out var patch) && patch.Url == "u/launcher-patch", "the set carrying the launcher was not found");
+    var (bytes, changes) = DeltaUpdate.Estimate(release with { ManifestUrl = "u/m", ManifestSize = 50_000 }, "v1", Launcher);
+    Assert(changes && bytes == 94371840 + 50_000, $"the check promised {bytes} changes={changes}");
+});
+
+// The setup program: the plain launcher, the game zip appended, a trailer (launcher/SetupLayout.cs).
+byte[] Trailer(long launcher, long payload)
+{
+    var trailer = new byte[SetupLayout.TrailerLength];
+    Encoding.ASCII.GetBytes(SetupLayout.Magic).CopyTo(trailer, 0);
+    BitConverter.GetBytes(launcher).CopyTo(trailer, 16);
+    BitConverter.GetBytes(payload).CopyTo(trailer, 24);
+    return trailer;
+}
+
+Test("setup-layout: the setup installs the game and the plain launcher at its head, never the whole setup, never data", () =>
+{
+    var folder = Folder("setup");
+    var game = Path.Combine(folder, "game");
+    Write(Path.Combine(game, "TexasRevolution"), new Dictionary<string, string> { ["server/main.mjs"] = "// the game", ["release.txt"] = "v2", ["data/classroom.json"] = "somebody else's class" });
+    var zip = Path.Combine(folder, "game.zip");
+    ZipFile.CreateFromDirectory(game, zip);
+    var launcher = Encoding.UTF8.GetBytes("MZ the plain launcher");
+    var payload = File.ReadAllBytes(zip);
+    var setup = Path.Combine(folder, "TexasRevolutionSetup.exe");
+    File.WriteAllBytes(setup, launcher.Concat(payload).Concat(Trailer(launcher.Length, payload.Length)).ToArray());
+    var parts = SetupLayout.ReadFile(setup);
+    Assert(parts is not null && parts.LauncherLength == launcher.Length && parts.PayloadOffset == launcher.Length && parts.PayloadLength == payload.Length, "the setup was not read");
+
+    var target = Folder("target");
+    Directory.CreateDirectory(Path.Combine(target, "data"));
+    File.WriteAllText(Path.Combine(target, "data", "classroom.json"), "this teacher's class");
+    SetupLayout.Extract(setup, target);
+    Assert(File.ReadAllText(Path.Combine(target, "server", "main.mjs")) == "// the game", "the game was not unpacked");
+    Assert(File.ReadAllText(Path.Combine(target, "data", "classroom.json")) == "this teacher's class", "the class data was written over");
+    Assert(File.ReadAllBytes(Path.Combine(target, UpdateSwap.ExeName)).SequenceEqual(launcher), "the installed launcher is not the plain launcher at the setup's head");
+
+    // Not setups: the plain launcher itself, and a trailer whose lengths do not add up.
+    var plain = Path.Combine(folder, "plain.exe");
+    File.WriteAllBytes(plain, launcher);
+    Assert(SetupLayout.ReadFile(plain) is null, "the plain launcher was taken for a setup");
+    var wrong = Path.Combine(folder, "wrong.exe");
+    File.WriteAllBytes(wrong, launcher.Concat(payload).Concat(Trailer(launcher.Length + 1, payload.Length)).ToArray());
+    Assert(SetupLayout.ReadFile(wrong) is null, "a setup whose lengths do not add up was read");
 });
 
 try { Directory.Delete(scratch, recursive: true); } catch { /* the temp folder is emptied by Windows in time */ }

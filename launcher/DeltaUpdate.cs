@@ -17,12 +17,17 @@ public sealed record ManifestFile(string Path, long Size, string Sha256);
 /// <para><c>format</c> is the oldest updater that can read the list. A launcher that knows only an
 /// older format takes the whole download instead, so the list can change shape without stranding
 /// anybody. <c>launcher</c> is the hash of the launcher's own sources the setup program was built
-/// from (<c>LauncherId</c> in the csproj): a release whose launcher differs from the one running
-/// cannot be reached by changing game files, because the launcher travels only inside the setup
-/// program.</para>
+/// from (<c>LauncherId</c> in the csproj).</para>
 ///
-/// <para>The launcher executable itself is not in the list - it is not in the update archive
-/// either - and neither is the list.</para>
+/// <para>The launcher executable itself is not in <c>files</c> - a path there may never name it
+/// (<see cref="IsSafePath"/>) - and neither is the list. From 2026-10-03 the list says, separately,
+/// how long the release's plain launcher is and its SHA-256 (<c>"launcherExe": {"size", "sha256"}</c>,
+/// <see cref="LauncherExe"/>); where it goes is fixed here as <c>TexasRevolution.exe</c>, never read
+/// from the list. A launcher whose own id differs from <c>launcher</c> takes that file out of a set of
+/// changes, checks it against this hash and swaps it in (owner, 2026-10-03: "Small launcher in
+/// patch"). A list without it, from before, still means "a new launcher: take the whole setup
+/// program". The field is additive, so <c>format</c> stays 1: a launcher from before reads past it,
+/// and refuses that list by its launcher id as it always has.</para>
 /// </remarks>
 public sealed class ReleaseManifest
 {
@@ -37,6 +42,8 @@ public sealed class ReleaseManifest
     public string Release { get; init; } = "";
     public string? Launcher { get; init; }
     public IReadOnlyList<ManifestFile> Files { get; init; } = Array.Empty<ManifestFile>();
+    /// <summary>The release's plain launcher, always at <c>TexasRevolution.exe</c>; null in a list from before 2026-10-03.</summary>
+    public ManifestFile? LauncherExe { get; init; }
 
     /// <summary>Read a list, refusing one that is malformed or names a file it may not write.</summary>
     /// <exception cref="DeltaUnusable">The list cannot be trusted to rebuild an installation.</exception>
@@ -51,9 +58,18 @@ public sealed class ReleaseManifest
             var launcher = root.TryGetProperty("launcher", out var id) && id.ValueKind == JsonValueKind.String ? id.GetString() : null;
             var files = new List<ManifestFile>();
             var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            ManifestFile? launcherExe = null;
             // A list from a newer format may carry anything; it is refused by format, not by shape.
             if (format <= SupportedFormat)
             {
+                if (root.TryGetProperty("launcherExe", out var exe) && exe.ValueKind != JsonValueKind.Null)
+                {
+                    var size = exe.GetProperty("size").GetInt64();
+                    var hash = (exe.GetProperty("sha256").GetString() ?? "").ToLowerInvariant();
+                    if (size <= 0 || hash.Length != 64 || !hash.All(Uri.IsHexDigit)) throw new DeltaUnusable("its list of files is damaged at the launcher");
+                    // The place is this launcher's own name, never anything the list says.
+                    launcherExe = new ManifestFile(UpdateSwap.ExeName, size, hash);
+                }
                 foreach (var entry in root.GetProperty("files").EnumerateArray())
                 {
                     var path = entry.GetProperty("path").GetString() ?? "";
@@ -66,7 +82,7 @@ public sealed class ReleaseManifest
                 }
                 if (release.Length == 0 || files.Count == 0) throw new DeltaUnusable("its list of files is empty");
             }
-            return new ReleaseManifest { Format = format, Release = release, Launcher = string.IsNullOrWhiteSpace(launcher) ? null : launcher, Files = files };
+            return new ReleaseManifest { Format = format, Release = release, Launcher = string.IsNullOrWhiteSpace(launcher) ? null : launcher, Files = files, LauncherExe = launcherExe };
         }
         catch (DeltaUnusable) { throw; }
         catch (Exception error) when (error is JsonException or KeyNotFoundException or InvalidOperationException or FormatException)
@@ -114,17 +130,28 @@ public sealed class DeltaUnusable : Exception
 /// </summary>
 /// <remarks>
 /// <para>A release carries, beside the full downloads, its list of files and one set of changes
-/// ("patch") from each of its recent predecessors that had the same launcher:
-/// <c>TexasRevolution-Changes-From-&lt;tag&gt;.patch</c>, a zip of the files whose hash differs
-/// from that release's. The launcher reads its own installed tag, takes the set of changes from
+/// ("patch") from each of its recent predecessors: <c>TexasRevolution-Changes-From-&lt;tag&gt;.patch</c>,
+/// a zip of the files whose hash differs from that release's, when the two had the same launcher;
+/// <c>TexasRevolution-Launcher-And-Changes-From-&lt;tag&gt;.patch</c>, the same with the new plain
+/// launcher in it as <c>TexasRevolution.exe</c>, when they did not (from 2026-10-03, and only from a
+/// release whose own list names its launcher file - a launcher from before cannot take one, so none
+/// is made for it). The second name deliberately does not begin like the first: a launcher from
+/// before reads only the first, so it never offers a teacher "only what changed" and then refuses the
+/// list - it says the whole setup program's size and takes it, as it always did. The launcher reads its own installed tag, takes the set of changes from
 /// it, and builds the new version in staging: every installed file whose hash already matches
 /// the new list is copied across, every other one comes out of the set of changes and is hashed
 /// against the list. Staged, the result is byte for byte the build the full download would have
 /// unpacked, and it goes in through exactly the same swap and rollback
 /// (<see cref="UpdateSwap"/>).</para>
 ///
+/// <para>When the launcher has changed, the new launcher from the set of changes is staged too,
+/// hashed against the list's <c>launcherExe</c>, asked to say its own launcher id (so a launcher that
+/// will not start is found before anything is replaced, as running the whole setup program finds it),
+/// and swapped in first by the same <see cref="UpdateSwap"/>: the running launcher renamed to
+/// <c>.old</c>, the new one copied in, and all of it put back if any later part fails.</para>
+///
 /// <para>Anything that stops that - no list, no set of changes from this release, a launcher
-/// that has changed, a list in a newer format, a file that does not hash as the list says, a
+/// that has changed with no launcher in the set, a list in a newer format, a file that does not hash as the list says, a
 /// download cut off - falls back to the full download, and the teacher is told why in a line.
 /// Nothing is replaced until the staged build is complete.</para>
 ///
@@ -134,26 +161,29 @@ public sealed class DeltaUnusable : Exception
 /// local disk work; it is worth writing if a slow school disk is found making the update wait
 /// longer than the download it saved.</para>
 ///
-/// <para>ceiling: the small update keeps the launcher, and the installed launcher is a setup
-/// program carrying the game it was built with. After a small update that copy, carried to another
-/// machine on a memory stick, installs the older game - which then says it is older and offers
-/// the update. The whole download (a changed launcher, or a setup program run over the top)
-/// brings it level again. A launcher asset of its own would end that, at the cost of the memory
-/// stick copy no longer carrying a game at all.</para>
+/// <para>Until 2026-10-03 the installed launcher was the setup program itself, game and all, so a
+/// small update left a launcher that, carried to another machine on a memory stick, installed an
+/// older game. The installed launcher now carries no game (<see cref="SetupLayout"/>); a memory
+/// stick takes <c>TexasRevolutionSetup.exe</c>.</para>
 /// </remarks>
 public static class DeltaUpdate
 {
     public const string PatchPrefix = "TexasRevolution-Changes-From-";
+    /// <summary>A set of changes that also carries the new launcher (from 2026-10-03). Not a name a launcher from before reads.</summary>
+    public const string LauncherPatchPrefix = "TexasRevolution-Launcher-And-Changes-From-";
     public const string PatchSuffix = ".patch";
 
-    public static string PatchAssetName(string fromTag) => PatchPrefix + fromTag + PatchSuffix;
+    public static string PatchAssetName(string fromTag, bool withLauncher = false) => (withLauncher ? LauncherPatchPrefix : PatchPrefix) + fromTag + PatchSuffix;
 
     /// <summary>The release a set of changes starts from, or null when the name is not one.</summary>
-    public static string? PatchBase(string assetName) =>
-        assetName.StartsWith(PatchPrefix, StringComparison.OrdinalIgnoreCase) && assetName.EndsWith(PatchSuffix, StringComparison.OrdinalIgnoreCase)
-        && assetName.Length > PatchPrefix.Length + PatchSuffix.Length
-            ? assetName[PatchPrefix.Length..^PatchSuffix.Length]
-            : null;
+    public static string? PatchBase(string assetName)
+    {
+        if (!assetName.EndsWith(PatchSuffix, StringComparison.OrdinalIgnoreCase)) return null;
+        foreach (var prefix in new[] { PatchPrefix, LauncherPatchPrefix })
+            if (assetName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) && assetName.Length > prefix.Length + PatchSuffix.Length)
+                return assetName[prefix.Length..^PatchSuffix.Length];
+        return null;
+    }
 
     /// <summary>
     /// The hash of the sources this launcher was built from, stamped by <c>scripts/package.ps1</c>.
@@ -179,11 +209,28 @@ public static class DeltaUpdate
     {
         if (manifest.Format > ReleaseManifest.SupportedFormat) return "that release needs a newer launcher";
         if (!string.Equals(manifest.Release, expectedTag, StringComparison.OrdinalIgnoreCase)) return $"its list of files is for {manifest.Release}, not {expectedTag}";
-        if (manifest.Launcher is null || !string.Equals(manifest.Launcher, launcherId, StringComparison.OrdinalIgnoreCase)) return "that release brings a new launcher";
+        if (manifest.Launcher is null) return "that release brings a new launcher";
+        if (NeedsLauncher(manifest, launcherId) && manifest.LauncherExe is null) return "that release brings a new launcher";
         return null;
     }
 
+    /// <summary>True when the release's launcher is not this one, so the small update has to bring it.</summary>
+    public static bool NeedsLauncher(ReleaseManifest manifest, string? launcherId) =>
+        !string.Equals(manifest.Launcher, launcherId, StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// The files to take out of the set of changes: those <see cref="CopyUnchanged"/> found missing
+    /// or different, and the new launcher when the release's launcher is not this one.
+    /// </summary>
+    /// <exception cref="DeltaUnusable">The launcher has changed and the list names no launcher file.</exception>
+    public static List<ManifestFile> WithLauncher(List<ManifestFile> needed, ReleaseManifest manifest, string? launcherId)
+    {
+        if (NeedsLauncher(manifest, launcherId)) needed.Add(manifest.LauncherExe ?? throw new DeltaUnusable("that release brings a new launcher"));
+        return needed;
+    }
+
     /// <summary>What the check can promise before anything is downloaded: the size, and whether it is only the changes.</summary>
+    /// <remarks>A set that carries the new launcher is about 90 MB, and that is the size it promises.</remarks>
     public static (long Bytes, bool Changes) Estimate(ReleaseInfo release, string? installedTag, string? launcherId)
     {
         if (Refusal(release, installedTag, launcherId) is null && release.Patches!.TryGetValue(installedTag!, out var patch))
@@ -257,16 +304,20 @@ public static class DeltaUpdate
 
     /// <summary>
     /// The last word before a staged build is swapped in: every listed file is there at its
-    /// listed size, and nothing else is but the list itself.
+    /// listed size, and nothing else is but the list itself - and the new launcher, when
+    /// <paramref name="withLauncher"/> says this update brings one.
     /// </summary>
-    public static void VerifyStaged(string staged, ReleaseManifest manifest)
+    public static void VerifyStaged(string staged, ReleaseManifest manifest, bool withLauncher = false)
     {
-        foreach (var file in manifest.Files)
+        var expected = withLauncher
+            ? manifest.Files.Append(manifest.LauncherExe ?? throw new DeltaUnusable("that release brings a new launcher")).ToList()
+            : manifest.Files;
+        foreach (var file in expected)
         {
             var info = new FileInfo(Combine(staged, file.Path));
             if (!info.Exists || info.Length != file.Size) throw new DeltaUnusable($"{file.Path} is missing from the new version");
         }
-        var listed = new HashSet<string>(manifest.Files.Select(file => file.Path), StringComparer.OrdinalIgnoreCase) { ReleaseManifest.FileName };
+        var listed = new HashSet<string>(expected.Select(file => file.Path), StringComparer.OrdinalIgnoreCase) { ReleaseManifest.FileName };
         foreach (var path in Directory.EnumerateFiles(staged, "*", SearchOption.AllDirectories))
         {
             var relative = System.IO.Path.GetRelativePath(staged, path).Replace('\\', '/');
