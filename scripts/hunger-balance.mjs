@@ -61,7 +61,10 @@ function runClass(seed, mode) {
   // Food in the house at each period's end, the median family's.
   const foodAtEnd = {};
   let ticks = 0, herdFood = 0;
-  const stockAtStart = households.filter(household => hasStock(household)).length;
+  // The herd (owner, 2026-10-03): families that ever had stock (the director deals it on a family's first turn), the food herds gave
+  // by period, the herd at each period's end among those with one, and the coin stock sold for.
+  const stocked = new Set(), herdFoodBy = { 1: 0, 2: 0, 3: 0 }, herdAt = {};
+  let currentPeriod = 1, stockCoin = 0;
   // A student who does one thing about food (owner, 2026-10-02): one grown person, not the head of the family where there is another,
   // sent to the first of the gathering works the family's land offers and put on auto, and nothing else ever given.
   const FOOD_WORKS = ['fish-the-water', 'gather-oysters', 'cut-bee-tree', 'take-small-game'];
@@ -109,12 +112,22 @@ function runClass(seed, mode) {
     const one = household.members.map(id => world.entities[id]).find(person => person && !person.chore && (view.work?.[person.id] || []).some(entry => entry.id === work && entry.can));
     if (one) try { applyAction(world, household.id, { action: 'chore', entityId: one.id, chore: work }); } catch { /* refused */ }
   };
+  // `ranching` also sells cattle over a breeding herd of eight at the pens, a trip a month at most (the harness, not a rule).
+  const soldOn = new Map();
+  const sellSurplus = household => {
+    const herd = herdOf(household), day = Math.floor(world.minute / DAY);
+    if (herd.cattle <= 8 || household.flight || day - (soldOn.get(household.id) ?? -99) < 30) return;
+    const view = projectWorld(world, household.id, 'student', { includeMap: false });
+    const one = household.members.map(id => world.entities[id]).find(person => person && !person.chore && !person.travel && (person.age ?? 30) >= 16 && (view.work?.[person.id] || []).some(entry => entry.id === 'visit-shop' && entry.can));
+    if (!one) return;
+    try { applyAction(world, household.id, { action: 'chore', entityId: one.id, chore: 'visit-shop', errand: [{ id: 'stockman:sell-cattle', n: Math.min(4, herd.cattle - 8) }] }); soldOn.set(household.id, day); } catch { /* the town has no pens, or the way is taken */ }
+  };
   const turn = () => {
     if (mode === 'herdonly') {
       households.forEach((household, index) => { if (!household.arriving && (world.tick + index) % THINK_EVERY === 0) { herder(household); butcherWhenShort(household); } });
       return;
     }
-    if (mode === 'ranching') households.forEach((household, index) => { if (!household.arriving && (world.tick + index) % THINK_EVERY === 0) herder(household); });
+    if (mode === 'ranching') households.forEach((household, index) => { if (!household.arriving && (world.tick + index) % THINK_EVERY === 0) { herder(household); sellSurplus(household); } });
     if (mode === 'gathering') {
       households.forEach((household, index) => { if (!household.arriving && (world.tick + index) % THINK_EVERY === 0) gatherer(household); });
       return;
@@ -144,23 +157,28 @@ function runClass(seed, mode) {
       for (const event of world.events.slice(-40)) {
         if (seen.has(event.id)) continue;
         // The herd's food to the family that killed it (sim/stock.mjs: a hog's pork, the beef's kept share), counted once.
-        if (event.claimId === 'FIC-GONZ-182' && event.actorId) { seen.add(event.id); const pork = /salted it down: ([0-9.]+) food/.exec(event.text || ''); herdFood += pork ? Number(pork[1]) : /killed a .*beef/.test(event.text || '') ? 15 : 0; continue; }
+        if (event.claimId === 'FIC-GONZ-182' && event.actorId) { seen.add(event.id); const pork = /salted it down: ([0-9.]+) food/.exec(event.text || ''); const got = pork ? Number(pork[1]) : /killed a .*beef/.test(event.text || '') ? 15 : 0; herdFood += got; herdFoodBy[currentPeriod] += got; continue; }
+        if (event.claimId === 'FIC-GONZ-1134' && event.coin > 0) { seen.add(event.id); stockCoin += event.coin; continue; }
         if (event.hunger !== 'died') continue;
         seen.add(event.id);
         const person = world.entities[event.actorId];
         deaths.push({ period, day: Math.round(event.minute / DAY), age: person.age ?? null, road: /on the road/.test(event.text) || Boolean(world.households[person.householdId]?.flight && world.households[person.householdId].flight.status !== 'home'), householdId: person.householdId, realSecondsStarving: starvingAt.has(person.id) ? Math.round((ticks - starvingAt.get(person.id)) * STUDY_TICK_MS / 1000) : null });
       }
       turn();
+      for (const household of households) if (hasStock(household) || household.herdLeft) stocked.add(household.id);
     }
     const foods = households.map(household => household.resources?.food || 0).sort((a, b) => a - b);
     foodAtEnd[period] = Math.round(foods[Math.floor(foods.length / 2)] * 10) / 10;
+    const herds = households.filter(household => hasStock(household)).map(household => herdOf(household));
+    const mid = list => { const sorted = [...list].sort((a, b) => a - b); return sorted.length ? sorted[Math.floor(sorted.length / 2)] : 0; };
+    herdAt[period] = { families: herds.length, cattle: mid(herds.map(h => h.cattle)), hogs: mid(herds.map(h => h.hogs)) };
   };
   runPeriod(1);
   const afterFirst = deaths.length;
   beginSecondPeriod(world); world.status = 'running';
-  runPeriod(2);
+  currentPeriod = 2; runPeriod(2);
   beginThirdPeriod(world); world.status = 'running';
-  runPeriod(3);
+  currentPeriod = 3; runPeriod(3);
   const hit = new Set(deaths.map(death => death.householdId));
   const wiped = households.filter(household => household.members.every(id => ['dead', 'captured'].includes(world.entities[id].health?.condition))).length;
   return {
@@ -173,7 +191,7 @@ function runClass(seed, mode) {
     kinds: Object.fromEntries([['lone', lone], ['big', big], ['war', war]].map(([kind, set]) => [kind, { families: set.size, hit: [...hit].filter(id => set.has(id)).length, deaths: deaths.filter(d => set.has(d.householdId)).length }])),
     leastRealSecondsStarving: deaths.length ? Math.min(...deaths.map(d => d.realSecondsStarving ?? Infinity)) : null,
     // The herd (owner, 2026-10-03): families that started with stock, the food their herds gave them, and the herd at the end.
-    stockFamilies: stockAtStart, herdFood: Math.round(herdFood),
+    stockFamilies: stocked.size, herdFood: Math.round(herdFood), herdFoodBy: Object.fromEntries(Object.entries(herdFoodBy).map(([k, v]) => [k, Math.round(v)])), herdAt, stockCoin,
     herdEnd: (() => { const kept = households.filter(household => hasStock(household)).map(household => herdOf(household)); const mid = list => { const sorted = list.sort((a, b) => a - b); return sorted.length ? sorted[Math.floor(sorted.length / 2)] : 0; }; return { families: kept.length, cattle: mid(kept.map(h => h.cattle)), hogs: mid(kept.map(h => h.hogs)) }; })(),
   };
 }

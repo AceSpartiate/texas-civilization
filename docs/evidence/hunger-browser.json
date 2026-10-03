@@ -21,7 +21,7 @@
     "the ways to food glowed on the bar from low on (hunt-land, take-small-game, fish-the-water), and not while there was plenty",
     "the gauge changed colour at every level: plenty rgba(57, 49, 33, 0.91)/rgb(169, 200, 116); fair rgba(57, 49, 33, 0.91)/rgb(220, 192, 99); low rgba(57, 49, 33, 0.91)/rgb(240, 167, 58); short rgba(112, 46, 20, 0.93)/rgb(240, 122, 60); empty rgba(138, 42, 28, 0.94)/rgb(255, 122, 92); weak rgba(122, 29, 20, 0.95)/rgb(255, 106, 74); starving rgba(110, 16, 12, 0.96)/rgb(255, 90, 68)",
     "the portraits were marked hungry (1), weak (1) and starving (1) with a ring and a bowl; none while there was plenty",
-    "the starving person's \"!\" says \"Polly Proofwright is starving. About 1 min left. And 1 more. Go to Polly Proofwright and answer.\" with 60 s left, and the story card is up in its own red",
+    "the starving person's \"!\" says \"Polly Proofwright is starving. About 59s left. And 1 more. Go to Polly Proofwright and answer.\" with 59 s left, and the story card is up in its own red",
     "with reduced motion the starving box stands still (none) and keeps its ring",
     "the food box is on the screen and on nothing else at 1366x768, 1024x600 and a phone of 400x800 (the page itself does not scroll sideways)",
     "the first death by hunger came 60 s after the family was first starving: \"Polly Proofwright died of hunger at home, and was buried there.\"",
@@ -57,7 +57,7 @@
         "shadow": "none",
         "animation": "larder-flash",
         "tone": "rgb(220, 192, 99)",
-        "fillWidth": 48,
+        "fillWidth": 47,
         "text": "Food 3.8",
         "label": "Food 3.8, about 13 days",
         "flash": true,
@@ -187,7 +187,7 @@
             "id": "hh-1-parent-1",
             "hunger": "starving",
             "mark": true,
-            "ring": "rgb(254, 73, 53) 0px 0px 0px 3.95932px inset, rgba(215, 38, 28, 0.863) 0px 0px 15.8373px 5.91864px inset"
+            "ring": "rgb(253, 72, 53) 0px 0px 0px 3.90922px inset, rgba(215, 38, 28, 0.855) 0px 0px 15.6369px 5.81845px inset"
           }
         ],
         "feeds": [
@@ -198,10 +198,10 @@
       }
     },
     "starving": "hh-1-parent-1",
-    "need": "Polly Proofwright is starving. About 1 min left. And 1 more. Go to Polly Proofwright and answer.",
+    "need": "Polly Proofwright is starving. About 59s left. And 1 more. Go to Polly Proofwright and answer.",
     "card": {
       "accent": "hunger",
-      "text": "Keep playing · 2\nNO FOOD\nPolly is starving\n\nAbout 60s left to find food.\n\nPolly Proofwright is starving.\n\nGo to Polly Next message",
+      "text": "Keep playing · 2\nNO FOOD\nPolly is starving\n\nAbout 59s left to find food.\n\nPolly Proofwright is starving.\n\nGo to Polly Next message",
       "icon": "icon-sell-food:1"
     },
     "reduced": {

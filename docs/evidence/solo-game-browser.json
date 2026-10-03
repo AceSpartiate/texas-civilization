@@ -1,26 +1,26 @@
 {
   "record": "solo-game-browser",
-  "date": "2026-10-02",
+  "date": "2026-10-03",
   "verdict": "PASS",
   "browser": "154.0.8037.93",
   "task": "Solo Mode end to end: the real solo server dealing on the real land; a solo game played from its dealt start to the road home through all three periods, the solo class view continuing it; a new game dealt after the end.",
   "environment": "Same computer: an in-process solo classroom at 100 ms a tick (1000 ms, the Quick pace, while the student gives orders and answers the call, the winter's order and the order to leave) with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.",
   "checks": [
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, lobby)",
-    "the solo game opens joined as hh-1 in columbia, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic",
+    "the solo game opens joined as hh-1 in matagorda, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (98.6896, 21.1496)",
-    "2 of the family set to auto from the panel: Isaac Proofwright, Martha Proofwright",
-    "1 orders given from the panel and taken",
-    "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Isaac Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (1902 ticks, 233.2 s)",
+    "the family arrived and the house site was chosen on its grant at (85.23479999999999, 52.69)",
+    "13 of the family set to auto from the panel: Samuel Proofwright, Jane Proofwright, Moses Proofwright, Peter Proofwright, Enos Proofwright, Minerva Proofwright, Sally Proofwright, Zadok Proofwright, Levi Proofwright, Lydia Proofwright, Aaron Proofwright, Harriet Proofwright, Calvin Proofwright",
+    "5 orders given from the panel and taken",
+    "the call came (\"The committee at Matagorda asks the volunteers of the town and the country east of it to g…\") and Samuel Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (2028 ticks, 254.9 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Isaac Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 36 s)",
+    "Samuel Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241920 (300 ticks, 34.6 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
-    "nobody of the family starved by the spring, Martha Proofwright bringing food in on fish-the-water",
+    "nobody of the family starved by the spring, Jane Proofwright bringing food in on fish-the-water",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1557 ticks, 174 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (449 ticks, 138.6 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined in its own lobby from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -32,33 +32,53 @@
     },
     "periods": {
       "first": {
-        "ticks": 1902,
-        "seconds": 233.2,
+        "ticks": 2028,
+        "seconds": 254.9,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 36,
+        "seconds": 34.6,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 1557,
-        "seconds": 174,
+        "ticks": 449,
+        "seconds": 138.6,
         "endedAtMinute": 302580
       }
     },
     "family": [
-      "Isaac Proofwright (father, 30)",
-      "Martha Proofwright (mother, 24)",
-      "Jonas Proofwright (son, 7)",
-      "Andrew Proofwright (son, 6)",
-      "Levi Proofwright (son, 4)",
-      "George Proofwright (son, 2)",
-      "Zadok Proofwright (son, 0)"
+      "Samuel Proofwright (father, 41)",
+      "Jane Proofwright (mother, 40)",
+      "Moses Proofwright (son, 22)",
+      "Peter Proofwright (son, 20)",
+      "Enos Proofwright (son, 18)",
+      "Minerva Proofwright (daughter, 16)",
+      "Sally Proofwright (daughter, 14)",
+      "Zadok Proofwright (son, 12)",
+      "Levi Proofwright (son, 10)",
+      "Lavinia Proofwright (daughter, 9)",
+      "Lydia Proofwright (daughter, 7)",
+      "Aaron Proofwright (son, 5)",
+      "Harriet Proofwright (daughter, 4)",
+      "Calvin Proofwright (son, 2)",
+      "Prudence Proofwright (daughter, 1)",
+      "Delia Proofwright (daughter, 0)"
     ],
     "onAuto": [
-      "Isaac Proofwright",
-      "Martha Proofwright"
+      "Samuel Proofwright",
+      "Jane Proofwright",
+      "Moses Proofwright",
+      "Peter Proofwright",
+      "Enos Proofwright",
+      "Minerva Proofwright",
+      "Sally Proofwright",
+      "Zadok Proofwright",
+      "Levi Proofwright",
+      "Lydia Proofwright",
+      "Aaron Proofwright",
+      "Harriet Proofwright",
+      "Calvin Proofwright"
     ],
     "fisher": {
       "id": "hh-1-parent-2",
@@ -69,29 +89,64 @@
       {
         "id": "hh-1-parent-1",
         "key": "cut-lane",
-        "took": "Isaac has stopped to talk with Jonas, who has nothing to do. Give Jonas something to do and Isaac goes back to work."
+        "took": true
       },
       {
         "id": "hh-1-parent-2",
         "key": "fish-the-water",
         "took": true
+      },
+      {
+        "id": "hh-1-child-1",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-2",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-3",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-4",
+        "key": "cut-lane",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-5",
+        "key": "harvest-field",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-6",
+        "key": "harvest-field",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-7",
+        "key": "harvest-field",
+        "took": "no answer"
       }
     ],
     "call": {
-      "text": "Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca and go on from there. Does somebody from your family go?",
-      "sent": "Isaac Proofwright"
+      "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?",
+      "sent": "Samuel Proofwright"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Isaac Proofwright"
+      "name": "Samuel Proofwright"
     },
     "winterOutcome": {
       "voted": false,
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 179280,
+        "since": 180780,
         "siteId": "san-felipe",
         "acres": 320
       }
@@ -103,12 +158,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, "
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 535. Family Who went Heard of the cannon Heard the Alamo fell In the spring Farm Taken prisoner Coin Glory Land Final the Proofwright family Isaac Proofwright, Martha Proofwright October 2 ",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 3 reales GLORY 172 FINAL NUMBER 535 3 reales × (1 + 172 glory) + 16 reales of land (320 acres promised) = 535 The family had 3 reales. The farm was burned, so there was nothing to sell; it counts 40 glory, which is in the glory below. 1",
-      "flight": "returning",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 1122. Family Who went Heard of the cannon Heard the Alamo fell In the spring Farm Taken prisoner Coin Glory Land Final the Proofwright family Samuel Proofwright October 1 March 14 Fled; cam",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 7 reales GLORY 157 FINAL NUMBER 1122 7 reales × (1 + 157 glory) + 16 reales of land (320 acres promised) = 1122 The family had 7 reales. The farm was burned, so there was nothing to sell; it counts 40 glory, which is in the glory below.",
+      "flight": "refuged",
       "minute": 302580
     },
-    "totalSeconds": 443.2
+    "totalSeconds": 428.1
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",
