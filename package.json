@@ -156,6 +156,8 @@
     "test:lone-parent": "node scripts/lone-parent-browser-proof.mjs",
     "test:late-join": "node scripts/late-join-browser-proof.mjs",
     "test:code-address": "node scripts/code-address-browser-proof.mjs",
+    "test:join-words": "node scripts/join-words-browser-proof.mjs",
+    "site:playtexas": "node scripts/playtexas-site.mjs",
     "test:starts-injections": "node scripts/starts-injections.mjs",
     "test:story-cards": "node scripts/story-cards-browser-proof.mjs",
     "test:tips-injections": "node scripts/tips-injections.mjs",

@@ -397,6 +397,66 @@ smoke plumes for weapons fire"*.
   names and family colours over it). After the fight the film holds on its smoke clearing before it fades back.
 - Same computer only: `npm run test:battle-cinema`; not proved on a projector.
 
+### 2.17 Join words and playtexas.github.io (owner-decided 2026-10-03)
+
+The owner asked: *"the way players join a class: it's a lot of numbers, slashes, and not very elegant. is it possible to use a word
+or phrase instead like a webpage? something more catchy? then have that autodirect to where players should be?"*, then *"would a
+webpage be free? ... we could have multiple different teachers all hosting their own games. some possibly at other schools and
+networks. i love the local hosting idea and don't want to overcomplicate things. ideally this solution should help make things
+easier to navigate around local district wifi signals blocking the game."* The address chosen is **playtexas.github.io**, a free
+GitHub Pages site of the `playtexas` organization. Then: *"could we make the join words be a join word? singular?"* - told that one
+word cannot carry an address with no server, the owner chose, by multiple choice, **"Fewest words, no server"**.
+
+- **The words carry only the laptop's address, with no server anywhere.** public/join-words.js turns the Host laptop's private
+  address on the classroom network (and its port, only when it is not 1835) into words from a 2048-word list written for the game
+  (public domain; common, easy-to-spell words for middle schoolers; every word starts with its own four letters; no two sound
+  alike; no numbers, days, months, harm, drink, religion or bodies). **192.168.x.x: 2 words. 10.x.x.x or 172.16-31.x.x: 3 words.**
+  Another port: 4, or 5 for 10.x. The number of words says the form, and every bit not carrying the address is a check: a word not
+  on the list is refused with the nearest words offered; a word mistyped as another word, two swapped, or one dropped or added is
+  refused except 1 time in 64 on the two-word form (1 in 256 or better on three words). Only the first four letters of a word are
+  read, so a misspelling after them is harmless; case, spaces, hyphens and commas are ignored; order matters (the words are shown
+  numbered). Any number of teachers at any number of schools: the words are worked out from the address alone, so two classes
+  never share words unless their laptops share an address, and nothing has to be registered anywhere. The words do not change with
+  New Class; they change when the laptop's address does.
+- **The class code is still checked.** The words lead to the bare address `http://<laptop>:1835/`, which asks for the class code as
+  it always has (§2.14). There the code box now comes first and large (30 px, spaced capitals, *Class code, from your teacher's
+  screen*) and takes the focus. The coded address and its QR code are unchanged.
+- **The page, playtexas.github.io** (source: site/playtexas/; published by scripts/playtexas-site.mjs, docs/DEPLOYMENT.md *The
+  join-words page*): a word box with the words read back numbered and the ones not on the list marked, words offered for the one
+  being typed, *Go to my class*. It shows where it is going (*Going to your teacher's computer at 192.168.1.20…* and *There, type
+  the class code*), then navigates - a top-level navigation, never a fetch, so Chrome's private-network rules for requests do not
+  apply. `playtexas.github.io/#amulet-crane` goes straight on. It fetches nothing, stores nothing, sets no cookie, and can only ever
+  send a browser to a private classroom address. Its look is Astra's (style.css, assets/); its logic is page.js and the game's own
+  join-words.js, copied byte for byte.
+- **Blocked Wi-Fi, honestly.** If the network stops student devices reaching the teacher's laptop (client or AP isolation,
+  separate student and teacher networks, a firewall), nothing local can fix it, and the page cannot either: it only finds the
+  address. What it does: a student whose class did not open lands on the browser's error page; pressing Back brings the page with
+  *Didn't work?* open, saying *It did not open*, the address to try typing, and what to tell the teacher (*"My Chromebook can't
+  reach your computer at 192.168.1.20, port 1835."*), with a paragraph for teachers and IT.
+- **The Host's card.** At the top when the address is private: *Go to playtexas.github.io and type:* the words, numbered, 24 px,
+  *then the class code:* the code, 24 px. Under it, as before, *Or type this address, or scan the code with the camera:* the coded
+  address and its QR code. **The QR code stays the coded address itself**, not the page: a scan goes straight to the laptop with the
+  code in it, with or without the Internet, in one step; the words are for typing. When there are words the code is said once,
+  beside them. Under *Students cannot connect?*: where this computer is (*This computer is at 192.168.1.20 (Wi-Fi), port 1835, a
+  classroom network address*, or that its address is not one and there are no words); when it has more than one address, **The
+  students' network is:** a choice of them, and the address, words and QR code all follow it (the `join-network` Host command;
+  this computer's choice, kept while the server runs and through New Class, not saved); and a **note for IT** in plain words - the
+  address, the port, TCP, client isolation off or a rule for that port, Windows Firewall allowing Node.js on the Private profile,
+  and what playtexas.github.io is - with *Copy this note for IT*. The words are the server's (`joinWords`, server/app.mjs
+  `joinView`), sent to the Host only.
+- **Everywhere the address shows:** the launcher's window (*At playtexas.github.io type: amulet crane*, under the join address,
+  which now follows the teacher's choice of network; launcher/ServerControl.cs reads `joinWords` with the class code), the server's
+  console line at start (*Or at playtexas.github.io type: amulet crane, then the class code 6744EF*), and TEACHER.md.
+- **The old ways still work:** the coded address, the bare address, `?code=` and the QR code, unchanged.
+- `ceiling:` 6 check bits on the two-word form: a mistyping that slips through sends the student to another address on the same
+  network, where nothing answers (and *Didn't work?* says check the words) or another class asks for a code the student does not
+  have. A third word for 192.168 is the way out if a classroom ever sees it.
+- `ceiling:` only private addresses have words; a district that numbers classrooms with public addresses types the address.
+- `ceiling:` the list, the forms and the check are frozen (pinned in tests/join-words.test.mjs): the page is updated apart from
+  every copy of the game in every classroom, so a change needs a version the page can tell apart, never an edit.
+- `ceiling:` same computer only. No Chromebook, managed or not, has opened playtexas.github.io; whether a district's policy blocks a
+  navigation from an https page to an http private address (Chrome's Local Network Access, HTTPS-First) is not yet seen on one.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
@@ -447,6 +507,13 @@ smoke plumes for weapons fire"*.
   the class code does not reset) and `tests/rejoin.test.mjs` (its throttling tests now keep the cookie, as a browser does). Each
   seen failing under an injected regression: `npm run test:tier2-classroom-injections`
   ([evidence](evidence/tier2-classroom-injections.json)).
+- §2.17: `tests/join-words.test.mjs` (9: the frozen list and known words; 2 and 3 words; 30,000 addresses and all 65,536 two-word
+  ones round-trip; only private addresses; typing forgiven; typos caught at the measured rates; the page's copy of the module and
+  its self-containment and the split of look from logic; the Host's words, its choice of network, nothing to a student; the card
+  and the code first on the join form); `npm run test:join-words` (the Host's card on this computer's real classroom address, the
+  network choice, the page refusing a word, typed words going to the bare address where the code box comes first and the class is
+  joined, the # link, and Back from a class that did not open). Every test and the proof seen failing under injection: `node
+  scripts/join-words-injections.mjs --browser` ([evidence](evidence/join-words-injections.json)).
 - §2.10: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
   and `npm run test:overlap-injections`.
 

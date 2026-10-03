@@ -52,6 +52,8 @@ public sealed class LauncherForm : Form, IBackdrop
     private readonly SceneLabel _code = new() { ForeColor = Palette.GoldBright };
     private readonly SceneRule _joinRule = new();
     private readonly SceneLabel _join = new() { ForeColor = Color.FromArgb(214, 226, 208) };
+    // The join words (owner, 2026-10-03; docs/HOST_PAGE.md §2.17): "At playtexas.github.io type: ahead oar jolly keyhole rubber".
+    private readonly SceneLabel _words = new() { ForeColor = Palette.GoldBright };
 
     private readonly PlateButton _power = Plate("Start the class", "button-start-the-class", Glyph.People, Palette.StartGreen);
     private readonly PlateButton _showClass = Plate("Open class view", "button-open-class-view", Glyph.Monitor, Palette.ButtonFill);
@@ -193,7 +195,7 @@ public sealed class LauncherForm : Form, IBackdrop
     /// <summary>Top to bottom, which is also the tab order.</summary>
     private Control[] Stack => new Control[]
     {
-        _title, _mastheadRule, _subtitle, _release, _state, _code, _joinRule, _join,
+        _title, _mastheadRule, _subtitle, _release, _state, _code, _joinRule, _join, _words,
         _power, _showClass, _openPlayer, _copyCode, _copyJoin, _solo, _updates,
         _progress, _notice, _footRule, _uninstall,
     };
@@ -251,6 +253,7 @@ public sealed class LauncherForm : Form, IBackdrop
         Set(_notice, Faces.Ui, 8.75f);
         Set(_uninstall, Faces.Ui, 8f);
         Set(_join, Faces.Mono, 9.5f);
+        Set(_words, Faces.Serif, 10.5f, FontStyle.Bold);
         // The six characters a student types are the thing a teacher reads out and writes on
         // the board, so they are the largest thing on this window after the plates.
         Set(_code, Faces.Mono, 19f, FontStyle.Bold);
@@ -519,6 +522,8 @@ public sealed class LauncherForm : Form, IBackdrop
             Row(_code, string.IsNullOrEmpty(_code.Text) ? 0 : tight ? S(28) : S(33), S(2));
             Row(_joinRule, S(15));
             Row(_join, S(24));
+            // Like the code, the words' row is there only when there are words.
+            Row(_words, string.IsNullOrEmpty(_words.Text) ? 0 : S(22));
             var columnTop = y + S(10);
 
             // The footer, up from the bottom.
@@ -860,6 +865,7 @@ public sealed class LauncherForm : Form, IBackdrop
         // that, which is how somebody came to press "copy" and not get the code.
         _code.Text = running ? _status.ClassCode ?? "" : "";
         _join.Text = running ? _status.PrimaryJoinUrl ?? "" : "Start the class to get a join address.";
+        _words.Text = running && !string.IsNullOrEmpty(_status.JoinWords) ? $"At playtexas.github.io type: {_status.JoinWords}" : "";
         // A plate a teacher cannot use is not dimmed, it is not there (owner, 2026-09-20).
         foreach (var button in Optional) button.Enabled = true;
         SetReveal();

@@ -21,7 +21,7 @@
   "observed": {
     "a": {
       "householdId": "hh-4",
-      "waitedOnDieMs": 65386,
+      "waitedOnDieMs": 64841,
       "card": {
         "step": "roll",
         "curtain": true,
@@ -46,7 +46,7 @@
       "pastLinesKept": 6
     },
     "e": {
-      "unansweredGivenUpAfterMs": 12142,
+      "unansweredGivenUpAfterMs": 12100,
       "card": {
         "step": "roll",
         "curtain": true,

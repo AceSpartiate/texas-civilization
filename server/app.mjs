@@ -37,6 +37,8 @@ import { ROLES, voiceOfPerson } from './voice/text.mjs';
 import { advanceEndSequence, beginEndSequence, dueChange, endSequenceStep, endSequenceView } from '../sim/end-sequence.mjs';
 import { CLASS_SCRIPT_VERSION, CLASS_VIDEO_ID } from '../sim/class-flashback.mjs';
 import { classSchedule } from './class-days.mjs';
+// Join words (owner, 2026-10-03; docs/HOST_PAGE.md §2.17): the module the page at playtexas.github.io decodes them with.
+import { encodeJoin, isClassroomAddress, joinLink, JOIN_SITE } from '../public/join-words.js';
 // A fight's real-time floor (owner, 2026-09-30, "it happened too fast"; docs/BATTLES.md §15.1).
 import { battleTickFloorMs } from '../sim/battle-stage.mjs';
 
@@ -571,7 +573,30 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
    * mistyped address, and the Host screen has today's. `codeRefused` tells the page to show the code box, so the student can type
    * the right one where they are.
    */
-  const wrongCode = asked => ({ error: asked?.via === 'address' ? 'This is an old class address. Look at the Host screen for today’s address, or type the class code shown there.' : 'Check the class code on the Host screen.', codeRefused: true });
+  const wrongCode = asked => ({ error: asked?.via === 'address' ? 'This is an old class address. Look at the Host screen for today’s address or words, or type the class code shown there.' : 'Check the class code on the Host screen.', codeRefused: true });
+  /**
+   * **Join words** (owner, 2026-10-03, "is it possible to use a word or phrase instead like a webpage?"; docs/HOST_PAGE.md §2.17):
+   * which of this computer's addresses the Host's page shows - the server's best guess (`joinUrls[0]`) until the teacher chooses
+   * the students' network (`join-network`) - and the two or three words that carry that address and its port to the page at
+   * playtexas.github.io (public/join-words.js; owner, "Fewest words, no server"). The words lead to the bare address, which asks
+   * for the class code: the code is not in them, and `url` - the address with the code, for the card and its QR code - is.
+   * The choice is this computer's, not the class's: it is kept while the server runs, through New Class, and not in the save,
+   * since tomorrow the laptop may be on another network. No words when the address is not a private one; the page never sends
+   * anybody to an address on the Internet. Host-only, with the code beside it.
+   */
+  let joinPick = null;
+  function joinView() {
+    const picked = joinUrls.find(entry => entry.address === joinPick) || joinUrls[0];
+    if (!picked) return null;
+    let port;
+    try { port = Number(new URL(picked.url).port) || 80; } catch { return null; }
+    const words = encodeJoin({ address: picked.address, port });
+    return {
+      site: JOIN_SITE, address: picked.address, label: picked.label || '', port, url: `${picked.url.replace(/\/$/, '')}/${state.sessionCode}`,
+      words, link: words && joinLink(words), classroom: isClassroomAddress(picked.address),
+      choices: joinUrls.map(entry => ({ address: entry.address, label: entry.label || '', classroom: isClassroomAddress(entry.address) })),
+    };
+  }
   /** Two display names that a class would take for the same student: the same letters, in any case, however spaced. */
   const sameName = (a, b) => String(a ?? '').trim().replace(/\s+/g, ' ').toLocaleLowerCase() === String(b ?? '').trim().replace(/\s+/g, ' ').toLocaleLowerCase();
   /** One line on the class's own public record, which is what the Host page reads (`projectWorld`, role 'host'). */
@@ -727,7 +752,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     if (ending) payload.endSequence = ending;
     // The class's size, name, the families a late student could take and how many class days the game takes (2026-09-28).
     if (identity.role === 'host') Object.assign(payload, {
-      sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence(),
+      sessionCode: state.sessionCode, joinUrls, joinWords: joinView(), canStop: Boolean(onStopRequested), presence: presence(),
       classSize: state.world.playerCount, className: state.className || null, keepsClasses: Boolean(shelfDir),
       lateSeat: state.lateSeat || null, seats: seats(), schedule: classSchedule(state.world, PACES),
       ...(recoveredLock && { recoveredLock: { reason: recoveredLock.reason, backup: recoveredLock.backup && basename(recoveredLock.backup) } }),
@@ -1673,6 +1698,11 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               if (!paceNamed(input.pace)) throw new Error('Unknown pace');
               wantedPace = PACES[input.pace];
               s.pace = input.pace;
+            } else if (input.action === 'join-network') {
+              // Which of this computer's addresses the students' network reaches (§2.17): the address, words and QR code follow it.
+              // Not a world change and not saved (`joinPick`).
+              if (!joinUrls.some(entry => entry.address === input.address)) throw new Error('That is not one of this computer’s addresses.');
+              joinPick = input.address;
             } else if (input.action === 'pause' && s.world.status === 'running') s.world.status = 'paused';
             else if (input.action === 'resume' && s.world.status === 'paused') s.world.status = runtimeFault?.resumeStatus || 'running';
             else if (input.action === 'end') { s.world.status = 'ended'; beginEnd(s.world); }
