@@ -42,6 +42,31 @@ Karnes now has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/ar
 
 # Claude handoff — Astra foundation
 
+## The family figures' missing poses: test:hunt fixed, the art requested — 2026-10-03 (not released)
+
+Branch `astra-poses` off local `integration-2026-09-28` (0348bfbb, with astra-merge); not pushed. Same computer only. The owner's
+answer to astra-merge's question (2026-10-03): a child at a chore with no child pose is **Astra's child standing**, as built.
+
+- **`test:hunt` failed since the merge** ("the hunter was never drawn reading (ochre-search)"): the proof asked for the old cast's
+  figure from the looks alone, and the hunter - an adolescent - is Astra's `youth-boy` now, whose figure has no `-search`. The
+  fallback stays (her nearest pose, `avatarBinding`); the proof now asks the page's own rule for each stage's pose - the stage's
+  pose where his figure has it, else that fallback - and records which are fallbacks: *"youth-boy-work, youth-boy-idle-s,
+  youth-boy-walk (her figure's nearest pose, requested: reading as youth-boy-work; carrying as youth-boy-walk)"*. It still
+  fails if any stage is drawn other than the rule says, or if all three stages are one picture.
+- **Surveyed** every pose the game asks of a grown person (the work table `STROKES`/`WORK`, `grownClip`, `littleClip`,
+  `ambientClip`, `sim/ambient.mjs`, the battle cast poses, the wedding's gestures, the horse and wagon seats) against Astra's
+  ten family figures (`father-*`, `mother-*`, `youth-*`), which have walks, standing, the work cycle, rest, hurt rest, listening and
+  speaking. Missing: her old cast's library poses `-search`, `-sow`, `-carry`, `-repair`, `-care`, `-trade`, `-ride-*`,
+  `-wagon-driver-*`; and every pose already asked of the old cast (people at work, ambient life, milking, the tent, holding and
+  carrying the little ones, lying sick, firing in a fight, the wedding's gestures). Filed as **request 2026-10-03, "the family
+  figures' missing poses"** in docs/ART_REQUESTS.md, items **A31** (priority 1, the everyday six), **A32**, **B20**, **C22**,
+  **A33**, **D17** in scripts/claude-art/plan.mjs (a `<family>` shorthand for the ten), `npm run art:plan` rerun (122 items to
+  make). Children's poses are B17-B19, not repeated. The fallback in `public/avatar-identity.js` carries a `stand-in:` naming the
+  request.
+- **Results**: `test:hunt` 15, `test:hunt-aim` 11, `test:work` 5, `test:family-age-art` 9; tests/claude-standins.test.mjs,
+  tests/astra-art-wins.test.mjs, tests/avatar-identity.test.mjs 24 of 24; `npm test` **2117 tests, 2081 pass, 0 fail, 36 skipped**.
+
+
 ## Astra's family art and fifteen famous sheets merged into integration — 2026-10-02 (not released)
 
 Branch `astra-merge` off local `integration-2026-09-28` (c88a6ddb = origin/main), merging Astra's `main` at 63dcc3b2; not pushed.

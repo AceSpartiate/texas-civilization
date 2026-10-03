@@ -13,7 +13,8 @@ import { fileURLToPath } from 'node:url';
 //   priority  1 (first) to 3                              request   the request's heading in ART_REQUESTS.md, exactly
 //   item      which of its numbered items, if any         deliver   the frame and clip names to deliver, in words
 //   names     patterns (`*` any run of name characters; `<cast>` the eight grown cast figures; `<child>` girl, boy and
-//             smallchild) matched against Claude's frames and clips to say a Claude stand-in is in place
+//             smallchild; `<family>` Astra's ten family figures of 2026-10-02, the eight parents and two adolescents) matched
+//             against Claude's frames and clips to say a Claude stand-in is in place
 //   frames    frames, directions        size   the contract size        plugs   where it plugs in
 //   standIn   what stands in now        kind   'library' (Astra's art reused), 'code' (drawn in canvas or CSS), 'words'
 //             (told, not drawn), 'claude' (a Claude-drawn frame), 'none'
@@ -64,6 +65,7 @@ const R = {
   play: 'Request 2026-09-26 — children at play, babies, and the Runaway Scrape\'s own work',
   carryKids: 'Request 2026-10-02 — a grown person carrying a child of two to five on the road',
   childActions: "Request 2026-10-03 — the children's own actions",
+  familyPoses: "Request 2026-10-03 — the family figures' missing poses",
   advance: 'Request 2026-09-26 — the Mexican advance',
   famous: 'Request 2026-09-26 — the famous people: the roster\'s remaining figures and poses',
   storming: 'Request 2026-09-25 — the storming of Béxar',
@@ -203,6 +205,25 @@ export const ITEMS = [
     frames: '2 frames each', size: PEOPLE, standIn: 'the child standing (`idle-s`)', kind: 'library', plugs: '`CHILD_POSES` in `public/avatar-identity.js`; work drawing in `drawWorld`', status: 'open', phrases: ['children at chores'] },
   { id: 'B19', area: 'B', priority: 3, request: R.childActions, item: 'item 6', deliver: '`<child>-lead` (walking with a small child by the hand, 4, east, `-n`, `-s`) for `boy` and `girl`', names: ['<child>-lead*'],
     frames: '4 frames, east, `-n`, `-s`', size: PEOPLE, standIn: 'the two children walking side by side', kind: 'library', plugs: '`CHILD_POSES`; the little-ones job on the road in `drawWorld`', status: 'open', phrases: ['leading the little ones'] },
+  // ---------------------------------------------------------------- Astra's family figures of 2026-10-02: the poses they lack
+  { id: 'A31', area: 'A', priority: 1, request: R.familyPoses, item: 'item 1', deliver: 'for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): `<family>-search` (looking about, reading the ground), `-sow` (broadcasting seed), `-carry` (walking with a load, east, `-n`/`-s` if drawn), `-repair` (seated mending), `-care` (kneeling, tending) and `-trade` (offering across a counter)',
+    names: ['<family>-search*', '<family>-sow*', '<family>-carry', '<family>-carry-1', '<family>-carry-2', '<family>-carry-3', '<family>-carry-4', '<family>-carry-n*', '<family>-carry-s*', '<family>-repair*', '<family>-care*', '<family>-trade*'],
+    frames: '2-4 frames each, east', size: PEOPLE, standIn: 'her two-pose work cycle (`<family>-work`); carrying, her walk (`avatarBinding`)', kind: 'library', plugs: '`FAMILY_POSES` in `public/avatar-identity.js`', status: 'open', phrases: ['the family figures\' missing poses', 'nearest pose'] },
+  { id: 'A32', area: 'A', priority: 2, request: R.familyPoses, item: 'item 2', deliver: 'for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`), the work poses asked of the old cast: `-chop`, `-notch`, `-lift`, `-dig`, `-dig-well`, `-split`, `-reap`, `-aim`, `-fire`, `-fish`, `-gather`, `-carpentry`, `-butcher`, `-drill`, `-guard`, `-stake`, `-tend-fire` (A1, A3, A4, A6-A10, A13-A17), the ambient `-whittle`, `-mend-harness`, `-sew`, `-shell-corn`, `-clean-rifle`, `-wash`, `-pipe`, `-cards`, `-sweep`, `-carry-water` (A5), `-milk` (B15) and `-pitch-tent` (A30)',
+    names: ['<family>-chop*', '<family>-notch*', '<family>-lift*', '<family>-dig*', '<family>-split*', '<family>-reap*', '<family>-aim*', '<family>-fire', '<family>-fire-1', '<family>-fire-2', '<family>-fish*', '<family>-gather*', '<family>-carpentry*', '<family>-butcher*', '<family>-drill*', '<family>-guard*', '<family>-stake*', '<family>-tend-fire*', '<family>-whittle*', '<family>-mend-harness*', '<family>-sew*', '<family>-shell-corn*', '<family>-clean-rifle*', '<family>-wash*', '<family>-pipe*', '<family>-cards*', '<family>-sweep*', '<family>-carry-water*', '<family>-milk*', '<family>-pitch-tent*'],
+    frames: 'as each item asks of the old cast', size: PEOPLE, standIn: 'her two-pose work cycle, with the stand-in tool in her hands where the work table draws one (`HAFTS`)', kind: 'code', plugs: '`FAMILY_POSES` in `public/avatar-identity.js`; `HAFTS` and `STROKES` in `public/work-art.js`', status: 'open' },
+  { id: 'B20', area: 'B', priority: 2, request: R.familyPoses, item: 'item 3', deliver: 'for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): `<family>-hold-baby` and `<family>-carry-baby-walk` (`-n`, `-s`) as B3, `<family>-carry-child-walk` (`-n`, `-s`) as B14, `<family>-sick-rest` (`-e`, `-s`) as B8',
+    names: ['<family>-hold-baby*', '<family>-carry-baby-walk*', '<family>-carry-child-walk*', '<family>-sick-rest*'],
+    frames: 'as B3, B14 and B8', size: PEOPLE, standIn: 'her walk with the baby beside her; her hurt rest for the sick', kind: 'library', plugs: '`FAMILY_POSES` in `public/avatar-identity.js`; `littleClip` in `public/motion.js`', status: 'open' },
+  { id: 'C22', area: 'C', priority: 2, request: R.familyPoses, item: 'item 4', deliver: 'for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): `<family>-aim`, `-fire`, `-load`, `-ramrod`, clip `<family>-fire-reload`, and `<family>-injured`, `<family>-reclining`, as C1 asks of the old cast',
+    names: ['<family>-fire-reload*', '<family>-load*', '<family>-ramrod*', '<family>-injured', '<family>-injured-1', '<family>-reclining*'],
+    frames: 'as C1', size: PEOPLE, standIn: 'her work cycle while the others fire (`drawFigure` in `public/app.js`); her hurt rest and her standing figure laid down', kind: 'library', plugs: '`poseOf` `cast` in `public/battle-view.js`; `drawFigure` in `public/app.js`', status: 'open' },
+  { id: 'A33', area: 'A', priority: 2, request: R.familyPoses, item: 'item 5', deliver: 'for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): the wedding\'s `<family>-greet`, `-shy`, `-laugh`, `-vow` as A19',
+    names: ['<family>-greet*', '<family>-shy*', '<family>-laugh*', '<family>-vow*'],
+    frames: 'as A19', size: PEOPLE, standIn: 'her speaking and her standing (`clipFor` in `public/courtship.js`)', kind: 'library', plugs: '`clipFor` in `public/courtship.js`', status: 'open' },
+  { id: 'D17', area: 'D', priority: 2, request: R.familyPoses, item: 'item 6', deliver: 'for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): her own painted horse-and-rider `<family>-ride-e`, `-ride-n`, `-ride-s` (as the eight of 2026-09-21) and `<family>-wagon-driver-e`, `-n`, `-s`, `-w`',
+    names: ['<family>-ride-*', '<family>-wagon-driver-*'],
+    frames: 'as the eight identities\' riding and driving sheets', size: MOUNTED, standIn: 'the composite seat: the old cast\'s rider or driver (`seatedClip` in `public/motion.js`)', kind: 'library', plugs: '`RIDING_FIGURES` and the drivers in `public/motion.js`', status: 'open' },
   { id: 'B12', area: 'B', priority: 3, request: R.families, item: 'priority 1', deliver: 'any later child-specific action pose the game asks a child in (today every child action pose it needs is B1, B6, B7 and B8)', names: [],
     frames: '—', size: PEOPLE, standIn: 'a grown figure drawn smaller (90% at 10-17, 70% at 5-9, 55% at 2-4, 45% an infant); keep the scaling when the art lands', kind: 'library', plugs: '`CHILD_POSES` and `entityClip` in `public/motion.js`', status: 'skipped: covered by B1, B6, B7 and B8; the scaling rule stays', phrases: ['Until there is child art'] },
 
@@ -394,9 +415,11 @@ export const ITEMS = [
 /** Every name an item's patterns match, from `<cast>`/`<child>` shorthands, as regular expressions. */
 const CAST_FIGURES = ['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl'];
 const CHILD_FIGURES = ['girl', 'boy', 'smallchild'];
+const FAMILY_FIGURES = ['father-hat', 'father-beard', 'father-moustache', 'father-straw', 'mother-braid', 'mother-loose', 'mother-scarf', 'mother-straw', 'youth-boy', 'youth-girl'];
 export function patternsOf(item) {
   return item.names.flatMap(name => {
-    const expanded = name.includes('<cast>') ? CAST_FIGURES.map(f => name.replace('<cast>', f)) : name.includes('<child>') ? CHILD_FIGURES.map(f => name.replace('<child>', f)) : [name];
+    const expanded = name.includes('<cast>') ? CAST_FIGURES.map(f => name.replace('<cast>', f)) : name.includes('<child>') ? CHILD_FIGURES.map(f => name.replace('<child>', f))
+      : name.includes('<family>') ? FAMILY_FIGURES.map(f => name.replace('<family>', f)) : [name];
     return expanded.map(n => new RegExp(`^${n.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replaceAll('*', '[a-z0-9-]*')}$`));
   });
 }

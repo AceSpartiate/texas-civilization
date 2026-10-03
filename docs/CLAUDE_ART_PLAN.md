@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 28 | 7 | 18 | 0 |
-| B — Children, babies and sickness | 18 | 7 | 13 | 2 |
-| C — Soldiers, battles and famous people | 21 | 1 | 19 | 1 |
-| D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
+| A — People at work and ambient poses | 31 | 8 | 18 | 0 |
+| B — Children, babies and sickness | 19 | 7 | 13 | 2 |
+| C — Soldiers, battles and famous people | 22 | 1 | 19 | 1 |
+| D — Riders, horses, wagons, carreta, ferry, steamboat | 16 | 2 | 15 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 14 | 2 | 11 | 17 |
-| **Total** | **116** | **21** | **95** | **27** |
+| **Total** | **122** | **22** | **95** | **27** |
 
 ## How a builder works
 
@@ -33,7 +33,7 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 ## A — People at work and ambient poses
 
-Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 28 to make, 0 skipped.
+Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 31 to make, 0 skipped.
 
 - [ ] **A1** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-chop`, `teal-chop`, `elder-chop`, `blue-chop`, `rust-woman-chop`, `indigo-chop`, `ochre-chop`, `blue-girl-chop`)
   - **Deliver:** `<cast>-chop` (felling with an axe) for each of the eight: `<figure>-chop-1`..`-4`, clip `<figure>-chop`, the axe landing on frame 3
@@ -70,6 +70,11 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 1-4 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `GROUP` in `sim/start-story.mjs`; `crowdDrawables` in `public/ambient.js`
   - **Stands in now:** the cast (`ochre`, `rust-woman`, `elder`, `teal`, `boy`) recoloured by the palette in dark tones and homespun colours, resting or standing; no wagon (Astra's library art reused)
+- [ ] **A31** (priority 1) — [Request 2026-10-03 — the family figures' missing poses](ART_REQUESTS.md#request-2026-10-03--the-family-figures-missing-poses), item 1
+  - **Deliver:** for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): `<family>-search` (looking about, reading the ground), `-sow` (broadcasting seed), `-carry` (walking with a load, east, `-n`/`-s` if drawn), `-repair` (seated mending), `-care` (kneeling, tending) and `-trade` (offering across a counter)
+  - **Frames:** 2-4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `FAMILY_POSES` in `public/avatar-identity.js`
+  - **Stands in now:** her two-pose work cycle (`<family>-work`); carrying, her walk (`avatarBinding`) (Astra's library art reused)
 - [ ] **A6** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 2 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-split`, `teal-split`, `elder-split`, `blue-split`, `rust-woman-split`, `indigo-split`, `ochre-split`, `blue-girl-split`)
   - **Deliver:** `<cast>-split` (maul raised, coming down, on the wedge in a log on the ground, back)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -132,6 +137,16 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 2 and 1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `figureOf` in `public/courtship.js`
   - **Stands in now:** the elder recoloured in dark clothes, with the commissioner’s reading pose (Astra's library art reused)
+- [ ] **A32** (priority 2) — [Request 2026-10-03 — the family figures' missing poses](ART_REQUESTS.md#request-2026-10-03--the-family-figures-missing-poses), item 2
+  - **Deliver:** for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`), the work poses asked of the old cast: `-chop`, `-notch`, `-lift`, `-dig`, `-dig-well`, `-split`, `-reap`, `-aim`, `-fire`, `-fish`, `-gather`, `-carpentry`, `-butcher`, `-drill`, `-guard`, `-stake`, `-tend-fire` (A1, A3, A4, A6-A10, A13-A17), the ambient `-whittle`, `-mend-harness`, `-sew`, `-shell-corn`, `-clean-rifle`, `-wash`, `-pipe`, `-cards`, `-sweep`, `-carry-water` (A5), `-milk` (B15) and `-pitch-tent` (A30)
+  - **Frames:** as each item asks of the old cast. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `FAMILY_POSES` in `public/avatar-identity.js`; `HAFTS` and `STROKES` in `public/work-art.js`
+  - **Stands in now:** her two-pose work cycle, with the stand-in tool in her hands where the work table draws one (`HAFTS`) (drawn in code (canvas or CSS))
+- [ ] **A33** (priority 2) — [Request 2026-10-03 — the family figures' missing poses](ART_REQUESTS.md#request-2026-10-03--the-family-figures-missing-poses), item 5
+  - **Deliver:** for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): the wedding's `<family>-greet`, `-shy`, `-laugh`, `-vow` as A19
+  - **Frames:** as A19. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `clipFor` in `public/courtship.js`
+  - **Stands in now:** her speaking and her standing (`clipFor` in `public/courtship.js`) (Astra's library art reused)
 - [ ] **A13** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 6 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-carpentry`, `teal-carpentry`, `elder-carpentry`, `blue-carpentry`, `rust-woman-carpentry`, `indigo-carpentry`, `ochre-carpentry`, `blue-girl-carpentry`)
   - **Deliver:** `<cast>-carpentry` (at a shaving horse drawing a drawknife, 2 frames, then boring with an auger, 2)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -180,7 +195,7 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
 
 ## B — Children, babies and sickness
 
-Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 18 to make, 2 skipped.
+Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 19 to make, 2 skipped.
 
 - [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `girl-scatter`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `boy-scatter`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`, `smallchild-scatter`)
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)
@@ -267,6 +282,11 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 2 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `CHILD_POSES` in `public/avatar-identity.js`; work drawing in `drawWorld`
   - **Stands in now:** the child standing (`idle-s`) (Astra's library art reused)
+- [ ] **B20** (priority 2) — [Request 2026-10-03 — the family figures' missing poses](ART_REQUESTS.md#request-2026-10-03--the-family-figures-missing-poses), item 3
+  - **Deliver:** for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): `<family>-hold-baby` and `<family>-carry-baby-walk` (`-n`, `-s`) as B3, `<family>-carry-child-walk` (`-n`, `-s`) as B14, `<family>-sick-rest` (`-e`, `-s`) as B8
+  - **Frames:** as B3, B14 and B8. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `FAMILY_POSES` in `public/avatar-identity.js`; `littleClip` in `public/motion.js`
+  - **Stands in now:** her walk with the baby beside her; her hurt rest for the sick (Astra's library art reused)
 - [ ] **B19** (priority 3) — [Request 2026-10-03 — the children's own actions](ART_REQUESTS.md#request-2026-10-03--the-childrens-own-actions), item 6
   - **Deliver:** `<child>-lead` (walking with a small child by the hand, 4, east, `-n`, `-s`) for `boy` and `girl`
   - **Frames:** 4 frames, east, `-n`, `-s`. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -279,7 +299,7 @@ Skipped:
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 21 to make, 1 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 22 to make, 1 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
@@ -365,6 +385,11 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
   - **Stands in now:** `icon-build-house`, the house the family raises (Astra's library art reused)
+- [ ] **C22** (priority 2) — [Request 2026-10-03 — the family figures' missing poses](ART_REQUESTS.md#request-2026-10-03--the-family-figures-missing-poses), item 4
+  - **Deliver:** for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): `<family>-aim`, `-fire`, `-load`, `-ramrod`, clip `<family>-fire-reload`, and `<family>-injured`, `<family>-reclining`, as C1 asks of the old cast
+  - **Frames:** as C1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `poseOf` `cast` in `public/battle-view.js`; `drawFigure` in `public/app.js`
+  - **Stands in now:** her work cycle while the others fire (`drawFigure` in `public/app.js`); her hurt rest and her standing figure laid down (Astra's library art reused)
 - [ ] **C15** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), Castrillón and the rest — **Claude stand-in held back: Astra has drawn the subject** (castrillon, crate), so the page draws hers (`castrillon-walk-s`, `castrillon-walk-n`, `ammunition-crate`)
   - **Deliver:** Castrillón's north and south walks and a scale-matched ammunition crate under his command pose; Travis in the officer's firing cycle at the north battery (request 2026-09-25 the Alamo, item 8); the remaining Tejano cast
   - **Frames:** as the famous sheets. **Size:** Famous sheets
@@ -400,7 +425,7 @@ Skipped:
 
 ## D — Riders, horses, wagons, carreta, ferry, steamboat
 
-Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 15 to make, 4 skipped.
+Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 16 to make, 4 skipped.
 
 - [ ] **D1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1 — **Claude stand-in held back: Astra has drawn the subject** (cow), so the page draws hers (`milk-cow-walk-e`, `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze`)
   - **Deliver:** `milk-cow-walk-e` (4), `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze` (2): a gentle dairy cow of the 1830s with a rope trailing from her horns
@@ -448,6 +473,11 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Frames:** 4 frames each, east. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** the parties in `drawWorld`, `public/app.js`
   - **Stands in now:** three `dragoon-march` riders (Astra's library art reused)
+- [ ] **D17** (priority 2) — [Request 2026-10-03 — the family figures' missing poses](ART_REQUESTS.md#request-2026-10-03--the-family-figures-missing-poses), item 6
+  - **Deliver:** for the ten family figures (`<family>`: `father-hat`, `father-beard`, `father-moustache`, `father-straw`, `mother-braid`, `mother-loose`, `mother-scarf`, `mother-straw`, `youth-boy`, `youth-girl`): her own painted horse-and-rider `<family>-ride-e`, `-ride-n`, `-ride-s` (as the eight of 2026-09-21) and `<family>-wagon-driver-e`, `-n`, `-s`, `-w`
+  - **Frames:** as the eight identities' riding and driving sheets. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
+  - **Plugs into:** `RIDING_FIGURES` and the drivers in `public/motion.js`
+  - **Stands in now:** the composite seat: the old cast's rider or driver (`seatedClip` in `public/motion.js`) (Astra's library art reused)
 - [ ] **D10** (priority 3) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 3 — **Claude stand-in held back: Astra has drawn the subject** (dragoon), so the page draws hers (`dragoon-wounded-led`)
   - **Deliver:** `dragoon-wounded-led-1`..`-2` (a man slumped in the saddle, another leading the horse)
   - **Frames:** 2 frames, east. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
