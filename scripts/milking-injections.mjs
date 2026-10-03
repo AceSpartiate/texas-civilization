@@ -19,8 +19,12 @@ const INJECTIONS = [
   { name: 'the milking never marked', edits: [one('sim/milking.mjs', "    if (where === 'road') household.flight.cow.milkedDay = day; else household.milkDay = day;\n", '')], expect: T.home },
   { name: 'a cow at home gives the road\'s milk', edits: [one('sim/milking.mjs', 'export const MILK_AT_HOME = 0.35;', 'export const MILK_AT_HOME = 0.2;')], expect: T.food },
   { name: 'milking not among the food works', edits: [one('public/family-panel.js', "'child-eggs', 'milk-cow', 'milk-road']));", "'child-eggs']));")], expect: T.food },
-  { name: 'milked with no cow', edits: [one('sim/milking.mjs', "    } else if (!cowAtHome(household)) return 'The family has no cow to milk.';", '    }')], expect: T.none },
-  { name: 'no want of a cow said', edits: [one('sim/milking.mjs', "const lacks = where => (world, household) => (where === 'home' && !cowAtHome(household) ? { cow: [0, 1] } : null);", 'const lacks = where => () => null;')], expect: T.none },
+  { name: 'milked with no cow', edits: [one('sim/milking.mjs', '    else if (!cowAtHome(household)) return NO_COW;\n', '')], expect: T.none },
+  // 2026-10-02 (milking-fix): refused for want of a cow ahead of "not at home", the milking stayed on the bar of a person in
+  // Gonzales as a goal and stood under the town's scene at 1024x600 (the overlap proof).
+  { name: 'away from home, a goal for want of a cow', edits: [one('sim/milking.mjs', "    } else if (entity.location?.siteId !== household.homeSiteId) return `${entity.name} is not at home.`;\n    else if", '    } else if')], expect: T.none },
+  { name: 'the want of a cow said whatever the refusal', edits: [one('sim/milking.mjs', "(where === 'home' && why === NO_COW ? { cow: [0, 1] } : null)", "(where === 'home' && !cowAtHome(household) ? { cow: [0, 1] } : null)")], expect: T.none },
+  { name: 'no want of a cow said', edits: [one('sim/milking.mjs', "const lacks = where => (world, household, entity, why) => (where === 'home' && why === NO_COW ? { cow: [0, 1] } : null);", 'const lacks = where => () => null;')], expect: T.none },
   { name: 'shown with no way to a cow', edits: [one('sim/milking.mjs', '    return cowAtHome(household) || (!tooYoung(entity) && cowToBuy(world, household));', '    return true;')], expect: T.none },
   { name: 'the stock pens not the way to a cow', edits: [one('sim/wants.mjs', "  cow: [['stockman', 'cattle']],\n", '')], expect: T.none },
   { name: 'the cow on the road milks herself again', edits: [one('sim/flight-work.mjs', "  if (!cow.told) { cow.told = true; tell(world, household, driver, `The milk cow can be milked at the halt once a day", "  household.resources.food += MILK_A_DAY; tell(world, household, driver, `The milk cow gave a little milk tonight.`, 'FIC-GONZ-631', 1);\n  if (!cow.told) { cow.told = true; tell(world, household, driver, `The milk cow can be milked at the halt once a day")], expect: T.road },

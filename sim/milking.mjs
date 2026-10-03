@@ -76,13 +76,18 @@ function refusal(where) {
       if (!cowOnRoad(household)) return 'The family has no milk cow with it.';
       if (!withTheCow(household, entity)) return `${entity.name} is not with the family and the cow.`;
       if (household.flight.cow.strayDay === dayOf(world)) return 'The milk cow got away into the brush today, and was found too late to milk.';
-    } else if (!cowAtHome(household)) return 'The family has no cow to milk.';
+    // Away from home first, before the cow: this refusal is asked ahead of the table's own "not at home"
+    // (sim/chores.mjs `choreAvailability`), and a person in Gonzales refused for want of a cow kept the work on the bar as a
+    // goal, over the town's scene at 1024x600 (the overlap proof, 2026-10-02). Away, it is refused like any home work, and hidden.
+    } else if (entity.location?.siteId !== household.homeSiteId) return `${entity.name} is not at home.`;
+    else if (!cowAtHome(household)) return NO_COW;
     if (milkedToday(world, household, where)) return 'The cow has been milked today; she gives once a day.';
     return null;
   };
 }
-/** The gettable want: a cow, bought at the stock pens, for a family at home with none. */
-const lacks = where => (world, household) => (where === 'home' && !cowAtHome(household) ? { cow: [0, 1] } : null);
+const NO_COW = 'The family has no cow to milk.';
+/** The gettable want: a cow, bought at the stock pens, for a family at home with none - only when that is why it is refused. */
+const lacks = where => (world, household, entity, why) => (where === 'home' && why === NO_COW ? { cow: [0, 1] } : null);
 
 /** The day's milk, said once a day in the family's record. */
 function milk(where) {
