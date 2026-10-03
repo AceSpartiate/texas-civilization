@@ -209,6 +209,7 @@ Owner, 2026-09-28: *"add to the art requests list which items need to be made so
 
 | Stand-in | Where | Standing in for | Replace with |
 | --- | --- | --- | --- |
+| **Cutting a path** and **fencing a yard** show the icons for cutting the lane (`icon-cut-lane`) and fencing a plot (`icon-fence-plot`); a **path** on the land is a stroked brown verge with a packed line down the middle, as the roads are drawn | `PANEL_ICONS['cut-path']`, `['fence-yard']` in `public/family-panel.js`; `drawLandPaths` in `public/app.js` | Request 2026-10-02 — paths and the yard, items 1 to 3 | `icon-cut-path`, `icon-fence-yard`, `ground-path-straight`, `ground-path-bend` |
 | **The hunter's first-person field** - the sky, the far timber, brush or prairie, the trunks and grass nearest the hunter, and the long rifle over his shoulder - is painted in canvas; the animals in it are Astra's own wildlife clips | `paintField`, `paintNear`, `drawRifle` in `public/hunt-aim.js` | Request 2026-10-02 — the hunter's first-person field, items 1 and 2 | `hunt-field-timber`, `hunt-field-brush`, `hunt-field-open` (and `-winter`), `hunt-rifle` |
 | **Milking the cow** is drawn as the cow on a rope (Claude's `icon-flee-cow`, or its stroked glyph); the person is drawn in the tending pose (`care`) | `PANEL_ICONS['milk-cow']`, `['milk-road']` in `public/family-panel.js`; `WORK['milk-cow']`, `['milk-road']` in `public/work-art.js` | Request 2026-10-02 — the milking icon and the milking pose, items 1 and 2 | `icon-milk-cow`, `<cast>-milk`, `<child>-milk` |
 | **A small child carried on the road** is the child's own figure drawn at the carrier's hip, a little up and to the right, as a carried baby is | `roadCarrier`, `carriedAt` in `drawWorld`, `public/app.js` | Request 2026-10-02 — a grown person carrying a child of two to five on the road, item 1 | `<cast>-carry-child-walk` |
@@ -447,6 +448,26 @@ child's size as the existing child sheets are. `boy` and `girl` each; `smallchil
 **Plugs into** `CHILD_POSES` and `avatarVariant` in `public/avatar-identity.js` (add each pose name once it is on disk) and the
 work and play drawing in `drawWorld` (`public/app.js`). **Check.** At 1366x768 on the family's land a girl of eight reads as
 playing, feeding hens or sitting at play indoors - not standing still, and never as a grown figure shrunk to her size.
+
+## Request 2026-10-02 — paths and the yard
+
+**Status: open; stand-ins in use since 2026-10-02 (see *Stand-ins in use*).** The owner, 2026-10-02: *"it's weird seeing characters
+walk over trees. paths should be cut to facilitate quick, reasonable movement on a families land. there should be an option to fence
+in a yard too."* (sim/land-paths.mjs; docs/LAND_GRANTS.md §10, docs/CHILDREN.md §13). Two new works on the family's bar, *Cut a path*
+and *Fence a yard*, and paths and a yard drawn on the family's land.
+
+1. **The path icon** (priority 2) - `icon-cut-path`: a narrow trodden path running off between two stumps, an axe leaning on one, in
+   the action-icon contract (128×128, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%). It must not be
+   taken for cutting the lane (`icon-cut-lane`), which can stand on the same bar. Plugs into `PANEL_ICONS['cut-path']` in
+   public/family-panel.js, which today draws `icon-cut-lane`.
+2. **The yard icon** (priority 2) - `icon-fence-yard`: a cabin's corner with a low rail fence round its dooryard and a child inside
+   it, same contract. Plugs into `PANEL_ICONS['fence-yard']`, which today draws `icon-fence-plot`.
+3. **A trodden path** (priority 3) - `ground-path-straight` and `ground-path-bend`: worn earth a person's width across, seen from above
+   at the map's scale, tiling along a line, with grass at its edges. Plugs into `drawLandPaths` in public/app.js, which today strokes
+   a soft brown verge with a packed line down the middle, as the roads are drawn.
+
+**Check.** At 1366x768 on a family's land, a path through the timber reads as a way somebody walks, between the stumps of the trees
+cut for it, and the two icons are told apart from the lane's and the plot fence's on one bar.
 
 ## Request 2026-10-02 — the tent, and going in out of the weather
 
