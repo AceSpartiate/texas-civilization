@@ -13,6 +13,7 @@ import { beginChore, choreAvailability } from '../sim/chores.mjs';
 import { errandOffers } from '../sim/errands.mjs';
 import { CLEAN_DAYS, GARDEN_FOOD, REMARKS, WASH_AGAIN_DAYS, advanceWash, dirty, houseSaving, remarkLines } from '../sim/housework.mjs';
 import { createSettledWorld, modestMeans, taught } from './support/settled.mjs';
+import { housekeepingSaving } from '../sim/family.mjs';
 import { panelActions } from '../public/family-panel.js';
 
 const DAY = 1440;
@@ -257,6 +258,53 @@ test('children keep house: a child of seven keeps house and does the wash for a 
   other.elena.health = { condition: 'dead' };
   assert.equal(canDo(other.world, other.household, other.mateo, 'keep-house'), true, choreAvailability(other.world, other.household, other.mateo, 'keep-house').why);
   validateWorld(world);
+});
+
+test('a child keeps house as the lone parent\'s would: the parent\'s housework is read, not the child\'s; with no lone parent, the child\'s own', () => {
+  // Owner, 2026-10-04, "As the parent's would": the child does the chores the parent directs.
+  // Kept to the end: a child may wander off a job (sim/obedience.mjs), and is set to it again.
+  const keep = (family, child) => {
+    family.household.housekept = undefined;
+    for (let tries = 0; tries < 8 && family.household.housekept?.by !== child.id; tries++) {
+      child.chore = null;
+      beginChore(family.world, family.household, child, 'keep-house', deps);
+      finish(family.world, child);
+    }
+    assert.equal(family.household.housekept?.by, child.id, `${child.name} never kept the house`);
+    return { saving: houseSaving(family.world, family.household), kept: { ...family.household.housekept } };
+  };
+  const traits = (person, housework) => { person.traits = { strength: 5, health: 9, housework }; };
+  // A lone mother, a good housekeeper, and a daughter of eight who is not yet.
+  const mother = withChildren('child-keeps-mother');
+  traits(mother.elena, 10); traits(mother.rosa, 1); traits(mother.thomas, 1);
+  mother.thomas.health = { condition: 'dead' };
+  const asHers = keep(mother, mother.rosa);
+  assert.equal(asHers.kept.by, mother.rosa.id);
+  assert.equal(asHers.kept.for, mother.elena.id, 'the house the child kept is not recorded kept for her mother');
+  assert.equal(asHers.saving, housekeepingSaving([mother.elena]), `the child's keeping saved ${asHers.saving}, not her mother's`);
+  assert.ok(asHers.saving > 0.2);
+  // A lone father: his own housework, poor as it is.
+  const father = withChildren('child-keeps-father');
+  traits(father.thomas, 5); traits(father.rosa, 1); traits(father.elena, 10);
+  father.elena.health = { condition: 'dead' };
+  const asHis = keep(father, father.rosa);
+  assert.equal(asHis.kept.for, father.thomas.id);
+  assert.equal(asHis.saving, housekeepingSaving([father.thomas]));
+  // No lone parent - the mother and a grown daughter of seventeen, the father dead: nobody directs the child as one parent, and the
+  // child's own housework is read.
+  const two = withChildren('child-keeps-two');
+  traits(two.elena, 10); traits(two.rosa, 1);
+  Object.assign(two.mateo, { age: 17, sex: 'female' }); traits(two.mateo, 10);
+  two.thomas.health = { condition: 'dead' };
+  const asOwn = keep(two, two.rosa);
+  assert.equal(asOwn.kept.for, undefined);
+  assert.equal(asOwn.saving, housekeepingSaving([two.rosa]));
+  // A grown person keeping house keeps it as themself; and a saved `for` that cannot be is refused.
+  const own = keep(mother, mother.elena);
+  assert.equal(own.kept.for, undefined);
+  const bad = structuredClone(mother.world);
+  bad.households['hh-1'].housekept = { day: 0, by: mother.rosa.id, for: 7 };
+  assert.throws(() => validateWorld(bad), /housekeeping/i);
 });
 
 test('prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done', () => {

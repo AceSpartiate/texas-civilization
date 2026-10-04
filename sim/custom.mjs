@@ -157,10 +157,10 @@ export const customRefusal = (world, household, entity, choreId, homeWork = null
  * is kept at home** - no grown man at home and able (a lone mother, or a mother whose husband is at the war or in town: she has the
  * men's work to do), or no grown woman (a lone father). In a family with both at home the children of seven to nine keep their own
  * works (the water, the eggs) and the boys of ten to fifteen are held from the women's work as before. The garden stays the women's.
- * The house a child keeps saves what that child's own housework saves (sim/family.mjs `housekeepingSaving`: a hidden trait that grows
- * with age, so a child of eight saves little); the wash a child does cleans as anybody's does. `FIC-GONZ-1158`.
- * ceiling: the saving is the child's own, never the parent's - a lone mother who wants the most from the house keeps it herself.
- * Worth undoing only if the owner wants a child's keeping house to count as the parent's.
+ * The house a child keeps for a lone parent saves what **the parent's** housekeeping would (owner, 2026-10-04, "As the parent's
+ * would": the child does the chores the parent directs; sim/housework.mjs `keepHouse`, `keptBy`); until then it was the child's own
+ * housework, a hidden trait that grows with age, so a child of eight saved little. The wash a child does cleans as anybody's does.
+ * `FIC-GONZ-1158` (amended).
  */
 export const CHILDREN_KEEP = Object.freeze(['keep-house', 'wash-clothes']);
 export const CHILD_KEEPS_FROM = 7;

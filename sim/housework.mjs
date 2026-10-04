@@ -40,6 +40,9 @@ export const KEPT_DAYS = 2;
 export function keptBy(world, household) {
   const kept = household?.housekept;
   if (!kept || !Number.isInteger(kept.day) || dayOf(world) - kept.day >= KEPT_DAYS) return [];
+  // A child who kept house for a lone parent kept it as the parent would (`for`): the parent's housework is read, while they live.
+  const parent = kept.for ? world.entities[kept.for] : null;
+  if (parent && parent.health?.condition !== 'dead') return [parent];
   const person = world.entities[kept.by];
   return person && person.health?.condition !== 'dead' ? [person] : [];
 }
@@ -51,8 +54,18 @@ export const houseSaving = (world, household) => housekeepingSaving(keptBy(world
 /** Whether the house has been kept today. */
 export const keptToday = (world, household) => household?.housekept?.day === dayOf(world);
 
+/**
+ * **A child keeps house as the parent's would** (owner, 2026-10-04, answering BALANCE.md §24 by multiple choice: **"As the parent's
+ * would"** - the child does the chores the parent directs). A child of seven to fifteen keeping house for a lone parent (sim/custom.mjs
+ * `childKeeps`) saves what that parent's own housekeeping would: the house is recorded kept by the child **for** the parent (`for`),
+ * and the saving is read from the parent's housework (`keptBy`). The lone parent is the only grown hand at home and able when the
+ * child keeps it (`loneHand`): a lone father or a lone mother, or a mother whose husband is away. ceiling: with two grown hands of one
+ * custom at home and none of the other (a lone father and a son of seventeen), or none at all, nobody directs the child as one parent,
+ * and the child's own housework is read; worth undoing only if such a family shows a child keeping house for nothing. `FIC-GONZ-1158`.
+ */
 function keepHouse(world, household, entity) {
-  household.housekept = { day: dayOf(world), by: entity.id };
+  const parent = childKeeps(world, household, entity, 'keep-house', homeWork) ? loneHand(world, household) : null;
+  household.housekept = { day: dayOf(world), by: entity.id, ...(parent && parent.id !== entity.id && { for: parent.id }) };
   record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 1, classification: 'FICTIONAL FOR GAMEPLAY', claimId: CLAIMS.house,
     text: `${entity.name} kept house: the cooking, the mending and the sweeping done, and the food made to go further.` });
 }
@@ -367,10 +380,13 @@ export const CUE_WORKS = Object.freeze(['keep-house', 'wash-clothes']);
 export const CUE_FOOD_DAYS = 7;
 const PANEL_RANK = Object.freeze({ father: 0, mother: 1 });
 /** Whether this person is the only grown hand at home and able (sixteen or over, or a founding parent): `keepers` of both sexes. */
-function lonePair(world, household, person) {
-  if (!grownForCustom(person)) return false;
+/** The only grown hand at home and able (sixteen or over, or a founding parent: `keepers` of both sexes), or null. */
+function loneHand(world, household) {
   const grown = [...keepers(world, household, 'male', homeWork), ...keepers(world, household, 'female', homeWork)];
-  return grown.length === 1 && grown[0].id === person.id;
+  return grown.length === 1 ? grown[0] : null;
+}
+function lonePair(world, household, person) {
+  return grownForCustom(person) && loneHand(world, household)?.id === person.id;
 }
 export function houseCue(world, household) {
   if (world.status !== 'running' || !household?.members?.length || !homeAndSettled(world, household)) return null;
@@ -406,7 +422,7 @@ export function houseworkInvalid(world) {
   if (world.washBase !== undefined && !Number.isInteger(world.washBase)) return 'Invalid wash day';
   for (const household of Object.values(world.households || {})) {
     const kept = household.housekept;
-    if (kept !== undefined && (!kept || !Number.isInteger(kept.day) || typeof kept.by !== 'string')) return 'Invalid housekeeping';
+    if (kept !== undefined && (!kept || !Number.isInteger(kept.day) || typeof kept.by !== 'string' || (kept.for !== undefined && typeof kept.for !== 'string'))) return 'Invalid housekeeping';
     if (household.washDay !== undefined && !Number.isInteger(household.washDay)) return 'Invalid wash day';
     const garden = household.garden;
     if (garden !== undefined && (!garden || ![garden.x, garden.y].every(Number.isFinite) || !Number.isInteger(garden.laid) || !Number.isInteger(garden.worked))) return 'Invalid garden';

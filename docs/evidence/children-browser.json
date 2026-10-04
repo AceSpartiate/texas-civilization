@@ -10,7 +10,7 @@
     "with a corn-husk doll the child is drawn sitting (smallchild-rest)",
     "scattering corn for the hens the child is drawn in Astra's own young smallchild-idle-s, not a grown figure and not Claude's scatter",
     "the child's automation turned itself off, and the row says \"Auto went off: Zadok has been good as long as a child can be.\", with an \"!\" on it",
-    "the baby crawled (14 places in three seconds), cried and was picked up by Mahala, 36, who said \"There, there. I have you.\" and was drawn mother-straw-walk; the baby was put down to nap and she went back to where she stood, at \"work\"",
+    "the baby crawled (15 places in three seconds), cried and was picked up by Mahala, 36, who said \"There, there. I have you.\" and was drawn mother-straw-walk; the baby was put down to nap and she went back to where she stood, at \"work\"",
     "on foot with the baby on her hip Mahala walks at three quarters of her pace (0.75 a tick): her row says \"On foot with Minerva on her hip: walking a quarter slower for it.\", the baby's \"Carried by Mahala.\"",
     "at 1024x768 the child's own bar is on the screen and nothing scrolls sideways",
     "told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (child-play, child-doll, child-cart, child-tag, child-hide, child-hoop, child-marbles, child-kindling, child-eggs, child-water, child-mind, flee-bundle, flee-cow)",
@@ -56,21 +56,21 @@
         "text": "Watch me, Mama! Watch this!",
         "box": {
           "x": 454.85986328125,
-          "y": 728.368031692364,
+          "y": 729.459132672119,
           "w": 186.85888671875,
           "h": 27,
           "tail": [
-            585,
-            755,
-            585,
-            763
+            584,
+            756,
+            584,
+            764
           ]
         },
         "tail": [
-          585,
-          755,
-          585,
-          763
+          584,
+          756,
+          584,
+          764
         ]
       },
       {
@@ -80,21 +80,21 @@
         "text": "The wind comes from the Gulf, I expect.",
         "box": {
           "x": 359.71826171875,
-          "y": 674.318979991031,
+          "y": 675.6944440129388,
           "w": 197.28173828125,
           "h": 42,
           "tail": [
             512,
-            716,
+            718,
             512,
-            724
+            726
           ]
         },
         "tail": [
           512,
-          716,
+          718,
           512,
-          724
+          726
         ]
       }
     ],
@@ -256,9 +256,9 @@
         true
       ],
       [
-        "e",
+        "w",
         "smallchild-walk",
-        false
+        true
       ],
       [
         "e",
@@ -370,7 +370,7 @@
     "autoOff": "Auto went off: Zadok has been good as long as a child can be.",
     "autoOffNeed": "Number 3 to answer. Zadok Proofwright’s auto went off. Give Zadok Proofwright something to do, or put Auto on again. Go to Zadok Proofwright and answer.",
     "crawl": {
-      "places": 14,
+      "places": 15,
       "clips": [
         "infant-idle-e"
       ],

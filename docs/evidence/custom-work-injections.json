@@ -1,9 +1,9 @@
 {
  "record": "custom-work-injections",
  "date": "2026-10-04",
- "caught": 73,
- "only": 53,
- "of": 73,
+ "caught": 77,
+ "only": 56,
+ "of": 77,
  "injections": [
   {
    "name": "no custom at all",
@@ -295,7 +295,8 @@
    "only": false,
    "failed": [
     "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did",
-    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else"
+    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else",
+    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
    ]
   },
   {
@@ -754,6 +755,7 @@
    "only": false,
    "failed": [
     "children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up",
+    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own",
     "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
    ]
   },
@@ -791,9 +793,10 @@
    ],
    "expected": "children keep house",
    "caught": true,
-   "only": true,
+   "only": false,
    "failed": [
-    "children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up"
+    "children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up",
+    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
    ]
   },
   {
@@ -938,6 +941,54 @@
    "only": true,
    "failed": [
     "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
+   ]
+  },
+  {
+   "name": "the child's keeping read as the child's own",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "a child keeps house as the lone parent's would",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+   ]
+  },
+  {
+   "name": "never recorded kept for the parent",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "a child keeps house as the lone parent's would",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+   ]
+  },
+  {
+   "name": "kept for anybody grown at home, not a lone parent",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "a child keeps house as the lone parent's would",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+   ]
+  },
+  {
+   "name": "a saved keeper-for that cannot be is opened",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "a child keeps house as the lone parent's would",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
    ]
   }
  ]

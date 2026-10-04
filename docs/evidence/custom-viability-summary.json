@@ -5,130 +5,130 @@
  "classes": {
   "before-playing": [
    {
-    "seed": "viab-1",
+    "seed": "viab-5",
     "days": 210,
-    "seconds": 2097
-   },
-   {
-    "seed": "viab-2",
-    "days": 210,
-    "seconds": 1864
+    "seconds": 705
    },
    {
     "seed": "viab-3",
     "days": 210,
-    "seconds": 1655
-   },
-   {
-    "seed": "viab-4",
-    "days": 210,
-    "seconds": 1942
-   },
-   {
-    "seed": "viab-5",
-    "days": 210,
-    "seconds": 1640
+    "seconds": 715
    },
    {
     "seed": "viab-6",
     "days": 210,
-    "seconds": 843
+    "seconds": 788
+   },
+   {
+    "seed": "viab-2",
+    "days": 210,
+    "seconds": 807
+   },
+   {
+    "seed": "viab-4",
+    "days": 210,
+    "seconds": 815
+   },
+   {
+    "seed": "viab-1",
+    "days": 210,
+    "seconds": 859
    }
   ],
   "now-playing": [
    {
-    "seed": "viab-1",
-    "days": 210,
-    "seconds": 1904
-   },
-   {
-    "seed": "viab-2",
-    "days": 210,
-    "seconds": 1763
-   },
-   {
     "seed": "viab-3",
     "days": 210,
-    "seconds": 1597
-   },
-   {
-    "seed": "viab-4",
-    "days": 210,
-    "seconds": 1819
+    "seconds": 709
    },
    {
     "seed": "viab-5",
     "days": 210,
-    "seconds": 1592
+    "seconds": 721
    },
    {
     "seed": "viab-6",
     "days": 210,
-    "seconds": 1774
+    "seconds": 783
+   },
+   {
+    "seed": "viab-2",
+    "days": 210,
+    "seconds": 800
+   },
+   {
+    "seed": "viab-4",
+    "days": 210,
+    "seconds": 813
+   },
+   {
+    "seed": "viab-1",
+    "days": 210,
+    "seconds": 862
    }
   ],
   "now-nohouse": [
    {
-    "seed": "viab-1",
+    "seed": "viab-5",
     "days": 210,
-    "seconds": 1892
-   },
-   {
-    "seed": "viab-2",
-    "days": 210,
-    "seconds": 1783
+    "seconds": 714
    },
    {
     "seed": "viab-3",
     "days": 210,
-    "seconds": 1618
-   },
-   {
-    "seed": "viab-4",
-    "days": 210,
-    "seconds": 1834
-   },
-   {
-    "seed": "viab-5",
-    "days": 210,
-    "seconds": 1587
+    "seconds": 721
    },
    {
     "seed": "viab-6",
     "days": 210,
-    "seconds": 1804
+    "seconds": 797
+   },
+   {
+    "seed": "viab-2",
+    "days": 210,
+    "seconds": 809
+   },
+   {
+    "seed": "viab-4",
+    "days": 210,
+    "seconds": 827
+   },
+   {
+    "seed": "viab-1",
+    "days": 210,
+    "seconds": 856
    }
   ],
   "now-cued": [
    {
     "seed": "viab-5",
     "days": 210,
-    "seconds": 408
+    "seconds": 709
    },
    {
     "seed": "viab-3",
     "days": 210,
-    "seconds": 408
-   },
-   {
-    "seed": "viab-6",
-    "days": 210,
-    "seconds": 450
+    "seconds": 723
    },
    {
     "seed": "viab-2",
     "days": 210,
-    "seconds": 452
+    "seconds": 805
+   },
+   {
+    "seed": "viab-6",
+    "days": 210,
+    "seconds": 807
    },
    {
     "seed": "viab-4",
     "days": 210,
-    "seconds": 464
+    "seconds": 821
    },
    {
     "seed": "viab-1",
     "days": 210,
-    "seconds": 510
+    "seconds": 875
    }
   ]
  },
@@ -266,13 +266,13 @@
      2.5
     ],
     "sownP1": 3,
-    "harvestsMean": 60.3,
-    "harvestFoodMedian": 391.5,
-    "cottonMedian": 202.9,
+    "harvestsMean": 60.2,
+    "harvestFoodMedian": 386.5,
+    "cottonMedian": 197,
     "food": [
-     26.6,
-     33.7,
-     13.7
+     28.2,
+     37.4,
+     11.8
     ],
     "hungry": 2,
     "weak": 0,
@@ -285,92 +285,92 @@
     "other": 0,
     "hungerDeathsAtHome": 0,
     "coinMedian": 377.5,
-    "finalMedian": 38203,
+    "finalMedian": 37455.5,
     "rankMedian": 6,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 567,
-    "dirtyArrivals": 138,
+    "townArrivals": 573,
+    "dirtyArrivals": 145,
     "remarks": 55,
-    "markupReales": 128.8,
-    "coinTradedDirty": 515,
+    "markupReales": 142.3,
+    "coinTradedDirty": 569,
     "dirtyShareMedian": 25,
-    "washesMean": 17.8,
-    "keptDaysMean": 77.5,
+    "washesMean": 17.5,
+    "keptDaysMean": 76.8,
     "gardenDaysMean": 69.7,
     "homeDaysMean": 180.9,
-    "keptByChildMean": 33.3,
-    "helpsMean": 28.5,
+    "keptByChildMean": 32.5,
+    "helpsMean": 28.2,
     "washesForMean": 4.7,
-    "stuckFamilyDays": 19.23,
-    "hiddenAllDays": 9.58,
-    "queuedBehindOneDays": 1.74,
-    "stuckFamilyShare": 0.11,
+    "stuckFamilyDays": 18.89,
+    "hiddenAllDays": 10.33,
+    "queuedBehindOneDays": 2.37,
+    "stuckFamilyShare": 0.1,
     "stuckPersonDays": {
      "men": 0.05,
-     "women": 4.88,
+     "women": 5.09,
      "boys": 0,
-     "girls": 23.49
+     "girls": 22.28
     },
     "stuckBy": {
-     "build": 18.76,
-     "ground": 19.18,
-     "hunt": 19.18,
+     "build": 18.42,
+     "ground": 18.84,
+     "hunt": 18.84,
      "house": 0.05
     },
     "hiddenBy": {
-     "build": 9.11,
-     "ground": 9.53,
-     "hunt": 9.53,
+     "build": 9.86,
+     "ground": 10.29,
+     "hunt": 10.29,
      "house": 0.05
     },
     "idleShare": {
-     "men": 0.31,
+     "men": 0.29,
      "women": 0.07,
      "boys": null,
-     "girls": 0.17
+     "girls": 0.15
     },
     "workShare": {
      "men": {
-      "mens": 13,
+      "mens": 12,
       "womens": 14,
-      "shared": 37,
-      "none": 36
+      "shared": 39,
+      "none": 34
      },
      "women": {
-      "mens": 1,
-      "womens": 62,
-      "shared": 29,
-      "none": 8
+      "mens": 2,
+      "womens": 63,
+      "shared": 28,
+      "none": 7
      },
      "boys": null,
      "girls": {
       "mens": 1,
       "womens": 57,
       "shared": 25,
-      "none": 17
+      "none": 16
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 2.91,
-      "hiddenAllDays": 2.2,
+      "stuckFamilyDays": 2.78,
+      "hiddenAllDays": 2.24,
       "homeDays": 79.32,
       "womenIdle": 0.1,
       "womenMens": 0.02
      },
      "2": {
-      "stuckFamilyDays": 13.38,
-      "hiddenAllDays": 6.32,
+      "stuckFamilyDays": 13.39,
+      "hiddenAllDays": 6.92,
       "homeDays": 88.04,
-      "womenIdle": 0.03,
+      "womenIdle": 0.04,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 2.94,
-      "hiddenAllDays": 1.05,
+      "stuckFamilyDays": 2.72,
+      "hiddenAllDays": 1.17,
       "homeDays": 13.57,
-      "womenIdle": 0.17,
+      "womenIdle": 0.19,
       "womenMens": 0
      }
     },
@@ -510,87 +510,87 @@
      2.5
     ],
     "sownP1": 2.5,
-    "harvestsMean": 62.3,
-    "harvestFoodMedian": 392.5,
-    "cottonMedian": 200,
+    "harvestsMean": 61.3,
+    "harvestFoodMedian": 387.5,
+    "cottonMedian": 194,
     "food": [
-     27.5,
-     39.2,
-     12.4
+     28,
+     39.4,
+     13.9
     ],
     "hungry": 2,
     "weak": 1,
     "starving": 1,
-    "hungryDaysMean": 2.6,
+    "hungryDaysMean": 2.8,
     "deaths": 2,
     "hunger": 1,
     "disease": 0,
     "war": 1,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 376.5,
+    "coinMedian": 356.5,
     "finalMedian": 35623.5,
     "rankMedian": 6,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 558,
-    "dirtyArrivals": 165,
-    "remarks": 72,
-    "markupReales": 169.3,
-    "coinTradedDirty": 677,
+    "townArrivals": 560,
+    "dirtyArrivals": 174,
+    "remarks": 78,
+    "markupReales": 179.3,
+    "coinTradedDirty": 717,
     "dirtyShareMedian": 24.5,
-    "washesMean": 17,
-    "keptDaysMean": 82.5,
+    "washesMean": 16.7,
+    "keptDaysMean": 82.3,
     "gardenDaysMean": 0,
     "homeDaysMean": 180.9,
-    "keptByChildMean": 54.7,
+    "keptByChildMean": 54.8,
     "helpsMean": 11,
-    "washesForMean": 9.5,
-    "stuckFamilyDays": 54.5,
-    "hiddenAllDays": 30.04,
+    "washesForMean": 8,
+    "stuckFamilyDays": 54.4,
+    "hiddenAllDays": 29.74,
     "queuedBehindOneDays": 7.2,
     "stuckFamilyShare": 0.3,
     "stuckPersonDays": {
      "men": 0.08,
-     "women": 5.87,
+     "women": 5.96,
      "boys": 0,
-     "girls": 72.02
+     "girls": 71.81
     },
     "stuckBy": {
-     "build": 54.11,
-     "ground": 54.5,
-     "hunt": 54.5,
+     "build": 54.01,
+     "ground": 54.4,
+     "hunt": 54.4,
      "house": 0.08
     },
     "hiddenBy": {
-     "build": 29.65,
-     "ground": 30.04,
-     "hunt": 30.04,
+     "build": 29.35,
+     "ground": 29.74,
+     "hunt": 29.74,
      "house": 0
     },
     "idleShare": {
      "men": 0.21,
-     "women": 0.23,
+     "women": 0.22,
      "boys": null,
-     "girls": 0.4
+     "girls": 0.41
     },
     "workShare": {
      "men": {
       "mens": 14,
       "womens": 1,
-      "shared": 56,
+      "shared": 55,
       "none": 30
      },
      "women": {
       "mens": 1,
       "womens": 54,
-      "shared": 23,
-      "none": 21
+      "shared": 24,
+      "none": 20
      },
      "boys": null,
      "girls": {
       "mens": 1,
-      "womens": 35,
+      "womens": 34,
       "shared": 26,
       "none": 38
      }
@@ -604,17 +604,17 @@
       "womenMens": 0.01
      },
      "2": {
-      "stuckFamilyDays": 48.04,
-      "hiddenAllDays": 27.43,
+      "stuckFamilyDays": 47.74,
+      "hiddenAllDays": 27.27,
       "homeDays": 88.05,
       "womenIdle": 0.1,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 3.31,
-      "hiddenAllDays": 0.77,
-      "homeDays": 13.46,
-      "womenIdle": 0.34,
+      "stuckFamilyDays": 3.51,
+      "hiddenAllDays": 0.63,
+      "homeDays": 13.45,
+      "womenIdle": 0.31,
       "womenMens": 0
      }
     },
@@ -751,13 +751,13 @@
      0
     ],
     "sownP1": 3,
-    "harvestsMean": 56.3,
+    "harvestsMean": 56,
     "harvestFoodMedian": 756.5,
     "cottonMedian": 0,
     "food": [
-     20.8,
-     48.7,
-     13.3
+     24.4,
+     48.6,
+     13.5
     ],
     "hungry": 1,
     "weak": 1,
@@ -769,86 +769,86 @@
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 171.5,
-    "finalMedian": 7349,
+    "coinMedian": 171,
+    "finalMedian": 7327,
     "rankMedian": 11.5,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 553,
-    "dirtyArrivals": 125,
-    "remarks": 56,
-    "markupReales": 78,
-    "coinTradedDirty": 312,
-    "dirtyShareMedian": 27,
-    "washesMean": 17.3,
-    "keptDaysMean": 80.3,
-    "gardenDaysMean": 71.2,
+    "townArrivals": 550,
+    "dirtyArrivals": 118,
+    "remarks": 51,
+    "markupReales": 64,
+    "coinTradedDirty": 256,
+    "dirtyShareMedian": 24.5,
+    "washesMean": 17.8,
+    "keptDaysMean": 80.7,
+    "gardenDaysMean": 70.8,
     "homeDaysMean": 181.1,
-    "keptByChildMean": 43.8,
-    "helpsMean": 7.2,
-    "washesForMean": 5.5,
-    "stuckFamilyDays": 33.78,
-    "hiddenAllDays": 27.46,
-    "queuedBehindOneDays": 1.19,
+    "keptByChildMean": 43,
+    "helpsMean": 7.5,
+    "washesForMean": 5.2,
+    "stuckFamilyDays": 34.5,
+    "hiddenAllDays": 28.33,
+    "queuedBehindOneDays": 1.15,
     "stuckFamilyShare": 0.19,
     "stuckPersonDays": {
      "men": 0,
      "women": 0,
      "boys": 0,
-     "girls": 39.72
+     "girls": 40.07
     },
     "stuckBy": {
-     "build": 33.15,
-     "ground": 33.78,
-     "hunt": 33.78,
+     "build": 33.86,
+     "ground": 34.5,
+     "hunt": 34.5,
      "house": 0
     },
     "hiddenBy": {
-     "build": 26.82,
-     "ground": 27.46,
-     "hunt": 27.46,
+     "build": 27.69,
+     "ground": 28.33,
+     "hunt": 28.33,
      "house": 0
     },
     "idleShare": {
      "men": 0.06,
      "women": null,
      "boys": null,
-     "girls": 0.16
+     "girls": 0.17
     },
     "workShare": {
      "men": {
       "mens": 4,
-      "womens": 63,
+      "womens": 64,
       "shared": 27,
-      "none": 5
+      "none": 6
      },
      "women": null,
      "boys": null,
      "girls": {
       "mens": 1,
-      "womens": 63,
-      "shared": 19,
+      "womens": 64,
+      "shared": 18,
       "none": 16
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 13.93,
-      "hiddenAllDays": 10.73,
+      "stuckFamilyDays": 13.64,
+      "hiddenAllDays": 10.67,
       "homeDays": 79.29,
       "womenIdle": null,
       "womenMens": null
      },
      "2": {
-      "stuckFamilyDays": 17.11,
-      "hiddenAllDays": 15.22,
+      "stuckFamilyDays": 18.09,
+      "hiddenAllDays": 16.11,
       "homeDays": 88.1,
       "womenIdle": null,
       "womenMens": null
      },
      "3": {
-      "stuckFamilyDays": 2.75,
-      "hiddenAllDays": 1.51,
+      "stuckFamilyDays": 2.77,
+      "hiddenAllDays": 1.54,
       "homeDays": 13.69,
       "womenIdle": null,
       "womenMens": null
@@ -951,7 +951,7 @@
     "byPeriod": {
      "1": {
       "stuckFamilyDays": 24.46,
-      "hiddenAllDays": 5.6,
+      "hiddenAllDays": 5.59,
       "homeDays": 79.35,
       "womenIdle": null,
       "womenMens": null
@@ -965,7 +965,7 @@
      },
      "3": {
       "stuckFamilyDays": 2.87,
-      "hiddenAllDays": 0.63,
+      "hiddenAllDays": 0.64,
       "homeDays": 13.55,
       "womenIdle": null,
       "womenMens": null
@@ -985,75 +985,75 @@
      0
     ],
     "sownP1": 2.5,
-    "harvestsMean": 57.7,
-    "harvestFoodMedian": 781,
+    "harvestsMean": 57.5,
+    "harvestFoodMedian": 777,
     "cottonMedian": 0,
     "food": [
-     20.6,
-     43.4,
-     12.8
+     19.7,
+     43.3,
+     13.3
     ],
-    "hungry": 2,
+    "hungry": 1,
     "weak": 1,
     "starving": 1,
-    "hungryDaysMean": 1.8,
+    "hungryDaysMean": 1.6,
     "deaths": 0,
     "hunger": 0,
     "disease": 0,
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 187.5,
-    "finalMedian": 8024,
+    "coinMedian": 186.5,
+    "finalMedian": 7981,
     "rankMedian": 12.5,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 595,
-    "dirtyArrivals": 222,
-    "remarks": 115,
-    "markupReales": 141.3,
-    "coinTradedDirty": 565,
-    "dirtyShareMedian": 32,
-    "washesMean": 14.8,
-    "keptDaysMean": 81.7,
+    "townArrivals": 580,
+    "dirtyArrivals": 211,
+    "remarks": 112,
+    "markupReales": 142,
+    "coinTradedDirty": 568,
+    "dirtyShareMedian": 33,
+    "washesMean": 14.7,
+    "keptDaysMean": 81.3,
     "gardenDaysMean": 0,
     "homeDaysMean": 181.1,
-    "keptByChildMean": 81.7,
+    "keptByChildMean": 81.3,
     "helpsMean": 7.3,
-    "washesForMean": 10,
-    "stuckFamilyDays": 54.8,
-    "hiddenAllDays": 12.87,
-    "queuedBehindOneDays": 3.13,
-    "stuckFamilyShare": 0.3,
+    "washesForMean": 10.3,
+    "stuckFamilyDays": 56.88,
+    "hiddenAllDays": 12.88,
+    "queuedBehindOneDays": 2.7,
+    "stuckFamilyShare": 0.31,
     "stuckPersonDays": {
      "men": 0,
      "women": 0,
      "boys": 0,
-     "girls": 60.65
+     "girls": 62.86
     },
     "stuckBy": {
-     "build": 54.04,
-     "ground": 54.8,
-     "hunt": 54.36,
+     "build": 56.12,
+     "ground": 56.88,
+     "hunt": 56.44,
      "house": 0
     },
     "hiddenBy": {
-     "build": 12.1,
-     "ground": 12.87,
-     "hunt": 12.43,
+     "build": 12.13,
+     "ground": 12.88,
+     "hunt": 12.45,
      "house": 0
     },
     "idleShare": {
-     "men": 0.57,
+     "men": 0.56,
      "women": null,
      "boys": null,
-     "girls": 0.32
+     "girls": 0.33
     },
     "workShare": {
      "men": {
-      "mens": 7,
+      "mens": 8,
       "womens": 1,
-      "shared": 42,
+      "shared": 41,
       "none": 50
      },
      "women": null,
@@ -1067,22 +1067,22 @@
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 10.01,
-      "hiddenAllDays": 2.68,
+      "stuckFamilyDays": 10.19,
+      "hiddenAllDays": 2.59,
       "homeDays": 79.28,
       "womenIdle": null,
       "womenMens": null
      },
      "2": {
-      "stuckFamilyDays": 42.8,
-      "hiddenAllDays": 9.75,
+      "stuckFamilyDays": 44.57,
+      "hiddenAllDays": 9.83,
       "homeDays": 88.01,
       "womenIdle": null,
       "womenMens": null
      },
      "3": {
-      "stuckFamilyDays": 1.99,
-      "hiddenAllDays": 0.43,
+      "stuckFamilyDays": 2.12,
+      "hiddenAllDays": 0.46,
       "homeDays": 13.79,
       "womenIdle": null,
       "womenMens": null
@@ -1225,7 +1225,7 @@
     "harvestFoodMedian": 674,
     "cottonMedian": 116,
     "food": [
-     55.4,
+     54.7,
      38.8,
      13.5
     ],
@@ -1239,24 +1239,24 @@
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 309,
-    "finalMedian": 30225.5,
+    "coinMedian": 312.5,
+    "finalMedian": 30511,
     "rankMedian": 7.5,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 735,
-    "dirtyArrivals": 205,
+    "townArrivals": 740,
+    "dirtyArrivals": 206,
     "remarks": 91,
-    "markupReales": 144.8,
-    "coinTradedDirty": 579,
+    "markupReales": 146,
+    "coinTradedDirty": 584,
     "dirtyShareMedian": 27,
-    "washesMean": 16.3,
-    "keptDaysMean": 79.7,
-    "gardenDaysMean": 67.2,
+    "washesMean": 16.5,
+    "keptDaysMean": 78.8,
+    "gardenDaysMean": 67.5,
     "homeDaysMean": 178.2,
-    "keptByChildMean": 42.3,
+    "keptByChildMean": 42,
     "helpsMean": 0,
-    "washesForMean": 7.5,
+    "washesForMean": 8.3,
     "stuckFamilyDays": 0,
     "hiddenAllDays": 0,
     "queuedBehindOneDays": 0,
@@ -1289,7 +1289,7 @@
      "men": {
       "mens": 4,
       "womens": 56,
-      "shared": 36,
+      "shared": 35,
       "none": 5
      },
      "women": null,
@@ -1455,11 +1455,11 @@
      0
     ],
     "sownP1": 3,
-    "harvestsMean": 70.5,
+    "harvestsMean": 72,
     "harvestFoodMedian": 628,
     "cottonMedian": 125.9,
     "food": [
-     31.1,
+     30.9,
      42,
      11.5
     ],
@@ -1474,23 +1474,23 @@
     "other": 0,
     "hungerDeathsAtHome": 0,
     "coinMedian": 353,
-    "finalMedian": 33588,
+    "finalMedian": 33623.5,
     "rankMedian": 6.5,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 767,
+    "townArrivals": 764,
     "dirtyArrivals": 190,
-    "remarks": 84,
-    "markupReales": 124.5,
-    "coinTradedDirty": 498,
+    "remarks": 86,
+    "markupReales": 125.3,
+    "coinTradedDirty": 501,
     "dirtyShareMedian": 22,
-    "washesMean": 16.3,
-    "keptDaysMean": 78.5,
+    "washesMean": 16.5,
+    "keptDaysMean": 78.7,
     "gardenDaysMean": 0,
     "homeDaysMean": 178.2,
-    "keptByChildMean": 47.2,
+    "keptByChildMean": 47.3,
     "helpsMean": 0,
-    "washesForMean": 12.3,
+    "washesForMean": 12.7,
     "stuckFamilyDays": 0,
     "hiddenAllDays": 0,
     "queuedBehindOneDays": 0,
@@ -1679,49 +1679,49 @@
    "now-playing": {
     "families": 6,
     "roofed": 6,
-    "roofedDayMedian": 5.2,
+    "roofedDayMedian": 5.8,
     "cleared": [
      2,
-     2,
+     2.5,
      2.5
     ],
-    "sownP1": 1,
-    "harvestsMean": 21.3,
-    "harvestFoodMedian": 38.5,
-    "cottonMedian": 64.1,
+    "sownP1": 2,
+    "harvestsMean": 24.7,
+    "harvestFoodMedian": 104.5,
+    "cottonMedian": 81,
     "food": [
-     9.6,
-     8.7,
-     6.7
+     11,
+     19.1,
+     5.2
     ],
-    "hungry": 5,
+    "hungry": 4,
     "weak": 3,
-    "starving": 3,
-    "hungryDaysMean": 9.6,
-    "deaths": 0,
-    "hunger": 0,
+    "starving": 2,
+    "hungryDaysMean": 7.4,
+    "deaths": 5,
+    "hunger": 5,
     "disease": 0,
     "war": 0,
     "other": 0,
-    "hungerDeathsAtHome": 0,
-    "coinMedian": 81,
-    "finalMedian": 440,
-    "rankMedian": 14.5,
+    "hungerDeathsAtHome": 5,
+    "coinMedian": 97.5,
+    "finalMedian": 221,
+    "rankMedian": 15,
     "winners": 0,
-    "wiped": 0,
-    "townArrivals": 362,
-    "dirtyArrivals": 200,
-    "remarks": 98,
-    "markupReales": 50.8,
-    "coinTradedDirty": 203,
-    "dirtyShareMedian": 50,
-    "washesMean": 11.5,
-    "keptDaysMean": 70.7,
-    "gardenDaysMean": 10.7,
-    "homeDaysMean": 183.9,
-    "keptByChildMean": 60.8,
+    "wiped": 1,
+    "townArrivals": 286,
+    "dirtyArrivals": 154,
+    "remarks": 72,
+    "markupReales": 54.5,
+    "coinTradedDirty": 218,
+    "dirtyShareMedian": 48,
+    "washesMean": 10.5,
+    "keptDaysMean": 64.8,
+    "gardenDaysMean": 15,
+    "homeDaysMean": 186,
+    "keptByChildMean": 52.7,
     "helpsMean": 0,
-    "washesForMean": 0.5,
+    "washesForMean": 0.3,
     "stuckFamilyDays": 0,
     "hiddenAllDays": 0,
     "queuedBehindOneDays": 0,
@@ -1753,10 +1753,10 @@
     "workShare": {
      "men": null,
      "women": {
-      "mens": 43,
-      "womens": 19,
-      "shared": 35,
-      "none": 2
+      "mens": 30,
+      "womens": 34,
+      "shared": 34,
+      "none": 3
      },
      "boys": null,
      "girls": null
@@ -1767,21 +1767,21 @@
       "hiddenAllDays": 0,
       "homeDays": 79.35,
       "womenIdle": 0.02,
-      "womenMens": 0.58
+      "womenMens": 0.54
      },
      "2": {
       "stuckFamilyDays": 0,
       "hiddenAllDays": 0,
       "homeDays": 88.04,
       "womenIdle": 0,
-      "womenMens": 0.28
+      "womenMens": 0.18
      },
      "3": {
       "stuckFamilyDays": 0,
       "hiddenAllDays": 0,
-      "homeDays": 16.46,
+      "homeDays": 18.58,
       "womenIdle": 0.01,
-      "womenMens": 0.25
+      "womenMens": 0
      }
     },
     "enlisted": 0,
@@ -1903,49 +1903,49 @@
    "now-cued": {
     "families": 6,
     "roofed": 6,
-    "roofedDayMedian": 5.3,
+    "roofedDayMedian": 15.3,
     "cleared": [
      2.5,
      3,
      3
     ],
-    "sownP1": 1.5,
-    "harvestsMean": 21.8,
-    "harvestFoodMedian": 76,
-    "cottonMedian": 75.5,
+    "sownP1": 2,
+    "harvestsMean": 28.5,
+    "harvestFoodMedian": 158.5,
+    "cottonMedian": 88.6,
     "food": [
-     10.2,
-     5.6,
-     7.5
+     16.6,
+     17.3,
+     6.1
     ],
-    "hungry": 3,
-    "weak": 3,
-    "starving": 3,
-    "hungryDaysMean": 11,
-    "deaths": 2,
-    "hunger": 2,
+    "hungry": 5,
+    "weak": 2,
+    "starving": 2,
+    "hungryDaysMean": 7.2,
+    "deaths": 0,
+    "hunger": 0,
     "disease": 0,
     "war": 0,
     "other": 0,
-    "hungerDeathsAtHome": 2,
-    "coinMedian": 82.5,
-    "finalMedian": 408.5,
-    "rankMedian": 15,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 85.5,
+    "finalMedian": 484,
+    "rankMedian": 14.5,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 393,
-    "dirtyArrivals": 260,
-    "remarks": 138,
-    "markupReales": 72.8,
-    "coinTradedDirty": 291,
-    "dirtyShareMedian": 62,
-    "washesMean": 8.2,
-    "keptDaysMean": 46.7,
+    "townArrivals": 406,
+    "dirtyArrivals": 243,
+    "remarks": 128,
+    "markupReales": 93.8,
+    "coinTradedDirty": 375,
+    "dirtyShareMedian": 60.5,
+    "washesMean": 8.7,
+    "keptDaysMean": 49,
     "gardenDaysMean": 0,
-    "homeDaysMean": 183.9,
-    "keptByChildMean": 46.7,
+    "homeDaysMean": 183.8,
+    "keptByChildMean": 49,
     "helpsMean": 0,
-    "washesForMean": 1,
+    "washesForMean": 0.7,
     "stuckFamilyDays": 0,
     "hiddenAllDays": 0,
     "queuedBehindOneDays": 0,
@@ -1970,17 +1970,17 @@
     },
     "idleShare": {
      "men": null,
-     "women": 0.02,
+     "women": 0.05,
      "boys": null,
      "girls": null
     },
     "workShare": {
      "men": null,
      "women": {
-      "mens": 54,
+      "mens": 42,
       "womens": 3,
-      "shared": 32,
-      "none": 10
+      "shared": 46,
+      "none": 9
      },
      "boys": null,
      "girls": null
@@ -1990,22 +1990,22 @@
       "stuckFamilyDays": 0,
       "hiddenAllDays": 0,
       "homeDays": 79.42,
-      "womenIdle": 0.01,
-      "womenMens": 0.65
+      "womenIdle": 0.02,
+      "womenMens": 0.4
      },
      "2": {
       "stuckFamilyDays": 0,
       "hiddenAllDays": 0,
       "homeDays": 88.05,
-      "womenIdle": 0,
-      "womenMens": 0.68
+      "womenIdle": 0.05,
+      "womenMens": 0.29
      },
      "3": {
       "stuckFamilyDays": 0,
       "hiddenAllDays": 0,
-      "homeDays": 16.39,
+      "homeDays": 16.38,
       "womenIdle": 0.03,
-      "womenMens": 0.19
+      "womenMens": 0
      }
     },
     "enlisted": 0,
@@ -2146,66 +2146,66 @@
      1.5
     ],
     "sownP1": 3,
-    "harvestsMean": 58.7,
+    "harvestsMean": 59.5,
     "harvestFoodMedian": 451.5,
-    "cottonMedian": 172.9,
+    "cottonMedian": 170.5,
     "food": [
-     31.1,
-     35.1,
-     9.5
+     35,
+     43.5,
+     9.1
     ],
     "hungry": 3,
     "weak": 2,
-    "starving": 1,
-    "hungryDaysMean": 2.7,
+    "starving": 0,
+    "hungryDaysMean": 2.5,
     "deaths": 0,
     "hunger": 0,
     "disease": 0,
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 347.5,
-    "finalMedian": 14958.5,
+    "coinMedian": 346,
+    "finalMedian": 15381.5,
     "rankMedian": 9,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 542,
-    "dirtyArrivals": 175,
+    "townArrivals": 552,
+    "dirtyArrivals": 176,
     "remarks": 79,
-    "markupReales": 160.8,
-    "coinTradedDirty": 643,
-    "dirtyShareMedian": 29.5,
-    "washesMean": 16.5,
-    "keptDaysMean": 71.8,
-    "gardenDaysMean": 54.3,
+    "markupReales": 148.5,
+    "coinTradedDirty": 594,
+    "dirtyShareMedian": 32,
+    "washesMean": 16,
+    "keptDaysMean": 71.2,
+    "gardenDaysMean": 55.2,
     "homeDaysMean": 179,
-    "keptByChildMean": 32,
-    "helpsMean": 30.7,
-    "washesForMean": 6.5,
-    "stuckFamilyDays": 23.83,
-    "hiddenAllDays": 18.79,
+    "keptByChildMean": 32.5,
+    "helpsMean": 28.3,
+    "washesForMean": 6,
+    "stuckFamilyDays": 17.32,
+    "hiddenAllDays": 12.28,
     "queuedBehindOneDays": 0.44,
-    "stuckFamilyShare": 0.13,
+    "stuckFamilyShare": 0.09,
     "stuckPersonDays": {
-     "men": 17.6,
-     "women": 3.41,
+     "men": 11.22,
+     "women": 3.52,
      "boys": 0,
-     "girls": 6.17
+     "girls": 6.15
     },
     "stuckBy": {
-     "build": 6.37,
-     "ground": 6.54,
-     "hunt": 6.54,
-     "house": 17.6
+     "build": 6.55,
+     "ground": 6.73,
+     "hunt": 6.73,
+     "house": 11.22
     },
     "hiddenBy": {
-     "build": 1.33,
-     "ground": 1.5,
-     "hunt": 1.5,
-     "house": 17.29
+     "build": 1.5,
+     "ground": 1.68,
+     "hunt": 1.68,
+     "house": 10.6
     },
     "idleShare": {
-     "men": 0.16,
+     "men": 0.15,
      "women": 0.05,
      "boys": null,
      "girls": 0.08
@@ -2214,14 +2214,14 @@
      "men": {
       "mens": 7,
       "womens": 21,
-      "shared": 43,
-      "none": 29
+      "shared": 51,
+      "none": 21
      },
      "women": {
       "mens": 1,
-      "womens": 52,
-      "shared": 43,
-      "none": 4
+      "womens": 51,
+      "shared": 44,
+      "none": 5
      },
      "boys": null,
      "girls": {
@@ -2233,24 +2233,24 @@
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 5.21,
-      "hiddenAllDays": 2.68,
+      "stuckFamilyDays": 4.72,
+      "hiddenAllDays": 2.45,
       "homeDays": 79.38,
       "womenIdle": 0.06,
       "womenMens": 0.01
      },
      "2": {
-      "stuckFamilyDays": 18.14,
-      "hiddenAllDays": 16.02,
+      "stuckFamilyDays": 11.85,
+      "hiddenAllDays": 9.68,
       "homeDays": 88.1,
-      "womenIdle": 0.02,
+      "womenIdle": 0.03,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 0.48,
-      "hiddenAllDays": 0.08,
+      "stuckFamilyDays": 0.76,
+      "hiddenAllDays": 0.15,
       "homeDays": 11.48,
-      "womenIdle": 0.07,
+      "womenIdle": 0.11,
       "womenMens": 0
      }
     },
@@ -2391,110 +2391,110 @@
     ],
     "sownP1": 3,
     "harvestsMean": 57.7,
-    "harvestFoodMedian": 456.5,
-    "cottonMedian": 169.6,
+    "harvestFoodMedian": 460,
+    "cottonMedian": 171.9,
     "food": [
-     26.8,
-     37.1,
-     12
+     26.4,
+     37,
+     10.1
     ],
-    "hungry": 1,
+    "hungry": 2,
     "weak": 1,
     "starving": 0,
-    "hungryDaysMean": 1,
+    "hungryDaysMean": 1.2,
     "deaths": 0,
     "hunger": 0,
     "disease": 0,
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 332.5,
-    "finalMedian": 13878,
-    "rankMedian": 10.5,
+    "coinMedian": 327,
+    "finalMedian": 16948.5,
+    "rankMedian": 10,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 613,
+    "townArrivals": 611,
     "dirtyArrivals": 200,
     "remarks": 80,
-    "markupReales": 163.3,
-    "coinTradedDirty": 653,
-    "dirtyShareMedian": 28.5,
-    "washesMean": 15.3,
-    "keptDaysMean": 78,
+    "markupReales": 165.5,
+    "coinTradedDirty": 662,
+    "dirtyShareMedian": 26.5,
+    "washesMean": 15.7,
+    "keptDaysMean": 78.2,
     "gardenDaysMean": 0,
     "homeDaysMean": 179,
-    "keptByChildMean": 40.3,
+    "keptByChildMean": 37.7,
     "helpsMean": 7.3,
     "washesForMean": 6.7,
-    "stuckFamilyDays": 28.19,
-    "hiddenAllDays": 2.67,
+    "stuckFamilyDays": 30.21,
+    "hiddenAllDays": 3.12,
     "queuedBehindOneDays": 2.38,
-    "stuckFamilyShare": 0.16,
+    "stuckFamilyShare": 0.17,
     "stuckPersonDays": {
-     "men": 0,
-     "women": 5.7,
+     "men": 0.04,
+     "women": 5.82,
      "boys": 0,
-     "girls": 26.43
+     "girls": 28.6
     },
     "stuckBy": {
-     "build": 27.79,
-     "ground": 28.19,
-     "hunt": 28.19,
-     "house": 0
+     "build": 29.78,
+     "ground": 30.17,
+     "hunt": 30.17,
+     "house": 0.04
     },
     "hiddenBy": {
-     "build": 2.27,
-     "ground": 2.67,
-     "hunt": 2.67,
-     "house": 0
+     "build": 2.68,
+     "ground": 3.08,
+     "hunt": 3.08,
+     "house": 0.04
     },
     "idleShare": {
-     "men": 0.33,
+     "men": 0.34,
      "women": 0.1,
      "boys": null,
-     "girls": 0.24
+     "girls": 0.26
     },
     "workShare": {
      "men": {
-      "mens": 9,
-      "womens": 2,
-      "shared": 49,
+      "mens": 8,
+      "womens": 1,
+      "shared": 50,
       "none": 41
      },
      "women": {
-      "mens": 0,
-      "womens": 73,
+      "mens": 1,
+      "womens": 74,
       "shared": 17,
       "none": 9
      },
      "boys": null,
      "girls": {
       "mens": 1,
-      "womens": 47,
-      "shared": 27,
-      "none": 25
+      "womens": 45,
+      "shared": 28,
+      "none": 26
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 6.85,
-      "hiddenAllDays": 1.08,
+      "stuckFamilyDays": 8.61,
+      "hiddenAllDays": 1.42,
       "homeDays": 79.36,
       "womenIdle": 0.12,
-      "womenMens": 0.01
+      "womenMens": 0
      },
      "2": {
-      "stuckFamilyDays": 20.39,
-      "hiddenAllDays": 1.53,
+      "stuckFamilyDays": 20.7,
+      "hiddenAllDays": 1.67,
       "homeDays": 88.01,
-      "womenIdle": 0.06,
+      "womenIdle": 0.05,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 0.95,
-      "hiddenAllDays": 0.05,
+      "stuckFamilyDays": 0.91,
+      "hiddenAllDays": 0.03,
       "homeDays": 11.6,
-      "womenIdle": 0.19,
+      "womenIdle": 0.23,
       "womenMens": 0
      }
     },
@@ -2636,13 +2636,13 @@
      1
     ],
     "sownP1": 3,
-    "harvestsMean": 59.3,
+    "harvestsMean": 59.8,
     "harvestFoodMedian": 620.5,
     "cottonMedian": 71.3,
     "food": [
-     38.2,
-     64.4,
-     13.4
+     37.9,
+     65.1,
+     12.7
     ],
     "hungry": 1,
     "weak": 1,
@@ -2655,43 +2655,43 @@
     "other": 0,
     "hungerDeathsAtHome": 0,
     "coinMedian": 251.5,
-    "finalMedian": 52740.5,
+    "finalMedian": 53296,
     "rankMedian": 3,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 653,
-    "dirtyArrivals": 163,
-    "remarks": 67,
-    "markupReales": 91.5,
-    "coinTradedDirty": 366,
-    "dirtyShareMedian": 23.5,
-    "washesMean": 17.5,
+    "townArrivals": 663,
+    "dirtyArrivals": 171,
+    "remarks": 66,
+    "markupReales": 94.5,
+    "coinTradedDirty": 378,
+    "dirtyShareMedian": 24,
+    "washesMean": 17.2,
     "keptDaysMean": 74.2,
-    "gardenDaysMean": 71.3,
+    "gardenDaysMean": 70.5,
     "homeDaysMean": 175.2,
-    "keptByChildMean": 21.7,
-    "helpsMean": 37.3,
-    "washesForMean": 6,
-    "stuckFamilyDays": 18.5,
-    "hiddenAllDays": 8.96,
+    "keptByChildMean": 22.5,
+    "helpsMean": 37.7,
+    "washesForMean": 5.5,
+    "stuckFamilyDays": 18.67,
+    "hiddenAllDays": 9.34,
     "queuedBehindOneDays": 0.5,
     "stuckFamilyShare": 0.11,
     "stuckPersonDays": {
      "men": 0.37,
-     "women": 4.74,
+     "women": 4.49,
      "boys": 0,
-     "girls": 24.55
+     "girls": 24.97
     },
     "stuckBy": {
-     "build": 17.59,
-     "ground": 18.17,
-     "hunt": 18.17,
+     "build": 17.76,
+     "ground": 18.34,
+     "hunt": 18.34,
      "house": 0.37
     },
     "hiddenBy": {
-     "build": 8.05,
-     "ground": 8.63,
-     "hunt": 8.63,
+     "build": 8.44,
+     "ground": 9.01,
+     "hunt": 9.01,
      "house": 0.33
     },
     "idleShare": {
@@ -2704,7 +2704,7 @@
      "men": {
       "mens": 2,
       "womens": 12,
-      "shared": 34,
+      "shared": 33,
       "none": 52
      },
      "women": {
@@ -2718,13 +2718,13 @@
       "mens": 1,
       "womens": 60,
       "shared": 17,
-      "none": 22
+      "none": 23
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 17.32,
-      "hiddenAllDays": 8.86,
+      "stuckFamilyDays": 17.5,
+      "hiddenAllDays": 9.24,
       "homeDays": 79.36,
       "womenIdle": 0.12,
       "womenMens": 0.01
@@ -2740,7 +2740,7 @@
       "stuckFamilyDays": 0,
       "hiddenAllDays": 0,
       "homeDays": 7.92,
-      "womenIdle": 0.11,
+      "womenIdle": 0.13,
       "womenMens": 0
      }
     },
@@ -2880,67 +2880,67 @@
      1
     ],
     "sownP1": 3,
-    "harvestsMean": 68.5,
-    "harvestFoodMedian": 617,
+    "harvestsMean": 64.8,
+    "harvestFoodMedian": 621.5,
     "cottonMedian": 71.3,
     "food": [
-     72.4,
-     71.9,
-     12.5
+     73.4,
+     71.7,
+     13.1
     ],
     "hungry": 1,
-    "weak": 0,
+    "weak": 1,
     "starving": 0,
-    "hungryDaysMean": 0.2,
+    "hungryDaysMean": 1.7,
     "deaths": 0,
     "hunger": 0,
     "disease": 0,
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 301,
-    "finalMedian": 55047,
+    "coinMedian": 300.5,
+    "finalMedian": 55026.5,
     "rankMedian": 3.5,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 699,
-    "dirtyArrivals": 225,
-    "remarks": 93,
-    "markupReales": 112.3,
-    "coinTradedDirty": 449,
+    "townArrivals": 698,
+    "dirtyArrivals": 226,
+    "remarks": 95,
+    "markupReales": 117.8,
+    "coinTradedDirty": 471,
     "dirtyShareMedian": 23,
     "washesMean": 15.8,
-    "keptDaysMean": 77.7,
+    "keptDaysMean": 77.5,
     "gardenDaysMean": 0,
     "homeDaysMean": 175.3,
-    "keptByChildMean": 47.5,
+    "keptByChildMean": 48.3,
     "helpsMean": 14.3,
-    "washesForMean": 14.5,
-    "stuckFamilyDays": 61.98,
-    "hiddenAllDays": 11.27,
+    "washesForMean": 15.5,
+    "stuckFamilyDays": 62.53,
+    "hiddenAllDays": 11.41,
     "queuedBehindOneDays": 0.78,
     "stuckFamilyShare": 0.36,
     "stuckPersonDays": {
      "men": 0,
-     "women": 5.5,
+     "women": 5.39,
      "boys": 0,
-     "girls": 76.34
+     "girls": 76.93
     },
     "stuckBy": {
-     "build": 61.37,
-     "ground": 61.98,
-     "hunt": 61.98,
+     "build": 61.92,
+     "ground": 62.53,
+     "hunt": 62.53,
      "house": 0
     },
     "hiddenBy": {
-     "build": 10.67,
-     "ground": 11.27,
-     "hunt": 11.27,
+     "build": 10.81,
+     "ground": 11.41,
+     "hunt": 11.41,
      "house": 0
     },
     "idleShare": {
      "men": 0.63,
-     "women": 0.22,
+     "women": 0.23,
      "boys": null,
      "girls": 0.47
     },
@@ -2954,37 +2954,37 @@
      "women": {
       "mens": 0,
       "womens": 59,
-      "shared": 18,
-      "none": 23
+      "shared": 17,
+      "none": 24
      },
      "boys": null,
      "girls": {
       "mens": 1,
-      "womens": 38,
+      "womens": 37,
       "shared": 15,
       "none": 47
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 21.54,
-      "hiddenAllDays": 4.6,
+      "stuckFamilyDays": 22.1,
+      "hiddenAllDays": 4.76,
       "homeDays": 79.47,
-      "womenIdle": 0.22,
+      "womenIdle": 0.23,
       "womenMens": 0.01
      },
      "2": {
       "stuckFamilyDays": 40.44,
-      "hiddenAllDays": 6.67,
+      "hiddenAllDays": 6.65,
       "homeDays": 87.82,
-      "womenIdle": 0.19,
+      "womenIdle": 0.23,
       "womenMens": 0
      },
      "3": {
       "stuckFamilyDays": 0,
       "hiddenAllDays": 0,
       "homeDays": 7.94,
-      "womenIdle": 0.21,
+      "womenIdle": 0.17,
       "womenMens": 0
      }
     },
@@ -3126,13 +3126,13 @@
      3
     ],
     "sownP1": 3,
-    "harvestsMean": 67.3,
+    "harvestsMean": 68.3,
     "harvestFoodMedian": 375.5,
-    "cottonMedian": 262.8,
+    "cottonMedian": 267.6,
     "food": [
-     31.9,
-     36.9,
-     19.1
+     34.7,
+     40.2,
+     21.1
     ],
     "hungry": 0,
     "weak": 0,
@@ -3144,64 +3144,64 @@
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 456.5,
-    "finalMedian": 58272,
+    "coinMedian": 457,
+    "finalMedian": 55836,
     "rankMedian": 5,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 603,
-    "dirtyArrivals": 199,
-    "remarks": 103,
-    "markupReales": 219.5,
-    "coinTradedDirty": 878,
-    "dirtyShareMedian": 30,
+    "townArrivals": 598,
+    "dirtyArrivals": 191,
+    "remarks": 97,
+    "markupReales": 221,
+    "coinTradedDirty": 884,
+    "dirtyShareMedian": 30.5,
     "washesMean": 16.2,
-    "keptDaysMean": 71.3,
-    "gardenDaysMean": 54.7,
+    "keptDaysMean": 72.2,
+    "gardenDaysMean": 54.2,
     "homeDaysMean": 180.5,
-    "keptByChildMean": 27.3,
-    "helpsMean": 41.8,
-    "washesForMean": 5,
-    "stuckFamilyDays": 36.63,
-    "hiddenAllDays": 27.05,
+    "keptByChildMean": 26.2,
+    "helpsMean": 40.7,
+    "washesForMean": 4.8,
+    "stuckFamilyDays": 37.39,
+    "hiddenAllDays": 27.48,
     "queuedBehindOneDays": 0.29,
-    "stuckFamilyShare": 0.2,
+    "stuckFamilyShare": 0.21,
     "stuckPersonDays": {
-     "men": 36.16,
-     "women": 7.1,
+     "men": 36.77,
+     "women": 7.31,
      "boys": 0,
-     "girls": 11.16
+     "girls": 11.47
     },
     "stuckBy": {
-     "build": 11.29,
-     "ground": 11.48,
-     "hunt": 11.48,
-     "house": 29.05
+     "build": 11.67,
+     "ground": 11.86,
+     "hunt": 11.86,
+     "house": 29.66
     },
     "hiddenBy": {
-     "build": 1.7,
-     "ground": 1.89,
-     "hunt": 1.9,
-     "house": 25.15
+     "build": 1.73,
+     "ground": 1.91,
+     "hunt": 1.95,
+     "house": 25.53
     },
     "idleShare": {
      "men": 0.26,
      "women": 0.06,
      "boys": null,
-     "girls": 0.11
+     "girls": 0.1
     },
     "workShare": {
      "men": {
       "mens": 5,
-      "womens": 14,
-      "shared": 52,
+      "womens": 15,
+      "shared": 51,
       "none": 29
      },
      "women": {
       "mens": 1,
       "womens": 60,
       "shared": 32,
-      "none": 6
+      "none": 7
      },
      "boys": null,
      "girls": {
@@ -3213,22 +3213,22 @@
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 9.79,
-      "hiddenAllDays": 3.11,
+      "stuckFamilyDays": 10.35,
+      "hiddenAllDays": 3.39,
       "homeDays": 79.29,
-      "womenIdle": 0.09,
+      "womenIdle": 0.1,
       "womenMens": 0.02
      },
      "2": {
-      "stuckFamilyDays": 25.98,
-      "hiddenAllDays": 23.72,
+      "stuckFamilyDays": 26.15,
+      "hiddenAllDays": 23.87,
       "homeDays": 88.04,
       "womenIdle": 0.03,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 0.86,
-      "hiddenAllDays": 0.23,
+      "stuckFamilyDays": 0.89,
+      "hiddenAllDays": 0.22,
       "homeDays": 13.15,
       "womenIdle": 0.1,
       "womenMens": 0
@@ -3370,13 +3370,13 @@
      3
     ],
     "sownP1": 3,
-    "harvestsMean": 67.2,
-    "harvestFoodMedian": 371.5,
+    "harvestsMean": 68.2,
+    "harvestFoodMedian": 379.5,
     "cottonMedian": 267.9,
     "food": [
-     26.2,
-     33.9,
-     16.2
+     25.1,
+     33.3,
+     20.7
     ],
     "hungry": 0,
     "weak": 0,
@@ -3388,99 +3388,99 @@
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 473.5,
-    "finalMedian": 65478.5,
-    "rankMedian": 4,
+    "coinMedian": 472,
+    "finalMedian": 65275.5,
+    "rankMedian": 4.5,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 649,
-    "dirtyArrivals": 190,
-    "remarks": 86,
-    "markupReales": 192.8,
-    "coinTradedDirty": 771,
-    "dirtyShareMedian": 24.5,
+    "townArrivals": 645,
+    "dirtyArrivals": 197,
+    "remarks": 96,
+    "markupReales": 206.8,
+    "coinTradedDirty": 827,
+    "dirtyShareMedian": 24,
     "washesMean": 16,
-    "keptDaysMean": 82.8,
+    "keptDaysMean": 82.5,
     "gardenDaysMean": 0,
     "homeDaysMean": 180.5,
-    "keptByChildMean": 31.2,
-    "helpsMean": 8,
-    "washesForMean": 8,
-    "stuckFamilyDays": 37.75,
-    "hiddenAllDays": 6.2,
-    "queuedBehindOneDays": 0.64,
+    "keptByChildMean": 31.7,
+    "helpsMean": 8.2,
+    "washesForMean": 10.3,
+    "stuckFamilyDays": 37.72,
+    "hiddenAllDays": 6.41,
+    "queuedBehindOneDays": 0.56,
     "stuckFamilyShare": 0.21,
     "stuckPersonDays": {
-     "men": 0.76,
-     "women": 9.38,
+     "men": 1.34,
+     "women": 8.4,
      "boys": 0,
-     "girls": 34.48
+     "girls": 34.51
     },
     "stuckBy": {
-     "build": 36.76,
-     "ground": 37.08,
-     "hunt": 37.08,
-     "house": 0.76
+     "build": 36.22,
+     "ground": 36.53,
+     "hunt": 36.53,
+     "house": 1.34
     },
     "hiddenBy": {
-     "build": 4.86,
-     "ground": 5.12,
-     "hunt": 5.52,
-     "house": 0.67
+     "build": 4.66,
+     "ground": 4.92,
+     "hunt": 5.22,
+     "house": 1.19
     },
     "idleShare": {
-     "men": 0.48,
+     "men": 0.47,
      "women": 0.1,
      "boys": null,
-     "girls": 0.27
+     "girls": 0.28
     },
     "workShare": {
      "men": {
       "mens": 3,
       "womens": 1,
-      "shared": 44,
-      "none": 52
+      "shared": 45,
+      "none": 51
      },
      "women": {
       "mens": 1,
-      "womens": 76,
-      "shared": 12,
-      "none": 11
+      "womens": 77,
+      "shared": 11,
+      "none": 10
      },
      "boys": null,
      "girls": {
       "mens": 1,
       "womens": 50,
       "shared": 21,
-      "none": 28
+      "none": 27
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 18.62,
-      "hiddenAllDays": 2.07,
+      "stuckFamilyDays": 17.9,
+      "hiddenAllDays": 2.02,
       "homeDays": 79.35,
       "womenIdle": 0.16,
       "womenMens": 0.02
      },
      "2": {
-      "stuckFamilyDays": 17.57,
-      "hiddenAllDays": 3.94,
+      "stuckFamilyDays": 17.78,
+      "hiddenAllDays": 4.21,
       "homeDays": 88.05,
-      "womenIdle": 0.06,
+      "womenIdle": 0.05,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 1.57,
+      "stuckFamilyDays": 2.04,
       "hiddenAllDays": 0.18,
       "homeDays": 13.07,
-      "womenIdle": 0.18,
+      "womenIdle": 0.26,
       "womenMens": 0
      }
     },
     "enlisted": 6,
     "enlistDayMedian": 121,
-    "sonHomeDaysMean": 61.8
+    "sonHomeDaysMean": 61.5
    }
   },
   "fatherBaby": {
@@ -3602,42 +3602,42 @@
     "roofedDayMedian": 3.9,
     "cleared": [
      2,
-     2.5,
+     3,
      0
     ],
     "sownP1": 1.5,
-    "harvestsMean": 33.2,
-    "harvestFoodMedian": 284.5,
+    "harvestsMean": 33.3,
+    "harvestFoodMedian": 286.5,
     "cottonMedian": 34.7,
     "food": [
-     20.6,
-     48.2,
-     38.3
+     17.8,
+     36.4,
+     40.2
     ],
     "hungry": 0,
     "weak": 0,
     "starving": 0,
     "hungryDaysMean": 0,
-    "deaths": 0,
+    "deaths": 1,
     "hunger": 0,
-    "disease": 0,
+    "disease": 1,
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 62,
-    "finalMedian": 2216.5,
+    "coinMedian": 63,
+    "finalMedian": 2141,
     "rankMedian": 13,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 276,
-    "dirtyArrivals": 50,
-    "remarks": 13,
-    "markupReales": 1.5,
-    "coinTradedDirty": 6,
+    "townArrivals": 274,
+    "dirtyArrivals": 52,
+    "remarks": 15,
+    "markupReales": 1.8,
+    "coinTradedDirty": 7,
     "dirtyShareMedian": 51,
-    "washesMean": 11.5,
-    "keptDaysMean": 44.8,
-    "gardenDaysMean": 21.3,
+    "washesMean": 11.7,
+    "keptDaysMean": 44.3,
+    "gardenDaysMean": 20,
     "homeDaysMean": 188.9,
     "keptByChildMean": 0,
     "helpsMean": 0,
@@ -3673,7 +3673,7 @@
     "workShare": {
      "men": {
       "mens": 10,
-      "womens": 40,
+      "womens": 39,
       "shared": 50,
       "none": 0
      },
@@ -3830,13 +3830,13 @@
      0
     ],
     "sownP1": 3,
-    "harvestsMean": 35.2,
-    "harvestFoodMedian": 429.5,
+    "harvestsMean": 35.8,
+    "harvestFoodMedian": 415.5,
     "cottonMedian": 62.4,
     "food": [
-     25.9,
-     43.8,
-     22.5
+     22.4,
+     41,
+     22.3
     ],
     "hungry": 0,
     "weak": 0,
@@ -3848,16 +3848,16 @@
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 129.5,
+    "coinMedian": 130.5,
     "finalMedian": 6089,
     "rankMedian": 12.5,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 600,
-    "dirtyArrivals": 570,
-    "remarks": 258,
-    "markupReales": 268,
-    "coinTradedDirty": 1072,
+    "townArrivals": 610,
+    "dirtyArrivals": 580,
+    "remarks": 264,
+    "markupReales": 269.3,
+    "coinTradedDirty": 1077,
     "dirtyShareMedian": 95,
     "washesMean": 0,
     "keptDaysMean": 0,
@@ -3899,7 +3899,7 @@
       "mens": 14,
       "womens": 2,
       "shared": 61,
-      "none": 24
+      "none": 23
      },
      "women": null,
      "boys": null,
@@ -4066,12 +4066,12 @@
      1.5
     ],
     "sownP1": 3,
-    "harvestsMean": 93,
+    "harvestsMean": 91.2,
     "harvestFoodMedian": 519,
     "cottonMedian": 297.5,
     "food": [
-     42.1,
-     42.5,
+     44.2,
+     41.8,
      16.3
     ],
     "hungry": 0,
@@ -4084,56 +4084,56 @@
     "war": 1,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 469,
-    "finalMedian": 49916,
-    "rankMedian": 5,
+    "coinMedian": 468.5,
+    "finalMedian": 49556,
+    "rankMedian": 5.5,
     "winners": 2,
     "wiped": 0,
-    "townArrivals": 816,
-    "dirtyArrivals": 181,
-    "remarks": 95,
-    "markupReales": 153.3,
-    "coinTradedDirty": 613,
+    "townArrivals": 818,
+    "dirtyArrivals": 185,
+    "remarks": 100,
+    "markupReales": 147.5,
+    "coinTradedDirty": 590,
     "dirtyShareMedian": 20,
     "washesMean": 19,
-    "keptDaysMean": 80.2,
-    "gardenDaysMean": 80.5,
+    "keptDaysMean": 79.5,
+    "gardenDaysMean": 79.8,
     "homeDaysMean": 184.8,
-    "keptByChildMean": 3.7,
-    "helpsMean": 30.2,
+    "keptByChildMean": 3.5,
+    "helpsMean": 30.7,
     "washesForMean": 12.5,
-    "stuckFamilyDays": 73.22,
-    "hiddenAllDays": 62.87,
-    "queuedBehindOneDays": 7,
+    "stuckFamilyDays": 73.17,
+    "hiddenAllDays": 62.29,
+    "queuedBehindOneDays": 7.02,
     "stuckFamilyShare": 0.4,
     "stuckPersonDays": {
      "men": 0,
      "women": 89.27,
      "boys": 0,
-     "girls": 142.24
+     "girls": 141.79
     },
     "stuckBy": {
-     "build": 72.82,
-     "ground": 73.22,
-     "hunt": 73.22,
+     "build": 72.77,
+     "ground": 73.17,
+     "hunt": 73.17,
      "house": 0
     },
     "hiddenBy": {
-     "build": 62.47,
-     "ground": 62.87,
-     "hunt": 62.87,
+     "build": 61.89,
+     "ground": 62.29,
+     "hunt": 62.29,
      "house": 0
     },
     "idleShare": {
-     "men": 0.15,
-     "women": 0.27,
+     "men": 0.17,
+     "women": 0.26,
      "boys": null,
-     "girls": 0.89
+     "girls": 0.88
     },
     "workShare": {
      "men": {
-      "mens": 10,
-      "womens": 10,
+      "mens": 11,
+      "womens": 9,
       "shared": 66,
       "none": 14
      },
@@ -4147,7 +4147,7 @@
      "girls": {
       "mens": 0,
       "womens": 3,
-      "shared": 7,
+      "shared": 8,
       "none": 89
      }
     },
@@ -4160,17 +4160,17 @@
       "womenMens": 0.02
      },
      "2": {
-      "stuckFamilyDays": 58.47,
-      "hiddenAllDays": 52.06,
+      "stuckFamilyDays": 58.14,
+      "hiddenAllDays": 51.56,
       "homeDays": 87.91,
-      "womenIdle": 0.28,
+      "womenIdle": 0.27,
       "womenMens": 0.01
      },
      "3": {
-      "stuckFamilyDays": 4.27,
-      "hiddenAllDays": 2.95,
+      "stuckFamilyDays": 4.55,
+      "hiddenAllDays": 2.87,
       "homeDays": 17.5,
-      "womenIdle": 0.36,
+      "womenIdle": 0.4,
       "womenMens": 0
      }
     },
@@ -4310,13 +4310,13 @@
      1.5
     ],
     "sownP1": 3,
-    "harvestsMean": 94.5,
+    "harvestsMean": 94.3,
     "harvestFoodMedian": 524,
     "cottonMedian": 293.5,
     "food": [
-     41.6,
-     44,
-     16.4
+     38.8,
+     43.2,
+     17.5
     ],
     "hungry": 0,
     "weak": 0,
@@ -4333,46 +4333,46 @@
     "rankMedian": 7,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 808,
-    "dirtyArrivals": 183,
-    "remarks": 91,
-    "markupReales": 158.5,
-    "coinTradedDirty": 634,
+    "townArrivals": 806,
+    "dirtyArrivals": 184,
+    "remarks": 94,
+    "markupReales": 161.3,
+    "coinTradedDirty": 645,
     "dirtyShareMedian": 19,
     "washesMean": 18,
     "keptDaysMean": 86,
     "gardenDaysMean": 0,
     "homeDaysMean": 184.8,
-    "keptByChildMean": 0.8,
+    "keptByChildMean": 0.7,
     "helpsMean": 16.5,
-    "washesForMean": 15.2,
-    "stuckFamilyDays": 76.66,
-    "hiddenAllDays": 59.35,
+    "washesForMean": 16.2,
+    "stuckFamilyDays": 76.88,
+    "hiddenAllDays": 59.43,
     "queuedBehindOneDays": 5.73,
-    "stuckFamilyShare": 0.41,
+    "stuckFamilyShare": 0.42,
     "stuckPersonDays": {
      "men": 0.02,
-     "women": 133.45,
+     "women": 133.78,
      "boys": 0,
-     "girls": 145.23
+     "girls": 145.64
     },
     "stuckBy": {
-     "build": 76.26,
-     "ground": 76.66,
-     "hunt": 76.66,
+     "build": 76.48,
+     "ground": 76.88,
+     "hunt": 76.88,
      "house": 0.02
     },
     "hiddenBy": {
-     "build": 58.95,
-     "ground": 59.35,
-     "hunt": 59.35,
+     "build": 59.02,
+     "ground": 59.43,
+     "hunt": 59.43,
      "house": 0
     },
     "idleShare": {
      "men": 0.25,
      "women": 0.44,
      "boys": null,
-     "girls": 0.87
+     "girls": 0.88
     },
     "workShare": {
      "men": {
@@ -4384,7 +4384,7 @@
      "women": {
       "mens": 2,
       "womens": 36,
-      "shared": 19,
+      "shared": 18,
       "none": 44
      },
      "boys": null,
@@ -4392,7 +4392,7 @@
       "mens": 0,
       "womens": 0,
       "shared": 12,
-      "none": 87
+      "none": 88
      }
     },
     "byPeriod": {
@@ -4400,21 +4400,21 @@
       "stuckFamilyDays": 16.77,
       "hiddenAllDays": 10.74,
       "homeDays": 79.44,
-      "womenIdle": 0.41,
+      "womenIdle": 0.4,
       "womenMens": 0.02
      },
      "2": {
-      "stuckFamilyDays": 55.77,
+      "stuckFamilyDays": 55.76,
       "hiddenAllDays": 46.51,
       "homeDays": 87.82,
-      "womenIdle": 0.47,
+      "womenIdle": 0.48,
       "womenMens": 0.02
      },
      "3": {
-      "stuckFamilyDays": 4.13,
-      "hiddenAllDays": 2.1,
+      "stuckFamilyDays": 4.35,
+      "hiddenAllDays": 2.17,
       "homeDays": 17.52,
-      "womenIdle": 0.53,
+      "womenIdle": 0.5,
       "womenMens": 0
      }
     },
@@ -4556,12 +4556,12 @@
      0
     ],
     "sownP1": 3,
-    "harvestsMean": 95.8,
+    "harvestsMean": 96.2,
     "harvestFoodMedian": 514.5,
     "cottonMedian": 334.9,
     "food": [
      35.8,
-     42.9,
+     47.7,
      15.7
     ],
     "hungry": 0,
@@ -4574,48 +4574,48 @@
     "war": 3,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 575.5,
+    "coinMedian": 578,
     "finalMedian": 65544,
     "rankMedian": 3.5,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 767,
-    "dirtyArrivals": 231,
-    "remarks": 134,
-    "markupReales": 243,
-    "coinTradedDirty": 972,
+    "townArrivals": 772,
+    "dirtyArrivals": 234,
+    "remarks": 135,
+    "markupReales": 239.5,
+    "coinTradedDirty": 958,
     "dirtyShareMedian": 43,
-    "washesMean": 13.8,
+    "washesMean": 13.5,
     "keptDaysMean": 73,
-    "gardenDaysMean": 39.5,
+    "gardenDaysMean": 38.2,
     "homeDaysMean": 181.2,
-    "keptByChildMean": 1,
-    "helpsMean": 208.5,
-    "washesForMean": 5.3,
-    "stuckFamilyDays": 148.98,
-    "hiddenAllDays": 140.16,
+    "keptByChildMean": 1.2,
+    "helpsMean": 207,
+    "washesForMean": 5.8,
+    "stuckFamilyDays": 149.61,
+    "hiddenAllDays": 141.1,
     "queuedBehindOneDays": 0.07,
     "stuckFamilyShare": 0.82,
     "stuckPersonDays": {
-     "men": 245.35,
-     "women": 9.17,
-     "boys": 261.85,
+     "men": 239.78,
+     "women": 8.85,
+     "boys": 263.88,
      "girls": 0
     },
     "stuckBy": {
-     "build": 8.99,
-     "ground": 9.17,
-     "hunt": 9.17,
-     "house": 141.24
+     "build": 8.67,
+     "ground": 8.85,
+     "hunt": 8.85,
+     "house": 141.95
     },
     "hiddenBy": {
      "build": 0.33,
      "ground": 0.35,
      "hunt": 0.35,
-     "house": 139.81
+     "house": 140.76
     },
     "idleShare": {
-     "men": 0.55,
+     "men": 0.54,
      "women": 0.05,
      "boys": 0.85,
      "girls": null
@@ -4623,14 +4623,14 @@
     "workShare": {
      "men": {
       "mens": 3,
-      "womens": 15,
+      "womens": 16,
       "shared": 28,
       "none": 54
      },
      "women": {
       "mens": 0,
-      "womens": 71,
-      "shared": 23,
+      "womens": 68,
+      "shared": 26,
       "none": 5
      },
      "boys": {
@@ -4643,22 +4643,22 @@
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 63.01,
-      "hiddenAllDays": 57.95,
+      "stuckFamilyDays": 63.21,
+      "hiddenAllDays": 58.17,
       "homeDays": 79.36,
       "womenIdle": 0.06,
       "womenMens": 0
      },
      "2": {
-      "stuckFamilyDays": 78.01,
-      "hiddenAllDays": 75.69,
+      "stuckFamilyDays": 78.72,
+      "hiddenAllDays": 76.66,
       "homeDays": 88.04,
       "womenIdle": 0.03,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 7.96,
-      "hiddenAllDays": 6.52,
+      "stuckFamilyDays": 7.68,
+      "hiddenAllDays": 6.27,
       "homeDays": 13.79,
       "womenIdle": 0.09,
       "womenMens": 0
@@ -4800,12 +4800,12 @@
      0
     ],
     "sownP1": 3,
-    "harvestsMean": 98,
-    "harvestFoodMedian": 514.5,
+    "harvestsMean": 98.7,
+    "harvestFoodMedian": 510,
     "cottonMedian": 332.5,
     "food": [
      34.1,
-     44.4,
+     44.6,
      15.9
     ],
     "hungry": 0,
@@ -4818,38 +4818,38 @@
     "war": 3,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 572.5,
-    "finalMedian": 64948,
-    "rankMedian": 4,
+    "coinMedian": 571,
+    "finalMedian": 64722,
+    "rankMedian": 3,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 752,
-    "dirtyArrivals": 195,
-    "remarks": 103,
-    "markupReales": 209.3,
-    "coinTradedDirty": 837,
+    "townArrivals": 747,
+    "dirtyArrivals": 185,
+    "remarks": 93,
+    "markupReales": 206.5,
+    "coinTradedDirty": 826,
     "dirtyShareMedian": 36,
     "washesMean": 14,
-    "keptDaysMean": 82.7,
+    "keptDaysMean": 82.3,
     "gardenDaysMean": 0,
     "homeDaysMean": 181.2,
-    "keptByChildMean": 2.5,
+    "keptByChildMean": 2.3,
     "helpsMean": 1.5,
     "washesForMean": 8.5,
-    "stuckFamilyDays": 14.14,
-    "hiddenAllDays": 1.23,
+    "stuckFamilyDays": 14.61,
+    "hiddenAllDays": 1.24,
     "queuedBehindOneDays": 0.15,
     "stuckFamilyShare": 0.08,
     "stuckPersonDays": {
-     "men": 1.96,
-     "women": 13.01,
-     "boys": 0.99,
+     "men": 2.46,
+     "women": 13.47,
+     "boys": 1.39,
      "girls": 0
     },
     "stuckBy": {
-     "build": 12.7,
-     "ground": 13.01,
-     "hunt": 12.98,
+     "build": 13.16,
+     "ground": 13.47,
+     "hunt": 13.44,
      "house": 1.14
     },
     "hiddenBy": {
@@ -4859,7 +4859,7 @@
      "house": 1.14
     },
     "idleShare": {
-     "men": 0.67,
+     "men": 0.66,
      "women": 0.08,
      "boys": 0.9,
      "girls": null
@@ -4873,12 +4873,12 @@
      },
      "women": {
       "mens": 0,
-      "womens": 87,
+      "womens": 86,
       "shared": 5,
       "none": 8
      },
      "boys": {
-      "mens": 0,
+      "mens": 1,
       "womens": 0,
       "shared": 9,
       "none": 90
@@ -4887,24 +4887,24 @@
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 8.02,
-      "hiddenAllDays": 0.73,
+      "stuckFamilyDays": 8,
+      "hiddenAllDays": 0.72,
       "homeDays": 79.43,
       "womenIdle": 0.1,
       "womenMens": 0
      },
      "2": {
-      "stuckFamilyDays": 3.91,
-      "hiddenAllDays": 0.5,
+      "stuckFamilyDays": 3.97,
+      "hiddenAllDays": 0.52,
       "homeDays": 88.05,
       "womenIdle": 0.05,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 2.22,
+      "stuckFamilyDays": 2.65,
       "hiddenAllDays": 0,
       "homeDays": 13.69,
-      "womenIdle": 0.22,
+      "womenIdle": 0.25,
       "womenMens": 0
      }
     },
@@ -5018,7 +5018,7 @@
      "1": {
       "stuckFamilyDays": 0,
       "hiddenAllDays": 0,
-      "homeDays": 79.44,
+      "homeDays": 79.45,
       "womenIdle": 0.6,
       "womenMens": 0.02
      },
@@ -5051,13 +5051,13 @@
      2
     ],
     "sownP1": 3,
-    "harvestsMean": 65.8,
+    "harvestsMean": 66,
     "harvestFoodMedian": 375.5,
-    "cottonMedian": 260.6,
+    "cottonMedian": 264.6,
     "food": [
-     25,
-     30.5,
-     11.5
+     26.3,
+     30.8,
+     10.9
     ],
     "hungry": 2,
     "weak": 1,
@@ -5069,48 +5069,48 @@
     "war": 1,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 430,
-    "finalMedian": 18261.5,
+    "coinMedian": 432.5,
+    "finalMedian": 18368.5,
     "rankMedian": 8,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 540,
-    "dirtyArrivals": 153,
-    "remarks": 69,
-    "markupReales": 143,
-    "coinTradedDirty": 572,
-    "dirtyShareMedian": 23,
-    "washesMean": 17.7,
-    "keptDaysMean": 76.3,
-    "gardenDaysMean": 65.2,
+    "townArrivals": 544,
+    "dirtyArrivals": 168,
+    "remarks": 82,
+    "markupReales": 152.8,
+    "coinTradedDirty": 611,
+    "dirtyShareMedian": 25,
+    "washesMean": 17.8,
+    "keptDaysMean": 75.7,
+    "gardenDaysMean": 64.2,
     "homeDaysMean": 180.7,
-    "keptByChildMean": 24.8,
-    "helpsMean": 64.3,
-    "washesForMean": 8.7,
-    "stuckFamilyDays": 34.89,
-    "hiddenAllDays": 29.71,
-    "queuedBehindOneDays": 0.5,
-    "stuckFamilyShare": 0.19,
+    "keptByChildMean": 25.8,
+    "helpsMean": 61.8,
+    "washesForMean": 9,
+    "stuckFamilyDays": 36.48,
+    "hiddenAllDays": 31.43,
+    "queuedBehindOneDays": 0.43,
+    "stuckFamilyShare": 0.2,
     "stuckPersonDays": {
-     "men": 15.3,
-     "women": 3.11,
-     "boys": 27.5,
-     "girls": 6.5
+     "men": 16.15,
+     "women": 3.14,
+     "boys": 29.03,
+     "girls": 6.32
     },
     "stuckBy": {
-     "build": 6.54,
-     "ground": 6.85,
-     "hunt": 6.85,
-     "house": 28.17
+     "build": 6.46,
+     "ground": 6.77,
+     "hunt": 6.77,
+     "house": 29.83
     },
     "hiddenBy": {
-     "build": 2.3,
-     "ground": 2.5,
-     "hunt": 2.5,
-     "house": 27.2
+     "build": 2.03,
+     "ground": 2.24,
+     "hunt": 2.24,
+     "house": 29.2
     },
     "idleShare": {
-     "men": 0.12,
+     "men": 0.13,
      "women": 0.07,
      "boys": 0.41,
      "girls": 0.12
@@ -5124,41 +5124,41 @@
      },
      "women": {
       "mens": 1,
-      "womens": 68,
-      "shared": 25,
+      "womens": 62,
+      "shared": 30,
       "none": 7
      },
      "boys": {
       "mens": 2,
-      "womens": 26,
-      "shared": 32,
+      "womens": 24,
+      "shared": 34,
       "none": 40
      },
      "girls": {
       "mens": 1,
       "womens": 66,
-      "shared": 21,
+      "shared": 22,
       "none": 12
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 7.61,
-      "hiddenAllDays": 5.13,
+      "stuckFamilyDays": 8.32,
+      "hiddenAllDays": 5.91,
       "homeDays": 79.35,
       "womenIdle": 0.08,
       "womenMens": 0.01
      },
      "2": {
-      "stuckFamilyDays": 25.73,
-      "hiddenAllDays": 24.24,
+      "stuckFamilyDays": 26.49,
+      "hiddenAllDays": 24.96,
       "homeDays": 88.1,
       "womenIdle": 0.04,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 1.55,
-      "hiddenAllDays": 0.33,
+      "stuckFamilyDays": 1.66,
+      "hiddenAllDays": 0.56,
       "homeDays": 13.28,
       "womenIdle": 0.19,
       "womenMens": 0
@@ -5305,116 +5305,116 @@
      2
     ],
     "sownP1": 3,
-    "harvestsMean": 68.8,
+    "harvestsMean": 67.7,
     "harvestFoodMedian": 366,
-    "cottonMedian": 261.2,
+    "cottonMedian": 254.2,
     "food": [
-     26.2,
-     28.7,
-     11.9
+     27.8,
+     33.6,
+     12.6
     ],
     "hungry": 2,
     "weak": 1,
     "starving": 1,
-    "hungryDaysMean": 3.3,
+    "hungryDaysMean": 3.2,
     "deaths": 2,
     "hunger": 1,
     "disease": 0,
     "war": 1,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 430.5,
-    "finalMedian": 18278.5,
-    "rankMedian": 8.5,
+    "coinMedian": 429,
+    "finalMedian": 18214,
+    "rankMedian": 9.5,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 571,
-    "dirtyArrivals": 195,
-    "remarks": 88,
-    "markupReales": 146.8,
-    "coinTradedDirty": 587,
-    "dirtyShareMedian": 22,
-    "washesMean": 17,
-    "keptDaysMean": 82,
+    "townArrivals": 579,
+    "dirtyArrivals": 193,
+    "remarks": 84,
+    "markupReales": 139.5,
+    "coinTradedDirty": 558,
+    "dirtyShareMedian": 20.5,
+    "washesMean": 17.2,
+    "keptDaysMean": 82.2,
     "gardenDaysMean": 0,
     "homeDaysMean": 180.6,
-    "keptByChildMean": 42.7,
-    "helpsMean": 9.2,
-    "washesForMean": 11.3,
-    "stuckFamilyDays": 25.82,
-    "hiddenAllDays": 4.73,
-    "queuedBehindOneDays": 3.5,
+    "keptByChildMean": 43.2,
+    "helpsMean": 9,
+    "washesForMean": 11.8,
+    "stuckFamilyDays": 25.58,
+    "hiddenAllDays": 4.25,
+    "queuedBehindOneDays": 3.67,
     "stuckFamilyShare": 0.14,
     "stuckPersonDays": {
      "men": 0.58,
-     "women": 6.26,
+     "women": 5.87,
      "boys": 0.66,
-     "girls": 24.35
+     "girls": 23.91
     },
     "stuckBy": {
-     "build": 24.61,
-     "ground": 25.18,
-     "hunt": 25.18,
+     "build": 24.34,
+     "ground": 24.93,
+     "hunt": 24.93,
      "house": 0.67
     },
     "hiddenBy": {
-     "build": 3.72,
-     "ground": 4.09,
-     "hunt": 4.09,
+     "build": 3.22,
+     "ground": 3.61,
+     "hunt": 3.61,
      "house": 0.64
     },
     "idleShare": {
      "men": 0.39,
-     "women": 0.18,
-     "boys": 0.48,
+     "women": 0.17,
+     "boys": 0.49,
      "girls": 0.36
     },
     "workShare": {
      "men": {
       "mens": 8,
       "womens": 0,
-      "shared": 50,
+      "shared": 49,
       "none": 42
      },
      "women": {
       "mens": 1,
-      "womens": 65,
-      "shared": 14,
-      "none": 20
+      "womens": 66,
+      "shared": 16,
+      "none": 18
      },
      "boys": {
       "mens": 2,
       "womens": 25,
-      "shared": 21,
+      "shared": 22,
       "none": 52
      },
      "girls": {
       "mens": 1,
-      "womens": 39,
+      "womens": 41,
       "shared": 23,
-      "none": 37
+      "none": 35
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 11.07,
+      "stuckFamilyDays": 11.26,
       "hiddenAllDays": 1.78,
       "homeDays": 79.33,
-      "womenIdle": 0.23,
+      "womenIdle": 0.22,
       "womenMens": 0.01
      },
      "2": {
-      "stuckFamilyDays": 12.03,
-      "hiddenAllDays": 2.56,
+      "stuckFamilyDays": 11.86,
+      "hiddenAllDays": 2.24,
       "homeDays": 88.01,
       "womenIdle": 0.1,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 2.72,
-      "hiddenAllDays": 0.39,
-      "homeDays": 13.27,
-      "womenIdle": 0.32,
+      "stuckFamilyDays": 2.46,
+      "hiddenAllDays": 0.23,
+      "homeDays": 13.28,
+      "womenIdle": 0.26,
       "womenMens": 0
      }
     },
@@ -5561,13 +5561,13 @@
      2
     ],
     "sownP1": 3,
-    "harvestsMean": 62.6,
+    "harvestsMean": 63.4,
     "harvestFoodMedian": 470,
     "cottonMedian": 217.5,
     "food": [
-     37.8,
+     38.1,
      51.1,
-     23.4
+     21.6
     ],
     "hungry": 7,
     "weak": 3,
@@ -5579,98 +5579,98 @@
     "war": 2,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 191,
-    "finalMedian": 20610,
+    "coinMedian": 192,
+    "finalMedian": 20790,
     "rankMedian": 8,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 1743,
-    "dirtyArrivals": 643,
-    "remarks": 239,
-    "markupReales": 459.3,
-    "coinTradedDirty": 1837,
-    "dirtyShareMedian": 22,
+    "townArrivals": 1759,
+    "dirtyArrivals": 630,
+    "remarks": 233,
+    "markupReales": 458.3,
+    "coinTradedDirty": 1833,
+    "dirtyShareMedian": 25,
     "washesMean": 16.9,
-    "keptDaysMean": 73.5,
+    "keptDaysMean": 73.4,
     "gardenDaysMean": 59.9,
     "homeDaysMean": 182,
-    "keptByChildMean": 13.4,
-    "helpsMean": 100.1,
+    "keptByChildMean": 14.3,
+    "helpsMean": 98,
     "washesForMean": 7.4,
-    "stuckFamilyDays": 82.4,
-    "hiddenAllDays": 26.18,
-    "queuedBehindOneDays": 12.95,
-    "stuckFamilyShare": 0.45,
+    "stuckFamilyDays": 83.22,
+    "hiddenAllDays": 27.73,
+    "queuedBehindOneDays": 12.97,
+    "stuckFamilyShare": 0.46,
     "stuckPersonDays": {
-     "men": 10.47,
-     "women": 66.46,
-     "boys": 33.15,
+     "men": 10.93,
+     "women": 65.2,
+     "boys": 36.09,
      "girls": 147.99
     },
     "stuckBy": {
-     "build": 70.63,
-     "ground": 72.4,
-     "hunt": 71.75,
-     "house": 18.91
+     "build": 70.44,
+     "ground": 72.21,
+     "hunt": 71.61,
+     "house": 20.48
     },
     "hiddenBy": {
-     "build": 16.38,
-     "ground": 17.45,
-     "hunt": 17.04,
-     "house": 8.71
+     "build": 16.25,
+     "ground": 17.33,
+     "hunt": 16.97,
+     "house": 10.38
     },
     "idleShare": {
-     "men": 0.16,
+     "men": 0.26,
      "women": 0.12,
-     "boys": 0.76,
-     "girls": 0.71
+     "boys": 0.75,
+     "girls": 0.73
     },
     "workShare": {
      "men": {
       "mens": 14,
-      "womens": 17,
-      "shared": 30,
-      "none": 40
+      "womens": 16,
+      "shared": 32,
+      "none": 39
      },
      "women": {
       "mens": 1,
-      "womens": 57,
-      "shared": 21,
-      "none": 21
+      "womens": 56,
+      "shared": 22,
+      "none": 20
      },
      "boys": {
       "mens": 1,
-      "womens": 12,
+      "womens": 11,
       "shared": 6,
       "none": 81
      },
      "girls": {
       "mens": 0,
-      "womens": 19,
+      "womens": 18,
       "shared": 9,
       "none": 72
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 30.16,
-      "hiddenAllDays": 8.04,
+      "stuckFamilyDays": 29.84,
+      "hiddenAllDays": 8.2,
       "homeDays": 79.27,
-      "womenIdle": 0.15,
+      "womenIdle": 0.14,
       "womenMens": 0.01
      },
      "2": {
-      "stuckFamilyDays": 45.27,
-      "hiddenAllDays": 16.34,
+      "stuckFamilyDays": 46.51,
+      "hiddenAllDays": 17.81,
       "homeDays": 88,
       "womenIdle": 0.06,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 6.97,
-      "hiddenAllDays": 1.8,
+      "stuckFamilyDays": 6.86,
+      "hiddenAllDays": 1.71,
       "homeDays": 14.77,
-      "womenIdle": 0.23,
+      "womenIdle": 0.22,
       "womenMens": 0
      }
     },
@@ -5815,67 +5815,67 @@
      2
     ],
     "sownP1": 3,
-    "harvestsMean": 61.9,
+    "harvestsMean": 63.9,
     "harvestFoodMedian": 463,
     "cottonMedian": 158.3,
     "food": [
-     41.5,
-     42,
-     22.5
+     43.2,
+     45.9,
+     23.7
     ],
     "hungry": 8,
     "weak": 4,
     "starving": 2,
-    "hungryDaysMean": 3.3,
+    "hungryDaysMean": 3.2,
     "deaths": 4,
     "hunger": 2,
     "disease": 0,
     "war": 2,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 239,
+    "coinMedian": 172,
     "finalMedian": 29920,
     "rankMedian": 7,
     "winners": 1,
     "wiped": 0,
-    "townArrivals": 1944,
-    "dirtyArrivals": 808,
-    "remarks": 310,
-    "markupReales": 504.5,
-    "coinTradedDirty": 2018,
+    "townArrivals": 1932,
+    "dirtyArrivals": 789,
+    "remarks": 300,
+    "markupReales": 482.8,
+    "coinTradedDirty": 1931,
     "dirtyShareMedian": 27,
     "washesMean": 14.6,
-    "keptDaysMean": 71.8,
+    "keptDaysMean": 71.9,
     "gardenDaysMean": 0,
     "homeDaysMean": 182,
     "keptByChildMean": 18.7,
     "helpsMean": 7.9,
-    "washesForMean": 11.5,
-    "stuckFamilyDays": 76.93,
-    "hiddenAllDays": 3.93,
-    "queuedBehindOneDays": 14.8,
-    "stuckFamilyShare": 0.42,
+    "washesForMean": 10.6,
+    "stuckFamilyDays": 78.08,
+    "hiddenAllDays": 4.06,
+    "queuedBehindOneDays": 14.46,
+    "stuckFamilyShare": 0.43,
     "stuckPersonDays": {
      "men": 1.32,
-     "women": 103.4,
+     "women": 102.23,
      "boys": 2.37,
-     "girls": 137.85
+     "girls": 139.62
     },
     "stuckBy": {
-     "build": 74.03,
-     "ground": 75.96,
-     "hunt": 75,
+     "build": 75.19,
+     "ground": 77.11,
+     "hunt": 76.07,
      "house": 2.37
     },
     "hiddenBy": {
-     "build": 3.26,
-     "ground": 3.52,
-     "hunt": 3.15,
+     "build": 3.39,
+     "ground": 3.65,
+     "hunt": 3.2,
      "house": 0.33
     },
     "idleShare": {
-     "men": 0.48,
-     "women": 0.24,
+     "men": 0.5,
+     "women": 0.29,
      "boys": 0.91,
      "girls": 0.88
     },
@@ -5883,8 +5883,8 @@
      "men": {
       "mens": 12,
       "womens": 0,
-      "shared": 30,
-      "none": 58
+      "shared": 27,
+      "none": 61
      },
      "women": {
       "mens": 2,
@@ -5895,35 +5895,35 @@
      "boys": {
       "mens": 1,
       "womens": 3,
-      "shared": 7,
-      "none": 89
+      "shared": 5,
+      "none": 90
      },
      "girls": {
       "mens": 0,
-      "womens": 9,
-      "shared": 9,
-      "none": 81
+      "womens": 10,
+      "shared": 7,
+      "none": 83
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 25.7,
+      "stuckFamilyDays": 25.68,
       "hiddenAllDays": 1.42,
       "homeDays": 79.36,
-      "womenIdle": 0.25,
+      "womenIdle": 0.28,
       "womenMens": 0.02
      },
      "2": {
-      "stuckFamilyDays": 44.93,
-      "hiddenAllDays": 2.49,
+      "stuckFamilyDays": 45.89,
+      "hiddenAllDays": 2.54,
       "homeDays": 87.86,
       "womenIdle": 0.18,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 6.3,
-      "hiddenAllDays": 0.02,
-      "homeDays": 14.81,
+      "stuckFamilyDays": 6.5,
+      "hiddenAllDays": 0.1,
+      "homeDays": 14.8,
       "womenIdle": 0.41,
       "womenMens": 0
      }
@@ -6066,13 +6066,13 @@
      0
     ],
     "sownP1": 2,
-    "harvestsMean": 35.7,
-    "harvestFoodMedian": 363,
+    "harvestsMean": 36.7,
+    "harvestFoodMedian": 371,
     "cottonMedian": 0,
     "food": [
-     14.5,
-     41,
-     15.3
+     23.6,
+     42.9,
+     16
     ],
     "hungry": 0,
     "weak": 0,
@@ -6084,87 +6084,87 @@
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 115,
+    "coinMedian": 113,
     "finalMedian": 2419,
     "rankMedian": 13,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 177,
-    "dirtyArrivals": 45,
-    "remarks": 20,
-    "markupReales": 17.5,
-    "coinTradedDirty": 70,
-    "dirtyShareMedian": 42,
-    "washesMean": 13.3,
-    "keptDaysMean": 61.3,
+    "townArrivals": 176,
+    "dirtyArrivals": 49,
+    "remarks": 22,
+    "markupReales": 19.5,
+    "coinTradedDirty": 78,
+    "dirtyShareMedian": 43,
+    "washesMean": 13,
+    "keptDaysMean": 62.3,
     "gardenDaysMean": 30.7,
     "homeDaysMean": 178.6,
-    "keptByChildMean": 25.7,
-    "helpsMean": 15,
-    "washesForMean": 4.3,
-    "stuckFamilyDays": 24.61,
-    "hiddenAllDays": 24.54,
+    "keptByChildMean": 25.3,
+    "helpsMean": 16.7,
+    "washesForMean": 5,
+    "stuckFamilyDays": 24.86,
+    "hiddenAllDays": 24.78,
     "queuedBehindOneDays": 0,
-    "stuckFamilyShare": 0.14,
+    "stuckFamilyShare": 0.15,
     "stuckPersonDays": {
-     "men": 0.21,
-     "women": 0.07,
-     "boys": 24.54,
+     "men": 0.38,
+     "women": 0.08,
+     "boys": 24.78,
      "girls": 0
     },
     "stuckBy": {
-     "build": 0.07,
-     "ground": 0.07,
-     "hunt": 0.07,
-     "house": 24.54
+     "build": 0.08,
+     "ground": 0.08,
+     "hunt": 0.08,
+     "house": 24.78
     },
     "hiddenBy": {
      "build": 0,
      "ground": 0,
      "hunt": 0,
-     "house": 24.54
+     "house": 24.78
     },
     "idleShare": {
-     "men": 0.06,
-     "women": 0.01,
+     "men": 0.08,
+     "women": 0,
      "boys": 0.48,
      "girls": null
     },
     "workShare": {
      "men": {
       "mens": 0,
-      "womens": 41,
-      "shared": 54,
-      "none": 6
+      "womens": 40,
+      "shared": 52,
+      "none": 8
      },
      "women": {
       "mens": 7,
-      "womens": 43,
+      "womens": 44,
       "shared": 48,
       "none": 1
      },
      "boys": {
       "mens": 1,
-      "womens": 24,
-      "shared": 27,
+      "womens": 20,
+      "shared": 30,
       "none": 48
      },
      "girls": null
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 5.23,
-      "hiddenAllDays": 5.23,
+      "stuckFamilyDays": 5.48,
+      "hiddenAllDays": 5.48,
       "homeDays": 79.28,
       "womenIdle": 0.01,
       "womenMens": 0.07
      },
      "2": {
       "stuckFamilyDays": 19.03,
-      "hiddenAllDays": 18.96,
+      "hiddenAllDays": 18.94,
       "homeDays": 87.82,
-      "womenIdle": 0.01,
-      "womenMens": 0
+      "womenIdle": 0,
+      "womenMens": 0.01
      },
      "3": {
       "stuckFamilyDays": 0.35,
@@ -6310,8 +6310,8 @@
      0
     ],
     "sownP1": 2,
-    "harvestsMean": 50,
-    "harvestFoodMedian": 526,
+    "harvestsMean": 51,
+    "harvestFoodMedian": 510,
     "cottonMedian": 0,
     "food": [
      23.1,
@@ -6329,23 +6329,23 @@
     "other": 0,
     "hungerDeathsAtHome": 0,
     "coinMedian": 166,
-    "finalMedian": 4387,
+    "finalMedian": 4428,
     "rankMedian": 12,
     "winners": 0,
     "wiped": 0,
     "townArrivals": 219,
-    "dirtyArrivals": 117,
-    "remarks": 52,
-    "markupReales": 66,
-    "coinTradedDirty": 264,
-    "dirtyShareMedian": 59,
+    "dirtyArrivals": 119,
+    "remarks": 54,
+    "markupReales": 67.8,
+    "coinTradedDirty": 271,
+    "dirtyShareMedian": 63,
     "washesMean": 7.7,
-    "keptDaysMean": 43.7,
+    "keptDaysMean": 42,
     "gardenDaysMean": 0,
     "homeDaysMean": 178.6,
-    "keptByChildMean": 37.7,
+    "keptByChildMean": 36,
     "helpsMean": 0,
-    "washesForMean": 3.3,
+    "washesForMean": 3.7,
     "stuckFamilyDays": 0.22,
     "hiddenAllDays": 0,
     "queuedBehindOneDays": 0,
@@ -6407,14 +6407,14 @@
       "stuckFamilyDays": 0.22,
       "hiddenAllDays": 0,
       "homeDays": 88.21,
-      "womenIdle": 0.11,
+      "womenIdle": 0.13,
       "womenMens": 0
      },
      "3": {
       "stuckFamilyDays": 0,
       "hiddenAllDays": 0,
       "homeDays": 11.09,
-      "womenIdle": 0.1,
+      "womenIdle": 0.12,
       "womenMens": 0
      }
     },
@@ -6560,7 +6560,7 @@
     "harvestFoodMedian": 1060.5,
     "cottonMedian": 54.1,
     "food": [
-     141.1,
+     141.2,
      115,
      19.3
     ],
@@ -6800,35 +6800,35 @@
      0
     ],
     "sownP1": 3,
-    "harvestsMean": 79,
-    "harvestFoodMedian": 1055,
-    "cottonMedian": 92.1,
+    "harvestsMean": 74.5,
+    "harvestFoodMedian": 1045.5,
+    "cottonMedian": 94.5,
     "food": [
-     100,
-     76.8,
-     16.6
+     91.8,
+     76.2,
+     16.3
     ],
-    "hungry": 1,
+    "hungry": 0,
     "weak": 0,
     "starving": 0,
-    "hungryDaysMean": 1.8,
+    "hungryDaysMean": 0,
     "deaths": 0,
     "hunger": 0,
     "disease": 0,
     "war": 0,
     "other": 0,
     "hungerDeathsAtHome": 0,
-    "coinMedian": 360.5,
-    "finalMedian": 15338.5,
+    "coinMedian": 365,
+    "finalMedian": 15532,
     "rankMedian": 9.5,
     "winners": 0,
     "wiped": 0,
-    "townArrivals": 236,
-    "dirtyArrivals": 81,
+    "townArrivals": 238,
+    "dirtyArrivals": 83,
     "remarks": 35,
-    "markupReales": 101.3,
-    "coinTradedDirty": 405,
-    "dirtyShareMedian": 57.5,
+    "markupReales": 103.5,
+    "coinTradedDirty": 414,
+    "dirtyShareMedian": 57,
     "washesMean": 9,
     "keptDaysMean": 45,
     "gardenDaysMean": 0,
@@ -6868,7 +6868,7 @@
      "men": {
       "mens": 11,
       "womens": 0,
-      "shared": 74,
+      "shared": 75,
       "none": 15
      },
      "women": null,
@@ -7051,66 +7051,66 @@
      0
     ],
     "sownP1": 3,
-    "harvestsMean": 60.8,
+    "harvestsMean": 61.3,
     "harvestFoodMedian": 426,
-    "cottonMedian": 157.9,
+    "cottonMedian": 155.6,
     "food": [
-     31.1,
-     42.3,
-     14.7
+     31.8,
+     42.6,
+     14.8
     ],
-    "hungry": 21,
+    "hungry": 20,
     "weak": 11,
-    "starving": 7,
-    "hungryDaysMean": 1.7,
-    "deaths": 10,
-    "hunger": 2,
-    "disease": 0,
+    "starving": 5,
+    "hungryDaysMean": 1.5,
+    "deaths": 16,
+    "hunger": 7,
+    "disease": 1,
     "war": 8,
     "other": 0,
-    "hungerDeathsAtHome": 0,
-    "coinMedian": 285,
-    "finalMedian": 20736,
+    "hungerDeathsAtHome": 5,
+    "coinMedian": 296.5,
+    "finalMedian": 20826,
     "rankMedian": 8,
     "winners": 6,
-    "wiped": 0,
-    "townArrivals": 8525,
-    "dirtyArrivals": 2520,
-    "remarks": 1124,
-    "markupReales": 1898,
-    "coinTradedDirty": 7592,
-    "dirtyShareMedian": 27,
-    "washesMean": 16,
-    "keptDaysMean": 72.3,
-    "gardenDaysMean": 55.2,
-    "homeDaysMean": 181.3,
-    "keptByChildMean": 23.4,
-    "helpsMean": 51.6,
+    "wiped": 1,
+    "townArrivals": 8496,
+    "dirtyArrivals": 2491,
+    "remarks": 1103,
+    "markupReales": 1896.5,
+    "coinTradedDirty": 7586,
+    "dirtyShareMedian": 28,
+    "washesMean": 15.9,
+    "keptDaysMean": 71.7,
+    "gardenDaysMean": 55.1,
+    "homeDaysMean": 181.4,
+    "keptByChildMean": 23,
+    "helpsMean": 50.7,
     "washesForMean": 5.9,
-    "stuckFamilyDays": 44.25,
-    "hiddenAllDays": 28.02,
-    "queuedBehindOneDays": 3.52,
+    "stuckFamilyDays": 44.23,
+    "hiddenAllDays": 28.22,
+    "queuedBehindOneDays": 3.56,
     "stuckFamilyShare": 0.24,
     "stuckPersonDays": {
-     "men": 23.21,
-     "women": 22.14,
-     "boys": 27.11,
-     "girls": 48.26
+     "men": 22.61,
+     "women": 21.88,
+     "boys": 27.97,
+     "girls": 48.21
     },
     "stuckBy": {
      "build": 26.71,
      "ground": 27.28,
-     "hunt": 27.14,
-     "house": 19.24
+     "hunt": 27.15,
+     "house": 19.36
     },
     "hiddenBy": {
-     "build": 10.97,
-     "ground": 11.37,
-     "hunt": 11.28,
-     "house": 16.65
+     "build": 11.03,
+     "ground": 11.43,
+     "hunt": 11.36,
+     "house": 16.78
     },
     "idleShare": {
-     "men": 0.14,
+     "men": 0.13,
      "women": 0.07,
      "boys": 0.56,
      "girls": 0.17
@@ -7119,13 +7119,13 @@
      "men": {
       "mens": 7,
       "womens": 26,
-      "shared": 36,
-      "none": 31
+      "shared": 37,
+      "none": 30
      },
      "women": {
       "mens": 3,
       "womens": 55,
-      "shared": 25,
+      "shared": 26,
       "none": 16
      },
      "boys": {
@@ -7136,30 +7136,30 @@
      },
      "girls": {
       "mens": 1,
-      "womens": 41,
+      "womens": 40,
       "shared": 17,
       "none": 42
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 15.26,
-      "hiddenAllDays": 8.46,
+      "stuckFamilyDays": 15.25,
+      "hiddenAllDays": 8.6,
       "homeDays": 79.32,
       "womenIdle": 0.09,
       "womenMens": 0.02
      },
      "2": {
-      "stuckFamilyDays": 26.07,
-      "hiddenAllDays": 18.31,
+      "stuckFamilyDays": 26.06,
+      "hiddenAllDays": 18.38,
       "homeDays": 88.01,
       "womenIdle": 0.03,
       "womenMens": 0
      },
      "3": {
       "stuckFamilyDays": 2.92,
-      "hiddenAllDays": 1.25,
-      "homeDays": 13.94,
+      "hiddenAllDays": 1.24,
+      "homeDays": 14.08,
       "womenIdle": 0.13,
       "womenMens": 0
      }
@@ -7305,116 +7305,116 @@
      0
     ],
     "sownP1": 3,
-    "harvestsMean": 63.3,
-    "harvestFoodMedian": 450.5,
-    "cottonMedian": 167.1,
+    "harvestsMean": 63.9,
+    "harvestFoodMedian": 445.5,
+    "cottonMedian": 171.1,
     "food": [
-     30.4,
-     39.7,
-     14.5
+     30.5,
+     41.2,
+     15
     ],
-    "hungry": 20,
+    "hungry": 21,
     "weak": 11,
-    "starving": 8,
-    "hungryDaysMean": 2.1,
-    "deaths": 14,
-    "hunger": 6,
+    "starving": 7,
+    "hungryDaysMean": 1.9,
+    "deaths": 12,
+    "hunger": 4,
     "disease": 0,
     "war": 8,
     "other": 0,
-    "hungerDeathsAtHome": 2,
-    "coinMedian": 328.5,
-    "finalMedian": 21911.5,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 330.5,
+    "finalMedian": 21871,
     "rankMedian": 8,
     "winners": 6,
     "wiped": 0,
-    "townArrivals": 9404,
-    "dirtyArrivals": 3601,
-    "remarks": 1605,
-    "markupReales": 2430.3,
-    "coinTradedDirty": 9721,
+    "townArrivals": 9395,
+    "dirtyArrivals": 3574,
+    "remarks": 1599,
+    "markupReales": 2460.8,
+    "coinTradedDirty": 9843,
     "dirtyShareMedian": 27,
     "washesMean": 13.7,
-    "keptDaysMean": 69.5,
+    "keptDaysMean": 69.6,
     "gardenDaysMean": 0,
     "homeDaysMean": 181.3,
     "keptByChildMean": 32.6,
     "helpsMean": 6.7,
-    "washesForMean": 9.2,
-    "stuckFamilyDays": 39.99,
-    "hiddenAllDays": 9.44,
-    "queuedBehindOneDays": 4.69,
+    "washesForMean": 9.3,
+    "stuckFamilyDays": 40.56,
+    "hiddenAllDays": 9.48,
+    "queuedBehindOneDays": 4.6,
     "stuckFamilyShare": 0.22,
     "stuckPersonDays": {
-     "men": 0.51,
-     "women": 33.78,
-     "boys": 0.61,
-     "girls": 58.55
+     "men": 0.58,
+     "women": 33.5,
+     "boys": 0.64,
+     "girls": 59.24
     },
     "stuckBy": {
-     "build": 38.96,
-     "ground": 39.62,
-     "hunt": 39.38,
-     "house": 0.68
+     "build": 39.5,
+     "ground": 40.16,
+     "hunt": 39.91,
+     "house": 0.72
     },
     "hiddenBy": {
      "build": 8.89,
-     "ground": 9.16,
-     "hunt": 9.08,
-     "house": 0.23
+     "ground": 9.17,
+     "hunt": 9.06,
+     "house": 0.27
     },
     "idleShare": {
-     "men": 0.32,
-     "women": 0.15,
-     "boys": 0.61,
-     "girls": 0.4
+     "men": 0.37,
+     "women": 0.14,
+     "boys": 0.64,
+     "girls": 0.41
     },
     "workShare": {
      "men": {
       "mens": 7,
       "womens": 5,
       "shared": 39,
-      "none": 48
+      "none": 49
      },
      "women": {
       "mens": 4,
       "womens": 47,
-      "shared": 18,
+      "shared": 19,
       "none": 30
      },
      "boys": {
       "mens": 1,
       "womens": 13,
-      "shared": 13,
-      "none": 73
+      "shared": 12,
+      "none": 74
      },
      "girls": {
       "mens": 1,
-      "womens": 27,
-      "shared": 16,
+      "womens": 28,
+      "shared": 15,
       "none": 56
      }
     },
     "byPeriod": {
      "1": {
-      "stuckFamilyDays": 11.85,
-      "hiddenAllDays": 2.01,
+      "stuckFamilyDays": 11.97,
+      "hiddenAllDays": 2.04,
       "homeDays": 79.38,
-      "womenIdle": 0.19,
+      "womenIdle": 0.18,
       "womenMens": 0.01
      },
      "2": {
-      "stuckFamilyDays": 25.64,
-      "hiddenAllDays": 7.16,
+      "stuckFamilyDays": 25.97,
+      "hiddenAllDays": 7.17,
       "homeDays": 87.96,
-      "womenIdle": 0.11,
+      "womenIdle": 0.1,
       "womenMens": 0
      },
      "3": {
-      "stuckFamilyDays": 2.5,
+      "stuckFamilyDays": 2.62,
       "hiddenAllDays": 0.27,
-      "homeDays": 13.94,
-      "womenIdle": 0.31,
+      "homeDays": 13.93,
+      "womenIdle": 0.29,
       "womenMens": 0
      }
     },

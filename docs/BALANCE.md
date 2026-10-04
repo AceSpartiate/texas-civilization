@@ -1635,5 +1635,43 @@ deaths are a few families. The *cued* student presses the cue before anything el
 student is the director's policy, which now lets women help the men at the house and the clearing and children keep house for a lone
 parent (sim/neighbours.mjs).
 
-**Open for the owner** (not asked yet): should a child's keeping house for a lone parent save what the parent's would (issue 2's
-remainder), and should the house's three short steps be lengthened so a man's help at the hearth shows (issue 5's remainder)?
+**The owner's answers to these two (2026-10-04), verbatim:** (1) *should a child's keeping house for a lone parent save what the
+parent's would?* **"As the parent's would"** - a child keeping house for a lone parent saves what the parent's housekeeping would (the
+child does the chores the parent directs); (2) *should the house's three short steps be lengthened so a man's help at the hearth
+shows?* **"Leave it"** - no change. (1) is built and measured in §24.3; (2) changes nothing.
+
+### 24.3 A child keeps house as the parent's would (2026-10-04, owner-decided; not released)
+
+Built on branch `custom-work-4` (CUSTOMARY_WORK.md §1d, §4b; sim/housework.mjs `keepHouse`, `keptBy`, `loneHand`): a child of seven to
+fifteen keeping house with exactly one grown hand at home and able - a lone father (no grown woman at home), a lone mother, or a mother
+whose husband is away - keeps it **for** that parent (`housekept.for`), and the saving is the parent's housework, not the child's. With two
+grown of one custom at home or none, the child's own (a `ceiling:`). Measured with the same harness, seeds and before-tree (726f9411, a
+fresh temporary worktree, removed after); all shapes ran, the lone-parent shapes are the ones it can move. *§24* = the numbers above (the
+child's own saving); *now* = the parent's.
+
+| Shape (six families; median unless said) | Before the custom | §24 | **Now** |
+| --- | --- | --- | --- |
+| motherSmall: field harvest food / food end of P1-P2-P3 | 134 / 12-21-8 | 38.5 / 10-9-7 | **104.5 / 11-19-5** |
+| motherSmall: days hungry, mean / families hungry / hunger deaths (at home) | 3.5 / 1 / 1 (0) | 9.6 / 5 / 0 | **7.4 / 4 / 5 (5)** |
+| motherSmall: final number | 430 | 440 | **221** |
+| motherSmall, the *cued* student: harvest / hunger deaths (at home) / final | - | 76 / 2 (2) / 409 | **158.5 / 0 / 484** |
+| fatherGirls / fatherBoys: final | 7,594 / 31,599 | 7,349 / 30,225 | **7,327 / 30,511** |
+| fatherBaby (no child of seven): final | 6,077 | 2,217 | **2,141** |
+| rolled lone mothers (3) / lone fathers (2): final | 4,469 / 14,758 | 2,419 / 10,794 | **2,419 / 10,794** |
+| All 90 (playing): hunger deaths (at home) / final median | 5 (0) / 21,775 | 2 (0) / 20,736 | **7 (5) / 20,826** |
+
+- **Four of the six lone mothers of small children eat better**: field harvests up (viab-2 48 to 104, viab-5 none to 162), the first
+  period's food up in four, hungry days a family down from 9.6 to 7.4 on average; the *cued* student's lone mothers lose no child (two, both
+  at home, in §24) and bring in twice the harvest.
+- **One family starved outright**: viab-6's lone mother and all four of her children died of hunger at home by day 54 of the first period,
+  having planted one plot and brought nothing in. It was the most marginal of the six already (in §24's runs hungry 21 days, 29 food
+  harvested, 6.3 food at the period's end). Every hunger death in the class's playing column is that one family, and it pulls the median
+  final number down (221). A larger housekeeping saving cannot itself make a family eat less; the runs diverge from the first days (that
+  family's mother spent 36 days at the men's work against 129 in §24's run) and this one went the wrong way. **Not traced further.**
+- **Lone fathers barely move**: a man's housework is low (FAMILY_CREATION.md §4), so his children keeping house as he would save about
+  what he would, little. fatherBaby has no child of seven, so nothing changes, as the rule says. The rolled lone mothers and fathers give
+  the same median as §24.
+
+`ceiling:` six families a shape; one family's collapse is a fifth of the shape's deaths since the custom. Worth a larger run (twelve
+seeds) before the owner reads the lone-mother line as either a fix or a fault.
+

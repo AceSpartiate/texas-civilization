@@ -73,6 +73,17 @@ verbatim, from the multiple choice:
   and home, he keeps it.
 - **Leave it**: nothing changed for the son of sixteen.
 
+## 1d. The owner's answers to BALANCE.md §24's two questions (2026-10-04)
+
+Asked by multiple choice once §24 was measured; answered the same day, verbatim:
+
+1. *Should a child's keeping house for a lone parent save what the parent's would?* **"As the parent's would"** - a child keeping house
+   for a lone parent saves what the parent's housekeeping would (the child does the chores the parent directs). Built (§4b, branch
+   `custom-work-4`): when the child of seven or more keeps house with exactly one grown hand at home and able - a lone father (no grown
+   woman at home), a lone mother, or a mother whose husband is away - the saving is that parent's.
+2. *Should the house's short steps be lengthened so a man's help at the hearth shows?* **"Leave it"** - no change (§2b's `ceiling:`
+   stands).
+
 ## 2. The rule (`sim/custom.mjs`, `FIC-GONZ-1150`)
 
 - **Every work is men's, women's or shared** (§3). Only the table's works have a custom; everything else is shared and never asked.
@@ -181,13 +192,17 @@ The owner, 2026-10-04, **"Children keep house"** (§1c, answer 2; BALANCE.md §2
 - **On the bar**: the two works are marked a child's (`child`), so a child of seven to nine sees them on their own bar beside the water
   and the eggs, only while they are theirs to do; a child's order for them is taken; and they are worked at a grown work's pace (`grown`).
 - **Auto**: a child on their own automation keeps house first, then the wash when it is wanted (sim/childhood.mjs `JOBS_FIRST`); a
-  grown person or a child of ten on auto keeps house while their task waits as before. The families nobody plays send a child of seven
-  to nine to the house before they give the grown hands the farm.
-- **What it saves**: the house a child keeps saves what **that child's own** housework saves - the hidden trait of FAMILY_CREATION.md §4,
-  which grows with age, so a child of eight saves little and a girl of fourteen nearly what her mother would. The wash a child does
-  cleans as anybody's does.
-- `ceiling:` the saving is the child's own, not the parent's; a lone mother who wants the most from the house keeps it herself. Worth
-  undoing only if the owner wants a child's keeping house to count as the parent's.
+  grown person or a child of ten on auto keeps house while their task waits as before. The families nobody plays give the house to a
+  child of seven to nine after the grown hands have their work, so a lone parent free of the farm keeps it herself.
+- **What it saves** (owner, 2026-10-04, §1d: **"As the parent's would"**): a child keeping house **for a lone parent** - the only grown
+  hand at home and able when the child keeps it: a lone father, a lone mother, or a mother whose husband is away - saves what **that
+  parent's own housekeeping** would (the hidden trait of FAMILY_CREATION.md §4): the child does the chores the parent directs. The house
+  is recorded kept by the child for the parent (`housekept.for`, absent on every class saved before, which reads as the keeper's own),
+  and the saving is read from the parent while they live (`keptBy`). Until 2026-10-04 it was the child's own housework, which grows with
+  age, so a child of eight saved almost nothing (BALANCE.md §24). The wash a child does cleans as anybody's does.
+- `ceiling:` with two grown hands of one custom at home and none of the other (a lone father and a son of seventeen), or nobody grown at
+  home, no one parent directs the child, and the child's own housework is read; worth undoing only if such a family shows a child
+  keeping house for nothing.
 
 ## 5. The kitchen garden (`work-garden`, `FIC-GONZ-1154`)
 
@@ -310,7 +325,9 @@ more sooner where a woman or girl may help the one man (class median 2.5 to 1.4 
 16% of their time (65% before the custom), girls of ten to fifteen 42% (81%); a lone mother of small children loses no child to hunger
 at home (two in §23) but still goes hungry, since a child's keeping house saves little; a student who follows the cue keeps house and is
 dirty at 38% of town arrivals against 90% for one who never finds it; dirty arrivals of a washing family 38% to 30%; the recalled man at
-home again. Two remainders put to the owner as questions, not built.
+home again. Two remainders put to the owner, answered the same day (§1d): **"As the parent's would"** - built, §24.3: four of six lone
+mothers of small children eat better and the cued student's lose no child, but one marginal family starved outright in the first period
+(not traced; six families a shape) and lone fathers barely move; **"Leave it"** for the house's short steps.
 
 ## 11. Evidence
 

@@ -19,6 +19,8 @@ const T = {
   // The owner's answers of 2026-10-04 (docs/BALANCE.md §23).
   help: 'help, not lead: a woman or girl of ten joins', helpBack: 'help, not lead, the other way', helpRaise: 'help at work each puts their own hands into',
   serving: 'only while serving', children: 'children keep house', cue: 'prompt the student', washFor: "wash whoever's dirty",
+  // The owner's answer of 2026-10-04 to BALANCE.md §24 (1), "As the parent's would".
+  asParent: "a child keeps house as the lone parent's would",
 };
 const one = (file, from, to) => ({ file, from, to });
 const C = 'sim/chores.mjs', K = 'sim/custom.mjs', H = 'sim/housework.mjs', A = 'sim/auto.mjs', E = 'sim/errands.mjs', P = 'public/family-panel.js', W = 'sim/world.mjs';
@@ -115,6 +117,11 @@ const INJECTIONS = [
   { name: 'the wash for one washes everybody', edits: [one(H, '  const here = weekly ? clothesHere(world, household) : washWanted(world, household);', '  const here = clothesHere(world, household);')], expect: T.washFor },
   { name: 'the wash for one moves wash day', edits: [one(H, '  if (weekly) household.washDay = day;', '  household.washDay = day;')], expect: T.washFor },
   { name: 'who missed wash day not washed for', edits: [one(H, '  || (Number.isInteger(household?.washDay) && washedDay(world, person) < household.washDay);', '  || false;')], expect: T.washFor },
+  // A child keeps house as the lone parent's would (owner, 2026-10-04).
+  { name: "the child's keeping read as the child's own", edits: [one(H, "  if (parent && parent.health?.condition !== 'dead') return [parent];\n", '')], expect: T.asParent },
+  { name: 'never recorded kept for the parent', edits: [one(H, '...(parent && parent.id !== entity.id && { for: parent.id })', '')], expect: T.asParent },
+  { name: 'kept for anybody grown at home, not a lone parent', edits: [one(H, '  return grown.length === 1 ? grown[0] : null;', '  return grown[0] || null;')], expect: T.asParent },
+  { name: 'a saved keeper-for that cannot be is opened', edits: [one(H, " || (kept.for !== undefined && typeof kept.for !== 'string')", '')], expect: T.asParent },
 ];
 
 const failing = output => [...new Set([...output.matchAll(/^\s*✖ (.+?) \(\d/gm)].map(match => match[1].trim()).filter(name => !/^tests[\\/]/.test(name) && name !== 'failing tests:'))];

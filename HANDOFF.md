@@ -1,5 +1,30 @@
 # Claude handoff — Astra foundation
 
+## A child keeps house as the parent's would — owner-decided 2026-10-04 (not released)
+
+Branch `custom-work-4` from origin/main b9e46fb5 (custom-work-3 merged); not pushed, not released. The owner answered BALANCE.md §24's two
+questions, verbatim: (1) **"As the parent's would"** - a child keeping house for a lone parent saves what the parent's housekeeping would
+(the child does the chores the parent directs); (2) **"Leave it"** - the house's short steps unchanged.
+
+**Built** (sim/housework.mjs `keepHouse`, `keptBy`, `loneHand`; `FIC-GONZ-1158` amended): a child of seven to fifteen keeping house with
+exactly one grown hand at home and able - a lone father (no grown woman at home), a lone mother, or a mother whose husband is away -
+keeps it **for** that parent (`housekept.for`, validated; absent on older saves, read as the keeper's own), and the saving is the parent's
+housework. With two grown of one custom at home or none, the child's own (`ceiling:`). Docs: CUSTOMARY_WORK.md §1d (verbatim), §4b, §10;
+BALANCE.md §24 (answers verbatim) and **§24.3**; HISTORY.md `FIC-GONZ-1158 (amended 2026-10-04)`.
+
+**Study (§24.3, same seeds and harness, before-tree 726f9411 in a fresh temporary worktree, removed):** lone mother of small children -
+field harvest 38.5 to **104.5**, hungry days 9.6 to **7.4** a family, the cued student's deaths 2 (2 at home) to **0**; but one marginal
+family (viab-6) starved outright in the first period (5 deaths at home, the column's median final 440 to **221**) - runs diverge from the
+first days; not traced; six families a shape. Lone fathers barely move (a man's housework is low): fatherGirls 7,349 to 7,327, fatherBoys
+30,225 to 30,511, fatherBaby (no child of seven) 2,217 to 2,141. All 90 playing: hunger deaths 2 (0) to 7 (5), all that one family.
+
+**Evidence**: tests/housework.test.mjs *a child keeps house as the lone parent's would* (a lone mother's daughter saves the mother's
+saving, recorded for her; a lone father's; with the mother and a grown daughter at home, the child's own; a grown keeper's own; a saved
+`for` that cannot be refused). `npm run test:custom-work-injections`: **77 of 77 caught, 56 by that test alone** (4 new, each caught by
+that test alone). `npm test`: **2232 tests, 2196 pass, 0 fail, 36 skipped**. Browser: test:custom-work **17 checks** and test:children (16 checks) green, one at a time, headless Chrome on the same computer.
+
+**Open**: whether one family's collapse is chance or a fault - a twelve-seed run of the lone-parent shapes would say.
+
 ## Help, not lead; children keep house; the wash for whoever's dirty — owner-decided 2026-10-04 (not released)
 
 Branch `custom-work-3` from origin/main b2d0c0e1; not pushed, not released. Same computer only: headless Chrome; no Chromebook, LAN or
@@ -50,7 +75,8 @@ nothing because another gate already holds the line, and were replaced. Browser 
 
 **Not proved / open**: anything on a Chromebook, a LAN or in a classroom; whether a real student notices the cue and the badge; the
 child's keeping house saves what the child's own housework saves (little at eight), so a lone mother of small children still goes hungry -
-put to the owner in BALANCE.md §24 with the house's one-tick steps (a man's help does not shorten keeping house or the garden); the new
+put to the owner in BALANCE.md §24 with the house's one-tick steps (a man's help does not shorten keeping house or the garden) -
+**both answered 2026-10-04: "As the parent's would" (built, the section above) and "Leave it"**; the new
 art items are **not yet on "What Astra still needs to make"** because that list is generated from scripts/claude-art/plan.mjs, which
 another builder had open - add the three items there (areas F and B) and run `node scripts/claude-art/write-plan.mjs` once it lands.
 
