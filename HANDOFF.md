@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## Proofs brought up to the customary work; the wagon's stock choice uncovered — 2026-10-04 (not released)
+## Released as v2026.10.04.1 — 2026-10-04
+
+Main at b7fd528f, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.04.1>), with the first set of changes carrying the new launcher scheme: from v2026.10.03.2, 6.7 MB (`TexasRevolution-Changes-From-v2026.10.03.2.patch`; same launcher, so no launcher in it). Contents: customary work (custom, help-not-lead, children keep house, the cue, wash whoever is dirty, weekly wash and the markup), the director called off clearing when food is short, triage 2.3/2.5/2.14/3.17, Astra's commerce UI, streets, flood water, military-life and engineering art, art measured right (C1-C3), the wagon's stock choice uncovered, `canFight` by `sexOf` (a founding mother could turn out). Verification: the full run on c2c77ca3 (npm test 2233/0 fail; 89 browser proofs two at a time, 13 red) and every red proof fixed or rerun alone green on b7fd528f (proofs-fix); npm test on proofs-fix 2235/0 fail. **test:famous-people's frame-time check is flaky on this machine**: alone, v2026.10.03.2 54.2 ms (red) then 24.4 (green); b7fd528f 44.9 (green) then 55 (red), against 50 ms - machine speed, though main's green runs were slower than the release's (follow-up: profile the Host's map with the famous people). Not proved: ThreatDown with either setup; a real download of a set of changes carrying a launcher; Chromebook, LAN or classroom.
+
+## Proofs brought up to the customary work; the wagon's stock choice uncovered — 2026-10-04 (released in v2026.10.04.1)
 
 Branch `proofs-fix` from origin/main c2c77ca3; not pushed, not released. The full proof run on c2c77ca3 (two at a time) failed
 proofs that still sent a woman to men's work (docs/CUSTOMARY_WORK.md), one real wagon bug, one real rule fault, and a fixed port.
@@ -39,7 +43,7 @@ siege", p95 52-56 ms over 44-47 frames) **on c2c77ca3 as well** (56 ms), so it i
 regression from before this branch, not the custom; one of the three runs here missed Neill hurt at the guns instead (a sampled
 moment).
 
-## A child keeps house as the parent's would — owner-decided 2026-10-04 (not released)
+## A child keeps house as the parent's would — owner-decided 2026-10-04 (released in v2026.10.04.1)
 
 Branch `custom-work-4` from origin/main b9e46fb5 (custom-work-3 merged); not pushed, not released. Two commits: the change, and the trace
 of the family that died out with the director's fix. The owner answered BALANCE.md §24's two
@@ -76,7 +80,7 @@ hunger deaths **3 (1 at home) / 13 (11) / 3 (1)**, families hungry 10 / 9 / **7*
 lone fathers. All 180 families playing: 8 (1) / 22 (11) / **12 (1)** - the four over b9e46fb5 one two-parent family on the road east in
 the spring (viab-8), not traced. Records `docs/evidence/custom-viability-lone12*.json`; the harness has `--modes` and `--before-modes`.
 
-## Help, not lead; children keep house; the wash for whoever's dirty — owner-decided 2026-10-04 (not released)
+## Help, not lead; children keep house; the wash for whoever's dirty — owner-decided 2026-10-04 (released in v2026.10.04.1)
 
 Branch `custom-work-3` from origin/main b2d0c0e1; not pushed, not released. Same computer only: headless Chrome; no Chromebook, LAN or
 classroom claim. The owner answered BALANCE.md §23's seven questions by multiple choice, verbatim in docs/CUSTOMARY_WORK.md §1c:
@@ -131,7 +135,7 @@ put to the owner in BALANCE.md §24 with the house's one-tick steps (a man's hel
 art items are **not yet on "What Astra still needs to make"** because that list is generated from scripts/claude-art/plan.mjs, which
 another builder had open - add the three items there (areas F and B) and run `node scripts/claude-art/write-plan.mjs` once it lands.
 
-## Astra's frames measured right: one ground point per clip, steady size — 2026-10-04 (not released)
+## Astra's frames measured right: one ground point per clip, steady size — 2026-10-04 (released in v2026.10.04.1)
 
 Branch `art-measure` from origin/main (4f76d4ed, where the art audit *art-redo* was merged). Not pushed and not released.
 Tested on this computer only, in headless Chrome. No Chromebook, LAN or classroom claim. This fixes the three items in
@@ -248,7 +252,7 @@ house* is dirty at 90% of town arrivals; even a washing family is dirty at 38% (
 queues the house work; a man recalled or deserted from the army counts as away for good (`atHome` reads any `service`; a rule fault);
 a son of 16 keeps the custom from his mother, with no measured cost. **Next**: put §23.2's questions to the owner (answered the same day and built: the section above).
 
-## Customary work: the owner's four answers - 2026-10-04 (not released)
+## Customary work: the owner's four answers - 2026-10-04 (released in v2026.10.04.1)
 
 Branch `customary-work-2` from origin/main (58b1abff, where *customary-work* was merged); not pushed, not released. Same computer
 only: headless Chrome; no Chromebook, LAN or classroom claim. The owner answered the four questions of the section below, verbatim:
@@ -303,7 +307,7 @@ Nine atlases add **84 frames and 20 authored clips**: healthy camp rest/sleep, d
 
 Read `docs/ART_DELIVERY_2026-10-03-MILITARY-LIFE.md` for exact live-versus-catalog scope and remaining integration. Source registration: `scripts/art-deliveries/military-life-2026-10-03.mjs`; full inventory: `docs/ART_MANIFEST.md`. Browser proof draws all 84 frames and verifies pixel changes in all 20 clips. Living blanket patients must not stand in for dead transported bodies. House actors still require occlusion masks/navigation; generic house art does not replace named Béxar or Alamo assemblies. North/south mounted firing, family-specific battle poses and Mexican digging remain outstanding.
 
-## Astra's commerce UI, town streets, flood water and military-life art merged — 2026-10-04 (not released)
+## Astra's commerce UI, town streets, flood water and military-life art merged — 2026-10-04 (released in v2026.10.04.1)
 
 Branch `astra-merge-3` off `origin/main` (28c5331d), merging Astra's `main` at ee656420 (with a05604f4: military life, transport
 and field defenses) and then 73410a79 (the Mexican regular's engineering); not pushed, not released. Same computer only. Her three
@@ -363,7 +367,7 @@ others; in three alternating runs each the merged tree measured 51.3, 51.7 and a
 The machine was loaded by other work; the checks after the gate (Neill hurt at the guns and the rest) are unproved here.
 Physical classroom, LAN, phones.
 
-## Men's work, women's work, and the wash: "Custom, necessity opens" — owner-decided 2026-10-03 (not released)
+## Men's work, women's work, and the wash: "Custom, necessity opens" — owner-decided 2026-10-03 (released in v2026.10.04.1)
 
 Branch `customary-work` from origin/main (cca3a891); not pushed, not released. Same computer only: headless Chrome; no Chromebook,
 LAN or classroom claim. The whole design is [docs/CUSTOMARY_WORK.md](docs/CUSTOMARY_WORK.md) (now item 18 of CLAUDE.md's reading
@@ -438,7 +442,7 @@ browser; how often a real class's mothers are left idle now that the men's work 
 4. *The markup*: (a) **a quarter more and a fifth less, as built**; (b) a real more on every purchase; (c) prices unchanged, only the
    words.
 
-## Panel rows kept under the student's tap — triage 2.14, 2026-10-03 (not released)
+## Panel rows kept under the student's tap — triage 2.14, 2026-10-03 (released in v2026.10.04.1)
 
 Branch `panel-rows` from origin/main cca3a891; not pushed to main, not released. Triage 2.14: a tap on the family panel could
 do nothing when a snapshot arrived between the press going down and its click, and `test:solo-game` passed only on a rerun
@@ -511,7 +515,7 @@ panels other than the family panel, its popup, the call's menu and the journal's
 draw as before). A layout shift under a press elsewhere on the page - the map, the cards - is not addressed. Same computer
 only; no Chromebook, LAN or classroom claim.
 
-## Triage's last: the settlement's call seen, the play line once, solo's spotlight — 2026-10-03 (not released)
+## Triage's last: the settlement's call seen, the play line once, solo's spotlight — 2026-10-03 (released in v2026.10.04.1)
 
 Branch `triage-last` from origin/main cca3a891; not pushed, not released. The owner, 2026-10-03: *"yes, start them and push to live
 when done."* Three items of docs/audits/2026-09-29-triage.md, each marked there, and that document's stale rows brought up to date
