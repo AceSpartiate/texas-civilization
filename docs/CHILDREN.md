@@ -402,6 +402,11 @@ In a family of eight to eighteen children that was most of what the student did 
   alone - and it never says how long the auto had lasted. The row's "Auto went off" line is still there for six ticks.
 - **"Set out: play" at most once a day** (interactions audit M5, triage 2.3): the first play a child sets out to each day is written in
   the record, and the rest are on the row and the map (`firstPlayToday`, sim/chores.mjs, in the child's `told`).
+- **Each kind of play's own line once a day, and no bare "finished:" for play** (triage 2.3, the second half, 2026-10-03): a child on
+  auto plays a spell between every job, and each spell still wrote its own line ("ran at tag about the yard...") and "finished: play
+  tag" - sixteen lines from one child on the first afternoon. Now each kind of play a child had is written once a day
+  (`playedToday`, sim/children.mjs, `onceToday` in sim/child-day.mjs, in the same `told`), and the play's own line is how it ended
+  (`finishChore` writes no "finished:" for play). Work between (kindling, the hens) is written as before.
 - **The day** is the one the simulation already keeps, `Math.floor(minute / 1440)`: in a class whose families arrive by wagon it turns
   at six in the morning, when the children wake (sim/clock.mjs `dateOf`), and in an older class at midnight, in the dark.
 - **Unchanged**: a child with nothing to do still goes to a parent after `IDLE_TICKS`; with play lasting the day that is at the day's

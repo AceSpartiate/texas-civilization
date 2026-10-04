@@ -59,7 +59,7 @@ import { share, stirredShare } from './shares.mjs';
 import { beginsJob } from './obedience.mjs';
 // The family's fenced yard, which the little ones' play keeps inside (owner, 2026-10-02; sim/land-paths.mjs).
 import { keepInYard } from './land-paths.mjs';
-import { dayInvalid } from './child-day.mjs';
+import { dayInvalid, onceToday } from './child-day.mjs';
 
 const DAY = 1440;
 
@@ -213,6 +213,17 @@ const tell = (world, entity, text, claimId, extra = {}) => record(world, 'memory
   actorId: entity.id, householdId: entity.householdId, importance: 1, classification: 'FICTIONAL FOR GAMEPLAY', claimId, text, ...extra,
 });
 
+/**
+ * Whether this child's play of this kind is written into the family's record today: the first time, and not again until tomorrow
+ * (triage 2026-09-29, 2.3, the second half; interactions audit M5). A child on auto plays a spell between every job, and a child
+ * with nobody at home takes up play after play: each spell wrote its own line and a bare "finished: play tag" besides, so one
+ * child at tag eight times on the first afternoon wrote sixteen lines, and a family of ten children buried what it must read.
+ * The record says each kind of play a child had each day, once (`onceToday`), and what it is said in is unchanged; the row and the
+ * map show every spell as it is played. "Set out: play" was already once a day (sim/chores.mjs `firstPlayToday`), and the bare
+ * "finished:" line is not written for play at all (sim/chores.mjs `finishChore`): the play's own line is how it ended.
+ */
+const playedToday = (world, entity, kind) => onceToday(world, entity, `played:${kind}`);
+
 /** Which of `PLAYS` a child choosing their own play takes up this hour: a hashed share of the class, the child and the hour. */
 const playLine = (world, entity) => Math.floor(share(world, entity.id, `play:${Math.floor(world.minute / 60)}`) * PLAYS.length) % PLAYS.length;
 
@@ -220,8 +231,9 @@ const RUNS = {
   play(world, household, entity, state) {
     // The line chosen when they went off to play, which is what they were drawn at (`playOf`); a class saved in the middle of an
     // hour of play before there were kinds has none, and is told the hour's line as it always was.
-    const line = PLAYS[Number.isInteger(state?.line) ? state.line : playLine(world, entity)];
-    tell(world, entity, line(entity.name), 'FIC-GONZ-300');
+    const at = Number.isInteger(state?.line) ? state.line : playLine(world, entity);
+    // Each of the hour's lines once a day for each child (`playedToday`).
+    if (playedToday(world, entity, `line-${at}`)) tell(world, entity, PLAYS[at](entity.name), 'FIC-GONZ-300');
   },
   hens(world, household, entity) {
     tell(world, entity, `${entity.name} scattered a handful of corn for the hens and had them all round their feet.`, 'FIC-GONZ-475');
@@ -357,7 +369,7 @@ const playWork = (id, kind) => ({
   refusal: (world, household, entity) => childRefusal(world, household, entity, id),
   begin: (world, household, entity) => { entity.chore.began = world.tick; entity.chore.doing = kind.doing; },
   // Until the day ends (owner, 2026-09-29; sim/child-day.mjs `allDay`), or `work` ticks for a spell between jobs on auto.
-  steps: [{ work: CHILD_WORK_TICKS['child-play'], allDay: true }, { run: (world, household, entity) => tell(world, entity, kind.line(entity.name), 'FIC-GONZ-475') }],
+  steps: [{ work: CHILD_WORK_TICKS['child-play'], allDay: true }, { run: (world, household, entity) => { if (playedToday(world, entity, id)) tell(world, entity, kind.line(entity.name), 'FIC-GONZ-475'); } }],
 });
 registerChores(Object.fromEntries([
   {

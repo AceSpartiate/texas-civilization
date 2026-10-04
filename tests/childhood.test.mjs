@@ -13,6 +13,7 @@ import { projectFamily } from '../sim/world.mjs';
 import { OBEDIENCE_DIE, obedienceOf, obedienceRoll, rolledPeople } from '../sim/family.mjs';
 import { IDLE_TICKS, NOTICE_TICKS, talkTarget } from '../sim/childhood.mjs';
 import { DAY_FLOOR_TICKS, DAY_MINUTES, dayOf } from '../sim/child-day.mjs';
+import { PLAYS, PLAY_KINDS } from '../sim/children.mjs';
 import { needsOf } from '../public/family-panel.js';
 import { OBEDIENCE_RATES, autoOffChance, dawdleChance, wanderChance, wandersOff, tiresOfAuto } from '../sim/obedience.mjs';
 import { stirredShare } from '../sim/shares.mjs';
@@ -266,6 +267,38 @@ test('the rule: a child’s play is written into the family’s record as set ou
   assert.ok(plays.size >= 3, `the child took up play only ${plays.size} times, so this proves nothing`);
   const said = world.events.filter(event => event.actorId === kid.id && event.type === 'assignment' && /set out: (play|ride a stick horse|make a toy|roll a hoop|marbles)/i.test(event.text) && Math.floor(event.minute / DAY_MINUTES) === day);
   assert.ok(said.length <= 1, `the record was told a child set out to play ${said.length} times in one day`);
+});
+
+test('the rule: each kind of a child’s play is written into the family’s record once a day, and never as a bare "finished:"', () => {
+  // Triage 2026-09-29, 2.3, the second half: "set out" was once a day, but every spell of play still wrote its own line and a bare
+  // "finished: play tag" - a child on auto at tag eight times the first afternoon wrote sixteen lines.
+  const { world, household, kid, father, mother, others } = family('childhood-play-lines', 6);
+  for (const one of [father, mother, ...others]) one.location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
+  applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: true });
+  const day = dayOf(world), spells = new Set();
+  const start = world.events.length;
+  for (let t = 0; t < 70 && dayOf(world) === day; t++) {
+    if (!kid.auto) applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: true });
+    const before = kid.chore ? `${kid.chore.id}:${kid.chore.began}` : null;
+    stepWorld(world);
+    // A spell that ended this tick: the child was at play and is now at something else, or at nothing.
+    if (before && /^child-(play|stick-horse|doll|tag|hide|cart|hoop|marbles)$/.test(before.split(':')[0]) && `${kid.chore?.id}:${kid.chore?.began}` !== before) spells.add(before);
+  }
+  const kinds = new Set([...spells].map(spell => spell.split(':')[0]));
+  assert.ok(spells.size > kinds.size, `no kind of play ended twice that day (${[...spells].join(', ')}), so this proves nothing`);
+  const today = world.events.slice(start).filter(event => event.actorId === kid.id && Math.floor(event.minute / DAY_MINUTES) === day);
+  const finished = today.filter(event => /finished: (play|ride a stick horse|play with a corn-husk doll|make a toy cart|play hide-and-seek|roll a hoop|marbles)/i.test(event.text));
+  assert.deepEqual(finished.map(event => event.text), [], 'a spell of play was written as a bare "finished:"');
+  // The play's own lines (the jobs between - kindling, the hens - are work, and say what was done each time).
+  const playLines = new Set([...PLAYS, ...Object.values(PLAY_KINDS).map(kind => kind.line)].map(line => line(kid.name)));
+  const lines = today.filter(event => event.type === 'memory' && playLines.has(event.text)).map(event => event.text);
+  const twice = lines.filter((text, at) => lines.indexOf(text) !== at);
+  assert.deepEqual(twice, [], `the same play was written into the record more than once in a day: ${twice.join(' / ')}`);
+  assert.ok(lines.length >= 1, 'the child’s play was not written into the record at all');
+  // Tomorrow it is told again.
+  const tomorrow = world.events.length;
+  for (let t = 0; t < 200 && dayOf(world) <= day + 1; t++) { if (!kid.auto) applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: true }); stepWorld(world); }
+  assert.ok(world.events.slice(tomorrow).some(event => event.actorId === kid.id && playLines.has(event.text) && Math.floor(event.minute / DAY_MINUTES) === day + 1), 'the child’s play was never written again the next day');
 });
 
 test('the rule: obedience decides how often a child dawdles, wanders off and switches their automation off - a lower roll always more, measured over many ticks', () => {

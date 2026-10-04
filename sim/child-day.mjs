@@ -36,3 +36,15 @@ export const dayBegun = world => ({ day: dayOf(world), since: world.tick });
 export const dayOver = (world, { day, since }) => dayOf(world) > day && world.tick - since >= DAY_FLOOR_TICKS;
 /** A saved stretch of the child's day that cannot be: its day and tick are whole numbers, not after now. */
 export const dayInvalid = (world, stretch) => !stretch || !Number.isInteger(stretch.day) || !Number.isInteger(stretch.since) || stretch.day > dayOf(world) || stretch.since > world.tick;
+/**
+ * Whether `key` is said of this person for the first time today, and marks it so: kept in the person's `told`, the same day-stamped
+ * notes the little ones' other once-a-day lines use (sim/childhood.mjs `firstToday`, sim/chores.mjs `firstPlayToday`). Here, in the
+ * module every one of them can import, for the lines of a child's play (sim/children.mjs; triage 2026-09-29 2.3, second half). An
+ * absent `told` is the correct empty value - nothing said yet today - so no save version moved.
+ */
+export function onceToday(world, entity, key) {
+  const day = dayOf(world);
+  if (entity.told?.[key] === day) return false;
+  entity.told = { ...(entity.told || {}), [key]: day };
+  return true;
+}

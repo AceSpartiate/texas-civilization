@@ -2494,7 +2494,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     recordHelpBegun(world, household, entity, host);
     // A child's play is said once a day (interactions audit M5, triage 2.3): a child alone at home, or on auto, took up play
     // dozens of times an afternoon and wrote "set out: play" every time, pushing out what the family must read. The row and the
-    // map show the play every tick; the record hears of the first each day, and the play's own line when it is over.
+    // map show the play every tick; the record hears of the first each day, and each kind of play's own line once a day when it is
+    // over (sim/children.mjs `playedToday`).
   } else if (!chore.play || firstPlayToday(world, entity)) record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
   advanceChore(world, household, entity, { beginTravel });
   return entity.chore;
@@ -3234,7 +3235,9 @@ function finishHelping(world, household, entity, chore) {
 function finishChore(world, household, entity, chore) {
   entity.chore = null;
   entity.task = 'rest';
-  record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} finished: ${chore.name.toLowerCase()}.` });
+  // Not for a child's play: its own line, once a day for each kind (sim/children.mjs `playedToday`), is how it ended, and a bare
+  // "finished: play tag" after every spell was the child's play line repeated (triage 2026-09-29, 2.3).
+  if (!chore.play) record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} finished: ${chore.name.toLowerCase()}.` });
   // A chore kept in its own module may have something to do once the work is done (sim/road.mjs, the sick nursed a day).
   chore.done?.(world, household, entity);
   // Whoever worked alongside them finished it with them (sim/hands.mjs): the job is done once, for everybody at it.
