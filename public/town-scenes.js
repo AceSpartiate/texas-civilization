@@ -74,6 +74,8 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   if (moving) return dir === 'n' || dir === 's' ? { id: `${figure}-walk-${dir}`, flip: false } : { id: `${figure}-walk`, flip: dir === 'w' };
   const face = person.face || 's', pose = person.pose || 'idle';
   const child = !GROWN.has(figure);
+  if (pose === 'point' && ['teal', 'elder'].includes(figure) && ['e','w'].includes(face)) return { id: `${figure}-river-point`, flip: face === 'w' };
+  if (pose === 'point') return { id: child ? `${figure}-idle-${face}` : `${figure}-search`, flip: !child && face === 'w' };
   if (pose === 'idle' || (child && !CHILD_POSES.has(pose))) return { id: `${figure}-idle-${face}`, flip: false };
   if (pose === 'listen') return { id: `${figure}-listen-${face === 'n' ? 'n' : 's'}`, flip: false };
   // A player's helper may be any adult figure. Keep the older working pose until that figure gets its own sewing frames.

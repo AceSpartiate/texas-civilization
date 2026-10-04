@@ -161,10 +161,9 @@ export const STAND_INS = Object.freeze({
   paint: 'paint', // hand sewing the flag at the table
   dig: 'work', // a spade in the orchard: the hoe's swing
   forge: 'repair', // cutting chain and fitting the gun to its wheels
-  point: 'search', // looking hard across the river
   haul: 'carry', // carrying bundles to the wagon, cloth to the table
 });
-const P = STAND_INS;
+const P = Object.freeze({ ...STAND_INS, point: 'point' });
 
 const STREET_WORRY = [
   [['gz-townswoman-1', 'Soldiers on the far bank. Dragoons, from Béxar.', said('HIST-GONZ-002')], ['gz-townsman-1', "They've come for the cannon."]],

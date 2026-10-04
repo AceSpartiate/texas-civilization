@@ -1,0 +1,261 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "icon-enlist-regular",
+      "drawn": true
+    },
+    {
+      "id": "icon-enlist-auxiliary",
+      "drawn": true
+    },
+    {
+      "id": "icon-join-garrison",
+      "drawn": true
+    },
+    {
+      "id": "icon-join-matamoros",
+      "drawn": true
+    },
+    {
+      "id": "icon-go-vote",
+      "drawn": true
+    },
+    {
+      "id": "icon-winter-recall",
+      "drawn": true
+    },
+    {
+      "id": "icon-join-relief",
+      "drawn": true
+    },
+    {
+      "id": "icon-join-houston",
+      "drawn": true
+    },
+    {
+      "id": "icon-camp-drill",
+      "drawn": true
+    },
+    {
+      "id": "icon-camp-forage",
+      "drawn": true
+    },
+    {
+      "id": "icon-camp-guard",
+      "drawn": true
+    },
+    {
+      "id": "icon-camp-scout",
+      "drawn": true
+    },
+    {
+      "id": "icon-hunt-road",
+      "drawn": true
+    },
+    {
+      "id": "icon-tend-sick",
+      "drawn": true
+    },
+    {
+      "id": "icon-trade-crossing",
+      "drawn": true
+    },
+    {
+      "id": "icon-fetch-logs",
+      "drawn": true
+    },
+    {
+      "id": "lamar-walk-e-1",
+      "drawn": true
+    },
+    {
+      "id": "lamar-walk-e-2",
+      "drawn": true
+    },
+    {
+      "id": "lamar-walk-e-3",
+      "drawn": true
+    },
+    {
+      "id": "lamar-walk-e-4",
+      "drawn": true
+    },
+    {
+      "id": "lamar-walk-s-1",
+      "drawn": true
+    },
+    {
+      "id": "lamar-walk-s-2",
+      "drawn": true
+    },
+    {
+      "id": "lamar-walk-n-1",
+      "drawn": true
+    },
+    {
+      "id": "lamar-walk-n-2",
+      "drawn": true
+    },
+    {
+      "id": "lamar-idle",
+      "drawn": true
+    },
+    {
+      "id": "lamar-command",
+      "drawn": true
+    },
+    {
+      "id": "lamar-salute",
+      "drawn": true
+    },
+    {
+      "id": "lamar-saber-low",
+      "drawn": true
+    },
+    {
+      "id": "lamar-reach",
+      "drawn": true
+    },
+    {
+      "id": "lamar-withdraw-signal",
+      "drawn": true
+    },
+    {
+      "id": "lamar-listen",
+      "drawn": true
+    },
+    {
+      "id": "lamar-rest",
+      "drawn": true
+    },
+    {
+      "id": "joe-walk-1",
+      "drawn": true
+    },
+    {
+      "id": "joe-walk-2",
+      "drawn": true
+    },
+    {
+      "id": "joe-walk-3",
+      "drawn": true
+    },
+    {
+      "id": "joe-walk-4",
+      "drawn": true
+    },
+    {
+      "id": "joe-walk-s-1",
+      "drawn": true
+    },
+    {
+      "id": "joe-walk-s-2",
+      "drawn": true
+    },
+    {
+      "id": "joe-walk-n-1",
+      "drawn": true
+    },
+    {
+      "id": "joe-walk-n-2",
+      "drawn": true
+    },
+    {
+      "id": "joe-hide-1",
+      "drawn": true
+    },
+    {
+      "id": "joe-hide-2",
+      "drawn": true
+    },
+    {
+      "id": "joe-rise",
+      "drawn": true
+    },
+    {
+      "id": "joe-cautious",
+      "drawn": true
+    },
+    {
+      "id": "joe-idle",
+      "drawn": true
+    },
+    {
+      "id": "joe-speak-1",
+      "drawn": true
+    },
+    {
+      "id": "joe-speak-2",
+      "drawn": true
+    },
+    {
+      "id": "joe-rest-pose",
+      "drawn": true
+    },
+    {
+      "id": "grant-mounted-gallop-e-1",
+      "drawn": true
+    },
+    {
+      "id": "grant-mounted-gallop-e-2",
+      "drawn": true
+    },
+    {
+      "id": "grant-mounted-gallop-e-3",
+      "drawn": true
+    },
+    {
+      "id": "grant-mounted-gallop-e-4",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "lamar-walk-e",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "lamar-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "lamar-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "joe-walk",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "joe-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "joe-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "joe-hide",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "joe-speak",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "grant-mounted-gallop-e",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

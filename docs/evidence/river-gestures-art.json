@@ -1,0 +1,60 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "teal-river-watch-1",
+      "drawn": true
+    },
+    {
+      "id": "teal-river-watch-2",
+      "drawn": true
+    },
+    {
+      "id": "teal-river-point-1",
+      "drawn": true
+    },
+    {
+      "id": "teal-river-point-2",
+      "drawn": true
+    },
+    {
+      "id": "elder-river-watch-1",
+      "drawn": true
+    },
+    {
+      "id": "elder-river-watch-2",
+      "drawn": true
+    },
+    {
+      "id": "elder-river-point-1",
+      "drawn": true
+    },
+    {
+      "id": "elder-river-point-2",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "teal-river-watch",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "teal-river-point",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "elder-river-watch",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "elder-river-point",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

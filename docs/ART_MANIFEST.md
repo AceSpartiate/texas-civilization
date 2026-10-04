@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2660 usable sprites, 285 PNG atlases, 924 clips** (616 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2668 usable sprites, 286 PNG atlases, 928 clips** (620 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -56,7 +56,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fallen-transport | 8 | 1536 × 1024 | 1987719 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
-| icons-family-service | 16 | 1254 × 1254 | 1734840 |
+| icons-family-service | 16 | 1254 × 1254 | 1771565 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
 | people-family-mother-scarf | 16 | 1254 × 1254 | 1353965 |
 | people-family-father-straw | 16 | 1254 × 1254 | 1351306 |
@@ -120,12 +120,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-castaneda-gestures | 4 | 1254 × 1254 | 929899 |
 | famous-grant | 16 | 1225 × 1284 | 1191949 |
 | famous-grant-mounted | 4 | 1254 × 1254 | 1312009 |
-| famous-grant-gallop | 4 | 1254 × 1254 | 1420237 |
+| famous-grant-gallop | 4 | 1254 × 1254 | 1154800 |
 | famous-hockley | 16 | 1246 × 1262 | 904693 |
 | famous-johnson | 16 | 1312 × 1199 | 1121505 |
 | famous-karnes | 16 | 1246 × 1263 | 1230841 |
 | famous-karnes-mounted | 4 | 1246 × 1263 | 1175856 |
-| famous-lamar | 16 | 1312 × 1199 | 932028 |
+| famous-lamar | 16 | 1312 × 1199 | 847578 |
 | famous-lamar-mounted | 4 | 1312 × 1199 | 1099794 |
 | famous-mcculloch | 16 | 1330 × 1182 | 1041853 |
 | famous-moore | 16 | 1254 × 1254 | 1092408 |
@@ -195,6 +195,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
+| people-river-gestures | 8 | 1774 × 887 | 1213332 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | ground-fog-banks | 4 | 1774 × 887 | 1018893 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
@@ -270,7 +271,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | courier-encounters | 16 | 1254 × 1254 | 1697901 |
 | alamo-facades | 4 | 1254 × 1254 | 1715808 |
 | alamo-interiors | 16 | 1254 × 1254 | 1988444 |
-| joe-poses | 16 | 1254 × 1254 | 1043930 |
+| joe-poses | 16 | 1254 × 1254 | 1066368 |
 | people-search-trade | 16 | 1254 × 1254 | 1188777 |
 | courier-mounted | 16 | 1254 × 1254 | 1299408 |
 | animal-graze | 16 | 1254 × 1254 | 1596224 |
@@ -1885,6 +1886,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | indigo-paint-2 | people-gonzales-paint | indigo-paint |
 | blue-girl-paint-1 | people-gonzales-paint | blue-girl-paint |
 | blue-girl-paint-2 | people-gonzales-paint | blue-girl-paint |
+| teal-river-watch-1 | people-river-gestures | teal-river-watch |
+| teal-river-watch-2 | people-river-gestures | teal-river-watch |
+| teal-river-point-1 | people-river-gestures | teal-river-point |
+| teal-river-point-2 | people-river-gestures | teal-river-point |
+| elder-river-watch-1 | people-river-gestures | elder-river-watch |
+| elder-river-watch-2 | people-river-gestures | elder-river-watch |
+| elder-river-point-1 | people-river-gestures | elder-river-point |
+| elder-river-point-2 | people-river-gestures | elder-river-point |
 | mule-packed-grass-walk-e-1 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-2 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-3 | mule-packed-grass | mule-packed-grass-walk-e |
@@ -3525,6 +3534,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| teal-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| teal-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| elder-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| elder-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | mule-packed-grass-walk-e | Pose cycle | 4 | 1120 | yes | east |
 | mule-packed-grass-walk-s | Pose cycle | 4 | 1120 | yes | south |
 | mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |

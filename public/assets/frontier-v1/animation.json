@@ -8937,6 +8937,70 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "teal-river-watch": {
+      "frames": [
+        {
+          "sprite": "teal-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-river-point": {
+      "frames": [
+        {
+          "sprite": "teal-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-river-watch": {
+      "frames": [
+        {
+          "sprite": "elder-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-river-point": {
+      "frames": [
+        {
+          "sprite": "elder-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "mule-packed-grass-walk-e": {
       "frames": [
         {

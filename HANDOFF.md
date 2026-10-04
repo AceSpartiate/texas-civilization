@@ -1,3 +1,7 @@
+## Latest art corrections and river gestures — 2026-10-04
+
+All R1–R3 artwork fixes from art-redo are complete: proper Texian recruitment/drill icons, stable Lamar/Joe idle scale, clean Grant gallop cells. New teal/elder river pointing is connected in Gonzales. Read docs/ART_REDO_RESOLUTION_2026-10-04.md for evidence, exact prompts, runtime contracts and remaining renderer C1–C3 work.
+
 ## Latest art delivery — riverbank actions, 2026-10-04
 
 Six volunteer bank-action keyposes and one preview clip added to the catalog. Integrate against the live firing clock; the existing bank branch remains until timing and ground registration are verified. See docs/ART_DELIVERY_2026-10-04-BANK-ACTIONS.md.

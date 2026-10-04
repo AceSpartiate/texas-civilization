@@ -800,11 +800,22 @@
       "sheet": "icons-family-service",
       "promptId": "frontier-v1/icons-family-service",
       "tool": "built-in image_gen.imagegen",
-      "mode": "generate",
-      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-d657bf4c-9d32-4407-8deb-8f27074b49f1.png",
+      "mode": "edit",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-67db64dc-e65f-48dc-9622-c18a7205d195.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-service.png",
-      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
-      "review": "Accepted as distinct period-plausible action silhouettes on genuine alpha with explicit reading-order mapping."
+      "postProcessing": "None; selected edited PNG copied unchanged.",
+      "review": "2026-10-04 redo audit R1/R2/R3; IDs and animation bindings preserved.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-d657bf4c-9d32-4407-8deb-8f27074b49f1.png"
+      ],
+      "refinements": [
+        {
+          "prompt": "Edit this exact4x4 transparent icon atlas. Preserve14 other cells unchanged. REPLACE top left icon(row1col1) with a wooden recruiting table holding OPEN muster roll/quill/inkpot and a musket leaning againsttable: NO hat/headgear/uniform. REPLACE row3col1 with THREE Texian civilian men in file broadbrimhats brown/tan hunting shirts/coats muskets at shoulder, no shako navycoat redcuffs whiteuniform. Strong compact silhouette legible38px, warm outlinedpaintedstorybook style. No text. Entireiconsinsidecells transparentgutters truezeroalpha background. Samegrid/sheetdimensions.",
+          "sourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-67db64dc-e65f-48dc-9622-c18a7205d195.png",
+          "referenceRuntimePath": "public/assets/frontier-v1/atlases/icons-family-service.png",
+          "referenceSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-d657bf4c-9d32-4407-8deb-8f27074b49f1.png"
+        }
+      ]
     },
     {
       "sheet": "icons-family-subsistence",
@@ -2506,11 +2517,22 @@
       "sheet": "famous-lamar",
       "promptId": "frontier-v1/famous-lamar",
       "tool": "built-in image_gen.imagegen",
-      "mode": "generate",
-      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png",
+      "mode": "edit",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-6321ee94-9ad5-4803-85ad-ab28fbe1ca13.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar.png",
-      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
-      "review": "Distinct dark-teal cavalry figure and command, salute, reach and signal poses. Clothing and face are artistic interpretations."
+      "postProcessing": "None; selected edited PNG copied unchanged.",
+      "review": "2026-10-04 redo audit R1/R2/R3; IDs and animation bindings preserved.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png"
+      ],
+      "refinements": [
+        {
+          "prompt": "Edit this exact4x4 transparent animationatlas. Preserve first2rows8walkingposes unchanged and all face/clothing/poses. Bottom2rows8actionfigures are too large. SCALE every bottom2row figure down arounditsown bootbaseline to match top row walk head/shoulder/body size: target entire standing height262pixels versus current288, approximately91percent for rows3/4. Constant physique acrossall16, no new poses or costume changes. Same4x4cells samecanvas1312x1199 and samebootpositions. Preserve tealcoat beigevest blackhat redneckcloth sword. Transparentbackground zeroalpha gutters.",
+          "sourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-6321ee94-9ad5-4803-85ad-ab28fbe1ca13.png",
+          "referenceRuntimePath": "public/assets/frontier-v1/atlases/famous-lamar.png",
+          "referenceSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png"
+        }
+      ]
     },
     {
       "sheet": "famous-lamar-mounted",
@@ -2631,14 +2653,22 @@
       "sheet": "famous-grant-gallop",
       "promptId": "frontier-v1/famous-grant-gallop",
       "tool": "built-in image_gen.imagegen",
-      "mode": "generate",
+      "mode": "edit",
       "referenced_image_paths": [
-        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-29266921-c917-4885-b2a7-e34f33fd6422.png"
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6621715-50ce-46af-9c3b-1f55f27985d6.png"
       ],
-      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6621715-50ce-46af-9c3b-1f55f27985d6.png",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-f311f690-a3a0-4ff9-94b7-351c4c867af3.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant-gallop.png",
-      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
-      "review": "Fast ride while Grant remains visible during the existing Agua Dulce pursuit; later fate remains off-screen."
+      "postProcessing": "None; selected edited PNG copied unchanged.",
+      "review": "2026-10-04 redo audit R1/R2/R3; IDs and animation bindings preserved.",
+      "refinements": [
+        {
+          "prompt": "Edit exact2x2fourpose transparent horse/rider atlas. Preserve Grant faceclothing olivehat tancoat greybrownhorse blackmane/tail tack and allfour distinct gallop legposes. SCALE EACH composite uniformly down to82percent current size aboutits own groundline, then CENTER horizontallyinsideitsowncell. All tailsnoseshooves complete, min40pixelsclear betweenEVERY silhouette and cellboundary includingcentralverticalboundary. Bottomtwohorses currentlyoverlap; remove neighbor slivers by isolatingwholefigures. Same2x2canvas1254square. Truezeroalpha background nofloorshadows text. Identicalcharacterbodysize/horseproportions across4.",
+          "sourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-f311f690-a3a0-4ff9-94b7-351c4c867af3.png",
+          "referenceRuntimePath": "public/assets/frontier-v1/atlases/famous-grant-gallop.png",
+          "referenceSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6621715-50ce-46af-9c3b-1f55f27985d6.png"
+        }
+      ]
     },
     {
       "sheet": "famous-condelle",
@@ -4139,6 +4169,21 @@
       ],
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Six interpretive action keyposes. Preview sequence; live shot timing and ground registration require integration."
+    },
+    {
+      "sheet": "people-river-gestures",
+      "promptId": "frontier-v1/people-river-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7fc8b7b1-d65e-4f6b-bbf1-d7dee5444026.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7fc8b7b1-d65e-4f6b-bbf1-d7dee5444026.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-river-gestures.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Teal/elder identity-specific civilian observation and pointing. East/west only; other cast retains search fallback."
     }
   ],
   "rejectedAttempts": [
