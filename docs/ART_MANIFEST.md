@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2668 usable sprites, 286 PNG atlases, 928 clips** (620 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2688 usable sprites, 288 PNG atlases, 932 clips** (624 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -196,6 +196,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
 | people-river-gestures | 8 | 1774 × 887 | 1213332 |
+| people-gonzales-smiths | 16 | 1254 × 1254 | 1257016 |
+| gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | ground-fog-banks | 4 | 1774 × 887 | 1018893 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
@@ -1894,6 +1896,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elder-river-watch-2 | people-river-gestures | elder-river-watch |
 | elder-river-point-1 | people-river-gestures | elder-river-point |
 | elder-river-point-2 | people-river-gestures | elder-river-point |
+| elder-smith-hammer-1 | people-gonzales-smiths | elder-smith-hammer |
+| elder-smith-hammer-2 | people-gonzales-smiths | elder-smith-hammer |
+| elder-smith-hammer-3 | people-gonzales-smiths | elder-smith-hammer |
+| elder-smith-hammer-4 | people-gonzales-smiths | elder-smith-hammer |
+| elder-smith-chain-1 | people-gonzales-smiths | elder-smith-chain |
+| elder-smith-chain-2 | people-gonzales-smiths | elder-smith-chain |
+| elder-smith-chain-3 | people-gonzales-smiths | elder-smith-chain |
+| elder-smith-chain-4 | people-gonzales-smiths | elder-smith-chain |
+| ochre-smith-hammer-1 | people-gonzales-smiths | ochre-smith-hammer |
+| ochre-smith-hammer-2 | people-gonzales-smiths | ochre-smith-hammer |
+| ochre-smith-hammer-3 | people-gonzales-smiths | ochre-smith-hammer |
+| ochre-smith-hammer-4 | people-gonzales-smiths | ochre-smith-hammer |
+| ochre-smith-chain-1 | people-gonzales-smiths | ochre-smith-chain |
+| ochre-smith-chain-2 | people-gonzales-smiths | ochre-smith-chain |
+| ochre-smith-chain-3 | people-gonzales-smiths | ochre-smith-chain |
+| ochre-smith-chain-4 | people-gonzales-smiths | ochre-smith-chain |
+| gonzales-forge-cold | gonzales-smith-props | State artwork; no motion required |
+| gonzales-forge-lit | gonzales-smith-props | State artwork; no motion required |
+| gonzales-anvil-stump | gonzales-smith-props | State artwork; no motion required |
+| gonzales-chain-tools | gonzales-smith-props | State artwork; no motion required |
 | mule-packed-grass-walk-e-1 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-2 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-3 | mule-packed-grass | mule-packed-grass-walk-e |
@@ -3538,6 +3560,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | teal-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| elder-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
+| elder-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
+| ochre-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
+| ochre-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | mule-packed-grass-walk-e | Pose cycle | 4 | 1120 | yes | east |
 | mule-packed-grass-walk-s | Pose cycle | 4 | 1120 | yes | south |
 | mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |

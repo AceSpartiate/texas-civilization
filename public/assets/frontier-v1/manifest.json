@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 286,
-    "sprites": 2668,
-    "clips": 928,
-    "poseCycles": 620,
+    "sheets": 288,
+    "sprites": 2688,
+    "clips": 932,
+    "poseCycles": 624,
     "rigs": 4
   },
   "entrypoints": {
@@ -15408,6 +15408,188 @@
               [
                 1414,
                 1764
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-gonzales-smiths": {
+      "image": "atlases/people-gonzales-smiths.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1257016,
+      "sha256": "e3662414a9f5b55f9a8c7061735ab391b286592b63214d95b6e7ab67755317cd",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.640313,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              58,
+              325
+            ],
+            "columns": [
+              [
+                73,
+                270
+              ],
+              [
+                384,
+                581
+              ],
+              [
+                696,
+                895
+              ],
+              [
+                1012,
+                1207
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              370,
+              638
+            ],
+            "columns": [
+              [
+                73,
+                277
+              ],
+              [
+                386,
+                591
+              ],
+              [
+                696,
+                894
+              ],
+              [
+                1010,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              670,
+              925
+            ],
+            "columns": [
+              [
+                68,
+                271
+              ],
+              [
+                386,
+                584
+              ],
+              [
+                697,
+                898
+              ],
+              [
+                1014,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              968,
+              1209
+            ],
+            "columns": [
+              [
+                70,
+                274
+              ],
+              [
+                388,
+                590
+              ],
+              [
+                697,
+                896
+              ],
+              [
+                1014,
+                1210
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-smith-props": {
+      "image": "atlases/gonzales-smith-props.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1582180,
+      "sha256": "0f1afb9e305e0fd8b1c17d99529dad4ac3e912a72e8fc05474873db26ce8f3c2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.590497,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              106,
+              580
+            ],
+            "columns": [
+              [
+                13,
+                639
+              ],
+              [
+                649,
+                1254
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              633,
+              1189
+            ],
+            "columns": [
+              [
+                58,
+                617
+              ],
+              [
+                678,
+                1227
               ]
             ]
           }
@@ -79435,6 +79617,694 @@
       "locationKits": [],
       "promptId": "frontier-v1/people-river-gestures"
     },
+    "elder-smith-hammer-1": {
+      "sheet": "people-gonzales-smiths",
+      "x": 73,
+      "y": 62,
+      "w": 197,
+      "h": 262,
+      "anchorX": 0.4924,
+      "anchorY": 0.9504,
+      "logicalHeight": 267,
+      "label": "elder smith hammer 1",
+      "kind": "people-gonzales-smiths",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          64,
+          193,
+          258
+        ],
+        "visiblePixels": 29194,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-smith-hammer"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "elder-smith-hammer-2": {
+      "sheet": "people-gonzales-smiths",
+      "x": 384,
+      "y": 58,
+      "w": 197,
+      "h": 267,
+      "anchorX": 0.4924,
+      "anchorY": 0.9401,
+      "logicalHeight": 267,
+      "label": "elder smith hammer 2",
+      "kind": "people-gonzales-smiths",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          386,
+          60,
+          193,
+          263
+        ],
+        "visiblePixels": 30009,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-smith-hammer"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "elder-smith-hammer-3": {
+      "sheet": "people-gonzales-smiths",
+      "x": 696,
+      "y": 67,
+      "w": 199,
+      "h": 258,
+      "anchorX": 0.495,
+      "anchorY": 0.9419,
+      "logicalHeight": 267,
+      "label": "elder smith hammer 3",
+      "kind": "people-gonzales-smiths",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          69,
+          195,
+          254
+        ],
+        "visiblePixels": 28955,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-smith-hammer"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "elder-smith-hammer-4": {
+      "sheet": "people-gonzales-smiths",
+      "x": 1012,
+      "y": 64,
+      "w": 195,
+      "h": 261,
+      "anchorX": 0.4923,
+      "anchorY": 0.9579,
+      "logicalHeight": 267,
+      "label": "elder smith hammer 4",
+      "kind": "people-gonzales-smiths",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1014,
+          66,
+          191,
+          257
+        ],
+        "visiblePixels": 29003,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-smith-hammer"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "elder-smith-chain-1": {
+      "sheet": "people-gonzales-smiths",
+      "x": 73,
+      "y": 374,
+      "w": 204,
+      "h": 262,
+      "anchorX": 0.4975,
+      "anchorY": 0.9466,
+      "logicalHeight": 267,
+      "label": "elder smith chain 1",
+      "kind": "people-gonzales-smiths",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          376,
+          200,
+          258
+        ],
+        "visiblePixels": 31446,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-smith-chain"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "elder-smith-chain-2": {
+      "sheet": "people-gonzales-smiths",
+      "x": 386,
+      "y": 370,
+      "w": 205,
+      "h": 266,
+      "anchorX": 0.4976,
+      "anchorY": 0.9511,
+      "logicalHeight": 267,
+      "label": "elder smith chain 2",
+      "kind": "people-gonzales-smiths",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          388,
+          372,
+          201,
+          262
+        ],
+        "visiblePixels": 32962,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-smith-chain"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "elder-smith-chain-3": {
+      "sheet": "people-gonzales-smiths",
+      "x": 696,
+      "y": 381,
+      "w": 198,
+      "h": 257,
+      "anchorX": 0.4975,
+      "anchorY": 0.93,
+      "logicalHeight": 267,
+      "label": "elder smith chain 3",
+      "kind": "people-gonzales-smiths",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          383,
+          194,
+          253
+        ],
+        "visiblePixels": 30739,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-smith-chain"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "elder-smith-chain-4": {
+      "sheet": "people-gonzales-smiths",
+      "x": 1010,
+      "y": 383,
+      "w": 200,
+      "h": 254,
+      "anchorX": 0.5,
+      "anchorY": 0.937,
+      "logicalHeight": 267,
+      "label": "elder smith chain 4",
+      "kind": "people-gonzales-smiths",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1012,
+          385,
+          196,
+          250
+        ],
+        "visiblePixels": 30424,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-smith-chain"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "ochre-smith-hammer-1": {
+      "sheet": "people-gonzales-smiths",
+      "x": 68,
+      "y": 671,
+      "w": 203,
+      "h": 253,
+      "anchorX": 0.5025,
+      "anchorY": 0.9447,
+      "logicalHeight": 254,
+      "label": "ochre smith hammer 1",
+      "kind": "people-gonzales-smiths",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          70,
+          673,
+          199,
+          249
+        ],
+        "visiblePixels": 29111,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-smith-hammer"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "ochre-smith-hammer-2": {
+      "sheet": "people-gonzales-smiths",
+      "x": 386,
+      "y": 670,
+      "w": 198,
+      "h": 254,
+      "anchorX": 0.4975,
+      "anchorY": 0.9488,
+      "logicalHeight": 254,
+      "label": "ochre smith hammer 2",
+      "kind": "people-gonzales-smiths",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          388,
+          672,
+          194,
+          250
+        ],
+        "visiblePixels": 29926,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-smith-hammer"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "ochre-smith-hammer-3": {
+      "sheet": "people-gonzales-smiths",
+      "x": 697,
+      "y": 674,
+      "w": 201,
+      "h": 250,
+      "anchorX": 0.495,
+      "anchorY": 0.928,
+      "logicalHeight": 254,
+      "label": "ochre smith hammer 3",
+      "kind": "people-gonzales-smiths",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          676,
+          197,
+          246
+        ],
+        "visiblePixels": 29131,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-smith-hammer"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "ochre-smith-hammer-4": {
+      "sheet": "people-gonzales-smiths",
+      "x": 1014,
+      "y": 673,
+      "w": 196,
+      "h": 252,
+      "anchorX": 0.4949,
+      "anchorY": 0.9325,
+      "logicalHeight": 254,
+      "label": "ochre smith hammer 4",
+      "kind": "people-gonzales-smiths",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          675,
+          192,
+          248
+        ],
+        "visiblePixels": 28621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-smith-hammer"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "ochre-smith-chain-1": {
+      "sheet": "people-gonzales-smiths",
+      "x": 70,
+      "y": 969,
+      "w": 204,
+      "h": 239,
+      "anchorX": 0.5,
+      "anchorY": 0.9289,
+      "logicalHeight": 254,
+      "label": "ochre smith chain 1",
+      "kind": "people-gonzales-smiths",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          72,
+          971,
+          200,
+          235
+        ],
+        "visiblePixels": 28625,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-smith-chain"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "ochre-smith-chain-2": {
+      "sheet": "people-gonzales-smiths",
+      "x": 388,
+      "y": 968,
+      "w": 202,
+      "h": 240,
+      "anchorX": 0.495,
+      "anchorY": 0.95,
+      "logicalHeight": 254,
+      "label": "ochre smith chain 2",
+      "kind": "people-gonzales-smiths",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          970,
+          198,
+          236
+        ],
+        "visiblePixels": 29466,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-smith-chain"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "ochre-smith-chain-3": {
+      "sheet": "people-gonzales-smiths",
+      "x": 697,
+      "y": 972,
+      "w": 199,
+      "h": 236,
+      "anchorX": 0.4925,
+      "anchorY": 0.9534,
+      "logicalHeight": 254,
+      "label": "ochre smith chain 3",
+      "kind": "people-gonzales-smiths",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          974,
+          195,
+          232
+        ],
+        "visiblePixels": 28069,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-smith-chain"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "ochre-smith-chain-4": {
+      "sheet": "people-gonzales-smiths",
+      "x": 1014,
+      "y": 973,
+      "w": 196,
+      "h": 236,
+      "anchorX": 0.4974,
+      "anchorY": 0.928,
+      "logicalHeight": 254,
+      "label": "ochre smith chain 4",
+      "kind": "people-gonzales-smiths",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          975,
+          192,
+          232
+        ],
+        "visiblePixels": 27752,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-smiths.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-smith-chain"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-smiths"
+    },
+    "gonzales-forge-cold": {
+      "sheet": "gonzales-smith-props",
+      "x": 13,
+      "y": 106,
+      "w": 626,
+      "h": 471,
+      "anchorX": 0.738,
+      "anchorY": 0.9299,
+      "label": "gonzales forge cold",
+      "kind": "gonzales-smith-props",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          15,
+          108,
+          622,
+          467
+        ],
+        "visiblePixels": 143150,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-smith-props.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-smith-props"
+    },
+    "gonzales-forge-lit": {
+      "sheet": "gonzales-smith-props",
+      "x": 649,
+      "y": 107,
+      "w": 605,
+      "h": 473,
+      "anchorX": 0.7455,
+      "anchorY": 0.9281,
+      "label": "gonzales forge lit",
+      "kind": "gonzales-smith-props",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          651,
+          109,
+          602,
+          469
+        ],
+        "visiblePixels": 136258,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-smith-props.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-smith-props"
+    },
+    "gonzales-anvil-stump": {
+      "sheet": "gonzales-smith-props",
+      "x": 58,
+      "y": 633,
+      "w": 559,
+      "h": 556,
+      "anchorX": 0.5572,
+      "anchorY": 0.9299,
+      "label": "gonzales anvil stump",
+      "kind": "gonzales-smith-props",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          60,
+          635,
+          555,
+          552
+        ],
+        "visiblePixels": 203251,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-smith-props.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-smith-props"
+    },
+    "gonzales-chain-tools": {
+      "sheet": "gonzales-smith-props",
+      "x": 678,
+      "y": 724,
+      "w": 549,
+      "h": 434,
+      "anchorX": 0.6621,
+      "anchorY": 0.9286,
+      "label": "gonzales chain tools",
+      "kind": "gonzales-smith-props",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          680,
+          726,
+          545,
+          430
+        ],
+        "visiblePixels": 136376,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-smith-props.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-smith-props"
+    },
     "mule-packed-grass-walk-e-1": {
       "sheet": "mule-packed-grass",
       "x": 20,
@@ -125347,6 +126217,102 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "elder-smith-hammer": {
+      "frames": [
+        {
+          "sprite": "elder-smith-hammer-1",
+          "duration": 350
+        },
+        {
+          "sprite": "elder-smith-hammer-2",
+          "duration": 400
+        },
+        {
+          "sprite": "elder-smith-hammer-3",
+          "duration": 220
+        },
+        {
+          "sprite": "elder-smith-hammer-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-smith-chain": {
+      "frames": [
+        {
+          "sprite": "elder-smith-chain-1",
+          "duration": 350
+        },
+        {
+          "sprite": "elder-smith-chain-2",
+          "duration": 400
+        },
+        {
+          "sprite": "elder-smith-chain-3",
+          "duration": 220
+        },
+        {
+          "sprite": "elder-smith-chain-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-smith-hammer": {
+      "frames": [
+        {
+          "sprite": "ochre-smith-hammer-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ochre-smith-hammer-2",
+          "duration": 400
+        },
+        {
+          "sprite": "ochre-smith-hammer-3",
+          "duration": 220
+        },
+        {
+          "sprite": "ochre-smith-hammer-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-smith-chain": {
+      "frames": [
+        {
+          "sprite": "ochre-smith-chain-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ochre-smith-chain-2",
+          "duration": 400
+        },
+        {
+          "sprite": "ochre-smith-chain-3",
+          "duration": 220
+        },
+        {
+          "sprite": "ochre-smith-chain-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "mule-packed-grass-walk-e": {
       "frames": [
         {
@@ -137244,7 +138210,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 286,
+    "sourceCount": 288,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -1,3 +1,7 @@
+## Latest art delivery — Gonzales smiths, 2026-10-04
+
+Twenty frames, four hammer/chain clips and four forge/tool props. Elder/ochre shop workers now use their own smith actions and the shop displays the lit forge. Read docs/ART_DELIVERY_2026-10-04-GONZALES-SMITHS.md for exact bindings, proof and remaining requests. Actor composites already include anvils; avoid doubling them.
+
 ## Latest art corrections and river gestures — 2026-10-04
 
 All R1–R3 artwork fixes from art-redo are complete: proper Texian recruitment/drill icons, stable Lamar/Joe idle scale, clean Grant gallop cells. New teal/elder river pointing is connected in Gonzales. Read docs/ART_REDO_RESOLUTION_2026-10-04.md for evidence, exact prompts, runtime contracts and remaining renderer C1–C3 work.

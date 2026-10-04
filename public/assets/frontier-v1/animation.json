@@ -9001,6 +9001,102 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "elder-smith-hammer": {
+      "frames": [
+        {
+          "sprite": "elder-smith-hammer-1",
+          "duration": 350
+        },
+        {
+          "sprite": "elder-smith-hammer-2",
+          "duration": 400
+        },
+        {
+          "sprite": "elder-smith-hammer-3",
+          "duration": 220
+        },
+        {
+          "sprite": "elder-smith-hammer-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-smith-chain": {
+      "frames": [
+        {
+          "sprite": "elder-smith-chain-1",
+          "duration": 350
+        },
+        {
+          "sprite": "elder-smith-chain-2",
+          "duration": 400
+        },
+        {
+          "sprite": "elder-smith-chain-3",
+          "duration": 220
+        },
+        {
+          "sprite": "elder-smith-chain-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-smith-hammer": {
+      "frames": [
+        {
+          "sprite": "ochre-smith-hammer-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ochre-smith-hammer-2",
+          "duration": 400
+        },
+        {
+          "sprite": "ochre-smith-hammer-3",
+          "duration": 220
+        },
+        {
+          "sprite": "ochre-smith-hammer-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-smith-chain": {
+      "frames": [
+        {
+          "sprite": "ochre-smith-chain-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ochre-smith-chain-2",
+          "duration": 400
+        },
+        {
+          "sprite": "ochre-smith-chain-3",
+          "duration": 220
+        },
+        {
+          "sprite": "ochre-smith-chain-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "mule-packed-grass-walk-e": {
       "frames": [
         {

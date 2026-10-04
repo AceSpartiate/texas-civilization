@@ -160,10 +160,9 @@ export const STAND_INS = Object.freeze({
   // the nearest delivered pose; paint has its own authored two-frame clip.
   paint: 'paint', // hand sewing the flag at the table
   dig: 'work', // a spade in the orchard: the hoe's swing
-  forge: 'repair', // cutting chain and fitting the gun to its wheels
   haul: 'carry', // carrying bundles to the wagon, cloth to the table
 });
-const P = Object.freeze({ ...STAND_INS, point: 'point' });
+const P = Object.freeze({ ...STAND_INS, point: 'point', forge: 'forge' });
 
 const STREET_WORRY = [
   [['gz-townswoman-1', 'Soldiers on the far bank. Dragoons, from Béxar.', said('HIST-GONZ-002')], ['gz-townsman-1', "They've come for the cannon."]],
@@ -620,7 +619,7 @@ export const TOWN_BEATS = Object.freeze([
     people: [going('gz-smith-1', 'orchard', 'shop', [on(1, 12), on(1, 13)], { pose: P.forge, face: 'e', stays: true }), going('gz-smith-2', 'orchard', 'shop', [on(1, 12), on(1, 13)], { pose: P.forge, face: 'w', stays: true }),
       going('gz-smith-3', 'orchard', 'shop', [on(1, 12), on(1, 13)], { pose: 'speak', face: 'e', stays: true }), at('gz-smith-4', 'shop', 0.03, 0.012, P.forge, 'w')],
     offsets: { 'gz-smith-1': [-0.018, 0.004], 'gz-smith-2': [0.016, 0.006], 'gz-smith-3': [-0.004, 0.02] },
-    props: [{ id: 'gz-cannon', kind: 'cannon', going: { path: ['orchard', 'shop'], span: [on(1, 12), on(1, 13)] }, dx: 0, dy: 0.004 }, { kind: 'wheel', place: 'shop', dx: 0.04, dy: -0.004 }], help: 'cannon' },
+    props: [{ id: 'gz-cannon', kind: 'cannon', going: { path: ['orchard', 'shop'], span: [on(1, 12), on(1, 13)] }, dx: 0, dy: 0.004 }, { kind: 'wheel', place: 'shop', dx: 0.04, dy: -0.004 }, { kind: 'smith-forge', place: 'shop', dx: 0.05, dy: -0.024 }], help: 'cannon' },
   { id: 'cannon-to-muster', scene: 'cannon', from: on(2, 17), to: on(2, 19), card: CARD_SHOP, talk: SHOP_WORK.slice(1, 2),
     people: [going('gz-smith-1', 'shop', 'muster', [on(2, 17), on(2, 18)], { stays: true, face: 'e' }), going('gz-smith-3', 'shop', 'muster', [on(2, 17), on(2, 18)], { stays: true, face: 'e' })],
     offsets: { 'gz-smith-1': [-0.03, 0.03], 'gz-smith-3': [-0.02, 0.036] },

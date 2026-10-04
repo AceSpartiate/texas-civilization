@@ -1,0 +1,108 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "elder-smith-hammer-1",
+      "drawn": true
+    },
+    {
+      "id": "elder-smith-hammer-2",
+      "drawn": true
+    },
+    {
+      "id": "elder-smith-hammer-3",
+      "drawn": true
+    },
+    {
+      "id": "elder-smith-hammer-4",
+      "drawn": true
+    },
+    {
+      "id": "elder-smith-chain-1",
+      "drawn": true
+    },
+    {
+      "id": "elder-smith-chain-2",
+      "drawn": true
+    },
+    {
+      "id": "elder-smith-chain-3",
+      "drawn": true
+    },
+    {
+      "id": "elder-smith-chain-4",
+      "drawn": true
+    },
+    {
+      "id": "ochre-smith-hammer-1",
+      "drawn": true
+    },
+    {
+      "id": "ochre-smith-hammer-2",
+      "drawn": true
+    },
+    {
+      "id": "ochre-smith-hammer-3",
+      "drawn": true
+    },
+    {
+      "id": "ochre-smith-hammer-4",
+      "drawn": true
+    },
+    {
+      "id": "ochre-smith-chain-1",
+      "drawn": true
+    },
+    {
+      "id": "ochre-smith-chain-2",
+      "drawn": true
+    },
+    {
+      "id": "ochre-smith-chain-3",
+      "drawn": true
+    },
+    {
+      "id": "ochre-smith-chain-4",
+      "drawn": true
+    },
+    {
+      "id": "gonzales-forge-cold",
+      "drawn": true
+    },
+    {
+      "id": "gonzales-forge-lit",
+      "drawn": true
+    },
+    {
+      "id": "gonzales-anvil-stump",
+      "drawn": true
+    },
+    {
+      "id": "gonzales-chain-tools",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "elder-smith-hammer",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "elder-smith-chain",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "ochre-smith-hammer",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "ochre-smith-chain",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

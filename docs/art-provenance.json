@@ -4184,6 +4184,46 @@
       "refinements": [],
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Teal/elder identity-specific civilian observation and pointing. East/west only; other cast retains search fallback."
+    },
+    {
+      "sheet": "people-gonzales-smiths",
+      "promptId": "frontier-v1/people-gonzales-smiths",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png"
+      ],
+      "originalSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-00a453bc-d1d9-45b1-b536-868c374721e3.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2512594f-a995-4841-afd3-ace41fbe1e89.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-smiths.png",
+      "refinements": [
+        {
+          "prompt": "Edit this16pose4x4atlas to correct working stance and spacing. ALL16 men must be STANDING UPRIGHT onbothfeet, knees nearlystraight, lean onlyslightlyforward atwaist. NO sitting squatting or deepkneebend. Increase anvil woodstump to put anvil at WAISTheight forstandingworker. Preserve EXACT identities garments all16hammer/chisel/tongs/chainaction phases, eldertop8 ochrebottom8, eastfacing. Scale entire fullfigure+workstation composite smallenough tooccupy atmost70percent ofeachcellheightwidth with min40px transparentgutters. Samebodysizeall4phases stablegroundbaseline eachrow. Hammerraise reachesheadlevel butNOTabovehat. Handscontactworkpiececorrectly. TrueZEROalpha background nofloor/shadows scenery grid text. Standinghumanproportionsmatchingexistingwalkidentity; don't change facesclothes.",
+          "sourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-05cc4d2a-9102-4f3a-9ba9-9f73d1e33576.png"
+        },
+        {
+          "prompt": "Edit ONLY spacing/size in this exact16pose4x4transparentatlas. Every full man+anvil+tools composite MUST fit well inside one313x313cell. SHRINK EVERY composite by25percent relativecurrent, centeredinsideitsowncell; target fullheight230pixels not340. Put feet/base at y=280 within eachcell, hats at y~50. Atleast30pixels completely EMPTY transparent gutter around all4sides EACHcell. Preserve standingstance allposes identitiesclothes ironchain tools includingallboots. No stray neighbor bits/slivers anywhere. EXACT4columns4rows same1254squarecanvas TRUEzeroalpha background nofloorshadows/text. Top2rows elder hammer thenchain;bottom2rows ochrehammer thenchain. This is animationatlasgutterrepair; no pose redesign.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2512594f-a995-4841-afd3-ace41fbe1e89.png"
+        }
+      ],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive smith clothing and tools. Worker composites include anvils; standalone props are separate assembly states."
+    },
+    {
+      "sheet": "gonzales-smith-props",
+      "promptId": "frontier-v1/gonzales-smith-props",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/icons-family-service.png"
+      ],
+      "originalSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-b3dd2631-c4f8-4fc8-8e8f-df5eaaa9ad37.png",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-b3dd2631-c4f8-4fc8-8e8f-df5eaaa9ad37.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-smith-props.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive smith clothing and tools. Worker composites include anvils; standalone props are separate assembly states."
     }
   ],
   "rejectedAttempts": [
