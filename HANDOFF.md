@@ -20,8 +20,63 @@ Read `docs/ART_DELIVERY_2026-10-03-MILITARY-LIFE.md` for exact live-versus-catal
 
 ## Astra's commerce UI, town streets, flood water and military-life art merged — 2026-10-04 (not released)
 
-Branch `astra-merge-3` off `origin/main` (28c5331d), merging Astra's `main` at ee656420 (with a05604f4) and then 73410a79; not
-pushed, not released. Same computer only. (Evidence for the merged tree is recorded in the commit that finishes this section.)
+Branch `astra-merge-3` off `origin/main` (28c5331d), merging Astra's `main` at ee656420 (with a05604f4: military life, transport
+and field defenses) and then 73410a79 (the Mexican regular's engineering); not pushed, not released. Same computer only. Her three
+sections are at the top of this file; this is ours.
+
+**Conflicts, both sides kept**:
+
+- `public/errand.js` - the integration's in-place list (built once per shape, then only rewritten, so a press never lands on a
+  replaced button), the words that open what a line does, the goal's wanted line, herds and mules, with Astra's search, shop
+  chooser, All/Buy/Sell/Services filters, typed counts, "Each +" unit words, the shopping list (its rows `data-basket`, so nothing
+  that reads `[data-line]` finds one) and focus returned on close. **Fixed in the merge**: her filters compared the student's word
+  with the server's shop-side `kind`, so Buy showed "Sell food"; `FILTER_KINDS` maps them (tests/commerce-ui.test.mjs, fixture
+  now the server's kinds; seen failing with the old mapping). Her `button[data-act]` would have killed the line-words toggle;
+  the click takes any `[data-act]` but the typed count. Enter: hers wins - on a +, a way of paying or a count it does that
+  control's work, from Send or the words it sends (docs/TOWNS.md §4b updated; scripts/errand-browser-proof.mjs presses Enter on
+  Send now and counts a line under the list's own sticky shop name as scrolled past, not covered).
+- `public/style.css` (no git conflict, a layout one): with our tip and ways of going beside her tools and list, the offers shrank
+  to 40px at 1366x768 once one thing was chosen (test:errand). Her tools now sit on one row, the shopping list runs along a line,
+  the offers keep 100px; her type under 12px raised to 12 and the wagon panel 620 wide, off the ability bar at 1920x1080
+  (test:overlap).
+- `public/app.js` - her capacity meter and vehicle picture with the integration's carreta (`carreta-idle-e`).
+- `public/town-art.js` - her `drawStreets` with the integration's `hasSprite` (stand-in buildings Astra has drawn are skipped).
+- `public/battle-view.js` - her art with the integration's loading fallbacks, `holding` (no shot while held), the prone in any
+  grass, musket timing and the carriage-gun choreography: barricade/sandbags (`barricade-street-embrasure`, `sandbag-breastwork`),
+  sleep and rest-sit at her 0.7 size, both armies' digging (`volunteer-dig`, `regular-dig`), the marsh wading kept, her mounted
+  volunteer by heading with her `volunteer-mounted-fire-cycle` raised 300ms before the shot, her crouched volunteer at a loophole
+  (a regular keeps Claude's), her bearers and led dragoon for the living wounded, her breastwork sections, her musket stacks by the
+  fires, her generic `house-loopholed` behind a loophole group (nobody inside it). Tests: battle-bexar-view, -san-jacinto,
+  -south and transport-standins rewritten from Claude's frames to hers.
+- `sim/battles/bexar-storming.mjs` (no git conflict): her street repair moved the plaza's north frontage 70 feet off the lane, and
+  tests/battle-bexar.test.mjs caught the Row and the Priest's House staged 70 feet from any house; both (and the gun at the
+  Priest's House door) moved with their houses.
+- `HANDOFF.md`, `docs/ART_REQUESTS.md` - one title, her sections first; every request and stand-in row from both sides
+  (checked by heading and row against both parents), her delivered rows over the integration's old ones.
+
+**Claude stand-ins retired, because her art of the same subject landed** (frames, clips, PNG sheets, SVGs, art-subjects rules,
+stand-in rows): `bearers-carry`, `volunteer-`/`regular-rest-sit` and `-sleep` (battle-soldiers), the volunteer's `loophole-fire`,
+`volunteer-crowbar`, `volunteer-dig`; `musket-stack`, `breastwork-packs-1..4`, `barricade-street`, `sandbag-breastwork`
+(battle-works); `-clean-rifle` and `-camp-sit` (camp-rest; the camps ask for her `-camp-clean` and `-rest-sit` now, public/ambient.js
+`SOLDIERS_AT_REST`); `house-loopholed` (house-pieces); `dragoon-wounded-led` (transport-cavalry); the whole `volunteer-mounted`
+sheet and its `volunteer-ride-*` clips (transport-riders). Eight sheets deleted, six modules re-rendered; three untouched sheets
+(`claude-foragers`, `claude-house-ends`, `claude-march-column`) came out a few hundred bytes different, records and pictures together;
+twelve orphaned SVGs left from camp-rest's move out of battle-soldiers went too. Plan: C2, C4, D10, E7 delivered; C3 (cooking), C5
+(a regular at a loophole) and D7 (north/south mounted firing and a reload) trimmed; `npm run art:plan` 128 to make, 34 skipped.
+
+**Evidence** (this branch, this computer): `npm test` 2196 tests, 2159 pass, 0 fail, 1 cancelled - the thirty-household capacity
+test, cancelled under load, passes alone. Astra's proofs: commerce-ui, street-visual, flood-visual, military-life-art,
+regular-engineering-art all PASS. Browser proofs PASS: test:errand, test:shops, test:herds, test:towns, test:gonzales-town,
+test:overlap, test:host-view, test:settlement-call, test:battle-bexar, test:battle-san-jacinto, test:battle-south,
+test:battle-gonzales, test:battle-cinema, test:land-paths, test:art. test:battle-bexar's Host check now reads the Host while
+Karnes's episode is on (read after the five samples, it landed on the afternoon whenever they ran slow). battle-bexar, -south
+and -cinema failed once each on timing and passed alone.
+
+**Not proved**: test:famous-people never completed on the merged tree: its steady-frame gate (p95 under 50 ms) failed at 51-72 ms
+in every full run. `origin/main`, in a worktree beside it, failed the same gate at 53, 55 and 62 ms in some runs and passed it in
+others; in three alternating runs each the merged tree measured 51.3, 51.7 and a pass against `origin/main`'s 62.1, 55 and a pass.
+The machine was loaded by other work; the checks after the gate (Neill hurt at the guns and the rest) are unproved here.
+Physical classroom, LAN, phones.
 
 ## Triage's last: the settlement's call seen, the play line once, solo's spotlight — 2026-10-03 (not released)
 

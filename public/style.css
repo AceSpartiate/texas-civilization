@@ -642,7 +642,9 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 
 /* Cargo and town commerce share the game's warm paper, timber and painted props. */
 #wagon-load,#errand{color:#433522;background:linear-gradient(130deg,#fff5dd,#ead9b2);border:2px solid #846545;border-radius:14px;box-shadow:0 5px 0 #5f432848,0 20px 48px #22190e55}
-#wagon-load{left:max(20rem,calc(50% - 320px));width:min(640px,calc(100% - 20rem - 24px));max-height:calc(100% - 90px);padding:16px 18px;gap:2px}
+/* Merged 2026-10-04 (test:overlap): no type under 12px, and the panel 620 wide so its right edge stays clear of the ability bar
+   at 1920x1080 (at 640 it stood 12px into it). */
+#wagon-load{left:max(20rem,calc(50% - 320px));width:min(620px,calc(100% - 20rem - 24px));max-height:calc(100% - 90px);padding:16px 18px;gap:2px}
 #wagon-load header{position:relative;min-height:68px;padding-right:160px;border-bottom:1px solid #bca477;padding-bottom:12px}
 #wagon-load h2{font:700 27px/1.15 Georgia,serif;margin-top:7px}
 #wagon-illustration{position:absolute;right:0;top:-12px;width:154px;height:70px}
@@ -661,10 +663,10 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #wagon-items li[data-loaded=true]{border-color:#81916a;background:#f2f1da;box-shadow:inset 3px 0 #6f8858}
 .wagon-cargo-art{width:52px;height:47px;grid-column:1;grid-row:auto}
 .wagon-name{grid-column:1 / -1;font-weight:650;font-size:13px;line-height:1.3}
-.wagon-space{grid-column:1;font-size:11px;color:#766246}
+.wagon-space{grid-column:1;font-size:12px;color:#766246}
 .wagon-controls{grid-column:2;grid-row:auto;align-self:center;gap:2px}
 .wagon-controls button{min-width:32px;min-height:34px;padding:3px 6px}
-.wagon-describe{grid-column:1 / -1;font-size:11.5px}
+.wagon-describe{grid-column:1 / -1;font-size:12px}
 #wagon-note:empty{display:none}
 #wagon-done{background:#375b42;border-color:#284833;border-radius:8px}
 #errand{left:max(20rem,calc(50% - 310px));width:min(620px,calc(100% - 20rem - 24px));padding:14px 16px;gap:3px}
@@ -672,7 +674,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #errand-title{font:700 23px/1.2 Georgia,serif;color:#4c3522}
 #errand-close{width:32px;height:32px;border-radius:50%;background:#e2cfab;color:#59432d}
 #errand-text{font-size:12.5px;line-height:1.4;margin:4px 0}
-#errand-stock{font-size:11.5px;line-height:1.4;padding:7px 9px;border-radius:7px;background:#e3d5b6}
+#errand-stock{font-size:12px;line-height:1.4;padding:7px 9px;border-radius:7px;background:#e3d5b6}
 #errand-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,auto);gap:6px;margin:4px 0}
 #errand-search,#errand-shop-filter{width:100%;min-width:0;min-height:34px;border:1px solid #b6a078;border-radius:7px;background:#fff9e9;color:#483821;padding:6px 9px;font-size:13px}
 #errand-filters{grid-column:1 / -1;display:flex;gap:5px}
@@ -685,8 +687,8 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .errand-line:nth-child(odd){background:#f6ecd5}
 .errand-line:not([data-count="0"]){background:#e7edd6;box-shadow:inset 3px 0 #6f8858}
 .errand-label{font-weight:650;font-size:13px;color:#493821}
-.errand-price{font-size:11.5px;color:#5b6149}
-.errand-unit{font-size:10.5px;color:#806947}
+.errand-price{font-size:12px;color:#5b6149}
+.errand-unit{font-size:12px;color:#806947}
 .errand-controls button{min-height:32px;min-width:32px;border-radius:6px}
 .errand-controls .errand-count{width:42px;min-width:42px;min-height:32px;padding:3px;border:1px solid #b6a078;border-radius:6px;background:#fff9e9;color:#433522;font:650 13px system-ui;text-align:center;appearance:textfield}
 .errand-count::-webkit-inner-spin-button{appearance:none}
@@ -694,12 +696,23 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #errand-basket ul{padding:0;margin:3px 0 0;list-style:none}
 #errand-basket li{display:flex;justify-content:space-between;align-items:center;gap:8px}
 #errand-basket button{min-height:24px;min-width:24px;padding:0 4px;background:none;color:#7c4b32;border:0}
-.commerce-hint{display:block;color:#786547;font-size:11px;margin-top:3px}
+.commerce-hint{display:block;color:#786547;font-size:12px;margin-top:3px}
 .commerce-empty{font-size:13px;padding:14px 8px;color:#766246}
-#errand-after{font-size:11.5px;line-height:1.4;margin:4px 0}
+#errand-after{font-size:12px;line-height:1.4;margin:4px 0}
 #errand-how{font-size:12px;margin:3px 0}
 #errand-send{background:#375b42;border-color:#284833;border-radius:8px}
 #errand-cancel{border-radius:8px}
+/* Merged 2026-10-04: with the integration's tip and ways of going beside Astra's search and shopping list, the list of offers
+   was squeezed to 40px at 1366x768 once one thing was chosen - its sticky shop name covered every line (test:errand). The
+   tools sit on one row, the shopping list runs its items along a line, and the offers keep room for two lines under
+   their shop's sticky name however much else the popup shows. */
+#errand-tools{grid-template-columns:minmax(0,1fr) minmax(110px,auto) auto;align-items:center}
+#errand-filters{grid-column:auto}
+#errand-filters button{flex:none;padding:4px 7px}
+#errand-lines{min-height:100px;scroll-padding-top:40px}
+#errand-basket{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;padding:5px 9px;max-height:64px}
+#errand-basket ul{display:flex;flex-wrap:wrap;gap:2px 12px;margin:0}
+#errand-basket .commerce-hint{margin-top:0}
 #selection-trade .trade-pending{padding:10px;background:#fff5df;border:1px solid #bca477;border-radius:8px}
 #selection-trade .trade-line{display:grid;grid-template-columns:54px 64px minmax(0,1fr);gap:7px;align-items:center;margin:8px 0}
 #selection-trade input,#selection-trade select{min-width:0;background:#fff8e6;border:1px solid #bca477;border-radius:6px;padding:6px}

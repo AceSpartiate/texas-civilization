@@ -1,6 +1,6 @@
 {
   "proof": "npm run test:settlement-call",
-  "when": "2026-10-04T04:29:12.742Z",
+  "when": "2026-10-04T07:27:24.388Z",
   "pass": [
     "with no call open: no beacon, no portrait beckoning, no flash",
     "as the call comes in, the edges of the screen warm (call-flash), taking no pointer",
@@ -109,7 +109,7 @@
         "pointer": "none",
         "at": {
           "id": "call-proof",
-          "at": 11008
+          "at": 12975
         }
       },
       "card": {
@@ -178,7 +178,7 @@
         "pointer": "none",
         "at": {
           "id": "call-proof",
-          "at": 11008
+          "at": 12975
         }
       },
       "card": {
@@ -247,7 +247,7 @@
         "pointer": "none",
         "at": {
           "id": "call-proof",
-          "at": 11008
+          "at": 12975
         }
       },
       "card": {
@@ -316,7 +316,7 @@
         "pointer": "none",
         "at": {
           "id": "call-proof",
-          "at": 11008
+          "at": 12975
         }
       },
       "card": {
@@ -366,7 +366,7 @@
         "pointer": "none",
         "at": {
           "id": "call-proof",
-          "at": 11008
+          "at": 12975
         }
       },
       "card": {
@@ -420,7 +420,7 @@
         "pointer": "none",
         "at": {
           "id": "call-proof",
-          "at": 11008
+          "at": 12975
         }
       },
       "card": {
@@ -489,7 +489,7 @@
         "pointer": "none",
         "at": {
           "id": "call-proof-small",
-          "at": 16427
+          "at": 18409
         }
       },
       "card": {
@@ -558,7 +558,7 @@
         "pointer": "none",
         "at": {
           "id": "call-proof-small",
-          "at": 16427
+          "at": 18409
         }
       },
       "card": {
