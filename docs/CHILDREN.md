@@ -406,7 +406,10 @@ In a family of eight to eighteen children that was most of what the student did 
   auto plays a spell between every job, and each spell still wrote its own line ("ran at tag about the yard...") and "finished: play
   tag" - sixteen lines from one child on the first afternoon. Now each kind of play a child had is written once a day
   (`playedToday`, sim/children.mjs, `onceToday` in sim/child-day.mjs, in the same `told`), and the play's own line is how it ended
-  (`finishChore` writes no "finished:" for play). Work between (kindling, the hens) is written as before.
+  (`finishChore` writes no "finished:" for play).
+- **A child's own jobs on auto the same** (2026-10-03, the rest of 2.3): a job the automation began (`onAuto`) writes "set out" and
+  its own line once a day for each kind (`workedToday`, sim/children.mjs) and no "finished:"; a job the student gives is told every
+  time; the eggs' line (the food) is always written.
 - **The day** is the one the simulation already keeps, `Math.floor(minute / 1440)`: in a class whose families arrive by wagon it turns
   at six in the morning, when the children wake (sim/clock.mjs `dateOf`), and in an older class at midnight, in the dark.
 - **Unchanged**: a child with nothing to do still goes to a parent after `IDLE_TICKS`; with play lasting the day that is at the day's

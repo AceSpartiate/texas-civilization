@@ -14,6 +14,7 @@ import { OBEDIENCE_DIE, obedienceOf, obedienceRoll, rolledPeople } from '../sim/
 import { IDLE_TICKS, NOTICE_TICKS, talkTarget } from '../sim/childhood.mjs';
 import { DAY_FLOOR_TICKS, DAY_MINUTES, dayOf } from '../sim/child-day.mjs';
 import { PLAYS, PLAY_KINDS } from '../sim/children.mjs';
+import { CHORES } from '../sim/chores.mjs';
 import { needsOf } from '../public/family-panel.js';
 import { OBEDIENCE_RATES, autoOffChance, dawdleChance, wanderChance, wandersOff, tiresOfAuto } from '../sim/obedience.mjs';
 import { stirredShare } from '../sim/shares.mjs';
@@ -299,6 +300,52 @@ test('the rule: each kind of a child’s play is written into the family’s rec
   const tomorrow = world.events.length;
   for (let t = 0; t < 200 && dayOf(world) <= day + 1; t++) { if (!kid.auto) applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: true }); stepWorld(world); }
   assert.ok(world.events.slice(tomorrow).some(event => event.actorId === kid.id && playLines.has(event.text) && Math.floor(event.minute / DAY_MINUTES) === day + 1), 'the child’s play was never written again the next day');
+});
+
+test('the rule: each kind of a child’s job on auto is written into the family’s record once a day, with no bare "finished:"; a job the student gives is told every time', () => {
+  // The rest of triage 2.3 (2026-10-03): a child on auto scattered corn for the hens eleven times in an afternoon, three lines each.
+  const { world, household, kid, others } = family('childhood-job-lines', 6);
+  for (const one of others) one.location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
+  applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: true });
+  const day = dayOf(world), jobs = [];
+  const start = world.events.length;
+  for (let t = 0; t < 70 && dayOf(world) === day; t++) {
+    if (!kid.auto) applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: true });
+    const before = kid.chore ? `${kid.chore.id}:${kid.chore.began ?? t}` : null;
+    if (kid.chore && CHORES[kid.chore.id]?.childJob && !jobs.includes(before)) jobs.push(before);
+    stepWorld(world);
+  }
+  const kinds = new Set(jobs.map(job => job.split(':')[0]));
+  assert.ok(jobs.length > kinds.size, `no kind of job came round twice on auto that day (${jobs.join(', ')}), so this proves nothing`);
+  const today = world.events.slice(start).filter(event => event.actorId === kid.id && Math.floor(event.minute / DAY_MINUTES) === day);
+  const names = new Map([...kinds].map(id => [id, CHORES[id].name.toLowerCase()]));
+  for (const name of names.values()) {
+    const setOut = today.filter(event => event.text === `${kid.name} set out: ${name}.`);
+    const finished = today.filter(event => event.text === `${kid.name} finished: ${name}.`);
+    assert.ok(setOut.length <= 1, `"set out: ${name}" was written ${setOut.length} times in one day`);
+    assert.deepEqual(finished.map(event => event.text), [], `a job on auto ended in a bare "finished: ${name}"`);
+  }
+  // The jobs' own lines (play between is the play test's).
+  const OWN = { 'child-hens': /corn for the hens and had them/, 'child-kindling': /chips and bark/, 'child-birds': /blackbirds/, 'child-water': /carried water/, 'child-mind': /little ones all morning/, 'child-eggs': /hens' nests/ };
+  const lines = today.filter(event => event.type === 'memory' && Object.values(OWN).some(line => line.test(event.text))).map(event => event.text);
+  const twice = lines.filter((text, at) => lines.indexOf(text) !== at);
+  assert.deepEqual(twice, [], `the same job was written into the record more than once in a day: ${twice.join(' / ')}`);
+  // Every kind of work done that day is still named: each kind whose work was finished has its own line.
+  for (const id of kinds) {
+    assert.ok(today.some(event => event.text === `${kid.name} set out: ${names.get(id)}.`), `"set out: ${names.get(id)}" was never written that day`);
+    if (jobs.filter(job => job.startsWith(`${id}:`)).length > 1) assert.ok(today.some(event => event.type === 'memory' && OWN[id]?.test(event.text)), `${id}, done more than once, never had its own line that day`);
+  }
+  // A job the student gives is told every time: set out, its own line and finished, twice over.
+  applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: false });
+  const given = world.events.length;
+  for (let n = 0; n < 2; n++) {
+    if (kid.chore) applyAction(world, household.id, { action: 'stop-chore', entityId: kid.id });
+    applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'child-hens' });
+    for (let t = 0; t < 12 && kid.chore?.id === 'child-hens'; t++) stepWorld(world);
+  }
+  const told = world.events.slice(given).filter(event => event.actorId === kid.id);
+  assert.equal(told.filter(event => event.text === `${kid.name} finished: scatter corn for the hens.`).length, 2, `a job the student gave twice was not told finished twice: ${told.map(event => event.text).join(' / ')}`);
+  assert.equal(told.filter(event => /scattered a handful of corn/.test(event.text)).length, 2, 'a job the student gave twice did not write its own line twice');
 });
 
 test('the rule: obedience decides how often a child dawdles, wanders off and switches their automation off - a lower roll always more, measured over many ticks', () => {

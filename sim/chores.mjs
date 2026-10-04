@@ -32,7 +32,7 @@ import { limitLeft, limitOut, workKind, workLimitKey, workOnLimit } from './deci
 import { WAR_CHORES, leavesLittleOnes } from './acting.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 // A small child's play lasts until the day ends (owner, 2026-09-29; sim/child-day.mjs): the `allDay` step below.
-import { dayBegun, dayOf, dayOver } from './child-day.mjs';
+import { dayBegun, dayOf, dayOver, onceToday } from './child-day.mjs';
 import { awayProjection, milesATick, tooFastToFollow } from './sight.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
@@ -2482,7 +2482,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   const { held, shares } = heldBy(world, household, entity, chore, modeId, choreId, extra);
   // `spell`: play a child's own automation or a wander took up between jobs, which goes its old couple of hours and not the
   // whole day (owner, 2026-09-29; sim/childhood.mjs): the automation itself is what lasts until the day ends.
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(extra.plots && { plots: [...extra.plots] }), ...(extra.sow && { sow: { ...extra.sow } }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(extra.spell && chore.childJob && !chore.play && { onAuto: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(extra.plots && { plots: [...extra.plots] }), ...(extra.sow && { sow: { ...extra.sow } }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
   entity.task = 'work';
   // A chore kept in its own module may need to set something up as it begins: a road chore halts the family (sim/road.mjs).
   chore.begin?.(world, household, entity);
@@ -2496,7 +2496,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     // dozens of times an afternoon and wrote "set out: play" every time, pushing out what the family must read. The row and the
     // map show the play every tick; the record hears of the first each day, and each kind of play's own line once a day when it is
     // over (sim/children.mjs `playedToday`).
-  } else if (!chore.play || firstPlayToday(world, entity)) record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
+  // And a child's own job the automation began, once a day for each kind (sim/children.mjs `workedToday`; the rest of triage 2.3).
+  } else if (chore.play ? firstPlayToday(world, entity) : !entity.chore.onAuto || onceToday(world, entity, `set-out:${choreId}`)) record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
   advanceChore(world, household, entity, { beginTravel });
   return entity.chore;
 }
@@ -3233,11 +3234,13 @@ function finishHelping(world, household, entity, chore) {
   else record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} left off ${chore.name.toLowerCase()} before putting any work in.` });
 }
 function finishChore(world, household, entity, chore) {
+  const onAuto = Boolean(entity.chore?.onAuto);
   entity.chore = null;
   entity.task = 'rest';
   // Not for a child's play: its own line, once a day for each kind (sim/children.mjs `playedToday`), is how it ended, and a bare
   // "finished: play tag" after every spell was the child's play line repeated (triage 2026-09-29, 2.3).
-  if (!chore.play) record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} finished: ${chore.name.toLowerCase()}.` });
+  // Nor for a child's own job the automation began: its own line, once a day for each kind, says it (sim/children.mjs `workedToday`).
+  if (!chore.play && !onAuto) record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} finished: ${chore.name.toLowerCase()}.` });
   // A chore kept in its own module may have something to do once the work is done (sim/road.mjs, the sick nursed a day).
   chore.done?.(world, household, entity);
   // Whoever worked alongside them finished it with them (sim/hands.mjs): the job is done once, for everybody at it.

@@ -21,8 +21,16 @@ where all 67 items stand: only 2.14, another builder's, and 2.16, which needs de
   twelve, one child wrote sixteen play lines on the first afternoon. Each kind of play is now written once a day for each child
   (`playedToday`, sim/children.mjs; `onceToday`, sim/child-day.mjs, in the child's `told`) and play writes no bare "finished:"
   (`finishChore`). Every kind a child had that day is still said, and again the next day. No save version (an absent `told` is
-  nothing said yet). **Not changed:** the jobs between (kindling, the hens) still write each time - one child scattered corn eleven
-  times that afternoon, three lines each. The item did not ask; it is the owner's to decide.
+  nothing said yet).
+- **2.3, the child's own jobs on auto too** (the coordinator's follow-up, 2026-10-03; commit after 28c5331d). The jobs between play
+  still wrote every time - one child scattered corn for the hens eleven times in an afternoon, three lines each. A job the automation
+  began (`onAuto` on the chore, from the automation's `spell`) now writes "set out" and its own line once a day for each kind and
+  each child (`workedToday`, sim/children.mjs) and no bare "finished:" (`finishChore`); every kind of work done that day is still
+  named. A job the student gives is told every time, as before. The eggs' line (the food it brought) is always written; milking and
+  the hogs, once a day already, are unchanged. In `scripts/childhood-injections.mjs` seven older injections had gone stale (their
+  code changed since 2026-10-02, and the full run stops at the first that does not match): each re-anchored on the current code for
+  the same regression and seen caught again. `npm run test:children` was red on 28c5331d with or without this change (a child's
+  bundle can be made inside one tick, before the page sees the child at it): the proof now reads the server's record as well.
 - **3.17 Solo's spotlight.** A Play Solo journal has **The class screen**, under what the family has heard, with one line - *"In a
   class these go up on the teacher's screen. Playing alone, they come here."* - and every moment the Host's banner would have shown,
   newest first with its day (`soloSpotlights`, sim/host.mjs; sent only to a solo page, server/app.mjs `view`). It is the projector's
@@ -36,6 +44,14 @@ where all 67 items stand: only 2.14, another builder's, and 2.16, which needs de
   `tests/childhood.test.mjs` (2, also in `scripts/childhood-injections.mjs`), `tests/solo.test.mjs` (3),
   `tests/military-attention.test.mjs` (2). `callCue`'s Host, watching and closed-call guards are also enforced by `needsOf`, so
   removing them alone fails nothing: the test holds the behaviour, not those lines.
+- The jobs follow-up: tests/childhood.test.mjs "each kind of a child's job on auto ...", four injections each caught alone
+  (`node scripts/childhood-injections.mjs "job on auto|student gives"`); with the seven re-anchored ones, 11 of 11 caught, 10 alone
+  (docs/evidence/triage-last-injections.json, `followUp`). **The full 102-injection run was not finished**: about four hours here,
+  past one command's two-hour limit; stopped at 11 of 102, where *a child stops a parent in the guided start* was MISSED (the guided
+  start is switched off). docs/evidence/childhood-injections.json is not rewritten.
+- After the follow-up: `npm test` 2188 tests, 2151 pass, 1 fail, 36 skipped - the fail was `tests/capacity.test.mjs` (thirty
+  households, timed out under load), green alone on rerun. `test:story-cards` 5 checks green; `test:children` 16 checks green after
+  the proof's race was fixed (red before it, on 28c5331d too).
 - `npm test`: 2187 tests, 2151 pass, 0 fail, 36 skipped (first run, no reruns needed).
 - Browser, headless Chrome, one at a time, all green on the first run: **new** `test:settlement-call` 9 checks (1366x768 and
   1024x600, reduced motion; docs/evidence/settlement-call-*.png: arrives, open, beacon, folded, open-1024x600, reduced-motion) and

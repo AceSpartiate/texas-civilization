@@ -328,7 +328,13 @@ try {
   const boyBar = await barOf(road);
   assert.ok(boyBar.keys.some(one => one.key === 'flee-bundle'), `the bundle is not on the child's bar: ${JSON.stringify(boyBar.keys.map(one => one.key))}`);
   await road.locator('.panel-row[data-focused=true] .panel-icon[data-key="flee-bundle"]').click();
-  await road.waitForFunction(id => ['flee-bundle'].includes(window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id), boy.id, { timeout: 15000 });
+  // Begun, or already tied: making up a bundle can be over inside a tick, before the page is sent it at work (seen 2026-10-03,
+  // red on 28c5331d as on this change), so the server's own record is read as well.
+  for (const until = Date.now() + 15000; ; await road.waitForTimeout(250)) {
+    const w = roadApp.state.world;
+    if (w.entities[boy.id].chore?.id === 'flee-bundle' || w.events.some(event => event.actorId === boy.id && /has a bundle tied up to carry/.test(event.text))) break;
+    assert.ok(Date.now() < until, 'the child never set out to make up a bundle');
+  }
   ok(`told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (${boyBar.keys.filter(one => /^(flee|road|camp|child)-/.test(one.key)).map(one => one.key).join(', ')})`);
   // One milk cow (owner, 2026-09-27: "Yes, one cow"): the same child, the bundle tied, puts a rope on her.
   await road.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, boy.id, { timeout: 90000 });

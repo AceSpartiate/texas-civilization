@@ -3,13 +3,86 @@
   "when": "2026-10-03",
   "how": "Each injection replaced one exact piece of code with the regression its test guards, ran that test file, recorded which tests failed, and put the file back byte for byte (a scratch script for 3.17 and 2.5; scripts/childhood-injections.mjs for 2.3). Same computer only.",
   "injections": [
-    { "item": "2.3", "name": "every spell of play writes its own line again", "file": "sim/children.mjs", "test": "tests/childhood.test.mjs", "caught": "each kind of a child's play is written into the family's record once a day, and never as a bare \"finished:\"", "alone": true },
-    { "item": "2.3", "name": "every spell of play ends with a bare \"finished:\"", "file": "sim/chores.mjs", "test": "tests/childhood.test.mjs", "caught": "each kind of a child's play is written into the family's record once a day, and never as a bare \"finished:\"", "alone": true },
-    { "item": "3.17", "name": "the solo page is sent nothing of the class screen", "file": "server/app.mjs", "test": "tests/solo.test.mjs", "caught": "a solo game's player is sent the class screen's moments for the journal, newest first and not twice; a student in a class never", "alone": true, "others": "19 pass" },
-    { "item": "3.17", "name": "the family's own moment is said twice", "file": "sim/host.mjs", "test": "tests/solo.test.mjs", "caught": "a solo game's player is sent the class screen's moments for the journal, newest first and not twice; a student in a class never", "alone": true, "others": "19 pass" },
-    { "item": "3.17", "name": "a student in a class is sent the class screen", "file": "server/app.mjs", "test": "tests/solo.test.mjs", "caught": "a solo game's player is sent the class screen's moments for the journal, newest first and not twice; a student in a class never", "alone": true, "others": "19 pass" },
-    { "item": "2.5", "name": "every request is drawn as the call to arms", "file": "public/military-attention.js", "test": "tests/military-attention.test.mjs", "caught": "the call to arms is drawn under everybody who can answer it, and nothing else is, nor on the Host's or a watching page", "alone": true, "others": "7 pass" },
-    { "item": "2.5", "name": "another family's people are drawn under the call", "file": "public/military-attention.js", "test": "tests/military-attention.test.mjs", "caught": "the call to arms is drawn under everybody who can answer it, and nothing else is, nor on the Host's or a watching page", "alone": true, "others": "7 pass" }
+    {
+      "item": "2.3",
+      "name": "every spell of play writes its own line again",
+      "file": "sim/children.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": "each kind of a child's play is written into the family's record once a day, and never as a bare \"finished:\"",
+      "alone": true
+    },
+    {
+      "item": "2.3",
+      "name": "every spell of play ends with a bare \"finished:\"",
+      "file": "sim/chores.mjs",
+      "test": "tests/childhood.test.mjs",
+      "caught": "each kind of a child's play is written into the family's record once a day, and never as a bare \"finished:\"",
+      "alone": true
+    },
+    {
+      "item": "3.17",
+      "name": "the solo page is sent nothing of the class screen",
+      "file": "server/app.mjs",
+      "test": "tests/solo.test.mjs",
+      "caught": "a solo game's player is sent the class screen's moments for the journal, newest first and not twice; a student in a class never",
+      "alone": true,
+      "others": "19 pass"
+    },
+    {
+      "item": "3.17",
+      "name": "the family's own moment is said twice",
+      "file": "sim/host.mjs",
+      "test": "tests/solo.test.mjs",
+      "caught": "a solo game's player is sent the class screen's moments for the journal, newest first and not twice; a student in a class never",
+      "alone": true,
+      "others": "19 pass"
+    },
+    {
+      "item": "3.17",
+      "name": "a student in a class is sent the class screen",
+      "file": "server/app.mjs",
+      "test": "tests/solo.test.mjs",
+      "caught": "a solo game's player is sent the class screen's moments for the journal, newest first and not twice; a student in a class never",
+      "alone": true,
+      "others": "19 pass"
+    },
+    {
+      "item": "2.5",
+      "name": "every request is drawn as the call to arms",
+      "file": "public/military-attention.js",
+      "test": "tests/military-attention.test.mjs",
+      "caught": "the call to arms is drawn under everybody who can answer it, and nothing else is, nor on the Host's or a watching page",
+      "alone": true,
+      "others": "7 pass"
+    },
+    {
+      "item": "2.5",
+      "name": "another family's people are drawn under the call",
+      "file": "public/military-attention.js",
+      "test": "tests/military-attention.test.mjs",
+      "caught": "the call to arms is drawn under everybody who can answer it, and nothing else is, nor on the Host's or a watching page",
+      "alone": true,
+      "others": "7 pass"
+    }
   ],
-  "notCovered": "callCue's own guards for the Host's page, a watching page and a closed call are also enforced by needsOf, so removing them alone fails nothing: the test asserts the behaviour, not those three lines."
+  "notCovered": "callCue's own guards for the Host's page, a watching page and a closed call are also enforced by needsOf, so removing them alone fails nothing: the test asserts the behaviour, not those three lines.",
+  "followUp": {
+    "when": "2026-10-03",
+    "command": "node scripts/childhood-injections.mjs \"job on auto|student gives|parent’s work goes on|stopped parent can be given|her work goes on while she holds|offered on the farm before|never dug up|offered a milk cow|one-tick job\"",
+    "result": "11 of 11 caught, 10 alone",
+    "lines": [
+      "caught alone: the parent’s work goes on while the child talks -> the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do",
+      "caught alone: a stopped parent can be given new work -> the rule: a child with nothing to do goes to the nearest parent, whose work stands still until the child is given something to do",
+      "caught: a one-tick job for the child leaves the parent standing -> the rule: the family’s record hears of a child’s talk once a day, however often it happens - the rows and the bubbles say it every time | the rule: a child’s own automation finds them things to do, lasts until the day ends whatever their roll, and goes off with a notice and an \"!\" that stays until they are given something to do",
+      "caught alone: every job on auto writes \"set out\" again -> the rule: each kind of a child’s job on auto is written into the family’s record once a day, with no bare \"finished:\"; a job the student gives is told every time",
+      "caught alone: every job on auto writes its own line again -> the rule: each kind of a child’s job on auto is written into the family’s record once a day, with no bare \"finished:\"; a job the student gives is told every time",
+      "caught alone: every job on auto ends with a bare \"finished:\" -> the rule: each kind of a child’s job on auto is written into the family’s record once a day, with no bare \"finished:\"; a job the student gives is told every time",
+      "caught alone: a job the student gives is quieted as if on auto -> the rule: each kind of a child’s job on auto is written into the family’s record once a day, with no bare \"finished:\"; a job the student gives is told every time",
+      "caught alone: her work goes on while she holds the baby -> the rule: a crying baby is held by the nearest woman of age, who sings to it, puts it down to nap and goes back to exactly her task and state",
+      "caught alone: the flight’s work is offered on the farm before anybody is told to leave -> the rule: the flight’s work is offered only while the family is told to leave (or has heard real news, D9), on the road or camped - never on the farm before",
+      "caught alone: what was hidden is never dug up -> the rule: what is hidden before the family leaves is kept from the fire and dug up at home, and nothing else is",
+      "caught alone: cow: a family with no cattle is offered a milk cow -> the rule: one milk cow on the run - only a family with cattle, driven by a child, taken out of the herd left on the range"
+    ],
+    "note": "The four job-on-auto injections are new. Seven older injections had gone stale (their text changed in the code since 2026-10-02, so the full run stopped at the first): re-anchored on the current code for the same regression and each seen caught again. The full 102-injection run was not completed: it takes about four hours here (each injection runs a whole test file), past the two-hour limit on one command; it was stopped at 11 of 102, where one older injection, a child stops a parent in the guided start, was MISSED because the guided start is switched off (LESSON_ENABLED). docs/evidence/childhood-injections.json is therefore not rewritten."
+  }
 }

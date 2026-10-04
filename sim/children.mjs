@@ -223,6 +223,15 @@ const tell = (world, entity, text, claimId, extra = {}) => record(world, 'memory
  * "finished:" line is not written for play at all (sim/chores.mjs `finishChore`): the play's own line is how it ended.
  */
 const playedToday = (world, entity, kind) => onceToday(world, entity, `played:${kind}`);
+/**
+ * The same for a child's own jobs taken up on auto (2026-10-03, the rest of triage 2.3): a child on auto goes from job to play to job
+ * all day, and each job wrote "set out", its own line and "finished:" every time - one child scattered corn for the hens eleven times
+ * in an afternoon, thirty-three lines. On auto (`onAuto`, set by sim/chores.mjs `beginChore` for a job the automation began) each kind
+ * of job's own line is written once a day for each child, "set out" once a day too, and no bare "finished:" (sim/chores.mjs
+ * `finishChore`): every kind of work the child did that day is still named. A job the student gives the child is told every time,
+ * as before. The eggs are always told: the line says how much food came in, and they are gathered once a day anyway.
+ */
+const workedToday = (world, entity, id) => onceToday(world, entity, `worked:${id}`);
 
 /** Which of `PLAYS` a child choosing their own play takes up this hour: a hashed share of the class, the child and the hour. */
 const playLine = (world, entity) => Math.floor(share(world, entity.id, `play:${Math.floor(world.minute / 60)}`) * PLAYS.length) % PLAYS.length;
@@ -235,17 +244,17 @@ const RUNS = {
     // Each of the hour's lines once a day for each child (`playedToday`).
     if (playedToday(world, entity, `line-${at}`)) tell(world, entity, PLAYS[at](entity.name), 'FIC-GONZ-300');
   },
-  hens(world, household, entity) {
-    tell(world, entity, `${entity.name} scattered a handful of corn for the hens and had them all round their feet.`, 'FIC-GONZ-475');
+  hens(world, household, entity, state, said = true) {
+    if (said) tell(world, entity, `${entity.name} scattered a handful of corn for the hens and had them all round their feet.`, 'FIC-GONZ-475');
   },
-  kindling(world, household, entity) {
-    tell(world, entity, `${entity.name} brought in an armful of chips and bark for the fire.`, 'FIC-GONZ-305');
+  kindling(world, household, entity, state, said = true) {
+    if (said) tell(world, entity, `${entity.name} brought in an armful of chips and bark for the fire.`, 'FIC-GONZ-305');
   },
-  birds(world, household, entity) {
-    tell(world, entity, `${entity.name} sat the morning at the edge of the corn and kept the blackbirds out of it.`, 'FIC-GONZ-305');
+  birds(world, household, entity, state, said = true) {
+    if (said) tell(world, entity, `${entity.name} sat the morning at the edge of the corn and kept the blackbirds out of it.`, 'FIC-GONZ-305');
   },
-  water(world, household, entity) {
-    tell(world, entity, `${entity.name} carried water up to the house, a pail at a time, all morning.`, 'FIC-GONZ-305');
+  water(world, household, entity, state, said = true) {
+    if (said) tell(world, entity, `${entity.name} carried water up to the house, a pail at a time, all morning.`, 'FIC-GONZ-305');
   },
   eggs(world, household, entity) {
     const got = eggsFor(entity);
@@ -253,8 +262,8 @@ const RUNS = {
     household.eggsDay = dayOf(world);
     tell(world, entity, `${entity.name} went round the hens' nests and brought in the eggs: ${got} food.`, 'FIC-GONZ-303');
   },
-  mind(world, household, entity) {
-    tell(world, entity, babyAtHome(world, household)
+  mind(world, household, entity, state, said = true) {
+    if (said) tell(world, entity, babyAtHome(world, household)
       ? `${entity.name} had the little ones all morning, and nobody else had to carry the baby.`
       : `${entity.name} had the little ones all morning, and they were out from underfoot.`, 'FIC-GONZ-304');
   },
@@ -354,12 +363,13 @@ export function playStep(world, household, entity) {
 }
 
 const work = (id, name, describe, doing, run) => ({
-  id, name, skill: 'hands', where: 'home', child: true, describe,
+  id, name, skill: 'hands', where: 'home', child: true, childJob: true, describe,
   offered: (world, household, entity) => childOffered(world, household, entity, id),
   refusal: (world, household, entity) => childRefusal(world, household, entity, id),
   // A job, not play: the child may dawdle before starting it (sim/obedience.mjs). Play is never disobeyed.
   begin: (world, household, entity) => beginsJob(world, household, entity, doing),
-  steps: [{ work: CHILD_WORK_TICKS[id], doing }, { run }],
+  // Its own line once a day for each kind when the automation began it (`workedToday`); every time when the student did.
+  steps: [{ work: CHILD_WORK_TICKS[id], doing }, { run: (world, household, entity, state) => run(world, household, entity, state, !state?.onAuto || workedToday(world, entity, id)) }],
 });
 /** A kind of play as a work of its own: offered by the ladder, drawn by `playStep`, told by its own line. */
 const playWork = (id, kind) => ({
