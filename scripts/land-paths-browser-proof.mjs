@@ -176,18 +176,18 @@ try {
   observed.trodden = await page.evaluate(() => window.__pathsDrawn.filter(path => path.kind === 'trodden').map(path => ({ id: path.id, miles: path.miles })));
   ok(`the family's trodden ways are drawn on its land: ${observed.trodden.map(path => `${path.id} ${path.miles} mi`).join(', ')}`);
 
-  // 2. Somebody sent across the woods walks round the trees. The mother is sent to hunt the place across them.
-  const sent = await command(page, { action: 'hunt-land', entityId: mother, x: ACROSS.x, y: ACROSS.y });
+  // 2. Somebody sent across the woods walks round the trees. The father is sent to hunt the place across them (hunting is men's work while he is at home, docs/CUSTOMARY_WORK.md: the mother sent was refused, 2026-10-04).
+  const sent = await command(page, { action: 'hunt-land', entityId: father, x: ACROSS.x, y: ACROSS.y });
   assert.equal(sent.status, 200, JSON.stringify(sent.body));
   const samples = [];
   let bends = 0, inFront = 0;
   for (let t = 0; t < 200 && samples.length < 40; t++) {
-    const seen = await drawnFeet(page, mother);
-    if (seen?.walked?.length > 1) { samples.push(seen); if (seen.walked.length > 2) bends++; inFront = Math.max(inFront, await page.evaluate(id => (window.__treesInFront || []).filter(one => one.over === id).length, mother)); }
+    const seen = await drawnFeet(page, father);
+    if (seen?.walked?.length > 1) { samples.push(seen); if (seen.walked.length > 2) bends++; inFront = Math.max(inFront, await page.evaluate(id => (window.__treesInFront || []).filter(one => one.over === id).length, father)); }
     if (samples.length === 4) await shot(page, 'round-the-trees');
     await page.waitForTimeout(35);
   }
-  assert.ok(samples.length >= 4, `the mother was seen walking (${samples.length} samples)`);
+  assert.ok(samples.length >= 4, `the father was seen walking (${samples.length} samples)`);
   assert.ok(bends > 0, 'a tick\'s walk bends round something');
   // On her way (the first three quarters of a tick's walk, before her place at the work eases in): on the server's points.
   const onTheWay = samples.filter(sample => sample.share !== null && sample.share < 0.75);
@@ -201,8 +201,8 @@ try {
   observed.inFront = inFront;
   assert.ok(inFront > 0, 'a tree in front of her is drawn over her as she goes among them');
   ok(`walked round the trees: ${onTheWay.length} frames on her way drawn on the server's walked points (at worst ${observed.walkedOff} mi off), ${bends} of them on a bending way, none over a tree; trees in front drawn over her: ${observed.inFront}`);
-  await page.waitForFunction(id => !window.__snapshot?.world.entities.find(one => one.id === id)?.walked, mother, { timeout: 30000 }).catch(() => {});
-  await command(page, { action: 'stop-chore', entityId: mother });
+  await page.waitForFunction(id => !window.__snapshot?.world.entities.find(one => one.id === id)?.walked, father, { timeout: 30000 }).catch(() => {});
+  await command(page, { action: 'stop-chore', entityId: father });
 
   // 3. No Cut a path on anybody's row; the ways trodden on their own to everything the family places, drawn, round the trees.
   await asMain(page, father);
