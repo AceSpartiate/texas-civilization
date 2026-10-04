@@ -6064,7 +6064,10 @@ function fitColumn() {
   // And the foot of the right-hand side (`--right-foot`), where the meeting, the call's menu and packing the wagon stand:
   // above the bar when the bar reaches under them (a long bar on a narrow screen), otherwise above the map's buttons only,
   // so a panel on the right is not cut short for a bar that stands in the middle.
-  const rightFoot = `${bar && bar.right > stage.right - 12 - Math.min(532, stage.width / 2 - 36) ? Math.round(stage.bottom - bar.top + 8) : 74}px`;
+  // As wide as the widest of them open now: Astra's packing card is 620 wide (2026-10-03), and a bar grown by the customary works
+  // reached under it while the old fixed 532 said it did not (test:overlap, lobby-wagon 1920x1080, 2026-10-04).
+  const rightWide = Math.max(Math.min(532, stage.width / 2 - 36), ...['#wagon-load', '#call-menu'].map(selector => { const open = $(selector); return open && !open.hidden ? open.getBoundingClientRect().width : 0; }));
+  const rightFoot = `${bar && bar.right > stage.right - 12 - rightWide ? Math.round(stage.bottom - bar.top + 8) : 74}px`;
   if (document.body.style.getPropertyValue('--right-foot') !== rightFoot) document.body.style.setProperty('--right-foot', rightFoot);
   const box = panel.getBoundingClientRect();
   const tools = $('#map-tools')?.getBoundingClientRect();
