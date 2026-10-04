@@ -21,7 +21,7 @@ const one = (file, from, to) => ({ file, from, to });
 const C = 'sim/chores.mjs', K = 'sim/custom.mjs', H = 'sim/housework.mjs', A = 'sim/auto.mjs', E = 'sim/errands.mjs', P = 'public/family-panel.js', W = 'sim/world.mjs';
 const INJECTIONS = [
   // The rule.
-  { name: 'no custom at all', edits: [one(C, '  { const why = customRefused(world, household, entity, choreId); if (why) return', '  { const why = null; if (why) return')], expect: T.rule },
+  { name: 'no custom at all', edits: [one(C, '{ const why = customRefused(world, household, entity, choreId); if (why) return', '{ const why = null; if (why) return')], expect: T.rule },
   { name: 'the mirror lost: a man may do the women\'s work with a woman at home', edits: [one(K, "  const sex = SEX_OF[whose];\n  if (sexOf(entity) === sex) return null;\n  const home =", "  const sex = 'male';\n  if (sexOf(entity) === sex) return null;\n  const home =")], expect: T.rule },
   { name: 'the refusal not marked for the bar', edits: [one(C, 'return { can: false, why, custom: CUSTOM[choreId]?.[0] || CATTLE[0] }', 'return { can: false, why }')], expect: T.rule },
   { name: 'the panel drops the custom mark', edits: [one(P, '      ...(!entry.can && !waits && entry.custom && { custom: entry.custom }),\n', '')], expect: T.bar },

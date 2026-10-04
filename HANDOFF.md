@@ -1,5 +1,80 @@
 # Claude handoff — Astra foundation
 
+## Men's work, women's work, and the wash: "Custom, necessity opens" — owner-decided 2026-10-03 (not released)
+
+Branch `customary-work` from origin/main (cca3a891); not pushed, not released. Same computer only: headless Chrome; no Chromebook,
+LAN or classroom claim. The whole design is [docs/CUSTOMARY_WORK.md](docs/CUSTOMARY_WORK.md) (now item 18 of CLAUDE.md's reading
+list); claims `HIST-TEX-1150` to `-1154`, `FIC-GONZ-1150` to `-1157`.
+
+The owner: *"also, work was usually gender specific. we should incorporate that in a historically accurate yet reasonable for a game
+way."* The answers, verbatim, by multiple choice:
+
+1. How should custom work? **"Custom, necessity opens"**: each job is men's, women's or shared; other-sex work is greyed while someone
+   of the customary sex, 16+, is at home and able. It opens on its own when the men are away, sick, dead or at war, with one journal
+   line ("With James gone to the army, Martha took up the axe.").
+2. When may a woman do men's work (and a man women's work)? **"No man at home"**: opens when every man of 16+ is away, sick or dead (and
+   the mirror for women's work: no woman of age at home).
+3. What should women's own work add, so mothers aren't idle? **"keep house, garden, wash clothes. if a family member goes to
+   town/war/away then other npc's should have negative comments about their smell, higher than normal prices, etc unless a woman has
+   been washing clothes."**
+4. Who works the cattle on horseback? **"Men, by necessity"**: men and boys 12+; women only when no man is at home; hogs and milking
+   open to everyone.
+
+**Built:**
+- **The rule** (`sim/custom.mjs`, asked in `choreAvailability`, so a student's hand, auto, the families nobody plays and the guided
+  start all keep it): men's - survey, the lane, both fences, the well, clearing, building and raising, felling and fetching logs, the
+  carreta, furniture, both hunts, small game, the mark, a bee tree, a beef, and the cattle; women's - keep house, the garden, the wash,
+  nursing at home; everything else shared (the field, the town, the water, the hogs, the milking, the whole road east and Scrape, the
+  children's own works). The table is CUSTOMARY_WORK.md §3. Refused in words - *"Felling is men's work, and James is at home."* - while
+  a man (woman) of the family of 16+ (or a founding parent) is on the land and not sick, wounded, taken or dead; boys and girls of 10-15
+  follow the custom and keep it from nobody. Opens by itself; the line once a reason (`noteNecessity`). A job in hand runs to its end
+  when he comes home (`ceiling:`). Not counted as away: being called aside by a child (the brief counted it; a father holding a baby
+  for twenty minutes does not open the axe, and the bar would flicker). Never applied to anybody but a family's own members: enslaved
+  people's labour ignored it (`HIST-TEX-1154`), and none is ever a family worker; free Black families get the neighbours' custom as a
+  marked reconstruction (`FIC-GONZ-1152`).
+- **On the bar**: another's work kept greyed with a fine hatch and its words in the popup, after the goals and at most six a person
+  (`CUSTOM_SHOWN_MOST`, a `ceiling:`); the tick carries only `custom: 'men'` on each, the words once a family (`customSays`), to keep
+  within the tick's budget (the twenty's bound moved 27,900 to 29,300 bytes, 1,215 to 1,240 a person, measured).
+- **Keep house** (`keep-house`): an hour at the hearth; the hidden housekeeping saving now comes from whoever kept house today or
+  yesterday, and nothing when nobody did (it came from the best housekeeper standing at home). **Work the garden** (`work-garden`): a
+  kitchen garden laid out beside the house the first day and drawn (`drawGarden`), then 0.3 food a day worked in its season, 0.1 in the
+  winter months. **Wash clothes** (`wash-clothes`): everybody at home clean for 8 days, not again within 4. A woman on auto keeps house,
+  washes and gardens while her task waits; the families nobody plays do too.
+- **The smell and the prices** (the owner's invention, `FIC-GONZ-1155`, `-1156`): anybody of a played family arriving away from home
+  with clothes that want washing is told so by a townsman, a soldier or a neighbour, once a place and at most once in three days, in the
+  story and over the speaker's head; at the shops on the town errand they are asked a quarter more and paid a fifth less, and the errand
+  popup says why above the list, with flies, the dearer prices in ember. **Flies** are drawn over anybody whose clothes want washing
+  (`drawFlies`). An old class opens with everybody clean (`world.washBase`); no save version moved.
+- **The cattle**: a woman sent to the range while a man is home minds the hogs only, on foot (`herdWorkHere`, `hogsOnly`); refused
+  with no hogs; works the cattle when no man is home. STOCK.md §10.7 records the answer.
+- Fixed on the way: `fetchPose` (public/work-art.js) threw for a grown figure carrying water in her own drawn cycle (a page error the
+  browser proof found the first time a woman carried water up for the wash).
+
+**Measured** (docs/BALANCE.md §22): the director's families through the first period (four classes, sixty families, `scripts/custom-work-measure.mjs`, before = cca3a891): **two-parent families raise their house about half a day later** (median day 1.1 to 1.6; 48 of 49 roofed either way), clear as much, and end with more food (55.6 to 60.2); **lone parents build as fast**, clear a plot less (3 to 2) and end with far more food (lone mother 25 to 39.5, lone father 13 to 35.7). Hunger (`scripts/hunger-balance.mjs`, three classes of fifteen, three periods): a student who gives no orders starves a day sooner (first death day 14/14/13 to 13/13/12; deaths 153.7 to 144.3 a class, everybody either way); one who plays as the director does loses nobody at home (0.3 a class, a child on the road east in the spring, against 0 in these three classes before and 1.2 in §20's six), food at the end of periods 1/2/3 44.3/67/18.7 to 52.4/62.6/20.7. Not retuned. Not measured: a student who never finds *Keep house* (the saving, up to a quarter of the eating, is no longer free).
+
+**Evidence**: `tests/custom-work.test.mjs` (12) and `tests/housework.test.mjs` (7); `npm run test:custom-work-injections`
+**46 of 46** caught by the test written for them, 38 by that test alone ([record](docs/evidence/custom-work-injections.json)). `npm run test:custom-work` green, 13 checks: flies over the unwashed father at home; the mother's men's work greyed with the hatch and *"Building is men's work, and Alvin is at home."* in the popup; the errand popup's reason with flies and 31 prices in ember (seed *"2 reales or 3.75 food for 2 seed (1 real or 3 food to a clean customer)"*); the father walking to Gonzales and the icon lit, *"With Alvin gone to town, Charity went to work on the house herself."*; in Gonzales *"I will thank you not to lean on the flour."* drawn over the tanner's head and flies over the father; *"... bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Alvin Proofwright's clothes and asked more."*; the mother keeping house, in the garden (drawn beside the house) and at the wash, each drawn; the wash done and the flies gone
+([record](docs/evidence/custom-work-browser.json), screenshots `docs/evidence/custom-work-*.png`). Twenty-eight existing test files and three browser proofs (auto, errand, work) were
+written against the founding mother or daughter at men's work (or the father nursing) and were moved to the father and sons, to a
+rolled family with sons, or to the women's own work, each with a comment; three bounds moved with their measurement (the tick's size,
+two at the creek's food with the garden). Green on the branch: test:family-panel (23), test:panels (14), test:solo-game (17), test:errand (16), test:shops (8), test:auto (14), test:children (16), test:hunger (8), test:overlap, test:whole-game (15), test:work (5); test:lesson skips (the guided start is off). `npm test` on the final tree: **2203 tests, 2167 pass, 0 fail, 36 skipped** (an earlier run had the save-retry timing fail under load, green alone).
+
+**Art**: request 2026-10-03 *"men's work, women's work and the wash"* in docs/ART_REQUESTS.md (items 1-10: three icons, sewing and
+scrubbing - already A5 - beating the wash, cooking, the garden's beds, flies, the wash kettle and line), stand-ins listed under
+*Stand-ins in use*, plan items F34, F35, F36, A34, A35, E21; `npm run art:plan` rerun (138 items to make).
+
+**Not proved**: anything on a Chromebook, a LAN or in a classroom; the hunger and building measures are the director's play and the
+hunger harness's, not students'; a remark at the war or a neighbour's in a browser (the node tests hold them); the winter garden in a
+browser; how often a real class's mothers are left idle now that the men's work is greyed.
+
+**For the owner** (multiple choice, recommended first):
+1. *Called aside by a child*: (a) **not away, as built**; (b) away, as the brief had it.
+2. *How many of another's works a bar shows greyed*: (a) **six, after the goals, as built**; (b) all of them; (c) none - only the words
+   when pressed.
+3. *The wash's window*: (a) **clean 8 days, washed again after 4, as built**; (b) clean 7, again after 7 (a weekly wash day exactly).
+4. *The markup*: (a) **a quarter more and a fifth less, as built**; (b) a real more on every purchase; (c) prices unchanged, only the
+   words.
+
 ## Released as v2026.10.03.2 — 2026-10-03
 
 Main at 34b5dee5, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.03.2>). Contents: paths all automatic (Cut a path gone), the plain launcher installed and carried in the set of changes when the launcher changes, and both setup formats (`TexasRevolutionSetup.exe` classic with the plain launcher inside, 779 MB; `TexasRevolutionSetup-Appended.exe`, 691 MB). No set of changes this time, as designed: every launcher before this one takes the whole setup once more. On 34b5dee5: `npm test` 2184 tests, 2148 pass, 0 fail, 36 skipped; all 107 browser proofs green two at a time (`test:claude-art`, the stand-in injection harness, left out). The field-click proof was red 3 runs in 5 on 1638f5ca from a race in the proof (the maker sent to bring the crop in looked free before the server started them on it); fixed in 34b5dee5 and green 5 in 5 alone. Not proved: ThreatDown with either setup, SmartScreen, a real download of a set of changes carrying a launcher (the first will be the next release with a launcher change). Same computer only; no Chromebook, LAN or classroom claim.

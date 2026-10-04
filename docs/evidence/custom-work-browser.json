@@ -4,15 +4,15 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. One real class through the join flow on the invented country (seed custom-proof-3). No LAN or district claim.",
   "checks": [
-    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":869,\"y\":221,\"sprite\":false})",
+    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":895,\"y\":159,\"sprite\":false})",
     "Charity Proofwright's bar keeps the men's work greyed with a hatch (survey-plot, fence-plot, build-house, hunt-timber, practise-shooting); hovering Work on the house says \"Building is men's work, and Alvin is at home.\"",
     "the errand popup says \"Alvin's clothes want washing: the shops ask a quarter more and pay a fifth less.\", and 31 prices are dearer, seed \"2 reales or 3.75 food for 2 seed (1 real or 3 food to a clean customer)\"",
     "with Alvin Proofwright on the road to town, build-house is lit on Charity Proofwright's bar (open)",
     "the family's story says: \"With Alvin gone to town, Charity went to work on the house herself.\"",
-    "in gonzales: \"Rafael Cantú at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"\"; drawn over the speaker: \"I will thank you not to lean on the flour.\"; flies over him",
+    "in gonzales: \"Calvin Oakes at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"\"; drawn over the speaker: \"I will thank you not to lean on the flour.\"; flies over him",
     "the story says: \"Alvin Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Alvin Proofwright's clothes and asked more.\"",
-    "Charity Proofwright at keep-house: drawn sew (mother-straw-work)",
-    "Charity Proofwright at work-garden: drawn gather (mother-straw-work), and the garden drawn beside the house ({\"x\":683,\"y\":384,\"half\":23,\"season\":\"growing\"})",
+    "Charity Proofwright at keep-house: drawn fire (mother-straw-work)",
+    "Charity Proofwright at work-garden: drawn hoe (mother-straw-work), and the garden drawn beside the house ({\"x\":683,\"y\":384,\"half\":23,\"season\":\"growing\"})",
     "Charity Proofwright at wash-clothes: drawn scrub (mother-straw-work)",
     "the story says: \"Charity Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.\" \"Charity Proofwright laid out a kitchen garden beside the house. It will give a little every day it is worked, from tomorrow.\" \"Charity Proofwright did the wash: the clothes of 4 boiled, beaten and hung on the fence to dry.\"",
     "the wash done, Alvin Proofwright's clothes are clean and no flies are drawn over him",
@@ -46,8 +46,8 @@
       }
     ],
     "fliesHome": {
-      "x": 869,
-      "y": 221,
+      "x": 895,
+      "y": 159,
       "sprite": false
     },
     "greyed": {
@@ -82,42 +82,42 @@
       "label": "Work on the house. Put work into the house the family has chosen until it stands."
     },
     "line": "With Alvin gone to town, Charity went to work on the house herself.",
-    "remark": "Rafael Cantú at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"",
+    "remark": "Calvin Oakes at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"",
     "said": [
       {
-        "id": "hh-1-parent-1:remark:86",
-        "speakerId": "town-wheelwright-gonzales",
+        "id": "hh-1-parent-1:remark:41",
+        "speakerId": "town-tanner-gonzales",
         "kind": "reconstructed",
         "text": "I will thank you not to lean on the flour.",
         "box": {
-          "x": 415.76199600360485,
-          "y": 23.388652307692325,
+          "x": 1011.7949806189902,
+          "y": 130.66879999999995,
           "w": 205.05126953125,
           "h": 42,
           "tail": [
-            518,
-            65,
-            518,
-            73
+            1114,
+            173,
+            1114,
+            181
           ]
         },
         "tail": [
-          518,
-          65,
-          518,
-          73
+          1114,
+          173,
+          1114,
+          181
         ]
       }
     ],
     "fliesTown": {
-      "x": 716,
-      "y": 361,
+      "x": 700,
+      "y": 309,
       "sprite": false
     },
     "where": "gonzales",
     "paid": "Alvin Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Alvin Proofwright's clothes and asked more.",
     "keep-house": {
-      "stroke": "sew",
+      "stroke": "fire",
       "clip": "mother-straw-work",
       "art": "stand-in"
     },
@@ -130,9 +130,9 @@
       }
     },
     "work-garden": {
-      "stroke": "gather",
+      "stroke": "hoe",
       "clip": "mother-straw-work",
-      "art": "stand-in"
+      "art": "delivered"
     },
     "wash-clothes": {
       "stroke": "scrub",
