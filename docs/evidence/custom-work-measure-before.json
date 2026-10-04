@@ -1,0 +1,1604 @@
+{
+ "record": "custom-work-measure",
+ "root": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\base",
+ "seeds": [
+  "custom-1",
+  "custom-2",
+  "custom-3",
+  "custom-4"
+ ],
+ "families": 15,
+ "date": "2026-10-04",
+ "summary": {
+  "both": {
+   "families": 49,
+   "roofed": 48,
+   "roofedDayMedian": 1.1,
+   "plotsMedian": 3,
+   "foodMedian": 55.6,
+   "gardens": 0,
+   "workShare": {
+    "build": 4,
+    "field": 10,
+    "food": 1,
+    "house": 0,
+    "none": 67
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 13,
+    "food": 0,
+    "house": 0,
+    "none": 67
+   }
+  },
+  "mother": {
+   "families": 6,
+   "roofed": 6,
+   "roofedDayMedian": 2.6,
+   "plotsMedian": 3,
+   "foodMedian": 25,
+   "gardens": 0,
+   "workShare": {
+    "build": 13,
+    "field": 13,
+    "food": 1,
+    "house": 0,
+    "none": 19
+   },
+   "womenShare": {
+    "build": 13,
+    "field": 13,
+    "food": 1,
+    "house": 0,
+    "none": 19
+   }
+  },
+  "father": {
+   "families": 5,
+   "roofed": 5,
+   "roofedDayMedian": 3.9,
+   "plotsMedian": 3,
+   "foodMedian": 13,
+   "gardens": 0,
+   "workShare": {
+    "build": 23,
+    "field": 12,
+    "food": 1,
+    "house": 0,
+    "none": 20
+   },
+   "womenShare": {
+    "build": 0,
+    "field": 0,
+    "food": 0,
+    "house": 0,
+    "none": 0
+   }
+  },
+  "all": {
+   "families": 60,
+   "roofed": 59,
+   "roofedDayMedian": 1.1,
+   "plotsMedian": 3,
+   "foodMedian": 54.6,
+   "gardens": 0,
+   "workShare": {
+    "build": 4,
+    "field": 10,
+    "food": 1,
+    "house": 0,
+    "none": 64
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 13,
+    "food": 0,
+    "house": 0,
+    "none": 63
+   }
+  }
+ },
+ "rows": [
+  {
+   "seed": "custom-1",
+   "id": "hh-1",
+   "shape": "both",
+   "people": 18,
+   "roofedDay": 1.1,
+   "plots": 3,
+   "food": 125.2,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 8,
+    "food": 0,
+    "house": 2,
+    "none": 75
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 11,
+    "food": 0,
+    "house": 1,
+    "none": 81
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-2",
+   "shape": "father",
+   "people": 2,
+   "roofedDay": 6.4,
+   "plots": 3,
+   "food": 11.3,
+   "garden": false,
+   "share": {
+    "build": 23,
+    "field": 12,
+    "food": 1,
+    "house": 0,
+    "none": 28
+   },
+   "womenShare": {
+    "build": 0,
+    "field": 0,
+    "food": 0,
+    "house": 0,
+    "none": 0
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-3",
+   "shape": "both",
+   "people": 13,
+   "roofedDay": 2.3,
+   "plots": 3,
+   "food": 60.6,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 11,
+    "food": 0,
+    "house": 0,
+    "none": 76
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 15,
+    "food": 0,
+    "house": 0,
+    "none": 78
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-4",
+   "shape": "both",
+   "people": 14,
+   "roofedDay": 0.7,
+   "plots": 3,
+   "food": 104.5,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 12,
+    "food": 0,
+    "house": 0,
+    "none": 71
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 17,
+    "food": 0,
+    "house": 0,
+    "none": 77
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-5",
+   "shape": "both",
+   "people": 6,
+   "roofedDay": 0.7,
+   "plots": 3,
+   "food": 30,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 6,
+    "food": 2,
+    "house": 0,
+    "none": 62
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 9,
+    "food": 4,
+    "house": 0,
+    "none": 40
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-6",
+   "shape": "both",
+   "people": 8,
+   "roofedDay": 1.1,
+   "plots": 3,
+   "food": 23.3,
+   "garden": false,
+   "share": {
+    "build": 3,
+    "field": 15,
+    "food": 1,
+    "house": 0,
+    "none": 44
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 15,
+    "food": 1,
+    "house": 0,
+    "none": 46
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-7",
+   "shape": "both",
+   "people": 6,
+   "roofedDay": 2.8,
+   "plots": 2,
+   "food": 55.6,
+   "garden": false,
+   "share": {
+    "build": 23,
+    "field": 3,
+    "food": 2,
+    "house": 4,
+    "none": 53
+   },
+   "womenShare": {
+    "build": 44,
+    "field": 6,
+    "food": 1,
+    "house": 8,
+    "none": 15
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-8",
+   "shape": "both",
+   "people": 4,
+   "roofedDay": 2.8,
+   "plots": 3,
+   "food": 52.6,
+   "garden": false,
+   "share": {
+    "build": 13,
+    "field": 24,
+    "food": 0,
+    "house": 1,
+    "none": 35
+   },
+   "womenShare": {
+    "build": 15,
+    "field": 25,
+    "food": 0,
+    "house": 1,
+    "none": 53
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-9",
+   "shape": "both",
+   "people": 4,
+   "roofedDay": 2.7,
+   "plots": 3,
+   "food": 61.2,
+   "garden": false,
+   "share": {
+    "build": 12,
+    "field": 11,
+    "food": 0,
+    "house": 0,
+    "none": 70
+   },
+   "womenShare": {
+    "build": 17,
+    "field": 21,
+    "food": 0,
+    "house": 0,
+    "none": 49
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-10",
+   "shape": "both",
+   "people": 19,
+   "roofedDay": 3.6,
+   "plots": 3,
+   "food": 47.6,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 7,
+    "food": 1,
+    "house": 0,
+    "none": 78
+   },
+   "womenShare": {
+    "build": 1,
+    "field": 8,
+    "food": 1,
+    "house": 0,
+    "none": 75
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-11",
+   "shape": "both",
+   "people": 9,
+   "roofedDay": 1,
+   "plots": 3,
+   "food": 98.7,
+   "garden": false,
+   "share": {
+    "build": 6,
+    "field": 11,
+    "food": 0,
+    "house": 0,
+    "none": 60
+   },
+   "womenShare": {
+    "build": 7,
+    "field": 17,
+    "food": 0,
+    "house": 0,
+    "none": 43
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-12",
+   "shape": "father",
+   "people": 2,
+   "roofedDay": 1.4,
+   "plots": 3,
+   "food": 179.9,
+   "garden": false,
+   "share": {
+    "build": 9,
+    "field": 7,
+    "food": 0,
+    "house": 0,
+    "none": 17
+   },
+   "womenShare": {
+    "build": 0,
+    "field": 0,
+    "food": 0,
+    "house": 0,
+    "none": 0
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-13",
+   "shape": "father",
+   "people": 3,
+   "roofedDay": 3.3,
+   "plots": 3,
+   "food": 7.5,
+   "garden": false,
+   "share": {
+    "build": 24,
+    "field": 14,
+    "food": 1,
+    "house": 7,
+    "none": 16
+   },
+   "womenShare": {
+    "build": 0,
+    "field": 0,
+    "food": 0,
+    "house": 0,
+    "none": 0
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-14",
+   "shape": "mother",
+   "people": 3,
+   "roofedDay": 2.9,
+   "plots": 3,
+   "food": 71.8,
+   "garden": false,
+   "share": {
+    "build": 15,
+    "field": 23,
+    "food": 2,
+    "house": 0,
+    "none": 54
+   },
+   "womenShare": {
+    "build": 15,
+    "field": 23,
+    "food": 2,
+    "house": 0,
+    "none": 54
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-1",
+   "id": "hh-15",
+   "shape": "both",
+   "people": 7,
+   "roofedDay": 2.3,
+   "plots": 3,
+   "food": 9.8,
+   "garden": false,
+   "share": {
+    "build": 25,
+    "field": 8,
+    "food": 3,
+    "house": 7,
+    "none": 53
+   },
+   "womenShare": {
+    "build": 46,
+    "field": 15,
+    "food": 6,
+    "house": 10,
+    "none": 15
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-1",
+   "shape": "mother",
+   "people": 1,
+   "roofedDay": 1.6,
+   "plots": 2,
+   "food": 25,
+   "garden": false,
+   "share": {
+    "build": 17,
+    "field": 19,
+    "food": 1,
+    "house": 0,
+    "none": 14
+   },
+   "womenShare": {
+    "build": 17,
+    "field": 19,
+    "food": 1,
+    "house": 0,
+    "none": 14
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-2",
+   "shape": "both",
+   "people": 7,
+   "roofedDay": 1.4,
+   "plots": 3,
+   "food": 39.3,
+   "garden": false,
+   "share": {
+    "build": 5,
+    "field": 8,
+    "food": 0,
+    "house": 0,
+    "none": 28
+   },
+   "womenShare": {
+    "build": 5,
+    "field": 10,
+    "food": 0,
+    "house": 0,
+    "none": 24
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-3",
+   "shape": "both",
+   "people": 11,
+   "roofedDay": 0.9,
+   "plots": 3,
+   "food": 68.9,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 13,
+    "food": 1,
+    "house": 0,
+    "none": 62
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 14,
+    "food": 0,
+    "house": 0,
+    "none": 70
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-4",
+   "shape": "mother",
+   "people": 1,
+   "roofedDay": 2.6,
+   "plots": 1,
+   "food": 10.6,
+   "garden": false,
+   "share": {
+    "build": 13,
+    "field": 9,
+    "food": 1,
+    "house": 0,
+    "none": 14
+   },
+   "womenShare": {
+    "build": 13,
+    "field": 9,
+    "food": 1,
+    "house": 0,
+    "none": 14
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-5",
+   "shape": "both",
+   "people": 20,
+   "roofedDay": 2.4,
+   "plots": 2,
+   "food": 62.4,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 5,
+    "food": 0,
+    "house": 0,
+    "none": 88
+   },
+   "womenShare": {
+    "build": 1,
+    "field": 4,
+    "food": 0,
+    "house": 0,
+    "none": 93
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-6",
+   "shape": "both",
+   "people": 7,
+   "roofedDay": 0.8,
+   "plots": 3,
+   "food": 29.1,
+   "garden": false,
+   "share": {
+    "build": 3,
+    "field": 11,
+    "food": 1,
+    "house": 0,
+    "none": 52
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 16,
+    "food": 2,
+    "house": 0,
+    "none": 30
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-7",
+   "shape": "both",
+   "people": 12,
+   "roofedDay": 0.8,
+   "plots": 3,
+   "food": 39.4,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 8,
+    "food": 1,
+    "house": 0,
+    "none": 66
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 11,
+    "food": 0,
+    "house": 0,
+    "none": 60
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-8",
+   "shape": "both",
+   "people": 19,
+   "roofedDay": 0.8,
+   "plots": 3,
+   "food": 40.8,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 10,
+    "food": 2,
+    "house": 0,
+    "none": 79
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 13,
+    "food": 2,
+    "house": 0,
+    "none": 75
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-9",
+   "shape": "both",
+   "people": 5,
+   "roofedDay": null,
+   "plots": 2,
+   "food": 54.5,
+   "garden": false,
+   "share": {
+    "build": 5,
+    "field": 9,
+    "food": 0,
+    "house": 0,
+    "none": 57
+   },
+   "womenShare": {
+    "build": 4,
+    "field": 18,
+    "food": 0,
+    "house": 0,
+    "none": 25
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-10",
+   "shape": "both",
+   "people": 13,
+   "roofedDay": 0.9,
+   "plots": 3,
+   "food": 176.2,
+   "garden": false,
+   "share": {
+    "build": 1,
+    "field": 15,
+    "food": 1,
+    "house": 0,
+    "none": 67
+   },
+   "womenShare": {
+    "build": 1,
+    "field": 15,
+    "food": 1,
+    "house": 0,
+    "none": 76
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-11",
+   "shape": "father",
+   "people": 3,
+   "roofedDay": 8.7,
+   "plots": 3,
+   "food": 13,
+   "garden": false,
+   "share": {
+    "build": 53,
+    "field": 16,
+    "food": 2,
+    "house": 0,
+    "none": 21
+   },
+   "womenShare": {
+    "build": 0,
+    "field": 0,
+    "food": 0,
+    "house": 0,
+    "none": 0
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-12",
+   "shape": "both",
+   "people": 5,
+   "roofedDay": 2.9,
+   "plots": 2,
+   "food": 62.4,
+   "garden": false,
+   "share": {
+    "build": 10,
+    "field": 10,
+    "food": 3,
+    "house": 0,
+    "none": 58
+   },
+   "womenShare": {
+    "build": 18,
+    "field": 19,
+    "food": 2,
+    "house": 0,
+    "none": 23
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-13",
+   "shape": "both",
+   "people": 11,
+   "roofedDay": 1.1,
+   "plots": 3,
+   "food": 52.4,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 15,
+    "food": 0,
+    "house": 5,
+    "none": 60
+   },
+   "womenShare": {
+    "build": 5,
+    "field": 17,
+    "food": 0,
+    "house": 2,
+    "none": 67
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-14",
+   "shape": "mother",
+   "people": 1,
+   "roofedDay": 2.6,
+   "plots": 1,
+   "food": 11,
+   "garden": false,
+   "share": {
+    "build": 11,
+    "field": 9,
+    "food": 1,
+    "house": 0,
+    "none": 16
+   },
+   "womenShare": {
+    "build": 11,
+    "field": 9,
+    "food": 1,
+    "house": 0,
+    "none": 16
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-2",
+   "id": "hh-15",
+   "shape": "both",
+   "people": 4,
+   "roofedDay": 1,
+   "plots": 3,
+   "food": 19.4,
+   "garden": false,
+   "share": {
+    "build": 12,
+    "field": 19,
+    "food": 1,
+    "house": 7,
+    "none": 27
+   },
+   "womenShare": {
+    "build": 16,
+    "field": 20,
+    "food": 1,
+    "house": 2,
+    "none": 26
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-1",
+   "shape": "both",
+   "people": 5,
+   "roofedDay": 1,
+   "plots": 1,
+   "food": 54.6,
+   "garden": false,
+   "share": {
+    "build": 7,
+    "field": 9,
+    "food": 1,
+    "house": 0,
+    "none": 53
+   },
+   "womenShare": {
+    "build": 9,
+    "field": 15,
+    "food": 1,
+    "house": 0,
+    "none": 14
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-2",
+   "shape": "both",
+   "people": 19,
+   "roofedDay": 0.3,
+   "plots": 2,
+   "food": 92.2,
+   "garden": false,
+   "share": {
+    "build": 1,
+    "field": 7,
+    "food": 0,
+    "house": 0,
+    "none": 79
+   },
+   "womenShare": {
+    "build": 1,
+    "field": 9,
+    "food": 0,
+    "house": 0,
+    "none": 85
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-3",
+   "shape": "both",
+   "people": 12,
+   "roofedDay": 1.1,
+   "plots": 3,
+   "food": 29.2,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 10,
+    "food": 1,
+    "house": 5,
+    "none": 64
+   },
+   "womenShare": {
+    "build": 4,
+    "field": 11,
+    "food": 1,
+    "house": 2,
+    "none": 65
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-4",
+   "shape": "both",
+   "people": 12,
+   "roofedDay": 1.4,
+   "plots": 3,
+   "food": 191.6,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 13,
+    "food": 1,
+    "house": 0,
+    "none": 61
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 14,
+    "food": 0,
+    "house": 0,
+    "none": 71
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-5",
+   "shape": "both",
+   "people": 4,
+   "roofedDay": 1.3,
+   "plots": 3,
+   "food": 32.9,
+   "garden": false,
+   "share": {
+    "build": 6,
+    "field": 7,
+    "food": 1,
+    "house": 0,
+    "none": 55
+   },
+   "womenShare": {
+    "build": 5,
+    "field": 12,
+    "food": 1,
+    "house": 1,
+    "none": 20
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-6",
+   "shape": "both",
+   "people": 18,
+   "roofedDay": 1,
+   "plots": 3,
+   "food": 109.6,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 8,
+    "food": 0,
+    "house": 0,
+    "none": 79
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 8,
+    "food": 0,
+    "house": 0,
+    "none": 84
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-7",
+   "shape": "both",
+   "people": 13,
+   "roofedDay": 0.8,
+   "plots": 3,
+   "food": 167.3,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 12,
+    "food": 0,
+    "house": 0,
+    "none": 71
+   },
+   "womenShare": {
+    "build": 4,
+    "field": 14,
+    "food": 0,
+    "house": 0,
+    "none": 67
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-8",
+   "shape": "both",
+   "people": 18,
+   "roofedDay": 1.6,
+   "plots": 3,
+   "food": 178.7,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 11,
+    "food": 0,
+    "house": 0,
+    "none": 74
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 15,
+    "food": 0,
+    "house": 0,
+    "none": 77
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-9",
+   "shape": "both",
+   "people": 15,
+   "roofedDay": 3.3,
+   "plots": 3,
+   "food": 37.6,
+   "garden": false,
+   "share": {
+    "build": 3,
+    "field": 10,
+    "food": 1,
+    "house": 0,
+    "none": 71
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 13,
+    "food": 1,
+    "house": 0,
+    "none": 72
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-10",
+   "shape": "both",
+   "people": 16,
+   "roofedDay": 1.1,
+   "plots": 3,
+   "food": 217.5,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 8,
+    "food": 0,
+    "house": 4,
+    "none": 70
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 10,
+    "food": 0,
+    "house": 1,
+    "none": 76
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-11",
+   "shape": "both",
+   "people": 16,
+   "roofedDay": 3.6,
+   "plots": 3,
+   "food": 41,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 12,
+    "food": 1,
+    "house": 0,
+    "none": 76
+   },
+   "womenShare": {
+    "build": 5,
+    "field": 7,
+    "food": 1,
+    "house": 0,
+    "none": 79
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-12",
+   "shape": "both",
+   "people": 16,
+   "roofedDay": 1.1,
+   "plots": 3,
+   "food": 155.5,
+   "garden": false,
+   "share": {
+    "build": 3,
+    "field": 7,
+    "food": 0,
+    "house": 2,
+    "none": 76
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 6,
+    "food": 0,
+    "house": 2,
+    "none": 78
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-13",
+   "shape": "both",
+   "people": 13,
+   "roofedDay": 1.2,
+   "plots": 2,
+   "food": 103.1,
+   "garden": false,
+   "share": {
+    "build": 3,
+    "field": 6,
+    "food": 0,
+    "house": 6,
+    "none": 69
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 8,
+    "food": 0,
+    "house": 6,
+    "none": 63
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-14",
+   "shape": "both",
+   "people": 10,
+   "roofedDay": 2.1,
+   "plots": 3,
+   "food": 41.5,
+   "garden": false,
+   "share": {
+    "build": 5,
+    "field": 8,
+    "food": 0,
+    "house": 0,
+    "none": 65
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 15,
+    "food": 0,
+    "house": 0,
+    "none": 41
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-3",
+   "id": "hh-15",
+   "shape": "both",
+   "people": 12,
+   "roofedDay": 0.9,
+   "plots": 3,
+   "food": 176.1,
+   "garden": false,
+   "share": {
+    "build": 5,
+    "field": 10,
+    "food": 1,
+    "house": 0,
+    "none": 67
+   },
+   "womenShare": {
+    "build": 5,
+    "field": 13,
+    "food": 1,
+    "house": 0,
+    "none": 60
+   },
+   "days": 79.4
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-1",
+   "shape": "both",
+   "people": 7,
+   "roofedDay": 0.8,
+   "plots": 3,
+   "food": 99.4,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 10,
+    "food": 2,
+    "house": 0,
+    "none": 51
+   },
+   "womenShare": {
+    "build": 4,
+    "field": 13,
+    "food": 4,
+    "house": 0,
+    "none": 77
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-2",
+   "shape": "both",
+   "people": 13,
+   "roofedDay": 0.7,
+   "plots": 3,
+   "food": 28.2,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 8,
+    "food": 0,
+    "house": 0,
+    "none": 72
+   },
+   "womenShare": {
+    "build": 1,
+    "field": 11,
+    "food": 0,
+    "house": 0,
+    "none": 70
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-3",
+   "shape": "father",
+   "people": 3,
+   "roofedDay": 3.9,
+   "plots": 3,
+   "food": 70.5,
+   "garden": false,
+   "share": {
+    "build": 20,
+    "field": 10,
+    "food": 5,
+    "house": 0,
+    "none": 20
+   },
+   "womenShare": {
+    "build": 0,
+    "field": 0,
+    "food": 0,
+    "house": 0,
+    "none": 0
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-4",
+   "shape": "both",
+   "people": 17,
+   "roofedDay": 0.7,
+   "plots": 3,
+   "food": 36,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 9,
+    "food": 1,
+    "house": 4,
+    "none": 66
+   },
+   "womenShare": {
+    "build": 4,
+    "field": 12,
+    "food": 0,
+    "house": 0,
+    "none": 66
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-5",
+   "shape": "both",
+   "people": 5,
+   "roofedDay": 0.9,
+   "plots": 3,
+   "food": 205,
+   "garden": false,
+   "share": {
+    "build": 8,
+    "field": 15,
+    "food": 1,
+    "house": 0,
+    "none": 41
+   },
+   "womenShare": {
+    "build": 6,
+    "field": 15,
+    "food": 0,
+    "house": 0,
+    "none": 58
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-6",
+   "shape": "mother",
+   "people": 1,
+   "roofedDay": 1.3,
+   "plots": 3,
+   "food": 99.2,
+   "garden": false,
+   "share": {
+    "build": 12,
+    "field": 13,
+    "food": 1,
+    "house": 0,
+    "none": 19
+   },
+   "womenShare": {
+    "build": 12,
+    "field": 13,
+    "food": 1,
+    "house": 0,
+    "none": 19
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-7",
+   "shape": "mother",
+   "people": 2,
+   "roofedDay": 1.1,
+   "plots": 3,
+   "food": 18.7,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 13,
+    "food": 2,
+    "house": 0,
+    "none": 38
+   },
+   "womenShare": {
+    "build": 4,
+    "field": 13,
+    "food": 2,
+    "house": 0,
+    "none": 38
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-8",
+   "shape": "both",
+   "people": 17,
+   "roofedDay": 0.8,
+   "plots": 3,
+   "food": 35.7,
+   "garden": false,
+   "share": {
+    "build": 3,
+    "field": 10,
+    "food": 1,
+    "house": 4,
+    "none": 76
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 13,
+    "food": 1,
+    "house": 1,
+    "none": 75
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-9",
+   "shape": "both",
+   "people": 19,
+   "roofedDay": 0.7,
+   "plots": 3,
+   "food": 188.5,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 7,
+    "food": 1,
+    "house": 0,
+    "none": 79
+   },
+   "womenShare": {
+    "build": 2,
+    "field": 12,
+    "food": 1,
+    "house": 0,
+    "none": 79
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-10",
+   "shape": "both",
+   "people": 15,
+   "roofedDay": 0.9,
+   "plots": 3,
+   "food": 206.4,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 10,
+    "food": 0,
+    "house": 3,
+    "none": 71
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 13,
+    "food": 0,
+    "house": 2,
+    "none": 71
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-11",
+   "shape": "both",
+   "people": 7,
+   "roofedDay": 2.6,
+   "plots": 3,
+   "food": 28,
+   "garden": false,
+   "share": {
+    "build": 5,
+    "field": 19,
+    "food": 3,
+    "house": 0,
+    "none": 55
+   },
+   "womenShare": {
+    "build": 5,
+    "field": 20,
+    "food": 1,
+    "house": 0,
+    "none": 56
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-12",
+   "shape": "both",
+   "people": 16,
+   "roofedDay": 0.6,
+   "plots": 3,
+   "food": 169,
+   "garden": false,
+   "share": {
+    "build": 1,
+    "field": 10,
+    "food": 1,
+    "house": 4,
+    "none": 72
+   },
+   "womenShare": {
+    "build": 1,
+    "field": 12,
+    "food": 1,
+    "house": 1,
+    "none": 71
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-13",
+   "shape": "both",
+   "people": 13,
+   "roofedDay": 1.1,
+   "plots": 3,
+   "food": 26.7,
+   "garden": false,
+   "share": {
+    "build": 4,
+    "field": 10,
+    "food": 0,
+    "house": 3,
+    "none": 71
+   },
+   "womenShare": {
+    "build": 3,
+    "field": 9,
+    "food": 1,
+    "house": 4,
+    "none": 63
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-14",
+   "shape": "both",
+   "people": 15,
+   "roofedDay": 0.9,
+   "plots": 2,
+   "food": 51.6,
+   "garden": false,
+   "share": {
+    "build": 1,
+    "field": 10,
+    "food": 0,
+    "house": 0,
+    "none": 79
+   },
+   "womenShare": {
+    "build": 1,
+    "field": 10,
+    "food": 0,
+    "house": 0,
+    "none": 83
+   },
+   "days": 79.8
+  },
+  {
+   "seed": "custom-4",
+   "id": "hh-15",
+   "shape": "both",
+   "people": 17,
+   "roofedDay": 0.7,
+   "plots": 3,
+   "food": 73.3,
+   "garden": false,
+   "share": {
+    "build": 2,
+    "field": 12,
+    "food": 0,
+    "house": 0,
+    "none": 74
+   },
+   "womenShare": {
+    "build": 1,
+    "field": 9,
+    "food": 0,
+    "house": 0,
+    "none": 83
+   },
+   "days": 79.8
+  }
+ ]
+}

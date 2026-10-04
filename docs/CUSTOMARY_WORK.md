@@ -136,7 +136,11 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
 ## 8. What the page shows
 
 - The family panel: **another's work greyed with a fine hatch, its words in the popup** (`data-custom`), after the goals in the bar's
-  room; lit the tick it opens. Three new icons (stroked glyphs until drawn): a pot over the fire, a sprout over rows, a washtub.
+  room; lit the tick it opens. The tick carries only whose work it is on each refused entry and the words once a family
+  (`customSays`, put after the catalogue's name for the work, `customNoun`), and at most six such works a person, the chief first
+  (`CUSTOM_SHOWN_MOST`). `ceiling:` the rest are simply not on the bar while somebody of the custom is home, and refused in the same
+  words if ordered; worth sending more only if the bar ever has room. Somebody away from home is not shown the work of the place
+  greyed by custom: it is refused for being away, as it always was. Three new icons (stroked glyphs until drawn): a pot over the fire, a sprout over rows, a washtub.
 - The map: a woman keeping house at the front of the house, in the garden, at the wash; **the garden beside the house**; **flies over
   a dirty person**; the townsman's words over his head.
 - The errand popup: the sentence why, with flies, and the dearer prices in ember.
@@ -163,14 +167,17 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
 
 ## 10. Balance
 
-[BALANCE.md](BALANCE.md) §22.
+[BALANCE.md](BALANCE.md) §22, briefly: two-parent families the director plays raise their house about half a day later (median
+day 1.1 to 1.6 of the first period) and end it with more food (55.6 to 60.2); lone parents build as fast, clear a plot less and end
+with far more food (25 to 39.5, 13 to 35.7); a student who gives no orders starves a day sooner (nobody keeps house); a student who
+plays as the director does loses nobody at home either way.
 
 ## 11. Evidence
 
-- `tests/custom-work.test.mjs` (11 tests: the rule and its words; opening for every way of being away; boys under sixteen; the line
+- `tests/custom-work.test.mjs` (12 tests: the rule and its words; the bar's greyed icons after the goals; opening for every way of being away; boys under sixteen; the line
   once a reason; the lone mother and the lone father; every step of the guided start has a hand in all three shapes, and its work
   played through by whoever the custom allows; auto; the job in hand finished; the cattle; the families nobody plays) and
   `tests/housework.test.mjs` (7: keeping house and the saving; the garden; the wash; the remark in town; at the war; the prices; an
-  old save). Each proved by injection: `npm run test:custom-work-injections`
-  ([record](evidence/custom-work-injections.json)).
+  old save). Each proved by injection: `npm run test:custom-work-injections`, **46 of 46** caught by the test written for
+  them, 38 by that test alone ([record](evidence/custom-work-injections.json)).
 - `npm run test:custom-work`: the browser proof with screenshots ([record](evidence/custom-work-browser.json)).

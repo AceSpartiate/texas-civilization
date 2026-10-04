@@ -155,7 +155,7 @@ try {
     await page.locator('#lesson-stop-yes').click();
     await page.waitForFunction(() => !('lesson' in window.__snapshot.world), null, { timeout: 20000 });
   }
-  const family = await page.evaluate(() => window.__snapshot.world.entities.filter(one => one.kind === 'person').map(one => ({ id: one.id, name: one.name, age: one.age, band: one.band })));
+  const family = await page.evaluate(() => window.__snapshot.world.entities.filter(one => one.kind === 'person').map(one => ({ id: one.id, name: one.name, age: one.age, band: one.band, sex: one.sex })));
   observed.family = family;
   await page.waitForFunction(ids => ids.every(id => { const one = window.__snapshot.world.entities.find(e => e.id === id); return one && !one.travel && one.location?.siteId === window.__snapshot.world.household.homeSiteId; }) && !window.__snapshot.world.household.arriving, family.map(one => one.id), { timeout: 90000 });
   // Drawn walking in from the wagon first (public/app.js `trailOf`): looked at once they are there.
@@ -189,7 +189,8 @@ try {
   // 2. The house: planned, and three of the family sent to it by the student's own orders. They stand round it, apart, each
   // facing it, at the stage's work (felling for it first: the chips fly).
   const home = { ...app.state.world.entities[about.id].location };
-  const crew = family.filter(one => !['child', 'small', 'infant'].includes(one.band)).slice(0, 3);
+  // The men and boys of ten and over: building is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+  const crew = family.filter(one => !['child', 'small', 'infant'].includes(one.band) && one.sex !== 'female').slice(0, 3);
   assert.equal(crew.length, 3, `the family has not three grown people to put on the house: ${JSON.stringify(family)}`);
   const planned = await send(page, { action: 'plan-house', layout: 'round-log' });
   assert.equal(planned.status, 200, `the house could not be planned: ${JSON.stringify(planned.body)}`);

@@ -4,12 +4,12 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. One real class through the join flow on the invented country (seed custom-proof-3). No LAN or district claim.",
   "checks": [
-    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":876,\"y\":180,\"sprite\":false})",
+    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":869,\"y\":221,\"sprite\":false})",
     "Charity Proofwright's bar keeps the men's work greyed with a hatch (survey-plot, fence-plot, build-house, hunt-timber, practise-shooting); hovering Work on the house says \"Building is men's work, and Alvin is at home.\"",
     "the errand popup says \"Alvin's clothes want washing: the shops ask a quarter more and pay a fifth less.\", and 31 prices are dearer, seed \"2 reales or 3.75 food for 2 seed (1 real or 3 food to a clean customer)\"",
     "with Alvin Proofwright on the road to town, build-house is lit on Charity Proofwright's bar (open)",
     "the family's story says: \"With Alvin gone to town, Charity went to work on the house herself.\"",
-    "in gonzales: \"Calvin Oakes at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"\"; drawn over the speaker: \"I will thank you not to lean on the flour.\"; flies over him",
+    "in gonzales: \"Rafael Cantú at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"\"; drawn over the speaker: \"I will thank you not to lean on the flour.\"; flies over him",
     "the story says: \"Alvin Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Alvin Proofwright's clothes and asked more.\"",
     "Charity Proofwright at keep-house: drawn sew (mother-straw-work)",
     "Charity Proofwright at work-garden: drawn gather (mother-straw-work), and the garden drawn beside the house ({\"x\":683,\"y\":384,\"half\":23,\"season\":\"growing\"})",
@@ -46,8 +46,8 @@
       }
     ],
     "fliesHome": {
-      "x": 876,
-      "y": 180,
+      "x": 869,
+      "y": 221,
       "sprite": false
     },
     "greyed": {
@@ -82,36 +82,36 @@
       "label": "Work on the house. Put work into the house the family has chosen until it stands."
     },
     "line": "With Alvin gone to town, Charity went to work on the house herself.",
-    "remark": "Calvin Oakes at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"",
+    "remark": "Rafael Cantú at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"",
     "said": [
       {
-        "id": "hh-1-parent-1:remark:64",
-        "speakerId": "town-tanner-gonzales",
+        "id": "hh-1-parent-1:remark:86",
+        "speakerId": "town-wheelwright-gonzales",
         "kind": "reconstructed",
         "text": "I will thank you not to lean on the flour.",
         "box": {
-          "x": 1011.7949806189902,
-          "y": 130.66879999999995,
+          "x": 415.76199600360485,
+          "y": 23.388652307692325,
           "w": 205.05126953125,
           "h": 42,
           "tail": [
-            1114,
-            173,
-            1114,
-            181
+            518,
+            65,
+            518,
+            73
           ]
         },
         "tail": [
-          1114,
-          173,
-          1114,
-          181
+          518,
+          65,
+          518,
+          73
         ]
       }
     ],
     "fliesTown": {
-      "x": 695,
-      "y": 321,
+      "x": 716,
+      "y": 361,
       "sprite": false
     },
     "where": "gonzales",
@@ -138,6 +138,14 @@
       "stroke": "scrub",
       "clip": "mother-straw-work",
       "art": "stand-in"
+    },
+    "gardenAfter": {
+      "home-1": {
+        "x": 865,
+        "y": 324,
+        "half": 23,
+        "season": "growing"
+      }
     }
   },
   "screenshots": [
@@ -147,6 +155,7 @@
     "docs/evidence/custom-work-town-remark.png",
     "docs/evidence/custom-work-keep-house.png",
     "docs/evidence/custom-work-work-garden.png",
-    "docs/evidence/custom-work-wash-clothes.png"
+    "docs/evidence/custom-work-wash-clothes.png",
+    "docs/evidence/custom-work-garden.png"
   ]
 }

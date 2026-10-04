@@ -1265,3 +1265,52 @@ families, [evidence/herds-ending-measure.json](evidence/herds-ending-measure.jso
 
 So the herd at the end moves the middle of the table and not the winner, as the farm's sale did (§17). It is put to the owner
 (STOCK.md §10.7, question 1) with the measure.
+
+## 22. Men's work, women's work, and the wash (2026-10-03, owner-decided; not released)
+
+The owner, 2026-10-03: *"work was usually gender specific"*, by multiple choice **"Custom, necessity opens"**
+([CUSTOMARY_WORK.md](CUSTOMARY_WORK.md)): the men's work is refused a woman while a man of 16+ is at home and able, and the women's a
+man; keeping house, the kitchen garden and the wash are new women's work; the housekeeping saving now needs somebody keeping house.
+The questions for balance: **do two-parent families build markedly slower, and does a family eat worse or better?** Nothing was
+retuned; these are the numbers.
+
+**The building and the field** (`node scripts/custom-work-measure.mjs --seeds custom-1,custom-2,custom-3,custom-4`, every family of
+four classes of fifteen played as the director plays a family nobody plays, through the first period on the real land; *before* =
+origin/main cca3a891 with the same harness, `--root`; [before](evidence/custom-work-measure-before.json),
+[now](evidence/custom-work-measure.json)):
+
+| First period, median family | both parents (49), before | **now** | lone mother (6), before | **now** | lone father (5), before | **now** |
+| --- | --- | --- | --- | --- | --- | --- |
+| Day the house was roofed | 1.1 | **1.6** | 2.6 | **2.6** | 3.9 | **3.9** |
+| Plots cleared | 3 | **3** | 3 | **2** | 3 | **2** |
+| Food in the house at the end | 55.6 | **60.2** | 25 | **39.5** | 13 | **35.7** |
+| Kitchen gardens laid out | 0 | **49 of 49** | 0 | **6 of 6** | 0 | **5 of 5** |
+| A grown woman's ticks: building and felling / the field / the women's own work / no work | 3% / 13% / 0 / 67% | **0 / 12% / 14% / 59%** | 13% / 13% / 0 / 19% | **14% / 11% / 16% / 26%** | - | - |
+
+- **Two-parent families raise their house about half a day later** (median day 1.1 to 1.6; 48 of 49 roofed in the period either way):
+  the mother no longer builds beside the father. They clear as much ground, and **end the period with more food** (55.6 to 60.2): the
+  house kept and the garden worked.
+- **Lone parents build as fast as before** (nobody keeps the work from them) and **clear a plot less** - the hours go to the house,
+  the garden and the wash - and **end with far more food** (25 to 39.5, 13 to 35.7).
+- The median of all sixty families fell (54.6 to 49.4) while each shape's rose: medians of mixed groups, read by shape.
+- The women's own work was placed in the director's plan before the trips to town after measuring the alternative: with it after them
+  a lone mother ended the period with **10.5** food, not 39.5.
+
+**Food and hunger** (`node scripts/hunger-balance.mjs --seeds hunger-1,hunger-2,hunger-3`, three classes of fifteen, all three
+periods, every family played; [before](evidence/custom-work-hunger-before.json), [now](evidence/custom-work-hunger.json)):
+
+| Per class of 15 | idle, before | **idle, now** | playing, before | **playing, now** |
+| --- | --- | --- | --- | --- |
+| Deaths by hunger | 153.7 (everybody) | **144.3 (everybody)** | 0 | **0.3** (one child on the road east, day 204, one class) |
+| First death, day of the class | 14, 14, 13 | **13, 13, 12** | - | - |
+| Median food at the end of periods 1 / 2 / 3 | 0 | 0 | 44.3 / 67 / 18.7 | **52.4 / 62.6 / 20.7** |
+| Families hungry at some time | 15 | 15 | 2.7 | **2.3** |
+
+- **A student who gives no orders starves a day sooner**: nobody keeps house, so the saving is gone. Meant, and small.
+- **A student who plays as the director does** keeps house and gardens (the director's plan does), ends the first period with about
+  8 food more and the third about 2 more; the second period is 4.4 lower in the median (noise at three classes, the herd and the
+  winter's men away move it more). The one death is a child on the road east in the spring, which §20's six classes counted at 1.2 a
+  class before this.
+- **Not measured**: a student who never discovers *Keep house* and never puts a woman on auto - that family eats up to a quarter more
+  than before (the saving was free until now). The idle student is the bound.
+- `ceiling:` the director's own errands to town pay the plain price whatever the state of the clothes; its women wash among their work.

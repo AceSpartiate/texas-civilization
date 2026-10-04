@@ -1642,7 +1642,10 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // Men's work and women's work (owner, 2026-10-03; sim/custom.mjs): the other sex's work is refused while somebody of its custom,
   // sixteen or over, is at home and able, and opens by itself when nobody is. Marked `custom`, so the bar keeps it greyed with its
   // words (public/family-panel.js), and lit the tick it opens.
-  { const why = customRefused(world, household, entity, choreId); if (why) return { can: false, why, custom: CUSTOM[choreId]?.[0] || CATTLE[0] }; }
+  // Not for somebody away from home asked a work of the place: that is refused for being away, below, and kept off the bar (a woman
+  // in town was shown the men's work greyed over the town's scene, the overlap proof found).
+  const awayFromIt = chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight && !chore.alsoFrom?.includes(entity.location.siteId);
+  if (!awayFromIt) { const why = customRefused(world, household, entity, choreId); if (why) return { can: false, why, custom: CUSTOM[choreId]?.[0] || CATTLE[0] }; }
   // A chore registered from its own module carries its own refusal (`registerChores`).
   if (chore.refusal) { const why = chore.refusal(world, household, entity); if (why) return lacking(why, chore.lacks?.(world, household, entity, why)); }
   // `alsoFrom`: a work that may be begun where it goes, too - a courier out of the Alamo standing in Gonzales may go back in

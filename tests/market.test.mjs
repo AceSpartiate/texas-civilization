@@ -52,6 +52,10 @@ test('the neighbours\' director sells a family\'s spare corn - beyond three week
   const family = world.households['hh-2'];
   // The field already in, so the director's plan comes down to the trips to town.
   family.field = { ...family.field, state: 'planted', changedTick: world.tick, grownMs: 0 };
+  // And the house kept, the garden worked and the wash done today (owner, 2026-10-03; sim/housework.mjs), which the plan asks before
+  // the trips to town.
+  const today = Math.floor(world.minute / 1440);
+  Object.assign(family, { housekept: { day: today, by: family.members[0] }, washDay: today, garden: { x: 0, y: 0, laid: today - 1, worked: today } });
   const view2 = view(world, family.id);
   const keep = foodKept(world, family);
   family.resources.food = keep + 2;

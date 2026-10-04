@@ -104,7 +104,9 @@ try {
   if (await page.locator('#tutorial-skip').isVisible().catch(() => false)) await page.locator('#tutorial-skip').click();
 
   const family = app.state.world.households['hh-1'];
-  const grown = family.members.map(id => app.state.world.entities[id]).filter(one => (one.age ?? 30) >= 16 && one.location.siteId === family.homeSiteId);
+  // The family's men: both go hunting at once below, the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+  const everyone = family.members.map(id => app.state.world.entities[id]).filter(one => (one.age ?? 30) >= 16 && one.location.siteId === family.homeSiteId);
+  const grown = everyone.filter(one => one.sex !== 'female' && !['mother', 'daughter'].includes(one.kin?.role));
   const [first, second] = grown;
   assert.ok(first && second, 'this family has not two grown people at home, so this proves nothing');
 
@@ -427,7 +429,8 @@ try {
   // --------------------------- the wheelwright's new wagon, bought on foot with an ox, driven home and drawn in the yard
   // Owner, 2026-09-25: "wheelwright sells one, very expensive." (docs/TOWNS.md §4f). Both horses are out with the riders, so
   // whoever goes walks: the wagon cannot be the way there (one person drives one wagon home).
-  const third = grown.find(one => one !== first && one !== second);
+  // Anybody grown for the town's errand: it is everybody's work.
+  const third = everyone.find(one => one !== first && one !== second);
   assert.ok(third, 'this family has not a third grown person at home, so this proves nothing');
   const horsesOut = () => ['hh-1-horse', 'hh-1-horse-2'].map(id => app.state.world.entities[id].borrowedBy).sort();
   assert.deepEqual(horsesOut(), [first.id, second.id].sort(), `a rider is home again before the new wagon was asked about: ${horsesOut()}`);

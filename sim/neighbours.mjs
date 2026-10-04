@@ -427,6 +427,11 @@ export function thinkFor(world, household, { project, act }) {
       // The range ridden before the month is out, so nothing strays. A herd nobody looks to is the one that goes.
       strayingSoon(world, view.household) && 'look-to-stock',
       'dig-well', 'mend-hoe', 'cut-lane',
+      // The women's own work (owner, 2026-10-03; sim/housework.mjs): the house kept, the wash when it is due, the garden - asked here
+      // by everybody, and refused by custom to the men while a woman is at home (sim/custom.mjs), so a lone father comes to them only
+      // after the farm work above. Before the trips to town: measured, a lone mother kept
+      // 39.5 food at the end of the first period with them here, and 10.5 with them after the trips (docs/BALANCE.md §22).
+      'keep-house', 'wash-clothes', 'work-garden',
       view.household.field?.state === 'planted' && unfenced && 'fence-plot',
       // Seed enough for what goes into its bare plots, each at its crop (`directorCrops`): cotton wants more a plot than corn
       // (sim/improvements.mjs). Measured 2026-09-16: with corn's count written here, a cotton family never gathered enough, never
@@ -436,10 +441,6 @@ export function thinkFor(world, household, { project, act }) {
       // And spare corn, as cotton is sold (owner, 2026-09-28: "Sell spare corn too"): what the family holds beyond three weeks of its
       // eating (sim/market.mjs `spareFood`), a lot or more, while the store wants it.
       spareFood(world, world.households[view.household.id]) >= FOOD_LOT && 'sell-food',
-      // The women's own work (owner, 2026-10-03; sim/housework.mjs): the house kept, the wash when it is due, the garden - asked here
-      // by everybody, and refused by custom to the men while a woman is at home (sim/custom.mjs), so a lone father comes to them only
-      // after the farm work and the trips to town above, before more ground.
-      'keep-house', 'wash-clothes', 'work-garden',
       // Then more ground, a plot at a time: clear what is staked, and stake more while it has fewer than it keeps.
       staked && 'clear-plot',
       !staked && plots.length < NEIGHBOUR_PLOTS && 'survey-plot',

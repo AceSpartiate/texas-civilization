@@ -260,7 +260,8 @@ try {
   await reap.waitFor({ state: 'visible', timeout: 10000 });
   assert.equal(await reap.getAttribute('data-waits'), 'true', 'the unripe harvest is not offered to wait for');
   await reap.click();
-  await page.waitForFunction(id => /^Auto: bring in the crop\./.test(window.__familyPanel?.find(row => row.id === id)?.autoSays || ''), reaperId, { timeout: 10000 });
+  // Waiting about the place, or keeping house meanwhile (since 2026-10-03; sim/auto.mjs `houseworkMeanwhile`): "..., once the work in hand is done."
+  await page.waitForFunction(id => /^Auto: bring in the crop[.,]/.test(window.__familyPanel?.find(row => row.id === id)?.autoSays || ''), reaperId, { timeout: 10000 });
   assert.equal(world().entities[reaperId].order?.chore, 'harvest-field');
   ok(`${world().entities[reaperId].name} on auto and given the harvest before anything is ripe: it is her task, and she waits`);
   const said = { planter: new Set(), reaper: new Set() };
@@ -302,7 +303,10 @@ try {
   // Since 2026-09-30 the field is one task on auto (sim/auto.mjs `fieldTask`): nothing ripe and nothing bare, she waits on the crop
   // standing, and says when it will be ready.
   assert.ok([...said.reaper].some(line => /^waiting: Auto: bring in the crop\. The (field|corn|cotton) is not ready(\.|: it will be (within the minute|in about \d+ minutes)\.) Working about the place/.test(line)), `the reaper's row never said why she waited: ${[...said.reaper].join(' / ')}`);
-  assert.ok([...said.planter].some(line => /^at it: Auto: plant the field, over and over\./.test(line)) && [...said.reaper].some(line => /^at it: Auto: bring in the crop, over and over\./.test(line)), 'a row never said what auto was doing');
+  // Since 2026-10-03 a woman on auto keeps house, washes and gardens while her task waits (owner, "a woman on auto at home keeps
+  // house"; sim/auto.mjs `houseworkMeanwhile`), so her husband may bring the crop in while she is at the hearth: her row then says
+  // the crop is hers once the work in hand is done.
+  assert.ok([...said.planter].some(line => /^at it: Auto: plant the field, over and over\./.test(line)) && [...said.reaper].some(line => /^at it: Auto: bring in the crop(, over and over\.|, once the work in hand is done\.)/.test(line)), `a row never said what auto was doing: ${[...said.reaper].join(' / ')}`);
   ok('each row said what auto was doing and, while it waited, why, in the server\'s words');
   assert.ok(glowSeen, 'the two switches were never seen on together with one waiting');
   for (const looks of [glowSeen.looks1366, glowSeen.looks1024]) {

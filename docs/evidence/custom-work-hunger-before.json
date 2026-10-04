@@ -1,0 +1,543 @@
+{
+ "measured": "2026-10-04",
+ "families": 15,
+ "seeds": [
+  "hunger-1",
+  "hunger-2",
+  "hunger-3"
+ ],
+ "summary": {
+  "idle": {
+   "kinds": {
+    "lone": {
+     "families": 6,
+     "hit": 6,
+     "deaths": 10
+    },
+    "big": {
+     "families": 31,
+     "hit": 31,
+     "deaths": 410
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "classes": 3,
+   "herdFoodPerClass": 0,
+   "stockFamiliesPerClass": 0,
+   "deathsPerClass": 153.7,
+   "period1": 153.7,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHitPerClass": 15,
+   "familiesHungryPerClass": 15,
+   "familiesWeakPerClass": 15,
+   "familiesStarvingPerClass": 15,
+   "hungryDaysMedian": 16.7,
+   "wipedPerClass": 15,
+   "peoplePerClass": 154.3,
+   "classesWithAnyDeath": 3
+  },
+  "playing": {
+   "kinds": {
+    "lone": {
+     "families": 6,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 31,
+     "hit": 0,
+     "deaths": 0
+    },
+    "war": {
+     "families": 35,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "foodAtEnd": {
+    "1": 44.3,
+    "2": 67,
+    "3": 18.7
+   },
+   "classes": 3,
+   "herdFoodPerClass": 9,
+   "stockFamiliesPerClass": 8.3,
+   "deathsPerClass": 0,
+   "period1": 0,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHitPerClass": 0,
+   "familiesHungryPerClass": 2.7,
+   "familiesWeakPerClass": 0.3,
+   "familiesStarvingPerClass": 0.3,
+   "hungryDaysMedian": 0,
+   "wipedPerClass": 0,
+   "peoplePerClass": 154.3,
+   "classesWithAnyDeath": 0
+  }
+ },
+ "rows": [
+  {
+   "seed": "hunger-1",
+   "mode": "idle",
+   "families": 15,
+   "people": 144,
+   "ticks": 1348,
+   "deaths": 144,
+   "period1": 144,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 15,
+   "wiped": 15,
+   "firstDay": 14,
+   "under6": 40,
+   "grown": 49,
+   "familiesHungry": 15,
+   "familiesWeak": 15,
+   "familiesStarving": 15,
+   "hungryDaysMedian": 16.7,
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 11,
+     "hit": 11,
+     "deaths": 123
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 67,
+   "stockFamilies": 0,
+   "herdFood": 0,
+   "herdFoodBy": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "herdAt": {
+    "1": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    },
+    "2": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    },
+    "3": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    }
+   },
+   "stockCoin": 0,
+   "herdEnd": {
+    "families": 0,
+    "cattle": 0,
+    "hogs": 0
+   },
+   "seconds": 29
+  },
+  {
+   "seed": "hunger-2",
+   "mode": "idle",
+   "families": 15,
+   "people": 116,
+   "ticks": 1334,
+   "deaths": 116,
+   "period1": 116,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 15,
+   "wiped": 15,
+   "firstDay": 14,
+   "under6": 28,
+   "grown": 42,
+   "familiesHungry": 15,
+   "familiesWeak": 15,
+   "familiesStarving": 15,
+   "hungryDaysMedian": 16.5,
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 6,
+     "hit": 6,
+     "deaths": 10
+    },
+    "big": {
+     "families": 7,
+     "hit": 7,
+     "deaths": 97
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 67,
+   "stockFamilies": 0,
+   "herdFood": 0,
+   "herdFoodBy": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "herdAt": {
+    "1": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    },
+    "2": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    },
+    "3": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    }
+   },
+   "stockCoin": 0,
+   "herdEnd": {
+    "families": 0,
+    "cattle": 0,
+    "hogs": 0
+   },
+   "seconds": 37
+  },
+  {
+   "seed": "hunger-3",
+   "mode": "idle",
+   "families": 15,
+   "people": 203,
+   "ticks": 1334,
+   "deaths": 201,
+   "period1": 201,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 15,
+   "wiped": 15,
+   "firstDay": 13,
+   "under6": 45,
+   "grown": 74,
+   "familiesHungry": 15,
+   "familiesWeak": 15,
+   "familiesStarving": 15,
+   "hungryDaysMedian": 16.9,
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 13,
+     "hit": 13,
+     "deaths": 190
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 67,
+   "stockFamilies": 0,
+   "herdFood": 0,
+   "herdFoodBy": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "herdAt": {
+    "1": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    },
+    "2": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    },
+    "3": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    }
+   },
+   "stockCoin": 0,
+   "herdEnd": {
+    "families": 0,
+    "cattle": 0,
+    "hogs": 0
+   },
+   "seconds": 38
+  },
+  {
+   "seed": "hunger-1",
+   "mode": "playing",
+   "families": 15,
+   "people": 144,
+   "ticks": 2563,
+   "deaths": 0,
+   "period1": 0,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 0,
+   "wiped": 0,
+   "firstDay": null,
+   "under6": 0,
+   "grown": 0,
+   "familiesHungry": 2,
+   "familiesWeak": 0,
+   "familiesStarving": 0,
+   "hungryDaysMedian": 0,
+   "foodAtEnd": {
+    "1": 39.8,
+    "2": 57.7,
+    "3": 17.9
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 11,
+     "hit": 0,
+     "deaths": 0
+    },
+    "war": {
+     "families": 12,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": null,
+   "stockFamilies": 9,
+   "herdFood": 0,
+   "herdFoodBy": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "herdAt": {
+    "1": {
+     "families": 9,
+     "cattle": 6,
+     "hogs": 24
+    },
+    "2": {
+     "families": 9,
+     "cattle": 7,
+     "hogs": 24
+    },
+    "3": {
+     "families": 0,
+     "cattle": 0,
+     "hogs": 0
+    }
+   },
+   "stockCoin": 0,
+   "herdEnd": {
+    "families": 0,
+    "cattle": 0,
+    "hogs": 0
+   },
+   "seconds": 972
+  },
+  {
+   "seed": "hunger-2",
+   "mode": "playing",
+   "families": 15,
+   "people": 116,
+   "ticks": 2567,
+   "deaths": 0,
+   "period1": 0,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 0,
+   "wiped": 0,
+   "firstDay": null,
+   "under6": 0,
+   "grown": 0,
+   "familiesHungry": 2,
+   "familiesWeak": 0,
+   "familiesStarving": 0,
+   "hungryDaysMedian": 0,
+   "foodAtEnd": {
+    "1": 30.3,
+    "2": 44.5,
+    "3": 17.7
+   },
+   "kinds": {
+    "lone": {
+     "families": 6,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 7,
+     "hit": 0,
+     "deaths": 0
+    },
+    "war": {
+     "families": 11,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": null,
+   "stockFamilies": 7,
+   "herdFood": 0,
+   "herdFoodBy": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "herdAt": {
+    "1": {
+     "families": 7,
+     "cattle": 6,
+     "hogs": 24
+    },
+    "2": {
+     "families": 7,
+     "cattle": 6,
+     "hogs": 23
+    },
+    "3": {
+     "families": 1,
+     "cattle": 7,
+     "hogs": 21
+    }
+   },
+   "stockCoin": 0,
+   "herdEnd": {
+    "families": 1,
+    "cattle": 7,
+    "hogs": 21
+   },
+   "seconds": 2309
+  },
+  {
+   "seed": "hunger-3",
+   "mode": "playing",
+   "families": 15,
+   "people": 203,
+   "ticks": 2579,
+   "deaths": 0,
+   "period1": 0,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 0,
+   "wiped": 0,
+   "firstDay": null,
+   "under6": 0,
+   "grown": 0,
+   "familiesHungry": 4,
+   "familiesWeak": 1,
+   "familiesStarving": 1,
+   "hungryDaysMedian": 0,
+   "foodAtEnd": {
+    "1": 62.8,
+    "2": 98.8,
+    "3": 20.6
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 13,
+     "hit": 0,
+     "deaths": 0
+    },
+    "war": {
+     "families": 12,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": null,
+   "stockFamilies": 9,
+   "herdFood": 27,
+   "herdFoodBy": {
+    "1": 0,
+    "2": 27,
+    "3": 0
+   },
+   "herdAt": {
+    "1": {
+     "families": 9,
+     "cattle": 6,
+     "hogs": 24
+    },
+    "2": {
+     "families": 9,
+     "cattle": 6,
+     "hogs": 23
+    },
+    "3": {
+     "families": 1,
+     "cattle": 3,
+     "hogs": 6
+    }
+   },
+   "stockCoin": 0,
+   "herdEnd": {
+    "families": 1,
+    "cattle": 3,
+    "hogs": 6
+   },
+   "seconds": 949
+  }
+ ]
+}
