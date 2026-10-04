@@ -179,7 +179,7 @@ test('a side in parts is drawn part by part: men asleep lying down, men in a hou
   assert.equal(evidence.poses.hidden, 9, 'the men in the house are drawn');
   assert.equal(evidence.poses.surrender, 9);
   assert.equal(evidence.figures.texian, 17, 'the hidden men were counted as drawn');
-  assert.ok(art.drawn.some(one => one.sprite === 'volunteer-reclining'), 'nobody was drawn lying asleep');
+  assert.ok(art.drawn.some(one => one.clip === 'regular-sleep' || one.clip === 'volunteer-sleep'), 'nobody was drawn lying asleep');
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-surrender'), 'nobody was drawn with their hands up');
   // The house fires: Texian shots with nobody of the house drawn, each flash at the house.
   assert.ok((evidence.shotsBy.texian || 0) >= 5, `the house fired ${evidence.shotsBy.texian || 0} shots in twelve seconds`);
@@ -250,8 +250,8 @@ test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s
   run(createBattleView(alone), battle, { seconds: 1, art: alone });
   assert.ok(alone.drawn.filter(one => one.sprite === 'live-oak-large' || one.sprite === 'mesquite-large').length >= 7, 'without the mott the grove is not drawn');
   assert.equal(evidence.poses.rider, 20, 'Grant\'s men are not drawn riding');
-  // Grant's men ride as Claude's `volunteer-mounted` where it can be drawn, the mounted courier before it.
-  assert.ok(art.drawn.some(one => one.clip === 'mounted-courier-e' || one.clip === 'volunteer-mounted'));
+  // Grant's men ride as Astra's mounted volunteer (2026-10-03), by their heading.
+  assert.ok(art.drawn.some(one => one.clip?.startsWith('volunteer-ride-')));
 });
 
 test('a family\'s man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it', () => {
@@ -273,9 +273,10 @@ test('a family\'s man is drawn in his part - asleep, in the house, giving up - a
   assert.deepEqual(view.evidence.memberFates, { a: 'killed', b: 'captured' });
 });
 
-test('with Claude\'s temporary sheets loaded, men asleep are drawn asleep with their heads on their packs, never as a man killed', () => {
-  const art = fakeArt({ claude: true }), view = createBattleView(art);
+// Astra's blanket sleep (2026-10-03) replaced Claude's `*-sleep` at the merge of 2026-10-04.
+test('men asleep are drawn in Astra\'s blanket sleep, never as a man killed', () => {
+  const art = fakeArt(), view = createBattleView(art);
   run(view, minute => night(minute, [part('square', 8, -0.02, { pose: 'asleep', style: 'camp' })]), { seconds: 3, art });
-  assert.ok(art.drawn.some(one => one.sprite === 'volunteer-sleep'), 'nobody was drawn asleep');
+  assert.ok(art.drawn.some(one => one.clip === 'volunteer-sleep'), 'nobody was drawn asleep');
   assert.ok(!art.drawn.some(one => one.sprite === 'volunteer-reclining'), 'a sleeping man was drawn as the reclining dead');
 });

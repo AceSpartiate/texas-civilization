@@ -5,7 +5,7 @@
 //   D8   Ramírez y Sesma's lancers: `lancer-march`, `lancer-idle`, `lancer-charge` (at the gallop, lance level; never striking)
 //   D9   a column's foragers: `forager-ride-1..4` (horsemen, one leading a pack mule of corn) and `forager-drive-1..4` (two
 //        horsemen driving cattle)
-//   D10  `dragoon-wounded-led-1`/`-2`: a man slumped in the saddle, a comrade on foot leading his horse
+//   (D10, the wounded dragoon led off, is Astra's since 2026-10-03)
 // The dragoon is Astra's (`dragoon-*`): dark blue coatee, red facings, white crossbelts, brass helmet with a black crest; an
 // interpretation at play size, not a uniform plate (kit/riders.mjs). Nothing is ever shown struck: a volley's smoke and flash
 // are the battle's own, drawn at the muzzle by public/battle-view.js.
@@ -62,25 +62,8 @@ const lancerMarch = [0, 1, 2, 3].map(i => lancer(`lancer-march-${i + 1}`, i, 'wa
 const lancerIdle = [lancer('lancer-idle-1', null, 'walk', (F, seat) => lanceUp(F, seat), 'his horse standing square, the lance upright, facing east (the game mirrors it for west)')];
 const lancerCharge = [0, 1, 2, 3].map(i => lancer(`lancer-charge-${i + 1}`, i, 'gallop', (F, seat, ctx) => lanceCouched(F, seat, ctx), `charging east ${GALLOP(i)}, the lance couched level under his arm, pointing ahead and a little down`));
 
-// --------------------------------------------------------------------------------------------------- D10 the wounded led off
-const wounded = [0, 1].map(i => ({ name: `dragoon-wounded-led-${i + 1}`, height: 1.8, compare: [['dragoon-march-1', 1.8], ['dragoon-march-2', 1.8]],
-  prompt: `A wounded Mexican dragoon slumped forward in the saddle, his head down and his hands on the pommel, nothing of a wound shown; a comrade on foot at the horse's head leads it east by the reins, walking (frame ${i + 1} of 2). ${TROOPER.replace('A Mexican dragoon of 1835-36 as Astra draws him - ', 'Both in ')}. ${STYLE}`,
-  draw: () => MF(`dragoon-wounded-led-${i + 1}`, DRAGOON, i * 2, { ...HORSE, cell: { w: 860, h: 560 }, originX: 320, note: `a wounded dragoon led off, frame ${i + 1} of 2`,
-    pose: (F, seat, ctx) => slumped(F, seat, ctx),
-    after: (ink, at) => {
-      // The comrade on foot, a pace ahead of the horse's head, looking back, his far hand back on the reins at the bit.
-      const man = new Ink(ink.prefix + '-m', ink.k * 1.3, { yUp: true });
-      man.n = ink.n + 900;
-      const walk = POSES.walk(frameOf(DRAGOON))[i * 2];
-      const X = 96, bit = [at.bit[0] / 1.3, at.bit[1] / 1.3];
-      const pelvis = add(walk.pelvis, [X, 0]);
-      const j = drawPerson(man, DRAGOON, { ...walk, pelvis, feet: { near: add(walk.feet.near, [X, 0]), far: add(walk.feet.far, [X, 0]) }, hands: { near: add(walk.hands.near, [X, 0]), far: add(bit, [2, 0]) }, elbows: { far: 1 }, tilt: -6 });
-      const joints = { handFar: [j.handFar[0] * 1.3, j.handFar[1] * 1.3] };
-      ink.n = man.n + 1;
-      ink.defs.push(...man.defs);
-      ink.raw(`<g transform="scale(1.3)">${man}</g>`);
-      ink.line(curve([joints.handFar, lerp(joints.handFar, at.bit, 0.5), at.bit]), { colour: '#3e2816', width: 2.2 });
-    } }) }));
+// D10 the wounded led off (`dragoon-wounded-led`): Astra's (2026-10-03, four frames); Claude's two were deleted at the merge
+// of 2026-10-04.
 
 // --------------------------------------------------------------------------------------------------- D9 the foragers
 const FORAGE = { w: 1500, h: 720 };
@@ -108,13 +91,10 @@ const foragerDrive = [0, 1, 2, 3].map(i => ({ name: `forager-drive-${i + 1}`, he
 const walk = (frames, ms, extra = {}) => ({ frames: frames.map(f => ({ sprite: f.name, duration: ms })), loop: true, motion: 'none', direction: 'east; west by mirroring', ...extra });
 // Retired 2026-10-03 when Astra's own art of the same names was merged (Astra's art wins): the dragoon firing from the saddle and the lancers (`dragoon-fire`, `lancer-charge`); the rest of those two sheets (the dragoon's gallop and carbine, the lancer's walk and idle) were never drawn beside hers (public/art-subjects.js: dragoons and lancers are her subjects) and went with them.
 export const SHEETS = {
-  'claude-dragoon-wounded': { cell: half({ w: 860, h: 560 }), columns: 2, request: 'Request 2026-09-25 — battles: the pieces the engine stands in for', replaceWith: 'item 3: a dragoon slumped in the saddle, another leading the horse, 2 frames east',
-    frames: wounded },
   'claude-foragers': { cell: half(FORAGE), columns: 2, request: 'Request 2026-09-26 — the Mexican advance', replaceWith: 'item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east',
     frames: [...foragerRide, ...foragerDrive] },
 };
 export const CLIPS = {
-  'dragoon-wounded-led': walk(wounded, 420, { prompt: 'A wounded dragoon slumped in the saddle, his horse led off at a walk by a comrade on foot: two frames.' }),
   'forager-ride': walk(foragerRide, 230, { prompt: 'A foraging party riding, one leading a pack mule of corn: a four-frame walk loop.' }),
   'forager-drive': walk(foragerDrive, 230, { prompt: 'Two horsemen driving four head of cattle: a four-frame walk loop.' }),
 };

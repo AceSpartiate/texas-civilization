@@ -397,7 +397,7 @@
 
     <!-- The errand to town (docs/TOWNS.md §4b, owner 2026-09-24): what to buy and sell, chosen before anybody leaves. Every
          line, price, the stock and how they will go are the server's (`/api/errand`, sim/errands.mjs); public/errand.js
-         draws them and sends the one order. Escape sends nobody; Enter sends the list. -->
+         draws them and sends the one order. Escape cancels; native controls retain their Enter action. -->
     <div id="errand" hidden role="dialog" aria-labelledby="errand-title" aria-describedby="errand-text">
       <div id="errand-head"><span id="errand-title">To town</span><button type="button" id="errand-close" aria-label="Close, and send nobody">×</button></div>
       <!-- The store's tip, the first time this family opens the errand (public/tips.js): here rather than over the map, where
@@ -410,7 +410,18 @@
       <p id="errand-text" class="ask-text"></p>
       <p id="errand-dearer" hidden></p>
       <p id="errand-stock"></p>
+      <div id="errand-tools">
+        <input id="errand-search" type="search" placeholder="Find seed, tools, food…" aria-label="Search the town's goods">
+        <select id="errand-shop-filter" aria-label="Choose a shop"><option value="">All shops</option></select>
+        <div id="errand-filters" role="group" aria-label="Show offers">
+          <button type="button" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="buy" aria-pressed="false">Buy</button>
+          <button type="button" data-filter="sell" aria-pressed="false">Sell</button>
+          <button type="button" data-filter="service" aria-pressed="false">Services</button>
+        </div>
+      </div>
       <div id="errand-lines"></div>
+      <div id="errand-basket" aria-label="Your shopping list"></div>
       <p id="errand-after"></p>
       <div id="errand-ways" role="group" aria-label="Going by" hidden></div>
       <p id="errand-how" role="status"></p>
@@ -487,6 +498,7 @@
 
     <section id="wagon-load" hidden aria-labelledby="wagon-load-title">
       <header>
+        <canvas id="wagon-illustration" width="220" height="100" aria-hidden="true"></canvas>
         <span class="eyebrow">BEFORE THE CLASS BEGINS</span>
         <h2 id="wagon-load-title">Pack the wagon</h2>
       </header>
@@ -503,15 +515,16 @@
         town later, if there is coin; the things for the house cannot be bought anywhere.</p>
       <p id="wagon-when">You can change all of this until your teacher presses Start. After that the wagon is packed.</p>
       <p id="wagon-room" role="status"></p>
+      <progress id="wagon-capacity" max="16" value="0" aria-label="Cargo space used"></progress>
       <p id="wagon-packs" hidden></p>
       <!-- Whether the family drives stock in: how much land it holds (docs/LAND_GRANTS.md) and the herd itself
            (docs/STOCK.md), both stated here since 2026-09-21. -->
-      <fieldset id="wagon-stock" hidden>
+      <details id="wagon-stock-options" hidden><summary>Livestock &amp; land</summary><fieldset id="wagon-stock" hidden>
         <legend>Stock, and the land it brings</legend>
         <label><input type="radio" name="wagon-stock" value="no"> <span id="stock-no-text"></span></label>
         <label><input type="radio" name="wagon-stock" value="yes"> <span id="stock-yes-text"></span></label>
         <p id="wagon-stock-why" role="alert"></p>
-      </fieldset>
+      </fieldset></details>
       <ul id="wagon-items"></ul>
       </div>
       <p id="wagon-note" role="alert"></p>

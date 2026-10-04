@@ -219,9 +219,14 @@ try {
 
   // Episode 2: Karnes's door and Milam's fall, at 1024x768.
   await fighter.setViewportSize({ width: 1024, height: 768 });
+  // The Host during a held episode: its camera on the town itself. Read while the episode is on (2026-10-04): read after the
+  // fighter's five samples, it landed on the afternoon whenever the samples ran a second slow, the episode being about thirty
+  // minutes of the clock.
+  const readHost = () => host.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, focus: window.__snapshot.world.host?.focus, camera: window.__camera?.kind, seen: window.__spotlightSeen }));
+  const hostHeldDuring = host.waitForFunction(() => window.__snapshot.world.battle?.phase === 'karnes' && window.__snapshot.world.host?.focus === 'battle' && window.__camera?.kind === 'battle'
+    && (window.__spotlightSeen || []).some(key => key.startsWith('bexar-karnes')), null, { timeout: 300000 }).then(readHost, readHost);
   const karnes = firing(await episode(fighter, ['karnes'], '1024 karnes', { count: 5, gap: 1500 }), 'Karnes\'s door');
-  // The Host during a held episode: its camera on the town itself.
-  const hostHeld = await host.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, focus: window.__snapshot.world.host?.focus, camera: window.__camera?.kind, seen: window.__spotlightSeen }));
+  const hostHeld = await hostHeldDuring;
   assert.ok(hostHeld.focus === 'battle' && hostHeld.camera === 'battle', `the Host's camera was not on the town in the ${hostHeld.phase}: ${JSON.stringify(hostHeld)}`);
   assert.ok(hostHeld.seen?.some(key => key.startsWith('bexar-karnes')), 'no spotlight on Karnes\'s door');
   ok(`the Host's camera is on the town in the ${hostHeld.phase} (focus ${hostHeld.focus}), spotlit`);

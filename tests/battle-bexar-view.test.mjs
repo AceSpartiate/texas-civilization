@@ -77,8 +77,8 @@ test('in the houses most men are out of sight: the fire is flashes and smoke at 
   const dated = battle.guns.reduce((sum, gun) => sum + gun.shots.length, 0);
   assert.ok(shown.gunShots <= 16 * dated, 'a gun fired more than the server dated');
   assert.ok(art.drawn.some(one => one.clip === 'regular-gun-ram' || one.clip === 'regular-gun-fire'), 'the Mexican guns are served by nobody');
-  assert.ok(art.drawn.some(one => one.sprite === 'palisade'), 'no palisade across the street');
-  assert.ok(art.drawn.some(one => one.clip === 'rust-work' || one.clip === 'teal-work'), 'nobody digs the trench at night');
+  assert.ok(art.drawn.some(one => one.sprite === 'barricade-street-embrasure'), 'no palisade across the street');
+  assert.ok(art.drawn.some(one => one.clip === 'volunteer-dig'), 'nobody digs the trench at night');
 });
 
 test('Neill serves his own gun during the Béxar feint', () => {
@@ -97,8 +97,8 @@ test('Johnson takes command in his own art at seven on the seventh', () => {
 test('Burleson rides into the Béxar talks on his own mounted sheet', () => {
   const art = fakeArt(), view = createBattleView(art);
   play(view, 'parley', { seconds: 2, into: tick => 55 + tick });
-  // Riding his own horse by the way he goes since Astra's cardinal riding (2026-10-03): east, north or south.
-  assert.ok(art.drawn.some(one => /^burleson-mounted-walk-[ens]$/.test(one.clip || '')), JSON.stringify([...new Set(art.drawn.map(one => one.clip).filter(Boolean))]));
+  // Riding his own horse by the way he goes since Astra's cardinal riding (2026-10-03): east, north or south; or standing mounted.
+  assert.ok(art.drawn.some(one => /^burleson-mounted-walk-[ens]$/.test(one.clip || '') || one.sprite === 'burleson-mounted-idle-e'), JSON.stringify([...new Set(art.drawn.map(one => one.clip).filter(Boolean))]));
   assert.ok(!art.drawn.some(one => one.clip === 'mounted-courier-e'));
 });
 
@@ -182,12 +182,15 @@ test('a family\'s man stands in his unit and fires with it, and falls at the mom
   assert.ok(poses.filter(one => one.minute > fallAt + 9).every(one => one.pose === 'volunteer-reclining'), 'he was not drawn lying still after it');
 });
 
-test('with Claude\'s temporary sheets loaded: the barricade, the trench dug by a volunteer, the loophole\'s man and the crowbar are their own frames', () => {
+// The barricade, the trench dug by a volunteer and the volunteer at a loophole are Astra's (2026-10-03), which replaced Claude's
+// of the same subjects at the merge of 2026-10-04; the library's palisade and the settlers at the hoe only while her sheets load.
+test('the barricade, the trench dug by a volunteer, the loophole\'s man and the crowbar are their own frames', () => {
   const art = fakeArt({ claude: true }), view = createBattleView(art);
   play(view, 'pinned-5', { seconds: 16, into: tick => 20 + tick * 120 });
-  assert.ok(art.drawn.some(one => one.sprite === 'barricade-street') && !art.drawn.some(one => one.sprite === 'palisade'), 'the street barricade is still the palisade');
+  assert.ok(art.drawn.some(one => one.sprite === 'barricade-street-embrasure') && !art.drawn.some(one => one.sprite === 'palisade'), 'the street barricade is still the palisade');
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-dig') && !art.drawn.some(one => one.clip === 'rust-work' || one.clip === 'teal-work'), 'the trench is dug by settlers at the hoe');
-  assert.ok(art.drawn.some(one => /^(volunteer|regular)-loophole-fire/.test(one.clip || one.sprite || '')), 'nobody was drawn at a loophole');
+  assert.ok(art.drawn.some(one => /^volunteer-loophole-/.test(one.clip || one.sprite || '')), 'nobody was drawn at a loophole');
+  assert.ok(art.drawn.some(one => one.sprite === 'house-loopholed'), 'the house held is not drawn behind its men');
   const door = fakeArt({ claude: true });
   play(createBattleView(door), 'karnes', { seconds: 30, into: tick => tick });
   // Karnes forces it himself since Astra drew him with his crowbar (2026-09-28): her `karnes-crowbar-work`, and neither the rammer

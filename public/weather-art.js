@@ -500,7 +500,7 @@ export function washAcross(ctx, spans, [r, g, b], alphaOf) {
  */
 export const WATER_HIGH = 0.3, WATER_SHUT = 0.85;
 /** The river in flood: its dark silty edge, its muddy olive body, the light ripples of the current on it, and the dark drift once it is over its banks. */
-export const FLOOD = Object.freeze({ bank: '#3c4428', body: '#5a6a3c', ripple: '#b4c2a6', drift: '#3a3226' });
+export const FLOOD = Object.freeze({ bank: '#405b55', body: '#667460', ripple: '#c5d1b9', drift: '#3a3226' });
 /**
  * The curve `curveThrough` lays through these points, as a dense line of points: the ripples and the drift are placed on
  * the water as it is drawn, not on the chords between its points, which cut the bends (the first fault of 2026-09-24).
@@ -557,8 +557,8 @@ export function drawHighWater(ctx, courses, waterAt) {
     const was = ctx.globalAlpha;
     // The bottoms: a wide, soft, dark band of soaked ground either side of the channel, and wider again once the river
     // is out of them - Gray's approach to the Trinity, "a boggy, miry, nasty prairie... subject to overflow".
-    ctx.globalAlpha = was * (0.3 + 0.22 * over) * rise;
-    ctx.strokeStyle = '#5c6446'; ctx.lineWidth = course.width * (2.2 + rise * 2.6 + over * 5);
+    ctx.globalAlpha = was * (0.12 + 0.1 * over) * rise;
+    ctx.strokeStyle = '#5c6446'; ctx.lineWidth = course.width * (1.8 + rise * .6 + over * 2.3);
     line(); ctx.stroke();
     // The water itself, run fuller and thick with what it is carrying. Wider than the channel was drawn, always: a stroke
     // narrower than the water left a blue core showing through a river in flood (seen 2026-09-20), and a flooded river
@@ -573,6 +573,25 @@ export function drawHighWater(ctx, courses, waterAt) {
     // Laid in three, widest and faintest first, so the edge of the water is soft - silt thinning out over the bank - rather
     // than the hard kerb of a band of one colour, which is what a road is.
     const flood = course.width * (1.08 + rise * 0.45 + over * 1.6);
+    const canvas = ctx.canvas || { width: Infinity, height: Infinity }, bed = curvePoints(points,16);
+    // Water spills into irregular low ground rather than widening into another
+    // perfectly parallel road stripe. These continuous margins remain attached to
+    // this river; no new watercourse or passability decision is invented here.
+    if (over > .05 && typeof ctx.fill === 'function' && typeof ctx.closePath === 'function') {
+      const left=[],right=[];let travelled=0;
+      for(let i=0;i<bed.length;i++) {
+        const p=bed[i],a=bed[Math.max(0,i-1)],b=bed[Math.min(bed.length-1,i+1)];
+        const length=Math.hypot(b.x-a.x,b.y-a.y)||1,tx=(b.x-a.x)/length,ty=(b.y-a.y)/length;
+        if(i)travelled+=Math.hypot(p.x-a.x,p.y-a.y);
+        for(const [side,edge] of [[-1,left],[1,right]]) {
+          const spread=flood*(.65+.08*Math.sin(travelled/Math.max(24,flood*.7)+side*2)+.025*Math.sin(travelled/19+side));
+          edge.push({x:p.x-ty*spread*side,y:p.y+tx*spread*side});
+        }
+      }
+      const outline=[...left,...right.reverse()];
+      ctx.globalAlpha=was*over*.72;ctx.fillStyle=FLOOD.body;ctx.beginPath();
+      outline.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.fill();
+    }
     for (const [color, share, alpha] of [[FLOOD.bank, 1.25, 0.45], [FLOOD.body, 1.08, 0.6], [FLOOD.body, 0.8, 0.72 + 0.2 * rise]]) {
       ctx.globalAlpha = was * alpha;
       ctx.strokeStyle = color; ctx.lineWidth = flood * share;
@@ -582,7 +601,6 @@ export function drawHighWater(ctx, courses, waterAt) {
     // drawn with (public/landscape-art.js `drawWater`), so a reader already knows it as water. Never a dashed line along
     // the middle, nor any line along it at all: on a dark band that is a painted highway's centre line, and a first try at
     // streaks of current made the flood a paved road with lanes (seen 2026-09-24).
-    const canvas = ctx.canvas || { width: Infinity, height: Infinity }, bed = curvePoints(points);
     // Only once the water is wide enough to hold a ripple you can see as one: narrower, a row of them down the middle is a
     // dotted line, and a dotted line on a band is a road's. They come in over 16 to 32 pixels of flood.
     const ripple = Math.max(4, flood * 0.16), shows = smoothStep(16, 32, flood);
@@ -612,6 +630,40 @@ export function drawHighWater(ctx, courses, waterAt) {
     drawn++;
   }
   return { drawn, shut };
+}
+
+/** Small, bounded screen-space current marks, prepared only when the ground changes.
+ * They are presentation data, never simulated water or knowledge of hidden events. */
+export function floodCurrentMarks(courses,waterAt,bounds) {
+  const marks=[];
+  for(const course of courses) {
+    const water=waterAt(course);
+    if(!Number.isFinite(water)||water<=WATER_HIGH*.75||course.width<12||!(course.points?.length>1))continue;
+    const rise=smoothStep(WATER_HIGH*.75,1,water),over=smoothStep(WATER_SHUT-.08,.95,water);
+    const width=course.width*(1.08+rise*.45+over*1.6);
+    alongCourse(curvePoints(course.points),Math.max(32,width*.8),bounds.width,bounds.height,p=>{
+      if(marks.length>=160)return;
+      const offset=Math.sin(p.index*2.399)*width*.24;
+      marks.push({...p,x:p.x-p.ty*offset,y:p.y+p.tx*offset,width});
+    },32);
+    if(marks.length>=160)break;
+  }
+  return marks;
+}
+
+/** Motion remains separate from the cached ground; reduced motion holds the water still. */
+export function drawFloodCurrent(ctx,marks,time,{still=false}={}) {
+  if(still||!marks.length)return 0;
+  const base=ctx.globalAlpha ?? 1;
+  ctx.save();ctx.strokeStyle='#d0d8b9';ctx.lineCap='round';
+  for(const p of marks) {
+    const phase=time/1800+p.index*2.17,shift=Math.sin(phase)*Math.min(7,p.width*.12);
+    const x=p.x+p.tx*shift,y=p.y+p.ty*shift,r=Math.min(9,p.width*.12);
+    ctx.globalAlpha=base*(.08+.14*(.5+.5*Math.cos(phase)));ctx.lineWidth=Math.max(.7,Math.min(1.4,p.width*.025));
+    ctx.beginPath();ctx.moveTo(x-p.tx*r,y-p.ty*r);
+    ctx.quadraticCurveTo(x+p.ty*r*.45,y-p.tx*r*.45,x+p.tx*r,y+p.ty*r);ctx.stroke();
+  }
+  ctx.restore();return marks.length;
 }
 
 /**

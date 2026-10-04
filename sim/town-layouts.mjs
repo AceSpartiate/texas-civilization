@@ -69,8 +69,8 @@ const withFill = (named, fill) => [...named, ...dwellings(fill.prefix, { ...fill
 // of the sheet faces the Brazos on the map (the town stood on the west bank, S3). The built town is a half-mile ribbon
 // of log buildings along the road back from McFarland's ferry, in Smithwick's order (§4.2), not a filled grid.
 const SF_NAMED = [
-  { id: 'sf-austin-house', sprite: 'house-dog-run', x: 300, y: 1600, height: 26, label: 'Austin’s headquarters' },
-  { id: 'sf-parker-farm', sprite: 'cabin-weathered', x: 250, y: 1330, height: 22 },
+  { id: 'sf-austin-house', sprite: 'house-dog-run', x: 300, y: 1535, height: 26, label: 'Austin’s headquarters' },
+  { id: 'sf-parker-farm', sprite: 'cabin-weathered', x: 250, y: 1390, height: 22 },
   { id: 'sf-ingram-store', sprite: 'trading-house', x: 470, y: 1700, height: 24, label: 'Ingram brothers’ store' },
   { id: 'sf-league-house', sprite: 'house-hewn-log', x: 560, y: 1560, height: 24 },
   { id: 'sf-league-burnet', sprite: 'cabin-small', x: 640, y: 1700, height: 20, label: 'League & Burnet, law office' },
@@ -88,14 +88,14 @@ const SF_NAMED = [
   // and drawn for this spot (`town-buildings-researched`, 2026-09-21). It was `house-dog-run` stretched to 34 feet; the
   // painted building is the right shape, so it goes back to the height the research gives it.
   { id: 'sf-whiteside-hotel', sprite: 'whiteside-hotel', x: 1560, y: 1790, height: 28, label: 'Whiteside Hotel' },
-  { id: 'sf-alcalde-office', sprite: 'house-dog-run', x: 1590, y: 1600, height: 26, label: 'The alcalde’s office' },
+  { id: 'sf-alcalde-office', sprite: 'house-dog-run', x: 1590, y: 1535, height: 26, label: 'The alcalde’s office' },
   { id: 'sf-farmers-hotel', sprite: 'house-dog-run', x: 1800, y: 2050, height: 28, label: 'Farmer’s Hotel' },
   { id: 'sf-huff-store', sprite: 'trading-house', x: 1700, y: 2060, height: 24 },
-  { id: 'sf-butler-hotel', sprite: 'house-dog-run', x: 1700, y: 1930, height: 28 },
+  { id: 'sf-butler-hotel', sprite: 'house-dog-run', x: 1700, y: 1830, height: 28 },
   { id: 'sf-calvit-house', sprite: 'house-hewn-log', x: 1880, y: 2075, height: 24 },
   { id: 'sf-mcfarland', sprite: 'cabin-weathered', x: 2250, y: 2120, height: 22, label: 'McFarland, the ferryman' },
   { id: 'sf-bake-oven', sprite: 'shed-open', x: 2160, y: 2110, height: 16 },
-  { id: 'sf-perry-store', sprite: 'trading-house', x: 1210, y: 1930, height: 26 },
+  { id: 'sf-perry-store', sprite: 'trading-house', x: 1210, y: 1830, height: 26 },
   { id: 'sf-clopper-store', sprite: 'trading-house', x: 1130, y: 1935, height: 24 },
   { id: 'sf-gay-saloon', sprite: 'cabin-weathered', x: 1380, y: 1935, height: 22 },
   { id: 'sf-stewart-drugs', sprite: 'cabin-small', x: 1330, y: 1935, height: 20, label: 'Stewart’s drug store', trade: 'doctor' },
@@ -191,11 +191,11 @@ const MINA = {
 const MAT_X = [['Orleans Street', -333], ['Thompson Road', 42], ['Saint Mary Street', 496], ['Mulberry Street', 1329], ['Cedar Street', 1730], ['Cypress Street', 2591], ['Caney Street', 2995], ['Catalpa Street', 3409], ['Magnolia Street', 3882], ['Peach Street', 4258], ['Live Oak Road', 4672], ['Bernardo Street', 5074]];
 const MAT_Y = [['Burton Street', 1165], ['Austin Street', 1577], ['Center Street', 2057], ['Wightman Street', 2474], ['Lewis Street', 2920], ['Matagorda Avenue', 3718], ['', 4560]];
 const MAT_NAMED = [
-  { id: 'mat-customhouse', sprite: 'trading-house', x: 1750, y: 4250, height: 26, label: 'The customhouse' },
+  { id: 'mat-customhouse', sprite: 'trading-house', x: 1815, y: 4250, height: 26, label: 'The customhouse' },
   { id: 'mat-store-1', sprite: 'trading-house', x: 2050, y: 4270, height: 26, label: 'A store', trade: 'store' },
   { id: 'mat-store-2', sprite: 'storehouse', x: 2350, y: 4290, height: 24 },
   { id: 'mat-warehouse', sprite: 'storehouse', x: 1600, y: 4500, height: 24, label: 'Warehouse' },
-  { id: 'mat-committee-room', sprite: 'frame-hall', x: 2600, y: 3900, height: 28, label: 'The Committee Room' },
+  { id: 'mat-committee-room', sprite: 'frame-hall', x: 2670, y: 3900, height: 28, label: 'The Committee Room' },
   { id: 'mat-powder-store', sprite: 'storehouse', x: 2900, y: 4350, height: 22 },
   { id: 'mat-schoolhouse', sprite: 'cabin-wide', x: 6250, y: 1850, height: 20, label: 'The schoolhouse' },
   { id: 'mat-cummins-cabin', sprite: 'house-dog-run', x: 600, y: 3600, height: 26 },
@@ -227,7 +227,7 @@ const COL_NAMED = [
   { id: 'col-bell-hotel', sprite: 'frame-hall', x: 620, y: 760, height: 30, label: 'Bell’s hotel' },
   { id: 'col-courthouse', sprite: 'timber-hall', x: 900, y: 900, height: 24, label: 'The courthouse' },
   { id: 'col-alcalde-office', sprite: 'cabin-small', x: 1030, y: 880, height: 18 },
-  { id: 'col-tavern', sprite: 'trading-house', x: 430, y: 900, height: 22, label: 'Fitchett & Gill’s tavern', trade: 'tavern' },
+  { id: 'col-tavern', sprite: 'trading-house', x: 480, y: 900, height: 22, label: 'Fitchett & Gill’s tavern', trade: 'tavern' },
 ];
 const COLUMBIA = {
   name: 'Columbia', research: 'docs/town-research/columbia.md', bearing: 104.8, anchor: { x: 836, y: 810 },
@@ -251,7 +251,7 @@ const LIB_NAMED = [
   // `liberty-court-room-side` is the same room seen end on and is registered for a layout that ever wants it turned.
   { id: 'lib-casa-consistorial', sprite: 'liberty-court-room', x: 1750, y: 1361, height: 14, label: 'Casa Consistorial · the court room' },
   { id: 'lib-store', sprite: 'trading-house', x: 2010, y: 1420, height: 18, label: 'The store', trade: 'store' },
-  ...[[2010, 1000], [2010, 1180], [2010, 1700], [2010, 1880], [1300, 1050], [1650, 1050], [2000, 1050], [1500, 1300], [1500, 1480]]
+  ...[[2010, 1000], [2010, 1100], [2010, 1700], [2010, 1880], [1300, 1050], [1650, 1050], [2000, 1050], [1500, 1300], [1500, 1480]]
     .map(([x, y], i) => ({ id: `lib-house-${i + 1}`, sprite: DWELLINGS[i % DWELLINGS.length], x, y, height: 20 - (i % 3) * 2, filler: true })),
 ];
 const LIBERTY = {
@@ -346,18 +346,18 @@ const BRZ_X = [['Walnut Street', -1148], ['Chestnut Street', -882], ['Star Stree
 const BRZ_Y = [['Main Street', 0], ['Pearl Street', 282], ['Austin Street', 561], ['Camp Street', 840], ['Travis Street', 1119], ['Marion Street', 1391], ['Velasco Street', 1670]];
 const BRZ_NAMED = [
   { id: 'brz-mills-store', sprite: 'trading-house', x: 30, y: -40, height: 26, label: 'The Mills brothers’ store' },
-  { id: 'brz-long-boarding-house', sprite: 'house-dog-run', x: -190, y: 16, height: 24, label: 'Jane Long’s boarding house' },
+  { id: 'brz-long-boarding-house', sprite: 'house-dog-run', x: -190, y: 80, height: 24, label: 'Jane Long’s boarding house' },
   { id: 'brz-long-outbuilding', sprite: 'storehouse', x: -190, y: 120, height: 12 },
-  { id: 'brz-hotel', sprite: 'frame-hall', x: 300, y: 20, height: 28, label: 'The Brazoria Hotel' },
-  { id: 'brz-printing-office', sprite: 'cabin-small', x: -40, y: 300, height: 18, label: 'The Texas Republican' },
-  { id: 'brz-andrews-store', sprite: 'trading-house', x: 160, y: 300, height: 22, label: 'Andrews’s store' },
-  { id: 'brz-bennett-sharp-store', sprite: 'trading-house', x: -330, y: 290, height: 22 },
-  { id: 'brz-manson-store', sprite: 'timber-shop', x: 480, y: 290, height: 20 },
-  { id: 'brz-warehouse-1', sprite: 'storehouse', x: -280, y: -20, height: 22 },
-  { id: 'brz-warehouse-2', sprite: 'storehouse', x: 560, y: -20, height: 20 },
+  { id: 'brz-hotel', sprite: 'frame-hall', x: 300, y: 90, height: 28, label: 'The Brazoria Hotel' },
+  { id: 'brz-printing-office', sprite: 'cabin-small', x: -40, y: 350, height: 18, label: 'The Texas Republican' },
+  { id: 'brz-andrews-store', sprite: 'trading-house', x: 160, y: 350, height: 22, label: 'Andrews’s store' },
+  { id: 'brz-bennett-sharp-store', sprite: 'trading-house', x: -390, y: 355, height: 22 },
+  { id: 'brz-manson-store', sprite: 'timber-shop', x: 480, y: 355, height: 20 },
+  { id: 'brz-warehouse-1', sprite: 'storehouse', x: -280, y: -75, height: 22 },
+  { id: 'brz-warehouse-2', sprite: 'storehouse', x: 615, y: 85, height: 20 },
   { id: 'brz-doctor-1', sprite: 'cabin-small', x: -520, y: 40, height: 16 },
   { id: 'brz-doctor-2', sprite: 'cabin-small', x: 700, y: 330, height: 16 },
-  { id: 'brz-courthouse', sprite: 'timber-hall', x: 270, y: 560, height: 24, label: 'The municipal building' },
+  { id: 'brz-courthouse', sprite: 'timber-hall', x: 270, y: 630, height: 24, label: 'The municipal building' },
   { id: 'brz-masonic-oak', sprite: 'live-oak-large', x: -2201, y: 2188, height: 50, label: 'The Masonic Oak' },
 ];
 const BRAZORIA = {
@@ -420,7 +420,7 @@ const HARRISBURG = {
     { id: 'hbg-warehouse', sprite: 'storehouse', x: 560, y: -980, height: 18 },
     { id: 'hbg-moore', sprite: 'frame-hall', x: -380, y: -700, height: 22, label: 'John W. Moore’s house' },
     { id: 'hbg-frame-1', sprite: 'frame-hall', x: 480, y: -700, height: 18 },
-    { id: 'hbg-frame-2', sprite: 'timber-shop', x: 420, y: -640, height: 18 },
+    { id: 'hbg-frame-2', sprite: 'timber-shop', x: 490, y: -640, height: 18 },
     { id: 'hbg-cannon-1', sprite: 'cannon-iron-e', x: 520, y: -430, height: 6, label: 'Guns waiting to go west' },
     { id: 'hbg-cannon-2', sprite: 'cannon-iron-e', x: 545, y: -420, height: 6 },
     { id: 'hbg-cannon-3', sprite: 'cannon-iron-e', x: 570, y: -410, height: 6 },
@@ -436,6 +436,8 @@ const ANAHUAC = {
   name: 'Anahuac', research: 'docs/town-research/anahuac.md', bearing: 90, anchor: { x: 1642, y: -6287 },
   streets: [
     { name: 'The track to Turtle Bayou', width: 12, faint: true, points: [{ x: 1100, y: -4000 }, { x: 1400, y: -6800 }] },
+    // Interpretive terrace connector, keeping the two documented path fragments unchanged.
+    { name: 'The terrace path', width: 10, faint: true, points: [{ x: 1100, y: -4000 }, { x: 1030, y: -3550 }, { x: 940, y: -3050 }, { x: 900, y: -2550 }, { x: 800, y: -2000 }, { x: 700, y: -1500 }] },
     { name: 'The path to the fort', width: 8, faint: true, points: [{ x: 700, y: -1500 }, { x: -100, y: -100 }] },
   ],
   squares: [],
@@ -487,7 +489,7 @@ const NACOGDOCHES = {
     { id: 'nac-church-ruin', sprite: 'roofless-church-shell', x: -560, y: -380, height: 18, label: 'The old church' },
     { id: 'nac-sterne', sprite: 'timber-hall', x: 1186, y: 872, height: 22, label: 'Sterne’s house' },
     { id: 'nac-durst', sprite: 'house-dog-run', x: -184, y: -1069, height: 18, label: 'Durst’s house' },
-    { id: 'nac-smithy', sprite: 'shed-open', x: 100, y: 260, height: 12, label: 'A smithy' },
+    { id: 'nac-smithy', sprite: 'shed-open', x: 100, y: 200, height: 12, label: 'A smithy' },
     ...alongRoad('nac-store', [{ x: -420, y: -300 }, { x: -56, y: -13 }, { x: 627, y: 239 }], { count: 6, spacing: 190, setback: 55, sprites: ['trading-house', 'timber-shop', 'trading-house'], height: 18 }),
     ...alongRoad('nac-frame', [{ x: 700, y: 270 }, { x: 1224, y: 474 }, { x: 1600, y: 620 }], { count: 8, spacing: 130, setback: 70, sprites: ['timber-hall', 'house-dog-run'], height: 18 }),
     // Houses of upright logs and mud (`town-buildings-researched`, 2026-09-21): the palisado row is the jacal of set
@@ -557,6 +559,26 @@ const GOLIAD = {
     ...scatter('gol-jacal', { centre: { x: 0, y: 500 }, radius: 900, count: 36, sprites: ['jacal-broad', 'jacal-upright-post', 'adobe-flat', 'jacal-poor', 'jacal-ramada'], height: 13, exclude: [{ x: 20, y: 20, width: 355, height: 338 }], within: (x, y) => y > 380 || x < -40 }),
   ],
 };
+
+// Adjacent-lot corrections to invented scenery only; see docs/TOWN_STREET_REPAIRS_2026-10-03.md.
+const scenicAnchors = {
+  'wash-house-4': { x: 280, y: 75 },
+  'nac-palisade-3': { x: -390, y: -30 },
+  'nac-log-4': { x: 1140, y: 540 },
+  'gol-jacal-18': { x: 515, y: 645 },
+};
+for (const layout of [WASHINGTON, NACOGDOCHES, GOLIAD]) {
+  layout.buildings = layout.buildings.map(building => scenicAnchors[building.id] ? { ...building, ...scenicAnchors[building.id] } : building);
+}
+// The surveyed Refugio grid stays in place; only filler huts are held off its street strips.
+REFUGIO.buildings = REFUGIO.buildings.map(building => {
+  if (!building.id.startsWith('ref-hut-')) return building;
+  const clearAxis = value => {
+    const line = REF_LINES.find(line => Math.abs(value - line) < 65);
+    return line === undefined ? value : Math.round(line + (value < line ? -65 : 65));
+  };
+  return { ...building, x: clearAxis(building.x), y: clearAxis(building.y) };
+});
 
 export const TOWN_LAYOUTS = Object.freeze({
   'san-felipe': SAN_FELIPE, victoria: VICTORIA, mina: MINA, matagorda: MATAGORDA, columbia: COLUMBIA, liberty: LIBERTY,

@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-28",
+  "date": "2026-10-04",
   "command": "npm run test:host-view",
   "scope": "Same computer only: headless Chrome 1440x950, a server on 127.0.0.1. Not a physical LAN, a phone or a classroom.",
   "class": {
@@ -9,37 +9,37 @@
     "joined": 1
   },
   "pass": [
-    "the student's page, 158.5 miles away, has none of hh-10's people and no overview",
-    "the Host zoomed to Trinidad's family's farm (house, round-log) and drew 4 of its people, 2 plot(s) and its line",
+    "the student's page, 158.5 miles away, has none of hh-9's people and no overview",
+    "the Host zoomed to Wiley's family's farm (house, round-log) and drew 3 of its people, 3 plot(s) and its line",
     "the Host zooms in as far as a student does (4737 pixels a mile)",
-    "the Host looks at Rhoda: \"of Trinidad's family · felling timber on the clearing · at home · well\", with no order offered",
+    "the Host looks at Jane: \"of Wiley's family · rest · at home · well\", with no order offered",
     "the Host went to San Felipe de Austin: 11 shops and 11 people drawn, keepers among them",
-    "Whole class: The whole class: 99 people, 137 figures in view, 14 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+    "Whole class: The whole class: 98 people, 136 figures in view, 12 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
     "at 400 pixels wide the list of places is on screen and the page does not scroll sideways",
     "no page error on either page"
   ],
   "errors": [],
   "observed": {
     "farFamily": {
-      "householdId": "hh-10",
-      "homeSiteId": "home-10",
+      "householdId": "hh-9",
+      "homeSiteId": "home-9",
       "milesFromStudent": 158.5,
       "atHome": [
-        "hh-10-thomas",
-        "hh-10-elena",
-        "hh-10-rosa",
-        "hh-10-mateo"
+        "hh-9-elena",
+        "hh-9-rosa",
+        "hh-9-mateo"
       ]
     },
-    "studentOthers": 0,
+    "studentOthers": 12,
     "farm": {
       "camera": {
         "kind": "region",
         "scale": 2131.5789473684213,
         "named": true,
-        "cx": 156.59975,
-        "cy": -40.621,
+        "cx": 156.54100000000003,
+        "cy": -40.736333333333334,
         "following": false,
+        "watching": null,
         "figure": 40.5,
         "house": {
           "size": 133.65,
@@ -47,47 +47,46 @@
         }
       },
       "land": {
-        "name": "Trinidad's family",
+        "name": "Wiley's family",
         "view": {
           "shelter": "house",
           "layout": "round-log"
         },
-        "plots": 2,
-        "logs": 5
+        "plots": 3,
+        "logs": 793
       },
       "drawnPeople": [
-        "hh-10-thomas",
-        "hh-10-elena",
-        "hh-10-rosa",
-        "hh-10-mateo"
+        "hh-9-elena",
+        "hh-9-rosa",
+        "hh-9-mateo"
       ],
       "houseDrawn": {
-        "householdId": "hh-10",
+        "householdId": "hh-9",
         "shelter": "house",
         "layout": "round-log",
         "pieces": 2
       },
-      "plotsDrawn": 2,
+      "plotsDrawn": 3,
       "holdings": 1,
-      "snapshotBytes": 63875,
-      "description": "The whole class: 98 people, 7 figures in view, 10 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations."
+      "snapshotBytes": 66491,
+      "description": "The whole class: 97 people, 5 figures in view, 11 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations."
     },
     "closestScale": {
       "host": 4736.842105263158,
       "student": 4736.842105263158
     },
-    "foldedPanels": true,
+    "foldedPanels": false,
     "clicked": {
-      "person": "hh-10-elena",
+      "person": "hh-9-elena",
       "at": {
-        "x": 432,
-        "y": 558
+        "x": 1302,
+        "y": 502
       }
     },
     "card": {
-      "id": "hh-10-elena",
-      "name": "Rhoda",
-      "state": "of Trinidad's family · felling timber on the clearing · at home · well",
+      "id": "hh-9-elena",
+      "name": "Jane",
+      "state": "of Wiley's family · rest · at home · well",
       "subject": "The teacher watches; only the family gives orders.",
       "orders": []
     },
@@ -98,9 +97,10 @@
         "kind": "region",
         "scale": 1357.1428571428573,
         "named": true,
-        "cx": 82.6463,
+        "cx": 82.6443,
         "cy": -20.7848,
         "following": false,
+        "watching": null,
         "figure": 25.78571428571429,
         "house": {
           "size": 85.09285714285714,
@@ -188,6 +188,7 @@
         "cx": 28.379999999999995,
         "cy": -8.319999999999993,
         "following": true,
+        "watching": null,
         "figure": 7,
         "house": {
           "size": 16,
@@ -195,20 +196,20 @@
         }
       },
       "follow": "Whole class",
-      "description": "The whole class: 99 people, 137 figures in view, 14 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
+      "description": "The whole class: 98 people, 136 figures in view, 12 people on the road. Over the river, the Texian volunteers gather at Mrs. DeWitt’s on the west bank. There is a council of war, and the Reverend W. P. Smith speaks to them. Miniature groups show the opposing formations.",
       "land": true
     },
     "phone": {
       "overflow": 0,
       "goto": {
-        "x": 138.796875,
+        "x": 168.765625,
         "y": 808,
-        "width": 83,
+        "width": 62.96875,
         "height": 44,
         "top": 808,
-        "right": 221.796875,
+        "right": 231.734375,
         "bottom": 852,
-        "left": 138.796875
+        "left": 168.765625
       }
     }
   },

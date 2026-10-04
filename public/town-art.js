@@ -3,7 +3,7 @@
 // The same data the server puts the shopkeepers in, so a keeper always stands at a building that is drawn. Streets and
 // squares go on the ground first; buildings are returned as drawables so they sort with the people standing among them.
 import { drawClip, drawSprite, hasSprite } from '/art.js';
-import { drawRoad } from '/landscape-art.js';
+import { drawStreets } from '/landscape-art.js';
 import { DRAWN_HEIGHT, FEET_PER_MILE, townPoint } from '/town-layouts.js';
 
 /** Streets and public squares, under everything. `project` takes miles from the town's site point to the screen. */
@@ -19,12 +19,12 @@ export function drawTownGround(ctx, layout, project, scale) {
   }
   ctx.globalAlpha = 1;
   // A street the town platted and nobody had yet built along is drawn as a faint trace, not a road.
-  for (const street of layout.streets) {
+  drawStreets(ctx,layout.streets.map(street => {
     // Drawn at six tenths of the platted width: `drawRoad` edges a road half as wide again, and at full width the streets
     // outweighed the town standing along them.
     const points = street.points.map(at), width = Math.max(1, street.width * pixelsPerFoot * .6);
-    if (street.faint) { ctx.globalAlpha = .35; drawRoad(ctx, points, width * .6); ctx.globalAlpha = 1; } else drawRoad(ctx, points, width);
-  }
+    return {points,width:street.faint?width*.6:width,faint:street.faint};
+  }));
   ctx.restore();
 }
 

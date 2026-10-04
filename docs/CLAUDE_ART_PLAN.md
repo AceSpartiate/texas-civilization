@@ -10,11 +10,11 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 33 | 8 | 18 | 0 |
 | B — Children, babies and sickness | 19 | 7 | 13 | 2 |
-| C — Soldiers, battles and famous people | 19 | 1 | 16 | 4 |
-| D — Riders, horses, wagons, carreta, ferry, steamboat | 27 | 2 | 14 | 4 |
-| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 21 | 2 | 19 | 3 |
+| C — Soldiers, battles and famous people | 17 | 1 | 14 | 6 |
+| D — Riders, horses, wagons, carreta, ferry, steamboat | 26 | 2 | 12 | 5 |
+| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 18 | 4 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 19 | 2 | 11 | 17 |
-| **Total** | **138** | **22** | **91** | **30** |
+| **Total** | **134** | **22** | **86** | **34** |
 
 ## How a builder works
 
@@ -309,34 +309,23 @@ Skipped:
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 19 to make, 4 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 17 to make, 6 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
   - **Frames:** 4 frames each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `memberPose` and `poseOf` in `public/battle-view.js`
   - **Stands in now:** the volunteer militia's firing cycle and fallen poses, not the person's own figure (Astra's library art reused)
-- [ ] **C2** (priority 2) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 3 — **Claude stand-in held back: Astra has drawn the subject** (volunteer), so the page draws hers (`bearers-carry`)
-  - **Deliver:** `bearers-carry-1`..`-4` (two men carrying a third on a blanket, walking east); no blood
-  - **Frames:** 4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
-  - **Plugs into:** `drawFallen` in `public/battle-view.js`
-  - **Stands in now:** the seated wounded helped back by two walking figures; `*-reclining` with two beside (Astra's library art reused)
-- [ ] **C3** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 3 — **Claude stand-in held back: Astra has drawn the subject** (volunteer, regular), so the page draws hers (`volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook`, `regular-clean-rifle`, `regular-camp-sit`, `regular-camp-cook`)
-  - **Deliver:** `volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook` and the same for `regular-` (2 frames each)
+- [ ] **C3** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 3 — **Claude stand-in held back: Astra has drawn the subject** (volunteer, regular), so the page draws hers (`volunteer-camp-cook`, `regular-camp-cook`)
+  - **Deliver:** `volunteer-camp-cook` and `regular-camp-cook` (2 frames each); cleaning and sitting are Astra's `-camp-clean` and `-rest-sit` (2026-10-03)
   - **Frames:** 2 frames each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `CAMP_TEXIAN`, `CAMP_MEXICAN` in `sim/ambient.mjs`; `figureClip` in `public/ambient.js`
-  - **Stands in now:** the ramrod's stroke; the cast's civilian men at the fire (Astra's library art reused)
-- [ ] **C4** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 2 — **Claude stand-in in place** (`musket-stack`); Astra's replaces it; **Claude stand-in held back: Astra has drawn the subject** (volunteer, regular, packs), so the page draws hers (`volunteer-rest-sit`, `volunteer-sleep`, `regular-rest-sit`, `regular-sleep`, `breastwork-packs-1`, `breastwork-packs-2`, `breastwork-packs-3`, `breastwork-packs-4`)
-  - **Deliver:** `regular-rest-sit`, `regular-sleep` (never to be mistaken for `regular-reclining`), `volunteer-rest-sit`, `musket-stack`; `breastwork-packs` in three or four segments about five feet high
-  - **Frames:** 1-2 frames. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure; the breastwork as a prop
-  - **Plugs into:** the `camp` branch of `draw` and `drawWorks` in `public/battle-view.js`
-  - **Stands in now:** the standing idle and seated wounded; `crate`, `sacks`, `barrel`, `packed-belongings` in a line (Astra's library art reused)
-  - **Research first:** HIST-TEX-522 (Houston: "packs and baggage, leaving an opening in the centre")
-- [ ] **C5** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), items 1, 3, 4 — **Claude stand-in held back: Astra has drawn the subject** (volunteer, regular, barricade, sacks), so the page draws hers (`volunteer-loophole-fire`, `regular-loophole-fire`, `volunteer-crowbar`, `volunteer-dig`, `barricade-street`, `sandbag-breastwork`)
-  - **Deliver:** `volunteer-loophole-fire` and `regular-loophole-fire` (the barrel at the wall, the man half hidden, 2-4 frames); `volunteer-crowbar` (4 frames, forcing a door); `volunteer-dig` (a spade in a trench at night); `barricade-street` (ditch, bank, post palisade, gun embrasure); `sandbag-breastwork`
-  - **Frames:** 2-4 frames; props 1. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure; props at `palisade` scale
-  - **Plugs into:** `draw` (`cover`), `drawBreaches` in `public/battle-view.js`
-  - **Stands in now:** flashes at the town's houses; the ramming stroke; `rust-work`/`teal-work`; `palisade` and `sacks` (Astra's library art reused)
+  - **Stands in now:** the standing idle; the cast's civilian men at the fire (Astra's library art reused)
+- [ ] **C5** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), items 1 and 4 — **Claude stand-in held back: Astra has drawn the subject** (regular), so the page draws hers (`regular-loophole-fire`)
+  - **Deliver:** `regular-loophole-fire` (the barrel at the wall, the man half hidden, 2-4 frames); the volunteer at a loophole, the crowbar, both armies digging, the barricade and the sandbags are Astra's (2026-10-03, `regular-dig` 2026-10-04)
+  - **Frames:** 2-4 frames. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
+  - **Plugs into:** `draw` (`cover`) in `public/battle-view.js`
+  - **Stands in now:** the regular's own firing cycle at the wall (Astra's library art reused)
   - **Research first:** Béxar, December 1835 (docs/battle-research/staging.md §3.9, HIST-TEX-490-496)
 - [ ] **C6** (priority 2) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 3 — **Claude stand-in held back: Astra has drawn the subject** (volunteer), so the page draws hers (`volunteer-parapet-fire-e`, `volunteer-parapet-fire-s`, `volunteer-parapet-fire-n`)
   - **Deliver:** volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet (`volunteer-parapet-fire-*`)
@@ -415,6 +404,8 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Research first:** which guns stood where (docs/ALAMO_LAYOUT.md); interpretive silhouettes
 
 Skipped:
+- ~~C2~~ [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for) — skipped: delivered 2026-10-03 (Astra's `bearers-carry` and `regular-bearers-carry`, living patients only; dead-body carrying is still asked of her in the request); Claude's deleted
+- ~~C4~~ [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto) — skipped: delivered 2026-10-03 (Astra's `*-rest-sit`, `*-sleep`, `musket-stack-small`/`-large`, `breastwork-packs-left`/`-right`); Claude's deleted
 - ~~C7~~ [Request 2026-09-25 — Coleto and Goliad](ART_REQUESTS.md#request-2026-09-25--coleto-and-goliad) — skipped: delivered 2026-10-03 (Astra's prone marksman, `regular-prone-lie` and `regular-prone-fire-reload`); Claude's deleted
 - ~~C12~~ [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for) — skipped: delivered 2026-10-03 (Astra's civilian cannon crew, survivor-travel-gonzales-crew-2026-10-03); Claude's settlers deleted
 - ~~C13~~ [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses) — skipped: delivered 2026-10-03 (Astra's Kimbell, Martin, J. W. Smith, Horton, W. P. Smith, Smither, Sánchez Navarro, Barragán); Claude's sheets deleted
@@ -422,7 +413,7 @@ Skipped:
 
 ## D — Riders, horses, wagons, carreta, ferry, steamboat
 
-Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 27 to make, 4 skipped.
+Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 26 to make, 5 skipped.
 
 - [ ] **D1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1 — **Claude stand-in held back: Astra has drawn the subject** (cow), so the page draws hers (`milk-cow-walk-e`, `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze`)
   - **Deliver:** `milk-cow-walk-e` (4), `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze` (2): a gentle dairy cow of the 1830s with a rope trailing from her horns
@@ -455,11 +446,11 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Plugs into:** `bx-tejano-*` in `sim/town-scenes.mjs`
   - **Stands in now:** the cast's riders (Astra's library art reused)
   - **Research first:** Tejano horsemen of Béxar, 1836 (Seguín's company); dress is an interpretation
-- [ ] **D7** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 3 — **Claude stand-in held back: Astra has drawn the subject** (volunteer), so the page draws hers (`volunteer-mounted-walk-e`, `volunteer-mounted-walk-s`, `volunteer-mounted-walk-n`, `volunteer-mounted`, `volunteer-mounted-trot`, `volunteer-mounted-idle`, `volunteer-mounted-fire`, `volunteer-ride-e`, `volunteer-ride-s`, `volunteer-ride-n`)
-  - **Deliver:** `volunteer-mounted` walk (east, north, south, 4) and trot and idle, a rifle, and `volunteer-mounted-fire` (2); the same rider serves `volunteer-ride-e`/`-s`/`-n` for the south's fights and the Gonzales men riding into the Alamo
-  - **Frames:** 4 frames a heading, 2 firing. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
-  - **Plugs into:** `figureOf`, the rider branch of `draw` and `memberPose` in `public/battle-view.js`
-  - **Stands in now:** the mounted courier (`mounted-courier-e`, `-listen`) (Astra's library art reused)
+- [ ] **D7** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 3
+  - **Deliver:** north and south firing from the saddle for the mounted volunteer, and a complete reload (`volunteer-mounted-fire-s`, `-n`, `volunteer-mounted-reload`); his walk three ways, idle three ways and east/west firing transition are Astra's (2026-10-03)
+  - **Frames:** 2-3 frames a heading. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
+  - **Plugs into:** the rider branch of `draw` in `public/battle-view.js`
+  - **Stands in now:** Astra's east/west firing transition, whichever way he faces (Astra's library art reused)
 - [ ] **D8** (priority 2) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 7
   - **Deliver:** `lancer-march`, `lancer-idle` (lance up, both facings); `lancer-charge` is Astra's, 2026-10-03
   - **Frames:** 4 marching, 1 idle, 4 charging. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
@@ -500,11 +491,6 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Frames:** 4 frames, east, and 2 idle. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** `drawHerd` (`chore.mounted`) and `rangeHorses` in `public/app.js`
   - **Stands in now:** the family's horse grazing beside the herder, who is drawn on foot at the search stroke (Astra's library art reused)
-- [ ] **D10** (priority 3) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 3 — **Claude stand-in held back: Astra has drawn the subject** (dragoon), so the page draws hers (`dragoon-wounded-led`)
-  - **Deliver:** `dragoon-wounded-led-1`..`-2` (a man slumped in the saddle, another leading the horse)
-  - **Frames:** 2 frames, east. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
-  - **Plugs into:** `drawFallen` in `public/battle-view.js`
-  - **Stands in now:** a dragoon hit in the saddle drawn dismounted (Astra's library art reused)
 - [ ] **D11** (priority 3) — [Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek](ART_REQUESTS.md#request-2026-09-25--the-souths-fights-san-patricio-by-night-and-agua-dulce-creek), item 4 — **Claude stand-in held back: Astra has drawn the subject** (horses), so the page draws hers (`herd-drove`, `herd-scatter`)
   - **Deliver:** `herd-drove` (several hundred horses moving as one mass, 4) and `herd-scatter`
   - **Frames:** 4 and 2-4. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside (mustangs' scale)
@@ -563,6 +549,7 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Stands in now:** the mule and the side-view wagon drawn apart (`muleDrawn` in `drawSeated`) (Astra's library art reused)
 
 Skipped:
+- ~~D10~~ [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for) — skipped: delivered 2026-10-03 (Astra's four-frame `dragoon-wounded-led`); Claude's deleted
 - ~~D16~~ [Request 2026-09-12 — families that look like who they are, and a rider who gets down](ART_REQUESTS.md#request-2026-09-12--families-that-look-like-who-they-are-and-a-rider-who-gets-down) — skipped: delivered 2026-09-14; the remaining work is code, not art
 - ~~DS3~~ [Request 2026-09-19 — the ferry flatboat](ART_REQUESTS.md#request-2026-09-19--the-ferry-flatboat) — skipped: delivered 2026-09-21 (`ferry-flatboat.png`)
 - ~~DS4~~ [Request 2026-09-18 — the steamboat Yellow Stone](ART_REQUESTS.md#request-2026-09-18--the-steamboat-yellow-stone) — skipped: delivered 2026-09-21
@@ -570,7 +557,7 @@ Skipped:
 
 ## E — Buildings, houses, towns, Béxar, the Alamo, interiors
 
-Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 21 to make, 3 skipped.
+Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 20 to make, 4 skipped.
 
 - [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2 — **Claude stand-in in place** (`bexar-man-walk`, `bexar-man-walk-s`, `bexar-man-walk-n`, `bexar-man-idle-s`, `bexar-man-idle-e`, `bexar-man-idle-w`, `bexar-man-idle-n`, `bexar-man-listen-s`, `bexar-man-listen-n`, `bexar-man-speak`, `bexar-man-carry`, `bexar-woman-walk`, `bexar-woman-walk-s`, `bexar-woman-walk-n`, `bexar-woman-idle-s`, `bexar-woman-idle-e`, `bexar-woman-idle-w`, `bexar-woman-idle-n`, `bexar-woman-listen-s`, `bexar-woman-listen-n`, `bexar-woman-speak`, `bexar-woman-carry`, `bexar-girl-walk`, `bexar-girl-walk-s`, `bexar-girl-walk-n`, `bexar-girl-idle-s`, `bexar-girl-idle-e`, `bexar-girl-idle-w`, `bexar-girl-idle-n`, `bexar-girl-listen-s`, `bexar-girl-listen-n`, `bexar-girl-speak`, `bexar-girl-carry`, `bexar-boy-walk`, `bexar-boy-walk-s`, `bexar-boy-walk-n`, `bexar-boy-idle-s`, `bexar-boy-idle-e`, `bexar-boy-idle-w`, `bexar-boy-idle-n`, `bexar-boy-listen-s`, `bexar-boy-listen-n`, `bexar-boy-speak`, `bexar-boy-carry`); Astra's replaces it
   - **Deliver:** Tejano townspeople of Béxar - a man, a woman in a rebozo, a girl and a boy - each `walk`, `idle-s`, `carry` (loading a cart), `speak`, `listen`, in 1830s Béxar dress (`bexar-man-*`, `bexar-woman-*`, `bexar-girl-*`, `bexar-boy-*`); also the storming's townspeople of 1835 walking out of a house (request 2026-09-25 the storming of Béxar, item 6)
@@ -609,11 +596,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Plugs into:** `public/bexar-layout.js`
   - **Stands in now:** the generic `chapel` and `adobe-flat` (Astra's library art reused)
   - **Research first:** **needs research first**: the 1836 appearance of San Fernando and the Governor's Palace; reject later additions and preserve uncertainty
-- [ ] **E7** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), item 1 — **Claude stand-in held back: Astra has drawn the subject** (the town's flat house), so the page draws hers (`house-loopholed`)
-  - **Deliver:** `house-loopholed` (a flat-roofed stone house, a parapet about four feet high, loopholes in its walls)
-  - **Frames:** 1. **Size:** As `stone-tile-house`
-  - **Plugs into:** `draw` (`cover: 'loophole'`) in `public/battle-view.js`
-  - **Stands in now:** the town's own house with flashes at its wall (Astra's library art reused)
 - [ ] **E8** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 4 — **Claude stand-in in place** (`dancers-couple`, `fiddler-play`, `lantern-post`); Astra's replaces it
   - **Deliver:** `dancers-couple` (4), `fiddler-play` (2), `lantern-post` (a lantern on a post, lit)
   - **Frames:** 4, 2, 1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372; the lantern as a prop
@@ -686,6 +668,7 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Stands in now:** nothing: the washer is drawn bent to the work with no tub (nothing)
 
 Skipped:
+- ~~E7~~ [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar) — skipped: delivered 2026-10-03 (Astra's generic `house-loopholed`, closed, open, breached and cut away; actors inside it need occlusion masks and rooms, which is code); Claude's deleted
 - ~~E16~~ [Request 2026-09-16 — the shops of the towns](ART_REQUESTS.md#request-2026-09-16--the-shops-of-the-towns) — skipped: delivered 2026-09-26 (the `stand-in:` comment in sim/shops.mjs is stale)
 - ~~ES6~~ [Request 2026-09-19 — the places past the box](ART_REQUESTS.md#request-2026-09-19--the-places-past-the-box) — skipped: delivered 2026-09-26
 - ~~ES7~~ [Request 2026-09-18 — the Alamo's faces seen from the south](ART_REQUESTS.md#request-2026-09-18--the-alamos-faces-seen-from-the-south) — skipped: delivered 2026-09-21

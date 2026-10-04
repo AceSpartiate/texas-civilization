@@ -99,7 +99,10 @@ test('the soldiers at rest have their clips, and the page asks for them by the c
   const source = readFileSync(fileURLToPath(new URL('../public/ambient.js', import.meta.url)), 'utf8');
   const table = JSON.parse(source.match(/SOLDIERS_AT_REST = Object\.freeze\((\{[^)]*\})\)/)[1].replace(/(\w+):/g, '"$1":').replaceAll("'", '"'));
   assert.deepEqual(Object.keys(table).sort(), ['cook', 'rifle', 'sit']);
-  for (const figure of ['volunteer', 'regular']) for (const pose of Object.values(table)) assert.ok(standins.clips[`${figure}-${pose}`], `${figure}-${pose} is not drawn`);
+  // Cleaning and sitting are Astra's own clips since 2026-10-03 (`-camp-clean`, `-rest-sit`); cooking is still Claude's.
+  const astraClips = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/animation.json', import.meta.url)), 'utf8')).clips;
+  assert.deepEqual([table.rifle, table.sit], ['camp-clean', 'rest-sit']);
+  for (const figure of ['volunteer', 'regular']) for (const pose of Object.values(table)) assert.ok(standins.clips[`${figure}-${pose}`] || astraClips[`${figure}-${pose}`], `${figure}-${pose} is not drawn`);
   const sim = readFileSync(fileURLToPath(new URL('../sim/ambient.mjs', import.meta.url)), 'utf8');
   for (const figure of ['volunteer', 'regular']) for (const a of ['sit', 'cook']) assert.match(sim, new RegExp(`\\{ a: '${a}', f: '${figure}'`), `no ${figure} ${a}s in camp`);
 });

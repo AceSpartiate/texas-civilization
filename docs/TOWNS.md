@@ -127,7 +127,9 @@ family's own town today, grouped by shop and keeper, each with its price in coin
 why it cannot be had when it cannot (*The family already has a felling axe.*), a count and a Coin/Food choice. Beside it the
 family's stock, and once there is something on the list the stock after it and **how the person will go, in the server's
 own sentence**: *"Takes the wagon: 14 of 20 loads, more than the horse carries (7)."* A refusal is the server's sentence too,
-shown in the popup, and Send stays shut. Enter sends; Escape closes and sends nobody. While it is open the ability bar steps
+shown in the popup, and Send stays shut. Enter sends - from Send or the popup's words; on a +, a −, a way of paying or a typed
+count it does that control's own work instead (Astra, 2026-10-03: Enter on a + had sent the errand by surprise; merged
+2026-10-04) - and Escape closes and sends nobody. While it is open the ability bar steps
 aside, as it does for a rider (owner, 2026-09-22, FAMILY_PANEL.md §12.13), and is back the instant it closes. Everything in
 it comes from `GET /api/errand` (the family's own person and town only; fetched when it opens and whenever the list, the
 family's stock as the popup shows it or that person's ways of going change - never on the tick; food is keyed to the tenth the

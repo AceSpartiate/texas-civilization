@@ -77,6 +77,9 @@ const measure = page => page.evaluate(() => {
     const list = document.querySelector('#errand-lines').getBoundingClientRect();
     if (button.closest('#errand-lines') && (r.top < list.top || r.bottom > list.bottom)) return false; // scrolled inside the list
     const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    // Under the list's own sticky shop name (Astra's, 2026-10-03; merged 2026-10-04) a line is scrolled past, as one past the
+    // list's edge is: the list's heading, not something else of the screen, stands there.
+    if (button.closest('#errand-lines') && hit?.closest?.('#errand-lines .errand-shop-name')) return false;
     return !(hit && (hit === button || button.contains(hit)));
   }).map(button => button.id || button.getAttribute('aria-label') || button.textContent);
   // The tip over the map, measured as a box: its words let clicks through (pointer-events: none), so `elementFromPoint` above
@@ -179,7 +182,9 @@ try {
   ok(`the list stands still while the family eats: food ${marked.food} → ${kept.food}, the stock redrawn ("${kept.stock.slice(0, 40)}…"), and the + on the cotton is the same button`);
 
   // ------------------------------------------------------------------------------------------------- Enter sends it
-  await page.locator('#errand [data-line="store:cotton"] [data-act="more"]').focus();
+  // From Send: since Astra's commerce controls (2026-10-03, merged 2026-10-04) Enter on a + presses that + and never sends the
+  // list by surprise (scripts/commerce-ui-proof.mjs holds that half).
+  await page.locator('#errand-send').focus();
   await page.keyboard.press('Enter');
   await page.locator('#errand').waitFor({ state: 'hidden', timeout: 10000 });
   const sent = app.state.world.entities[first.id];

@@ -452,74 +452,17 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-bearers-carry": {
-      "image": "/assets/claude-standins/claude-bearers-carry.png",
-      "width": 1360,
-      "height": 800,
-      "bytes": 365880,
-      "sha256": "47a06084fb8ebeced9e058a33e0fb0025448d02681e010c5dc16b20543f47975",
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "layout": {
-        "rows": 2,
-        "columns": 2,
-        "cell": {
-          "w": 680,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-volunteer-camp": {
-      "image": "/assets/claude-standins/claude-volunteer-camp.png",
-      "width": 1920,
-      "height": 400,
-      "bytes": 77467,
-      "sha256": "2a2af7b9c7cfeff9c7a08b501efc29943f3959e654c70f69ddc398ade6cb0d95",
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "layout": {
-        "rows": 1,
-        "columns": 4,
-        "cell": {
-          "w": 480,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-regular-camp": {
-      "image": "/assets/claude-standins/claude-regular-camp.png",
-      "width": 1920,
-      "height": 400,
-      "bytes": 78770,
-      "sha256": "801d62033319c12a6b4aa2b6d1746c499b796237a219a5e99f1ead1d92669ce1",
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "layout": {
-        "rows": 1,
-        "columns": 4,
-        "cell": {
-          "w": 480,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-bexar-streets": {
       "image": "/assets/claude-standins/claude-bexar-streets.png",
       "width": 1920,
-      "height": 1600,
-      "bytes": 944064,
-      "sha256": "77d8bbd63f35e74c20a037a846a4328b8fa5987fe6455458e8e16bebd52fecdf",
+      "height": 400,
+      "bytes": 204619,
+      "sha256": "97a7e1de9e2c483a0f53dc1115bb6a676af6e71bc17f52320aabaad11454580a",
       "madeBy": "claude",
       "module": "battle-soldiers",
       "request": "Request 2026-09-25 — the storming of Béxar",
       "layout": {
-        "rows": 4,
+        "rows": 1,
         "columns": 4,
         "cell": {
           "w": 480,
@@ -604,50 +547,12 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-breastwork": {
-      "image": "/assets/claude-standins/claude-breastwork.png",
-      "width": 1440,
-      "height": 800,
-      "bytes": 536484,
-      "sha256": "4263557334fb67c3147402a70553586a7566d88f18fe9528511750b7731735e0",
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "layout": {
-        "rows": 2,
-        "columns": 3,
-        "cell": {
-          "w": 480,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-bexar-works": {
-      "image": "/assets/claude-standins/claude-bexar-works.png",
-      "width": 1440,
-      "height": 400,
-      "bytes": 288535,
-      "sha256": "cdb20645890c3aeadb951cde7a3f3769df73b15fd4e5ed9c6b86deaf755dc227",
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "layout": {
-        "rows": 1,
-        "columns": 2,
-        "cell": {
-          "w": 720,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-march-column": {
       "image": "/assets/claude-standins/claude-march-column.png",
       "width": 3400,
       "height": 1200,
-      "bytes": 1940224,
-      "sha256": "785100ec71cc09b496f8ae9d24ec008db22a29a035dc578b73b8249c095b2813",
+      "bytes": 1940216,
+      "sha256": "ed48362fa2e275390dae06588ea88549af9477d34c07d54b7c680c4a2d859dc6",
       "madeBy": "claude",
       "module": "battle-works",
       "request": "Request 2026-09-26 — the Mexican advance",
@@ -949,14 +854,14 @@
     "claude-camp-rest": {
       "image": "/assets/claude-standins/claude-camp-rest.png",
       "width": 1440,
-      "height": 480,
-      "bytes": 173744,
-      "sha256": "f04e30c902c61864e4deb2a885d65901f37c89ea4e67854b73407054a3b31b9e",
+      "height": 240,
+      "bytes": 65997,
+      "sha256": "fd7e3a1aabf715e0ad0062eba7cf57d998034bc1a66d41488a46bc6a6d9fbbc0",
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
       "layout": {
-        "rows": 2,
+        "rows": 1,
         "columns": 6,
         "cell": {
           "w": 240,
@@ -1822,25 +1727,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-house-loopholed": {
-      "image": "/assets/claude-standins/claude-house-loopholed.png",
-      "width": 296,
-      "height": 204,
-      "bytes": 108523,
-      "sha256": "8de3dd81cc7f34afdf052cfc5b11e6f63fd01be9d6af0654b4874e8712fc7473",
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 296,
-          "h": 204
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-window-lit": {
       "image": "/assets/claude-standins/claude-window-lit.png",
       "width": 1200,
@@ -1864,8 +1750,8 @@
       "image": "/assets/claude-standins/claude-house-ends.png",
       "width": 808,
       "height": 760,
-      "bytes": 307040,
-      "sha256": "f7ac3defe05ad6abe4f8a728f717795d7a4556c40bb3f9823c0508fe0870144e",
+      "bytes": 307039,
+      "sha256": "5dcb9f7e3d56fbd5814b91efadd6e5e0503e6e4cfd3a8d7a71b613fe5f18cc44",
       "madeBy": "claude",
       "module": "house-pieces",
       "request": "Request 2026-09-23 — the house from its other sides",
@@ -2297,31 +2183,12 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-dragoon-wounded": {
-      "image": "/assets/claude-standins/claude-dragoon-wounded.png",
-      "width": 860,
-      "height": 280,
-      "bytes": 115907,
-      "sha256": "07fd0320f05516ff8df81931f2f9cb1d1289cd028a39a44deb3dbc2ad2e455b7",
-      "madeBy": "claude",
-      "module": "transport-cavalry",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "layout": {
-        "rows": 1,
-        "columns": 2,
-        "cell": {
-          "w": 430,
-          "h": 280
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-foragers": {
       "image": "/assets/claude-standins/claude-foragers.png",
       "width": 1500,
       "height": 1440,
-      "bytes": 1481974,
-      "sha256": "1bf4743ae191ae170b4b7ed9fffea63cfb6025673651d91359edbefa6f79527a",
+      "bytes": 1481977,
+      "sha256": "51aecb4587174d6fc9a5e49608b14c53fba7d1c70928cff12d198692d3159bdc",
       "madeBy": "claude",
       "module": "transport-cavalry",
       "request": "Request 2026-09-26 — the Mexican advance",
@@ -2403,25 +2270,6 @@
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
       "layout": {
         "rows": 3,
-        "columns": 4,
-        "cell": {
-          "w": 360,
-          "h": 280
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-ride-volunteer": {
-      "image": "/assets/claude-standins/claude-ride-volunteer.png",
-      "width": 1440,
-      "height": 1400,
-      "bytes": 627379,
-      "sha256": "9353c970493c5e6f1f6146405ed27fbe1141b4a9adc5e163ae33b0047c303136",
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "layout": {
-        "rows": 5,
         "columns": 4,
         "cell": {
           "w": 360,
@@ -8633,196 +8481,9 @@
       "label": "blue girl reclining",
       "kind": "claude-battle-blue-girl"
     },
-    "bearers-carry-1": {
-      "sheet": "claude-bearers-carry",
-      "x": 0,
-      "y": 0,
-      "w": 680,
-      "h": 400,
-      "anchorX": 0.7353,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "bearers-carry-1: item 3: `bearers-carry-1`..`-4`, two men carrying a third on a blanket, walking east; no blood",
-      "source": "svg/battle-soldiers/claude-bearers-carry-1.svg",
-      "label": "bearers carry 1",
-      "kind": "claude-bearers-carry"
-    },
-    "bearers-carry-2": {
-      "sheet": "claude-bearers-carry",
-      "x": 680,
-      "y": 0,
-      "w": 680,
-      "h": 400,
-      "anchorX": 0.7353,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "bearers-carry-2: item 3: `bearers-carry-1`..`-4`, two men carrying a third on a blanket, walking east; no blood",
-      "source": "svg/battle-soldiers/claude-bearers-carry-2.svg",
-      "label": "bearers carry 2",
-      "kind": "claude-bearers-carry"
-    },
-    "bearers-carry-3": {
-      "sheet": "claude-bearers-carry",
-      "x": 0,
-      "y": 400,
-      "w": 680,
-      "h": 400,
-      "anchorX": 0.7353,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "bearers-carry-3: item 3: `bearers-carry-1`..`-4`, two men carrying a third on a blanket, walking east; no blood",
-      "source": "svg/battle-soldiers/claude-bearers-carry-3.svg",
-      "label": "bearers carry 3",
-      "kind": "claude-bearers-carry"
-    },
-    "bearers-carry-4": {
-      "sheet": "claude-bearers-carry",
-      "x": 680,
-      "y": 400,
-      "w": 680,
-      "h": 400,
-      "anchorX": 0.7353,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "bearers-carry-4: item 3: `bearers-carry-1`..`-4`, two men carrying a third on a blanket, walking east; no blood",
-      "source": "svg/battle-soldiers/claude-bearers-carry-4.svg",
-      "label": "bearers carry 4",
-      "kind": "claude-bearers-carry"
-    },
-    "volunteer-rest-sit": {
-      "sheet": "claude-volunteer-camp",
-      "x": 0,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-rest-sit: request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-volunteer-rest-sit.svg",
-      "label": "volunteer rest sit",
-      "kind": "claude-volunteer-camp"
-    },
-    "volunteer-sleep": {
-      "sheet": "claude-volunteer-camp",
-      "x": 480,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-sleep: request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-volunteer-sleep.svg",
-      "label": "volunteer sleep",
-      "kind": "claude-volunteer-camp"
-    },
-    "regular-rest-sit": {
-      "sheet": "claude-regular-camp",
-      "x": 0,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "regular-rest-sit: request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-regular-rest-sit.svg",
-      "label": "regular rest sit",
-      "kind": "claude-regular-camp"
-    },
-    "regular-sleep": {
-      "sheet": "claude-regular-camp",
-      "x": 480,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "regular-sleep: request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-regular-sleep.svg",
-      "label": "regular sleep",
-      "kind": "claude-regular-camp"
-    },
-    "volunteer-loophole-fire-1": {
-      "sheet": "claude-bexar-streets",
-      "x": 0,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-loophole-fire-1: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-loophole-fire-1.svg",
-      "label": "volunteer loophole fire 1",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-loophole-fire-2": {
-      "sheet": "claude-bexar-streets",
-      "x": 480,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-loophole-fire-2: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-loophole-fire-2.svg",
-      "label": "volunteer loophole fire 2",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-loophole-fire-3": {
-      "sheet": "claude-bexar-streets",
-      "x": 960,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-loophole-fire-3: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-loophole-fire-3.svg",
-      "label": "volunteer loophole fire 3",
-      "kind": "claude-bexar-streets"
-    },
     "regular-loophole-fire-1": {
       "sheet": "claude-bexar-streets",
-      "x": 1440,
+      "x": 0,
       "y": 0,
       "w": 480,
       "h": 400,
@@ -8832,15 +8493,15 @@
       "madeBy": "claude",
       "module": "battle-soldiers",
       "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "regular-loophole-fire-1: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "replaceWith": "regular-loophole-fire-1: item 1: a regular firing through a loophole (2-4 frames); the `regular-*` height (the volunteer is Astra's `volunteer-loophole-*`, 2026-10-03)",
       "source": "svg/battle-soldiers/claude-regular-loophole-fire-1.svg",
       "label": "regular loophole fire 1",
       "kind": "claude-bexar-streets"
     },
     "regular-loophole-fire-2": {
       "sheet": "claude-bexar-streets",
-      "x": 0,
-      "y": 400,
+      "x": 480,
+      "y": 0,
       "w": 480,
       "h": 400,
       "anchorX": 0.3958,
@@ -8849,15 +8510,15 @@
       "madeBy": "claude",
       "module": "battle-soldiers",
       "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "regular-loophole-fire-2: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "replaceWith": "regular-loophole-fire-2: item 1: a regular firing through a loophole (2-4 frames); the `regular-*` height (the volunteer is Astra's `volunteer-loophole-*`, 2026-10-03)",
       "source": "svg/battle-soldiers/claude-regular-loophole-fire-2.svg",
       "label": "regular loophole fire 2",
       "kind": "claude-bexar-streets"
     },
     "regular-loophole-fire-3": {
       "sheet": "claude-bexar-streets",
-      "x": 480,
-      "y": 400,
+      "x": 960,
+      "y": 0,
       "w": 480,
       "h": 400,
       "anchorX": 0.3958,
@@ -8866,179 +8527,9 @@
       "madeBy": "claude",
       "module": "battle-soldiers",
       "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "regular-loophole-fire-3: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "replaceWith": "regular-loophole-fire-3: item 1: a regular firing through a loophole (2-4 frames); the `regular-*` height (the volunteer is Astra's `volunteer-loophole-*`, 2026-10-03)",
       "source": "svg/battle-soldiers/claude-regular-loophole-fire-3.svg",
       "label": "regular loophole fire 3",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-crowbar-1": {
-      "sheet": "claude-bexar-streets",
-      "x": 960,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-crowbar-1: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-crowbar-1.svg",
-      "label": "volunteer crowbar 1",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-crowbar-2": {
-      "sheet": "claude-bexar-streets",
-      "x": 1440,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-crowbar-2: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-crowbar-2.svg",
-      "label": "volunteer crowbar 2",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-crowbar-3": {
-      "sheet": "claude-bexar-streets",
-      "x": 0,
-      "y": 800,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-crowbar-3: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-crowbar-3.svg",
-      "label": "volunteer crowbar 3",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-crowbar-4": {
-      "sheet": "claude-bexar-streets",
-      "x": 480,
-      "y": 800,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-crowbar-4: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-crowbar-4.svg",
-      "label": "volunteer crowbar 4",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-dig-1": {
-      "sheet": "claude-bexar-streets",
-      "x": 960,
-      "y": 800,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-dig-1: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-dig-1.svg",
-      "label": "volunteer dig 1",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-dig-2": {
-      "sheet": "claude-bexar-streets",
-      "x": 1440,
-      "y": 800,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-dig-2: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-dig-2.svg",
-      "label": "volunteer dig 2",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-dig-3": {
-      "sheet": "claude-bexar-streets",
-      "x": 0,
-      "y": 1200,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-dig-3: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-dig-3.svg",
-      "label": "volunteer dig 3",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-dig-4": {
-      "sheet": "claude-bexar-streets",
-      "x": 480,
-      "y": 1200,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-dig-4: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-dig-4.svg",
-      "label": "volunteer dig 4",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-dig-5": {
-      "sheet": "claude-bexar-streets",
-      "x": 960,
-      "y": 1200,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-dig-5: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-dig-5.svg",
-      "label": "volunteer dig 5",
-      "kind": "claude-bexar-streets"
-    },
-    "volunteer-dig-6": {
-      "sheet": "claude-bexar-streets",
-      "x": 1440,
-      "y": 1200,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "volunteer-dig-6: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
-      "source": "svg/battle-soldiers/claude-volunteer-dig-6.svg",
-      "label": "volunteer dig 6",
       "kind": "claude-bexar-streets"
     },
     "volunteer-parapet-fire-e-1": {
@@ -9567,125 +9058,6 @@
       "source": "svg/battle-soldiers/claude-figure-wading-volunteer-4.svg",
       "label": "figure wading volunteer 4",
       "kind": "claude-wading"
-    },
-    "musket-stack": {
-      "sheet": "claude-breastwork",
-      "x": 0,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "musket-stack: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
-      "source": "svg/battle-works/claude-musket-stack.svg",
-      "label": "musket stack",
-      "kind": "claude-breastwork"
-    },
-    "breastwork-packs-1": {
-      "sheet": "claude-breastwork",
-      "x": 480,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "breastwork-packs-1: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
-      "source": "svg/battle-works/claude-breastwork-packs-1.svg",
-      "label": "breastwork packs 1",
-      "kind": "claude-breastwork"
-    },
-    "breastwork-packs-2": {
-      "sheet": "claude-breastwork",
-      "x": 960,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "breastwork-packs-2: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
-      "source": "svg/battle-works/claude-breastwork-packs-2.svg",
-      "label": "breastwork packs 2",
-      "kind": "claude-breastwork"
-    },
-    "breastwork-packs-3": {
-      "sheet": "claude-breastwork",
-      "x": 0,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "breastwork-packs-3: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
-      "source": "svg/battle-works/claude-breastwork-packs-3.svg",
-      "label": "breastwork packs 3",
-      "kind": "claude-breastwork"
-    },
-    "breastwork-packs-4": {
-      "sheet": "claude-breastwork",
-      "x": 480,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "breastwork-packs-4: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
-      "source": "svg/battle-works/claude-breastwork-packs-4.svg",
-      "label": "breastwork packs 4",
-      "kind": "claude-breastwork"
-    },
-    "barricade-street": {
-      "sheet": "claude-bexar-works",
-      "x": 0,
-      "y": 0,
-      "w": 720,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "barricade-street: items 2 and 4: a street barricade (ditch, bank, post palisade, a gun embrasure) and a low breastwork of filled sacks, at `palisade` scale",
-      "source": "svg/battle-works/claude-barricade-street.svg",
-      "label": "barricade street",
-      "kind": "claude-bexar-works"
-    },
-    "sandbag-breastwork": {
-      "sheet": "claude-bexar-works",
-      "x": 720,
-      "y": 0,
-      "w": 720,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "sandbag-breastwork: items 2 and 4: a street barricade (ditch, bank, post palisade, a gun embrasure) and a low breastwork of filled sacks, at `palisade` scale",
-      "source": "svg/battle-works/claude-sandbag-breastwork.svg",
-      "label": "sandbag breastwork",
-      "kind": "claude-bexar-works"
     },
     "regular-march-column-1": {
       "sheet": "claude-march-column",
@@ -11721,7 +11093,7 @@
       "label": "townsfolk leave 4",
       "kind": "claude-townsfolk-leave"
     },
-    "volunteer-clean-rifle-1": {
+    "volunteer-camp-cook-1": {
       "sheet": "claude-camp-rest",
       "x": 0,
       "y": 0,
@@ -11733,82 +11105,14 @@
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-clean-rifle-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-volunteer-clean-rifle-1.svg",
-      "label": "volunteer clean rifle 1",
-      "kind": "claude-camp-rest"
-    },
-    "volunteer-clean-rifle-2": {
-      "sheet": "claude-camp-rest",
-      "x": 240,
-      "y": 0,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-clean-rifle-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-volunteer-clean-rifle-2.svg",
-      "label": "volunteer clean rifle 2",
-      "kind": "claude-camp-rest"
-    },
-    "volunteer-camp-sit-1": {
-      "sheet": "claude-camp-rest",
-      "x": 480,
-      "y": 0,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-sit-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-volunteer-camp-sit-1.svg",
-      "label": "volunteer camp sit 1",
-      "kind": "claude-camp-rest"
-    },
-    "volunteer-camp-sit-2": {
-      "sheet": "claude-camp-rest",
-      "x": 720,
-      "y": 0,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-sit-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-volunteer-camp-sit-2.svg",
-      "label": "volunteer camp sit 2",
-      "kind": "claude-camp-rest"
-    },
-    "volunteer-camp-cook-1": {
-      "sheet": "claude-camp-rest",
-      "x": 960,
-      "y": 0,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-cook-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
+      "replaceWith": "volunteer-camp-cook-1: item 3: men cooking at the fire, two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
       "source": "svg/camp-rest/claude-volunteer-camp-cook-1.svg",
       "label": "volunteer camp cook 1",
       "kind": "claude-camp-rest"
     },
     "volunteer-camp-cook-2": {
       "sheet": "claude-camp-rest",
-      "x": 1200,
+      "x": 240,
       "y": 0,
       "w": 240,
       "h": 240,
@@ -11818,83 +11122,15 @@
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-cook-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
+      "replaceWith": "volunteer-camp-cook-2: item 3: men cooking at the fire, two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
       "source": "svg/camp-rest/claude-volunteer-camp-cook-2.svg",
       "label": "volunteer camp cook 2",
       "kind": "claude-camp-rest"
     },
-    "regular-clean-rifle-1": {
-      "sheet": "claude-camp-rest",
-      "x": 0,
-      "y": 240,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-clean-rifle-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-regular-clean-rifle-1.svg",
-      "label": "regular clean rifle 1",
-      "kind": "claude-camp-rest"
-    },
-    "regular-clean-rifle-2": {
-      "sheet": "claude-camp-rest",
-      "x": 240,
-      "y": 240,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-clean-rifle-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-regular-clean-rifle-2.svg",
-      "label": "regular clean rifle 2",
-      "kind": "claude-camp-rest"
-    },
-    "regular-camp-sit-1": {
-      "sheet": "claude-camp-rest",
-      "x": 480,
-      "y": 240,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-sit-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-regular-camp-sit-1.svg",
-      "label": "regular camp sit 1",
-      "kind": "claude-camp-rest"
-    },
-    "regular-camp-sit-2": {
-      "sheet": "claude-camp-rest",
-      "x": 720,
-      "y": 240,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-sit-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-regular-camp-sit-2.svg",
-      "label": "regular camp sit 2",
-      "kind": "claude-camp-rest"
-    },
     "regular-camp-cook-1": {
       "sheet": "claude-camp-rest",
-      "x": 960,
-      "y": 240,
+      "x": 480,
+      "y": 0,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -11903,15 +11139,15 @@
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-cook-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
+      "replaceWith": "regular-camp-cook-1: item 3: men cooking at the fire, two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
       "source": "svg/camp-rest/claude-regular-camp-cook-1.svg",
       "label": "regular camp cook 1",
       "kind": "claude-camp-rest"
     },
     "regular-camp-cook-2": {
       "sheet": "claude-camp-rest",
-      "x": 1200,
-      "y": 240,
+      "x": 720,
+      "y": 0,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -11920,7 +11156,7 @@
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-cook-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
+      "replaceWith": "regular-camp-cook-2: item 3: men cooking at the fire, two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
       "source": "svg/camp-rest/claude-regular-camp-cook-2.svg",
       "label": "regular camp cook 2",
       "kind": "claude-camp-rest"
@@ -17801,23 +17037,6 @@
       "label": "interior saddlebag",
       "kind": "claude-interior-saddlebag"
     },
-    "house-loopholed": {
-      "sheet": "claude-house-loopholed",
-      "x": 0,
-      "y": 0,
-      "w": 296,
-      "h": 204,
-      "anchorX": 0.4949,
-      "anchorY": 0.9363,
-      "logicalHeight": 181,
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "house-loopholed: item 1: a flat-roofed stone house, a parapet about four feet high, loopholes in its walls, at the stone-tile-house scale",
-      "source": "svg/house-pieces/claude-house-loopholed.svg",
-      "label": "house loopholed",
-      "kind": "claude-house-loopholed"
-    },
     "window-lit-adobe-flat": {
       "sheet": "claude-window-lit",
       "x": 0,
@@ -20919,40 +20138,6 @@
       "label": "limber mules walk 4",
       "kind": "claude-limber"
     },
-    "dragoon-wounded-led-1": {
-      "sheet": "claude-dragoon-wounded",
-      "x": 0,
-      "y": 0,
-      "w": 430,
-      "h": 280,
-      "anchorX": 0.3721,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-cavalry",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "dragoon-wounded-led-1: item 3: a dragoon slumped in the saddle, another leading the horse, 2 frames east",
-      "source": "svg/transport-cavalry/claude-dragoon-wounded-led-1.svg",
-      "label": "dragoon wounded led 1",
-      "kind": "claude-dragoon-wounded"
-    },
-    "dragoon-wounded-led-2": {
-      "sheet": "claude-dragoon-wounded",
-      "x": 430,
-      "y": 0,
-      "w": 430,
-      "h": 280,
-      "anchorX": 0.3721,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-cavalry",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "dragoon-wounded-led-2: item 3: a dragoon slumped in the saddle, another leading the horse, 2 frames east",
-      "source": "svg/transport-cavalry/claude-dragoon-wounded-led-2.svg",
-      "label": "dragoon wounded led 2",
-      "kind": "claude-dragoon-wounded"
-    },
     "forager-ride-1": {
       "sheet": "claude-foragers",
       "x": 0,
@@ -22329,329 +21514,6 @@
       "source": "svg/transport-riders/claude-tejano-rider-ride-n-4.svg",
       "label": "tejano rider ride n 4",
       "kind": "claude-ride-tejano"
-    },
-    "volunteer-mounted-walk-e-1": {
-      "sheet": "claude-ride-volunteer",
-      "x": 0,
-      "y": 0,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-e-1: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-e-1.svg",
-      "label": "volunteer mounted walk e 1",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-e-2": {
-      "sheet": "claude-ride-volunteer",
-      "x": 360,
-      "y": 0,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-e-2: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-e-2.svg",
-      "label": "volunteer mounted walk e 2",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-e-3": {
-      "sheet": "claude-ride-volunteer",
-      "x": 720,
-      "y": 0,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-e-3: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-e-3.svg",
-      "label": "volunteer mounted walk e 3",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-e-4": {
-      "sheet": "claude-ride-volunteer",
-      "x": 1080,
-      "y": 0,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-e-4: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-e-4.svg",
-      "label": "volunteer mounted walk e 4",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-s-1": {
-      "sheet": "claude-ride-volunteer",
-      "x": 0,
-      "y": 280,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-s-1: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-s-1.svg",
-      "label": "volunteer mounted walk s 1",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-s-2": {
-      "sheet": "claude-ride-volunteer",
-      "x": 360,
-      "y": 280,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-s-2: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-s-2.svg",
-      "label": "volunteer mounted walk s 2",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-s-3": {
-      "sheet": "claude-ride-volunteer",
-      "x": 720,
-      "y": 280,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-s-3: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-s-3.svg",
-      "label": "volunteer mounted walk s 3",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-s-4": {
-      "sheet": "claude-ride-volunteer",
-      "x": 1080,
-      "y": 280,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-s-4: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-s-4.svg",
-      "label": "volunteer mounted walk s 4",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-n-1": {
-      "sheet": "claude-ride-volunteer",
-      "x": 0,
-      "y": 560,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-n-1: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-n-1.svg",
-      "label": "volunteer mounted walk n 1",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-n-2": {
-      "sheet": "claude-ride-volunteer",
-      "x": 360,
-      "y": 560,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-n-2: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-n-2.svg",
-      "label": "volunteer mounted walk n 2",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-n-3": {
-      "sheet": "claude-ride-volunteer",
-      "x": 720,
-      "y": 560,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-n-3: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-n-3.svg",
-      "label": "volunteer mounted walk n 3",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-walk-n-4": {
-      "sheet": "claude-ride-volunteer",
-      "x": 1080,
-      "y": 560,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-walk-n-4: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-walk-n-4.svg",
-      "label": "volunteer mounted walk n 4",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-trot-1": {
-      "sheet": "claude-ride-volunteer",
-      "x": 0,
-      "y": 840,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-trot-1: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-trot-1.svg",
-      "label": "volunteer mounted trot 1",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-trot-2": {
-      "sheet": "claude-ride-volunteer",
-      "x": 360,
-      "y": 840,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-trot-2: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-trot-2.svg",
-      "label": "volunteer mounted trot 2",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-trot-3": {
-      "sheet": "claude-ride-volunteer",
-      "x": 720,
-      "y": 840,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-trot-3: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-trot-3.svg",
-      "label": "volunteer mounted trot 3",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-trot-4": {
-      "sheet": "claude-ride-volunteer",
-      "x": 1080,
-      "y": 840,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-trot-4: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-trot-4.svg",
-      "label": "volunteer mounted trot 4",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-idle-1": {
-      "sheet": "claude-ride-volunteer",
-      "x": 0,
-      "y": 1120,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-idle-1: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-idle-1.svg",
-      "label": "volunteer mounted idle 1",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-fire-1": {
-      "sheet": "claude-ride-volunteer",
-      "x": 360,
-      "y": 1120,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-fire-1: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-fire-1.svg",
-      "label": "volunteer mounted fire 1",
-      "kind": "claude-ride-volunteer"
-    },
-    "volunteer-mounted-fire-2": {
-      "sheet": "claude-ride-volunteer",
-      "x": 720,
-      "y": 1120,
-      "w": 360,
-      "h": 280,
-      "anchorX": 0.4444,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-riders",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "volunteer-mounted-fire-2: item 3: a Texian volunteer mounted, walk three ways, trot, idle and firing, at the mounted size",
-      "source": "svg/transport-riders/claude-volunteer-mounted-fire-2.svg",
-      "label": "volunteer mounted fire 2",
-      "kind": "claude-ride-volunteer"
     },
     "seguin-ride-e-1": {
       "sheet": "claude-ride-famous",
@@ -35793,54 +34655,6 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "bearers-carry": {
-      "frames": [
-        {
-          "sprite": "bearers-carry-1",
-          "duration": 240
-        },
-        {
-          "sprite": "bearers-carry-2",
-          "duration": 240
-        },
-        {
-          "sprite": "bearers-carry-3",
-          "duration": 240
-        },
-        {
-          "sprite": "bearers-carry-4",
-          "duration": 240
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "volunteer-loophole-fire": {
-      "frames": [
-        {
-          "sprite": "volunteer-loophole-fire-1",
-          "duration": 700
-        },
-        {
-          "sprite": "volunteer-loophole-fire-2",
-          "duration": 120
-        },
-        {
-          "sprite": "volunteer-loophole-fire-3",
-          "duration": 1650
-        }
-      ],
-      "loop": false,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
     "regular-loophole-fire": {
       "frames": [
         {
@@ -35859,67 +34673,6 @@
       "loop": false,
       "motion": "none",
       "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "volunteer-crowbar": {
-      "frames": [
-        {
-          "sprite": "volunteer-crowbar-1",
-          "duration": 420
-        },
-        {
-          "sprite": "volunteer-crowbar-2",
-          "duration": 380
-        },
-        {
-          "sprite": "volunteer-crowbar-3",
-          "duration": 520
-        },
-        {
-          "sprite": "volunteer-crowbar-4",
-          "duration": 600
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "volunteer-dig": {
-      "frames": [
-        {
-          "sprite": "volunteer-dig-1",
-          "duration": 300
-        },
-        {
-          "sprite": "volunteer-dig-2",
-          "duration": 260
-        },
-        {
-          "sprite": "volunteer-dig-3",
-          "duration": 240
-        },
-        {
-          "sprite": "volunteer-dig-4",
-          "duration": 320
-        },
-        {
-          "sprite": "volunteer-dig-5",
-          "duration": 260
-        },
-        {
-          "sprite": "volunteer-dig-6",
-          "duration": 220
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "beat": 0,
       "authored": true,
       "madeBy": "claude",
       "module": "battle-soldiers"
@@ -37216,42 +35969,6 @@
       "madeBy": "claude",
       "module": "bexar-people"
     },
-    "volunteer-clean-rifle": {
-      "frames": [
-        {
-          "sprite": "volunteer-clean-rifle-1",
-          "duration": 480
-        },
-        {
-          "sprite": "volunteer-clean-rifle-2",
-          "duration": 480
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "camp-rest"
-    },
-    "volunteer-camp-sit": {
-      "frames": [
-        {
-          "sprite": "volunteer-camp-sit-1",
-          "duration": 1500
-        },
-        {
-          "sprite": "volunteer-camp-sit-2",
-          "duration": 1100
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "camp-rest"
-    },
     "volunteer-camp-cook": {
       "frames": [
         {
@@ -37261,42 +35978,6 @@
         {
           "sprite": "volunteer-camp-cook-2",
           "duration": 520
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "camp-rest"
-    },
-    "regular-clean-rifle": {
-      "frames": [
-        {
-          "sprite": "regular-clean-rifle-1",
-          "duration": 480
-        },
-        {
-          "sprite": "regular-clean-rifle-2",
-          "duration": 480
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "camp-rest"
-    },
-    "regular-camp-sit": {
-      "frames": [
-        {
-          "sprite": "regular-camp-sit-1",
-          "duration": 1500
-        },
-        {
-          "sprite": "regular-camp-sit-2",
-          "duration": 1100
         }
       ],
       "loop": true,
@@ -40182,24 +38863,6 @@
       "madeBy": "claude",
       "module": "transport-animals"
     },
-    "dragoon-wounded-led": {
-      "frames": [
-        {
-          "sprite": "dragoon-wounded-led-1",
-          "duration": 420
-        },
-        {
-          "sprite": "dragoon-wounded-led-2",
-          "duration": 420
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-cavalry"
-    },
     "forager-ride": {
       "frames": [
         {
@@ -40776,247 +39439,6 @@
         },
         {
           "sprite": "tejano-rider-ride-n-4",
-          "duration": 230
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "north",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-mounted-walk-e": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-walk-e-1",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-e-2",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-e-3",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-e-4",
-          "duration": 230
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-mounted-walk-s": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-walk-s-1",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-s-2",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-s-3",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-s-4",
-          "duration": 230
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "south",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-mounted-walk-n": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-walk-n-1",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-n-2",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-n-3",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-n-4",
-          "duration": 230
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "north",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-mounted": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-walk-e-1",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-e-2",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-e-3",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-e-4",
-          "duration": 230
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-mounted-trot": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-trot-1",
-          "duration": 150
-        },
-        {
-          "sprite": "volunteer-mounted-trot-2",
-          "duration": 150
-        },
-        {
-          "sprite": "volunteer-mounted-trot-3",
-          "duration": 150
-        },
-        {
-          "sprite": "volunteer-mounted-trot-4",
-          "duration": 150
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-mounted-idle": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-idle-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east; west by mirroring",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-mounted-fire": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-fire-1",
-          "duration": 700
-        },
-        {
-          "sprite": "volunteer-mounted-fire-2",
-          "duration": 500
-        }
-      ],
-      "loop": false,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "beat": 1,
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-ride-e": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-walk-e-1",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-e-2",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-e-3",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-e-4",
-          "duration": 230
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-ride-s": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-walk-s-1",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-s-2",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-s-3",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-s-4",
-          "duration": 230
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "south",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-riders"
-    },
-    "volunteer-ride-n": {
-      "frames": [
-        {
-          "sprite": "volunteer-mounted-walk-n-1",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-n-2",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-n-3",
-          "duration": 230
-        },
-        {
-          "sprite": "volunteer-mounted-walk-n-4",
           "duration": 230
         }
       ],

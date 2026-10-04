@@ -52,16 +52,15 @@ const RULES = [
   [/^(volunteer|regular|dragoon)-/, '$1', ['$1']],
   [/^skirmisher-/, 'regular', ['regular']],
   [/^figure-wading-(regular|volunteer)/, '$1', ['$1']],
-  [/^(bearers-carry|settler-gun|sentry-bell)/, 'volunteer', ['volunteer']],
+  // (The wounded carried, the breastwork of packs, the street barricade, the sandbags and the stacked muskets are Astra's since
+  // 2026-10-03; Claude's and their rules were deleted at the merge of 2026-10-04.)
+  [/^(settler-gun|sentry-bell)/, 'volunteer', ['volunteer']],
   [/^(lancer|forager)-/, 'dragoon', ['dragoon']],
   [/^cannon-/, 'cannon', ['cannon']],
   [/^ammunition-crate/, 'crate', ['crate']],
-  [/^breastwork-packs/, 'packs', ['packed-belongings']],
-  [/^barricade-street/, 'barricade', ['log-barricade']],
-  [/^sandbag-breastwork/, 'sacks', ['sacks']],
   [/^flag-come-and-take-it/, 'the Come and Take It flag', ['flag-come-and-take-it']],
   [/^gonzales-flag-work/, 'the Come and Take It flag', ['gonzales-flag-work']],
-  [/^(musket-stack|grass-bundle-cut|army-camp-mexican|army-camp-texian)/, '$1', ['$1']],
+  [/^(grass-bundle-cut|army-camp-mexican|army-camp-texian)/, '$1', ['$1']],
   // Animals and vehicles.
   [/^herd-/, 'horses', ['mustang', 'horse']],
   [/^milk-cow-/, 'cow', ['cow']],
@@ -85,7 +84,6 @@ const RULES = [
   [/^house-chimney-double/, 'stick chimney', ['house-chimney-stick']],
   [/^house-shed-frame/, 'shed room', ['house-shed-room']],
   [/^house-(floor|loft)$/, 'floor and loft', ['house-floor-loft']],
-  [/^house-loopholed/, 'the town\'s flat house', ['adobe-flat']],
   [/^house-(porch|shed-room|passage-floor|passage-roof)-end$/, 'house-$1', ['house-$1']],
   [/^interior-saddlebag/, 'interior', ['interior-dog-run']],
   [/^window-lit-/, 'lit window', ['window-lit']],
