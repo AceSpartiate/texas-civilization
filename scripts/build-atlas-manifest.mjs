@@ -287,8 +287,141 @@ function groundOf(image, frame) {
   return { ground: { left: at(left + band / 2, footOf(left, left + band)), front: at((lo + hi) / 2, lowest), right: at(right - band / 2, footOf(right - band, right)) } };
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Astra's frames measured the way she drew them (docs/ART_REQUESTS.md, "Redo and edit requests - 2026-10-04", C1-C3).
+// The audit of 2026-10-04 found three faults in how this file measured her sheets, none in her drawing. Each is fixed
+// below and held by tests/art-measure.test.mjs, which measures the built manifests the way the audit did.
+// ---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * C1 - the clips that move a figure along the ground: walks, marches, rides, runs, gallops, bounds and the like. In these
+ * the figure is drawn in place - the ground slides under it - so its body should stay put over its ground point while
+ * its legs swing. The per-frame anchor (`anchorOf`, the middle of the widest row near the bottom) lands on one hoof or one
+ * boot in a long stride, and the figure jumped back and forth along its path by up to 0.81 of its height (javelina run).
+ * So every frame of these clips gets one ground point per clip: the same horizontal offset from the middle of the figure's
+ * painted mass (`bodyOf`, the centroid of its silhouette) in every frame, that offset being the clip's median of the old
+ * per-frame offsets, so a clip's ground point sits where its frames' shadows mostly put it. A body going along at a steady
+ * pace carries its centre of mass at a steady pace, and in a picture drawn side-on the silhouette's centroid is that centre.
+ * The middle of the upper body was tried first (docs/ART_REQUESTS.md suggested it) and agrees with the centroid to within
+ * 0.07 of a height on every walk and ride, but not on a deer's or a turkey's bound or the geese in flight, where the "upper
+ * body" of an airborne frame is measured up from a hoof or a wing in the air: there it made the geese slide 0.22 of a
+ * height where they had slid 0.06. The vertical anchor stays per frame: the lowest foot is on the ground.
+ * ceiling: a carry, a dig or a gun drill is not here - the feet are planted and the body bends, so the per-frame foot
+ * anchor is the right one there; the audit measured locomotion only. A clip that walks while it carries (`*-sandbag-carry`,
+ * `bearers-carry`) keeps the per-frame anchor; add it here if one is seen to slide.
+ */
+export const LOCOMOTION = /(?:^|-)(?:walk|march|run|gallop|canter|trot|ride|bound|travel|flight|escape)(?:-|$)|^lancer-charge$|^mounted-courier-[esn]$/;
+
+/**
+ * C2 - a logical height for the figures on sheets the name rules below leave without one. Without it every frame is drawn
+ * at the requested height whatever its pose: the deer shrank about 30% raising its head, the bear came out 0.69 of itself
+ * mid-bound, and a gun crew's man bending for the shot grew to the height of the man standing beside him.
+ *
+ * Each entry names a figure on the sheet by the start of its frame names ('' is the whole sheet) and its reference:
+ * - 'tallest': the tallest frame of that figure on the sheet, when that is the figure standing or walking upright
+ *   (an animal's alert pose with its head up, a man walking with a rammer or a sandbag);
+ * - a frame name: the upright pose to measure, where the tallest frame is a prop held high (a rammer, a rod) or a pose
+ *   that is not the figure standing;
+ * - { standing, why }: the figure's standing height in this sheet's source pixels, for a sheet with no upright figure in
+ *   it at all (only sitting, sleeping or kneeling men). Astra's sheets are not all drawn at one scale, so this is measured
+ *   by eye against an upright frame of the same costume she drew elsewhere, matching the face and hat. The way out is
+ *   the delivery's own reference line (docs/ART_REQUESTS.md C2): the standing frame the sheet was drawn beside.
+ *   ceiling: by eye at the face and the hat brim, about +-8%; the guessed multipliers it replaced (0.65, 0.7) were within
+ *   that of it, which is the check that it is not far wrong.
+ *
+ * Sheets of effects, flags, guns, trees, fog and boats are not here: their frames grow or change shape on purpose (a smoke
+ * puff grows, a gun recoils) and each caller sizes them; tests/art-measure.test.mjs lists each with why.
+ */
+export const FIGURE_HEIGHTS = {
+  'artillery-service': [['volunteer-', 'tallest'], ['regular-', 'tallest']],
+  'regular-ladder-climb': [['', 'tallest']],
+  'alamo-scaling-ladders': [['', 'tallest']],
+  'regular-bugler': [['', 'tallest']],
+  'regular-drummer': [['', 'tallest']],
+  'white-flag-regular': [['', 'tallest']],
+  'white-flag-volunteer': [['', 'tallest']],
+  'lancer-charge': [['', 'tallest']],
+  'dragoon-carbine-actions': [['', 'tallest']],
+  'regular-prone-actions': [['', 'tallest']],
+  'goliad-prisoner': [['', 'tallest']],
+  'mule-packed-grass': [['', 'tallest']],
+  'ox-packed': [['', 'tallest']],
+  'volunteer-engineer-actions': [['', 'tallest']],
+  'regular-engineer-actions': [['', 'tallest']],
+  'volunteer-bearers': [['', 'tallest']],
+  'regular-bearers': [['', 'tallest']],
+  'dragoon-wounded-led': [['', 'tallest']],
+  'volunteer-mounted': [['', 'tallest']],
+  'carreta-solid-wheels': [['', 'tallest']],
+  'wildlife-deer': [['', 'tallest']],
+  'wildlife-mustang': [['', 'tallest']],
+  'wildlife-turkey': [['', 'tallest']],
+  'wildlife-bear-javelina': [['bear-', 'tallest'], ['javelina-', 'tallest']],
+  'wildlife-bison-pronghorn': [['bison-', 'tallest'], ['pronghorn-', 'tallest']],
+  'wildlife-geese-cattle': [['geese-', 'tallest'], ['wild-cattle-', 'tallest']],
+  'gonzales-settler-charge': [['', 'tallest']],
+  'gonzales-settler-igniter': [['', 'tallest']],
+  // The rammer's sheet has no upright frame: he lunges with the rammer (518) or crouches with his hands over his ears.
+  // The three Gonzales crew sheets were made as one set (scripts/art-deliveries/survivor-travel-gonzales-crew-2026-10-03.mjs,
+  // "same four equal cells full-body scale"); his hat brim is about 0.94 of the charge man's, standing 597.
+  'gonzales-settler-rammer': [['', { standing: 561, why: 'the charge man standing (settler-gun-charge-wait-1, 597) x 0.94, his hat brim against the rammer\'s; the lunge (518) is 0.92 of it' }]],
+  // The rammer carried upright stands its sponge above his hat (577); the shot carrier walks upright with nothing raised.
+  'twin-sisters-crew': [['', 'twin-crew-shot-carry']],
+  // The cart's upright frame, so it does not swell to the same height as it tips onto its side.
+  'coleto-baggage-cart': [['', 'cart-baggage']],
+  // Kneeling at a loophole, all four: the man's face and hat are 2.0x those of Astra's upright volunteer carrying a
+  // sandbag (volunteer-sandbag-carry-2, 304 tall in a stride, about 310 standing).
+  'volunteer-loophole-actions': [['', { standing: 620, why: 'face and hat brim 2.0x volunteer-sandbag-carry-2 (about 310 standing)' }]],
+};
+// C2 for the camp sheet, which the `military-` rule measured row by row: its rows are seated and sleeping men only, so a
+// row's tallest frame was a seated man, drawn as tall as a standing one (public/battle-view.js guessed x0.7 to undo it).
+// Its volunteer's face and hat are about 1.18x the sandbag carrier's (about 310 standing); the regular sits 271 to the
+// volunteer's 230 in the same pose on the same sheet, so stands in proportion.
+FIGURE_HEIGHTS['military-camp-life'] = [
+  ['volunteer-', { standing: 365, why: 'face and hat brim about 1.18x volunteer-sandbag-carry-2 (about 310 standing)' }],
+  ['regular-', { standing: 430, why: 'the volunteer standing (365) x 271/230, the two seated in the same pose' }],
+];
+
+/**
+ * C3 - a famous person's sheet is measured from its walking frames. Until 2026-10-04 its height was the tallest frame in
+ * rows 1-3, which can be an action pose - Hockley's arm raised for the signal, Sherman's rally - so the person was drawn
+ * 6-17% small in every pose (Hockley 13.5%, Sherman 12%). Walking is the one pose every person's sheet draws upright.
+ * A sheet with no walking frame keeps the old rule, unless a frame on it is named here as the person standing.
+ */
+const FAMOUS_STANDING = {
+  // Castrillón on the crate: the fourth frame is him standing on the ground beside it, so the crate is drawn the crate's
+  // height above him (1.17x; public/battle-view.js guessed x1.18 to put it back).
+  'famous-castrillon-crate': 'castrillon-crate-ground',
+};
+const WALKING = /-walk(?:-|$)/;
+
+/** The horizontal middle of a frame's painted mass - its silhouette's centroid - in sheet pixels (C1). */
+function bodyOf(image, frame, members, labels) {
+  let sum = 0, count = 0;
+  for (let y = frame.minY; y <= frame.maxY; y++) for (let x = frame.minX; x <= frame.maxX; x++) {
+    const p = y * image.width + x;
+    if (members.has(labels[p]) && image.data[p * 4 + 3] > 40) { sum += x; count++; }
+  }
+  return sum / count;
+}
+
+/** Groups of locomotion clips that share a frame, so a shared frame gets one anchor (C1). */
+export function locomotionGroups(clips = ANIMATION_CLIPS, frames = null) {
+  const parent = new Map(), find = name => { while (parent.get(name) !== name) name = parent.get(name); return name; };
+  for (const [id, clip] of Object.entries(clips)) {
+    const sprites = [...new Set(clip.frames.map(frame => frame.sprite))];
+    if (!LOCOMOTION.test(id) || sprites.length < 2 || (frames && !sprites.every(sprite => frames[sprite]))) continue;
+    for (const sprite of sprites) if (!parent.has(sprite)) parent.set(sprite, sprite);
+    for (const sprite of sprites.slice(1)) parent.set(find(sprite), find(sprites[0]));
+  }
+  const groups = new Map();
+  for (const sprite of parent.keys()) { const root = find(sprite); if (!groups.has(root)) groups.set(root, []); groups.get(root).push(sprite); }
+  return [...groups.values()];
+}
+
 export function buildManifest() {
-const sheets = {}, frames = {};
+const sheets = {}, frames = {}, bodies = {};
+const moving = new Set(locomotionGroups().flat());
 for (const [sheet, names] of Object.entries(SHEETS)) {
   const file = `atlases/${sheet}.png`;
   const source = readFileSync(root + file), image = decodeRgba(source);
@@ -341,6 +474,37 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
         return { row: row + 1, yRange: rowFrames.length ? [Math.min(...rowFrames.map(frame => frame.minY)), Math.max(...rowFrames.map(frame => frame.maxY)) + 1] : [],
           columns: rowFrames.map(frame => [frame.minX, frame.maxX + 1]) };
       }) } };
+  const heightOf = p => p.maxY - p.minY + 1, nameOf = p => names[p.row * columns + p.col] || '';
+  const tallest = list => Math.max(...list.map(heightOf));
+  const frameNamed = name => { const p = placed.find(q => nameOf(q) === name); if (!p) throw new Error(`${sheet}: reference frame ${name} is not on this sheet`); return p; };
+  // The height a frame's requested drawing height stands for (public/art.js drawSprite), or undefined for the frame's own.
+  // In the order the rules were written; the first that applies wins.
+  const logicalOf = (frame, name) => {
+    const figure = FIGURE_HEIGHTS[sheet]?.find(([start]) => name.startsWith(start));
+    if (figure) {
+      const [start, reference] = figure;
+      if (reference === 'tallest') return tallest(placed.filter(p => nameOf(p).startsWith(start)));
+      if (typeof reference === 'string') return heightOf(frameNamed(reference));
+      return reference.standing + 4; // the measured frames carry two pixels of padding top and bottom
+    }
+    if (sheet === 'alamo-modules' && frame.row === 0) return tallest(placed.filter(p => p.row === 0));
+    if (sheet === 'land-clearing' && frame.row === 2) return tallest(placed.filter(p => p.row === 2));
+    if (sheet === 'houses-settling') return tallest(placed.filter(p => p.row === frame.row));
+    // Named people keep one standing scale even when a later cell contains a table, cot or reclining pose (C3: their walk).
+    if (sheet.startsWith('famous-') && sheet !== 'famous-picnic-props') {
+      const walking = placed.filter(p => WALKING.test(nameOf(p)));
+      if (walking.length) return tallest(walking);
+      if (FAMOUS_STANDING[sheet]) return heightOf(frameNamed(FAMOUS_STANDING[sheet]));
+      return tallest(placed.filter(p => p.row < 3));
+    }
+    if (sheet === 'alamo-funeral-pyre') return heightOf(placed[0]);
+    if (sheet === 'joe-poses' || sheet === 'joe-story-actions') return tallest(placed);
+    if (sheet === 'wagon-rig') return name !== 'wagon-wheel' ? heightOf(placed[0]) : undefined;
+    // Family sheets keep seated figures at their own standing scale.
+    if (sheet.startsWith('people-family-')) return tallest(placed.filter(p => p.row < 3));
+    if (/^(people-|animal-|military-|courier-)/.test(sheet)) return tallest(placed.filter(p => p.row === frame.row));
+    return undefined;
+  };
   placed.forEach(frame => {
     const index=frame.row*columns+frame.col;
     if (!names[index]) return; // Period-inaccurate first fortification is intentionally not a usable frame.
@@ -349,28 +513,31 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
     for (let y = frame.minY; y <= frame.maxY; y++) for (let x = frame.minX; x <= frame.maxX; x++) if (members.has(labels[y * image.width + x])) retainedPixels++;
     const trimmedPixels = frame.area - retainedPixels, trimmedFraction = trimmedPixels / frame.area;
     if (trimmedFraction > MAX_TRIM_FRACTION) throw new Error(`${sheet}/${names[index]}: overlap split clips ${trimmedPixels} pixels (${(trimmedFraction * 100).toFixed(3)}%); requires a clean regeneration or explicit layout review`);
+    const anchor = anchorOf(image, frame), logicalHeight = logicalOf(frame, names[index]);
+    if (moving.has(names[index])) bodies[names[index]] = bodyOf(image, frame, members, labels);
     frames[names[index]] = {
       sheet, x: frame.minX, y: frame.minY,
       w: frame.maxX - frame.minX + 1, h: frame.maxY - frame.minY + 1,
-      ...anchorOf(image, frame),
+      ...anchor,
       ...(sheet === 'house-modules' && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
       ...(sheet === 'house-modules' && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
-      ...(/^(people-|animal-|military-|courier-)/.test(sheet) ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
-      // Family sheets keep seated figures at their own standing scale.
-      ...(sheet.startsWith('people-family-') ? { logicalHeight: Math.max(...placed.filter(p => p.row < 3).map(p => p.maxY - p.minY + 1)) } : {}),
-      ...(sheet==='wagon-rig' && names[index]!=='wagon-wheel' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),
-        ...(sheet==='joe-poses' || sheet==='joe-story-actions' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
-        ...(sheet==='alamo-funeral-pyre' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),
-      // Named people keep one standing scale even when a later cell contains a table, cot or reclining pose.
-      ...(sheet.startsWith('famous-') && sheet !== 'famous-picnic-props' ? {logicalHeight:Math.max(...placed.filter(p=>p.row<3).map(p=>p.maxY-p.minY+1))} : {}),
-      ...(sheet==='houses-settling' ? {logicalHeight:Math.max(...placed.filter(p=>p.row===frame.row).map(p=>p.maxY-p.minY+1))} : {}),
-      ...(sheet==='land-clearing'&&frame.row===2 ? {logicalHeight:Math.max(...placed.filter(p=>p.row===2).map(p=>p.maxY-p.minY+1))} : {}),
-      ...(sheet==='alamo-modules' && frame.row===0 ? {logicalHeight:Math.max(...placed.filter(p=>p.row===0).map(p=>p.maxY-p.minY+1))} : {}),
+      ...(logicalHeight ? { logicalHeight } : {}),
       label: names[index].replaceAll('-', ' '), kind: sheet,
       row: frame.row + 1, column: frame.col + 1,
       audit: { sourceBounds: frame.sourceBounds, visiblePixels: frame.area, trimmedPixels, retainedFraction: +(retainedPixels / frame.area).toFixed(6) },
     };
   });
+}
+// C1: one ground point per locomotion clip - the same offset from the silhouette's centroid in every frame, as a fraction of the
+// figure's height, so a clip mixing sheets drawn at different scales still agrees.
+for (const group of locomotionGroups(ANIMATION_CLIPS, frames)) {
+  const logical = name => frames[name].logicalHeight || frames[name].h;
+  const offsets = group.map(name => (frames[name].x + frames[name].anchorX * frames[name].w - bodies[name]) / logical(name)).sort((a, b) => a - b);
+  const middle = offsets.length % 2 ? offsets[(offsets.length - 1) / 2] : (offsets[offsets.length / 2 - 1] + offsets[offsets.length / 2]) / 2;
+  for (const name of group) {
+    const frame = frames[name];
+    frame.anchorX = +((bodies[name] + middle * logical(name) - frame.x) / frame.w).toFixed(4);
+  }
 }
 
 return {

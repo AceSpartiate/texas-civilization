@@ -43,7 +43,7 @@
         "hog-root"
       ],
       "box": {
-        "x": 683,
+        "x": 682,
         "y": 210,
         "w": 148,
         "h": 99
@@ -72,9 +72,9 @@
           "pig-walk"
         ],
         "box": {
-          "x": 840,
-          "y": 351,
-          "w": 96,
+          "x": 845,
+          "y": 349,
+          "w": 92,
           "h": 70
         },
         "words": "9 cattle, fair · 14 hogs, fair · 2 calves · 4 pigs · minded now by Silas, the best hand with stock"
@@ -88,8 +88,8 @@
     "hover": {
       "siteId": "home-1",
       "words": "9 cattle, fair · 14 hogs, fair · 2 calves · 4 pigs · minded now by Silas, the best hand with stock",
-      "x": 620,
-      "y": 329
+      "x": 623,
+      "y": 326
     },
     "rode": "Silas Proofwright rode the range and counted the stock: 9 cattle and 14 hogs, the cattle fair, the hogs fair. The calves are marked, and nothing will stray for a month.",
     "sale": {

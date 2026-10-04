@@ -1,5 +1,108 @@
 # Claude handoff — Astra foundation
 
+## Astra's frames measured right: one ground point per clip, steady size — 2026-10-04 (not released)
+
+Branch `art-measure` from origin/main (4f76d4ed, where the art audit *art-redo* was merged). Not pushed and not released.
+Tested on this computer only, in headless Chrome. No Chromebook, LAN or classroom claim. This fixes the three items in
+docs/ART_REQUESTS.md *Redo and edit requests - 2026-10-04 / Fixed in code instead*. The audit found these were faults in how
+`scripts/build-atlas-manifest.mjs` measured her frames, not in her drawing. No picture was touched; `atlas.json`,
+`animation.json`, `manifest.json` and `ART_MANIFEST.md` are rebuilt with `npm run build:art`.
+
+- **C1, figures sliding while they move.** Each frame's ground point used to be the middle of the widest row near its
+  bottom. In a stride that row is one hoof or one boot, so it jumped from frame to frame.
+  - Now every clip matching `LOCOMOTION` (walks, marches, rides, runs, gallops, bounds, flight; 343 clips) has one ground
+    point. In every frame it sits the same distance from the silhouette's centroid, which is the figure's centre of mass
+    seen side-on. That distance is the clip's median of the old per-frame distances.
+  - Clips that share a frame are measured together (`locomotionGroups`). The vertical anchor stays per frame.
+  - The upper-body centre, suggested in ART_REQUESTS, was tried first. It agrees with the centroid on every walk and ride.
+    On airborne frames (bounds, the geese in flight) it measures from a hoof or wing in the air, and it made the geese slide
+    0.22 of a height where they had slid 0.06.
+  - Measured as the centroid's slide against the ground point, frame to frame, in figure heights: before, 50 clips were over
+    0.08 and the worst was 0.73 (`lancer-charge`). After, the worst is 0.001. That is true by construction, so it is not
+    much evidence on its own.
+  - The independent measure is the torso's slide. The torso is the band 0.40-0.75 of the height above the ground line,
+    which the builder does not use. In figure heights:
+
+    | | Before | After |
+    |---|---|---|
+    | Worst clip | 0.89 (`lancer-charge`) | 0.17 |
+    | Clips over 0.08 | 55 | 5 |
+    | Javelina run | 0.76 | 0.04 |
+    | Seguín's canter | 0.45 | 0.006 |
+    | Bison run | 0.36 | 0.03 |
+    | Mustang gallop | 0.35 | 0.06 |
+    | Sherman's walk | 0.21 | 0.01 |
+    | McCulloch's walk | 0.19 | 0.009 |
+    | Hockley's walk | 0.16 | 0.01 |
+    | Grant's gallop | 0.14 | 0.03 |
+
+  - The 5 clips still over 0.08 have frames with no foot on the ground: the lancers' charge 0.13, the pronghorn's bound
+    0.11, the deer's bound 0.09, the turkey's bound 0.08 and the geese in flight 0.17. In those frames the torso band is
+    measured up from a hoof or a wing in the air.
+  - The geese are the one clip that is worse by this measure (0.07 before), because a flock has no ground line. By the
+    centroid they went from 0.055 to 0. The test exempts these five by name (`AIRBORNE`) and holds them under 0.17.
+  - Carries, digs and gun drills keep the per-frame foot anchor (`ceiling:` at `LOCOMOTION`).
+- **C2, size changing within a clip.** `FIGURE_HEIGHTS` gives a logical height to every figure on the 33 sheets that the
+  name rules missed. Each figure's height comes from one of three references:
+  - its tallest upright frame;
+  - a named upright frame: `twin-crew-shot-carry`, because the rammer held up stands above the hat, and `cart-baggage`;
+  - a measured standing height, for the three sheets with no upright figure at all: `military-camp-life`,
+    `volunteer-loophole-actions` and the Gonzales rammer. These were measured by eye against her upright figure of the same
+    costume, by face and hat brim, to about 8% (`ceiling:` at `FIGURE_HEIGHTS`).
+
+  Clips whose scale changes by more than 10% within the clip fell from 37 to 9. The 9 are smoke, dust, a canister burst, two
+  steamboat smoke columns and two chests opening, which grow on purpose; they are listed in the test as `GROWS`. Each wild
+  animal is now one size in every pose. The deer no longer swells 1.5× when it lowers its head to graze.
+- **The guessed multipliers in public/battle-view.js are gone.** Each one now comes out of the art:
+
+  | Pose | Guessed | Measured from the art |
+  |---|---|---|
+  | Asleep (`*-sleep`) | ×0.7 | 0.40 (volunteer), 0.35 (regular) |
+  | Kneeling at a loophole (two places) | ×0.65 | 0.67-0.68 |
+  | Sitting in camp (`*-rest-sit`) | ×0.7 | 0.63-0.64 |
+  | Gonzales rammer covering his ears | ×0.65 | 0.69-0.72 (his lunge is now 0.92, was 1.0) |
+  | Castrillón on the crate | ×1.18 | 1.17 |
+
+  The mustang herd at Agua Dulce went from ×1.15 to ×1.45. A mustang's height is now the horse standing alert, which is the
+  same 1.45 the hunt uses (`QUARRY_SIZE`). Its gallop still draws at about 1.15 of a man. At the hunt, a grazing deer,
+  mustang or turkey now draws smaller than before (its alert pose is unchanged), because it is now the same animal.
+- **C3, a famous person drawn small because of one raised arm.** A famous sheet with walking frames is now measured from
+  them. A sheet with none keeps the old rule, unless `FAMOUS_STANDING` names a frame: the crate is measured from
+  `castrillon-crate-ground`.
+  - Each person's median walking height against the cast median was 0.875-1.019 and is now 0.954-1.014.
+  - Before, Susanna carrying Angelina was 0.875, Hockley 0.888, Sherman 0.902, Lamar 0.916 and Johnson 0.939.
+  - Lamar's idle now draws 1.09× his walk. That is R2, a drawing fault, and is still requested.
+- **Tests.** `tests/art-measure.test.mjs` has one test per item. Each measures the shipped manifests and PNGs with its own
+  code. Each was proved by putting the old measurement back in the builder and rebuilding (all reverted afterwards):
+
+  | Injection | What failed | art-library and animation tests |
+  |---|---|---|
+  | No per-clip anchor | C1 only, 50 clips | pass |
+  | No `FIGURE_HEIGHTS` | C2 only, 28 clips | pass |
+  | Famous rows 1-3 rule back | C3 only, 5 sheets | pass |
+  | No crate reference | C2 only, its crate check | pass |
+  | Camp sheet back to its row rule | C2 only, its seated check | pass |
+
+- **Proofs.** All run one at a time:
+  - Green: `test:art`, `looks`, `family-age-art`, `famous-people`, `battle-gonzales`, `battle-bexar`, `battle-alamo`,
+    `battle-san-jacinto`, `battle-south`, `battle-coleto`, `battle-grass`, `battle-concepcion`, `battle-cinema`, `hunt`,
+    `herds` and `overlap`. No asserted number had to change; only their evidence files were rewritten.
+  - **`test:land-paths` fails, and fails the same way on 4f76d4ed and on today's origin/main b2d0c0e1.** The error is
+    `400 "Hunting is men's work, and Jethro is at home."`, from the customary-work rule refusing the proof's hunt order.
+    It has nothing to do with art and was not fixed here.
+- **Plates.** [art-measure-anchor.png](docs/evidence/art-measure-anchor.png) overlays each clip's frames on one ground point,
+  before and after. [art-measure-scale.png](docs/evidence/art-measure-scale.png) shows frames at one requested height, before
+  and after. Both are drawn by `node scripts/art-measure-plates.mjs [before-ref]`, which uses the game's own `drawSprite`
+  and serves the old `atlas.json` for the "before" side.
+- **Not proved, or left as it was.**
+  - A man digging still looks about 1.3-1.4× the old generated `volunteer-e` beside him. He measures right against Astra's
+    own upright carrier (299 px against 304); her men are drawn with bigger heads than the generated military sheet's. That
+    is a cast review, not the builder.
+  - The prone marksman's ×0.35 (battle-view.js `size`) is another guessed multiplier the audit did not list. It is unchanged.
+  - Famous sheets with only gestures or story actions keep their tallest frame in rows 1-3. Nothing on those sheets stands
+    upright to measure against.
+  - The three standing heights measured by eye await the delivery's own reference line from Astra.
+
 ## Customary work: the owner's four answers - 2026-10-04 (not released)
 
 Branch `customary-work-2` from origin/main (58b1abff, where *customary-work* was merged); not pushed, not released. Same computer

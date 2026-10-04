@@ -698,7 +698,10 @@ export function createBattleView(art) {
           // Jacinto", item 2 - Claude's `*-sleep` (never to be mistaken for a man killed); the library's rolled-in-a-blanket
           // `volunteer-reclining` while it loads.
           poses.asleep++;
-          figures.push({ y: point.y, kind, side: side.side, point, size: figurePx * 0.7, clip: `${side.side === 'mexican' ? 'regular' : 'volunteer'}-sleep`, sprite: null, fallback: { sprite: 'volunteer-reclining', size: figurePx }, timeMs, flip: slot.index % 2 === 0, still: true, seed });
+          // At the soldier's own size: Astra's sleeping men (`military-camp-life`) are measured against the man standing
+          // (scripts/build-atlas-manifest.mjs FIGURE_HEIGHTS, 2026-10-04), so a man lying down draws 0.40 of him (0.35 a
+          // regular in his shako). Until then the sheet was measured from its seated men, and x0.7 here guessed it back.
+          figures.push({ y: point.y, kind, side: side.side, point, size: figurePx, clip: `${side.side === 'mexican' ? 'regular' : 'volunteer'}-sleep`, sprite: null, fallback: { sprite: 'volunteer-reclining', size: figurePx }, timeMs, flip: slot.index % 2 === 0, still: true, seed });
           drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
           continue;
         }
@@ -858,14 +861,14 @@ export function createBattleView(art) {
             if (climbing) { sprite = 'volunteer-bank-climb-5'; dy = 0; fallback = { sprite: `${kind}-load`, dy: figurePx * 0.32 }; }
             if (loophole) {
               sprite = kind === 'volunteer' ? 'volunteer-loophole-load' : `${kind}-loophole-fire-3`; flip = !right; fallback = { sprite: `${kind}-${right ? 'e' : 'w'}`, flip: false, size: figurePx };
-              if (kind === 'volunteer') size = figurePx * 0.65;
             }
             if (prone) { sprite = 'regular-prone-lie'; flip = !right; fallback = { sprite: slot.kneel ? 'regular-load' : `regular-${right ? 'e' : 'w'}`, flip: slot.kneel ? !right : false }; }
           }
           else if (loophole) {
-            // A volunteer is Astra's crouched loophole cycle (2026-10-03), at her crouched size; a regular, Claude's.
+            // A volunteer is Astra's crouched loophole cycle (2026-10-03); a regular, Claude's. Both at the soldier's own size:
+            // her kneeling man is measured against the man standing (scripts/build-atlas-manifest.mjs FIGURE_HEIGHTS,
+            // 2026-10-04) and draws 0.67-0.68 of him aiming and loading; x0.65 here guessed that until then.
             clip = kind === 'volunteer' ? 'volunteer-loophole-fire-reload' : `${kind}-loophole-fire`; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: `${kind}-fire-reload`, size: figurePx };
-            if (kind === 'volunteer') size = figurePx * 0.65;
           }
           // Astra's prone marksman (2026-10-03): lying in the grass to load, the rifle up to fire.
           else if (prone) { clip = 'regular-prone-fire-reload'; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: 'regular-fire-reload' }; }
@@ -903,8 +906,10 @@ export function createBattleView(art) {
         }
         else if (side.style === 'camp') {
           // At rest in camp: standing about, or sitting at ease - Astra's healthy `*-rest-sit` (2026-10-03), distinct from injury
-          // and death; the library's seated wounded soldier only while her sheet loads.
-          if (slot.rest === 'sit') { clip = `${kind}-rest-sit`; size = figurePx * 0.7; fallback = { clip: `${kind}-injured-rest`, size: figurePx }; } else clip = `${kind}-idle-${right ? 'e' : 'w'}`;
+          // and death; the library's seated wounded soldier only while her sheet loads. At the soldier's own size: her seated
+          // men are measured against the man standing (scripts/build-atlas-manifest.mjs FIGURE_HEIGHTS, 2026-10-04) and
+          // draw 0.63-0.64 of him; x0.7 here guessed it while the sheet was measured from its seated men.
+          if (slot.rest === 'sit') { clip = `${kind}-rest-sit`; fallback = { clip: `${kind}-injured-rest`, size: figurePx }; } else clip = `${kind}-idle-${right ? 'e' : 'w'}`;
           flip = slot.rest === 'sit' ? !right : false;
         } else { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
         // A Claude-drawn clip this figure is drawn in (`prefer`), with the library's figure it stands in for as its `fallback`
@@ -1171,9 +1176,12 @@ export function createBattleView(art) {
       }
       if (drawn) return drawn * 12;
     }
+    // A mustang's drawing height is its height standing alert, head up (the sheet's logical height since 2026-10-04,
+    // scripts/build-atlas-manifest.mjs FIGURE_HEIGHTS): 1.45 of a man, the hunt's own mustang (public/app.js QUARRY_SIZE).
+    // Galloping it draws 0.73-0.82 of that, about the 1.15 of a man it was drawn at here when every frame filled the height.
     for (let i = 0; i < n; i++) {
       const q = camera.toScreen({ x: at.x + (hash(`herd:${i}:x`) - 0.5) * width, y: at.y + (hash(`herd:${i}:y`) - 0.5) * depth });
-      if (!art.animated(ctx, herd.moving || herd.scatter ? 'mustang-gallop' : 'mustang-graze', q.x, q.y, figurePx * 1.15, `herd:${i}`, { timeMs: time + i * 211, flip: !right })) {
+      if (!art.animated(ctx, herd.moving || herd.scatter ? 'mustang-gallop' : 'mustang-graze', q.x, q.y, figurePx * 1.45, `herd:${i}`, { timeMs: time + i * 211, flip: !right })) {
         ctx.fillStyle = '#7a5b3c'; ctx.fillRect(q.x - figurePx * 0.4, q.y - figurePx * 0.5, figurePx * 0.8, figurePx * 0.35);
       }
     }
@@ -1308,12 +1316,14 @@ export function createBattleView(art) {
     // A carriage gun's crew stands ready (`ready`, the shot the page knows is coming) and the recoil is drawn over the gun's own
     // recoil time (`GUN.recoil`); Astra's settlers keep their own clips' timing.
     const recoilT = cartwheels ? since : since * 900 / GUN.recoil, standT = firing ? recoilT : ready && !cartwheels ? 0 : time;
+    // Every man at the soldier's own size: the rammer crouching with his hands over his ears is measured against him standing
+    // (scripts/build-atlas-manifest.mjs FIGURE_HEIGHTS, 2026-10-04) and draws 0.69-0.72 of him; x0.65 here guessed it.
     const crew = [
-      { clip: cartwheels ? (firing ? 'settler-gun-rammer-cover' : 'settler-gun-ram') : (firing || ready ? 'volunteer-gun-fire' : 'volunteer-gun-ram'), dx: back * 0.75, t: standT, scale: cartwheels && firing ? 0.65 : 1 },
+      { clip: cartwheels ? (firing ? 'settler-gun-rammer-cover' : 'settler-gun-ram') : (firing || ready ? 'volunteer-gun-fire' : 'volunteer-gun-ram'), dx: back * 0.75, t: standT },
       { clip: cartwheels ? 'settler-gun-carry' : 'volunteer-gun-shot-carry', dx: back * 1.35, t: time },
       { clip: cartwheels ? (firing ? 'settler-gun-fire' : 'settler-gun-ready') : (firing || ready ? 'volunteer-gun-fire' : 'volunteer-idle-e'), dx: back * 0.2, dy: 0.35, t: standT },
     ].slice(0, gun.crew || 3);
-    for (const man of crew) art.animated(ctx, man.clip, p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx, figurePx * (man.scale || 1), `crew:${man.clip}:${man.dx}`, { timeMs: man.t, flip: !right, paused: reducedMotion });
+    for (const man of crew) art.animated(ctx, man.clip, p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx, figurePx, `crew:${man.clip}:${man.dx}`, { timeMs: man.t, flip: !right, paused: reducedMotion });
     // Each shot, once: the flash, and a bank of smoke that lies on the field long after.
     const pending = view.cannonFiredAt.filter(t => t <= now && !view.shotsSeen.has(`cannon:${t}`));
     for (const t of pending) {
@@ -1596,7 +1606,9 @@ export function createBattleView(art) {
     if (person.bears) return drawBearers(ctx, person, p, size, time, flip, key);
     const pose = hurt ? 'wounded' : person.moving && !['ride', 'escape'].includes(person.pose) ? 'walk' : person.pose || 'stand';
     const named = own?.[pose];
-    if (pose === 'crate-command' && own?.['crate-command']) return clip(own['crate-command'].slice(5), time, { size: figurePx * 1.18 });
+    // At his own size: the crate's sheet is measured from Castrillón standing on the ground beside it (scripts/build-atlas-manifest.mjs
+    // FAMOUS_STANDING, 2026-10-04), so on the crate he draws 1.17 of himself; x1.18 here guessed that until then.
+    if (pose === 'crate-command' && own?.['crate-command']) return clip(own['crate-command'].slice(5), time);
     if (pose === 'walk') {
       const directedWalk = person.heading === 'north' ? own?.walkNorth : person.heading === 'south' ? own?.walkSouth : null;
       if (directedWalk) return clip(directedWalk, time, { flip: false });
