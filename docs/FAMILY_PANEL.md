@@ -375,6 +375,34 @@ place: an attribute is written only when its value changes. Measured in the brow
 added and no attributes changed across ten rows (before the last fix, every row rewrote its name box's `data-current` every
 tick).
 
+**Held still under a press (triage 2.14, 2026-10-03; not released).** Kept in place was not enough. A browser sends no click to
+an element that left the page between the press going down and coming up - a move by `insertBefore` leaves it for that instant -
+nor to one that moved out from under the pointer: the click goes to whatever holds both ends of the press. A snapshot arriving
+mid-press did both: an icon the tick took off the bar (its person called aside by a little one, the class paused) and put back
+was a removed node, and a row's Auto switch pushed along by a baby's word appearing beside it, or another row's line growing
+above, was no longer under the finger. The tap did nothing; `test:solo-game` passed only on a rerun because of it. Now:
+
+- **The panel and its popup** (`#family-panel`, `#panel-tip`) and **the call's menu** (`#call-menu`) are not drawn at all while
+  a press is down on them. The snapshot that arrived is drawn, from the latest, once the press's click has run
+  (`pressHold` in public/family-panel.js, `panelPress` in public/app.js). A mouse press lasts about a tenth of a second; a tap
+  until its click, which a touch screen sends a moment after the finger lifts (600 ms at most without one); any press 8 s at
+  most. Space or Enter on a button holds the same way. The map and the other panels go on drawing beside it.
+- **Every icon a row has drawn is kept** while it is off the bar (`row.made`), so one coming back is the same button, not drawn
+  again; the row's reason and travelling words likewise.
+- **The lists still drawn under a press** - the journal's roster and who is here - are kept item by item (`keepList`) and put
+  in order around the pressed node, never by moving it; one no longer wanted waits for the press (`arrangeChildren`). The
+  family's goods, the story, the call's menu rows and the popup's ways on are kept item by item the same way (the last two are
+  not drawn under a press on them at all; a way kept for its own click lingered in the hidden popup, a second element of its
+  line beside the errand's, found by `test:field-click`).
+- Unchanged: tap, then send (an armed popup stays through snapshots while its icon is on the bar), a goal's pinned popup, hover
+  and focus.
+
+Evidence: `tests/panel-press.test.mjs` (the order around a press, the list kept, how long a press holds, and the page's wiring;
+each test failed first under its injection) and `npm run test:panel-press` (presses held across the snapshot that takes the
+pressed icon off the bar and the one that puts it back, presses held across plain ticks on icons and Auto switches, and
+tap-then-send held the same way on emulated touch; it fails at its first press with the panel drawn under the press). Same
+computer, headless Chrome; no touch Chromebook.
+
 ### 11.5 Answered by the owner (2026-09-16)
 
 - *Should the other grown people also be able to go to town, go home, rest and work about the place from their rows?* — The
