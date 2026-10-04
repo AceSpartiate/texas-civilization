@@ -1,7 +1,7 @@
 {
   "verdict": "PASS",
   "checks": [
-    "wagon capacity and livestock disclosure",
+    "wagon capacity and the stock choice on the card",
     "desktop bounds",
     "search",
     "keyboard quantity",

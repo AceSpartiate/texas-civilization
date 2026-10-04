@@ -32,7 +32,12 @@ proofs that still sent a woman to men's work (docs/CUSTOMARY_WORK.md), one real 
   site, and nobody was. Now the person the server says answers for the family (sim/acting.mjs `actingFor`).
 
 Evidence (each alone, same computer): hunt-aim, furniture, family-commands, creation, creation-screen, reconnect, mexican-advance,
-battle-concepcion, battle-grass, battle-san-jacinto green; RESULTS_PLACEHOLDER. `npm test` green.
+battle-concepcion, battle-grass, battle-san-jacinto, battle-south, battle-alamo, overlap, tips and commerce-ui green, and
+tests/capacity.test.mjs green; those four battles' failures in the full run were load. `npm test` green (2235 tests, 0 failed).
+**Still red, and not this branch's:** `test:famous-people` fails alone on its frame-time gate ("draws too slowly before the
+siege", p95 52-56 ms over 44-47 frames) **on c2c77ca3 as well** (56 ms), so it is this machine's speed against the gate or a
+regression from before this branch, not the custom; one of the three runs here missed Neill hurt at the guns instead (a sampled
+moment).
 
 ## A child keeps house as the parent's would — owner-decided 2026-10-04 (not released)
 
