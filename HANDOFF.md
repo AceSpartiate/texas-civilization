@@ -1,5 +1,53 @@
 # Claude handoff — Astra foundation
 
+## Triage's last: the settlement's call seen, the play line once, solo's spotlight — 2026-10-03 (not released)
+
+Branch `triage-last` from origin/main cca3a891; not pushed, not released. The owner, 2026-10-03: *"yes, start them and push to live
+when done."* Three items of docs/audits/2026-09-29-triage.md, each marked there, and that document's stale rows brought up to date
+(D8, D10, D13, D15 with the owner's answers and v2026.10.01.1; 1.8's last half superseded by the join words; a 2026-10-03 table of
+where all 67 items stand: only 2.14, another builder's, and 2.16, which needs devices, are open).
+
+- **2.5 The settlement's call, seen and not only said** (owner's standing preference: visual cues over explanatory text). The card
+  among the messages already existed (story cards, 2026-09-29); folded with *Keep playing* the call was a small "!" again. While a
+  call to arms is open (`request.kind === 'call'`: a settlement's, or Gonzales's at the gathering; not the food call, the march, the
+  rumour or the army's supplies): a **beacon** of spreading rings on the ground under everybody who can answer, at least 72 px across
+  however far out the map is, their "!" a size larger (public/app.js `drawCallBeacon`); their **portraits beckon** on the family's
+  panel (`data-called`, one `setData` in the row render - nothing restructured, for the 2.14 builder); the **folded messages keep
+  beckoning** where every other folded card is still; and once for each call, as it comes in, **the screen's edges warm and fade**
+  (`#call-flash`, 2.8 s, no pointer). Who: `callCue` (public/military-attention.js), the call's own "!" rule. Nothing holds the class,
+  nothing answers for the family, no word added. Reduced motion: still beacon, still ringed portraits, no flash.
+- **2.3, second half: the child's play line once.** "Set out: play" was already once a day, but every spell of play a child on auto
+  took between jobs wrote its own line and a bare "finished: play tag" - measured on a family of twenty with ten children under
+  twelve, one child wrote sixteen play lines on the first afternoon. Each kind of play is now written once a day for each child
+  (`playedToday`, sim/children.mjs; `onceToday`, sim/child-day.mjs, in the child's `told`) and play writes no bare "finished:"
+  (`finishChore`). Every kind a child had that day is still said, and again the next day. No save version (an absent `told` is
+  nothing said yet). **Not changed:** the jobs between (kindling, the hens) still write each time - one child scattered corn eleven
+  times that afternoon, three lines each. The item did not ask; it is the owner's to decide.
+- **3.17 Solo's spotlight.** A Play Solo journal has **The class screen**, under what the family has heard, with one line - *"In a
+  class these go up on the teacher's screen. Playing alone, they come here."* - and every moment the Host's banner would have shown,
+  newest first with its day (`soloSpotlights`, sim/host.mjs; sent only to a solo page, server/app.mjs `view`). It is the projector's
+  words, not the family's news (`world.knowledge` untouched): a class reads the banner too while its families' word comes by rider.
+  The family's own moments already in its record are not said twice; a new one lights the journal's mark. The camera is not moved.
+  **The line is in the game's window, not the launcher's Play Solo dialog**: a sentence there would make the next release carry a new
+  launcher (~88 MB to every install). docs/HOST_PAGE.md §2.3.
+
+**Evidence** (same computer only):
+- Node, each new test seen failing alone by injection (docs/evidence/triage-last-injections.json, 7 of 7):
+  `tests/childhood.test.mjs` (2, also in `scripts/childhood-injections.mjs`), `tests/solo.test.mjs` (3),
+  `tests/military-attention.test.mjs` (2). `callCue`'s Host, watching and closed-call guards are also enforced by `needsOf`, so
+  removing them alone fails nothing: the test holds the behaviour, not those lines.
+- `npm test`: 2187 tests, 2151 pass, 0 fail, 36 skipped (first run, no reruns needed).
+- Browser, headless Chrome, one at a time, all green on the first run: **new** `test:settlement-call` 9 checks (1366x768 and
+  1024x600, reduced motion; docs/evidence/settlement-call-*.png: arrives, open, beacon, folded, open-1024x600, reduced-motion) and
+  `test:solo-class-screen` 4 checks (docs/evidence/solo-class-screen-*.png); and `test:overlap`, `test:solo-game` (16),
+  `test:host-live` (11), `test:tips` (16), `test:story-cards` (5), `test:solo` (15), `test:family-panel` (23), `test:panels` (14).
+  `test:lesson` exits at once: SKIPPED, the guided start is switched off (`LESSON_ENABLED`).
+
+**Not proved:** anything on a Chromebook, a school network or in a classroom; whether the beacon and the flash are noticed by a real
+student who has learned to press "Got it" (the reason for the item); how the beacon reads when several people at home stand together
+(their rings overlap); the class screen on the launcher's own WebView2 window (proved in headless Chrome against an in-process solo
+server).
+
 ## Released as v2026.10.03.2 — 2026-10-03
 
 Main at 34b5dee5, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.03.2>). Contents: paths all automatic (Cut a path gone), the plain launcher installed and carried in the set of changes when the launcher changes, and both setup formats (`TexasRevolutionSetup.exe` classic with the plain launcher inside, 779 MB; `TexasRevolutionSetup-Appended.exe`, 691 MB). No set of changes this time, as designed: every launcher before this one takes the whole setup once more. On 34b5dee5: `npm test` 2184 tests, 2148 pass, 0 fail, 36 skipped; all 107 browser proofs green two at a time (`test:claude-art`, the stand-in injection harness, left out). The field-click proof was red 3 runs in 5 on 1638f5ca from a race in the proof (the maker sent to bring the crop in looked free before the server started them on it); fixed in 34b5dee5 and green 5 in 5 alone. Not proved: ThreatDown with either setup, SmartScreen, a real download of a set of changes carrying a launcher (the first will be the next release with a launcher change). Same computer only; no Chromebook, LAN or classroom claim.

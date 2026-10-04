@@ -72,6 +72,16 @@ public `spotlight` event with its claim. A student is never sent it.
 **A fight is filmed since 2026-09-30** (§2.15): its own spotlight no longer moves the camera; the film of the fight does, and puts
 the teacher's view back after.
 
+**Play Solo, which has no Host (triage 2026-09-29, 3.17; 2026-10-03, not released):** its player's journal has *The class screen*,
+under what the family has heard, with one line - *"In a class these go up on the teacher's screen. Playing alone, they come here."*
+- and every moment the banner would have shown, newest first with its day (`soloSpotlights`, `sim/host.mjs`; sent only to a solo
+game's page, `server/app.mjs` `view`). It is what a class reads on the projector, not the family's news: `world.knowledge` is
+untouched. A moment already in the family's own record (its house burned by the Texas army, somebody taken at home, overtaken) is
+left out, so nothing is said twice; one its record is not told yet (`tell: false`) is shown, as the projector shows it to everybody.
+A new one lights the journal's mark. The camera is not moved: a solo player is a student, and the map is theirs. The launcher's
+*Play Solo* window is unchanged - a sentence there would make the next release carry a new launcher (docs/DEPLOYMENT.md) - so the
+line is in the game's own window. `tests/solo.test.mjs`, `npm run test:solo-class-screen`.
+
 ### 2.4 Absent families
 
 A joined family whose student's page has been closed for **two minutes** while the class runs (`ABSENT_MS` in

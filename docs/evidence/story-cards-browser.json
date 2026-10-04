@@ -1,6 +1,6 @@
 {
   "proof": "npm run test:story-cards",
-  "when": "2026-10-03T03:26:28.813Z",
+  "when": "2026-10-04T05:00:41.119Z",
   "pass": [
     "the neighbours' card (rgb(217, 164, 65)) first and the house's (rgb(127, 154, 63)) under it, both glowing, under Hide names and over the rows",
     "the rows under the cards stand on one line with the names whole at 1366x768, 1024x768 and 1024x600: father Nathan (88 px), daughter Winnie (70 px), son Eli (101 px)",

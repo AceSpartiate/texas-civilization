@@ -1,7 +1,7 @@
 {
   "record": "panels-browser",
-  "date": "2026-10-01",
-  "browser": "153.0.8010.53",
+  "date": "2026-10-04",
+  "browser": "154.0.8037.93",
   "screens": [
     {
       "width": 1366,
@@ -19,7 +19,7 @@
   "task": "The four panels scripts/screen-overlap-study.mjs could not reach honestly (docs/FAMILY_PANEL.md §12.11): #site-choose, #survey-choose, #encounter and #call-menu, reached in a real state with the server's own content in them and measured.",
   "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a Chromebook, a classroom or a touch screen.",
   "checks": [
-    "1366x768: all four panels really drawn, with the server's own words in them (#encounter 520x538, #call-menu 440x328, #site-choose 384x287, #survey-choose 384x346)",
+    "1366x768: all four panels really drawn, with the server's own words in them (#encounter 520x538, #call-menu 440x328, #site-choose 384x346, #survey-choose 384x346)",
     "1366x768: all four fit the screen and none has anything drawn over its own controls",
     "1366x768: none of the four is drawn over the guided start, and nothing covers a word or a control of it",
     "1366x768: no ability bar under the meeting, and the bar is back the moment the meeting shuts",
@@ -53,7 +53,7 @@
           "panelFits": true,
           "ownControls": 7,
           "ownControlsCovered": [],
-          "words": "A MEETINGTemperance and Ned Falk × Had it from Willa Hines at the fork of the road · through 6 hands out of Gonzales · 1.0 hours on the road",
+          "words": "A MEETINGRhoda and Ned Falk × Had it from Willa Hines at the fork of the road · through 6 hands out of Gonzales · 1.0 hours on the road · al",
           "lessonRoom": null,
           "covered": [],
           "partly": [
@@ -124,7 +124,7 @@
             },
             {
               "control": "#family",
-              "label": "Jethro: work, Family 1 home, well",
+              "label": "Benjamin: work, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1362,
@@ -134,7 +134,7 @@
             },
             {
               "control": "#family",
-              "label": "Temperance: work, Family 1 home, well. A",
+              "label": "Rhoda: work, Family 1 home, well. A ride",
               "box": {
                 "x": 20,
                 "y": 1425,
@@ -144,7 +144,7 @@
             },
             {
               "control": "#family",
-              "label": "Rosa: rest, Family 1 home, well",
+              "label": "Docia: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1488,
@@ -154,7 +154,7 @@
             },
             {
               "control": "#family",
-              "label": "Jasper: rest, Family 1 home, well",
+              "label": "Joseph: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1551,
@@ -240,28 +240,11 @@
           "covered": [],
           "partly": [
             {
-              "control": "#family-collapse",
-              "label": "Show names",
-              "box": {
-                "x": 12,
-                "y": 235,
-                "w": 109,
-                "h": 20
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 1,
-              "centreBlockedBy": null,
-              "by": [
-                "#world-map"
-              ]
-            },
-            {
               "control": "#family-rows",
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 263,
+                "y": 204,
                 "w": 48,
                 "h": 48
               },
@@ -278,7 +261,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 253,
+                "y": 193,
                 "w": 32,
                 "h": 32
               },
@@ -296,7 +279,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 316,
+                "y": 257,
                 "w": 48,
                 "h": 48
               },
@@ -313,7 +296,7 @@
               "label": "!2 · 5 min",
               "box": {
                 "x": 44,
-                "y": 308,
+                "y": 249,
                 "w": 32,
                 "h": 32
               },
@@ -341,7 +324,7 @@
             },
             {
               "control": "#family",
-              "label": "Jethro: work, Family 1 home, well. Someo",
+              "label": "Benjamin: work, Family 1 home, well. Som",
               "box": {
                 "x": 20,
                 "y": 1362,
@@ -351,7 +334,7 @@
             },
             {
               "control": "#family",
-              "label": "Temperance: work, Family 1 home, well. S",
+              "label": "Rhoda: work, Family 1 home, well. Someon",
               "box": {
                 "x": 20,
                 "y": 1425,
@@ -361,7 +344,7 @@
             },
             {
               "control": "#family",
-              "label": "Rosa: rest, Family 1 home, well",
+              "label": "Docia: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1488,
@@ -371,7 +354,7 @@
             },
             {
               "control": "#family",
-              "label": "Jasper: rest, Family 1 home, well",
+              "label": "Joseph: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1551,
@@ -386,28 +369,28 @@
               "box": {
                 "x": 12,
                 "y": 12,
-                "w": 304,
+                "w": 249,
                 "h": 510
               },
-              "overlapWidth": -598,
+              "overlapWidth": -653,
               "overlapHeight": 328,
               "shares": false
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 263,
+                "y": 204,
                 "w": 48,
                 "h": 207
               },
               "overlapWidth": -854,
-              "overlapHeight": 125,
+              "overlapHeight": 184,
               "shares": false
             },
             "fold": {
               "box": {
                 "x": 12,
-                "y": 235,
+                "y": 176,
                 "w": 109,
                 "h": 20
               },
@@ -441,9 +424,9 @@
           "real": true,
           "panelBox": {
             "x": 129,
-            "y": 235,
+            "y": 176,
             "w": 384,
-            "h": 287
+            "h": 346
           },
           "panelFits": true,
           "ownControls": 4,
@@ -453,28 +436,11 @@
           "covered": [],
           "partly": [
             {
-              "control": "#family-collapse",
-              "label": "Show names",
-              "box": {
-                "x": 12,
-                "y": 235,
-                "w": 109,
-                "h": 20
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 1,
-              "centreBlockedBy": null,
-              "by": [
-                "#world-map"
-              ]
-            },
-            {
               "control": "#family-rows",
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 263,
+                "y": 204,
                 "w": 48,
                 "h": 48
               },
@@ -491,7 +457,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 255,
+                "y": 195,
                 "w": 32,
                 "h": 32
               },
@@ -509,7 +475,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 316,
+                "y": 257,
                 "w": 48,
                 "h": 48
               },
@@ -526,7 +492,7 @@
               "label": "!2 · 5 min",
               "box": {
                 "x": 44,
-                "y": 308,
+                "y": 249,
                 "w": 32,
                 "h": 32
               },
@@ -547,7 +513,7 @@
               "label": "Set the house here",
               "box": {
                 "x": 144,
-                "y": 614,
+                "y": 555,
                 "w": 158,
                 "h": 44
               }
@@ -564,7 +530,7 @@
             },
             {
               "control": "#family",
-              "label": "Jethro: work, Family 1 home, well. Someo",
+              "label": "Benjamin: work, Family 1 home, well. Som",
               "box": {
                 "x": 20,
                 "y": 1362,
@@ -574,7 +540,7 @@
             },
             {
               "control": "#family",
-              "label": "Temperance: work, Family 1 home, well. S",
+              "label": "Rhoda: work, Family 1 home, well. Someon",
               "box": {
                 "x": 20,
                 "y": 1425,
@@ -584,7 +550,7 @@
             },
             {
               "control": "#family",
-              "label": "Rosa: rest, Family 1 home, well",
+              "label": "Docia: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1488,
@@ -594,7 +560,7 @@
             },
             {
               "control": "#family",
-              "label": "Jasper: rest, Family 1 home, well",
+              "label": "Joseph: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1551,
@@ -609,17 +575,17 @@
               "box": {
                 "x": 12,
                 "y": 12,
-                "w": 304,
+                "w": 249,
                 "h": 510
               },
-              "overlapWidth": 187,
-              "overlapHeight": 287,
+              "overlapWidth": 132,
+              "overlapHeight": 346,
               "shares": true
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 263,
+                "y": 204,
                 "w": 48,
                 "h": 207
               },
@@ -630,7 +596,7 @@
             "fold": {
               "box": {
                 "x": 12,
-                "y": 235,
+                "y": 176,
                 "w": 109,
                 "h": 20
               },
@@ -672,7 +638,7 @@
           "panelFits": true,
           "ownControls": 5,
           "ownControlsCovered": [],
-          "words": "SURVEY Where Nicolás surveys Ten acres of prairie beside the house. Clearing it would be 10 spells of work. Suggested placesPrairie, beside ",
+          "words": "SURVEY Where Alvin surveys Ten acres of prairie beside the house. Clearing it would be 10 spells of work. Suggested placesPrairie, beside th",
           "lessonRoom": null,
           "covered": [],
           "partly": [
@@ -732,7 +698,7 @@
               "label": "!2 min",
               "box": {
                 "x": 44,
-                "y": 318,
+                "y": 319,
                 "w": 32,
                 "h": 32
               },
@@ -760,7 +726,7 @@
             },
             {
               "control": "#family",
-              "label": "Nicolás: work, Family 1 home, well",
+              "label": "Alvin: work, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1362,
@@ -770,7 +736,7 @@
             },
             {
               "control": "#family",
-              "label": "Elena: work, Family 1 home, well. A ride",
+              "label": "Jane: work, Family 1 home, well. A rider",
               "box": {
                 "x": 20,
                 "y": 1425,
@@ -780,7 +746,7 @@
             },
             {
               "control": "#family",
-              "label": "Loreta: rest, Family 1 home, well",
+              "label": "Prudence: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1488,
@@ -790,7 +756,7 @@
             },
             {
               "control": "#family",
-              "label": "Ruperto: rest, Family 1 home, well",
+              "label": "Obed: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1551,
@@ -847,12 +813,12 @@
             "strip": null,
             "bar": {
               "box": {
-                "x": 283,
+                "x": 243,
                 "y": 530,
-                "w": 800,
+                "w": 880,
                 "h": 174
               },
-              "overlapWidth": 230,
+              "overlapWidth": 270,
               "overlapHeight": -8,
               "shares": false
             },
@@ -890,7 +856,7 @@
           "panelFits": true,
           "ownControls": 7,
           "ownControlsCovered": [],
-          "words": "A MEETINGTemperance and Ned Falk × Had it from Willa Hines at the fork of the road · through 6 hands out of Gonzales · 1.0 hours on the road",
+          "words": "A MEETINGRhoda and Ned Falk × Had it from Willa Hines at the fork of the road · through 6 hands out of Gonzales · 1.0 hours on the road · al",
           "lessonRoom": null,
           "covered": [],
           "partly": [
@@ -961,7 +927,7 @@
             },
             {
               "control": "#family",
-              "label": "Jethro: work, Family 1 home, well",
+              "label": "Benjamin: work, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1362,
@@ -971,7 +937,7 @@
             },
             {
               "control": "#family",
-              "label": "Temperance: work, Family 1 home, well. A",
+              "label": "Rhoda: work, Family 1 home, well. A ride",
               "box": {
                 "x": 20,
                 "y": 1425,
@@ -981,7 +947,7 @@
             },
             {
               "control": "#family",
-              "label": "Rosa: rest, Family 1 home, well",
+              "label": "Docia: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1488,
@@ -991,7 +957,7 @@
             },
             {
               "control": "#family",
-              "label": "Jasper: rest, Family 1 home, well",
+              "label": "Joseph: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1551,
@@ -1161,7 +1127,7 @@
             },
             {
               "control": "#family",
-              "label": "Jethro: work, Family 1 home, well. Someo",
+              "label": "Benjamin: work, Family 1 home, well. Som",
               "box": {
                 "x": 20,
                 "y": 1362,
@@ -1171,7 +1137,7 @@
             },
             {
               "control": "#family",
-              "label": "Temperance: work, Family 1 home, well. S",
+              "label": "Rhoda: work, Family 1 home, well. Someon",
               "box": {
                 "x": 20,
                 "y": 1425,
@@ -1181,7 +1147,7 @@
             },
             {
               "control": "#family",
-              "label": "Rosa: rest, Family 1 home, well",
+              "label": "Docia: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1488,
@@ -1191,7 +1157,7 @@
             },
             {
               "control": "#family",
-              "label": "Jasper: rest, Family 1 home, well",
+              "label": "Joseph: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1551,
@@ -1294,7 +1260,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 196,
+                "y": 195,
                 "w": 32,
                 "h": 32
               },
@@ -1377,7 +1343,7 @@
             },
             {
               "control": "#family",
-              "label": "Jethro: work, Family 1 home, well. Someo",
+              "label": "Benjamin: work, Family 1 home, well. Som",
               "box": {
                 "x": 20,
                 "y": 1362,
@@ -1387,7 +1353,7 @@
             },
             {
               "control": "#family",
-              "label": "Temperance: work, Family 1 home, well. S",
+              "label": "Rhoda: work, Family 1 home, well. Someon",
               "box": {
                 "x": 20,
                 "y": 1425,
@@ -1397,7 +1363,7 @@
             },
             {
               "control": "#family",
-              "label": "Rosa: rest, Family 1 home, well",
+              "label": "Docia: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1488,
@@ -1407,7 +1373,7 @@
             },
             {
               "control": "#family",
-              "label": "Jasper: rest, Family 1 home, well",
+              "label": "Joseph: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1551,
@@ -1485,7 +1451,7 @@
           "panelFits": true,
           "ownControls": 5,
           "ownControlsCovered": [],
-          "words": "SURVEY Where Nicolás surveys Ten acres of prairie beside the house. Clearing it would be 10 spells of work. Suggested placesPrairie, beside ",
+          "words": "SURVEY Where Alvin surveys Ten acres of prairie beside the house. Clearing it would be 10 spells of work. Suggested placesPrairie, beside th",
           "lessonRoom": null,
           "covered": [],
           "partly": [
@@ -1545,7 +1511,7 @@
               "label": "!2 min",
               "box": {
                 "x": 44,
-                "y": 319,
+                "y": 321,
                 "w": 32,
                 "h": 32
               },
@@ -1593,7 +1559,7 @@
             },
             {
               "control": "#family",
-              "label": "Nicolás: work, Family 1 home, well",
+              "label": "Alvin: work, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1362,
@@ -1603,7 +1569,7 @@
             },
             {
               "control": "#family",
-              "label": "Elena: work, Family 1 home, well. A ride",
+              "label": "Jane: work, Family 1 home, well. A rider",
               "box": {
                 "x": 20,
                 "y": 1425,
@@ -1613,7 +1579,7 @@
             },
             {
               "control": "#family",
-              "label": "Loreta: rest, Family 1 home, well",
+              "label": "Prudence: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1488,
@@ -1623,7 +1589,7 @@
             },
             {
               "control": "#family",
-              "label": "Ruperto: rest, Family 1 home, well",
+              "label": "Obed: rest, Family 1 home, well",
               "box": {
                 "x": 20,
                 "y": 1551,
@@ -1725,11 +1691,11 @@
         "box": {
           "x": 12,
           "y": 12,
-          "w": 304,
+          "w": 249,
           "h": 510
         },
-        "overlapWidth": 187,
-        "overlapHeight": 287,
+        "overlapWidth": 132,
+        "overlapHeight": 346,
         "shares": true
       },
       "surveyOverTheColumn": {
@@ -1823,7 +1789,7 @@
             "rows": 2
           },
           "tools": {
-            "left": 666,
+            "left": 654,
             "right": 1352,
             "top": 710,
             "bottom": 754
@@ -1847,7 +1813,7 @@
               "word": "Auto ✓",
               "pressed": "true",
               "lineShown": false,
-              "line": "Auto: nothing to repeat yet. Give Temperance Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "line": "Auto: nothing to repeat yet. Give Rebecca Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
               "main": false
             },
             {
@@ -1855,7 +1821,7 @@
               "word": "Auto ✓",
               "pressed": "true",
               "lineShown": false,
-              "line": "Auto: nothing to repeat yet. Give Delia Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "line": "Auto: nothing to repeat yet. Give Louisa Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
               "main": false
             }
           ],
@@ -1910,12 +1876,12 @@
             "rows": 2
           },
           "tools": {
-            "left": 324,
+            "left": 312,
             "right": 1010,
             "top": 710,
             "bottom": 754
           },
-          "toolsAcross": false,
+          "toolsAcross": true,
           "room": "246px",
           "scrolls": true,
           "scrollTop": 0,
@@ -1934,7 +1900,7 @@
               "word": "Auto ✓",
               "pressed": "true",
               "lineShown": false,
-              "line": "Auto: nothing to repeat yet. Give Temperance Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "line": "Auto: nothing to repeat yet. Give Rebecca Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
               "main": false
             },
             {
@@ -1942,7 +1908,7 @@
               "word": "Auto ✓",
               "pressed": "true",
               "lineShown": false,
-              "line": "Auto: nothing to repeat yet. Give Delia Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "line": "Auto: nothing to repeat yet. Give Louisa Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
               "main": false
             }
           ],
@@ -1997,7 +1963,7 @@
             "rows": 2
           },
           "tools": {
-            "left": 666,
+            "left": 654,
             "right": 1352,
             "top": 710,
             "bottom": 754
@@ -2021,7 +1987,7 @@
               "word": "Auto ✓",
               "pressed": "true",
               "lineShown": false,
-              "line": "Auto: nothing to repeat yet. Give Temperance Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "line": "Auto: nothing to repeat yet. Give Rebecca Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
               "main": false
             },
             {
@@ -2029,7 +1995,7 @@
               "word": "Auto ✓",
               "pressed": "true",
               "lineShown": false,
-              "line": "Auto: nothing to repeat yet. Give Delia Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "line": "Auto: nothing to repeat yet. Give Louisa Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
               "main": false
             }
           ],
@@ -2084,12 +2050,12 @@
             "rows": 2
           },
           "tools": {
-            "left": 324,
+            "left": 312,
             "right": 1010,
             "top": 710,
             "bottom": 754
           },
-          "toolsAcross": false,
+          "toolsAcross": true,
           "room": "246px",
           "scrolls": true,
           "scrollTop": 0,
@@ -2108,7 +2074,7 @@
               "word": "Auto ✓",
               "pressed": "true",
               "lineShown": false,
-              "line": "Auto: nothing to repeat yet. Give Temperance Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "line": "Auto: nothing to repeat yet. Give Rebecca Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
               "main": false
             },
             {
@@ -2116,7 +2082,7 @@
               "word": "Auto ✓",
               "pressed": "true",
               "lineShown": false,
-              "line": "Auto: nothing to repeat yet. Give Delia Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
+              "line": "Auto: nothing to repeat yet. Give Louisa Twentyman work at home - the field, a hunt, the house - and they will keep at it.",
               "main": false
             }
           ],

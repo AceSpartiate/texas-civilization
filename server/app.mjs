@@ -13,6 +13,8 @@ import { createWorld, stepWorld, projectPage, projectMap, applyAction, validateW
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
 import { beginNextPeriod, continueEnded, endedEarly, periodOf } from '../sim/periods.mjs';
 import { dateOf } from '../sim/directors.mjs';
+// The class screen's moments for a Play Solo game, which has no Host (triage 3.17).
+import { soloSpotlights } from '../sim/host.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
 import { PATHS_TRODDEN_WHY } from '../sim/land-paths.mjs';
 import { GOODS } from '../sim/trade.mjs';
@@ -747,6 +749,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // A page has to know it is a solo game: there is no teacher on it, so its own "Done packing" is the Start
     // (owner, 2026-09-21). One boolean rather than a role of its own - a solo player is a student in every other way.
     if (solo) payload.solo = true;
+    // And the spotlight's words, which in a class go up on the teacher's screen: a solo game has none, so they go in the player's
+    // journal, under their own heading (sim/host.mjs `soloSpotlights`; triage 2026-09-29, 3.17). Only a solo game's player is sent them.
+    if (solo && identity.role !== 'host' && identity.householdId) payload.spotlights = soloSpotlights(state.world, identity.householdId);
     // The end-of-game flashbacks: which are made, for the Host every family's and for a student their own (server/flashback.mjs).
     Object.assign(payload, flashbackPayload(flashbacks, state.sessionId, state.world, identity, { solo }));
     // Where the class is in the end of the game (sim/end-sequence.mjs): the Host with where each family stands, a family its own.

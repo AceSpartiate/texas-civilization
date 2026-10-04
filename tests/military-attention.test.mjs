@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { EYEBROWS, ICONS, MOMENTS, URGENT, militaryNotices } from '../public/military-attention.js';
+import { EYEBROWS, ICONS, MOMENTS, URGENT, callCue, militaryNotices } from '../public/military-attention.js';
 const person={id:'p',householdId:'h',name:'Elena',service:{status:'serving',besieged:true}};
 const view=(entities=[person])=>({role:'student',householdId:'h',entities});
 test('military invitations expose only the owning household and no sealed outcome',()=>{
@@ -78,4 +78,29 @@ test('the army\'s rider and every question with a clock are the ones that will n
   for (const kind of ['alto', 'road', 'flight', 'call', 'rider', 'courier', 'orders', 'sick']) assert.ok(URGENT.has(kind), `${kind} is not counted a question that will not wait`);
   for (const kind of ['battle', 'account', 'siege']) assert.ok(!URGENT.has(kind), `${kind} would move the rooms aside, and it asks nothing`);
   assert.ok([...URGENT].every(kind => EYEBROWS[kind]), 'a kind that will not wait is no card kind');
+});
+
+// Triage 2026-09-29, 2.5: the settlement's call to arms is drawn as well as said - a beacon on the ground under each person who can
+// answer it, their portraits beckoning, the folded messages glowing and the screen's edges warming once (public/app.js, style.css).
+// `callCue` is who those are: the people of the call's "!", only for the call to arms, never on the Host's or a watching page.
+test('the call to arms is drawn under everybody who can answer it, and nothing else is, nor on the Host\'s or a watching page', () => {
+  const father = { id: 'f', householdId: 'h', name: 'Nathan', kind: 'person', health: { condition: 'well' } };
+  const mother = { id: 'm', householdId: 'h', name: 'Ruth', kind: 'person', health: { condition: 'well' } };
+  const child = { id: 'c', householdId: 'h', name: 'Eli', kind: 'person', age: 6, health: { condition: 'well' } };
+  const stranger = { id: 's', householdId: 'other', name: 'Silas', kind: 'person', health: { condition: 'well' } };
+  const answers = [{ id: 'turn-out', label: 'Turn out' }];
+  const world = { role: 'student', householdId: 'h', entities: [father, mother, child, stranger],
+    request: { id: 'call-1', kind: 'call', status: 'open', text: 'Does somebody from your family go?', answerers: { f: answers, m: [{ id: 'stay', label: 'Stay home' }] }, options: answers, leftMs: 240000 } };
+  assert.deepEqual(callCue(world), { id: 'call-1', ids: ['f', 'm'] });
+  // The same people as the call's "!".
+  assert.ok(militaryNotices(world).some(notice => notice.kind === 'call'));
+  // Answered, lapsed or gone: nothing drawn.
+  assert.equal(callCue({ ...world, request: { ...world.request, status: 'answered' } }), null);
+  assert.equal(callCue({ ...world, request: null }), null);
+  // The town's food, the march, the rumour and the army's supplies keep their card and "!" alone.
+  for (const kind of ['supplies', 'march', 'rumor', 'supply']) assert.equal(callCue({ ...world, request: { ...world.request, kind } }), null, `${kind} was drawn as the call to arms`);
+  // Nobody of the family can answer: nothing drawn.
+  assert.equal(callCue({ ...world, request: { ...world.request, answerers: { s: answers } } }), null);
+  assert.equal(callCue({ ...world, role: 'host' }), null);
+  assert.equal(callCue({ ...world, watching: { householdId: 'other' } }), null);
 });

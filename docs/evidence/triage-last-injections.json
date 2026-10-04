@@ -1,0 +1,15 @@
+{
+  "branch": "triage-last",
+  "when": "2026-10-03",
+  "how": "Each injection replaced one exact piece of code with the regression its test guards, ran that test file, recorded which tests failed, and put the file back byte for byte (a scratch script for 3.17 and 2.5; scripts/childhood-injections.mjs for 2.3). Same computer only.",
+  "injections": [
+    { "item": "2.3", "name": "every spell of play writes its own line again", "file": "sim/children.mjs", "test": "tests/childhood.test.mjs", "caught": "each kind of a child's play is written into the family's record once a day, and never as a bare \"finished:\"", "alone": true },
+    { "item": "2.3", "name": "every spell of play ends with a bare \"finished:\"", "file": "sim/chores.mjs", "test": "tests/childhood.test.mjs", "caught": "each kind of a child's play is written into the family's record once a day, and never as a bare \"finished:\"", "alone": true },
+    { "item": "3.17", "name": "the solo page is sent nothing of the class screen", "file": "server/app.mjs", "test": "tests/solo.test.mjs", "caught": "a solo game's player is sent the class screen's moments for the journal, newest first and not twice; a student in a class never", "alone": true, "others": "19 pass" },
+    { "item": "3.17", "name": "the family's own moment is said twice", "file": "sim/host.mjs", "test": "tests/solo.test.mjs", "caught": "a solo game's player is sent the class screen's moments for the journal, newest first and not twice; a student in a class never", "alone": true, "others": "19 pass" },
+    { "item": "3.17", "name": "a student in a class is sent the class screen", "file": "server/app.mjs", "test": "tests/solo.test.mjs", "caught": "a solo game's player is sent the class screen's moments for the journal, newest first and not twice; a student in a class never", "alone": true, "others": "19 pass" },
+    { "item": "2.5", "name": "every request is drawn as the call to arms", "file": "public/military-attention.js", "test": "tests/military-attention.test.mjs", "caught": "the call to arms is drawn under everybody who can answer it, and nothing else is, nor on the Host's or a watching page", "alone": true, "others": "7 pass" },
+    { "item": "2.5", "name": "another family's people are drawn under the call", "file": "public/military-attention.js", "test": "tests/military-attention.test.mjs", "caught": "the call to arms is drawn under everybody who can answer it, and nothing else is, nor on the Host's or a watching page", "alone": true, "others": "7 pass" }
+  ],
+  "notCovered": "callCue's own guards for the Host's page, a watching page and a closed call are also enforced by needsOf, so removing them alone fails nothing: the test asserts the behaviour, not those three lines."
+}

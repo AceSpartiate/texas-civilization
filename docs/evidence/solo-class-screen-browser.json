@@ -1,0 +1,45 @@
+{
+  "proof": "npm run test:solo-class-screen",
+  "when": "2026-10-04T04:29:41.651Z",
+  "pass": [
+    "the solo page is sent the class screen's two moments, newest first, and the journal's mark is lit",
+    "the journal: \"The class screen\" with its one line (\"In a class these go up on the teacher's screen. Playing alone, they come here.\"), the two moments newest first with their day, after what the family has heard; the family's own moment once, in its own story; the mark out",
+    "a student in a class: no class screen in the journal, and nothing of it sent - the teacher's screen is theirs",
+    "no page errors"
+  ],
+  "observed": {
+    "before": {
+      "unread": true,
+      "sent": [
+        "Foragers burn the family's house and field while it is away.",
+        "The fight at the ford above the town: the volunteers go out of the timber against the dragoons."
+      ]
+    },
+    "journal": {
+      "heading": "The class screen",
+      "note": "In a class these go up on the teacher's screen. Playing alone, they come here.",
+      "empty": false,
+      "lines": [
+        "September 28 Foragers burn the family's house and field while it is away.",
+        "September 28 The fight at the ford above the town: the volunteers go out of the timber against the dragoons."
+      ],
+      "edge": "rgb(194, 88, 44)",
+      "afterHeard": true,
+      "story": [
+        "The Texas army sets fire to the family's house and field. (1.0 hours into the story)",
+        "Dawn on September 28, 1835. Your family has turned off the road with the wagon, the ox and the horse, towards land of its own. (0 min into the story)"
+      ],
+      "unread": false
+    },
+    "classPage": {
+      "section": false,
+      "sent": false
+    }
+  },
+  "shots": [
+    "docs/evidence/solo-class-screen-mark.png",
+    "docs/evidence/solo-class-screen-journal.png"
+  ],
+  "errors": [],
+  "note": "Same computer only: headless Chrome at 1366x768, the solo game served in process. No Chromebook, launcher window or classroom."
+}

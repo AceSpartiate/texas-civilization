@@ -98,6 +98,26 @@ export function militaryNotices(world) {
   return notices.sort((a, b) => rank(a) - rank(b));
 }
 /**
+ * The settlement's call to arms while it waits on this family, and who can answer it now: the first big decision of the game
+ * (triage 2026-09-29, 2.5; design audit S5). It had a card among the messages like the rider's and the army's, but folded with
+ * "Keep playing" it was a small "!" again, and a student who pressed "Got it" on the tip by habit let it lapse in its five minutes.
+ * So while it is open the page draws it as well as saying it (owner, 2026-10-03: visual cues over explanatory text): a beacon on
+ * the ground under each person who can answer (public/app.js `drawTaskMark`), their portraits beckoning on the family's panel, the
+ * folded messages still glowing, and once, when it first comes, the edges of the screen warming and fading. Nothing is held,
+ * nothing is answered for the family, and nothing new is said: the "!", the card and its words are as they were.
+ *
+ * Only the call to arms - the settlement's own, or Gonzales's at the gathering (`request.kind === 'call'`): the town's food, the march
+ * upriver, the rumour and the army's request for supplies keep their card and their "!" alone. The same people as the "!" (`needsOf`
+ * kind `call`), never on a page watching another family or the Host's. Null when there is none.
+ */
+export function callCue(world) {
+  if (!world || world.role === 'host' || world.watching) return null;
+  const request = world.request;
+  if (request?.status !== 'open' || request.kind !== 'call') return null;
+  const ids = (world.entities || []).filter(person => person.householdId === world.householdId && needsOf(world, person.id).some(need => need.kind === 'call')).map(person => person.id);
+  return ids.length ? { id: request.id, ids } : null;
+}
+/**
  * The kinds that ask something of the family with a clock on it - a question that lapses, somebody very sick - as against a
  * fight to watch, its account, or the quiet reminder that somebody is inside the Alamo. While one of these is among the
  * messages nothing the student opens may stand on them: the town's scene and the rooms of the house make way (triage

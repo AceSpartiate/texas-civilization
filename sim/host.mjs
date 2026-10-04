@@ -44,6 +44,30 @@ export function spotlight(world, { key, text, siteId = null, x = null, y = null,
   return world.spotlight;
 }
 
+/** How many of the class screen's moments a solo player's journal keeps: as many as the journal's own story shows. */
+export const SOLO_SPOTLIGHTS = 12;
+
+/**
+ * The spotlight's words for a Play Solo game, which has no Host and so no class screen (triage 2026-09-29, 3.17; design audit
+ * M35: "Solo is thinner ... the spotlight (a house burned, a chase) goes only to a Host that solo does not have"): every moment the
+ * class screen would have put up, newest first, as its banner said it - the day and the words - for the solo page's journal.
+ *
+ * It is what a class sees on the projector, not what the family has heard: in a class every student reads the banner as it goes up,
+ * while the family's own word still comes by rider (VISION.md §19). So it changes nothing the family knows (`world.knowledge`) and
+ * the page keeps it apart from the family's own record, under its own heading. A moment that is already in the family's own record
+ * (its house burned by the Texas army, somebody taken at home, overtaken - each `spotlight` with the family's `householdId`) is left
+ * out, so nothing is said twice. Sent only to a solo game's player (server/app.mjs `view`), never in a class.
+ */
+export function soloSpotlights(world, householdId, limit = SOLO_SPOTLIGHTS) {
+  const lines = [];
+  for (let index = world.events.length - 1; index >= 0 && lines.length < limit; index--) {
+    const event = world.events[index];
+    if (event.type !== 'spotlight' || event.visibility !== 'public' || (householdId && event.householdId === householdId)) continue;
+    lines.push({ id: event.id, minute: event.minute, date: dayOf(world, event.minute), text: event.text });
+  }
+  return lines;
+}
+
 /** The spotlight as the Host is shown it, or null once it has passed. */
 export function spotlightProjection(world) {
   const s = world.spotlight;

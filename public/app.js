@@ -45,7 +45,7 @@ import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-cla
 import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
-import { EYEBROWS, ICONS, URGENT, militaryNotices } from '/military-attention.js';
+import { EYEBROWS, ICONS, URGENT, callCue, militaryNotices } from '/military-attention.js';
 import { mountHuntAim } from '/hunt-aim.js';
 // Read aloud (owner, 2026-09-30, D15; docs/READ_ALOUD.md): a button on the words, played in a voice made on the teacher's laptop.
 import { cardLines, createReadAloud, voiceOfPerson } from '/read-aloud.js';
@@ -1087,7 +1087,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // Something is being asked of this person. The mark is the invitation; clicking is the
   // answer, so it is collected and drawn last: a cabin roof standing between the camera
   // and a person must never hide the one thing on screen asking to be pressed. Nobody away on the road is asked anything.
-  if (marks.mark && figure > 0) marks.mark.list.push({ id: entity.id, kind: marks.mark.kind || 'task', x, y: y - height, size, glyph: marks.mark.glyph, tone: marks.mark.tone });
+  if (marks.mark && figure > 0) marks.mark.list.push({ id: entity.id, kind: marks.mark.kind || 'task', x, y: y - height, foot: y, size, glyph: marks.mark.glyph, tone: marks.mark.tone, ...(marks.mark.call && { call: true }) });
   // The label sits just under the feet whatever the zoom - scaling the offset with the
   // sprite would fling a name a screen's width below a close-up figure - and it is
   // handed back rather than drawn, because the ox drawn after this person would
@@ -1494,8 +1494,34 @@ function drawAskIcon(ctx, x, y, size) {
   ctx.restore();
   return 'stand-in';
 }
-function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c' }) {
-  const mark = Math.max(9, Math.min(26, size * .34));
+/**
+ * The settlement's call to arms, on the ground under somebody who can answer it (triage 2026-09-29, 2.5; `callCue`): rings that
+ * spread from their feet and fade, two a beat, in the "!"'s own orange - a call going out - drawn under the "!", which is a size
+ * larger for it. Still, one ring, with reduced motion; frozen with the clock while the class is paused, as everything is.
+ */
+const CALL_BEAT_MS = 1600;
+function drawCallBeacon(ctx, x, foot, size) {
+  // Never smaller on the screen than about a hand's width, however far out the map is: the family framed on its land draws its people
+  // a dozen pixels high, and a beacon their size was the small "!" again.
+  const base = Math.max(18, size * .6), reach = Math.max(72, size * 2.2);
+  ctx.save();
+  ctx.lineWidth = Math.max(3, size * .08);
+  for (const offset of reducedMotion.matches ? [0.45] : [0, .5]) {
+    const phase = reducedMotion.matches ? offset : ((animationTime / CALL_BEAT_MS) + offset) % 1;
+    const r = base + (reach - base) * phase;
+    ctx.globalAlpha = reducedMotion.matches ? .75 : Math.max(0, 1 - phase) * .9;
+    ctx.strokeStyle = '#c2582c'; ctx.fillStyle = 'rgba(242,193,78,.18)';
+    ctx.beginPath(); ctx.ellipse(x, foot, r, r * .42, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = '#fff8e6'; ctx.lineWidth = Math.max(1, size * .03);
+    ctx.beginPath(); ctx.ellipse(x, foot, r + ctx.lineWidth * 2, (r + ctx.lineWidth * 2) * .42, 0, 0, Math.PI * 2); ctx.stroke();
+    ctx.lineWidth = Math.max(3, size * .08);
+  }
+  ctx.restore();
+  return reach;
+}
+function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c', call = false, foot = y }) {
+  const reach = call ? drawCallBeacon(ctx, x, foot, size) : 0;
+  const mark = call ? Math.max(14, Math.min(32, size * .46)) : Math.max(9, Math.min(26, size * .34));
   const top = y - mark * 1.1, bob = reducedMotion.matches ? 0 : Math.sin(animationTime / 260) * mark * .25;
   ctx.fillStyle = tone; ctx.strokeStyle = '#fff8e6'; ctx.lineWidth = Math.max(1.5, mark * .22);
   ctx.beginPath(); ctx.arc(x, top + bob, mark, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
@@ -1503,6 +1529,7 @@ function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c' }) {
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.fillText(glyph, x, top + bob + mark * .06);
   ctx.textBaseline = 'alphabetic';
+  return reach;
 }
 /**
  * The road each fading or invisible traveller is on, and nothing else.
@@ -1945,9 +1972,38 @@ const stopWatching = () => { watchedId = null; };
 // anything a household knows. Cleared by opening the book, which is where it is read.
 const readReports = new Set(), unreadReports = new Set();
 function markReportsRead(reports) {
-  for (const report of reports) { readReports.add(report.topicId); unreadReports.delete(report.topicId); }
+  for (const report of [...reports, ...classScreenRead()]) { readReports.add(report.topicId); unreadReports.delete(report.topicId); }
   const mark = $('#journal-unread');
   if (mark) mark.hidden = true;
+}
+/** The class screen's moments in a solo game's journal, as the same per-viewer "read" marks the news uses (`spot:` before each id). */
+const classScreenRead = () => (window.__snapshot?.spotlights || []).map(line => ({ topicId: `spot:${line.id}` }));
+/**
+ * Play Solo's journal: what the class screen would have put up (triage 2026-09-29, 3.17; sim/host.mjs `soloSpotlights`), newest
+ * first, each with its day - apart from what the family has heard, under its own heading and the one line that says why. A new one
+ * lights the journal's mark as news does, and opening the journal puts it out. Never on the Host's page or a class student's, which
+ * are sent none.
+ */
+function renderClassScreen(snapshot, host) {
+  const section = $('#class-screen');
+  if (!section) return;
+  const lines = !host && snapshot.solo ? snapshot.spotlights || [] : null;
+  section.hidden = !lines;
+  if (!lines) return;
+  const key = lines.map(line => line.id).join(',');
+  if ($('#class-screen-lines').dataset.key !== key) {
+    $('#class-screen-lines').dataset.key = key;
+    $('#class-screen-lines').replaceChildren(...lines.map(line => {
+      const item = element('li', '');
+      item.dataset.spotlightId = line.id;
+      item.append(element('strong', line.date || ''), document.createTextNode(` ${line.text}`));
+      return item;
+    }));
+  }
+  $('#class-screen-empty').hidden = lines.length > 0;
+  for (const line of lines) if (!readReports.has(`spot:${line.id}`)) unreadReports.add(`spot:${line.id}`);
+  if ($('#family-journal')?.dataset.open === 'true') markReportsRead([]);
+  $('#journal-unread').hidden = unreadReports.size === 0;
 }
 // Zoom limits come from the map itself rather than fixed numbers, so they stay sensible
 // when the world's real extent changes. Zooming out reaches the whole known map; zooming
@@ -4204,6 +4260,8 @@ function drawWorldNow(world) {
   const yardRect = yardBox ? (() => { const a = camera.toScreen({ x: yardBox.minX, y: yardBox.minY }), b = camera.toScreen({ x: yardBox.maxX, y: yardBox.maxY }); return { box: yardBox, left: a.x, top: a.y, right: b.x, bottom: b.y }; })() : null;
   const chosen = selectedEntity(world);
   const pending = [];
+  // Who can answer the settlement's call to arms: their "!" stands over a beacon on the ground (triage 2.5; `callCue`).
+  const callers = new Set(host ? [] : callCue(world)?.ids || []);
   // Six names around one cabin is a smear, not information. Below this size - which a
   // phone at the default framing is - only the principal is named; the rest are reached
   // by clicking them, and the hidden roster still lists every one of them by name.
@@ -4280,7 +4338,7 @@ function drawWorldNow(world) {
     // Three invitations and they must not look alike: an orange ! is something being
     // asked of this family by somebody outside it, a quiet ink mark is a person standing
     // in front of one of them, and a ? is one of their own waiting on an answer.
-    const mark = taskFor(world, entity) ? { list: pending, kind: 'task' }
+    const mark = taskFor(world, entity) ? { list: pending, kind: 'task', ...(callers.has(entity.id) && { call: true }) }
       : meetingFor(world, entity) ? { list: pending, kind: 'meeting', glyph: '…', tone: '#41556b' }
       : entity.chore?.ask ? { list: pending, kind: 'asking', glyph: '?', tone: '#7a4726' }
       : null;
@@ -4430,13 +4488,15 @@ function drawWorldNow(world) {
   drawTravelRoads(ctx, roads, camera, canvas);
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
   window.__labelsDrawn = layOutCaptions(ctx, labels, placeFont);
-  for (const mark of pending) drawTaskMark(ctx, mark);
+  for (const mark of pending) { const reach = drawTaskMark(ctx, mark); if (reach) mark.reach = reach; }
   // Who was marked as having somebody waiting on them, and why. Presentation evidence on
   // the same contract as `__viewEntities` and `__drawnAt`: read by proofs and by nothing
   // in the application. It exists because the invitation to listen to a rider is now a
   // mark over a person in the world rather than a card in the corner of the screen, and
   // "is the invitation actually there" is not a question a projection can answer.
   window.__viewMarks = pending.map(mark => ({ id: mark.id, kind: mark.kind }));
+  // And which of them stand over the call's beacon, where (presentation evidence for scripts/settlement-call-browser-proof.mjs).
+  window.__callBeacons = pending.filter(mark => mark.call).map(mark => ({ id: mark.id, x: Math.round(mark.x), y: Math.round(mark.foot), size: Math.round(mark.size), reach: Math.round(mark.reach || 0) }));
   // The armies standing in the country (sim/armies.mjs, public/army-view.js): a camp with its men close up, a marker far
   // off, so a man who joined an army is drawn among an army (owner, 2026-09-17).
   window.__armiesDrawn = (world.armies || []).map(army => {
@@ -5635,6 +5695,8 @@ function renderFamilyPanel(world) {
   // (public/family-panel.js `rankNeeds`, docs/audits/2026-09-28-design.md S33). The rows keep the family's own order.
   const ranked = rankNeeds(world, order);
   const rankOf = new Map(ranked.map(one => [one.id, one]));
+  // Who can answer the settlement's call to arms while it is open: their portraits beckon (triage 2.5; `callCue`).
+  const called = new Set(callCue(world)?.ids || []);
   const seen = [];
   order.forEach((id, at) => {
     const entity = byId.get(id), person = book.get(id);
@@ -5660,6 +5722,7 @@ function renderFamilyPanel(world) {
     const needs = needsOf(world, id);
     const need = needs[0] || null;
     setData(row.item, 'waiting', String(Boolean(need)));
+    setData(row.item, 'called', String(called.has(id)));
     if (row.attention.hidden !== !need) row.attention.hidden = !need;
     // Its place among the family's "!"s and its time left: on the mark itself, so a Chromebook or a touch screen sees it
     // without hovering (S6), and said first in its name for a screen reader.
@@ -8044,10 +8107,35 @@ function paintMilitaryLeft() {
   if (line.textContent !== words) line.textContent = words;
   if (line.hidden !== !words) line.hidden = !words;
 }
+/**
+ * The call to arms coming in, once for each call on this page (kept beside the messages' own "seen" for the tab, so a reload does not
+ * light it again): the screen's edges warm and fade over a few seconds (`#call-flash`, public/style.css). Nothing to press and
+ * nothing in the way - it takes no pointer - and not at all with reduced motion, where the beacon and the card stand still instead.
+ */
+const callFlashes = new Set();
+function flashCall(id) {
+  const key = `${window.__snapshot?.sessionId}:call-flash`;
+  try { for (const one of JSON.parse(sessionStorage.getItem(key) || '[]')) callFlashes.add(one); } catch { /* private browsers still work */ }
+  if (callFlashes.has(id)) return;
+  callFlashes.add(id);
+  try { sessionStorage.setItem(key, JSON.stringify([...callFlashes])); } catch { /* private browsers still work */ }
+  const flash = $('#call-flash');
+  if (!flash || reducedMotion.matches) return;
+  flash.hidden = false;
+  // Begun again from its first frame, should one still be fading.
+  flash.style.animation = 'none'; void flash.offsetWidth; flash.style.animation = '';
+  window.__callFlash = { id, at: Math.round(performance.now()) };
+}
+$('#call-flash')?.addEventListener('animationend', event => { event.currentTarget.hidden = true; });
 function renderMilitaryNotice(world) {
   const panel = $('#military-notice');
   const notices = militaryNotices(world);
   panel.hidden = !notices.length;
+  // The settlement's call to arms open (triage 2026-09-29, 2.5; `callCue`): folded with "Keep playing", the messages still glow in
+  // its colour (public/style.css), and the first time this page sees it the edges of the screen warm and fade (`flashCall`).
+  const cue = callCue(world);
+  if (cue) setData(panel, 'call', 'open'); else if (panel.dataset.call) delete panel.dataset.call;
+  if (cue) flashCall(cue.id);
   // A question that will not wait among them (triage 2026-09-29, 2.2): the messages stand above the town's scene and the rooms of
   // the house, which make room for them (`clearOfNotice`).
   if (notices.some(one => URGENT.has(one.kind))) setData(panel, 'urgent', 'true'); else if (panel.dataset.urgent) delete panel.dataset.urgent;
@@ -9067,6 +9155,7 @@ function render(snapshot) {
     button.hidden = button.dataset.solo === 'solo-pause' ? world.status !== 'running' : button.dataset.solo === 'solo-resume' ? world.status !== 'paused' : false;
   }
   renderHostLive(snapshot, host);
+  renderClassScreen(snapshot, host);
   // Named paces rather than a number, because milliseconds a tick is not a thing a teacher
   // should have to hold in their head.
   const paces = { study: 9500, brisk: 4000, quick: 1000 };

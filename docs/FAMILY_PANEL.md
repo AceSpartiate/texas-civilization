@@ -340,6 +340,14 @@ does not. What raises it, most pressing first — a person with several shows th
   questions cannot raise an "!" (tested: another family's projection marks nobody of this one). The Host has no panel.
 - What the family rather than a person must decide (the wagon load, the house plan, the house site) is not a person's need and
   has no "!"; those open their own panels.
+- **The settlement's call to arms is drawn as well (triage 2026-09-29, 2.5; 2026-10-03, not released).** While a call to arms
+  (`request.kind === 'call'`: a settlement's, or Gonzales's at the gathering) is open, the portrait of everybody its "!" is on
+  beckons in the "!"'s orange (`data-called`, public/style.css `call-beckon`), the map draws a beacon of spreading rings on the
+  ground under each of them with their "!" a size larger (public/app.js `drawCallBeacon`), the messages folded with *Keep playing*
+  go on beckoning, and as the call comes in the edges of the screen warm and fade, once for each call (`#call-flash`). Who is the
+  same rule as the "!" (`callCue`, public/military-attention.js). Nothing is held or answered for the family and no word is added;
+  the food call, the march, the rumour and the army's request for supplies keep their card and "!" alone. With reduced motion the
+  beacon and the portraits stand still and there is no flash. `tests/military-attention.test.mjs`, `npm run test:settlement-call`.
 
 ### 11.3 The main person
 

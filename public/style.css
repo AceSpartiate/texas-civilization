@@ -506,6 +506,11 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #reports{list-style:none;margin:0;padding:0}
 #reports li{padding:10px 0;border-bottom:1px solid #d3c299;font-size:13px;line-height:1.45}
 #reports li:last-child{border-bottom:none}
+/* Play Solo's class screen in the journal (triage 3.17): the banner's day and words, set apart from the family's own news by the
+   Host's spotlight colour down the side. */
+#class-screen-lines{list-style:none;margin:0;padding:0}
+#class-screen-lines li{margin:0 0 8px;padding:6px 0 6px 10px;border-left:3px solid #c2582c;font-size:13px;line-height:1.45}
+#class-screen-lines li strong{margin-right:2px}
 #reports li[data-status=rumor]{color:#6b5f4c}
 .report-detail{display:block;margin-top:4px;font-size:12px;color:#6d5f43}
 .report-transcript{display:inline-block;margin-top:6px;font:inherit;font-size:12px;padding:4px 9px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3f3524;cursor:pointer}
@@ -1495,6 +1500,16 @@ body[data-creating=true] #away>button{min-height:50px;background:#355243;border-
 body:has(#wagon-load:not([hidden])) #military-notice{display:none}
 /* Folded, the messages are their button and no wider: the folded card kept its 330px and stood over the map for nothing. */
 #military-notice:has(#military-message[hidden]){width:auto;animation:none;box-shadow:0 0 0 1px #fff3cf inset,0 3px 10px #29251b44}
+/* The settlement's call to arms (triage 2026-09-29, 2.5; public/military-attention.js `callCue`): seen, not only said. Folded with
+   "Keep playing", the messages go on beckoning in the "!"'s orange while the call is open; the portraits of everybody who can answer
+   it beckon the same; and as it comes in, once, the edges of the screen warm and fade (#call-flash, which takes no pointer). The
+   beacon on the ground under each of them is drawn on the map (public/app.js `drawCallBeacon`). */
+@keyframes call-beckon{0%,100%{box-shadow:0 0 0 2px #c2582c,0 0 6px 1px #f2c14e88}50%{box-shadow:0 0 0 3px #c2582c,0 0 18px 7px #f2c14ecc}}
+#military-notice[data-call=open]:has(#military-message[hidden]){animation:call-beckon 1.3s ease-in-out infinite}
+.panel-row[data-called=true] .panel-portrait{border-color:#c2582c;animation:call-beckon 1.3s ease-in-out infinite}
+#call-flash{position:fixed;inset:0;z-index:30;pointer-events:none;background:radial-gradient(ellipse at center,transparent 48%,#f2a03c47 76%,#c2582c99 100%);animation:call-flash 2.8s ease-in-out both}
+@keyframes call-flash{0%{opacity:0}22%{opacity:1}48%{opacity:.4}72%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){#military-notice[data-call=open]:has(#military-message[hidden]),.panel-row[data-called=true] .panel-portrait{animation:none;box-shadow:0 0 0 3px #c2582c}#call-flash{display:none}}
 /* The card that asked a question stands aside while the question is answered (it held the same words, and the meeting and
    the call's menu stood on every one of its buttons), and is back the moment the answer closes. */
 body:has(#encounter:not([hidden])) #selection,body:has(#call-menu:not([hidden])) #selection{display:none}

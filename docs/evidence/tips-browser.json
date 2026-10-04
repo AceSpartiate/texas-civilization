@@ -1,6 +1,6 @@
 {
   "record": "tips-browser",
-  "date": "2026-10-01",
+  "date": "2026-10-04",
   "environment": "Same computer: a local classroom server and headless Chrome, 1366x768 with a keyboard and 1024x768 with a touch screen.",
   "pass": [
     "no guided start and no walk-through: the first thing said is the arrival's tip (\"Your family is on its way to its own land. When they get there, choose a house and set your family to work.\")",
@@ -13,12 +13,12 @@
     "after a reload, with the call still open, its tip is not shown again",
     "the Tips button by keyboard: 7 tips put away, \"call\" first, none of the guided start's; clear of the bar, the column and the map's buttons; nothing sent, no tip shown again; closed by Escape, the keyboard back on the button",
     "the Host's page has no Tips button",
-    "in the first hour, nothing says \"Not yet\": nursing the sick goes through, food goes through, enlisting only for its own reason (\"Paz Proofwright is already nursing the sick.\"), the well only for its own reason (\"Paz Proofwright is already nursing the sick.\")",
+    "in the first hour, nothing says \"Not yet\": nursing the sick goes through, food goes through, enlisting only for its own reason (\"Priscilla Proofwright is already nursing the sick.\"), the well only for its own reason (\"Priscilla Proofwright is already nursing the sick.\")",
     "the order to leave: its tip (\"Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
     "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
     "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
-    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, field, rest, route, road, star, alto)",
-    "the Tips button by touch: 10 tips put away, \"alto\" first, none of the guided start's; clear of the bar, the column and the map's buttons; nothing sent, no tip shown again; closed by a tap on ×"
+    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, rest, road, route, star, alto)",
+    "the Tips button by touch: 9 tips put away, \"alto\" first, none of the guided start's; clear of the bar, the column and the map's buttons; nothing sent, no tip shown again; closed by a tap on ×"
   ],
   "observed": {
     "start": {
@@ -101,11 +101,11 @@
       },
       "enlisted": {
         "status": 400,
-        "error": "Paz Proofwright is already nursing the sick."
+        "error": "Priscilla Proofwright is already nursing the sick."
       },
       "well": {
         "status": 400,
-        "error": "Paz Proofwright is already nursing the sick."
+        "error": "Priscilla Proofwright is already nursing the sick."
       }
     },
     "sick": {
@@ -148,7 +148,7 @@
         "closeReached": true
       },
       "badge": "3 min",
-      "label": "The family has been told to leave for the east. No answer in time, and the family leaves in a rush — the house is lost, burned behind it. About 3 min left. Go to Gregorio Proofwright and answer."
+      "label": "The family has been told to leave for the east. No answer in time, and the family leaves in a rush — the house is lost, burned behind it. About 3 min left. Go to Hollis Proofwright and answer."
     },
     "route": {
       "id": "route",
@@ -175,9 +175,9 @@
         "shown": true,
         "text": "Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.",
         "box": {
-          "left": 324,
-          "top": 303,
-          "right": 535,
+          "left": 614,
+          "top": 403,
+          "right": 1012,
           "bottom": 497
         },
         "fontPx": 14,
@@ -198,10 +198,9 @@
         "order",
         "flight",
         "house",
-        "field",
         "rest",
-        "route",
         "road",
+        "route",
         "star",
         "alto"
       ],
@@ -211,10 +210,9 @@
       "ids": [
         "alto",
         "star",
-        "road",
         "route",
+        "road",
         "rest",
-        "field",
         "house",
         "flight",
         "order",
@@ -223,10 +221,9 @@
       "words": [
         "Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.",
         "The ★ is your main person: the family’s big choices, like leaving, come to them. Tap ☆ on another row to change who. A “!” means someone needs an answer.",
-        "The road is asking your family something. Press the “!” to answer - each answer says what it costs. No answer in time, and nothing is done.",
         "On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.",
+        "The road is asking your family something. Press the “!” to answer - each answer says what it costs. No answer in time, and nothing is done.",
         "“Stop and rest a day”: the sick mend twice as fast, but the family makes no miles and the Mexican army keeps coming.",
-        "To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.",
         "Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.",
         "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.",
         "Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means nothing to do.",

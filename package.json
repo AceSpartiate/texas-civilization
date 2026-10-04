@@ -163,6 +163,8 @@
     "site:playtexas": "node scripts/playtexas-site.mjs",
     "test:starts-injections": "node scripts/starts-injections.mjs",
     "test:story-cards": "node scripts/story-cards-browser-proof.mjs",
+    "test:settlement-call": "node scripts/settlement-call-browser-proof.mjs",
+    "test:solo-class-screen": "node scripts/solo-class-screen-browser-proof.mjs",
     "test:tips-injections": "node scripts/tips-injections.mjs",
     "test:real-time-limits-injections": "node scripts/real-time-limits-injections.mjs",
     "test:flight-lapse-burns-injections": "node scripts/flight-lapse-burns-injections.mjs",

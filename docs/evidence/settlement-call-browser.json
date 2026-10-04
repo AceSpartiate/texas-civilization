@@ -1,0 +1,586 @@
+{
+  "proof": "npm run test:settlement-call",
+  "when": "2026-10-04T04:29:12.742Z",
+  "pass": [
+    "with no call open: no beacon, no portrait beckoning, no flash",
+    "as the call comes in, the edges of the screen warm (call-flash), taking no pointer",
+    "the call open: its card (A call to arms), a beacon under Drusilla Hollister and Elias Hollister, and their two portraits beckoning; the flash gone by itself",
+    "the same call drawn again: the edges stay as they are - the flash is once for each call",
+    "folded with \"Keep playing\", the call's messages go on beckoning and its beacons stay; a folded rider's card is still, as before",
+    "the army's request for supplies: its card and \"!\", and none of the call's beacon, beckoning or flash",
+    "at 1024x600 the call's beacons stand on the screen, and the flash came and went for the new call",
+    "with reduced motion: the beacons drawn still, the portraits ringed and still, no flash",
+    "no page errors, and the class still paused: the cue holds nothing and answers nothing"
+  ],
+  "observed": {
+    "before": {
+      "beacons": [],
+      "marks": [],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-2",
+          "called": "false",
+          "beckon": "none"
+        }
+      ],
+      "flash": {
+        "hidden": true,
+        "animation": "call-flash",
+        "pointer": "none",
+        "at": null
+      },
+      "card": {
+        "hidden": true,
+        "call": null,
+        "open": true,
+        "glow": "card-glow",
+        "title": ""
+      },
+      "status": "paused",
+      "request": null
+    },
+    "arrives": {
+      "beacons": [
+        {
+          "id": "hh-1-parent-1",
+          "x": 681,
+          "y": 374,
+          "size": 8,
+          "reach": 72
+        },
+        {
+          "id": "hh-1-parent-2",
+          "x": 703,
+          "y": 382,
+          "size": 8,
+          "reach": 72
+        }
+      ],
+      "marks": [
+        {
+          "id": "hh-1-parent-1",
+          "kind": "task"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "kind": "task"
+        }
+      ],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-child-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-2",
+          "called": "false",
+          "beckon": "none"
+        }
+      ],
+      "flash": {
+        "hidden": false,
+        "animation": "call-flash",
+        "pointer": "none",
+        "at": {
+          "id": "call-proof",
+          "at": 11008
+        }
+      },
+      "card": {
+        "hidden": false,
+        "call": "open",
+        "accent": "call",
+        "open": true,
+        "glow": "card-glow",
+        "title": "A call to arms"
+      },
+      "status": "paused",
+      "request": "open"
+    },
+    "open": {
+      "beacons": [
+        {
+          "id": "hh-1-parent-1",
+          "x": 681,
+          "y": 374,
+          "size": 8,
+          "reach": 72
+        },
+        {
+          "id": "hh-1-parent-2",
+          "x": 703,
+          "y": 382,
+          "size": 8,
+          "reach": 72
+        }
+      ],
+      "marks": [
+        {
+          "id": "hh-1-parent-1",
+          "kind": "task"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "kind": "task"
+        }
+      ],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-child-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-2",
+          "called": "false",
+          "beckon": "none"
+        }
+      ],
+      "flash": {
+        "hidden": true,
+        "animation": "call-flash",
+        "pointer": "none",
+        "at": {
+          "id": "call-proof",
+          "at": 11008
+        }
+      },
+      "card": {
+        "hidden": false,
+        "call": "open",
+        "accent": "call",
+        "open": true,
+        "glow": "card-glow",
+        "title": "A call to arms"
+      },
+      "status": "paused",
+      "request": "open"
+    },
+    "again": {
+      "beacons": [
+        {
+          "id": "hh-1-parent-1",
+          "x": 681,
+          "y": 374,
+          "size": 8,
+          "reach": 72
+        },
+        {
+          "id": "hh-1-parent-2",
+          "x": 703,
+          "y": 382,
+          "size": 8,
+          "reach": 72
+        }
+      ],
+      "marks": [
+        {
+          "id": "hh-1-parent-1",
+          "kind": "task"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "kind": "task"
+        }
+      ],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-child-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-2",
+          "called": "false",
+          "beckon": "none"
+        }
+      ],
+      "flash": {
+        "hidden": true,
+        "animation": "call-flash",
+        "pointer": "none",
+        "at": {
+          "id": "call-proof",
+          "at": 11008
+        }
+      },
+      "card": {
+        "hidden": false,
+        "call": "open",
+        "accent": "call",
+        "open": true,
+        "glow": "card-glow",
+        "title": "A call to arms"
+      },
+      "status": "paused",
+      "request": "open"
+    },
+    "folded": {
+      "beacons": [
+        {
+          "id": "hh-1-parent-1",
+          "x": 681,
+          "y": 374,
+          "size": 8,
+          "reach": 72
+        },
+        {
+          "id": "hh-1-parent-2",
+          "x": 703,
+          "y": 382,
+          "size": 8,
+          "reach": 72
+        }
+      ],
+      "marks": [
+        {
+          "id": "hh-1-parent-1",
+          "kind": "task"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "kind": "task"
+        }
+      ],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-child-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-2",
+          "called": "false",
+          "beckon": "none"
+        }
+      ],
+      "flash": {
+        "hidden": true,
+        "animation": "call-flash",
+        "pointer": "none",
+        "at": {
+          "id": "call-proof",
+          "at": 11008
+        }
+      },
+      "card": {
+        "hidden": false,
+        "call": "open",
+        "accent": "call",
+        "open": false,
+        "glow": "call-beckon",
+        "title": "A call to arms"
+      },
+      "status": "paused",
+      "request": "open"
+    },
+    "foldedRider": {
+      "beacons": [],
+      "marks": [
+        {
+          "id": "hh-1-parent-2",
+          "kind": "meeting"
+        }
+      ],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-2",
+          "called": "false",
+          "beckon": "none"
+        }
+      ],
+      "flash": {
+        "hidden": true,
+        "animation": "call-flash",
+        "pointer": "none",
+        "at": {
+          "id": "call-proof",
+          "at": 11008
+        }
+      },
+      "card": {
+        "hidden": false,
+        "call": null,
+        "accent": "rider",
+        "open": false,
+        "glow": "none",
+        "title": "A rider has stopped to speak"
+      },
+      "status": "paused",
+      "request": null
+    },
+    "supply": {
+      "beacons": [],
+      "marks": [
+        {
+          "id": "hh-1-parent-1",
+          "kind": "task"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "kind": "task"
+        }
+      ],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-2",
+          "called": "false",
+          "beckon": "none"
+        }
+      ],
+      "flash": {
+        "hidden": true,
+        "animation": "call-flash",
+        "pointer": "none",
+        "at": {
+          "id": "call-proof",
+          "at": 11008
+        }
+      },
+      "card": {
+        "hidden": false,
+        "call": null,
+        "accent": "call",
+        "open": true,
+        "glow": "card-glow",
+        "title": "The army asks for supplies"
+      },
+      "status": "paused",
+      "request": "open"
+    },
+    "small": {
+      "beacons": [
+        {
+          "id": "hh-1-parent-1",
+          "x": 509,
+          "y": 292,
+          "size": 7,
+          "reach": 72
+        },
+        {
+          "id": "hh-1-parent-2",
+          "x": 527,
+          "y": 298,
+          "size": 7,
+          "reach": 72
+        }
+      ],
+      "marks": [
+        {
+          "id": "hh-1-parent-1",
+          "kind": "task"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "kind": "task"
+        }
+      ],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "called": "true",
+          "beckon": "call-beckon"
+        },
+        {
+          "id": "hh-1-child-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-2",
+          "called": "false",
+          "beckon": "none"
+        }
+      ],
+      "flash": {
+        "hidden": true,
+        "animation": "call-flash",
+        "pointer": "none",
+        "at": {
+          "id": "call-proof-small",
+          "at": 16427
+        }
+      },
+      "card": {
+        "hidden": false,
+        "call": "open",
+        "accent": "call",
+        "open": true,
+        "glow": "card-glow",
+        "title": "A call to arms"
+      },
+      "status": "paused",
+      "request": "open"
+    },
+    "still": {
+      "beacons": [
+        {
+          "id": "hh-1-parent-1",
+          "x": 681,
+          "y": 374,
+          "size": 8,
+          "reach": 72
+        },
+        {
+          "id": "hh-1-parent-2",
+          "x": 703,
+          "y": 382,
+          "size": 8,
+          "reach": 72
+        }
+      ],
+      "marks": [
+        {
+          "id": "hh-1-parent-1",
+          "kind": "task"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "kind": "task"
+        }
+      ],
+      "rows": [
+        {
+          "id": "hh-1-parent-1",
+          "called": "true",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "called": "true",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-1",
+          "called": "false",
+          "beckon": "none"
+        },
+        {
+          "id": "hh-1-child-2",
+          "called": "false",
+          "beckon": "none"
+        }
+      ],
+      "flash": {
+        "hidden": true,
+        "animation": "none",
+        "pointer": "none",
+        "at": {
+          "id": "call-proof-small",
+          "at": 16427
+        }
+      },
+      "card": {
+        "hidden": false,
+        "call": "open",
+        "accent": "call",
+        "open": true,
+        "glow": "none",
+        "title": "A call to arms"
+      },
+      "status": "paused",
+      "request": "open"
+    }
+  },
+  "shots": [
+    "docs/evidence/settlement-call-arrives.png",
+    "docs/evidence/settlement-call-open.png",
+    "docs/evidence/settlement-call-beacon.png",
+    "docs/evidence/settlement-call-folded.png",
+    "docs/evidence/settlement-call-open-1024x600.png",
+    "docs/evidence/settlement-call-reduced-motion.png"
+  ],
+  "errors": [],
+  "note": "Same computer only: headless Chrome at 1366x768 and 1024x600. The call drawn from a projection put into the paused page (window.__render); who is sent a call is the node tests'. No Chromebook, LAN or classroom."
+}

@@ -114,6 +114,8 @@
 <div id="game" hidden>
   <div class="map-stage">
     <canvas id="world-map" width="960" height="540" tabindex="0" role="img" aria-label="Your family and the country around them"></canvas>
+    <!-- The settlement's call to arms coming in (triage 2.5): the screen's edges warm and fade, once. Nothing to press, nothing said. -->
+    <div id="call-flash" hidden aria-hidden="true"></div>
 
     <div id="hud-left" class="hud">
       <div id="session"></div>
@@ -793,6 +795,14 @@
           <p id="knowledge-context" class="journal-note"></p>
           <p id="reports-empty" class="journal-note"></p>
           <ul id="reports"></ul>
+        </section>
+        <!-- Play Solo has no teacher's screen (triage 2026-09-29, 3.17): what the class screen would have put up comes here, under
+             its own heading and apart from what the family has heard, with the one line that says so. Only on a solo page. -->
+        <section id="class-screen" hidden>
+          <h3>The class screen</h3>
+          <p id="class-screen-note" class="journal-note">In a class these go up on the teacher's screen. Playing alone, they come here.</p>
+          <p id="class-screen-empty" class="journal-note">Nothing yet.</p>
+          <ol id="class-screen-lines"></ol>
         </section>
         <!-- Who these people are to each other, and what this student calls them. The
              first person to play this asked who the mother and the father were and the

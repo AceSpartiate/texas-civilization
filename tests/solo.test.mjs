@@ -11,6 +11,7 @@ import { createClassroom } from '../server/app.mjs';
 import { familyMaking, rollRefusal } from '../sim/family.mjs';
 import { choicesFor, isParent, LOOK_PARTS } from '../sim/appearance.mjs';
 import { stepWorld } from '../sim/world.mjs';
+import { spotlight } from '../sim/host.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveDataDir, resolveSavePath, soloPaths, SOLO_PORT } from '../server/deployment.mjs';
 
@@ -570,4 +571,36 @@ test('stopping a solo server writes everything it showed, paused, whole', async 
     assert.equal(kept.world.status, 'paused', 'a stopped solo server left its game running on the disk');
     assert.equal(existsSync(`${room.savePath}.tmp`), false, 'a half-written save was left behind');
   } finally { await room.dispose(); }
+});
+
+test('a solo game\'s player is sent the class screen\'s moments for the journal, newest first and not twice; a student in a class never', async () => {
+  // Triage 2026-09-29, 3.17 (design audit M35): the spotlight went only to a Host, which Play Solo does not have. The moments are lit
+  // as the world is made, because the server hands out only copies of its class.
+  const lit = world => {
+    const home = world.map.sites[world.households['hh-1'].homeSiteId];
+    spotlight(world, { key: 'proof-fight', text: 'The fight at the ford: the volunteers go out of the timber.', x: home.x, y: home.y, claimId: 'HIST-GONZ-004' });
+    // The family's own, already in its own record: not said again here.
+    spotlight(world, { key: 'proof-own', text: 'The Texas army sets fire to the family\'s house.', siteId: home.id, householdId: 'hh-1' });
+    // The family's own that its record is not told yet (`tell: false`): in a class the projector shows it to everybody, so here too.
+    spotlight(world, { key: 'proof-away', text: 'Foragers burn the family\'s house and field.', siteId: home.id, householdId: 'hh-1', tell: false });
+    return world;
+  };
+  const worldFactory = (seed, count) => lit(createGonzalesWorld(seed, count, { neighbours: true }));
+  const room = watchedRoom({ saveWithinMs: 60000, worldFactory });
+  const plain = classroom({ worldFactory });
+  try {
+    const call = caller(await room.app.listen());
+    const cookie = await begun(room.app, call);
+    const mine = (await call('/api/state', null, cookie)).body;
+    assert.deepEqual((mine.spotlights || []).map(line => line.text), ['Foragers burn the family\'s house and field.', 'The fight at the ford: the volunteers go out of the timber.']);
+    assert.ok(mine.spotlights.every(line => typeof line.date === 'string' && line.date && Number.isFinite(line.minute) && line.id), 'a moment came without its day');
+    assert.ok(mine.world.events.some(event => event.text === 'The Texas army sets fire to the family\'s house.'), 'the family\'s own moment is not in its own record, so leaving it out lost it');
+    // Nothing the family knows is changed: the class screen's words are not its news.
+    assert.equal((mine.world.reports || []).some(report => /fight at the ford/.test(JSON.stringify(report))), false, 'the class screen\'s words were made the family\'s news');
+    // A class: the Host has the class screen; no student is sent this.
+    const plainCall = caller(await plain.app.listen());
+    const joined = await plainCall('/api/join', { name: 'Student', code: plain.app.state.sessionCode });
+    assert.equal(joined.status, 200);
+    assert.equal('spotlights' in (await plainCall('/api/state', null, joined.cookie)).body, false, 'a student in a class was sent the class screen');
+  } finally { await room.dispose(); await plain.dispose(); }
 });
