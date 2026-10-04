@@ -169,7 +169,7 @@ family shapes each, a *playing* and a *never keeps house* student; before = 726f
 20.5 to 5.7, 2 hunger deaths at home in 6 families; lone father with infants: final 6,077 to 2,536); a student who never finds *Keep
 house* is dirty at 90% of town arrivals; even a washing family is dirty at 38% (the town-goer misses wash day); one woman with many men
 queues the house work; a man recalled or deserted from the army counts as away for good (`atHome` reads any `service`; a rule fault);
-a son of 16 keeps the custom from his mother, with no measured cost. **Next**: put §23.2's questions to the owner.
+a son of 16 keeps the custom from his mother, with no measured cost. **Next**: put §23.2's questions to the owner (answered the same day and built: the section above).
 
 ## Customary work: the owner's four answers - 2026-10-04 (not released)
 

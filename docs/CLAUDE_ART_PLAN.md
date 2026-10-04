@@ -9,12 +9,12 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 33 | 8 | 18 | 0 |
-| B — Children, babies and sickness | 19 | 7 | 13 | 2 |
+| B — Children, babies and sickness | 20 | 7 | 13 | 2 |
 | C — Soldiers, battles and famous people | 17 | 1 | 14 | 6 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 26 | 2 | 12 | 5 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 18 | 4 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 19 | 2 | 11 | 17 |
-| **Total** | **134** | **22** | **86** | **34** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 21 | 2 | 11 | 17 |
+| **Total** | **137** | **22** | **86** | **34** |
 
 ## How a builder works
 
@@ -205,7 +205,7 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
 
 ## B — Children, babies and sickness
 
-Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 19 to make, 2 skipped.
+Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 20 to make, 2 skipped.
 
 - [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `girl-scatter`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `boy-scatter`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`, `smallchild-scatter`)
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)
@@ -302,6 +302,11 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 4 frames, east, `-n`, `-s`. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `CHILD_POSES`; the little-ones job on the road in `drawWorld`
   - **Stands in now:** the two children walking side by side (Astra's library art reused)
+- [ ] **B21** (priority 3) — [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help), item 3
+  - **Deliver:** for `boy` and `girl`: `<child>-cook` (stirring a pot over the hearth fire, 2 frames) and `<child>-wash` (scrubbing at a tub, 2 frames), east
+  - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `WORK['keep-house'].child` and `WORK['wash-clothes'].child` in `public/work-art.js`
+  - **Stands in now:** the kindling's gathering (`gather`) and the water's pails (`water`) (Astra's library art reused)
 
 Skipped:
 - ~~B12~~ [Request 2026-09-12 — families that look like who they are, and a rider who gets down](ART_REQUESTS.md#request-2026-09-12--families-that-look-like-who-they-are-and-a-rider-who-gets-down) — skipped: covered by B1, B6, B7 and B8; the scaling rule stays
@@ -675,7 +680,7 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 19 to make, 17 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 21 to make, 17 skipped.
 
 - [ ] **F1** (priority 1) — [Request 2026-09-15 — face portraits for the family panel](ART_REQUESTS.md#request-2026-09-15--face-portraits-for-the-family-panel) — **Claude stand-in in place** (`portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant`); Astra's replaces it
   - **Deliver:** `portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`
@@ -732,6 +737,16 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 3 frames, looping. **Size:** Effect: over a person's head, transparent, about two thirds of the figure's height across, anchored at the top of the head
   - **Plugs into:** `drawFlies` in `public/app.js`
   - **Stands in now:** three specks circling and two wavy lines drawn in canvas (`drawFlies`) (drawn in code (canvas or CSS))
+- [ ] **F37** (priority 2) — [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help), item 1
+  - **Deliver:** `mark-help` (two hands clasped, or a small figure lending a hand, in green: help with somebody else's work, not "add" or "new")
+  - **Frames:** 1. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px; at 17 CSS px on the top-right corner of a 48 px action icon
+  - **Plugs into:** `.panel-icon[data-help=true]` in `public/style.css`
+  - **Stands in now:** a green disc with two joined hands, an inline SVG in `.panel-icon[data-help=true]` (drawn in code (canvas or CSS))
+- [ ] **F38** (priority 2) — [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help), item 2
+  - **Deliver:** `mark-cue-house` (the pot over the hearth fire) and `mark-cue-wash` (the washtub with a shirt), in the marks' small round style, to pulse in the foot of a portrait
+  - **Frames:** 1 each. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px; at 20 CSS px in the foot of a portrait
+  - **Plugs into:** `cueMark` in `public/app.js`
+  - **Stands in now:** the work's own icon (or its stroked glyph until F34) in a small blue disc (`cueMark`) (drawn in code (canvas or CSS))
 - [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (pine-loblolly-pole, cedar-pole, mesquite-pole, live-oak-pole, elm-pole, post-oak-pole, blackjack-pole, pecan-pole, hackberry-pole, sweetgum-pole, pine-loblolly-log, cedar-log, mesquite-log, live-oak-log, elm-log, post-oak-log, blackjack-log, pecan-log, hackberry-log, sweetgum-log, pine-loblolly-large, cedar-large, mesquite-large, live-oak-large, elm-large, post-oak-large, blackjack-large, pecan-large, hackberry-large, sweetgum-large, pine-longleaf-pole, pine-longleaf-log, pine-longleaf-large, palm-sabal-pole, palm-sabal-log, palm-sabal-large, cypress-bald-pole, cypress-bald-log, cypress-bald-large, magnolia-log, magnolia-large, beech-log, beech-large, cottonwood, scrub, reeds, prickly-pear, marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`pine-loblolly-pole-wind`, `cedar-pole-wind`, `mesquite-pole-wind`, `live-oak-pole-wind`, `elm-pole-wind`, `post-oak-pole-wind`, `blackjack-pole-wind`, `pecan-pole-wind`, `hackberry-pole-wind`, `sweetgum-pole-wind`, `pine-loblolly-log-wind`, `cedar-log-wind`, `mesquite-log-wind`, `live-oak-log-wind`, `elm-log-wind`, `post-oak-log-wind`, `blackjack-log-wind`, `pecan-log-wind`, `hackberry-log-wind`, `sweetgum-log-wind`, `pine-loblolly-large-wind`, `cedar-large-wind`, `mesquite-large-wind`, `live-oak-large-wind`, `elm-large-wind`, `post-oak-large-wind`, `blackjack-large-wind`, `pecan-large-wind`, `hackberry-large-wind`, `sweetgum-large-wind`, `pine-longleaf-pole-wind`, `pine-longleaf-log-wind`, `pine-longleaf-large-wind`, `palm-sabal-pole-wind`, `palm-sabal-log-wind`, `palm-sabal-large-wind`, `cypress-bald-pole-wind`, `cypress-bald-log-wind`, `cypress-bald-large-wind`, `magnolia-log-wind`, `magnolia-large-wind`, `beech-log-wind`, `beech-large-wind`, `cottonwood-wind`, `scrub-wind`, `reeds-wind`, `prickly-pear-wind`, `marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
   - **Deliver:** a gale silhouette for each remaining tree kind and ground mark - pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` (`<tree>-wind`)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite
