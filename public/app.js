@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { herdMarkOf, actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands } from '/family-panel.js';
+import { herdMarkOf, actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands, keepList, pressHold } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, tipToShow, tipsToReread } from '/tips.js';
 import { mountErrand } from '/errand.js';
@@ -4888,30 +4888,33 @@ function renderHousehold(world) {
   $('#supplies').dataset.urgent = String((field?.state === 'ripe' && !world.land?.crops) || hoe?.state === 'worn');
   const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id))
     .sort((a, b) => Number(b.id === household.principalId) - Number(a.id === household.principalId));
-  // The roster is a text equivalent and a second way in: the canvas is never the only channel.
-  $('#family').replaceChildren(...people.map(entity => {
-    const li = element('li', ''); li.dataset.entityId = entity.id;
-    if (entity.id === household.principalId) li.dataset.principal = 'true';
-    if (taskFor(world, entity)) li.dataset.task = 'available';
+  // The roster is a text equivalent and a second way in: the canvas is never the only channel. Kept person by person and changed in
+  // place, like the panel's rows (triage 2.14): its buttons are pressed, and it was the most of what a snapshot added to the page
+  // (docs/PERFORMANCE_RENDER.md, "DOM rebuilds").
+  const held = panelPress.held();
+  const listButton = () => { const li = element('li', ''); const button = element('button', ''); button.type = 'button'; li.append(button); return li; };
+  if (keepList($('#family'), people, { key: entity => entity.id, make: listButton, held, update: (li, entity) => {
+    setData(li, 'entityId', entity.id);
+    keepData(li, 'principal', entity.id === household.principalId ? 'true' : null);
     // The second way in to a conversation, and the one that works without the canvas.
     const meeting = meetingFor(world, entity);
-    if (meeting) li.dataset.task = 'meeting';
-    const button = element('button', `${entity.name}: ${entity.task || 'resting'}, ${entity.travel ? `${away(entity) ? 'away ' : ''}on the road to ${placeName(world, entity.travel.to)}` : placeName(world, entity.location?.siteId)}, ${entity.health?.condition || 'well'}${taskFor(world, entity) ? '. Someone is asking for help.' : ''}${meeting ? '. A rider has stopped to speak with them.' : ''}${entity.chore?.ask ? '. Waiting on your word.' : ''}`);
-    button.dataset.select = entity.id;
-    li.append(button); return li;
-  }));
+    keepData(li, 'task', meeting ? 'meeting' : taskFor(world, entity) ? 'available' : null);
+    const button = li.firstElementChild;
+    setText(button, `${entity.name}: ${entity.task || 'resting'}, ${entity.travel ? `${away(entity) ? 'away ' : ''}on the road to ${placeName(world, entity.travel.to)}` : placeName(world, entity.location?.siteId)}, ${entity.health?.condition || 'well'}${taskFor(world, entity) ? '. Someone is asking for help.' : ''}${meeting ? '. A rider has stopped to speak with them.' : ''}${entity.chore?.ask ? '. Waiting on your word.' : ''}`);
+    setData(button, 'select', entity.id);
+  } })) panelPress.wait();
   // Anyone standing with one of this family. This list is not decoration: selecting a
   // neighbour is how a trade is offered, and until it existed the only way to reach one
   // was to click them on the canvas - which broke the rule that the map is never the sole
   // channel for an action. The server decided who is on it; the client never widens it.
   const others = observedOf(world);
-  $('#others').replaceChildren(...others.map(entity => {
-    const li = element('li', ''); li.dataset.entityId = entity.id;
+  if (keepList($('#others'), others, { key: entity => entity.id, make: listButton, held, update: (li, entity) => {
+    setData(li, 'entityId', entity.id);
     const who = entity.resident ? `of ${placeName(world, entity.location?.siteId)}${entity.about ? `, who ${entity.about}` : ''}` : entity.household ? `of ${entity.household}` : 'passing through';
-    const button = element('button', `${entity.name}, ${who}: ${entity.task || 'here'} at ${placeName(world, entity.location?.siteId)}, ${entity.condition || 'well'}`);
-    button.dataset.select = entity.id;
-    li.append(button); return li;
-  }));
+    const button = li.firstElementChild;
+    setText(button, `${entity.name}, ${who}: ${entity.task || 'here'} at ${placeName(world, entity.location?.siteId)}, ${entity.condition || 'well'}`);
+    setData(button, 'select', entity.id);
+  } })) panelPress.wait();
   $('#others-empty').hidden = others.length > 0;
   $('#others-empty').textContent = 'Nobody outside your family is standing with them.';
   const property = entitiesOf(world).filter(entity => entity.kind !== 'person' && (entity.householdId === household.id || (household.property || []).includes(entity.id)));
@@ -4935,39 +4938,33 @@ function renderHousehold(world) {
     // The field in plots, from the server's own count (sim/fields.mjs): cleared, fenced, and staked waiting to be cleared.
     const plots = land.plots || [], staked = plots.filter(plot => plot.state === 'staked').length;
     const fieldWords = `${land.cleared ? `${land.cleared * 10} acres cleared in ${land.cleared === 1 ? 'one plot' : `${land.cleared} plots`}, ${land.fenced === land.cleared ? (land.cleared === 1 ? 'fenced' : 'all fenced') : land.fenced ? `${land.fenced} fenced` : 'no fence round any of it'}` : 'no ground cleared'}${staked ? `; ${staked === 1 ? 'one more plot' : `${staked} more plots`} staked out to clear` : ''}.`;
-    const li = element('li', land.arriving
+    return { key: 'land', text: land.arriving
       ? `Their land: they are still on the road in with the wagon.${camp}`
       : land.cabin === 'ruined'
       ? `Their land: the cabin is gone. ${fieldWords}`
-      : `Their land: ${fieldWords}${camp}`);
-    li.dataset.land = 'true';
-    li.dataset.cleared = String(land.cleared);
-    li.dataset.fenced = String(land.fenced ?? 0);
-    li.dataset.shelter = land.shelter || 'house';
-    return li;
+      : `Their land: ${fieldWords}${camp}`,
+    data: { land: 'true', cleared: String(land.cleared), fenced: String(land.fenced ?? 0), shelter: land.shelter || 'house' } };
   })()] : [];
   // The land marked out for them, in the same words the story used when they reached it.
   if (land?.grant) {
     const holding = land.grant;
-    const li = element('li', holding.kind === 'labor'
+    ground.push({ key: 'grant', data: { grant: holding.kind }, text: holding.kind === 'labor'
       ? `A labor of land, ${holding.acres} acres, is marked out for the family. No title has been issued.`
-      : `A league and a labor of land, ${holding.acres.toLocaleString('en-US')} acres, is marked out for the family. No title has been issued.`);
-    li.dataset.grant = holding.kind;
-    ground.push(li);
+      : `A league and a labor of land, ${holding.acres.toLocaleString('en-US')} acres, is marked out for the family. No title has been issued.` });
   }
   // What the wagon brought that is not a store: the tools and the belongings, named from the
   // catalogue. The stores are on the supplies line already.
   const names = new Map((wagonCatalogue?.items || []).map(item => [item.id, item.name.toLowerCase()]));
   const brought = household.load ? [...Object.keys(household.tools || {}), ...(household.belongings || [])].map(id => names.get(id) || id) : [];
-  const cargo = household.load ? [element('li', brought.length ? `Brought in the wagon: ${brought.join(', ')}.` : 'Brought in the wagon: no tools and no belongings, only stores.')] : [];
-  if (cargo[0]) cargo[0].dataset.brought = 'true';
+  const cargo = household.load ? [{ key: 'brought', data: { brought: 'true' }, text: brought.length ? `Brought in the wagon: ${brought.join(', ')}.` : 'Brought in the wagon: no tools and no belongings, only stores.' }] : [];
   // The family's furniture (sim/furniture.mjs), made or bought. Drawn in the house once the interior view exists (SETTLING_IN step 7).
   const pieces = Object.entries(household.furniture || {});
-  const furnished = pieces.length ? [element('li', `Furniture: ${pieces.map(([piece, how]) => `${piece} (${how})`).join(', ')}.`)] : [];
-  if (furnished[0]) furnished[0].dataset.furniture = 'true';
-  $('#property').replaceChildren(...ground, ...cargo, ...furnished, ...property.map(entity => { const li = element('li', `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}`); li.dataset.entityId = entity.id; return li; }));
+  const furnished = pieces.length ? [{ key: 'furniture', data: { furniture: 'true' }, text: `Furniture: ${pieces.map(([piece, how]) => `${piece} (${how})`).join(', ')}.` }] : [];
+  // Line by line in place, as the roster above: rebuilt each snapshot, these were most of the elements the page made in a minute.
+  const lines = [...ground, ...cargo, ...furnished, ...property.map(entity => ({ key: `entity:${entity.id}`, data: { entityId: entity.id }, text: `${entity.name}: ${entity.kind} at ${placeName(world, entity.location?.siteId)}` }))];
+  keepList($('#property'), lines, { key: line => line.key, make: () => element('li', ''), update: (li, line) => { setText(li, line.text); for (const [name, value] of Object.entries(line.data)) setData(li, name, value); } });
   const memory = world.events || [];
-  $('#event-log').replaceChildren(...memory.slice(-12).reverse().map(event => { const li = element('li', `${event.text || event.type} (${timeLabel(event.minute ?? 0)} into the story)`); li.dataset.eventId = event.id; return li; }));
+  keepList($('#event-log'), memory.slice(-12).reverse(), { key: event => event.id, make: () => element('li', ''), update: (li, event) => { setText(li, `${event.text || event.type} (${timeLabel(event.minute ?? 0)} into the story)`); setData(li, 'eventId', String(event.id)); } });
   renderFamilyPanel(world);
   renderCallMenu(world);
   errandPopup.render(world);
@@ -5592,7 +5589,35 @@ function populateWork(world, chosen, running) {
  */
 const panelRows = new Map();
 let panelExpanded = null, panelTipFor = null, panelBarId = null, panelOrderIds = [], errandWanted = null;
+/**
+ * The press the panel is held still for (triage 2.14, 2026-10-03; `pressHold`, public/family-panel.js). A browser sends no click
+ * to an element that left the page under the press - and a move by `insertBefore` leaves it for that instant - nor to one that
+ * moved out from under the pointer: the click goes to whatever holds both ends of the press. A snapshot arriving between a
+ * press going down and its click did both to the panel (an icon taken off the bar and put back, a row's switch pushed along by
+ * a word appearing beside it), and the tap did nothing. So:
+ *
+ * - **On the family panel or its popup** (`#family-panel`, `#panel-tip`) and **the call's menu** (`#call-menu`), nothing is
+ *   changed while a press is down there: the snapshot is drawn once the click has run, from the latest one (`onRelease`). A
+ *   press lasts a tenth of a second with a mouse and until the tap's click on a touch screen; at most `longestMs`.
+ * - **Lists kept item by item elsewhere** (the journal's roster and who is here): drawn as ever, around the
+ *   pressed node, which is never moved or removed under the press (`keepList`, `arrangeChildren`).
+ *
+ * Pointer presses, and Space or Enter on a button, anywhere on the page; only those places read it.
+ * ceiling: the journal's lists are only kept around the press, not held still, so a line growing above a roster button can
+ * still slide it from under a finger; hold them as the panel is if a class finds that. And the panel stands still for the whole
+ * press - up to 8 s for a pointer the page never hears lift - which a quicker watchdog would shorten.
+ */
+const panelPress = pressHold({ onRelease: () => { if (window.__snapshot?.world) renderHousehold(window.__snapshot.world); } });
+document.addEventListener('pointerdown', event => panelPress.down(event.target), true);
+document.addEventListener('pointerup', () => panelPress.up(), true);
+document.addEventListener('pointercancel', () => panelPress.cancel(), true);
+document.addEventListener('click', () => panelPress.click(), true);
+document.addEventListener('keydown', event => { if ((event.key === ' ' || event.key === 'Enter') && !event.repeat && event.target.closest?.('button')) panelPress.down(event.target); }, true);
+document.addEventListener('keyup', event => { if (event.key === ' ' || event.key === 'Enter') panelPress.up(); }, true);
+addEventListener('blur', () => panelPress.cancel());
 function renderFamilyPanel(world) {
+  // Held still under a press on the panel or its popup, and drawn from the latest snapshot once its click has run (triage 2.14).
+  if (panelPress.held()?.closest?.('#family-panel, #panel-tip')) { panelPress.wait(); return; }
   const panel = $('#family-panel'), list = $('#family-rows');
   const household = world.household;
   // No rows before the die is rolled, for the reason the card waits too: setting one of the founding four to work would use
@@ -5826,22 +5851,23 @@ function renderFamilyPanel(world) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
       // Changed in place, icon by icon: the button a student has focused or is pointing at stays the same button while what
-      // it says changes around it, so keyboard focus and the popup survive every tick.
-      const kept = new Map([...row.icons.querySelectorAll('.panel-icon')].map(button => [button.dataset.key, button]));
+      // it says changes around it, so keyboard focus and the popup survive every tick. Every icon the row has drawn is kept
+      // (`row.made`) while it is off the bar, so one that comes back is the same button, not drawn again (triage 2.14: a dozen
+      // icons in twenty quiet ticks were made afresh as rows went from work to a reason and back).
       const shownIcons = homeIcon ? [...visibleIcons, homeIcon] : visibleIcons;
       row.icons.style.setProperty('--action-columns', Math.max(makeMain ? 3 : 1, Math.ceil(shownIcons.length / 2)));
       const wanted = shownIcons.length ? shownIcons.map(icon => {
-        const button = kept.get(icon.key) || panelIcon(id, icon);
-        kept.delete(icon.key);
+        let button = row.made.get(icon.key);
+        if (!button) { button = panelIcon(id, icon); row.made.set(icon.key, button); }
         describeIcon(button, icon, icon === homeIcon ? null : lessonFor(icon.key));
         return button;
       }) : [];
       if (!visibleIcons.length) {
-        const word = row.icons.querySelector('.panel-reason:not(.panel-travelling)') || element('span', '', 'panel-reason');
+        const word = row.reasonWord ??= element('span', '', 'panel-reason');
         setText(word, visibleReason);
         wanted.push(word);
       } else if (travelling) {
-        const word = row.icons.querySelector('.panel-travelling') || element('span', '', 'panel-reason panel-travelling');
+        const word = row.travelWord ??= element('span', '', 'panel-reason panel-travelling');
         setText(word, travelling);
         wanted.push(word);
       }
@@ -5851,7 +5877,7 @@ function renderFamilyPanel(world) {
         row.makeMain.title = note; row.makeMain.setAttribute('aria-label', `${makeMain}. ${note}`);
         wanted.unshift(row.makeMain);
       }
-      for (const leftover of [...kept.values(), ...[...row.icons.querySelectorAll('.panel-reason, .panel-make-main')].filter(node => !wanted.includes(node))]) leftover.remove();
+      for (const leftover of [...row.icons.children].filter(node => !wanted.includes(node))) leftover.remove();
       wanted.forEach((node, at) => { if (row.icons.children[at] !== node) row.icons.insertBefore(node, row.icons.children[at] || null); });
       if (panelTipFor?.entityId === id) showPanelTip(row.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
     }
@@ -6039,6 +6065,8 @@ function renderHostLive(snapshot, host) {
 $('#host-spotlight-back')?.addEventListener('click', () => applyMapView('follow'));
 /** A data- attribute written only when it changes: the panel is redrawn every tick on a slow computer. */
 function setData(element, key, value) { if (element.dataset[key] !== value) element.dataset[key] = value; }
+/** `setData`, or the attribute taken off for null: for a list kept in place whose flags come and go (`keepList`). */
+function keepData(element, key, value) { if (value == null) { if (key in element.dataset) delete element.dataset[key]; } else setData(element, key, value); }
 /**
  * Choose the student's main person: `set-main`, which the server keeps on the household and refuses in words for anybody
  * too young or gone. The star fills on the next snapshot, which is what says the server took it; nothing is remembered here.
@@ -6201,6 +6229,8 @@ function renderCallMenu(world) {
   const menuEl = $('#call-menu');
   if (!menuEl) return;
   if (!callMenuFor || world.role === 'host') { callMenuFor = null; menuEl.hidden = true; return; }
+  // Held still under a press on it, and drawn once the click has run (triage 2.14), as the family panel is.
+  if (panelPress.held()?.closest?.('#call-menu')) { panelPress.wait(); return; }
   const live = callMenu(world.request, { people: familyCache?.people || [], entities: entitiesOf(world) });
   // The menu as last built stays while an answer is being sent, or after a refusal, so the rest can still be sent; a call
   // answered from the card, or closed by the class, takes it away.
@@ -6217,24 +6247,32 @@ function renderCallMenu(world) {
   $('#call-menu-title').textContent = menu.several ? 'Who goes?' : 'Who answers?';
   $('#call-menu-text').textContent = menu.text;
   $('#call-menu-how').textContent = menu.several ? 'Tick everybody who goes; each takes what the call says.' : 'One of the family answers this. Choose who.';
-  $('#call-menu-rows').replaceChildren(...menu.rows.map(row => {
+  // Person by person in place (triage 2.14): rebuilt by every change of the menu - a tick's new words, and the box's own change
+  // event - each box ticked was a new box, and the keyboard's focus went with the old one.
+  keepList($('#call-menu-rows'), menu.rows, { key: row => row.id, make: () => {
     const item = element('li', '', 'call-menu-row');
     const label = element('label', '', 'call-menu-label');
     const input = document.createElement('input');
-    input.type = menu.several ? 'checkbox' : 'radio';
-    input.name = menu.several ? `call-menu-${row.id}` : 'call-menu-one';
-    input.value = row.id;
-    input.dataset.callMenuPerson = row.id;
-    input.checked = callMenuFor.checked.has(row.id);
-    input.disabled = !row.go.can || sent.has(row.id) || Boolean(callMenuFor.busy);
-    item.dataset.person = row.id;
-    item.dataset.sent = String(sent.has(row.id));
-    label.append(input, element('span', row.name, 'call-menu-name'), element('span', row.who, 'call-menu-who'),
-      element('span', sent.has(row.id) ? 'Sent.' : row.go.can ? row.go.note : row.go.why, 'call-menu-note'));
-    if (!row.go.can) label.title = row.go.why;
+    label.append(input, element('span', '', 'call-menu-name'), element('span', '', 'call-menu-who'), element('span', '', 'call-menu-note'));
     item.append(label);
     return item;
-  }));
+  }, update: (item, row) => {
+    const label = item.firstElementChild, input = label.querySelector('input');
+    const type = menu.several ? 'checkbox' : 'radio';
+    if (input.type !== type) input.type = type;
+    input.name = menu.several ? `call-menu-${row.id}` : 'call-menu-one';
+    input.value = row.id;
+    setData(input, 'callMenuPerson', row.id);
+    input.checked = callMenuFor.checked.has(row.id);
+    input.disabled = !row.go.can || sent.has(row.id) || Boolean(callMenuFor.busy);
+    setData(item, 'person', row.id);
+    setData(item, 'sent', String(sent.has(row.id)));
+    setText(label.querySelector('.call-menu-name'), row.name);
+    setText(label.querySelector('.call-menu-who'), row.who);
+    setText(label.querySelector('.call-menu-note'), sent.has(row.id) ? 'Sent.' : row.go.can ? row.go.note : row.go.why);
+    const title = row.go.can ? '' : row.go.why;
+    if (label.title !== title) label.title = title;
+  } });
   const confirm = $('#call-menu-confirm'), stay = $('#call-menu-stay');
   confirm.disabled = Boolean(callMenuFor.busy);
   stay.hidden = !stayLabel;
@@ -6405,7 +6443,7 @@ function panelRow(id) {
   const makeMain = element('button', '', 'panel-make-main');
   makeMain.type = 'button';
   makeMain.dataset.focus = id;
-  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, focus, auto, autoSays, life, sick, sickMark, hungerMark, shelterMark, herdMark, word, note, why, away, makeMain, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, focus, auto, autoSays, life, sick, sickMark, hungerMark, shelterMark, herdMark, word, note, why, away, makeMain, face: null, iconsKey: null, made: new Map(), reasonWord: null, travelWord: null };
   panelRows.set(id, row);
   return row;
 }
@@ -6470,8 +6508,7 @@ function panelIcon(entityId, icon) {
 function describeIcon(button, icon, lesson = null) {
   button.dataset.name = icon.name;
   const label = button.querySelector('.panel-action-name');
-  const words = `${icon.active ? 'Now: ' : ''}${icon.name}`;
-  if (label.textContent !== words) label.textContent = words;
+  setText(label, `${icon.active ? 'Now: ' : ''}${icon.name}`);
   button.dataset.summary = icon.summary;
   const shut = Boolean(lesson?.shut);
   // Somebody at this already is not refused it: they are doing it, and the popup says so rather than giving the busy reason.
@@ -6548,12 +6585,12 @@ function showPanelTip(button, { armed = false, pinned = false } = {}) {
     const key = JSON.stringify(ways);
     if ((host.dataset.key || '') !== key) {
       host.dataset.key = key;
-      host.replaceChildren(...ways.map(way => {
-        const go = element('button', way.label, 'panel-tip-go');
-        go.type = 'button'; go.dataset.key = way.key; go.dataset.want = way.want;
-        if (way.line) go.dataset.line = way.line;
-        return go;
-      }));
+      // Way by way in place, keyed by what it presses (triage 2.14). Not kept for a press: a snapshot does not draw the popup while
+      // a press is on it (`renderFamilyPanel`), and the one redraw under a way's press is its own click's, which has landed - a way
+      // kept then would linger in the hidden popup, a second element of its line beside the errand's.
+      keepList(host, ways, { key: way => `${way.key}:${way.want}:${way.line || ''}`,
+        make: () => { const go = element('button', '', 'panel-tip-go'); go.type = 'button'; return go; },
+        update: (go, way) => { setText(go, way.label); go.dataset.key = way.key; go.dataset.want = way.want; if (way.line) go.dataset.line = way.line; else delete go.dataset.line; } });
     }
     host.hidden = !ways.length;
   }
@@ -6658,7 +6695,8 @@ function repaintFamilyPanel() {
     row.face = null;
     for (const node of row.item.querySelectorAll('[data-mark]')) paintMark(node, node.dataset.mark);
     if (!row.sickMark.hidden) paintSickMark(row.sickMark);
-    for (const icon of row.icons.querySelectorAll('.panel-icon')) drawIcon(icon.querySelector('canvas'), icon.dataset.key, { drawSprite, spriteFrame });
+    // Those off the bar too (`row.made`), so one coming back is drawn with the art.
+    for (const icon of row.made.values()) drawIcon(icon.querySelector('canvas'), icon.dataset.key, { drawSprite, spriteFrame });
   }
   if (window.__snapshot) renderFamilyPanel(window.__snapshot.world);
 }

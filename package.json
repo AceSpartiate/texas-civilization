@@ -37,6 +37,7 @@
     "test:hunt-aim-injections": "node scripts/hunt-aim-injections.mjs",
     "test:family": "node scripts/family-browser-proof.mjs",
     "test:family-panel": "node scripts/family-panel-browser-proof.mjs",
+    "test:panel-press": "node scripts/panel-press-browser-proof.mjs",
     "test:family-twenty": "node scripts/family-twenty-browser-proof.mjs",
     "test:family-twenty-injections": "node scripts/family-twenty-phone-injections.mjs",
     "test:army": "node scripts/army-browser-proof.mjs",
