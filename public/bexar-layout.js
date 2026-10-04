@@ -38,7 +38,7 @@ const homes=['adobe-flat','adobe-tile','adobe-flat','adobe-flat','trading-house'
 function frontage(id,positions){for(const [x,y] of positions)building(`${id}-${++serial}`,homes[serial%homes.length],x,y,57+(serial%3)*6);}
 // Open plaza interiors and connected lanes remain clear of building sprites.
 for(const plaza of plazas.slice(0,2)){
-  frontage(plaza.id+'-north',Array.from({length:5},(_,i)=>[plaza.x+20+i*75,plaza.y-70]));
+  frontage(plaza.id+'-north',Array.from({length:5},(_,i)=>[plaza.x+20+i*75,plaza.y-140]));
   frontage(plaza.id+'-south',Array.from({length:5},(_,i)=>[plaza.x+20+i*75,plaza.y+plaza.height+120]));
 }
 frontage('western-lane',Array.from({length:10},(_,i)=>[430,1280+i*125]));

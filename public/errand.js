@@ -37,6 +37,12 @@ export function byShop(lines = []) {
   return shops;
 }
 
+export function matchesOffer(line, {filter='all', shop='', search=''} = {}) {
+  return (!line.why || Boolean(line.selected)) && (filter === 'all' || line.kind === filter)
+    && (!shop || line.trade === shop)
+    && `${line.label} ${line.shop} ${line.keeper || ''} ${line.does || ''}`.toLowerCase().includes(search.trim().toLowerCase());
+}
+
 /**
  * The popup itself. `deps`: `$`, `element`, `api` (GET), `say`, `send(input)` (public/app.js's, which gives the order its id
  * the way every command's is made) and `onSent(entityId)`. Returns `{ open(entityId), render(world), close() }`.
@@ -47,9 +53,12 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
   let state = null;
 
   function close() {
+    clearTimeout(timer);
+    const returnFocus = state?.returnFocus;
     state = null;
     root.hidden = true;
     delete document.body.dataset.errand;
+    if (returnFocus?.isConnected) returnFocus.focus({preventScroll:true});
   }
   async function fetchFacts(list = null) {
     if (!state) return;
@@ -94,8 +103,20 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     const after = quote?.can ? quote.after : null;
     $('#errand-after').textContent = after ? `${stockWords(after).replace('The family has', 'After it, the family will have')}` : '';
     const host = $('#errand-lines');
-    const focused = document.activeElement?.closest?.('#errand-lines') ? { id: document.activeElement.closest('[data-line]')?.dataset.line, act: document.activeElement.dataset.act } : null;
-    host.replaceChildren(...byShop(facts?.lines).map(shop => {
+    const scroll = host.scrollTop;
+    const shops = byShop(facts?.lines);
+    const chooser = $('#errand-shop-filter');
+    if (chooser && chooser.dataset.options !== JSON.stringify(shops.map(s=>s.trade))) {
+      chooser.replaceChildren(element('option','All shops'), ...shops.map(shop=>{
+        const option=element('option',shop.shop);option.value=shop.trade;return option;
+      }));
+      chooser.options[0].value='';chooser.value=state.shop || '';
+      chooser.dataset.options=JSON.stringify(shops.map(s=>s.trade));
+    }
+    if (chooser) chooser.value=state.shop || '';
+    let visible = 0;
+    const focused = document.activeElement?.closest?.('#errand-lines') ? { id: document.activeElement.closest('[data-line]')?.dataset.line, act: document.activeElement.dataset.act, value: document.activeElement.tagName==='INPUT' ? document.activeElement.value : undefined } : null;
+    host.replaceChildren(...shops.map(shop => {
       const section = element('section', '', 'errand-shop');
       section.append(element('h3', shop.keeper ? `${shop.shop} · ${shop.keeper}` : shop.shop, 'errand-shop-name'));
       const list = element('ul', '', 'errand-shop-lines');
@@ -104,9 +125,12 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
         const item = element('li', '', 'errand-line');
         item.dataset.line = line.id;
         item.dataset.count = String(count);
+        item.hidden = !matchesOffer({...line,selected:count>0}, state);
+        if (!item.hidden) visible++;
         if (line.why) item.dataset.shut = 'true';
         const words = element('div', '', 'errand-words');
         words.append(element('span', line.label, 'errand-label'), element('span', line.why || line.price, 'errand-price'));
+        if (line.each) words.append(element('span',`Each +: ${line.each}`,'errand-unit'));
         words.title = line.does;
         const controls = element('div', '', 'errand-controls');
         if (line.pays?.length > 1) {
@@ -126,16 +150,39 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
         less.setAttribute('aria-label', `One fewer: ${line.label}`); more.setAttribute('aria-label', `One more: ${line.label}`);
         less.disabled = count <= 0;
         more.disabled = Boolean(line.why) || count >= line.most;
-        const shown = element('span', String(count), 'errand-count');
-        shown.setAttribute('aria-label', `${count} of ${line.label}`);
+        const shown = element('input', '', 'errand-count');
+        shown.type='number';shown.min='0';shown.max=String(line.most);shown.step='1';shown.value=String(count);shown.dataset.act='quantity';
+        shown.setAttribute('aria-label', `Quantity: ${line.label}`);
+        shown.disabled=Boolean(line.why)&&!count;
         controls.append(less, shown, more);
         item.append(words, controls);
         list.append(item);
       }
       section.append(list);
+      section.hidden = [...list.children].every(row=>row.hidden);
       return section;
     }));
-    if (focused?.id) host.querySelector(`[data-line="${CSS.escape(focused.id)}"] [data-act="${focused.act}"]`)?.focus({ preventScroll: true });
+    if (facts && !visible) host.append(element('p','No available offers match. Try All or another shop.','commerce-empty'));
+    host.scrollTop=scroll;
+    const basket=$('#errand-basket');
+    if (basket) {
+      basket.replaceChildren(element('strong',list.length ? `Your list · ${list.length} ${list.length===1?'item':'items'}` : 'Your list is empty'));
+      if (!list.length) basket.append(element('span','Use + to choose quantities. Sales are completed before purchases.','commerce-hint'));
+      else {
+        const entries=element('ul','');
+        for(const entry of list) {
+          const line=facts.lines.find(l=>l.id===entry.id),row=element('li','');row.dataset.line=entry.id;
+          row.append(element('span',`${entry.n} × ${line.label}${entry.pay ? ` · pay in ${entry.pay==='coin'?'coin':'food'}` : ''}`));
+          const remove=element('button','×');remove.type='button';remove.dataset.act='remove';remove.setAttribute('aria-label',`Remove ${line.label}`);row.append(remove);entries.append(row);
+        }
+        basket.append(entries);
+      }
+    }
+    if (focused?.id) {
+      const control=host.querySelector(`[data-line="${CSS.escape(focused.id)}"] [data-act="${focused.act}"]`);
+      if(control&&focused.value!==undefined)control.value=focused.value;
+      control?.focus({preventScroll:true});
+    }
     $('#errand-how').textContent = !list.length ? 'Nothing is on the list yet.' : !quote ? 'Reckoning the load…' : quote.can ? quote.how : '';
     drawWaysHere(quote, list);
     const why = state.error || facts?.shut || (quote && !quote.can ? quote.why : '');
@@ -182,6 +229,12 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     if (!state) return;
     if (event.target.closest('#errand-close, #errand-cancel')) { close(); return; }
     if (event.target.closest('#errand-send')) { send(); return; }
+    const filter=event.target.closest('[data-filter]');
+    if (filter) {
+      state.filter=filter.dataset.filter;
+      for(const button of root.querySelectorAll('[data-filter]')) button.setAttribute('aria-pressed',String(button===filter));
+      draw();return;
+    }
     // A way of going chosen: the quickest again is no choice at all, and the server says whether the one chosen can go.
     const way = event.target.closest('[data-way]');
     if (way && !way.disabled) {
@@ -191,7 +244,7 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
       requote();
       return;
     }
-    const button = event.target.closest('[data-act]'), row = event.target.closest('[data-line]');
+    const button = event.target.closest('button[data-act]'), row = event.target.closest('[data-line]');
     if (!button || !row || button.disabled) return;
     const id = row.dataset.line, line = state.facts?.lines.find(one => one.id === id);
     if (!line) return;
@@ -199,6 +252,7 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     const count = state.counts.get(id) || 0;
     if (act === 'more') state.counts.set(id, Math.min(line.most, count + 1));
     else if (act === 'less') state.counts.set(id, Math.max(0, count - 1));
+    else if (act === 'remove') state.counts.delete(id);
     else if (act.startsWith('pay-')) state.pays.set(id, act.slice(4));
     if (!state.counts.get(id)) state.counts.delete(id);
     state.error = '';
@@ -206,16 +260,33 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     draw();
     requote();
   });
-  // Escape sends nobody; Enter sends the list, from anywhere in the popup but its own close and cancel.
+  function setQuantity(input) {
+    if(!state)return;
+    const id=input.closest('[data-line]')?.dataset.line,line=state.facts?.lines.find(l=>l.id===id);
+    if(!line)return;
+    const value=Number(input.value),count=Number.isFinite(value)?Math.max(0,Math.min(line.most,Math.trunc(value))):state.counts.get(id)||0;
+    input.value=String(count);
+    if(count===(state.counts.get(id)||0))return;
+    if(count)state.counts.set(id,count);else state.counts.delete(id);
+    state.error='';state.quotedKey=undefined;draw();requote();
+  }
+  root.addEventListener('change',event=>{if(event.target.matches('[data-act="quantity"]'))setQuantity(event.target);});
+  $('#errand-search')?.addEventListener('input',event=>{if(state){state.search=event.target.value;draw();}});
+  $('#errand-shop-filter')?.addEventListener('change',event=>{if(state){state.shop=event.target.value;draw();}});
+  // Escape sends nobody. Native controls keep their own Enter action; Enter on
+  // non-interactive dialog content sends the reviewed list.
   root.addEventListener('keydown', event => {
     if (!state) return;
     if (event.key === 'Escape') { event.preventDefault(); close(); return; }
-    if (event.key === 'Enter' && !event.target.closest('#errand-close, #errand-cancel')) { event.preventDefault(); send(); }
+    if(event.key==='Enter'&&event.target.matches('[data-act="quantity"]')){event.preventDefault();setQuantity(event.target);return;}
+    if (event.key === 'Enter' && !event.target.closest('button,input,select,textarea')) { event.preventDefault(); send(); }
   });
 
   return {
     open(entityId) {
-      state = { entityId, facts: null, quote: null, counts: new Map(), pays: new Map(), mode: null, seq: 0, busy: false, error: '', key: null, quotedKey: null };
+      state = { entityId, facts: null, quote: null, counts: new Map(), pays: new Map(), mode: null, seq: 0, busy: false, error: '', key: null, quotedKey: null, filter:'all',shop:'',search:'',returnFocus:document.activeElement };
+      if ($('#errand-search')) $('#errand-search').value='';
+      for(const button of root.querySelectorAll('[data-filter]')) button.setAttribute('aria-pressed',String(button.dataset.filter==='all'));
       draw();
       fetchFacts();
       root.querySelector('#errand-cancel')?.focus({ preventScroll: true });

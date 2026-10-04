@@ -58,6 +58,32 @@ export function drawRoad(ctx,points,width){
     if(p.index%5===0&&tufts>0){ctx.globalAlpha=base*tufts*ruts;drawSprite(ctx,'grass-tuft',p.x-p.ty*width*.8*side,p.y+p.tx*width*.8*side,Math.min(13,width*.25));}
   },ctx.canvas);ctx.restore();
 }
+/** Town streets follow their surveyed/sketched vertices exactly. Paint each material
+ * over the whole network before the next layer, so crossings don't acquire borders
+ * through their middle. Regional roads and rivers keep their existing curved paths. */
+export function drawStreets(ctx,streets){
+  const roads=streets.filter(r=>r.points?.length>1&&r.width>0);
+  const path=points=>{ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));};
+  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+  const base=ctx.globalAlpha;
+  for(const [color,share] of [['#ac9f71',1.55],['#c2ac7d',1.2],['#d1bc8f',1]]) for(const road of roads){
+    ctx.globalAlpha=base*(road.faint ? .22 : 1);ctx.strokeStyle=color;ctx.lineWidth=road.width*share;
+    path(road.points);ctx.stroke();
+  }
+  const distance=(p,a,b)=>{const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy,t=l?Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/l)):0;return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);};
+  for(const road of roads){
+    if(road.faint)continue;
+    const detail=ramp(road.width,5,8);
+    if(!detail)continue;
+    samples(road.points,Math.max(10,road.width*.6),p=>{
+      // Ruts stop at shared junctions: no tram-track lines or grass divide a crossroads.
+      if(roads.some(other=>other!==road&&!other.faint&&other.points.some((b,i)=>i&&distance(p,other.points[i-1],b)<other.width*.8)))return;
+      ctx.globalAlpha=base*.22*detail;ctx.strokeStyle='#806d49';ctx.lineWidth=Math.max(.6,road.width*.035);
+      for(const side of [-1,1]){const x=p.x-p.ty*road.width*.22*side,y=p.y+p.tx*road.width*.22*side;ctx.beginPath();ctx.moveTo(x-p.tx*2,y-p.ty*2);ctx.lineTo(x+p.tx*2,y+p.ty*2);ctx.stroke();}
+    },ctx.canvas);
+  }
+  ctx.restore();
+}
 export function crossingAngle(site,features,toScreen){
   const q=toScreen(site);let best=Infinity,angle=0;
   for(const f of features.filter(f=>['river','creek'].includes(f.kind)))for(let i=1;i<f.points.length;i++){

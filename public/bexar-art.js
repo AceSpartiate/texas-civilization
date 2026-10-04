@@ -1,5 +1,5 @@
 import {drawSprite,spriteFrame} from '/art.js';
-import {drawRoad,drawWater} from '/landscape-art.js';
+import {drawStreets,drawWater} from '/landscape-art.js';
 import {DRAWN_HEIGHT} from '/town-layouts.js';
 import {BEXAR_LAYOUT as town,alamoToBexar} from '/bexar-layout.js';
 import {alamoMassing} from '/alamo-layout.js';
@@ -10,7 +10,7 @@ function polygon(ctx,points,fill,stroke,width=1){ctx.beginPath();points.forEach(
 // Shared scenery renderer: no people, hidden events, clock or second simulation.
 export function drawBexarGround(ctx,project,pixelsPerFoot,{river=true}={}){
   if(river)drawWater(ctx,town.river.points.map(project),Math.max(1,town.river.widthFeet*pixelsPerFoot));
-  for(const road of town.roads)drawRoad(ctx,road.points.map(project),Math.max(1,road.widthFeet*pixelsPerFoot));
+  drawStreets(ctx,town.roads.map(road=>({points:road.points.map(project),width:Math.max(1,road.widthFeet*pixelsPerFoot)})));
   for(const plaza of town.plazas)polygon(ctx,corners(plaza).map(project),'#ccb985','#a59063');
 }
 

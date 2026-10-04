@@ -1,5 +1,5 @@
 import {drawSprite} from '/art.js';
-import {drawRoad} from '/landscape-art.js';
+import {drawStreets} from '/landscape-art.js';
 // Reconstructed scenery, in miles relative to the existing town. These are not
 // new buildings in the simulation or assertions of an attested street survey.
 const homes=[[-.30,-.21],[-.21,-.24],[-.10,-.23],[.02,-.25],[.13,-.22],[.25,-.19],[.32,-.10],
@@ -15,13 +15,13 @@ const props=[[-.19,-.115,'barrel',.006],[-.135,-.115,'sacks',.006],[.16,.065,'cr
 export const GONZALES_ART_BOUNDS={left:-.38,right:.38,top:-.30,bottom:.34};
 export function drawGonzalesGround(ctx,project,scale){
   const paths=[[[-.38,-.02],[-.22,-.025],[-.07,0],[.08,.015],[.24,-.02],[.38,-.06]],
-    [[-.18,-.28],[-.16,-.13],[-.10,-.015],[-.04,.10],[.015,.20],[.02,.33]],
-    [[.18,-.23],[.20,-.10],[.18,.05],[.24,.15],[.27,.29]]];
+    [[-.18,-.28],[-.205,-.125],[-.10,-.015],[-.04,.10],[.015,.20],[.02,.33]],
+    [[.18,-.23],[.20,-.10],[.22,.05],[.24,.15],[.27,.29]]];
   ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
   ctx.fillStyle='#b6a47e';ctx.globalAlpha=.5;
   for(const b of GONZALES_BUILDINGS){const p=project(b),h=b.height*scale;ctx.beginPath();ctx.ellipse(p.x,p.y-h*.025,h*.64,h*.16,0,0,Math.PI*2);ctx.fill();}
   ctx.globalAlpha=1;
-  for(const path of paths)drawRoad(ctx,path.map(([x,y])=>project({x,y})),Math.max(1,.009*scale));
+  drawStreets(ctx,paths.map(path=>({points:path.map(([x,y])=>project({x,y})),width:Math.max(1,.009*scale)})));
   ctx.restore();
 }
 // `labels` names the buildings the town's shopkeepers keep, by building id, from the map's own shops (sim/shops.mjs):

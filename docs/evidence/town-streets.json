@@ -1,0 +1,24 @@
+{
+  "verdict": "PASS",
+  "towns": [
+    "san-felipe",
+    "victoria",
+    "mina",
+    "matagorda",
+    "columbia",
+    "liberty",
+    "washington",
+    "brazoria",
+    "velasco",
+    "harrisburg",
+    "anahuac",
+    "nacogdoches",
+    "refugio",
+    "goliad",
+    "gonzales",
+    "bexar"
+  ],
+  "curves": 0,
+  "exactJunction": true,
+  "errors": []
+}
