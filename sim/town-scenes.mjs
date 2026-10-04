@@ -159,10 +159,9 @@ export const STAND_INS = Object.freeze({
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - Gonzales before the fight. The remaining entries below name
   // the nearest delivered pose; paint has its own authored two-frame clip.
   paint: 'paint', // hand sewing the flag at the table
-  dig: 'work', // a spade in the orchard: the hoe's swing
   haul: 'carry', // carrying bundles to the wagon, cloth to the table
 });
-const P = Object.freeze({ ...STAND_INS, point: 'point', forge: 'forge' });
+const P = Object.freeze({ ...STAND_INS, point: 'point', forge: 'forge', dig: 'dig' });
 
 const STREET_WORRY = [
   [['gz-townswoman-1', 'Soldiers on the far bank. Dragoons, from Béxar.', said('HIST-GONZ-002')], ['gz-townsman-1', "They've come for the cannon."]],

@@ -1,3 +1,7 @@
+## Art update: Gonzales spade work (2026-10-04)
+
+Dedicated elder/ochre/blue digging clips are registered. Existing elder and ochre orchard actors select them through semantic `dig`; blue is ready for a future explicit digging action. Movement still selects walk cycles. See [delivery notes](docs/ART_DELIVERY_2026-10-04-GONZALES-DIGGING.md), manifest and browser evidence.
+
 ## Latest art delivery — Gonzales smiths, 2026-10-04
 
 Twenty frames, four hammer/chain clips and four forge/tool props. Elder/ochre shop workers now use their own smith actions and the shop displays the lit forge. Read docs/ART_DELIVERY_2026-10-04-GONZALES-SMITHS.md for exact bindings, proof and remaining requests. Actor composites already include anvils; avoid doubling them.

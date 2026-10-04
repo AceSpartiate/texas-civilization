@@ -8889,6 +8889,78 @@
       "motion": "none",
       "direction": "north"
     },
+    "elder-dig": {
+      "frames": [
+        {
+          "sprite": "elder-dig-1",
+          "duration": 450
+        },
+        {
+          "sprite": "elder-dig-2",
+          "duration": 450
+        },
+        {
+          "sprite": "elder-dig-3",
+          "duration": 450
+        },
+        {
+          "sprite": "elder-dig-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-dig": {
+      "frames": [
+        {
+          "sprite": "ochre-dig-1",
+          "duration": 450
+        },
+        {
+          "sprite": "ochre-dig-2",
+          "duration": 450
+        },
+        {
+          "sprite": "ochre-dig-3",
+          "duration": 450
+        },
+        {
+          "sprite": "ochre-dig-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-dig": {
+      "frames": [
+        {
+          "sprite": "blue-dig-1",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-dig-2",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-dig-3",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-dig-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "teal-paint": {
       "frames": [
         {

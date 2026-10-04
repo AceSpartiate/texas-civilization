@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2688 usable sprites, 288 PNG atlases, 932 clips** (624 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2700 usable sprites, 289 PNG atlases, 935 clips** (627 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -191,6 +191,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
 | gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
+| people-gonzales-digging | 12 | 1448 × 1086 | 774818 |
 | gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
@@ -1879,6 +1880,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
 | gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
 | gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
+| elder-dig-1 | people-gonzales-digging | elder-dig |
+| elder-dig-2 | people-gonzales-digging | elder-dig |
+| elder-dig-3 | people-gonzales-digging | elder-dig |
+| elder-dig-4 | people-gonzales-digging | elder-dig |
+| ochre-dig-1 | people-gonzales-digging | ochre-dig |
+| ochre-dig-2 | people-gonzales-digging | ochre-dig |
+| ochre-dig-3 | people-gonzales-digging | ochre-dig |
+| ochre-dig-4 | people-gonzales-digging | ochre-dig |
+| blue-dig-1 | people-gonzales-digging | blue-dig |
+| blue-dig-2 | people-gonzales-digging | blue-dig |
+| blue-dig-3 | people-gonzales-digging | blue-dig |
+| blue-dig-4 | people-gonzales-digging | blue-dig |
 | gonzales-ploughed-earth | gonzales-ploughed-earth | State artwork; no motion required |
 | gonzales-flag-work-cloth | gonzales-flag-work-cloth | State artwork; no motion required |
 | gonzales-flag-work-painted | gonzales-flag-work-painted | State artwork; no motion required |
@@ -3553,6 +3566,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
 | prisoner-walk-n | Pose cycle | 2 | 600 | yes | north |
+| elder-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
+| ochre-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
+| blue-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
