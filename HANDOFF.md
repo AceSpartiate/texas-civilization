@@ -1,5 +1,78 @@
 # Claude handoff — Astra foundation
 
+## Panel rows kept under the student's tap — triage 2.14, 2026-10-03 (not released)
+
+Branch `panel-rows` from origin/main cca3a891; not pushed to main, not released. Triage 2.14: a tap on the family panel could
+do nothing when a snapshot arrived between the press going down and its click, and `test:solo-game` passed only on a rerun
+because of it.
+
+**The cause, found, was two.** A browser sends no click to an element that left the page under the press - and moving one
+with `insertBefore` takes it out for that instant - nor to one that moved out from under the pointer: the click goes to the
+nearest element holding both ends of the press. The rows and icons were already kept and changed in place, but (1) an icon a
+snapshot took off the bar and put back - the person called aside by a little one, the work refused for a tick, the class
+paused - came back as a new button, the pressed one removed; and (2) a row's Auto switch was pushed along by a baby's word
+appearing beside it, or slid down by another row's line growing above, so the finger came up on the row's body or on the next
+row (seen in the new proof: down on `.panel-auto`, up on `.panel-life-line`). A trace of a full `test:solo-game` run (every
+removal or move of a node holding the press, with its stack) lost no panel press that time - the failure is intermittent and
+comes under load - and showed the call's menu rebuilding its rows under the press of a box, from the box's own change event.
+
+**The fix** (public/app.js, public/family-panel.js; docs/FAMILY_PANEL.md §11.4 *Held still under a press*):
+- `pressHold` (family-panel.js, pure): a press is held from pointerdown (or Space/Enter on a button) until its click has run
+  (released a task after the click), 600 ms after the lift if no click comes (a tap's click comes after the finger lifts),
+  at once on pointercancel or the window losing focus, and after 8 s at most.
+- While a press is down on the family panel or its popup (`#family-panel`, `#panel-tip`) or on the call's menu, those are not
+  drawn at all; once the click has run, the household is drawn from the latest snapshot (`onRelease` -> `renderHousehold`).
+  The map and the other panels draw as ever. `ceiling:` on `panelPress`: the journal's lists are kept around a press but not
+  held still, and the panel stands still for the whole press (8 s at most); `pressHold` holds one press at a time.
+- Every icon a row has drawn is kept while off the bar (`row.made`), and its reason and travelling words, so one coming back
+  is the same button; `repaintFamilyPanel` repaints the kept ones too when art arrives.
+- `keepList`/`arrangeChildren` (family-panel.js, pure): a list kept item by item, put in order around a pressed node without
+  ever moving it, one no longer wanted waiting for the press. Used for the journal's roster (`#family`), who is here
+  (`#others`), the family's goods (`#property`), the story (`#event-log`), the call's menu rows (held still with the panel
+  under a press on them) and the popup's ways on (kept, but not held for a press: a way kept for its own click lingered in the
+  hidden popup and `test:field-click` found the second element of its line; the first full run of the six proofs failed it
+  3 of 3, fixed and green after) - all
+  rebuilt on every snapshot before (docs/PERFORMANCE_RENDER.md, *The household rows kept in place*: 817 elements made in those
+  lists in 20 quiet snapshots before, 2 after). The visit and travel-mode rows PERFORMANCE_RENDER listed no longer exist
+  (gone 2026-09-29).
+- Tap, then send, the armed and pinned popups, hover and focus are unchanged: an armed popup stays through snapshots.
+
+**Evidence** (same computer, headless Chrome):
+- `tests/panel-press.test.mjs`, 5 tests: the order around a press for every shape of change a bar makes, deep presses, a list
+  kept item by item, how long a press holds, and the page's wiring (read from app.js). Each seen failing under its injection
+  and only the tests for it: (A) the old in-order insert -> the three arrangement/list tests; (B) the pressed node removed when
+  no longer wanted -> the arrangement and list tests; (C) every item made again -> the list test; (D) let go at the click,
+  before its handlers, and (E) at the lift, before a tap's click -> the press-hold test; (F) the panel drawn under a press,
+  (G) the call's menu drawn under a press, (H) the press not told of the click -> the wiring test. Injections removed.
+- `npm run test:panel-press` (new, scripts/panel-press-browser-proof.mjs, [evidence](docs/evidence/panel-press-browser.json)):
+  20 quiet snapshots counted (no elements made in the journal's lists); 12 mouse presses each held across the snapshot that
+  takes the pressed icon off the bar (the Host's Pause) and the one that puts it back (Resume) - every click reached the same
+  node and sent its order; 24 presses held across plain ticks on bar icons and the rows' Auto switches - all landed; 3 rounds of
+  tap-then-send on emulated touch, each tap held across a pause and resume - armed, stayed armed through three more snapshots,
+  sent on the second tap. **Green 5 runs in a row** (beside `test:solo-game`). With the panel drawn under the press (injection
+  F) it fails at its first press (*"the click never reached the icon"*, the node gone); with only plain ticks and injection F it
+  fails on an Auto switch whose press went down on the switch and came up on another row's line.
+- `test:solo-game` **green 5 runs in a row** (17 checks each, no reruns) on the final code, with nothing else of this branch running. Before that streak, on the
+  same code under heavy load (`npm test` and another builder's proofs running beside it), it failed 4 times in 10, each at a
+  step that is not a lost press: twice the auto step (a child's row gone from the family before its switch was pressed; the
+  server refusing the switch with *"Wait until the class is running."* - the presses landed), once the call's menu not opening
+  in 15 s (the timeout now says what the "!" opened and where the call stood), and once *"the family starved with nobody set to
+  bring food in"* on a deal of one grown person, who answered the call (the proof never sets the principal to fish). Its
+  *"no answer"* orders (later children's cut-lane or harvest) are as in the released evidence of cca3a891.
+- Green on the final code: `test:family-panel`, `test:panels`, `test:field-click` (18), `test:overlap` (197 screens, 0 faults),
+  `test:tips` (16), `test:errand` (16), run one after another beside `test:solo-game`. `test:field-click` was red 3 of 3 on the
+  first version (a kept way-on button lingering in the hidden popup was a second `[data-line="tanner:rawhide"]` ahead of the
+  errand's line), fixed by not holding the ways for a press.
+- `npm test`: 2189 tests, 2152 pass, 1 fail, 36 skipped beside the proofs - the fail the known
+  *"capacity: 30 HTTP households…"* under load, which passed alone on a rerun (`node --test tests/capacity.test.mjs`). The
+  first run, on the version before the ways fix: 2189, 2153 pass, 0 fail, 36 skipped.
+
+**Not proved:** a real touch Chromebook (the touch is CDP-emulated; Chrome's own rule that a touch held over 800 ms is no tap
+is why the proof re-taps one held over 600 ms under load, counted apart: 0 in the runs whose count was read); a classroom network; presses on
+panels other than the family panel, its popup, the call's menu and the journal's lists (the errand, going and house choosers
+draw as before). A layout shift under a press elsewhere on the page - the map, the cards - is not addressed. Same computer
+only; no Chromebook, LAN or classroom claim.
+
 ## Triage's last: the settlement's call seen, the play line once, solo's spotlight — 2026-10-03 (not released)
 
 Branch `triage-last` from origin/main cca3a891; not pushed, not released. The owner, 2026-10-03: *"yes, start them and push to live

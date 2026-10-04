@@ -1,0 +1,193 @@
+{
+  "record": "panel-press-browser",
+  "date": "2026-10-04",
+  "verdict": "PASS",
+  "browser": "154.0.8037.93",
+  "task": "Triage 2.14: presses on the family panel held across snapshots that change it - the bar emptied (the class paused) and filled again (resumed) under the press, plain ticks, and tap-then-send on a touch screen - each must reach what was pressed.",
+  "environment": "Same computer: an in-process classroom at 250 ms a tick with five families, headless Chrome at 1366x768 with touch emulated (CDP touch events) and a mouse. The bar is emptied and filled by the Host’s Pause and Resume, sent between the press going down and coming up.",
+  "checks": [
+    "20 quiet snapshots (5.1 s): the journal's roster and the family's goods made no elements; the whole page made 1 and put back 12 it had (#family-rows 1: 1 span.panel-reason)",
+    "12 presses (12 of them on an icon the paused snapshot took off the bar) on the father's rest, work held across the snapshot that took it off his bar (the class paused) and the one that gave it back (resumed): every click reached the same icon, and every order was sent",
+    "24 presses each held across a snapshot (icons and the rows' auto switches): all 24 landed",
+    "on a touch screen, 3 times: a first tap on \"Rest\", \"Work about the place\", \"Rest\" held across a pause and resume armed its popup and sent nothing, the popup stayed armed through three more, and a second tap held the same way sent it",
+    "no page errors"
+  ],
+  "measured": {
+    "quiet": {
+      "snapshots": 20,
+      "seconds": 5.1,
+      "made": {
+        "#family": 0,
+        "#others": 0,
+        "#property": 0,
+        "#event-log": 0,
+        "#family-rows": 1,
+        "#call-menu-rows": 0,
+        "page": 1,
+        "what": {
+          "span.panel-reason": 1
+        }
+      },
+      "putBack": 12
+    },
+    "emptiedAndFilled": [
+      {
+        "key": "rest",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "seen-tip",
+          "rest"
+        ]
+      },
+      {
+        "key": "work",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "work"
+        ]
+      },
+      {
+        "key": "rest",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "rest"
+        ]
+      },
+      {
+        "key": "work",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "work"
+        ]
+      },
+      {
+        "key": "rest",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "rest"
+        ]
+      },
+      {
+        "key": "work",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "work"
+        ]
+      },
+      {
+        "key": "rest",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "rest"
+        ]
+      },
+      {
+        "key": "work",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "work"
+        ]
+      },
+      {
+        "key": "rest",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "rest"
+        ]
+      },
+      {
+        "key": "work",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "work"
+        ]
+      },
+      {
+        "key": "rest",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "rest"
+        ]
+      },
+      {
+        "key": "work",
+        "landed": true,
+        "sameNode": true,
+        "offTheBar": true,
+        "sent": [
+          "work"
+        ]
+      }
+    ],
+    "heldAcrossATick": {
+      "missedAndAimedAgain": 0,
+      "presses": 24,
+      "landed": 24,
+      "switches": 12
+    },
+    "tapThenSend": {
+      "taps": [
+        {
+          "key": "rest",
+          "popup": "Rest",
+          "sent": [
+            "rest"
+          ],
+          "heldMs": [
+            570,
+            744
+          ]
+        },
+        {
+          "key": "work",
+          "popup": "Work about the place",
+          "sent": [
+            "work"
+          ],
+          "heldMs": [
+            431,
+            440
+          ]
+        },
+        {
+          "key": "rest",
+          "popup": "Rest",
+          "sent": [
+            "rest"
+          ],
+          "heldMs": [
+            363,
+            788
+          ]
+        }
+      ],
+      "tooLongTappedAgain": 0
+    }
+  },
+  "notProved": [
+    "A real touch Chromebook, its tap timing and a classroom network: the touch here is emulated.",
+    "Presses on other pages and popups than the family panel, its call menu and the journal lists."
+  ]
+}

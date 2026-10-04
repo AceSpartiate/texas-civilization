@@ -798,6 +798,91 @@ export function iconPress({ touch = false, refused = false, armed = false, opens
   return 'arm';
 }
 
+// ---------------------------------------------------------------------------------------- kept under the student's tap
+// Triage 2.14 (2026-10-03; docs/FAMILY_PANEL.md §11.4). A browser sends no click when the element a press went down on leaves the
+// page before the press comes up - and moving an element with `insertBefore` takes it out of the page for that instant, so a move
+// loses the press as surely as a removal - nor to one that has moved out from under the pointer. A snapshot arriving between
+// pointerdown and click did both to the family panel, and the tap did nothing (`test:solo-game` passed only on a rerun because of
+// it). So the page holds the panel still from a press going down until its click has run (`pressHold`), and a list it does draw
+// under a press is put in order around the pressed node, never by moving it, what would take it away waiting for the press.
+
+/**
+ * Put `parent`'s children in the order `wanted`, never detaching `held` or anything holding it (`held` is the node a press went
+ * down on, or null). Children not wanted are removed - except one holding the press, which stays where it stands, among the
+ * wanted ones, until the press is over. Returns true when something was left standing so, and the caller arranges again then.
+ *
+ * Nothing is moved that is already in its place; the node holding the press is the fixed point the others are placed around.
+ */
+export function arrangeChildren(parent, wanted, held = null) {
+  const holds = node => Boolean(held && node && typeof node.contains === 'function' && node.contains(held));
+  let kept = null;
+  for (const node of [...parent.children]) {
+    if (wanted.includes(node)) continue;
+    if (holds(node)) kept = node; else node.remove();
+  }
+  // The final order: the wanted nodes, with one that is held but no longer wanted left at the place it stands.
+  const order = [...wanted];
+  if (kept) order.splice(Math.min([...parent.children].indexOf(kept), order.length), 0, kept);
+  const anchor = order.findIndex(holds);
+  if (anchor < 0) {
+    order.forEach((node, at) => { if (parent.children[at] !== node) parent.insertBefore(node, parent.children[at] || null); });
+    return false;
+  }
+  // Those before the held node, last first, each put just ahead of the one after it; then those after, each just behind the one before.
+  for (let at = anchor - 1; at >= 0; at--) if (order[at].nextElementSibling !== order[at + 1]) parent.insertBefore(order[at], order[at + 1]);
+  for (let at = anchor + 1; at < order.length; at++) if (order[at - 1].nextElementSibling !== order[at]) parent.insertBefore(order[at], order[at - 1].nextSibling);
+  return Boolean(kept);
+}
+
+/**
+ * A list kept item by item: `items` drawn into `list` as children keyed by `key(item)`, each made once (`make`) and changed in
+ * place (`update`), put in order by `arrangeChildren` around the press. The key is kept on the element as `data-keep`.
+ * Returns true when something was left standing for the press.
+ */
+export function keepList(list, items, { key, make, update, held = null }) {
+  const old = new Map([...list.children].map(node => [node.dataset.keep, node]));
+  const wanted = items.map(item => {
+    const id = String(key(item));
+    // Taken from the old ones once: two items of one key (which should not happen) get two elements, not one twice.
+    let node = old.get(id);
+    old.delete(id);
+    if (!node) { node = make(item); node.dataset.keep = id; }
+    update(node, item);
+    return node;
+  });
+  return arrangeChildren(list, wanted, held);
+}
+
+/**
+ * How long a press holds the panel still, from the press going down until the click it makes has run (triage 2.14).
+ *
+ * - **down**: the node pressed is held - by a pointer, or Space or Enter on a focused button.
+ * - **click**: the press has done what it does; it is let go a task later, once the click's own handlers have run.
+ * - **up** with no click yet: a tap's click comes a moment after the finger lifts (a touch screen sends it from the tap, not the
+ *   lift), so it is let go `tapMs` later if no click comes - a press dragged off its button makes none.
+ * - **cancel**, or the page losing the focus: let go now.
+ * - Held longer than `longestMs` with nothing coming up (a pointer the page never heard lift): let go anyway.
+ *
+ * `onRelease` is called when a press is let go after something waited for it. `timers` is `{ set, clear }` (setTimeout's shape),
+ * for the tests. ceiling: one press at a time - a second finger down on the panel holds its own node and the first is let go;
+ * a two-finger press on two icons at once is not a thing a student does here.
+ */
+export function pressHold({ onRelease = () => {}, tapMs = 600, longestMs = 8000, timers = { set: (fn, ms) => setTimeout(fn, ms), clear: id => clearTimeout(id) } } = {}) {
+  let held = null, timer = null, waiting = false;
+  const letGo = () => { timer = null; held = null; if (waiting) { waiting = false; onRelease(); } };
+  const after = ms => { if (timer !== null) timers.clear(timer); timer = timers.set(letGo, ms); };
+  return {
+    down(node) { held = node || null; if (held) after(longestMs); },
+    up() { if (held) after(tapMs); },
+    click() { if (held) after(0); },
+    cancel() { if (held) { if (timer !== null) timers.clear(timer); letGo(); } },
+    /** The node being pressed, or null. */
+    held: () => held,
+    /** Something was left standing for the press: call `onRelease` when it is let go. */
+    wait() { if (held) waiting = true; return Boolean(held); },
+  };
+}
+
 // ---------------------------------------------------------------------------------------------------- drawing, in a page
 
 /** Draw an icon's picture into its canvas: a library sprite fitted to the square, or a drawn glyph. */

@@ -198,7 +198,9 @@ export async function playWholeGame(ctx) {
       if (opened === 'call') break;
       await student.locator('#encounter-close').click({ timeout: 5000 }).catch(() => {});
     }
-    await student.waitForFunction(() => !document.querySelector('#call-menu').hidden, null, { timeout: 15000 });
+    await student.waitForFunction(() => !document.querySelector('#call-menu').hidden, null, { timeout: 15000 })
+      // Said with what the "!" opened and where the call stood, so a failure here reads as the page's state, not a bare timeout.
+      .catch(async error => { throw new Error(`the call's menu never opened: ${JSON.stringify(await student.evaluate(id => ({ opened: window.__needOpened || null, request: window.__snapshot.world.request && { id: window.__snapshot.world.request.id, kind: window.__snapshot.world.request.kind }, needs: window.__familyPanel.find(row => row.id === id)?.needs, encounter: !document.querySelector('#encounter')?.hidden, error: document.querySelector('#error')?.textContent || '' }), caller))} (${error.message.split('\n')[0]})`); });
     const text = await student.locator('#call-menu-text').textContent();
     const input = student.locator('#call-menu input:not([disabled])').first();
     if (await input.count()) {

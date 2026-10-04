@@ -283,7 +283,8 @@ v2026.09.18.2 build measured by the same script (`--root`). [before](evidence/pe
 
 Same computer only: a throttled desktop is not a Chromebook. `ceiling:` anything newly drawn into the ground must be added
 to `groundInputs`, or it stands stale until the camera moves; the audit in the farm proof is what finds one, and it covers
-a student's own land, not the Host's map. Still to do: the household, visit and travel-mode rows rebuilt on every snapshot.
+a student's own land, not the Host's map. Still to do: the household, visit and travel-mode rows rebuilt on every snapshot
+(done 2026-10-03: *The household rows kept in place*, below).
 
 ## The marker when fast - 2026-09-19 (the marker itself was withdrawn on 2026-09-22; the measurement stands)
 
@@ -425,3 +426,25 @@ kind and the wind's force to a tenth, so the day that turns on the gale is the d
 and records `window.__galeDrawn` — how many things took a painted pose and how many were scattered — on every shot.
 On the two norther days it is 48 of 696 at the yard, 564 of 3,834 in the timber and 217 of 233 at the county; on the
 fair, rain, storm, fog and high-water days it is **0** at every zoom, which is the whole rule in one column.
+
+## The household rows kept in place — 2026-10-03 (triage 2.14, not released)
+
+The *Still to do* above (the household, visit and travel-mode rows rebuilt on every snapshot), done with triage 2.14's fix
+(docs/FAMILY_PANEL.md §11.4, *Held still under a press*). The visit and travel-mode rows are gone from the page since
+2026-09-29 (`renderVisits` and `renderTravelModes` went with the card's lists); what was left was `renderHousehold`'s four
+lists in the journal - the roster (`#family`), who is here (`#others`), the family's goods (`#property`) and the story
+(`#event-log`) - each made afresh on every snapshot, and on the family panel the icons a row dropped and took up again.
+Now the lists are kept item by item (`keepList`, public/family-panel.js) and every icon a row has drawn is kept while it is
+off the bar (`row.made`).
+
+Counted by `npm run test:panel-press` over 20 quiet snapshots (250 ms a tick, 5 s, the family-panel proof's class of a
+family of six, nothing pressed; a MutationObserver counting elements the page had never had, and apart from them those it
+had and put back). *Before* is origin/main's `public/app.js` and `public/family-panel.js` (cca3a891) in the same proof:
+
+| | Elements made | Put back |
+|---|---|---|
+| before | **817** in the lists (`#family` 588, `#property` 105, `#event-log` 84, `#family-rows` 40: 12 icons and 2 reasons made again) | 0 |
+| after | **2** in the lists (two rows' reason words, made once and kept) | 12 (the icons) |
+
+The rest of the page, outside these lists, made 0 to 7 in the stretch, before as after. Same computer, headless Chrome, unthrottled: an element count, not
+a time, so no frame figure is claimed from it.
