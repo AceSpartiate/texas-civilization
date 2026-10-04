@@ -266,17 +266,9 @@ const firstSentence = text => (String(text || '').match(/^.*?[.!?](?=\s|$)/)?.[0
  * back: a refusal the land hunt shares with the timber hunt rides on the timber hunt alone (sim/chores.mjs `choresFor`).
  * Read by the icons and by `rowReason`, so the row's one line and the icon a student hovers can never disagree.
  */
-const whyOf = (entry, offered, catalogue = null, customSays = null) => (entry.custom && !entry.can && !entry.why
-  ? customWords(entry, catalogue, customSays)
-  : entry.id === 'hunt-land' && !entry.can && !entry.why
+const whyOf = (entry, offered) => (entry.id === 'hunt-land' && !entry.can && !entry.why
   ? offered.find(other => other.id === 'hunt-timber')?.why
   : entry.why);
-/**
- * A refusal by custom in the server's own words (owner, 2026-10-03; sim/custom.mjs `customSays`): the work's name as the catalogue gives
- * it, then what the family is told once for its side - "Felling" + " is " + "men's work, and James is at home." The tick carries only
- * whose work it is on each refused entry, to keep within its size.
- */
-export const customWords = (entry, catalogue, customSays) => `${catalogue?.get?.(entry.id)?.custom?.[1] || 'That'} is ${customSays?.[entry.custom] || `${entry.custom}'s work.`}`;
 
 /**
  * Every icon on one person's row, in order: their work, then the main person's orders, then calling off the work.
@@ -292,7 +284,7 @@ const REST_WORK = Object.freeze(['rest-road']);
 /** The sickness line on a row (sim/disease.mjs `sicknessShown`): the server's words, or nothing. */
 export const sickLine = entity => (entity?.sickness?.line ? String(entity.sickness.line) : '');
 export function panelActions({ entity, offered = [], catalogue = new Map(), main = false, homeId = null, homesteads = [], atHome = false,
-  settable = true, carry = null, wants = null, customSays = null } = {}) {
+  settable = true, carry = null, wants = null } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
   // Somebody with the men in a fight (sim/battle-stage.mjs `heldByBattle`) is given no order until it is over and they come
   // back with the men; the server refuses any, and the reason is theirs (`held`).
@@ -315,7 +307,7 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
   const icons = [];
   for (const entry of offered) {
     const spec = catalogue.get?.(entry.id) || {};
-    const why = whyOf(entry, offered, catalogue, customSays);
+    const why = whyOf(entry, offered);
     if (!entry.can && NOT_A_CHOICE.test(why || '') && active !== entry.id) continue;
     // What it costs and what it brings, from the server's numbers; putting them side by side is formatting.
     const haul = entry.haul && Number.isFinite(carry)
@@ -348,9 +340,6 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
       onMap: ON_MAP.includes(entry.id), active: active === entry.id, ...(waits && { waits: true }),
       // Refused only for a thing the family has not got (the server's `short`): kept on the bar greyed, a goal (§23).
       ...(!entry.can && !waits && entry.short && { goal: true }),
-      // Refused by custom (owner, 2026-10-03, "Custom, necessity opens"; sim/custom.mjs): kept on the bar greyed, with the server's words,
-      // and lit the tick nobody of that custom is at home. 'men' or 'women'.
-      ...(!entry.can && !waits && entry.custom && { custom: entry.custom }),
       // What the family has of what it wants for this (`world.household.wants`): the strip on the icon, the list in its popup.
       ...(needsFor(entry.id, wants) && { needs: needsFor(entry.id, wants) }),
     });
@@ -1417,9 +1406,7 @@ export const goalRoom = (pressable, width = 1146) => Math.max(0, Math.min(GOALS_
 export function barIcons(icons, pressable = icon => icon.active || icon.can, room = GOALS_MOST) {
   const open = icons.filter(pressable);
   if (!open.length) return open;
-  // The goals first, then the work refused by custom (sim/custom.mjs), greyed with its words, in what room is left.
-  const kept = [...icons.filter(icon => !open.includes(icon) && icon.goal), ...icons.filter(icon => !open.includes(icon) && !icon.goal && icon.custom)];
-  const goals = new Set(kept.slice(0, Math.max(0, room)));
+  const goals = new Set(icons.filter(icon => !open.includes(icon) && icon.goal).slice(0, Math.max(0, room)));
   return icons.filter(icon => open.includes(icon) || goals.has(icon));
 }
 

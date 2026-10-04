@@ -1,5 +1,42 @@
 # Claude handoff — Astra foundation
 
+## Customary work: the owner's four answers - 2026-10-04 (not released)
+
+Branch `customary-work-2` from origin/main (58b1abff, where *customary-work* was merged); not pushed, not released. Same computer
+only: headless Chrome; no Chromebook, LAN or classroom claim. The owner answered the four questions of the section below, verbatim:
+
+1. *Called aside by a child*: **"Not away"**. As built; nothing changed.
+2. *How many of another's works a bar shows greyed*: **"none, they only appear if the correct gender isn't around to do it."**
+3. *The wash's window*: **"Weekly wash day"**.
+4. *The markup*: **"Quarter more, fifth less"**. As built; nothing changed.
+
+**Built:**
+- **Not on the bar, not greyed** (answer 2): `choresFor` (sim/chores.mjs) leaves a work refused by custom off the person's list
+  altogether, so it never reaches the page; it appears, lit, the tick nobody of its custom is home and able, with the one line in the
+  story as before. An order sent for it anyway (a stale page, a direct command) is still refused validly, in the same words - *"Building
+  is men's work, and Alvin is at home."*. Gone: the greyed six and their hatch (`data-custom`, the style rule), `customSays`,
+  `customNoun`, `customWords`, `CUSTOM_SHOWN`/`CUSTOM_SHOWN_MOST`, the catalogue's `custom` and the `custom` mark on the tick.
+- **The tick's size**: with nothing of the custom sent, the family of twenty measures **25,853 bytes in all and 1,116 a person** on the
+  test's seeds, so tests/family-roll.test.mjs's bounds are back where they were before the first build (29,300 -> 27,900 and 1,240 ->
+  1,215).
+- **A weekly wash day** (answer 3): `CLEAN_DAYS` 8 -> 7 and `WASH_AGAIN_DAYS` 4 -> 7 (sim/housework.mjs); the refusal now says *"The
+  wash was done 3 days ago; it is done once a week."* `FIC-GONZ-1157` amended.
+- **The panel-rows fix** (`row.made`, kept while an icon is off the bar): a custom work leaving the bar when the father comes home and
+  coming back when he goes again is the **same button** - proved in the browser (step 7 of `test:custom-work`).
+- Docs: docs/CUSTOMARY_WORK.md §1b (the answers verbatim), §2, §6, §8, §9; GAME.md, TEACHER.md, TECH.md, HISTORY.md `FIC-GONZ-1157`.
+
+**Evidence**: tests changed - tests/custom-work.test.mjs (the rule: the men's work off her list and the women's off his, nothing of the
+custom on the tick; the bar: off it while one of its custom is home, on it, lit, the tick it opens), tests/housework.test.mjs (7 and 7,
+day 6 refused and clean, day 7 open and dirty), tests/chores.test.mjs (the women's work not counted on the father's list),
+tests/family-panel.test.mjs, tests/family-roll.test.mjs (the bounds). `npm run test:custom-work-injections`: **46 of 46 caught by the test written for them, 37 by that test alone**
+([record](docs/evidence/custom-work-injections.json)); new injections *the custom-refused work sent greyed again*, *clean a day past the
+week*, *the wash a day before the week is out*; four that guarded the greyed bar removed with it. `npm run test:custom-work` green, 14
+checks (step 2 now: none of the men's work on the mother's bar with the father home, an order for it refused in words; step 7: the
+same button back). Green on the branch: test:family-panel (23), test:panels (14), test:panel-press (5), test:overlap (nothing on anything else, 47 speech bubbles measured). `npm test`: **2212 tests, 2175 pass, 1 fail, 36 skipped - the fail the save-retry timing under load (a third of a second), green alone straight after**.
+
+**Not proved**: anything on a Chromebook, a LAN or in a classroom; whether a mother who never sees the axe until the father leaves
+finds it then (a real class will say).
+
 ## Men's work, women's work, and the wash: "Custom, necessity opens" — owner-decided 2026-10-03 (not released)
 
 Branch `customary-work` from origin/main (cca3a891); not pushed, not released. Same computer only: headless Chrome; no Chromebook,
@@ -32,13 +69,13 @@ way."* The answers, verbatim, by multiple choice:
   for twenty minutes does not open the axe, and the bar would flicker). Never applied to anybody but a family's own members: enslaved
   people's labour ignored it (`HIST-TEX-1154`), and none is ever a family worker; free Black families get the neighbours' custom as a
   marked reconstruction (`FIC-GONZ-1152`).
-- **On the bar**: another's work kept greyed with a fine hatch and its words in the popup, after the goals and at most six a person
+- **On the bar** (superseded 2026-10-04, the section above: not shown at all): another's work kept greyed with a fine hatch and its words in the popup, after the goals and at most six a person
   (`CUSTOM_SHOWN_MOST`, a `ceiling:`); the tick carries only `custom: 'men'` on each, the words once a family (`customSays`), to keep
   within the tick's budget (the twenty's bound moved 27,900 to 29,300 bytes, 1,215 to 1,240 a person, measured).
 - **Keep house** (`keep-house`): an hour at the hearth; the hidden housekeeping saving now comes from whoever kept house today or
   yesterday, and nothing when nobody did (it came from the best housekeeper standing at home). **Work the garden** (`work-garden`): a
   kitchen garden laid out beside the house the first day and drawn (`drawGarden`), then 0.3 food a day worked in its season, 0.1 in the
-  winter months. **Wash clothes** (`wash-clothes`): everybody at home clean for 8 days, not again within 4. A woman on auto keeps house,
+  winter months. **Wash clothes** (`wash-clothes`): everybody at home clean for 8 days, not again within 4 (7 and 7 since 2026-10-04). A woman on auto keeps house,
   washes and gardens while her task waits; the families nobody plays do too.
 - **The smell and the prices** (the owner's invention, `FIC-GONZ-1155`, `-1156`): anybody of a played family arriving away from home
   with clothes that want washing is told so by a townsman, a soldier or a neighbour, once a place and at most once in three days, in the
@@ -67,7 +104,8 @@ scrubbing - already A5 - beating the wash, cooking, the garden's beds, flies, th
 hunger harness's, not students'; a remark at the war or a neighbour's in a browser (the node tests hold them); the winter garden in a
 browser; how often a real class's mothers are left idle now that the men's work is greyed.
 
-**For the owner** (multiple choice, recommended first):
+**For the owner** (multiple choice, recommended first) - **answered 2026-10-04** (the section above): 1 **"Not away"**; 2 **"none,
+they only appear if the correct gender isn't around to do it."**; 3 **"Weekly wash day"**; 4 **"Quarter more, fifth less"**. As asked:
 1. *Called aside by a child*: (a) **not away, as built**; (b) away, as the brief had it.
 2. *How many of another's works a bar shows greyed*: (a) **six, after the goals, as built**; (b) all of them; (c) none - only the words
    when pressed.

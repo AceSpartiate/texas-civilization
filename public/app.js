@@ -5914,7 +5914,7 @@ function renderFamilyPanel(world) {
     const carry = null;
     const offered = world.work?.[id] || [];
     const icons = panelActions({ entity, offered, catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
-      atHome: entity.location?.siteId === homeId, settable, carry, wants: world.watching ? null : household.wants, customSays: household.customSays || null });
+      atHome: entity.location?.siteId === homeId, settable, carry, wants: world.watching ? null : household.wants });
     // The guided start shuts everything the step does not allow, and rings the one it asks for (public/lesson.js). It is
     // read here rather than decided here: `allow` is the server's list and the server refuses anything else in words.
     const shutting = lessonLocks(lesson);
@@ -6648,8 +6648,6 @@ function describeIcon(button, icon, lesson = null) {
   // A goal refused only for what the family has not got (docs/FAMILY_PANEL.md §23): greyed like any refusal, and a strip along its
   // foot of what it wants - lit for what the family has, ember for what it has not - with the counts in its popup and its name.
   setData(button, 'goal', icon.goal ? 'true' : '');
-  // Refused by custom (owner, 2026-10-03; sim/custom.mjs): greyed with a fine hatch, whose words say who keeps it.
-  setData(button, 'custom', icon.custom || '');
   const needs = icon.needs || null;
   const needsKey = needs ? JSON.stringify(needs) : '';
   if ((button.dataset.needs || '') !== needsKey) { button.dataset.needs = needsKey; paintNeeds(button, needs); }

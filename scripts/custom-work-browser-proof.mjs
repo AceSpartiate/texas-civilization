@@ -7,13 +7,15 @@
 // The class is made as it would be a week after anybody washed (`washBase`), so the father's clothes want washing from the start.
 //
 //   1. flies over the father at home;
-//   2. the mother's bar: the men's work greyed with a fine hatch, its words in the popup ("Building is men's work, and ... is at home.");
+//   2. the mother's bar: none of the men's work on it while the father is home (owner, 2026-10-04: "none, they only appear if the
+//      correct gender isn't around to do it"), and an order for it sent anyway refused in words ("Building is men's work, and ...");
 //   3. the father's errand popup: the reason, with flies, and the dearer prices in ember;
-//   4. the father walking to Gonzales: the same icon lit on her bar, and the line in the family's story once she takes it up;
+//   4. the father walking to Gonzales: the house appears on her bar, lit, and the line in the family's story once she takes it up;
 //   5. in Gonzales, the camera with him: a townsman's words over the townsman's head and in the story, flies over him; home again,
 //      the errand to the store, and the dearer price paid;
 //   6. the mother keeping house, in the garden (the garden drawn beside the house) and at the wash, each drawn at the work; the wash
-//      cleans the father, home again, and the flies go.
+//      cleans the father, home again, and the flies go;
+//   7. the hunt in the timber off her bar while he is home, and back when he goes again - the same button (`row.made`, public/app.js), not a new one.
 //
 // Same computer only: headless Chrome. Run: npm run test:custom-work
 import assert from 'node:assert/strict';
@@ -22,6 +24,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { CUSTOM } from '../sim/custom.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -49,8 +52,11 @@ const focus = async (page, id) => {
 };
 const icon = (page, id, key) => page.evaluate(([who, k]) => {
   const button = document.querySelector(`.panel-row[data-entity-id="${who}"] .panel-icon[data-key="${k}"]`);
-  return button ? { key: k, custom: button.dataset.custom || '', disabled: button.getAttribute('aria-disabled') === 'true', note: button.dataset.note || '', label: button.getAttribute('aria-label') } : null;
+  return button ? { key: k, disabled: button.getAttribute('aria-disabled') === 'true', note: button.dataset.note || '', label: button.getAttribute('aria-label') } : null;
 }, [id, key]);
+/** The keys on a person's bar now. */
+const barKeys = (page, id) => page.evaluate(who => [...document.querySelectorAll(`.panel-row[data-entity-id="${who}"] .panel-icon`)].map(button => button.dataset.key), id);
+const MENS = Object.keys(CUSTOM).filter(key => CUSTOM[key][0] === 'men');
 
 try {
   // The class as it would be a week after anybody washed (the server hands out only copies of its state, so the world is made so):
@@ -102,23 +108,25 @@ try {
   observed.fliesHome = await page.evaluate(id => window.__fliesDrawn[id], him.id);
   ok(`flies are drawn over ${him.name} at home, his clothes unwashed for a week (${JSON.stringify(observed.fliesHome)})`);
 
-  // 2. The mother's bar: the men's work greyed, with its words. A jacal planned, so the house is work there is to do.
+  // 2. The mother's bar: none of the men's work on it, with the father home. A jacal planned, so the house is work there is to do -
+  // on his bar, and not on hers. An order for it sent anyway (a stale page) is refused in words.
   const planned = await command(page, { action: 'plan-house', layout: 'jacal' });
   assert.equal(planned.status, 200, JSON.stringify(planned.body));
+  const key = 'build-house';
+  await focus(page, him.id);
+  await page.waitForFunction(([id, k]) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${k}"]`), [him.id, key], { timeout: 20000 });
   await focus(page, her.id);
-  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-custom="men"]`), her.id, { timeout: 20000 });
-  const greyed = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon[data-custom="men"]`)].map(button => button.dataset.key), her.id);
-  const key = greyed.includes('build-house') ? 'build-house' : greyed[0];
-  const before = await icon(page, her.id, key);
-  assert.equal(before.disabled, true);
-  assert.match(before.note, new RegExp(`men's work, and ${him.name.split(' ')[0]}.* is at home\\.$`));
-  await page.locator(`.panel-row[data-entity-id="${her.id}"] .panel-icon[data-key="${key}"]`).hover();
-  await page.locator('#panel-tip').waitFor({ state: 'visible' });
-  observed.greyed = { keys: greyed, key, note: await page.locator('#panel-tip-note').textContent(), name: await page.locator('#panel-tip-name').textContent() };
-  assert.match(observed.greyed.note, /men's work/);
-  await shot(page, 'mother-greyed');
-  ok(`${her.name}'s bar keeps the men's work greyed with a hatch (${greyed.join(', ')}); hovering ${observed.greyed.name} says "${observed.greyed.note}"`);
-  await page.mouse.move(900, 500);
+  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="keep-house"]`), her.id, { timeout: 20000 });
+  const hers = await barKeys(page, her.id);
+  const listed = (await snapshot(page)).work?.[her.id]?.map(entry => entry.id) || [];
+  assert.deepEqual(hers.filter(k => MENS.includes(k)), [], `men's work on her bar with her husband home: ${hers.join(', ')}`);
+  assert.deepEqual(listed.filter(k => MENS.includes(k)), [], `men's work on her list with her husband home: ${listed.join(', ')}`);
+  const stale = await command(page, { action: 'chore', entityId: her.id, chore: key });
+  assert.notEqual(stale.status, 200, JSON.stringify(stale.body));
+  assert.match(stale.body?.error || '', new RegExp(`men's work, and ${him.name.split(' ')[0]}.* is at home\\.$`));
+  observed.home = { bar: hers, refused: stale.body.error };
+  await shot(page, 'mother-home');
+  ok(`with ${him.name} at home, none of the men's work is on ${her.name}'s bar (${hers.join(', ')}); an order for it anyway is refused: "${stale.body.error}"`);
 
   // 3. The father's errand popup: the reason, with flies, and the prices in ember. Closed again: he goes to town first.
   await focus(page, him.id);
@@ -137,10 +145,13 @@ try {
   const went = await command(page, { action: 'travel', entityId: him.id, destination: 'gonzales' });
   assert.equal(went.status, 200, JSON.stringify(went.body));
   await focus(page, her.id);
-  await page.waitForFunction(([id, k]) => { const button = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${k}"]`); return button && !button.dataset.custom; }, [her.id, key], { timeout: 30000 });
+  await page.waitForFunction(([id, k]) => { const button = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${k}"]`); return button && button.getAttribute('aria-disabled') !== 'true'; }, [her.id, key], { timeout: 30000 });
   observed.lit = await icon(page, her.id, key);
+  // The hunt in the timber with it (kept for step 7: it stays a work there is to do once the house is up).
+  observed.huntLit = await page.evaluate(id => { const button = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="hunt-timber"]`); window.__customButton = button; return Boolean(button); }, her.id);
+  assert.ok(observed.huntLit, 'the hunt in the timber did not appear on her bar with him on the road');
   await shot(page, 'mother-lit');
-  ok(`with ${him.name} on the road to town, ${observed.lit.key} is lit on ${her.name}'s bar (${observed.lit.disabled ? `refused for another reason: "${observed.lit.note}"` : 'open'})`);
+  ok(`with ${him.name} on the road to town, ${observed.lit.key} appears on ${her.name}'s bar, lit`);
   const taken = await command(page, { action: 'chore', entityId: her.id, chore: key });
   assert.equal(taken.status, 200, JSON.stringify(taken.body));
   await page.waitForFunction(id => window.__snapshot.world.events.some(event => event.actorId === id && /^With .* gone to town, .*/.test(event.text || '')), her.id, { timeout: 20000 });
@@ -216,6 +227,20 @@ try {
   ok(`the story says: ${told.map(text => `"${text}"`).join(' ')}`);
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.dirty === undefined && !window.__fliesDrawn?.[id], him.id, { timeout: 20000 });
   ok(`the wash done, ${him.name}'s clothes are clean and no flies are drawn over him`);
+
+  // 7. Off her bar while he is home, and back when he goes again: the same button, kept while it was off the bar (`row.made`). The hunt,
+  // not the house: the jacal is up by now, and the house is no work to do for anybody.
+  await focus(page, her.id);
+  await page.waitForFunction(([id, k]) => !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${k}"]`) && window.__customButton && !document.contains(window.__customButton), [her.id, 'hunt-timber'], { timeout: 30000 });
+  observed.offAgain = await barKeys(page, her.id);
+  await focus(page, him.id);
+  const again = await command(page, { action: 'travel', entityId: him.id, destination: 'gonzales' });
+  assert.equal(again.status, 200, JSON.stringify(again.body));
+  await focus(page, her.id);
+  await page.waitForFunction(([id, k]) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${k}"]`), [her.id, 'hunt-timber'], { timeout: 30000 });
+  observed.sameButton = await page.evaluate(([id, k]) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${k}"]`) === window.__customButton, [her.id, 'hunt-timber']);
+  assert.equal(observed.sameButton, true, 'the work came back to her bar as a new button');
+  ok(`hunt-timber left ${her.name}'s bar with ${him.name} home and came back when he went again, the same button`);
 
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);
   ok('no page errors');

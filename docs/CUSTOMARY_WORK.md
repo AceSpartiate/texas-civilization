@@ -1,6 +1,6 @@
 # Men's work, women's work, and the wash: "Custom, necessity opens"
 
-**Owner-decided 2026-10-03; not released.** Amends [FAMILY_CREATION.md](FAMILY_CREATION.md) §4 (the housekeeping saving now comes
+**Owner-decided 2026-10-03, its four follow-up questions answered 2026-10-04 (§1b); not released.** Amends [FAMILY_CREATION.md](FAMILY_CREATION.md) §4 (the housekeeping saving now comes
 from somebody keeping house) and [STOCK.md](STOCK.md) §10.3 and §10.7 question 3 (who works the cattle). Built in `sim/custom.mjs`
 (the rule), `sim/housework.mjs` (keeping house, the garden, the wash, what people say and what the shops ask), `sim/chores.mjs`
 (`choreAvailability`, `beginChore`, `herdWorkHere`), `sim/auto.mjs`, `sim/neighbours.mjs` and `sim/errands.mjs`; drawn by
@@ -23,6 +23,21 @@ Answered by multiple choice on 2026-10-03, verbatim:
 4. *Who works the cattle on horseback?* **"Men, by necessity"**: men and boys 12+; women only when no man is at home; hogs and milking
    open to everyone.
 
+## 1b. The owner's answers to the build's four questions (2026-10-04)
+
+Asked by multiple choice once the first build was merged; answered 2026-10-04, verbatim:
+
+1. *Called aside by a child* (not away, as built; or away, as the brief had it): **"Not away"**. As built: a mother stopped to talk
+   with a child is still at home, and keeps the women's work from her husband.
+2. *How many of another's works a bar shows greyed* (six after the goals, as built; all; or none, only the words when pressed): the
+   owner wrote **"none, they only appear if the correct gender isn't around to do it."** Built: the other sex's work is **not on a
+   person's bar at all** while somebody of its custom is home and able - not greyed, not hatched - and appears, lit, the tick the rule
+   opens it (§2, §8). This amends the first answer's "other-sex work is greyed".
+3. *The wash's window* (clean 8, again after 4, as built; or clean 7, again after 7): **"Weekly wash day"**: clean seven days, and
+   washed again after seven (§6; it was eight and four).
+4. *The markup* (a quarter more and a fifth less, as built; a real more; or only the words): **"Quarter more, fifth less"**. As built
+   (§6).
+
 ## 2. The rule (`sim/custom.mjs`, `FIC-GONZ-1150`)
 
 - **Every work is men's, women's or shared** (§3). Only the table's works have a custom; everything else is shared and never asked.
@@ -35,8 +50,10 @@ Answered by multiple choice on 2026-10-03, verbatim:
   call sent them, or visiting at the neighbours'.
 - **Refused while a keeper is at home**, in the control's own words: *"Felling is men's work, and James is at home."*, *"The wash is
   women's work, and Martha is at home."* The refusal is in `choreAvailability`, the one gate every order passes - a student's hand,
-  auto, the families nobody plays, the guided start - and is marked `custom` on the work list, so **the bar keeps the icon greyed with
-  a fine hatch and its words** (public/family-panel.js `barIcons`, after any goal), and lights it the tick nobody of that custom is home.
+  auto, the families nobody plays, the guided start - and marked `custom`, so **the work is left off the person's work list
+  altogether** (`choresFor`) and never reaches the bar: not greyed, not there (owner, 2026-10-04: *"none, they only appear if the
+  correct gender isn't around to do it"*). It **appears, lit, the tick nobody of that custom is home**. An order for it sent anyway -
+  a page a tick stale, a direct command - is refused validly, in those words.
 - **Opens by itself** when every keeper is away, sick or dead, with **one line in the family's story** the first time the person takes
   such work up for that reason (`noteNecessity`, `FIC-GONZ-1151`): *"With James gone to the army, Martha took up the axe."*, *"With
   James dead, Martha rode out after the cattle herself."*, *"With no grown woman in the family, Elias did the wash himself."* It is
@@ -98,8 +115,10 @@ gives it to Mary Rabb; the hogs ran semi-wild and anybody minded them.
 ## 6. The wash, the smell and the prices (`wash-clothes`, `FIC-GONZ-1155` to `-1157`)
 
 - **Wash day** (`HIST-TEX-1152`): water carried up, the wash boiled with lye soap, beaten on the bench and hung on the fence - about two
-  hours of the class's work. Not again within **4 days** (`WASH_AGAIN_DAYS`).
-- **Clean for 8 days** (`CLEAN_DAYS`: a week's wash and a day's grace), **person by person**: the wash cleans the clothes of everybody at
+  hours of the class's work. **Once a week**: washed again only after **7 days** (`WASH_AGAIN_DAYS`; *"The wash was done 3 days ago;
+  it is done once a week."*).
+- **Clean for 7 days** (`CLEAN_DAYS`; the owner, 2026-10-04: **"Weekly wash day"**; it was eight and four until then), **person by
+  person**: the wash cleans the clothes of everybody at
   home or out on a work of the place, and **not** of anybody away - a man gone to the war takes the shirt he had on. Each person's
   last wash is kept on them (`washed`); a class saved before 2026-10-03, and every person before the family's first wash, is read as
   washed on the day the class was first stepped (`world.washBase`, written once), so **an old class opens with everybody clean and no
@@ -135,12 +154,10 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
 
 ## 8. What the page shows
 
-- The family panel: **another's work greyed with a fine hatch, its words in the popup** (`data-custom`), after the goals in the bar's
-  room; lit the tick it opens. The tick carries only whose work it is on each refused entry and the words once a family
-  (`customSays`, put after the catalogue's name for the work, `customNoun`), and at most six such works a person, the chief first
-  (`CUSTOM_SHOWN_MOST`). `ceiling:` the rest are simply not on the bar while somebody of the custom is home, and refused in the same
-  words if ordered; worth sending more only if the bar ever has room. Somebody away from home is not shown the work of the place
-  greyed by custom: it is refused for being away, as it always was. Three new icons (stroked glyphs until drawn): a pot over the fire, a sprout over rows, a washtub.
+- The family panel: **another's work is not on the bar** while somebody of its custom is home (owner, 2026-10-04), and appears, lit,
+  the tick it opens; nothing of the custom rides on the tick. An icon that leaves the bar and comes back is the same button
+  (`row.made`, public/app.js), proved in the browser. Until 2026-10-04 the bar kept six such works greyed with a fine hatch; that,
+  `customSays`, `customNoun`, `CUSTOM_SHOWN_MOST` and `data-custom` are gone. Three new icons (stroked glyphs until drawn): a pot over the fire, a sprout over rows, a washtub.
 - The map: a woman keeping house at the front of the house, in the garden, at the wash; **the garden beside the house**; **flies over
   a dirty person**; the townsman's words over his head.
 - The errand popup: the sentence why, with flies, and the dearer prices in ember.
@@ -163,7 +180,7 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
 | `FIC-GONZ-1154` | The kitchen garden's numbers |
 | `FIC-GONZ-1155` | What people say of dirty clothes (an invention for play) |
 | `FIC-GONZ-1156` | The shops' quarter more and fifth less (an invention for play) |
-| `FIC-GONZ-1157` | Clean for eight days, washed again after four |
+| `FIC-GONZ-1157` | A weekly wash day: clean for seven days, washed again after seven (owner, 2026-10-04) |
 
 ## 10. Balance
 
@@ -174,10 +191,10 @@ plays as the director does loses nobody at home either way.
 
 ## 11. Evidence
 
-- `tests/custom-work.test.mjs` (12 tests: the rule and its words; the bar's greyed icons after the goals; opening for every way of being away; boys under sixteen; the line
+- `tests/custom-work.test.mjs` (12 tests: the rule and its words, and the other sex's work off the list; off the bar, and on it, lit, the tick it opens; opening for every way of being away; boys under sixteen; the line
   once a reason; the lone mother and the lone father; every step of the guided start has a hand in all three shapes, and its work
   played through by whoever the custom allows; auto; the job in hand finished; the cattle; the families nobody plays) and
   `tests/housework.test.mjs` (7: keeping house and the saving; the garden; the wash; the remark in town; at the war; the prices; an
-  old save). Each proved by injection: `npm run test:custom-work-injections`, **46 of 46** caught by the test written for
-  them, 38 by that test alone ([record](evidence/custom-work-injections.json)).
-- `npm run test:custom-work`: the browser proof with screenshots ([record](evidence/custom-work-browser.json)).
+  old save). Each proved by injection: `npm run test:custom-work-injections`, **46 of 46** (2026-10-04) caught by the test written for
+  them, 37 by that test alone ([record](evidence/custom-work-injections.json)).
+- `npm run test:custom-work`: the browser proof with screenshots, 14 checks - none of the men's work on the mother's bar with the father home and an order for it refused in words, the work lit once he is on the road, and the same button back when he goes again ([record](evidence/custom-work-browser.json)).

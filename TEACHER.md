@@ -123,8 +123,8 @@ class address* and can type today's code on the spot, or open the address on the
 
 In 1835 nearly every family on the frontier divided its work: the men cleared and fenced the land, raised the house, felled the
 timber and hunted; the women kept the house, made and washed the clothes, kept the garden and the dairy and nursed the sick; the
-field and the stock were everybody's at picking time. The game keeps that custom - a mother's bar shows the axe and the rifle greyed
-while her husband is at home, and says why - because it is how families of the time lived, and because **it opens**: when the men
+field and the stock were everybody's at picking time. The game keeps that custom - the axe and the rifle are not on a mother's bar
+while her husband is at home - because it is how families of the time lived, and because **it opens**: when the men
 went to the army in the autumn of 1835, the women and children were left to finish picking the cotton, and a woman whose husband was
 away tended the stock and stood watch with his gun. A student whose father has gone to the war will see the men's work light up on
 the mother's bar, and the family's story says so. That moment is the one to talk about: what the war took out of a household besides
