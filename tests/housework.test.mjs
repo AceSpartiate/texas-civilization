@@ -16,7 +16,7 @@ import { createSettledWorld, modestMeans, taught } from './support/settled.mjs';
 
 const DAY = 1440;
 const deps = { beginTravel: () => { throw new Error('no journeys in this test'); }, modeAvailability: () => ({ can: true }) };
-const washDue = (world, household, person) => !/not want doing again/.test(choreAvailability(world, household, person, 'wash-clothes').why || '');
+const washDue = (world, household, person) => !/once a week/.test(choreAvailability(world, household, person, 'wash-clothes').why || '');
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const dayOf = world => Math.floor(world.minute / DAY);
 function running(seed) {
@@ -84,9 +84,10 @@ test('the kitchen garden: laid out the first day beside the house, then food eve
   validateWorld(world);
 });
 
-test('the wash: everybody at home is clean for eight days, and nobody away is washed; not again within four days', () => {
+test('the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven', () => {
   // The days themselves, written out (docs/CUSTOMARY_WORK.md §6, `FIC-GONZ-1157`), so a change to the module is caught here.
-  assert.deepEqual([CLEAN_DAYS, WASH_AGAIN_DAYS], [8, 4]);
+  // Weekly wash day (owner, 2026-10-04): clean seven days, and washed again after seven.
+  assert.deepEqual([CLEAN_DAYS, WASH_AGAIN_DAYS], [7, 7]);
   const { world, household, elena, thomas, rosa } = running('wash');
   stepWorld(world);
   assert.equal(world.washBase, dayOf(world), 'the day a class is first read as washed was not written');
@@ -101,13 +102,11 @@ test('the wash: everybody at home is clean for eight days, and nobody away is wa
   assert.equal(dirty(world, thomas), true, 'the clothes of a man away in town were washed at home');
   assert.ok(story(world).some(text => /did the wash/.test(text)));
   daysOn(world, WASH_AGAIN_DAYS - 1);
-  assert.match(choreAvailability(world, household, elena, 'wash-clothes').why, /not want doing again/);
+  assert.match(choreAvailability(world, household, elena, 'wash-clothes').why, /once a week/);
+  assert.equal(dirty(world, rosa), false, 'clothes washed six days ago want washing');
   daysOn(world, 1);
-  assert.equal(washDue(world, household, elena), true);
-  daysOn(world, CLEAN_DAYS - WASH_AGAIN_DAYS - 1);
-  assert.equal(dirty(world, rosa), false, 'clothes washed seven days ago want washing');
-  daysOn(world, 1);
-  assert.equal(dirty(world, rosa), true, 'clothes washed eight days ago are still clean');
+  assert.equal(washDue(world, household, elena), true, 'the wash was not open on the seventh day');
+  assert.equal(dirty(world, rosa), true, 'clothes washed seven days ago are still clean');
   // The page draws flies over a dirty person, and over nobody clean.
   const people = view(world, 'hh-1').entities;
   assert.equal(people.find(one => one.id === rosa.id).dirty, true);

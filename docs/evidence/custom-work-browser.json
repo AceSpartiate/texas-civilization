@@ -4,10 +4,10 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. One real class through the join flow on the invented country (seed custom-proof-3). No LAN or district claim.",
   "checks": [
-    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":895,\"y\":159,\"sprite\":false})",
-    "Charity Proofwright's bar keeps the men's work greyed with a hatch (survey-plot, fence-plot, build-house, hunt-timber, practise-shooting); hovering Work on the house says \"Building is men's work, and Alvin is at home.\"",
+    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":896,\"y\":158,\"sprite\":false})",
+    "with Alvin Proofwright at home, none of the men's work is on Charity Proofwright's bar (plant-field, visit-shop, buy-furniture, milk-cow, keep-house, work-garden, wash-clothes, travel-gonzales, visit, work, rest); an order for it anyway is refused: \"Building is men's work, and Alvin is at home.\"",
     "the errand popup says \"Alvin's clothes want washing: the shops ask a quarter more and pay a fifth less.\", and 31 prices are dearer, seed \"2 reales or 3.75 food for 2 seed (1 real or 3 food to a clean customer)\"",
-    "with Alvin Proofwright on the road to town, build-house is lit on Charity Proofwright's bar (open)",
+    "with Alvin Proofwright on the road to town, build-house appears on Charity Proofwright's bar, lit",
     "the family's story says: \"With Alvin gone to town, Charity went to work on the house herself.\"",
     "in gonzales: \"Calvin Oakes at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"\"; drawn over the speaker: \"I will thank you not to lean on the flour.\"; flies over him",
     "the story says: \"Alvin Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Alvin Proofwright's clothes and asked more.\"",
@@ -16,6 +16,7 @@
     "Charity Proofwright at wash-clothes: drawn scrub (mother-straw-work)",
     "the story says: \"Charity Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.\" \"Charity Proofwright laid out a kitchen garden beside the house. It will give a little every day it is worked, from tomorrow.\" \"Charity Proofwright did the wash: the clothes of 4 boiled, beaten and hung on the fence to dry.\"",
     "the wash done, Alvin Proofwright's clothes are clean and no flies are drawn over him",
+    "hunt-timber left Charity Proofwright's bar with Alvin Proofwright home and came back when he went again, the same button",
     "no page errors"
   ],
   "observed": {
@@ -46,21 +47,25 @@
       }
     ],
     "fliesHome": {
-      "x": 895,
-      "y": 159,
+      "x": 896,
+      "y": 158,
       "sprite": false
     },
-    "greyed": {
-      "keys": [
-        "survey-plot",
-        "fence-plot",
-        "build-house",
-        "hunt-timber",
-        "practise-shooting"
+    "home": {
+      "bar": [
+        "plant-field",
+        "visit-shop",
+        "buy-furniture",
+        "milk-cow",
+        "keep-house",
+        "work-garden",
+        "wash-clothes",
+        "travel-gonzales",
+        "visit",
+        "work",
+        "rest"
       ],
-      "key": "build-house",
-      "note": "Building is men's work, and Alvin is at home.",
-      "name": "Work on the house"
+      "refused": "Building is men's work, and Alvin is at home."
     },
     "popup": {
       "dearer": "Alvin's clothes want washing: the shops ask a quarter more and pay a fifth less.",
@@ -76,16 +81,16 @@
     },
     "lit": {
       "key": "build-house",
-      "custom": "",
       "disabled": false,
       "note": "",
       "label": "Work on the house. Put work into the house the family has chosen until it stands."
     },
+    "huntLit": true,
     "line": "With Alvin gone to town, Charity went to work on the house herself.",
     "remark": "Calvin Oakes at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"",
     "said": [
       {
-        "id": "hh-1-parent-1:remark:41",
+        "id": "hh-1-parent-1:remark:40",
         "speakerId": "town-tanner-gonzales",
         "kind": "reconstructed",
         "text": "I will thank you not to lean on the flour.",
@@ -110,8 +115,8 @@
       }
     ],
     "fliesTown": {
-      "x": 700,
-      "y": 309,
+      "x": 701,
+      "y": 308,
       "sprite": false
     },
     "where": "gonzales",
@@ -146,10 +151,22 @@
         "half": 23,
         "season": "growing"
       }
-    }
+    },
+    "offAgain": [
+      "plant-field",
+      "visit-shop",
+      "buy-furniture",
+      "milk-cow",
+      "travel-gonzales",
+      "visit",
+      "work",
+      "rest",
+      "go-inside"
+    ],
+    "sameButton": true
   },
   "screenshots": [
-    "docs/evidence/custom-work-mother-greyed.png",
+    "docs/evidence/custom-work-mother-home.png",
     "docs/evidence/custom-work-errand-dearer.png",
     "docs/evidence/custom-work-mother-lit.png",
     "docs/evidence/custom-work-town-remark.png",

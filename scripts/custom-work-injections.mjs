@@ -1,4 +1,4 @@
-// The regressions men's work, women's work and the wash guard (owner, 2026-10-03, "Custom, necessity opens"; tests/custom-work.test.mjs,
+// The regressions men's work, women's work and the wash guard (owner, 2026-10-03, "Custom, necessity opens"; amended 2026-10-04; tests/custom-work.test.mjs,
 // tests/housework.test.mjs, tests/family-effects.test.mjs; sim/custom.mjs, sim/housework.mjs), injected one at a time (CLAUDE.md: "A new
 // test is not evidence until it has failed"). Each replaces exact pieces of files with the mistake a test is written against, runs the
 // three test files, records which tests failed, checks the test written for it is among them, and puts every file back byte for byte.
@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
 
 const FILES = ['tests/custom-work.test.mjs', 'tests/housework.test.mjs', 'tests/family-effects.test.mjs'];
 const T = {
-  rule: "the rule: men's work is refused", bar: 'the bar keeps another', opens: 'it opens when every man is away', boy: 'a boy under sixteen',
+  rule: "the rule: men's work is refused", bar: "another's work is not on the bar", opens: 'it opens when every man is away', boy: 'a boy under sixteen',
   line: 'the journal says it once', lone: 'a lone mother may do every work', steps: "the guided start's every step",
   play: "the guided start's work, played through", auto: 'auto keeps the custom', home: 'a man coming home in the middle',
   cattle: "cattle on the range are the men's", director: 'the families nobody plays keep the custom',
@@ -23,10 +23,8 @@ const INJECTIONS = [
   // The rule.
   { name: 'no custom at all', edits: [one(C, '{ const why = customRefused(world, household, entity, choreId); if (why) return', '{ const why = null; if (why) return')], expect: T.rule },
   { name: 'the mirror lost: a man may do the women\'s work with a woman at home', edits: [one(K, "  const sex = SEX_OF[whose];\n  if (sexOf(entity) === sex) return null;\n  const home =", "  const sex = 'male';\n  if (sexOf(entity) === sex) return null;\n  const home =")], expect: T.rule },
-  { name: 'the refusal not marked for the bar', edits: [one(C, 'return { can: false, why, custom: CUSTOM[choreId]?.[0] || CATTLE[0] }', 'return { can: false, why }')], expect: T.rule },
-  { name: 'the panel drops the custom mark', edits: [one(P, '      ...(!entry.can && !waits && entry.custom && { custom: entry.custom }),\n', '')], expect: T.bar },
-  { name: 'the bar keeps no greyed custom work', edits: [one(P, ', ...icons.filter(icon => !open.includes(icon) && !icon.goal && icon.custom)]', ']')], expect: T.bar },
-  { name: 'the bar puts the custom before the goals', edits: [one(P, 'const kept = [...icons.filter(icon => !open.includes(icon) && icon.goal), ...icons.filter(icon => !open.includes(icon) && !icon.goal && icon.custom)];', 'const kept = [...icons.filter(icon => !open.includes(icon) && !icon.goal && icon.custom), ...icons.filter(icon => !open.includes(icon) && icon.goal)];')], expect: T.bar },
+  { name: 'the refusal not marked, so left on her list', edits: [one(C, 'return { can: false, why, custom: CUSTOM[choreId]?.[0] || CATTLE[0] }', 'return { can: false, why }')], expect: T.rule },
+  { name: 'the custom-refused work sent greyed again', edits: [one(C, '        ? null\n', '        ? { id, can: false, why }\n')], expect: T.bar },
   // When it opens.
   { name: 'a sick man still keeps it', edits: [one(K, "const able = entity => !['dead', 'captured', 'sick', 'wounded'].includes(", "const able = entity => !['dead', 'captured'].includes(")], expect: T.opens },
   { name: 'a man at the war still keeps it', edits: [one(K, '  if (entity.service) return false;\n', '')], expect: T.opens },
@@ -58,8 +56,10 @@ const INJECTIONS = [
   { name: 'the garden not sent to the page', edits: [one(H, "  if (!garden || !Number.isFinite(garden.x)) return {};", '  return {};')], expect: T.garden },
   // The wash.
   { name: 'the wash cleans the man away too', edits: [one(H, "  const here = household.members.map(id => world.entities[id]).filter(person => person && person.health?.condition !== 'dead'\n", "  const here = household.members.map(id => world.entities[id]).filter(person => person || person.health?.condition !== 'dead'\n")], expect: T.wash },
-  { name: 'clean for eighty days', edits: [one(H, 'export const CLEAN_DAYS = 8;', 'export const CLEAN_DAYS = 80;')], expect: T.wash },
-  { name: 'the wash done every day', edits: [one(H, 'export const WASH_AGAIN_DAYS = 4;', 'export const WASH_AGAIN_DAYS = 0;')], expect: T.wash },
+  { name: 'clean for eighty days', edits: [one(H, 'export const CLEAN_DAYS = 7;', 'export const CLEAN_DAYS = 80;')], expect: T.wash },
+  { name: 'clean a day past the week', edits: [one(H, 'export const CLEAN_DAYS = 7;', 'export const CLEAN_DAYS = 8;')], expect: T.wash },
+  { name: 'the wash done every day', edits: [one(H, 'export const WASH_AGAIN_DAYS = 7;', 'export const WASH_AGAIN_DAYS = 0;')], expect: T.wash },
+  { name: 'the wash a day before the week is out', edits: [one(H, 'export const WASH_AGAIN_DAYS = 7;', 'export const WASH_AGAIN_DAYS = 6;')], expect: T.wash },
   { name: 'no flies sent to the page', edits: [one(H, 'export const washShown = (world, person) => (dirty(world, person) ? { dirty: true } : {});', 'export const washShown = () => ({});')], expect: T.wash },
   // What is said.
   { name: 'told again every tick in one town', edits: [one(H, '      if (last?.at === siteId) continue;\n      const recent = Number.isInteger(last?.day) && day - last.day < REMARK_DAYS;', '      const recent = false;')], expect: T.town },

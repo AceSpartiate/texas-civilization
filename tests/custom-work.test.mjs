@@ -16,7 +16,7 @@ import { CUSTOM, customOf, customRefusal } from '../sim/custom.mjs';
 import { STEPS } from '../sim/lesson.mjs';
 import { advanceAuto } from '../sim/auto.mjs';
 import { createSettledWorld, settle } from './support/settled.mjs';
-import { barIcons, customWords, panelActions } from '../public/family-panel.js';
+import { barIcons, panelActions } from '../public/family-panel.js';
 import { choreCatalogue } from '../sim/chores.mjs';
 
 /** The chore catalogue as the page holds it, by id (public/app.js `choreCache`). */
@@ -59,19 +59,18 @@ function rolled(shape, { seed = 'custom-shape', want = () => true } = {}) {
 }
 const roleOf = (world, household, role) => household.members.map(id => world.entities[id]).find(person => person.kin?.role === role);
 
-test('the rule: men\'s work is refused a mother while the father is at home, in words, marked on the bar; shared work is not', () => {
+test('the rule: men\'s work is refused a mother while the father is at home, in words, and is not on her list; shared work is', () => {
   const { world, household, thomas, elena } = founding();
   const refused = choreAvailability(world, household, elena, 'hunt-timber');
   assert.equal(refused.can, false);
   assert.match(refused.why, new RegExp(`^Hunting is men's work, and ${thomas.name} is at home\\.$`));
   assert.equal(refused.custom, 'men');
-  // The bar keeps it, greyed with its words and the mark (public/family-panel.js reads `custom`).
-  // The tick carries only whose work it is; the words are the catalogue's name and the family's `customSays`, sent once, and say the
-  // server's refusal word for word.
+  // Not on her list at all, not greyed (owner, 2026-10-04: "none, they only appear if the correct gender isn't around to do it");
+  // nothing of the custom rides on the tick.
   const seen = view(world, household.id);
-  const entry = seen.work[elena.id].find(one => one.id === 'hunt-timber');
-  assert.deepEqual([entry.can, entry.custom, entry.why], [false, 'men', undefined]);
-  assert.equal(customWords(entry, catalogue(), seen.household.customSays), refused.why);
+  assert.equal(seen.work[elena.id].find(one => one.id === 'hunt-timber'), undefined, 'the men\'s work rides on her list');
+  assert.ok(seen.work[thomas.id].some(one => one.id === 'hunt-timber'), 'the father\'s hunt is not on his list');
+  assert.ok(!JSON.stringify(seen.work).includes('"custom"') && seen.household.customSays === undefined, 'the custom rides on the tick');
   // The server holds the gate, whoever sends it.
   assert.throws(() => send(world, household.id, elena.id, 'hunt-timber'), /men's work/);
   // His own work, and the shared work, are hers and his as they always were.
@@ -81,22 +80,23 @@ test('the rule: men\'s work is refused a mother while the father is at home, in 
   // And the mirror: the women's work is refused him while she is at home.
   assert.match(choreAvailability(world, household, thomas, 'wash-clothes').why, new RegExp(`^The wash is women's work, and ${elena.name} is at home\\.$`));
   assert.equal(choreAvailability(world, household, elena, 'wash-clothes').can, true);
+  assert.equal(seen.work[thomas.id].find(one => one.id === 'wash-clothes'), undefined, 'the women\'s work rides on his list');
 });
 
-test("the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens", () => {
+test("another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens", () => {
   const { world, household, thomas, elena } = founding('custom-bar');
-  const iconsOf = () => { const seen = view(world, household.id); return panelActions({ entity: elena, offered: seen.work[elena.id], catalogue: catalogue(), customSays: seen.household.customSays, settable: true }); };
-  const hunt = iconsOf().find(icon => icon.key === 'hunt-timber');
-  assert.deepEqual([hunt.can, hunt.custom], [false, 'men']);
-  assert.match(hunt.why, /men's work/);
-  const shown = barIcons(iconsOf(), icon => icon.active || icon.can, 6);
-  assert.ok(shown.some(icon => icon.key === 'hunt-timber' && icon.custom === 'men'), "the greyed men's work is not on her bar");
-  // A goal (something the family could get) keeps its place first.
-  const goal = { key: 'goal-x', can: false, goal: true }, custom = { key: 'custom-x', can: false, custom: 'men' }, open = { key: 'open-x', can: true };
-  assert.deepEqual(barIcons([custom, goal, open], icon => icon.can, 1).map(icon => icon.key), ['goal-x', 'open-x']);
+  const iconsOf = () => panelActions({ entity: elena, offered: view(world, household.id).work[elena.id], catalogue: catalogue(), settable: true });
+  const barOf = () => barIcons(iconsOf(), icon => icon.active || icon.can, 6).map(icon => icon.key);
+  for (const key of ['hunt-timber', 'practise-shooting']) {
+    assert.equal(iconsOf().find(icon => icon.key === key), undefined, `${key} is on her icons with her husband at home`);
+    assert.ok(!barOf().includes(key), `${key} is on her bar with her husband at home`);
+  }
+  // Her own work is there.
+  assert.ok(barOf().includes('keep-house'), 'keeping house is not on her bar');
   thomas.health = { condition: 'dead' };
   const lit = iconsOf().find(icon => icon.key === 'hunt-timber');
-  assert.deepEqual([lit.can, lit.custom], [true, undefined], 'the work did not light when nobody of its custom was at home');
+  assert.ok(lit && lit.can, 'the work did not appear lit when nobody of its custom was at home');
+  assert.ok(barOf().includes('hunt-timber'), 'the opened work is not on her bar');
 });
 
 test('it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then', () => {

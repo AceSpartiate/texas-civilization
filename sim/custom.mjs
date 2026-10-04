@@ -6,7 +6,8 @@
 // the customary sex, sixteen or over, is at home and able, and **opens on its own** when every such person is away, sick or dead -
 // with one line in the family's story the first time it opens for somebody ("With James gone to the army, Martha took up the axe.").
 // Cattle on horseback are the men's and boys' of twelve and over, a woman's only when no man is at home; the hogs and the milking
-// are everybody's.
+// are everybody's. **Amended 2026-10-04** (the owner: "none, they only appear if the correct gender isn't around to do it"): the
+// other sex's work is not on a person's bar at all while somebody of its custom is home - not greyed - and appears, lit, when it opens.
 //
 // **One table and one rule, here.** `CUSTOM` names every work that has a custom; everything else - the field, the town, the water,
 // the hogs, the cow, the road east and the Scrape, the children's own works - is shared and never asked. `customRefusal` is read
@@ -22,7 +23,7 @@
 //   town, to the war, upriver), serving with any force, helping where a call sent them, visiting at the neighbours'.
 //   Deliberately *not* away: being called aside by the little ones (sim/aside.mjs). The brief that came with the owner's request
 //   counted it, and it was left out: a father holding a crying baby for twenty minutes does not open the axe to the mother, and
-//   the icons would flicker lit and greyed with every cry.
+//   the work would flicker on and off the bar with every cry.
 // - **A father coming home mid-job**: the work in hand is finished. The rule is asked only when a work is begun or joined; a
 //   woman on auto at the felling when he rides in finishes that tree, and her next is refused, so she keeps house instead
 //   (sim/auto.mjs). ceiling: a job is never stopped by a man's return; a long job begun by necessity runs to its end. Worth undoing
@@ -133,26 +134,6 @@ export function customWhy(world, household, entity, row, homeWork = null) {
 }
 /** The words after the work's name: "men's work, and James is at home." */
 const saysOf = (whose, home) => `${whose}'s work, and ${names(home)} ${home.length === 1 ? 'is' : 'are'} at home.`;
-/**
- * What the family's page is told once, beside its work lists, for every work refused by custom (sim/world.mjs, owner 2026-10-03):
- * the words after the work's name for each side somebody keeps at home now - `{ men: "men's work, and James is at home." }` - which
- * the panel puts after the work's own name from the catalogue (`customNoun`) to say the refusal word for word as the server does.
- * Sent once rather than on every refused entry of every person, which the tick's size budget would not carry (tests/chores.test.mjs,
- * tests/family-roll.test.mjs). Nothing when nobody keeps either.
- */
-export function customSays(world, household, homeWork = null) {
-  const says = {};
-  for (const whose of ['men', 'women']) {
-    const home = keepers(world, household, SEX_OF[whose], homeWork);
-    if (home.length) says[whose] = saysOf(whose, home);
-  }
-  return Object.keys(says).length ? { customSays: says } : {};
-}
-/** Whose a work is by custom and its name as the refusal says it (`['men', 'Felling']`), for the catalogue sent once; null if shared. */
-export function customNoun(choreId) {
-  const row = choreId === 'look-to-stock' ? CATTLE : CUSTOM[choreId];
-  return row ? [row[0], row[1]] : null;
-}
 /** The refusal for a work of the table, or null. */
 export const customRefusal = (world, household, entity, choreId, homeWork = null) => customWhy(world, household, entity, CUSTOM[choreId], homeWork);
 

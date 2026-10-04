@@ -96,10 +96,10 @@ function workGarden(world, household, entity) {
 
 // ---------------------------------------------------------------------------------------------------- the wash
 
-/** Clothes washed within this many days are clean; a week's wash and a day's grace (`FIC-GONZ-1157`, after `HIST-TEX-1152`). */
-export const CLEAN_DAYS = 8;
-/** The wash is not done again within this many days: a wash day once a week, and a little sooner. */
-export const WASH_AGAIN_DAYS = 4;
+/** Clothes washed within this many days are clean: a weekly wash day (owner, 2026-10-04, "Weekly wash day"; `FIC-GONZ-1157`, after `HIST-TEX-1152`). Eight until then. */
+export const CLEAN_DAYS = 7;
+/** The wash is not done again within this many days: once a week, exactly (owner, 2026-10-04). Four until then. */
+export const WASH_AGAIN_DAYS = 7;
 /** What a shop asks a customer whose clothes want washing, and what it pays one (`FIC-GONZ-1156`): a quarter more, a fifth less. */
 export const DEARER = 1.25, CHEAPER = 0.8;
 
@@ -288,7 +288,7 @@ const WORKS = {
     refusal: (world, household, entity) => {
       if (!atTheHouse(world, household, entity)) return `${entity.name} is not at home.`;
       const since = sinceWash(world, household);
-      if (since !== null && since < WASH_AGAIN_DAYS) return since === 0 ? 'The wash was done today; it will not want doing again for a few days.' : `The wash was done ${since === 1 ? 'yesterday' : `${since} days ago`}; it will not want doing again for a few days.`;
+      if (since !== null && since < WASH_AGAIN_DAYS) return since === 0 ? 'The wash was done today; it is done once a week.' : `The wash was done ${since === 1 ? 'yesterday' : `${since} days ago`}; it is done once a week.`;
       return null;
     },
     steps: [

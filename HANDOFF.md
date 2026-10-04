@@ -1,5 +1,42 @@
 # Claude handoff — Astra foundation
 
+## Customary work: the owner's four answers - 2026-10-04 (not released)
+
+Branch `customary-work-2` from origin/main (58b1abff, where *customary-work* was merged); not pushed, not released. Same computer
+only: headless Chrome; no Chromebook, LAN or classroom claim. The owner answered the four questions of the section below, verbatim:
+
+1. *Called aside by a child*: **"Not away"**. As built; nothing changed.
+2. *How many of another's works a bar shows greyed*: **"none, they only appear if the correct gender isn't around to do it."**
+3. *The wash's window*: **"Weekly wash day"**.
+4. *The markup*: **"Quarter more, fifth less"**. As built; nothing changed.
+
+**Built:**
+- **Not on the bar, not greyed** (answer 2): `choresFor` (sim/chores.mjs) leaves a work refused by custom off the person's list
+  altogether, so it never reaches the page; it appears, lit, the tick nobody of its custom is home and able, with the one line in the
+  story as before. An order sent for it anyway (a stale page, a direct command) is still refused validly, in the same words - *"Building
+  is men's work, and Alvin is at home."*. Gone: the greyed six and their hatch (`data-custom`, the style rule), `customSays`,
+  `customNoun`, `customWords`, `CUSTOM_SHOWN`/`CUSTOM_SHOWN_MOST`, the catalogue's `custom` and the `custom` mark on the tick.
+- **The tick's size**: with nothing of the custom sent, the family of twenty measures **25,853 bytes in all and 1,116 a person** on the
+  test's seeds, so tests/family-roll.test.mjs's bounds are back where they were before the first build (29,300 -> 27,900 and 1,240 ->
+  1,215).
+- **A weekly wash day** (answer 3): `CLEAN_DAYS` 8 -> 7 and `WASH_AGAIN_DAYS` 4 -> 7 (sim/housework.mjs); the refusal now says *"The
+  wash was done 3 days ago; it is done once a week."* `FIC-GONZ-1157` amended.
+- **The panel-rows fix** (`row.made`, kept while an icon is off the bar): a custom work leaving the bar when the father comes home and
+  coming back when he goes again is the **same button** - proved in the browser (step 7 of `test:custom-work`).
+- Docs: docs/CUSTOMARY_WORK.md §1b (the answers verbatim), §2, §6, §8, §9; GAME.md, TEACHER.md, TECH.md, HISTORY.md `FIC-GONZ-1157`.
+
+**Evidence**: tests changed - tests/custom-work.test.mjs (the rule: the men's work off her list and the women's off his, nothing of the
+custom on the tick; the bar: off it while one of its custom is home, on it, lit, the tick it opens), tests/housework.test.mjs (7 and 7,
+day 6 refused and clean, day 7 open and dirty), tests/chores.test.mjs (the women's work not counted on the father's list),
+tests/family-panel.test.mjs, tests/family-roll.test.mjs (the bounds). `npm run test:custom-work-injections`: **46 of 46 caught by the test written for them, 37 by that test alone**
+([record](docs/evidence/custom-work-injections.json)); new injections *the custom-refused work sent greyed again*, *clean a day past the
+week*, *the wash a day before the week is out*; four that guarded the greyed bar removed with it. `npm run test:custom-work` green, 14
+checks (step 2 now: none of the men's work on the mother's bar with the father home, an order for it refused in words; step 7: the
+same button back). Green on the branch: test:family-panel (23), test:panels (14), test:panel-press (5), test:overlap (nothing on anything else, 47 speech bubbles measured). `npm test`: **2212 tests, 2175 pass, 1 fail, 36 skipped - the fail the save-retry timing under load (a third of a second), green alone straight after**.
+
+**Not proved**: anything on a Chromebook, a LAN or in a classroom; whether a mother who never sees the axe until the father leaves
+finds it then (a real class will say).
+
 ## Latest art delivery — 2026-10-04
 
 Mexican regular engineering: 16 transparent frames, four authored clips; battle work now plays regular-dig. Crowbar and sandbag carry/fill are catalog-ready. Read docs/ART_DELIVERY_2026-10-04-REGULAR-ENGINEERING.md for integration limits, provenance and browser proof. Named actor identities and authoritative gameplay remain unchanged.

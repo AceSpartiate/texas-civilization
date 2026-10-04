@@ -71,7 +71,7 @@ import { houseFront } from './house-placement.mjs';
 // The way across the family's own land, its paths and its yard (owner, 2026-10-02; sim/land-paths.mjs).
 import { YARD_SHARE, raiseYard, stepTo, treesInBox, yardBox, yardFenced, yardGround, yardMiddle, yardOf, yardRefusal } from './land-paths.mjs';
 // Men's work and women's work (owner, 2026-10-03, "Custom, necessity opens"; sim/custom.mjs, docs/CUSTOMARY_WORK.md).
-import { CATTLE, CUSTOM, customNoun, customRefusal, customWhy, noteNecessity } from './custom.mjs';
+import { CATTLE, CUSTOM, customRefusal, customWhy, noteNecessity } from './custom.mjs';
 import { gardenPoint } from './housework.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
@@ -1640,8 +1640,9 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (entity.service?.status === 'serving' && !chore.camp) return { can: false, why: servingWhy(world, entity) };
   if (chore.winter) { const why = winterRefusal(world, household, entity, choreId); if (why) return { can: false, why }; }
   // Men's work and women's work (owner, 2026-10-03; sim/custom.mjs): the other sex's work is refused while somebody of its custom,
-  // sixteen or over, is at home and able, and opens by itself when nobody is. Marked `custom`, so the bar keeps it greyed with its
-  // words (public/family-panel.js), and lit the tick it opens.
+  // sixteen or over, is at home and able, and opens by itself when nobody is. Marked `custom`, so a person's list leaves it off
+  // altogether (`choresFor`; owner, 2026-10-04: "none, they only appear if the correct gender isn't around to do it"), and it appears,
+  // lit, the tick it opens. An order sent anyway - a stale page, a direct command - is refused in these words.
   // Not for somebody away from home asked a work of the place: that is refused for being away, below, and kept off the bar (a woman
   // in town was shown the men's work greyed over the town's scene, the overlap proof found).
   const awayFromIt = chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight && !chore.alsoFrom?.includes(entity.location.siteId);
@@ -2166,9 +2167,6 @@ export function choreCatalogue() {
     // The seed a plot of each crop takes (sim/crops.mjs), for the plot chooser's own buttons ("Plant corn, 2 seed"): fetched once
     // with the catalogue, never on the tick (owner, 2026-09-30: click a field to choose what is grown there).
     ...(chore.plants && { seeds: Object.fromEntries(Object.keys(CROPS).map(crop => [crop, seedFor(crop)])) }),
-    // Whose work it is by custom and its name as the refusal says it (owner, 2026-10-03; sim/custom.mjs `customNoun`): the page puts
-    // it before the family's `customSays` to say a refusal by custom, which rides on the tick without its words.
-    ...(customNoun(id) && { custom: customNoun(id) }),
   }));
 }
 
@@ -2276,28 +2274,15 @@ export function choresFor(world, household, entity, logsOut = null) {
     return can
       ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(estimate && { estimate }), ...(leaves && { leaves }) }
       : custom
-        // Refused by custom: its words are the catalogue's name and the family's `customSays`, sent once (sim/custom.mjs).
-        ? { id, can: false, custom }
+        // Refused by custom: not on the person's list at all (filtered below).
+        ? null
         : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(lack && { short: 1, lack }) };
-  });
+  }).filter(Boolean);
   // A hunt on the family's land refused for the same reason as the hunt in the timber says so once: the page reads it there.
   const timber = list.find(entry => entry.id === 'hunt-timber'), land = list.find(entry => entry.id === 'hunt-land');
   if (land && !land.can && timber && land.why === timber.why) delete land.why;
-  // Work refused by custom (sim/custom.mjs): the bar keeps a few of them greyed, after the goals, in the room two rows leave
-  // (public/family-panel.js `barIcons`, `GOALS_MOST` six), so the tick carries the few it can show, the family's chief works first
-  // (`CUSTOM_SHOWN`), and no more. ceiling: a woman's bar shows at most six of the men's works greyed; the rest are simply not on it
-  // while a man is home, and refused in the same words if ordered. Worth sending more only if the bar ever has room for them.
-  const refusedByCustom = list.filter(entry => entry.custom);
-  if (refusedByCustom.length > CUSTOM_SHOWN_MOST) {
-    const rank = entry => { const at = CUSTOM_SHOWN.indexOf(entry.id); return at < 0 ? CUSTOM_SHOWN.length : at; };
-    const kept = new Set(refusedByCustom.sort((a, b) => rank(a) - rank(b)).slice(0, CUSTOM_SHOWN_MOST));
-    return list.filter(entry => !entry.custom || kept.has(entry));
-  }
   return list;
 }
-/** How many works refused by custom ride on a person's list, and which first: the work a family lives by. */
-export const CUSTOM_SHOWN_MOST = 6;
-const CUSTOM_SHOWN = Object.freeze(['build-house', 'fell-trees', 'hunt-land', 'hunt-timber', 'clear-plot', 'look-to-stock', 'keep-house', 'wash-clothes', 'work-garden', 'nurse-home', 'fence-plot', 'dig-well', 'cut-lane']);
 
 /**
  * The family answers, or the moment passes without them.

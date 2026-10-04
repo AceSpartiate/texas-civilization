@@ -2,7 +2,7 @@
  "record": "custom-work-injections",
  "date": "2026-10-04",
  "caught": 46,
- "only": 38,
+ "only": 37,
  "of": 46,
  "injections": [
   {
@@ -14,8 +14,8 @@
    "caught": true,
    "only": false,
    "failed": [
-    "the rule: men's work is refused a mother while the father is at home, in words, marked on the bar; shared work is not",
-    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens",
+    "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
+    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
     "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
     "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
     "a man coming home in the middle of her work lets it finish; her next is refused",
@@ -32,14 +32,15 @@
    "caught": true,
    "only": false,
    "failed": [
-    "the rule: men's work is refused a mother while the father is at home, in words, marked on the bar; shared work is not",
+    "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
+    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
     "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
     "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else",
     "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
    ]
   },
   {
-   "name": "the refusal not marked for the bar",
+   "name": "the refusal not marked, so left on her list",
    "files": [
     "sim/chores.mjs"
    ],
@@ -47,44 +48,21 @@
    "caught": true,
    "only": false,
    "failed": [
-    "the rule: men's work is refused a mother while the father is at home, in words, marked on the bar; shared work is not",
-    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens"
+    "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
+    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens"
    ]
   },
   {
-   "name": "the panel drops the custom mark",
+   "name": "the custom-refused work sent greyed again",
    "files": [
-    "public/family-panel.js"
+    "sim/chores.mjs"
    ],
-   "expected": "the bar keeps another",
+   "expected": "another's work is not on the bar",
    "caught": true,
-   "only": true,
+   "only": false,
    "failed": [
-    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens"
-   ]
-  },
-  {
-   "name": "the bar keeps no greyed custom work",
-   "files": [
-    "public/family-panel.js"
-   ],
-   "expected": "the bar keeps another",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens"
-   ]
-  },
-  {
-   "name": "the bar puts the custom before the goals",
-   "files": [
-    "public/family-panel.js"
-   ],
-   "expected": "the bar keeps another",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens"
+    "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
+    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens"
    ]
   },
   {
@@ -169,7 +147,7 @@
    "caught": true,
    "only": false,
    "failed": [
-    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens",
+    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
     "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
     "a boy under sixteen follows the men's work and keeps it from nobody; a grown son keeps it",
     "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\"",
@@ -398,7 +376,7 @@
    "caught": true,
    "only": true,
    "failed": [
-    "the wash: everybody at home is clean for eight days, and nobody away is washed; not again within four days"
+    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
    ]
   },
   {
@@ -410,7 +388,19 @@
    "caught": true,
    "only": true,
    "failed": [
-    "the wash: everybody at home is clean for eight days, and nobody away is washed; not again within four days"
+    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
+   ]
+  },
+  {
+   "name": "clean a day past the week",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the wash: everybody at home",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
    ]
   },
   {
@@ -422,7 +412,19 @@
    "caught": true,
    "only": true,
    "failed": [
-    "the wash: everybody at home is clean for eight days, and nobody away is washed; not again within four days"
+    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
+   ]
+  },
+  {
+   "name": "the wash a day before the week is out",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the wash: everybody at home",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
    ]
   },
   {
@@ -434,7 +436,7 @@
    "caught": true,
    "only": true,
    "failed": [
-    "the wash: everybody at home is clean for eight days, and nobody away is washed; not again within four days"
+    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
    ]
   },
   {

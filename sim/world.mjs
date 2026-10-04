@@ -12,7 +12,7 @@ import { calendarMinutes, dateOf, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection, CAMP_SITE } from './directors.mjs';
 import { heldByBattle, lyingOnField } from './battle-stage.mjs';
-import { abandonChore, advanceChores, answerChore, askProjection, beginAim, beginChore, fireShot, registerChores, choreAvailability, choreJourney, CHORES, choresFor, homeWork, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
+import { abandonChore, advanceChores, answerChore, askProjection, beginAim, beginChore, fireShot, registerChores, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
 import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, teamFor, userOf, usesInvalid } from './keeping.mjs';
 import { beastsInvalid, beastsOf, fitOut, kept, lame, ledPace, yardSpot } from './beasts.mjs';
@@ -114,7 +114,7 @@ import { foragedInvalid } from './gathering.mjs';
 import { milkingInvalid, registerMilking } from './milking.mjs';
 // Men's work and women's work, and the women's own (owner, 2026-10-03, "Custom, necessity opens"; docs/CUSTOMARY_WORK.md).
 import { advanceWash, gardenProjection, houseworkInvalid, registerHousework, remarkLines, washShown } from './housework.mjs';
-import { customInvalid, customSays } from './custom.mjs';
+import { customInvalid } from './custom.mjs';
 import { herdInvalid, herdingOf, ranchShown } from './stock.mjs';
 import { advanceShelter, registerShelter, shelterInvalid, shelterLine, shelterShown } from './shelter.mjs';
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
@@ -1508,7 +1508,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // And, for the five real minutes after the X, the offer to take it back up (owner, 2026-09-22): when the window shuts by
   // the server's clock and how long that is from now. Absent the rest of the time, which is the whole of the page's cue.
   const lessonResume = household && role !== 'host' && !lesson ? lessonResumeOffer(world, household, now) : null;
-  const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && { ...projectHousehold(world, household), ...wants, ...(Object.values(work).some(list => list.some(entry => entry.custom)) ? customSays(world, household, homeWork) : {}) }, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role, { seen: (others || []).map(other => other.id) }),
+  const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && { ...projectHousehold(world, household), ...wants }, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role, { seen: (others || []).map(other => other.id) }),
     // The weather, region by region (sim/weather.mjs, docs/WEATHER.md): what kind of day it is in each of the three
     // countries, how high their rivers are running, and where the wind is from. The page draws it and says nothing
     // (owner, 2026-09-20: "Players should see the weather. If implemented correctly, no text should be required"), so the

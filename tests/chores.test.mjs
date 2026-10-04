@@ -6,6 +6,7 @@ import { createWorld, stepWorld, applyAction, projectWorld, validateWorld } from
 import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from '../sim/improvements.mjs';
 import { CHORES, RIPEN_TICKS, TOOL_LIFE, choreCatalogue, skillsFor, toolState } from '../sim/chores.mjs';
 import { callAvailability } from '../sim/directors.mjs';
+import { customOf } from '../sim/custom.mjs';
 
 const running = (seed = 'chores', count = 5) => { const world = createWorld(seed, count); world.status = 'running'; return world; };
 const send = (world, householdId, who, chore) => applyAction(world, householdId, { action: 'chore', entityId: `${householdId}-${who}`, chore });
@@ -164,7 +165,8 @@ test('what a person may be asked to do is decided on the server, with a reason',
   // And milking the cow (sim/milking.mjs, 2026-10-02), a child's work too, offered at home where there is a cow or - to a grown
   // person - a cow to buy at the stock pens, as there is in Gonzales: counted below with the gathering and the stock.
   // And the tent (sim/shelter.mjs, 2026-10-02), offered only while the family has no roof: this family has its cabin.
-  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].retired && !CHORES[id].tent && !CHORES[id].carreta && !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].fetchesLogs && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && !CHORES[id].directorOnly && !CHORES[id].forage && !CHORES[id].stock && !CHORES[id].child && !CHORES[id].flight && !CHORES[id].nurses && id !== 'clear-plot').length + offered.filter(entry => CHORES[entry.id].forage || CHORES[entry.id].stock || CHORES[entry.id].milk).length, 'every chore is accounted for, refused or not');
+  // And the women's work (sim/custom.mjs, owner 2026-10-04), not on a man's list while a woman of the family is at home: Elena is.
+  assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].retired && !CHORES[id].tent && !CHORES[id].carreta && !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].fetchesLogs && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && !CHORES[id].directorOnly && !CHORES[id].forage && !CHORES[id].stock && !CHORES[id].child && !CHORES[id].flight && !CHORES[id].nurses && customOf(id) !== 'women' && id !== 'clear-plot').length + offered.filter(entry => CHORES[entry.id].forage || CHORES[entry.id].stock || CHORES[entry.id].milk).length, 'every chore is accounted for, refused or not');
   // What a family ate between deer: the country decides which of the four a family is even shown. This one is inland with
   // timber about it, so the small game and the bee tree are there and **the oyster bed is not** - a family shown a bed
   // forty miles from salt water is the fault this holds. Whether the creek is within reach is this house's own business
@@ -176,8 +178,7 @@ test('what a person may be asked to do is decided on the server, with a reason',
   for (const id of ['take-small-game', 'cut-bee-tree']) assert.ok(gathering.includes(id), `${id} was not offered where there is timber`);
   for (const entry of offered) {
     assert.ok(typeof entry.can === 'boolean');
-    // A refusal by custom carries whose work it is, and its words are the family's `customSays`, sent once (sim/custom.mjs).
-    if (!entry.can) assert.ok(entry.custom ? projected.household.customSays?.[entry.custom] : entry.why.length > 0, `${entry.id} says why it is refused`);
+    if (!entry.can) assert.ok(entry.why.length > 0, `${entry.id} says why it is refused`);
   }
   assert.ok(offered.find(entry => entry.id === 'harvest-field').why.match(/not ready/), 'a bare field cannot be harvested');
   // No other household's work is ever in this payload.
@@ -222,9 +223,7 @@ test('the chore catalogue is static and stays off the per-tick channel', () => {
   // Adding a key here is a decision, and the client must actually read it.
   // `short` marks a refusal for a gettable lack (sim/chores.mjs `lacking`; the lack itself is lifted onto the household), read by
   // public/family-panel.js to keep the work greyed on the bar as a goal: here, the milking with no cow (2026-10-02).
-  // `custom` marks a refusal by custom, 'men' or 'women' (owner, 2026-10-03; sim/custom.mjs), read by public/family-panel.js to keep the
-  // work greyed on the bar with its words.
-  const allowed = new Set(['id', 'can', 'why', 'cost', 'haul', 'crop', 'short', 'custom']);
+  const allowed = new Set(['id', 'can', 'why', 'cost', 'haul', 'crop', 'short']);
   const haulKeys = new Set(['resource', 'got']);
   for (const offered of Object.values(projected.work)) {
     for (const entry of offered) {

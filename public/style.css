@@ -1389,9 +1389,6 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
 .panel-needs i{display:block;width:12px;height:5px;border-radius:3px;background:#5f8a3a}
 .panel-needs i[data-met=false]{background:#c2582c;box-shadow:0 0 0 1px #fff3e0}
 .panel-icon[data-goal=true]{border-style:dashed}
-/* Work refused by custom (owner, 2026-10-03; sim/custom.mjs): greyed like any refusal, with a fine hatch across it - another's work
-   while they are at home, lit the tick they are not. */
-.panel-icon[data-custom=men],.panel-icon[data-custom=women]{border-style:dotted;background-image:repeating-linear-gradient(135deg,rgba(80,64,40,.16) 0 2px,transparent 2px 6px)}
 /* The bar of somebody chosen who is not the main person opens with the labelled way to make them main (design audit
    2026-09-28 B11): a portrait only chooses. Across the top of the bar's grid; a double-width tile in a phone's single row. */
 .panel-make-main{grid-column:1/-1;pointer-events:auto;min-height:30px;padding:4px 10px;font-size:12px;line-height:1.2;border-radius:8px;border:1px solid #b08a2e;background:#fff3c4;color:#3d3020;box-shadow:0 2px 7px #29251b70;cursor:pointer}

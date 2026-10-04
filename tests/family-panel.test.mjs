@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { createSettledWorld } from './support/settled.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld } from '../sim/world.mjs';
-import { CHORES, choreAvailability, choreCatalogue } from '../sim/chores.mjs';
+import { CHORES, choreCatalogue } from '../sim/chores.mjs';
 import {
   DRILLED_ROW, ORDER_NAMES, PANEL_ICONS, PANEL_SUMMARIES, TRAVELLING_WORD, activeKey, isIdle, nameToSave, panelActions,
   panelOrder, rowReason, standing, travellingLine, awayLine, armyAwayWords,
@@ -164,7 +164,7 @@ test('the panel sends only what the server already accepts, and only the princip
   const home = view.household.homeSiteId;
   const iconsOf = id => {
     const entity = view.entities.find(one => one.id === id);
-    return panelActions({ entity, offered: view.work[id], catalogue, main: id === household.principalId, homeId: home, homesteads: ['home-2'], atHome: entity.location?.siteId === home, customSays: view.household.customSays });
+    return panelActions({ entity, offered: view.work[id], catalogue, main: id === household.principalId, homeId: home, homesteads: ['home-2'], atHome: entity.location?.siteId === home });
   };
   const principal = iconsOf(household.principalId).map(icon => icon.key);
   for (const key of ['travel-gonzales', 'travel-home', 'visit', 'work', 'rest']) assert.ok(principal.includes(key), `the principal has no ${key}`);
@@ -186,9 +186,7 @@ test('the panel sends only what the server already accepts, and only the princip
   }
   // A dimmed icon carries the server's reason, word for word.
   const refused = iconsOf(other).find(icon => !icon.can && icon.why);
-  // A refusal by custom rides on the tick as whose work it is, and the panel says the server's own refusal from it (sim/custom.mjs).
-  const entry = refused && view.work[other].find(one => one.id === refused.key);
-  if (refused) assert.equal(refused.why, entry.custom ? choreAvailability(world, household, world.entities[other], refused.key).why : entry.why);
+  if (refused) assert.equal(refused.why, view.work[other].find(entry => entry.id === refused.key).why);
 });
 
 test('a person on a journey says Travelling, and a person carried out of sight keeps the server\'s fuller sentence', () => {
