@@ -1,9 +1,8 @@
-// The armies fighting, at rest and carrying their hurt (docs/CLAUDE_ART_PLAN.md area C: C2, C3, C4, C5, C6, C7, C8, C10, C11,
-// C12): the Texian volunteer and the Mexican line infantryman in the poses the battle engine stands in for today - two men
-// carrying a third on a blanket, cleaning a rifle, sitting, cooking, resting and asleep in camp, firing through a loophole,
-// forcing a door with a crowbar, digging a trench, firing over a parapet, a cazador lying in the grass, a skirmisher running
-// and kneeling to fire, climbing a cut bank to fire over its lip, wading through the marsh, and three settlers serving the
-// Gonzales gun. Every figure faces east (mirrored for west) unless its name says -s or -n.
+// The armies fighting (docs/CLAUDE_ART_PLAN.md area C: C5, C6, C8, C10, C11): the Texian volunteer and the Mexican line
+// infantryman in the poses the battle engine stands in for today - a regular firing through a loophole, firing over a parapet,
+// a skirmisher running and kneeling to fire, climbing a cut bank to fire over its lip, wading through the marsh. (The wounded
+// carried, rest and sleep in camp, the volunteer at a loophole, the crowbar and the trench are Astra's since 2026-10-03.)
+// Every figure faces east (mirrored for west) unless its name says -s or -n.
 //
 // Drawn from the person rig with the battle kit (scripts/claude-art/battle-kit/): the volunteer after Astra's `volunteer-*`
 // (a brown frock coat, a broad hat, a shot pouch and horn, a long rifle), the regular after her `regular-*` (a blue coatee faced
@@ -47,63 +46,16 @@ function sheet(id, request, replaceWith, rows, cell = WIDE, columns = 4) {
   sheets[id] = { cell, columns, request, replaceWith, frames: rows.map(([name, prompt, draw, compare]) => ({ name, prompt, draw, compare })) };
 }
 
-// ---------------------------------------------------------------------------------------------------- C2: the wounded carried
-{
-  const F = frameOf(VOLUNTEER), g = PO.g(F), walk = POSES.walk(F), back = -104;
-  const hurt = { ...VOLUNTEER, hat: null };
-  const rows = walk.map((pose, i) => {
-    const other = walk[(i + 2) % 4], bob = (pose.pelvis[1] - F.hip) / g;
-    const name = `bearers-carry-${i + 1}`;
-    return [name, `Two Texian volunteers walking east one behind the other, carrying between them a wounded comrade in a grey blanket slung by its corners, his head and one arm showing, alive and sitting half up; frame ${i + 1} of 4. ${WHO.volunteer} (all three). ${NO_GORE} ${STYLE}`,
-      () => personFrame(name, ink => {
-        const rh = add([back, 0], PO.at(F, 10, -20 + bob)), fh = PO.at(F, -9, -20 + bob);
-        nested(ink, VOLUNTEER, { ...other, hands: { near: PO.at(F, 10, -20 + bob), far: PO.at(F, 9, -19 + bob) }, elbows: { near: 1, far: 1 } }, [back, 0], 1);
-        // The man carried: lying on his back in the sag of the blanket, head toward the front man, knees up.
-        const mid = lerp(rh, fh, 0.5);
-        group(ink, add(mid, [18, -10]), 0.82, sub => drawPerson(sub, hurt, { ...PO.sitFloor(F, { hug: false, lean: 4 }), hands: { near: PO.at(F, 10, -12), far: PO.at(F, 6, -16) } }), { rotate: -96 });
-        ink.shape(blob([add(rh, [0, 1]), add(lerp(rh, fh, 0.25), [0, -9]), add(mid, [0, -12]), add(lerp(rh, fh, 0.75), [0, -9]), add(fh, [0, 1]), add(mid, [0, -3])], 0.7), '#8a7f6e', { off: 1.4 });
-        ink.line(curve([add(lerp(rh, fh, 0.3), [0, -5]), add(mid, [0, -8]), add(lerp(rh, fh, 0.7), [0, -5])]), { colour: '#9a3a2a', width: 2.2 });
-        nested(ink, VOLUNTEER, { ...pose, hands: { near: PO.at(F, -9, -20 + bob), far: PO.at(F, -8, -19 + bob) }, elbows: { near: -1, far: -1 } }, [0, 0], 1);
-      }, { note: name, cell: { w: 680, h: 400 }, originX: 500 }), [['volunteer-march-1', 1], ['volunteer-injured', 1]]];
-  });
-  sheet('claude-bearers-carry', R.battles, 'item 3: `bearers-carry-1`..`-4`, two men carrying a third on a blanket, walking east; no blood', rows, { w: 680, h: 400 }, 2);
-  clips['bearers-carry'] = clip([1, 2, 3, 4].map(i => [`bearers-carry-${i}`, 240]), { prompt: `Two volunteers carrying a wounded man back from the line in a blanket, walking east. ${NO_GORE}` });
-}
-
-// ---------------------------------------------------------------------------------------------------- C3, C4: at rest in camp
-for (const side of ['volunteer', 'regular']) {
-  const spec = SPEC[side], F = frameOf(spec), g = PO.g(F), kind = KIND[side], len = kind === 'rifle' ? 78 : 74;
-  const sit = PO.sitFloor(F, { hug: false, lean: 10 });
-  const knees = add(sit.pelvis, [F.B.thigh * 0.62, F.B.thigh * 0.72]);
-  const across = (ink, dy = 0) => drawGun(ink, add(knees, [-len * 0.62 * g, 1.5 + dy]), add(knees, [len * 0.38 * g, 5 + dy]), { kind, down: -1 });
-  const rows = [];
-  // Cleaning a rifle, sitting and cooking in camp (request 2026-09-28 "ambient life", item 3) are area A's (areas/camp-rest.mjs).
-  // At rest (San Jacinto's camp, the afternoon of April 21): sitting with the piece across the knees; asleep.
-  {
-    const name = `${side}-rest-sit`;
-    rows.push([name, `${WHO[side]}; sitting at rest on the ground, the piece across his knees, the hands on it: resting, not hurt. ${STYLE}`,
-      () => frame(name, spec, { ...sit, tilt: 10, hands: { near: add(knees, [4 * g, 5]), far: add(knees, [-8 * g, 4]) } }, { after: ink => across(ink) }), [[`${side}-injured`, 1]]]);
-    const sleep = `${side}-sleep`;
-    rows.push([sleep, `${WHO[side]}; asleep on his back on the ground, his head on his pack, his knees drawn up, his hat tipped over his face and a blanket over his legs, the piece beside him - plainly asleep, never to be mistaken for \`${side}-reclining\` (a man killed, lying flat under a blanket to the chin). ${STYLE}`,
-      () => personFrame(sleep, ink => {
-        drawGun(ink, [-58, 1], [-58 + len * 0.95, 2.5], { kind, down: 1 });
-        // The pack under the head.
-        ink.shape(blob([[-66, 0], [-66, 11], [-52, 12], [-51, 0]], 0.4), side === 'regular' ? '#5a4632' : COLOURS.leatherLight, { off: 0.8 });
-        // On his back with his head on the pack, the hat over his face, the blanket over his legs only.
-        const bare = { ...spec, hat: null };
-        group(ink, [6, 3], 1, sub => drawPerson(sub, bare, { view: 'e', lying: true }));
-        const head = [6 + F.hip * 0.55 - F.headC, 3 + F.B.limb * 1.25];
-        ink.shape(ellipse(add(head, [1, F.B.head * 0.9]), F.B.head * 1.5, F.B.head * 0.45, -10), spec.hat.colour || '#6a5236', { off: 0.6 });
-        ink.shape(blob([[head[0] + 42, 1], [head[0] + 44, 17], [head[0] + 70, 17], [head[0] + 86, 13], [head[0] + 88, 1]], 0.6), '#8a7f6e', { off: 1 });
-      }, { note: sleep, ...AT }), [[`${side}-reclining`, 1], [`${side}-injured`, 1]]]);
-  }
-  sheet(`claude-${side}-camp`, R.sanjac, `request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the \`${side}-*\` logical height, east mirrored for west`, rows);
-}
+// C2 (the wounded carried, `bearers-carry`) and C4 (a camp at rest, `*-rest-sit` and `*-sleep`) are Astra's (2026-10-03): Claude's
+// were deleted at the merge of 2026-10-04. Cleaning a rifle, sitting and cooking in camp are area A's (areas/camp-rest.mjs).
 
 // ---------------------------------------------------------------------------------------------------- C5: Béxar's streets
+// The volunteer at a loophole, forcing a door with a crowbar and digging the trench are Astra's (2026-10-03,
+// `volunteer-loophole-*`, `volunteer-crowbar`, `volunteer-dig`): Claude's were deleted at the merge of 2026-10-04. The regular at
+// a loophole is still Claude's.
 {
   const rows = [];
-  for (const side of ['volunteer', 'regular']) {
+  for (const side of ['regular']) {
     const spec = SPEC[side], F = frameOf(spec), c = PO.fireCycle(F, { kind: KIND[side] }), g = PO.g(F);
     const wall = ink => wallEdge(ink, 26 * g, { hole: F.neck - 3 + 5 * g });
     const lean = p => ({ ...p, pelvis: add(p.pelvis, [4 * g, 0]), feet: { near: add(p.feet.near, [4 * g, 0]), far: add(p.feet.far, [4 * g, 0]) }, tool: p.tool && { ...p.tool } });
@@ -116,35 +68,7 @@ for (const side of ['volunteer', 'regular']) {
     });
     clips[`${side}-loophole-fire`] = clip([[`${side}-loophole-fire-1`, 700], [`${side}-loophole-fire-2`, 120], [`${side}-loophole-fire-3`, 1650]], { loop: false, prompt: `${WHO[side]}: firing through a loophole and stepping back to load, on the volunteer's fire-reload timing (the flash on the second frame).` });
   }
-  // Forcing a door with a crowbar (Karnes and the men of Johnson's division): set, heave, heave, it gives.
-  {
-    const F = frameOf(VOLUNTEER), g = PO.g(F), door = ink => doorEdge(ink, 30 * g);
-    const bar = (tip, hand) => ink => { ink.shape(capsule(hand, tip, 1.1, 0.8), '#4a4844', { shade: false, outline: 2.6 }); };
-    const tip = [31 * g, F.neck - 12];
-    const poses = [
-      [{ view: 'e', pelvis: PO.P(F, 2, -1), lean: 12, feet: { near: PO.foot(F, 12), far: PO.foot(F, -6) }, knees: { near: 1, far: 1 }, hands: { near: PO.at(F, 18, -8), far: PO.at(F, 16, -6) } }, 'setting the bar\'s end into the crack of the door'],
-      [{ view: 'e', pelvis: PO.P(F, -4, -5), lean: -6, feet: { near: PO.foot(F, 10), far: PO.foot(F, -12) }, knees: { near: 1, far: 1 }, hands: { near: PO.at(F, 8, -12), far: PO.at(F, 6, -10) } }, 'heaving back on the bar, the weight on the back foot'],
-      [{ view: 'e', pelvis: PO.P(F, -7, -8), lean: -14, feet: { near: PO.foot(F, 10), far: PO.foot(F, -14) }, knees: { near: 1, far: 1 }, hands: { near: PO.at(F, 3, -18), far: PO.at(F, 1, -16) } }, 'heaving harder, leaning right back'],
-      [{ view: 'e', pelvis: PO.P(F, -9, -4), lean: -4, feet: { near: PO.foot(F, 4), far: PO.foot(F, -16) }, knees: { near: 1, far: 1 }, hands: { near: PO.at(F, 2, -22), far: PO.at(F, 0, -20) } }, 'the door gives: he stumbles back with the bar'],
-    ];
-    poses.forEach(([p, what], i) => {
-      const name = `volunteer-crowbar-${i + 1}`;
-      rows.push([name, `${WHO.volunteer}, without his rifle; forcing a house's door with a crowbar at Béxar, December 1835 (Karnes, Johnson's report): ${what} (frame ${i + 1} of 4); the door post and the wall's edge in the frame. ${STYLE}`,
-        () => frame(name, VOLUNTEER, p, { before: door, after: ink => { const j = [p.hands.near[0], p.hands.near[1]]; bar(i === 3 ? add(j, [22, 8]) : tip, j)(ink); } }), [['volunteer-ram-1', 1], ['wall-breach', 1.3]]]);
-    });
-    clips['volunteer-crowbar'] = clip([1, 2, 3, 4].map(i => [`volunteer-crowbar-${i}`, [420, 380, 520, 600][i - 1]]), { prompt: `${WHO.volunteer}: forcing a door with a crowbar - set, heave, heave, it gives - looping while the bar is at the door.` });
-  }
-  // Digging a trench across a street at night: the kit's spade cycle, the man standing in the trench behind its near bank.
-  {
-    const F = frameOf(VOLUNTEER);
-    POSES.dig(F).forEach((p, i) => {
-      const name = `volunteer-dig-${i + 1}`;
-      rows.push([name, `${WHO.volunteer}, his rifle laid by; digging a trench across a street of Béxar at night with a spade - driven in, levered, the earth thrown up onto the bank, back (frame ${i + 1} of ${POSES.dig(F).length}) - standing in the trench behind the fresh earth of its near bank. ${STYLE}`,
-        () => frame(name, VOLUNTEER, p, { after: ink => trenchBank(ink) }), [['rust-work-2', 1]]]);
-    });
-    clips['volunteer-dig'] = clip(POSES.dig(F).map((p, i) => [`volunteer-dig-${i + 1}`, [300, 260, 240, 320, 260, 220][i] ?? 260]), { beat: 0, prompt: `${WHO.volunteer}: digging a trench at night, the spade cycle looping; the spade goes in on the first frame.` });
-  }
-  sheet('claude-bexar-streets', R.storming, 'items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height', rows);
+  sheet('claude-bexar-streets', R.storming, 'item 1: a regular firing through a loophole (2-4 frames); the `regular-*` height (the volunteer is Astra\'s `volunteer-loophole-*`, 2026-10-03)', rows);
 }
 
 // ---------------------------------------------------------------------------------------------------- C6: men on a wall

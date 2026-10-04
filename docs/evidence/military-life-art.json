@@ -1,0 +1,444 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "volunteer-rest-sit-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-rest-sit-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sleep-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sleep-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-camp-drink-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-camp-drink-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-camp-clean-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-camp-clean-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-rest-sit-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-rest-sit-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-sleep-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-sleep-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-camp-drink-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-camp-drink-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-camp-clean-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-camp-clean-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-dig-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-dig-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-dig-3",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-dig-4",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-crowbar-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-crowbar-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-crowbar-3",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-crowbar-4",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sandbag-carry-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sandbag-carry-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sandbag-carry-3",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sandbag-carry-4",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sandbag-fill-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sandbag-fill-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sandbag-fill-3",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-sandbag-fill-4",
+      "drawn": true
+    },
+    {
+      "id": "bearers-carry-1",
+      "drawn": true
+    },
+    {
+      "id": "bearers-carry-2",
+      "drawn": true
+    },
+    {
+      "id": "bearers-carry-3",
+      "drawn": true
+    },
+    {
+      "id": "bearers-carry-4",
+      "drawn": true
+    },
+    {
+      "id": "regular-bearers-carry-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-bearers-carry-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-bearers-carry-3",
+      "drawn": true
+    },
+    {
+      "id": "regular-bearers-carry-4",
+      "drawn": true
+    },
+    {
+      "id": "dragoon-wounded-led-1",
+      "drawn": true
+    },
+    {
+      "id": "dragoon-wounded-led-2",
+      "drawn": true
+    },
+    {
+      "id": "dragoon-wounded-led-3",
+      "drawn": true
+    },
+    {
+      "id": "dragoon-wounded-led-4",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-e-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-e-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-e-3",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-e-4",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-s-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-s-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-s-3",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-s-4",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-n-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-n-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-n-3",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-ride-n-4",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-mounted-idle-e",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-mounted-idle-s",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-mounted-idle-n",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-mounted-fire",
+      "drawn": true
+    },
+    {
+      "id": "barricade-street-left",
+      "drawn": true
+    },
+    {
+      "id": "barricade-street-embrasure",
+      "drawn": true
+    },
+    {
+      "id": "barricade-street-right",
+      "drawn": true
+    },
+    {
+      "id": "barricade-street-broken",
+      "drawn": true
+    },
+    {
+      "id": "sandbag-breastwork",
+      "drawn": true
+    },
+    {
+      "id": "sandbag-corner",
+      "drawn": true
+    },
+    {
+      "id": "sandbag-embrasure",
+      "drawn": true
+    },
+    {
+      "id": "sandbag-loose-open",
+      "drawn": true
+    },
+    {
+      "id": "breastwork-packs-left",
+      "drawn": true
+    },
+    {
+      "id": "breastwork-packs-right",
+      "drawn": true
+    },
+    {
+      "id": "breastwork-packs-opening",
+      "drawn": true
+    },
+    {
+      "id": "breastwork-packs-disturbed",
+      "drawn": true
+    },
+    {
+      "id": "musket-stack-small",
+      "drawn": true
+    },
+    {
+      "id": "musket-stack-large",
+      "drawn": true
+    },
+    {
+      "id": "muskets-laid",
+      "drawn": true
+    },
+    {
+      "id": "camp-cookpot-tripod",
+      "drawn": true
+    },
+    {
+      "id": "house-loopholed",
+      "drawn": true
+    },
+    {
+      "id": "house-loopholed-open",
+      "drawn": true
+    },
+    {
+      "id": "house-loopholed-breached",
+      "drawn": true
+    },
+    {
+      "id": "house-loopholed-cutaway",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-loophole-aim",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-loophole-fire",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-loophole-load",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-loophole-ramrod",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "volunteer-rest-sit",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-sleep",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-camp-drink",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-camp-clean",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "regular-rest-sit",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "regular-sleep",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "regular-camp-drink",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "regular-camp-clean",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-dig",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-crowbar",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-sandbag-carry",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-sandbag-fill",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "bearers-carry",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "regular-bearers-carry",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "dragoon-wounded-led",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-ride-e",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-ride-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-ride-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-mounted-fire-cycle",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "volunteer-loophole-fire-reload",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

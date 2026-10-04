@@ -147,8 +147,8 @@ const homeSafe = one => one.pose !== 'work' && (one.pose !== 'sow' || one.prop =
  * line of it written for idle soldiers is the owner's to ask for (docs/AMBIENT.md, decisions).
  * The soldiers at rest - a rifle cleaned, a man sitting, a man cooking - name the delivered pose (`p`) the page falls back to;
  * the page draws each activity's own clip where the library holds it (public/ambient.js `SOLDIERS_AT_REST`).
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 3: cleaning a rifle is the ramrod's stroke, sitting
- * and cooking the standing idle, until `<volunteer|regular>-clean-rifle`, `-camp-sit` and `-camp-cook` are drawn.
+ * Cleaning a rifle and sitting at ease are Astra's `<volunteer|regular>-camp-clean` and `-rest-sit` (2026-10-03). stand-in:
+ * docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 3: cooking is the standing idle until `-camp-cook` is drawn.
  */
 const CAMP_TEXIAN = Object.freeze([
   { a: 'rifle', f: 'volunteer', p: 'gun-ram' }, { a: 'guard', f: 'volunteer', p: 'idle' }, { a: 'fire', f: 'cast', p: 'care', prop: 'fire' },

@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { createBattleView } from '../public/battle-view.js';
 
 const claude = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/claude-standins/atlas.json', import.meta.url)), 'utf8')).clips;
+const astra = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/animation.json', import.meta.url)), 'utf8')).clips;
 function fakeContext() {
   const noop = () => () => {};
   return new Proxy({ globalAlpha: 1, measureText: text => ({ width: String(text).length * 6 }), createRadialGradient: () => ({ addColorStop() {} }) }, {
@@ -16,12 +17,12 @@ function fakeContext() {
     set(target, key, value) { target[key] = value; return true; },
   });
 }
-/** `ready`: whether Claude's sheets have arrived. The library's own clips are always drawable here. */
+/** `ready`: whether Claude's sheets have arrived. The library's own clips (Astra's) are always drawable here. */
 function fakeArt(ready) {
   const drawn = [];
   return {
     drawn,
-    clipReady: name => ready && claude[name]?.madeBy === 'claude',
+    clipReady: name => (claude[name]?.madeBy === 'claude' ? ready : Boolean(astra[name])),
     animated: (ctx, clip, x, y, size, seed, options) => { drawn.push({ clip, size, seed, ...options }); return size; },
     drawSprite: (ctx, sprite, x, y, size, options) => { drawn.push({ sprite, size, ...options }); return size; },
     miniPerson: () => {},
@@ -43,20 +44,20 @@ const GROUPS = [
   group('horse', 'texian', 'mounted', 'none', -0.25, { mounted: true, drawn: 4, y: -0.1, moving: true, action: 'advance' }),
 ];
 
-// The Grass Fight's pack mules and the lancers' charge are Astra's since 2026-10-03 (Claude's of the same names deleted when they
-// were merged); a Texian horseman is still Claude's.
-test('with Claude\'s sheets loaded: a Texian horseman is the volunteer mounted', () => {
+// The Grass Fight's pack mules and the lancers' charge are Astra's since 2026-10-03, and so is a Texian horseman (her mounted
+// volunteer, `volunteer-ride-*`): Claude's of the same subjects were deleted when each was merged.
+test('a Texian horseman is Astra\'s mounted volunteer, and no Claude frame of her mules, lancers or horsemen is left', () => {
   const drawn = run(fakeArt(true), GROUPS);
   const clips = new Set(drawn.map(one => one.clip).filter(Boolean));
-  assert.ok(clips.has('volunteer-mounted'), `the Texian horsemen: ${[...clips].join(', ')}`);
-  assert.equal(claude['volunteer-mounted']?.madeBy, 'claude', 'volunteer-mounted is not Claude\'s');
+  assert.ok(clips.has('volunteer-ride-e'), `the Texian horsemen: ${[...clips].join(', ')}`);
+  assert.ok(astra['volunteer-ride-e'] && !claude['volunteer-ride-e'] && !claude['volunteer-mounted'], 'the mounted volunteer is not Astra\'s alone');
   assert.ok(!claude['mule-packed-grass-walk-e'] && !claude['lancer-charge'], 'a Claude frame of Astra\'s mules or lancers is still in the library');
 });
 
-test('until they are loaded, the older stand-ins: horses under packs, the dragoons without lances, the mounted courier', () => {
+test('until they are loaded, the older stand-ins: horses under packs, the dragoons without lances; the horseman is Astra\'s', () => {
   const drawn = run(fakeArt(false), GROUPS);
   const clips = new Set(drawn.map(one => one.clip).filter(Boolean));
   assert.ok(clips.has('horse-walk') && drawn.some(one => one.sprite === 'packed-belongings'), 'the pack train is not horses under packs');
   assert.ok(![...clips].some(clip => claude[clip]), `a Claude clip was drawn before its sheet could be: ${[...clips].filter(clip => claude[clip]).join(', ')}`);
-  assert.ok(clips.has('mounted-courier-e'), 'the Texian horsemen are not the mounted courier');
+  assert.ok(clips.has('volunteer-ride-e'), 'the Texian horsemen are not Astra\'s mounted volunteer');
 });

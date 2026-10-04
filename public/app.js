@@ -25,7 +25,7 @@ import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
-import { GALE_POSES, GALE_SMOKE, drawFogShape, drawHighWater, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, inGale, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
+import { GALE_POSES, GALE_SMOKE, drawFogShape, drawHighWater, floodCurrentMarks, drawFloodCurrent, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, inGale, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
 /** The weather with the day fully up, for everything drawn into the kept ground (public/weather-art.js `weatherMix`). */
 const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
@@ -3583,6 +3583,7 @@ function weatherCourses(world, camera, canvas) {
 }
 /** The fog's shape, drawn with the ground and laid down each frame at the strength the hour leaves it. */
 const fogBase = { canvas: null, shapes: 0 };
+let floodCurrents = [];
 /**
  * How many minutes of 1835 the last tick stood for, read from two snapshots in a row (sim/clock.mjs runs two clocks on the
  * real land). It scales a traveller's drawn speed (public/motion.js `travelMilesATick`) for a class saved and
@@ -4443,6 +4444,7 @@ function drawWorldNow(world) {
       return weatherMix(weather, camera.toWorld(middle).x, world.minute, STEADY).water;
     });
     if (!audit) {
+      floodCurrents = floodCurrentMarks(courses,course=>weatherMix(weather,camera.toWorld(course.points[Math.floor(course.points.length/2)]).x,world.minute,STEADY).water,canvas);
       // The fog's shape into a layer of its own, so the veil is one drawImage a frame at the morning's own strength and
       // the ground beneath it is not redrawn every time the hour moves.
       fogBase.canvas ??= document.createElement('canvas');
@@ -4450,13 +4452,14 @@ function drawWorldNow(world) {
       fogBase.shapes = drawFogShape(fogBase.canvas.getContext('2d'), fogBase.canvas, weatherSteady, courses);
       window.__weatherGround = { courses: courses.length, flooded: drawn.drawn, over: drawn.shut, fog: fogBase.shapes, key: weatherGroundKey(weather) };
     }
-  } else if (ground && !audit) { fogBase.shapes = 0; window.__weatherGround = null; }
+  } else if (ground && !audit) { fogBase.shapes = 0; floodCurrents=[]; window.__weatherGround = null; }
   // The ground goes down whole, and the drawing state it ended in is carried over, as when it was drawn on this canvas.
   if (ground && !audit) mapBase.state = readDrawState(ground);
   if (groundMissing) mapBase.missing = groundMissing();
   if (audit) auditGround(audit, mapBase.canvas, world);
   main.setTransform(1, 0, 0, 1, 0, 0); main.globalAlpha = 1; main.globalCompositeOperation = 'source-over';
   main.drawImage(mapBase.canvas, 0, 0);
+  drawFloodCurrent(main,floodCurrents,animationTime,{still:reducedMotion.matches});
   // The veil: the fog on the bottoms at the strength the hour leaves it, and the shadow a rain cloud lays on the country.
   // Here, and not at the end, on purpose. Everything a student is entitled to see - a person, a house, a marker, a name -
   // is drawn after this line and at full strength, so the fog can never hide a fact. What a family knows is the server's
@@ -7300,6 +7303,15 @@ $('#roll-family')?.addEventListener('click', async () => {
  * changed, so a tick arriving does not take the keyboard focus off the button a student is on.
  */
 let wagonPacking = true, wagonOpen = false, wagonPending = false, wagonShown = '';
+function renderWagonPictures() {
+  for(const canvas of document.querySelectorAll('#wagon-load canvas[data-sprite]')) {
+    const ctx=canvas.getContext('2d'),frame=spriteFrame(canvas.dataset.sprite);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const height=frame ? Math.min(canvas.height-8,(canvas.width-8)*(frame.logicalHeight||frame.h)/frame.w) : canvas.height-8;
+    drawSprite(ctx,canvas.dataset.sprite,canvas.width/2,canvas.height-4,height,{anchor:[.5,1]});
+  }
+}
+onArtReady(renderWagonPictures);
 function renderWagonLoad(world) {
   const panel = $('#wagon-load'), reopen = $('#wagon-open');
   if (!panel) return;
@@ -7322,6 +7334,10 @@ function renderWagonLoad(world) {
   wagonShown = shape;
   // A family fitted out with more than one wagon packs them together, and the server says how many (sim/wagon.mjs).
   $('#wagon-room').textContent = `${wagon.wagons ? `${wagon.wagons} wagons: ` : vehicle === 'cart' ? 'The cart: ' : vehicle === 'carreta' ? 'The carreta: ' : vehicle === 'packs' ? "No wagon or cart. The ox's packs: " : ''}${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
+  $('#wagon-capacity').max = space;
+  $('#wagon-capacity').value = wagon.used;
+  $('#wagon-capacity').setAttribute('aria-valuetext', `${wagon.used} of ${space} spaces used`);
+  $('#wagon-illustration').dataset.sprite = vehicle === 'packs' ? 'packed-belongings' : vehicle === 'cart' ? 'cart-open-e' : vehicle === 'carreta' ? 'carreta-idle-e' : 'wagon-covered';
   $('#wagon-load-title').textContent = vehicle === 'cart' ? 'Pack the cart' : vehicle === 'carreta' ? 'Pack the carreta' : vehicle === 'packs' ? "Pack the ox's packs" : 'Pack the wagon';
   // What is packed, in the words the panel's other lines use: the wagon, the wagons, the cart, or the ox's packs.
   const packed = vehicle === 'packs' ? "the ox's packs" : `the ${vehicle}`;
@@ -7336,6 +7352,8 @@ function renderWagonLoad(world) {
   // cost, so the largest thing the choice did was never said where the choice was made. The numbers are the server's
   // (`stockChoice.herd`), never written here.
   $('#wagon-stock').hidden = !choice;
+  $('#wagon-stock-options').hidden = !choice;
+  $('#wagon-stock-options summary').textContent = `Livestock & land · ${household.stock ? 'Bring the herd' : 'No herd'}`;
   if (choice) {
     $('#stock-no-text').textContent = `No stock. The family holds a labor of land, ${choice.laborAcres} acres, and brings no animals.`;
     const herd = choice.herd ? ` The family arrives with ${choice.herd.cattle} cattle and ${choice.herd.hogs} hogs, which feed themselves on the range and feed the family.` : '';
@@ -7351,6 +7369,7 @@ function renderWagonLoad(world) {
   }
   if (!wagon.can) $('#wagon-note').textContent = wagon.why;
   const focused = document.activeElement?.closest?.('#wagon-items button')?.dataset.focusKey;
+  const cargoScroll = $('#wagon-items').scrollTop;
   const loaded = new Map(household.load.map(entry => [entry.id, entry.amount]));
   // Not shut while a change is on its way: a disabled button cannot keep the keyboard focus, and
   // the click handler already ignores a second press until the first is answered.
@@ -7368,35 +7387,44 @@ function renderWagonLoad(world) {
     // The most of a store the family's wagons take together, the server's; one wagon's is the catalogue's.
     const most = wagon.most?.[item.id] ?? item.most;
     const li = element('li', ''); li.dataset.item = item.id; li.dataset.loaded = String(count > 0);
-    const space = item.space === 1 ? '1 space' : `${item.space} space`;
-    li.append(element('span', `${item.name} · ${space}${item.most > 1 ? ' each' : ''}`, 'wagon-name'));
+    const spaceLabel = item.space === 1 ? '1 space' : `${item.space} spaces`;
+    const cargoSprites={provisions:'barrel',seed:'sacks',powder:'crate',bedding:'home-bedding',pot:'home-iron-pot',chest:'home-chest','spinning-wheel':'home-spinning-wheel',books:'home-books','mosquito-bars':'home-mosquito-bars',tinware:'home-tinware',chairs:'home-chair-packed'};
+    if(cargoSprites[item.id]) {
+      const picture=document.createElement('canvas');picture.width=64;picture.height=58;picture.dataset.sprite=cargoSprites[item.id];picture.className='wagon-cargo-art';picture.setAttribute('aria-hidden','true');li.append(picture);
+    }
+    li.append(element('span',item.name,'wagon-name'));
+    li.append(element('span', `${spaceLabel}${item.most > 1 ? ' each' : ''}${count ? ` · ${count*item.space} used` : ''}`, 'wagon-space'));
     const controls = element('span', '', 'wagon-controls');
     if (item.most > 1) {
       controls.append(
         control('−', item.id, count - 1, `${item.id}-less`, { 'aria-label': `One less: ${item.name}`, ...(count === 0 && { disabled: 'true' }) }),
         element('span', String(count), 'wagon-count'),
-        control('+', item.id, count + 1, `${item.id}-more`, { 'aria-label': `One more: ${item.name}`, ...(count >= most && { disabled: 'true' }) }),
+        control('+', item.id, count + 1, `${item.id}-more`, { 'aria-label': `One more: ${item.name}`, ...(count >= most || wagon.used + item.space > space ? { disabled: 'true' } : {}) }),
       );
     } else {
       // The label says what pressing does, not what the thing is. "Loaded" named a state, and pressing it took the thing
       // out - the same hidden second interaction the map click was in the tutorial (2026-09-21).
-      controls.append(control(count ? 'Take out' : 'Load', item.id, count ? 0 : 1, `${item.id}-toggle`, { 'aria-pressed': String(Boolean(count)), 'aria-label': `${item.name}: ${count ? 'loaded, press to take it out' : 'not loaded, press to load it'}` }));
+      controls.append(control(count ? 'Take out' : 'Load', item.id, count ? 0 : 1, `${item.id}-toggle`, { 'aria-pressed': String(Boolean(count)), 'aria-label': `${item.name}: ${count ? 'loaded, press to take it out' : 'not loaded, press to load it'}`, ...(!count && wagon.used+item.space>space ? {disabled:'true'} : {}) }));
     }
     li.append(controls, element('span', item.describe, 'wagon-describe'));
     return li;
   }));
+  renderWagonPictures();
+  $('#wagon-items').scrollTop = cargoScroll;
   if (focused) $(`#wagon-items button[data-focus-key="${focused}"]`)?.focus();
 }
 $('#wagon-items')?.addEventListener('click', async event => {
   const button = event.target.closest('button[data-item]');
   if (!button || button.disabled || wagonPending) return;
   wagonPending = true; $('#wagon-note').textContent = '';
+  $('#wagon-load').setAttribute('aria-busy','true');
   try {
     await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'load-wagon', item: button.dataset.item, amount: Number(button.dataset.amount) });
   } catch (error) {
     $('#wagon-note').textContent = error.message;
   } finally {
     wagonPending = false;
+    $('#wagon-load').setAttribute('aria-busy','false');
     if (window.__snapshot) render(window.__snapshot);
   }
 });

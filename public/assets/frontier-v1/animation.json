@@ -8993,6 +8993,418 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "volunteer-rest-sit": {
+      "frames": [
+        {
+          "sprite": "volunteer-rest-sit-1",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-rest-sit-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-sleep": {
+      "frames": [
+        {
+          "sprite": "volunteer-sleep-1",
+          "duration": 2400
+        },
+        {
+          "sprite": "volunteer-sleep-2",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-camp-drink": {
+      "frames": [
+        {
+          "sprite": "volunteer-camp-drink-1",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-camp-drink-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-camp-clean": {
+      "frames": [
+        {
+          "sprite": "volunteer-camp-clean-1",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-camp-clean-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-rest-sit": {
+      "frames": [
+        {
+          "sprite": "regular-rest-sit-1",
+          "duration": 900
+        },
+        {
+          "sprite": "regular-rest-sit-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-sleep": {
+      "frames": [
+        {
+          "sprite": "regular-sleep-1",
+          "duration": 2400
+        },
+        {
+          "sprite": "regular-sleep-2",
+          "duration": 2400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-camp-drink": {
+      "frames": [
+        {
+          "sprite": "regular-camp-drink-1",
+          "duration": 900
+        },
+        {
+          "sprite": "regular-camp-drink-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-camp-clean": {
+      "frames": [
+        {
+          "sprite": "regular-camp-clean-1",
+          "duration": 900
+        },
+        {
+          "sprite": "regular-camp-clean-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-dig": {
+      "frames": [
+        {
+          "sprite": "volunteer-dig-1",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-dig-2",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-dig-3",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-dig-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-crowbar": {
+      "frames": [
+        {
+          "sprite": "volunteer-crowbar-1",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-crowbar-2",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-crowbar-3",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-crowbar-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-sandbag-carry": {
+      "frames": [
+        {
+          "sprite": "volunteer-sandbag-carry-1",
+          "duration": 320
+        },
+        {
+          "sprite": "volunteer-sandbag-carry-2",
+          "duration": 320
+        },
+        {
+          "sprite": "volunteer-sandbag-carry-3",
+          "duration": 320
+        },
+        {
+          "sprite": "volunteer-sandbag-carry-4",
+          "duration": 320
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-sandbag-fill": {
+      "frames": [
+        {
+          "sprite": "volunteer-sandbag-fill-1",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-sandbag-fill-2",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-sandbag-fill-3",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-sandbag-fill-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "bearers-carry": {
+      "frames": [
+        {
+          "sprite": "bearers-carry-1",
+          "duration": 400
+        },
+        {
+          "sprite": "bearers-carry-2",
+          "duration": 400
+        },
+        {
+          "sprite": "bearers-carry-3",
+          "duration": 400
+        },
+        {
+          "sprite": "bearers-carry-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-bearers-carry": {
+      "frames": [
+        {
+          "sprite": "regular-bearers-carry-1",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-bearers-carry-2",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-bearers-carry-3",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-bearers-carry-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "dragoon-wounded-led": {
+      "frames": [
+        {
+          "sprite": "dragoon-wounded-led-1",
+          "duration": 440
+        },
+        {
+          "sprite": "dragoon-wounded-led-2",
+          "duration": 440
+        },
+        {
+          "sprite": "dragoon-wounded-led-3",
+          "duration": 440
+        },
+        {
+          "sprite": "dragoon-wounded-led-4",
+          "duration": 440
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-ride-e": {
+      "frames": [
+        {
+          "sprite": "volunteer-ride-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-ride-e-2",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-ride-e-3",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-ride-e-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-ride-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-ride-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-ride-s-2",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-ride-s-3",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-ride-s-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "volunteer-ride-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-ride-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-ride-n-2",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-ride-n-3",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-ride-n-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "volunteer-mounted-fire-cycle": {
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-idle-e",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-mounted-fire",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-mounted-idle-e",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-loophole-fire-reload": {
+      "frames": [
+        {
+          "sprite": "volunteer-loophole-aim",
+          "duration": 700
+        },
+        {
+          "sprite": "volunteer-loophole-fire",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-loophole-load",
+          "duration": 750
+        },
+        {
+          "sprite": "volunteer-loophole-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "rust-ride-e": {
       "frames": [
         {

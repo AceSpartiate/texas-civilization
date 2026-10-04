@@ -1,5 +1,24 @@
 # Claude handoff — Astra foundation
 
+## Latest UI and scenery delivery — 2026-10-03
+
+Wagon packing and shopping now share the game's paper/timber visuals. Packing has cargo illustrations, a capacity meter, clear space costs, an expandable herd/land choice and stable scroll/focus. Town shopping adds search, shop and Buy/Sell/Services filters, a persistent removable shopping list and clear lot/payment information. Enter on a quantity control no longer dispatches the errand accidentally. Authoritative prices, loads, resources and transport are unchanged.
+
+Town streets now use exact polyline vertices and shared junction surfaces. Conflicting interpretive building anchors are shifted off streets, Gonzales shop paths avoid their buildings, Béxar's north frontage is corrected, and Anahuac gets an interpretive terrace connector. Floods use a distinct silty palette, irregular attached overbank margins and subtle current motion outside cached ground (160-mark cap, reduced-motion support).
+
+Read `docs/COMMERCE_AND_LANDSCAPE_2026-10-03.md` and `docs/TOWN_STREET_REPAIRS_2026-10-03.md` for contracts, exact changes, limitations and reproduction. Focused tests pass (94); browser evidence covers commerce desktop layouts, all town views and flood presentation. This is committed source for the next release; no live deployment is claimed.
+
+## Latest art delivery: military life and field defenses (2026-10-03)
+
+Nine atlases add **84 frames and 20 authored clips**: healthy camp rest/sleep, drinking/cleaning, volunteer engineering, both armies' blanket bearers, a led wounded dragoon, directional mounted volunteers, crouched loophole firing, field defenses and a generic roof-removable stone house. Existing battle states now select rest/sleep, digging, mounted movement/firing, wounded transport and dedicated cover. Named people, hidden fighters, casualty outcomes and historical clocks retain their existing rules.
+
+Read `docs/ART_DELIVERY_2026-10-03-MILITARY-LIFE.md` for exact live-versus-catalog scope and remaining integration. Source registration: `scripts/art-deliveries/military-life-2026-10-03.mjs`; full inventory: `docs/ART_MANIFEST.md`. Browser proof draws all 84 frames and verifies pixel changes in all 20 clips. Living blanket patients must not stand in for dead transported bodies. House actors still require occlusion masks/navigation; generic house art does not replace named Béxar or Alamo assemblies. North/south mounted firing, family-specific battle poses and Mexican digging remain outstanding.
+
+## Astra's commerce UI, town streets, flood water and military-life art merged — 2026-10-04 (not released)
+
+Branch `astra-merge-3` off `origin/main` (28c5331d), merging Astra's `main` at ee656420 (with a05604f4) and then 73410a79; not
+pushed, not released. Same computer only. (Evidence for the merged tree is recorded in the commit that finishes this section.)
+
 ## Triage's last: the settlement's call seen, the play line once, solo's spotlight — 2026-10-03 (not released)
 
 Branch `triage-last` from origin/main cca3a891; not pushed, not released. The owner, 2026-10-03: *"yes, start them and push to live

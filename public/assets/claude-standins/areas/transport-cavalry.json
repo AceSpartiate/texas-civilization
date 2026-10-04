@@ -3,31 +3,12 @@
   "area": "transport",
   "date": "2026-09-28",
   "sheets": {
-    "claude-dragoon-wounded": {
-      "image": "/assets/claude-standins/claude-dragoon-wounded.png",
-      "width": 860,
-      "height": 280,
-      "bytes": 115907,
-      "sha256": "07fd0320f05516ff8df81931f2f9cb1d1289cd028a39a44deb3dbc2ad2e455b7",
-      "madeBy": "claude",
-      "module": "transport-cavalry",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "layout": {
-        "rows": 1,
-        "columns": 2,
-        "cell": {
-          "w": 430,
-          "h": 280
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-foragers": {
       "image": "/assets/claude-standins/claude-foragers.png",
       "width": 1500,
       "height": 1440,
-      "bytes": 1481974,
-      "sha256": "1bf4743ae191ae170b4b7ed9fffea63cfb6025673651d91359edbefa6f79527a",
+      "bytes": 1481977,
+      "sha256": "51aecb4587174d6fc9a5e49608b14c53fba7d1c70928cff12d198692d3159bdc",
       "madeBy": "claude",
       "module": "transport-cavalry",
       "request": "Request 2026-09-26 — the Mexican advance",
@@ -43,40 +24,6 @@
     }
   },
   "frames": {
-    "dragoon-wounded-led-1": {
-      "sheet": "claude-dragoon-wounded",
-      "x": 0,
-      "y": 0,
-      "w": 430,
-      "h": 280,
-      "anchorX": 0.3721,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-cavalry",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "dragoon-wounded-led-1: item 3: a dragoon slumped in the saddle, another leading the horse, 2 frames east",
-      "source": "svg/transport-cavalry/claude-dragoon-wounded-led-1.svg",
-      "label": "dragoon wounded led 1",
-      "kind": "claude-dragoon-wounded"
-    },
-    "dragoon-wounded-led-2": {
-      "sheet": "claude-dragoon-wounded",
-      "x": 430,
-      "y": 0,
-      "w": 430,
-      "h": 280,
-      "anchorX": 0.3721,
-      "anchorY": 0.95,
-      "logicalHeight": 270,
-      "madeBy": "claude",
-      "module": "transport-cavalry",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "dragoon-wounded-led-2: item 3: a dragoon slumped in the saddle, another leading the horse, 2 frames east",
-      "source": "svg/transport-cavalry/claude-dragoon-wounded-led-2.svg",
-      "label": "dragoon wounded led 2",
-      "kind": "claude-dragoon-wounded"
-    },
     "forager-ride-1": {
       "sheet": "claude-foragers",
       "x": 0,
@@ -215,24 +162,6 @@
     }
   },
   "clips": {
-    "dragoon-wounded-led": {
-      "frames": [
-        {
-          "sprite": "dragoon-wounded-led-1",
-          "duration": 420
-        },
-        {
-          "sprite": "dragoon-wounded-led-2",
-          "duration": 420
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-cavalry"
-    },
     "forager-ride": {
       "frames": [
         {
@@ -287,34 +216,6 @@
     }
   },
   "provenance": {
-    "dragoon-wounded-led-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-cavalry",
-      "area": "transport",
-      "sheet": "claude-dragoon-wounded",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A wounded Mexican dragoon slumped forward in the saddle, his head down and his hands on the pommel, nothing of a wound shown; a comrade on foot at the horse's head leads it east by the reins, walking (frame 1 of 2). Both in dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-wounded-led-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's dragoon-wounded-led-1"
-    },
-    "dragoon-wounded-led-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-cavalry",
-      "area": "transport",
-      "sheet": "claude-dragoon-wounded",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A wounded Mexican dragoon slumped forward in the saddle, his head down and his hands on the pommel, nothing of a wound shown; a comrade on foot at the horse's head leads it east by the reins, walking (frame 2 of 2). Both in dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-wounded-led-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's dragoon-wounded-led-2"
-    },
     "forager-ride-1": {
       "kind": "frame",
       "madeBy": "claude",
@@ -426,20 +327,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's forager-drive-4"
-    },
-    "dragoon-wounded-led": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-cavalry",
-      "area": "transport",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A wounded dragoon slumped in the saddle, his horse led off at a walk by a comrade on foot: two frames.",
-      "frames": [
-        "dragoon-wounded-led-1",
-        "dragoon-wounded-led-2"
-      ],
-      "status": "temporary: replace with Astra's dragoon-wounded-led"
     },
     "forager-ride": {
       "kind": "clip",

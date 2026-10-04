@@ -98,25 +98,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-house-loopholed": {
-      "image": "/assets/claude-standins/claude-house-loopholed.png",
-      "width": 296,
-      "height": 204,
-      "bytes": 108523,
-      "sha256": "8de3dd81cc7f34afdf052cfc5b11e6f63fd01be9d6af0654b4874e8712fc7473",
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 296,
-          "h": 204
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-window-lit": {
       "image": "/assets/claude-standins/claude-window-lit.png",
       "width": 1200,
@@ -140,8 +121,8 @@
       "image": "/assets/claude-standins/claude-house-ends.png",
       "width": 808,
       "height": 760,
-      "bytes": 307040,
-      "sha256": "f7ac3defe05ad6abe4f8a728f717795d7a4556c40bb3f9823c0508fe0870144e",
+      "bytes": 307039,
+      "sha256": "5dcb9f7e3d56fbd5814b91efadd6e5e0503e6e4cfd3a8d7a71b613fe5f18cc44",
       "madeBy": "claude",
       "module": "house-pieces",
       "request": "Request 2026-09-23 — the house from its other sides",
@@ -613,23 +594,6 @@
       "label": "interior saddlebag",
       "kind": "claude-interior-saddlebag"
     },
-    "house-loopholed": {
-      "sheet": "claude-house-loopholed",
-      "x": 0,
-      "y": 0,
-      "w": 296,
-      "h": 204,
-      "anchorX": 0.4949,
-      "anchorY": 0.9363,
-      "logicalHeight": 181,
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "replaceWith": "house-loopholed: item 1: a flat-roofed stone house, a parapet about four feet high, loopholes in its walls, at the stone-tile-house scale",
-      "source": "svg/house-pieces/claude-house-loopholed.svg",
-      "label": "house loopholed",
-      "kind": "claude-house-loopholed"
-    },
     "window-lit-adobe-flat": {
       "sheet": "claude-window-lit",
       "x": 0,
@@ -1018,20 +982,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's interior-saddlebag"
-    },
-    "house-loopholed": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "house-pieces",
-      "area": "places",
-      "sheet": "claude-house-loopholed",
-      "request": "Request 2026-09-25 — the storming of Béxar",
-      "prompt": "A flat-roofed Béxar house held in the street fighting of December 1835 (\"a pigeon nursery\", Lopez; HIST-TEX-490 to -496): Astra's plastered adobe-flat with its parapet raised to about four feet over the roof for men to fire from, loopholes - narrow slits splayed outside - cut along the parapet and beside the door and window, the window shuttered with planks nailed across. The number and placing of the loopholes is an interpretation; Béxar's houses were stone or adobe, plastered, flat-roofed. Her frontal three-quarter view, scale and outline. Transparent ground, no shadow.",
-      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-loopholed.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's house-loopholed"
     },
     "window-lit-adobe-flat": {
       "kind": "frame",

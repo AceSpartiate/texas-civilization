@@ -6,14 +6,14 @@
     "claude-camp-rest": {
       "image": "/assets/claude-standins/claude-camp-rest.png",
       "width": 1440,
-      "height": 480,
-      "bytes": 173744,
-      "sha256": "f04e30c902c61864e4deb2a885d65901f37c89ea4e67854b73407054a3b31b9e",
+      "height": 240,
+      "bytes": 65997,
+      "sha256": "fd7e3a1aabf715e0ad0062eba7cf57d998034bc1a66d41488a46bc6a6d9fbbc0",
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
       "layout": {
-        "rows": 2,
+        "rows": 1,
         "columns": 6,
         "cell": {
           "w": 240,
@@ -29,7 +29,7 @@
     }
   },
   "frames": {
-    "volunteer-clean-rifle-1": {
+    "volunteer-camp-cook-1": {
       "sheet": "claude-camp-rest",
       "x": 0,
       "y": 0,
@@ -41,82 +41,14 @@
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-clean-rifle-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-volunteer-clean-rifle-1.svg",
-      "label": "volunteer clean rifle 1",
-      "kind": "claude-camp-rest"
-    },
-    "volunteer-clean-rifle-2": {
-      "sheet": "claude-camp-rest",
-      "x": 240,
-      "y": 0,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-clean-rifle-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-volunteer-clean-rifle-2.svg",
-      "label": "volunteer clean rifle 2",
-      "kind": "claude-camp-rest"
-    },
-    "volunteer-camp-sit-1": {
-      "sheet": "claude-camp-rest",
-      "x": 480,
-      "y": 0,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-sit-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-volunteer-camp-sit-1.svg",
-      "label": "volunteer camp sit 1",
-      "kind": "claude-camp-rest"
-    },
-    "volunteer-camp-sit-2": {
-      "sheet": "claude-camp-rest",
-      "x": 720,
-      "y": 0,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-sit-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-volunteer-camp-sit-2.svg",
-      "label": "volunteer camp sit 2",
-      "kind": "claude-camp-rest"
-    },
-    "volunteer-camp-cook-1": {
-      "sheet": "claude-camp-rest",
-      "x": 960,
-      "y": 0,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-cook-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
+      "replaceWith": "volunteer-camp-cook-1: item 3: men cooking at the fire, two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
       "source": "svg/camp-rest/claude-volunteer-camp-cook-1.svg",
       "label": "volunteer camp cook 1",
       "kind": "claude-camp-rest"
     },
     "volunteer-camp-cook-2": {
       "sheet": "claude-camp-rest",
-      "x": 1200,
+      "x": 240,
       "y": 0,
       "w": 240,
       "h": 240,
@@ -126,83 +58,15 @@
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-cook-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
+      "replaceWith": "volunteer-camp-cook-2: item 3: men cooking at the fire, two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
       "source": "svg/camp-rest/claude-volunteer-camp-cook-2.svg",
       "label": "volunteer camp cook 2",
       "kind": "claude-camp-rest"
     },
-    "regular-clean-rifle-1": {
-      "sheet": "claude-camp-rest",
-      "x": 0,
-      "y": 240,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-clean-rifle-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-regular-clean-rifle-1.svg",
-      "label": "regular clean rifle 1",
-      "kind": "claude-camp-rest"
-    },
-    "regular-clean-rifle-2": {
-      "sheet": "claude-camp-rest",
-      "x": 240,
-      "y": 240,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-clean-rifle-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-regular-clean-rifle-2.svg",
-      "label": "regular clean rifle 2",
-      "kind": "claude-camp-rest"
-    },
-    "regular-camp-sit-1": {
-      "sheet": "claude-camp-rest",
-      "x": 480,
-      "y": 240,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-sit-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-regular-camp-sit-1.svg",
-      "label": "regular camp sit 1",
-      "kind": "claude-camp-rest"
-    },
-    "regular-camp-sit-2": {
-      "sheet": "claude-camp-rest",
-      "x": 720,
-      "y": 240,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-sit-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
-      "source": "svg/camp-rest/claude-regular-camp-sit-2.svg",
-      "label": "regular camp sit 2",
-      "kind": "claude-camp-rest"
-    },
     "regular-camp-cook-1": {
       "sheet": "claude-camp-rest",
-      "x": 960,
-      "y": 240,
+      "x": 480,
+      "y": 0,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -211,15 +75,15 @@
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-cook-1: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
+      "replaceWith": "regular-camp-cook-1: item 3: men cooking at the fire, two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
       "source": "svg/camp-rest/claude-regular-camp-cook-1.svg",
       "label": "regular camp cook 1",
       "kind": "claude-camp-rest"
     },
     "regular-camp-cook-2": {
       "sheet": "claude-camp-rest",
-      "x": 1200,
-      "y": 240,
+      "x": 720,
+      "y": 0,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -228,49 +92,13 @@
       "madeBy": "claude",
       "module": "camp-rest",
       "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-cook-2: item 3: two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
+      "replaceWith": "regular-camp-cook-2: item 3: men cooking at the fire, two frames each, east-facing and mirrored for west, the soldier figure's own logical height and foot baseline",
       "source": "svg/camp-rest/claude-regular-camp-cook-2.svg",
       "label": "regular camp cook 2",
       "kind": "claude-camp-rest"
     }
   },
   "clips": {
-    "volunteer-clean-rifle": {
-      "frames": [
-        {
-          "sprite": "volunteer-clean-rifle-1",
-          "duration": 480
-        },
-        {
-          "sprite": "volunteer-clean-rifle-2",
-          "duration": 480
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "camp-rest"
-    },
-    "volunteer-camp-sit": {
-      "frames": [
-        {
-          "sprite": "volunteer-camp-sit-1",
-          "duration": 1500
-        },
-        {
-          "sprite": "volunteer-camp-sit-2",
-          "duration": 1100
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "camp-rest"
-    },
     "volunteer-camp-cook": {
       "frames": [
         {
@@ -280,42 +108,6 @@
         {
           "sprite": "volunteer-camp-cook-2",
           "duration": 520
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "camp-rest"
-    },
-    "regular-clean-rifle": {
-      "frames": [
-        {
-          "sprite": "regular-clean-rifle-1",
-          "duration": 480
-        },
-        {
-          "sprite": "regular-clean-rifle-2",
-          "duration": 480
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "camp-rest"
-    },
-    "regular-camp-sit": {
-      "frames": [
-        {
-          "sprite": "regular-camp-sit-1",
-          "duration": 1500
-        },
-        {
-          "sprite": "regular-camp-sit-2",
-          "duration": 1100
         }
       ],
       "loop": true,
@@ -345,62 +137,6 @@
     }
   },
   "provenance": {
-    "volunteer-clean-rifle-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "sheet": "claude-camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "A Texian volunteer in his own frontier clothes, slouch hat at rest in camp, clean rifle, frame 1 of 2: sitting on a log, the musket across the knees, a rag at the lock. Side on, facing east; an interpretation at play size, not a uniform plate; nothing pointed at anyone; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/camp-rest/claude-volunteer-clean-rifle-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-clean-rifle-1"
-    },
-    "volunteer-clean-rifle-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "sheet": "claude-camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "A Texian volunteer in his own frontier clothes, slouch hat at rest in camp, clean rifle, frame 2 of 2: the rag run up the barrel toward the muzzle. Side on, facing east; an interpretation at play size, not a uniform plate; nothing pointed at anyone; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/camp-rest/claude-volunteer-clean-rifle-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-clean-rifle-2"
-    },
-    "volunteer-camp-sit-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "sheet": "claude-camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "A Texian volunteer in his own frontier clothes, slouch hat at rest in camp, camp sit, frame 1 of 2: sitting on a log at ease, forearms on the knees. Side on, facing east; an interpretation at play size, not a uniform plate; nothing pointed at anyone; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/camp-rest/claude-volunteer-camp-sit-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-camp-sit-1"
-    },
-    "volunteer-camp-sit-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "sheet": "claude-camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "A Texian volunteer in his own frontier clothes, slouch hat at rest in camp, camp sit, frame 2 of 2: sitting back, a tin cup raised to drink. Side on, facing east; an interpretation at play size, not a uniform plate; nothing pointed at anyone; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/camp-rest/claude-volunteer-camp-sit-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-camp-sit-2"
-    },
     "volunteer-camp-cook-1": {
       "kind": "frame",
       "madeBy": "claude",
@@ -428,62 +164,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's volunteer-camp-cook-2"
-    },
-    "regular-clean-rifle-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "sheet": "claude-camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "A Mexican line infantryman of 1836, dark blue coatee with red facings, white crossbelt, shako at rest in camp, clean rifle, frame 1 of 2: sitting on a log, the musket across the knees, a rag at the lock. Side on, facing east; an interpretation at play size, not a uniform plate; nothing pointed at anyone; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/camp-rest/claude-regular-clean-rifle-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-clean-rifle-1"
-    },
-    "regular-clean-rifle-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "sheet": "claude-camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "A Mexican line infantryman of 1836, dark blue coatee with red facings, white crossbelt, shako at rest in camp, clean rifle, frame 2 of 2: the rag run up the barrel toward the muzzle. Side on, facing east; an interpretation at play size, not a uniform plate; nothing pointed at anyone; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/camp-rest/claude-regular-clean-rifle-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-clean-rifle-2"
-    },
-    "regular-camp-sit-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "sheet": "claude-camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "A Mexican line infantryman of 1836, dark blue coatee with red facings, white crossbelt, shako at rest in camp, camp sit, frame 1 of 2: sitting on a log at ease, forearms on the knees. Side on, facing east; an interpretation at play size, not a uniform plate; nothing pointed at anyone; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/camp-rest/claude-regular-camp-sit-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-camp-sit-1"
-    },
-    "regular-camp-sit-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "sheet": "claude-camp-rest",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "A Mexican line infantryman of 1836, dark blue coatee with red facings, white crossbelt, shako at rest in camp, camp sit, frame 2 of 2: sitting back, a tin cup raised to drink. Side on, facing east; an interpretation at play size, not a uniform plate; nothing pointed at anyone; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/camp-rest/claude-regular-camp-sit-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-camp-sit-2"
     },
     "regular-camp-cook-1": {
       "kind": "frame",
@@ -513,34 +193,6 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's regular-camp-cook-2"
     },
-    "volunteer-clean-rifle": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "volunteer clean rifle in camp, two frames looping (480, 480 ms): sitting on a log, the musket across the knees, a rag at the lock; the rag run up the barrel toward the muzzle.",
-      "frames": [
-        "volunteer-clean-rifle-1",
-        "volunteer-clean-rifle-2"
-      ],
-      "status": "temporary: replace with Astra's volunteer-clean-rifle"
-    },
-    "volunteer-camp-sit": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "volunteer camp sit in camp, two frames looping (1500, 1100 ms): sitting on a log at ease, forearms on the knees; sitting back, a tin cup raised to drink.",
-      "frames": [
-        "volunteer-camp-sit-1",
-        "volunteer-camp-sit-2"
-      ],
-      "status": "temporary: replace with Astra's volunteer-camp-sit"
-    },
     "volunteer-camp-cook": {
       "kind": "clip",
       "madeBy": "claude",
@@ -554,34 +206,6 @@
         "volunteer-camp-cook-2"
       ],
       "status": "temporary: replace with Astra's volunteer-camp-cook"
-    },
-    "regular-clean-rifle": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "regular clean rifle in camp, two frames looping (480, 480 ms): sitting on a log, the musket across the knees, a rag at the lock; the rag run up the barrel toward the muzzle.",
-      "frames": [
-        "regular-clean-rifle-1",
-        "regular-clean-rifle-2"
-      ],
-      "status": "temporary: replace with Astra's regular-clean-rifle"
-    },
-    "regular-camp-sit": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "camp-rest",
-      "area": "work",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "regular camp sit in camp, two frames looping (1500, 1100 ms): sitting on a log at ease, forearms on the knees; sitting back, a tin cup raised to drink.",
-      "frames": [
-        "regular-camp-sit-1",
-        "regular-camp-sit-2"
-      ],
-      "status": "temporary: replace with Astra's regular-camp-sit"
     },
     "regular-camp-cook": {
       "kind": "clip",

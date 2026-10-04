@@ -97,11 +97,11 @@ export function propItem(ctx, amb, point, figure, { time = 0, flip = false } = {
  * The clip for one of a camp's men (public/army-view.js) or the crowd at a refuge doing `one.p`, facing `one.face`: the
  * military sheets' own poses for a rifleman or a regular, the cast's for everybody else. Returns `{ id, flip }`, and `base`
  * where `id` is a soldier at rest (`SOLDIERS_AT_REST`) whose sheet may not be drawable yet: the delivered pose to draw then.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 3: a rifle cleaned, a man sitting and a man cooking
- * are Claude-drawn (`<volunteer|regular>-clean-rifle`, `-camp-sit`, `-camp-cook`; "Claude-drawn stand-ins (replace with
- * Astra's)", area A), and until they load the ramrod's stroke and the standing idle.
+ * A rifle cleaned and a man sitting at ease are Astra's `<volunteer|regular>-camp-clean` and `-rest-sit` (2026-10-03).
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 3: a man cooking is Claude-drawn (`-camp-cook`;
+ * "Claude-drawn stand-ins (replace with Astra's)", area A), and until it loads the standing idle.
  */
-export const SOLDIERS_AT_REST = Object.freeze({ rifle: 'clean-rifle', sit: 'camp-sit', cook: 'camp-cook' });
+export const SOLDIERS_AT_REST = Object.freeze({ rifle: 'camp-clean', sit: 'rest-sit', cook: 'camp-cook' });
 export function figureClip(one, stepping = null) {
   const figure = one.f || one.figure, face = one.face === 'w' ? 'w' : 'e';
   if (figure === 'volunteer' || figure === 'regular') {

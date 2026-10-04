@@ -1,6 +1,6 @@
 {
   "record": "The towns of the colonies, drawn in a browser: docs/TOWNS.md §5b",
-  "date": "2026-09-29",
+  "date": "2026-10-04",
   "verdict": "PASS",
   "note": "Same computer only. A 30-family class on the colonies map, served live; the Host page went to each drawn town from its Go to list. No LAN or district claim.",
   "checks": [
@@ -302,34 +302,5 @@
       "keepersDrawn": 0
     }
   },
-  "screenshots": [
-    "docs/evidence/town-san-felipe.png",
-    "docs/evidence/town-san-felipe-close.png",
-    "docs/evidence/town-victoria.png",
-    "docs/evidence/town-victoria-close.png",
-    "docs/evidence/town-mina.png",
-    "docs/evidence/town-mina-close.png",
-    "docs/evidence/town-matagorda.png",
-    "docs/evidence/town-matagorda-close.png",
-    "docs/evidence/town-columbia.png",
-    "docs/evidence/town-columbia-close.png",
-    "docs/evidence/town-liberty.png",
-    "docs/evidence/town-liberty-close.png",
-    "docs/evidence/town-washington.png",
-    "docs/evidence/town-washington-close.png",
-    "docs/evidence/town-brazoria.png",
-    "docs/evidence/town-brazoria-close.png",
-    "docs/evidence/town-velasco.png",
-    "docs/evidence/town-velasco-close.png",
-    "docs/evidence/town-harrisburg.png",
-    "docs/evidence/town-harrisburg-close.png",
-    "docs/evidence/town-anahuac.png",
-    "docs/evidence/town-anahuac-close.png",
-    "docs/evidence/town-nacogdoches.png",
-    "docs/evidence/town-nacogdoches-close.png",
-    "docs/evidence/town-refugio.png",
-    "docs/evidence/town-refugio-close.png",
-    "docs/evidence/town-goliad.png",
-    "docs/evidence/town-goliad-close.png"
-  ]
+  "screenshots": []
 }

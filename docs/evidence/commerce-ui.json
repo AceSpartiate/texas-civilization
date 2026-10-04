@@ -1,0 +1,14 @@
+{
+  "verdict": "PASS",
+  "checks": [
+    "wagon capacity and livestock disclosure",
+    "desktop bounds",
+    "search",
+    "keyboard quantity",
+    "persistent basket",
+    "remove selection",
+    "filters",
+    "Escape"
+  ],
+  "errors": []
+}

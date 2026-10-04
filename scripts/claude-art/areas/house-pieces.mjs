@@ -637,40 +637,8 @@ function saddlebagInterior() {
     anchorX: f.anchorX, anchorY: 0.985 };
 }
 
-// ---------------------------------------------------------------------------------------------------------------- E7: the loopholed house
-// A flat-roofed stone house of Béxar made ready for street fighting, December 1835 (request 2026-09-25, the storming of
-// Béxar, item 1; docs/battle-research/staging.md §3.9, HIST-TEX-490 to -496): "a pigeon nursery" (Lopez) - its walls cut
-// with loopholes and its parapet raised to about four feet so men could fire from the roof. Made from Astra's `adobe-flat`
-// (Béxar's houses were stone or adobe, plastered, flat-roofed behind a parapet): her parapet band laid again above itself so
-// it stands about four feet over the roof (her door is about 80 of her pixels for six and a half feet, so a foot is about
-// 12), a row of loopholes along it and more beside the door and window, the window shuttered with planks. The number and
-// placing of loopholes is not recorded for any one house; these are an interpretation.
-// `band` is her parapet's plain plaster (below its top edge's line, above the vigas), laid once more under itself.
-const LOOPHOLED = { band: [30, 48], slits: [[62, 42], [104, 42], [152, 42], [206, 42], [252, 42], [34, 98], [146, 104], [228, 104], [254, 120]] };
-LOOPHOLED.raise = LOOPHOLED.band[1] - LOOPHOLED.band[0];
-
-function loopholedHouse() {
-  const f = her('adobe-flat'), { raise, band } = LOOPHOLED, c = new Canvas('house-loopholed', f.w, f.h + raise);
-  // Her roof rim and parapet as they are; the parapet's plaster band once more under them; her house below, lowered.
-  const [b0, b1] = band;
-  c.raw(`<g clip-path="url(#${c.clipRect(0, b1 + raise, f.w, f.h)})">${c.image(f, 0, raise)}</g>`);
-  c.raw(`<g clip-path="url(#${c.clipRect(0, b1, f.w, raise)})">${c.image(f, 0, b1 - b0)}</g>`);
-  c.raw(`<g clip-path="url(#${c.clipRect(0, 0, f.w, b1)})">${c.image(f, 0, 0)}</g>`);
-  // The window closed with planks nailed across it.
-  const [wx, wy, ww, wh] = [172, 94 + raise, 36, 34];
-  c.raw(`<rect x="${wx}" y="${wy}" width="${ww}" height="${wh}" fill="#6b4a2c" stroke="${INK}" stroke-width="${LINE.fine + 0.4}"/>`);
-  for (let i = 1; i < 4; i++) c.line([[wx + 1, wy + i * wh / 4], [wx + ww - 1, wy + i * wh / 4 + 1]], { width: LINE.fine, colour: '#3a2414' });
-  c.line([[wx + 4, wy + 3], [wx + ww - 4, wy + wh - 3]], { width: LINE.inner, colour: '#8a6238' });
-  // Loopholes: narrow slits splayed on the outside, dark within.
-  for (const [x, y] of LOOPHOLED.slits) {
-    const yy = y + (y > band[1] ? raise : 0);
-    c.raw(`<path d="M ${x - 3.4} ${yy} L ${x + 3.4} ${yy} L ${x + 2} ${yy + 15} L ${x - 2} ${yy + 15} Z" fill="#b89468" opacity="0.9"/>`);
-    c.raw(`<rect x="${x - 1.3}" y="${yy + 1.5}" width="2.6" height="12" rx="1" fill="#1c120b"/>`);
-  }
-  return { svg: c.svg('Astra\'s adobe-flat with its parapet raised to about four feet and loopholes cut in parapet and walls: a Béxar house held in the storming'),
-    anchorX: f.anchorX, anchorY: +((f.anchorY * f.h + raise) / (f.h + raise)).toFixed(4), logicalHeight: f.h };
-}
-
+// E7, the loopholed house: Astra's `house-loopholed` since 2026-10-03; Claude's (her adobe-flat with a raised, loopholed parapet)
+// was deleted at the merge of 2026-10-04.
 // ---------------------------------------------------------------------------------------------------------------- E13: lit windows
 // Lamplight in a window at night (request 2026-09-25, the south's fights, item 2: San Patricio, where local men "left
 // lanterns burning in their own windows", FIC-GONZ-435), as overlays registered to her houses: each frame is her house's own
@@ -744,10 +712,8 @@ export const SHEETS = {
     replaceWith: 'a saddlebag interior in the home-interiors style, camera and scale exactly as interior-dog-run: two round-log pens wall to wall round one central stone chimney, a fireplace into each, no passage',
     frames: [{ name: 'interior-saddlebag', draw: saddlebagInterior, compare: [['interior-dog-run', 3]], height: 3,
       prompt: 'The rooms of a saddlebag house, cut away as Astra\'s interior-dog-run is and in exactly its camera and scale: two round-log pens wall to wall, a stone fireplace in the middle wall of each, their two stacks side by side over the middle as one double chimney, a window in each back wall, earth floors, no passage. Made from her own dog-run rooms cut at the passage and laid the other way round (each pen seen from its own middle, a cutaway convention that opens the middle wall so both hearths show). Saddlebag houses had one central chimney serving both pens (HIST-TEX-017). Transparent background.' }] },
-  'claude-house-loopholed': { cell: { w: 296, h: 204 }, request: 'Request 2026-09-25 — the storming of Béxar',
-    replaceWith: 'item 1: a flat-roofed stone house, a parapet about four feet high, loopholes in its walls, at the stone-tile-house scale',
-    frames: [{ name: 'house-loopholed', draw: loopholedHouse, height: 2.4, compare: [['adobe-flat', 2.4], ['stone-tile-house', 2.4], ['volunteer-e', 1]],
-      prompt: 'A flat-roofed Béxar house held in the street fighting of December 1835 ("a pigeon nursery", Lopez; HIST-TEX-490 to -496): Astra\'s plastered adobe-flat with its parapet raised to about four feet over the roof for men to fire from, loopholes - narrow slits splayed outside - cut along the parapet and beside the door and window, the window shuttered with planks nailed across. The number and placing of the loopholes is an interpretation; Béxar\'s houses were stone or adobe, plastered, flat-roofed. Her frontal three-quarter view, scale and outline. Transparent ground, no shadow.' }] },
+  // `house-loopholed` (the storming of Béxar, item 1) is Astra's since 2026-10-03 (closed, open, breached and cut-away states):
+  // Claude's was deleted at the merge of 2026-10-04.
   'claude-window-lit': { cell: { w: 300, h: 250 }, columns: 4, request: 'Request 2026-09-25 — the south\'s fights: San Patricio by night and Agua Dulce Creek',
     replaceWith: 'item 2: a lit-window overlay registered to the building it overlays',
     frames: Object.keys(LIT).map(house => ({ name: `window-lit-${house}`, draw: () => litWindow(house), height: 2.4, compare: [[house, 2.4]],

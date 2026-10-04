@@ -63,14 +63,16 @@ export const BEXAR_OFFSETS = Object.freeze({
   // The Navarro house, "close to the square", taken at ten on the night of the 7th.
   navarro: { x: 0.028, y: -0.058 },
   // Zambrano Row, "leading to the square", taken room by room on the 8th, and the plaza's edge in front of it.
-  row: { x: 0.0149, y: -0.044 },
+  // The Row and the Priest's House (and the gun at its door) moved with their houses on 2026-10-04, when Astra's street repair
+  // set the plaza's north frontage 70 feet back off the north lane (docs/TOWN_STREET_REPAIRS_2026-10-03.md; was 0.0149, -0.044).
+  row: { x: 0.0197, y: -0.0563 },
   rowFront: { x: 0.012, y: -0.03 },
   // The line of loopholes Cooke's men passed "within a few feet of ... for seventy or seventy five yards", and its end.
   loopholes: { x: 0.03, y: -0.076 },
   loopholesEnd: { x: 0.0, y: -0.063 },
   // The Priest's House on the plaza, and the gun by the cemetery "two or three yards" from its door.
-  priests: { x: -0.0116, y: -0.0542 },
-  cemeteryGun: { x: -0.02, y: -0.047 },
+  priests: { x: -0.0068, y: -0.0666 },
+  cemeteryGun: { x: -0.0152, y: -0.0594 },
   // The palisade and gun across the street's entrance to the plaza, the plaza itself, the roofs round it and the church.
   barricade: { x: 0.004, y: -0.024 },
   plaza: { x: 0.0, y: 0.004 },

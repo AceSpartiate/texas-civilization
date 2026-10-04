@@ -1,5 +1,5 @@
-// The battles' works and props (docs/CLAUDE_ART_PLAN.md area C: C4, C5, C9, C15, C16, C17, C18, C19): stacked muskets and the
-// breastwork of packs at San Jacinto, the street barricade and the sandbag breastwork at Béxar, a Mexican column on the march,
+// The battles' works and props (docs/CLAUDE_ART_PLAN.md area C: C9, C15, C16, C17, C18, C19; C4 and C5's are Astra's since
+// 2026-10-03): a Mexican column on the march,
 // Castrillón's ammunition crate, the Grass Fight's slit bundle, a padre with a cart after Concepción, the Come and Take It flag
 // without its disputed star and half-painted on the table, the armies' camps on the map, and the Alamo's north-wall and church
 // guns. Claude's temporary art: interpretive silhouettes, never an exact portrait of a surviving gun or a documented object.
@@ -44,62 +44,9 @@ const sheet = (id, request, replaceWith, cell, frames, columns) => { sheets[id] 
 /** A prop drawn in the person rig's units in a cell of its own, its logical height one person unless `persons` says. */
 const prop = (name, cell, originX, draw, { persons = 1, groundY } = {}) => ({ ...personFrame(name, draw, { note: name, cell, originX, ...(groundY && { groundY }) }), logicalHeight: Math.round(300 * persons) });
 
-// ---------------------------------------------------------------------------------------------------- C4: San Jacinto's camp
-{
-  const frames = [];
-  // Three muskets stacked by their bayonets (the pyramid a company leaves its arms in).
-  frames.push({ name: 'musket-stack', compare: [['regular-e', 1], ['crate', 0.6]], prompt: `Three India Pattern muskets stacked in a pyramid by their locked bayonets, as a Mexican company left its arms in camp at San Jacinto on the afternoon of April 21, 1836; butts spread on the ground. ${STYLE}`,
-    draw: () => prop('musket-stack', { w: 400, h: 400 }, 200, ink => {
-      const top = [0, 76];
-      for (const [bx, down] of [[-26, 1], [24, -1], [2, 1]]) drawGun(ink, [bx, 0.5], add(top, [bx * 0.08, -6]), { kind: 'musket', down, bayonet: true });
-    }) });
-  // The breastwork of packs and baggage: four segments about five feet high, laid end to end, the gap for the guns between two.
-  const piece = (ink, x, y, w, h, colour, kind) => {
-    if (kind === 'box') { ink.shape(poly([[x, y], [x + w, y], [x + w, y + h], [x, y + h]]), colour, { off: 1 }); ink.line(seg([x + 2, y + h * 0.5], [x + w - 2, y + h * 0.5]), { width: 1.4, opacity: 0.6 }); ink.shape(poly([[x, y + h], [x + w, y + h], [x + w + 6, y + h + 4], [x + 6, y + h + 4]]), tone(colour, 0.12), { shade: false, outline: 1.8 }); return; }
-    if (kind === 'saddle') { ink.shape(blob([[x, y + h * 0.3], [x + w * 0.2, y + h], [x + w * 0.5, y + h * 0.7], [x + w * 0.8, y + h * 1.05], [x + w, y + h * 0.3], [x + w * 0.5, y]], 0.7), colour, { off: 1 }); ink.line(curve([[x + w * 0.3, y + h * 0.3], [x + w * 0.4, y - h * 0.3]]), { colour: COLOURS.leather, width: 2 }); return; }
-    if (kind === 'brush') {
-      ink.shape(blob([[x, y], [x + w * 0.1, y + h * 0.7], [x + w * 0.35, y + h], [x + w * 0.6, y + h * 0.8], [x + w * 0.85, y + h * 0.95], [x + w, y]], 0.6), '#6a6a38', { off: 1 });
-      for (let i = 1; i < 6; i++) ink.line(curve([[x + i * w / 6, y + 2], [x + i * w / 6 + 3, y + h * 0.6], [x + i * w / 6 + 7, y + h * 0.95]]), { colour: '#4a4020', width: 1.8 });
-      return;
-    }
-    ink.shape(blob([[x, y + h * 0.1], [x + w * 0.1, y + h], [x + w * 0.9, y + h * 0.95], [x + w, y + h * 0.1], [x + w * 0.5, y - 1]], 0.7), colour, { off: 1, lift: true });
-    ink.line(curve([[x + w * 0.2, y + h * 0.8], [x + w * 0.5, y + h * 0.95], [x + w * 0.8, y + h * 0.8]]), { width: 1.4, opacity: 0.6 });
-  };
-  const layouts = [
-    [[-70, 0, 40, 28, '#8a6a44', 'box'], [-28, 0, 44, 30, '#b8a070', 'pack'], [18, 0, 50, 28, '#7a5a38', 'box'], [-62, 28, 46, 26, '#5a3a22', 'saddle'], [-14, 30, 42, 24, '#c8b088', 'pack'], [28, 28, 38, 26, '#6a4a2e', 'saddle'], [-40, 54, 70, 24, '#6a5a30', 'brush'], [8, 52, 36, 22, '#a89060', 'pack']],
-    [[-72, 0, 48, 32, '#b8a070', 'pack'], [-20, 0, 38, 30, '#8a6a44', 'box'], [22, 0, 48, 28, '#c8b088', 'pack'], [-60, 30, 40, 24, '#7a5a38', 'box'], [-18, 30, 46, 26, '#5a3a22', 'saddle'], [30, 28, 36, 26, '#a89060', 'pack'], [-50, 54, 90, 26, '#6a5a30', 'brush']],
-    [[-70, 0, 36, 28, '#7a5a38', 'box'], [-30, 0, 50, 32, '#c8b088', 'pack'], [24, 0, 44, 30, '#8a6a44', 'box'], [-66, 28, 48, 26, '#b8a070', 'pack'], [-14, 32, 40, 24, '#6a4a2e', 'saddle'], [26, 30, 42, 24, '#a89060', 'pack'], [-44, 54, 80, 24, '#6a5a30', 'brush']],
-    [[-66, 0, 44, 30, '#8a6a44', 'box'], [-18, 0, 44, 28, '#b8a070', 'pack'], [30, 0, 36, 30, '#7a5a38', 'box'], [-58, 30, 44, 26, '#5a3a22', 'saddle'], [-10, 28, 48, 26, '#c8b088', 'pack'], [36, 30, 30, 22, '#a89060', 'pack'], [-46, 54, 84, 26, '#6a5a30', 'brush']],
-  ];
-  layouts.forEach((pieces, i) => frames.push({ name: `breastwork-packs-${i + 1}`, compare: [['crate', 0.7], ['packed-belongings', 0.5], ['regular-e', 1]],
-    prompt: `Segment ${i + 1} of 4 of the Mexican breastwork at San Jacinto, "constructed of packs and baggage" (Houston, HIST-TEX-522): packs, saddles, ammunition boxes and cut brush piled into a wall about five feet high, a little wider than two men, three-quarter from the front; laid end to end with a gap between two for the guns. ${STYLE}`,
-    draw: () => prop(`breastwork-packs-${i + 1}`, { w: 480, h: 400 }, 240, ink => { for (const p of pieces) piece(ink, ...p); }) }));
-  sheet('claude-breastwork', R.sanjac, 'item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun', { w: 480, h: 400 }, frames.map(f => f.name === 'musket-stack' ? { ...f, draw: () => prop('musket-stack', { w: 480, h: 400 }, 240, ink => { const top = [0, 76]; for (const [bx, down] of [[-26, 1], [24, -1], [2, 1]]) drawGun(ink, [bx, 0.5], add(top, [bx * 0.08, -6]), { kind: 'musket', down, bayonet: true }); }) } : f), 3);
-}
-
-// ---------------------------------------------------------------------------------------------------- C5: Béxar's barricades
-{
-  const frames = [
-    { name: 'barricade-street', compare: [['palisade', 2.2]], prompt: `A street barricade at Béxar, December 1835: a ditch in front, an earth bank thrown up from it, a palisade of upright posts on the bank, and an embrasure in the posts where a gun's muzzle shows - across a street's mouth, three-quarter from the front (Field; Dance; the 2007 archaeology under Main Plaza). ${STYLE}`,
-      draw: () => prop('barricade-street', { w: 720, h: 400 }, 360, ink => {
-        ink.shape(blob([[-118, -1], [-112, 22], [0, 26], [112, 22], [118, -1]], 0.5), EARTH, { off: 2, lift: true });
-        ink.shape(poly([[-122, -1.5], [122, -1.5], [118, -3.6], [-118, -3.6]]), EARTH_DARK, { shade: false, outline: 2.2 });
-        for (let x = -104; x <= 104; x += 9) {
-          if (Math.abs(x - 6) < 12) continue;
-          ink.shape(poly([[x - 3.6, 18], [x + 3.6, 18], [x + 3.6, 64 + (x % 3)], [x, 70 + (x % 3)], [x - 3.6, 64 + (x % 3)]]), '#8a6a44', { off: 0.8 });
-        }
-        ink.line(seg([-106, 52], [-10, 54]), { colour: COLOURS.leather, width: 2.2 }); ink.line(seg([20, 54], [106, 52]), { colour: COLOURS.leather, width: 2.2 });
-        ink.shape(capsule([0, 34], [18, 32], 4.2, 3.6), '#46443f', { shade: false, outline: 2.6 });
-        ink.shape(ellipse([19, 32], 2.6, 3), '#1a1614', { shade: false, outline: 1.6 });
-      }, { persons: 1 }) },
-    { name: 'sandbag-breastwork', compare: [['sacks', 1.5]], prompt: `A low breastwork of filled sandbags laid in three courses, about waist high and two men wide, as the defenders of Béxar threw up at night across a street, December 1835; three-quarter from the front. ${STYLE}`,
-      draw: () => prop('sandbag-breastwork', { w: 560, h: 400 }, 280, ink => {
-        const bag = (x, y) => { ink.shape(blob([[x - 12, y + 1], [x - 11, y + 10], [x + 11, y + 10.5], [x + 12.5, y + 1], [x, y - 0.5]], 0.8), '#c8b088', { off: 1, lift: true }); ink.line(seg([x + 9, y + 2], [x + 10, y + 9]), { width: 1.2, opacity: 0.7 }); };
-        for (let r = 0; r < 3; r++) for (let i = 0; i < 7 - r; i++) bag(-72 + r * 12 + i * 24, r * 10.5);
-      }) },
-  ];
-  sheet('claude-bexar-works', R.storming, 'items 2 and 4: a street barricade (ditch, bank, post palisade, a gun embrasure) and a low breastwork of filled sacks, at `palisade` scale', { w: 720, h: 400 }, frames.map(f => f.name === 'sandbag-breastwork' ? { ...f, draw: () => prop('sandbag-breastwork', { w: 720, h: 400 }, 360, ink => { const bag = (x, y) => { ink.shape(blob([[x - 12, y + 1], [x - 11, y + 10], [x + 11, y + 10.5], [x + 12.5, y + 1], [x, y - 0.5]], 0.8), '#c8b088', { off: 1, lift: true }); ink.line(seg([x + 9, y + 2], [x + 10, y + 9]), { width: 1.2, opacity: 0.7 }); }; for (let r = 0; r < 3; r++) for (let i = 0; i < 7 - r; i++) bag(-72 + r * 12 + i * 24, r * 10.5); }) } : f), 2);
-}
+// C4 (San Jacinto's stacked muskets and breastwork of packs) and C5 (Béxar's street barricade and sandbag breastwork) are
+// Astra's (2026-10-03: `musket-stack-*`, `breastwork-packs-left`/`-right`, `barricade-street-*`, `sandbag-*`): Claude's were
+// deleted at the merge of 2026-10-04.
 
 // ---------------------------------------------------------------------------------------------------- C9: a column on the march
 {

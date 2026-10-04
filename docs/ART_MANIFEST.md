@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2546 usable sprites, 273 PNG atlases, 897 clips** (589 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2630 usable sprites, 282 PNG atlases, 917 clips** (609 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -198,6 +198,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
+| military-camp-life | 16 | 1254 × 1254 | 1457813 |
+| volunteer-engineer-actions | 16 | 1254 × 1254 | 1490159 |
+| volunteer-bearers | 4 | 1254 × 1254 | 1164328 |
+| regular-bearers | 4 | 1254 × 1254 | 852040 |
+| dragoon-wounded-led | 4 | 1774 × 887 | 1322772 |
+| volunteer-mounted | 16 | 1226 × 1283 | 1337896 |
+| field-cover-camp-props | 16 | 1254 × 1254 | 1651891 |
+| house-loopholed | 4 | 1536 × 1024 | 2777417 |
+| volunteer-loophole-actions | 4 | 1254 × 1254 | 989282 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
 | people-mounted-cast1-s | 16 | 1254 × 1254 | 1213409 |
 | people-mounted-cast1-n | 16 | 1254 × 1254 | 1283689 |
@@ -1907,6 +1916,90 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | live-oak-mott-dense-2 | live-oak-mott | live-oak-mott-dense-wind |
 | live-oak-mott-open-1 | live-oak-mott | live-oak-mott-open-wind |
 | live-oak-mott-open-2 | live-oak-mott | live-oak-mott-open-wind |
+| volunteer-rest-sit-1 | military-camp-life | volunteer-rest-sit |
+| volunteer-rest-sit-2 | military-camp-life | volunteer-rest-sit |
+| volunteer-sleep-1 | military-camp-life | volunteer-sleep |
+| volunteer-sleep-2 | military-camp-life | volunteer-sleep |
+| volunteer-camp-drink-1 | military-camp-life | volunteer-camp-drink |
+| volunteer-camp-drink-2 | military-camp-life | volunteer-camp-drink |
+| volunteer-camp-clean-1 | military-camp-life | volunteer-camp-clean |
+| volunteer-camp-clean-2 | military-camp-life | volunteer-camp-clean |
+| regular-rest-sit-1 | military-camp-life | regular-rest-sit |
+| regular-rest-sit-2 | military-camp-life | regular-rest-sit |
+| regular-sleep-1 | military-camp-life | regular-sleep |
+| regular-sleep-2 | military-camp-life | regular-sleep |
+| regular-camp-drink-1 | military-camp-life | regular-camp-drink |
+| regular-camp-drink-2 | military-camp-life | regular-camp-drink |
+| regular-camp-clean-1 | military-camp-life | regular-camp-clean |
+| regular-camp-clean-2 | military-camp-life | regular-camp-clean |
+| volunteer-dig-1 | volunteer-engineer-actions | volunteer-dig |
+| volunteer-dig-2 | volunteer-engineer-actions | volunteer-dig |
+| volunteer-dig-3 | volunteer-engineer-actions | volunteer-dig |
+| volunteer-dig-4 | volunteer-engineer-actions | volunteer-dig |
+| volunteer-crowbar-1 | volunteer-engineer-actions | volunteer-crowbar |
+| volunteer-crowbar-2 | volunteer-engineer-actions | volunteer-crowbar |
+| volunteer-crowbar-3 | volunteer-engineer-actions | volunteer-crowbar |
+| volunteer-crowbar-4 | volunteer-engineer-actions | volunteer-crowbar |
+| volunteer-sandbag-carry-1 | volunteer-engineer-actions | volunteer-sandbag-carry |
+| volunteer-sandbag-carry-2 | volunteer-engineer-actions | volunteer-sandbag-carry |
+| volunteer-sandbag-carry-3 | volunteer-engineer-actions | volunteer-sandbag-carry |
+| volunteer-sandbag-carry-4 | volunteer-engineer-actions | volunteer-sandbag-carry |
+| volunteer-sandbag-fill-1 | volunteer-engineer-actions | volunteer-sandbag-fill |
+| volunteer-sandbag-fill-2 | volunteer-engineer-actions | volunteer-sandbag-fill |
+| volunteer-sandbag-fill-3 | volunteer-engineer-actions | volunteer-sandbag-fill |
+| volunteer-sandbag-fill-4 | volunteer-engineer-actions | volunteer-sandbag-fill |
+| bearers-carry-1 | volunteer-bearers | bearers-carry |
+| bearers-carry-2 | volunteer-bearers | bearers-carry |
+| bearers-carry-3 | volunteer-bearers | bearers-carry |
+| bearers-carry-4 | volunteer-bearers | bearers-carry |
+| regular-bearers-carry-1 | regular-bearers | regular-bearers-carry |
+| regular-bearers-carry-2 | regular-bearers | regular-bearers-carry |
+| regular-bearers-carry-3 | regular-bearers | regular-bearers-carry |
+| regular-bearers-carry-4 | regular-bearers | regular-bearers-carry |
+| dragoon-wounded-led-1 | dragoon-wounded-led | dragoon-wounded-led |
+| dragoon-wounded-led-2 | dragoon-wounded-led | dragoon-wounded-led |
+| dragoon-wounded-led-3 | dragoon-wounded-led | dragoon-wounded-led |
+| dragoon-wounded-led-4 | dragoon-wounded-led | dragoon-wounded-led |
+| volunteer-ride-e-1 | volunteer-mounted | volunteer-ride-e |
+| volunteer-ride-e-2 | volunteer-mounted | volunteer-ride-e |
+| volunteer-ride-e-3 | volunteer-mounted | volunteer-ride-e |
+| volunteer-ride-e-4 | volunteer-mounted | volunteer-ride-e |
+| volunteer-ride-s-1 | volunteer-mounted | volunteer-ride-s |
+| volunteer-ride-s-2 | volunteer-mounted | volunteer-ride-s |
+| volunteer-ride-s-3 | volunteer-mounted | volunteer-ride-s |
+| volunteer-ride-s-4 | volunteer-mounted | volunteer-ride-s |
+| volunteer-ride-n-1 | volunteer-mounted | volunteer-ride-n |
+| volunteer-ride-n-2 | volunteer-mounted | volunteer-ride-n |
+| volunteer-ride-n-3 | volunteer-mounted | volunteer-ride-n |
+| volunteer-ride-n-4 | volunteer-mounted | volunteer-ride-n |
+| volunteer-mounted-idle-e | volunteer-mounted | volunteer-mounted-fire-cycle |
+| volunteer-mounted-idle-s | volunteer-mounted | State artwork; no motion required |
+| volunteer-mounted-idle-n | volunteer-mounted | State artwork; no motion required |
+| volunteer-mounted-fire | volunteer-mounted | volunteer-mounted-fire-cycle |
+| barricade-street-left | field-cover-camp-props | State artwork; no motion required |
+| barricade-street-embrasure | field-cover-camp-props | State artwork; no motion required |
+| barricade-street-right | field-cover-camp-props | State artwork; no motion required |
+| barricade-street-broken | field-cover-camp-props | State artwork; no motion required |
+| sandbag-breastwork | field-cover-camp-props | State artwork; no motion required |
+| sandbag-corner | field-cover-camp-props | State artwork; no motion required |
+| sandbag-embrasure | field-cover-camp-props | State artwork; no motion required |
+| sandbag-loose-open | field-cover-camp-props | State artwork; no motion required |
+| breastwork-packs-left | field-cover-camp-props | State artwork; no motion required |
+| breastwork-packs-right | field-cover-camp-props | State artwork; no motion required |
+| breastwork-packs-opening | field-cover-camp-props | State artwork; no motion required |
+| breastwork-packs-disturbed | field-cover-camp-props | State artwork; no motion required |
+| musket-stack-small | field-cover-camp-props | State artwork; no motion required |
+| musket-stack-large | field-cover-camp-props | State artwork; no motion required |
+| muskets-laid | field-cover-camp-props | State artwork; no motion required |
+| camp-cookpot-tripod | field-cover-camp-props | State artwork; no motion required |
+| house-loopholed | house-loopholed | State artwork; no motion required |
+| house-loopholed-open | house-loopholed | State artwork; no motion required |
+| house-loopholed-breached | house-loopholed | State artwork; no motion required |
+| house-loopholed-cutaway | house-loopholed | State artwork; no motion required |
+| volunteer-loophole-aim | volunteer-loophole-actions | volunteer-loophole-fire-reload |
+| volunteer-loophole-fire | volunteer-loophole-actions | volunteer-loophole-fire-reload |
+| volunteer-loophole-load | volunteer-loophole-actions | volunteer-loophole-fire-reload |
+| volunteer-loophole-ramrod | volunteer-loophole-actions | volunteer-loophole-fire-reload |
 | rust-ride-e-1 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-2 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-3 | people-mounted-cast1-e | rust-ride-e |
@@ -3403,6 +3496,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fog-bank-thin | Pose cycle | 2 | 12000 | yes | scenery |
 | live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
+| volunteer-rest-sit | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| volunteer-sleep | Pose cycle | 2 | 4800 | yes | east; west by mirroring |
+| volunteer-camp-drink | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| volunteer-camp-clean | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| regular-rest-sit | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| regular-sleep | Pose cycle | 2 | 4800 | yes | east; west by mirroring |
+| regular-camp-drink | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| regular-camp-clean | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
+| volunteer-dig | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| volunteer-crowbar | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| volunteer-sandbag-carry | Pose cycle | 4 | 1280 | yes | east; west by mirroring |
+| volunteer-sandbag-fill | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| bearers-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
+| regular-bearers-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
+| dragoon-wounded-led | Pose cycle | 4 | 1760 | yes | east; west by mirroring |
+| volunteer-ride-e | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
+| volunteer-ride-s | Pose cycle | 4 | 1200 | yes | south |
+| volunteer-ride-n | Pose cycle | 4 | 1200 | yes | north |
+| volunteer-mounted-fire-cycle | Pose cycle | 3 | 1000 | one-shot | east; west by mirroring |
+| volunteer-loophole-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |

@@ -168,7 +168,7 @@ test('a camp at rest (pose `rest`) is scattered and unformed, some standing and 
   const camp = layoutSide(side('mexican', 'camp', 'none', 0));
   const sitting = camp.filter(slot => slot.rest === 'sit').length;
   assert.ok(sitting > 8 && sitting < 40, `${sitting} of 60 sitting`);
-  assert.ok(art.drawn.some(one => one.clip === 'regular-injured-rest') && art.drawn.some(one => /^regular-idle-/.test(one.clip || '')), 'the camp is not drawn at rest');
+  assert.ok(art.drawn.some(one => one.clip === 'regular-rest-sit') && art.drawn.some(one => /^regular-idle-/.test(one.clip || '')), 'the camp is not drawn at rest');
   assert.equal(shown.styles.mexican, 'camp');
 });
 
@@ -211,8 +211,8 @@ test('in the rout a share of the broken side gives itself up where it stands, an
 });
 
 test('a group of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground', () => {
-  // Claude's horsemen drawn; the breastwork held at the library's pieces this test checks (Claude's breastwork has its own test).
-  const art = fakeArt({ claude: name => !/^(breastwork-packs|musket-stack)/.test(name) }), view = createBattleView(art);
+  // Claude's marsh edge drawn; the horsemen and the breastwork are Astra's (2026-10-03).
+  const art = fakeArt({ claude: true }), view = createBattleView(art);
   const works = [
     { id: 'breastwork', kind: 'breastwork', x: 0.2, y: 0, width: 0.3, across: { x: 0, y: 1 } },
     { id: 'fires', kind: 'fires', x: 0.3, y: 0, width: 0.2, across: { x: 0, y: 1 } },
@@ -225,28 +225,31 @@ test('a group of horse is drawn apart from its side, as riders, with its own fal
   assert.equal(e.figures.texian, 60, 'the group was counted in the side');
   assert.equal(e.fallenBy['g:sherman'], 1);
   assert.equal(e.fallenBy.texian, undefined);
-  // A Texian horseman is Claude's `volunteer-mounted` where it can be drawn, the mounted courier before it (tests/transport-standins.test.mjs).
-  assert.ok(art.drawn.some(one => /^(mounted-courier|volunteer-mounted)/.test(one.clip || '')), 'the Texian horsemen are not drawn riding');
+  // A Texian horseman is Astra's mounted volunteer (2026-10-03): standing mounted, and her firing transition at the shot.
+  assert.ok(art.drawn.some(one => /^volunteer-mounted-idle-/.test(one.sprite || '')), 'the stationary Texian horsemen are not drawn mounted');
+  assert.ok(art.drawn.some(one => one.clip === 'volunteer-mounted-fire-cycle'), 'the mounted firing pose is missing');
   assert.ok(e.shotsBy.texian > 0, 'the horsemen did not fire');
   assert.ok(e.works > 20, `only ${e.works} pieces of works drawn`);
-  for (const piece of ['crate', 'sacks', 'barrel']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);
+  for (const piece of ['breastwork-packs-left', 'breastwork-packs-right']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);
   assert.ok(art.drawn.some(one => one.clip === 'reeds-wind') && art.drawn.some(one => one.clip === 'fire-flicker'));
   // The marsh's edge under its reeds (Claude's `marsh-edge-*` tiles), all three kinds of tile, before the first reed.
   const firstEdge = art.drawn.findIndex(one => /^marsh-edge-\d$/.test(one.sprite || '')), firstReed = art.drawn.findIndex(one => one.clip === 'reeds-wind');
   assert.deepEqual([...new Set(art.drawn.filter(one => /^marsh-edge-\d$/.test(one.sprite || '')).map(one => one.sprite))].sort(), ['marsh-edge-1', 'marsh-edge-2', 'marsh-edge-3'], 'the marsh has no edge');
   assert.ok(firstEdge >= 0 && firstEdge < firstReed, 'the marsh edge is drawn under its reeds');
   // The opening in the middle of the breastwork where the gun stood (`HIST-TEX-522`).
-  const pieces = art.drawn.filter(one => ['crate', 'sacks', 'barrel', 'packed-belongings'].includes(one.sprite)).map(one => one.y);
+  const pieces = art.drawn.filter(one => ['breastwork-packs-left', 'breastwork-packs-right'].includes(one.sprite)).map(one => one.y);
   assert.ok(!pieces.some(y => Math.abs(y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');
 });
 
-test('with Claude\'s temporary sheets loaded, the camp sits at rest with its arms stacked and the breastwork is packs and baggage with the gun\'s gap', () => {
-  const art = fakeArt({ claude: true }), view = createBattleView(art);
+// Astra's camp at rest, stacked arms and baggage breastwork (2026-10-03) replaced Claude's of the same subjects at the merge of
+// 2026-10-04; the library's seated wounded and crates are drawn only while her sheets load.
+test('the camp sits at rest in Astra\'s own pose with its arms stacked, and the breastwork is her packs and baggage with the gun\'s gap', () => {
+  const art = fakeArt(), view = createBattleView(art);
   const works = [{ id: 'breastwork', kind: 'breastwork', x: 0.2, y: 0, width: 0.3, across: { x: 0, y: 1 } }, { id: 'fires', kind: 'fires', x: 0.3, y: 0, width: 0.2, across: { x: 0, y: 1 } }];
   run(view, minute => battle(minute, { works }), { seconds: 3 });
-  assert.ok(art.drawn.some(one => one.sprite === 'regular-rest-sit') && !art.drawn.some(one => one.clip === 'regular-injured-rest'), 'men at rest are drawn as the wounded');
-  assert.ok(art.drawn.some(one => one.sprite === 'musket-stack'), 'no arms stacked by the fires');
-  const segments = art.drawn.filter(one => /^breastwork-packs-[1-4]$/.test(one.sprite || '') && one.x > -1000);
+  assert.ok(art.drawn.some(one => one.clip === 'regular-rest-sit') && !art.drawn.some(one => one.clip === 'regular-injured-rest'), 'men at rest are drawn as the wounded');
+  assert.ok(art.drawn.some(one => /^musket-stack-(small|large)$/.test(one.sprite || '')), 'no arms stacked by the fires');
+  const segments = art.drawn.filter(one => /^breastwork-packs-(left|right)$/.test(one.sprite || ''));
   assert.ok(segments.length >= 8, `only ${segments.length} segments of the breastwork`);
   assert.ok(!art.drawn.some(one => ['crate', 'sacks', 'barrel'].includes(one.sprite)), 'the library\'s crates are drawn as well');
   assert.ok(!segments.some(one => Math.abs(one.y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');
