@@ -29,10 +29,15 @@ const measured = { outages: [] };
 const shots = [];
 const errors = [];
 const dataDir = mkdtempSync(join(tmpdir(), 'texas-reconnect-proof-'));
-const probe = createServer();
-await new Promise(done => probe.listen(0, '127.0.0.1', done));
-const port = probe.address().port;
-await new Promise(done => probe.close(done));
+// The port the server is killed and started again on, and the pages reconnect to: kept for the whole proof, so it is chosen
+// **below every system's ephemeral range** (Windows and macOS 49152-65535, Linux 32768-60999) and probed on 0.0.0.0, the address
+// server/main.mjs takes. Until 2026-10-04 it was an ephemeral port probed on 127.0.0.1: while the server was down between a kill
+// and its restart, a proof running beside this one was handed the same port by `listen(0)`, and the restart died with
+// "listen EADDRINUSE 0.0.0.0:52700". Nothing else here asks the system for a port in this range, so nobody can be handed it.
+const portFree = candidate => new Promise(done => { const probe = createServer(); probe.once('error', () => done(false)); probe.listen(candidate, '0.0.0.0', () => probe.close(() => done(true))); });
+let port = 0;
+for (let tries = 0; !port && tries < 200; tries++) { const candidate = 20000 + Math.floor(Math.random() * 12000); if (await portFree(candidate)) port = candidate; }
+assert.ok(port, 'no free port below the ephemeral range');
 const url = `http://127.0.0.1:${port}`;
 
 let server = null;

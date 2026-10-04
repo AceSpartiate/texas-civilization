@@ -1,5 +1,39 @@
 # Claude handoff — Astra foundation
 
+## Proofs brought up to the customary work; the wagon's stock choice uncovered — 2026-10-04 (not released)
+
+Branch `proofs-fix` from origin/main c2c77ca3; not pushed, not released. The full proof run on c2c77ca3 (two at a time) failed
+proofs that still sent a woman to men's work (docs/CUSTOMARY_WORK.md), one real wagon bug, one real rule fault, and a fixed port.
+
+- **The wagon's stock choice (a real bug, since Astra's cargo UI ee656420).** The stock choice (drive cattle and hogs in, and the
+  league it brings) had been folded into a closed `<details>` "Livestock & land": a student packing the wagon never saw it, and the
+  folded radios lay under `#wagon-items` where nothing could press them (`test:creation-screen`: "#wagon-stock under #wagon-items"
+  at 1366x768; `test:creation`: `#wagon-stock` never visible). Now an open `fieldset` in Astra's box (her border, radius and bold
+  title kept; the disclosure and its summary line gone), each answer 44px high and 8px apart. Uncovering it showed Astra's wagon
+  count buttons at 32x34, under a finger: back to 44x44. public/index.html, public/style.css, public/app.js. Guards: the
+  creation-screen proof (red on the old CSS, green now at 1366x768, 1024x768, 390x844 and with `CREATION_SIZES` at 1366x657,
+  1280x800, 1024x600, 1920x1080, 375x812) and tests/creation-words.test.mjs "never folded into a disclosure" (proved by putting the
+  `<details>` back). scripts/commerce-ui-proof.mjs no longer opens the disclosure; it asserts the choice is on the card.
+- **Founding mothers were offered the fight (a real rule fault).** `canFight` (sim/family.mjs) asked `entity.sex` alone; the founding
+  four (households nobody joins, classes saved before the roll) state no sex, so a founding mother could turn out, ride upriver or
+  enlist. Now `sexOf`. Proved by tests/women.test.mjs "the founding four" (red before). Two tests and one proof had leaned on it and
+  now send the founding son made seventeen: tests/calls.test.mjs (more than one to the call), tests/family-effects.test.mjs (who
+  carries the food), scripts/family-commands-browser-proof.mjs (the call's one menu).
+- **Proofs sent to the custom.** `test:hunt-aim`: the touch family's hunter is its best man or boy, not its best hunter of either
+  sex. `test:furniture`: Thomas makes the piece, not Elena. `test:family-commands`: besides the two men above, "the ticks were not
+  kept" was a race - `window.__callMenu` is written a timer's turn after the click (the press hold, `pressHold`) - and is now waited
+  for. Swept: scripts/tips-browser-proof.mjs nursed with whoever was second grown (now a woman of the family, the food sent with a man);
+  every other proof's men's or women's order either picks from the server's open icons/`work` entries or already sends a man (the
+  errand, work, field-click, riding and travel proofs were checked; riding and travel give Rosa men's work only once Thomas has left).
+- **`test:reconnect`'s port.** It probed an ephemeral port on 127.0.0.1 and kept it through two kills and restarts; a proof beside it
+  was handed the same port while the server was down ("listen EADDRINUSE 0.0.0.0:52700"). Now a free port in 20000-31999, below every
+  system's ephemeral range, probed on 0.0.0.0 as server/main.mjs binds.
+- **`test:mexican-advance`** died on `undefined.id` under load: it ordered the flight by the first grown person standing on the home
+  site, and nobody was. Now the person the server says answers for the family (sim/acting.mjs `actingFor`).
+
+Evidence (each alone, same computer): hunt-aim, furniture, family-commands, creation, creation-screen, reconnect, mexican-advance,
+battle-concepcion, battle-grass, battle-san-jacinto green; RESULTS_PLACEHOLDER. `npm test` green.
+
 ## A child keeps house as the parent's would — owner-decided 2026-10-04 (not released)
 
 Branch `custom-work-4` from origin/main b9e46fb5 (custom-work-3 merged); not pushed, not released. Two commits: the change, and the trace

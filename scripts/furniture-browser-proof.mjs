@@ -65,8 +65,9 @@ try {
   // failure below would read as a missing icon.
   assert.equal(await page.evaluate(() => window.__snapshot?.world.lesson ?? null), null, 'a lesson stands on a family that was settled before it began');
 
-  // The icon, with its sentence.
-  const worker = 'hh-1-elena';
+  // The icon, with its sentence. Carpentry is men's work (docs/CUSTOMARY_WORK.md, sim/custom.mjs): while Thomas is at home it is
+  // not on Elena's bar at all, so the father makes the piece.
+  const worker = 'hh-1-thomas';
   await asMain(page, worker);
   const icon = page.locator(`.panel-row[data-entity-id="${worker}"] .panel-icon[data-key="make-furniture"]`);
   await icon.waitFor({ state: 'visible' });

@@ -657,10 +657,11 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #wagon-capacity{width:100%;height:12px;flex:none;appearance:none;border:0;border-radius:6px;overflow:hidden;background:#cbb991;margin:5px 0}
 #wagon-capacity::-webkit-progress-bar{background:#cbb991}
 #wagon-capacity::-webkit-progress-value{background:linear-gradient(90deg,#496d4b,#8b9d57)}
-#wagon-stock-options{font-size:13px;border:1px solid #bca477;border-radius:7px;padding:8px 10px;margin-top:5px}
-#wagon-stock-options summary{font-weight:700;cursor:pointer;min-height:24px;line-height:24px}
-#wagon-stock{border:0;margin:0;padding:0}
-#wagon-stock label{font-size:12px;padding:4px;min-height:36px}
+/* The stock choice in Astra's box, open on the card (2026-10-04): it was folded into a disclosure whose closed radios lay
+   under #wagon-items, unpressable and unseen. Each answer is a finger's height (44px) and 8px from the next, as every target on the card is. */
+#wagon-stock{font-size:13px;border:1px solid #bca477;border-radius:7px;padding:6px 10px 8px;margin:5px 0 0}
+#wagon-stock legend{font-weight:700;font-size:13px;padding:0 4px}
+#wagon-stock label{font-size:12px;padding:4px;margin-top:8px;min-height:44px}
 #wagon-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:4px 3px 8px;margin-top:7px}
 #wagon-items li{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 7px;align-content:start;padding:10px;border:1px solid #c8b388;border-radius:9px;background:#fff9e8;min-width:0}
 #wagon-items li[data-loaded=true]{border-color:#81916a;background:#f2f1da;box-shadow:inset 3px 0 #6f8858}
@@ -668,7 +669,9 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .wagon-name{grid-column:1 / -1;font-weight:650;font-size:13px;line-height:1.3}
 .wagon-space{grid-column:1;font-size:12px;color:#766246}
 .wagon-controls{grid-column:2;grid-row:auto;align-self:center;gap:2px}
-.wagon-controls button{min-width:32px;min-height:34px;padding:3px 6px}
+/* A finger's size (44px), as the rule before Astra's cards had it; 32x34 here failed npm run test:creation-screen once the stock
+   choice above stopped hiding the fault (2026-10-04). */
+.wagon-controls button{min-width:44px;min-height:44px;padding:3px 6px}
 .wagon-describe{grid-column:1 / -1;font-size:12px}
 #wagon-note:empty{display:none}
 #wagon-done{background:#375b42;border-color:#284833;border-radius:8px}

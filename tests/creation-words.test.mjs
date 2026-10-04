@@ -152,3 +152,15 @@ test('an emptied name box is put back to the name the world holds, so no box sho
   assert.match(creation, /if \(!typed\) \{ if \(input\) input\.value = person\.given \|\| person\.name; continue; \}/,
     'an emptied name box is left empty while the world keeps the dealt name');
 });
+
+test('the stock choice is open on the wagon card, never folded into a disclosure', () => {
+  // From 2026-10-03 to 10-04 the stock choice sat in a closed <details> ("Livestock & land"): its radios lay under the load list,
+  // nobody could press them, and a student packing the wagon never saw the largest choice it makes (scripts/creation-screen-proof.mjs,
+  // "#wagon-stock under #wagon-items" at 1366x768; scripts/creation-browser-proof.mjs, `#wagon-stock` never visible). The card's
+  // geometry is the browser proofs'; this holds the markup that broke it.
+  const html = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8').replace(/<!--[\s\S]*?-->/g, '');
+  const start = html.indexOf('<section id="wagon-load"');
+  const card = html.slice(start, html.indexOf('</section>', start));
+  assert.match(card, /<fieldset id="wagon-stock"/, 'the stock choice is not on the wagon card');
+  assert.doesNotMatch(card, /<details\b/, 'something on the wagon card is folded away in a disclosure');
+});

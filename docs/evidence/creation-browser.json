@@ -1,6 +1,6 @@
 {
   "record": "The family-creation wizard walked in a browser at the classroom screen (2026-09-21)",
-  "date": "2026-10-03",
+  "date": "2026-10-04",
   "verdict": "PASS",
   "viewport": {
     "width": 1366,
@@ -15,7 +15,7 @@
     "the names card says nothing is required, every box holds the dealt name, and an emptied box comes back as \"Benjamin\"",
     "the looks pop-up counts the parents (Step 4 of 4. Parent 1 of 2. Save this look, then choose the next parent.) and says appearance decides nothing, is chosen once, and skips the children",
     "the looks counter keeps its total over every parent (Step 4 of 4. Parent 1 of 2. Save this look, then choose the next parent. | Step 4 of 4. Parent 2 of 2. Save when ready to meet your family.)",
-    "the last card of making the family shows the key, \"ZWAQ A1Q7\", at 46px with what it is for (\"This key brings you back to your family on any Chromebook. If this one forgets you, or you sit at another, choose “I already have a family key” and type it in.\"), and goes when it is written down",
+    "the last card of making the family shows the key, \"X66H BDS7\", at 46px with what it is for (\"This key brings you back to your family on any Chromebook. If this one forgets you, or you sit at another, choose “I already have a family key” and type it in.\"), and goes when it is written down",
     "the wagon panel says the land, the herd and the deadline, its load buttons say what pressing does, and Done packing is reachable at 1366x768",
     "reloaded, the world is there with nothing asked again; a new tab sees the title screen and then the world, and no step is asked twice - the key card included, which is shown once",
     "the anglo family's card says who it is and where it came from, in the server's words, and fits: \"Autumn 1835. Your family has come from the United States to land of its own near Mina, in Austin's colony. Tex...\"",
@@ -47,10 +47,10 @@
     "looksNote": "Children are not asked for: they inherit your family's colors and grow into their own age-appropriate figures. Chosen once, a look stays with them. Appearance changes nothing in the game.",
     "looksStep1": "Step 4 of 4. Parent 1 of 2. Save this look, then choose the next parent.",
     "looksStep2": "Step 4 of 4. Parent 2 of 2. Save when ready to meet your family.",
-    "keyShown": "ZWAQ A1Q7",
+    "keyShown": "X66H BDS7",
     "keySize": 46,
     "keyFor": "This key brings you back to your family on any Chromebook. If this one forgets you, or you sit at another, choose “I already have a family key” and type it in.",
-    "journalKey": "ZWAQ A1Q7",
+    "journalKey": "X66H BDS7",
     "wagonText": "What you load is what the family arrives with. Tools, seed and powder can be bought in a town later, if there is coin; the things for the house cannot be bought anywhere.",
     "wagonWhen": "You can change all of this until your teacher presses Start. After that the ox's packs are packed.",
     "stockNo": "No stock. The family holds a labor of land, 177 acres, and brings no animals.",
@@ -59,15 +59,15 @@
     "toggleAfter": "Load",
     "wagonBox": {
       "panel": {
-        "x": 954,
-        "y": 64,
-        "width": 400,
+        "x": 734,
+        "y": 63,
+        "width": 620,
         "height": 622
       },
       "control": {
-        "x": 969,
-        "y": 628,
-        "width": 370,
+        "x": 754,
+        "y": 623,
+        "width": 580,
         "height": 44
       }
     },

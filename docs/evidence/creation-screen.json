@@ -1,6 +1,6 @@
 {
   "record": "The family-creation wizard as a thing on a screen (2026-09-21)",
-  "date": "2026-10-03",
+  "date": "2026-10-04",
   "verdict": "PASS",
   "seed": "wizard-17",
   "finger": 44,
@@ -399,23 +399,23 @@
         "height": 768
       },
       "card": {
-        "x": 954,
+        "x": 734,
         "y": 64,
-        "w": 400,
+        "w": 620,
         "h": 622
       },
       "controls": 22,
-      "scrolls": 1029,
+      "scrolls": 1153,
       "endOfStep": {
         "control": "#wagon-done",
         "label": "Done packing",
         "box": {
-          "x": 969,
-          "y": 628,
-          "w": 370,
+          "x": 754,
+          "y": 624,
+          "w": 580,
           "h": 44
         },
-        "below": -14,
+        "below": -18,
         "inView": true
       },
       "tightestGap": {
@@ -430,16 +430,16 @@
         ],
         "boxes": [
           {
-            "x": 978,
+            "x": 765,
             "y": 312,
-            "w": 352,
-            "h": 61
+            "w": 558,
+            "h": 44
           },
           {
-            "x": 978,
-            "y": 381,
-            "w": 352,
-            "h": 140
+            "x": 765,
+            "y": 364,
+            "w": 558,
+            "h": 58
           }
         ],
         "tags": [
@@ -818,23 +818,23 @@
         "height": 768
       },
       "card": {
-        "x": 612,
+        "x": 472,
         "y": 64,
-        "w": 400,
+        "w": 540,
         "h": 505
       },
       "controls": 22,
-      "scrolls": 1146,
+      "scrolls": 2398,
       "endOfStep": {
         "control": "#wagon-done",
         "label": "Done packing",
         "box": {
-          "x": 627,
-          "y": 511,
-          "w": 370,
+          "x": 492,
+          "y": 507,
+          "w": 500,
           "h": 44
         },
-        "below": -14,
+        "below": -18,
         "inView": true
       },
       "tightestGap": {
@@ -849,16 +849,16 @@
         ],
         "boxes": [
           {
-            "x": 636,
+            "x": 503,
             "y": 312,
-            "w": 352,
-            "h": 61
+            "w": 478,
+            "h": 44
           },
           {
-            "x": 636,
-            "y": 381,
-            "w": 352,
-            "h": 99
+            "x": 503,
+            "y": 364,
+            "w": 478,
+            "h": 75
           }
         ],
         "tags": [
@@ -1240,20 +1240,20 @@
         "x": 8,
         "y": 56,
         "w": 374,
-        "h": 694
+        "h": 754
       },
       "controls": 22,
-      "scrolls": 1026,
+      "scrolls": 2401,
       "endOfStep": {
         "control": "#wagon-done",
         "label": "Done packing",
         "box": {
-          "x": 23,
-          "y": 692,
-          "w": 344,
+          "x": 28,
+          "y": 748,
+          "w": 334,
           "h": 44
         },
-        "below": -14,
+        "below": -18,
         "inView": true
       },
       "tightestGap": {
@@ -1268,16 +1268,16 @@
         ],
         "boxes": [
           {
-            "x": 32,
-            "y": 324,
-            "w": 326,
-            "h": 61
+            "x": 39,
+            "y": 394,
+            "w": 312,
+            "h": 44
           },
           {
-            "x": 32,
-            "y": 393,
-            "w": 326,
-            "h": 140
+            "x": 39,
+            "y": 446,
+            "w": 312,
+            "h": 109
           }
         ],
         "tags": [

@@ -79,6 +79,11 @@ function playedToTheCall(seed, playerCount) {
   const world = createGonzalesWorld(seed, playerCount, { map: 'colonies' });
   world.status = 'running';
   for (let i = 0; i < 1500 && !world.calls?.['hh-1'] && !world.director.complete; i++) stepWorld(world);
+  // Two men to turn out: the founding son made seventeen, a grown son who answers for the family (sim/family.mjs
+  // `canAnswerCalls`, `FIGHTS_FROM_AGE`). Turning out is the fighting, the men's (`canFight`): until 2026-10-04 this proof sent
+  // the mother, Elena, whom `canFight` let through only because the founding four state no sex (tests/women.test.mjs).
+  // Made after the call has come, so the class plays to the same morning it always did.
+  if (world.entities['hh-1-mateo']) world.entities['hh-1-mateo'].age = 17;
   // The house site chosen as a neighbour chooses it (sim/neighbours.mjs `pickSite`), so the site chooser is not over the
   // panel on a phone; nothing else is decided for the family.
   const land = projectWorld(world, 'hh-1', 'student', { includeMap: false }).land;
@@ -660,7 +665,7 @@ try {
 
   // ------------------------------------------------------------------------------------- a call two may answer: the one menu
   // A class on the real land, played to the morning San Felipe's call reaches hh-1 (set in process, as the army proof is
-  // played to the muster): the father and the mother may both turn out. Pressing either "!" opens the one menu for the call;
+  // played to the muster): the father and the grown son may both turn out, and the mother, listed, may not (the fighting is the men's). Pressing either "!" opens the one menu for the call;
   // with both ticked and confirmed both are sent - the server takes the second because a settlement's call stands for the
   // rest of the family once somebody has gone (sim/calls.mjs) - the camera goes to the first, and the "!" goes from everybody.
   app2 = createClassroom({ seed: 'commands-call-2', playerCount: 5, tickMs: 250, worldFactory: playedToTheCall });
@@ -757,7 +762,14 @@ try {
   assert.equal(menu2.card, opener, 'the camera and card did not go to the person whose "!" was pressed');
   await shot(page2, 'call-menu');
   for (const id of canGo.slice(0, 2)) await page2.locator(`#call-menu input[data-call-menu-person="${id}"]`).check();
-  assert.deepEqual((await page2.evaluate(() => window.__callMenu.rows.filter(row => row.checked).map(row => row.id))).sort(), canGo.slice(0, 2).sort(), 'the ticks were not kept');
+  // `window.__callMenu` is written when the menu is drawn, and a tick's box is drawn once the press has been let go (the press
+  // hold, public/family-panel.js `pressHold`, lets go a timer's turn after the click): read at once it can still say the box
+  // before. Waited for, not read once (2026-10-04: "the ticks were not kept" in a full run, two proofs at a time).
+  const ticked = () => page2.evaluate(() => window.__callMenu.rows.filter(row => row.checked).map(row => row.id).sort());
+  await page2.waitForFunction(want => JSON.stringify(window.__callMenu.rows.filter(row => row.checked).map(row => row.id).sort()) === want, JSON.stringify(canGo.slice(0, 2).sort()), { timeout: 5000 }).catch(() => {});
+  assert.deepEqual(await ticked(), canGo.slice(0, 2).sort(), 'the ticks were not kept');
+  const elenaRow = await page2.evaluate(() => window.__callMenu.rows.find(row => row.id === 'hh-1-elena') || null);
+  assert.ok(!elenaRow || !elenaRow.can, `the mother is offered the fight: ${JSON.stringify(elenaRow)}`);
   await page2.locator('#call-menu-confirm').click();
   await sendTheWay(page2, { way: 'foot' });
   await page2.waitForFunction(() => document.querySelector('#call-menu').hidden && (window.__familyPanel || []).every(row => !row.needs.includes('call')), null, { timeout: 15000 });

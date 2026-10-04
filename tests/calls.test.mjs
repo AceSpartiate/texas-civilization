@@ -216,6 +216,11 @@ test('a family may send more than one to the settlement’s call, each with the 
   const household = firstIn(world, ['san-felipe', 'mina', 'victoria']);
   until(world, () => world.calls?.[household.id]);
   heardOut(world, household.id);
+  // Two men to send: the founding son made seventeen once the call has come. Turning out is the fighting, the men's
+  // (sim/family.mjs `canFight`); until 2026-10-04 the second was the founding mother, let through only because the founding four
+  // state no sex (tests/women.test.mjs, "the founding four").
+  const son = household.members.map(id => world.entities[id]).find(person => person.kin?.role === 'son');
+  son.age = 17;
   const request = view(world, household.id).request;
   const able = Object.entries(request.answerers).filter(([, options]) => options.find(o => o.id === 'turn-out').can).map(([id]) => id);
   assert.ok(able.length >= 2, `only ${able.length} of ${household.id} may turn out; this seed was chosen for two`);

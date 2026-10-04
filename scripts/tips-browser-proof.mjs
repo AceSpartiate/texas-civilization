@@ -22,6 +22,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { stepWorld } from '../sim/world.mjs';
+import { sexOf } from '../sim/family.mjs';
 import { orderOut } from '../sim/scrape.mjs';
 import { chooseSite } from '../sim/homesite.mjs';
 import { spring, SPRING_SEED } from '../tests/support/scrape-spring.mjs';
@@ -269,7 +270,12 @@ async function firstPeriod() {
     for (const child of household().members.map(id => world().entities[id]).filter(one => one.kind === 'person' && one.talk)) {
       await command(student, { action: 'chore', chore: 'child-play', entityId: child.id });
     }
-    const [sick, nurse, hunter] = people;
+    // Nursing is the women's work and hunting small game the men's (docs/CUSTOMARY_WORK.md, sim/custom.mjs): the nurse a woman of
+    // the family while one is up and home, and the one sent for food a man, so what answers each order is the guided start and
+    // never the custom. Until 2026-10-04 they were the second and third grown person, whoever those were.
+    const [sick, ...rest] = people;
+    const nurse = rest.find(one => sexOf(one) === 'female') || rest[0];
+    const hunter = rest.find(one => one !== nurse && sexOf(one) === 'male') || rest.find(one => one !== nurse);
     sick.health = { condition: 'sick', recoversAt: world().minute + 2 * 1440 };
     for (const one of [nurse, hunter]) if (one?.chore) await command(student, { action: 'stop-chore', entityId: one.id });
     const nursed = await command(student, { action: 'chore', chore: 'nurse-home', entityId: nurse.id });

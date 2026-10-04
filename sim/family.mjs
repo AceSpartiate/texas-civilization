@@ -540,8 +540,10 @@ export const cannotAnswerWhy = entity => `${entity.name} is too young to answer 
  */
 // Nor somebody weak or starving with hunger (owner, 2026-09-30; sim/hunger.mjs `tooWeakToFight`, read here as the stage it stores).
 const weakWithHunger = entity => ['weak', 'starving'].includes(entity?.hunger?.stage);
-export const canFight = entity => canAnswerCalls(entity) && entity.sex !== 'female' && !weakWithHunger(entity);
-export const cannotFightWhy = entity => entity.sex === 'female' ? `${entity.name} does not go to the fighting; in 1835 that was the men's.` : weakWithHunger(entity) && canAnswerCalls(entity) ? `${entity.name} is too weak with hunger to fight.` : cannotAnswerWhy(entity);
+// A woman as `sexOf` reads her, the founding four's mothers included: until 2026-10-04 this asked the stated field alone, and a
+// founding mother, who has none, was offered the fight (tests/women.test.mjs, "the founding four").
+export const canFight = entity => canAnswerCalls(entity) && sexOf(entity) !== 'female' && !weakWithHunger(entity);
+export const cannotFightWhy = entity => sexOf(entity) === 'female' ? `${entity.name} does not go to the fighting; in 1835 that was the men's.` : weakWithHunger(entity) && canAnswerCalls(entity) ? `${entity.name} is too weak with hunger to fight.` : cannotAnswerWhy(entity);
 
 /**
  * How much longer the family's food lasts for the best housekeeper at home.

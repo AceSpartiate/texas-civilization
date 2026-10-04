@@ -518,13 +518,16 @@
       <progress id="wagon-capacity" max="16" value="0" aria-label="Cargo space used"></progress>
       <p id="wagon-packs" hidden></p>
       <!-- Whether the family drives stock in: how much land it holds (docs/LAND_GRANTS.md) and the herd itself
-           (docs/STOCK.md), both stated here since 2026-09-21. -->
-      <details id="wagon-stock-options" hidden><summary>Livestock &amp; land</summary><fieldset id="wagon-stock" hidden>
+           (docs/STOCK.md), both stated here since 2026-09-21. Open on the card, never folded away: from 2026-10-03 to
+           10-04 it sat in a closed "Livestock & land" disclosure, the folded choice's radios lay under the load list where
+           nobody could press them, and a student packing the wagon never saw the largest choice it makes (npm run
+           test:creation-screen, "#wagon-stock under #wagon-items" at 1366x768). -->
+      <fieldset id="wagon-stock" hidden>
         <legend>Stock, and the land it brings</legend>
         <label><input type="radio" name="wagon-stock" value="no"> <span id="stock-no-text"></span></label>
         <label><input type="radio" name="wagon-stock" value="yes"> <span id="stock-yes-text"></span></label>
         <p id="wagon-stock-why" role="alert"></p>
-      </fieldset></details>
+      </fieldset>
       <ul id="wagon-items"></ul>
       </div>
       <p id="wagon-note" role="alert"></p>

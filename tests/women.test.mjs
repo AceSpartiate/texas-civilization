@@ -32,6 +32,19 @@ test('the rule: a father or a grown son may be sent to the fighting; a mother or
   assert.match(cannotFightWhy({ ...him, age: 8, kin: { role: 'son' } }), /too young/, 'a boy too young is refused for the wrong reason');
 });
 
+// The founding four (every household nobody joins, and every class saved before the roll) have no `sex` field; their role says it
+// (sim/family.mjs `sexOf`). Until 2026-10-04 `canFight` asked the field alone, so a founding mother - Elena of hh-1 in
+// scripts/family-commands-browser-proof.mjs - was offered "Go: ride for Gonzales" with the family's rifle at a settlement's call.
+test('the founding four: a mother with no stated sex is a woman, and is not sent to the fighting', () => {
+  const world = createGonzalesWorld('women-founding', 5, { map: 'colonies' });
+  const household = world.households['hh-1'];
+  const her = mother(household)(world), him = father(household)(world);
+  assert.equal(her.sex, undefined, 'the founding mother now has a stated sex; this test no longer asks what it was written for');
+  assert.equal(canFight(her), false, 'a founding mother may be sent to the fighting');
+  assert.match(cannotFightWhy(her), /does not go to the fighting/);
+  assert.equal(canFight(him), true, 'a founding father may not be sent');
+});
+
 test('a settlement\'s call: turning out is refused to a mother in words on the control, and staying is hers; a father may go', () => {
   const world = createGonzalesWorld('women-call', 15, { map: 'colonies', neighbours: true });
   for (const h of Object.values(world.households)) rollFamily(world, h);

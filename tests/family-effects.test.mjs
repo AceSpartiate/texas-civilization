@@ -92,10 +92,12 @@ test('the family chooses who carries the food, and the march is put to whoever d
   assert.doesNotMatch(call.text, new RegExp(person(world, 'thomas').name), 'the call names nobody, because the family decides');
   assert.throws(() => applyAction(world, 'hh-1', { action: 'help', entityId: 'hh-1-rosa' }), /too young to answer/);
 
-  const elena = person(world, 'elena'), thomas = person(world, 'thomas');
-  applyAction(world, 'hh-1', { action: 'help', entityId: elena.id });
-  assert.equal(world.requests['hh-1'].actorId, elena.id);
-  assert.ok(elena.travel || elena.location.siteId === 'gonzales', 'the mother went');
+  // The grown son carries it, not the principal: going upriver after is the fighting, the men's (sim/family.mjs `canFight`), and
+  // until 2026-10-04 this sent the founding mother, let through only because the founding four state no sex (tests/women.test.mjs).
+  const mateo = person(world, 'mateo'), thomas = person(world, 'thomas');
+  applyAction(world, 'hh-1', { action: 'help', entityId: mateo.id });
+  assert.equal(world.requests['hh-1'].actorId, mateo.id);
+  assert.ok(mateo.travel || mateo.location.siteId === 'gonzales', 'the grown son went');
   assert.equal(thomas.travel, null, 'and the father stayed');
 
   let march = null;
@@ -104,19 +106,19 @@ test('the family chooses who carries the food, and the march is put to whoever d
     march = world.marches['hh-1'];
   }
   assert.ok(march, 'nobody was asked to go upriver');
-  assert.equal(march.actorId, elena.id, 'the march is put to whoever carried the food');
-  assert.match(march.text, new RegExp(elena.name));
-  assert.deepEqual(Object.keys(view(world, 'hh-1').request.answerers), [elena.id]);
+  assert.equal(march.actorId, mateo.id, 'the march is put to whoever carried the food');
+  assert.match(march.text, new RegExp(mateo.name));
+  assert.deepEqual(Object.keys(view(world, 'hh-1').request.answerers), [mateo.id]);
   assert.throws(() => applyAction(world, 'hh-1', { action: 'go-upriver', entityId: thomas.id }), /was not the one asked/);
-  applyAction(world, 'hh-1', { action: 'go-upriver', entityId: elena.id });
+  applyAction(world, 'hh-1', { action: 'go-upriver', entityId: mateo.id });
 
   for (let tick = 0; tick < 400 && world.minute < TIMELINE.resolved + 40; tick++) stepWorld(world);
   const settled = world.events.find(event => event.id === world.requests['hh-1'].consequenceId);
   assert.ok(settled, 'the errand never settled');
-  assert.match(settled.text, new RegExp(elena.name), 'the consequence is about the person who went');
-  assert.equal(settled.actorId, elena.id);
+  assert.match(settled.text, new RegExp(mateo.name), 'the consequence is about the person who went');
+  assert.equal(settled.actorId, mateo.id);
   // Gonzales kills nobody, whoever is sent (FIC-GONZ-005).
-  assert.ok(['well', 'tired', 'minor-injury'].includes(elena.health.condition), `the mother came back ${elena.health.condition}`);
+  assert.ok(['well', 'tired', 'minor-injury'].includes(mateo.health.condition), `the grown son came back ${mateo.health.condition}`);
   validateWorld(world);
 });
 

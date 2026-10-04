@@ -26,8 +26,8 @@ try {
  await page.waitForFunction(n=>Number(document.querySelector('#wagon-items li[data-item="provisions"] .wagon-count').textContent)===n,initial-1);
  await provisions.locator('button[data-focus-key="provisions-more"]').click();
  await page.waitForFunction(n=>Number(document.querySelector('#wagon-items li[data-item="provisions"] .wagon-count').textContent)===n,initial);
- await page.locator('#wagon-stock-options summary').click();assert.ok(await page.locator('#wagon-stock').isVisible());
- await page.locator('#wagon-stock-options summary').click();
+ // The stock choice is open on the card, not folded into a disclosure (2026-10-04: folded, its radios lay under the load list).
+ assert.ok(await page.locator('#wagon-stock').isVisible(),'the stock choice is not on the wagon card');
  for(const size of [{width:1366,height:768},{width:1024,height:768}]) {
   await page.setViewportSize(size);const box=await page.locator('#wagon-load').boundingBox();assert.ok(box.x>=310&&box.x+box.width<=size.width&&box.y+box.height<=size.height,JSON.stringify(box));
   assert.ok(await page.locator('#wagon-done').isVisible());
@@ -55,6 +55,6 @@ try {
   await page.setViewportSize(size);const box=await page.locator('#errand').boundingBox();assert.ok(box.x>=310&&box.x+box.width<=size.width&&box.y+box.height<=size.height,JSON.stringify(box));
  }
  await page.keyboard.press('Escape');assert.ok(await page.locator('#errand').isHidden());assert.deepEqual(errors,[]);
- writeFileSync('docs/evidence/commerce-ui.json',JSON.stringify({verdict:'PASS',checks:['wagon capacity and livestock disclosure','desktop bounds','search','keyboard quantity','persistent basket','remove selection','filters','Escape'],errors},null,2));
+ writeFileSync('docs/evidence/commerce-ui.json',JSON.stringify({verdict:'PASS',checks:['wagon capacity and the stock choice on the card','desktop bounds','search','keyboard quantity','persistent basket','remove selection','filters','Escape'],errors},null,2));
  console.log('PASS: commerce controls, desktop layout and browser errors');
 } finally {await browser?.close();await app.close();}

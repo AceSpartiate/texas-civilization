@@ -7474,8 +7474,6 @@ function renderWagonLoad(world) {
   // cost, so the largest thing the choice did was never said where the choice was made. The numbers are the server's
   // (`stockChoice.herd`), never written here.
   $('#wagon-stock').hidden = !choice;
-  $('#wagon-stock-options').hidden = !choice;
-  $('#wagon-stock-options summary').textContent = `Livestock & land · ${household.stock ? 'Bring the herd' : 'No herd'}`;
   if (choice) {
     $('#stock-no-text').textContent = `No stock. The family holds a labor of land, ${choice.laborAcres} acres, and brings no animals.`;
     const herd = choice.herd ? ` The family arrives with ${choice.herd.cattle} cattle and ${choice.herd.hogs} hogs, which feed themselves on the range and feed the family.` : '';

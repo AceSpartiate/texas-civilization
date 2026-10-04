@@ -30,6 +30,7 @@ import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { COLUMN_SIGHT_MILES, MAX_MARCH_MPH, WORD_MILES_A_DAY, columnsNow, farmFate, firesSeen, foragersOf } from '../sim/advance.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { feed } from '../tests/support/fed.mjs';
+import { actingFor } from '../sim/acting.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -169,7 +170,12 @@ try {
     const shown = await page.evaluate(() => window.__snapshot.world.flight);
     if (!shown.refuges?.length) return null;
     const refuge = pick([...shown.refuges].sort((a, b) => a.miles - b.miles));
-    const actor = household().members.map(id => world().entities[id]).find(one => one.location?.siteId === household().homeSiteId && !['dead', 'captured'].includes(one.health.condition) && (one.age ?? 30) >= 16);
+    // Whoever the server says answers for the family (sim/acting.mjs `actingFor`): the grown person with it, or the oldest child.
+    // Until 2026-10-04 this was the first grown person standing on the home site, and under load (two proofs at a time) nobody was -
+    // out at the timber, the range or the creek on a work of the place - and the proof died reading `undefined.id`.
+    const actor = world().entities[actingFor(world(), household())?.id]
+      || household().members.map(id => world().entities[id]).find(one => one.location?.siteId === household().homeSiteId && !['dead', 'captured'].includes(one.health.condition) && (one.age ?? 30) >= 16);
+    assert.ok(actor, `nobody answers for ${householdId}: ${JSON.stringify(household().members.map(id => [id, world().entities[id]?.location?.siteId, world().entities[id]?.travel?.purpose || null]))}`);
     const food = Math.min(Math.floor(shown.room / shown.space.food), shown.have.food);
     assert.equal(await command(page, { action: 'flee', entityId: actor.id, take: { food }, refuge: refuge.id }), 'ok', 'the family could not leave');
     assert.equal(await command(page, { action: 'set-auto', entityId: household().mainId || household().principalId, auto: true }), 'ok');

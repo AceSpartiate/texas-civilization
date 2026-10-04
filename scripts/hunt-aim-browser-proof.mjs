@@ -187,9 +187,11 @@ try {
 
   // ------------------------------------------------------------------ 3. touch, with less motion, a second family
   const theirs = await second.evaluate(() => window.__snapshot.world.householdId);
+  // A man or boy of the family: hunting is men's work, refused to a woman while a man is at home (sim/custom.mjs, docs/CUSTOMARY_WORK.md).
   const touchHunter = await second.evaluate(() => {
     const w = window.__snapshot.world;
-    return w.entities.filter(one => one.householdId === w.householdId && one.kind === 'person' && one.band !== 'child' && one.band !== 'small' && one.band !== 'infant').sort((a, b) => (b.skills?.hunting ?? 1) - (a.skills?.hunting ?? 1))[0].id;
+    const male = one => (one.sex || { father: 'male', son: 'male' }[one.kin?.role]) === 'male';
+    return w.entities.filter(one => one.householdId === w.householdId && one.kind === 'person' && male(one) && one.band !== 'child' && one.band !== 'small' && one.band !== 'infant').sort((a, b) => (b.skills?.hunting ?? 1) - (a.skills?.hunting ?? 1))[0].id;
   });
   for (let i = 0; i < 4; i++) { if (await second.locator('#tip:not([hidden]) .tip-close').isVisible().catch(() => false)) await second.locator('#tip .tip-close').tap(); await second.waitForTimeout(150); }
   await huntUntilSighting(second, touchHunter);

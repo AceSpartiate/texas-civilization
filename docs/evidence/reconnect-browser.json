@@ -1,21 +1,21 @@
 {
   "record": "reconnect-browser",
-  "date": "2026-09-29",
+  "date": "2026-10-04",
   "verdict": "PASS",
-  "browser": "153.0.8010.53",
+  "browser": "154.0.8037.93",
   "task": "docs/audits/2026-09-28-classroom.md B3 and B5: a student's and the Host's pages through a server outage of 5 s and of 30 s, the real server killed outright and started again on the same class, and the away list on a page with no cookie. Since 2026-09-29 (M3, M4, M2): a duplicate name refused at the join, a fourth tab letting the oldest go, and a page asleep let go and its family claimed with the code typed O/l.",
   "environment": "Same computer: the real server/main.mjs as a child process on loopback, killed with TerminateProcess (SIGKILL), 1 s a tick, headless Chrome at 1366x768. The sleep is the page's script paused in the debugger (CDP Debugger.pause), which stops the page answering with its socket open; a real Chromebook's lid, Wi-Fi drop and TCP are not exercised. Not a physical LAN, a Wi-Fi roam or the district network.",
   "checks": [
     "a class of five started from the Host page on the real server",
     "5 s with the server gone: both pages kept the game on screen under \"Connection lost. Reconnecting…\", and never the join screen",
-    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 1317 ms after, the Host's 1325 ms after, and the class went on",
+    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 746 ms after, the Host's 825 ms after, and the class went on",
     "30 s with the server gone: both pages kept the game on screen under \"Connection lost. Reconnecting…\" then \"Still reconnecting (22 seconds). Your family is safe; this page carries on by itself when the class server answers again.\" then \"Still reconnecting (27 seconds). Your family is safe; this page carries on by itself when the class server answers again.\", and never the join screen",
-    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 1158 ms after, the Host's 1212 ms after, and the class went on",
+    "the server started again on the same class (lock taken over, save backed up); the student's page was back with hh-1 739 ms after, the Host's 799 ms after, and the class went on",
     "a student on a new Chromebook with no cookie and no key typed the class code, saw 4 names (not the student playing), tapped their own and got hh-5 back",
     "a second student typing \"reader\" is refused at the join: \"Reader is taken — add your last initial. If you were already in this class, choose “I was already in this class” and tap your name.\"",
-    "a fourth tab of one family is never refused: the oldest says \"Your family is open in another tab or window, so this one has stopped updating. Play here\" and, left 9 s, neither reconnects nor takes a stream back; the newest tab plays on",
+    "a fourth tab of one family is never refused: the oldest says \"Your family is open in another tab or window, so this one has stopped updating. Play here\" and, left 18 s, neither reconnects nor takes a stream back; the newest tab plays on",
     "\"Play here\" takes the family back on the oldest tab, which updates again, and the next oldest is the one let go",
-    "a Chromebook asleep (its page's script paused) is let go: its family was on the away list 30 s after, and taken up at another device with the code typed \"aoblco\" (the code has 0 or 1)",
+    "a Chromebook asleep (its page's script paused) is let go: its family was on the away list 28 s after, and taken up at another device with the code typed \"aoblco\" (the code has 0 or 1)",
     "woken, the old Chromebook finds itself signed out and at the join screen, as a family taken up elsewhere does",
     "no page errors"
   ],
@@ -26,8 +26,8 @@
         "words": [
           "Connection lost. Reconnecting…"
         ],
-        "studentBackMs": 1317,
-        "hostBackMs": 1325,
+        "studentBackMs": 746,
+        "hostBackMs": 825,
         "samples": 5
       },
       {
@@ -37,16 +37,16 @@
           "Still reconnecting (22 seconds). Your family is safe; this page carries on by itself when the class server answers again.",
           "Still reconnecting (27 seconds). Your family is safe; this page carries on by itself when the class server answers again."
         ],
-        "studentBackMs": 1158,
-        "hostBackMs": 1212,
+        "studentBackMs": 739,
+        "hostBackMs": 799,
         "samples": 30
       }
     ],
     "awayList": [
-      "Cart ChromebookGregorio's family",
-      "FourthFeliciano's family",
-      "SecondThomas's family",
-      "ThirdBarnabas's family"
+      "Cart ChromebookNathan's family",
+      "FourthIsaac's family",
+      "SecondJosé's family",
+      "ThirdAmos's family"
     ],
     "duplicateName": {
       "said": "Reader is taken — add your last initial. If you were already in this class, choose “I was already in this class” and tap your name.",
@@ -54,12 +54,12 @@
     },
     "fourthTab": {
       "oldest": "Your family is open in another tab or window, so this one has stopped updating. Play here",
-      "stillAfterMs": 9209
+      "stillAfterMs": 17638
     },
     "slept": {
       "codeTyped": "aoblco",
       "codeHadLookAlikes": true,
-      "listedAfterMs": 29510
+      "listedAfterMs": 28450
     }
   },
   "screenshots": [
