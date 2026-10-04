@@ -1,0 +1,37 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "volunteer-bank-climb-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-bank-climb-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-bank-climb-3",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-bank-climb-4",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-bank-climb-5",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-bank-climb-6",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "volunteer-bank-climb",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

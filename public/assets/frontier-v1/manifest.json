@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 284,
-    "sprites": 2654,
-    "clips": 923,
-    "poseCycles": 615,
+    "sheets": 285,
+    "sprites": 2660,
+    "clips": 924,
+    "poseCycles": 616,
     "rigs": 4
   },
   "entrypoints": {
@@ -707,6 +707,81 @@
               [
                 1039,
                 1201
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "volunteer-bank-actions": {
+      "image": "atlases/volunteer-bank-actions.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1560397,
+      "sha256": "ee5ba9931e2625668da820aeb5db0450422b435ff99c903afbca11e531bb3435",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.837411,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              31,
+              338
+            ],
+            "columns": [
+              [
+                323,
+                648
+              ],
+              [
+                957,
+                1298
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              374,
+              676
+            ],
+            "columns": [
+              [
+                321,
+                675
+              ],
+              [
+                924,
+                1300
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              670,
+              969
+            ],
+            "columns": [
+              [
+                321,
+                679
+              ],
+              [
+                994,
+                1260
               ]
             ]
           }
@@ -26643,6 +26718,216 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/artillery-service"
+    },
+    "volunteer-bank-climb-1": {
+      "sheet": "volunteer-bank-actions",
+      "x": 323,
+      "y": 31,
+      "w": 325,
+      "h": 306,
+      "anchorX": 0.1092,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 1",
+      "kind": "volunteer-bank-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          325,
+          33,
+          321,
+          302
+        ],
+        "visiblePixels": 34640,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-bank-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-bank-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-bank-actions"
+    },
+    "volunteer-bank-climb-2": {
+      "sheet": "volunteer-bank-actions",
+      "x": 957,
+      "y": 44,
+      "w": 341,
+      "h": 294,
+      "anchorX": 0.3065,
+      "anchorY": 0.9286,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 2",
+      "kind": "volunteer-bank-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          959,
+          46,
+          337,
+          290
+        ],
+        "visiblePixels": 34849,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-bank-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-bank-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-bank-actions"
+    },
+    "volunteer-bank-climb-3": {
+      "sheet": "volunteer-bank-actions",
+      "x": 321,
+      "y": 374,
+      "w": 354,
+      "h": 302,
+      "anchorX": 0.3178,
+      "anchorY": 0.9338,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 3",
+      "kind": "volunteer-bank-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          323,
+          376,
+          350,
+          298
+        ],
+        "visiblePixels": 38599,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-bank-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-bank-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-bank-actions"
+    },
+    "volunteer-bank-climb-4": {
+      "sheet": "volunteer-bank-actions",
+      "x": 924,
+      "y": 383,
+      "w": 376,
+      "h": 287,
+      "anchorX": 0.3072,
+      "anchorY": 0.9373,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 4",
+      "kind": "volunteer-bank-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          926,
+          385,
+          372,
+          286
+        ],
+        "visiblePixels": 37911,
+        "trimmedPixels": 8,
+        "retainedFraction": 0.999789
+      },
+      "source": "atlases/volunteer-bank-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-bank-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-bank-actions"
+    },
+    "volunteer-bank-climb-5": {
+      "sheet": "volunteer-bank-actions",
+      "x": 321,
+      "y": 717,
+      "w": 358,
+      "h": 247,
+      "anchorX": 0.3198,
+      "anchorY": 0.9271,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 5",
+      "kind": "volunteer-bank-actions",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          323,
+          719,
+          354,
+          243
+        ],
+        "visiblePixels": 38924,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-bank-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-bank-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-bank-actions"
+    },
+    "volunteer-bank-climb-6": {
+      "sheet": "volunteer-bank-actions",
+      "x": 994,
+      "y": 670,
+      "w": 266,
+      "h": 299,
+      "anchorX": 0.3985,
+      "anchorY": 0.9331,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 6",
+      "kind": "volunteer-bank-actions",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          996,
+          669,
+          262,
+          298
+        ],
+        "visiblePixels": 38813,
+        "trimmedPixels": 1,
+        "retainedFraction": 0.999974
+      },
+      "source": "atlases/volunteer-bank-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-bank-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-bank-actions"
     },
     "white-flag-regular-idle-e": {
       "sheet": "white-flag-regular",
@@ -116029,6 +116314,38 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "volunteer-bank-climb": {
+      "frames": [
+        {
+          "sprite": "volunteer-bank-climb-1",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-bank-climb-2",
+          "duration": 500
+        },
+        {
+          "sprite": "volunteer-bank-climb-3",
+          "duration": 200
+        },
+        {
+          "sprite": "volunteer-bank-climb-4",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-bank-climb-5",
+          "duration": 650
+        },
+        {
+          "sprite": "volunteer-bank-climb-6",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "regular-bugler-call": {
       "frames": [
         {
@@ -136509,7 +136826,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 284,
+    "sourceCount": 285,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2654 usable sprites, 284 PNG atlases, 923 clips** (615 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2660 usable sprites, 285 PNG atlases, 924 clips** (616 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -23,6 +23,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alamo-scaling-ladders | 4 | 1254 × 1254 | 995871 |
 | regular-ladder-climb | 4 | 1254 × 1254 | 636351 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
+| volunteer-bank-actions | 6 | 1536 × 1024 | 1560397 |
 | white-flag-regular | 4 | 1262 × 1246 | 786638 |
 | white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
 | regular-bugler | 4 | 1262 × 1246 | 691857 |
@@ -355,6 +356,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-roundshot-carry | artillery-service | regular-gun-shot-carry |
 | regular-lanyard-pull | artillery-service | regular-gun-fire |
 | regular-cover-ears | artillery-service | regular-gun-fire |
+| volunteer-bank-climb-1 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-2 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-3 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-4 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-5 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-6 | volunteer-bank-actions | volunteer-bank-climb |
 | white-flag-regular-idle-e | white-flag-regular | State artwork; no motion required |
 | white-flag-regular-idle-s | white-flag-regular | State artwork; no motion required |
 | white-flag-regular-walk-e-1 | white-flag-regular | white-flag-regular-walk-e |
@@ -2976,6 +2983,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | regular-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | regular-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
+| volunteer-bank-climb | Pose cycle | 6 | 2950 | yes | east; west by mirroring |
 | regular-bugler-call | Pose cycle | 4 | 1340 | one-shot | east; mirror for west |
 | white-flag-regular-walk-e | Pose cycle | 2 | 560 | yes | east |
 | white-flag-volunteer-walk-e | Pose cycle | 2 | 560 | yes | east |

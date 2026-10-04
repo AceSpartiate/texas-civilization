@@ -1,3 +1,7 @@
+## Delivery update — riverbank actions, 2026-10-04
+
+Six dedicated climb/aim/fire/drop/load/ramrod frames and a preview clip delivered. Art portion of Concepcion/Grass Fight item 2 complete; live bank branch still needs shot-clock alignment and terrain/ground registration. Read ART_DELIVERY_2026-10-04-BANK-ACTIONS.md. No combat timing changed.
+
 ## Delivery update — covered fallen transport, 2026-10-04
 
 Eight frames and two authored walking clips supply distinct volunteer/Mexican bearers carrying covered still bodies. Existing sampled dead carrying binds the new art; living wounded keep their own clips. See ART_DELIVERY_2026-10-04-FALLEN-TRANSPORT.md. Named/family-specific transport remains open.

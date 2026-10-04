@@ -4119,6 +4119,26 @@
       "refinements": [],
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Covered still body with two walking bearers; interpretive garments. Fine registration remains polish."
+    },
+    {
+      "sheet": "volunteer-bank-actions",
+      "promptId": "frontier-v1/volunteer-bank-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-loophole-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-de2eb4b1-7e23-465c-b9f1-6f71d744cc4b.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e8dccc8a-7ae6-4735-9d1b-fd1e5bf152d1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/volunteer-bank-actions.png",
+      "refinements": [
+        {
+          "prompt": "Edit exact atlas to fix clipping: six sprites in2columns3rows. Make EACH whole sprite including hats boots rifles ramrod 25percent SMALLER inside its own cell, centered with generous transparent margins. No sprite or weapon touches or crosses horizontal/vertical cell boundary. Preserve same6poses sameidentity samecolors. Especially bottomright ramrod tip must stay below thirdrow topboundary, do not overlap middle right foot. True transparent background zeroalpha no glow no scenery. Full silhouettes intact.",
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e8dccc8a-7ae6-4735-9d1b-fd1e5bf152d1.png"
+        }
+      ],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Six interpretive action keyposes. Preview sequence; live shot timing and ground registration require integration."
     }
   ],
   "rejectedAttempts": [

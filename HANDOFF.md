@@ -1,3 +1,7 @@
+## Latest art delivery — riverbank actions, 2026-10-04
+
+Six volunteer bank-action keyposes and one preview clip added to the catalog. Integrate against the live firing clock; the existing bank branch remains until timing and ground registration are verified. See docs/ART_DELIVERY_2026-10-04-BANK-ACTIONS.md.
+
 ## Latest art delivery — covered fallen transport, 2026-10-04
 
 Eight frames, two authored bearer cycles now replace the anonymous dead-carrying composite. Living wounded, named figures and historical staging retain their branches. Read docs/ART_DELIVERY_2026-10-04-FALLEN-TRANSPORT.md for provenance, integration and remaining work.

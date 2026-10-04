@@ -322,6 +322,38 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "volunteer-bank-climb": {
+      "frames": [
+        {
+          "sprite": "volunteer-bank-climb-1",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-bank-climb-2",
+          "duration": 500
+        },
+        {
+          "sprite": "volunteer-bank-climb-3",
+          "duration": 200
+        },
+        {
+          "sprite": "volunteer-bank-climb-4",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-bank-climb-5",
+          "duration": 650
+        },
+        {
+          "sprite": "volunteer-bank-climb-6",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "regular-bugler-call": {
       "frames": [
         {
