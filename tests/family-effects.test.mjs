@@ -35,20 +35,22 @@ const eatenInADay = world => {
   return Math.round((20 - household.resources.food) * 10000) / 10000;
 };
 
-test('the best housekeeper at home makes the food last longer, and only while they are at home', () => {
+// Amended 2026-10-03 (owner, "keep house, garden, wash clothes"; sim/housework.mjs): the saving comes from somebody who kept house -
+// the best housework of whoever kept it today or yesterday - and from nobody standing about at home doing something else.
+const keptBy = (world, key) => { world.households['hh-1'].housekept = { day: Math.floor(world.minute / 1440), by: `hh-1-${key}` }; return world; };
+test('the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did', () => {
   const plain = eatenInADay(family());
-  const kept = eatenInADay(family({ elena: 10 }));
+  const kept = eatenInADay(keptBy(family({ elena: 10 }), 'elena'));
   assert.equal(plain, 1.4, 'four people with nobody keeping house eat what they always ate');
-  assert.ok(kept < plain - 0.3, `a good housekeeper at home made no difference: ${kept} against ${plain}`);
-  // Only the best one counts; two good housekeepers are not twice as good.
-  assert.equal(eatenInADay(family({ elena: 10, rosa: 10 })), kept);
-
-  // Send her to Gonzales and the saving goes with her.
-  const away = family({ elena: 10 });
-  person(away, 'elena').location = { ...away.map.sites.gonzales, siteId: 'gonzales' };
-  const awayPlain = family();
-  person(awayPlain, 'elena').location = { ...awayPlain.map.sites.gonzales, siteId: 'gonzales' };
-  assert.equal(eatenInADay(away), eatenInADay(awayPlain), 'a housekeeper who is not at home still kept the house');
+  assert.ok(kept < plain - 0.3, `a good housekeeper keeping house made no difference: ${kept} against ${plain}`);
+  // Nobody kept house: the best housekeeper standing at home saves nothing (until 2026-10-03 she did).
+  assert.equal(eatenInADay(family({ elena: 10 })), plain, 'a housekeeper at home who did not keep house still saved the food');
+  // Kept by a poor housekeeper, it is her housework that counts, not the best in the family.
+  assert.equal(eatenInADay(keptBy(family({ elena: 10, rosa: 2 }), 'rosa')), plain, 'the best housework in the family counted for the one who kept house');
+  // A house kept yesterday still counts today; one kept the day before that does not.
+  const old = keptBy(family({ elena: 10 }), 'elena');
+  old.households['hh-1'].housekept.day -= 2;
+  assert.equal(eatenInADay(old), plain, 'a house kept two days ago still saved the food');
 
   // The founding family nobody rolled has no hidden stats and eats exactly as before.
   const unrolled = createSettledWorld('effects', 5);

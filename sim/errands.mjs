@@ -60,6 +60,8 @@ import { LEAD_MOST, LEAD_PACE, beastWords, beastsOf, kept, wagonWith } from './b
 import { herdOf, herdWords, hasStock, salePrice, sellStock } from './stock.mjs';
 import { shownWays, waysFor } from './going.mjs';
 import { purseOf } from './town.mjs';
+// Clothes that want washing (owner, 2026-10-03; sim/housework.mjs): the shops ask a quarter more and pay a fifth less.
+import { askedOf, dearerWhy, paidTo } from './housework.mjs';
 
 /** The longest list one person can be sent with, and the most of one line. ceiling: plenty for a class; a cap, not a rule. */
 export const ERRAND_LINES = 12;
@@ -86,6 +88,12 @@ const pays = offer => offer.kind === 'service' ? [] : offer.kind === 'sell'
   ? ['coin', 'food'].filter(pay => Number.isFinite(pay === 'coin' ? offer.coin : offer.food) && (pay === 'coin' ? offer.coin : offer.food) > 0)
   : ['coin', 'food'].filter(pay => pay === 'coin' ? offer.coinEach > 0 : offer.foodEach > 0);
 const per = offer => offer.per ?? 1;
+/** The offer at what this person is asked for it in the state of their clothes (sim/housework.mjs `askedOf`); the offer itself when clean. */
+function dearOffer(world, entity, offer) {
+  const coin = Number.isFinite(offer.coin) ? askedOf(world, entity, offer.coin, 'coin') : offer.coin;
+  const food = Number.isFinite(offer.food) ? askedOf(world, entity, offer.food, 'food') : offer.food;
+  return coin === offer.coin && food === offer.food ? offer : { ...offer, coin, food };
+}
 /** The most of one line: a thing bought once (the doctor, shoes) one; a tool its shop's own most (sim/shops.mjs); else plenty. */
 const mostOf = offer => offer.most ?? (offer.kind === 'sell' && offer.once ? 1 : LINE_MOST);
 /** What one of this line is: a purchase, a lot sold, or a food ground. */
@@ -137,15 +145,20 @@ export function errandOffers(world, household, entity, town = null) {
         || (offer.kind === 'buy' && !now ? marketWords(world, siteId, trade, offer.good) : null)
         || (offer.takes && userOf(world, household, offer.takes, entity) ? hasWords(userOf(world, household, offer.takes, entity), [offer.takes], world, entity) : null);
       const most = mostOf(offer);
+      // What this person is asked, in the state of their clothes (`askedOf`): the dearer price on the line, and the plain one beside it.
+      const asked = offer.kind === 'sell' ? dearOffer(world, entity, offer) : offer;
+      const dear = asked !== offer;
       const market = flesh ? `The ${offer.herd} are ${flesh.condition} today.` : offer.kind === 'buy' ? marketWords(world, siteId, trade, offer.good) : null;
       lines.push({
         id: `${trade}:${offer.id}`, trade, shop: cap(TRADES[trade].shop), keeper: keeperAt(world, siteId, trade)?.name || null,
-        label: offer.label, kind: offer.kind, does: market ? `${offer.does} ${market}` : offer.does, price: priceWords(offer, now), each: eachWords(offer), pays: pays(offer), most,
-        ...(shut && { why: shut }),
+        label: offer.label, kind: offer.kind, does: market ? `${offer.does} ${market}` : offer.does,
+        price: dear ? `${priceWords(asked, now)} (${priceWords(offer, now).replace(/ for .*$/, '')} to a clean customer)` : priceWords(offer, now), each: eachWords(offer), pays: pays(offer), most,
+        ...(shut && { why: shut }), ...((dear || (offer.kind === 'buy' && dearerWhy(world, entity))) && { dear: true }),
       });
     }
   }
-  return { town: { id: siteId, name: site?.name || 'town' }, lines, stock: stockOf(household), tools: toolWords(household), animals: animalsOf(world, household), carry: Object.fromEntries(Object.values(MODES).map(mode => [mode.id, mode.carry])) };
+  const dearer = dearerWhy(world, entity);
+  return { town: { id: siteId, name: site?.name || 'town' }, lines, ...(dearer && { dearer }), stock: stockOf(household), tools: toolWords(household), animals: animalsOf(world, household), carry: Object.fromEntries(Object.values(MODES).map(mode => [mode.id, mode.carry])) };
 }
 const stockOf = household => Object.fromEntries(STOCK.map(good => [good, round(household.resources?.[good] ?? 0)]));
 /** The family's animals as the popup's stock line says them (sim/beasts.mjs): "2 horses", "an ox", and the herd on the range. */
@@ -196,7 +209,7 @@ function reckon(world, household, entity, list, town = null) {
     if (offer.newWagon) newWagon = true;
     const line = { id: raw.id, n, ...(pay && { pay }) };
     if (offer.kind === 'sell') {
-      const price = pay === 'coin' ? offer.coin : offer.food, purse = pay === 'coin' ? 'money' : 'food';
+      const price = askedOf(world, entity, pay === 'coin' ? offer.coin : offer.food, pay), purse = pay === 'coin' ? 'money' : 'food';
       if (have[purse] + 1e-9 < price * n) return { why: pay === 'coin' ? `${offer.label} ${n > 1 ? `${n} times ` : ''}costs ${reales(price * n)}, and there will not be that much coin in the house.` : `${offer.label} ${n > 1 ? `${n} times ` : ''}costs ${price * n} food, and there will not be that much food to pay with.` };
       have[purse] = round(have[purse] - price * n);
       if (pay === 'food') foodFrom(price * n);
@@ -372,22 +385,28 @@ export function carryOutErrand(world, household, entity, state) {
     const say = (text, extra = {}) => record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, ...extra, text });
     if (!keeper) { say(`${entity.name} found nobody keeping ${shop}, and nothing was done there.`); continue; }
     if (offer.kind === 'sell') {
-      let done = 0, why = null;
+      let done = 0, why = null, paidOut = 0;
       for (let i = 0; i < line.n; i++) {
+        const asked = askedOf(world, entity, line.pay === 'coin' ? offer.coin : offer.food, line.pay);
         why = counterRefusal(world, household, entity, `${trade}:${offer.id}:${line.pay}`)
+          || ((household.resources[line.pay === 'coin' ? 'money' : 'food'] ?? 0) + 1e-9 < asked ? (line.pay === 'coin' ? `It costs ${reales(asked)} to ${entity.name} in those clothes, and there is not that much coin in the house.` : `It costs ${asked} food to ${entity.name} in those clothes, and there is not that much food to pay with.`) : null)
           || (offer.takes && userOf(world, household, offer.takes, entity) ? hasWords(userOf(world, household, offer.takes, entity), [offer.takes], world, entity) : null);
         if (why) break;
-        if (line.pay === 'coin') { household.resources.money = (household.resources.money ?? 0) - offer.coin; keeper.purse = purseOf(world, keeper) + offer.coin; }
-        else household.resources.food = round((household.resources.food ?? 0) - offer.food);
+        if (line.pay === 'coin') { household.resources.money = (household.resources.money ?? 0) - asked; keeper.purse = purseOf(world, keeper) + asked; }
+        else household.resources.food = round((household.resources.food ?? 0) - asked);
+        paidOut += asked;
         const told = offer.give(world, household, entity);
         if (!offer.brings) record(world, 'property', { actorId: entity.id, householdId: household.id, importance: 2, text: told });
         done++;
       }
       if (done) {
         carried ||= Boolean(offer.brings || offer.load);
-        const paid = line.pay === 'coin' ? reales(offer.coin * done) : `${offer.food * done} food`;
-        const text = offer.brings ? `${entity.name} bought ${Object.entries(offer.brings).map(([good, amount]) => goodWords(good, amount * done)).join(', ')} at ${shop} for ${paid}.` : `${entity.name} paid ${paid} at ${shop}.`;
-        say(text, line.pay === 'coin' ? { coin: -offer.coin * done } : {});
+        const paid = line.pay === 'coin' ? reales(paidOut) : `${round(paidOut)} food`;
+        const plain = (line.pay === 'coin' ? offer.coin : offer.food) * done;
+        // Dearer for the state of their clothes (sim/housework.mjs `askedOf`): said, with what it would have been.
+        const dearer = paidOut > plain + 1e-9 ? ` - ${line.pay === 'coin' ? reales(plain) : `${plain} food`} to a clean customer, but ${keeper.name} looked at ${entity.name}'s clothes and asked more` : '';
+        const text = offer.brings ? `${entity.name} bought ${Object.entries(offer.brings).map(([good, amount]) => goodWords(good, amount * done)).join(', ')} at ${shop} for ${paid}${dearer}.` : `${entity.name} paid ${paid} at ${shop}${dearer}.`;
+        say(text, line.pay === 'coin' ? { coin: -paidOut, ...(dearer && { claimId: 'FIC-GONZ-1156' }) } : dearer ? { claimId: 'FIC-GONZ-1156' } : {});
       }
       if (done < line.n) say(`${entity.name} could ${done ? `do only ${done} of ${line.n}` : 'not'}: ${offer.label.toLowerCase()} - ${why || 'it could not be done'}${done ? '' : ' Nothing was paid for it.'}`);
       continue;
@@ -420,6 +439,10 @@ export function carryOutErrand(world, household, entity, state) {
       // Said after the sale is written down, so the words are the shop as the person left it: full, and how fast it sells on.
       if (sale.full && sale.sold < lots * lot) short = marketWords(world, siteId, trade, offer.good).replace(/\.$/, '');
       else if (sale.sold < lots * lot && Number.isFinite(purse)) short = `${keeper.name} had coin for only ${sale.sold === 0 ? 'none of it' : `${sale.sold} ${offer.good}`}`;
+      // A fifth less to somebody whose clothes want washing (sim/housework.mjs `paidTo`), on the whole sale, rounded.
+      const fair = sale.got;
+      if (sale.sold > 0) sale.got = paidTo(world, entity, sale.got, line.pay);
+      const less = sale.got < fair - 1e-9 ? ` - ${line.pay === 'coin' ? reales(fair) : `${fair} food`} to a clean customer, and less for the state of ${entity.name}'s clothes` : '';
       if (sale.sold > 0) {
         const units = sale.sold;
         household.resources[offer.good] = round((household.resources[offer.good] ?? 0) - units);
@@ -427,12 +450,12 @@ export function carryOutErrand(world, household, entity, state) {
           const got = sale.got;
           if (!outside) keeper.purse -= got;
           household.resources.money = (household.resources.money ?? 0) + got;
-          say(`${entity.name} sold ${units} ${offer.good} to ${keeper.name} for ${reales(got)}.`, { coin: got });
+          say(`${entity.name} sold ${units} ${offer.good} to ${keeper.name} for ${reales(got)}${less}.`, { coin: got });
         } else {
           const got = sale.got;
           household.resources.food = round((household.resources.food ?? 0) + got);
           carried = true;
-          say(`${entity.name} sold ${units} ${offer.good} to ${keeper.name} for ${got} food.`);
+          say(`${entity.name} sold ${units} ${offer.good} to ${keeper.name} for ${got} food${less}.`);
         }
       }
       if (short) say(`${cap(short)}, and ${sale.sold > 0 ? 'the rest' : `the ${offer.good}`} came home again.`);

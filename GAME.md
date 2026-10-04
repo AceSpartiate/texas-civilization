@@ -84,6 +84,19 @@ a long stretch with nothing, people die of it, the youngest and the sick first. 
 amber to red as the days of food run down, and glows and pulses as the family weakens; the faces of the hungry are ringed in the
 same colours. A starving person has an "!" and at least a real minute before anything worse can happen.
 
+**Men's work, women's work, and the wash** (owner, 2026-10-03, "Custom, necessity opens"; [docs/CUSTOMARY_WORK.md](docs/CUSTOMARY_WORK.md)).
+Every work is the men's, the women's or shared, as it was on the frontier. The men's - clearing, fencing, building, felling, the
+well, hunting and the cattle - is greyed on a woman's bar, with a fine hatch and words (*"Felling is men's work, and James is at
+home."*), while a man of the family of sixteen or over is at home and able; the women's - keeping house, the kitchen garden, the wash
+and nursing - is greyed on a man's the same way. The field, the town, the water, the hogs, the milking and everything on the road east
+are everybody's. **When every man is away, sick or dead the men's work opens by itself**, and the family's story says so once
+(*"With James gone to the army, Martha took up the axe."*); a lone mother can do everything, and so can a lone father. **Keep house**
+makes the food go further today and tomorrow (it no longer does so by itself); **Work the garden** lays out a kitchen garden beside
+the house and brings in a little food every day; **Wash clothes** keeps everybody at home clean for eight days. Somebody away from home
+in dirty clothes has flies about them, is told so by whoever they meet in town or at the war, and pays a quarter more at the shops and
+gets a fifth less for what they sell - the errand popup says why. A woman on auto keeps house, washes and gardens while her own task
+waits.
+
 **Children are drawn smaller than grown people, and mothers and daughters as women.** The art for children does not exist yet, so for now a child is a smaller copy of a grown figure; a family's principal wears the rust coat whether that is a father or a mother.
 
 **You choose what the wagon brings.** After you roll for your family, before the class begins, you pack the wagon. It holds sixteen spaces' worth: barrels of meal, sacks of seed, powder and lead, the tools a house will need, and the things a family keeps — bedding, a pot, a chest, a spinning wheel, a few books, mosquito bars, tinware, chairs in pieces. The hoe is on the list too: leave it behind and nobody can work the field until one is bought in Gonzales. Each says how much room it takes and what it does before you choose it. What you pack is exactly what your family has; what you leave behind is not coming. If you never open it, the wagon is packed sensibly for you. When the family reaches its land, the story says what they unloaded.

@@ -63,7 +63,8 @@ test('the rule: a crying baby is held by the nearest woman of age, who sings to 
   household.resources.powder = 6;
   mother.skills = { ...mother.skills, hunting: 1 };
   mother.auto = true;
-  applyAction(world, household.id, { action: 'chore', entityId: mother.id, chore: 'practise-shooting' });
+  // The wash: her own work (practice at the mark was until the men's work became the men's, owner 2026-10-03; sim/custom.mjs).
+  applyAction(world, household.id, { action: 'chore', entityId: mother.id, chore: 'wash-clothes' });
   assert.ok(mother.chore, 'the mother could not be set to work');
   // The father is nearer, and a man: the mother is the one who comes.
   near(father, baby, 0.002); near(mother, baby, 0.02);

@@ -12,7 +12,7 @@ import { calendarMinutes, dateOf, withCalendarStep } from './clock.mjs';
 import { awayProjection, milesATick, roadTicksFor, tooFastToFollow } from './sight.mjs';
 import { advanceDirectors, handleChoice, handleMarch, handleRumor, directorProjection, CAMP_SITE } from './directors.mjs';
 import { heldByBattle, lyingOnField } from './battle-stage.mjs';
-import { abandonChore, advanceChores, answerChore, askProjection, beginAim, beginChore, fireShot, registerChores, choreAvailability, choreJourney, CHORES, choresFor, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
+import { abandonChore, advanceChores, answerChore, askProjection, beginAim, beginChore, fireShot, registerChores, choreAvailability, choreJourney, CHORES, choresFor, homeWork, skillsFor, SKILL_CAP, toolState } from './chores.mjs';
 import { GAME } from './hunting.mjs';
 import { axeHome, beastFor, bringAlong, hasWords, holderOf, homeAgain, intoTheRoad, keepWithRiders, leaveBehind, modeWith, NOUN, ROLES as BEASTS, teamFor, userOf, usesInvalid } from './keeping.mjs';
 import { beastsInvalid, beastsOf, fitOut, kept, lame, ledPace, yardSpot } from './beasts.mjs';
@@ -42,6 +42,8 @@ registerMilking();
 registerShelter();
 // Resting a day on the road, camping apart from a crowd, nursing at home (sim/disease.mjs), on the same terms.
 registerDiseaseChores();
+// Keeping house, the kitchen garden and the wash (owner, 2026-10-03; sim/housework.mjs).
+registerHousework();
 // Who acts for a family, a child who steps up and goes for help, a family taken in, and anybody left behind (sim/acting.mjs,
 // owner 2026-09-28: "The oldest child steps up").
 import { FAMILY_DECISIONS, actingFor, actingInvalid, advanceStragglers, advanceTakenIn, registerActingChores, registerTakenInLedger, takenInRefusal, withTheFamily } from './acting.mjs';
@@ -110,6 +112,9 @@ import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
 import { foragedInvalid } from './gathering.mjs';
 import { milkingInvalid, registerMilking } from './milking.mjs';
+// Men's work and women's work, and the women's own (owner, 2026-10-03, "Custom, necessity opens"; docs/CUSTOMARY_WORK.md).
+import { advanceWash, gardenProjection, houseworkInvalid, registerHousework, remarkLines, washShown } from './housework.mjs';
+import { customInvalid, customSays } from './custom.mjs';
 import { herdInvalid, herdingOf, ranchShown } from './stock.mjs';
 import { advanceShelter, registerShelter, shelterInvalid, shelterLine, shelterShown } from './shelter.mjs';
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
@@ -771,6 +776,8 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   advanceShelter(world, { beginTravel, modeAvailability });
   // People on auto take up their last order again, and a family whose main person is on auto goes when told (sim/auto.mjs).
   advanceAuto(world, { beginTravel, modeAvailability });
+  // The wash, and what people away from home say of it (owner, 2026-10-03; sim/housework.mjs).
+  advanceWash(world);
   advanceTown(world);
   // Offers resolve after everyone has moved, because an offer is a thing said face to
   // face and ends the moment the two people part.
@@ -1450,6 +1457,8 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // Hungry, weak or starving (sim/hunger.mjs): the stage the row is coloured by, and while a starving person's minute runs, its
     // real time left for the "!". Absent while fed.
     ...(e.kind === 'person' ? hungerShown(world, e) : {}),
+    // Clothes that want washing (owner, 2026-10-03; sim/housework.mjs): the flies drawn over them. Absent while clean.
+    ...(e.kind === 'person' ? washShown(world, e) : {}),
     // Somebody very sick: who of the family could nurse them now (design audit S34, 2026-09-28), which the sick person's "!" opens.
     ...(e.kind === 'person' && e.health?.grave && household && { nurses: nursesFor(world, household, e) }),
     // Somebody of the family who died of a sickness is told in one plain sentence and not drawn (the owner, 2026-09-27): sent with
@@ -1483,7 +1492,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // As the family knows it (sim/scrape.mjs `householdAsKnown`): a farm the Mexican army's foragers burned while nobody of the
   // family could see is drawn as they left it until the smoke or the word reaches them.
   const known = household && householdAsKnown(household);
-  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), ...landPathsProjection(world, known), crops: cropSummary(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known), ...(known.tent && { tent: { x: known.tent.x, y: known.tent.y } }) } : null;
+  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), ...landPathsProjection(world, known), crops: cropSummary(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known), ...gardenProjection(world, known), ...(known.tent && { tent: { x: known.tent.x, y: known.tent.y } }) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -1499,7 +1508,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // And, for the five real minutes after the X, the offer to take it back up (owner, 2026-09-22): when the window shuts by
   // the server's clock and how long that is from now. Absent the rest of the time, which is the whole of the page's cue.
   const lessonResume = household && role !== 'host' && !lesson ? lessonResumeOffer(world, household, now) : null;
-  const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && { ...projectHousehold(world, household), ...wants }, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role, { seen: (others || []).map(other => other.id) }),
+  const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && { ...projectHousehold(world, household), ...wants, ...(Object.values(work).some(list => list.some(entry => entry.custom)) ? customSays(world, household, homeWork) : {}) }, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role, { seen: (others || []).map(other => other.id) }),
     // The weather, region by region (sim/weather.mjs, docs/WEATHER.md): what kind of day it is in each of the three
     // countries, how high their rivers are running, and where the wind is from. The page draws it and says nothing
     // (owner, 2026-09-20: "Players should see the weather. If implemented correctly, no text should be required"), so the
@@ -1518,7 +1527,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // family with none of it.
     ...neighbourlyView(world, householdId, role),
     // What the family's own children and babies are saying, over them, for its own page only (sim/childhood.mjs, sim/babies.mjs).
-    ...(() => { if (!household || role === 'host') return {}; const lines = [...talkLines(world, household), ...babyLines(world, household)]; return lines.length ? { familyTalk: { lines } } : {}; })(),
+    ...(() => { if (!household || role === 'host') return {}; const lines = [...talkLines(world, household), ...babyLines(world, household), ...remarkLines(world, household)]; return lines.length ? { familyTalk: { lines } } : {}; })(),
     // The army, once there is one: where it is, how many went, and which of them are this family's (sim/army.mjs).
     ...(world.army && householdId ? { army: armyProjection(world, householdId) } : {}),
     // The armies standing in the country, as far as this page may know of them (sim/armies.mjs): the page draws their camps
@@ -1845,7 +1854,7 @@ export function validateWorld(world) {
   if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world) || actingInvalid(world);
   if (badChildren) throw new Error(badChildren);
-  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || foragedInvalid(world) || milkingInvalid(world) || shelterInvalid(world) || herdInvalid(world);
+  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || foragedInvalid(world) || milkingInvalid(world) || houseworkInvalid(world) || customInvalid(world) || shelterInvalid(world) || herdInvalid(world);
   if (badLedger) throw new Error(badLedger);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');

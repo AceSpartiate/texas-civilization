@@ -26,7 +26,8 @@
 // very sick are held by (sim/decision-budget.mjs, `QUESTION_BUDGETS.starve`), so a student at the screen always has the time to
 // act. Every number here is the game's own (`FIC-GONZ-995`).
 import { record } from './events.mjs';
-import { ageNow, eatenADay, housekeepingSaving, sexOf } from './family.mjs';
+import { ageNow, eatenADay, sexOf } from './family.mjs';
+import { houseSaving } from './housework.mjs';
 import { shelterOf } from './houses.mjs';
 import { furnitureShares } from './furniture.mjs';
 import { limitLeft, limitOut } from './decision-budget.mjs';
@@ -264,7 +265,7 @@ export function dailyDraw(world, household) {
   const onRoad = household.flight && ['fled', 'refuged', 'returning'].includes(household.flight.status);
   if (onRoad) return { eat: eatenADay(world, people), make: 0 };
   const housed = shelterOf(world, household).kind === 'house';
-  const eat = eatenADay(world, people) * (1 - housekeepingSaving(people)) * furnitureShares(household, housed).eaten;
+  const eat = eatenADay(world, people) * (1 - houseSaving(world, household)) * furnitureShares(household, housed).eaten;
   return { eat, make: 0 };
 }
 

@@ -166,32 +166,30 @@ test('somebody of ten or more sits with the children: one already in first; else
   household.tent = { ...tentPoint(world, household), minute: 0 };
   const [father, mother] = grownOf(people);
   const children = childrenOf(people);
-  // Both at work: he at the house (it can be left), she felling (it cannot).
+  // Both at work: she at the wash by the house (it can be left), he felling (it cannot). Until 2026-10-03 it was she who felled and he
+  // who made furniture; felling is the men's work while he is at home (owner, "Custom, necessity opens"; sim/custom.mjs).
   household.improvements.cabin = 'none';
-  applyAction(world, household.id, { action: 'chore', entityId: mother.id, chore: 'fell-trees' });
-  applyAction(world, household.id, { action: 'plan-house', layout: 'round-log' });
-  household.logs = { wall: 60, sill: 0, poor: 0 };
-  // The house wants the felling axe the mother holds; the father sits with the children whatever he was at near the house.
-  toFurniture(world, household, father);
-  assert.ok(leavable(father) && !leavable(mother), 'furniture can be left a while and felling cannot');
+  applyAction(world, household.id, { action: 'chore', entityId: father.id, chore: 'fell-trees' });
+  applyAction(world, household.id, { action: 'chore', entityId: mother.id, chore: 'wash-clothes' });
+  assert.ok(leavable(mother) && !leavable(father), 'the wash can be left a while and felling cannot');
   // Called in at the end of the first tick, after its work: from then on it stands.
   step(world, 1);
-  const held = structuredClone(father.chore);
+  const held = structuredClone(mother.chore);
   step(world, 1);
-  assert.equal(father.aside?.kind, 'shelter', 'nobody of ten or more came in to the children');
-  assert.deepEqual(father.aside.childIds.sort(), children.map(child => child.id).sort());
-  assert.equal(mother.aside, undefined, 'the feller was called in from the timber');
-  assert.equal(mother.chore?.id, 'fell-trees');
-  assert.deepEqual(father.chore, held, 'his work went on while he sat with the children');
-  assert.match(view(world, household).entities.find(entity => entity.id === father.id).life, /^Inside with .* out of the weather\.$/);
-  assert.equal(view(world, household).entities.find(entity => entity.id === father.id).shelter.minding, true);
+  assert.equal(mother.aside?.kind, 'shelter', 'nobody of ten or more came in to the children');
+  assert.deepEqual(mother.aside.childIds.sort(), children.map(child => child.id).sort());
+  assert.equal(father.aside, undefined, 'the feller was called in from the timber');
+  assert.equal(father.chore?.id, 'fell-trees');
+  assert.deepEqual(mother.chore, held, 'her work went on while she sat with the children');
+  assert.match(view(world, household).entities.find(entity => entity.id === mother.id).life, /^Inside with .* out of the weather\.$/);
+  assert.equal(view(world, household).entities.find(entity => entity.id === mother.id).shelter.minding, true);
   step(world, 4);
-  assert.deepEqual(father.chore, held, 'his work moved while he sat with the children');
-  // It clears: he goes back to his work exactly where it stood.
+  assert.deepEqual(mother.chore, held, 'her work moved while she sat with the children');
+  // It clears: she goes back to her work exactly where it stood.
   toTomorrow(world);
   step(world, 1);
-  assert.equal(father.aside, undefined);
-  assert.equal(father.shelter, undefined);
+  assert.equal(mother.aside, undefined);
+  assert.equal(mother.shelter, undefined);
   validateWorld(world);
 });
 
@@ -242,14 +240,16 @@ test('the companion: somebody free before anybody at work, an older child of ten
   const [f2, m2] = grownOf(p2);
   const e2 = childrenOf(p2).find(child => child.age >= 7);
   e2.age = 12;
-  applyAction(w2, h2.id, { action: 'chore', entityId: m2.id, chore: 'fell-trees' });
-  applyAction(w2, h2.id, { action: 'chore', entityId: f2.id, chore: 'make-furniture' });
+  // The father to the timber (felling is the men's work while he is home, owner 2026-10-03; sim/custom.mjs), the mother to the wash
+  // by the house, the boy of twelve to the furniture by the house.
+  applyAction(w2, h2.id, { action: 'chore', entityId: f2.id, chore: 'fell-trees' });
+  applyAction(w2, h2.id, { action: 'chore', entityId: m2.id, chore: 'wash-clothes' });
   applyAction(w2, h2.id, { action: 'chore', entityId: e2.id, chore: 'make-furniture' });
   assert.ok(m2.chore && f2.chore && e2.chore, 'somebody was not set to work');
   step(w2, 2);
-  assert.equal(e2.aside?.kind, 'shelter', 'the father was called in before the elder child of twelve');
-  assert.equal(f2.aside, undefined);
-  assert.equal(m2.aside, undefined, 'the feller was called in');
+  assert.equal(e2.aside?.kind, 'shelter', 'the mother was called in before the elder child of twelve');
+  assert.equal(m2.aside, undefined);
+  assert.equal(f2.aside, undefined, 'the feller was called in');
   for (const flag of ['hunts', 'forage', 'fells', 'stock', 'nurses']) assert.ok(CANNOT_LEAVE.includes(flag), `${flag} may be left`);
   validateWorld(w2);
 });

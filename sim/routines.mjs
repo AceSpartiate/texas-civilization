@@ -1,6 +1,8 @@
 // Routine time cannot create death/capture/severe injury or settle loans/service.
 import { record } from './events.mjs';
-import { eatenADay, housekeepingSaving } from './family.mjs';
+import { eatenADay } from './family.mjs';
+// The saving comes from somebody who kept house (owner, 2026-10-03; sim/housework.mjs `houseSaving`).
+import { houseSaving } from './housework.mjs';
 import { shelterOf } from './houses.mjs';
 import { furnitureShares } from './furniture.mjs';
 import { advanceStock } from './stock.mjs';
@@ -56,11 +58,12 @@ export function advanceRoutine(world, minutes) {
     // keep - "the pasturage is sufficiently good to dispense with feeding live stock" - so there is no eating here.
     advanceStock(world, household);
     const present = household.members.map(id => world.entities[id]).filter(e => e.location.siteId === household.homeSiteId && e.health.condition !== 'dead');
-    // The best housekeeper at home makes what the family eats go further (FIC-GONZ-021).
+    // The house kept makes what the family eats go further (FIC-GONZ-021): since 2026-10-03 read from whoever kept house today or
+    // yesterday (sim/housework.mjs `keep-house`), and nothing when nobody did - until then, from the best housekeeper standing at home.
     // Furniture under a roof does its small part (sim/furniture.mjs): a table stretches the food, shelves keep it.
     const furnished = furnitureShares(household, shelterOf(world, household).kind === 'house');
     // Each by their age today, in quarters of a grown share summed before anything is rounded (FIC-GONZ-360).
-    const eaten = eatenADay(world, present) * (1 - housekeepingSaving(present)) * furnished.eaten;
+    const eaten = eatenADay(world, present) * (1 - houseSaving(world, household)) * furnished.eaten;
     const fed = Math.max(0, household.resources.food - eaten * days);
     // What the store could not cover is want, for whoever ate here (sim/hunger.mjs, owner 2026-09-30).
     ate(world, household, present, eaten * days, household.resources.food, days);

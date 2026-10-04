@@ -57,6 +57,8 @@
     "test:shops": "node scripts/shops-browser-proof.mjs",
     "test:herds": "node scripts/herds-browser-proof.mjs",
     "test:herds-injections": "node scripts/herds-injections.mjs",
+    "test:custom-work": "node scripts/custom-work-browser-proof.mjs",
+    "test:custom-work-injections": "node scripts/custom-work-injections.mjs",
     "test:errand": "node scripts/errand-browser-proof.mjs",
     "test:going": "node scripts/going-browser-proof.mjs",
     "test:wagons": "node scripts/wagons-browser-shots.mjs",

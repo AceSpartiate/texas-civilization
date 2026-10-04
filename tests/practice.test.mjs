@@ -20,6 +20,7 @@ import assert from 'node:assert/strict';
 import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { CHORES, PRACTICE_COST, SKILL_CAP, choreAvailability, skillsFor, steadyHand } from '../sim/chores.mjs';
+import { sexOf } from '../sim/family.mjs';
 
 const running = (seed = 'practice', count = 5) => {
   const built = createSettledWorld(seed, count);
@@ -30,6 +31,8 @@ const running = (seed = 'practice', count = 5) => {
 function findHunter(world, wanted) {
   for (const household of Object.values(world.households)) {
     for (const id of household.members) {
+      // A man or boy: shooting at the mark is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+      if (sexOf(world.entities[id]) === 'female') continue;
       if (wanted(world.entities[id])) return { person: world.entities[id], householdId: household.id };
     }
   }

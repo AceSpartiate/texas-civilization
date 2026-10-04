@@ -70,6 +70,9 @@ import { hungerPace } from './hunger.mjs';
 import { houseFront } from './house-placement.mjs';
 // The way across the family's own land, its paths and its yard (owner, 2026-10-02; sim/land-paths.mjs).
 import { YARD_SHARE, raiseYard, stepTo, treesInBox, yardBox, yardFenced, yardGround, yardMiddle, yardOf, yardRefusal } from './land-paths.mjs';
+// Men's work and women's work (owner, 2026-10-03, "Custom, necessity opens"; sim/custom.mjs, docs/CUSTOMARY_WORK.md).
+import { CATTLE, CUSTOM, customNoun, customRefusal, customWhy, noteNecessity } from './custom.mjs';
+import { gardenPoint } from './housework.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
@@ -1213,21 +1216,40 @@ CHORES['butcher-hog'] = {
 const horseHome = (world, household, entity) => !userOf(world, household, 'horse', entity)
   && beastsOf(world, household, 'horse').some(beast => kept(beast) && !beast.travel && beast.location?.siteId === household.homeSiteId && (!beast.borrowedBy || beast.borrowedBy === entity?.id));
 const hasHerd = household => herdOf(household).cattle + herdOf(household).hogs > 0;
+/**
+ * What this person may mind here and now (owner, 2026-10-03, "Men, by necessity"; sim/custom.mjs `CATTLE`): by age as before, and a
+ * woman or girl the hogs only while a man of sixteen or over is at home and able - the cattle on horseback are the men's and boys'.
+ */
+export const herdWorkHere = (world, household, entity) => (herdWork(entity) === 'all' && customWhy(world, household, entity, CATTLE, homeWork) ? 'hogs' : herdWork(entity));
+/** The custom row of a work for this person (sim/custom.mjs): the table's, and for the range the cattle's when they would work them. */
+function custom(world, household, entity, choreId) {
+  if (choreId === 'look-to-stock') return herdOf(household).cattle > 0 && herdWork(entity) === 'all' ? CATTLE : null;
+  return CUSTOM[choreId] || null;
+}
+/** Refused by custom for this work, with its words, or null: the range refused a woman only where there are no hogs she may mind. */
+function customRefused(world, household, entity, choreId) {
+  if (choreId === 'look-to-stock') {
+    if (herdWork(entity) !== 'all' || herdOf(household).cattle < 1 || herdOf(household).hogs > 0) return null;
+    return customWhy(world, household, entity, CATTLE, homeWork);
+  }
+  return customRefusal(world, household, entity, choreId, homeWork);
+}
 CHORES['look-to-stock'] = {
   name: 'Ride the range after the stock', skill: 'herding', where: 'home', stock: 'look', crew: 'join', child: true, grown: true,
   // The horse when it is free and the hand works cattle: theirs until the day on the range is done (sim/keeping.mjs).
-  takes: (world, household, entity) => (herdWork(entity) === 'all' && horseHome(world, household, entity) ? ['horse'] : []),
+  takes: (world, household, entity) => (herdWorkHere(world, household, entity) === 'all' && horseHome(world, household, entity) ? ['horse'] : []),
   // A child under seven is never offered it; a child of seven to eleven only where there are hogs to mind.
   offered: (world, household, entity) => hasHerd(household) && (!entity || herdWork(entity) === 'all' || (herdWork(entity) === 'hogs' && herdOf(household).hogs > 0)),
   refusal: (world, household, entity) => {
-    const work = herdWork(entity);
+    const work = herdWorkHere(world, household, entity);
     if (!work) return `${entity.name} is only ${entity.age}, and too small to mind stock.`;
     if (work === 'hogs' && herdOf(household).hogs < 1) return `There are no hogs to mind, and ${entity.name} is too young to work cattle.`;
     if (tendedToday(world, entity)) return `${entity.name} has been out after the stock today; the herd will keep until tomorrow.`;
     return null;
   },
-  begin: (world, household, entity) => { if (entity.chore.with?.includes('horse')) entity.chore.mounted = true; },
-  describe: `A day out on the range and through the timber, on the horse when it is free: the stock counted, the calves marked, strays brought in, and nothing strays for ${LOOKED_TO_DAYS} days. Minded through the month the herd raises more of its young and is fatter - more meat, a better price at the stock pens - and whoever minds it gets better at it. A child of ${HOGS_FROM_AGE} can mind the hogs; cattle are worked from ${CATTLE_FROM_AGE}.`,
+  // The hogs only, for a woman while a man is at home (`herdWorkHere`): decided as she sets out, and kept if he comes home meanwhile.
+  begin: (world, household, entity) => { if (entity.chore.with?.includes('horse')) entity.chore.mounted = true; if (herdWorkHere(world, household, entity) === 'hogs' && herdWork(entity) === 'all') entity.chore.hogsOnly = true; },
+  describe: `A day out on the range and through the timber, on the horse when it is free: the stock counted, the calves marked, strays brought in, and nothing strays for ${LOOKED_TO_DAYS} days. Minded through the month the herd raises more of its young and is fatter - more meat, a better price at the stock pens - and whoever minds it gets better at it. A child of ${HOGS_FROM_AGE} can mind the hogs; the cattle are the men's and boys' from ${CATTLE_FROM_AGE}, and a woman's only when no man is at home.`,
   steps: [
     { walk: 'field', doing: 'setting out to look to the stock' },
     { work: 6, doing: 'riding the range after the stock' },
@@ -1617,6 +1639,13 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // except the camp's own work, which a chore kept in its own module marks `camp` and gates itself (sim/camp.mjs).
   if (entity.service?.status === 'serving' && !chore.camp) return { can: false, why: servingWhy(world, entity) };
   if (chore.winter) { const why = winterRefusal(world, household, entity, choreId); if (why) return { can: false, why }; }
+  // Men's work and women's work (owner, 2026-10-03; sim/custom.mjs): the other sex's work is refused while somebody of its custom,
+  // sixteen or over, is at home and able, and opens by itself when nobody is. Marked `custom`, so the bar keeps it greyed with its
+  // words (public/family-panel.js), and lit the tick it opens.
+  // Not for somebody away from home asked a work of the place: that is refused for being away, below, and kept off the bar (a woman
+  // in town was shown the men's work greyed over the town's scene, the overlap proof found).
+  const awayFromIt = chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight && !chore.alsoFrom?.includes(entity.location.siteId);
+  if (!awayFromIt) { const why = customRefused(world, household, entity, choreId); if (why) return { can: false, why, custom: CUSTOM[choreId]?.[0] || CATTLE[0] }; }
   // A chore registered from its own module carries its own refusal (`registerChores`).
   if (chore.refusal) { const why = chore.refusal(world, household, entity); if (why) return lacking(why, chore.lacks?.(world, household, entity, why)); }
   // `alsoFrom`: a work that may be begun where it goes, too - a courier out of the Alamo standing in Gonzales may go back in
@@ -1862,6 +1891,20 @@ function heldBy(world, household, entity, chore, modeId, choreId, extra = {}) {
  * way of going (`state.ground`); not the errand to town, whose popup asks it with the list (sim/errands.mjs); not a work
  * nobody is offered any more.
  */
+/**
+ * Whether the work in hand keeps a person on the family's place for the custom (sim/custom.mjs): any work at home whose road does
+ * not leave for town, the war, the south or a neighbour - the creek, the timber and the range all come home by themselves. A man out
+ * fishing is at home for the axe; a man gone to the store is not.
+ */
+const LEAVES = Object.freeze(['town', 'houston-camp', 'south', 'neighbour']);
+export const homeWork = choreId => { const chore = CHORES[choreId]; return Boolean(chore) && chore.where === 'home' && !chore.plan && !chore.war && !chore.winter && !chore.steps?.some(step => LEAVES.includes(step.travel)); };
+/** Where somebody away is going, for the custom's opening line: 'war', 'town' or null (sim/custom.mjs `noteNecessity`). */
+export function journeyOf(person) {
+  const chore = person.chore && CHORES[person.chore.id];
+  if (chore?.war || chore?.winter || WAR_CHORES.includes(person.chore?.id) || ['march', 'volunteer', 'follow'].includes(person.travel?.purpose)) return 'war';
+  if (chore?.plan || chore?.shops || chore?.steps?.some(step => step.travel === 'town')) return 'town';
+  return null;
+}
 export const makesJourney = chore => Boolean(chore?.steps?.some(step => step.travel) && !chore.forage && !chore.huntLand && !chore.plan && !chore.retired);
 /** Where a work's first road goes, found without writing the map: the same places `advanceChore` sends them. */
 function journeyTarget(world, household, travel) {
@@ -2123,6 +2166,9 @@ export function choreCatalogue() {
     // The seed a plot of each crop takes (sim/crops.mjs), for the plot chooser's own buttons ("Plant corn, 2 seed"): fetched once
     // with the catalogue, never on the tick (owner, 2026-09-30: click a field to choose what is grown there).
     ...(chore.plants && { seeds: Object.fromEntries(Object.keys(CROPS).map(crop => [crop, seedFor(crop)])) }),
+    // Whose work it is by custom and its name as the refusal says it (owner, 2026-10-03; sim/custom.mjs `customNoun`): the page puts
+    // it before the family's `customSays` to say a refusal by custom, which rides on the tick without its words.
+    ...(customNoun(id) && { custom: customNoun(id) }),
   }));
 }
 
@@ -2189,7 +2235,7 @@ export function choresFor(world, household, entity, logsOut = null) {
     && !(entity.service?.status === 'serving' && !chore.camp)
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells || chore.fetchesLogs) && world.status === 'lobby')).map(([id, chore]) => {
-    const { can, why, lack } = choreAvailability(world, household, entity, id, logsOut);
+    const { can, why, lack, custom } = choreAvailability(world, household, entity, id, logsOut);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
     // control puts the two together so a student sees what a choice costs before making
@@ -2229,13 +2275,29 @@ export function choresFor(world, household, entity, logsOut = null) {
     // (sim/wants.mjs `liftWants`), leaving one byte of flag per person.
     return can
       ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(estimate && { estimate }), ...(leaves && { leaves }) }
-      : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(lack && { short: 1, lack }) };
+      : custom
+        // Refused by custom: its words are the catalogue's name and the family's `customSays`, sent once (sim/custom.mjs).
+        ? { id, can: false, custom }
+        : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(lack && { short: 1, lack }) };
   });
   // A hunt on the family's land refused for the same reason as the hunt in the timber says so once: the page reads it there.
   const timber = list.find(entry => entry.id === 'hunt-timber'), land = list.find(entry => entry.id === 'hunt-land');
   if (land && !land.can && timber && land.why === timber.why) delete land.why;
+  // Work refused by custom (sim/custom.mjs): the bar keeps a few of them greyed, after the goals, in the room two rows leave
+  // (public/family-panel.js `barIcons`, `GOALS_MOST` six), so the tick carries the few it can show, the family's chief works first
+  // (`CUSTOM_SHOWN`), and no more. ceiling: a woman's bar shows at most six of the men's works greyed; the rest are simply not on it
+  // while a man is home, and refused in the same words if ordered. Worth sending more only if the bar ever has room for them.
+  const refusedByCustom = list.filter(entry => entry.custom);
+  if (refusedByCustom.length > CUSTOM_SHOWN_MOST) {
+    const rank = entry => { const at = CUSTOM_SHOWN.indexOf(entry.id); return at < 0 ? CUSTOM_SHOWN.length : at; };
+    const kept = new Set(refusedByCustom.sort((a, b) => rank(a) - rank(b)).slice(0, CUSTOM_SHOWN_MOST));
+    return list.filter(entry => !entry.custom || kept.has(entry));
+  }
   return list;
 }
+/** How many works refused by custom ride on a person's list, and which first: the work a family lives by. */
+export const CUSTOM_SHOWN_MOST = 6;
+const CUSTOM_SHOWN = Object.freeze(['build-house', 'fell-trees', 'hunt-land', 'hunt-timber', 'clear-plot', 'look-to-stock', 'keep-house', 'wash-clothes', 'work-garden', 'nurse-home', 'fence-plot', 'dig-well', 'cut-lane']);
 
 /**
  * The family answers, or the moment passes without them.
@@ -2412,12 +2474,15 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   }
   const { can, why } = choreAvailability(world, household, entity, choreId);
   if (!can) throw new Error(why || 'That work is not available.');
+  // Taken up by necessity, the custom's own line the first time for each reason (owner, 2026-10-03; sim/custom.mjs): written only
+  // once the work has really begun or been joined, so a refusal further down says nothing.
+  const begun = result => { noteNecessity(world, household, entity, choreId, { row: custom(world, household, entity, choreId), homeWork, journeyOf }); return result; };
   // Planting goes to the bare plots chosen, with the crop chosen for each (owner, 2026-09-30; `planPlanting`): somebody sent to
   // plots the family is already planting works alongside whoever is at it, and otherwise plants the rest. The harvest brings in
   // the plots ripe now; a plot that comes on while it is out waits for the next.
   if (chore.plants) {
     const plan = planPlanting(world, household, entity, extra);
-    if (plan.lead) return joinAlongside(world, household, entity, chore, choreId, plan.lead, extra);
+    if (plan.lead) return begun(joinAlongside(world, household, entity, chore, choreId, plan.lead, extra));
     extra = { ...extra, plots: plan.plots, ...(plan.sow && { sow: plan.sow }) };
   }
   if (chore.reaps) extra = { ...extra, plots: ripePlots(household).map(plot => plot.id) };
@@ -2442,7 +2507,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   // it should speed the task up"): the field is planted once, with the seed spent once, and quicker for every pair of hands.
   if (chore.crew === 'join' && !chore.plants) {
     const lead = leadOf(world, household, entity, choreId, extra.plotId);
-    if (lead) return joinAlongside(world, household, entity, chore, choreId, lead, extra);
+    if (lead) return begun(joinAlongside(world, household, entity, chore, choreId, lead, extra));
   }
   // Felling needs the place too, and is refused for that place first (sim/felling.mjs).
   if (chore.fells) {
@@ -2498,6 +2563,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     // over (sim/children.mjs `playedToday`).
   // And a child's own job the automation began, once a day for each kind (sim/children.mjs `workedToday`; the rest of triage 2.3).
   } else if (chore.play ? firstPlayToday(world, entity) : !entity.chore.onAuto || onceToday(world, entity, `set-out:${choreId}`)) record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
+  begun();
   advanceChore(world, household, entity, { beginTravel });
   return entity.chore;
 }
@@ -2604,7 +2670,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // teleport the world's "returning home requires a journey" rule forbids.
       if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
       const point = step.walk === 'field' ? fieldPoint(world, household) : step.walk === 'lane' ? (lanePoint(world, household) || yardPoint(world, household))
-        : step.walk === 'house' ? (houseFront(world, household) || yardPoint(world, household)) : yardPoint(world, household);
+        : step.walk === 'house' ? (houseFront(world, household) || yardPoint(world, household))
+        // The kitchen garden beside the house (owner, 2026-10-03; sim/housework.mjs).
+        : step.walk === 'garden' ? (gardenPoint(world, household) || yardPoint(world, household)) : yardPoint(world, household);
       // Put there in the tick, as always; drawn walking the way there round whatever stands between (sim/land-paths.mjs `stepTo`).
       if (point) stepTo(world, household, entity, point);
       state.wait = 1;
@@ -3084,7 +3152,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     if (step.stock) {
       // The three of them in one place (sim/stock.mjs): the beef divided, the hog salted down, the range ridden. The
       // first two fall through to the ordinary produce rule so the carrying cap is decided in one place for every chore.
-      if (step.stock === 'look') { tendHerd(world, household, entity, { mounted: Boolean(state.mounted) }); continue; }
+      if (step.stock === 'look') { tendHerd(world, household, entity, { mounted: Boolean(state.mounted), ...(state.hogsOnly && { work: 'hogs' }) }); continue; }
       const kept = step.stock === 'beef'
         ? divideBeef(world, household, entity, beefNeighbours(world, household))
         : killHog(world, household, entity);

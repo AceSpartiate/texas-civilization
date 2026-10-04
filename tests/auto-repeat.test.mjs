@@ -184,22 +184,23 @@ test('what repeats: the owner\'s field and hunts, the gathering, the house and t
   const world = running('auto-once');
   const household = world.households['hh-1'];
   household.resources.powder = 5;
-  const elena = world.entities['hh-1-elena'];
-  elena.skills = { ...elena.skills, hunting: 1 };
-  autoOn(world, elena.id);
-  elena.order = { chore: 'hunt-timber', mode: 'foot' };
-  order(world, elena.id, 'practise-shooting');
-  assert.equal(elena.chore?.id, 'practise-shooting');
-  assert.equal(elena.order.chore, 'hunt-timber', 'work done once replaced the task');
-  assert.match(shown(world, elena.id).autoTask.says, /^Auto: hunt in the timber, once the work in hand is done\.$/);
-  for (let t = 0; t < 60 && elena.chore?.id !== 'hunt-timber'; t++) stepWorld(world);
-  assert.equal(elena.chore?.id, 'hunt-timber', 'the practice done, she did not go back to hunting');
+  // The father: the rifle is the men's work while he is at home (owner, 2026-10-03; sim/custom.mjs).
+  const hunter = world.entities['hh-1-thomas'];
+  hunter.skills = { ...hunter.skills, hunting: 1 };
+  autoOn(world, hunter.id);
+  hunter.order = { chore: 'hunt-timber', mode: 'foot' };
+  order(world, hunter.id, 'practise-shooting');
+  assert.equal(hunter.chore?.id, 'practise-shooting');
+  assert.equal(hunter.order.chore, 'hunt-timber', 'work done once replaced the task');
+  assert.match(shown(world, hunter.id).autoTask.says, /^Auto: hunt in the timber, once the work in hand is done\.$/);
+  for (let t = 0; t < 60 && hunter.chore?.id !== 'hunt-timber'; t++) stepWorld(world);
+  assert.equal(hunter.chore?.id, 'hunt-timber', 'the practice done, she did not go back to hunting');
   // A family whose student has gone is played by the director (sim/absence.mjs): what it orders is not the student's task.
-  for (let t = 0; t < 400 && elena.chore; t++) stepWorld(world);
+  for (let t = 0; t < 400 && hunter.chore; t++) stepWorld(world);
   household.absent = true; household.resources.seed = 20;
-  delete elena.auto;
-  order(world, elena.id, 'plant-field');
-  assert.equal(elena.order.chore, 'hunt-timber', 'the director\'s order replaced the task the student left her on');
+  delete hunter.auto;
+  order(world, hunter.id, 'plant-field');
+  assert.equal(hunter.order.chore, 'hunt-timber', 'the director\'s order replaced the task the student left her on');
 });
 
 test('the page says what the server says: the switch\'s words, the row\'s line, and refused work that can be waited for', () => {

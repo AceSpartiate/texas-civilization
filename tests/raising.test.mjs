@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { choreAvailability, choresFor } from '../sim/chores.mjs';
-import { tooYoung } from '../sim/family.mjs';
+import { sexOf, tooYoung } from '../sim/family.mjs';
 import { HOUSES, RAISING_FROM, RAISING_TO, houseBuilt, raising } from '../sim/houses.mjs';
 
 const WORK = HOUSES['round-log'].work;
@@ -136,7 +136,8 @@ test('helping is never asked for, and a family raises its walls alone if nobody 
   const pressureBefore = world.events.filter(event => event.type === 'pressure').length;
   for (const id of host.members) {
     const person = world.entities[id];
-    if (!tooYoung(person)) applyAction(world, 'hh-1', { action: 'chore', entityId: id, chore: 'build-house' });
+    // The men and boys: building is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+    if (!tooYoung(person) && sexOf(person) !== 'female') applyAction(world, 'hh-1', { action: 'chore', entityId: id, chore: 'build-house' });
   }
   for (let tick = 0; tick < 400 && !houseBuilt(host); tick++) stepWorld(world);
   assert.ok(houseBuilt(host), 'the house stands with nobody\'s help');

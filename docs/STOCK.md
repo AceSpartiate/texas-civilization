@@ -270,6 +270,8 @@ rides; it is left on the range in the Scrape (§3, §8). What is new is what *mi
 - *Ride the range after the stock* (`look-to-stock`, **the same id**: every saved order, auto task and test still names it).
 - **A child of seven** (`HOGS_FROM_AGE`) minds the hogs in the timber: the hogs are looked to (`hogsLookedDay`) and not the cattle. A
   child on auto minds them among its jobs, after the milking (sim/childhood.mjs `JOBS_FIRST`).
+- **Amended 2026-10-03, "Men, by necessity"** (below, and [CUSTOMARY_WORK.md](CUSTOMARY_WORK.md) §7): the cattle are the men's and
+  boys'; a woman or girl works them only when no man of sixteen or over is at home and able, and minds the hogs meanwhile.
 - **From twelve** (`CATTLE_FROM_AGE`; Dilue Harris's brother of thirteen was sent to help drive cattle, `HIST-TEX-641`) cattle and hogs,
   **on the family's horse when nobody else has it** (`takes`, held until the day is done - exclusive use, sim/keeping.mjs); on foot a
   day counts half for the cattle (`MOUNTED_CARE`): a league of prairie is not gathered on foot.
@@ -319,6 +321,15 @@ docs/BALANCE.md §21.
    director keeps a herder on the stock and sells surplus steers each autumn.
 
 **The owner's answers (2026-10-03):** the herd at the end is sold with an intact farm (as built); a hand with stock is set at the start and learned by tending (as built); cattle are worked by anyone 12 and up (as built); a beef gives its meat and its hide, no tallow (as built); families nobody plays only ride the range (as built); and **a cattle drive to Natchitoches at twice the Texas price is to be built later, as its own journey** - a next task.
+
+**Question 3 answered again, 2026-10-03, with the owner's men's and women's work** ([CUSTOMARY_WORK.md](CUSTOMARY_WORK.md)): asked *"Who
+works the cattle on horseback?"*, the owner chose, verbatim, **"Men, by necessity"**: *men and boys 12+; women only when no man is at
+home; hogs and milking open to everyone.* Built (sim/chores.mjs `herdWorkHere`, sim/custom.mjs `CATTLE`): a woman or girl sent to the
+range while a man of sixteen or over is at home and able minds the hogs only, on foot (`hogsOnly`, decided as she sets out); with no
+hogs to mind she is refused, *"Working the cattle is men's work, and James is at home."*; with no man at home she works the cattle on
+the horse, and the family's story says so once (*"With James dead, Martha rode out after the cattle herself."*). Boys of twelve to
+fifteen work the cattle and keep them from nobody. The milking stays everybody's (sim/milking.mjs). `HIST-TEX-1153` (a Tejana widow's
+300 head) and `HIST-TEX-1151` (Mary Rabb tended the stock while John was away).
 
 ### 10.8 Ceilings
 

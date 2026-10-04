@@ -123,7 +123,7 @@ export function rifleErrand(world, household, view, mouths) {
 
 /** The four short works a family falls back on when the house is short of food (sim/gathering.mjs). */
 export const FORAGE_WORK = Object.freeze(['take-small-game', 'fish-the-water', 'gather-oysters', 'cut-bee-tree']);
-export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'butcher-beef', 'butcher-hog', 'look-to-stock', 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing', 'visit-shop']);
+export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'butcher-beef', 'butcher-hog', 'look-to-stock', 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing', 'visit-shop', 'keep-house', 'wash-clothes', 'work-garden']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
@@ -427,6 +427,11 @@ export function thinkFor(world, household, { project, act }) {
       // The range ridden before the month is out, so nothing strays. A herd nobody looks to is the one that goes.
       strayingSoon(world, view.household) && 'look-to-stock',
       'dig-well', 'mend-hoe', 'cut-lane',
+      // The women's own work (owner, 2026-10-03; sim/housework.mjs): the house kept, the wash when it is due, the garden - asked here
+      // by everybody, and refused by custom to the men while a woman is at home (sim/custom.mjs), so a lone father comes to them only
+      // after the farm work above. Before the trips to town: measured, a lone mother kept
+      // 39.5 food at the end of the first period with them here, and 10.5 with them after the trips (docs/BALANCE.md §22).
+      'keep-house', 'wash-clothes', 'work-garden',
       view.household.field?.state === 'planted' && unfenced && 'fence-plot',
       // Seed enough for what goes into its bare plots, each at its crop (`directorCrops`): cotton wants more a plot than corn
       // (sim/improvements.mjs). Measured 2026-09-16: with corn's count written here, a cotton family never gathered enough, never

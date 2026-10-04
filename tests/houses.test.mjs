@@ -11,7 +11,7 @@ import { join } from 'node:path';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { choreAvailability, choresFor } from '../sim/chores.mjs';
-import { tooYoung } from '../sim/family.mjs';
+import { sexOf, tooYoung } from '../sim/family.mjs';
 import { CAMP_REST_SHARE, CAMP_SPOILAGE_PER_DAY } from '../sim/settling.mjs';
 import { CROWDED_SHARE, HOUSES, HOUSE_IDS, houseBuilt, shelterOf } from '../sim/houses.mjs';
 import { REST_MILES_PER_MINUTE } from '../sim/routines.mjs';
@@ -22,7 +22,8 @@ const lobby = (seed = 'houses', count = 5) => createGonzalesWorld(seed, count);
 const view = (world, householdId = 'hh-1') => projectWorld(world, householdId, 'student', { includeMap: false });
 const plan = (world, layout, householdId = 'hh-1') => applyAction(world, householdId, { action: 'plan-house', layout });
 const pack = (world, item, amount, householdId = 'hh-1') => applyAction(world, householdId, { action: 'load-wagon', item, amount });
-const workersOf = (world, household) => household.members.map(id => world.entities[id]).filter(person => !tooYoung(person));
+// The family's men and boys: building is the men's work while a man is at home (owner, 2026-10-03, "Custom, necessity opens"; sim/custom.mjs).
+const workersOf = (world, household) => household.members.map(id => world.entities[id]).filter(person => !tooYoung(person) && sexOf(person) !== 'female');
 
 /** Start the class and step until this family has come in off the road. */
 function arrive(world, household) {

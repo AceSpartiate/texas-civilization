@@ -209,7 +209,8 @@ test('food can be sold for coin, in whole reales, and what is left over stays in
 test('a family that never touches a coin still farms, hunts and buys what it needs with food', () => {
   const world = running('barter');
   const household = Object.values(world.households)[0];
-  const person = world.entities[household.members[1]];
+  // The father: the hunt and the fence are the men's work while he is at home (owner, 2026-10-03; sim/custom.mjs).
+  const person = world.entities[household.members[0]];
   const open = choresFor(world, household, person).filter(chore => chore.can).map(chore => chore.id);
   for (const id of ['plant-field', 'hunt-timber', 'fence-plot']) assert.ok(open.includes(id), `${id} needs coin`);
   // Since 2026-09-17 the town errands are the store's own trades (sim/shops.mjs), so they are not on the family's panel; the

@@ -1,0 +1,587 @@
+{
+ "record": "custom-work-injections",
+ "date": "2026-10-04",
+ "caught": 46,
+ "only": 38,
+ "of": 46,
+ "injections": [
+  {
+   "name": "no custom at all",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "the rule: men's work is refused",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the rule: men's work is refused a mother while the father is at home, in words, marked on the bar; shared work is not",
+    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens",
+    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
+    "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
+    "a man coming home in the middle of her work lets it finish; her next is refused",
+    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's",
+    "the families nobody plays keep the custom too: no woman of them begins men's work while a man of hers is home"
+   ]
+  },
+  {
+   "name": "the mirror lost: a man may do the women's work with a woman at home",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "the rule: men's work is refused",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the rule: men's work is refused a mother while the father is at home, in words, marked on the bar; shared work is not",
+    "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
+    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else",
+    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
+   ]
+  },
+  {
+   "name": "the refusal not marked for the bar",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "the rule: men's work is refused",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the rule: men's work is refused a mother while the father is at home, in words, marked on the bar; shared work is not",
+    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens"
+   ]
+  },
+  {
+   "name": "the panel drops the custom mark",
+   "files": [
+    "public/family-panel.js"
+   ],
+   "expected": "the bar keeps another",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens"
+   ]
+  },
+  {
+   "name": "the bar keeps no greyed custom work",
+   "files": [
+    "public/family-panel.js"
+   ],
+   "expected": "the bar keeps another",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens"
+   ]
+  },
+  {
+   "name": "the bar puts the custom before the goals",
+   "files": [
+    "public/family-panel.js"
+   ],
+   "expected": "the bar keeps another",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens"
+   ]
+  },
+  {
+   "name": "a sick man still keeps it",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "it opens when every man is away",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then"
+   ]
+  },
+  {
+   "name": "a man at the war still keeps it",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "it opens when every man is away",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then"
+   ]
+  },
+  {
+   "name": "a man in town still keeps it",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "it opens when every man is away",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
+    "a man coming home in the middle of her work lets it finish; her next is refused"
+   ]
+  },
+  {
+   "name": "a man out in the timber counted away",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "it opens when every man is away",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then"
+   ]
+  },
+  {
+   "name": "a man visiting or helping still keeps it",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "it opens when every man is away",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then"
+   ]
+  },
+  {
+   "name": "a boy of ten keeps it",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "a boy under sixteen",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a boy under sixteen follows the men's work and keeps it from nobody; a grown son keeps it"
+   ]
+  },
+  {
+   "name": "refused even with nobody at home",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "a lone mother may do every work",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the bar keeps another's work greyed with its words, after the goals, and lights it the tick it opens",
+    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
+    "a boy under sixteen follows the men's work and keeps it from nobody; a grown son keeps it",
+    "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\"",
+    "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden",
+    "the guided start's every step has somebody who may do it, in a two-parent family, a lone mother's and a lone father's",
+    "the guided start's work, played through by whoever the custom allows, in all three shapes: a house, a field, a crop, a hunt",
+    "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
+    "a man coming home in the middle of her work lets it finish; her next is refused",
+    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
+   ]
+  },
+  {
+   "name": "the line said every time",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "the journal says it once",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\""
+   ]
+  },
+  {
+   "name": "the line never said",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "the journal says it once",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\"",
+    "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden",
+    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
+   ]
+  },
+  {
+   "name": "the war said as away",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "the journal says it once",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\""
+   ]
+  },
+  {
+   "name": "no man at all said wrong",
+   "files": [
+    "sim/custom.mjs"
+   ],
+   "expected": "a lone mother may do every work",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden"
+   ]
+  },
+  {
+   "name": "auto never keeps house meanwhile",
+   "files": [
+    "sim/auto.mjs"
+   ],
+   "expected": "auto keeps the custom",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone"
+   ]
+  },
+  {
+   "name": "a man home stops her work in hand",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "a man coming home in the middle",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a man coming home in the middle of her work lets it finish; her next is refused"
+   ]
+  },
+  {
+   "name": "a woman works the cattle with a man at home",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "cattle on the range are the men's",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
+   ]
+  },
+  {
+   "name": "the hogs only not kept as she sets out",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "cattle on the range are the men's",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
+   ]
+  },
+  {
+   "name": "the range refused her with hogs to mind",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "cattle on the range are the men's",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
+   ]
+  },
+  {
+   "name": "the saving from the best at home, kept or not",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "keeping house: the hidden saving",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did",
+    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else"
+   ]
+  },
+  {
+   "name": "a house kept once keeps for ever",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "keeping house: the hidden saving",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did",
+    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else"
+   ]
+  },
+  {
+   "name": "the house kept twice a day",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "keeping house: the hidden saving",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else"
+   ]
+  },
+  {
+   "name": "the routine eats without the house kept",
+   "files": [
+    "sim/routines.mjs"
+   ],
+   "expected": "the house kept makes the food last longer",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did"
+   ]
+  },
+  {
+   "name": "the garden gives nothing",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the kitchen garden",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
+   ]
+  },
+  {
+   "name": "the garden gives the day it is dug",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the kitchen garden",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
+   ]
+  },
+  {
+   "name": "the garden worked twice a day",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the kitchen garden",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
+   ]
+  },
+  {
+   "name": "the garden not sent to the page",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the kitchen garden",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
+   ]
+  },
+  {
+   "name": "the wash cleans the man away too",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the wash: everybody at home",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the wash: everybody at home is clean for eight days, and nobody away is washed; not again within four days"
+   ]
+  },
+  {
+   "name": "clean for eighty days",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the wash: everybody at home",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the wash: everybody at home is clean for eight days, and nobody away is washed; not again within four days"
+   ]
+  },
+  {
+   "name": "the wash done every day",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the wash: everybody at home",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the wash: everybody at home is clean for eight days, and nobody away is washed; not again within four days"
+   ]
+  },
+  {
+   "name": "no flies sent to the page",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the wash: everybody at home",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the wash: everybody at home is clean for eight days, and nobody away is washed; not again within four days"
+   ]
+  },
+  {
+   "name": "told again every tick in one town",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "dirty in town",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+   ]
+  },
+  {
+   "name": "a clean customer told she smells",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "dirty in town",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+   ]
+  },
+  {
+   "name": "the words never over the speaker",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "dirty in town",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+   ]
+  },
+  {
+   "name": "the words over the speaker for ever",
+   "files": [
+    "sim/housework.mjs",
+    "sim/housework.mjs"
+   ],
+   "expected": "dirty in town",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+   ]
+  },
+  {
+   "name": "the page not sent the words",
+   "files": [
+    "sim/world.mjs"
+   ],
+   "expected": "dirty in town",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+   ]
+  },
+  {
+   "name": "the volunteers speak as townsmen",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "dirty at the war",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "dirty at the war: the other volunteers say so in their own words"
+   ]
+  },
+  {
+   "name": "never dearer",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the shops ask a quarter more",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
+   ]
+  },
+  {
+   "name": "never paid less",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "the shops ask a quarter more",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
+   ]
+  },
+  {
+   "name": "the reason not on the popup",
+   "files": [
+    "sim/errands.mjs"
+   ],
+   "expected": "the shops ask a quarter more",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
+   ]
+  },
+  {
+   "name": "quoted dearer, charged the plain price",
+   "files": [
+    "sim/errands.mjs"
+   ],
+   "expected": "the shops ask a quarter more",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
+   ]
+  },
+  {
+   "name": "an old class opens dirty",
+   "files": [
+    "sim/housework.mjs",
+    "sim/housework.mjs"
+   ],
+   "expected": "a class saved before the wash",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a class saved before the wash opens with everybody clean, and nothing saved before is refused"
+   ]
+  },
+  {
+   "name": "a wash day that cannot be is opened",
+   "files": [
+    "sim/housework.mjs"
+   ],
+   "expected": "a class saved before the wash",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a class saved before the wash opens with everybody clean, and nothing saved before is refused"
+   ]
+  }
+ ]
+}

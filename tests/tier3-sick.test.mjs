@@ -181,7 +181,8 @@ test('3.13: a child already on the way to a parent who is sent to nurse lets the
   const world = landed('t3-child-going');
   const household = Object.values(world.households).find(one => people(world, one).some(p => (p.age ?? 30) < 10 && p.age >= 2) && grownAtHome(world, one).length >= 2);
   const child = people(world, household).find(p => (p.age ?? 30) < 10 && p.age >= 2);
-  const [nurse, sick] = grownAtHome(world, household);
+  // A woman nurses: nursing is the women's work while a woman is at home (owner, 2026-10-03; sim/custom.mjs).
+  const grownHere = grownAtHome(world, household), nurse = grownHere.find(one => one.sex === 'female') || grownHere[0], sick = grownHere.find(one => one !== nurse);
   household.played = true;
   sick.health = { condition: 'sick', recoversAt: world.minute + 4 * DAY };
   for (const p of people(world, household)) if (p !== child) p.chore = p === sick ? null : p.chore;

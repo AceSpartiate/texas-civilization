@@ -318,8 +318,9 @@ export const tendedToday = (world, entity) => entity?.herding?.last === dayOf(wo
  * this hand can mind, the day written into the month's minding (`herdCare`), strays found again by the hand's share
  * (`FIND_SHARE`), and the hand one day better at it. `mounted` when the family's horse went with them.
  */
-export function tendHerd(world, household, entity, { mounted = false } = {}) {
-  const herd = herdOn(household), day = dayOf(world), work = herdWork(entity) || 'all';
+export function tendHerd(world, household, entity, { mounted = false, work: given = null } = {}) {
+  // `work`: the hogs only, for a woman who set out while a man was at home (owner, 2026-10-03; sim/chores.mjs `herdWorkHere`).
+  const herd = herdOn(household), day = dayOf(world), work = given || herdWork(entity) || 'all';
   const skill = herdingOf(entity);
   if (work === 'all') household.herdLookedDay = day; else household.hogsLookedDay = day;
   // The day's minding, one entry a day: the best hand out that day for each kind.
