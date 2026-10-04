@@ -13,6 +13,7 @@ import { beginChore, choreAvailability } from '../sim/chores.mjs';
 import { errandOffers } from '../sim/errands.mjs';
 import { CLEAN_DAYS, GARDEN_FOOD, REMARKS, WASH_AGAIN_DAYS, advanceWash, dirty, houseSaving, remarkLines } from '../sim/housework.mjs';
 import { createSettledWorld, modestMeans, taught } from './support/settled.mjs';
+import { panelActions } from '../public/family-panel.js';
 
 const DAY = 1440;
 const deps = { beginTravel: () => { throw new Error('no journeys in this test'); }, modeAvailability: () => ({ can: true }) };
@@ -210,4 +211,119 @@ test('a class saved before the wash opens with everybody clean, and nothing save
   const bad = JSON.parse(JSON.stringify(old));
   bad.entities['hh-1-rosa'].washed = 'monday';
   assert.throws(() => validateWorld(bad), /wash/i);
+});
+
+// ------------------------------------------------------------------------------------------------ the owner's answers of 2026-10-04
+// Children keep house (issue 2), prompt the student (issue 3), wash whoever's dirty (issue 4): docs/BALANCE.md §23,
+// docs/CUSTOMARY_WORK.md §1c.
+
+/** The founding family with ages: Rosa a girl of 8, Mateo a boy of 7. */
+function withChildren(seed) {
+  const family = running(seed);
+  Object.assign(family.rosa, { age: 8, sex: 'female' });
+  Object.assign(family.mateo, { age: 7, sex: 'male' });
+  return family;
+}
+const canDo = (world, household, person, id) => choreAvailability(world, household, person, id).can;
+const send = (world, entityId, chore) => applyAction(world, 'hh-1', { action: 'chore', entityId, chore });
+
+test('children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up', () => {
+  const { world, household, thomas, elena, rosa, mateo } = withChildren('children-keep');
+  washedAgo(world, CLEAN_DAYS);
+  // Both at home: the children's own works, not the house.
+  for (const child of [rosa, mateo]) for (const id of ['keep-house', 'wash-clothes']) {
+    assert.equal(canDo(world, household, child, id), false, `${child.name} may ${id} with both parents at home`);
+    assert.equal(view(world, 'hh-1').work[child.id].find(entry => entry.id === id), undefined, `${id} is on ${child.name}'s bar with both parents home`);
+  }
+  // The father gone: a lone mother's children of seven or more keep house and wash, girl and boy alike, on their own bars.
+  thomas.health = { condition: 'dead' };
+  for (const child of [rosa, mateo]) for (const id of ['keep-house', 'wash-clothes']) {
+    assert.equal(canDo(world, household, child, id), true, `${child.name} may not ${id} for a lone mother: ${choreAvailability(world, household, child, id).why}`);
+    assert.ok(view(world, 'hh-1').work[child.id].find(entry => entry.id === id)?.can, `${id} is not on ${child.name}'s bar`);
+  }
+  // Not the garden, and not a child of six.
+  assert.equal(canDo(world, household, rosa, 'work-garden'), false, 'a child of eight was given the garden');
+  mateo.age = 6;
+  assert.equal(canDo(world, household, mateo, 'keep-house'), false, 'a child of six may keep house');
+  mateo.age = 7;
+  // A child on their own automation keeps house first, and the house is kept by her.
+  applyAction(world, 'hh-1', { action: 'set-auto', entityId: rosa.id, auto: true });
+  for (let tick = 0; tick < 3 && rosa.chore?.id !== 'keep-house'; tick++) stepWorld(world);
+  assert.equal(rosa.chore?.id, 'keep-house', `a child on auto did not keep house for a lone mother: ${rosa.chore?.id}`);
+  for (let tick = 0; tick < 60 && !household.housekept; tick++) stepWorld(world);
+  assert.equal(household.housekept?.by, rosa.id, 'the house was not kept by the child');
+  // And for a lone father the same: the mother gone, the father home.
+  const other = withChildren('children-keep-father');
+  other.elena.health = { condition: 'dead' };
+  assert.equal(canDo(other.world, other.household, other.mateo, 'keep-house'), true, choreAvailability(other.world, other.household, other.mateo, 'keep-house').why);
+  validateWorld(world);
+});
+
+test('prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done', () => {
+  const { world, household, thomas, elena, rosa, mateo } = withChildren('house-cue');
+  const cues = () => Object.fromEntries(view(world, 'hh-1').entities.filter(one => one.cue).map(one => [one.id, one.cue]));
+  // The house not kept today, everybody idle: the mother - not the father, whose work it is not, nor the children.
+  assert.deepEqual(cues(), { [elena.id]: 'keep-house' });
+  const icon = panelActions({ entity: view(world, 'hh-1').entities.find(one => one.id === elena.id), offered: view(world, 'hh-1').work[elena.id], catalogue: new Map(), settable: true })
+    .find(one => one.key === 'keep-house');
+  assert.equal(icon?.cue, true, 'the icon on her bar does not glow with the cue');
+  // On auto she keeps house by herself: no cue. Busy at other work: no cue.
+  elena.auto = true;
+  assert.deepEqual(cues(), {}, 'a woman on auto was pointed at the house');
+  delete elena.auto;
+  send(world, elena.id, 'work-garden');
+  assert.deepEqual(cues(), {}, 'a busy woman was pointed at the house');
+  finish(world, elena);
+  // Kept, and the wash not due: nothing.
+  send(world, elena.id, 'keep-house');
+  finish(world, elena);
+  assert.deepEqual(cues(), {}, 'the cue stayed with the house kept');
+  // The wash wanted: the wash.
+  washedAgo(world, CLEAN_DAYS);
+  assert.deepEqual(cues(), { [elena.id]: 'wash-clothes' });
+  // With the father gone the children may wash for her: the mother first, and with her on auto the eldest idle child.
+  thomas.health = { condition: 'dead' };
+  assert.deepEqual(cues(), { [elena.id]: 'wash-clothes' });
+  elena.auto = true;
+  assert.deepEqual(cues(), { [rosa.id]: 'wash-clothes' }, 'the eldest idle child was not pointed at the wash for a lone mother');
+  // Somebody at the wash already: nobody is pointed at it.
+  delete elena.auto;
+  send(world, elena.id, 'wash-clothes');
+  assert.deepEqual(cues(), {});
+  assert.equal(mateo.cue, undefined);
+});
+
+test('wash whoever\'s dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays', () => {
+  const { world, household, thomas, elena, rosa } = running('wash-for');
+  stepWorld(world);
+  washedAgo(world, CLEAN_DAYS);
+  // He is in town on wash day.
+  const home = { ...thomas.location };
+  thomas.location = { ...thomas.location, siteId: 'gonzales' };
+  send(world, elena.id, 'wash-clothes');
+  finish(world, elena);
+  const washDay = household.washDay;
+  assert.equal(dirty(world, thomas), true);
+  // While he is away nobody at home wants it: the week holds.
+  assert.match(choreAvailability(world, household, elena, 'wash-clothes').why, /once a week/);
+  // Home, dirty: the wash may be done for him at once, and cleans him and nobody else; the family's wash day does not move.
+  thomas.location = home;
+  daysOn(world, 1);
+  assert.equal(canDo(world, household, elena, 'wash-clothes'), true, choreAvailability(world, household, elena, 'wash-clothes').why);
+  const rosaWashed = rosa.washed;
+  send(world, elena.id, 'wash-clothes');
+  finish(world, elena);
+  assert.equal(dirty(world, thomas), false, 'the man who missed wash day was not washed for');
+  assert.equal(thomas.washed, dayOf(world));
+  assert.equal(rosa.washed, rosaWashed, 'the wash for one washed everybody again');
+  assert.equal(household.washDay, washDay, 'a wash for one moved the family\'s wash day');
+  assert.ok(story(world).some(text => text.includes(`did a wash for ${thomas.given || thomas.name}`)), 'the wash for him is not said');
+  assert.match(choreAvailability(world, household, elena, 'wash-clothes').why, /once a week/, 'the wash stayed open with nobody wanting it');
+  // So he goes to town clean: the plain price.
+  household.resources = { ...household.resources, seed: 2, food: 30, money: 10 };
+  assert.equal(errandOffers(world, household, thomas).dearer || null, null, 'washed for, he is still asked more in town');
+  // Somebody who missed wash day is washed for even while their clothes are still clean: Rosa washed the day before it, away on it.
+  rosa.washed = household.washDay - 1;
+  assert.equal(dirty(world, rosa), false);
+  assert.equal(canDo(world, household, elena, 'wash-clothes'), true, `nobody may wash for a girl who missed wash day: ${choreAvailability(world, household, elena, 'wash-clothes').why}`);
 });

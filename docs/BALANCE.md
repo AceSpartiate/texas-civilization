@@ -1315,7 +1315,7 @@ periods, every family played; [before](evidence/custom-work-hunger-before.json),
   than before (the saving was free until now). The idle student is the bound.
 - `ceiling:` the director's own errands to town pay the plain price whatever the state of the clothes; its women wash among their work.
 
-## 23. Is it too hard to play short of one sex? The custom's viability (2026-10-04, a study; no rule changed)
+## 23. Is it too hard to play short of one sex? The custom's viability (2026-10-04, a study; no rule changed; all seven answered the same day, §24)
 
 The owner, 2026-10-04: *"once gendered work is in, check for viability of game play. is it too hard to play if your family doesn't
 have enough of a certain gender? propose fixes for each issue you may come accross."* Measured on branch `custom-viability` from
@@ -1438,6 +1438,7 @@ anybody of the other sex while one keeper is home and able, whether or not he is
   2. **Opens when he's busy** - the men's work opens to her while every man at home is already at other work.
   3. **Children not bound** - nobody under sixteen is held by the custom; a girl of twelve may fell like her brother.
   4. **Leave it** - the cost is days on the roof, not food or the ending.
+- **Answered (owner, 2026-10-04): "Help, not lead".** Built on branch `custom-work-3`: §24.
 
 **2. A lone parent now does two people's work, and falls behind.** A lone mother with small children must do all the men's work (by
 necessity) *and* keep house, garden and wash; a lone father with infants the same in mirror. Played as the director plays, the women's
@@ -1455,6 +1456,7 @@ keeping house is an hour a day whatever the family's size.
   2. **Children keep house** - children of seven to nine may keep house and work the garden as a child's job, like the water and the eggs.
   3. **Scaled to the family** - keeping house takes less of the day for a small family.
   4. **Leave it** - a lone parent's family is meant to be the hard one.
+- **Answered (owner, 2026-10-04): "Children keep house".** Built: children of seven or more keep house and wash whenever only one custom is kept at home; §24.
 
 **3. A student who never finds Keep house or the wash: idle women, dirty clothes, less food.** With the men's work off her bar and her
 own work undiscovered, **a grown woman stands idle 63% of the time and a girl of ten to fifteen 83%** (about as idle as before the
@@ -1468,6 +1470,7 @@ auto (`houseworkMeanwhile`).
   2. **Prompt the student** - the house and the wash glow on the bar, and the journal says the house was not kept.
   3. **Warn before charging** - the first dirty visit to town is a remark only; the markup starts after.
   4. **Leave it** - finding the women's work is part of learning the family.
+- **Answered (owner, 2026-10-04): "Prompt the student".** Built as a cue, not words (the owner prefers visual cues): the pot or the washtub pulsing on the idle woman's portrait and the icon glowing; §24.
 
 **4. Away on wash day means dirty in town.** Even a family that washes every week arrives in town dirty **38% of the time** (3,255 of
 8,515 arrivals), more than its people are dirty at home (30%): the person sent to town is the one most often away when the wash is
@@ -1478,6 +1481,7 @@ family's (`household.washDay`), not each person's.
   1. **Wash whoever's dirty** (recommended) - the wash may be done again whenever somebody at home wants it, cleaning only them.
   2. **Washed on coming home** - somebody who missed the wash is clean once home a night after it.
   3. **Leave it** - planning the wash around the trips is the student's to learn.
+- **Answered (owner, 2026-10-04): "Wash whoever's dirty".** Built: §24.
 
 **5. One woman, many men: the house work queues behind her while the men stand idle.** In oneWomanManyMen a grown man or boy is stuck -
 free, the house unkept or the wash due, refused it by custom - on **88% of the family's days at home** (151 days a family when no free
@@ -1490,6 +1494,7 @@ an hour a day; the garden 0.3 food). In every family boys of ten to fifteen are 
   1. **Help, not lead** (recommended) - men and boys may join the women's work a woman has begun; the same rule as issue 1's first answer.
   2. **Opens when she's busy** - the women's work opens to the men while every woman at home is at other work.
   3. **Leave it** - nothing measurable is lost.
+- **Answered (owner, 2026-10-04): "Help, not lead"** (the same rule as issue 1, both ways). Built: §24.
 
 **6. A man home from the army still counts as away (a rule fault, found reading the code).** `atHome` in sim/custom.mjs treats anybody
 with a `service` as away, and a man called home from the army (`winter-recall`) or a deserter keeps his service, marked *released* or
@@ -1500,6 +1505,7 @@ recalls nobody).
 - *When is a man of the army away?*
   1. **Only while serving** (recommended) - away while serving or a prisoner; released or deserted and home, he keeps the custom.
   2. **Leave it** - he has done his part; his wife may work beside him.
+- **Answered (owner, 2026-10-04): "Only while serving"** - fixed as a fault: §24.
 
 **7. A son of sixteen keeps the custom from his mother.** With the father gone to the war, a son of 16 at home is the only keeper: the
 mother has no men's work on her bar for the **61 days** he runs the place alone (son16Home; a son of 15 would not keep it - the edge
@@ -1510,6 +1516,7 @@ both parents and a son of exactly 16 or 17. Not a problem the numbers show; aske
   1. **Leave it** (recommended) - the farm does as well, and the rule is simple to read.
   2. **Mother may help** - she joins what he has begun (issue 1's first answer covers it).
   3. **Head of household** - a mother is held only by her husband, never by a son.
+- **Answered (owner, 2026-10-04): "Leave it".** Nothing changed; with "Help, not lead" she may join the work he is at.
 
 ### 23.3 What is fine
 

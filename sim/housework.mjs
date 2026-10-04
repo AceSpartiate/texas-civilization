@@ -16,14 +16,16 @@
 // The history is in HISTORY.md (`HIST-TEX-1150` to `-1154`); every number here is the game's (`FIC-GONZ-1153` to `-1157`): no source
 // gives a frontier family's garden by the day, how long a shirt stays clean, or what a storekeeper charged a dirty customer. **The
 // smell and the prices are an invention for play** (`FIC-GONZ-1155`, `-1156`), the owner's, and the game says so in its docs.
-import { homeWork, registerChores } from './chores.mjs';
+import { choreAvailability, homeWork, registerChores } from './chores.mjs';
 import { record } from './events.mjs';
-import { housekeepingSaving } from './family.mjs';
+import { housekeepingSaving, tooYoung } from './family.mjs';
+import { childKeeps, withTheArmy } from './custom.mjs';
+import { calledAside } from './aside.mjs';
 import { dateOf } from './clock.mjs';
 import { holdingOf } from './grants.mjs';
 import { stirredShare } from './shares.mjs';
 
-export const CLAIMS = Object.freeze({ house: 'FIC-GONZ-1153', garden: 'FIC-GONZ-1154', remarks: 'FIC-GONZ-1155', prices: 'FIC-GONZ-1156', wash: 'FIC-GONZ-1157' });
+export const CLAIMS = Object.freeze({ house: 'FIC-GONZ-1153', garden: 'FIC-GONZ-1154', remarks: 'FIC-GONZ-1155', prices: 'FIC-GONZ-1156', wash: 'FIC-GONZ-1157', washFor: 'FIC-GONZ-1160' });
 const DAY = 1440;
 const dayOf = (world, minute = world.minute) => Math.floor((minute || 0) / DAY);
 const round = value => Math.round(value * 10000) / 10000;
@@ -115,15 +117,33 @@ export const dirty = (world, person) => person?.kind === 'person' && Boolean(per
 /** Days since the family's last wash, or null for none yet. */
 const sinceWash = (world, household) => (Number.isInteger(household?.washDay) ? dayOf(world) - household.washDay : null);
 
+/** Everybody whose clothes are here: at home, or out on a work of the place that comes home by itself. Not anybody away. */
+const clothesHere = (world, household) => household.members.map(id => world.entities[id]).filter(person => person && person.health?.condition !== 'dead'
+  && (person.chore && homeWork(person.chore.id) ? true : !person.travel && person.location?.siteId === household.homeSiteId) && !withTheArmy(person) && !person.visiting);
+/**
+ * **The wash for whoever's dirty** (owner, 2026-10-04, BALANCE.md §23 issue 4, "Wash whoever's dirty": the one sent to town was the one
+ * away on wash day, and the family might not wash again for a week). Whether this person's clothes want the wash now: dirty, or away
+ * when the family's last wash day was done, so they missed it. `FIC-GONZ-1160`.
+ */
+export const wantsWash = (world, household, person) => dirty(world, person)
+  || (Number.isInteger(household?.washDay) && washedDay(world, person) < household.washDay);
+/** Whoever at home wants the wash now (`wantsWash`): the people a wash before the week is out is done for. */
+export const washWanted = (world, household) => clothesHere(world, household).filter(person => wantsWash(world, household, person));
+
 function washClothes(world, household, entity) {
   const day = dayOf(world);
-  household.washDay = day;
-  // Everybody whose clothes are here: at home, or out on a work of the place that comes home by itself. Not anybody away.
-  const here = household.members.map(id => world.entities[id]).filter(person => person && person.health?.condition !== 'dead'
-    && (person.chore && homeWork(person.chore.id) ? true : !person.travel && person.location?.siteId === household.homeSiteId) && !person.service && !person.visiting);
+  const since = sinceWash(world, household);
+  // Wash day, the weekly one, for everybody at home; before the week is out, only for whoever wants it - and the weekly day stays
+  // where it was, so the household's rhythm is the week's (owner, 2026-10-04: "Wash whoever's dirty").
+  const weekly = since === null || since >= WASH_AGAIN_DAYS;
+  const here = weekly ? clothesHere(world, household) : washWanted(world, household);
+  if (weekly) household.washDay = day;
   for (const person of here) person.washed = day;
-  record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 1, classification: 'FICTIONAL FOR GAMEPLAY', claimId: CLAIMS.wash,
-    text: `${entity.name} did the wash: ${here.length === 1 ? 'one set of clothes' : `the clothes of ${here.length}`} boiled, beaten and hung on the fence to dry.` });
+  const whose = here.length === 1 ? 'one set of clothes' : `the clothes of ${here.length}`;
+  record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 1, classification: 'FICTIONAL FOR GAMEPLAY', claimId: weekly ? CLAIMS.wash : CLAIMS.washFor,
+    text: weekly ? `${entity.name} did the wash: ${whose} boiled, beaten and hung on the fence to dry.`
+      : here.length ? `${entity.name} did a wash for ${here.map(person => person.given || person.name).join(' and ')}, who wanted it before wash day: ${whose} boiled, beaten and hung on the fence to dry.`
+      : `${entity.name} put the wash water on, but nobody's clothes wanted it after all.` });
 }
 
 /**
@@ -190,7 +210,7 @@ function speakerAt(world, household, person, siteId) {
 }
 /** What kind of place this is for the words: the war, a neighbour's farm, or a town. */
 function placeKind(world, person, speaker, siteId) {
-  if (person.service || speaker?.service) return 'army';
+  if (withTheArmy(person) || speaker?.service) return 'army';
   if (speaker?.householdId && world.households[speaker.householdId]?.homeSiteId === siteId) return 'neighbours';
   return 'town';
 }
@@ -246,12 +266,23 @@ export function remarkLines(world, household) {
 
 const homeAndSettled = (world, household) => !household.arriving && (!household.flight || ['home', 'ordered', 'stayed'].includes(household.flight.status));
 const atTheHouse = (world, household, entity) => entity.location?.siteId === household.homeSiteId;
+/**
+ * A child under ten keeps house and does the wash only for a lone parent (owner, 2026-10-04, "Children keep house"; sim/custom.mjs
+ * `childKeeps`): seven or more, and only one custom kept at home. The two works are marked a child's (`child`: a child's bar shows them
+ * and a child's order is taken) and `grown` (worked at a grown work's pace); this is their age ladder.
+ */
+const childMay = (world, household, entity, id) => !tooYoung(entity) || childKeeps(world, household, entity, id, homeWork);
+// The three works are joined like a fence (`crew: 'join'`) since 2026-10-04, so a man or boy may help a woman at them (sim/custom.mjs
+// `helpsWhom`). ceiling: keeping house and the garden are steps of a tick each and a step is never shorter than a tick, so a second
+// pair of hands does not shorten them (the wash goes five ticks to four). Worth undoing only if a class wants that help to show.
+
 const WORKS = {
   'keep-house': {
-    name: 'Keep house', skill: 'hands', where: 'home', job: true, keeps: 'house',
-    describe: 'An hour or two at the hearth and about the house: the cooking, the mending and the sweeping. A house kept makes the family\'s food go further, today and tomorrow; a house nobody keeps does not. Women\'s work by custom: a man keeps house when no woman of the family is at home.',
-    offered: (world, household) => homeAndSettled(world, household),
+    name: 'Keep house', skill: 'hands', where: 'home', job: true, keeps: 'house', crew: 'join', child: true, grown: true, indoors: true,
+    describe: 'An hour or two at the hearth and about the house: the cooking, the mending and the sweeping. A house kept makes the family\'s food go further, today and tomorrow; a house nobody keeps does not. Women\'s work by custom: a man keeps house when no woman of the family is at home, and a man or boy of ten may help a woman at it. A child of seven keeps house for a lone parent.',
+    offered: (world, household, entity) => homeAndSettled(world, household) && (!entity || childMay(world, household, entity, 'keep-house')),
     refusal: (world, household, entity) => {
+      if (!childMay(world, household, entity, 'keep-house')) return `${entity.name} is too young to keep house while a man and a woman of the family are at home.`;
       if (!atTheHouse(world, household, entity)) return `${entity.name} is not at home.`;
       if (keptToday(world, household)) return `The house has been kept today, by ${nameOf(world.entities[household.housekept.by])}.`;
       return null;
@@ -265,7 +296,7 @@ const WORKS = {
     ],
   },
   'work-garden': {
-    name: 'Work the garden', skill: 'farming', where: 'home', job: true, keeps: 'garden',
+    name: 'Work the garden', skill: 'farming', where: 'home', job: true, keeps: 'garden', crew: 'join',
     describe: `The kitchen garden beside the house: beans, peas, greens, sweet potatoes and melons. Laid out the first day, then worked a little every day: about ${GARDEN_FOOD} food a day in its season and ${GARDEN_WINTER} in the winter months, once a day for the family. Women's and girls' work by custom.`,
     offered: (world, household) => homeAndSettled(world, household),
     refusal: (world, household, entity) => {
@@ -282,13 +313,15 @@ const WORKS = {
     ],
   },
   'wash-clothes': {
-    name: 'Wash clothes', skill: 'hands', where: 'home', job: true, keeps: 'wash',
-    describe: `Wash day: water carried up and heated, the clothes boiled with lye soap, beaten on the bench and hung on the fence. Everybody at home goes clean for ${CLEAN_DAYS} days. Somebody away in dirty clothes is told so - in town the shops ask a quarter more and pay a fifth less. Women's work by custom, and the girls help.`,
-    offered: (world, household) => homeAndSettled(world, household),
+    name: 'Wash clothes', skill: 'hands', where: 'home', job: true, keeps: 'wash', crew: 'join', child: true, grown: true,
+    describe: `Wash day: water carried up and heated, the clothes boiled with lye soap, beaten on the bench and hung on the fence. Everybody at home goes clean for ${CLEAN_DAYS} days. Once a week, and before the week is out for anybody at home whose clothes want it - somebody who missed wash day, or is dirty. Somebody away in dirty clothes is told so - in town the shops ask a quarter more and pay a fifth less. Women's work by custom, and the girls help; a man or boy of ten may help a woman at it, and a child of seven does it for a lone parent.`,
+    offered: (world, household, entity) => homeAndSettled(world, household) && (!entity || childMay(world, household, entity, 'wash-clothes')),
     refusal: (world, household, entity) => {
+      if (!childMay(world, household, entity, 'wash-clothes')) return `${entity.name} is too young to do the wash while a man and a woman of the family are at home.`;
       if (!atTheHouse(world, household, entity)) return `${entity.name} is not at home.`;
       const since = sinceWash(world, household);
-      if (since !== null && since < WASH_AGAIN_DAYS) return since === 0 ? 'The wash was done today; it is done once a week.' : `The wash was done ${since === 1 ? 'yesterday' : `${since} days ago`}; it is done once a week.`;
+      // Before the week is out, only while somebody at home wants it (`washWanted`): the weekly day is the household's.
+      if (since !== null && since < WASH_AGAIN_DAYS && !washWanted(world, household).length) return since === 0 ? 'The wash was done today; it is done once a week.' : `The wash was done ${since === 1 ? 'yesterday' : `${since} days ago`}; it is done once a week.`;
       return null;
     },
     steps: [
@@ -317,6 +350,35 @@ export function gardenProjection(world, household) {
   const garden = household?.garden;
   if (!garden || !Number.isFinite(garden.x)) return {};
   return { garden: { x: garden.x, y: garden.y, season: gardenSeason(world), ...(gardenedToday(world, household) && { worked: true }) } };
+}
+/**
+ * **Prompt the student** (owner, 2026-10-04, BALANCE.md §23 issue 3: a student who never found *Keep house* left the women idle, the
+ * family dirty in town and the food short). The house's work that wants doing now and the one person the page points at it: keeping
+ * house when nobody has today, else the wash when somebody at home wants it (dirty, or missed wash day). Pointed at the first of
+ * the family in the panel's order - father, mother, then the eldest child - who is **idle** (at home, nothing in hand, not on the road,
+ * not stopped by a child, not on auto, which keeps house by itself, and able) and **may begin it** (`choreAvailability`, so the custom
+ * decides who: a woman or girl while one is home, a man when none is, a child for a lone parent; never somebody who could only help).
+ * Nobody while somebody of the family is at that work already, or once it is done. The page draws it as a cue on the portrait and
+ * on the icon, with no words (public/app.js `paintCue`). Null when nothing is wanted or nobody idle may do it.
+ */
+export const CUE_WORKS = Object.freeze(['keep-house', 'wash-clothes']);
+const PANEL_RANK = Object.freeze({ father: 0, mother: 1 });
+export function houseCue(world, household) {
+  if (world.status !== 'running' || !household?.members?.length || !homeAndSettled(world, household)) return null;
+  const people = household.members.map(id => world.entities[id]).filter(person => person?.kind === 'person' && !['dead', 'captured'].includes(person.health?.condition));
+  for (const work of CUE_WORKS) {
+    if (people.some(person => person.chore?.id === work)) continue;
+    // The wash only when somebody at home wants it (`washWanted`): not merely because a family has never washed, when it is open too.
+    if (work === 'wash-clothes' && !washWanted(world, household).length) continue;
+    const idle = people.filter(person => !person.chore && !person.travel && !person.auto && !calledAside(person) && !person.visiting && person.task !== 'help'
+      && atTheHouse(world, household, person) && !withTheArmy(person) && person.health?.condition !== 'sick')
+      .sort((a, b) => (PANEL_RANK[a.kin?.role] ?? 2) - (PANEL_RANK[b.kin?.role] ?? 2) || (b.age ?? 0) - (a.age ?? 0));
+    for (const person of idle) {
+      const said = choreAvailability(world, household, person, work);
+      if (said.can && !said.help) return { personId: person.id, work };
+    }
+  }
+  return null;
 }
 /** Clothes that want washing, on the person as the family's page sees them (the flies drawn over them): absent while clean. */
 export const washShown = (world, person) => (dirty(world, person) ? { dirty: true } : {});

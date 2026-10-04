@@ -128,7 +128,10 @@ while her husband is at home - because it is how families of the time lived, and
 went to the army in the autumn of 1835, the women and children were left to finish picking the cotton, and a woman whose husband was
 away tended the stock and stood watch with his gun. A student whose father has gone to the war will see the men's work light up on
 the mother's bar, and the family's story says so. That moment is the one to talk about: what the war took out of a household besides
-the man, and what the women who stayed did. The washing, and the townspeople's remarks about a dirty shirt, are the game's own
+the man, and what the women who stayed did. While he is home, his wife and daughters may still **help** with the men's work he is
+at - the green hands on an icon - and a man may help his wife at hers; neither may start the other's. In a family with only one
+parent at home, children of seven and up keep house and do the wash. A pulsing pot or washtub on a woman's portrait means the house
+or the wash wants doing and she is free to do it. The washing, and the townspeople's remarks about a dirty shirt, are the game's own
 invention to make the women's work matter; say so if a student asks. Nothing in the game says that men or women are better at
 anything, and the custom is never applied to enslaved people, whose labour ignored it.
 

@@ -1,6 +1,6 @@
 # Men's work, women's work, and the wash: "Custom, necessity opens"
 
-**Owner-decided 2026-10-03, its four follow-up questions answered 2026-10-04 (§1b); not released.** Amends [FAMILY_CREATION.md](FAMILY_CREATION.md) §4 (the housekeeping saving now comes
+**Owner-decided 2026-10-03, its four follow-up questions answered 2026-10-04 (§1b), and the viability study's seven answered the same day (§1c); not released.** Amends [FAMILY_CREATION.md](FAMILY_CREATION.md) §4 (the housekeeping saving now comes
 from somebody keeping house) and [STOCK.md](STOCK.md) §10.3 and §10.7 question 3 (who works the cattle). Built in `sim/custom.mjs`
 (the rule), `sim/housework.mjs` (keeping house, the garden, the wash, what people say and what the shops ask), `sim/chores.mjs`
 (`choreAvailability`, `beginChore`, `herdWorkHere`), `sim/auto.mjs`, `sim/neighbours.mjs` and `sim/errands.mjs`; drawn by
@@ -38,6 +38,40 @@ Asked by multiple choice once the first build was merged; answered 2026-10-04, v
 4. *The markup* (a quarter more and a fifth less, as built; a real more; or only the words): **"Quarter more, fifth less"**. As built
    (§6).
 
+## 1c. The owner's answers to the viability study's seven questions (2026-10-04)
+
+[BALANCE.md](BALANCE.md) §23 measured whether the game is too hard to play short of one sex and put seven questions; the owner chose,
+verbatim, from the multiple choice:
+
+1. *How should a woman or girl help when the only man is busy?* (§23 issue 1) **"Help, not lead"** - women and girls of ten or more may
+   join men's work a man of the family has begun, never begin it.
+2. *How should a family with one grown person keep house?* (issue 2) **"Children keep house"**.
+3. *Should the house be kept when nobody is told to?* (issue 3) **"Prompt the student"**.
+4. *Who may be washed for after wash day?* (issue 4) **"Wash whoever's dirty"**.
+5. *How should men help with the women's work?* (issue 5) **"Help, not lead"** - men and boys may join the women's work a woman has
+   begun; the same rule as the first answer.
+6. *When is a man of the army away?* (issue 6) **"Only while serving"** - a rule fault, fixed.
+7. *Should a son of sixteen keep men's work from his mother?* (issue 7) **"Leave it"** - with "Help, not lead" she may join his work.
+
+**Built** (2026-10-04, branch `custom-work-3`):
+
+- **Help, not lead** (§2b, `FIC-GONZ-1159`): both ways, from ten, only work more hands speed; on the bar only while one of its custom is
+  at it, with the helping-hands badge; never begun; left off when he (or she) leaves off.
+- **Children keep house** (§4b, `FIC-GONZ-1158`): the honest reading of the owner's question about lone parents - **whenever only one
+  custom is kept at home** (no grown man at home and able, or no grown woman), a child of **seven** or more of either sex may keep house
+  and do the wash: a lone father's children, a lone mother's (so she can work the field and the men's work), and a mother's whose
+  husband is at the war. A child on auto takes it up first; so do the families nobody plays.
+- **Prompt the student** (§8): a cue, not text - the work's picture (the pot over the fire, the washtub) pulsing on the portrait of the
+  one idle person who may begin it, and the matching icon glowing on her bar, while the house is not kept today or somebody at home
+  wants the wash. Never on somebody busy, on auto (who keeps house by herself) or stopped by a child, and gone once the work is done
+  or somebody is at it.
+- **Wash whoever's dirty** (§6, `FIC-GONZ-1160`): the weekly wash day stays the household's; before the week is out the wash may be done
+  again whenever somebody at home wants it - dirty, or away on wash day - cleaning only them, so the one going to town can be washed
+  first.
+- **Only while serving** (§2, `FIC-GONZ-1150` amended): a man is away from the custom while serving or a prisoner; sent for or deserted
+  and home, he keeps it.
+- **Leave it**: nothing changed for the son of sixteen.
+
 ## 2. The rule (`sim/custom.mjs`, `FIC-GONZ-1150`)
 
 - **Every work is men's, women's or shared** (§3). Only the table's works have a custom; everything else is shared and never asked.
@@ -46,8 +80,10 @@ Asked by multiple choice once the first build was merged; answered 2026-10-04, v
   it from anybody else**: a mother whose husband is at the war may take up the axe beside her son of fourteen.
 - **At home and able** (`keepers`): on the family's own land - standing there, or out on a work of the place that comes home by
   itself (the creek, the timber, the range; `homeWork` in sim/chores.mjs) - and not dead, taken, very sick, sick or lying wounded.
-  Tired or slightly hurt, a man still keeps it. **Away** is a journey to town or to the war, serving with any force, helping where a
-  call sent them, or visiting at the neighbours'.
+  Tired or slightly hurt, a man still keeps it. **Away** is a journey to town or to the war, serving with any force (or held its
+  prisoner), helping where a call sent them, or visiting at the neighbours'. **Only while serving** (owner, 2026-10-04; `withTheArmy`):
+  a man sent for (`released`) or who deserted keeps his service record for the land and the glory, and once home he keeps the custom
+  like anybody - until 2026-10-04 the record counted him away for good.
 - **Refused while a keeper is at home**, in the control's own words: *"Felling is men's work, and James is at home."*, *"The wash is
   women's work, and Martha is at home."* The refusal is in `choreAvailability`, the one gate every order passes - a student's hand,
   auto, the families nobody plays, the guided start - and marked `custom`, so **the work is left off the person's work list
@@ -71,6 +107,35 @@ Asked by multiple choice once the first build was merged; answered 2026-10-04, v
   custom entirely** - enslaved women ploughed, hoed and picked cotton beside the men (`HIST-TEX-1154`) - so the table must never be
   applied to an enslaved worker. None is ever a family's member or given work (VISION.md §15, sim/means.mjs), and `customApplies`
   refuses anybody who is not a member of the household, as a guard for the day the game shows one.
+
+## 2b. Help, not lead (`helpsWhom`, `helpLead`, `helpHeld`; `FIC-GONZ-1159`)
+
+The owner, 2026-10-04, **"Help, not lead"**, both ways (§1c, answers 1 and 5):
+
+- **Who**: a woman or girl of **ten** or more (`HELPS_FROM_AGE`) may join men's work, and a man or boy of ten or more women's work -
+  while the custom refuses them that work (somebody of its custom is at home).
+- **What**: only work more hands speed - a `crew` on the chore table: the house, a clearing, the lane, the felling, a fence, the yard,
+  the well, the carreta, furniture, keeping house, the garden and the wash (the three house works are joined like the fence since
+  2026-10-04). **Not** the hunt, the survey, the range (its cattle are the men's by necessity; she minds the hogs there, §7), killing a
+  beef or nursing (a second nurse adds nothing).
+- **Joined, never begun**: the work is on the helper's list and bar **only while somebody of its custom is at it** (`helpLead`: the first
+  of the family at that very work who is of its custom and not himself helping), sent with `help` (his id) and drawn with the green
+  helping-hands badge; with nobody at it, it is not there and an order for it is refused in the custom's words. Pressed, the helper joins
+  him where he is (his plot, his timber; a press on the map is not asked), marked `helping`, and the story says it - *"Elena went to help
+  Thomas: work on the house."*
+- **Their hands**: at the one curve every crew goes by (sim/hands.mjs): alongside the lead of a job done together (the fence, the well,
+  the wash), or into the one thing (the house, the clearing, the lane, the felling).
+- **Leaves when he does** (`helpHeld`): at work each puts their own hands into, the helper is asked as each spell or tree begins - so the
+  one in hand is finished and put in - and leaves off once nobody of its custom is at it and somebody of it is still at home: *"Elena left
+  off work on the house: Thomas is no longer at it."* Alongside a lead, the helper leaves with the lead (`workAlongside`). If the custom
+  has opened meanwhile - every one of its custom gone from home - the work is theirs by necessity and goes on as anybody's.
+- **The families nobody plays** help too: their women join the men at the house and the clearing, and the director lets a helper through
+  to a work one of the family is already at (`ONE_AT_A_TIME`).
+- `ceiling:` keeping house and the garden are steps of a tick each, and a step is never shorter than a tick, so a second pair of hands
+  does not shorten them; the wash goes a tick sooner (five ticks to four) and the heavy works as much as any crew. Worth undoing only if a
+  class wants a man's help at the hearth to show: longer steps, or the job's ticks shared.
+- `ceiling:` the help is asked of somebody of the custom **at the work**, not merely at home: a mother whose husband is at the felling
+  may join the felling, not begin the clearing.
 
 ## 3. The table, every work
 
@@ -101,6 +166,27 @@ gives it to Mary Rabb; the hogs ran semi-wild and anybody minded them.
   The families nobody plays keep house, wash and garden among their work too (sim/neighbours.mjs).
 - **Drawn** at the front of the house: cooking at the fire (the tend-fire stand-in), sewing (the mending pose), sweeping (the hoeing
   cycle) - `WORK['keep-house']` in public/work-art.js.
+
+## 4b. Children keep house (`childKeeps`, `FIC-GONZ-1158`)
+
+The owner, 2026-10-04, **"Children keep house"** (§1c, answer 2; BALANCE.md §23 issue 2: a lone parent doing both customs fell behind):
+
+- **When**: whenever **only one custom is kept at home** (`childrenKeepHouse`): no grown man at home and able - a lone mother, or a mother
+  whose husband is at the war or in town, who has the men's work to do - or no grown woman (a lone father). With both at home, the
+  children keep their own works.
+- **Who and what**: a child of the family of **seven** or more (`CHILD_KEEPS_FROM`), girl or boy, may **keep house and do the wash**
+  (`CHILDREN_KEEP`); a boy of ten to fifteen too, whom the custom held from the women's work while his mother was home. Not the garden,
+  which stays the women's.
+- **On the bar**: the two works are marked a child's (`child`), so a child of seven to nine sees them on their own bar beside the water
+  and the eggs, only while they are theirs to do; a child's order for them is taken; and they are worked at a grown work's pace (`grown`).
+- **Auto**: a child on their own automation keeps house first, then the wash when it is wanted (sim/childhood.mjs `JOBS_FIRST`); a
+  grown person or a child of ten on auto keeps house while their task waits as before. The families nobody plays send a child of seven
+  to nine to the house before they give the grown hands the farm.
+- **What it saves**: the house a child keeps saves what **that child's own** housework saves - the hidden trait of FAMILY_CREATION.md §4,
+  which grows with age, so a child of eight saves little and a girl of fourteen nearly what her mother would. The wash a child does
+  cleans as anybody's does.
+- `ceiling:` the saving is the child's own, not the parent's; a lone mother who wants the most from the house keeps it herself. Worth
+  undoing only if the owner wants a child's keeping house to count as the parent's.
 
 ## 5. The kitchen garden (`work-garden`, `FIC-GONZ-1154`)
 
@@ -139,7 +225,13 @@ gives it to Mary Rabb; the hogs ran semi-wild and anybody minded them.
   a clean customer would have paid. Judged at the counter, on the person's clothes there.
 - **The flies** (`dirty` on the person, `drawFlies`): three specks circling the head and two wavy lines rising, over anybody whose
   clothes want washing, wherever they are drawn - at home a reminder, in town the cause of what is said. No words.
-- **A family with no woman can always wash**: the men by necessity (§2).
+- **The wash for whoever's dirty** (owner, 2026-10-04, **"Wash whoever's dirty"**; `wantsWash`, `washWanted`, `FIC-GONZ-1160`): the
+  weekly wash day stays the household's (`household.washDay`), and **before the week is out the wash may be done again whenever somebody
+  at home wants it** - their clothes dirty, or away when the family's wash day was done - **cleaning only them**; the family's wash day
+  does not move (*"Elena did a wash for Thomas, who wanted it before wash day: one set of clothes boiled, beaten and hung on the fence to
+  dry."*). So the one sent to town, who was the one most often away on wash day, can be washed for before he goes again. With nobody
+  at home wanting it the refusal is as before (*"The wash was done 3 days ago; it is done once a week."*).
+- **A family with no woman can always wash**: the men by necessity (§2), and a child of seven or more for a lone parent (§4b).
 - `ceiling:` the families nobody plays are sent to town by their director's own errands, which pay fixed prices; the markup is on the
   student's errand (the shops' list). Their women wash anyway (§4), so it would rarely bite.
 - `ceiling:` the retired walk to the shops (`visit-shop-street`, kept for a class saved in the middle of it) pays the plain price.
@@ -158,6 +250,15 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
   the tick it opens; nothing of the custom rides on the tick. An icon that leaves the bar and comes back is the same button
   (`row.made`, public/app.js), proved in the browser. Until 2026-10-04 the bar kept six such works greyed with a fine hatch; that,
   `customSays`, `customNoun`, `CUSTOM_SHOWN_MOST` and `data-custom` are gone. Three new icons (stroked glyphs until drawn): a pot over the fire, a sprout over rows, a washtub.
+- **Help** (owner, 2026-10-04, §2b): work open only as help is on the bar with a small **green helping-hands badge** in its corner
+  (`data-help`), no map press asked; its popup says whom - *"Helps Thomas, and leaves off when they do."* - and it leaves the bar when he
+  leaves the work.
+- **The house's cue** (owner, 2026-10-04, **"Prompt the student"**; sim/housework.mjs `houseCue`, sent as `cue` on one person): while the
+  house is not kept today, or somebody at home wants the wash, the one idle person who may begin it - in the panel's order, father,
+  mother, then the eldest child; so a woman or girl while one is home, a man when none is, a child for a lone parent - has the work's
+  own picture (the pot over the fire, or the washtub) **pulsing in the foot of her portrait**, and the matching icon on her bar **glows
+  blue** (`data-cue`). No words. Not on somebody busy, on auto, stopped by a child, sick or away; gone the tick somebody is at that work
+  or it is done. One cue at a time for the family: the house before the wash.
 - The map: a woman keeping house at the front of the house, in the garden, at the wash; **the garden beside the house**; **flies over
   a dirty person**; the townsman's words over his head.
 - The errand popup: the sentence why, with flies, and the dearer prices in ember.
@@ -181,6 +282,10 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
 | `FIC-GONZ-1155` | What people say of dirty clothes (an invention for play) |
 | `FIC-GONZ-1156` | The shops' quarter more and fifth less (an invention for play) |
 | `FIC-GONZ-1157` | A weekly wash day: clean for seven days, washed again after seven (owner, 2026-10-04) |
+| `FIC-GONZ-1150` (amended 2026-10-04) | Away only while serving or a prisoner: a man sent for or deserted and home keeps the custom |
+| `FIC-GONZ-1158` | Children of seven keep house and wash whenever only one custom is kept at home (owner, 2026-10-04) |
+| `FIC-GONZ-1159` | Help, not lead: from ten, both ways, joined never begun, left off with the lead (owner, 2026-10-04) |
+| `FIC-GONZ-1160` | The wash for whoever at home wants it before the week is out; the weekly day stays (owner, 2026-10-04) |
 
 ## 10. Balance
 
@@ -203,4 +308,10 @@ seven questions with proposed fixes for the owner, none built.
   `tests/housework.test.mjs` (7: keeping house and the saving; the garden; the wash; the remark in town; at the war; the prices; an
   old save). Each proved by injection: `npm run test:custom-work-injections`, **46 of 46** (2026-10-04) caught by the test written for
   them, 37 by that test alone ([record](evidence/custom-work-injections.json)).
+- The owner's answers of 2026-10-04: `tests/custom-work.test.mjs` *help, not lead* (a woman or girl of ten joins the yard he is at, drawn
+  as help, faster, never begun; a girl of nine not), *help, not lead, the other way* (a man and a boy of twelve join her at the house
+  and the wash, faster), *help at work each puts their own hands into* (she helps raise the house, leaves off when he does, and goes on by
+  necessity when he is dead), *only while serving*, and *the families nobody plays keep the custom* (now: and their women help);
+  `tests/housework.test.mjs` *children keep house*, *prompt the student*, *wash whoever's dirty*. Each proved by injection (the record
+  below).
 - `npm run test:custom-work`: the browser proof with screenshots, 14 checks - none of the men's work on the mother's bar with the father home and an order for it refused in words, the work lit once he is on the road, and the same button back when he goes again ([record](evidence/custom-work-browser.json)).

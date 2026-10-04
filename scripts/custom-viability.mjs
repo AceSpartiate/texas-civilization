@@ -24,6 +24,9 @@
 // Two kinds of student (`--mode`):
 //   playing   plays as the director plays a family nobody plays (sim/neighbours.mjs `thinkFor`), the hunger harness's *playing*.
 //   nohouse   the same, but never finds Keep house, the wash or the garden: those three are taken off what the student sees.
+//   cued      the nohouse student who follows the cue (owner, 2026-10-04, "Prompt the student"; sim/housework.mjs `houseCue`): the
+//             three are still off what they see, except the one work the cue points at on the one person it points at, which they
+//             send first. On a tree without the cue it is the nohouse student.
 //
 // For each family: the day the house was roofed; plots cleared, sown and harvested; food at each period's end; hunger and deaths by
 // cause; coin, the final number and rank; arrivals in town with clothes that want washing and the remarks; and the **stuck moments**,
@@ -32,7 +35,7 @@
 // each sex and age spends at men's, women's, shared or no work. `--root` runs the same against another tree (main before the custom).
 //
 // Run one class:   node scripts/custom-viability.mjs --seed viab-1 --mode playing [--root <dir>] [--out file.json]
-// Run the study:   node scripts/custom-viability.mjs --study --seeds viab-1,...,viab-6 --before <dir> --jobs 9 --out docs/evidence/custom-viability.json
+// Run the study:   node scripts/custom-viability.mjs --study --seeds viab-1,...,viab-6 --before <dir> --jobs 9 [--cued] --out docs/evidence/custom-viability.json
 import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
@@ -159,10 +162,17 @@ async function runClass({ root, seed, seedIndex, mode, families }) {
 
   // The student's view: `nohouse` never sees keeping house, the wash or the garden.
   const HIDDEN = new Set(['keep-house', 'wash-clothes', 'work-garden']);
+  const hides = mode === 'nohouse' || mode === 'cued';
   const project = id => {
     const view = projectWorld(world, id, 'student', { includeMap: false });
-    if (mode === 'nohouse' && view.work) for (const key of Object.keys(view.work)) view.work[key] = view.work[key].filter(entry => !HIDDEN.has(entry.id));
+    const cued = person => (mode === 'cued' ? (view.entities || []).find(one => one.id === person)?.cue : null);
+    if (hides && view.work) for (const key of Object.keys(view.work)) view.work[key] = view.work[key].filter(entry => !HIDDEN.has(entry.id) || entry.id === cued(key));
     return view;
+  };
+  // The cued student presses what the cue points at, first.
+  const followCue = household => {
+    const cue = mode === 'cued' ? housework.houseCue?.(world, household) : null;
+    if (cue) { try { applyAction(world, household.id, { action: 'chore', entityId: cue.personId, chore: cue.work }); } catch { /* refused: the next think */ } }
   };
 
   const alive = person => person && !['dead', 'captured'].includes(person.health?.condition);
@@ -220,7 +230,7 @@ async function runClass({ root, seed, seedIndex, mode, families }) {
     for (const person of free) {
       let stuck = false;
       for (const id of NEEDED) {
-        if (mode === 'nohouse' && HIDDEN.has(id)) continue;
+        if (hides && HIDDEN.has(id)) continue;
         const said = choreAvailability(world, household, person, id);
         if (said.can || !said.custom) continue;
         // Asked again with the work's keepers counted away: refused by the custom alone?
@@ -286,7 +296,10 @@ async function runClass({ root, seed, seedIndex, mode, families }) {
       if (brought && (brought[1] || brought[2])) { tally.harvests++; tally.harvestFood += Number(brought[1] || 0); tally.harvestCotton += Number(brought[2] || 0); }
       if (event.claimId === 'FIC-GONZ-1155') tally.remarks++;
       if (event.claimId === 'FIC-GONZ-1157') tally.washes++;
-      if (event.claimId === 'FIC-GONZ-1153') tally.keptDays++;
+      if (event.claimId === 'FIC-GONZ-1153') { tally.keptDays++; if ((world.entities[event.actorId]?.age ?? 30) < 16) tally.keptByChild = (tally.keptByChild || 0) + 1; }
+      // The owner's answers of 2026-10-04: helping across the custom begun or joined, and a wash for whoever missed wash day.
+      if (event.claimId === 'FIC-GONZ-1159' && /went to help/.test(text)) tally.helps = (tally.helps || 0) + 1;
+      if (event.claimId === 'FIC-GONZ-1160') tally.washesFor = (tally.washesFor || 0) + 1;
       if (event.claimId === 'FIC-GONZ-1154' && /garden/i.test(text) && event.type === 'consequence') tally.gardenDays++;
       const actor = world.entities[event.actorId];
       if (Number.isFinite(event.coin) && event.coin !== 0 && actor && housework.dirty?.(world, actor)) {
@@ -318,6 +331,7 @@ async function runClass({ root, seed, seedIndex, mode, families }) {
       household.absent = true;
       try {
         enlist(household, projectWorld(world, household.id, 'student', { includeMap: false }));
+        followCue(household);
         thinkFor(world, household, { project, act: input => applyAction(world, household.id, input) });
       } catch { /* a refused order is the family's own business */ }
       delete household.absent;
@@ -390,6 +404,7 @@ async function study() {
     if (before) runs.push({ tree: 'before', root: before, seed, index, mode: 'playing' });
     runs.push({ tree: 'now', root: '.', seed, index, mode: 'playing' });
     runs.push({ tree: 'now', root: '.', seed, index, mode: 'nohouse' });
+    if (flag('cued')) runs.push({ tree: 'now', root: '.', seed, index, mode: 'cued' });
   });
   const self = fileURLToPath(import.meta.url);
   const pending = [...runs];

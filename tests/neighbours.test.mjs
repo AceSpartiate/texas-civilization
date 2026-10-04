@@ -34,7 +34,8 @@ test('a family nobody plays builds its house, plants and brings in its crop, and
     for (const each of [world, played]) {
       for (const household of Object.values(each.households)) {
         for (const errand of ONE_AT_A_TIME) {
-          const on = household.members.filter(id => each.entities[id].chore?.id === errand).length;
+          // Somebody helping across the custom (owner, 2026-10-04, "Help, not lead") is not a second person sent: they joined.
+          const on = household.members.filter(id => each.entities[id].chore?.id === errand && !each.entities[id].chore.helping).length;
           assert.ok(on <= 1 || household.played, `${household.id} put ${on} people on ${errand} at tick ${each.tick}`);
         }
       }
@@ -130,6 +131,9 @@ test('a neighbour takes a fair trade, and refuses an unfair one or one it cannot
   world.households['hh-1'].resources = { ...world.households['hh-1'].resources, powder: 5, cotton: 3, food: 20 };
   neighbourHousehold.resources = { ...neighbourHousehold.resources, food: 40, seed: 2, powder: 1 };
   neighbourHousehold.field = { ...neighbourHousehold.field, state: 'bare' };
+  // Its plots bare too, each its own crop since 2026-09-30: what its field holds after forty ticks depends on how fast its people
+  // worked (its women helping the men since 2026-10-04 got its corn in sooner), and the test is about a field not yet in.
+  for (const plot of neighbourHousehold.plots || []) if (plot.state === 'cleared') { delete plot.sown; delete plot.ripe; }
   const offerAndAnswer = (give, ask) => {
     applyAction(world, 'hh-1', { action: 'offer', entityId: student.id, toEntityId: neighbour.id, give, ask });
     // Only its answers are carried out: kept at its last shot, it would otherwise send the man being offered to town for powder.

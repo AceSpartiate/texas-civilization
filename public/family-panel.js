@@ -284,7 +284,7 @@ const REST_WORK = Object.freeze(['rest-road']);
 /** The sickness line on a row (sim/disease.mjs `sicknessShown`): the server's words, or nothing. */
 export const sickLine = entity => (entity?.sickness?.line ? String(entity.sickness.line) : '');
 export function panelActions({ entity, offered = [], catalogue = new Map(), main = false, homeId = null, homesteads = [], atHome = false,
-  settable = true, carry = null, wants = null } = {}) {
+  settable = true, carry = null, wants = null, nameOf = () => null } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
   // Somebody with the men in a fight (sim/battle-stage.mjs `heldByBattle`) is given no order until it is over and they come
   // back with the men; the server refuses any, and the reason is theirs (`held`).
@@ -331,13 +331,20 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
     // Somebody sick may still be sent, with the server's warning on the work (sim/disease.mjs `sicknessShown`, the owner
     // 2026-09-27): working slows the mending and they may get worse. Calling the family's halt to rest is not work.
     const warn = entry.can && entity.sickness?.warn && !REST_WORK.includes(entry.id) ? entity.sickness.warn : '';
+    // Help, not lead (owner, 2026-10-04; sim/custom.mjs `helpsWhom`): open only to join somebody of its custom at it. Drawn with the
+    // helping-hands badge (`data-help`), sent with no place - the server joins them where the work is - and said in the popup.
+    const helps = entry.can && entry.help ? `Helps ${nameOf(entry.help) || 'whoever is at it'}, and leaves off when they do.` : '';
     icons.push({
       key: entry.id, kind: 'chore', name: spec.name || entry.id,
       summary: PANEL_SUMMARIES[entry.id] || firstSentence(spec.describe),
       // Who would be left at home if they go to the war (sim/acting.mjs `leavesLittleOnes`, design audit S14): the server's words, first.
-      note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [entry.leaves || '', warn, entry.cost ? `Costs ${entry.cost}.` : '', haul, crop, entry.estimate || ''].filter(Boolean).join(' '),
+      note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [helps, entry.leaves || '', warn, entry.cost ? `Costs ${entry.cost}.` : '', haul, crop, entry.estimate || ''].filter(Boolean).join(' '),
       can: Boolean(settable && (entry.can || waits)), why: entry.can ? '' : why || '',
-      onMap: ON_MAP.includes(entry.id), active: active === entry.id, ...(waits && { waits: true }),
+      onMap: ON_MAP.includes(entry.id) && !helps, active: active === entry.id, ...(waits && { waits: true }),
+      ...(helps && { help: true }),
+      // Prompt the student (owner, 2026-10-04; sim/housework.mjs `houseCue`): the house's work wanting doing, on the one idle person
+      // the server points at - this icon glows with the cue on the portrait. No words.
+      ...(entry.can && entity.cue === entry.id && { cue: true }),
       // Refused only for a thing the family has not got (the server's `short`): kept on the bar greyed, a goal (§23).
       ...(!entry.can && !waits && entry.short && { goal: true }),
       // What the family has of what it wants for this (`world.household.wants`): the strip on the icon, the list in its popup.
