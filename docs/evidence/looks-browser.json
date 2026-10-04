@@ -1,6 +1,6 @@
 {
   "record": "Naming the family and How We Look, in a browser (owner, 2026-09-17)",
-  "date": "2026-10-03",
+  "date": "2026-10-04",
   "verdict": "PASS",
   "note": "Local browser proof: both parents use painted headwear cards, pigment swatches, animated walking and turn controls. Choices save and survive reload; panel portraits use the same age-aware renderer. Desktop fit is checked at 1366x768. The narrow-width check is a layout sanity check, not official phone support.",
   "checks": [
