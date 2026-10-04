@@ -147,13 +147,13 @@ way."* The answers, verbatim, by multiple choice:
   for twenty minutes does not open the axe, and the bar would flicker). Never applied to anybody but a family's own members: enslaved
   people's labour ignored it (`HIST-TEX-1154`), and none is ever a family worker; free Black families get the neighbours' custom as a
   marked reconstruction (`FIC-GONZ-1152`).
-- **On the bar**: another's work kept greyed with a fine hatch and its words in the popup, after the goals and at most six a person
+- **On the bar** (superseded 2026-10-04, the section above: not shown at all): another's work kept greyed with a fine hatch and its words in the popup, after the goals and at most six a person
   (`CUSTOM_SHOWN_MOST`, a `ceiling:`); the tick carries only `custom: 'men'` on each, the words once a family (`customSays`), to keep
   within the tick's budget (the twenty's bound moved 27,900 to 29,300 bytes, 1,215 to 1,240 a person, measured).
 - **Keep house** (`keep-house`): an hour at the hearth; the hidden housekeeping saving now comes from whoever kept house today or
   yesterday, and nothing when nobody did (it came from the best housekeeper standing at home). **Work the garden** (`work-garden`): a
   kitchen garden laid out beside the house the first day and drawn (`drawGarden`), then 0.3 food a day worked in its season, 0.1 in the
-  winter months. **Wash clothes** (`wash-clothes`): everybody at home clean for 8 days, not again within 4. A woman on auto keeps house,
+  winter months. **Wash clothes** (`wash-clothes`): everybody at home clean for 8 days, not again within 4 (7 and 7 since 2026-10-04). A woman on auto keeps house,
   washes and gardens while her task waits; the families nobody plays do too.
 - **The smell and the prices** (the owner's invention, `FIC-GONZ-1155`, `-1156`): anybody of a played family arriving away from home
   with clothes that want washing is told so by a townsman, a soldier or a neighbour, once a place and at most once in three days, in the
@@ -182,7 +182,7 @@ scrubbing - already A5 - beating the wash, cooking, the garden's beds, flies, th
 hunger harness's, not students'; a remark at the war or a neighbour's in a browser (the node tests hold them); the winter garden in a
 browser; how often a real class's mothers are left idle now that the men's work is greyed.
 
-**For the owner** (multiple choice, recommended first):
+**For the owner** (multiple choice, recommended first) - **answered 2026-10-04** (the section above): 1 **"Not away"**; 2 **"none, they only appear if the correct gender isn't around to do it."**; 3 **"Weekly wash day"**; 4 **"Quarter more, fifth less"**. As asked:
 1. *Called aside by a child*: (a) **not away, as built**; (b) away, as the brief had it.
 2. *How many of another's works a bar shows greyed*: (a) **six, after the goals, as built**; (b) all of them; (c) none - only the words
    when pressed.
