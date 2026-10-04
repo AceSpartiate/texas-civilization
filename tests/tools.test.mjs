@@ -11,8 +11,9 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createSettledWorld, taught } from './support/settled.mjs';
-import { applyAction, errandFor, stepWorld, validateWorld } from '../sim/world.mjs';
+import { createSettledWorld, settle, taught } from './support/settled.mjs';
+import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { applyAction, errandFor, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
 import { takeToWar, userOf } from '../sim/keeping.mjs';
 import { TOWN_TRADES, RIFLE_COIN, RIFLE_FOOD } from '../sim/shops.mjs';
@@ -26,6 +27,19 @@ function running(seed) {
   return world;
 }
 const person = (world, name) => world.entities[`hh-1-${name}`];
+/**
+ * A class whose first family was rolled a father and two sons of ten and over (seed tools-axes): three who may hunt and fell while a
+ * man is at home, the men's work by custom (owner, 2026-10-03; sim/custom.mjs). The founding four have two.
+ */
+function rolledMen(seed) {
+  const world = createGonzalesWorld(seed, 5);
+  rollFamily(world, world.households['hh-1']);
+  taught(settle(world));
+  world.status = 'running';
+  world.households['hh-1'].played = true;
+  return world;
+}
+const menOf = world => world.households['hh-1'].members.map(id => world.entities[id]).filter(one => one.sex === 'male' && one.age >= 10).sort((x, y) => y.age - x.age);
 const send = (world, who, errand, extra = {}) => applyAction(world, 'hh-1', { action: 'chore', entityId: who.id, chore: 'visit-shop', errand, ...extra });
 const finish = (world, who, cap = 900) => { for (let t = 0; t < cap && who.chore; t++) stepWorld(world); assert.equal(who.chore, null, `${who.name} never finished`); };
 /** Both holders named, in the family's own order: "A and B have both rifles." */
@@ -100,8 +114,8 @@ test('a sound hoe bought beside a worn one goes into use, and the worn one waits
 });
 
 test('each person holds one copy: two rifles are two hunters, and a third is told both are out', () => {
-  const world = running('tools-two-rifles');
-  const family = world.households['hh-1'], [a, b, c] = ['mateo', 'rosa', 'elena'].map(name => person(world, name));
+  const world = rolledMen('tools-axes');
+  const family = world.households['hh-1'], [a, b, c] = menOf(world);
   family.resources.powder = 10;
   addTool(family, 'rifle');
   applyAction(world, 'hh-1', { action: 'chore', entityId: a.id, chore: 'hunt-timber' });
@@ -155,8 +169,9 @@ test('a man killed or taken at the war loses the rifle he carried; with none lef
 });
 
 test('a second felling axe goes off the land while the first fells at home', () => {
-  const world = running('tools-axes');
-  const family = world.households['hh-1'], feller = person(world, 'mateo'), carrier = person(world, 'rosa');
+  const world = rolledMen('tools-axes');
+  const [third, feller, carrier] = menOf(world);
+  const family = world.households['hh-1'];
   const home = world.map.sites[family.homeSiteId];
   family.stock = true; // the whole grant is the land; drawn tight so the timber is off it
   family.grant = { minX: home.x - 0.02, minY: home.y - 0.02, maxX: home.x + 0.02, maxY: home.y + 0.02 };
@@ -167,7 +182,7 @@ test('a second felling axe goes off the land while the first fells at home', () 
   applyAction(world, 'hh-1', { action: 'chore', entityId: carrier.id, chore: 'make-furniture', mode: 'foot' });
   assert.deepEqual(carrier.chore.with, ['axe'], 'the second axe did not go off the land');
   // Both out now: the third is told so.
-  assert.equal(choreAvailability(world, family, person(world, 'thomas'), 'make-furniture').why, both(world, [carrier, feller], 'felling axes'));
+  assert.equal(choreAvailability(world, family, third, 'make-furniture').why, both(world, [carrier, feller], 'felling axes'));
 });
 
 test('tools weigh on the load, and the way of going still carries it', () => {

@@ -91,7 +91,8 @@ test("the server refuses a plot off the family's land, over its line, on staked 
   assert.equal(plotRefusal(world, household, { x: patch.x + PLOT_SIDE / 3, y: patch.y }), 'That runs over ground the family has already cleared.', 'nor the ground already cleared');
   assert.equal(plotRefusal(world, household, { x: 'here', y: 1 }), 'Choose a place on your land to survey.');
   const [first, second] = openGround(world, household);
-  const one = world.entities[household.members[0]], two = world.entities[household.members[1]];
+  // The father and the son: surveying is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+  const one = world.entities[household.members[0]], two = world.entities[household.members.find(id => world.entities[id].kin?.role === 'son')];
   applyAction(world, household.id, { action: 'survey-plot', entityId: one.id, x: first.x, y: first.y });
   assert.throws(() => applyAction(world, household.id, { action: 'survey-plot', entityId: two.id, x: first.x + PLOT_SIDE / 3, y: first.y }), new RegExp(`${one.name} is already surveying there`), 'nor ground somebody is on the way to survey');
   assert.throws(() => applyAction(world, household.id, { action: 'chore', entityId: two.id, chore: 'survey-plot' }), /Choose a place on your land to survey/, 'and survey is never sent without a place');

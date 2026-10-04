@@ -11,7 +11,7 @@ import { join } from 'node:path';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { choreJourney, choresFor } from '../sim/chores.mjs';
-import { tooYoung } from '../sim/family.mjs';
+import { sexOf, tooYoung } from '../sim/family.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
 import { houseBuilt } from '../sim/houses.mjs';
@@ -37,7 +37,9 @@ function onTheLand(seed, id = 'hh-1', count = 5) {
   for (let tick = 0; tick < 60 && household.members.some(member => world.entities[member].travel); tick++) stepWorld(world);
   return { world, household };
 }
-const grown = (world, household) => household.members.map(id => world.entities[id]).filter(person => person.kind === 'person' && !tooYoung(person));
+// The family's men and boys: felling, building, clearing and surveying are the men's work while a man is at home (owner, 2026-10-03,
+// "Custom, necessity opens"; sim/custom.mjs).
+const grown = (world, household) => household.members.map(id => world.entities[id]).filter(person => person.kind === 'person' && !tooYoung(person) && sexOf(person) !== 'female');
 const said = (world, id) => projectWorld(world, world.entities[id].householdId, 'student', { includeMap: false }).entities.find(one => one.id === id)?.autoTask?.says;
 
 test('one person felling on auto and one building on auto, left alone, raise the house with no further clicks', () => {

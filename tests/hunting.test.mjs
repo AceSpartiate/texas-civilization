@@ -17,6 +17,7 @@ import { ASKS, CHORES, HUNT_STEP, huntingGround, steadyHand, unsteadyBecause } f
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { groundAt } from '../sim/fields.mjs';
 import { findWay } from '../sim/ways.mjs';
+import { sexOf } from '../sim/family.mjs';
 
 const running = (seed = 'hunt', count = 5) => {
   const world = createSettledWorld(seed, count);
@@ -240,7 +241,8 @@ test('they come home carrying it, and the walk out is not the walk back', () => 
 // so two hunters never share a stand: the second of a family is told who has the rifle, and can go once it is home.
 test('one family has one rifle: a second hunter is told who has it, and goes once it is home', () => {
   const world = running('crowded');
-  const first = world.entities['hh-1-mateo'], second = world.entities['hh-1-rosa'];
+  // The son and the father: hunting is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+  const first = world.entities['hh-1-mateo'], second = world.entities['hh-1-thomas'];
   world.households['hh-1'].resources.powder = 6;
   applyAction(world, 'hh-1', { action: 'chore', entityId: first.id, chore: 'hunt-timber' });
   assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: second.id, chore: 'hunt-timber' }), new RegExp(`${first.name} has the rifle, on the road to `));
@@ -307,6 +309,8 @@ function hunterWith(world, wanted) {
   for (const household of Object.values(world.households)) {
     for (const id of household.members) {
       const person_ = world.entities[id];
+      // A man or boy: hunting is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+      if (sexOf(person_) === 'female') continue;
       if (wanted(person_)) return { person: person_, householdId: household.id };
     }
   }

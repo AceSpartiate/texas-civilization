@@ -58,15 +58,19 @@ test('the switch is the person\'s and the world\'s: set from the family, shown o
 test('on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch', () => {
   const world = running('auto-hunt');
   const household = world.households['hh-1'];
-  const elena = world.entities['hh-1-elena'], mateo = world.entities['hh-1-mateo'];
+  // The father and the son: the rifle is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs). The father is
+  // given the steady hand the mother of this fixture has, so the two still decide the shot differently.
+  const elena = world.entities['hh-1-thomas'], mateo = world.entities['hh-1-mateo'];
+  elena.skills = { ...elena.skills, hunting: 3 };
   assert.ok(elena.skills.hunting >= 2 && mateo.skills.hunting < 2, 'the fixture\'s hands changed');
   household.resources.powder = 6;
-  for (const person of [elena, mateo]) applyAction(world, 'hh-1', { action: 'set-auto', entityId: person.id, auto: true });
+  applyAction(world, 'hh-1', { action: 'set-auto', entityId: elena.id, auto: true });
   applyAction(world, 'hh-1', { action: 'chore', entityId: elena.id, chore: 'hunt-timber' });
   assert.deepEqual(elena.order, { chore: 'hunt-timber', mode: 'horse' }, 'the order was not remembered: sent with no way, it went the quickest (sim/going.mjs)');
   assert.ok(REPEATED.includes(elena.order.chore));
-  // The family has one rifle, and Elena has it (owner, 2026-09-24; sim/keeping.mjs). By hand, Thomas is told so in her name.
-  assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: 'hh-1-thomas', chore: 'hunt-timber' }), new RegExp(`${elena.name} has the rifle`));
+  // The family has one rifle, and the father has it (owner, 2026-09-24; sim/keeping.mjs). By hand, Mateo is told so in his name.
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' }), new RegExp(`${elena.name} has the rifle`));
+  applyAction(world, 'hh-1', { action: 'set-auto', entityId: mateo.id, auto: true });
   // On auto, Mateo takes the hunt as his task and waits his turn about the place (owner, 2026-09-25; sim/auto.mjs).
   applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'hunt-timber' });
   assert.equal(mateo.order?.chore, 'hunt-timber', 'the refused hunt was not taken as his task');
@@ -119,7 +123,8 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
 // lapse of 2026-09-27, nothing chosen and the hunter home empty, is gone for the shot alone (tests/hunt-aim.test.mjs).
 test('by hand the sighting stands for its own window, and then the hunter takes the shot himself, as auto would', () => {
   const world = running('auto-hand');
-  const elena = world.entities['hh-1-elena'];
+  // The father: hunting is the men's work while he is at home (owner, 2026-10-03; sim/custom.mjs).
+  const elena = world.entities['hh-1-thomas'];
   // A student's family: the question waits on the real clock (sim/decision-budget.mjs `workOnLimit`).
   world.households['hh-1'].played = true;
   world.households['hh-1'].resources.powder = 3;

@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
+import { GARDEN_FOOD } from '../sim/housework.mjs';
 import { advanceRoutine } from '../sim/routines.mjs';
 import { FORAGE, FORAGE_MOST_DAYS, forageDays } from '../sim/gathering.mjs';
 import { COTTON_SEED_BALES, growMs, seedFor, seedKept } from '../sim/crops.mjs';
@@ -57,7 +58,9 @@ test('the bug: two grown people on auto at the creek bring home a mess of fish a
   // Each of the two may bring a haul home on each of the five or six calendar days these ticks touch, at the best hand's skill:
   // fewer than 2 x 6 x 3 x 1.4 = 50.4. On v2026.10.02.1 it was over a thousand (docs/HUNGER.md §10).
   assert.ok(gained > 0, 'nobody brought home any fish');
-  assert.ok(gained <= 2 * 6 * FORAGE.fish.food * 1.4, `two at the creek on auto brought home ${Math.round(gained)} food in five days`);
+  // And since 2026-10-03 a woman on auto works the kitchen garden while her fishing waits for tomorrow (sim/auto.mjs, sim/housework.mjs):
+  // the garden's once a day for the family on each of those days besides.
+  assert.ok(gained <= 2 * 6 * FORAGE.fish.food * 1.4 + 6 * GARDEN_FOOD, `two at the creek on auto brought home ${Math.round(gained)} food in five days`);
 });
 
 test('the bug: a bee tree on auto is one comb a person a day too', () => {

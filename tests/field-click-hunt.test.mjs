@@ -38,7 +38,8 @@ const wantsOf = world => projectWorld(world, 'hh-1').household.wants || {};
 
 test('a carreta short of its logs or its hide is flagged short and counted on the household; one refused for anything else is not', () => {
   const { world, household } = home();
-  const [hand, other] = grown(world, household);
+  // The father and a grown son: felling and the carreta are the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+  const [hand, other] = grown(world, household).filter(one => one.sex === 'male');
   household.tools.axe = 0; household.logs = { wall: 0, sill: 1, poor: 1 }; household.resources.hides = 0;
   const refused = entry(world, household, hand, 'make-carreta');
   assert.equal(refused.can, false);
@@ -73,7 +74,10 @@ test('a carreta short of its logs or its hide is flagged short and counted on th
 
 test('a hunt whose rifle is at the war is short of the rifle; with no powder it is refused before anybody goes, short of powder', () => {
   const { world, household } = home('field-click-hunt');
-  const [man, woman] = grown(world, household);
+  // The son of ten hunts: the rifle is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs), and a boy of ten
+  // follows it whoever else is home.
+  const [man] = grown(world, household);
+  const woman = household.members.map(id => world.entities[id]).find(one => one.sex === 'male' && one.age >= 10 && one.age < 16);
   assert.equal(entry(world, household, woman, 'hunt-land').can, true);
   assert.equal(wantsOf(world)['hunt-land'], undefined, 'a family with its rifle and powder is sent hunt wants');
   man.carries = { items: ['rifle'], doing: 'gone with the volunteers to Gonzales' };

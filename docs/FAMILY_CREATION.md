@@ -1422,6 +1422,22 @@ rolled, spouse and neighbour name) failed on its injections - the released sim/f
 neighbours named by the family's start (*"a Villa father ... Alvin"*). `tests/starts.test.mjs`'s class without starts now holds the
 names of each family's place; scripts/starts-injections.mjs has an injection for it.
 
+## Amendment, 2026-10-03 — men's work, women's work, and the house kept (owner-decided; not released)
+
+The owner, 2026-10-03: *"work was usually gender specific. we should incorporate that in a historically accurate yet reasonable for a
+game way"*, chosen by multiple choice as **"Custom, necessity opens"** ([CUSTOMARY_WORK.md](CUSTOMARY_WORK.md), which every builder
+touching work must read). What it changes here:
+
+- **§4's housework effect** ("the best housekeeper at home makes the family's food last longer") now needs somebody **keeping house**:
+  the saving is read from whoever kept house today or yesterday (`keep-house`, sim/housework.mjs `houseSaving`), and is nothing when
+  nobody did. The trait, its means and its spread are unchanged, still hidden, and still never presented as a claim about men and
+  women. **Strength remains the only difference of pace**; the custom adds no penalty of pace by sex - it says who may take a work up.
+- **Who may be set to what** gains a second rule beside age: each work is men's, women's or shared, and the other sex's is refused
+  while somebody of its custom, sixteen or over, is at home and able, and opens by itself when nobody is. A boy or girl of ten to
+  fifteen follows the custom and keeps it from nobody. Who may be sent to fight (§5) is unchanged.
+- **A rolled family of any shape can live**: a lone mother may do every work (no man keeps it from her), a lone father every work
+  (no woman keeps it from him); tests/custom-work.test.mjs proves the guided start's steps in all three shapes.
+
 ## Amendment, 2026-10-03 — a hand with stock (owner-decided; not released)
 
 The owner, 2026-10-03: *"shouldn't a character that's assigned to tend the herd have appropriate skills and abilities for that?"*

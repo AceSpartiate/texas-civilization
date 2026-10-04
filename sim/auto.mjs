@@ -66,6 +66,17 @@ import { allWorn } from './tools.mjs';
 import { heldByBattle } from './battle-stage.mjs';
 import { calledAside } from './aside.mjs';
 
+/** The women's own work taken up meanwhile, in this order, by somebody on auto whose task waits (`advanceAuto`). */
+const MEANWHILE = Object.freeze(['keep-house', 'wash-clothes', 'work-garden']);
+function houseworkMeanwhile(world, household, person, deps) {
+  for (const chore of MEANWHILE) {
+    if (chore === person.order?.chore || household.members.some(id => world.entities[id]?.chore?.id === chore)) continue;
+    if (!CHORES[chore] || !choreAvailability(world, household, person, chore).can || lessonRefusal(world, household, { action: 'chore', chore, entityId: person.id })) continue;
+    try { beginChore(world, household, person, chore, deps); return true; } catch { /* refused: the next */ }
+  }
+  return false;
+}
+
 /**
  * The work a person on auto takes up again, over and over (owner, 2026-09-16 for the hunts; 2026-09-25 for the field, the house,
  * the lane and the well; 2026-09-28 for felling, clearing, fencing, the carreta, furniture and the hoe): work at home that gives
@@ -88,6 +99,8 @@ export const REPEATED = Object.freeze([
   'milk-cow', 'milk-road',
   'build-house', 'cut-lane', 'dig-well', 'fell-trees',
   'clear-plot', 'fence-plot', 'make-carreta', 'make-furniture', 'mend-hoe',
+  // The women's own work (owner, 2026-10-03; sim/housework.mjs): each once a day, or the wash every few days, and waited for between.
+  'keep-house', 'work-garden', 'wash-clothes',
 ]);
 /** The milking work where the family is now: the road's while it is on the road with its cow, the home's otherwise. */
 const MILK_HERE = Object.freeze({ home: 'milk-cow', road: 'milk-road' });
@@ -332,6 +345,10 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
         if (hoe && !mending && choreAvailability(world, household, person, 'mend-hoe').can && !lessonRefusal(world, household, { action: 'chore', chore: 'mend-hoe', entityId: id })) {
           try { beginChore(world, household, person, 'mend-hoe', { beginTravel, modeAvailability }); order.held = why; continue; } catch { /* refused: about the place instead */ }
         }
+        // Working about the place, for whoever keeps the house by custom (owner, 2026-10-03: "a woman on auto at home keeps house";
+        // sim/custom.mjs, sim/housework.mjs): the house kept if nobody has today, then the wash when it is due, then the garden - the
+        // custom asked as for any order, so a man does them only when no woman of the family is at home.
+        if (houseworkMeanwhile(world, household, person, { beginTravel, modeAvailability })) { order.held = why; continue; }
         hold(why);
         continue;
       }

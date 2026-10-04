@@ -82,7 +82,8 @@ test('the ox pulls the wagon: whoever has the wagon has the ox, and is said to h
 
 test('work given with the horse holds it before the road out begins', () => {
   const world = running('keeping-promise');
-  const mateo = person(world, 'mateo'), rosa = person(world, 'rosa');
+  // The son and the father: hunting is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+  const mateo = person(world, 'mateo'), rosa = person(world, 'thomas');
   // Making furniture asks which piece before anybody leaves the yard, so the horse has not moved yet.
   applyAction(world, 'hh-1', { action: 'chore', entityId: mateo.id, chore: 'make-furniture', mode: 'horse' });
   assert.ok(mateo.chore?.ask, 'the work did not stop to ask first, so this proves nothing');

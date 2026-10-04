@@ -24,6 +24,8 @@
 export const WORK_REQUEST = 'Request 2026-09-28 — people at work';
 const item = n => `${WORK_REQUEST}, item ${n}`;
 const PLAY_REQUEST = "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work";
+/** The women's own work and the wash (owner, 2026-10-03; sim/housework.mjs). */
+export const HOUSE_REQUEST = "Request 2026-10-03 — men's work, women's work and the wash";
 
 /**
  * How each kind of work is drawn. `art`:
@@ -81,6 +83,13 @@ export const STROKES = Object.freeze({
   shoo: { pose: 'walk', art: 'stand-in', motion: 'pace', cycleMs: 1800, reach: 0.22, request: item(13), drawn: { pose: 'shoo' } },
   scatter: { pose: 'sow', art: 'stand-in', request: `${PLAY_REQUEST}, item 1 (\`-scatter\`)`, drawn: { pose: 'scatter' } },
   fire: { pose: 'care', art: 'stand-in', effect: 'smoke', cycleMs: 1700, request: item(14), drawn: { pose: 'tend-fire', beat: 1, at: [0.295, 0], ownFire: true } },
+  // The women's own work (owner, 2026-10-03; sim/housework.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "men's work,
+  // women's work and the wash" - sewing is the mending pose and the wash a figure bent bobbing at the tub until `-sew` and `-wash`
+  // land (items 4 and 5, asked as A5 of the ambient life; Claude's `<cast>-sew` and `-wash` stand aside for Astra's figures), and
+  // the wash is beaten with the hoeing cycle's strike until `-beat-wash` (item 6).
+  sew: { pose: 'repair', art: 'stand-in', request: `${HOUSE_REQUEST}, item 4`, drawn: { pose: 'sew' } },
+  scrub: { pose: 'care', art: 'stand-in', motion: 'bob', cycleMs: 1300, request: `${HOUSE_REQUEST}, item 5`, drawn: { pose: 'wash' } },
+  beat: { pose: 'work', art: 'stand-in', beat: 2, request: `${HOUSE_REQUEST}, item 6` },
 });
 
 /**
@@ -204,6 +213,11 @@ export const WORK = Object.freeze({
   // the work.
   'milk-cow': { stroke: 'tend', spread: 0.5 },
   'milk-road': { stroke: 'tend', spread: 0.5 },
+  // The women's own work (owner, 2026-10-03; sim/housework.mjs): cooking at the fire before the house (the tend-fire stand-in),
+  // sewing and sweeping; hoeing and picking in the garden; the wash carried up, boiled, beaten and hung.
+  'keep-house': { stroke: 'fire', spread: 0.6, by: [[/sewing|mending/, 'sew'], [/sweeping/, 'about']] },
+  'work-garden': { stroke: 'hoe', spread: 0.5, by: [[/picking/, 'gather'], [/carrying/, 'carry']] },
+  'wash-clothes': { stroke: 'scrub', spread: 0.5, by: [[/carrying water/, 'water'], [/beating/, 'beat'], [/hanging/, 'carry']] },
   // Putting up the tent (sim/shelter.mjs, owner 2026-10-02). stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - pegging the sheet
   // down is the post-setting hammer of the house's sills until a `-pitch-tent` pose is drawn.
   'pitch-tent': { stroke: 'notch', spread: 0.5 },
@@ -374,7 +388,10 @@ export function fetchStep(fetch, timeMs, seed = 0) {
  */
 export function fetchPose(stroke, way) {
   const ns = way === 'n' || way === 's';
-  return { drawn: ns ? `${stroke.drawn.pose}-${way}` : stroke.drawn.pose, pose: ns ? `walk-${way}` : stroke.pose, upright: ns, west: way === 'w' };
+  // A stroke already drawn in its own cycle (`drawnStroke`) has given up `drawn` and carries the cycle as its pose: a grown woman
+  // carrying water up for the wash (owner, 2026-10-03; sim/housework.mjs) is bound that way where her figure has `-carry-water`.
+  const cycle = stroke.drawn?.pose || stroke.pose;
+  return { drawn: ns ? `${cycle}-${way}` : cycle, pose: ns ? `walk-${way}` : stroke.pose, upright: ns, west: way === 'w' };
 }
 export function strokeShift(stroke, clock) {
   if (stroke.motion !== 'pace') return 0;

@@ -41,7 +41,8 @@ function home(faces = [1, 2], { stem = 'carreta', map = 'colonies' } = {}) {
   household.resources.hides = 1;
   return { world, household };
 }
-const hand = (world, household) => household.members.map(id => world.entities[id]).find(one => one.age >= 16 && !one.chore);
+// A man of the family: the carreta and its felling are the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+const hand = (world, household) => household.members.map(id => world.entities[id]).find(one => one.age >= 16 && !one.chore && one.sex === 'male');
 const make = (world, household, who = hand(world, household)) => {
   applyAction(world, 'hh-1', { action: 'chore', entityId: who.id, chore: 'make-carreta' });
   for (let t = 0; t < 600 && who.chore; t++) stepWorld(world);

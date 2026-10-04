@@ -115,6 +115,9 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     const quote = fresh ? state.quote : null;
     // And its tools, counted (owner, 2026-09-24: a family may own more than one of each; the server's words).
     // And its animals (owner, 2026-09-24: a family may own more than one horse or ox, and buy stock at the pens; the server's words).
+    // Clothes that want washing (owner, 2026-10-03; sim/housework.mjs): the server's sentence, with the flies, over the dearer prices.
+    const dearer = $('#errand-dearer');
+    if (dearer) { const words = facts?.dearer || ''; if (dearer.textContent !== words) dearer.textContent = words; dearer.hidden = !words; }
     $('#errand-stock').textContent = facts ? `${stockWords(quote?.stock || facts.stock)}${facts.tools?.length ? ` Tools: ${facts.tools.join(' · ')}.` : ''}${facts.animals?.length ? ` Animals: ${facts.animals.join(' · ')}.` : ''}` : '';
     const after = quote?.can ? quote.after : null;
     $('#errand-after').textContent = after ? `${stockWords(after).replace('The family has', 'After it, the family will have')}` : '';
@@ -127,7 +130,7 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
     send.disabled = Boolean(state.busy) || !quote?.can || Boolean(facts?.shut);
     send.textContent = state.busy ? 'Sending…' : `Send ${name}`;
     // What a proof reads: the server's sentences as drawn, and the list as the page would send it.
-    window.__errand = { entityId: state.entityId, list, mode: state.mode, ways: quote?.ways || null, quickest: quote?.quickest || null, how: $('#errand-how').textContent, why, can: !send.disabled, lines: (facts?.lines || []).map(line => ({ id: line.id, why: line.why || null, count: state.counts.get(line.id) || 0 })) };
+    window.__errand = { entityId: state.entityId, list, mode: state.mode, ways: quote?.ways || null, quickest: quote?.quickest || null, how: $('#errand-how').textContent, why, can: !send.disabled, lines: (facts?.lines || []).map(line => ({ id: line.id, why: line.why || null, count: state.counts.get(line.id) || 0, price: line.price, ...(line.dear && { dear: true }) })), dearer: facts?.dearer || null };
   }
 
   /**
@@ -188,6 +191,8 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
       const count = state.counts.get(line.id) || 0;
       if (item.dataset.count !== String(count)) item.dataset.count = String(count);
       if (line.why) { if (item.dataset.shut !== 'true') item.dataset.shut = 'true'; } else if ('shut' in item.dataset) delete item.dataset.shut;
+      // Dearer (or paying less) for the state of the person's clothes: the price drawn in ember.
+      if (line.dear) { if (item.dataset.dear !== 'true') item.dataset.dear = 'true'; } else if ('dear' in item.dataset) delete item.dataset.dear;
       // The line a goal asked for (`wanted`), lit and in view once.
       // Scrolled after the frame is laid out: the list's own box is not yet its size when the lines are first built.
       if (state.highlight === line.id && item.dataset.wanted !== 'true') { item.dataset.wanted = 'true'; requestAnimationFrame(() => item.scrollIntoView?.({ block: 'center' })); }

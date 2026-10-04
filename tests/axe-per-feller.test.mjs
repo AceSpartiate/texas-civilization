@@ -7,9 +7,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
+import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
-import { tooYoung } from '../sim/family.mjs';
+import { sexOf, tooYoung } from '../sim/family.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
 import { addTool, toolCount } from '../sim/tools.mjs';
@@ -21,19 +21,22 @@ const grid = (bounds, side = 7) => {
 };
 function onTheLand(seed) {
   const world = createGonzalesWorld(seed, 5, { map: 'colonies' });
+  // A rolled family with a father and grown sons: felling is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs),
+  // and these tests want three fellers.
+  rollFamily(world, world.households['hh-1']);
   world.status = 'running';
   for (let tick = 0; tick < 200 && Object.values(world.households).some(household => household.arriving); tick++) stepWorld(world);
   const household = world.households['hh-1'];
   const site = grid(holdingOf(world, household).bounds).find(point => siteFactsFor(world, household, point).can);
   applyAction(world, 'hh-1', { action: 'choose-site', ...site });
   for (let tick = 0; tick < 60 && household.members.some(member => world.entities[member].travel); tick++) stepWorld(world);
-  const people = household.members.map(id => world.entities[id]).filter(person => person.kind === 'person' && !tooYoung(person));
+  const people = household.members.map(id => world.entities[id]).filter(person => person.kind === 'person' && !tooYoung(person) && sexOf(person) === 'male');
   return { world, household, people };
 }
 const says = (world, id) => projectWorld(world, 'hh-1', 'student', { includeMap: false }).entities.find(one => one.id === id)?.autoTask?.says;
 
 test('a second feller needs a second felling axe: refused in plain words, and each holds a copy of their own until they stop', () => {
-  const { world, household, people } = onTheLand('axe-each');
+  const { world, household, people } = onTheLand('axe-each-2');
   const [first, second, third] = people;
   assert.equal(toolCount(household, 'axe'), 1, 'the family starts with one felling axe');
   applyAction(world, 'hh-1', { action: 'chore', entityId: first.id, chore: 'fell-trees' });

@@ -24,12 +24,15 @@ import { toolCount } from '../sim/tools.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
 import { createSettledWorld, taught, modestMeans } from './support/settled.mjs';
 import { heardOut } from './support/heard-out.mjs';
+import { sexOf } from '../sim/family.mjs';
 
 const view = (world, id) => projectWorld(world, id, 'student', { includeMap: false });
 const until = (world, done, limit = 8000) => { for (let t = 0; t < limit && !done() && world.status === 'running' && !world.director?.complete; t++) stepWorld(world); };
 /** Somebody of the family at home who could hunt but for the rifle: a grown person, well, not the one who went. */
 const stayerOf = (world, household, gone) => {
-  const stayer = household.members.map(id => world.entities[id]).find(p => p.id !== gone.id && p.location.siteId === household.homeSiteId && !p.travel && (p.age ?? 20) >= 16 && p.health.condition === 'well');
+  // A man of the family first: the rifle is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+  const home = household.members.map(id => world.entities[id]).filter(p => p.id !== gone.id && p.location.siteId === household.homeSiteId && !p.travel && (p.age ?? 20) >= 16 && p.health.condition === 'well');
+  const stayer = home.find(p => sexOf(p) === 'male') || home[0];
   // An ordinary hand, so the mark is open to them but for the rifle.
   if (stayer) stayer.skills = { ...stayer.skills, hunting: 1 };
   return stayer;
@@ -105,7 +108,11 @@ test('a man killed or taken holds nothing, and the rifle he carried is lost with
 test('a man who turns out while somebody has the rifle out goes without it, and is not handed it on a reload', () => {
   const world = called();
   const { household, volunteer } = turnOut(world);
-  const hunter = stayerOf(world, household, volunteer);
+  // A son of ten or more out after small game: the rifle is the men's work while a man is at home, and a boy follows it (owner,
+  // 2026-10-03; sim/custom.mjs); the mother may not take it up while her husband is still home to turn out.
+  const hunter = household.members.map(id => world.entities[id]).find(p => p.id !== volunteer.id && sexOf(p) === 'male' && (p.age ?? 20) >= 10 && p.location.siteId === household.homeSiteId && !p.travel && p.health.condition === 'well');
+  assert.ok(hunter, 'no son at home to have the rifle out, so this proves nothing');
+  hunter.skills = { ...hunter.skills, hunting: 1 };
   applyAction(world, household.id, { action: 'chore', entityId: hunter.id, chore: 'take-small-game' });
   assert.equal(userOf(world, household, 'rifle'), hunter);
   applyAction(world, household.id, { action: 'turn-out', entityId: volunteer.id });
@@ -196,58 +203,60 @@ function axeWorld(seed) {
   const home = world.map.sites[household.homeSiteId];
   household.stock = true;
   household.grant = { minX: home.x - 0.02, minY: home.y - 0.02, maxX: home.x + 0.02, maxY: home.y + 0.02 };
-  return { world, household, rosa: world.entities['hh-1-rosa'], mateo: world.entities['hh-1-mateo'], thomas: world.entities['hh-1-thomas'] };
+  // The father carries the felling axe off the land and the son fells: the axe and furniture are the men's work while a man is at
+  // home (owner, 2026-10-03; sim/custom.mjs). With the father away the daughter, who keeps nothing, may be asked too.
+  return { world, household, carrier: world.entities['hh-1-thomas'], mateo: world.entities['hh-1-mateo'], other: world.entities['hh-1-rosa'] };
 }
 
 test('the felling axe carried off the land is one person\'s until home, and nobody fells or builds with it meanwhile', () => {
-  const { world, household, rosa, mateo, thomas } = axeWorld('axe-away');
-  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture', mode: 'foot' });
-  assert.deepEqual(rosa.chore.with, ['axe'], 'going for a small tree off the land did not take the axe');
-  assert.equal(rosa.chore.shares, undefined, 'an axe carried off the land was shared');
+  const { world, household, carrier, mateo, other } = axeWorld('axe-away');
+  applyAction(world, 'hh-1', { action: 'chore', entityId: carrier.id, chore: 'make-furniture', mode: 'foot' });
+  assert.deepEqual(carrier.chore.with, ['axe'], 'going for a small tree off the land did not take the axe');
+  assert.equal(carrier.chore.shares, undefined, 'an axe carried off the land was shared');
   // At home meanwhile: the work that wants the axe is refused, in her name.
   // Felling, which needs an axe of its own since 2026-09-28 (owner: "Each needs an axe"), says where another is to be had.
-  assert.equal(choreAvailability(world, household, mateo, 'fell-trees').why, `There is no free felling axe: ${rosa.name} has the felling axe, deciding what to make. Buy another in town.`);
-  assert.match(choreAvailability(world, household, thomas, 'make-furniture').why, new RegExp(`^${rosa.name} has the felling axe`));
-  applyAction(world, 'hh-1', { action: 'answer-chore', entityId: rosa.id, option: 'benches' });
-  until(world, () => rosa.travel);
-  assert.match(choreAvailability(world, household, mateo, 'fell-trees').why, new RegExp(`^There is no free felling axe: ${rosa.name} has the felling axe, on the road to `));
+  assert.equal(choreAvailability(world, household, mateo, 'fell-trees').why, `There is no free felling axe: ${carrier.name} has the felling axe, deciding what to make. Buy another in town.`);
+  assert.match(choreAvailability(world, household, mateo, 'make-furniture').why, new RegExp(`^${carrier.name} has the felling axe`));
+  applyAction(world, 'hh-1', { action: 'answer-chore', entityId: carrier.id, option: 'benches' });
+  until(world, () => carrier.travel);
+  assert.match(choreAvailability(world, household, mateo, 'fell-trees').why, new RegExp(`^There is no free felling axe: ${carrier.name} has the felling axe, on the road to `));
   // Home with the tree: the axe is the family's again while she makes the benches at home.
-  until(world, () => !rosa.travel && rosa.location.siteId === household.homeSiteId && rosa.chore?.doing === 'making benches', 800);
+  until(world, () => !carrier.travel && carrier.location.siteId === household.homeSiteId && carrier.chore?.doing === 'making benches', 800);
   assert.equal(userOf(world, household, 'axe', mateo, { shares: ['axe'] }), null, 'home again, and the axe is still off the land');
   validateWorld(world);
 });
 
 test('at home the felling axe is shared by the work at home, and cannot be carried off while it is at work there', () => {
-  const { world, household, rosa, mateo, thomas } = axeWorld('axe-home');
+  const { world, household, carrier, mateo, other } = axeWorld('axe-home');
   // Mateo cutting the lane through timber on the family's own land: work at home that shares the axe (felling, since 2026-09-28,
   // holds one of its own - tests/axe-per-feller.test.mjs).
   mateo.chore = { id: 'cut-lane', step: 1, wait: 2, doing: 'cutting the lane', with: ['axe'], shares: ['axe'] };
   mateo.task = 'work';
   // Another at work at home shares it; nobody carries it off.
-  assert.equal(userOf(world, household, 'axe', thomas, { shares: ['axe'] }), null, 'two at work at home could not share the axe');
-  assert.equal(choreAvailability(world, household, rosa, 'make-furniture').why, `${mateo.name} has the felling axe, cutting the lane.`);
-  assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture' }), new RegExp(`${mateo.name} has the felling axe`));
+  assert.equal(userOf(world, household, 'axe', other, { shares: ['axe'] }), null, 'two at work at home could not share the axe');
+  assert.equal(choreAvailability(world, household, carrier, 'make-furniture').why, `${mateo.name} has the felling axe, cutting the lane.`);
+  assert.throws(() => applyAction(world, 'hh-1', { action: 'chore', entityId: carrier.id, chore: 'make-furniture' }), new RegExp(`${mateo.name} has the felling axe`));
   // Done felling: it is free to go.
   mateo.chore = null; mateo.task = 'rest';
-  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture', mode: 'foot' });
-  assert.deepEqual(rosa.chore.with, ['axe']);
+  applyAction(world, 'hh-1', { action: 'chore', entityId: carrier.id, chore: 'make-furniture', mode: 'foot' });
+  assert.deepEqual(carrier.chore.with, ['axe']);
 });
 
 test('the axe is let go on every way the trip ends: called off, and a class saved with it off the land opens with it gone', () => {
-  const { world, household, rosa, mateo } = axeWorld('axe-exits');
-  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture', mode: 'foot' });
-  applyAction(world, 'hh-1', { action: 'stop-chore', entityId: rosa.id });
+  const { world, household, carrier, mateo } = axeWorld('axe-exits');
+  applyAction(world, 'hh-1', { action: 'chore', entityId: carrier.id, chore: 'make-furniture', mode: 'foot' });
+  applyAction(world, 'hh-1', { action: 'stop-chore', entityId: carrier.id });
   assert.equal(userOf(world, household, 'axe', mateo, { shares: ['axe'] }), null, 'the axe stayed off the land after the trip was called off');
-  applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'make-furniture', mode: 'foot' });
-  applyAction(world, 'hh-1', { action: 'answer-chore', entityId: rosa.id, option: 'benches' });
-  until(world, () => rosa.travel);
-  delete rosa.chore.with; // saved before 2026-09-24's second change
+  applyAction(world, 'hh-1', { action: 'chore', entityId: carrier.id, chore: 'make-furniture', mode: 'foot' });
+  applyAction(world, 'hh-1', { action: 'answer-chore', entityId: carrier.id, option: 'benches' });
+  until(world, () => carrier.travel);
+  delete carrier.chore.with; // saved before 2026-09-24's second change
   const dir = mkdtempSync(join(tmpdir(), 'texas-axe-'));
   try {
     writeSave(join(dir, 'save.json'), { saveVersion: 3, world });
     const opened = readSave(join(dir, 'save.json')).world;
-    assert.equal(userOf(opened, opened.households['hh-1'], 'axe', opened.entities[mateo.id], { shares: ['axe'] })?.id, rosa.id, 'a class saved with the axe off the land opened with it at home');
+    assert.equal(userOf(opened, opened.households['hh-1'], 'axe', opened.entities[mateo.id], { shares: ['axe'] })?.id, carrier.id, 'a class saved with the axe off the land opened with it at home');
   } finally { rmSync(dir, { recursive: true, force: true }); }
-  rosa.health = { condition: 'dead' };
+  carrier.health = { condition: 'dead' };
   assert.equal(userOf(world, household, 'axe', mateo, { shares: ['axe'] }), null, 'the dead hold the axe');
 });

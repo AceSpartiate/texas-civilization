@@ -125,7 +125,8 @@ test('distance to town is the household\'s own distance, so geography costs some
 test('chores survive save and reload, and a person who cannot work stops working', () => {
   const world = running();
   send(world, 'hh-1', 'rosa', 'plant-field');
-  send(world, 'hh-1', 'elena', 'hunt-timber');
+  // The father to the hunt: men's work while he is at home (owner, 2026-10-03; sim/custom.mjs).
+  send(world, 'hh-1', 'thomas', 'hunt-timber');
   for (let tick = 0; tick < 6; tick++) stepWorld(world);
   const reloaded = JSON.parse(JSON.stringify(world));
   assert.deepEqual(reloaded, JSON.parse(JSON.stringify(world)), 'the world round-trips through JSON unchanged');
@@ -175,7 +176,8 @@ test('what a person may be asked to do is decided on the server, with a reason',
   for (const id of ['take-small-game', 'cut-bee-tree']) assert.ok(gathering.includes(id), `${id} was not offered where there is timber`);
   for (const entry of offered) {
     assert.ok(typeof entry.can === 'boolean');
-    if (!entry.can) assert.ok(entry.why.length > 0, `${entry.id} says why it is refused`);
+    // A refusal by custom carries whose work it is, and its words are the family's `customSays`, sent once (sim/custom.mjs).
+    if (!entry.can) assert.ok(entry.custom ? projected.household.customSays?.[entry.custom] : entry.why.length > 0, `${entry.id} says why it is refused`);
   }
   assert.ok(offered.find(entry => entry.id === 'harvest-field').why.match(/not ready/), 'a bare field cannot be harvested');
   // No other household's work is ever in this payload.
@@ -220,7 +222,9 @@ test('the chore catalogue is static and stays off the per-tick channel', () => {
   // Adding a key here is a decision, and the client must actually read it.
   // `short` marks a refusal for a gettable lack (sim/chores.mjs `lacking`; the lack itself is lifted onto the household), read by
   // public/family-panel.js to keep the work greyed on the bar as a goal: here, the milking with no cow (2026-10-02).
-  const allowed = new Set(['id', 'can', 'why', 'cost', 'haul', 'crop', 'short']);
+  // `custom` marks a refusal by custom, 'men' or 'women' (owner, 2026-10-03; sim/custom.mjs), read by public/family-panel.js to keep the
+  // work greyed on the bar with its words.
+  const allowed = new Set(['id', 'can', 'why', 'cost', 'haul', 'crop', 'short', 'custom']);
   const haulKeys = new Set(['resource', 'got']);
   for (const offered of Object.values(projected.work)) {
     for (const entry of offered) {

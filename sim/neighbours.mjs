@@ -123,7 +123,7 @@ export function rifleErrand(world, household, view, mouths) {
 
 /** The four short works a family falls back on when the house is short of food (sim/gathering.mjs). */
 export const FORAGE_WORK = Object.freeze(['take-small-game', 'fish-the-water', 'gather-oysters', 'cut-bee-tree']);
-export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'butcher-beef', 'butcher-hog', 'look-to-stock', 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing', 'visit-shop']);
+export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'butcher-beef', 'butcher-hog', 'look-to-stock', 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing', 'visit-shop', 'keep-house', 'wash-clothes', 'work-garden']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
 /** The house it chooses, best first, where its tools allow. */
@@ -436,6 +436,10 @@ export function thinkFor(world, household, { project, act }) {
       // And spare corn, as cotton is sold (owner, 2026-09-28: "Sell spare corn too"): what the family holds beyond three weeks of its
       // eating (sim/market.mjs `spareFood`), a lot or more, while the store wants it.
       spareFood(world, world.households[view.household.id]) >= FOOD_LOT && 'sell-food',
+      // The women's own work (owner, 2026-10-03; sim/housework.mjs): the house kept, the wash when it is due, the garden - asked here
+      // by everybody, and refused by custom to the men while a woman is at home (sim/custom.mjs), so a lone father comes to them only
+      // after the farm work and the trips to town above, before more ground.
+      'keep-house', 'wash-clothes', 'work-garden',
       // Then more ground, a plot at a time: clear what is staked, and stake more while it has fewer than it keeps.
       staked && 'clear-plot',
       !staked && plots.length < NEIGHBOUR_PLOTS && 'survey-plot',

@@ -230,14 +230,19 @@ test('a family of twenty fits the tick: what it is sent grows by the person, and
   // want on the row (sim/milking.mjs, the owner's "every gettable lack"): 79 bytes each, measured on these seeds at 948 for the
   // twenty's twelve grown and 26,865 in all. The whole bound moves to 27,900, about a twenty-fifth over; the per-person bound below
   // still holds (1,149 a person, 1,110 without the milking).
-  assert.ok(twenty.all < 27900, `a family of twenty is sent ${twenty.all} bytes a tick`);
+  // Since 2026-10-03 every person of ten or more has *Keep house*, *Work the garden* and *Wash clothes* on the row, and the other
+  // sex's work is greyed by custom while somebody of its custom is home (sim/housework.mjs, sim/custom.mjs, owner's "Custom, necessity
+  // opens"), at most six such greyed works a person and their words sent once (`customSays`): measured on these seeds at 28,628 in all
+  // and 1,228 a person. The whole bound moves to 29,300, about a fortieth over, and the per-person bound below to 1,240, which the kin
+  // carried twice (about sixty bytes a person more) still breaks.
+  assert.ok(twenty.all < 29300, `a family of twenty is sent ${twenty.all} bytes a tick`);
   // Since 2026-09-27 a person who has had the measles carries it (sim/disease.mjs `hadMeasles`, shown on the card), about half the
   // people: measured on these seeds at 1,143 a person. The bound moves to 1,160, which the kin carried twice still breaks.
   // Since 2026-10-02 every grown person of a family on its land has *Cut a path* on the row, and *Fence a yard* while a house stands
   // with no yard fenced round it (sim/land-paths.mjs, owner 2026-10-02): measured on these seeds at 1,197 a person, the whole still
   // under the 27,900 above. The bound moves to 1,215, which the kin carried twice (about sixty bytes a person more) still breaks.
   // Since 2026-10-03 *Cut a path* is off the row again (every path trodden on its own, owner's "All automatic"): the bound stays.
-  assert.ok((twenty.people - four.people) / 16 < 1215,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
+  assert.ok((twenty.people - four.people) / 16 < 1240,`each person past four costs ${Math.round((twenty.people - four.people) / 16)} bytes a tick`);
 });
 
 test('the hidden stats differ on average between men and women, and people overlap', () => {

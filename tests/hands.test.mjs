@@ -7,17 +7,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
+import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
-import { tooYoung } from '../sim/family.mjs';
+import { sexOf, tooYoung } from '../sim/family.mjs';
 import { HOUSES, houseBuilt } from '../sim/houses.mjs';
 import { SEED_PER_PLOT, clearedOf } from '../sim/improvements.mjs';
 import { HAND_SHARES, MOST_HANDS, crewPace, handShare } from '../sim/hands.mjs';
 import { createSettledWorld } from './support/settled.mjs';
 
 /** Everybody old enough, made alike in the hands and strength, so what differs between two runs is only how many are sent. */
-function alike(world, household, count) {
-  const people = household.members.map(id => world.entities[id]).filter(person => person.kind === 'person' && !tooYoung(person));
+function alike(world, household, count, { men = false } = {}) {
+  // `men`: the family's men and boys, for building, the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+  const people = household.members.map(id => world.entities[id]).filter(person => person.kind === 'person' && !tooYoung(person) && (!men || sexOf(person) !== 'female'));
   for (const person of people) { person.skills = { ...person.skills, hands: 2, farming: 2 }; delete person.traits?.strength; }
   assert.ok(people.length >= count, `the family has ${count} grown hands`);
   return people.slice(0, count);
@@ -36,10 +37,12 @@ test('the curve: each hand adds a little less than the last, and four is the mos
 function jacal(count) {
   const world = createGonzalesWorld('hands-house', 5);
   const household = world.households['hh-1'];
+  // Rolled: a father and five sons of ten and over, so four men can be put to the house (sim/custom.mjs).
+  rollFamily(world, household);
   world.status = 'running';
   for (let tick = 0; tick < 60 && household.arriving; tick++) stepWorld(world);
   applyAction(world, 'hh-1', { action: 'plan-house', layout: 'jacal' });
-  const people = alike(world, household, count);
+  const people = alike(world, household, count, { men: true });
   for (const person of people) applyAction(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'build-house' });
   let ticks = 0;
   for (; ticks < 400 && !houseBuilt(household); ticks++) stepWorld(world);

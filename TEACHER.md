@@ -119,6 +119,19 @@ class address* and can type today's code on the spot, or open the address on the
 - **Gone for a while:** after two minutes with their page closed, a family goes on by itself, run by the computer, until the
   student comes back and plays it again.
 
+## Men's work and women's work
+
+In 1835 nearly every family on the frontier divided its work: the men cleared and fenced the land, raised the house, felled the
+timber and hunted; the women kept the house, made and washed the clothes, kept the garden and the dairy and nursed the sick; the
+field and the stock were everybody's at picking time. The game keeps that custom - a mother's bar shows the axe and the rifle greyed
+while her husband is at home, and says why - because it is how families of the time lived, and because **it opens**: when the men
+went to the army in the autumn of 1835, the women and children were left to finish picking the cotton, and a woman whose husband was
+away tended the stock and stood watch with his gun. A student whose father has gone to the war will see the men's work light up on
+the mother's bar, and the family's story says so. That moment is the one to talk about: what the war took out of a household besides
+the man, and what the women who stayed did. The washing, and the townspeople's remarks about a dirty shirt, are the game's own
+invention to make the women's work matter; say so if a student asks. Nothing in the game says that men or women are better at
+anything, and the custom is never applied to enslaved people, whose labour ignored it.
+
 ## Read aloud
 
 Every tip, message card, call, rider's line and the journal's newest line has a **Read aloud** button. It reads the words in a

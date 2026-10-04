@@ -316,7 +316,9 @@ test('work that cannot be set out on is refused before it is written down', () =
   // caught here and nowhere else.
   // One ox and one wagon, so a second person asking for them is refused (sim/means.mjs gives a family of other means more).
   const world = modestMeans(running('half-written'));
-  const mateo = person(world, 'hh-1', 'mateo'), rosa = person(world, 'hh-1', 'rosa');
+  // The father: hunting is the men's work while he is at home (owner, 2026-10-03; sim/custom.mjs).
+  const mateo = person(world, 'hh-1', 'mateo'), rosa = person(world, 'hh-1', 'thomas');
+  rosa.task = 'rest';
   beginTravel(world, mateo, 'gonzales', null, 'visit', 'wagon');
   assert.throws(
     () => applyAction(world, 'hh-1', { action: 'chore', entityId: rosa.id, chore: 'hunt-timber', mode: 'wagon' }),

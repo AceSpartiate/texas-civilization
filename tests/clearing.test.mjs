@@ -80,7 +80,8 @@ test('timber is three times the work of prairie and wants the felling axe; many 
   // Thirty spells of three ticks, each at the family's pace: half of it since 2026-09-29 (sim/work-pace.mjs), and never less.
   assert.ok(lone >= CLEARING_SPELLS.timber * 3 * WORK_PACE, `thirty spells of three ticks took ${lone} ticks`);
   assert.equal(alone.households['hh-1'].tools.hoe, hoeWear, 'felling timber does not wear the hoe');
-  const hands = together.households['hh-1'].members.filter(id => !together.entities[id].age || together.entities[id].age >= 10).slice(0, 2);
+  // The father and the son: clearing is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs).
+  const hands = together.households['hh-1'].members.filter(id => (!together.entities[id].age || together.entities[id].age >= 10) && !['mother', 'daughter'].includes(together.entities[id].kin?.role) && together.entities[id].sex !== 'female').slice(0, 2);
   for (const id of hands) send(together, 'hh-1', id, 'clear-plot', timberTogether);
   const shared = until(together, () => timberTogether.state === 'cleared', 2000);
   assert.ok(shared < lone * 0.75, `two hands took ${shared} ticks against one's ${lone}`);

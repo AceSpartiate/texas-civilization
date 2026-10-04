@@ -422,6 +422,52 @@ function atTheirWork(entity, homeSiteId, now, frozen) {
   if (drawsAtWork(shown)) shown.strolling = motionProjection.heading(entity, now, frozen);
   return shown;
 }
+/**
+ * Flies over somebody whose clothes want washing (owner, 2026-10-03: "the owner prefers visual cues over text"; sim/housework.mjs):
+ * three specks circling the head and two wavy lines of stink rising, drawn over the figure wherever it is. No words.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "men's work, women's work and the wash", item 9 - `flies-buzz`; until it is
+ * drawn, these strokes. ceiling: drawn the same at every zoom past a speck; a figure too small to see has no flies either.
+ */
+function drawFlies(ctx, id, x, top, height) {
+  if (height < 10) return;
+  const t = (reducedMotion.matches ? 0 : animationTime) / 1000, r = Math.max(4, height * .32);
+  if (spriteReady('flies-buzz')) { drawSprite(ctx, 'flies-buzz', x, top, height * .6); (window.__fliesDrawn ??= {})[id] = { x: Math.round(x), y: Math.round(top), sprite: true }; return; }
+  ctx.save();
+  ctx.strokeStyle = 'rgba(96,84,52,.75)'; ctx.lineWidth = Math.max(1, height * .03); ctx.lineCap = 'round';
+  for (const side of [-1, 1]) {
+    ctx.beginPath();
+    for (let k = 0; k <= 6; k++) { const yy = top - k * r * .18, xx = x + side * r * .55 + Math.sin(t * 3 + k + side) * r * .12; if (k) ctx.lineTo(xx, yy); else ctx.moveTo(xx, yy); }
+    ctx.stroke();
+  }
+  ctx.fillStyle = '#20180e';
+  for (let n = 0; n < 3; n++) {
+    const a = t * (2.6 + n * .7) + n * 2.1;
+    const fx = x + Math.cos(a) * r * (.7 + .2 * n), fy = top - r * .35 + Math.sin(a * 1.3) * r * .45;
+    ctx.beginPath(); ctx.arc(fx, fy, Math.max(1.2, height * .028), 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+  (window.__fliesDrawn ??= {})[id] = { x: Math.round(x), y: Math.round(top), sprite: false };
+}
+/** The kitchen garden's beds (sim/housework.mjs), centred on (x, y), `half` its half-width on screen: see the stand-in note where drawn. */
+function drawGarden(ctx, x, y, half, season) {
+  const sprite = season === 'winter' ? 'garden-beds-winter' : 'garden-beds';
+  if (spriteReady(sprite)) { drawSprite(ctx, sprite, x, y + half * .6, half * 1.4); return; }
+  const w = half * 2, h = half * 1.3, left = x - half, top = y - h / 2;
+  ctx.save();
+  ctx.fillStyle = 'rgba(112,82,50,.85)';
+  ctx.fillRect(left, top, w, h);
+  const rows = 4, green = season === 'winter' ? '#6f8a4a' : '#4f8a2f';
+  for (let k = 0; k < rows; k++) {
+    const ry = top + h * (k + .5) / rows;
+    ctx.fillStyle = 'rgba(70,50,30,.9)'; ctx.fillRect(left + 2, ry + h / rows * .18, w - 4, Math.max(1, h / rows * .16));
+    ctx.fillStyle = green;
+    const plants = season === 'winter' ? 3 : 6;
+    for (let n = 0; n < plants; n++) { ctx.beginPath(); ctx.arc(left + w * (n + .5) / plants, ry, Math.max(1.2, h / rows * .26), 0, Math.PI * 2); ctx.fill(); }
+  }
+  // A rail of brush round it, against the loose stock.
+  ctx.strokeStyle = '#7a5a34'; ctx.lineWidth = Math.max(1, half * .06); ctx.strokeRect(left, top, w, h);
+  ctx.restore();
+}
 function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   let stroke = binding.work;
   // The felling's words moving on from the felling: the tree goes over (`treesFalling`).
@@ -1083,6 +1129,9 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
     if (marks.placed) townHeads.set(entity.id, { x, y: y - height, size: height });
     marks.point = point;
     drawFigure(ctx, entity, x, y, size, height, seat, figure, marks);
+    // Clothes that want washing (owner, 2026-10-03; sim/housework.mjs `washShown`): flies about the head and a waft of stink.
+    if (entity.dirty && entity.kind === 'person') drawFlies(ctx, entity.id, x, y - height, height);
+    else if (window.__fliesDrawn?.[entity.id]) delete window.__fliesDrawn[entity.id];
   }
   // Something is being asked of this person. The mark is the invitation; clicking is the
   // answer, so it is collected and drawn last: a cabin roof standing between the camera
@@ -4079,6 +4128,15 @@ function drawWorldNow(world) {
         standing.push({ y: spot.y - 1, draw: () => { if (!drawSprite(ctx, 'homestead-tent', spot.x, spot.y, tall)) drawSprite(ctx, 'tent', spot.x + tall * 0.36, spot.y - tall * 0.04, tall); } });
         (window.__tentsDrawn ??= {})[site.id] = { x: Math.round(spot.x), y: Math.round(spot.y), size: Math.round(tall) };
       } else if (window.__tentsDrawn?.[site.id]) delete window.__tentsDrawn[site.id];
+      // The kitchen garden beside the house (owner, 2026-10-03; sim/housework.mjs), once it is laid out: rows of earth, green in its
+      // season and thin in the winter months. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "men's work, women's work and the
+      // wash", item 8 - `garden-beds` and `garden-beds-winter`; until drawn, these strokes.
+      const gardenAt = settlement || !ownLand ? null : world.land?.garden;
+      if (gardenAt) {
+        const g = camera.toScreen(gardenAt), half = Math.max(6, 0.009 * camera.scale);
+        standing.push({ y: g.y - half, draw: () => drawGarden(ctx, g.x, g.y, half, gardenAt.season) });
+        (window.__gardenDrawn ??= {})[site.id] = { x: Math.round(g.x), y: Math.round(g.y), half: Math.round(half), season: gardenAt.season };
+      } else if (window.__gardenDrawn?.[site.id]) delete window.__gardenDrawn[site.id];
       // A new town's shops, each keeper's own building at its place (sim/shops.mjs, docs/TOWNS.md). Drawn for anybody, as
       // a town's buildings are; who is standing in them is still only seen by somebody who is there.
       // Each trade now has its own art (docs/ART_REQUESTS.md, request 2026-09-16).
@@ -5768,7 +5826,7 @@ function renderFamilyPanel(world) {
     const carry = null;
     const offered = world.work?.[id] || [];
     const icons = panelActions({ entity, offered, catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
-      atHome: entity.location?.siteId === homeId, settable, carry, wants: world.watching ? null : household.wants });
+      atHome: entity.location?.siteId === homeId, settable, carry, wants: world.watching ? null : household.wants, customSays: household.customSays || null });
     // The guided start shuts everything the step does not allow, and rings the one it asks for (public/lesson.js). It is
     // read here rather than decided here: `allow` is the server's list and the server refuses anything else in words.
     const shutting = lessonLocks(lesson);
@@ -6490,6 +6548,8 @@ function describeIcon(button, icon, lesson = null) {
   // A goal refused only for what the family has not got (docs/FAMILY_PANEL.md §23): greyed like any refusal, and a strip along its
   // foot of what it wants - lit for what the family has, ember for what it has not - with the counts in its popup and its name.
   setData(button, 'goal', icon.goal ? 'true' : '');
+  // Refused by custom (owner, 2026-10-03; sim/custom.mjs): greyed with a fine hatch, whose words say who keeps it.
+  setData(button, 'custom', icon.custom || '');
   const needs = icon.needs || null;
   const needsKey = needs ? JSON.stringify(needs) : '';
   if ((button.dataset.needs || '') !== needsKey) { button.dataset.needs = needsKey; paintNeeds(button, needs); }

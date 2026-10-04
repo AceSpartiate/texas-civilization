@@ -92,6 +92,10 @@ export const PANEL_SUMMARIES = Object.freeze({
   'flee-cow': 'Put a rope on one milk cow for them to drive behind the family, to be milked on the road.',
   'milk-cow': 'Milk the family\'s cow, once a day: a little food, and a job a child of seven can do.',
   'milk-road': 'Milk the cow driven along with the family, once a day at the halt: a little food.',
+  // The women's own work (owner, 2026-10-03; sim/housework.mjs), women's by custom (sim/custom.mjs).
+  'keep-house': 'Keep house: the cooking, the mending and the sweeping, which make the family\'s food go further today and tomorrow.',
+  'work-garden': 'Work the kitchen garden beside the house, once a day: a little food in its season.',
+  'wash-clothes': 'Do the wash, so nobody of the family goes to town or the war in dirty clothes.',
   // The tent until the house stands (sim/shelter.mjs, owner 2026-10-02): on nobody's bar since it goes up on arrival (2026-10-03); a
   // row glows with it only while somebody puts up a tent the family did not have at the first turn of the weather.
   'pitch-tent': 'Put up the wagon sheet as a tent by the camp, somewhere dry to go when it rains until the house has a roof.',
@@ -182,6 +186,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
     'child-help',
     // stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - the tent (sim/shelter.mjs): `icon-pitch-tent`, a stroked tent until drawn.
     'pitch-tent',
+    // stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "men's work, women's work and the wash", items 1-3 - `icon-keep-house`,
+    // `icon-work-garden`, `icon-wash-clothes`: stroked glyphs until they are drawn (sim/housework.mjs).
+    'keep-house', 'work-garden', 'wash-clothes',
   ].map(key => [key, { glyph: key }]),
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
@@ -259,9 +266,17 @@ const firstSentence = text => (String(text || '').match(/^.*?[.!?](?=\s|$)/)?.[0
  * back: a refusal the land hunt shares with the timber hunt rides on the timber hunt alone (sim/chores.mjs `choresFor`).
  * Read by the icons and by `rowReason`, so the row's one line and the icon a student hovers can never disagree.
  */
-const whyOf = (entry, offered) => (entry.id === 'hunt-land' && !entry.can && !entry.why
+const whyOf = (entry, offered, catalogue = null, customSays = null) => (entry.custom && !entry.can && !entry.why
+  ? customWords(entry, catalogue, customSays)
+  : entry.id === 'hunt-land' && !entry.can && !entry.why
   ? offered.find(other => other.id === 'hunt-timber')?.why
   : entry.why);
+/**
+ * A refusal by custom in the server's own words (owner, 2026-10-03; sim/custom.mjs `customSays`): the work's name as the catalogue gives
+ * it, then what the family is told once for its side - "Felling" + " is " + "men's work, and James is at home." The tick carries only
+ * whose work it is on each refused entry, to keep within its size.
+ */
+export const customWords = (entry, catalogue, customSays) => `${catalogue?.get?.(entry.id)?.custom?.[1] || 'That'} is ${customSays?.[entry.custom] || `${entry.custom}'s work.`}`;
 
 /**
  * Every icon on one person's row, in order: their work, then the main person's orders, then calling off the work.
@@ -277,7 +292,7 @@ const REST_WORK = Object.freeze(['rest-road']);
 /** The sickness line on a row (sim/disease.mjs `sicknessShown`): the server's words, or nothing. */
 export const sickLine = entity => (entity?.sickness?.line ? String(entity.sickness.line) : '');
 export function panelActions({ entity, offered = [], catalogue = new Map(), main = false, homeId = null, homesteads = [], atHome = false,
-  settable = true, carry = null, wants = null } = {}) {
+  settable = true, carry = null, wants = null, customSays = null } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
   // Somebody with the men in a fight (sim/battle-stage.mjs `heldByBattle`) is given no order until it is over and they come
   // back with the men; the server refuses any, and the reason is theirs (`held`).
@@ -300,7 +315,7 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
   const icons = [];
   for (const entry of offered) {
     const spec = catalogue.get?.(entry.id) || {};
-    const why = whyOf(entry, offered);
+    const why = whyOf(entry, offered, catalogue, customSays);
     if (!entry.can && NOT_A_CHOICE.test(why || '') && active !== entry.id) continue;
     // What it costs and what it brings, from the server's numbers; putting them side by side is formatting.
     const haul = entry.haul && Number.isFinite(carry)
@@ -333,6 +348,9 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
       onMap: ON_MAP.includes(entry.id), active: active === entry.id, ...(waits && { waits: true }),
       // Refused only for a thing the family has not got (the server's `short`): kept on the bar greyed, a goal (§23).
       ...(!entry.can && !waits && entry.short && { goal: true }),
+      // Refused by custom (owner, 2026-10-03, "Custom, necessity opens"; sim/custom.mjs): kept on the bar greyed, with the server's words,
+      // and lit the tick nobody of that custom is at home. 'men' or 'women'.
+      ...(!entry.can && !waits && entry.custom && { custom: entry.custom }),
       // What the family has of what it wants for this (`world.household.wants`): the strip on the icon, the list in its popup.
       ...(needsFor(entry.id, wants) && { needs: needsFor(entry.id, wants) }),
     });
@@ -1089,6 +1107,11 @@ const LITTLE_GLYPHS = Object.freeze({
   // Water, and a grown one wading with a small one on their back.
   // A child running, an arm out, toward a house with its door open.
   'child-help': ctx => { dot(ctx, 12, 14, 4); line(ctx, [12, 18], [14, 30], [8, 42]); line(ctx, [14, 30], [20, 40]); line(ctx, [13, 22], [24, 18]); ctx.beginPath(); ctx.moveTo(28, 26); ctx.lineTo(37, 16); ctx.lineTo(46, 26); ctx.closePath(); ctx.fill(); ctx.fillRect(30, 26, 14, 16); ctx.fillStyle = '#e9dcb8'; ctx.fillRect(35, 32, 5, 10); },
+  // The women's own work (stand-in: docs/ART_REQUESTS.md, request 2026-10-03, items 1-3): a pot over the fire; a sprout over three
+  // rows; a tub with a shirt over its rim and the battling stick.
+  'keep-house': ctx => { line(ctx, [10, 14], [24, 6], [38, 14]); ctx.beginPath(); ctx.ellipse(24, 26, 10, 8, 0, 0, Math.PI * 2); ctx.fill(); line(ctx, [12, 20], [36, 20]); line(ctx, [14, 40], [20, 34], [24, 40], [28, 34], [34, 40]); line(ctx, [8, 44], [40, 44]); },
+  'work-garden': ctx => { for (const y of [30, 37, 44]) line(ctx, [6, y], [42, y]); line(ctx, [24, 28], [24, 12]); ctx.beginPath(); ctx.ellipse(18, 14, 6, 3, -0.5, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.ellipse(30, 10, 6, 3, 0.5, 0, Math.PI * 2); ctx.fill(); },
+  'wash-clothes': ctx => { ctx.beginPath(); ctx.moveTo(8, 26); ctx.lineTo(40, 26); ctx.lineTo(36, 44); ctx.lineTo(12, 44); ctx.closePath(); ctx.fill(); line(ctx, [14, 26], [12, 16], [20, 14], [28, 14], [36, 16], [34, 26]); line(ctx, [40, 6], [30, 22]); ctx.fillStyle = '#e9dcb8'; ctx.fillRect(10, 30, 28, 3); },
   'ford-carry': ctx => { dot(ctx, 22, 8, 4.5); line(ctx, [22, 13], [22, 30]); dot(ctx, 30, 12, 3.5); line(ctx, [22, 18], [30, 16]); ctx.lineWidth = 2; for (const y of [32, 40]) { ctx.beginPath(); ctx.moveTo(4, y); ctx.quadraticCurveTo(14, y - 4, 24, y); ctx.quadraticCurveTo(34, y + 4, 44, y); ctx.stroke(); } },
 });
 
@@ -1230,7 +1253,7 @@ export const HUNGER_WORDS = Object.freeze({ fed: '', hungry: 'hungry', weak: 'we
  * student looking at the red gauge sees which buttons answer it. No words: the icons' own names and popups say what each is.
  */
 export const FOOD_WORKS = Object.freeze(new Set(['fish-the-water', 'take-small-game', 'gather-oysters', 'cut-bee-tree', 'hunt-timber', 'hunt-land',
-  'plant-field', 'harvest-field', 'butcher-hog', 'butcher-beef', 'fish-road', 'hunt-road', 'trade-crossing', 'child-eggs', 'milk-cow', 'milk-road']));
+  'plant-field', 'harvest-field', 'butcher-hog', 'butcher-beef', 'fish-road', 'hunt-road', 'trade-crossing', 'child-eggs', 'milk-cow', 'milk-road', 'work-garden']));
 /** The gauge's levels at which the food works glow. */
 export const FEED_LEVELS = Object.freeze(new Set(['low', 'short', 'empty', 'weak', 'starving']));
 /** Whether this icon should glow as a way to food now. */
@@ -1309,7 +1332,9 @@ export const goalRoom = (pressable, width = 1146) => Math.max(0, Math.min(GOALS_
 export function barIcons(icons, pressable = icon => icon.active || icon.can, room = GOALS_MOST) {
   const open = icons.filter(pressable);
   if (!open.length) return open;
-  const goals = new Set(icons.filter(icon => !open.includes(icon) && icon.goal).slice(0, Math.max(0, room)));
+  // The goals first, then the work refused by custom (sim/custom.mjs), greyed with its words, in what room is left.
+  const kept = [...icons.filter(icon => !open.includes(icon) && icon.goal), ...icons.filter(icon => !open.includes(icon) && !icon.goal && icon.custom)];
+  const goals = new Set(kept.slice(0, Math.max(0, room)));
   return icons.filter(icon => open.includes(icon) || goals.has(icon));
 }
 

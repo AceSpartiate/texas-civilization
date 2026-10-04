@@ -168,7 +168,8 @@ test('a hunter\'s sighting waits its fifteen real seconds in every phase: a tick
     const household = world.households['hh-1'];
     household.played = true;
     household.resources.powder = 3;
-    const elena = world.entities['hh-1-elena'];
+    // The father: hunting is the men's work while he is at home (owner, 2026-10-03; sim/custom.mjs).
+    const elena = world.entities['hh-1-thomas'];
     applyAction(world, 'hh-1', { action: 'chore', entityId: elena.id, chore: 'hunt-timber' });
     const step = () => withCalendarStep(world, calendar, () => stepWorld(world));
     for (let t = 0; t < 200 && !elena.chore?.ask; t++) step();

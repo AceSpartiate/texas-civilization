@@ -10,6 +10,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
+import { sexOf } from '../sim/family.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
@@ -115,7 +116,8 @@ test('a family on the real land plans on the plot, places and takes away pieces;
 test('the house goes up stage by stage, each taking its logs; the family moves in when the pen stands, and the house is built when all is', () => {
   const { world, household } = onTheLand('plot-raise');
   applyAction(world, 'hh-1', { action: 'plan-house', layout: 'round-log' });
-  const people = personsOf(world, household).filter(person => choreAvailability(world, household, person, 'build-house').why !== undefined);
+  // The family's men and boys: building is the men's work while a man is at home (owner, 2026-10-03, "Custom, necessity opens"; sim/custom.mjs).
+  const people = personsOf(world, household).filter(person => choreAvailability(world, household, person, 'build-house').why !== undefined && sexOf(person) !== 'female');
   // No logs: the house cannot be worked on, and says why.
   assert.match(choreAvailability(world, household, people[0], 'build-house').why, /Laying the sills on the round-log pen wants 4 sill logs, and the log pile has not got them\./);
   // Sills from sill logs first; walls from wall logs first, then sound sill logs; poor logs never.
