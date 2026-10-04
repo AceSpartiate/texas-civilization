@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2646 usable sprites, 283 PNG atlases, 921 clips** (613 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2654 usable sprites, 284 PNG atlases, 923 clips** (615 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -52,6 +52,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | land-clearing | 16 | 1254 × 1254 | 904975 |
 | coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
 | regular-prone-actions | 4 | 1536 × 1024 | 1506423 |
+| fallen-transport | 8 | 1536 × 1024 | 1987719 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
@@ -660,6 +661,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-prone-aim | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-fire | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-lock | regular-prone-actions | regular-prone-fire-reload |
+| volunteer-fallen-carry-1 | fallen-transport | volunteer-fallen-carry |
+| volunteer-fallen-carry-2 | fallen-transport | volunteer-fallen-carry |
+| volunteer-fallen-carry-3 | fallen-transport | volunteer-fallen-carry |
+| volunteer-fallen-carry-4 | fallen-transport | volunteer-fallen-carry |
+| regular-fallen-carry-1 | fallen-transport | regular-fallen-carry |
+| regular-fallen-carry-2 | fallen-transport | regular-fallen-carry |
+| regular-fallen-carry-3 | fallen-transport | regular-fallen-carry |
+| regular-fallen-carry-4 | fallen-transport | regular-fallen-carry |
 | icon-survey-plot | icons-family-actions-1 | State artwork; no motion required |
 | icon-cut-lane | icons-family-actions-1 | State artwork; no motion required |
 | icon-dig-well | icons-family-actions-1 | State artwork; no motion required |
@@ -3117,6 +3126,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
 | regular-prone-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
+| volunteer-fallen-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
+| regular-fallen-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | mother-scarf-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
 | mother-scarf-walk-s | Pose cycle | 2 | 560 | yes | south |
 | mother-scarf-walk-n | Pose cycle | 2 | 560 | yes | north |

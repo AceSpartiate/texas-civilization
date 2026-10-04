@@ -2618,6 +2618,54 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "volunteer-fallen-carry": {
+      "frames": [
+        {
+          "sprite": "volunteer-fallen-carry-1",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-fallen-carry-2",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-fallen-carry-3",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-fallen-carry-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-fallen-carry": {
+      "frames": [
+        {
+          "sprite": "regular-fallen-carry-1",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-fallen-carry-2",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-fallen-carry-3",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-fallen-carry-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "mother-scarf-walk": {
       "frames": [
         {

@@ -1,3 +1,7 @@
+## Delivery update — covered fallen transport, 2026-10-04
+
+Eight frames and two authored walking clips supply distinct volunteer/Mexican bearers carrying covered still bodies. Existing sampled dead carrying binds the new art; living wounded keep their own clips. See ART_DELIVERY_2026-10-04-FALLEN-TRANSPORT.md. Named/family-specific transport remains open.
+
 ## Delivery update — Mexican regular engineering, 2026-10-04
 
 16 frames and four authored clips delivered: digging, crowbar work, sandbag carrying and filling. Mexican battle work now uses its dedicated digging cycle. Other clips await explicit scene actions. See ART_DELIVERY_2026-10-04-REGULAR-ENGINEERING.md and ART_MANIFEST.md. This completes the Mexican engineering gap recorded below.
@@ -6,7 +10,7 @@
 
 **84 frames / nine atlases / 20 authored clips delivered.** See `ART_DELIVERY_2026-10-03-MILITARY-LIFE.md` and `ART_MANIFEST.md`. Healthy rest and sleep, volunteer digging, directional generic mounted troops, wounded blanket transport and led wounded dragoons, barricades/sandbags, baggage breastworks and crouched loophole firing now have dedicated art. Existing battle states use these assets. Camp chores, sandbag work, arms stacks, cookpot, alternate cover states and the generic roof-removable house are registered for subsequent integration. No new historical outcomes or actor visibility rules are introduced.
 
-Remaining portions of these requests: dead-body carrying, family-specific battle/sleep appearances, north/south mounted firing/reload, and interior house masking/navigation. Named people keep their own identity art. The remaining-items ledger below must be read with this delivery update.
+Remaining portions of these requests: family-specific battle/sleep appearances, north/south mounted firing/reload, and interior house masking/navigation. Named people keep their own identity art. The remaining-items ledger below must be read with this delivery update.
 # Art requests for Astra
 
 ## Named foot movement and field gestures — delivered 2026-10-03
@@ -112,7 +116,7 @@ does not have:
 | A tree or a tuft in a norther is the library's own upright sprite sheared about its foot, so it leans; nothing streams, and smoke is not drawn at all | `windLean` in `public/weather-art.js`, applied by `postOak` and `drawGroundDetail` in `public/app.js` and by `lean` in `public/art.js` | Request 2026-09-20 — the country in a norther | `oak-broad-wind`, `oak-spreading-wind`, `pecan-wind`, `grass-tuft-wind`, `smoke-streaming` |
 | **A family's own person in a fight** is drawn in the volunteer militia's firing cycle (`volunteer-fire-reload`, `volunteer-load`, `volunteer-e`/`-w`, `volunteer-march`), not in their own cast figure | `memberPose` in `public/battle-view.js`, drawn by `drawFigure` in `public/app.js` (`stand-in:`) | Request 2026-09-25 — battles, item 1 | Each cast's own aim, fire, load and ramrod frames |
 | **A dragoon firing from the saddle** keeps his mounted pose (`dragoon-idle-e`/`-w`) while the flash and the smoke are drawn at his hands | `draw` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — battles, item 2 | `dragoon-fire` (aim and fire from the saddle, both facings) |
-| **Living wounded transport delivered**: side-specific blanket bearers and led wounded dragoons now replace the walking-comrade composite outside squares. Dead transported figures still use reclining art and comrades | `drawFallen` in `public/battle-view.js` | Request 2026-09-25 — battles, item 3 | Dead-body carrying and family-specific transport remain; living patients must not represent dead bodies |
+| **Living wounded transport delivered**: side-specific blanket bearers and led wounded dragoons now replace the walking-comrade composite outside squares. Covered dead transport delivered 2026-10-04; named figures retain prior art | `drawFallen` in `public/battle-view.js` | Request 2026-09-25 — battles, item 3 | Family-specific and named transport remain; living patients must not represent dead bodies |
 | **The Gonzales cannon crew** delivered 2026-10-03: distinct civilian rammer, charge carrier and igniter now serve the cart-wheel gun with authored ram, carry, ready, discharge and crouch cycles | `drawCannon` in `public/battle-view.js`; `gonzales-settler-*` atlases | Request 2026-09-25 — battles, item 4 | Dedicated roles delivered; finer hand-to-gun registration and longer transitions remain polish |
 | **Béxar loophole fighters partially delivered**: visible Texian sampled figures crouch and fire/reload; generic stone-house closed/open/breached/roof-removed art registered | `draw` in `public/battle-view.js`, cover loophole | Request 2026-09-25 — Béxar, item 1 | Generic house placement needs masks/navigation; named house assemblies stay in use |
 | **Street barricade and sandbags delivered**: dedicated embrasure and stacked-sack art at existing cover positions | `draw` in `public/battle-view.js` | Request 2026-09-25 — Béxar, items 2 and 4 | Alternate damaged/end/corner states are registered for explicit staging |

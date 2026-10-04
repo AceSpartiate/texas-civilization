@@ -4106,6 +4106,19 @@
       "refinements": [],
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Original interpretive uniform and action poses. Fine foot registration remains polish; carry keyframes are subtle."
+    },
+    {
+      "sheet": "fallen-transport",
+      "promptId": "frontier-v1/fallen-transport",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a3d38489-f498-4b4c-b5bc-b3779df72686.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a3d38489-f498-4b4c-b5bc-b3779df72686.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/fallen-transport.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Covered still body with two walking bearers; interpretive garments. Fine registration remains polish."
     }
   ],
   "rejectedAttempts": [

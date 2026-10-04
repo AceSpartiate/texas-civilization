@@ -1,3 +1,7 @@
+## Latest art delivery — covered fallen transport, 2026-10-04
+
+Eight frames, two authored bearer cycles now replace the anonymous dead-carrying composite. Living wounded, named figures and historical staging retain their branches. Read docs/ART_DELIVERY_2026-10-04-FALLEN-TRANSPORT.md for provenance, integration and remaining work.
+
 ## Latest art delivery — 2026-10-04
 
 Mexican regular engineering: 16 transparent frames, four authored clips; battle work now plays regular-dig. Crowbar and sandbag carry/fill are catalog-ready. Read docs/ART_DELIVERY_2026-10-04-REGULAR-ENGINEERING.md for integration limits, provenance and browser proof. Named actor identities and authoritative gameplay remain unchanged.

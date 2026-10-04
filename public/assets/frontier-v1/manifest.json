@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 283,
-    "sprites": 2646,
-    "clips": 921,
-    "poseCycles": 613,
+    "sheets": 284,
+    "sprites": 2654,
+    "clips": 923,
+    "poseCycles": 615,
     "rigs": 4
   },
   "entrypoints": {
@@ -3464,6 +3464,98 @@
               [
                 807,
                 1504
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "fallen-transport": {
+      "image": "atlases/fallen-transport.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1987719,
+      "sha256": "0f182ef45369a85688b9e462e33e9cfef7acbfee69909a65c2009c979f41e28c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.726426,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              7,
+              255
+            ],
+            "columns": [
+              [
+                192,
+                675
+              ],
+              [
+                910,
+                1298
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              267,
+              511
+            ],
+            "columns": [
+              [
+                190,
+                698
+              ],
+              [
+                910,
+                1301
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              510,
+              763
+            ],
+            "columns": [
+              [
+                182,
+                676
+              ],
+              [
+                889,
+                1335
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              763,
+              1015
+            ],
+            "columns": [
+              [
+                187,
+                685
+              ],
+              [
+                892,
+                1333
               ]
             ]
           }
@@ -37061,6 +37153,278 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/regular-prone-actions"
+    },
+    "volunteer-fallen-carry-1": {
+      "sheet": "fallen-transport",
+      "x": 192,
+      "y": 7,
+      "w": 483,
+      "h": 247,
+      "anchorX": 0.5072,
+      "anchorY": 0.9271,
+      "label": "volunteer fallen carry 1",
+      "kind": "fallen-transport",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          194,
+          9,
+          479,
+          243
+        ],
+        "visiblePixels": 45253,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/fallen-transport.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-fallen-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/fallen-transport"
+    },
+    "volunteer-fallen-carry-2": {
+      "sheet": "fallen-transport",
+      "x": 910,
+      "y": 7,
+      "w": 388,
+      "h": 248,
+      "anchorX": 0.5039,
+      "anchorY": 0.9315,
+      "label": "volunteer fallen carry 2",
+      "kind": "fallen-transport",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          912,
+          9,
+          384,
+          244
+        ],
+        "visiblePixels": 41199,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/fallen-transport.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-fallen-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/fallen-transport"
+    },
+    "volunteer-fallen-carry-3": {
+      "sheet": "fallen-transport",
+      "x": 190,
+      "y": 268,
+      "w": 508,
+      "h": 242,
+      "anchorX": 0.4931,
+      "anchorY": 0.9298,
+      "label": "volunteer fallen carry 3",
+      "kind": "fallen-transport",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          192,
+          270,
+          504,
+          240
+        ],
+        "visiblePixels": 45146,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/fallen-transport.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-fallen-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/fallen-transport"
+    },
+    "volunteer-fallen-carry-4": {
+      "sheet": "fallen-transport",
+      "x": 910,
+      "y": 267,
+      "w": 391,
+      "h": 244,
+      "anchorX": 0.509,
+      "anchorY": 0.9262,
+      "label": "volunteer fallen carry 4",
+      "kind": "fallen-transport",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          912,
+          269,
+          387,
+          242
+        ],
+        "visiblePixels": 41249,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/fallen-transport.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-fallen-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/fallen-transport"
+    },
+    "regular-fallen-carry-1": {
+      "sheet": "fallen-transport",
+      "x": 182,
+      "y": 510,
+      "w": 494,
+      "h": 253,
+      "anchorX": 0.4929,
+      "anchorY": 0.9289,
+      "label": "regular fallen carry 1",
+      "kind": "fallen-transport",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          184,
+          511,
+          490,
+          250
+        ],
+        "visiblePixels": 44676,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/fallen-transport.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-fallen-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/fallen-transport"
+    },
+    "regular-fallen-carry-2": {
+      "sheet": "fallen-transport",
+      "x": 889,
+      "y": 511,
+      "w": 446,
+      "h": 252,
+      "anchorX": 0.491,
+      "anchorY": 0.9286,
+      "label": "regular fallen carry 2",
+      "kind": "fallen-transport",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          891,
+          511,
+          442,
+          250
+        ],
+        "visiblePixels": 43382,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/fallen-transport.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-fallen-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/fallen-transport"
+    },
+    "regular-fallen-carry-3": {
+      "sheet": "fallen-transport",
+      "x": 187,
+      "y": 763,
+      "w": 498,
+      "h": 252,
+      "anchorX": 0.492,
+      "anchorY": 0.9286,
+      "label": "regular fallen carry 3",
+      "kind": "fallen-transport",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          189,
+          765,
+          494,
+          248
+        ],
+        "visiblePixels": 44530,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/fallen-transport.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-fallen-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/fallen-transport"
+    },
+    "regular-fallen-carry-4": {
+      "sheet": "fallen-transport",
+      "x": 892,
+      "y": 763,
+      "w": 441,
+      "h": 252,
+      "anchorX": 0.4989,
+      "anchorY": 0.9325,
+      "label": "regular fallen carry 4",
+      "kind": "fallen-transport",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          894,
+          765,
+          437,
+          248
+        ],
+        "visiblePixels": 43137,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/fallen-transport.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-fallen-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/fallen-transport"
     },
     "icon-survey-plot": {
       "sheet": "icons-family-actions-1",
@@ -117961,6 +118325,54 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "volunteer-fallen-carry": {
+      "frames": [
+        {
+          "sprite": "volunteer-fallen-carry-1",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-fallen-carry-2",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-fallen-carry-3",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-fallen-carry-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-fallen-carry": {
+      "frames": [
+        {
+          "sprite": "regular-fallen-carry-1",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-fallen-carry-2",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-fallen-carry-3",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-fallen-carry-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "mother-scarf-walk": {
       "frames": [
         {
@@ -136097,7 +136509,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 283,
+    "sourceCount": 284,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

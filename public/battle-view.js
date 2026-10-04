@@ -986,13 +986,14 @@ export function createBattleView(art) {
       ctx.restore();
       return;
     }
-    // Lying still. Carried: two comrades walk him back from the line (VISION.md §16 names both).
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the wounded carried" - two walking figures beside the lying one,
-    // until a carrying pose exists.
+    // Carried dead use a covered, still bundle; living wounded have separate art above.
     const carry = f.down.carried ? Math.min(1, (since - 600) / 20000) : 0;
     const dx = carry * f.size * 3 * (f.side === 'mexican' ? 1 : -1);
-    if (!art.drawSprite(ctx, `${kind}-reclining`, x + dx, y, f.size)) { ctx.fillStyle = '#6b6153'; ctx.fillRect(x + dx - f.size * 0.4, y - f.size * 0.12, f.size * 0.8, f.size * 0.12); }
-    if (f.down.carried) for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + dx + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.side !== 'mexican' });
+    const transported = f.down.carried && !f.name && art.animated(ctx, `${kind}-fallen-carry`, x + dx, y, f.size, `fallen:${f.slot.index}`, { timeMs: Math.max(0, since - 600), flip: f.side !== 'mexican', paused: carry >= 1 });
+    if (!transported) {
+      if (!art.drawSprite(ctx, `${kind}-reclining`, x + dx, y, f.size)) { ctx.fillStyle = '#6b6153'; ctx.fillRect(x + dx - f.size * 0.4, y - f.size * 0.12, f.size * 0.8, f.size * 0.12); }
+      if (f.down.carried) for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + dx + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.side !== 'mexican' });
+    }
     // A man the record names where he fell (Milam), and only him: the sampled figures are nobody.
     if (f.name && f.size >= 14) {
       ctx.font = `${Math.round(Math.max(11, Math.min(15, f.size * 0.3)))}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
