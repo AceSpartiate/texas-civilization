@@ -1,5 +1,59 @@
 # Claude handoff — Astra foundation
 
+## Help, not lead; children keep house; the wash for whoever's dirty — owner-decided 2026-10-04 (not released)
+
+Branch `custom-work-3` from origin/main b2d0c0e1; not pushed, not released. Same computer only: headless Chrome; no Chromebook, LAN or
+classroom claim. The owner answered BALANCE.md §23's seven questions by multiple choice, verbatim in docs/CUSTOMARY_WORK.md §1c:
+**"Help, not lead"** (issues 1 and 5, both ways), **"Children keep house"** (2), **"Prompt the student"** (3), **"Wash whoever's dirty"**
+(4), **"Only while serving"** (6, a fault), **"Leave it"** (7).
+
+**Built:**
+- **Help, not lead** (`FIC-GONZ-1159`; sim/custom.mjs `helpsWhom`, `HELPS_FROM_AGE` 10; sim/chores.mjs `helpLead`, `helpHeld`): a woman or
+  girl of ten may join men's work a man or boy of the family is at, and a man or boy of ten the women's work a woman or girl is at -
+  only crew work (the house, clearing, the lane, felling, fences, the yard, the well, the carreta, furniture, and since today keeping
+  house, the garden and the wash, which became `crew: 'join'`); never the hunt, the survey, the range, a beef or nursing. On the bar only
+  while one of its custom is at it, sent with `help` and drawn with a green helping-hands badge (no map press); pressed, the helper joins
+  him where he is, marked `chore.helping`, *"Elena went to help Thomas: work on the house."*; left off at the next spell or tree once
+  nobody of its custom is at it and one is still home; by necessity as before once none is. The director's women help too.
+- **Children keep house** (`FIC-GONZ-1158`; `childKeeps`, `childrenKeepHouse`, `CHILD_KEEPS_FROM` 7): whenever only one custom is kept at
+  home (a lone parent, or a mother whose husband is away), a child of seven or more of either sex may keep house and do the wash; the two
+  works are `child`/`grown` with their own age ladder, keep-house is `indoors` (a child out of the weather still keeps house), a child on
+  auto takes them first (sim/childhood.mjs `JOBS_FIRST`), and the director gives them to a child of seven to nine after the grown hands.
+  Drawn at the children's own strokes (stand-in, public/work-art.js `WORK[...].child`).
+- **Prompt the student** (sim/housework.mjs `houseCue`, sent as `cue` on one person; public/app.js `cueMark`, `data-cue`): the pot or the
+  washtub pulsing in the foot of the one idle person's portrait who may begin the house work (house first, then the wash when somebody at
+  home wants it), and the icon glowing blue. No words. Not while the food is under a week (`CUE_FOOD_DAYS`) and never on the only grown
+  hand at home (`lonePair`; a child of seven gets it instead) - both added after the study showed a student following the cue first lost
+  lone parents' children to hunger.
+- **Wash whoever's dirty** (`FIC-GONZ-1160`; `wantsWash`, `washWanted`): before the week is out the wash may be done for whoever at home is
+  dirty or missed wash day, cleaning only them; the weekly day does not move.
+- **Only while serving** (`FIC-GONZ-1150` amended; `withTheArmy`): away while serving or a prisoner; released or deserted and home, he
+  keeps the custom (and is washed with the family).
+- Docs: CUSTOMARY_WORK.md §1c, §2, §2b, §4b, §6, §8, §9, §10, §11; BALANCE.md §23 (each issue marked answered) and **§24** (the study
+  again); HISTORY.md `FIC-GONZ-1150 (amended)`, `-1158` to `-1160`; GAME.md, TEACHER.md, TECH.md; ART_REQUESTS.md request 2026-10-04
+  "help and the house cue" (the help mark, the cue marks, a child cooking and washing) with its stand-ins listed.
+
+**Study (BALANCE.md §24, before the custom / §23 / now):** roofed, class median **1.2 / 2.5 / 1.4** days (manyDaughters 3.9 to 2.4,
+fatherGirls 4.0 to 2.6, oneManManyWomen 1.8 to 0.9; twoParentMixed 2.1 to 2.2); time with no work, pooled, women **65 / 17 / 16%**, girls
+**81 / 44 / 42%**, men **56 / 38 / 31%**; lone mother of small children: hunger deaths **1 (0 at home) / 2 (2) / 0**, families hungry
+1 / 3 / 5, final 430 / 215 / 440, field harvest 134 / 29 / 38.5; lone father of infants unchanged (2,217; no child of seven); town arrivals
+dirty, playing, **38% to 30%**, markup 28 to 21 reales a family; a student who never finds the house work 90% dirty, one who follows the cue
+**38%**, women idle 62% to 15%; oneWomanManyMen men idle 64% to 54%; all 90: hunger deaths 5 (0) / 9 (2) / **2 (0)**, final median
+21,775 / 20,373 / 20,736.
+
+**Evidence**: tests - tests/custom-work.test.mjs (*help, not lead* both ways, *help at work each puts their own hands into*, *only while
+serving*, *the families nobody plays keep the custom* now asserting they help), tests/housework.test.mjs (*children keep house*, *prompt the
+student*, *wash whoever's dirty*), tests/neighbours.test.mjs (a helper is not a second person sent; the trade test's plots made bare, since
+its neighbour's corn now comes in sooner). `npm run test:custom-work-injections`: **73 of 73 caught by the test written for them, 53 by
+that test alone** ([record](docs/evidence/custom-work-injections.json)); 27 new, three old patterns updated; two first tried were caught by
+nothing because another gate already holds the line, and were replaced. Browser proofs, one at a time, green on the final code: **test:custom-work 17 checks** (the cue on the idle mother and off her once busy; the house on her bar with the helping-hands badge while he builds, and her joining him; their son of seven keeping house and washing while the father is on the errand; the father washed for, alone, before the week is out), test:family-panel, test:panels, test:panel-press, test:children, test:auto, test:errand, test:overlap, test:solo-game, test:hunger. test:children first failed at the milk-cow step: the proof pressed the cow while the server still had the boy at his bundle (its wait read the page's last tick, which now takes a little longer to make); fixed in the proof by waiting on the server's record (it passed on main, b2d0c0e1, as it was). The custom-work proof's family is rolled in its world factory and given sixty food, since the cue is quiet while the food is low. `npm test`: **2228 tests, 2192 pass, 0 fail, 36 skipped**.
+
+**Not proved / open**: anything on a Chromebook, a LAN or in a classroom; whether a real student notices the cue and the badge; the
+child's keeping house saves what the child's own housework saves (little at eight), so a lone mother of small children still goes hungry -
+put to the owner in BALANCE.md §24 with the house's one-tick steps (a man's help does not shorten keeping house or the garden); the new
+art items are **not yet on "What Astra still needs to make"** because that list is generated from scripts/claude-art/plan.mjs, which
+another builder had open - add the three items there (areas F and B) and run `node scripts/claude-art/write-plan.mjs` once it lands.
+
 ## Customary work: is it playable short of one sex? - 2026-10-04 (a study; no rule changed)
 
 Branch `custom-viability` from origin/main 4f76d4ed; not pushed, not released. The owner: *"once gendered work is in, check for viability
@@ -12,7 +66,7 @@ family shapes each, a *playing* and a *never keeps house* student; before = 726f
 20.5 to 5.7, 2 hunger deaths at home in 6 families; lone father with infants: final 6,077 to 2,536); a student who never finds *Keep
 house* is dirty at 90% of town arrivals; even a washing family is dirty at 38% (the town-goer misses wash day); one woman with many men
 queues the house work; a man recalled or deserted from the army counts as away for good (`atHome` reads any `service`; a rule fault);
-a son of 16 keeps the custom from his mother, with no measured cost. **Next**: put §23.2's questions to the owner.
+a son of 16 keeps the custom from his mother, with no measured cost. **Next**: put §23.2's questions to the owner (answered the same day and built: the section above).
 
 ## Customary work: the owner's four answers - 2026-10-04 (not released)
 

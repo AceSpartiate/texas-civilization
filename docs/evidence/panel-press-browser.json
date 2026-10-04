@@ -6,10 +6,10 @@
   "task": "Triage 2.14: presses on the family panel held across snapshots that change it - the bar emptied (the class paused) and filled again (resumed) under the press, plain ticks, and tap-then-send on a touch screen - each must reach what was pressed.",
   "environment": "Same computer: an in-process classroom at 250 ms a tick with five families, headless Chrome at 1366x768 with touch emulated (CDP touch events) and a mouse. The bar is emptied and filled by the Host’s Pause and Resume, sent between the press going down and coming up.",
   "checks": [
-    "20 quiet snapshots (5.1 s): the journal's roster and the family's goods made no elements; the whole page made 2 and put back 8 it had (#family-rows 2: 2 span.panel-reason)",
+    "20 quiet snapshots (5.1 s): the journal's roster and the family's goods made no elements; the whole page made 9 and put back 8 it had (#family-rows 2: 2 span.panel-reason)",
     "12 presses (12 of them on an icon the paused snapshot took off the bar) on the father's rest, work held across the snapshot that took it off his bar (the class paused) and the one that gave it back (resumed): every click reached the same icon, and every order was sent",
     "24 presses each held across a snapshot (icons and the rows' auto switches): all 24 landed",
-    "on a touch screen, 3 times: a first tap on \"Rest\", \"Work about the place\", \"Rest\" held across a pause and resume armed its popup and sent nothing, the popup stayed armed through three more, and a second tap held the same way sent it",
+    "on a touch screen, 3 times: a first tap on \"Rest\", \"Work about the place\", \"Work about the place\" held across a pause and resume armed its popup and sent nothing, the popup stayed armed through three more, and a second tap held the same way sent it",
     "no page errors"
   ],
   "measured": {
@@ -23,7 +23,7 @@
         "#event-log": 0,
         "#family-rows": 2,
         "#call-menu-rows": 0,
-        "page": 2,
+        "page": 9,
         "what": {
           "span.panel-reason": 2
         }
@@ -156,8 +156,8 @@
             "rest"
           ],
           "heldMs": [
-            193,
-            192
+            211,
+            200
           ]
         },
         {
@@ -167,19 +167,19 @@
             "work"
           ],
           "heldMs": [
-            189,
-            194
+            191,
+            193
           ]
         },
         {
-          "key": "rest",
-          "popup": "Rest",
+          "key": "work",
+          "popup": "Work about the place",
           "sent": [
-            "rest"
+            "work"
           ],
           "heldMs": [
-            182,
-            194
+            194,
+            186
           ]
         }
       ],

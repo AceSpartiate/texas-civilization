@@ -8,17 +8,17 @@
     "the store's line says its price now and how much it wants: \"pays 2 reales or 2 food for 1 bale\", \"The store buys all the cotton it is brought, at full price, until the Runaway Scrape; after that only what it can use.\"",
     "selling the cotton, Coin is pressed before the student chooses, and Food is not",
     "the popup says how they will go, in the server's words: \"Takes the wagon: 14 of 20 loads, more than the horse carries (7).\" (1366x768: 620x616, clear of the column, nothing over its controls, no tip over the map standing on it)",
-    "the list stands still while the family eats: food 29.8448 → 29.6896, the stock redrawn (\"The family has 29.6 food · 2 seed · 3 po…\"), and the + on the cotton is the same button",
+    "the list stands still while the family eats: food 29.903 → 29.7866, the stock redrawn (\"The family has 29.7 food · 2 seed · 3 po…\"), and the + on the cotton is the same button",
     "Enter sends the one order: Reuben drives off to Gonzales with the ox and wagon",
     "a second person is refused the wagon with who has it and what to do: \"This wants the wagon: 10 loads, and the horse carries 7. Reuben has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is free.\"; five bales go instead: \"Rides the horse: 5 of 7 loads.\"",
     "Escape closes the popup and sends nobody, and the ability bar is back",
     "at 1024x768 the popup fits (620x616), keeps off the column and has nothing over its controls",
-    "the student chooses: the popup marks the horse quickest and the wagon shut (\"Reuben has the ox and wagon, on the road to Gonzales.\"); on foot is chosen and said, \"Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.\", and Mahala walks while the horse stays home",
+    "the student chooses: the popup marks the horse quickest and the wagon shut (\"Reuben has the ox and wagon, on the road to Gonzales.\"); on foot is chosen and said, \"Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.\", and Henry walks while the horse stays home",
     "the goods come home: 177 reales (the 150 put by, 28 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: \"Reuben sold 14 cotton to Marta Ibarra for 28 reales.\" \"Reuben bought 2 seed at the store for 1 real.\"",
-    "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 26.9 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"), and Reuben and Mahala are both out hunting at once",
+    "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"), and Reuben and Henry are both out hunting at once",
     "a second horse is bought at the stock pens (Buy a horse: 25 reales, Buy a mule: 8 reales, Buy an ox: 15 reales, Buy a cow and calf: 10 reales, Buy a hog: 4 reales or 14 food): \"Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.\"; Dandy the gelding is seen led home beside Reuben, who rides Bess, and stands drawn in the yard beside her",
-    "two riders at once: Reuben and Mahala each ride to Gonzales on a horse of their own, both drawn in the saddle",
-    "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Reuben and Mahala have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Orpha drives it home behind Buck the ox (drawn wagon) and it stands in the yard 558 px from the family wagon",
+    "two riders at once: Reuben and Henry each ride to Gonzales on a horse of their own, both drawn in the saddle",
+    "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Reuben and Henry have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Mahala drives it home behind Buck the ox (drawn wagon) and it stands in the yard 558 px from the family wagon",
     "no page errors"
   ],
   "observed": {
@@ -64,13 +64,13 @@
     },
     "keptWhileEating": {
       "before": {
-        "food": 29.8448,
-        "stock": "The family has 29.8 food · 2 seed · 3 powder · 150 reales · 14 cotton. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox."
+        "food": 29.903,
+        "stock": "The family has 29.9 food · 2 seed · 3 powder · 150 reales · 14 cotton. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox."
       },
       "after": {
         "same": true,
-        "stock": "The family has 29.6 food · 2 seed · 3 powder · 150 reales · 14 cotton. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.",
-        "food": 29.6896
+        "stock": "The family has 29.7 food · 2 seed · 3 powder · 150 reales · 14 cotton. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.",
+        "food": 29.7866
       }
     },
     "refused": "This wants the wagon: 10 loads, and the horse carries 7. Reuben has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is free.",
@@ -119,7 +119,7 @@
     ],
     "chosen": "Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.",
     "home": {
-      "food": 26.9804,
+      "food": 27.0774,
       "seed": 4,
       "powder": 6,
       "money": 177,
@@ -134,7 +134,7 @@
       "price": "8 reales or 16 food",
       "shut": false
     },
-    "toolsStock": "The family has 26.9 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.",
+    "toolsStock": "The family has 27 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.",
     "pens": [
       {
         "id": "stockman:horse",
@@ -180,7 +180,7 @@
       }
     ],
     "horseHow": "Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.",
-    "animalsStock": "The family has 26.3 food · 4 seed · 6 powder · 166 reales. Tools: 2 rifles · a hoe · 2 felling axes. Animals: a horse · an ox.",
+    "animalsStock": "The family has 26.4 food · 4 seed · 6 powder · 166 reales. Tools: 2 rifles · a hoe · 2 felling axes. Animals: a horse · an ox.",
     "animalsAt1366": {
       "screen": {
         "w": 1366,
@@ -208,13 +208,13 @@
     "ledTrails": 58,
     "yard": {
       "bess": {
-        "x": 695.6263812383573,
-        "y": 293.962100947608,
+        "x": 695.4228130534151,
+        "y": 293.613490430904,
         "size": 74.25000000000001
       },
       "bought": {
-        "x": 627.0879196998958,
-        "y": 293.962100947608,
+        "x": 626.8843515149536,
+        "y": 293.613490430904,
         "size": 74.25000000000001
       }
     },
@@ -225,12 +225,12 @@
       "text": "Buy a new wagon100 realesA new wagon, driven home behind an ox from the stock pens - put an ox on the list too. Two wagons are two loads out at once. Whoever fetches it goes on foot or riding.−+"
     },
     "wagonAlone": "A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.",
-    "wagonHow": "Goes on foot: 0 of 5 loads. Reuben and Mahala have both horses. Drives the new wagon home behind the new ox, at an ox's pace.",
+    "wagonHow": "Goes on foot: 0 of 5 loads. Reuben and Henry have both horses. Drives the new wagon home behind the new ox, at an ox's pace.",
     "wagonCards": [
       {
         "way": "horse",
         "open": false,
-        "why": "Reuben and Mahala have both horses."
+        "why": "Reuben and Henry have both horses."
       },
       {
         "way": "foot",
@@ -283,21 +283,21 @@
         {
           "part": "rider",
           "x": 683,
-          "y": 370,
-          "height": 45,
+          "y": 372,
+          "height": 50,
           "shown": 0.6300000000000001
         }
       ]
     },
     "wagonsInYard": {
       "first": {
-        "x": 209.0286302948409,
-        "y": -159.87896657149582,
+        "x": 208.62519489503651,
+        "y": -160.5698496936679,
         "size": 76.72500000000001
       },
       "second": {
-        "x": 631.8496635003892,
-        "y": 204.47783720596198,
+        "x": 631.4480677660063,
+        "y": 203.79010451081814,
         "size": 76.72500000000001
       }
     },

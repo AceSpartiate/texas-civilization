@@ -4,16 +4,16 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. One real class through the join flow on the invented country (seed custom-proof-3). No LAN or district claim.",
   "checks": [
-    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":888,\"y\":167,\"sprite\":false})",
+    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":897,\"y\":157,\"sprite\":false})",
     "with Alvin Proofwright at home, none of the men's work is on Charity Proofwright's bar (plant-field, visit-shop, buy-furniture, milk-cow, keep-house, work-garden, wash-clothes, travel-gonzales, visit, work, rest); an order for it anyway is refused: \"Building is men's work, and Alvin is at home.\"",
-    "the cue: Charity Proofwright idle and the house not kept today - the pot pulsing on her portrait (21x21, cue-pulse) and Keep house glowing (cue-glow); on nobody else, no words",
+    "the cue: Charity Proofwright idle and the house not kept today - the pot pulsing on her portrait (23x23, cue-pulse) and Keep house glowing (cue-glow); on nobody else, no words",
     "sent to the garden, the cue leaves Charity Proofwright's portrait",
     "help, not lead: with Alvin Proofwright at the house it is on Charity Proofwright's bar with the helping-hands badge (\"Helps Alvin, and leaves off when they do.\"); pressed, she joins him: \"Charity Proofwright went to help Alvin: work on the house.\"",
     "the errand popup says \"Alvin's clothes want washing: the shops ask a quarter more and pay a fifth less.\", and 31 prices are dearer, seed \"2 reales or 3.75 food for 2 seed (1 real or 3 food to a clean customer)\"",
     "with Alvin Proofwright on the road to town, build-house appears on Charity Proofwright's bar, lit",
     "the family's story says: \"With Alvin gone to town, Charity went to work on the house herself.\"",
     "in gonzales: \"Calvin Oakes at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"\"; drawn over the speaker: \"I will thank you not to lean on the flour.\"; flies over him",
-    "children keep house: with Alvin Proofwright gone to the store, Obed Proofwright (7) has keep-house and wash-clothes on his bar; drawn gather; the story: \"Obed Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.\" \"Obed Proofwright did the wash: the clothes of 3 boiled, beaten and hung on the fence to dry.\"",
+    "children keep house: with Alvin Proofwright gone to the store, Obed Proofwright (7) has keep-house and wash-clothes on his bar; keeping it indoors, out of the weather; the story: \"Obed Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.\" \"Obed Proofwright did the wash: the clothes of 3 boiled, beaten and hung on the fence to dry.\"",
     "the story says: \"Alvin Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Alvin Proofwright's clothes and asked more.\"",
     "Charity Proofwright at work-garden: drawn hoe (mother-straw-work), and the garden drawn beside the house ({\"x\":683,\"y\":384,\"half\":23,\"season\":\"growing\"})",
     "Charity Proofwright at wash-clothes: drawn scrub (mother-straw-work)",
@@ -50,8 +50,8 @@
       }
     ],
     "fliesHome": {
-      "x": 888,
-      "y": 167,
+      "x": 897,
+      "y": 157,
       "sprite": false
     },
     "home": {
@@ -73,8 +73,8 @@
     "cue": {
       "mark": {
         "work": "keep-house",
-        "w": 21,
-        "h": 21,
+        "w": 23,
+        "h": 23,
         "animation": "cue-pulse"
       },
       "iconGlow": "cue-glow",
@@ -114,7 +114,7 @@
     "remark": "Calvin Oakes at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"",
     "said": [
       {
-        "id": "hh-1-parent-1:remark:54",
+        "id": "hh-1-parent-1:remark:40",
         "speakerId": "town-tanner-gonzales",
         "kind": "reconstructed",
         "text": "I will thank you not to lean on the flour.",
@@ -139,8 +139,8 @@
       }
     ],
     "fliesTown": {
-      "x": 699,
-      "y": 312,
+      "x": 701,
+      "y": 307,
       "sprite": false
     },
     "where": "gonzales",
@@ -157,28 +157,13 @@
       "child-water",
       "child-mind",
       "keep-house",
-      "wash-clothes",
-      "go-inside"
+      "wash-clothes"
     ],
     "childSent": {
       "keep-house": 1,
-      "wash-clothes": 1
+      "wash-clothes": 2
     },
-    "keep-house": {
-      "activity": "keep-house",
-      "stroke": "gather",
-      "art": "stand-in",
-      "clip": "boy-idle-s",
-      "frame": 0,
-      "since": 1311,
-      "count": 52,
-      "marks": 0,
-      "shift": 0,
-      "flip": false,
-      "request": "Request 2026-09-28 — people at work, item 9",
-      "tool": null,
-      "heading": null
-    },
+    "childIndoors": true,
     "childStory": [
       "Obed Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.",
       "Obed Proofwright did the wash: the clothes of 3 boiled, beaten and hung on the fence to dry."
@@ -216,6 +201,7 @@
       "visit-shop",
       "buy-furniture",
       "milk-cow",
+      "keep-house",
       "travel-gonzales",
       "visit",
       "work",
@@ -231,7 +217,6 @@
     "docs/evidence/custom-work-errand-dearer.png",
     "docs/evidence/custom-work-mother-lit.png",
     "docs/evidence/custom-work-town-remark.png",
-    "docs/evidence/custom-work-child-keep-house.png",
     "docs/evidence/custom-work-work-garden.png",
     "docs/evidence/custom-work-wash-clothes.png",
     "docs/evidence/custom-work-garden.png"

@@ -369,6 +369,10 @@ test('help, not lead, the other way: a man or boy of ten joins the women\'s work
     const said = choreAvailability(world, household, person, 'keep-house');
     assert.ok(said.can && said.help === elena.id, `${person.name} may not help her keep house: ${said.why}`);
   }
+  // A boy of eight does not help (keeping house is a child's work for a lone parent, so his age is the help's own to refuse).
+  mateo.age = 8;
+  assert.equal(choreAvailability(world, household, mateo, 'keep-house').can, false, 'a boy of eight helps his mother keep house');
+  mateo.age = 12;
   send(world, household.id, thomas.id, 'keep-house');
   assert.equal(thomas.chore.alongside, elena.id);
   assert.equal(thomas.chore.helping, elena.id);

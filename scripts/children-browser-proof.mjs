@@ -337,6 +337,9 @@ try {
   }
   ok(`told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (${boyBar.keys.filter(one => /^(flee|road|camp|child)-/.test(one.key)).map(one => one.key).join(', ')})`);
   // One milk cow (owner, 2026-09-27: "Yes, one cow"): the same child, the bundle tied, puts a rope on her.
+  // The bundle done by the server's own record, then on the page: the page's last tick can still be one from before the bundle was
+  // begun, and a press sent then was refused "already tying up a bundle" (seen 2026-10-04, when the tick took a little longer to make).
+  for (const until = Date.now() + 90000; roadApp.state.world.entities[boy.id].chore; await road.waitForTimeout(250)) assert.ok(Date.now() < until, 'the bundle was never tied');
   await road.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, boy.id, { timeout: 90000 });
   assert.ok((await barOf(road)).keys.some(one => one.key === 'flee-cow' && one.can), `the milk cow is not on the child's bar: ${JSON.stringify((await barOf(road)).keys.map(one => one.key))}`);
   await road.locator('.panel-row[data-focused=true] .panel-icon[data-key="flee-cow"]').click();

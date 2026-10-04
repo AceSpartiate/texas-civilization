@@ -25,7 +25,7 @@ const C = 'sim/chores.mjs', K = 'sim/custom.mjs', H = 'sim/housework.mjs', A = '
 const N = 'sim/neighbours.mjs', CH = 'sim/childhood.mjs';
 const INJECTIONS = [
   // The rule.
-  { name: 'no custom at all', edits: [one(C, '{ const why = customRefused(world, household, entity, choreId); if (why) return', '{ const why = null; if (why) return')], expect: T.rule },
+  { name: 'no custom at all', edits: [one(C, '    const why = customRefused(world, household, entity, choreId);\n    if (why && !(helping', '    const why = null;\n    if (why && !(helping')], expect: T.rule },
   { name: 'the mirror lost: a man may do the women\'s work with a woman at home', edits: [one(K, "  const sex = SEX_OF[whose];\n  if (sexOf(entity) === sex) return null;\n  const home =", "  const sex = 'male';\n  if (sexOf(entity) === sex) return null;\n  const home =")], expect: T.rule },
   { name: 'the refusal not marked, so left on her list', edits: [one(C, 'return { can: false, why, custom: CUSTOM[choreId]?.[0] || CATTLE[0] }', 'return { can: false, why }')], expect: T.rule },
   { name: 'the custom-refused work sent greyed again', edits: [one(C, '        ? null\n', '        ? { id, can: false, why }\n')], expect: T.bar },
@@ -44,7 +44,7 @@ const INJECTIONS = [
   { name: 'no man at all said wrong', edits: [one(K, "`With no ${sex === 'male' ? 'grown man' : 'grown woman'} in the family`", "`With the men away`")], expect: T.lone },
   // Auto, the job in hand, the cattle.
   { name: 'auto never keeps house meanwhile', edits: [one(A, '        if (houseworkMeanwhile(world, household, person, { beginTravel, modeAvailability })) { order.held = why; continue; }\n', '')], expect: T.auto },
-  { name: 'a man home stops her work in hand', edits: [one(C, "  if (heldIndoors(entity)) return;\n  const state = entity.chore;\n", "  if (heldIndoors(entity)) return;\n  if (customRefused(world, household, entity, entity.chore.id)) return abandonChore(world, household, entity, chore);\n  const state = entity.chore;\n")], expect: T.home },
+  { name: 'a man home stops her work in hand', edits: [one(C, "  if (heldIndoors(entity) && !chore.indoors) return;\n  const state = entity.chore;\n", "  if (heldIndoors(entity) && !chore.indoors) return;\n  if (customRefused(world, household, entity, entity.chore.id)) return abandonChore(world, household, entity, chore);\n  const state = entity.chore;\n")], expect: T.home },
   { name: 'a woman works the cattle with a man at home', edits: [one(C, 'export const herdWorkHere = (world, household, entity) => (herdWork(entity) === \'all\' && customWhy(world, household, entity, CATTLE, homeWork) ? \'hogs\' : herdWork(entity));', 'export const herdWorkHere = (world, household, entity) => herdWork(entity);')], expect: T.cattle },
   { name: 'the hogs only not kept as she sets out', edits: [one(C, " if (herdWorkHere(world, household, entity) === 'hogs' && herdWork(entity) === 'all') entity.chore.hogsOnly = true;", '')], expect: T.cattle },
   { name: 'the range refused her with hogs to mind', edits: [one(C, "    if (herdWork(entity) !== 'all' || herdOf(household).cattle < 1 || herdOf(household).hogs > 0) return null;", "    if (herdWork(entity) !== 'all' || herdOf(household).cattle < 1) return null;")], expect: T.cattle },
@@ -71,7 +71,7 @@ const INJECTIONS = [
   { name: 'the words never over the speaker', edits: [one(H, '    if (!remark?.said || !remark.by || world.tick - remark.tick >= REMARK_TICKS) continue;', '    continue;')], expect: T.town },
   { name: 'the words over the speaker for ever', edits: [one(H, '    if (!remark?.said || !remark.by || world.tick - remark.tick >= REMARK_TICKS) continue;', '    if (!remark?.said || !remark.by) continue;'), one(H, '      if (last?.said && world.tick - last.tick >= REMARK_TICKS) { delete last.said; delete last.by; }\n', '')], expect: T.town },
   { name: 'the page not sent the words', edits: [one(W, ', ...remarkLines(world, household)];', '];')], expect: T.town },
-  { name: 'the volunteers speak as townsmen', edits: [one(H, "  if (person.service || speaker?.service) return 'army';\n", '')], expect: T.war },
+  { name: 'the volunteers speak as townsmen', edits: [one(H, "  if (withTheArmy(person) || speaker?.service) return 'army';\n", '')], expect: T.war },
   // The prices.
   { name: 'never dearer', edits: [one(H, "  return pay === 'coin' ? Math.ceil(amount * DEARER - 1e-9) : Math.ceil(amount * DEARER * 4 - 1e-9) / 4;", '  return amount;')], expect: T.prices },
   { name: 'never paid less', edits: [one(H, "  return pay === 'coin' ? Math.round(amount * CHEAPER) : Math.round(amount * CHEAPER * 4) / 4;", '  return amount;')], expect: T.prices },
@@ -84,7 +84,10 @@ const INJECTIONS = [
   { name: 'no help across the custom at all', edits: [one(C, "  if (!chore?.crew || choreId === 'look-to-stock' || !CUSTOM[choreId]) return null;", '  return null;')], expect: T.help },
   { name: 'a helper may begin it with nobody of its custom at it', edits: [one(K, '  return atIt.find(person => person.id !== entity.id && sexOf(person) === sex && !person.chore?.helping) || null;', '  return atIt.find(person => person.id !== entity.id && sexOf(person) === sex && !person.chore?.helping) || entity;')], expect: T.help },
   { name: 'help one way only: the women\'s work never helped', edits: [one(K, '  const sex = SEX_OF[row[0]];\n  if (sexOf(entity) === sex) return null;\n  return atIt', "  const sex = SEX_OF[row[0]];\n  if (sexOf(entity) === sex || row[0] === 'women') return null;\n  return atIt")], expect: T.helpBack },
-  { name: 'a girl of nine helps', edits: [one(K, 'export const HELPS_FROM_AGE = 10;', 'export const HELPS_FROM_AGE = 9;')], expect: T.help },
+  // The age of ten is held twice over below it - nobody under ten is sent to anything but a child's work, and keeping house's own age
+  // ladder refuses a child of a two-parent family - so lowering it changes nothing (tried, 2026-10-04: a boy of eight, missed). Raised,
+  // a girl of twelve loses the help.
+  { name: 'a girl of twelve may not help', edits: [one(K, 'export const HELPS_FROM_AGE = 10;', 'export const HELPS_FROM_AGE = 13;')], expect: T.help },
   { name: 'help not marked on the bar', edits: [one(C, '      ? { id, can: true, ...(help && { help }),', '      ? { id, can: true,')], expect: T.help },
   { name: 'help drawn as her own work', edits: [one(P, '      ...(helps && { help: true }),\n', '')], expect: T.help },
   { name: 'a helper leads on when he leaves off', edits: [one(C, '  if (lead) { state.helping = lead.id; return false; }', '  if (lead || true) return false;')], expect: T.helpRaise },
@@ -104,7 +107,8 @@ const INJECTIONS = [
   { name: 'the cue on somebody on auto', edits: [one(H, '    const idle = people.filter(person => !person.chore && !person.travel && !person.auto && ', '    const idle = people.filter(person => !person.chore && !person.travel && ')], expect: T.cue },
   { name: 'the cue on somebody who may not do it', edits: [one(H, '      if (said.can && !said.help) return { personId: person.id, work };', '      if (!said.help) return { personId: person.id, work };')], expect: T.cue },
   { name: 'the cue for the wash with nobody wanting it', edits: [one(H, "    if (work === 'wash-clothes' && !washWanted(world, household).length) continue;\n", '')], expect: T.cue },
-  { name: 'the cue on somebody busy', edits: [one(H, '    const idle = people.filter(person => !person.chore && ', '    const idle = people.filter(person => ')], expect: T.cue },
+  { name: 'the cue on the only grown hand at home', edits: [one(H, '      if (lonePair(world, household, person)) continue;\n', '')], expect: T.cue },
+  { name: 'the cue with the food low', edits: [one(H, "  if (larder && (larder.stage !== 'fed' || (larder.days !== null && larder.days < CUE_FOOD_DAYS))) return null;\n", '')], expect: T.cue },
   { name: 'the icon does not glow with the cue', edits: [one(P, '      ...(entry.can && entity.cue === entry.id && { cue: true }),\n', '')], expect: T.cue },
   // Wash whoever's dirty (owner, 2026-10-04).
   { name: 'never washed for before the week is out', edits: [one(H, '      if (since !== null && since < WASH_AGAIN_DAYS && !washWanted(world, household).length) return', '      if (since !== null && since < WASH_AGAIN_DAYS) return')], expect: T.washFor },

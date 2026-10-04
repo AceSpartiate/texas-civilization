@@ -262,6 +262,10 @@ test('children keep house: a child of seven keeps house and does the wash for a 
 test('prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done', () => {
   const { world, household, thomas, elena, rosa, mateo } = withChildren('house-cue');
   const cues = () => Object.fromEntries(view(world, 'hh-1').entities.filter(one => one.cue).map(one => [one.id, one.cue]));
+  // Short of food the ways to food glow instead, and the house's cue is quiet.
+  household.resources.food = 2;
+  assert.deepEqual(cues(), {}, 'the house\'s cue with the food low');
+  household.resources.food = 200;
   // The house not kept today, everybody idle: the mother - not the father, whose work it is not, nor the children.
   assert.deepEqual(cues(), { [elena.id]: 'keep-house' });
   const icon = panelActions({ entity: view(world, 'hh-1').entities.find(one => one.id === elena.id), offered: view(world, 'hh-1').work[elena.id], catalogue: new Map(), settable: true })
@@ -281,13 +285,15 @@ test('prompt the student: the idle woman is pointed at keeping house, then at th
   // The wash wanted: the wash.
   washedAgo(world, CLEAN_DAYS);
   assert.deepEqual(cues(), { [elena.id]: 'wash-clothes' });
-  // With the father gone the children may wash for her: the mother first, and with her on auto the eldest idle child.
+  // With the father gone she is the only grown hand at home, with all the family's work: never pointed at the house, and the eldest
+  // idle child, who may keep house for her, is pointed at the wash instead.
   thomas.health = { condition: 'dead' };
-  assert.deepEqual(cues(), { [elena.id]: 'wash-clothes' });
-  elena.auto = true;
-  assert.deepEqual(cues(), { [rosa.id]: 'wash-clothes' }, 'the eldest idle child was not pointed at the wash for a lone mother');
+  assert.deepEqual(cues(), { [rosa.id]: 'wash-clothes' }, 'the lone mother, not the eldest idle child, was pointed at the wash');
+  // No child of seven: nobody.
+  rosa.age = 6; mateo.age = 5;
+  assert.deepEqual(cues(), {}, 'the lone mother was pointed at the house with no child to do it');
+  rosa.age = 8; mateo.age = 7;
   // Somebody at the wash already: nobody is pointed at it.
-  delete elena.auto;
   send(world, elena.id, 'wash-clothes');
   assert.deepEqual(cues(), {});
   assert.equal(mateo.cue, undefined);

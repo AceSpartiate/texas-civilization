@@ -22,8 +22,8 @@
 //   2c. help, not lead: the father at the house, the house on her bar with the helping-hands badge; pressed, she joins him as help;
 //   4b. children keep house: with the father gone on the errand to the store, their son of eight keeps house and does the wash for his mother;
 //   6.  the wash for whoever's dirty: the father home from town in dirty clothes is washed for before the week is out, and alone.
-// The eldest son is made eight (`app.state.world`, the server's own world) if the roll made him younger, so a child of seven or more is
-// there to keep house.
+// The seed's eldest son is seven. The family is rolled in the world factory and given sixty food, since the cue is quiet while the
+// food is low.
 //
 // Same computer only: headless Chrome. Run: npm run test:custom-work
 import assert from 'node:assert/strict';
@@ -31,6 +31,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { rollFamily } from '../sim/world.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { CUSTOM } from '../sim/custom.mjs';
 
@@ -72,6 +73,10 @@ try {
   const app = createClassroom({ seed: SEED, playerCount: 5, tickMs: 160, worldFactory: seed => {
     const world = createGonzalesWorld(seed, 5);
     world.washBase = -20;
+    // The proof's family rolled here, as the join flow would roll it, so it can be given food for a few weeks: the house's cue is
+    // quiet while the food is low (sim/housework.mjs `CUE_FOOD_DAYS`), and the five food it is dealt is under a week of its eating.
+    rollFamily(world, world.households['hh-1']);
+    world.households['hh-1'].resources.food = 60;
     return world;
   } });
   const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
@@ -107,12 +112,12 @@ try {
   assert.ok(fatherId && motherId, `the seed did not give a father and a mother: ${JSON.stringify(roles)}`);
   const nameOf = id => people.find(one => one.id === id)?.name || id;
   const him = { id: fatherId, name: nameOf(fatherId) }, her = { id: motherId, name: nameOf(motherId) };
-  // The eldest child, made eight if younger: a child of seven or more keeps house for a lone parent (owner, 2026-10-04).
+  // The eldest child: a child of seven or more keeps house for a lone parent (owner, 2026-10-04).
   const childId = people.filter(one => !['father', 'mother'].includes(roles[one.id])).sort((a, b) => (b.age ?? 0) - (a.age ?? 0))[0]?.id;
   assert.ok(childId, 'the seed gave no child');
-  if (!(app.state.world.entities[childId].age >= 7)) app.state.world.entities[childId].age = 8;
-  const kid = { id: childId, name: nameOf(childId), age: app.state.world.entities[childId].age };
-  observed.family = people.map(one => ({ id: one.id, name: one.name, role: roles[one.id], age: one.id === childId ? kid.age : one.age }));
+  const kid = { id: childId, name: nameOf(childId), age: people.find(one => one.id === childId)?.age };
+  assert.ok(kid.age >= 7, `the eldest child is ${kid.age}, too young to keep house: choose a seed with a child of seven or more`);
+  observed.family = people.map(one => ({ id: one.id, name: one.name, role: roles[one.id], age: one.age }));
   for (let i = 0; i < 2; i++) { await page.locator('button[data-view=in]').click(); await page.waitForTimeout(250); }
 
   // 1. A dirty man at home: flies over him, and the page told so.
@@ -147,7 +152,10 @@ try {
     const row = document.querySelector(`.panel-row[data-entity-id="${id}"]`);
     const mark = row?.querySelector('.panel-cue-mark');
     return mark && !mark.hidden && mark.dataset.work === 'keep-house' && row.querySelector('.panel-icon[data-key="keep-house"]')?.dataset.cue === 'true';
-  }, her.id, { timeout: 40000 });
+  }, her.id, { timeout: 40000 }).catch(async error => {
+    console.log('DEBUG cue', JSON.stringify(await page.evaluate(id => { const w = window.__snapshot.world; return { larder: w.household.larder, food: w.household.resources?.food, her: w.entities.find(one => one.id === id), cues: w.entities.filter(one => one.cue).map(one => [one.id, one.cue]) }; }, her.id)).slice(0, 1500));
+    throw error;
+  });
   observed.cue = await page.evaluate(([id, others]) => ({
     mark: (() => { const mark = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-cue-mark`); const box = mark.getBoundingClientRect(); return { work: mark.dataset.work, w: Math.round(box.width), h: Math.round(box.height), animation: getComputedStyle(mark).animationName }; })(),
     iconGlow: getComputedStyle(document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="keep-house"]`)).animationName,
@@ -257,7 +265,7 @@ try {
   observed.childBar = await barKeys(page, kid.id);
   // A child may wander off a job before it is done (sim/obedience.mjs): sent again until the story says it was done. Slowed, so a
   // step of it lasts long enough to be drawn.
-  app.setPace(1200);
+  app.setPace(2500);
   const childDid = { 'keep-house': /kept house/, 'wash-clothes': /did the wash/ };
   observed.childSent = {};
   for (const work of ['keep-house', 'wash-clothes']) {
@@ -267,24 +275,28 @@ try {
     for (let attempt = 0; attempt < 10; attempt++) {
       sent = await command(page, { action: 'chore', entityId: kid.id, chore: work });
       if (sent.status === 200 || !/stopped to talk|holding|baby|already/.test(sent.body?.error || '')) break;
+      // Wandered off to play (sim/obedience.mjs): called off it, as a student would, and sent again.
+      if (/already/.test(sent.body?.error || '')) await command(page, { action: 'stop-chore', entityId: kid.id });
       await page.waitForTimeout(800);
     }
     assert.equal(sent.status, 200, `${kid.name}, ${work}: ${JSON.stringify(sent.body)}`);
     if (work === 'keep-house' && !observed['keep-house']) {
       // Drawn at the children's own stroke (stand-in: the kindling's gathering, public/work-art.js `WORK['keep-house'].child`) - or
       // the job left off first, and sent again.
+      // In out of the weather he keeps house indoors (`indoors`, sim/chores.mjs), and is not drawn on the map: the roof on his portrait.
       await page.waitForFunction(([id, a]) => (window.__workDrawn?.[id]?.activity === a && window.__workDrawn[id].stroke) || !window.__snapshot.world.entities.find(one => one.id === id)?.chore, [kid.id, work], { timeout: 60000 });
       const drawn = await page.evaluate(([id, a]) => (window.__workDrawn?.[id]?.activity === a ? { ...window.__workDrawn[id] } : null), [kid.id, work]);
       if (drawn) { observed['keep-house'] = drawn; await shot(page, 'child-keep-house'); }
+      else if ((await snapshot(page)).entities.find(one => one.id === kid.id)?.shelter?.at) observed.childIndoors = true;
     }
     await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, kid.id, { timeout: 300000 });
    }
   }
   app.setPace(400);
-  assert.ok(observed['keep-house'], `${kid.name} was never drawn keeping house`);
+  assert.ok(observed['keep-house'] || observed.childIndoors, `${kid.name} was never drawn keeping house, nor indoors at it`);
   observed.childStory = (await snapshot(page)).events.filter(event => event.actorId === kid.id && /kept house|did the wash/.test(event.text || '')).map(event => event.text);
   assert.equal(observed.childStory.length, 2, `the child's story: ${observed.childStory.join(' | ')}`);
-  ok(`children keep house: with ${him.name} gone to the store, ${kid.name} (${kid.age}) has ${observed.childBar.filter(k => ['keep-house', 'wash-clothes'].includes(k)).join(' and ')} on his bar; drawn ${observed['keep-house'].stroke}; the story: ${observed.childStory.map(text => `"${text}"`).join(' ')}`);
+  ok(`children keep house: with ${him.name} gone to the store, ${kid.name} (${kid.age}) has ${observed.childBar.filter(k => ['keep-house', 'wash-clothes'].includes(k)).join(' and ')} on his bar; ${observed['keep-house'] ? `drawn ${observed['keep-house'].stroke}` : 'keeping it indoors, out of the weather'}; the story: ${observed.childStory.map(text => `"${text}"`).join(' ')}`);
   await page.waitForFunction(id => window.__snapshot.world.events.some(event => event.actorId === id && /bought 2 seed .* to a clean customer/.test(event.text || '')), him.id, { timeout: 120000 });
   observed.paid = (await snapshot(page)).events.find(event => event.actorId === him.id && /bought 2 seed/.test(event.text || '')).text;
   ok(`the story says: "${observed.paid}"`);

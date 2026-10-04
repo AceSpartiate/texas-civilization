@@ -63,8 +63,9 @@ verbatim, from the multiple choice:
   husband is at the war. A child on auto takes it up first; so do the families nobody plays.
 - **Prompt the student** (§8): a cue, not text - the work's picture (the pot over the fire, the washtub) pulsing on the portrait of the
   one idle person who may begin it, and the matching icon glowing on her bar, while the house is not kept today or somebody at home
-  wants the wash. Never on somebody busy, on auto (who keeps house by herself) or stopped by a child, and gone once the work is done
-  or somebody is at it.
+  wants the wash. Never on somebody busy, on auto (who keeps house by herself) or stopped by a child, gone once the work is done or
+  somebody is at it, **quiet while the food is low** and **never on the only grown hand at home** (for a lone parent it points at a
+  child of seven instead) - both found by measuring a student who follows it (BALANCE.md §24).
 - **Wash whoever's dirty** (§6, `FIC-GONZ-1160`): the weekly wash day stays the household's; before the week is out the wash may be done
   again whenever somebody at home wants it - dirty, or away on wash day - cleaning only them, so the one going to town can be washed
   first.
@@ -258,7 +259,11 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
   mother, then the eldest child; so a woman or girl while one is home, a man when none is, a child for a lone parent - has the work's
   own picture (the pot over the fire, or the washtub) **pulsing in the foot of her portrait**, and the matching icon on her bar **glows
   blue** (`data-cue`). No words. Not on somebody busy, on auto, stopped by a child, sick or away; gone the tick somebody is at that work
-  or it is done. One cue at a time for the family: the house before the wash.
+  or it is done. One cue at a time for the family: the house before the wash. **Quiet while the food is low** (under a week of the
+  family's eating, `CUE_FOOD_DAYS`, the food gauge's own "low": the ways to food glow then) and **never on the only grown hand at home**
+  (a lone parent, or a mother whose husband is away: the cue goes to a child of seven who may keep house for them, or to nobody).
+  Measured (BALANCE.md §24): a student who pressed the cue first, before both rules, drew lone parents from the field into the wash and
+  lost children to hunger at home.
 - The map: a woman keeping house at the front of the house, in the garden, at the wash; **the garden beside the house**; **flies over
   a dirty person**; the townsman's words over his head.
 - The errand popup: the sentence why, with flies, and the dearer prices in ember.
@@ -300,18 +305,28 @@ all the men's work roofs its house one to three days later; a lone parent doing 
 children loses children to hunger at home in the winter); a student who never finds *Keep house* is dirty in town nine times in ten;
 seven questions with proposed fixes for the owner, none built.
 
+[BALANCE.md](BALANCE.md) §24 (2026-10-04, the owner's answers built and measured again with §23's harness): the house roofed a day or
+more sooner where a woman or girl may help the one man (class median 2.5 to 1.4 days, 1.2 before the custom); grown women without work
+16% of their time (65% before the custom), girls of ten to fifteen 42% (81%); a lone mother of small children loses no child to hunger
+at home (two in §23) but still goes hungry, since a child's keeping house saves little; a student who follows the cue keeps house and is
+dirty at 38% of town arrivals against 90% for one who never finds it; dirty arrivals of a washing family 38% to 30%; the recalled man at
+home again. Two remainders put to the owner as questions, not built.
+
 ## 11. Evidence
 
 - `tests/custom-work.test.mjs` (12 tests: the rule and its words, and the other sex's work off the list; off the bar, and on it, lit, the tick it opens; opening for every way of being away; boys under sixteen; the line
   once a reason; the lone mother and the lone father; every step of the guided start has a hand in all three shapes, and its work
   played through by whoever the custom allows; auto; the job in hand finished; the cattle; the families nobody plays) and
   `tests/housework.test.mjs` (7: keeping house and the saving; the garden; the wash; the remark in town; at the war; the prices; an
-  old save). Each proved by injection: `npm run test:custom-work-injections`, **46 of 46** (2026-10-04) caught by the test written for
-  them, 37 by that test alone ([record](evidence/custom-work-injections.json)).
+  old save). Each proved by injection: `npm run test:custom-work-injections`, **73 of 73** (2026-10-04, with the answers below; 46 of
+  46 before them) caught by the test written for them, 53 by that test alone ([record](evidence/custom-work-injections.json)).
 - The owner's answers of 2026-10-04: `tests/custom-work.test.mjs` *help, not lead* (a woman or girl of ten joins the yard he is at, drawn
   as help, faster, never begun; a girl of nine not), *help, not lead, the other way* (a man and a boy of twelve join her at the house
-  and the wash, faster), *help at work each puts their own hands into* (she helps raise the house, leaves off when he does, and goes on by
+  and the wash, faster; a boy of eight not), *help at work each puts their own hands into* (she helps raise the house, leaves off when he does, and goes on by
   necessity when he is dead), *only while serving*, and *the families nobody plays keep the custom* (now: and their women help);
-  `tests/housework.test.mjs` *children keep house*, *prompt the student*, *wash whoever's dirty*. Each proved by injection (the record
-  below).
-- `npm run test:custom-work`: the browser proof with screenshots, 14 checks - none of the men's work on the mother's bar with the father home and an order for it refused in words, the work lit once he is on the road, and the same button back when he goes again ([record](evidence/custom-work-browser.json)).
+  `tests/housework.test.mjs` *children keep house*, *prompt the student* (not while the food is low, never on the lone mother: her
+  child of eight instead), *wash whoever's dirty*. Each of the 27 new injections caught by the test written for it; two first tried
+  were caught by nothing, because another gate already holds the line (a boy of eight helping, held by the age ladder; the cue on
+  somebody busy, held by `choreAvailability`), and were replaced by ones that bite (a girl of twelve refused; the cue on the only grown
+  hand at home).
+- `npm run test:custom-work`: the browser proof with screenshots, 17 checks - none of the men's work on the mother's bar with the father home and an order for it refused in words, the work lit once he is on the road, and the same button back when he goes again; and since 2026-10-04 the cue on the idle mother (and off her once busy), the house on her bar with the helping-hands badge while he builds and her joining him as help, their son of seven keeping house and doing the wash while the father is on the errand, and the father washed for, alone, before the week is out ([record](evidence/custom-work-browser.json)).

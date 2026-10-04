@@ -1546,3 +1546,94 @@ both parents and a son of exactly 16 or 17. Not a problem the numbers show; aske
 deaths are counts of a few families. The *playing* student is the director's policy, which places the women's work before the trips to
 town and more clearing (§22); a student who orders differently will split a lone parent's day differently. The markup is what a
 student's errands would have paid on the same coin, not money any family in these runs lost.
+
+## 24. The owner's answers to §23, built and measured again (2026-10-04, owner-decided; not released)
+
+The owner answered §23.2's seven questions the same day (verbatim in [CUSTOMARY_WORK.md](CUSTOMARY_WORK.md) §1c): **"Help, not lead"**
+(issues 1 and 5, both ways), **"Children keep house"** (2), **"Prompt the student"** (3), **"Wash whoever's dirty"** (4), **"Only while
+serving"** (6) and **"Leave it"** (7). Built on branch `custom-work-3` (CUSTOMARY_WORK.md §2, §2b, §4b, §6, §8): women and girls of ten
+join men's work a man is at and men and boys of ten the women's work a woman is at, never begin it, and leave off with him; a child of
+seven keeps house and washes whenever only one custom is kept at home; a pulsing pot or washtub on the one idle person who may do the
+house work (never the only grown hand at home, never while the food is low); the wash before the week is out for whoever at home is
+dirty or missed wash day; a man of the army away only while serving or a prisoner.
+
+**Measured again** with §23's harness, the same six classes and seeds, against the same tree before the custom (726f9411, in a fresh
+temporary worktree, removed after): `node scripts/custom-viability.mjs --study --seeds viab-1,viab-2,viab-3,viab-4,viab-5,viab-6
+--before <726f9411> --jobs 18 --cued --tmp <scratch> --out docs/evidence/custom-viability.json`, then `node
+scripts/custom-viability-report.mjs --out docs/evidence/custom-viability-summary.json` ([raw](evidence/custom-viability.json),
+[by shape](evidence/custom-viability-summary.json), [edges](evidence/custom-viability-edges.json)). The tree before the custom gives the
+same numbers as in §23 (the runs are deterministic). A third student is added, **cued**: the *nohouse* student who never finds the house
+work by himself but presses what the cue points at, first - what "Prompt the student" is for. *§23* below is the custom as it was before
+these answers (§23.1's *now* columns); *now* is with them.
+
+### 24.1 Issue by issue
+
+| Issue | Measure | Before the custom | §23 | **Now** |
+| --- | --- | --- | --- | --- |
+| **1. One man for the men's work** | Day the house was roofed, class median | 1.2 | 2.5 | **1.4** |
+| | manyDaughters / fatherGirls / motherSon16 / oneManManyWomen / twoParentMixed | 1.1 / 1.2 / 1.0 / 0.9 / 1.2 | 3.9 / 4.0 / 2.4 / 1.8 / 2.1 | **2.4 / 2.6 / 1.0 / 0.9 / 2.2** |
+| | Share of a family's days at home with somebody stuck (playing) | - | 32% | **24%** |
+| | Time with no work, all 90 families pooled: men / women / boys / girls 10-15 | 56 / 65 / 87 / 81% | 38 / 17 / 72 / 44% | **31 / 16 / 65 / 42%** |
+| | Women's time at men's work (help), all | 4% | 3% | **3%**; helps begun or joined **52 a family** over the game |
+| **2. Lone parents** | motherSmall (lone mother, all under ten): plots cleared end P1 / field harvest food | 3 / 134 | 1.5 / 29 | **2 / 38.5** |
+| | motherSmall: food end of P1-P2-P3 / families hungry / hunger deaths (at home) | 12-21-8 / 1 / 1 (0) | 10-6-7 / 3 / 2 (2) | **10-9-7 / 5 / 0 (0)** |
+| | motherSmall: final number / days the house was kept by the child, a family | 430 / - | 215 / - | **440 / 61 of 71** |
+| | fatherBaby (lone father, infants 4, 2, 0): final / harvest | 6,077 / 448 | 2,536 / 279 | **2,217 / 285** (no child of seven: nothing to change) |
+| | fatherGirls (lone father, girls 13, 11, 8, 5): roofed / final / hunger deaths | 1.2 / 7,594 / 0 | 4.0 / 5,319 / 4 (road) | **2.6 / 7,349 / 0** |
+| | rolled lone mothers (3): final | 4,469 | 2,460 | **2,419** |
+| **3. Never finds Keep house** | nohouse: women / girls with no work; town arrivals dirty; markup a family | 65 / 81%; -; - | 64 / 83%; 90%; 72 reales | **64 / 82%; 90%; 74 reales** (unchanged: he never finds it) |
+| | **cued** (presses the cue first): women / girls with no work; arrivals dirty; markup a family | - | - | **30 / 56%** pooled (median woman 15%); **38%**; **27 reales** |
+| | cued: food P1-P2-P3; hunger deaths (at home); final median | - | (nohouse 29-37-15; 6 (2); 21,225) | **30-40-15; 6 (2); 21,912** (nohouse now 31-37-15; 4 (0); 21,698) |
+| **4. Away on wash day** | Town arrivals dirty, playing (all) / lone mothers of small children | - | 38% / 66% | **30% / 55%** |
+| | Markup a student's errands would have paid, a family (playing) | - | 28 reales | **21 reales** |
+| | Washes for whoever wanted it before wash day, a family | - | - | **5.9**; remarks about the smell 15.7 -> **12.5** a family |
+| **5. One woman, many men** | oneWomanManyMen: men / boys with no work (pooled) | 69 / 94% | 64 / 91% | **54 / 86%**; helps **209 a family** |
+| | oneWomanManyMen: stuck share; garden days; washes; dirty at home | - | 88%; 39; 13; 50% | **82%; 40; 14; 43%** |
+| **6. Recalled or deserted** | Edge probe: father released or deserted and home - may the mother fell and hunt? | - | yes (a fault) | **no**: he keeps the custom |
+| **7. Son of sixteen** | son16Home: roofed / final / rank | 1.2 / 68,770 / 4 | 1.3 / 58,805 / 5 | **1.1 / 58,272 / 5**; helps 42 a family (she joins him) |
+| **All 90** | Hunger deaths (at home) / families hungry / final median / coin | 5 (0) / 15 / 21,775 / 328 | 9 (2) / 18 / 20,373 / 276 | **2 (0) / 21 / 20,736 / 285** |
+
+### 24.2 What it says
+
+- **Issue 1 is mostly answered**: the house goes up a day or more sooner wherever a woman or girl may help the one man (manyDaughters
+  3.9 to 2.4 days, fatherGirls 4.0 to 2.6, motherSon16 2.4 to 1.0, oneManManyWomen 1.8 to 0.9; the class median 2.5 to 1.4 against 1.2
+  before the custom). twoParentMixed did not move (2.1 to 2.2): the boy of thirteen already counted as a second hand at the house, and
+  the women's own work takes the mother's mornings. Nobody stands idle as before: grown women are without work 16% of their time at home
+  (65% before the custom), girls of ten to fifteen 42% (81%). *Help, not lead* only joins work in hand, so "stuck" (somebody free, a
+  needed work there and nobody of its custom at it) falls less, 32% to 24%.
+- **Issue 2 is half answered.** A lone mother of small children now loses no child to hunger at home (two in §23), and her final number
+  is back to before the custom (440 against 430; 215 in §23); her son of eight keeps the house on most days. But five of six such
+  families go hungry at some time (three in §23, one before), her field brings in 38.5 food against 134 before the custom, and the plot
+  a period is still short: **a child's keeping house saves what the child's own housework saves** (CUSTOMARY_WORK.md §4b's `ceiling:`),
+  which at eight is almost nothing, so the house kept by the son feeds the family little while the mother still washes and gardens. The
+  lone father of infants (no child of seven) is unchanged (2,217; 2,536 in §23; 6,077 before), as the rule says. The director lets the
+  lone parent keep the house herself when she is free and gives it to the child only while she is at the farm; measured the other way
+  round first (the child before her), three of motherSmall's children died of hunger (two at home) in six families.
+- **Issue 3: the cue works when it is followed.** A student who never finds the house work but follows the cue keeps house on 70 days
+  of the game (the never-finding student, none), the women have work but for 15% of the time (62%), only 38% of town arrivals are dirty
+  (90%) and the markup is 27 reales a family (74). The cue was measured three times as it was built. First it pointed at whoever was
+  idle, lone parents included, whatever the larder held: followed first, it drew lone parents from the field and the hunt into the wash
+  and the house - **18 hunger deaths, 15 at home**, in the cued runs (that run also had the director's children keep house before their
+  mother), against four and none for the student who never washes. Quiet while the food is low (under a week: the food icons glow then):
+  **10, 5 at home**. And **never pointing at the only grown hand at home** - for a lone parent it points at a child of seven, who may keep
+  house for them, or at nobody: six deaths, two at home, in one lone-mother family
+  (viab-5, whose field brought in nothing that year; the never-washing student's same family lost one child on the road east). Small
+  numbers; not traced further.
+- **Issue 4 is answered in part**: town arrivals dirty fall from 38% to 30% and the markup from 28 to 21 reales a family. The wash is
+  still the family's, done when somebody is free and at home; somebody who goes to town twice in a week still goes the second time
+  unwashed.
+- **Issue 5** is answered for the men's time (idle 64% to 54%, boys 91% to 86%, helps begun 209 a family), less for the house work
+  itself: helping only joins the work in hand, the house's and the garden's steps are a tick each so a second pair of hands does not
+  shorten them (§2b's `ceiling:`), and the garden still gets about the same days (39 to 40). The family is dirty at home 43% of the time
+  (50%).
+- **Issue 6** is fixed (the edge probe); **issue 7** unchanged, and the mother now helps her son of sixteen.
+- **Overall**: hunger deaths fall from 9 (2 at home) to 2 (none at home) against 5 before the custom; the final median rises to 20,736
+  (20,373 in §23, 21,775 before); 21 of 90 families go hungry at some time (18, 15 before) - the lone mothers.
+
+`ceiling:` six families a shape, as §23; differences in the final number under about a quarter are within the run-to-run spread, and
+deaths are a few families. The *cued* student presses the cue before anything else, a stronger habit than a real student's; the *playing*
+student is the director's policy, which now lets women help the men at the house and the clearing and children keep house for a lone
+parent (sim/neighbours.mjs).
+
+**Open for the owner** (not asked yet): should a child's keeping house for a lone parent save what the parent's would (issue 2's
+remainder), and should the house's three short steps be lengthened so a man's help at the hearth shows (issue 5's remainder)?

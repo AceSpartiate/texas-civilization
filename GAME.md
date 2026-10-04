@@ -102,7 +102,8 @@ green helping-hands badge, and pressing it puts them beside him, faster; they ne
 other way for a man or boy joining a woman at the house work, the garden or the wash. **Children keep house** for a lone parent - with
 no grown man at home, or no grown woman, a child of seven or more may keep house and do the wash, and does on auto. **A cue**: the
 idle woman (or whoever may do it) gets a pulsing pot or washtub on her portrait and the matching icon glows while the house is not kept
-today or somebody's clothes want the wash - never while she is busy. **The wash for whoever's dirty**: before the week is out the wash
+today or somebody's clothes want the wash - never while she is busy, never while the food is low (the food icons glow then), and never
+on a lone parent (a child of seven gets it instead). **The wash for whoever's dirty**: before the week is out the wash
 may be done again for anybody at home who is dirty or missed wash day, so the one going to town can be washed first. A man sent for
 from the army, or who deserted, is at home again in the custom's eyes.
 

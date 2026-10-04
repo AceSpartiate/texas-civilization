@@ -19,8 +19,9 @@
 import { choreAvailability, homeWork, registerChores } from './chores.mjs';
 import { record } from './events.mjs';
 import { housekeepingSaving, tooYoung } from './family.mjs';
-import { childKeeps, withTheArmy } from './custom.mjs';
+import { childKeeps, grownForCustom, keepers, withTheArmy } from './custom.mjs';
 import { calledAside } from './aside.mjs';
+import { larderShown } from './hunger.mjs';
 import { dateOf } from './clock.mjs';
 import { holdingOf } from './grants.mjs';
 import { stirredShare } from './shares.mjs';
@@ -362,9 +363,22 @@ export function gardenProjection(world, household) {
  * on the icon, with no words (public/app.js `paintCue`). Null when nothing is wanted or nobody idle may do it.
  */
 export const CUE_WORKS = Object.freeze(['keep-house', 'wash-clothes']);
+/** The days of food under which the house's cue is quiet: the food gauge's own "low" (public/family-panel.js `larderLevel`). */
+export const CUE_FOOD_DAYS = 7;
 const PANEL_RANK = Object.freeze({ father: 0, mother: 1 });
+/** Whether this person is the only grown hand at home and able (sixteen or over, or a founding parent): `keepers` of both sexes. */
+function lonePair(world, household, person) {
+  if (!grownForCustom(person)) return false;
+  const grown = [...keepers(world, household, 'male', homeWork), ...keepers(world, household, 'female', homeWork)];
+  return grown.length === 1 && grown[0].id === person.id;
+}
 export function houseCue(world, household) {
   if (world.status !== 'running' || !household?.members?.length || !homeAndSettled(world, household)) return null;
+  // Not while the food is low: the ways to food glow then (public/family-panel.js `feedsNow`, at the gauge's own "low", under a week),
+  // and the house's cue is quiet. Measured (docs/BALANCE.md §24): a student who followed the cue first whatever the larder held drew a
+  // lone parent off the field and the hunt into the wash, and lost children to hunger at home.
+  const { larder } = larderShown(world, household);
+  if (larder && (larder.stage !== 'fed' || (larder.days !== null && larder.days < CUE_FOOD_DAYS))) return null;
   const people = household.members.map(id => world.entities[id]).filter(person => person?.kind === 'person' && !['dead', 'captured'].includes(person.health?.condition));
   for (const work of CUE_WORKS) {
     if (people.some(person => person.chore?.id === work)) continue;
@@ -374,6 +388,10 @@ export function houseCue(world, household) {
       && atTheHouse(world, household, person) && !withTheArmy(person) && person.health?.condition !== 'sick')
       .sort((a, b) => (PANEL_RANK[a.kin?.role] ?? 2) - (PANEL_RANK[b.kin?.role] ?? 2) || (b.age ?? 0) - (a.age ?? 0));
     for (const person of idle) {
+      // Never the only grown hand at home (a lone parent, or a mother whose husband is away): theirs is all the family's work, and the
+      // cue goes to a child of seven who may keep house for them instead (`childKeeps`), or to nobody. Measured (BALANCE.md §24): a
+      // student who followed the cue drew lone parents from the field to the house and lost children to hunger.
+      if (lonePair(world, household, person)) continue;
       const said = choreAvailability(world, household, person, work);
       if (said.can && !said.help) return { personId: person.id, work };
     }

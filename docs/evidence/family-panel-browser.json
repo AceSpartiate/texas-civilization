@@ -13,7 +13,7 @@
     "hovering an icon shows a small popup with one sentence: \"Rest\" - \"Sit still at home, which is the only thing that mends tiredness.\"",
     "focusing an icon from the keyboard shows the same popup, and Escape puts it away",
     "pressing \"Practise at the mark\" sets hh-1-child-3 to it on the server, and its icon glows",
-    "it glowed through the practice (9 samples) and went out when the server said it was done (powder 5 to 3)",
+    "it glowed through the practice (8 samples) and went out when the server said it was done (powder 5 to 3)",
     "the house card: \"Choose your house\", moss green and glowing (card-glow), under Hide names and over the rows; its button opens the houses and it comes back when they close",
     "one press on an adult's portrait makes hh-1-parent-1 the main person on the server (one set-main, the star's), gives them the bar and the map, and opens no card",
     "the main person's portrait sends nothing, the star makes hh-1-child-3 main again, and a child's portrait is refused as the star is: \"Adela Proofwright is too young to be sent.\", and still gives them their bar",
@@ -59,7 +59,7 @@
     },
     "glow": {
       "worker": "hh-1-child-3",
-      "samplesGlowingWhileBusy": 9,
+      "samplesGlowingWhileBusy": 8,
       "powderBefore": 5,
       "powderAfter": 3
     },
