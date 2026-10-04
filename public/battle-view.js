@@ -891,10 +891,10 @@ export function createBattleView(art) {
             }
           }
         } else if (side.action === 'work') {
-          // Digging a trench or filling sandbags at night: Astra's `volunteer-dig` (2026-10-03); the library's settler at work only
-          // while her sheet loads. Mexican work still needs a digging cycle of its own.
-          clip = side.side === 'mexican' ? 'regular-idle-s' : 'volunteer-dig'; flip = !right;
-          if (side.side !== 'mexican') fallback = { clip: slot.index % 2 ? 'rust-work' : 'teal-work' };
+          // Digging a trench or filling sandbags at night: each army's own authored cycle, Astra's `volunteer-dig` (2026-10-03) and
+          // `regular-dig` (2026-10-04); the library's settler at work, or the regular standing, only while her sheets load.
+          clip = side.side === 'mexican' ? 'regular-dig' : 'volunteer-dig'; flip = !right;
+          fallback = side.side === 'mexican' ? { clip: 'regular-idle-s' } : { clip: slot.index % 2 ? 'rust-work' : 'teal-work' };
         } else if (moving) {
           clip = `${kind}-march`; flip = !right;
           // Into the marsh (San Jacinto's rout, Peggy's Lake): wading to the thighs. stand-in: docs/ART_REQUESTS.md, request

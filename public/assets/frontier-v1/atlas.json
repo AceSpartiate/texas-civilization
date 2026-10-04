@@ -17761,6 +17761,130 @@
         ]
       }
     },
+    "regular-engineer-actions": {
+      "image": "atlases/regular-engineer-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1448705,
+      "sha256": "5684e7b7702f278b8597c1d420a381ba9aa3fb3ea64a7fd5dcfe804c2d6f898d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.650335,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              25,
+              339
+            ],
+            "columns": [
+              [
+                53,
+                272
+              ],
+              [
+                367,
+                557
+              ],
+              [
+                650,
+                899
+              ],
+              [
+                937,
+                1247
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              366,
+              650
+            ],
+            "columns": [
+              [
+                56,
+                336
+              ],
+              [
+                355,
+                595
+              ],
+              [
+                692,
+                931
+              ],
+              [
+                970,
+                1238
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              663,
+              981
+            ],
+            "columns": [
+              [
+                54,
+                272
+              ],
+              [
+                373,
+                578
+              ],
+              [
+                688,
+                898
+              ],
+              [
+                998,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              986,
+              1228
+            ],
+            "columns": [
+              [
+                54,
+                290
+              ],
+              [
+                363,
+                606
+              ],
+              [
+                674,
+                917
+              ],
+              [
+                986,
+                1212
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "courier-dismount": {
       "image": "atlases/courier-dismount.png",
       "width": 1254,
@@ -70602,6 +70726,390 @@
           224
         ],
         "visiblePixels": 42748,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-dig-1": {
+      "sheet": "regular-engineer-actions",
+      "x": 53,
+      "y": 25,
+      "w": 219,
+      "h": 314,
+      "anchorX": 0.4977,
+      "anchorY": 0.9427,
+      "label": "regular dig 1",
+      "kind": "regular-engineer-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          27,
+          215,
+          310
+        ],
+        "visiblePixels": 30329,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-dig-2": {
+      "sheet": "regular-engineer-actions",
+      "x": 367,
+      "y": 26,
+      "w": 190,
+      "h": 313,
+      "anchorX": 0.5,
+      "anchorY": 0.9521,
+      "label": "regular dig 2",
+      "kind": "regular-engineer-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          369,
+          28,
+          186,
+          309
+        ],
+        "visiblePixels": 28165,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-dig-3": {
+      "sheet": "regular-engineer-actions",
+      "x": 650,
+      "y": 50,
+      "w": 249,
+      "h": 288,
+      "anchorX": 0.3815,
+      "anchorY": 0.9514,
+      "label": "regular dig 3",
+      "kind": "regular-engineer-actions",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          652,
+          52,
+          245,
+          284
+        ],
+        "visiblePixels": 30898,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-dig-4": {
+      "sheet": "regular-engineer-actions",
+      "x": 937,
+      "y": 37,
+      "w": 310,
+      "h": 301,
+      "anchorX": 0.3323,
+      "anchorY": 0.9402,
+      "label": "regular dig 4",
+      "kind": "regular-engineer-actions",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          939,
+          39,
+          306,
+          297
+        ],
+        "visiblePixels": 31466,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-1": {
+      "sheet": "regular-engineer-actions",
+      "x": 56,
+      "y": 373,
+      "w": 280,
+      "h": 276,
+      "anchorX": 0.4982,
+      "anchorY": 0.9275,
+      "label": "regular crowbar 1",
+      "kind": "regular-engineer-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          58,
+          375,
+          276,
+          272
+        ],
+        "visiblePixels": 28567,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-2": {
+      "sheet": "regular-engineer-actions",
+      "x": 355,
+      "y": 372,
+      "w": 240,
+      "h": 277,
+      "anchorX": 0.4313,
+      "anchorY": 0.935,
+      "label": "regular crowbar 2",
+      "kind": "regular-engineer-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          357,
+          374,
+          236,
+          273
+        ],
+        "visiblePixels": 29342,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-3": {
+      "sheet": "regular-engineer-actions",
+      "x": 692,
+      "y": 366,
+      "w": 239,
+      "h": 284,
+      "anchorX": 0.5063,
+      "anchorY": 0.9472,
+      "label": "regular crowbar 3",
+      "kind": "regular-engineer-actions",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          694,
+          368,
+          235,
+          280
+        ],
+        "visiblePixels": 27731,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-4": {
+      "sheet": "regular-engineer-actions",
+      "x": 970,
+      "y": 385,
+      "w": 268,
+      "h": 264,
+      "anchorX": 0.4963,
+      "anchorY": 0.9318,
+      "label": "regular crowbar 4",
+      "kind": "regular-engineer-actions",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          972,
+          387,
+          264,
+          260
+        ],
+        "visiblePixels": 26955,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sandbag-carry-1": {
+      "sheet": "regular-engineer-actions",
+      "x": 54,
+      "y": 663,
+      "w": 218,
+      "h": 317,
+      "anchorX": 0.4679,
+      "anchorY": 0.9274,
+      "label": "regular sandbag carry 1",
+      "kind": "regular-engineer-actions",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          56,
+          665,
+          214,
+          313
+        ],
+        "visiblePixels": 27833,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sandbag-carry-2": {
+      "sheet": "regular-engineer-actions",
+      "x": 373,
+      "y": 664,
+      "w": 205,
+      "h": 315,
+      "anchorX": 0.4927,
+      "anchorY": 0.927,
+      "label": "regular sandbag carry 2",
+      "kind": "regular-engineer-actions",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          375,
+          666,
+          201,
+          311
+        ],
+        "visiblePixels": 27494,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sandbag-carry-3": {
+      "sheet": "regular-engineer-actions",
+      "x": 688,
+      "y": 664,
+      "w": 210,
+      "h": 316,
+      "anchorX": 0.4857,
+      "anchorY": 0.9272,
+      "label": "regular sandbag carry 3",
+      "kind": "regular-engineer-actions",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          690,
+          666,
+          206,
+          312
+        ],
+        "visiblePixels": 27696,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sandbag-carry-4": {
+      "sheet": "regular-engineer-actions",
+      "x": 998,
+      "y": 664,
+      "w": 212,
+      "h": 317,
+      "anchorX": 0.4906,
+      "anchorY": 0.9274,
+      "label": "regular sandbag carry 4",
+      "kind": "regular-engineer-actions",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1000,
+          666,
+          208,
+          313
+        ],
+        "visiblePixels": 27509,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sandbag-fill-1": {
+      "sheet": "regular-engineer-actions",
+      "x": 54,
+      "y": 990,
+      "w": 236,
+      "h": 237,
+      "anchorX": 0.5064,
+      "anchorY": 0.9283,
+      "label": "regular sandbag fill 1",
+      "kind": "regular-engineer-actions",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          56,
+          992,
+          232,
+          233
+        ],
+        "visiblePixels": 30620,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sandbag-fill-2": {
+      "sheet": "regular-engineer-actions",
+      "x": 363,
+      "y": 988,
+      "w": 243,
+      "h": 240,
+      "anchorX": 0.5062,
+      "anchorY": 0.9292,
+      "label": "regular sandbag fill 2",
+      "kind": "regular-engineer-actions",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          365,
+          990,
+          239,
+          236
+        ],
+        "visiblePixels": 33538,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sandbag-fill-3": {
+      "sheet": "regular-engineer-actions",
+      "x": 674,
+      "y": 986,
+      "w": 243,
+      "h": 242,
+      "anchorX": 0.5041,
+      "anchorY": 0.9298,
+      "label": "regular sandbag fill 3",
+      "kind": "regular-engineer-actions",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          676,
+          988,
+          239,
+          238
+        ],
+        "visiblePixels": 33176,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sandbag-fill-4": {
+      "sheet": "regular-engineer-actions",
+      "x": 986,
+      "y": 995,
+      "w": 226,
+      "h": 233,
+      "anchorX": 0.5066,
+      "anchorY": 0.927,
+      "label": "regular sandbag fill 4",
+      "kind": "regular-engineer-actions",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          988,
+          997,
+          222,
+          229
+        ],
+        "visiblePixels": 28769,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

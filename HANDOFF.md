@@ -1,5 +1,9 @@
 # Claude handoff — Astra foundation
 
+## Latest art delivery — 2026-10-04
+
+Mexican regular engineering: 16 transparent frames, four authored clips; battle work now plays regular-dig. Crowbar and sandbag carry/fill are catalog-ready. Read docs/ART_DELIVERY_2026-10-04-REGULAR-ENGINEERING.md for integration limits, provenance and browser proof. Named actor identities and authoritative gameplay remain unchanged.
+
 ## Latest UI and scenery delivery — 2026-10-03
 
 Wagon packing and shopping now share the game's paper/timber visuals. Packing has cargo illustrations, a capacity meter, clear space costs, an expandable herd/land choice and stable scroll/focus. Town shopping adds search, shop and Buy/Sell/Services filters, a persistent removable shopping list and clear lot/payment information. Enter on a quantity control no longer dispatches the errand accidentally. Authoritative prices, loads, resources and transport are unchanged.

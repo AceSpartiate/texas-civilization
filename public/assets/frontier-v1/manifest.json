@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 282,
-    "sprites": 2630,
-    "clips": 917,
-    "poseCycles": 609,
+    "sheets": 283,
+    "sprites": 2646,
+    "clips": 921,
+    "poseCycles": 613,
     "rigs": 4
   },
   "entrypoints": {
@@ -17771,6 +17771,130 @@
               [
                 925,
                 1243
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "regular-engineer-actions": {
+      "image": "atlases/regular-engineer-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1448705,
+      "sha256": "5684e7b7702f278b8597c1d420a381ba9aa3fb3ea64a7fd5dcfe804c2d6f898d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.650335,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              25,
+              339
+            ],
+            "columns": [
+              [
+                53,
+                272
+              ],
+              [
+                367,
+                557
+              ],
+              [
+                650,
+                899
+              ],
+              [
+                937,
+                1247
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              366,
+              650
+            ],
+            "columns": [
+              [
+                56,
+                336
+              ],
+              [
+                355,
+                595
+              ],
+              [
+                692,
+                931
+              ],
+              [
+                970,
+                1238
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              663,
+              981
+            ],
+            "columns": [
+              [
+                54,
+                272
+              ],
+              [
+                373,
+                578
+              ],
+              [
+                688,
+                898
+              ],
+              [
+                998,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              986,
+              1228
+            ],
+            "columns": [
+              [
+                54,
+                290
+              ],
+              [
+                363,
+                606
+              ],
+              [
+                674,
+                917
+              ],
+              [
+                986,
+                1212
               ]
             ]
           }
@@ -88138,6 +88262,550 @@
       "locationKits": [],
       "promptId": "frontier-v1/ox-packed"
     },
+    "regular-dig-1": {
+      "sheet": "regular-engineer-actions",
+      "x": 53,
+      "y": 25,
+      "w": 219,
+      "h": 314,
+      "anchorX": 0.4977,
+      "anchorY": 0.9427,
+      "label": "regular dig 1",
+      "kind": "regular-engineer-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          27,
+          215,
+          310
+        ],
+        "visiblePixels": 30329,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-dig"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-dig-2": {
+      "sheet": "regular-engineer-actions",
+      "x": 367,
+      "y": 26,
+      "w": 190,
+      "h": 313,
+      "anchorX": 0.5,
+      "anchorY": 0.9521,
+      "label": "regular dig 2",
+      "kind": "regular-engineer-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          369,
+          28,
+          186,
+          309
+        ],
+        "visiblePixels": 28165,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-dig"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-dig-3": {
+      "sheet": "regular-engineer-actions",
+      "x": 650,
+      "y": 50,
+      "w": 249,
+      "h": 288,
+      "anchorX": 0.3815,
+      "anchorY": 0.9514,
+      "label": "regular dig 3",
+      "kind": "regular-engineer-actions",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          652,
+          52,
+          245,
+          284
+        ],
+        "visiblePixels": 30898,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-dig"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-dig-4": {
+      "sheet": "regular-engineer-actions",
+      "x": 937,
+      "y": 37,
+      "w": 310,
+      "h": 301,
+      "anchorX": 0.3323,
+      "anchorY": 0.9402,
+      "label": "regular dig 4",
+      "kind": "regular-engineer-actions",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          939,
+          39,
+          306,
+          297
+        ],
+        "visiblePixels": 31466,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-dig"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-crowbar-1": {
+      "sheet": "regular-engineer-actions",
+      "x": 56,
+      "y": 373,
+      "w": 280,
+      "h": 276,
+      "anchorX": 0.4982,
+      "anchorY": 0.9275,
+      "label": "regular crowbar 1",
+      "kind": "regular-engineer-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          58,
+          375,
+          276,
+          272
+        ],
+        "visiblePixels": 28567,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-crowbar"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-crowbar-2": {
+      "sheet": "regular-engineer-actions",
+      "x": 355,
+      "y": 372,
+      "w": 240,
+      "h": 277,
+      "anchorX": 0.4313,
+      "anchorY": 0.935,
+      "label": "regular crowbar 2",
+      "kind": "regular-engineer-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          357,
+          374,
+          236,
+          273
+        ],
+        "visiblePixels": 29342,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-crowbar"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-crowbar-3": {
+      "sheet": "regular-engineer-actions",
+      "x": 692,
+      "y": 366,
+      "w": 239,
+      "h": 284,
+      "anchorX": 0.5063,
+      "anchorY": 0.9472,
+      "label": "regular crowbar 3",
+      "kind": "regular-engineer-actions",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          694,
+          368,
+          235,
+          280
+        ],
+        "visiblePixels": 27731,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-crowbar"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-crowbar-4": {
+      "sheet": "regular-engineer-actions",
+      "x": 970,
+      "y": 385,
+      "w": 268,
+      "h": 264,
+      "anchorX": 0.4963,
+      "anchorY": 0.9318,
+      "label": "regular crowbar 4",
+      "kind": "regular-engineer-actions",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          972,
+          387,
+          264,
+          260
+        ],
+        "visiblePixels": 26955,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-crowbar"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-sandbag-carry-1": {
+      "sheet": "regular-engineer-actions",
+      "x": 54,
+      "y": 663,
+      "w": 218,
+      "h": 317,
+      "anchorX": 0.4679,
+      "anchorY": 0.9274,
+      "label": "regular sandbag carry 1",
+      "kind": "regular-engineer-actions",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          56,
+          665,
+          214,
+          313
+        ],
+        "visiblePixels": 27833,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-sandbag-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-sandbag-carry-2": {
+      "sheet": "regular-engineer-actions",
+      "x": 373,
+      "y": 664,
+      "w": 205,
+      "h": 315,
+      "anchorX": 0.4927,
+      "anchorY": 0.927,
+      "label": "regular sandbag carry 2",
+      "kind": "regular-engineer-actions",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          375,
+          666,
+          201,
+          311
+        ],
+        "visiblePixels": 27494,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-sandbag-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-sandbag-carry-3": {
+      "sheet": "regular-engineer-actions",
+      "x": 688,
+      "y": 664,
+      "w": 210,
+      "h": 316,
+      "anchorX": 0.4857,
+      "anchorY": 0.9272,
+      "label": "regular sandbag carry 3",
+      "kind": "regular-engineer-actions",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          690,
+          666,
+          206,
+          312
+        ],
+        "visiblePixels": 27696,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-sandbag-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-sandbag-carry-4": {
+      "sheet": "regular-engineer-actions",
+      "x": 998,
+      "y": 664,
+      "w": 212,
+      "h": 317,
+      "anchorX": 0.4906,
+      "anchorY": 0.9274,
+      "label": "regular sandbag carry 4",
+      "kind": "regular-engineer-actions",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1000,
+          666,
+          208,
+          313
+        ],
+        "visiblePixels": 27509,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-sandbag-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-sandbag-fill-1": {
+      "sheet": "regular-engineer-actions",
+      "x": 54,
+      "y": 990,
+      "w": 236,
+      "h": 237,
+      "anchorX": 0.5064,
+      "anchorY": 0.9283,
+      "label": "regular sandbag fill 1",
+      "kind": "regular-engineer-actions",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          56,
+          992,
+          232,
+          233
+        ],
+        "visiblePixels": 30620,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-sandbag-fill"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-sandbag-fill-2": {
+      "sheet": "regular-engineer-actions",
+      "x": 363,
+      "y": 988,
+      "w": 243,
+      "h": 240,
+      "anchorX": 0.5062,
+      "anchorY": 0.9292,
+      "label": "regular sandbag fill 2",
+      "kind": "regular-engineer-actions",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          365,
+          990,
+          239,
+          236
+        ],
+        "visiblePixels": 33538,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-sandbag-fill"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-sandbag-fill-3": {
+      "sheet": "regular-engineer-actions",
+      "x": 674,
+      "y": 986,
+      "w": 243,
+      "h": 242,
+      "anchorX": 0.5041,
+      "anchorY": 0.9298,
+      "label": "regular sandbag fill 3",
+      "kind": "regular-engineer-actions",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          676,
+          988,
+          239,
+          238
+        ],
+        "visiblePixels": 33176,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-sandbag-fill"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
+    "regular-sandbag-fill-4": {
+      "sheet": "regular-engineer-actions",
+      "x": 986,
+      "y": 995,
+      "w": 226,
+      "h": 233,
+      "anchorX": 0.5066,
+      "anchorY": 0.927,
+      "label": "regular sandbag fill 4",
+      "kind": "regular-engineer-actions",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          988,
+          997,
+          222,
+          229
+        ],
+        "visiblePixels": 28769,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-engineer-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-sandbag-fill"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-engineer-actions"
+    },
     "courier-dismount-1": {
       "sheet": "courier-dismount",
       "x": 39,
@@ -124996,6 +125664,102 @@
       "motion": "breathe",
       "direction": "north"
     },
+    "regular-dig": {
+      "frames": [
+        {
+          "sprite": "regular-dig-1",
+          "duration": 450
+        },
+        {
+          "sprite": "regular-dig-2",
+          "duration": 450
+        },
+        {
+          "sprite": "regular-dig-3",
+          "duration": 450
+        },
+        {
+          "sprite": "regular-dig-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-crowbar": {
+      "frames": [
+        {
+          "sprite": "regular-crowbar-1",
+          "duration": 450
+        },
+        {
+          "sprite": "regular-crowbar-2",
+          "duration": 450
+        },
+        {
+          "sprite": "regular-crowbar-3",
+          "duration": 450
+        },
+        {
+          "sprite": "regular-crowbar-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-sandbag-carry": {
+      "frames": [
+        {
+          "sprite": "regular-sandbag-carry-1",
+          "duration": 320
+        },
+        {
+          "sprite": "regular-sandbag-carry-2",
+          "duration": 320
+        },
+        {
+          "sprite": "regular-sandbag-carry-3",
+          "duration": 320
+        },
+        {
+          "sprite": "regular-sandbag-carry-4",
+          "duration": 320
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-sandbag-fill": {
+      "frames": [
+        {
+          "sprite": "regular-sandbag-fill-1",
+          "duration": 450
+        },
+        {
+          "sprite": "regular-sandbag-fill-2",
+          "duration": 450
+        },
+        {
+          "sprite": "regular-sandbag-fill-3",
+          "duration": 450
+        },
+        {
+          "sprite": "regular-sandbag-fill-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "courier-dismount": {
       "frames": [
         {
@@ -130428,7 +131192,7 @@
           "id": "plaza-armas-north-1",
           "sprite": "adobe-tile",
           "x": 740,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 63,
           "reconstruction": true
         },
@@ -130436,7 +131200,7 @@
           "id": "plaza-armas-north-2",
           "sprite": "adobe-flat",
           "x": 815,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 69,
           "reconstruction": true
         },
@@ -130444,7 +131208,7 @@
           "id": "plaza-armas-north-3",
           "sprite": "adobe-flat",
           "x": 890,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 57,
           "reconstruction": true
         },
@@ -130452,7 +131216,7 @@
           "id": "plaza-armas-north-4",
           "sprite": "trading-house",
           "x": 965,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 63,
           "reconstruction": true
         },
@@ -130460,7 +131224,7 @@
           "id": "plaza-armas-north-5",
           "sprite": "adobe-flat",
           "x": 1040,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 69,
           "reconstruction": true
         },
@@ -130508,7 +131272,7 @@
           "id": "plaza-islas-north-11",
           "sprite": "adobe-tile",
           "x": 1260,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 69,
           "reconstruction": true
         },
@@ -130516,7 +131280,7 @@
           "id": "plaza-islas-north-12",
           "sprite": "adobe-flat",
           "x": 1335,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 57,
           "reconstruction": true
         },
@@ -130524,7 +131288,7 @@
           "id": "plaza-islas-north-13",
           "sprite": "adobe-flat",
           "x": 1410,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 63,
           "reconstruction": true
         },
@@ -130532,7 +131296,7 @@
           "id": "plaza-islas-north-14",
           "sprite": "trading-house",
           "x": 1485,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 69,
           "reconstruction": true
         },
@@ -130540,7 +131304,7 @@
           "id": "plaza-islas-north-15",
           "sprite": "adobe-flat",
           "x": 1560,
-          "y": 1770,
+          "y": 1700,
           "heightFeet": 57,
           "reconstruction": true
         },
@@ -135333,7 +136097,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 282,
+    "sourceCount": 283,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

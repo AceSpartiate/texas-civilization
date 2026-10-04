@@ -1,0 +1,92 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "regular-dig-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-dig-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-dig-3",
+      "drawn": true
+    },
+    {
+      "id": "regular-dig-4",
+      "drawn": true
+    },
+    {
+      "id": "regular-crowbar-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-crowbar-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-crowbar-3",
+      "drawn": true
+    },
+    {
+      "id": "regular-crowbar-4",
+      "drawn": true
+    },
+    {
+      "id": "regular-sandbag-carry-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-sandbag-carry-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-sandbag-carry-3",
+      "drawn": true
+    },
+    {
+      "id": "regular-sandbag-carry-4",
+      "drawn": true
+    },
+    {
+      "id": "regular-sandbag-fill-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-sandbag-fill-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-sandbag-fill-3",
+      "drawn": true
+    },
+    {
+      "id": "regular-sandbag-fill-4",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "regular-dig",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "regular-crowbar",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "regular-sandbag-carry",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "regular-sandbag-fill",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

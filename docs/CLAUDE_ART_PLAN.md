@@ -312,10 +312,10 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Plugs into:** `CAMP_TEXIAN`, `CAMP_MEXICAN` in `sim/ambient.mjs`; `figureClip` in `public/ambient.js`
   - **Stands in now:** the standing idle; the cast's civilian men at the fire (Astra's library art reused)
 - [ ] **C5** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), items 1 and 4 — **Claude stand-in held back: Astra has drawn the subject** (regular), so the page draws hers (`regular-loophole-fire`)
-  - **Deliver:** `regular-loophole-fire` (the barrel at the wall, the man half hidden, 2-4 frames) and a Mexican regular digging (`regular-dig`); the volunteer at a loophole, the crowbar, the volunteer digging, the barricade and the sandbags are Astra's (2026-10-03)
+  - **Deliver:** `regular-loophole-fire` (the barrel at the wall, the man half hidden, 2-4 frames); the volunteer at a loophole, the crowbar, both armies digging, the barricade and the sandbags are Astra's (2026-10-03, `regular-dig` 2026-10-04)
   - **Frames:** 2-4 frames. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
-  - **Plugs into:** `draw` (`cover`, `action: 'work'`) in `public/battle-view.js`
-  - **Stands in now:** the regular's own firing cycle at the wall; the regular standing for Mexican work (Astra's library art reused)
+  - **Plugs into:** `draw` (`cover`) in `public/battle-view.js`
+  - **Stands in now:** the regular's own firing cycle at the wall (Astra's library art reused)
   - **Research first:** Béxar, December 1835 (docs/battle-research/staging.md §3.9, HIST-TEX-490-496)
 - [ ] **C6** (priority 2) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 3 — **Claude stand-in held back: Astra has drawn the subject** (volunteer), so the page draws hers (`volunteer-parapet-fire-e`, `volunteer-parapet-fire-s`, `volunteer-parapet-fire-n`)
   - **Deliver:** volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet (`volunteer-parapet-fire-*`)

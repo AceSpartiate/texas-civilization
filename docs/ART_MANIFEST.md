@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2630 usable sprites, 282 PNG atlases, 917 clips** (609 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2646 usable sprites, 283 PNG atlases, 921 clips** (613 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -222,6 +222,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | village-irish-colony | 1 | 1536 × 1024 | 2454172 |
 | ferry-landing | 1 | 1536 × 1024 | 2091884 |
 | ox-packed | 16 | 1254 × 1254 | 1531260 |
+| regular-engineer-actions | 16 | 1254 × 1254 | 1448705 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
@@ -2156,6 +2157,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ox-packed-idle-s | ox-packed | ox-packed-idle-s |
 | ox-packed-idle-n | ox-packed | ox-packed-idle-n |
 | ox-packed-rest-e | ox-packed | State artwork; no motion required |
+| regular-dig-1 | regular-engineer-actions | regular-dig |
+| regular-dig-2 | regular-engineer-actions | regular-dig |
+| regular-dig-3 | regular-engineer-actions | regular-dig |
+| regular-dig-4 | regular-engineer-actions | regular-dig |
+| regular-crowbar-1 | regular-engineer-actions | regular-crowbar |
+| regular-crowbar-2 | regular-engineer-actions | regular-crowbar |
+| regular-crowbar-3 | regular-engineer-actions | regular-crowbar |
+| regular-crowbar-4 | regular-engineer-actions | regular-crowbar |
+| regular-sandbag-carry-1 | regular-engineer-actions | regular-sandbag-carry |
+| regular-sandbag-carry-2 | regular-engineer-actions | regular-sandbag-carry |
+| regular-sandbag-carry-3 | regular-engineer-actions | regular-sandbag-carry |
+| regular-sandbag-carry-4 | regular-engineer-actions | regular-sandbag-carry |
+| regular-sandbag-fill-1 | regular-engineer-actions | regular-sandbag-fill |
+| regular-sandbag-fill-2 | regular-engineer-actions | regular-sandbag-fill |
+| regular-sandbag-fill-3 | regular-engineer-actions | regular-sandbag-fill |
+| regular-sandbag-fill-4 | regular-engineer-actions | regular-sandbag-fill |
 | courier-dismount-1 | courier-dismount | courier-dismount |
 | courier-dismount-2 | courier-dismount | courier-dismount |
 | courier-dismount-3 | courier-dismount | courier-dismount |
@@ -3555,6 +3572,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ox-packed-idle-s | breathe | 1 | 2700 | yes | south |
 | ox-packed-walk-n | Pose cycle | 4 | 960 | yes | north |
 | ox-packed-idle-n | breathe | 1 | 2700 | yes | north |
+| regular-dig | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| regular-crowbar | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| regular-sandbag-carry | Pose cycle | 4 | 1280 | yes | east; west by mirroring |
+| regular-sandbag-fill | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
 | courier-dismount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-remount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-onfoot-listen | Pose cycle | 3 | 2050 | yes | east; west by mirroring |
