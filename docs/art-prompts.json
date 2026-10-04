@@ -4238,6 +4238,22 @@
       "refinements": [],
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "regular-engineer-actions",
+      "prompt": "Create a new transparent sprite atlas exactly 4 columns x 4 rows =16 separate animation poses for a Mexican regular infantry engineer in the 1835-36 Texas Revolution game. Match the warm painted frontier storybook style, dark hand-drawn outlines, muted natural palette, slightly elevated three-quarter camera and proportions of the provided volunteer engineer reference. CHANGE outfit to navy coat, red collar/cuffs, white crossbelts, cream-white trousers, black boots, black shako with small red pom and brass badge. Same recognizable adult man throughout, no rifle while working. Faces right/east throughout. Row1 four successive digging poses: plant spade, press blade with boot, lift soil, toss soil right. Row2 four crowbar prying poses: place tip, lean forward, pull back strongly, release/reset. Row3 four clearly distinct walking footfalls while carrying a tied full beige sandbag with BOTH hands at waist; stable bag and alternating forward/back legs. Row4 four kneeling sandbag filling poses: hold open bag, scoop soil, pour soil into bag, gather/tie top. Hands/tool connections plausible, black iron crowbar simple long lever. Whole figures, feet, hats, spade blades and soil contained inside their cells. IDENTICAL figure scale within each row, stable ground line within each row, generous 40 pixel transparent gutters, no objects touching neighboring cells, occupy at most 75 percent of cell width/height. True transparent zero-alpha background, no ground, no scenery, no floor/shadows, no text labels/grid, no smoke or muzzle flashes, no blood. These are actual changed anatomy/action animation keyframes, not duplicated poses. Retain painted game style rather than 3D realism or pixel art.",
+      "promptId": "frontier-v1/regular-engineer-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-engineer-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dc9496da-cab1-4307-aef7-1abd4a8d9799.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dc9496da-cab1-4307-aef7-1abd4a8d9799.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-engineer-actions.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive uniform and action poses. Fine foot registration remains polish; carry keyframes are subtle."
     }
   ]
 }

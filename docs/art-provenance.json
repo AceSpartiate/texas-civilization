@@ -4091,6 +4091,21 @@
       "refinements": [],
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "regular-engineer-actions",
+      "promptId": "frontier-v1/regular-engineer-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-engineer-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dc9496da-cab1-4307-aef7-1abd4a8d9799.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dc9496da-cab1-4307-aef7-1abd4a8d9799.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-engineer-actions.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive uniform and action poses. Fine foot registration remains polish; carry keyframes are subtle."
     }
   ],
   "rejectedAttempts": [

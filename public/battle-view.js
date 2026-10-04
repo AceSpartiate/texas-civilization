@@ -698,8 +698,8 @@ export function createBattleView(art) {
             }
           }
         } else if (side.action === 'work') {
-          // Volunteer engineering work; Mexican work still needs a dedicated digging cycle.
-          clip = side.side === 'mexican' ? 'regular-idle-s' : 'volunteer-dig'; flip = !right;
+          // Side-specific authored engineering cycles.
+          clip = side.side === 'mexican' ? 'regular-dig' : 'volunteer-dig'; flip = !right;
         } else if (moving) { clip = `${kind}-march`; flip = !right; }
         else if (side.style === 'camp') {
           // Healthy camp rest has distinct art from injury and death.

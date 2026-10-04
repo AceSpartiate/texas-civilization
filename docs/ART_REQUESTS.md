@@ -1,8 +1,12 @@
+## Delivery update — Mexican regular engineering, 2026-10-04
+
+16 frames and four authored clips delivered: digging, crowbar work, sandbag carrying and filling. Mexican battle work now uses its dedicated digging cycle. Other clips await explicit scene actions. See ART_DELIVERY_2026-10-04-REGULAR-ENGINEERING.md and ART_MANIFEST.md. This completes the Mexican engineering gap recorded below.
+
 ## Delivery update — military life and field defenses, 2026-10-03
 
 **84 frames / nine atlases / 20 authored clips delivered.** See `ART_DELIVERY_2026-10-03-MILITARY-LIFE.md` and `ART_MANIFEST.md`. Healthy rest and sleep, volunteer digging, directional generic mounted troops, wounded blanket transport and led wounded dragoons, barricades/sandbags, baggage breastworks and crouched loophole firing now have dedicated art. Existing battle states use these assets. Camp chores, sandbag work, arms stacks, cookpot, alternate cover states and the generic roof-removable house are registered for subsequent integration. No new historical outcomes or actor visibility rules are introduced.
 
-Remaining portions of these requests: dead-body carrying, family-specific battle/sleep appearances, Mexican engineering, north/south mounted firing/reload, and interior house masking/navigation. Named people keep their own identity art. The remaining-items ledger below must be read with this delivery update.
+Remaining portions of these requests: dead-body carrying, family-specific battle/sleep appearances, north/south mounted firing/reload, and interior house masking/navigation. Named people keep their own identity art. The remaining-items ledger below must be read with this delivery update.
 # Art requests for Astra
 
 ## Named foot movement and field gestures — delivered 2026-10-03
