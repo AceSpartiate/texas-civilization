@@ -96,7 +96,16 @@ makes the food go further today and tomorrow (it no longer does so by itself); *
 the house and brings in a little food every day; **Wash clothes** keeps everybody at home clean for a week, and is done once a week (a weekly wash day). Somebody away from home
 in dirty clothes has flies about them, is told so by whoever they meet in town or at the war, and pays a quarter more at the shops and
 gets a fifth less for what they sell - the errand popup says why. A woman on auto keeps house, washes and gardens while her own task
-waits.
+waits. **The owner's answers of 2026-10-04** ([docs/CUSTOMARY_WORK.md](docs/CUSTOMARY_WORK.md) §1c): **help, not lead** - while a man is
+at the house, the clearing, the felling, a fence or the well, that work is on his wife's and daughters' bars (ten and over) with a small
+green helping-hands badge, and pressing it puts them beside him, faster; they never begin it, and leave off when he does; the same the
+other way for a man or boy joining a woman at the house work, the garden or the wash. **Children keep house** for a lone parent - with
+no grown man at home, or no grown woman, a child of seven or more may keep house and do the wash, and does on auto. **A cue**: the
+idle woman (or whoever may do it) gets a pulsing pot or washtub on her portrait and the matching icon glows while the house is not kept
+today or somebody's clothes want the wash - never while she is busy, never while the food is low (the food icons glow then), and never
+on a lone parent (a child of seven gets it instead). **The wash for whoever's dirty**: before the week is out the wash
+may be done again for anybody at home who is dirty or missed wash day, so the one going to town can be washed first. A man sent for
+from the army, or who deserted, is at home again in the custom's eyes.
 
 **Children are drawn smaller than grown people, and mothers and daughters as women.** The art for children does not exist yet, so for now a child is a smaller copy of a grown figure; a family's principal wears the rust coat whether that is a father or a mother.
 

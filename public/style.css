@@ -1838,6 +1838,20 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
 .panel-icon[data-feeds=true][aria-disabled=true]{box-shadow:0 0 0 2px #f0a73a88;animation:none}
 @keyframes feeds-glow{0%,100%{box-shadow:0 0 0 2px #f0a73a,0 0 6px 1px #f0a73a66}50%{box-shadow:0 0 0 2px #ffc061,0 0 14px 4px #f0a73acc}}
 @media(prefers-reduced-motion:reduce){.panel-icon[data-feeds=true]{animation:none;box-shadow:0 0 0 3px #f0a73a,0 0 10px 3px #f0a73a99}}
+/* Help, not lead (owner, 2026-10-04; sim/custom.mjs `helpsWhom`): work open only to join somebody of its custom at it wears two small
+   hands joined, in green, in its top-right corner - a way to help, not a work of the person's own. No words.
+   stand-in: docs/ART_REQUESTS.md, request 2026-10-04 "help and the house cue", item 1 - drawn here until Astra's `mark-help` lands. */
+.panel-icon[data-help=true]::after{content:"";position:absolute;right:-4px;top:-4px;width:17px;height:17px;border-radius:50%;background:#e6f3d8;border:1.5px solid #4f8a2f;box-shadow:0 0 0 1px #29251b88;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%233f6f25' d='M1 9c1-2 3-3 5-3l2 1 2-1c2 0 4 1 5 3l-2 1-2-1-1 2H6L5 9 3 10z'/%3E%3Cpath fill='%233f6f25' d='M6 12h4v2H6z'/%3E%3C/svg%3E");background-size:13px 13px;background-position:center;background-repeat:no-repeat}
+/* Prompt the student (owner, 2026-10-04; sim/housework.mjs `houseCue`): the house's work wanting doing glows on the one idle person's
+   bar, and its picture pulses in the foot of their portrait - a pot over the fire or the washtub. No words. stand-in: docs/ART_REQUESTS.md,
+   request 2026-10-04 "help and the house cue", item 2. */
+.panel-icon[data-cue=true]{box-shadow:0 0 0 2px #6aa3c9,0 0 10px 2px #6aa3c999;animation:cue-glow 2.4s ease-in-out infinite}
+@keyframes cue-glow{0%,100%{box-shadow:0 0 0 2px #6aa3c9,0 0 6px 1px #6aa3c966}50%{box-shadow:0 0 0 2px #9fd0ef,0 0 14px 4px #6aa3c9cc}}
+.panel-cue-mark{position:absolute;left:1px;bottom:1px;z-index:3;width:20px;height:20px;border-radius:50%;background:#eef6fb;border:1.5px solid #4f7f9f;box-shadow:0 0 0 1px #29251b88;pointer-events:none;animation:cue-pulse 1.6s ease-in-out infinite}
+.panel-cue-mark canvas{display:block;width:100%;height:100%}
+@keyframes cue-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+@media(prefers-reduced-motion:reduce){.panel-icon[data-cue=true]{animation:none;box-shadow:0 0 0 3px #6aa3c9,0 0 10px 3px #6aa3c999}.panel-cue-mark{animation:none}}
 /* Something sighted on a hunt (owner, 2026-10-02; public/military-attention.js `sighting`): the card in the green-brown of the timber,
    breathing fast - fifteen seconds to take the shot. */
 .story-card[data-accent=sighting]{--card-edge:#6d7a2e;--card-ring:#4a551c66;--card-ring-strong:#4a551cbb;--card-glow:#d8e07a99;--card-glow-strong:#e6ec8cee;

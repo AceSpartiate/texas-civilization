@@ -215,9 +215,13 @@ export const WORK = Object.freeze({
   'milk-road': { stroke: 'tend', spread: 0.5 },
   // The women's own work (owner, 2026-10-03; sim/housework.mjs): cooking at the fire before the house (the tend-fire stand-in),
   // sewing and sweeping; hoeing and picking in the garden; the wash carried up, boiled, beaten and hung.
-  'keep-house': { stroke: 'fire', spread: 0.6, by: [[/sewing|mending/, 'sew'], [/sweeping/, 'about']] },
+  // A child under ten keeping house or washing for a lone parent (owner, 2026-10-04, "Children keep house"; `child`): drawn at the
+  // children's own strokes. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "the children's own actions" - the kindling's gathering
+  // for the hearth and the water's pails for the wash, until a child's own cooking and washing poses are drawn (request 2026-10-04
+  // "help and the house cue", item 3).
+  'keep-house': { stroke: 'fire', spread: 0.6, by: [[/sewing|mending/, 'sew'], [/sweeping/, 'about']], child: 'gather' },
   'work-garden': { stroke: 'hoe', spread: 0.5, by: [[/picking/, 'gather'], [/carrying/, 'carry']] },
-  'wash-clothes': { stroke: 'scrub', spread: 0.5, by: [[/carrying water/, 'water'], [/beating/, 'beat'], [/hanging/, 'carry']] },
+  'wash-clothes': { stroke: 'scrub', spread: 0.5, by: [[/carrying water/, 'water'], [/beating/, 'beat'], [/hanging/, 'carry']], child: 'water' },
   // Putting up the tent (sim/shelter.mjs, owner 2026-10-02). stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - pegging the sheet
   // down is the post-setting hammer of the house's sills until a `-pitch-tent` pose is drawn.
   'pitch-tent': { stroke: 'notch', spread: 0.5 },
@@ -256,9 +260,10 @@ const CARRYING = /carrying|hauling|dragging/;
 const NONE = Object.freeze([]);
 
 /** The stroke somebody at `activity` is drawn at, from the chore's words: its base, or the part `by` names. */
-export function strokeOf(activity, doing = '') {
+export function strokeOf(activity, doing = '', young = false) {
   const entry = WORK[activity];
   if (!entry) return null;
+  if (young && entry.child) return entry.child;
   for (const [pattern, stroke] of entry.by || NONE) if (pattern.test(doing)) return stroke;
   return entry.stroke;
 }
@@ -276,7 +281,7 @@ export function workClip(entity, variant) {
   const activity = activityOf(entity);
   if (!activity) return null;
   const doing = entity.chore?.doing || '';
-  const key = strokeOf(activity, doing);
+  const key = strokeOf(activity, doing, CHILD_BANDS.has(entity.band));
   const stroke = STROKES[key];
   if (!stroke || stroke.art === 'play') return null;
   // On the road the journey draws them (public/motion.js `grownClip`); a road chore at a halted camp is at its work.

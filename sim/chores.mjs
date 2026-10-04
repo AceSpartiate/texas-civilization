@@ -71,7 +71,7 @@ import { houseFront } from './house-placement.mjs';
 // The way across the family's own land, its paths and its yard (owner, 2026-10-02; sim/land-paths.mjs).
 import { YARD_SHARE, raiseYard, stepTo, treesInBox, yardBox, yardFenced, yardGround, yardMiddle, yardOf, yardRefusal } from './land-paths.mjs';
 // Men's work and women's work (owner, 2026-10-03, "Custom, necessity opens"; sim/custom.mjs, docs/CUSTOMARY_WORK.md).
-import { CATTLE, CUSTOM, customRefusal, customWhy, noteNecessity } from './custom.mjs';
+import { CATTLE, CUSTOM, customRefusal, customWhy, helpsWhom, noteNecessity } from './custom.mjs';
 import { gardenPoint } from './housework.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
@@ -1234,6 +1234,18 @@ function customRefused(world, household, entity, choreId) {
   }
   return customRefusal(world, household, entity, choreId, homeWork);
 }
+/**
+ * Help, not lead (owner, 2026-10-04; sim/custom.mjs `helpsWhom`): whom this person may join at a work the custom refuses them, or null.
+ * Only work more hands speed (`crew`), never the range (its cattle are the men's by necessity: the hogs are the woman's there), and
+ * only somebody of the work's own custom at that very work now - he leads, she helps. Asked of the person's own family alone.
+ */
+export function helpLead(world, household, entity, choreId, refused = undefined) {
+  const chore = CHORES[choreId];
+  if (!chore?.crew || choreId === 'look-to-stock' || !CUSTOM[choreId]) return null;
+  // Only while the custom refuses them the work: once it has opened it is theirs by necessity, not help.
+  if (!(refused === undefined ? customRefused(world, household, entity, choreId) : refused)) return null;
+  return helpsWhom(world, household, entity, choreId, atWork(world, household, choreId));
+}
 CHORES['look-to-stock'] = {
   name: 'Ride the range after the stock', skill: 'herding', where: 'home', stock: 'look', crew: 'join', child: true, grown: true,
   // The horse when it is free and the hand works cattle: theirs until the day on the range is done (sim/keeping.mjs).
@@ -1544,14 +1556,34 @@ function handsPace(world, household, entity, chore, state) {
   return handShare(atWork(world, household, state.id, chore.plotWork ? state.plotId : undefined).length);
 }
 
+/**
+ * A tick of somebody helping across the custom at work each puts their own hands into (`crew: 'into'`; owner, 2026-10-04, "Help, not
+ * lead"): true when they have left off. Once nobody of its custom is at it any more - he finished, was called away, went in - and
+ * the custom still holds (somebody of it is at home), they leave off too: a helper never leads. When the custom has opened - every
+ * one of its custom gone from home - the work is theirs by necessity, and goes on as anybody's. Somebody alongside a lead
+ * (`crew: 'join'`) leaves with the lead already (`workAlongside`).
+ */
+function helpHeld(world, household, entity, chore, state) {
+  const refused = customRefused(world, household, entity, state.id);
+  const lead = refused ? helpLead(world, household, entity, state.id, refused) : null;
+  if (!refused) { delete state.helping; return false; }
+  if (lead) { state.helping = lead.id; return false; }
+  const was = world.entities[state.helping];
+  entity.chore = null;
+  if (entity.task === 'work') entity.task = 'rest';
+  record(world, 'consequence', { actorId: entity.id, householdId: household.id, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-1159', text: `${entity.name} left off ${chore.name.toLowerCase()}: ${was ? `${was.given || was.name} is` : 'nobody is'} no longer at it.` });
+  return true;
+}
 /** A second pair of hands takes up a job somebody of the family is already at: alongside them, the job done once, faster. */
-function joinAlongside(world, household, entity, chore, choreId, lead, extra) {
+function joinAlongside(world, household, entity, chore, choreId, lead, extra, helping = null) {
   // Alongside a planting, its plots and crops: what the work goes on as, if it falls to this person to finish (`workAlongside`).
   entity.chore = { id: choreId, step: -1, wait: 0, doing: lead.chore.doing, alongside: lead.id, ...(extra.plotId && { plotId: extra.plotId }), ...(extra.plot && { plot: { ...extra.plot } }),
     ...(chore.plants && lead.chore.plots && { plots: [...lead.chore.plots] }), ...(chore.plants && lead.chore.sow && { sow: { ...lead.chore.sow } }) };
   entity.task = 'work';
   standBeside(world, household, entity, lead);
-  record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} went to work alongside ${lead.name}: ${chore.name.toLowerCase()}.` });
+  // Across the custom it is help (owner, 2026-10-04, "Help, not lead"), and said so.
+  if (helping) { entity.chore.helping = helping.id; record(world, 'assignment', { actorId: entity.id, householdId: household.id, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-1159', text: `${entity.name} went to help ${lead.given || lead.name}: ${chore.name.toLowerCase()}.` }); }
+  else record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} went to work alongside ${lead.name}: ${chore.name.toLowerCase()}.` });
   return entity.chore;
 }
 /** Beside the one they work alongside, while that one is on the family's own land: never carried off it with them. */
@@ -1646,7 +1678,13 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // Not for somebody away from home asked a work of the place: that is refused for being away, below, and kept off the bar (a woman
   // in town was shown the men's work greyed over the town's scene, the overlap proof found).
   const awayFromIt = chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight && !chore.alsoFrom?.includes(entity.location.siteId);
-  if (!awayFromIt) { const why = customRefused(world, household, entity, choreId); if (why) return { can: false, why, custom: CUSTOM[choreId]?.[0] || CATTLE[0] }; }
+  // Help, not lead (owner, 2026-10-04): refused by custom, but somebody of its custom is at it now - joined, never begun (`helpLead`).
+  // The rest of the gate is asked as for anybody; it is sent with whom they would help (`help`), so the bar draws it as help.
+  let helping = null;
+  if (!awayFromIt) {
+    const why = customRefused(world, household, entity, choreId);
+    if (why && !(helping = helpLead(world, household, entity, choreId, why))) return { can: false, why, custom: CUSTOM[choreId]?.[0] || CATTLE[0] };
+  }
   // A chore registered from its own module carries its own refusal (`registerChores`).
   if (chore.refusal) { const why = chore.refusal(world, household, entity); if (why) return lacking(why, chore.lacks?.(world, household, entity, why)); }
   // `alsoFrom`: a work that may be begun where it goes, too - a courier out of the Alamo standing in Gonzales may go back in
@@ -1747,7 +1785,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.needsAny && !chore.needsAny.some(set => Object.entries(set).every(([resource, amount]) => (household.resources[resource] ?? 0) >= amount))) {
     return lacking(`It costs ${chore.needsAny.map(costWords).join(' or ')}.`, lackOf(household, Object.assign({}, ...chore.needsAny)));
   }
-  return { can: true, why: '' };
+  return helping ? { can: true, why: '', help: helping.id } : { can: true, why: '' };
 }
 
 /**
@@ -2233,7 +2271,7 @@ export function choresFor(world, household, entity, logsOut = null) {
     && !(entity.service?.status === 'serving' && !chore.camp)
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells || chore.fetchesLogs) && world.status === 'lobby')).map(([id, chore]) => {
-    const { can, why, lack, custom } = choreAvailability(world, household, entity, id, logsOut);
+    const { can, why, lack, custom, help } = choreAvailability(world, household, entity, id, logsOut);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
     // control puts the two together so a student sees what a choice costs before making
@@ -2271,8 +2309,9 @@ export function choresFor(world, household, entity, logsOut = null) {
     // Refused only for a thing the family could get (`lacking`; owner, 2026-09-30, "Every gettable lack") - and so kept on the bar,
     // greyed, with what it is short of. `lack` is the counts, which the projection lifts off every entry onto the household once
     // (sim/wants.mjs `liftWants`), leaving one byte of flag per person.
+    // `help`: open only to join somebody of its custom at it (owner, 2026-10-04, "Help, not lead"), whose id it is - drawn as help.
     return can
-      ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(estimate && { estimate }), ...(leaves && { leaves }) }
+      ? { id, can: true, ...(help && { help }), ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(estimate && { estimate }), ...(leaves && { leaves }) }
       : custom
         // Refused by custom: not on the person's list at all (filtered below).
         ? null
@@ -2450,6 +2489,11 @@ function firstPlayToday(world, entity) {
 
 export function beginChore(world, household, entity, choreId, { beginTravel, modeAvailability }, modeId = DEFAULT_MODE, extra = {}) {
   const chore = CHORES[choreId];
+  // Help, not lead (owner, 2026-10-04; `helpLead`): somebody joining work across the custom joins it where it is being done - the
+  // plot he is clearing or fencing, the timber he is felling - whatever place was sent with the order.
+  const helping = chore ? helpLead(world, household, entity, choreId) : null;
+  if (helping && chore.plotWork && helping.chore.plotId) extra = { ...extra, plotId: helping.chore.plotId };
+  if (helping && chore.fells && Number.isFinite(helping.chore.ground?.x)) extra = { ...extra, ground: { ...helping.chore.ground } };
   // Clearing and fencing need the plot, sent the same way, and are refused for that plot first: the plot chosen is what the refusal is about.
   if (chore.plotWork) {
     const plot = plotsOf(world, household).find(candidate => candidate.id === extra.plotId);
@@ -2492,7 +2536,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   // it should speed the task up"): the field is planted once, with the seed spent once, and quicker for every pair of hands.
   if (chore.crew === 'join' && !chore.plants) {
     const lead = leadOf(world, household, entity, choreId, extra.plotId);
-    if (lead) return begun(joinAlongside(world, household, entity, chore, choreId, lead, extra));
+    if (lead) return begun(joinAlongside(world, household, entity, chore, choreId, lead, extra, helping));
   }
   // Felling needs the place too, and is refused for that place first (sim/felling.mjs).
   if (chore.fells) {
@@ -2534,6 +2578,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   // whole day (owner, 2026-09-29; sim/childhood.mjs): the automation itself is what lasts until the day ends.
   entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(extra.spell && chore.childJob && !chore.play && { onAuto: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(extra.plots && { plots: [...extra.plots] }), ...(extra.sow && { sow: { ...extra.sow } }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
   entity.task = 'work';
+  // Joined across the custom (`helpLead`): theirs only while somebody of its custom is at it (`helpHeld`).
+  if (helping) entity.chore.helping = helping.id;
   // A chore kept in its own module may need to set something up as it begins: a road chore halts the family (sim/road.mjs).
   chore.begin?.(world, household, entity);
   // Going to the war: he takes the family's rifle (owner, 2026-09-24, sim/keeping.mjs `takeToWar`).
@@ -2547,7 +2593,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     // map show the play every tick; the record hears of the first each day, and each kind of play's own line once a day when it is
     // over (sim/children.mjs `playedToday`).
   // And a child's own job the automation began, once a day for each kind (sim/children.mjs `workedToday`; the rest of triage 2.3).
-  } else if (chore.play ? firstPlayToday(world, entity) : !entity.chore.onAuto || onceToday(world, entity, `set-out:${choreId}`)) record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
+  } else if (helping) record(world, 'assignment', { actorId: entity.id, householdId: household.id, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-1159', text: `${entity.name} went to help ${helping.given || helping.name}: ${chore.name.toLowerCase()}.` });
+  else if (chore.play ? firstPlayToday(world, entity) : !entity.chore.onAuto || onceToday(world, entity, `set-out:${choreId}`)) record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
   begun();
   advanceChore(world, household, entity, { beginTravel });
   return entity.chore;
@@ -2583,8 +2630,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   if (entity.travel && !(chore.road && (entity.travel.halted || chore.moving))) return;
   // Called aside by the family's little ones (sim/aside.mjs): the work stands exactly where it is, step, wait and all.
   if (calledAside(entity)) return;
-  // A child in out of the weather (sim/shelter.mjs, owner 2026-10-02): their job or their play waits for it to clear.
-  if (heldIndoors(entity)) return;
+  // A child in out of the weather (sim/shelter.mjs, owner 2026-10-02): their job or their play waits for it to clear - except work
+  // done indoors (`indoors`: keeping house, which a child of seven does for a lone parent since 2026-10-04).
+  if (heldIndoors(entity) && !chore.indoors) return;
   const state = entity.chore;
   // A child who has not started yet (sim/obedience.mjs `beginsJob`): the job waits the ticks they dawdle, then goes on.
   if (state.dawdle > 0) { state.dawdle--; if (!state.dawdle) delete state.dawdle; return; }
@@ -2818,6 +2866,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     // Heavy work goes at the pace of the person's hidden strength as well as their skill.
     // Heavy work at home goes slower still while the family carries its water from far off (sim/homesite.mjs).
     if (step.work) {
+      // Helping across the custom at work each puts their own hands into (the house, a clearing, the lane): never led (`helpHeld`).
+      // Asked as each spell begins, so the spell in hand is finished and put in, as the custom lets the work in hand finish.
+      if (state.helping && helpHeld(world, household, entity, chore, state)) return;
       let fence = null;
       if (step.work === 'fence' || step.work === 'yard') {
         const plot = step.work === 'yard' ? yardPlace(world, household) : plotsOf(world, household).find(candidate => candidate.id === state.plotId);
@@ -3022,6 +3073,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // One tree at a time, until none is left in reach. A tree whose work is paid for comes down first, its logs onto the pile.
       if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
       if (state.felling) { fellTree(world, household, entity, state.felling); delete state.felling; }
+      // Helping across the custom: the tree in hand down, and no other once nobody of the custom is felling (`helpHeld`).
+      if (state.helping && helpHeld(world, household, entity, chore, state)) return;
       // On auto (owner, 2026-09-28), until the pile has enough (sim/woodpile.mjs `pileFull`), and on from one stand of timber to
       // the next nearest without walking home between: nobody need press anything for the house to get its logs.
       if (entity.auto && pileFull(world, household)) continue;

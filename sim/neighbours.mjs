@@ -16,7 +16,8 @@ import { ADULT_RATION, mouthsOf, tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
 import { barePlots, clearedPlots, cropOf, overlaps, sownPlots, squareOf } from './fields.mjs';
 import { ownCrops, seedFor } from './crops.mjs';
-import { CHORES, logwoodGround } from './chores.mjs';
+import { CHORES, helpLead, logwoodGround } from './chores.mjs';
+import { CHILDREN_KEEP, CHILD_KEEPS_FROM } from './custom.mjs';
 import { LOOKED_TO_DAYS, herdOf } from './stock.mjs';
 import { share } from './shares.mjs';
 import { STOCK_SPACE, spaceOf, wagonRoom } from './wagon.mjs';
@@ -445,7 +446,13 @@ export function thinkFor(world, household, { project, act }) {
       staked && 'clear-plot',
       !staked && plots.length < NEIGHBOUR_PLOTS && 'survey-plot',
     ].filter(Boolean);
-    const chore = plan.find(id => !busy.has(id) && can(id));
+    // Work one of a time is busy once somebody is at it - except to somebody who would only help across the custom (owner, 2026-10-04,
+    // "Help, not lead"; the server's `help`): a woman beside her husband at the fence or the well, a man beside his wife at the wash.
+    // Asked again of the world as it is now, not the view made before this think's orders: a man sent to town a moment ago has left
+    // nothing to help, and joining him then would be a second hand on one-person work by necessity.
+    const helps = id => Boolean(available({ person: person.id, chore: id })?.help) && Boolean(world.households[household.id] && world.entities[person.id]
+      && helpLead(world, world.households[household.id], world.entities[person.id], id));
+    const chore = plan.find(id => (!busy.has(id) || helps(id)) && can(id));
     if (!chore) continue;
     // Clearing, fencing and survey are sent to a place on the family's own land, as a student sends them.
     const sent = chore === 'fell-trees' ? fellAt().some(point => attempt({ action: 'fell-trees', entityId: person.id, ...point }))
@@ -459,6 +466,16 @@ export function thinkFor(world, household, { project, act }) {
       : CHORES[chore]?.steps.some(step => step.travel) ? ride({ action: 'chore', entityId: person.id, chore })
       : attempt({ action: 'chore', entityId: person.id, chore });
     if (sent && ONE_AT_A_TIME.includes(chore)) busy.add(chore);
+  }
+  // Children keep house (owner, 2026-10-04; sim/custom.mjs `childKeeps`): with only one custom kept at home - a lone parent - a child
+  // of seven to nine at home with nothing in hand keeps the house, or does the wash, that the grown hands have not been given: after
+  // them, so a lone parent free of the farm keeps the house herself (her housework saves more than a small child's, `FIC-GONZ-021`)
+  // and the child keeps it while she is at the field. Measured the other way first (docs/BALANCE.md §24): with the child before her, a
+  // lone mother of small children lost the housekeeping saving, and three of their children died of hunger in six families (none after).
+  for (const child of people.filter(person => tooYoung(person) && person.age >= CHILD_KEEPS_FROM && !person.chore && !person.travel
+    && person.location?.siteId === view.household.homeSiteId && !['dead', 'captured', 'sick'].includes(person.health?.condition))) {
+    const chore = CHILDREN_KEEP.find(id => !busy.has(id) && available({ person: child.id, chore: id }));
+    if (chore && attempt({ action: 'chore', entityId: child.id, chore })) busy.add(chore);
   }
   return tried;
 }

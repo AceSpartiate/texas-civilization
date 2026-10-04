@@ -20,7 +20,9 @@
 //   war may take up the axe beside the boy.
 // - **At home and able** (`keeps`): on the family's own land - standing there, or out on a work of the place (the creek, the
 //   timber, the range) that comes home by itself - and not dead, taken, very sick, sick, or lying wounded. **Away** is a journey (to
-//   town, to the war, upriver), serving with any force, helping where a call sent them, visiting at the neighbours'.
+//   town, to the war, upriver), serving with any force or held its prisoner (only then: a man sent for or deserted and home keeps
+//   it, owner 2026-10-04, `withTheArmy`), helping where a call sent them, visiting at the neighbours'.
+// - **Help, not lead; children keep house** (owner, 2026-10-04; docs/CUSTOMARY_WORK.md §1c, §2b, §4b): `helpsWhom` and `childKeeps`.
 //   Deliberately *not* away: being called aside by the little ones (sim/aside.mjs). The brief that came with the owner's request
 //   counted it, and it was left out: a father holding a crying baby for twenty minutes does not open the axe to the mother, and
 //   the work would flicker on and off the bar with every cry.
@@ -39,7 +41,7 @@
 import { record } from './events.mjs';
 import { FIGHTS_FROM_AGE, sexOf } from './family.mjs';
 
-export const CLAIMS = Object.freeze({ rule: 'FIC-GONZ-1150', opened: 'FIC-GONZ-1151', reconstructed: 'FIC-GONZ-1152' });
+export const CLAIMS = Object.freeze({ rule: 'FIC-GONZ-1150', opened: 'FIC-GONZ-1151', reconstructed: 'FIC-GONZ-1152', childrenKeep: 'FIC-GONZ-1158', help: 'FIC-GONZ-1159' });
 
 /**
  * Every work with a custom: `[whose, the work as the refusal says it, what taking it up by necessity is called]`. Everything not
@@ -96,10 +98,16 @@ export function grownForCustom(entity) {
  */
 function atHome(household, entity, homeWork) {
   if (entity.visiting || entity.task === 'help') return false;
-  if (entity.service) return false;
+  if (withTheArmy(entity)) return false;
   if (entity.chore && homeWork?.(entity.chore.id)) return true;
   return !entity.travel && entity.location?.siteId === household.homeSiteId;
 }
+/**
+ * With the army only while serving, or held a prisoner (owner, 2026-10-04, BALANCE.md §23 issue 6, "only while serving"): a man sent
+ * for (`released`) or who deserted keeps his `service` record for the land and the glory (sim/winter.mjs `recallFromService`), and
+ * until 2026-10-04 any record at all counted him away for good - his wife had the men's work beside him for the rest of the class.
+ */
+export const withTheArmy = entity => ['serving', 'prisoner'].includes(entity?.service?.status);
 /** Able to do the family's work: not gone, not sick, not lying wounded. A tired or slightly hurt man still keeps the custom. */
 const able = entity => !['dead', 'captured', 'sick', 'wounded'].includes(entity.health?.condition) && !entity.health?.grave
   && entity.service?.status !== 'prisoner';
@@ -134,8 +142,62 @@ export function customWhy(world, household, entity, row, homeWork = null) {
 }
 /** The words after the work's name: "men's work, and James is at home." */
 const saysOf = (whose, home) => `${whose}'s work, and ${names(home)} ${home.length === 1 ? 'is' : 'are'} at home.`;
-/** The refusal for a work of the table, or null. */
-export const customRefusal = (world, household, entity, choreId, homeWork = null) => customWhy(world, household, entity, CUSTOM[choreId], homeWork);
+/**
+ * The refusal for a work of the table, or null. A child of seven or more keeping house or doing the wash for a lone parent is not
+ * refused (`childKeeps`).
+ */
+export const customRefusal = (world, household, entity, choreId, homeWork = null) => (childKeeps(world, household, entity, choreId, homeWork) ? null
+  : customWhy(world, household, entity, CUSTOM[choreId], homeWork));
+
+// ---------------------------------------------------------------------------------------------------- children keep house
+
+/**
+ * **Children keep house** (owner, 2026-10-04, BALANCE.md §23 issue 2: a lone parent doing both customs fell behind). Keeping house
+ * and the wash may be done by a child of the family of `CHILD_KEEPS_FROM` (seven) or more, of either sex, **whenever only one custom
+ * is kept at home** - no grown man at home and able (a lone mother, or a mother whose husband is at the war or in town: she has the
+ * men's work to do), or no grown woman (a lone father). In a family with both at home the children of seven to nine keep their own
+ * works (the water, the eggs) and the boys of ten to fifteen are held from the women's work as before. The garden stays the women's.
+ * The house a child keeps saves what that child's own housework saves (sim/family.mjs `housekeepingSaving`: a hidden trait that grows
+ * with age, so a child of eight saves little); the wash a child does cleans as anybody's does. `FIC-GONZ-1158`.
+ * ceiling: the saving is the child's own, never the parent's - a lone mother who wants the most from the house keeps it herself.
+ * Worth undoing only if the owner wants a child's keeping house to count as the parent's.
+ */
+export const CHILDREN_KEEP = Object.freeze(['keep-house', 'wash-clothes']);
+export const CHILD_KEEPS_FROM = 7;
+/** Whether the family's children keep house now: nobody of one custom or the other, sixteen or over, is at home and able. */
+export const childrenKeepHouse = (world, household, homeWork = null) => !keepers(world, household, 'male', homeWork).length || !keepers(world, household, 'female', homeWork).length;
+/** Whether this child may keep house or do the wash now, for a lone parent (`CHILDREN_KEEP`). */
+export function childKeeps(world, household, entity, choreId, homeWork = null) {
+  if (!CHILDREN_KEEP.includes(choreId) || !customApplies(household, entity)) return false;
+  if (!Number.isFinite(entity.age) || entity.age < CHILD_KEEPS_FROM || entity.age >= FIGHTS_FROM_AGE) return false;
+  return childrenKeepHouse(world, household, homeWork);
+}
+
+// ---------------------------------------------------------------------------------------------------- help, not lead
+
+/**
+ * **Help, not lead** (owner, 2026-10-04, BALANCE.md §23 issues 1 and 5: one man did all the men's work while the women and girls stood
+ * by, and one woman all the women's while the men did). Women and girls of `HELPS_FROM_AGE` (ten) or more may **join** men's work a man
+ * or boy of the family is already at, and men and boys of ten or more women's work a woman or girl is already at - adding their hands
+ * the way any more hands speed work (sim/hands.mjs) - and **never begin it**: while somebody of its custom is at home, the work is on
+ * their bar only while one of that custom is at it, as a way to help, and it leaves when he does (sim/chores.mjs `helpLead`).
+ * As at the record's house-raisings and log-rollings, and the women of the colonies in the field beside the men (`HIST-TEX-1151`):
+ * `FIC-GONZ-1159`. Only work that more hands speed (a `crew` in sim/chores.mjs); not the hunt, the survey or the range.
+ */
+export const HELPS_FROM_AGE = 10;
+const oldEnoughToHelp = entity => (Number.isFinite(entity?.age) ? entity.age >= HELPS_FROM_AGE : ['father', 'mother'].includes(entity?.kin?.role));
+/**
+ * Whom this person would help at this work across the custom, or null: the first of `atIt` (everybody of the family at the work now,
+ * which sim/chores.mjs passes) who is of the work's own custom and not himself helping across it. Asked only once the custom has
+ * refused this person the work.
+ */
+export function helpsWhom(world, household, entity, choreId, atIt) {
+  const row = CUSTOM[choreId];
+  if (!row || !customApplies(household, entity) || !oldEnoughToHelp(entity)) return null;
+  const sex = SEX_OF[row[0]];
+  if (sexOf(entity) === sex) return null;
+  return atIt.find(person => person.id !== entity.id && sexOf(person) === sex && !person.chore?.helping) || null;
+}
 
 /**
  * Whether this person is taking this work up *by necessity* now: of the other sex to it, and allowed only because nobody of its sex
@@ -155,7 +217,7 @@ function goneWords(world, household, person, journeyOf) {
   if (health === 'captured' || person.service?.status === 'prisoner') return ['taken', 'a prisoner'];
   if (person.health?.grave || health === 'sick') return ['sick', 'down sick'];
   if (health === 'wounded') return ['wounded', 'lying wounded'];
-  if (person.service) return ['army', 'gone to the army'];
+  if (withTheArmy(person)) return ['army', 'gone to the army'];
   if (person.visiting) return ['visiting', "away at the neighbours'"];
   if (person.task === 'help') return ['help', 'away with the volunteers'];
   const going = journeyOf?.(person);

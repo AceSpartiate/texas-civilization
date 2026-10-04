@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const file = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : 'docs/evidence/custom-viability.json';
 const out = process.argv.includes('--out') ? process.argv[process.argv.indexOf('--out') + 1] : null;
 const record = JSON.parse(readFileSync(file, 'utf8'));
-const COLUMNS = [['before', 'playing'], ['now', 'playing'], ['now', 'nohouse']];
+const COLUMNS = [['before', 'playing'], ['now', 'playing'], ['now', 'nohouse'], ['now', 'cued']];
 const median = list => { const sorted = list.filter(Number.isFinite).sort((a, b) => a - b); if (!sorted.length) return null; const mid = sorted.length / 2; return sorted.length % 2 ? sorted[Math.floor(mid)] : (sorted[mid - 1] + sorted[mid]) / 2; };
 const mean = list => (list.length ? list.reduce((a, b) => a + b, 0) / list.length : null);
 const r1 = value => (value === null || value === undefined ? null : Math.round(value * 10) / 10);
@@ -39,6 +39,7 @@ function summarise(families) {
     markupReales: r1(0.25 * (sum('dirtyCoinOut') + sum('dirtyCoinIn'))), coinTradedDirty: r1(sum('dirtyCoinOut') + sum('dirtyCoinIn')),
     dirtyShareMedian: median(families.map(f => f.dirtyShare)), washesMean: r1(mean(families.map(f => f.washes))), keptDaysMean: r1(mean(families.map(f => f.keptDays))), gardenDaysMean: r1(mean(families.map(f => f.gardenDays))),
     homeDaysMean: r1(mean(families.map(f => f.homeDays))),
+    keptByChildMean: r1(mean(families.map(f => f.keptByChild || 0))), helpsMean: r1(mean(families.map(f => f.helps || 0))), washesForMean: r1(mean(families.map(f => f.washesFor || 0))),
     stuckFamilyDays: r2(mean(families.map(f => f.stuckFamily))), hiddenAllDays: r2(mean(families.map(f => f.hiddenAll))), queuedBehindOneDays: r2(mean(families.map(f => f.queuedBehindOne))),
     stuckFamilyShare: r2(mean(families.map(f => (f.homeDays ? f.stuckFamily / f.homeDays : 0)))),
     stuckPersonDays: Object.fromEntries(['men', 'women', 'boys', 'girls'].map(g => [g, r2(mean(families.map(f => f.stuckPerson?.[g] || 0)))])),

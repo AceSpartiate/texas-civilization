@@ -76,8 +76,8 @@
      "fell-trees": "no: Matilda is too young to be sent.",
      "hunt-land": "no: Matilda is too young to be sent.",
      "cut-lane": "no: Matilda is too young to be sent.",
-     "keep-house": "no: Matilda is too young to be sent.",
-     "wash-clothes": "no: Matilda is too young to be sent.",
+     "keep-house": "no: Matilda is too young to keep house while a man and a woman of the family are at home.",
+     "wash-clothes": "no: Matilda is too young to do the wash while a man and a woman of the family are at home.",
      "work-garden": "no: Matilda is too young to be sent.",
      "listed": 10
     },
@@ -117,19 +117,19 @@
      "fell-trees": "no: Docia is too young to be sent.",
      "hunt-land": "no: Docia is too young to be sent.",
      "cut-lane": "no: Docia is too young to be sent.",
-     "keep-house": "no: Docia is too young to be sent.",
-     "wash-clothes": "no: Docia is too young to be sent.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
      "work-garden": "no: Docia is too young to be sent.",
-     "listed": 10
+     "listed": 12
     },
     "mateo": {
      "fell-trees": "yes",
      "hunt-land": "yes",
      "cut-lane": "no: There is no lane of your own to cut.",
-     "keep-house": "no: Keeping house is women's work, and Temperance is at home.",
-     "wash-clothes": "no: The wash is women's work, and Temperance is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
      "work-garden": "no: The kitchen garden is women's work, and Temperance is at home.",
-     "listed": 16
+     "listed": 18
     }
    }
   },
@@ -146,20 +146,20 @@
      "listed": 16
     },
     "mother": {
-     "fell-trees": "yes",
-     "hunt-land": "yes",
-     "cut-lane": "no: There is no lane of your own to cut.",
+     "fell-trees": "no: Felling is men's work, and Josiah is at home.",
+     "hunt-land": "no: Hunting is men's work, and Josiah is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Josiah is at home.",
      "keep-house": "yes",
      "wash-clothes": "yes",
      "work-garden": "yes",
-     "listed": 19
+     "listed": 10
     },
     "rosa": {
      "fell-trees": "no: Emily is too young to be sent.",
      "hunt-land": "no: Emily is too young to be sent.",
      "cut-lane": "no: Emily is too young to be sent.",
-     "keep-house": "no: Emily is too young to be sent.",
-     "wash-clothes": "no: Emily is too young to be sent.",
+     "keep-house": "no: Emily is too young to keep house while a man and a woman of the family are at home.",
+     "wash-clothes": "no: Emily is too young to do the wash while a man and a woman of the family are at home.",
      "work-garden": "no: Emily is too young to be sent.",
      "listed": 10
     },
@@ -167,8 +167,8 @@
      "fell-trees": "no: George is too young to be sent.",
      "hunt-land": "no: George is too young to be sent.",
      "cut-lane": "no: George is too young to be sent.",
-     "keep-house": "no: George is too young to be sent.",
-     "wash-clothes": "no: George is too young to be sent.",
+     "keep-house": "no: Keeping house is women's work, and Hannah is at home.",
+     "wash-clothes": "no: The wash is women's work, and Hannah is at home.",
      "work-garden": "no: George is too young to be sent.",
      "listed": 10
     }
@@ -187,20 +187,20 @@
      "listed": 16
     },
     "mother": {
-     "fell-trees": "yes",
-     "hunt-land": "yes",
-     "cut-lane": "no: There is no lane of your own to cut.",
+     "fell-trees": "no: Felling is men's work, and Isaac is at home.",
+     "hunt-land": "no: Hunting is men's work, and Isaac is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Isaac is at home.",
      "keep-house": "yes",
      "wash-clothes": "yes",
      "work-garden": "yes",
-     "listed": 19
+     "listed": 10
     },
     "rosa": {
      "fell-trees": "no: Lavinia is too young to be sent.",
      "hunt-land": "no: Lavinia is too young to be sent.",
      "cut-lane": "no: Lavinia is too young to be sent.",
-     "keep-house": "no: Lavinia is too young to be sent.",
-     "wash-clothes": "no: Lavinia is too young to be sent.",
+     "keep-house": "no: Lavinia is too young to keep house while a man and a woman of the family are at home.",
+     "wash-clothes": "no: Lavinia is too young to do the wash while a man and a woman of the family are at home.",
      "work-garden": "no: Lavinia is too young to be sent.",
      "listed": 10
     },
@@ -208,8 +208,8 @@
      "fell-trees": "no: Calvin is too young to be sent.",
      "hunt-land": "no: Calvin is too young to be sent.",
      "cut-lane": "no: Calvin is too young to be sent.",
-     "keep-house": "no: Calvin is too young to be sent.",
-     "wash-clothes": "no: Calvin is too young to be sent.",
+     "keep-house": "no: Keeping house is women's work, and Charity is at home.",
+     "wash-clothes": "no: The wash is women's work, and Charity is at home.",
      "work-garden": "no: Calvin is too young to be sent.",
      "listed": 10
     }
@@ -240,19 +240,19 @@
      "fell-trees": "no: Docia is too young to be sent.",
      "hunt-land": "no: Docia is too young to be sent.",
      "cut-lane": "no: Docia is too young to be sent.",
-     "keep-house": "no: Docia is too young to be sent.",
-     "wash-clothes": "no: Docia is too young to be sent.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
      "work-garden": "no: Docia is too young to be sent.",
-     "listed": 10
+     "listed": 12
     },
     "mateo": {
      "fell-trees": "no: Micajah is too young to be sent.",
      "hunt-land": "no: Micajah is too young to be sent.",
      "cut-lane": "no: Micajah is too young to be sent.",
-     "keep-house": "no: Micajah is too young to be sent.",
-     "wash-clothes": "no: Micajah is too young to be sent.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
      "work-garden": "no: Micajah is too young to be sent.",
-     "listed": 10
+     "listed": 12
     }
    }
   },
@@ -281,8 +281,8 @@
      "fell-trees": "no: Louisa is too young to be sent.",
      "hunt-land": "no: Louisa is too young to be sent.",
      "cut-lane": "no: Louisa is too young to be sent.",
-     "keep-house": "no: Louisa is too young to be sent.",
-     "wash-clothes": "no: Louisa is too young to be sent.",
+     "keep-house": "no: Louisa is too young to keep house while a man and a woman of the family are at home.",
+     "wash-clothes": "no: Louisa is too young to do the wash while a man and a woman of the family are at home.",
      "work-garden": "no: Louisa is too young to be sent.",
      "listed": 10
     },
@@ -290,8 +290,8 @@
      "fell-trees": "no: Simeon is too young to be sent.",
      "hunt-land": "no: Simeon is too young to be sent.",
      "cut-lane": "no: Simeon is too young to be sent.",
-     "keep-house": "no: Simeon is too young to be sent.",
-     "wash-clothes": "no: Simeon is too young to be sent.",
+     "keep-house": "no: Keeping house is women's work, and Patience is at home.",
+     "wash-clothes": "no: The wash is women's work, and Patience is at home.",
      "work-garden": "no: Simeon is too young to be sent.",
      "listed": 10
     }
@@ -322,8 +322,8 @@
      "fell-trees": "no: Abigail is too young to be sent.",
      "hunt-land": "no: Abigail is too young to be sent.",
      "cut-lane": "no: Abigail is too young to be sent.",
-     "keep-house": "no: Abigail is too young to be sent.",
-     "wash-clothes": "no: Abigail is too young to be sent.",
+     "keep-house": "no: Abigail is too young to keep house while a man and a woman of the family are at home.",
+     "wash-clothes": "no: Abigail is too young to do the wash while a man and a woman of the family are at home.",
      "work-garden": "no: Abigail is too young to be sent.",
      "listed": 10
     },
@@ -331,8 +331,8 @@
      "fell-trees": "no: Moses is too young to be sent.",
      "hunt-land": "no: Moses is too young to be sent.",
      "cut-lane": "no: Moses is too young to be sent.",
-     "keep-house": "no: Moses is too young to be sent.",
-     "wash-clothes": "no: Moses is too young to be sent.",
+     "keep-house": "no: Keeping house is women's work, and Martha is at home.",
+     "wash-clothes": "no: The wash is women's work, and Martha is at home.",
      "work-garden": "no: Moses is too young to be sent.",
      "listed": 10
     }
@@ -363,8 +363,8 @@
      "fell-trees": "no: Clarissa is too young to be sent.",
      "hunt-land": "no: Clarissa is too young to be sent.",
      "cut-lane": "no: Clarissa is too young to be sent.",
-     "keep-house": "no: Clarissa is too young to be sent.",
-     "wash-clothes": "no: Clarissa is too young to be sent.",
+     "keep-house": "no: Clarissa is too young to keep house while a man and a woman of the family are at home.",
+     "wash-clothes": "no: Clarissa is too young to do the wash while a man and a woman of the family are at home.",
      "work-garden": "no: Clarissa is too young to be sent.",
      "listed": 11
     },
@@ -372,10 +372,10 @@
      "fell-trees": "no: Moses is too young to be sent.",
      "hunt-land": "no: Moses is too young to be sent.",
      "cut-lane": "no: Moses is too young to be sent.",
-     "keep-house": "no: Moses is too young to be sent.",
-     "wash-clothes": "no: Moses is too young to be sent.",
+     "keep-house": "no: Keeping house is women's work, and Temperance is at home.",
+     "wash-clothes": "no: The wash is women's work, and Temperance is at home.",
      "work-garden": "no: Moses is too young to be sent.",
-     "listed": 17
+     "listed": 15
     }
    }
   },
@@ -404,19 +404,19 @@
      "fell-trees": "no: Adela is too young to be sent.",
      "hunt-land": "no: Adela is too young to be sent.",
      "cut-lane": "no: Adela is too young to be sent.",
-     "keep-house": "no: Adela is too young to be sent.",
-     "wash-clothes": "no: Adela is too young to be sent.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
      "work-garden": "no: Adela is too young to be sent.",
-     "listed": 10
+     "listed": 12
     },
     "mateo": {
      "fell-trees": "no: Simeon is too young to be sent.",
      "hunt-land": "no: Simeon is too young to be sent.",
      "cut-lane": "no: Simeon is too young to be sent.",
-     "keep-house": "no: Simeon is too young to be sent.",
-     "wash-clothes": "no: Simeon is too young to be sent.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
      "work-garden": "no: Simeon is too young to be sent.",
-     "listed": 10
+     "listed": 12
     }
    }
   },
@@ -445,8 +445,8 @@
      "fell-trees": "no: Docia is too young to be sent.",
      "hunt-land": "no: Docia is too young to be sent.",
      "cut-lane": "no: Docia is too young to be sent.",
-     "keep-house": "no: Docia is too young to be sent.",
-     "wash-clothes": "no: Docia is too young to be sent.",
+     "keep-house": "no: Docia is too young to keep house while a man and a woman of the family are at home.",
+     "wash-clothes": "no: Docia is too young to do the wash while a man and a woman of the family are at home.",
      "work-garden": "no: Docia is too young to be sent.",
      "listed": 10
     },
@@ -454,8 +454,8 @@
      "fell-trees": "no: Zadok is too young to be sent.",
      "hunt-land": "no: Zadok is too young to be sent.",
      "cut-lane": "no: Zadok is too young to be sent.",
-     "keep-house": "no: Zadok is too young to be sent.",
-     "wash-clothes": "no: Zadok is too young to be sent.",
+     "keep-house": "no: Keeping house is women's work, and Temperance is at home.",
+     "wash-clothes": "no: The wash is women's work, and Temperance is at home.",
      "work-garden": "no: Zadok is too young to be sent.",
      "listed": 10
     }
@@ -518,8 +518,8 @@
      "fell-trees": "no: Jonas is too young to be sent.",
      "hunt-land": "no: Jonas is too young to be sent.",
      "cut-lane": "no: Jonas is too young to be sent.",
-     "keep-house": "no: Jonas is too young to be sent.",
-     "wash-clothes": "no: Jonas is too young to be sent.",
+     "keep-house": "no: Keeping house is women's work, and Effie is at home.",
+     "wash-clothes": "no: The wash is women's work, and Effie is at home.",
      "work-garden": "no: Jonas is too young to be sent.",
      "listed": 10
     }
@@ -559,10 +559,10 @@
      "fell-trees": "no: Moses is too young to be sent.",
      "hunt-land": "no: Moses is too young to be sent.",
      "cut-lane": "no: Moses is too young to be sent.",
-     "keep-house": "no: Moses is too young to be sent.",
-     "wash-clothes": "no: Moses is too young to be sent.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
      "work-garden": "no: Moses is too young to be sent.",
-     "listed": 10
+     "listed": 12
     }
    }
   }

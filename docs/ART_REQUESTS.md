@@ -384,6 +384,8 @@ Owner, 2026-09-28: *"add to the art requests list which items need to be made so
 | **Keeping house, the garden and the wash** on the bar are stroked glyphs (a pot over a fire, a sprout over rows, a tub with a shirt); at the work the person is drawn tending the fire (`fire`), sewing (the mending pose, `repair`), hoeing and gathering in the garden, and bent bobbing at the wash (`care`) or striking with the hoeing cycle (`work`) to beat it | `LITTLE_GLYPHS`, `PANEL_ICONS` in `public/family-panel.js`; `STROKES.sew`, `.scrub`, `.beat` and `WORK['keep-house']`, `['work-garden']`, `['wash-clothes']` in `public/work-art.js` | Request 2026-10-03 — men's work, women's work and the wash, items 1 to 7 | `icon-keep-house`, `icon-work-garden`, `icon-wash-clothes`, `<cast>-beat-wash`, `-cook` (and `<family>-`); `-sew` and `-wash` are A5 |
 | **The kitchen garden** is rows of earth with green dots in a stroked rail, drawn in canvas beside the house | `drawGarden` in `public/app.js` | Request 2026-10-03 — men's work, women's work and the wash, item 8 | `garden-beds`, `garden-beds-winter` |
 | **Clothes that want washing** are three specks circling the head and two wavy lines rising, drawn in canvas over the figure | `drawFlies` in `public/app.js` | Request 2026-10-03 — men's work, women's work and the wash, item 9 | `flies-buzz` |
+| **Help across the custom** (owner, 2026-10-04, "Help, not lead") is a green disc with two joined hands on the icon's corner; **the house's cue** ("Prompt the student") is the work's own icon in a small blue disc pulsing on the portrait's foot, and the icon glowing blue | `.panel-icon[data-help=true]::after`, `.panel-icon[data-cue=true]`, `.panel-cue-mark` in `public/style.css`; `cueMark` in `public/app.js` | Request 2026-10-04 — help and the house cue, items 1 and 2 | `mark-help`, `mark-cue-house`, `mark-cue-wash` |
+| **A child keeping house or washing** for a lone parent (owner, 2026-10-04, "Children keep house") is drawn at the children's own strokes: gathering (the kindling) at the hearth, the water's pails at the wash | `WORK['keep-house'].child`, `WORK['wash-clothes'].child` in `public/work-art.js` | Request 2026-10-04 — help and the house cue, item 3 | `<child>-cook`, `<child>-wash` |
 | **Milking the cow** is drawn as the cow on a rope (Claude's `icon-flee-cow`, or its stroked glyph); the person is drawn in the tending pose (`care`) | `PANEL_ICONS['milk-cow']`, `['milk-road']` in `public/family-panel.js`; `WORK['milk-cow']`, `['milk-road']` in `public/work-art.js` | Request 2026-10-02 — the milking icon and the milking pose, items 1 and 2 | `icon-milk-cow`, `<cast>-milk`, `<child>-milk` |
 | **A small child carried on the road** is the child's own figure drawn at the carrier's hip, a little up and to the right, as a carried baby is | `roadCarrier`, `carriedAt` in `drawWorld`, `public/app.js` | Request 2026-10-02 — a grown person carrying a child of two to five on the road, item 1 | `<cast>-carry-child-walk` |
 | **The hunger mark and the food gauge's sack** are a bowl and a sack drawn in the style sheet as masks, tinted by the stage | `.panel-hunger-mark`, `.food-icon` in `public/style.css` (made in `panelRow`, `paintLarder`, `public/app.js`) | Request 2026-09-30 — the hunger mark and the food gauge's sack, items 1 and 2 | `mark-hunger`, `mark-food` |
@@ -839,6 +841,35 @@ The field is the student's view over the hunter's shoulder for the few seconds a
 
 **Check.** At 1366x768 and 1024x600, a deer stopped at the middle of the field reads at once against the backdrop, and the rifle reads
 as a rifle, not a stick.
+
+## Request 2026-10-04 — help and the house cue
+
+**Status: open; stand-ins in use since 2026-10-04 (see *Stand-ins in use*).** The owner, 2026-10-04, answering the custom's viability
+study by multiple choice ([CUSTOMARY_WORK.md](CUSTOMARY_WORK.md) §1c, [BALANCE.md](BALANCE.md) §23): **"Help, not lead"** - women and
+girls may join men's work a man has started, and men and boys women's work a woman has started, never start it; and **"Prompt the
+student"** - a visual cue on an idle woman's portrait pointing at Keep house or the wash when the house is unkept or the wash is due.
+The owner prefers visual cues over words; both are marks, not text.
+
+1. **The help mark** (priority 2) - `mark-help`: two hands clasped, or a small figure lending a hand, in green, in the marks' contract
+   (96×96, transparent, reads at 17 CSS px on the top-right corner of a 48 px action icon). It says "this is help with somebody else's
+   work", not "this is yours". Plugs into `.panel-icon[data-help=true]` in public/style.css, which today draws a green disc with two
+   joined hands as an inline SVG.
+2. **The house's cue** (priority 2) - `mark-cue-house` (the pot over the hearth fire) and `mark-cue-wash` (the washtub with a shirt),
+   in the marks' small round style, to pulse in the foot of a portrait (20 CSS px). Plugs into `cueMark` in public/app.js, which today
+   draws the work's own icon (`icon-keep-house`/`icon-wash-clothes`, or their stroked glyphs until F34 lands) in a small blue disc.
+3. **A child keeping house and washing** (priority 3) - for `boy` and `girl` (the children's figures, about five to nine): `<child>-cook`
+   (stirring a pot over the hearth fire, 2 frames, east) and `<child>-wash` (scrubbing at a tub, 2 frames, east), in the people contract
+   (the figure's own logical height and foot baseline, east-facing and mirrored for west). The owner's "Children keep house" (2026-10-04):
+   a child of seven keeps house and does the wash for a lone parent. Plugs into `WORK['keep-house'].child` and `WORK['wash-clothes'].child`
+   in public/work-art.js, which today draw the child at the kindling's gathering (`gather`) and the water's pails (`water`).
+
+**Not yet on "What Astra still needs to make"**: that list is written from `scripts/claude-art/plan.mjs`, which another builder had
+open on 2026-10-04; the three items above are to be added there (area F for the marks, B for the child) and the list written again
+(`node scripts/claude-art/write-plan.mjs`) once that work has landed. Until then the cue's code comment names the icons it draws
+(request 2026-10-03, items 1 and 3), which are on the list as F34.
+
+**Check.** On a row at 1366x768 the help mark reads as "lend a hand" and not as "add" or "new"; the cue reads as the house (or the
+wash) wanting doing from a glance at the panel, and is told apart from the sick, hunger, shelter and herd marks.
 
 ## Request 2026-10-03 — men's work, women's work and the wash
 

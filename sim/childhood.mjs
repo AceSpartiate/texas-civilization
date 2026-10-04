@@ -98,7 +98,9 @@ function autoOff(world, household, entity, why) {
 /** The jobs a child on auto takes up first, most useful first; play goes between them. */
 // Milking the cow after the eggs (owner, 2026-10-02: "make it a chore that kids can do"; sim/milking.mjs).
 // Minding the hogs after the milking (owner, 2026-10-03; sim/stock.mjs `HOGS_FROM_AGE`): a child of seven on auto minds them once a day.
-const JOBS_FIRST = Object.freeze(['child-eggs', 'milk-cow', 'look-to-stock', 'child-water', 'child-mind', 'child-kindling', 'child-birds', 'child-hens']);
+// Keeping house and the wash first, where they are the child's to do (owner, 2026-10-04, "Children keep house"; sim/custom.mjs
+// `childKeeps`): a child of seven on auto keeps house for a lone parent, and does the wash when it is wanted.
+const JOBS_FIRST = Object.freeze(['keep-house', 'wash-clothes', 'child-eggs', 'milk-cow', 'look-to-stock', 'child-water', 'child-mind', 'child-kindling', 'child-birds', 'child-hens']);
 
 /** What a child on auto takes up now: every other time a job they can do, and play between; play if there is no job. */
 function autoPick(world, household, entity) {

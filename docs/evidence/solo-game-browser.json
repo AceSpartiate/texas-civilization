@@ -9,17 +9,18 @@
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, lobby)",
     "the solo game opens joined as hh-1 in columbia, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (101.0252, 24.745199999999997)",
-    "9 of the family set to auto from the panel: Ezra Proofwright, Mahala Proofwright, Delia Proofwright, Daniel Proofwright, Louisa Proofwright, Docia Proofwright, Joseph Proofwright, Moses Proofwright, Eli Proofwright",
+    "the family arrived and the house site was chosen on its grant at (98.3452, 25.1396)",
+    "9 of the family set to auto from the panel: Amos Proofwright, Temperance Proofwright, Hiram Proofwright, Joseph Proofwright, Prudence Proofwright, Eliza Proofwright, Abigail Proofwright, Winnie Proofwright, Matilda Proofwright",
     "5 orders given from the panel and taken",
-    "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Ezra Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (1074 ticks, 390.9 s)",
+    "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 114780: interim standings on both pages, no winner named (2059 ticks, 226.5 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Ezra Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 208.2 s)",
-    "the Host continued the class into the spring: period 3 opens on 1836-03-17",
-    "nobody of the family starved by the spring, Mahala Proofwright bringing food in on fish-the-water",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (413 ticks, 287.4 s)",
+    "Amos Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241920 (300 ticks, 34.1 s)",
+    "the Host continued the class into the spring: period 3 opens on 1836-03-14",
+    "nobody of the family starved by the spring, Temperance Proofwright bringing food in on fish-the-water",
+    "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1436 ticks, 162.6 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined in its own lobby from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -31,44 +32,43 @@
     },
     "periods": {
       "first": {
-        "ticks": 1074,
-        "seconds": 390.9,
-        "endedAtMinute": 114060
+        "ticks": 2059,
+        "seconds": 226.5,
+        "endedAtMinute": 114780
       },
       "second": {
         "ticks": 300,
-        "seconds": 208.2,
+        "seconds": 34.1,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 413,
-        "seconds": 287.4,
+        "ticks": 1436,
+        "seconds": 162.6,
         "endedAtMinute": 302580
       }
     },
     "family": [
-      "Ezra Proofwright (father, 39)",
-      "Mahala Proofwright (mother, 35)",
-      "Delia Proofwright (daughter, 17)",
-      "Daniel Proofwright (son, 14)",
-      "Louisa Proofwright (daughter, 13)",
-      "Docia Proofwright (daughter, 10)",
-      "Joseph Proofwright (son, 8)",
-      "Moses Proofwright (son, 5)",
-      "Eli Proofwright (son, 4)",
-      "Clarissa Proofwright (daughter, 1)",
-      "Harriet Proofwright (daughter, 0)"
+      "Amos Proofwright (father, 33)",
+      "Temperance Proofwright (mother, 31)",
+      "Hiram Proofwright (son, 14)",
+      "Joseph Proofwright (son, 12)",
+      "Prudence Proofwright (daughter, 10)",
+      "Eliza Proofwright (daughter, 8)",
+      "Abigail Proofwright (daughter, 7)",
+      "Winnie Proofwright (daughter, 5)",
+      "Matilda Proofwright (daughter, 2)",
+      "Henry Proofwright (son, 0)"
     ],
     "onAuto": [
-      "Ezra Proofwright",
-      "Mahala Proofwright",
-      "Delia Proofwright",
-      "Daniel Proofwright",
-      "Louisa Proofwright",
-      "Docia Proofwright",
+      "Amos Proofwright",
+      "Temperance Proofwright",
+      "Hiram Proofwright",
       "Joseph Proofwright",
-      "Moses Proofwright",
-      "Eli Proofwright"
+      "Prudence Proofwright",
+      "Eliza Proofwright",
+      "Abigail Proofwright",
+      "Winnie Proofwright",
+      "Matilda Proofwright"
     ],
     "fisher": {
       "id": "hh-1-parent-2",
@@ -100,48 +100,46 @@
         "id": "hh-1-child-3",
         "key": "cut-lane",
         "took": true
-      },
-      {
-        "id": "hh-1-child-4",
-        "key": "cut-lane",
-        "took": "no answer"
       }
     ],
     "call": {
       "text": "Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca and go on from there. Does somebody from your family go?",
-      "sent": "Ezra Proofwright"
+      "sent": "Amos Proofwright"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Ezra Proofwright"
+      "name": "Amos Proofwright"
     },
     "winterOutcome": {
       "voted": false,
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 180780,
+        "since": 178560,
         "siteId": "san-felipe",
         "acres": 320
       }
     },
     "starved": [],
     "flight": {
-      "status": "fled"
+      "answeredBy": "hh-1-parent-2",
+      "refuge": "lynchburg",
+      "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, "
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 3715. Family Who went Heard of the cannon Heard the Alamo fell In the spring Farm Taken prisoner Coin Glory Land Final the Proofwright family Ezra Proofwright October 2 March 14 Fled; on th",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 8 reales GLORY 136 FINAL NUMBER 3715 8 reales + 19 reales for the farm × (1 + 136 glory) + 16 reales of land (320 acres promised) = 3715 The family had 8 reales, and sold the farm for 19 reales: 8 + 19 = 27 reales. Bringing the bedding ",
-      "flight": "returning",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 340. Family Who went Heard of the cannon Heard the Alamo fell In the spring Farm Taken prisoner Coin Glory Land Final the Proofwright family Amos Proofwright, a child of the family October ",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 3 reales GLORY 107 FINAL NUMBER 340 3 reales × (1 + 107 glory) + 16 reales of land (320 acres promised) = 340 The family had 3 reales. The farm was burned, so there was nothing to sell; it counts 40 glory, which is in the glory below. 1",
+      "flight": "refuged",
       "minute": 302580
     },
-    "totalSeconds": 886.4999999999999
+    "totalSeconds": 423.20000000000005
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",
     "docs/evidence/solo-game-interim-1.png",
     "docs/evidence/solo-game-interim-2.png",
+    "docs/evidence/solo-game-leaving.png",
     "docs/evidence/solo-game-ending-host.png",
     "docs/evidence/solo-game-ending-family.png"
   ],

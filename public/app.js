@@ -5892,6 +5892,11 @@ function renderFamilyPanel(world) {
     }
     const badgeLabel = entity.sickness ? sickSays : '';
     if (row.sickMark.title !== badgeLabel) row.sickMark.title = badgeLabel;
+    // The house's cue (sim/housework.mjs `houseCue`): the work's own picture pulsing on the portrait, redrawn only when the work changes.
+    const cue = ['keep-house', 'wash-clothes'].includes(entity.cue) ? entity.cue : '';
+    if (row.cueMark.hidden !== !cue) row.cueMark.hidden = !cue;
+    if (cue && row.cueMark.dataset.work !== cue) { row.cueMark.dataset.work = cue; drawIcon(row.cueMark.querySelector('canvas'), cue, { drawSprite, spriteFrame }); }
+    setData(row.item, 'cue', cue);
     // What the person has become goes on the row after what they are: the mark and the camp drill (docs/FAMILY_PANEL.md).
     // The role alone on the row; the age is on the portrait's hover and label and in the family book (owner, 2026-09-30, "Move age
     // off the row"): ", 20" beside "daughter" cut names of more than about five letters in the 19rem column.
@@ -5917,7 +5922,8 @@ function renderFamilyPanel(world) {
     const carry = null;
     const offered = world.work?.[id] || [];
     const icons = panelActions({ entity, offered, catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
-      atHome: entity.location?.siteId === homeId, settable, carry, wants: world.watching ? null : household.wants });
+      atHome: entity.location?.siteId === homeId, settable, carry, wants: world.watching ? null : household.wants,
+      nameOf: other => { const one = (world.entities || []).find(candidate => candidate.id === other); return one ? one.given || one.name : null; } });
     // The guided start shuts everything the step does not allow, and rings the one it asks for (public/lesson.js). It is
     // read here rather than decided here: `allow` is the server's list and the server refuses anything else in words.
     const shutting = lessonLocks(lesson);
@@ -6499,7 +6505,18 @@ function panelRow(id) {
   // stand-in: docs/ART_REQUESTS.md, request 2026-10-03 - the herd: the horn mark is a horned head drawn in the style sheet as a mask.
   const herdMark = element('span', '', 'panel-herd-mark');
   herdMark.hidden = true;
-  portrait.append(canvas, star, idleMark, sickMark, hungerMark, shelterMark, herdMark);
+  // Prompt the student (owner, 2026-10-04, "Prompt the student"; sim/housework.mjs `houseCue`): the house's work wanting doing - the
+  // pot over the fire, or the washtub - pulsing in the portrait's foot while this idle person may take it up, and the same icon glowing
+  // on the bar. No words. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "men's work, women's work and the wash", items 1 and 3 -
+  // the icon's own picture (`icon-keep-house`, `icon-wash-clothes`, or their glyphs) in a small disc; request 2026-10-04 "help and the
+  // house cue", item 2, asks Astra's `mark-cue-house` and `mark-cue-wash` to replace it.
+  const cueMark = element('span', '', 'panel-cue-mark');
+  const cueCanvas = document.createElement('canvas');
+  cueCanvas.width = cueCanvas.height = 48;
+  cueCanvas.setAttribute('aria-hidden', 'true');
+  cueMark.append(cueCanvas);
+  cueMark.hidden = true;
+  portrait.append(canvas, star, idleMark, sickMark, hungerMark, shelterMark, herdMark, cueMark);
   // The "!": its own button beside the portrait (a button cannot hold a button), shown only while somebody waits on them.
   const attention = panelMark('button', '!', 'panel-attention', 'mark-need');
   attention.type = 'button';
@@ -6570,7 +6587,7 @@ function panelRow(id) {
   const makeMain = element('button', '', 'panel-make-main');
   makeMain.type = 'button';
   makeMain.dataset.focus = id;
-  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, focus, auto, autoSays, life, sick, sickMark, hungerMark, shelterMark, herdMark, word, note, why, away, makeMain, face: null, iconsKey: null, made: new Map(), reasonWord: null, travelWord: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, focus, auto, autoSays, life, sick, sickMark, hungerMark, shelterMark, herdMark, cueMark, word, note, why, away, makeMain, face: null, iconsKey: null, made: new Map(), reasonWord: null, travelWord: null };
   panelRows.set(id, row);
   return row;
 }
@@ -6647,6 +6664,10 @@ function describeIcon(button, icon, lesson = null) {
   setData(button, 'pointed', lesson?.pointed ? 'true' : '');
   // Work somebody on auto is given to wait for (sim/auto.mjs `waitingWork`): sent as it is, the way chosen when it goes.
   setData(button, 'waits', icon.waits ? 'true' : '');
+  // Help, not lead (owner, 2026-10-04): the helping-hands badge on work open only to join somebody of its custom at it.
+  setData(button, 'help', icon.help ? 'true' : '');
+  // The house's work wanting doing, on the idle person the server points at (sim/housework.mjs `houseCue`): it glows, with no words.
+  setData(button, 'cue', icon.cue ? 'true' : '');
   // A way to food glows while the food is low (owner, 2026-10-02; public/family-panel.js `feedsNow`): the gauge's own level.
   setData(button, 'feeds', feedsNow(icon.key, larderWas) ? 'true' : '');
   button.dataset.active = String(icon.active);
@@ -6822,6 +6843,8 @@ function repaintFamilyPanel() {
     row.face = null;
     for (const node of row.item.querySelectorAll('[data-mark]')) paintMark(node, node.dataset.mark);
     if (!row.sickMark.hidden) paintSickMark(row.sickMark);
+    // The house's cue, drawn again from the work's own picture (`cueMark`).
+    delete row.cueMark.dataset.work;
     // Those off the bar too (`row.made`), so one coming back is drawn with the art.
     for (const icon of row.made.values()) drawIcon(icon.querySelector('canvas'), icon.dataset.key, { drawSprite, spriteFrame });
   }

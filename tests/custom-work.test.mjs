@@ -16,6 +16,7 @@ import { CUSTOM, customOf, customRefusal } from '../sim/custom.mjs';
 import { STEPS } from '../sim/lesson.mjs';
 import { advanceAuto } from '../sim/auto.mjs';
 import { createSettledWorld, settle } from './support/settled.mjs';
+import { houseBuilt } from '../sim/houses.mjs';
 import { barIcons, panelActions } from '../public/family-panel.js';
 import { choreCatalogue } from '../sim/chores.mjs';
 
@@ -286,7 +287,7 @@ test('the families nobody plays keep the custom too: no woman of them begins men
   for (const household of Object.values(world.households)) rollFamily(world, household);
   world.status = 'running';
   const seen = new Map();
-  let begun = 0, women = 0;
+  let begun = 0, women = 0, helping = 0;
   for (let tick = 0; tick < 700; tick++) {
     const before = new Map(Object.values(world.entities).filter(one => one.kind === 'person' && one.householdId).map(one => [one.id, one.chore?.id || null]));
     // What the custom says the moment before the tick, for each woman.
@@ -305,9 +306,128 @@ test('the families nobody plays keep the custom too: no woman of them begins men
       if (!now || now === was) continue;
       begun++;
       if (person.sex === 'female') women++;
+      // Joining a man of hers at it is help, not lead (owner, 2026-10-04): allowed, and marked with whom.
+      const helped = world.entities[person.chore.helping];
+      if (helped?.sex === 'male' && helped.householdId === person.householdId) { helping++; continue; }
       if (person.sex === 'female' && CUSTOM[now]?.[0] === 'men' && refusedBefore.get(id)?.[now]) seen.set(id, `${now}: ${refusedBefore.get(id)[now]}`);
     }
   }
   assert.ok(begun > 20 && women > 3, `the families did too little to prove anything: ${begun} works begun, ${women} by women`);
   assert.deepEqual([...seen.values()], [], 'a woman of a family nobody plays took up men\'s work with a man at home');
+  // And they do help (owner, 2026-10-04, "Help, not lead"): the director's women join the men at the house and the clearing.
+  assert.ok(helping > 0, 'no woman of a family nobody plays ever helped a man of hers');
+});
+
+// ------------------------------------------------------------------------------------------------ the owner's answers of 2026-10-04
+// Help, not lead (issues 1 and 5), and only while serving (issue 6): docs/BALANCE.md §23, docs/CUSTOMARY_WORK.md §1c.
+
+/** Tick until this holds, or fail saying what never happened. */
+const until = (world, holds, cap, what) => { for (let tick = 0; tick < cap && !holds(); tick++) stepWorld(world); assert.ok(holds(), what); };
+/** How many ticks this person takes to finish the work in hand. */
+const ticksToFinish = (world, person, cap = 600) => { let tick = 0; for (; tick < cap && person.chore; tick++) stepWorld(world); assert.equal(person.chore, null, `${person.name} never finished`); return tick; };
+
+test('help, not lead: a woman or girl of ten joins the men\'s work a man is at - drawn as help, the work faster - and never begins it', () => {
+  const { world, household, thomas, elena, rosa } = founding('custom-help');
+  household.tools = { ...household.tools, axe: 0 };
+  rosa.age = 12; rosa.sex = 'female';
+  const listed = (person, id) => view(world, household.id).work[person.id].find(entry => entry.id === id);
+  // Nobody of the men's custom at it: not hers to begin, not on her bar, refused in the custom's words.
+  assert.equal(listed(elena, 'fence-yard'), undefined, 'the yard is on her bar with nobody at it');
+  assert.throws(() => send(world, household.id, elena.id, 'fence-yard'), /men's work/);
+  send(world, household.id, thomas.id, 'fence-yard');
+  // He is at it: on her bar and her daughter's, open, as help - whose it is said, no place asked on the map.
+  for (const person of [elena, rosa]) {
+    const entry = listed(person, 'fence-yard');
+    assert.ok(entry?.can, `${person.name} may not help him: ${choreAvailability(world, household, person, 'fence-yard').why}`);
+    assert.equal(entry.help, thomas.id, 'the work is not marked as help with him');
+  }
+  const icon = panelActions({ entity: elena, offered: view(world, household.id).work[elena.id], catalogue: catalogue(), settable: true, nameOf: id => world.entities[id]?.given || world.entities[id]?.name })
+    .find(one => one.key === 'fence-yard');
+  assert.ok(icon?.help && icon.can && !icon.onMap, 'the help is not drawn as help on her bar');
+  assert.match(icon.note, new RegExp(`^Helps ${thomas.given || thomas.name}`));
+  // A girl under ten does not help.
+  rosa.age = 9;
+  assert.equal(listed(rosa, 'fence-yard'), undefined, 'a girl of nine was offered the men\'s work');
+  rosa.age = 12;
+  // She joins him: alongside, marked as helping him, and the yard goes up sooner than his alone.
+  const twin = structuredClone(world);
+  send(world, household.id, elena.id, 'fence-yard');
+  assert.equal(elena.chore.alongside, thomas.id);
+  assert.equal(elena.chore.helping, thomas.id);
+  const together = ticksToFinish(world, thomas), alone = ticksToFinish(twin, twin.entities[thomas.id]);
+  assert.ok(together < alone, `her hands did not speed the yard: ${together} ticks with her, ${alone} alone`);
+  assert.equal(elena.chore, null, 'she went on after the yard was up');
+  validateWorld(world);
+});
+
+test('help, not lead, the other way: a man or boy of ten joins the women\'s work a woman is at, and never begins it', () => {
+  const { world, household, thomas, elena, mateo } = founding('custom-help-house');
+  mateo.age = 12; mateo.sex = 'male';
+  for (const person of [thomas, mateo]) assert.match(choreAvailability(world, household, person, 'keep-house').why, /women's work/, `${person.name} may begin keeping house with her at home`);
+  send(world, household.id, elena.id, 'keep-house');
+  for (const person of [thomas, mateo]) {
+    const said = choreAvailability(world, household, person, 'keep-house');
+    assert.ok(said.can && said.help === elena.id, `${person.name} may not help her keep house: ${said.why}`);
+  }
+  // A boy of eight does not help (keeping house is a child's work for a lone parent, so his age is the help's own to refuse).
+  mateo.age = 8;
+  assert.equal(choreAvailability(world, household, mateo, 'keep-house').can, false, 'a boy of eight helps his mother keep house');
+  mateo.age = 12;
+  send(world, household.id, thomas.id, 'keep-house');
+  assert.equal(thomas.chore.alongside, elena.id);
+  assert.equal(thomas.chore.helping, elena.id);
+  ticksToFinish(world, elena);
+  // Kept once, by her: and nobody begins it again today.
+  assert.equal(household.housekept.by, elena.id);
+  assert.equal(thomas.chore, null);
+  // The wash, whose steps are long enough for more hands to shorten (ceiling: the house's and the garden's steps are a tick each).
+  world.washBase = Math.floor(world.minute / 1440) - 7;
+  send(world, household.id, elena.id, 'wash-clothes');
+  const twin = structuredClone(world);
+  send(world, household.id, mateo.id, 'wash-clothes');
+  assert.equal(mateo.chore.helping, elena.id);
+  const together = ticksToFinish(world, elena), alone = ticksToFinish(twin, twin.entities[elena.id]);
+  assert.ok(together < alone, `his hands did not speed the wash: ${together} ticks with him, ${alone} alone`);
+});
+
+test('help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does', () => {
+  // No grown son: the father is the only keeper of the men's custom.
+  const { world, household } = rolled('both', { seed: 'custom-help-raise', want: (w, h) => !h.members.some(id => w.entities[id].kin?.role === 'son' && w.entities[id].age >= 16) });
+  const father = roleOf(world, household, 'father'), mother = roleOf(world, household, 'mother');
+  household.improvements = { ...household.improvements, cabin: undefined };
+  applyAction(world, household.id, { action: 'plan-house', layout: 'jacal' });
+  assert.ok(household.house, 'no house planned');
+  assert.throws(() => send(world, household.id, mother.id, 'build-house'), /men's work/);
+  send(world, household.id, father.id, 'build-house');
+  send(world, household.id, mother.id, 'build-house');
+  assert.equal(mother.chore.helping, father.id, 'she is not marked as helping him');
+  assert.ok(world.events.some(event => event.text === `${mother.name} went to help ${father.given || father.name}: work on the house.`), 'the help is not said');
+  until(world, () => mother.chore?.step >= 1 && mother.chore.wait > 0, 200, 'she never got to work on the house');
+  // He leaves off: she finishes the spell in hand and leaves off too - a helper never leads.
+  applyAction(world, household.id, { action: 'stop-chore', entityId: father.id });
+  until(world, () => !mother.chore, 200, 'she went on building with him gone from it');
+  assert.ok(world.events.some(event => event.text === `${mother.name} left off work on the house: ${father.given || father.name} is no longer at it.`), 'her leaving off is not said');
+  // With him gone from home the house is hers by necessity, and she keeps at it.
+  send(world, household.id, father.id, 'build-house');
+  send(world, household.id, mother.id, 'build-house');
+  father.health = { condition: 'dead' };
+  father.chore = null;
+  const from = world.events.length;
+  let hers = false;
+  for (let tick = 0; tick < 600 && mother.chore; tick++) { stepWorld(world); if (mother.chore?.id === 'build-house' && mother.chore.helping === undefined) hers = true; }
+  assert.ok(hers, 'still marked as help when the work is hers by necessity');
+  assert.ok(!world.events.slice(from).some(event => event.actorId === mother.id && /left off/.test(event.text)), 'she left off with nobody of the men\'s custom at home');
+  assert.ok(houseBuilt(household), 'she never finished the house by necessity');
+  validateWorld(world);
+});
+
+test('only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away', () => {
+  for (const status of ['released', 'deserted', 'serving', 'prisoner']) {
+    const { world, household, thomas, elena } = founding(`custom-service-${status}`);
+    thomas.service = { kind: 'regular', status, since: 0, until: 10, siteId: 'san-felipe', acres: 0 };
+    const away = ['serving', 'prisoner'].includes(status);
+    const said = choreAvailability(world, household, elena, 'hunt-timber');
+    assert.equal(said.can, away, `${status}: ${said.why}`);
+    if (!away) assert.match(said.why, new RegExp(`${thomas.name} is at home`));
+  }
 });

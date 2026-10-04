@@ -4,18 +4,21 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. One real class through the join flow on the invented country (seed custom-proof-3). No LAN or district claim.",
   "checks": [
-    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":896,\"y\":158,\"sprite\":false})",
+    "flies are drawn over Alvin Proofwright at home, his clothes unwashed for a week ({\"x\":897,\"y\":157,\"sprite\":false})",
     "with Alvin Proofwright at home, none of the men's work is on Charity Proofwright's bar (plant-field, visit-shop, buy-furniture, milk-cow, keep-house, work-garden, wash-clothes, travel-gonzales, visit, work, rest); an order for it anyway is refused: \"Building is men's work, and Alvin is at home.\"",
+    "the cue: Charity Proofwright idle and the house not kept today - the pot pulsing on her portrait (23x23, cue-pulse) and Keep house glowing (cue-glow); on nobody else, no words",
+    "sent to the garden, the cue leaves Charity Proofwright's portrait",
+    "help, not lead: with Alvin Proofwright at the house it is on Charity Proofwright's bar with the helping-hands badge (\"Helps Alvin, and leaves off when they do.\"); pressed, she joins him: \"Charity Proofwright went to help Alvin: work on the house.\"",
     "the errand popup says \"Alvin's clothes want washing: the shops ask a quarter more and pay a fifth less.\", and 31 prices are dearer, seed \"2 reales or 3.75 food for 2 seed (1 real or 3 food to a clean customer)\"",
     "with Alvin Proofwright on the road to town, build-house appears on Charity Proofwright's bar, lit",
     "the family's story says: \"With Alvin gone to town, Charity went to work on the house herself.\"",
     "in gonzales: \"Calvin Oakes at Gonzales wrinkled his nose at Alvin Proofwright's clothes: \"I will thank you not to lean on the flour.\"\"; drawn over the speaker: \"I will thank you not to lean on the flour.\"; flies over him",
+    "children keep house: with Alvin Proofwright gone to the store, Obed Proofwright (7) has keep-house and wash-clothes on his bar; keeping it indoors, out of the weather; the story: \"Obed Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.\" \"Obed Proofwright did the wash: the clothes of 3 boiled, beaten and hung on the fence to dry.\"",
     "the story says: \"Alvin Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Alvin Proofwright's clothes and asked more.\"",
-    "Charity Proofwright at keep-house: drawn fire (mother-straw-work)",
     "Charity Proofwright at work-garden: drawn hoe (mother-straw-work), and the garden drawn beside the house ({\"x\":683,\"y\":384,\"half\":23,\"season\":\"growing\"})",
     "Charity Proofwright at wash-clothes: drawn scrub (mother-straw-work)",
-    "the story says: \"Charity Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.\" \"Charity Proofwright laid out a kitchen garden beside the house. It will give a little every day it is worked, from tomorrow.\" \"Charity Proofwright did the wash: the clothes of 4 boiled, beaten and hung on the fence to dry.\"",
-    "the wash done, Alvin Proofwright's clothes are clean and no flies are drawn over him",
+    "the story says: \"Charity Proofwright laid out a kitchen garden beside the house. It will give a little every day it is worked, from tomorrow.\" \"Charity Proofwright did a wash for Alvin, who wanted it before wash day: one set of clothes boiled, beaten and hung on the fence to dry.\"",
+    "the wash for whoever's dirty done, Alvin Proofwright's clothes are clean and no flies are drawn over him",
     "hunt-timber left Charity Proofwright's bar with Alvin Proofwright home and came back when he went again, the same button",
     "no page errors"
   ],
@@ -47,8 +50,8 @@
       }
     ],
     "fliesHome": {
-      "x": 896,
-      "y": 158,
+      "x": 897,
+      "y": 157,
       "sprite": false
     },
     "home": {
@@ -67,6 +70,27 @@
       ],
       "refused": "Building is men's work, and Alvin is at home."
     },
+    "cue": {
+      "mark": {
+        "work": "keep-house",
+        "w": 23,
+        "h": 23,
+        "animation": "cue-pulse"
+      },
+      "iconGlow": "cue-glow",
+      "elsewhere": [],
+      "words": ""
+    },
+    "help": {
+      "disabled": false,
+      "note": "Helps Alvin, and leaves off when they do.",
+      "badge": {
+        "content": "\"\"",
+        "w": "17px",
+        "image": "url(\"data:image/svg+xml,%3Csvg"
+      }
+    },
+    "helping": "Charity Proofwright went to help Alvin: work on the house.",
     "popup": {
       "dearer": "Alvin's clothes want washing: the shops ask a quarter more and pay a fifth less.",
       "seed": {
@@ -116,16 +140,35 @@
     ],
     "fliesTown": {
       "x": 701,
-      "y": 308,
+      "y": 307,
       "sprite": false
     },
     "where": "gonzales",
-    "paid": "Alvin Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Alvin Proofwright's clothes and asked more.",
-    "keep-house": {
-      "stroke": "fire",
-      "clip": "mother-straw-work",
-      "art": "stand-in"
+    "childBar": [
+      "child-play",
+      "child-doll",
+      "child-cart",
+      "child-tag",
+      "child-hide",
+      "child-hoop",
+      "child-marbles",
+      "child-kindling",
+      "child-eggs",
+      "child-water",
+      "child-mind",
+      "keep-house",
+      "wash-clothes"
+    ],
+    "childSent": {
+      "keep-house": 1,
+      "wash-clothes": 2
     },
+    "childIndoors": true,
+    "childStory": [
+      "Obed Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.",
+      "Obed Proofwright did the wash: the clothes of 3 boiled, beaten and hung on the fence to dry."
+    ],
+    "paid": "Alvin Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Alvin Proofwright's clothes and asked more.",
     "garden": {
       "home-1": {
         "x": 683,
@@ -152,11 +195,13 @@
         "season": "growing"
       }
     },
+    "washFor": "Charity Proofwright did a wash for Alvin, who wanted it before wash day: one set of clothes boiled, beaten and hung on the fence to dry.",
     "offAgain": [
       "plant-field",
       "visit-shop",
       "buy-furniture",
       "milk-cow",
+      "keep-house",
       "travel-gonzales",
       "visit",
       "work",
@@ -167,10 +212,11 @@
   },
   "screenshots": [
     "docs/evidence/custom-work-mother-home.png",
+    "docs/evidence/custom-work-cue.png",
+    "docs/evidence/custom-work-help.png",
     "docs/evidence/custom-work-errand-dearer.png",
     "docs/evidence/custom-work-mother-lit.png",
     "docs/evidence/custom-work-town-remark.png",
-    "docs/evidence/custom-work-keep-house.png",
     "docs/evidence/custom-work-work-garden.png",
     "docs/evidence/custom-work-wash-clothes.png",
     "docs/evidence/custom-work-garden.png"
