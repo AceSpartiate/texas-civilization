@@ -1,9 +1,9 @@
 {
  "record": "custom-work-injections",
  "date": "2026-10-04",
- "caught": 77,
- "only": 56,
- "of": 77,
+ "caught": 79,
+ "only": 58,
+ "of": 79,
  "injections": [
   {
    "name": "no custom at all",
@@ -989,6 +989,30 @@
    "only": true,
    "failed": [
     "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+   ]
+  },
+  {
+   "name": "never called off the long work, the food gone",
+   "files": [
+    "sim/neighbours.mjs"
+   ],
+   "expected": "short of food with nobody after it",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "short of food with nobody after it, a family nobody plays calls its hand off clearing and the lane, and sends her after food"
+   ]
+  },
+  {
+   "name": "called off the long work with somebody out after food",
+   "files": [
+    "sim/neighbours.mjs"
+   ],
+   "expected": "short of food with nobody after it",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "short of food with nobody after it, a family nobody plays calls its hand off clearing and the lane, and sends her after food"
    ]
   }
  ]

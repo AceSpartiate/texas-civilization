@@ -1663,15 +1663,66 @@ child's own saving); *now* = the parent's.
 - **Four of the six lone mothers of small children eat better**: field harvests up (viab-2 48 to 104, viab-5 none to 162), the first
   period's food up in four, hungry days a family down from 9.6 to 7.4 on average; the *cued* student's lone mothers lose no child (two, both
   at home, in §24) and bring in twice the harvest.
-- **One family starved outright**: viab-6's lone mother and all four of her children died of hunger at home by day 54 of the first period,
-  having planted one plot and brought nothing in. It was the most marginal of the six already (in §24's runs hungry 21 days, 29 food
-  harvested, 6.3 food at the period's end). Every hunger death in the class's playing column is that one family, and it pulls the median
-  final number down (221). A larger housekeeping saving cannot itself make a family eat less; the runs diverge from the first days (that
-  family's mother spent 36 days at the men's work against 129 in §24's run) and this one went the wrong way. **Not traced further.**
-- **Lone fathers barely move**: a man's housework is low (FAMILY_CREATION.md §4), so his children keeping house as he would save about
-  what he would, little. fatherBaby has no child of seven, so nothing changes, as the rule says. The rolled lone mothers and fathers give
-  the same median as §24.
+- **One family starved outright**: viab-6's lone mother and all four of her children died of hunger at home by day 54 of the first period.
+  **Traced (§24.4): a fault in the director, not chance** - and fixed.
 
-`ceiling:` six families a shape; one family's collapse is a fifth of the shape's deaths since the custom. Worth a larger run (twelve
-seeds) before the owner reads the lone-mother line as either a fix or a fault.
+### 24.4 The family that died out, traced; the director's fault fixed (2026-10-04)
+
+**The run's own record** (`docs/evidence/custom-viability-trace-viab6-before-fix.json`: every turn of the family - food, seed, who kept
+house and for whom, each person's work and hunger, the plots - and its story): the family (mother, 30; children 8, 6, 4, 1) lived from
+hand to mouth on fishing, the hunt and powder trips, its one plot in cotton (food only through the store). On day 28.6, with 8.6 food -
+just above the director's own line for food first (`FOOD_KEPT_PER_PERSON`, 3 a mouth) - the director had her survey ten acres **of
+timber** beside the house and sent her to clear it. Clearing goes spell after spell until the ground is cleared, and timber is thirty
+spells, slower with the baby to mind: she was *"felling timber on the clearing, with the baby to mind"* on every one of 41 turns from day
+28.7 to day 46, while the family ate its last food on day 37.75, went hungry, weak and starving, and the baby died on day 47. **Nothing
+called her off**: the director gives work only to whoever is idle, and the clearing never ended. The cotton stood ripe the whole time.
+**Not the cause**: the cue (the playing student never reads it), the child's keeping house (her son of eight kept house on six of
+those days; a child of eight is never sent to the field, and housekeeping is not what held her), auto (not used), or the women's work
+(she kept house on four days of the fortnight before, an hour each). **Why it showed with this change**: on b9e46fb5 the same family
+staked the same timber two days earlier (day 26.7) and finished clearing it on day 28.8, while the calendar still ran slowly - fifty of
+the family's turns in those two days; begun on day 28.7 in this run (the house kept as she would saved a little food, and the plan
+reached *Clear a staked plot* a few turns later), the clearing ran into the weeks when the calendar runs at about ten times the pace -
+41 turns in the next seventeen days - so its forty-odd spells cost seventeen days of eating instead of two. A matter of timing; the
+fault is that nothing called her off. The same fault took viab-12's lone mother and all four children in the twelve-seed run below.
+
+**Fixed** (sim/neighbours.mjs, `LONG_WORK`): a family the director plays, short of food (under `FOOD_KEPT_PER_PERSON` a mouth) with nobody
+out after food, calls whoever is clearing a plot or cutting the lane off it, and the plan's first lines send them after food. Tried first
+at the last day or two of food: she was called off on day 36.5, hunted with wet powder and a poor aim, and the baby still died; at the
+food-first line the family came through the first period with nobody lost (`docs/evidence/custom-viability-trace-viab6-fix.json`). Test:
+tests/neighbours.test.mjs *short of food with nobody after it, a family nobody plays calls its hand off clearing and the lane* (called
+off with 0.2 food; not with 200; not while another is out fishing); two injections (never called off; called off with somebody out after
+food), each caught by that test alone.
+
+**Twelve seeds** (`viab-1` to `viab-12`, the same harness and students, playing and cued, on b9e46fb5 (before this change; a fresh
+temporary worktree, removed), d1625102 (the child keeping house as the parent's would, without the fix) and the fix; records
+`docs/evidence/custom-viability-lone12.json`, `-lone12-fix.json`, summary `-lone12-summary.json`). Hunger deaths (at home in periods 1-2),
+families ever hungry, mean days hungry, median field harvest, median final - twelve families a shape (rolled lone parents 5-6):
+
+| Playing | b9e46fb5 | d1625102 | **fix** |
+| --- | --- | --- | --- |
+| motherSmall: deaths (home) / hungry / days hungry | 3 (1) / 10 / 10.3 | 13 (11) / 9 / 8.9 | **3 (1) / 7 / 6.2** |
+| motherSmall: harvest / final | 157 / 514 | 181 / 451 | **157 / 576** |
+| motherSon16 (lone mother, a son of 16): deaths / final | 2 (0) / 17,296 | 2 (0) / 17,760 | **2 (0) / 17,596** |
+| fatherGirls / fatherBoys / fatherBaby: deaths; final | 0 / 0 / 0; 3,863 / 30,226 / 1,688 | 0 / 0 / 0; 3,874 / 30,511 / 1,613 | **0 / 0 / 0; 3,822 / 30,403 / 1,613** |
+| rolled lone mothers (6) / fathers (5): deaths | 0 / 1 | 0 / 1 | **0 / 1** |
+| All 180 families: deaths (home) / hungry | 8 (1) / 40 | 22 (11) / 42 | **12 (1) / 40** |
+
+| Cued | b9e46fb5 | d1625102 | **fix** |
+| --- | --- | --- | --- |
+| motherSmall: deaths (home) / hungry / days hungry / final | 6 (4) / 8 / 10.4 / 698 | 2 (0) / 10 / 7.2 / 708 | **2 (0) / 5 / 4.6 / 688** |
+| motherSon16: deaths | 2 | 2 | **0** |
+| All 180: deaths (home) / hungry | 13 (4) / 41 | 9 (0) / 40 | **7 (0) / 36** |
+
+- **With the fix, the lone mother of small children is better off than before the change on every count but the harvest**: as many
+  deaths as on b9e46fb5 and in the same two families (viab-7 on the road east in the spring, viab-10 one infant in the winter, both
+  there before), three fewer families hungry, days hungry 10.3 to 6.2, final 514 to 576; the cued student's lone mothers lose two
+  children against six. Without the fix the change killed two whole families (viab-6, viab-12) in the first period.
+- **Lone fathers do not move** (a man's housework is low) and lose nobody either way; the lone mother with a son of sixteen is unchanged.
+- **The four other deaths in the playing column with the fix** are one two-parent rolled family on the road east in the spring (viab-8,
+  day 204-205), there on d1625102 as well and not on b9e46fb5: runs diverge from the first days, and a family of both parents is not one the
+  child's keeping house reaches. Not traced further.
+
+`ceiling:` twelve families a shape; deaths are still a few families. The director calls off only clearing and the lane, which give nothing
+to eat and can go on for weeks; the house, a fence, the well and the felling are left to finish.
+
 

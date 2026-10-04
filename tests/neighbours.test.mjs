@@ -116,6 +116,28 @@ test("a family nobody plays is offered its town errands and goes for powder befo
   assert.equal(neighbourHousehold.members.filter(id => world.entities[id].chore?.id === 'fetch-powder').length, 1, 'one of the family goes to town for powder');
 });
 
+test('short of food with nobody after it, a family nobody plays calls its hand off clearing and the lane, and sends her after food', () => {
+  // Found tracing a lone mother's family that died out (docs/BALANCE.md §24.3): she cleared ten acres of timber for eighteen days while the
+  // food ran out, and nothing called her off.
+  const setUp = (food, { fishing = false } = {}) => {
+    const world = lively('neighbours-long-work', 5);
+    run(world, 40);
+    const household = world.households['hh-2'];
+    const people = household.members.map(id => world.entities[id]).filter(person => person.health?.condition !== 'dead');
+    for (const person of people) { person.chore = null; person.travel = null; person.task = 'rest'; person.location = { ...world.map.sites[household.homeSiteId], siteId: household.homeSiteId }; }
+    const hand = people.find(person => !(person.age < 16));
+    hand.chore = { id: 'clear-plot', step: 1, wait: 30, doing: 'felling timber on the clearing', plotId: 'plot-x' };
+    hand.task = 'work';
+    if (fishing) { const other = people.find(person => person !== hand && !(person.age < 10)); if (other) { other.chore = { id: 'fish-the-water', step: 1, wait: 5, doing: 'fishing the creek' }; other.task = 'work'; } }
+    household.resources = { ...household.resources, food, powder: 0 };
+    thinkFor(world, household, { project: id => projectWorld(world, id, 'student', { includeMap: false }), act: input => applyAction(world, household.id, input) });
+    return hand;
+  };
+  assert.notEqual(setUp(0.2).chore?.id, 'clear-plot', 'a hand kept clearing with the food all but gone');
+  assert.equal(setUp(200).chore?.id, 'clear-plot', 'a hand called off clearing with food in the house');
+  assert.equal(setUp(0.2, { fishing: true }).chore?.id, 'clear-plot', 'a hand called off clearing while another was out after food');
+});
+
 test('a neighbour takes a fair trade, and refuses an unfair one or one it cannot spare, saying why in both stories', () => {
   const world = lively('neighbours-trade', 5);
   markPlayed(world, 'hh-1');

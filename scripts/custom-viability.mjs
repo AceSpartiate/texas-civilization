@@ -35,7 +35,8 @@
 // each sex and age spends at men's, women's, shared or no work. `--root` runs the same against another tree (main before the custom).
 //
 // Run one class:   node scripts/custom-viability.mjs --seed viab-1 --mode playing [--root <dir>] [--out file.json]
-// Run the study:   node scripts/custom-viability.mjs --study --seeds viab-1,...,viab-6 --before <dir> --jobs 9 [--cued] --out docs/evidence/custom-viability.json
+// Run the study:   node scripts/custom-viability.mjs --study --seeds viab-1,...,viab-6 --before <dir> --jobs 9 [--cued] [--modes playing,cued]
+//                  [--before-modes playing,cued] --out docs/evidence/custom-viability.json
 import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
@@ -394,6 +395,8 @@ async function runClass({ root, seed, seedIndex, mode, families }) {
 // The whole study: every seed, the tree before the custom (playing) and now (playing and nohouse), run as separate processes.
 async function study() {
   const seeds = arg('seeds', 'viab-1,viab-2,viab-3,viab-4,viab-5,viab-6').split(',');
+  const nowModes = arg('modes', flag('cued') ? 'playing,nohouse,cued' : 'playing,nohouse').split(',');
+  const beforeModes = arg('before-modes', 'playing').split(',');
   const before = arg('before', null);
   const jobs = Number(arg('jobs', '9'));
   const out = arg('out', 'docs/evidence/custom-viability.json');
@@ -401,10 +404,10 @@ async function study() {
   mkdirSync(tmp, { recursive: true });
   const runs = [];
   seeds.forEach((seed, index) => {
-    if (before) runs.push({ tree: 'before', root: before, seed, index, mode: 'playing' });
-    runs.push({ tree: 'now', root: '.', seed, index, mode: 'playing' });
-    runs.push({ tree: 'now', root: '.', seed, index, mode: 'nohouse' });
-    if (flag('cued')) runs.push({ tree: 'now', root: '.', seed, index, mode: 'cued' });
+    // Which students each tree is run with (`--modes`, `--before-modes`): by default the before tree plays, and now plays, never keeps
+    // house and, with `--cued`, follows the cue.
+    for (const mode of beforeModes) if (before) runs.push({ tree: 'before', root: before, seed, index, mode });
+    for (const mode of nowModes) runs.push({ tree: 'now', root: '.', seed, index, mode });
   });
   const self = fileURLToPath(import.meta.url);
   const pending = [...runs];

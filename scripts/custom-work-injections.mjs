@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const FILES = ['tests/custom-work.test.mjs', 'tests/housework.test.mjs', 'tests/family-effects.test.mjs'];
+const FILES = ['tests/custom-work.test.mjs', 'tests/housework.test.mjs', 'tests/family-effects.test.mjs', 'tests/neighbours.test.mjs'];
 const T = {
   rule: "the rule: men's work is refused", bar: "another's work is not on the bar", opens: 'it opens when every man is away', boy: 'a boy under sixteen',
   line: 'the journal says it once', lone: 'a lone mother may do every work', steps: "the guided start's every step",
@@ -21,6 +21,8 @@ const T = {
   serving: 'only while serving', children: 'children keep house', cue: 'prompt the student', washFor: "wash whoever's dirty",
   // The owner's answer of 2026-10-04 to BALANCE.md §24 (1), "As the parent's would".
   asParent: "a child keeps house as the lone parent's would",
+  // Found tracing the lone mother's family that died out (BALANCE.md §24.3).
+  longWork: 'short of food with nobody after it',
 };
 const one = (file, from, to) => ({ file, from, to });
 const C = 'sim/chores.mjs', K = 'sim/custom.mjs', H = 'sim/housework.mjs', A = 'sim/auto.mjs', E = 'sim/errands.mjs', P = 'public/family-panel.js', W = 'sim/world.mjs';
@@ -122,6 +124,9 @@ const INJECTIONS = [
   { name: 'never recorded kept for the parent', edits: [one(H, '...(parent && parent.id !== entity.id && { for: parent.id })', '')], expect: T.asParent },
   { name: 'kept for anybody grown at home, not a lone parent', edits: [one(H, '  return grown.length === 1 ? grown[0] : null;', '  return grown[0] || null;')], expect: T.asParent },
   { name: 'a saved keeper-for that cannot be is opened', edits: [one(H, " || (kept.for !== undefined && typeof kept.for !== 'string')", '')], expect: T.asParent },
+  // The director calls its hand off clearing and the lane when the food is all but gone (2026-10-04).
+  { name: 'never called off the long work, the food gone', edits: [one(N, "    for (const person of people) if (LONG_WORK.includes(person.chore?.id)) attempt({ action: 'stop-chore', entityId: person.id });", '    void 0;')], expect: T.longWork },
+  { name: 'called off the long work with somebody out after food', edits: [one(N, ' && hunters === 0 && foraging === 0) {', ') {')], expect: T.longWork },
 ];
 
 const failing = output => [...new Set([...output.matchAll(/^\s*✖ (.+?) \(\d/gm)].map(match => match[1].trim()).filter(name => !/^tests[\\/]/.test(name) && name !== 'failing tests:'))];

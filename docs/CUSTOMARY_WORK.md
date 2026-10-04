@@ -327,7 +327,9 @@ at home (two in §23) but still goes hungry, since a child's keeping house saves
 dirty at 38% of town arrivals against 90% for one who never finds it; dirty arrivals of a washing family 38% to 30%; the recalled man at
 home again. Two remainders put to the owner, answered the same day (§1d): **"As the parent's would"** - built, §24.3: four of six lone
 mothers of small children eat better and the cued student's lose no child, but one marginal family starved outright in the first period
-(not traced; six families a shape) and lone fathers barely move; **"Leave it"** for the house's short steps.
+(traced, §24.4: the director left her clearing ten acres of timber while the food ran out - fixed, and on twelve seeds the lone mother
+of small children now loses no more than before the change, with fewer families hungry) and lone fathers barely move; **"Leave it"** for
+the house's short steps.
 
 ## 11. Evidence
 

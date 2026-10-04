@@ -2,7 +2,8 @@
 
 ## A child keeps house as the parent's would — owner-decided 2026-10-04 (not released)
 
-Branch `custom-work-4` from origin/main b9e46fb5 (custom-work-3 merged); not pushed, not released. The owner answered BALANCE.md §24's two
+Branch `custom-work-4` from origin/main b9e46fb5 (custom-work-3 merged); not pushed, not released. Two commits: the change, and the trace
+of the family that died out with the director's fix. The owner answered BALANCE.md §24's two
 questions, verbatim: (1) **"As the parent's would"** - a child keeping house for a lone parent saves what the parent's housekeeping would
 (the child does the chores the parent directs); (2) **"Leave it"** - the house's short steps unchanged.
 
@@ -23,7 +24,18 @@ saving, recorded for her; a lone father's; with the mother and a grown daughter 
 `for` that cannot be refused). `npm run test:custom-work-injections`: **77 of 77 caught, 56 by that test alone** (4 new, each caught by
 that test alone). `npm test`: **2232 tests, 2196 pass, 0 fail, 36 skipped**. Browser: test:custom-work **17 checks** and test:children (16 checks) green, one at a time, headless Chrome on the same computer.
 
-**Open**: whether one family's collapse is chance or a fault - a twelve-seed run of the lone-parent shapes would say.
+**The family that died out, traced and fixed (BALANCE.md §24.4)**: not chance, and not the cue, auto or the child's housekeeping - a
+director fault. The run's own record (`docs/evidence/custom-viability-trace-viab6-before-fix.json`) shows the director sending the lone
+mother to clear ten acres of timber on day 28.7 with the food just above its food-first line, and nothing calling her off: clearing goes
+spell after spell, and begun two days later than on b9e46fb5 it ran into the weeks when the calendar runs ten times faster, so she cleared
+for seventeen days while all five starved, the cotton ripe in the field. **Fixed** (sim/neighbours.mjs `LONG_WORK`): a family the director
+plays, short of food with nobody out after it, calls whoever is clearing a plot or cutting the lane off it and sends them after food;
+test in tests/neighbours.test.mjs, two injections each caught by it alone (`npm run test:custom-work-injections` now covers that file:
+**79 of 79, 58 alone**). `npm test` 2233 tests, 2197 pass, 0 fail, 36 skipped; test:custom-work (17 checks) and test:children green. **Twelve seeds** (b9e46fb5 / d1625102 without the fix / with it; playing): lone mother of small children
+hunger deaths **3 (1 at home) / 13 (11) / 3 (1)**, families hungry 10 / 9 / **7**, days hungry 10.3 / 8.9 / **6.2**, final 514 / 451 /
+**576**; the cued student's 6 (4) / 2 (0) / **2 (0)**; lone fathers and the lone mother with a son of sixteen unchanged, no deaths among
+lone fathers. All 180 families playing: 8 (1) / 22 (11) / **12 (1)** - the four over b9e46fb5 one two-parent family on the road east in
+the spring (viab-8), not traced. Records `docs/evidence/custom-viability-lone12*.json`; the harness has `--modes` and `--before-modes`.
 
 ## Help, not lead; children keep house; the wash for whoever's dirty — owner-decided 2026-10-04 (not released)
 

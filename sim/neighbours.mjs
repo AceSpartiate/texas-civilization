@@ -124,6 +124,8 @@ export function rifleErrand(world, household, view, mouths) {
 
 /** The four short works a family falls back on when the house is short of food (sim/gathering.mjs). */
 export const FORAGE_WORK = Object.freeze(['take-small-game', 'fish-the-water', 'gather-oysters', 'cut-bee-tree']);
+/** Work that goes on spell after spell until it is done and gives nothing to eat: called off when the food is all but gone. */
+export const LONG_WORK = Object.freeze(['clear-plot', 'cut-lane']);
 export const ONE_AT_A_TIME = Object.freeze([...FORAGE_WORK, 'butcher-beef', 'butcher-hog', 'look-to-stock', 'hunt-timber', 'hunt-land', 'haul-logs', 'fetch-logs', 'fetch-seed', 'fetch-powder', 'sell-cotton', 'sell-food', 'mend-hoe', 'replace-hoe', 'fence-plot', 'survey-plot', 'dig-well', 'hunt-road', 'tend-sick', 'trade-crossing', 'visit-shop', 'keep-house', 'wash-clothes', 'work-garden']);
 /** Plots a family nobody plays keeps, its first patch among them: enough to feed it, and a harvest it can carry in. */
 export const NEIGHBOUR_PLOTS = 3;
@@ -365,6 +367,16 @@ export function thinkFor(world, household, { project, act }) {
   const got = use => (land.logs?.[use] || 0) + lying.filter(entry => entry.use === use).reduce((sum, entry) => sum + entry.left, 0);
   const moreLogs = Boolean(land.plot && land.planned && logsShort({ wall: got('wall'), sill: got('sill'), poor: got('poor') }, land.planned.logs));
   if (!moreLogs) for (const person of people) if (person.chore?.id === 'fell-trees') attempt({ action: 'stop-chore', entityId: person.id });
+  // Short of food (under what it keeps, `FOOD_KEPT_PER_PERSON`) with nobody out after it: the works that go on spell after spell and give
+  // nothing to eat - clearing a plot, cutting the lane (`LONG_WORK`) - are called off, so the hand goes after food (the plan's first
+  // lines, below, whose own threshold this is). Found 2026-10-04 tracing a lone mother's family that died out (docs/BALANCE.md §24.4): sent
+  // to clear ten acres of timber with the baby to mind just above that line, she kept at it eighteen days while the family ate its last
+  // food, and all five starved; nothing called her off. Called off only at the last day or two, she hunted too late and lost the baby.
+  // ceiling: only clearing and the lane, which give nothing to eat and can run for weeks; the house, a fence, the well and the felling
+  // are left to finish. Worth widening if a family is found starving at one of those.
+  if ((view.household.resources.food || 0) < mouths * FOOD_KEPT_PER_PERSON && hunters === 0 && foraging === 0) {
+    for (const person of people) if (LONG_WORK.includes(person.chore?.id)) attempt({ action: 'stop-chore', entityId: person.id });
+  }
   // Its own trees first; the nearest timber off its land with the ox and wagon when none stand near enough to fell.
   // Looked for only when somebody is idle to be sent, and once a think.
   let fellCache = null;

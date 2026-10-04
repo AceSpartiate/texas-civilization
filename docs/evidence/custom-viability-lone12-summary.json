@@ -1,0 +1,891 @@
+{
+ "playing": {
+  "motherSmall": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 3,
+    "atHome": 1,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10",
+     "viab-7"
+    ],
+    "hungry": 10,
+    "hungryDays": 10.3,
+    "harvest": 157,
+    "food": [
+     11.6,
+     24.5,
+     6.8
+    ],
+    "final": 513.5
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 13,
+    "atHome": 11,
+    "wiped": 2,
+    "familiesWithDeaths": [
+     "viab-6",
+     "viab-7",
+     "viab-10",
+     "viab-12"
+    ],
+    "hungry": 9,
+    "hungryDays": 8.9,
+    "harvest": 181,
+    "food": [
+     17.5,
+     26.6,
+     6.3
+    ],
+    "final": 451
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 3,
+    "atHome": 1,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10",
+     "viab-7"
+    ],
+    "hungry": 7,
+    "hungryDays": 6.2,
+    "harvest": 157,
+    "food": [
+     11.6,
+     28.6,
+     6.3
+    ],
+    "final": 575.5
+   }
+  },
+  "motherSon16": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 2,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 5,
+    "hungryDays": 3.2,
+    "harvest": 664.5,
+    "food": [
+     43.3,
+     53.3,
+     11
+    ],
+    "final": 17295.5
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 2,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 5,
+    "hungryDays": 3.1,
+    "harvest": 664.5,
+    "food": [
+     44.7,
+     59.7,
+     9.9
+    ],
+    "final": 17759.5
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 2,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 5,
+    "hungryDays": 3.1,
+    "harvest": 650,
+    "food": [
+     44.7,
+     59.7,
+     9.8
+    ],
+    "final": 17595.5
+   }
+  },
+  "fatherGirls": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.8,
+    "harvest": 756.5,
+    "food": [
+     31,
+     52.4,
+     15.7
+    ],
+    "final": 3863
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.8,
+    "harvest": 756.5,
+    "food": [
+     32,
+     52.5,
+     13.5
+    ],
+    "final": 3874
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.8,
+    "harvest": 755.5,
+    "food": [
+     27.2,
+     51,
+     13.5
+    ],
+    "final": 3821.5
+   }
+  },
+  "fatherBoys": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 2,
+    "hungryDays": 0.3,
+    "harvest": 469.5,
+    "food": [
+     27.5,
+     36.6,
+     11.6
+    ],
+    "final": 30225.5
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 2,
+    "hungryDays": 0.3,
+    "harvest": 469.5,
+    "food": [
+     26.8,
+     37.8,
+     11.5
+    ],
+    "final": 30511
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.1,
+    "harvest": 469.5,
+    "food": [
+     25.6,
+     39.9,
+     11.3
+    ],
+    "final": 30403
+   }
+  },
+  "fatherBaby": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.2,
+    "harvest": 266.5,
+    "food": [
+     18,
+     37.9,
+     24.4
+    ],
+    "final": 1688
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.2,
+    "harvest": 266.5,
+    "food": [
+     17.8,
+     36.4,
+     24.4
+    ],
+    "final": 1612.5
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 0,
+    "hungryDays": 0,
+    "harvest": 281,
+    "food": [
+     17.7,
+     33.3,
+     24.4
+    ],
+    "final": 1612.5
+   }
+  },
+  "rolledMother": {
+   "b9e46fb5": {
+    "n": 6,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 0,
+    "hungryDays": 0,
+    "harvest": 363,
+    "food": [
+     34.9,
+     52.6,
+     26.8
+    ],
+    "final": 1415
+   },
+   "d1625102": {
+    "n": 6,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 0,
+    "hungryDays": 0,
+    "harvest": 345,
+    "food": [
+     24.6,
+     53.5,
+     26.7
+    ],
+    "final": 1414
+   },
+   "fix": {
+    "n": 6,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 0,
+    "hungryDays": 0,
+    "harvest": 345,
+    "food": [
+     34.7,
+     54.2,
+     26.7
+    ],
+    "final": 1414
+   }
+  },
+  "rolledFather": {
+   "b9e46fb5": {
+    "n": 5,
+    "deaths": 1,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 1,
+    "hungryDays": 2.6,
+    "harvest": 181,
+    "food": [
+     46.3,
+     42.2,
+     8.5
+    ],
+    "final": 9450
+   },
+   "d1625102": {
+    "n": 5,
+    "deaths": 1,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 1,
+    "hungryDays": 2.6,
+    "harvest": 181,
+    "food": [
+     46.3,
+     42.2,
+     8.5
+    ],
+    "final": 9450
+   },
+   "fix": {
+    "n": 5,
+    "deaths": 1,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 1,
+    "hungryDays": 2.6,
+    "harvest": 190,
+    "food": [
+     51.2,
+     31.5,
+     2.7
+    ],
+    "final": 9417
+   }
+  },
+  "ALL": {
+   "b9e46fb5": {
+    "n": 180,
+    "deaths": 8,
+    "atHome": 1,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-1",
+     "viab-10",
+     "viab-10",
+     "viab-10",
+     "viab-7"
+    ],
+    "hungry": 40,
+    "hungryDays": 1.6,
+    "harvest": 438,
+    "food": [
+     34.3,
+     44.6,
+     14.5
+    ],
+    "final": 19327
+   },
+   "d1625102": {
+    "n": 180,
+    "deaths": 22,
+    "atHome": 11,
+    "wiped": 2,
+    "familiesWithDeaths": [
+     "viab-1",
+     "viab-6",
+     "viab-7",
+     "viab-10",
+     "viab-10",
+     "viab-10",
+     "viab-8",
+     "viab-12"
+    ],
+    "hungry": 42,
+    "hungryDays": 1.6,
+    "harvest": 432,
+    "food": [
+     35,
+     44.7,
+     14.1
+    ],
+    "final": 18771
+   },
+   "fix": {
+    "n": 180,
+    "deaths": 12,
+    "atHome": 1,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-1",
+     "viab-10",
+     "viab-10",
+     "viab-10",
+     "viab-7",
+     "viab-8"
+    ],
+    "hungry": 40,
+    "hungryDays": 1.4,
+    "harvest": 440,
+    "food": [
+     33.1,
+     45.3,
+     14.5
+    ],
+    "final": 18333.5
+   }
+  }
+ },
+ "cued": {
+  "motherSmall": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 6,
+    "atHome": 4,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-5",
+     "viab-7",
+     "viab-12"
+    ],
+    "hungry": 8,
+    "hungryDays": 10.4,
+    "harvest": 180,
+    "food": [
+     17.2,
+     25.8,
+     7.5
+    ],
+    "final": 698
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 2,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-7"
+    ],
+    "hungry": 10,
+    "hungryDays": 7.2,
+    "harvest": 218,
+    "food": [
+     20.8,
+     27.1,
+     7.1
+    ],
+    "final": 708
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 2,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-7"
+    ],
+    "hungry": 5,
+    "hungryDays": 4.6,
+    "harvest": 193.5,
+    "food": [
+     17.9,
+     34.6,
+     8.6
+    ],
+    "final": 687.5
+   }
+  },
+  "motherSon16": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 2,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 3,
+    "hungryDays": 2.2,
+    "harvest": 680.5,
+    "food": [
+     29.7,
+     44,
+     13.9
+    ],
+    "final": 15482
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 2,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 3,
+    "hungryDays": 2.2,
+    "harvest": 674.5,
+    "food": [
+     29.2,
+     44.1,
+     12
+    ],
+    "final": 16948.5
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 4,
+    "hungryDays": 0.9,
+    "harvest": 680.5,
+    "food": [
+     30.1,
+     42.1,
+     11.1
+    ],
+    "final": 16449
+   }
+  },
+  "fatherGirls": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 2,
+    "hungryDays": 0.9,
+    "harvest": 775.5,
+    "food": [
+     23.1,
+     43.8,
+     12.8
+    ],
+    "final": 3971
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.8,
+    "harvest": 771.5,
+    "food": [
+     21.8,
+     43.8,
+     16
+    ],
+    "final": 3901
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.8,
+    "harvest": 765,
+    "food": [
+     24,
+     47.6,
+     16
+    ],
+    "final": 3780.5
+   }
+  },
+  "fatherBoys": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.1,
+    "harvest": 447,
+    "food": [
+     24,
+     38.2,
+     10.8
+    ],
+    "final": 33588
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.1,
+    "harvest": 447,
+    "food": [
+     23.8,
+     37.9,
+     9.9
+    ],
+    "final": 33623.5
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 2,
+    "hungryDays": 0.4,
+    "harvest": 463.5,
+    "food": [
+     23.3,
+     36.3,
+     9.7
+    ],
+    "final": 32855
+   }
+  },
+  "fatherBaby": {
+   "b9e46fb5": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.7,
+    "harvest": 358.5,
+    "food": [
+     18.6,
+     33.8,
+     22.5
+    ],
+    "final": 4386
+   },
+   "d1625102": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.7,
+    "harvest": 358.5,
+    "food": [
+     18.6,
+     32.7,
+     22.3
+    ],
+    "final": 4364.5
+   },
+   "fix": {
+    "n": 12,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 0,
+    "hungryDays": 0,
+    "harvest": 364.5,
+    "food": [
+     16.1,
+     32.5,
+     22.9
+    ],
+    "final": 4407.5
+   }
+  },
+  "rolledMother": {
+   "b9e46fb5": {
+    "n": 6,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0.4,
+    "harvest": 450,
+    "food": [
+     22.9,
+     42.7,
+     13.6
+    ],
+    "final": 2428.5
+   },
+   "d1625102": {
+    "n": 6,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 1,
+    "hungryDays": 0,
+    "harvest": 466,
+    "food": [
+     21.7,
+     54.2,
+     21.7
+    ],
+    "final": 2448.5
+   },
+   "fix": {
+    "n": 6,
+    "deaths": 0,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [],
+    "hungry": 0,
+    "hungryDays": 0,
+    "harvest": 458,
+    "food": [
+     20.7,
+     49.1,
+     21.7
+    ],
+    "final": 2428
+   }
+  },
+  "rolledFather": {
+   "b9e46fb5": {
+    "n": 5,
+    "deaths": 1,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 2,
+    "hungryDays": 3.3,
+    "harvest": 238,
+    "food": [
+     48.5,
+     30.5,
+     3
+    ],
+    "final": 13692
+   },
+   "d1625102": {
+    "n": 5,
+    "deaths": 1,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 1,
+    "hungryDays": 2.6,
+    "harvest": 228,
+    "food": [
+     35.2,
+     30.5,
+     2.7
+    ],
+    "final": 13692
+   },
+   "fix": {
+    "n": 5,
+    "deaths": 1,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-10"
+    ],
+    "hungry": 2,
+    "hungryDays": 3.1,
+    "harvest": 224,
+    "food": [
+     37.9,
+     31.4,
+     2.8
+    ],
+    "final": 13692
+   }
+  },
+  "ALL": {
+   "b9e46fb5": {
+    "n": 180,
+    "deaths": 13,
+    "atHome": 4,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-5",
+     "viab-5",
+     "viab-5",
+     "viab-1",
+     "viab-7",
+     "viab-10",
+     "viab-10",
+     "viab-12"
+    ],
+    "hungry": 41,
+    "hungryDays": 1.8,
+    "harvest": 463.5,
+    "food": [
+     31.4,
+     42.2,
+     13.8
+    ],
+    "final": 20714
+   },
+   "d1625102": {
+    "n": 180,
+    "deaths": 9,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-5",
+     "viab-5",
+     "viab-1",
+     "viab-7",
+     "viab-10",
+     "viab-10"
+    ],
+    "hungry": 40,
+    "hungryDays": 1.6,
+    "harvest": 461,
+    "food": [
+     31.7,
+     42.7,
+     14.4
+    ],
+    "final": 20714
+   },
+   "fix": {
+    "n": 180,
+    "deaths": 7,
+    "atHome": 0,
+    "wiped": 0,
+    "familiesWithDeaths": [
+     "viab-5",
+     "viab-5",
+     "viab-1",
+     "viab-7",
+     "viab-10"
+    ],
+    "hungry": 36,
+    "hungryDays": 1.2,
+    "harvest": 456.5,
+    "food": [
+     30.7,
+     43.1,
+     14.3
+    ],
+    "final": 19595
+   }
+  }
+ }
+}
