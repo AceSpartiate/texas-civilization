@@ -1,5 +1,19 @@
 # Claude handoff — Astra foundation
 
+## Customary work: is it playable short of one sex? - 2026-10-04 (a study; no rule changed)
+
+Branch `custom-viability` from origin/main 4f76d4ed; not pushed, not released. The owner: *"once gendered work is in, check for viability
+of game play... propose fixes for each issue"*. **docs/BALANCE.md §23** has the numbers and seven multiple-choice questions for the owner
+(recommended first); nothing is built. Measured: `scripts/custom-viability.mjs` (six classes of fifteen, three periods, eleven built
+family shapes each, a *playing* and a *never keeps house* student; before = 726f9411, the commit before the custom), its summary
+`scripts/custom-viability-report.mjs`, and the rule's edges and how often each shape is rolled, `scripts/custom-viability-edges.mjs`
+(records `docs/evidence/custom-viability*.json`). Found: no dead end; one man for all the men's work roofs the house 1-3 days later
+(class median 1.2 to 2.5), nothing else moves; a lone parent doing both customs falls behind (lone mother of small children: winter food
+20.5 to 5.7, 2 hunger deaths at home in 6 families; lone father with infants: final 6,077 to 2,536); a student who never finds *Keep
+house* is dirty at 90% of town arrivals; even a washing family is dirty at 38% (the town-goer misses wash day); one woman with many men
+queues the house work; a man recalled or deserted from the army counts as away for good (`atHome` reads any `service`; a rule fault);
+a son of 16 keeps the custom from his mother, with no measured cost. **Next**: put §23.2's questions to the owner.
+
 ## Customary work: the owner's four answers - 2026-10-04 (not released)
 
 Branch `customary-work-2` from origin/main (58b1abff, where *customary-work* was merged); not pushed, not released. Same computer

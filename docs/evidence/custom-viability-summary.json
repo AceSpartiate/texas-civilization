@@ -1,0 +1,5445 @@
+{
+ "record": "custom-viability-summary",
+ "from": "docs/evidence/custom-viability.json",
+ "measured": "2026-10-04",
+ "classes": {
+  "before-playing": [
+   {
+    "seed": "viab-5",
+    "days": 210,
+    "seconds": 535
+   },
+   {
+    "seed": "viab-3",
+    "days": 210,
+    "seconds": 540
+   },
+   {
+    "seed": "viab-6",
+    "days": 210,
+    "seconds": 594
+   },
+   {
+    "seed": "viab-2",
+    "days": 210,
+    "seconds": 607
+   },
+   {
+    "seed": "viab-4",
+    "days": 210,
+    "seconds": 619
+   },
+   {
+    "seed": "viab-1",
+    "days": 210,
+    "seconds": 660
+   }
+  ],
+  "now-playing": [
+   {
+    "seed": "viab-3",
+    "days": 210,
+    "seconds": 527
+   },
+   {
+    "seed": "viab-5",
+    "days": 210,
+    "seconds": 541
+   },
+   {
+    "seed": "viab-6",
+    "days": 210,
+    "seconds": 583
+   },
+   {
+    "seed": "viab-2",
+    "days": 210,
+    "seconds": 597
+   },
+   {
+    "seed": "viab-4",
+    "days": 210,
+    "seconds": 618
+   },
+   {
+    "seed": "viab-1",
+    "days": 210,
+    "seconds": 660
+   }
+  ],
+  "now-nohouse": [
+   {
+    "seed": "viab-3",
+    "days": 210,
+    "seconds": 537
+   },
+   {
+    "seed": "viab-5",
+    "days": 210,
+    "seconds": 540
+   },
+   {
+    "seed": "viab-6",
+    "days": 210,
+    "seconds": 602
+   },
+   {
+    "seed": "viab-2",
+    "days": 210,
+    "seconds": 615
+   },
+   {
+    "seed": "viab-4",
+    "days": 210,
+    "seconds": 623
+   },
+   {
+    "seed": "viab-1",
+    "days": 210,
+    "seconds": 654
+   }
+  ]
+ },
+ "summary": {
+  "manyDaughters": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.1,
+    "cleared": [
+     3,
+     3,
+     2.5
+    ],
+    "sownP1": 3,
+    "harvestsMean": 68.5,
+    "harvestFoodMedian": 399.5,
+    "cottonMedian": 215.2,
+    "food": [
+     24.1,
+     36.6,
+     13.1
+    ],
+    "hungry": 2,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 2.9,
+    "deaths": 2,
+    "hunger": 1,
+    "disease": 0,
+    "war": 1,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 423.5,
+    "finalMedian": 26382,
+    "rankMedian": 8.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 180.9,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.43,
+     "women": 0.61,
+     "boys": null,
+     "girls": 0.74
+    },
+    "workShare": {
+     "men": {
+      "mens": 10,
+      "womens": 1,
+      "shared": 45,
+      "none": 45
+     },
+     "women": {
+      "mens": 2,
+      "womens": 0,
+      "shared": 39,
+      "none": 59
+     },
+     "boys": null,
+     "girls": {
+      "mens": 2,
+      "womens": 0,
+      "shared": 30,
+      "none": 68
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.46,
+      "womenIdle": 0.42,
+      "womenMens": 0.03
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.88,
+      "womenIdle": 0.76,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 13.54,
+      "womenIdle": 0.57,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 3.9,
+    "cleared": [
+     3,
+     3,
+     2.5
+    ],
+    "sownP1": 3,
+    "harvestsMean": 60.3,
+    "harvestFoodMedian": 386,
+    "cottonMedian": 183.3,
+    "food": [
+     31.3,
+     38.1,
+     12.8
+    ],
+    "hungry": 2,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 2.5,
+    "deaths": 2,
+    "hunger": 1,
+    "disease": 0,
+    "war": 1,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 331,
+    "finalMedian": 31614,
+    "rankMedian": 6,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 550,
+    "dirtyArrivals": 150,
+    "remarks": 48,
+    "markupReales": 110.8,
+    "coinTradedDirty": 443,
+    "dirtyShareMedian": 26,
+    "washesMean": 17.7,
+    "keptDaysMean": 69,
+    "gardenDaysMean": 66.5,
+    "homeDaysMean": 181,
+    "stuckFamilyDays": 35.83,
+    "hiddenAllDays": 22.56,
+    "queuedBehindOneDays": 3.86,
+    "stuckFamilyShare": 0.19,
+    "stuckPersonDays": {
+     "men": 26.87,
+     "women": 4.92,
+     "boys": 0,
+     "girls": 24.16
+    },
+    "stuckBy": {
+     "build": 18.82,
+     "ground": 19.5,
+     "hunt": 19.5,
+     "house": 26.87
+    },
+    "hiddenBy": {
+     "build": 5.55,
+     "ground": 6.23,
+     "hunt": 6.23,
+     "house": 16.33
+    },
+    "idleShare": {
+     "men": 0.18,
+     "women": 0.08,
+     "boys": null,
+     "girls": 0.17
+    },
+    "workShare": {
+     "men": {
+      "mens": 12,
+      "womens": 2,
+      "shared": 50,
+      "none": 36
+     },
+     "women": {
+      "mens": 1,
+      "womens": 67,
+      "shared": 23,
+      "none": 8
+     },
+     "boys": null,
+     "girls": {
+      "mens": 2,
+      "womens": 60,
+      "shared": 20,
+      "none": 18
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 4.51,
+      "hiddenAllDays": 3.58,
+      "homeDays": 79.36,
+      "womenIdle": 0.11,
+      "womenMens": 0.01
+     },
+     "2": {
+      "stuckFamilyDays": 28.99,
+      "hiddenAllDays": 18.15,
+      "homeDays": 87.85,
+      "womenIdle": 0.05,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 2.33,
+      "hiddenAllDays": 0.83,
+      "homeDays": 13.78,
+      "womenIdle": 0.15,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 3.6,
+    "cleared": [
+     3,
+     3,
+     2.5
+    ],
+    "sownP1": 3,
+    "harvestsMean": 63.7,
+    "harvestFoodMedian": 386.5,
+    "cottonMedian": 191,
+    "food": [
+     25.6,
+     29.6,
+     12.9
+    ],
+    "hungry": 2,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 2.9,
+    "deaths": 2,
+    "hunger": 1,
+    "disease": 0,
+    "war": 1,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 360,
+    "finalMedian": 24276,
+    "rankMedian": 8.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 537,
+    "dirtyArrivals": 493,
+    "remarks": 232,
+    "markupReales": 508,
+    "coinTradedDirty": 2032,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 180.8,
+    "stuckFamilyDays": 71.32,
+    "hiddenAllDays": 34.03,
+    "queuedBehindOneDays": 8.5,
+    "stuckFamilyShare": 0.39,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 60.61,
+     "boys": 0,
+     "girls": 139.51
+    },
+    "stuckBy": {
+     "build": 70.57,
+     "ground": 71.32,
+     "hunt": 71.32,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 33.27,
+     "ground": 34.03,
+     "hunt": 34.03,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.34,
+     "women": 0.61,
+     "boys": null,
+     "girls": 0.72
+    },
+    "workShare": {
+     "men": {
+      "mens": 12,
+      "womens": 1,
+      "shared": 47,
+      "none": 40
+     },
+     "women": {
+      "mens": 2,
+      "womens": 0,
+      "shared": 35,
+      "none": 63
+     },
+     "boys": null,
+     "girls": {
+      "mens": 2,
+      "womens": 0,
+      "shared": 28,
+      "none": 71
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 12.32,
+      "hiddenAllDays": 5.55,
+      "homeDays": 79.46,
+      "womenIdle": 0.42,
+      "womenMens": 0.03
+     },
+     "2": {
+      "stuckFamilyDays": 56.02,
+      "hiddenAllDays": 27.75,
+      "homeDays": 87.87,
+      "womenIdle": 0.75,
+      "womenMens": 0.01
+     },
+     "3": {
+      "stuckFamilyDays": 2.99,
+      "hiddenAllDays": 0.73,
+      "homeDays": 13.52,
+      "womenIdle": 0.67,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "fatherGirls": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.2,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 54.5,
+    "harvestFoodMedian": 770,
+    "cottonMedian": 0,
+    "food": [
+     22.3,
+     40.3,
+     13.5
+    ],
+    "hungry": 1,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 1.6,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 177,
+    "finalMedian": 7594,
+    "rankMedian": 12.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 181.1,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.58,
+     "women": null,
+     "boys": null,
+     "girls": 0.74
+    },
+    "workShare": {
+     "men": {
+      "mens": 5,
+      "womens": 1,
+      "shared": 39,
+      "none": 55
+     },
+     "women": null,
+     "boys": null,
+     "girls": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 23,
+      "none": 76
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.39,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.92,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 13.76,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 4,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 52,
+    "harvestFoodMedian": 695,
+    "cottonMedian": 0,
+    "food": [
+     20.8,
+     47.6,
+     14.4
+    ],
+    "hungry": 1,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 2.8,
+    "deaths": 4,
+    "hunger": 4,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 167.5,
+    "finalMedian": 5319,
+    "rankMedian": 13,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 522,
+    "dirtyArrivals": 122,
+    "remarks": 61,
+    "markupReales": 69.8,
+    "coinTradedDirty": 279,
+    "dirtyShareMedian": 22,
+    "washesMean": 17.7,
+    "keptDaysMean": 73.3,
+    "gardenDaysMean": 71,
+    "homeDaysMean": 181.1,
+    "stuckFamilyDays": 32.76,
+    "hiddenAllDays": 26.66,
+    "queuedBehindOneDays": 3.58,
+    "stuckFamilyShare": 0.18,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 39.61
+    },
+    "stuckBy": {
+     "build": 32.02,
+     "ground": 32.76,
+     "hunt": 32.76,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 25.91,
+     "ground": 26.66,
+     "hunt": 26.66,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.05,
+     "women": null,
+     "boys": null,
+     "girls": 0.16
+    },
+    "workShare": {
+     "men": {
+      "mens": 8,
+      "womens": 58,
+      "shared": 30,
+      "none": 5
+     },
+     "women": null,
+     "boys": null,
+     "girls": {
+      "mens": 1,
+      "womens": 62,
+      "shared": 20,
+      "none": 17
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 14.41,
+      "hiddenAllDays": 11.22,
+      "homeDays": 79.38,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 16.26,
+      "hiddenAllDays": 14.45,
+      "homeDays": 87.87,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 2.09,
+      "hiddenAllDays": 0.99,
+      "homeDays": 13.83,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 4.4,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 59.3,
+    "harvestFoodMedian": 688,
+    "cottonMedian": 0,
+    "food": [
+     22.3,
+     38.1,
+     15.6
+    ],
+    "hungry": 1,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 1.6,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 160,
+    "finalMedian": 6862,
+    "rankMedian": 13,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 535,
+    "dirtyArrivals": 496,
+    "remarks": 243,
+    "markupReales": 301.5,
+    "coinTradedDirty": 1206,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 181.1,
+    "stuckFamilyDays": 94.26,
+    "hiddenAllDays": 32.52,
+    "queuedBehindOneDays": 13.85,
+    "stuckFamilyShare": 0.52,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 168.9
+    },
+    "stuckBy": {
+     "build": 91.94,
+     "ground": 94.26,
+     "hunt": 93.04,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 30.2,
+     "ground": 32.52,
+     "hunt": 31.3,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.57,
+     "women": null,
+     "boys": null,
+     "girls": 0.79
+    },
+    "workShare": {
+     "men": {
+      "mens": 14,
+      "womens": 0,
+      "shared": 35,
+      "none": 50
+     },
+     "women": null,
+     "boys": null,
+     "girls": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 23,
+      "none": 77
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 28.15,
+      "hiddenAllDays": 13.64,
+      "homeDays": 79.43,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 63.38,
+      "hiddenAllDays": 18.24,
+      "homeDays": 87.88,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 2.73,
+      "hiddenAllDays": 0.64,
+      "homeDays": 13.76,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "fatherBoys": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.2,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 64.7,
+    "harvestFoodMedian": 644,
+    "cottonMedian": 124,
+    "food": [
+     28.6,
+     36.7,
+     10.6
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 342.5,
+    "finalMedian": 31599,
+    "rankMedian": 6.5,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 178.1,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.5,
+     "women": null,
+     "boys": 0.79,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 5,
+      "womens": 2,
+      "shared": 47,
+      "none": 46
+     },
+     "women": null,
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 21,
+      "none": 78
+     },
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.39,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.92,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 10.8,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.3,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 63.2,
+    "harvestFoodMedian": 678,
+    "cottonMedian": 112,
+    "food": [
+     36.6,
+     36.9,
+     11.2
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 316,
+    "finalMedian": 29916,
+    "rankMedian": 6.5,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 715,
+    "dirtyArrivals": 149,
+    "remarks": 67,
+    "markupReales": 115.5,
+    "coinTradedDirty": 462,
+    "dirtyShareMedian": 26.5,
+    "washesMean": 17.3,
+    "keptDaysMean": 69,
+    "gardenDaysMean": 66.8,
+    "homeDaysMean": 178.2,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.05,
+     "women": null,
+     "boys": 0.24,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 3,
+      "womens": 59,
+      "shared": 32,
+      "none": 5
+     },
+     "women": null,
+     "boys": {
+      "mens": 1,
+      "womens": 47,
+      "shared": 25,
+      "none": 26
+     },
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.33,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 88.16,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 10.69,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.2,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 60.8,
+    "harvestFoodMedian": 636,
+    "cottonMedian": 116.4,
+    "food": [
+     22.7,
+     35,
+     11.3
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 341.5,
+    "finalMedian": 31884.5,
+    "rankMedian": 7,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 743,
+    "dirtyArrivals": 650,
+    "remarks": 287,
+    "markupReales": 512.3,
+    "coinTradedDirty": 2049,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 178.1,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.56,
+     "women": null,
+     "boys": 0.79,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 5,
+      "womens": 1,
+      "shared": 37,
+      "none": 57
+     },
+     "women": null,
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 20,
+      "none": 78
+     },
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.35,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.96,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 10.81,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "motherSmall": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 10.9,
+    "cleared": [
+     3,
+     3,
+     3
+    ],
+    "sownP1": 2,
+    "harvestsMean": 30.2,
+    "harvestFoodMedian": 133.5,
+    "cottonMedian": 81,
+    "food": [
+     11.6,
+     20.5,
+     8.1
+    ],
+    "hungry": 1,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 3.5,
+    "deaths": 1,
+    "hunger": 1,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 99.5,
+    "finalMedian": 430,
+    "rankMedian": 14.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 183.8,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": null,
+     "women": 0.14,
+     "boys": null,
+     "girls": null
+    },
+    "workShare": {
+     "men": null,
+     "women": {
+      "mens": 29,
+      "womens": 4,
+      "shared": 46,
+      "none": 21
+     },
+     "boys": null,
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.49,
+      "womenIdle": 0.04,
+      "womenMens": 0.49
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.88,
+      "womenIdle": 0.19,
+      "womenMens": 0.14
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 16.49,
+      "womenIdle": 0.11,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 6.7,
+    "cleared": [
+     1.5,
+     1.5,
+     2
+    ],
+    "sownP1": 1,
+    "harvestsMean": 18.7,
+    "harvestFoodMedian": 29,
+    "cottonMedian": 56.5,
+    "food": [
+     10,
+     5.7,
+     6.9
+    ],
+    "hungry": 3,
+    "weak": 3,
+    "starving": 2,
+    "hungryDaysMean": 10.6,
+    "deaths": 2,
+    "hunger": 2,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 2,
+    "coinMedian": 64.5,
+    "finalMedian": 215,
+    "rankMedian": 15,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 312,
+    "dirtyArrivals": 206,
+    "remarks": 114,
+    "markupReales": 3.5,
+    "coinTradedDirty": 14,
+    "dirtyShareMedian": 76.5,
+    "washesMean": 5.3,
+    "keptDaysMean": 15.7,
+    "gardenDaysMean": 6.7,
+    "homeDaysMean": 183.8,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": null,
+     "women": 0.01,
+     "boys": null,
+     "girls": null
+    },
+    "workShare": {
+     "men": null,
+     "women": {
+      "mens": 43,
+      "womens": 23,
+      "shared": 31,
+      "none": 3
+     },
+     "boys": null,
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.39,
+      "womenIdle": 0.01,
+      "womenMens": 0.56
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.85,
+      "womenIdle": 0.01,
+      "womenMens": 0.33
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 16.62,
+      "womenIdle": 0.01,
+      "womenMens": 0.27
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 5.3,
+    "cleared": [
+     3,
+     3,
+     3
+    ],
+    "sownP1": 2,
+    "harvestsMean": 25.2,
+    "harvestFoodMedian": 143.5,
+    "cottonMedian": 76.6,
+    "food": [
+     11.2,
+     8.5,
+     6.9
+    ],
+    "hungry": 4,
+    "weak": 2,
+    "starving": 2,
+    "hungryDaysMean": 10.6,
+    "deaths": 2,
+    "hunger": 2,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 2,
+    "coinMedian": 86.5,
+    "finalMedian": 398.5,
+    "rankMedian": 15,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 367,
+    "dirtyArrivals": 355,
+    "remarks": 172,
+    "markupReales": 132.3,
+    "coinTradedDirty": 529,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 183.9,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": null,
+     "women": 0.2,
+     "boys": null,
+     "girls": null
+    },
+    "workShare": {
+     "men": null,
+     "women": {
+      "mens": 45,
+      "womens": 3,
+      "shared": 30,
+      "none": 21
+     },
+     "boys": null,
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.49,
+      "womenIdle": 0.04,
+      "womenMens": 0.6
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.87,
+      "womenIdle": 0.3,
+      "womenMens": 0.23
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 16.5,
+      "womenIdle": 0.16,
+      "womenMens": 0.07
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "motherSon16": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1,
+    "cleared": [
+     3,
+     3,
+     1.5
+    ],
+    "sownP1": 3,
+    "harvestsMean": 56.8,
+    "harvestFoodMedian": 460,
+    "cottonMedian": 182.9,
+    "food": [
+     24.8,
+     29.5,
+     11.6
+    ],
+    "hungry": 1,
+    "weak": 1,
+    "starving": 0,
+    "hungryDaysMean": 1,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 358.5,
+    "finalMedian": 12237,
+    "rankMedian": 11,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 179,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.75,
+     "women": 0.28,
+     "boys": null,
+     "girls": 0.74
+    },
+    "workShare": {
+     "men": {
+      "mens": 2,
+      "womens": 1,
+      "shared": 29,
+      "none": 68
+     },
+     "women": {
+      "mens": 4,
+      "womens": 1,
+      "shared": 61,
+      "none": 34
+     },
+     "boys": null,
+     "girls": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 29,
+      "none": 70
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.48,
+      "womenIdle": 0.15,
+      "womenMens": 0.03
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.92,
+      "womenIdle": 0.3,
+      "womenMens": 0.05
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 11.59,
+      "womenIdle": 0.31,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 2.4,
+    "cleared": [
+     3,
+     3,
+     1.5
+    ],
+    "sownP1": 3,
+    "harvestsMean": 59,
+    "harvestFoodMedian": 412,
+    "cottonMedian": 181.9,
+    "food": [
+     45.6,
+     40.1,
+     10.1
+    ],
+    "hungry": 2,
+    "weak": 1,
+    "starving": 0,
+    "hungryDaysMean": 1.2,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 362,
+    "finalMedian": 15018.5,
+    "rankMedian": 10,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 547,
+    "dirtyArrivals": 202,
+    "remarks": 76,
+    "markupReales": 214,
+    "coinTradedDirty": 856,
+    "dirtyShareMedian": 30,
+    "washesMean": 16.5,
+    "keptDaysMean": 64.7,
+    "gardenDaysMean": 53.2,
+    "homeDaysMean": 178.9,
+    "stuckFamilyDays": 39.41,
+    "hiddenAllDays": 33.17,
+    "queuedBehindOneDays": 1.28,
+    "stuckFamilyShare": 0.22,
+    "stuckPersonDays": {
+     "men": 32.31,
+     "women": 3.98,
+     "boys": 0,
+     "girls": 7.44
+    },
+    "stuckBy": {
+     "build": 7.97,
+     "ground": 8.21,
+     "hunt": 8.21,
+     "house": 32.31
+    },
+    "hiddenBy": {
+     "build": 1.72,
+     "ground": 1.96,
+     "hunt": 1.96,
+     "house": 31.2
+    },
+    "idleShare": {
+     "men": 0.34,
+     "women": 0.05,
+     "boys": null,
+     "girls": 0.08
+    },
+    "workShare": {
+     "men": {
+      "mens": 9,
+      "womens": 10,
+      "shared": 42,
+      "none": 39
+     },
+     "women": {
+      "mens": 1,
+      "womens": 54,
+      "shared": 41,
+      "none": 5
+     },
+     "boys": null,
+     "girls": {
+      "mens": 1,
+      "womens": 66,
+      "shared": 26,
+      "none": 7
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 10.77,
+      "hiddenAllDays": 8.07,
+      "homeDays": 79.46,
+      "womenIdle": 0.06,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 27.68,
+      "hiddenAllDays": 24.69,
+      "homeDays": 87.87,
+      "womenIdle": 0.03,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 0.97,
+      "hiddenAllDays": 0.41,
+      "homeDays": 11.55,
+      "womenIdle": 0.09,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 2.4,
+    "cleared": [
+     3,
+     3,
+     1.5
+    ],
+    "sownP1": 3,
+    "harvestsMean": 56.8,
+    "harvestFoodMedian": 412.5,
+    "cottonMedian": 159.1,
+    "food": [
+     20,
+     33.9,
+     10.6
+    ],
+    "hungry": 3,
+    "weak": 1,
+    "starving": 0,
+    "hungryDaysMean": 1.4,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 317,
+    "finalMedian": 13883,
+    "rankMedian": 10.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 590,
+    "dirtyArrivals": 534,
+    "remarks": 242,
+    "markupReales": 455.5,
+    "coinTradedDirty": 1822,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 178.9,
+    "stuckFamilyDays": 85.63,
+    "hiddenAllDays": 7.23,
+    "queuedBehindOneDays": 5.49,
+    "stuckFamilyShare": 0.48,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 43.87,
+     "boys": 0,
+     "girls": 84.62
+    },
+    "stuckBy": {
+     "build": 85.11,
+     "ground": 85.63,
+     "hunt": 85.62,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 6.71,
+     "ground": 7.23,
+     "hunt": 7.22,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.71,
+     "women": 0.34,
+     "boys": null,
+     "girls": 0.73
+    },
+    "workShare": {
+     "men": {
+      "mens": 7,
+      "womens": 1,
+      "shared": 27,
+      "none": 64
+     },
+     "women": {
+      "mens": 0,
+      "womens": 1,
+      "shared": 56,
+      "none": 43
+     },
+     "boys": null,
+     "girls": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 33,
+      "none": 66
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 23.58,
+      "hiddenAllDays": 3.54,
+      "homeDays": 79.52,
+      "womenIdle": 0.28,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 60.08,
+      "hiddenAllDays": 3.66,
+      "homeDays": 87.88,
+      "womenIdle": 0.42,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 1.97,
+      "hiddenAllDays": 0.02,
+      "homeDays": 11.44,
+      "womenIdle": 0.36,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "warHome": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.1,
+    "cleared": [
+     3,
+     3,
+     1
+    ],
+    "sownP1": 3,
+    "harvestsMean": 72.5,
+    "harvestFoodMedian": 634.5,
+    "cottonMedian": 68.9,
+    "food": [
+     41.3,
+     69.4,
+     12.6
+    ],
+    "hungry": 1,
+    "weak": 1,
+    "starving": 0,
+    "hungryDaysMean": 1.7,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 293.5,
+    "finalMedian": 58971.5,
+    "rankMedian": 3,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 175.2,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.45,
+     "women": 0.65,
+     "boys": null,
+     "girls": 0.74
+    },
+    "workShare": {
+     "men": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 51,
+      "none": 48
+     },
+     "women": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 38,
+      "none": 61
+     },
+     "boys": null,
+     "girls": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 25,
+      "none": 74
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.46,
+      "womenIdle": 0.66,
+      "womenMens": 0.02
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.92,
+      "womenIdle": 0.65,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 7.84,
+      "womenIdle": 0.29,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 6,
+    "enlistDayMedian": 122,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 2,
+    "cleared": [
+     3,
+     3,
+     1
+    ],
+    "sownP1": 3,
+    "harvestsMean": 57.7,
+    "harvestFoodMedian": 638.5,
+    "cottonMedian": 68.9,
+    "food": [
+     45.8,
+     75,
+     14.2
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 236.5,
+    "finalMedian": 53430.5,
+    "rankMedian": 3.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 678,
+    "dirtyArrivals": 279,
+    "remarks": 100,
+    "markupReales": 166.3,
+    "coinTradedDirty": 665,
+    "dirtyShareMedian": 27,
+    "washesMean": 17.5,
+    "keptDaysMean": 70,
+    "gardenDaysMean": 67.2,
+    "homeDaysMean": 175.4,
+    "stuckFamilyDays": 56.71,
+    "hiddenAllDays": 42.54,
+    "queuedBehindOneDays": 0.69,
+    "stuckFamilyShare": 0.32,
+    "stuckPersonDays": {
+     "men": 34.13,
+     "women": 4.7,
+     "boys": 0,
+     "girls": 47.67
+    },
+    "stuckBy": {
+     "build": 39.63,
+     "ground": 40.25,
+     "hunt": 40.21,
+     "house": 25.44
+    },
+    "hiddenBy": {
+     "build": 25.48,
+     "ground": 26.08,
+     "hunt": 26.04,
+     "house": 16.46
+    },
+    "idleShare": {
+     "men": 0.24,
+     "women": 0.08,
+     "boys": null,
+     "girls": 0.31
+    },
+    "workShare": {
+     "men": {
+      "mens": 3,
+      "womens": 2,
+      "shared": 61,
+      "none": 33
+     },
+     "women": {
+      "mens": 0,
+      "womens": 62,
+      "shared": 30,
+      "none": 8
+     },
+     "boys": null,
+     "girls": {
+      "mens": 1,
+      "womens": 46,
+      "shared": 23,
+      "none": 30
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 22.5,
+      "hiddenAllDays": 9.51,
+      "homeDays": 79.4,
+      "womenIdle": 0.13,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 34.21,
+      "hiddenAllDays": 33.03,
+      "homeDays": 88.16,
+      "womenIdle": 0.03,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 7.82,
+      "womenIdle": 0.12,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 6,
+    "enlistDayMedian": 122,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.9,
+    "cleared": [
+     3,
+     3,
+     1
+    ],
+    "sownP1": 3,
+    "harvestsMean": 62.5,
+    "harvestFoodMedian": 622.5,
+    "cottonMedian": 66.5,
+    "food": [
+     31.7,
+     65.1,
+     13.1
+    ],
+    "hungry": 2,
+    "weak": 1,
+    "starving": 0,
+    "hungryDaysMean": 2,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 230,
+    "finalMedian": 52309,
+    "rankMedian": 3,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 683,
+    "dirtyArrivals": 595,
+    "remarks": 269,
+    "markupReales": 368.3,
+    "coinTradedDirty": 1473,
+    "dirtyShareMedian": 94,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 175.2,
+    "stuckFamilyDays": 68.75,
+    "hiddenAllDays": 14.53,
+    "queuedBehindOneDays": 0.84,
+    "stuckFamilyShare": 0.39,
+    "stuckPersonDays": {
+     "men": 0.57,
+     "women": 42.39,
+     "boys": 0,
+     "girls": 127.02
+    },
+    "stuckBy": {
+     "build": 67.99,
+     "ground": 68.75,
+     "hunt": 68.71,
+     "house": 0.28
+    },
+    "hiddenBy": {
+     "build": 13.79,
+     "ground": 14.53,
+     "hunt": 14.49,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.63,
+     "women": 0.72,
+     "boys": null,
+     "girls": 0.81
+    },
+    "workShare": {
+     "men": {
+      "mens": 3,
+      "womens": 0,
+      "shared": 38,
+      "none": 59
+     },
+     "women": {
+      "mens": 0,
+      "womens": 1,
+      "shared": 30,
+      "none": 70
+     },
+     "boys": null,
+     "girls": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 20,
+      "none": 79
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 27.83,
+      "hiddenAllDays": 7.88,
+      "homeDays": 79.42,
+      "womenIdle": 0.71,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 40.92,
+      "hiddenAllDays": 6.65,
+      "homeDays": 87.96,
+      "womenIdle": 0.79,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 7.81,
+      "womenIdle": 0.39,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 6,
+    "enlistDayMedian": 122,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "son16Home": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.2,
+    "cleared": [
+     3,
+     3,
+     3
+    ],
+    "sownP1": 3,
+    "harvestsMean": 72,
+    "harvestFoodMedian": 371,
+    "cottonMedian": 268.4,
+    "food": [
+     25.7,
+     36.1,
+     18.9
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 480,
+    "finalMedian": 68770,
+    "rankMedian": 4,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 180.5,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.55,
+     "women": 0.62,
+     "boys": null,
+     "girls": 0.75
+    },
+    "workShare": {
+     "men": {
+      "mens": 3,
+      "womens": 1,
+      "shared": 36,
+      "none": 59
+     },
+     "women": {
+      "mens": 2,
+      "womens": 1,
+      "shared": 34,
+      "none": 63
+     },
+     "boys": null,
+     "girls": {
+      "mens": 2,
+      "womens": 0,
+      "shared": 24,
+      "none": 73
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.43,
+      "womenIdle": 0.48,
+      "womenMens": 0.04
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.88,
+      "womenIdle": 0.76,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 13.19,
+      "womenIdle": 0.22,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 6,
+    "enlistDayMedian": 121.5,
+    "sonHomeDaysMean": 61.6
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.3,
+    "cleared": [
+     3,
+     3,
+     3
+    ],
+    "sownP1": 2.5,
+    "harvestsMean": 66.8,
+    "harvestFoodMedian": 378.5,
+    "cottonMedian": 265.5,
+    "food": [
+     27.4,
+     39.6,
+     22
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 468.5,
+    "finalMedian": 58805,
+    "rankMedian": 5,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 596,
+    "dirtyArrivals": 257,
+    "remarks": 121,
+    "markupReales": 328,
+    "coinTradedDirty": 1312,
+    "dirtyShareMedian": 30.5,
+    "washesMean": 16.5,
+    "keptDaysMean": 66.2,
+    "gardenDaysMean": 53.5,
+    "homeDaysMean": 180.5,
+    "stuckFamilyDays": 62.54,
+    "hiddenAllDays": 41.59,
+    "queuedBehindOneDays": 0.86,
+    "stuckFamilyShare": 0.35,
+    "stuckPersonDays": {
+     "men": 73.21,
+     "women": 18.37,
+     "boys": 0,
+     "girls": 22.96
+    },
+    "stuckBy": {
+     "build": 23.45,
+     "ground": 23.66,
+     "hunt": 23.66,
+     "house": 54.36
+    },
+    "hiddenBy": {
+     "build": 2.52,
+     "ground": 2.71,
+     "hunt": 2.71,
+     "house": 38.88
+    },
+    "idleShare": {
+     "men": 0.36,
+     "women": 0.05,
+     "boys": null,
+     "girls": 0.09
+    },
+    "workShare": {
+     "men": {
+      "mens": 7,
+      "womens": 2,
+      "shared": 49,
+      "none": 42
+     },
+     "women": {
+      "mens": 0,
+      "womens": 54,
+      "shared": 34,
+      "none": 12
+     },
+     "boys": null,
+     "girls": {
+      "mens": 0,
+      "womens": 54,
+      "shared": 30,
+      "none": 16
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 23.48,
+      "hiddenAllDays": 14.72,
+      "homeDays": 79.33,
+      "womenIdle": 0.08,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 37.3,
+      "hiddenAllDays": 26.08,
+      "homeDays": 87.85,
+      "womenIdle": 0.03,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 1.76,
+      "hiddenAllDays": 0.79,
+      "homeDays": 13.3,
+      "womenIdle": 0.07,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 6,
+    "enlistDayMedian": 121.5,
+    "sonHomeDaysMean": 61
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.2,
+    "cleared": [
+     3,
+     3,
+     3
+    ],
+    "sownP1": 3,
+    "harvestsMean": 67.7,
+    "harvestFoodMedian": 355.5,
+    "cottonMedian": 271.2,
+    "food": [
+     25.4,
+     36.9,
+     17.8
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 471,
+    "finalMedian": 64913,
+    "rankMedian": 4.5,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 653,
+    "dirtyArrivals": 597,
+    "remarks": 283,
+    "markupReales": 652.5,
+    "coinTradedDirty": 2610,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 180.5,
+    "stuckFamilyDays": 106.57,
+    "hiddenAllDays": 12.13,
+    "queuedBehindOneDays": 5.76,
+    "stuckFamilyShare": 0.59,
+    "stuckPersonDays": {
+     "men": 0.63,
+     "women": 74.3,
+     "boys": 0,
+     "girls": 105.33
+    },
+    "stuckBy": {
+     "build": 105.97,
+     "ground": 106.57,
+     "hunt": 106.38,
+     "house": 0.63
+    },
+    "hiddenBy": {
+     "build": 10.43,
+     "ground": 10.97,
+     "hunt": 11.94,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.55,
+     "women": 0.64,
+     "boys": null,
+     "girls": 0.76
+    },
+    "workShare": {
+     "men": {
+      "mens": 7,
+      "womens": 0,
+      "shared": 35,
+      "none": 58
+     },
+     "women": {
+      "mens": 0,
+      "womens": 3,
+      "shared": 35,
+      "none": 63
+     },
+     "boys": null,
+     "girls": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 23,
+      "none": 77
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 32.43,
+      "hiddenAllDays": 6.12,
+      "homeDays": 79.43,
+      "womenIdle": 0.5,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 71.67,
+      "hiddenAllDays": 5.98,
+      "homeDays": 87.87,
+      "womenIdle": 0.74,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 2.47,
+      "hiddenAllDays": 0.03,
+      "homeDays": 13.18,
+      "womenIdle": 0.3,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 6,
+    "enlistDayMedian": 122,
+    "sonHomeDaysMean": 61.4
+   }
+  },
+  "fatherBaby": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 4,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 38,
+    "harvestFoodMedian": 447.5,
+    "cottonMedian": 58.4,
+    "food": [
+     24.2,
+     39.4,
+     23.4
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 121,
+    "finalMedian": 6076.5,
+    "rankMedian": 12,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 188.9,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.11,
+     "women": null,
+     "boys": null,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 14,
+      "womens": 2,
+      "shared": 68,
+      "none": 16
+     },
+     "women": null,
+     "boys": null,
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.45,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.92,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 21.52,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 4,
+    "cleared": [
+     1,
+     2,
+     0
+    ],
+    "sownP1": 1,
+    "harvestsMean": 33.2,
+    "harvestFoodMedian": 279,
+    "cottonMedian": 35,
+    "food": [
+     15.4,
+     39.8,
+     20.8
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 71,
+    "finalMedian": 2535.5,
+    "rankMedian": 12.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 269,
+    "dirtyArrivals": 47,
+    "remarks": 17,
+    "markupReales": 9.5,
+    "coinTradedDirty": 38,
+    "dirtyShareMedian": 52,
+    "washesMean": 11.7,
+    "keptDaysMean": 47.3,
+    "gardenDaysMean": 21.8,
+    "homeDaysMean": 188.9,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.01,
+     "women": null,
+     "boys": null,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 11,
+      "womens": 49,
+      "shared": 39,
+      "none": 1
+     },
+     "women": null,
+     "boys": null,
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.43,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.87,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 21.62,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 4.1,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 39.7,
+    "harvestFoodMedian": 465.5,
+    "cottonMedian": 72.4,
+    "food": [
+     22.1,
+     43,
+     24.8
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 1,
+    "hunger": 0,
+    "disease": 1,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 146,
+    "finalMedian": 5845.5,
+    "rankMedian": 13,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 628,
+    "dirtyArrivals": 602,
+    "remarks": 263,
+    "markupReales": 286.3,
+    "coinTradedDirty": 1145,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 188.9,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.14,
+     "women": null,
+     "boys": null,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 14,
+      "womens": 2,
+      "shared": 67,
+      "none": 17
+     },
+     "women": null,
+     "boys": null,
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.49,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.88,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 21.52,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "oneManManyWomen": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 0.9,
+    "cleared": [
+     3,
+     3,
+     1.5
+    ],
+    "sownP1": 3,
+    "harvestsMean": 107.5,
+    "harvestFoodMedian": 540,
+    "cottonMedian": 300,
+    "food": [
+     48.4,
+     41.8,
+     18.1
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 1,
+    "hunger": 0,
+    "disease": 0,
+    "war": 1,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 478.5,
+    "finalMedian": 30409,
+    "rankMedian": 6.5,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 184.8,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.22,
+     "women": 0.75,
+     "boys": null,
+     "girls": 0.96
+    },
+    "workShare": {
+     "men": {
+      "mens": 5,
+      "womens": 0,
+      "shared": 73,
+      "none": 22
+     },
+     "women": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 25,
+      "none": 74
+     },
+     "boys": null,
+     "girls": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 5,
+      "none": 95
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.42,
+      "womenIdle": 0.62,
+      "womenMens": 0.01
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.92,
+      "womenIdle": 0.86,
+      "womenMens": 0.01
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 17.43,
+      "womenIdle": 0.67,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.8,
+    "cleared": [
+     3,
+     3,
+     1.5
+    ],
+    "sownP1": 3,
+    "harvestsMean": 93.7,
+    "harvestFoodMedian": 503.5,
+    "cottonMedian": 281.9,
+    "food": [
+     37.7,
+     38.5,
+     19.2
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 1,
+    "hunger": 0,
+    "disease": 0,
+    "war": 1,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 426.5,
+    "finalMedian": 42496,
+    "rankMedian": 6,
+    "winners": 2,
+    "wiped": 0,
+    "townArrivals": 777,
+    "dirtyArrivals": 225,
+    "remarks": 117,
+    "markupReales": 169.3,
+    "coinTradedDirty": 677,
+    "dirtyShareMedian": 26,
+    "washesMean": 18.5,
+    "keptDaysMean": 80.3,
+    "gardenDaysMean": 79.7,
+    "homeDaysMean": 184.8,
+    "stuckFamilyDays": 70.48,
+    "hiddenAllDays": 55.58,
+    "queuedBehindOneDays": 7.04,
+    "stuckFamilyShare": 0.38,
+    "stuckPersonDays": {
+     "men": 11.92,
+     "women": 90.21,
+     "boys": 0,
+     "girls": 136.85
+    },
+    "stuckBy": {
+     "build": 70,
+     "ground": 70.4,
+     "hunt": 70.4,
+     "house": 11.92
+    },
+    "hiddenBy": {
+     "build": 55.09,
+     "ground": 55.5,
+     "hunt": 55.5,
+     "house": 0.08
+    },
+    "idleShare": {
+     "men": 0.22,
+     "women": 0.31,
+     "boys": null,
+     "girls": 0.88
+    },
+    "workShare": {
+     "men": {
+      "mens": 10,
+      "womens": 0,
+      "shared": 69,
+      "none": 21
+     },
+     "women": {
+      "mens": 1,
+      "womens": 42,
+      "shared": 27,
+      "none": 30
+     },
+     "boys": null,
+     "girls": {
+      "mens": 0,
+      "womens": 2,
+      "shared": 9,
+      "none": 88
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 10.5,
+      "hiddenAllDays": 6.25,
+      "homeDays": 79.37,
+      "womenIdle": 0.25,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 56.29,
+      "hiddenAllDays": 47.04,
+      "homeDays": 88.16,
+      "womenIdle": 0.3,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 3.7,
+      "hiddenAllDays": 2.29,
+      "homeDays": 17.23,
+      "womenIdle": 0.45,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.7,
+    "cleared": [
+     3,
+     3,
+     1.5
+    ],
+    "sownP1": 3,
+    "harvestsMean": 95.2,
+    "harvestFoodMedian": 517.5,
+    "cottonMedian": 283.9,
+    "food": [
+     44.1,
+     40.8,
+     14.8
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 1,
+    "hunger": 0,
+    "disease": 0,
+    "war": 1,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 429,
+    "finalMedian": 28383,
+    "rankMedian": 6.5,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 787,
+    "dirtyArrivals": 726,
+    "remarks": 318,
+    "markupReales": 558.8,
+    "coinTradedDirty": 2235,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 184.8,
+    "stuckFamilyDays": 73.88,
+    "hiddenAllDays": 58.08,
+    "queuedBehindOneDays": 9.54,
+    "stuckFamilyShare": 0.4,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 214.45,
+     "boys": 0,
+     "girls": 145.33
+    },
+    "stuckBy": {
+     "build": 73.48,
+     "ground": 73.88,
+     "hunt": 73.88,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 57.68,
+     "ground": 58.08,
+     "hunt": 58.08,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.2,
+     "women": 0.73,
+     "boys": null,
+     "girls": 0.95
+    },
+    "workShare": {
+     "men": {
+      "mens": 13,
+      "womens": 0,
+      "shared": 66,
+      "none": 21
+     },
+     "women": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 26,
+      "none": 73
+     },
+     "boys": null,
+     "girls": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 5,
+      "none": 95
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 17.86,
+      "hiddenAllDays": 11.95,
+      "homeDays": 79.38,
+      "womenIdle": 0.58,
+      "womenMens": 0.01
+     },
+     "2": {
+      "stuckFamilyDays": 51.93,
+      "hiddenAllDays": 43.48,
+      "homeDays": 87.96,
+      "womenIdle": 0.84,
+      "womenMens": 0.02
+     },
+     "3": {
+      "stuckFamilyDays": 4.09,
+      "hiddenAllDays": 2.65,
+      "homeDays": 17.39,
+      "womenIdle": 0.62,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "oneWomanManyMen": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 0.9,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 98,
+    "harvestFoodMedian": 513.5,
+    "cottonMedian": 334.9,
+    "food": [
+     33.4,
+     40,
+     15.9
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 3,
+    "hunger": 0,
+    "disease": 0,
+    "war": 3,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 566,
+    "finalMedian": 63992,
+    "rankMedian": 4,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 181.2,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.73,
+     "women": 0.74,
+     "boys": 0.94,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 29,
+      "none": 69
+     },
+     "women": {
+      "mens": 3,
+      "womens": 0,
+      "shared": 31,
+      "none": 66
+     },
+     "boys": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 5,
+      "none": 94
+     },
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.5,
+      "womenIdle": 0.66,
+      "womenMens": 0.02
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.88,
+      "womenIdle": 0.81,
+      "womenMens": 0.04
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 13.81,
+      "womenIdle": 0.51,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 99.2,
+    "harvestFoodMedian": 514.5,
+    "cottonMedian": 337.3,
+    "food": [
+     34.1,
+     46,
+     15.9
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 3,
+    "hunger": 0,
+    "disease": 0,
+    "war": 3,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 578.5,
+    "finalMedian": 66037,
+    "rankMedian": 3.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 777,
+    "dirtyArrivals": 333,
+    "remarks": 164,
+    "markupReales": 359,
+    "coinTradedDirty": 1436,
+    "dirtyShareMedian": 50,
+    "washesMean": 13.2,
+    "keptDaysMean": 71.3,
+    "gardenDaysMean": 38.7,
+    "homeDaysMean": 181.2,
+    "stuckFamilyDays": 160.14,
+    "hiddenAllDays": 151.56,
+    "queuedBehindOneDays": 0.1,
+    "stuckFamilyShare": 0.88,
+    "stuckPersonDays": {
+     "men": 307.39,
+     "women": 8.74,
+     "boys": 291.25,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 8.51,
+     "ground": 8.74,
+     "hunt": 8.74,
+     "house": 152.27
+    },
+    "hiddenBy": {
+     "build": 0.1,
+     "ground": 0.17,
+     "hunt": 0.17,
+     "house": 151.4
+    },
+    "idleShare": {
+     "men": 0.64,
+     "women": 0.05,
+     "boys": 0.91,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 3,
+      "womens": 1,
+      "shared": 31,
+      "none": 64
+     },
+     "women": {
+      "mens": 0,
+      "womens": 68,
+      "shared": 27,
+      "none": 5
+     },
+     "boys": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 8,
+      "none": 91
+     },
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 66.27,
+      "hiddenAllDays": 61.09,
+      "homeDays": 79.4,
+      "womenIdle": 0.07,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 83.8,
+      "hiddenAllDays": 81.9,
+      "homeDays": 87.85,
+      "womenIdle": 0.02,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 10.07,
+      "hiddenAllDays": 8.58,
+      "homeDays": 13.92,
+      "womenIdle": 0.1,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 99.5,
+    "harvestFoodMedian": 524,
+    "cottonMedian": 337.3,
+    "food": [
+     33.4,
+     42.9,
+     15.8
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 3,
+    "hunger": 0,
+    "disease": 0,
+    "war": 3,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 568.5,
+    "finalMedian": 65051,
+    "rankMedian": 4,
+    "winners": 1,
+    "wiped": 0,
+    "townArrivals": 741,
+    "dirtyArrivals": 626,
+    "remarks": 287,
+    "markupReales": 706,
+    "coinTradedDirty": 2824,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 181.2,
+    "stuckFamilyDays": 109.06,
+    "hiddenAllDays": 1.22,
+    "queuedBehindOneDays": 4.61,
+    "stuckFamilyShare": 0.6,
+    "stuckPersonDays": {
+     "men": 0.96,
+     "women": 107.94,
+     "boys": 0.95,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 106.84,
+     "ground": 107.94,
+     "hunt": 107.14,
+     "house": 1.11
+    },
+    "hiddenBy": {
+     "build": 0.05,
+     "ground": 0.11,
+     "hunt": 0.1,
+     "house": 1.11
+    },
+    "idleShare": {
+     "men": 0.71,
+     "women": 0.71,
+     "boys": 0.94,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 3,
+      "womens": 0,
+      "shared": 26,
+      "none": 71
+     },
+     "women": {
+      "mens": 0,
+      "womens": 1,
+      "shared": 28,
+      "none": 71
+     },
+     "boys": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 6,
+      "none": 94
+     },
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 38.14,
+      "hiddenAllDays": 0.73,
+      "homeDays": 79.5,
+      "womenIdle": 0.61,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 65.87,
+      "hiddenAllDays": 0.5,
+      "homeDays": 87.87,
+      "womenIdle": 0.81,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 5.05,
+      "hiddenAllDays": 0,
+      "homeDays": 13.81,
+      "womenIdle": 0.57,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "twoParentMixed": {
+   "before-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 1.2,
+    "cleared": [
+     3,
+     3,
+     2
+    ],
+    "sownP1": 2.5,
+    "harvestsMean": 63.5,
+    "harvestFoodMedian": 377.5,
+    "cottonMedian": 252.3,
+    "food": [
+     22.4,
+     32.8,
+     11.1
+    ],
+    "hungry": 2,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 3.3,
+    "deaths": 2,
+    "hunger": 1,
+    "disease": 0,
+    "war": 1,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 430,
+    "finalMedian": 19102,
+    "rankMedian": 8.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 180.6,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.36,
+     "women": 0.6,
+     "boys": 0.77,
+     "girls": 0.76
+    },
+    "workShare": {
+     "men": {
+      "mens": 6,
+      "womens": 1,
+      "shared": 52,
+      "none": 42
+     },
+     "women": {
+      "mens": 2,
+      "womens": 0,
+      "shared": 38,
+      "none": 60
+     },
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 28,
+      "none": 70
+     },
+     "girls": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 28,
+      "none": 71
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.45,
+      "womenIdle": 0.6,
+      "womenMens": 0.02
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.92,
+      "womenIdle": 0.76,
+      "womenMens": 0.02
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 13.27,
+      "womenIdle": 0.56,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 2.1,
+    "cleared": [
+     3,
+     3,
+     2
+    ],
+    "sownP1": 2.5,
+    "harvestsMean": 64.3,
+    "harvestFoodMedian": 375,
+    "cottonMedian": 242.5,
+    "food": [
+     28.7,
+     37.1,
+     11.1
+    ],
+    "hungry": 2,
+    "weak": 1,
+    "starving": 0,
+    "hungryDaysMean": 1,
+    "deaths": 1,
+    "hunger": 0,
+    "disease": 0,
+    "war": 1,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 407,
+    "finalMedian": 21169,
+    "rankMedian": 8,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 541,
+    "dirtyArrivals": 292,
+    "remarks": 133,
+    "markupReales": 242.5,
+    "coinTradedDirty": 970,
+    "dirtyShareMedian": 30,
+    "washesMean": 17.5,
+    "keptDaysMean": 73.7,
+    "gardenDaysMean": 62.8,
+    "homeDaysMean": 180.7,
+    "stuckFamilyDays": 72.07,
+    "hiddenAllDays": 62.77,
+    "queuedBehindOneDays": 1.7,
+    "stuckFamilyShare": 0.4,
+    "stuckPersonDays": {
+     "men": 31.48,
+     "women": 6.54,
+     "boys": 60.88,
+     "girls": 9.42
+    },
+    "stuckBy": {
+     "build": 9.81,
+     "ground": 10.39,
+     "hunt": 10.39,
+     "house": 63.91
+    },
+    "hiddenBy": {
+     "build": 2.08,
+     "ground": 2.4,
+     "hunt": 2.4,
+     "house": 60.37
+    },
+    "idleShare": {
+     "men": 0.25,
+     "women": 0.08,
+     "boys": 0.41,
+     "girls": 0.11
+    },
+    "workShare": {
+     "men": {
+      "mens": 9,
+      "womens": 1,
+      "shared": 53,
+      "none": 37
+     },
+     "women": {
+      "mens": 0,
+      "womens": 60,
+      "shared": 33,
+      "none": 8
+     },
+     "boys": {
+      "mens": 2,
+      "womens": 3,
+      "shared": 43,
+      "none": 52
+     },
+     "girls": {
+      "mens": 0,
+      "womens": 61,
+      "shared": 28,
+      "none": 11
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 28.07,
+      "hiddenAllDays": 23.08,
+      "homeDays": 79.43,
+      "womenIdle": 0.1,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 40.74,
+      "hiddenAllDays": 37.51,
+      "homeDays": 87.87,
+      "womenIdle": 0.04,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 3.26,
+      "hiddenAllDays": 2.17,
+      "homeDays": 13.44,
+      "womenIdle": 0.17,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 6,
+    "roofed": 6,
+    "roofedDayMedian": 2,
+    "cleared": [
+     3,
+     3,
+     2
+    ],
+    "sownP1": 3,
+    "harvestsMean": 65.5,
+    "harvestFoodMedian": 391.5,
+    "cottonMedian": 241.3,
+    "food": [
+     24.5,
+     31.9,
+     11.4
+    ],
+    "hungry": 2,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 3.3,
+    "deaths": 2,
+    "hunger": 1,
+    "disease": 0,
+    "war": 1,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 410,
+    "finalMedian": 21331,
+    "rankMedian": 8,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 564,
+    "dirtyArrivals": 498,
+    "remarks": 255,
+    "markupReales": 460.5,
+    "coinTradedDirty": 1842,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 180.7,
+    "stuckFamilyDays": 74.19,
+    "hiddenAllDays": 2.73,
+    "queuedBehindOneDays": 6.72,
+    "stuckFamilyShare": 0.41,
+    "stuckPersonDays": {
+     "men": 0.01,
+     "women": 48.49,
+     "boys": 0.01,
+     "girls": 73.89
+    },
+    "stuckBy": {
+     "build": 73.48,
+     "ground": 74.17,
+     "hunt": 74.17,
+     "house": 0.02
+    },
+    "hiddenBy": {
+     "build": 2.23,
+     "ground": 2.71,
+     "hunt": 2.71,
+     "house": 0.02
+    },
+    "idleShare": {
+     "men": 0.47,
+     "women": 0.68,
+     "boys": 0.77,
+     "girls": 0.79
+    },
+    "workShare": {
+     "men": {
+      "mens": 9,
+      "womens": 0,
+      "shared": 44,
+      "none": 46
+     },
+     "women": {
+      "mens": 0,
+      "womens": 1,
+      "shared": 32,
+      "none": 67
+     },
+     "boys": {
+      "mens": 2,
+      "womens": 0,
+      "shared": 21,
+      "none": 77
+     },
+     "girls": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 21,
+      "none": 78
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 13.08,
+      "hiddenAllDays": 1.95,
+      "homeDays": 79.49,
+      "womenIdle": 0.52,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 58.01,
+      "hiddenAllDays": 0.77,
+      "homeDays": 87.88,
+      "womenIdle": 0.78,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 3.1,
+      "hiddenAllDays": 0.01,
+      "homeDays": 13.39,
+      "womenIdle": 0.61,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "rolledBoth": {
+   "before-playing": {
+    "families": 19,
+    "roofed": 19,
+    "roofedDayMedian": 1.2,
+    "cleared": [
+     3,
+     3,
+     2
+    ],
+    "sownP1": 3,
+    "harvestsMean": 60.7,
+    "harvestFoodMedian": 457,
+    "cottonMedian": 174,
+    "food": [
+     42.2,
+     47.2,
+     22.3
+    ],
+    "hungry": 7,
+    "weak": 3,
+    "starving": 2,
+    "hungryDaysMean": 2.2,
+    "deaths": 4,
+    "hunger": 2,
+    "disease": 0,
+    "war": 2,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 179,
+    "finalMedian": 28696,
+    "rankMedian": 6,
+    "winners": 2,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 182.1,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.54,
+     "women": 0.69,
+     "boys": 0.97,
+     "girls": 0.94
+    },
+    "workShare": {
+     "men": {
+      "mens": 8,
+      "womens": 1,
+      "shared": 26,
+      "none": 64
+     },
+     "women": {
+      "mens": 4,
+      "womens": 1,
+      "shared": 22,
+      "none": 73
+     },
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 5,
+      "none": 94
+     },
+     "girls": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 7,
+      "none": 92
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.39,
+      "womenIdle": 0.58,
+      "womenMens": 0.03
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.91,
+      "womenIdle": 0.84,
+      "womenMens": 0.01
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 14.8,
+      "womenIdle": 0.73,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 19,
+    "roofed": 19,
+    "roofedDayMedian": 1.6,
+    "cleared": [
+     3,
+     3,
+     2
+    ],
+    "sownP1": 3,
+    "harvestsMean": 67.1,
+    "harvestFoodMedian": 448,
+    "cottonMedian": 161.7,
+    "food": [
+     42.2,
+     55,
+     21.6
+    ],
+    "hungry": 6,
+    "weak": 3,
+    "starving": 2,
+    "hungryDaysMean": 2.4,
+    "deaths": 4,
+    "hunger": 2,
+    "disease": 0,
+    "war": 2,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 230,
+    "finalMedian": 20250,
+    "rankMedian": 8,
+    "winners": 2,
+    "wiped": 0,
+    "townArrivals": 1848,
+    "dirtyArrivals": 900,
+    "remarks": 350,
+    "markupReales": 727,
+    "coinTradedDirty": 2908,
+    "dirtyShareMedian": 25,
+    "washesMean": 16.5,
+    "keptDaysMean": 68.4,
+    "gardenDaysMean": 59.3,
+    "homeDaysMean": 182.1,
+    "stuckFamilyDays": 100.7,
+    "hiddenAllDays": 31.58,
+    "queuedBehindOneDays": 10.64,
+    "stuckFamilyShare": 0.55,
+    "stuckPersonDays": {
+     "men": 90.7,
+     "women": 57.29,
+     "boys": 153.18,
+     "girls": 128.47
+    },
+    "stuckBy": {
+     "build": 64.97,
+     "ground": 66.75,
+     "hunt": 66.18,
+     "house": 85.98
+    },
+    "hiddenBy": {
+     "build": 4.21,
+     "ground": 4.54,
+     "hunt": 4.32,
+     "house": 27.03
+    },
+    "idleShare": {
+     "men": 0.23,
+     "women": 0.09,
+     "boys": 0.93,
+     "girls": 0.78
+    },
+    "workShare": {
+     "men": {
+      "mens": 13,
+      "womens": 0,
+      "shared": 32,
+      "none": 55
+     },
+     "women": {
+      "mens": 1,
+      "womens": 55,
+      "shared": 22,
+      "none": 22
+     },
+     "boys": {
+      "mens": 2,
+      "womens": 0,
+      "shared": 6,
+      "none": 92
+     },
+     "girls": {
+      "mens": 0,
+      "womens": 18,
+      "shared": 8,
+      "none": 73
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 35.31,
+      "hiddenAllDays": 7.82,
+      "homeDays": 79.31,
+      "womenIdle": 0.09,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 57.16,
+      "hiddenAllDays": 21.79,
+      "homeDays": 88.04,
+      "womenIdle": 0.06,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 8.24,
+      "hiddenAllDays": 1.97,
+      "homeDays": 14.77,
+      "womenIdle": 0.19,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 19,
+    "roofed": 19,
+    "roofedDayMedian": 1.6,
+    "cleared": [
+     3,
+     3,
+     2
+    ],
+    "sownP1": 3,
+    "harvestsMean": 64.5,
+    "harvestFoodMedian": 465,
+    "cottonMedian": 161,
+    "food": [
+     43.3,
+     42.9,
+     23.1
+    ],
+    "hungry": 7,
+    "weak": 3,
+    "starving": 2,
+    "hungryDaysMean": 3.5,
+    "deaths": 4,
+    "hunger": 2,
+    "disease": 0,
+    "war": 2,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 163,
+    "finalMedian": 27880,
+    "rankMedian": 7,
+    "winners": 2,
+    "wiped": 0,
+    "townArrivals": 1912,
+    "dirtyArrivals": 1714,
+    "remarks": 788,
+    "markupReales": 1290.5,
+    "coinTradedDirty": 5162,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 182.1,
+    "stuckFamilyDays": 96.41,
+    "hiddenAllDays": 11.86,
+    "queuedBehindOneDays": 16.06,
+    "stuckFamilyShare": 0.53,
+    "stuckPersonDays": {
+     "men": 2.38,
+     "women": 178.15,
+     "boys": 2.92,
+     "girls": 148.49
+    },
+    "stuckBy": {
+     "build": 92.56,
+     "ground": 94.99,
+     "hunt": 94.39,
+     "house": 3.15
+    },
+    "hiddenBy": {
+     "build": 10.95,
+     "ground": 11.36,
+     "hunt": 11.34,
+     "house": 0.48
+    },
+    "idleShare": {
+     "men": 0.57,
+     "women": 0.61,
+     "boys": 0.95,
+     "girls": 0.93
+    },
+    "workShare": {
+     "men": {
+      "mens": 13,
+      "womens": 0,
+      "shared": 25,
+      "none": 62
+     },
+     "women": {
+      "mens": 2,
+      "womens": 1,
+      "shared": 26,
+      "none": 70
+     },
+     "boys": {
+      "mens": 2,
+      "womens": 0,
+      "shared": 5,
+      "none": 93
+     },
+     "girls": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 7,
+      "none": 93
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 28.19,
+      "hiddenAllDays": 1.73,
+      "homeDays": 79.36,
+      "womenIdle": 0.57,
+      "womenMens": 0.01
+     },
+     "2": {
+      "stuckFamilyDays": 60.88,
+      "hiddenAllDays": 10.03,
+      "homeDays": 87.94,
+      "womenIdle": 0.78,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 7.34,
+      "hiddenAllDays": 0.1,
+      "homeDays": 14.78,
+      "womenIdle": 0.69,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "rolledMother": {
+   "before-playing": {
+    "families": 3,
+    "roofed": 3,
+    "roofedDayMedian": 4,
+    "cleared": [
+     2,
+     3,
+     0
+    ],
+    "sownP1": 2,
+    "harvestsMean": 53.3,
+    "harvestFoodMedian": 526,
+    "cottonMedian": 0,
+    "food": [
+     14.1,
+     34.6,
+     15.2
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 148,
+    "finalMedian": 4469,
+    "rankMedian": 13,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 178.6,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.68,
+     "women": 0.09,
+     "boys": 0.65,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 32,
+      "none": 68
+     },
+     "women": {
+      "mens": 9,
+      "womens": 2,
+      "shared": 69,
+      "none": 21
+     },
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 33,
+      "none": 65
+     },
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.34,
+      "womenIdle": 0.01,
+      "womenMens": 0.19
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.93,
+      "womenIdle": 0.16,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 11.35,
+      "womenIdle": 0.01,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 3,
+    "roofed": 3,
+    "roofedDayMedian": 4,
+    "cleared": [
+     1,
+     2,
+     0
+    ],
+    "sownP1": 1,
+    "harvestsMean": 49.7,
+    "harvestFoodMedian": 371,
+    "cottonMedian": 0,
+    "food": [
+     11.8,
+     43.1,
+     13
+    ],
+    "hungry": 1,
+    "weak": 1,
+    "starving": 1,
+    "hungryDaysMean": 7.6,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 110,
+    "finalMedian": 2460,
+    "rankMedian": 12,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 186,
+    "dirtyArrivals": 82,
+    "remarks": 39,
+    "markupReales": 37.5,
+    "coinTradedDirty": 150,
+    "dirtyShareMedian": 57,
+    "washesMean": 10.3,
+    "keptDaysMean": 49.7,
+    "gardenDaysMean": 24,
+    "homeDaysMean": 178.5,
+    "stuckFamilyDays": 21.63,
+    "hiddenAllDays": 21.57,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0.13,
+    "stuckPersonDays": {
+     "men": 0.88,
+     "women": 0.06,
+     "boys": 21.08,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0.06,
+     "ground": 0.06,
+     "hunt": 0.06,
+     "house": 21.57
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 21.57
+    },
+    "idleShare": {
+     "men": 0.08,
+     "women": 0.01,
+     "boys": 0.39,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 0,
+      "womens": 4,
+      "shared": 88,
+      "none": 8
+     },
+     "women": {
+      "mens": 11,
+      "womens": 42,
+      "shared": 46,
+      "none": 1
+     },
+     "boys": {
+      "mens": 1,
+      "womens": 2,
+      "shared": 58,
+      "none": 39
+     },
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 12.01,
+      "hiddenAllDays": 12.01,
+      "homeDays": 79.37,
+      "womenIdle": 0.02,
+      "womenMens": 0.06
+     },
+     "2": {
+      "stuckFamilyDays": 9.2,
+      "hiddenAllDays": 9.14,
+      "homeDays": 88.07,
+      "womenIdle": 0,
+      "womenMens": 0.01
+     },
+     "3": {
+      "stuckFamilyDays": 0.42,
+      "hiddenAllDays": 0.42,
+      "homeDays": 11.03,
+      "womenIdle": 0,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 3,
+    "roofed": 3,
+    "roofedDayMedian": 3.9,
+    "cleared": [
+     2,
+     3,
+     0
+    ],
+    "sownP1": 2,
+    "harvestsMean": 51.3,
+    "harvestFoodMedian": 534,
+    "cottonMedian": 0,
+    "food": [
+     17.3,
+     47.8,
+     16.5
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 156,
+    "finalMedian": 4551,
+    "rankMedian": 12,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 227,
+    "dirtyArrivals": 209,
+    "remarks": 90,
+    "markupReales": 119.8,
+    "coinTradedDirty": 479,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 178.6,
+    "stuckFamilyDays": 1.25,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0.01,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 1.25,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 1.25,
+     "ground": 1.25,
+     "hunt": 1.25,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.84,
+     "women": 0.1,
+     "boys": 0.7,
+     "girls": null
+    },
+    "workShare": {
+     "men": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 16,
+      "none": 84
+     },
+     "women": {
+      "mens": 11,
+      "womens": 2,
+      "shared": 63,
+      "none": 25
+     },
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 28,
+      "none": 70
+     },
+     "girls": null
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.37,
+      "womenIdle": 0.06,
+      "womenMens": 0.28
+     },
+     "2": {
+      "stuckFamilyDays": 1.25,
+      "hiddenAllDays": 0,
+      "homeDays": 87.69,
+      "womenIdle": 0.16,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 11.55,
+      "womenIdle": 0.01,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "rolledFather": {
+   "before-playing": {
+    "families": 2,
+    "roofed": 2,
+    "roofedDayMedian": 1.8,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 45,
+    "harvestFoodMedian": 1036,
+    "cottonMedian": 82.6,
+    "food": [
+     87.4,
+     65.9,
+     16.9
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 347,
+    "finalMedian": 14758,
+    "rankMedian": 9.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 177.5,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.31,
+     "women": null,
+     "boys": 0.77,
+     "girls": 0.82
+    },
+    "workShare": {
+     "men": {
+      "mens": 11,
+      "womens": 0,
+      "shared": 57,
+      "none": 32
+     },
+     "women": null,
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 23,
+      "none": 77
+     },
+     "girls": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 18,
+      "none": 82
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.51,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.81,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 10.11,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-playing": {
+    "families": 2,
+    "roofed": 2,
+    "roofedDayMedian": 1.7,
+    "cleared": [
+     2.5,
+     2.5,
+     0
+    ],
+    "sownP1": 2.5,
+    "harvestsMean": 77,
+    "harvestFoodMedian": 1085,
+    "cottonMedian": 54.1,
+    "food": [
+     148.2,
+     102.7,
+     18.6
+    ],
+    "hungry": 1,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 1.6,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 265.5,
+    "finalMedian": 11267.5,
+    "rankMedian": 9.5,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 197,
+    "dirtyArrivals": 11,
+    "remarks": 4,
+    "markupReales": 4.5,
+    "coinTradedDirty": 18,
+    "dirtyShareMedian": 38,
+    "washesMean": 15,
+    "keptDaysMean": 61,
+    "gardenDaysMean": 50,
+    "homeDaysMean": 177.5,
+    "stuckFamilyDays": 4.14,
+    "hiddenAllDays": 1.79,
+    "queuedBehindOneDays": 0.04,
+    "stuckFamilyShare": 0.02,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 4.14
+    },
+    "stuckBy": {
+     "build": 4.1,
+     "ground": 4.14,
+     "hunt": 4.14,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 1.75,
+     "ground": 1.79,
+     "hunt": 1.79,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.02,
+     "women": null,
+     "boys": 0.09,
+     "girls": 0.16
+    },
+    "workShare": {
+     "men": {
+      "mens": 3,
+      "womens": 55,
+      "shared": 40,
+      "none": 2
+     },
+     "women": null,
+     "boys": {
+      "mens": 1,
+      "womens": 71,
+      "shared": 19,
+      "none": 9
+     },
+     "girls": {
+      "mens": 0,
+      "womens": 58,
+      "shared": 26,
+      "none": 16
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 1.23,
+      "hiddenAllDays": 0.62,
+      "homeDays": 79.63,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 0.32,
+      "hiddenAllDays": 0.11,
+      "homeDays": 87.63,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 2.6,
+      "hiddenAllDays": 1.07,
+      "homeDays": 10.19,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   },
+   "now-nohouse": {
+    "families": 2,
+    "roofed": 2,
+    "roofedDayMedian": 1.8,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 79,
+    "harvestFoodMedian": 1080.5,
+    "cottonMedian": 68.4,
+    "food": [
+     90.2,
+     77.9,
+     18.2
+    ],
+    "hungry": 0,
+    "weak": 0,
+    "starving": 0,
+    "hungryDaysMean": 0,
+    "deaths": 0,
+    "hunger": 0,
+    "disease": 0,
+    "war": 0,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 320,
+    "finalMedian": 13595,
+    "rankMedian": 9,
+    "winners": 0,
+    "wiped": 0,
+    "townArrivals": 236,
+    "dirtyArrivals": 209,
+    "remarks": 76,
+    "markupReales": 141.3,
+    "coinTradedDirty": 565,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 177.5,
+    "stuckFamilyDays": 30.09,
+    "hiddenAllDays": 22.9,
+    "queuedBehindOneDays": 0.17,
+    "stuckFamilyShare": 0.16,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 30.09
+    },
+    "stuckBy": {
+     "build": 29.96,
+     "ground": 30.09,
+     "hunt": 30.09,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 22.78,
+     "ground": 22.9,
+     "hunt": 22.9,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.32,
+     "women": null,
+     "boys": 0.71,
+     "girls": 0.78
+    },
+    "workShare": {
+     "men": {
+      "mens": 4,
+      "womens": 0,
+      "shared": 60,
+      "none": 35
+     },
+     "women": null,
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 28,
+      "none": 71
+     },
+     "girls": {
+      "mens": 0,
+      "womens": 0,
+      "shared": 22,
+      "none": 78
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 3.74,
+      "hiddenAllDays": 2.63,
+      "homeDays": 79.63,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "2": {
+      "stuckFamilyDays": 23.03,
+      "hiddenAllDays": 20.12,
+      "homeDays": 88,
+      "womenIdle": null,
+      "womenMens": null
+     },
+     "3": {
+      "stuckFamilyDays": 3.32,
+      "hiddenAllDays": 0.16,
+      "homeDays": 9.81,
+      "womenIdle": null,
+      "womenMens": null
+     }
+    },
+    "enlisted": 0,
+    "enlistDayMedian": null,
+    "sonHomeDaysMean": 0
+   }
+  },
+  "all": {
+   "before-playing": {
+    "families": 90,
+    "roofed": 90,
+    "roofedDayMedian": 1.2,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 64,
+    "harvestFoodMedian": 444.5,
+    "cottonMedian": 172.5,
+    "food": [
+     30.5,
+     40.1,
+     14.7
+    ],
+    "hungry": 15,
+    "weak": 9,
+    "starving": 6,
+    "hungryDaysMean": 1.4,
+    "deaths": 13,
+    "hunger": 5,
+    "disease": 0,
+    "war": 8,
+    "other": 0,
+    "hungerDeathsAtHome": 0,
+    "coinMedian": 328,
+    "finalMedian": 21775,
+    "rankMedian": 8,
+    "winners": 6,
+    "wiped": 0,
+    "townArrivals": 0,
+    "dirtyArrivals": 0,
+    "remarks": 0,
+    "markupReales": 0,
+    "coinTradedDirty": 0,
+    "dirtyShareMedian": null,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 181.3,
+    "stuckFamilyDays": 0,
+    "hiddenAllDays": 0,
+    "queuedBehindOneDays": 0,
+    "stuckFamilyShare": 0,
+    "stuckPersonDays": {
+     "men": 0,
+     "women": 0,
+     "boys": 0,
+     "girls": 0
+    },
+    "stuckBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "hiddenBy": {
+     "build": 0,
+     "ground": 0,
+     "hunt": 0,
+     "house": 0
+    },
+    "idleShare": {
+     "men": 0.51,
+     "women": 0.64,
+     "boys": 0.85,
+     "girls": 0.77
+    },
+    "workShare": {
+     "men": {
+      "mens": 5,
+      "womens": 1,
+      "shared": 38,
+      "none": 56
+     },
+     "women": {
+      "mens": 4,
+      "womens": 1,
+      "shared": 30,
+      "none": 65
+     },
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 12,
+      "none": 87
+     },
+     "girls": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 18,
+      "none": 81
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 79.43,
+      "womenIdle": 0.51,
+      "womenMens": 0.03
+     },
+     "2": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 87.9,
+      "womenIdle": 0.77,
+      "womenMens": 0.01
+     },
+     "3": {
+      "stuckFamilyDays": 0,
+      "hiddenAllDays": 0,
+      "homeDays": 13.94,
+      "womenIdle": 0.52,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 12,
+    "enlistDayMedian": 122,
+    "sonHomeDaysMean": 4.1
+   },
+   "now-playing": {
+    "families": 90,
+    "roofed": 90,
+    "roofedDayMedian": 2.5,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 62.1,
+    "harvestFoodMedian": 413,
+    "cottonMedian": 146.8,
+    "food": [
+     33.1,
+     39.5,
+     15
+    ],
+    "hungry": 18,
+    "weak": 11,
+    "starving": 7,
+    "hungryDaysMean": 2,
+    "deaths": 17,
+    "hunger": 9,
+    "disease": 0,
+    "war": 8,
+    "other": 0,
+    "hungerDeathsAtHome": 2,
+    "coinMedian": 275.5,
+    "finalMedian": 20373,
+    "rankMedian": 8,
+    "winners": 6,
+    "wiped": 0,
+    "townArrivals": 8515,
+    "dirtyArrivals": 3255,
+    "remarks": 1411,
+    "markupReales": 2557,
+    "coinTradedDirty": 10228,
+    "dirtyShareMedian": 30,
+    "washesMean": 15.4,
+    "keptDaysMean": 64.2,
+    "gardenDaysMean": 53.6,
+    "homeDaysMean": 181.3,
+    "stuckFamilyDays": 57.4,
+    "hiddenAllDays": 36.52,
+    "queuedBehindOneDays": 3.52,
+    "stuckFamilyShare": 0.32,
+    "stuckPersonDays": {
+     "men": 53.66,
+     "women": 21.26,
+     "boys": 56.52,
+     "girls": 46.42
+    },
+    "stuckBy": {
+     "build": 27.82,
+     "ground": 28.45,
+     "hunt": 28.32,
+     "house": 43.34
+    },
+    "hiddenBy": {
+     "build": 8.83,
+     "ground": 9.11,
+     "hunt": 9.06,
+     "house": 27.41
+    },
+    "idleShare": {
+     "men": 0.2,
+     "women": 0.06,
+     "boys": 0.76,
+     "girls": 0.18
+    },
+    "workShare": {
+     "men": {
+      "mens": 8,
+      "womens": 16,
+      "shared": 38,
+      "none": 38
+     },
+     "women": {
+      "mens": 3,
+      "womens": 52,
+      "shared": 27,
+      "none": 17
+     },
+     "boys": {
+      "mens": 1,
+      "womens": 11,
+      "shared": 15,
+      "none": 72
+     },
+     "girls": {
+      "mens": 1,
+      "womens": 39,
+      "shared": 17,
+      "none": 44
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 19.92,
+      "hiddenAllDays": 11.23,
+      "homeDays": 79.38,
+      "womenIdle": 0.08,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 34.06,
+      "hiddenAllDays": 23.76,
+      "homeDays": 87.96,
+      "womenIdle": 0.03,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 3.42,
+      "hiddenAllDays": 1.52,
+      "homeDays": 13.96,
+      "womenIdle": 0.13,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 12,
+    "enlistDayMedian": 122,
+    "sonHomeDaysMean": 4.1
+   },
+   "now-nohouse": {
+    "families": 90,
+    "roofed": 90,
+    "roofedDayMedian": 2.3,
+    "cleared": [
+     3,
+     3,
+     0
+    ],
+    "sownP1": 3,
+    "harvestsMean": 63.5,
+    "harvestFoodMedian": 443,
+    "cottonMedian": 157.3,
+    "food": [
+     28.6,
+     36.6,
+     14.9
+    ],
+    "hungry": 21,
+    "weak": 10,
+    "starving": 7,
+    "hungryDaysMean": 2.2,
+    "deaths": 15,
+    "hunger": 6,
+    "disease": 1,
+    "war": 8,
+    "other": 0,
+    "hungerDeathsAtHome": 2,
+    "coinMedian": 307,
+    "finalMedian": 21225,
+    "rankMedian": 8,
+    "winners": 6,
+    "wiped": 0,
+    "townArrivals": 9203,
+    "dirtyArrivals": 8304,
+    "remarks": 3805,
+    "markupReales": 6493.3,
+    "coinTradedDirty": 25973,
+    "dirtyShareMedian": 95,
+    "washesMean": 0,
+    "keptDaysMean": 0,
+    "gardenDaysMean": 0,
+    "homeDaysMean": 181.3,
+    "stuckFamilyDays": 66.64,
+    "hiddenAllDays": 13.84,
+    "queuedBehindOneDays": 7.08,
+    "stuckFamilyShare": 0.37,
+    "stuckPersonDays": {
+     "men": 0.65,
+     "women": 77.12,
+     "boys": 0.68,
+     "girls": 88.32
+    },
+    "stuckBy": {
+     "build": 65.27,
+     "ground": 66.26,
+     "hunt": 65.99,
+     "house": 0.8
+    },
+    "hiddenBy": {
+     "build": 13.11,
+     "ground": 13.59,
+     "hunt": 13.56,
+     "house": 0.18
+    },
+    "idleShare": {
+     "men": 0.53,
+     "women": 0.63,
+     "boys": 0.84,
+     "girls": 0.79
+    },
+    "workShare": {
+     "men": {
+      "mens": 8,
+      "womens": 0,
+      "shared": 35,
+      "none": 57
+     },
+     "women": {
+      "mens": 4,
+      "womens": 1,
+      "shared": 30,
+      "none": 65
+     },
+     "boys": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 11,
+      "none": 88
+     },
+     "girls": {
+      "mens": 1,
+      "womens": 0,
+      "shared": 17,
+      "none": 83
+     }
+    },
+    "byPeriod": {
+     "1": {
+      "stuckFamilyDays": 18.93,
+      "hiddenAllDays": 3.85,
+      "homeDays": 79.43,
+      "womenIdle": 0.54,
+      "womenMens": 0
+     },
+     "2": {
+      "stuckFamilyDays": 44.6,
+      "hiddenAllDays": 9.7,
+      "homeDays": 87.9,
+      "womenIdle": 0.76,
+      "womenMens": 0
+     },
+     "3": {
+      "stuckFamilyDays": 3.12,
+      "hiddenAllDays": 0.3,
+      "homeDays": 13.93,
+      "womenIdle": 0.54,
+      "womenMens": 0
+     }
+    },
+    "enlisted": 12,
+    "enlistDayMedian": 122,
+    "sonHomeDaysMean": 4.1
+   }
+  }
+ }
+}

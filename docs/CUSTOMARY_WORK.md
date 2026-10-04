@@ -189,6 +189,12 @@ day 1.1 to 1.6 of the first period) and end it with more food (55.6 to 60.2); lo
 with far more food (25 to 39.5, 13 to 35.7); a student who gives no orders starves a day sooner (nobody keeps house); a student who
 plays as the director does loses nobody at home either way.
 
+[BALANCE.md](BALANCE.md) §23 (2026-10-04, a study for the owner: *"is it too hard to play if your family doesn't have enough of a
+certain gender?"*): eleven family shapes over three periods against the game before the custom. No dead end; a family with one man for
+all the men's work roofs its house one to three days later; a lone parent doing both customs falls behind (a lone mother of small
+children loses children to hunger at home in the winter); a student who never finds *Keep house* is dirty in town nine times in ten;
+seven questions with proposed fixes for the owner, none built.
+
 ## 11. Evidence
 
 - `tests/custom-work.test.mjs` (12 tests: the rule and its words, and the other sex's work off the list; off the bar, and on it, lit, the tick it opens; opening for every way of being away; boys under sixteen; the line

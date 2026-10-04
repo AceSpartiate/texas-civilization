@@ -1,0 +1,635 @@
+{
+ "record": "custom-viability-edges",
+ "measured": "2026-10-04",
+ "works": [
+  "fell-trees",
+  "hunt-land",
+  "cut-lane",
+  "keep-house",
+  "wash-clothes",
+  "work-garden"
+ ],
+ "cases": [
+  {
+   "name": "both parents home; Rosa a girl of 12, Mateo a boy of 12",
+   "answers": {
+    "father": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Almira is at home.",
+     "wash-clothes": "no: The wash is women's work, and Almira is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Almira is at home.",
+     "listed": 16
+    },
+    "mother": {
+     "fell-trees": "no: Felling is men's work, and Amos is at home.",
+     "hunt-land": "no: Hunting is men's work, and Amos is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Amos is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 10
+    },
+    "rosa": {
+     "fell-trees": "no: Felling is men's work, and Amos is at home.",
+     "hunt-land": "no: Hunting is men's work, and Amos is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Amos is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Almira is at home.",
+     "wash-clothes": "no: The wash is women's work, and Almira is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Almira is at home.",
+     "listed": 16
+    }
+   }
+  },
+  {
+   "name": "father at the war (serving); Mateo a son of 16 at home",
+   "answers": {
+    "father": {
+     "fell-trees": "no: Amos is with the regular army at san-felipe, and can only be sent for.",
+     "hunt-land": "no: Amos is with the regular army at san-felipe, and can only be sent for.",
+     "cut-lane": "no: Amos is with the regular army at san-felipe, and can only be sent for.",
+     "keep-house": "no: Amos is with the regular army at san-felipe, and can only be sent for.",
+     "wash-clothes": "no: Amos is with the regular army at san-felipe, and can only be sent for.",
+     "work-garden": "no: Amos is with the regular army at san-felipe, and can only be sent for.",
+     "listed": 0
+    },
+    "mother": {
+     "fell-trees": "no: Felling is men's work, and Eli is at home.",
+     "hunt-land": "no: Hunting is men's work, and Eli is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Eli is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 9
+    },
+    "rosa": {
+     "fell-trees": "no: Matilda is too young to be sent.",
+     "hunt-land": "no: Matilda is too young to be sent.",
+     "cut-lane": "no: Matilda is too young to be sent.",
+     "keep-house": "no: Matilda is too young to be sent.",
+     "wash-clothes": "no: Matilda is too young to be sent.",
+     "work-garden": "no: Matilda is too young to be sent.",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Hannah is at home.",
+     "wash-clothes": "no: The wash is women's work, and Hannah is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Hannah is at home.",
+     "listed": 15
+    }
+   }
+  },
+  {
+   "name": "father at the war (serving); Mateo a son of 15 at home",
+   "answers": {
+    "father": {
+     "fell-trees": "no: Jethro is with the regular army at san-felipe, and can only be sent for.",
+     "hunt-land": "no: Jethro is with the regular army at san-felipe, and can only be sent for.",
+     "cut-lane": "no: Jethro is with the regular army at san-felipe, and can only be sent for.",
+     "keep-house": "no: Jethro is with the regular army at san-felipe, and can only be sent for.",
+     "wash-clothes": "no: Jethro is with the regular army at san-felipe, and can only be sent for.",
+     "work-garden": "no: Jethro is with the regular army at san-felipe, and can only be sent for.",
+     "listed": 0
+    },
+    "mother": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 19
+    },
+    "rosa": {
+     "fell-trees": "no: Docia is too young to be sent.",
+     "hunt-land": "no: Docia is too young to be sent.",
+     "cut-lane": "no: Docia is too young to be sent.",
+     "keep-house": "no: Docia is too young to be sent.",
+     "wash-clothes": "no: Docia is too young to be sent.",
+     "work-garden": "no: Docia is too young to be sent.",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Temperance is at home.",
+     "wash-clothes": "no: The wash is women's work, and Temperance is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Temperance is at home.",
+     "listed": 16
+    }
+   }
+  },
+  {
+   "name": "father released from the army and home again (service kept as released)",
+   "answers": {
+    "father": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Hannah is at home.",
+     "wash-clothes": "no: The wash is women's work, and Hannah is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Hannah is at home.",
+     "listed": 16
+    },
+    "mother": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 19
+    },
+    "rosa": {
+     "fell-trees": "no: Emily is too young to be sent.",
+     "hunt-land": "no: Emily is too young to be sent.",
+     "cut-lane": "no: Emily is too young to be sent.",
+     "keep-house": "no: Emily is too young to be sent.",
+     "wash-clothes": "no: Emily is too young to be sent.",
+     "work-garden": "no: Emily is too young to be sent.",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "no: George is too young to be sent.",
+     "hunt-land": "no: George is too young to be sent.",
+     "cut-lane": "no: George is too young to be sent.",
+     "keep-house": "no: George is too young to be sent.",
+     "wash-clothes": "no: George is too young to be sent.",
+     "work-garden": "no: George is too young to be sent.",
+     "listed": 10
+    }
+   }
+  },
+  {
+   "name": "father deserted and home again (service kept as deserted)",
+   "answers": {
+    "father": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Charity is at home.",
+     "wash-clothes": "no: The wash is women's work, and Charity is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Charity is at home.",
+     "listed": 16
+    },
+    "mother": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 19
+    },
+    "rosa": {
+     "fell-trees": "no: Lavinia is too young to be sent.",
+     "hunt-land": "no: Lavinia is too young to be sent.",
+     "cut-lane": "no: Lavinia is too young to be sent.",
+     "keep-house": "no: Lavinia is too young to be sent.",
+     "wash-clothes": "no: Lavinia is too young to be sent.",
+     "work-garden": "no: Lavinia is too young to be sent.",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "no: Calvin is too young to be sent.",
+     "hunt-land": "no: Calvin is too young to be sent.",
+     "cut-lane": "no: Calvin is too young to be sent.",
+     "keep-house": "no: Calvin is too young to be sent.",
+     "wash-clothes": "no: Calvin is too young to be sent.",
+     "work-garden": "no: Calvin is too young to be sent.",
+     "listed": 10
+    }
+   }
+  },
+  {
+   "name": "father sick at home",
+   "answers": {
+    "father": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Polly is at home.",
+     "wash-clothes": "no: The wash is women's work, and Polly is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Polly is at home.",
+     "listed": 15
+    },
+    "mother": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 19
+    },
+    "rosa": {
+     "fell-trees": "no: Docia is too young to be sent.",
+     "hunt-land": "no: Docia is too young to be sent.",
+     "cut-lane": "no: Docia is too young to be sent.",
+     "keep-house": "no: Docia is too young to be sent.",
+     "wash-clothes": "no: Docia is too young to be sent.",
+     "work-garden": "no: Docia is too young to be sent.",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "no: Micajah is too young to be sent.",
+     "hunt-land": "no: Micajah is too young to be sent.",
+     "cut-lane": "no: Micajah is too young to be sent.",
+     "keep-house": "no: Micajah is too young to be sent.",
+     "wash-clothes": "no: Micajah is too young to be sent.",
+     "work-garden": "no: Micajah is too young to be sent.",
+     "listed": 10
+    }
+   }
+  },
+  {
+   "name": "father tired at home",
+   "answers": {
+    "father": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Patience is at home.",
+     "wash-clothes": "no: The wash is women's work, and Patience is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Patience is at home.",
+     "listed": 15
+    },
+    "mother": {
+     "fell-trees": "no: Felling is men's work, and Joel is at home.",
+     "hunt-land": "no: Hunting is men's work, and Joel is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Joel is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 9
+    },
+    "rosa": {
+     "fell-trees": "no: Louisa is too young to be sent.",
+     "hunt-land": "no: Louisa is too young to be sent.",
+     "cut-lane": "no: Louisa is too young to be sent.",
+     "keep-house": "no: Louisa is too young to be sent.",
+     "wash-clothes": "no: Louisa is too young to be sent.",
+     "work-garden": "no: Louisa is too young to be sent.",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "no: Simeon is too young to be sent.",
+     "hunt-land": "no: Simeon is too young to be sent.",
+     "cut-lane": "no: Simeon is too young to be sent.",
+     "keep-house": "no: Simeon is too young to be sent.",
+     "wash-clothes": "no: Simeon is too young to be sent.",
+     "work-garden": "no: Simeon is too young to be sent.",
+     "listed": 10
+    }
+   }
+  },
+  {
+   "name": "father weak with hunger at home",
+   "answers": {
+    "father": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Martha is at home.",
+     "wash-clothes": "no: The wash is women's work, and Martha is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Martha is at home.",
+     "listed": 15
+    },
+    "mother": {
+     "fell-trees": "no: Felling is men's work, and Benjamin is at home.",
+     "hunt-land": "no: Hunting is men's work, and Benjamin is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Benjamin is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 9
+    },
+    "rosa": {
+     "fell-trees": "no: Abigail is too young to be sent.",
+     "hunt-land": "no: Abigail is too young to be sent.",
+     "cut-lane": "no: Abigail is too young to be sent.",
+     "keep-house": "no: Abigail is too young to be sent.",
+     "wash-clothes": "no: Abigail is too young to be sent.",
+     "work-garden": "no: Abigail is too young to be sent.",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "no: Moses is too young to be sent.",
+     "hunt-land": "no: Moses is too young to be sent.",
+     "cut-lane": "no: Moses is too young to be sent.",
+     "keep-house": "no: Moses is too young to be sent.",
+     "wash-clothes": "no: Moses is too young to be sent.",
+     "work-garden": "no: Moses is too young to be sent.",
+     "listed": 10
+    }
+   }
+  },
+  {
+   "name": "father holding a crying baby (aside) at home",
+   "answers": {
+    "father": {
+     "fell-trees": "no: Benjamin is seeing to the baby, and will be back at it in a moment.",
+     "hunt-land": "no: Benjamin is seeing to the baby, and will be back at it in a moment.",
+     "cut-lane": "no: Benjamin is seeing to the baby, and will be back at it in a moment.",
+     "keep-house": "no: Benjamin is seeing to the baby, and will be back at it in a moment.",
+     "wash-clothes": "no: Benjamin is seeing to the baby, and will be back at it in a moment.",
+     "work-garden": "no: Benjamin is seeing to the baby, and will be back at it in a moment.",
+     "listed": 18
+    },
+    "mother": {
+     "fell-trees": "no: Felling is men's work, and Benjamin is at home.",
+     "hunt-land": "no: Hunting is men's work, and Benjamin is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Benjamin is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 9
+    },
+    "rosa": {
+     "fell-trees": "no: Clarissa is too young to be sent.",
+     "hunt-land": "no: Clarissa is too young to be sent.",
+     "cut-lane": "no: Clarissa is too young to be sent.",
+     "keep-house": "no: Clarissa is too young to be sent.",
+     "wash-clothes": "no: Clarissa is too young to be sent.",
+     "work-garden": "no: Clarissa is too young to be sent.",
+     "listed": 11
+    },
+    "mateo": {
+     "fell-trees": "no: Moses is too young to be sent.",
+     "hunt-land": "no: Moses is too young to be sent.",
+     "cut-lane": "no: Moses is too young to be sent.",
+     "keep-house": "no: Moses is too young to be sent.",
+     "wash-clothes": "no: Moses is too young to be sent.",
+     "work-garden": "no: Moses is too young to be sent.",
+     "listed": 17
+    }
+   }
+  },
+  {
+   "name": "father in town",
+   "answers": {
+    "father": {
+     "fell-trees": "no: Silas is not at home.",
+     "hunt-land": "no: Silas is not at home.",
+     "cut-lane": "no: Silas is not at home.",
+     "keep-house": "no: Silas is not at home.",
+     "wash-clothes": "no: Silas is not at home.",
+     "work-garden": "no: Silas is not at home.",
+     "listed": 19
+    },
+    "mother": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 19
+    },
+    "rosa": {
+     "fell-trees": "no: Adela is too young to be sent.",
+     "hunt-land": "no: Adela is too young to be sent.",
+     "cut-lane": "no: Adela is too young to be sent.",
+     "keep-house": "no: Adela is too young to be sent.",
+     "wash-clothes": "no: Adela is too young to be sent.",
+     "work-garden": "no: Adela is too young to be sent.",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "no: Simeon is too young to be sent.",
+     "hunt-land": "no: Simeon is too young to be sent.",
+     "cut-lane": "no: Simeon is too young to be sent.",
+     "keep-house": "no: Simeon is too young to be sent.",
+     "wash-clothes": "no: Simeon is too young to be sent.",
+     "work-garden": "no: Simeon is too young to be sent.",
+     "listed": 10
+    }
+   }
+  },
+  {
+   "name": "father away riding the range (a work of the place)",
+   "answers": {
+    "father": {
+     "fell-trees": "no: Alvin is already riding the range.",
+     "hunt-land": "no: Alvin is already riding the range.",
+     "cut-lane": "no: Alvin is already riding the range.",
+     "keep-house": "no: Alvin is already riding the range.",
+     "wash-clothes": "no: Alvin is already riding the range.",
+     "work-garden": "no: Alvin is already riding the range.",
+     "listed": 19
+    },
+    "mother": {
+     "fell-trees": "no: Felling is men's work, and Alvin is at home.",
+     "hunt-land": "no: Hunting is men's work, and Alvin is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Alvin is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 10
+    },
+    "rosa": {
+     "fell-trees": "no: Docia is too young to be sent.",
+     "hunt-land": "no: Docia is too young to be sent.",
+     "cut-lane": "no: Docia is too young to be sent.",
+     "keep-house": "no: Docia is too young to be sent.",
+     "wash-clothes": "no: Docia is too young to be sent.",
+     "work-garden": "no: Docia is too young to be sent.",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "no: Zadok is too young to be sent.",
+     "hunt-land": "no: Zadok is too young to be sent.",
+     "cut-lane": "no: Zadok is too young to be sent.",
+     "keep-house": "no: Zadok is too young to be sent.",
+     "wash-clothes": "no: Zadok is too young to be sent.",
+     "work-garden": "no: Zadok is too young to be sent.",
+     "listed": 10
+    }
+   }
+  },
+  {
+   "name": "no mother: lone father, Rosa a girl of 13, Mateo a girl of 11",
+   "answers": {
+    "father": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 19
+    },
+    "rosa": {
+     "fell-trees": "no: Felling is men's work, and Asa is at home.",
+     "hunt-land": "no: Hunting is men's work, and Asa is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Asa is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "no: Felling is men's work, and Asa is at home.",
+     "hunt-land": "no: Hunting is men's work, and Asa is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Asa is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 10
+    }
+   }
+  },
+  {
+   "name": "no mother: lone father, Rosa a daughter of 16",
+   "answers": {
+    "father": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "no: Keeping house is women's work, and Effie is at home.",
+     "wash-clothes": "no: The wash is women's work, and Effie is at home.",
+     "work-garden": "no: The kitchen garden is women's work, and Effie is at home.",
+     "listed": 16
+    },
+    "rosa": {
+     "fell-trees": "no: Felling is men's work, and Benjamin is at home.",
+     "hunt-land": "no: Hunting is men's work, and Benjamin is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Benjamin is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 10
+    },
+    "mateo": {
+     "fell-trees": "no: Jonas is too young to be sent.",
+     "hunt-land": "no: Jonas is too young to be sent.",
+     "cut-lane": "no: Jonas is too young to be sent.",
+     "keep-house": "no: Jonas is too young to be sent.",
+     "wash-clothes": "no: Jonas is too young to be sent.",
+     "work-garden": "no: Jonas is too young to be sent.",
+     "listed": 10
+    }
+   }
+  },
+  {
+   "name": "mother sick, father home, Rosa a girl of 12",
+   "answers": {
+    "father": {
+     "fell-trees": "yes",
+     "hunt-land": "yes",
+     "cut-lane": "no: There is no lane of your own to cut.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 20
+    },
+    "mother": {
+     "fell-trees": "no: Felling is men's work, and Isaac is at home.",
+     "hunt-land": "no: Hunting is men's work, and Isaac is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Isaac is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 11
+    },
+    "rosa": {
+     "fell-trees": "no: Felling is men's work, and Isaac is at home.",
+     "hunt-land": "no: Hunting is men's work, and Isaac is at home.",
+     "cut-lane": "no: Cutting the lane is men's work, and Isaac is at home.",
+     "keep-house": "yes",
+     "wash-clothes": "yes",
+     "work-garden": "yes",
+     "listed": 11
+    },
+    "mateo": {
+     "fell-trees": "no: Moses is too young to be sent.",
+     "hunt-land": "no: Moses is too young to be sent.",
+     "cut-lane": "no: Moses is too young to be sent.",
+     "keep-house": "no: Moses is too young to be sent.",
+     "wash-clothes": "no: Moses is too young to be sent.",
+     "work-garden": "no: Moses is too young to be sent.",
+     "listed": 10
+    }
+   }
+  }
+ ],
+ "frequency": {
+  "families": 20000,
+  "shapes": {
+   "bothParents": {
+    "share": 85.2,
+    "inClassOf30": 25.6
+   },
+   "oneMaleHand": {
+    "share": 25,
+    "inClassOf30": 7.5
+   },
+   "oneWomanThreeOrMoreMen16": {
+    "share": 4.4,
+    "inClassOf30": 1.3
+   },
+   "fatherAndSon16plus": {
+    "share": 47.2,
+    "inClassOf30": 14.1
+   },
+   "bothParentsSon16or17": {
+    "share": 30.6,
+    "inClassOf30": 9.2
+   },
+   "oneManThreeOrMoreWomen16": {
+    "share": 4.3,
+    "inClassOf30": 1.3
+   },
+   "oneFemaleHandThreeOrMoreMale10plus": {
+    "share": 3.4,
+    "inClassOf30": 1
+   },
+   "loneFather": {
+    "share": 7.3,
+    "inClassOf30": 2.2
+   },
+   "loneFatherNoWoman16": {
+    "share": 7.2,
+    "inClassOf30": 2.2
+   },
+   "loneFatherWithBaby": {
+    "share": 1.3,
+    "inClassOf30": 0.4
+   },
+   "girls10to15NoBoys10to15WithAMan": {
+    "share": 10.9,
+    "inClassOf30": 3.3
+   },
+   "loneMother": {
+    "share": 7.6,
+    "inClassOf30": 2.3
+   },
+   "loneMotherAllUnder10": {
+    "share": 6,
+    "inClassOf30": 1.8
+   },
+   "oneMaleHandThreeOrMoreFemale10plus": {
+    "share": 3,
+    "inClassOf30": 0.9
+   },
+   "loneMotherWithSon16": {
+    "share": 0.2,
+    "inClassOf30": 0
+   }
+  }
+ }
+}

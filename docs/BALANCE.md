@@ -1311,6 +1311,231 @@ periods, every family played; [before](evidence/custom-work-hunger-before.json),
   8 food more and the third about 2 more; the second period is 4.4 lower in the median (noise at three classes, the herd and the
   winter's men away move it more). The one death is a child on the road east in the spring, which §20's six classes counted at 1.2 a
   class before this.
-- **Not measured**: a student who never discovers *Keep house* and never puts a woman on auto - that family eats up to a quarter more
+- **Not measured** (measured since: §23, issue 3): a student who never discovers *Keep house* and never puts a woman on auto - that family eats up to a quarter more
   than before (the saving was free until now). The idle student is the bound.
 - `ceiling:` the director's own errands to town pay the plain price whatever the state of the clothes; its women wash among their work.
+
+## 23. Is it too hard to play short of one sex? The custom's viability (2026-10-04, a study; no rule changed)
+
+The owner, 2026-10-04: *"once gendered work is in, check for viability of game play. is it too hard to play if your family doesn't
+have enough of a certain gender? propose fixes for each issue you may come accross."* Measured on branch `custom-viability` from
+origin/main 4f76d4ed (the custom with the owner's four answers, [CUSTOMARY_WORK.md](CUSTOMARY_WORK.md)) against **726f9411, the commit
+before the custom was merged** (the first parent of 58b1abff), unpacked to a scratch folder and run with the same harness (`--root`).
+Nothing in the game was changed.
+
+**The harness** (`scripts/custom-viability.mjs`): six classes of fifteen (seeds `viab-1` to `viab-6`), all three periods, every family
+played, the hunger harness's way of running a class (§19-§21). In each class **eleven families are built to a shape** - rolled as
+dealt (means, wagons, arrival), then their people put in place of the rolled ones with the hidden stats `dealTraits` deals for their
+sex and age, the way the tests build families - and four are left as rolled. Which household gets which shape turns with the seed, so
+no shape always has the same land. Six of each built shape a column; 19 rolled two-parent, 3 lone-mother and 2 lone-father families.
+
+| Shape | People |
+| --- | --- |
+| manyDaughters | father, mother, five girls (14, 12, 9, 6, 3) |
+| fatherGirls | lone father, four girls (13, 11, 8, 5) |
+| fatherBoys | lone father, four boys (17, 14, 11, 7) |
+| motherSmall | lone mother, four children all under ten (8, 6, 4, 1) |
+| motherSon16 | lone mother, a son of 16 and three younger (12, 8, 5) |
+| warHome | father, mother, a son of 17, three girls (14, 11, 7); **father and son sent to enlist** in the winter (day 122, median) |
+| son16Home | father, mother, son 16, girl 13, boy 9, girl 4; **only the father sent to enlist** (the son at home 61 days with him away) |
+| fatherBaby | lone father, three infants (4, 2, 0) |
+| oneManManyWomen | father, mother, five girls (21, 19, 17, 14, 11): one grown man, four grown women |
+| oneWomanManyMen | father, mother, five boys (21, 19, 17, 14, 11): one grown woman, four grown men |
+| twoParentMixed | father, mother, boy 13, girl 11, boy 8, girl 4 (the baseline) |
+
+Two students: **playing** plays as the director plays a family nobody plays (`thinkFor`, the hunger harness's *playing*);
+**nohouse** plays the same but never finds *Keep house*, the wash or the garden (the three are taken off what it sees). The tree before
+the custom has no such work, so it is run *playing* only. Read after every turn a family takes: a person of ten or more at home, able
+and given nothing while a needed work (building, felling, fetching logs; clearing, fencing, survey, the lane, the well; the hunt and
+the gathering works that take the rifle or the axe; keeping house, the garden, the wash, nursing) is refused them **by the custom
+alone** - `choreAvailability` asked as it is, then again with that work's keepers counted away - is **stuck**; a family-day with
+such a person is a *stuck day*; one where nobody free may begin that work at all (its keepers busy at other work) is *hidden from
+everybody*. The wash is read at every arrival in a town, and the coin a person whose clothes want washing spent or took is the
+**markup a student's errand would have added** (the director's own errands, which this harness uses, pay the plain price: §22's
+`ceiling:`), a quarter of it.
+
+How often each shape is rolled (`scripts/custom-viability-edges.mjs`, 20,000 families on the die as it is):
+
+| In a class of 30 | families |
+| --- | --- |
+| Both parents | 25.6 |
+| **One pair of hands for the men's work** (one man of 16+, no boy of 10-15), lone fathers included | **7.5** |
+| ... of which three or more women and girls of 10+ beside him | 0.9 |
+| A man with girls of 10-15 and no boy of 10-15 | 3.3 |
+| Lone father / with a baby under two | 2.2 / 0.4 |
+| Lone mother / all her children under ten / with a son of 16+ | 2.3 / 1.8 / 0.06 |
+| One grown woman and three or more grown men / one grown man and three or more grown women | 1.3 / 1.3 |
+| Both parents and a son of exactly 16 or 17 (who keeps the custom if the father goes) | 9.2 |
+
+Run: `node scripts/custom-viability.mjs --study --seeds viab-1,viab-2,viab-3,viab-4,viab-5,viab-6 --before <a checkout of 726f9411>
+--jobs 18 --out docs/evidence/custom-viability.json` (18 classes, about ten minutes each, in parallel), then `node
+scripts/custom-viability-report.mjs --out docs/evidence/custom-viability-summary.json`, and `node scripts/custom-viability-edges.mjs
+--out docs/evidence/custom-viability-edges.json`. Records: [raw](evidence/custom-viability.json),
+[by shape](evidence/custom-viability-summary.json), [the rule's edges and the frequencies](evidence/custom-viability-edges.json).
+
+### 23.1 The numbers, before / now (playing) / now (nohouse)
+
+Six families a shape, medians unless said; roofed = day of the class the house was roofed (all 90 families roofed in every column);
+food at the end of periods 1-2-3; hungry = families ever hungry; deaths by hunger (at home in periods 1-2 in brackets); rank of 15.
+
+| Shape | Roofed day | Plots cleared, end P1 | Harvest food | Food P1-P2-P3 | Hungry | Hunger deaths | Coin | Final | Rank |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| manyDaughters | 1.1 / **3.9** / 3.6 | 3 / 3 / 3 | 400 / 386 / 387 | 24-37-13 / 31-38-13 / 26-30-13 | 2 / 2 / 2 | 1 / 1 / 1 | 424 / 331 / 360 | 26,382 / 31,614 / 24,276 | 8.5 / 6 / 8.5 |
+| fatherGirls | 1.2 / **4.0** / 4.4 | 3 / 3 / 3 | 770 / 695 / 688 | 22-40-14 / 21-48-14 / 22-38-16 | 1 / 1 / 1 | 0 / 4 / 0 | 177 / 168 / 160 | 7,594 / 5,319 / 6,862 | 12.5 / 13 / 13 |
+| fatherBoys | 1.2 / 1.3 / 1.2 | 3 / 3 / 3 | 644 / 678 / 636 | 29-37-11 / 37-37-11 / 23-35-11 | 0 / 0 / 0 | 0 / 0 / 0 | 343 / 316 / 342 | 31,599 / 29,916 / 31,885 | 6.5 / 6.5 / 7 |
+| **motherSmall** | 10.9 / 6.7 / 5.3 | 3 / **1.5** / 3 | 134 / **29** / 144 | 12-21-8 / **10-6-7** / 11-9-7 | 1 / **3** / **4** | 1 / **2 (2)** / **2 (2)** | 100 / 65 / 87 | 430 / **215** / 399 | 14.5 / 15 / 15 |
+| motherSon16 | 1.0 / **2.4** / 2.4 | 3 / 3 / 3 | 460 / 412 / 413 | 25-30-12 / 46-40-10 / 20-34-11 | 1 / 2 / 3 | 0 / 0 / 0 | 359 / 362 / 317 | 12,237 / 15,019 / 13,883 | 11 / 10 / 10.5 |
+| warHome | 1.1 / 2.0 / 1.9 | 3 / 3 / 3 | 635 / 639 / 623 | 41-69-13 / 46-75-14 / 32-65-13 | 1 / 0 / 2 | 0 / 0 / 0 | 294 / 237 / 230 | 58,972 / 53,431 / 52,309 | 3 / 3.5 / 3 |
+| son16Home | 1.2 / 1.3 / 1.2 | 3 / 3 / 3 | 371 / 379 / 356 | 26-36-19 / 27-40-22 / 25-37-18 | 0 / 0 / 0 | 0 / 0 / 0 | 480 / 469 / 471 | 68,770 / 58,805 / 64,913 | 4 / 5 / 4.5 |
+| **fatherBaby** | 4.0 / 4.0 / 4.1 | 3 / **1** / 3 | 448 / **279** / 466 | 24-39-23 / 15-40-21 / 22-43-25 | 0 / 0 / 0 | 0 / 0 / 0 | 121 / **71** / 146 | 6,077 / **2,536** / 5,846 | 12 / 12.5 / 13 |
+| oneManManyWomen | 0.9 / **1.8** / 1.7 | 3 / 3 / 3 | 540 / 504 / 518 | 48-42-18 / 38-39-19 / 44-41-15 | 0 / 0 / 0 | 0 / 0 / 0 | 479 / 427 / 429 | 30,409 / 42,496 / 28,383 | 6.5 / 6 / 6.5 |
+| oneWomanManyMen | 0.9 / 1.0 / 1.0 | 3 / 3 / 3 | 514 / 515 / 524 | 33-40-16 / 34-46-16 / 33-43-16 | 0 / 0 / 0 | 0 / 0 / 0 | 566 / 579 / 569 | 63,992 / 66,037 / 65,051 | 4 / 3.5 / 4 |
+| twoParentMixed | 1.2 / **2.1** / 2.0 | 3 / 3 / 3 | 378 / 375 / 392 | 22-33-11 / 29-37-11 / 25-32-11 | 2 / 2 / 2 | 1 / 0 / 1 | 430 / 407 / 410 | 19,102 / 21,169 / 21,331 | 8.5 / 8 / 8 |
+| rolled, both parents (19) | 1.2 / 1.6 / 1.6 | 3 / 3 / 3 | 457 / 448 / 465 | 42-47-22 / 42-55-22 / 43-43-23 | 7 / 6 / 7 | 2 / 2 / 2 | 179 / 230 / 163 | 28,696 / 20,250 / 27,880 | 6 / 8 / 7 |
+| **rolled, lone mother (3)** | 4.0 / 4.0 / 3.9 | 2 / **1** / 2 | 526 / **371** / 534 | 14-35-15 / 12-43-13 / 17-48-17 | 0 / 1 / 0 | 0 / 0 / 0 | 148 / 110 / 156 | 4,469 / **2,460** / 4,551 | 13 / 12 / 12 |
+| rolled, lone father (2) | 1.8 / 1.7 / 1.8 | 3 / 2.5 / 3 | 1,036 / 1,085 / 1,081 | 87-66-17 / 148-103-19 / 90-78-18 | 0 / 1 / 0 | 0 / 0 / 0 | 347 / 266 / 320 | 14,758 / 11,268 / 13,595 | 9.5 / 9.5 / 9 |
+| **All 90** | 1.2 / **2.5** / 2.3 | 3 / 3 / 3 | 445 / 413 / 443 | 31-40-15 / 33-40-15 / 29-37-15 | 15 / 18 / 21 | 5 / 9 (2) / 6 (2) | 328 / 276 / 307 | 21,775 / 20,373 / 21,225 | 8 / 8 / 8 |
+
+The student's experience (now; none of it exists before the custom). Stuck share = the share of the family's days at home with
+somebody stuck. Time shares are of all the person-time at home of that group: men's / women's / shared / no work.
+
+| Shape | Stuck share, playing / nohouse | Hidden from everybody, days a family (playing) | Grown women, playing | Grown women, before | Girls 10-15 idle, before / playing / nohouse | Town arrivals dirty, playing / nohouse | Markup a family, playing / nohouse (reales) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| manyDaughters | 19% / 39% | 22.6 (men's 6, house 16) | 1 / 67 / 23 / 8 | 2 / 0 / 39 / 59 | 68% / 18% / 71% | 27% / 92% | 18 / 85 |
+| fatherGirls | 18% / 52% | 26.7 (men's) | - | - | 76% / 17% / 77% | 23% / 93% | 12 / 50 |
+| fatherBoys | 0 / 0 | 0 | - | - | - | 21% / 87% | 19 / 85 |
+| motherSmall | 0 / 0 | 0 | 43 / 23 / 31 / 3 | 29 / 4 / 46 / 21 | - | **66%** / 97% | 1 / 22 |
+| motherSon16 | 22% / 48% | 33.2 (house 31) | 1 / 54 / 41 / 5 | 4 / 1 / 61 / 34 | 70% / 7% / 66% | 37% / 91% | 36 / 76 |
+| warHome | 32% / 39% | 42.5 | 0 / 62 / 30 / 8 | 1 / 0 / 38 / 61 | 74% / 30% / 79% | 41% / 87% | 28 / 61 |
+| son16Home | 35% / 59% | 41.6 (house 39) | 0 / 54 / 34 / 12 | 2 / 1 / 34 / 63 | 73% / 16% / 77% | 43% / 91% | 55 / 109 |
+| fatherBaby | 0 / 0 | 0 | the father: 11 / **49** / 39 / 1 | the father: 14 / 2 / 68 / 16 | - | 17% / 96% | 2 / 48 |
+| oneManManyWomen | 38% / 40% | 55.6 (men's 55) | 1 / 42 / 27 / 30 | 1 / 0 / 25 / 74 | 95% / 88% / 95% | 29% / 92% | 28 / 93 |
+| oneWomanManyMen | **88%** / 60% | **151.6** (house 151) | 0 / 68 / 27 / 5 | 3 / 0 / 31 / 66 | men idle 73% / 64% / 71%; boys 94% / 91% / 94% | 43% / 84% | 60 / 118 |
+| twoParentMixed | 40% / 41% | 62.8 (house 60) | 0 / 60 / 33 / 8 | 2 / 0 / 38 / 60 | 71% / 11% / 78% | 54% / 88% | 40 / 77 |
+| All 90 | 32% / 37% | 36.5 (men's 9, house 27) | 3 / 52 / 27 / 17 | 4 / 1 / 30 / 65 | 81% / 44% / 83% | **38%** / **90%** | 28 / 72 |
+
+(About 181 days a family at home over the three periods. Remarks about the smell: 15.7 a family over the game playing, 42.3 never
+washing.)
+
+### 23.2 What goes wrong, and fixes for the owner to choose from
+
+Each question is put as the owner answers them: the recommended option first, labels of one to five words.
+
+**1. One man does all the men's work while the women and girls stand by: the house goes up days later.** Whenever the only hand for
+the men's work is one man - a father with daughters, or with only small sons - the mother and every girl of ten to fifteen have none
+of the building, felling, clearing or hunting on their bar while he is home. **The house is roofed one to three days later** in the
+families with no second male hand (manyDaughters 1.1 to 3.9, fatherGirls 1.2 to 4.0, motherSon16 1.0 to 2.4, oneManManyWomen 0.9 to
+1.8, twoParentMixed with a boy of 13 1.2 to 2.1; the class median 1.2 to 2.5), and somebody of such a family is stuck - free, the
+men's work there, refused it only by custom - on **18-38% of its days at home**. Families with a second male hand of ten or more are
+unchanged (fatherBoys 1.3, oneWomanManyMen 1.0, son16Home 1.3). **Nothing else moves**: plots, harvests, food, hunger and the final
+number are the same within the noise of six families, because the director's families never used the women's and girls' hours on men's
+work much (grown women 4% of their time, girls 1%, before the custom; most of it was idle - 59-74% - and is now the women's own work).
+So the cost is the first days without a roof, and a bar that offers the mother and girls nothing of the farm's heavy work - what a
+student sees. **7.5 families in a class of 30** have one pair of hands for the men's work. *Why*: `customWhy` refuses the work to
+anybody of the other sex while one keeper is home and able, whether or not he is free; girls of ten to fifteen follow the women's work.
+- *How should a woman or girl help when the only man is busy?*
+  1. **Help, not lead** (recommended) - women and girls of ten or more may join men's work a man of the family has begun (the raising, the clearing, the logs), never begin it; as at the record's house-raisings and log-rollings.
+  2. **Opens when he's busy** - the men's work opens to her while every man at home is already at other work.
+  3. **Children not bound** - nobody under sixteen is held by the custom; a girl of twelve may fell like her brother.
+  4. **Leave it** - the cost is days on the roof, not food or the ending.
+
+**2. A lone parent now does two people's work, and falls behind.** A lone mother with small children must do all the men's work (by
+necessity) *and* keep house, garden and wash; a lone father with infants the same in mirror. Played as the director plays, the women's
+work takes **23% of a lone mother's time and 49% of a lone father's**, out of the field: **motherSmall** clears 1.5 plots by the end of
+the first period instead of 3, brings in 29 food from the field instead of 134, ends the winter with **5.7 food instead of 20.5**, has
+3 families of 6 hungry instead of 1, **2 children die of hunger at home in the winter** (none at home before) and finishes on 215
+instead of 430; **fatherBaby** clears 1 plot instead of 3, harvests 279 instead of 448 and finishes on 2,536 instead of 6,077; the
+rolled lone mothers 2,460 instead of 4,469. A lone parent who skips the women's work (nohouse) farms as before but is dirty 95% of the
+time and - a lone mother - still loses the housekeeping saving, which came free before (motherSmall nohouse: winter food 8.5, 2 deaths
+at home, one in the first period). **About 4.5 families in a class of 30** are lone parents, 1.8 a lone mother of children all under
+ten. *Why*: the saving is now work somebody does (CUSTOMARY_WORK.md §4) and a family of one grown person has nobody else to do it;
+keeping house is an hour a day whatever the family's size.
+- *How should a family with one grown person keep house?*
+  1. **Kept while working home** (recommended) - a lone parent's house counts as kept on any day they work at home; the wash and garden stay orders.
+  2. **Children keep house** - children of seven to nine may keep house and work the garden as a child's job, like the water and the eggs.
+  3. **Scaled to the family** - keeping house takes less of the day for a small family.
+  4. **Leave it** - a lone parent's family is meant to be the hard one.
+
+**3. A student who never finds Keep house or the wash: idle women, dirty clothes, less food.** With the men's work off her bar and her
+own work undiscovered, **a grown woman stands idle 63% of the time and a girl of ten to fifteen 83%** (about as idle as before the
+custom, but now with no men's work to try either). **90% of town arrivals are dirty** (8,304 of 9,203), 42 remarks a family over the
+game, and a student's own errands would pay about **72 reales a family** in markup (against a median coin of 307 at the end); food is
+lower (end of period 1 33.1 to 28.6, period 2 39.5 to 36.6) and more families go hungry (18 to 21 of 90). This closes §22's *Not
+measured*. Any family. *Why*: *Keep house* and the wash are orders like any other, and nothing does them unasked except a person on
+auto (`houseworkMeanwhile`).
+- *Should the house be kept when nobody is told to?*
+  1. **Idle women keep house** (recommended) - a grown woman or girl at home with no work keeps house, and does the wash when it is due, unasked.
+  2. **Prompt the student** - the house and the wash glow on the bar, and the journal says the house was not kept.
+  3. **Warn before charging** - the first dirty visit to town is a remark only; the markup starts after.
+  4. **Leave it** - finding the women's work is part of learning the family.
+
+**4. Away on wash day means dirty in town.** Even a family that washes every week arrives in town dirty **38% of the time** (3,255 of
+8,515 arrivals), more than its people are dirty at home (30%): the person sent to town is the one most often away when the wash is
+done, and the family may not wash again for seven days. Lone mothers of small children: **66%**. About **28 reales a family** of
+markup on a student's errands over the game. Any family. *Why*: `washClothes` cleans only who is home, and the seven-day refusal is the
+family's (`household.washDay`), not each person's.
+- *Who may be washed for after wash day?*
+  1. **Wash whoever's dirty** (recommended) - the wash may be done again whenever somebody at home wants it, cleaning only them.
+  2. **Washed on coming home** - somebody who missed the wash is clean once home a night after it.
+  3. **Leave it** - planning the wash around the trips is the student's to learn.
+
+**5. One woman, many men: the house work queues behind her while the men stand idle.** In oneWomanManyMen a grown man or boy is stuck -
+free, the house unkept or the wash due, refused it by custom - on **88% of the family's days at home** (151 days a family when no free
+person may do the house work at all). She works the garden 39 days of the game against 53-80 in the other two-parent shapes, washes 13 times
+against 17, and the family is dirty 50% of its time at home against 26-30%. Food, hunger and the ending do not move (the house work is
+an hour a day; the garden 0.3 food). In every family boys of ten to fifteen are kept from the women's work while their mother is home
+(twoParentMixed: boys stuck 61 person-days, idle 52%). **1.3 families in a class of 30** have one grown woman and three or more men.
+*Why*: the mirror of issue 1.
+- *How should men help with the women's work?*
+  1. **Help, not lead** (recommended) - men and boys may join the women's work a woman has begun; the same rule as issue 1's first answer.
+  2. **Opens when she's busy** - the women's work opens to the men while every woman at home is at other work.
+  3. **Leave it** - nothing measurable is lost.
+
+**6. A man home from the army still counts as away (a rule fault, found reading the code).** `atHome` in sim/custom.mjs treats anybody
+with a `service` as away, and a man called home from the army (`winter-recall`) or a deserter keeps his service, marked *released* or
+*deserted* (sim/winter.mjs `recallFromService`). So **his wife has the men's work on her bar beside him for the rest of the class**, and
+if she takes it up the story says she did it "with James gone to the army" while he stands in the yard (`scripts/custom-viability-edges.mjs`:
+father released or deserted and home, the mother may fell and hunt). Permissive, never a dead end; not in the class runs (the harness
+recalls nobody).
+- *When is a man of the army away?*
+  1. **Only while serving** (recommended) - away while serving or a prisoner; released or deserted and home, he keeps the custom.
+  2. **Leave it** - he has done his part; his wife may work beside him.
+
+**7. A son of sixteen keeps the custom from his mother.** With the father gone to the war, a son of 16 at home is the only keeper: the
+mother has no men's work on her bar for the **61 days** he runs the place alone (son16Home; a son of 15 would not keep it - the edge
+probe). The farm does as well as before the custom (winter food 39.6 against 36.1, spring 22.0 against 18.9, nobody hungry; coin 469
+against 480; final 58,805 against 68,770 and rank 5 against 4, within the noise of six families). **9.2 families in a class of 30** have
+both parents and a son of exactly 16 or 17. Not a problem the numbers show; asked because it is a shape a student will notice.
+- *Should a son of sixteen keep men's work from his mother?*
+  1. **Leave it** (recommended) - the farm does as well, and the rule is simple to read.
+  2. **Mother may help** - she joins what he has begun (issue 1's first answer covers it).
+  3. **Head of household** - a mother is held only by her husband, never by a son.
+
+### 23.3 What is fine
+
+- **No dead end.** No shape and no state found in which a work the family needs is refused to everybody for good. The moments when
+  nobody free may do a work are queues - its keepers busy at other work, or holding a crying baby, or talking with a child (`aside`,
+  owner: not away) - and end when that work ends. The edge probe found no state in which a man counts as home and able but is refused
+  the men's work himself for another reason: sick, wounded and very sick open it to the women; tired, slightly hurt and weak with hunger
+  keep it, and he may still work.
+- **Families with a second male hand of ten or more** (fatherBoys, oneWomanManyMen, son16Home, most rolled families with sons): house,
+  field, food and ending as before.
+- **Mother and daughters left at home when the men go to the war** (warHome: father and son enlisted, day 122): winter food 75 against
+  69.4 before, nobody hungry, rank 3.5 against 3. The work opens to them by necessity, as built.
+- **A lone father with sons or with girls** (fatherBoys, fatherGirls): builds, clears and eats as before; he keeps house and washes by
+  necessity, and these are among the cleanest families in town (dirty at 21-23% of arrivals). Nothing supports softening the markup for
+  lone fathers. fatherGirls lost four children to hunger in one class (viab-4) on the road east in the spring, where every work is
+  shared; not traced to the custom.
+- **Babies with no woman** (fatherBaby): a crying baby calls the nearest woman of ten or more, else the nearest of the family of age
+  (sim/babies.mjs `whoComes`), so the father holds them, capped at `COMFORT_CAP_TICKS` a day. The custom does not touch it; that shape's
+  cost is issue 2's.
+- **The guided start** is switched off (`LESSON_ENABLED` false). Read against the custom: every step has somebody who may do it in every
+  shape (tests/custom-work.test.mjs), so none can deadlock; but five of its ten steps (the house, survey, clearing, the hunt, the well)
+  are men's work, so a two-parent family's mother and girls would have only the house work during half of it - worth knowing for the
+  redo.
+- **Two-parent rolled families** (19): roofed day 1.2 to 1.6, as §22 measured (1.1 to 1.6); field, food and ending unchanged.
+
+`ceiling:` six families a shape; differences in the final number under about a quarter are within the run-to-run spread (§21), and
+deaths are counts of a few families. The *playing* student is the director's policy, which places the women's work before the trips to
+town and more clearing (§22); a student who orders differently will split a lone parent's day differently. The markup is what a
+student's errands would have paid on the same coin, not money any family in these runs lost.
