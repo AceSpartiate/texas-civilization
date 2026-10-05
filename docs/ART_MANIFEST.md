@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2756 usable sprites, 293 PNG atlases, 953 clips** (645 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2772 usable sprites, 294 PNG atlases, 961 clips** (653 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -200,6 +200,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-gonzales-letter-reading | 12 | 1254 × 1254 | 984871 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
 | people-river-gestures | 8 | 1774 × 887 | 1213332 |
+| people-gonzales-river-south | 16 | 1267 × 1241 | 903349 |
 | people-gonzales-seated-paint | 12 | 1254 × 1254 | 1247274 |
 | people-gonzales-smiths | 16 | 1254 × 1254 | 1257016 |
 | gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
@@ -1957,6 +1958,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elder-river-watch-2 | people-river-gestures | elder-river-watch |
 | elder-river-point-1 | people-river-gestures | elder-river-point |
 | elder-river-point-2 | people-river-gestures | elder-river-point |
+| teal-river-watch-s-1 | people-gonzales-river-south | teal-river-watch-s |
+| teal-river-watch-s-2 | people-gonzales-river-south | teal-river-watch-s |
+| teal-river-point-s-1 | people-gonzales-river-south | teal-river-point-s |
+| teal-river-point-s-2 | people-gonzales-river-south | teal-river-point-s |
+| indigo-river-watch-s-1 | people-gonzales-river-south | indigo-river-watch-s |
+| indigo-river-watch-s-2 | people-gonzales-river-south | indigo-river-watch-s |
+| indigo-river-point-s-1 | people-gonzales-river-south | indigo-river-point-s |
+| indigo-river-point-s-2 | people-gonzales-river-south | indigo-river-point-s |
+| elder-river-watch-s-1 | people-gonzales-river-south | elder-river-watch-s |
+| elder-river-watch-s-2 | people-gonzales-river-south | elder-river-watch-s |
+| elder-river-point-s-1 | people-gonzales-river-south | elder-river-point-s |
+| elder-river-point-s-2 | people-gonzales-river-south | elder-river-point-s |
+| blue-river-watch-s-1 | people-gonzales-river-south | blue-river-watch-s |
+| blue-river-watch-s-2 | people-gonzales-river-south | blue-river-watch-s |
+| blue-river-point-s-1 | people-gonzales-river-south | blue-river-point-s |
+| blue-river-point-s-2 | people-gonzales-river-south | blue-river-point-s |
 | teal-seated-paint-1 | people-gonzales-seated-paint | teal-seated-paint |
 | teal-seated-paint-2 | people-gonzales-seated-paint | teal-seated-paint |
 | teal-seated-paint-3 | people-gonzales-seated-paint | teal-seated-paint |
@@ -3651,6 +3668,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | teal-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| teal-river-watch-s | Pose cycle | 2 | 1300 | yes | south |
+| teal-river-point-s | Pose cycle | 2 | 1300 | yes | south |
+| indigo-river-watch-s | Pose cycle | 2 | 1300 | yes | south |
+| indigo-river-point-s | Pose cycle | 2 | 1300 | yes | south |
+| elder-river-watch-s | Pose cycle | 2 | 1300 | yes | south |
+| elder-river-point-s | Pose cycle | 2 | 1300 | yes | south |
+| blue-river-watch-s | Pose cycle | 2 | 1300 | yes | south |
+| blue-river-point-s | Pose cycle | 2 | 1300 | yes | south |
 | teal-seated-paint | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
 | indigo-seated-paint | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
 | blue-girl-seated-paint | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
