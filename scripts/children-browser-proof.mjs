@@ -89,7 +89,21 @@ try {
   // ------------------------------------------------------------------------------------------------ at home, 1366x768
   // Seed chosen for its first family (scripts: a father, a mother, a son of three and a daughter under one) on the invented
   // country, whose calendar stays at twenty minutes a tick, the pace babies and talk are stopped for.
-  const home = await classroom({ seed: 'children-proof-96', tickMs: 500, worldFactory: seed => createGonzalesWorld(seed, 5), viewport: { width: 1366, height: 768 } });
+  // The family this proof was written for - a father, a mother, a child of three and a baby, the mother the only one of age at home -
+  // is no longer rolled: since 2026-10-04 a family under six has one child under ten at most (owner; sim/family.mjs `youngAllowed`),
+  // and a family with a small child and a baby has children of ten or more too, who would mind the baby. So it is made here: the
+  // seed's family (parents of 30 and 29, children of 11, 10, 3 and a baby) rolled, and its two elder children taken out of it, the
+  // roll it is checked against made four to match. What this proves is the children's own life, not the roll.
+  const home = await classroom({ seed: 'children-proof-434', tickMs: 500, worldFactory: seed => {
+    const world = createGonzalesWorld(seed, 5), household = world.households['hh-1'];
+    rollFamily(world, household);
+    const elder = household.members.filter(id => ['son', 'daughter'].includes(world.entities[id].kin?.role) && world.entities[id].age >= 10);
+    for (const id of elder) delete world.entities[id];
+    household.members = household.members.filter(id => !elder.includes(id));
+    for (const id of household.members) world.entities[id].kin.children = (world.entities[id].kin.children || []).filter(child => !elder.includes(child));
+    household.roll = household.members.length;
+    return world;
+  }, viewport: { width: 1366, height: 768 } });
   const { app, page } = home;
   // The guided start holds a child back from a parent (docs/CHILDREN.md §3), so it is stopped with its X, as a student may.
   await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && ('lesson' in window.__snapshot.world ? !document.querySelector('#lesson-stop')?.hidden : true), null, { timeout: 20000 });
