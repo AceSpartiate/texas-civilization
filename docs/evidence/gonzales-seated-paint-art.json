@@ -1,0 +1,71 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "teal-seated-paint-1",
+      "drawn": true
+    },
+    {
+      "id": "teal-seated-paint-2",
+      "drawn": true
+    },
+    {
+      "id": "teal-seated-paint-3",
+      "drawn": true
+    },
+    {
+      "id": "teal-seated-paint-4",
+      "drawn": true
+    },
+    {
+      "id": "indigo-seated-paint-1",
+      "drawn": true
+    },
+    {
+      "id": "indigo-seated-paint-2",
+      "drawn": true
+    },
+    {
+      "id": "indigo-seated-paint-3",
+      "drawn": true
+    },
+    {
+      "id": "indigo-seated-paint-4",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-seated-paint-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-seated-paint-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-seated-paint-3",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-seated-paint-4",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "teal-seated-paint",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "indigo-seated-paint",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-girl-seated-paint",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

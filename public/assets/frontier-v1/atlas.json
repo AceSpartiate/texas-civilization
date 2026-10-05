@@ -15497,6 +15497,105 @@
         ]
       }
     },
+    "people-gonzales-seated-paint": {
+      "image": "atlases/people-gonzales-seated-paint.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1247274,
+      "sha256": "c18dccde1b4e45f9edb9030e67dc34db2bf7d2b5042e265a645d986381b2c15c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.633539,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              93,
+              397
+            ],
+            "columns": [
+              [
+                46,
+                282
+              ],
+              [
+                360,
+                595
+              ],
+              [
+                673,
+                909
+              ],
+              [
+                987,
+                1222
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              488,
+              794
+            ],
+            "columns": [
+              [
+                41,
+                284
+              ],
+              [
+                355,
+                597
+              ],
+              [
+                669,
+                911
+              ],
+              [
+                982,
+                1223
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              879,
+              1180
+            ],
+            "columns": [
+              [
+                40,
+                284
+              ],
+              [
+                353,
+                597
+              ],
+              [
+                667,
+                911
+              ],
+              [
+                980,
+                1224
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-gonzales-smiths": {
       "image": "atlases/people-gonzales-smiths.png",
       "width": 1254,
@@ -65030,6 +65129,306 @@
           410
         ],
         "visiblePixels": 60205,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-seated-paint-1": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 46,
+      "y": 93,
+      "w": 236,
+      "h": 304,
+      "anchorX": 0.4788,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "teal seated paint 1",
+      "kind": "people-gonzales-seated-paint",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          95,
+          232,
+          300
+        ],
+        "visiblePixels": 43193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-seated-paint-2": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 360,
+      "y": 93,
+      "w": 235,
+      "h": 304,
+      "anchorX": 0.4809,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "teal seated paint 2",
+      "kind": "people-gonzales-seated-paint",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          362,
+          95,
+          231,
+          300
+        ],
+        "visiblePixels": 42500,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-seated-paint-3": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 673,
+      "y": 93,
+      "w": 236,
+      "h": 304,
+      "anchorX": 0.4809,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "teal seated paint 3",
+      "kind": "people-gonzales-seated-paint",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          675,
+          95,
+          232,
+          300
+        ],
+        "visiblePixels": 42429,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-seated-paint-4": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 987,
+      "y": 93,
+      "w": 235,
+      "h": 304,
+      "anchorX": 0.4809,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "teal seated paint 4",
+      "kind": "people-gonzales-seated-paint",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          989,
+          95,
+          231,
+          300
+        ],
+        "visiblePixels": 43121,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-seated-paint-1": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 41,
+      "y": 488,
+      "w": 243,
+      "h": 306,
+      "anchorX": 0.4794,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "indigo seated paint 1",
+      "kind": "people-gonzales-seated-paint",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          490,
+          239,
+          302
+        ],
+        "visiblePixels": 43964,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-seated-paint-2": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 355,
+      "y": 488,
+      "w": 242,
+      "h": 306,
+      "anchorX": 0.4814,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "indigo seated paint 2",
+      "kind": "people-gonzales-seated-paint",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          357,
+          490,
+          238,
+          302
+        ],
+        "visiblePixels": 43258,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-seated-paint-3": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 669,
+      "y": 488,
+      "w": 242,
+      "h": 306,
+      "anchorX": 0.4773,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "indigo seated paint 3",
+      "kind": "people-gonzales-seated-paint",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          671,
+          490,
+          238,
+          302
+        ],
+        "visiblePixels": 43073,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-seated-paint-4": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 982,
+      "y": 488,
+      "w": 241,
+      "h": 306,
+      "anchorX": 0.4813,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "indigo seated paint 4",
+      "kind": "people-gonzales-seated-paint",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          984,
+          490,
+          237,
+          302
+        ],
+        "visiblePixels": 43755,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-seated-paint-1": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 40,
+      "y": 879,
+      "w": 244,
+      "h": 301,
+      "anchorX": 0.4262,
+      "anchorY": 0.9269,
+      "logicalHeight": 301,
+      "label": "blue girl seated paint 1",
+      "kind": "people-gonzales-seated-paint",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          881,
+          240,
+          297
+        ],
+        "visiblePixels": 43921,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-seated-paint-2": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 353,
+      "y": 879,
+      "w": 244,
+      "h": 301,
+      "anchorX": 0.4262,
+      "anchorY": 0.9269,
+      "logicalHeight": 301,
+      "label": "blue girl seated paint 2",
+      "kind": "people-gonzales-seated-paint",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          355,
+          881,
+          240,
+          297
+        ],
+        "visiblePixels": 43234,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-seated-paint-3": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 667,
+      "y": 879,
+      "w": 244,
+      "h": 301,
+      "anchorX": 0.4283,
+      "anchorY": 0.9269,
+      "logicalHeight": 301,
+      "label": "blue girl seated paint 3",
+      "kind": "people-gonzales-seated-paint",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          669,
+          881,
+          240,
+          297
+        ],
+        "visiblePixels": 43122,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-seated-paint-4": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 980,
+      "y": 879,
+      "w": 244,
+      "h": 301,
+      "anchorX": 0.4262,
+      "anchorY": 0.9269,
+      "logicalHeight": 301,
+      "label": "blue girl seated paint 4",
+      "kind": "people-gonzales-seated-paint",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          982,
+          881,
+          240,
+          297
+        ],
+        "visiblePixels": 43898,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

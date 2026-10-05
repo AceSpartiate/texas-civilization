@@ -1,3 +1,7 @@
+## Art delivery 2026-10-05: seated flag painters
+
+Twelve new frames and three four-frame seated brushwork clips for teal, indigo and blue-girl. Tables/stools are baked into these composites; keep the standing sewing clips for hemming. New painting art is registered and browser-tested, ready for an explicit seated painting beat. See `docs/ART_DELIVERY_2026-10-05-GONZALES-SEATED-PAINT.md` (relative to repository root).
+
 ## Art update: Gonzales spade work (2026-10-04)
 
 Dedicated elder/ochre/blue digging clips are registered. Existing elder and ochre orchard actors select them through semantic `dig`; blue is ready for a future explicit digging action. Movement still selects walk cycles. See [delivery notes](docs/ART_DELIVERY_2026-10-04-GONZALES-DIGGING.md), manifest and browser evidence.

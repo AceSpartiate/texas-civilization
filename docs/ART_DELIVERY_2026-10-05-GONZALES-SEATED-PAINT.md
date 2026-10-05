@@ -1,0 +1,9 @@
+# Seated flag painting: 2026-10-05
+
+Completes the seated-painter art gap in the Gonzales-before-the-fight request. `people-gonzales-seated-paint.png` contains twelve frames: four poses each for teal, indigo and blue-girl. Clips are `<figure>-seated-paint`, authored east-facing, mirrored west, looped over 1.8 seconds. Brush hover, touch, stroke and lift are distinct. Tables, stools, paint pots and plain cotton cloth are included in each composite.
+
+Generated with built-in imagegen using the existing task atlases as identity/style references. A second imagegen edit repairs spacing. PNG copied unchanged; prompts and provenance are in `scripts/art-deliveries/gonzales-seated-paint-2026-10-05.mjs`, `art-prompts.json` and `art-provenance.json`. The master manifests include every frame and clip.
+
+Claude integration: these are seated painting composites, not drop-in replacements for standing sewing. Add an explicit `seated-paint` beat to select the appropriate clip, preserve current scene visibility and dialogue, suppress duplicate table/cloth props at that seat, and keep moving actors on their existing walk cycles. Use a consistent full-composite logical height within each identity. Furniture base is the composite anchor, not the actor's standing head-to-foot height; visually match head size against adjacent standing actors when integrating. Plain cloth is deliberately reusable; painted-stage cloth and disputed star variants remain separate outstanding requests. Existing live sewing behavior remains unchanged in this delivery.
+
+Validation: `node --test tests/gonzales-seated-paint-art.test.mjs`; `node scripts/gonzales-seated-paint-art-proof.mjs`. Tests require full silhouette retention, zero trimmed pixels, transparent corners and fixed per-row height. Browser evidence verifies twelve rendered frames and three clips with changing pixels: `docs/evidence/gonzales-seated-paint-art.png` and `.json`.

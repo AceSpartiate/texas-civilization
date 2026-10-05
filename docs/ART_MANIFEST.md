@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2700 usable sprites, 289 PNG atlases, 935 clips** (627 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2712 usable sprites, 290 PNG atlases, 938 clips** (630 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -197,6 +197,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
 | people-river-gestures | 8 | 1774 × 887 | 1213332 |
+| people-gonzales-seated-paint | 12 | 1254 × 1254 | 1247274 |
 | people-gonzales-smiths | 16 | 1254 × 1254 | 1257016 |
 | gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
@@ -1909,6 +1910,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elder-river-watch-2 | people-river-gestures | elder-river-watch |
 | elder-river-point-1 | people-river-gestures | elder-river-point |
 | elder-river-point-2 | people-river-gestures | elder-river-point |
+| teal-seated-paint-1 | people-gonzales-seated-paint | teal-seated-paint |
+| teal-seated-paint-2 | people-gonzales-seated-paint | teal-seated-paint |
+| teal-seated-paint-3 | people-gonzales-seated-paint | teal-seated-paint |
+| teal-seated-paint-4 | people-gonzales-seated-paint | teal-seated-paint |
+| indigo-seated-paint-1 | people-gonzales-seated-paint | indigo-seated-paint |
+| indigo-seated-paint-2 | people-gonzales-seated-paint | indigo-seated-paint |
+| indigo-seated-paint-3 | people-gonzales-seated-paint | indigo-seated-paint |
+| indigo-seated-paint-4 | people-gonzales-seated-paint | indigo-seated-paint |
+| blue-girl-seated-paint-1 | people-gonzales-seated-paint | blue-girl-seated-paint |
+| blue-girl-seated-paint-2 | people-gonzales-seated-paint | blue-girl-seated-paint |
+| blue-girl-seated-paint-3 | people-gonzales-seated-paint | blue-girl-seated-paint |
+| blue-girl-seated-paint-4 | people-gonzales-seated-paint | blue-girl-seated-paint |
 | elder-smith-hammer-1 | people-gonzales-smiths | elder-smith-hammer |
 | elder-smith-hammer-2 | people-gonzales-smiths | elder-smith-hammer |
 | elder-smith-hammer-3 | people-gonzales-smiths | elder-smith-hammer |
@@ -3576,6 +3589,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | teal-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| teal-seated-paint | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| indigo-seated-paint | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| blue-girl-seated-paint | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
 | elder-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | elder-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | ochre-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |

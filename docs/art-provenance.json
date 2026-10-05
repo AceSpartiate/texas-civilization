@@ -4245,6 +4245,27 @@
           "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f7c7b031-22b8-414f-a895-d66ce7ae253a.png"
         }
       ]
+    },
+    {
+      "sheet": "people-gonzales-seated-paint",
+      "promptId": "frontier-v1/people-gonzales-seated-paint",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-19a979fd-828f-458b-b7ea-a3c6321da907.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dbba1824-bf62-4bf9-afda-55bef8e44c4c.png",
+      "refinements": [
+        {
+          "prompt": "Edit only spacing and scale in this exact twelve-sprite atlas. Keep exactly four columns three rows. SHRINK each whole woman+table+stool composite by 25 percent, centered inside its own cell. Minimum 35px completely empty transparent gutters on all four sides of every cell; no boots table legs hair brush or neighboring slivers crossing boundaries. Preserve every identity garment pose tool and furniture geometry. Same canvas aspect ratio, true zero alpha background. Stable furniture/base baseline and identical character size within each row. No shadows labels grids.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dbba1824-bf62-4bf9-afda-55bef8e44c4c.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-seated-paint.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Seated painting composites include furniture; registered for explicit scene integration, existing sewing remains unchanged."
     }
   ],
   "rejectedAttempts": [
