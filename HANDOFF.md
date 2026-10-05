@@ -1,5 +1,21 @@
 # Claude handoff — Astra foundation
 
+## Art delivery 2026-10-05: north/south loaded walking
+
+Sixteen new frames and eight two-frame north/south cycles for teal, indigo, blue-girl and elder. Town carrying now selects loaded walking in every cardinal direction. Contents remain visually illustrative, not inventory evidence. See `docs/ART_DELIVERY_2026-10-05-GONZALES-BUNDLE-NS.md`.
+
+## Art delivery 2026-10-05: walking with cloth and bundles
+
+Sixteen frames and four authored loaded walking cycles for teal, indigo, blue-girl and elder. Horizontal moving Gonzales actors in `carry` pose retain their visible load. North/south still use existing walks and are an outstanding art gap. See `docs/ART_DELIVERY_2026-10-05-GONZALES-BUNDLE-WALK.md`.
+
+## Art delivery 2026-10-05: visible letter reading
+
+Twelve frames and three authored reading cycles for elder, ochre and blue. The existing Gonzales regidor now holds a visible letter during the crossing-reading beat; dialogue, historical claims and timing are preserved. Other two identities are ready for future letter scenes. See `docs/ART_DELIVERY_2026-10-05-GONZALES-LETTER-READING.md`.
+
+## Art delivery 2026-10-05: seated flag painters
+
+Twelve new frames and three four-frame seated brushwork clips for teal, indigo and blue-girl. Tables/stools are baked into these composites; keep the standing sewing clips for hemming. New painting art is registered and browser-tested, ready for an explicit seated painting beat. See `docs/ART_DELIVERY_2026-10-05-GONZALES-SEATED-PAINT.md` (relative to repository root).
+
 ## Released as v2026.10.05.2 — 2026-10-05
 
 Main at 87381d33, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.2>). Sets of changes: from v2026.10.05.1, 0.6 MB; from v2026.10.04.1, 6.1 MB; from v2026.10.03.2, 11.6 MB. Contents: help on a small farm - the young capped, a small family keeps no custom, the spouse's two children (the section below). Verification on 87381d33's branch: npm test 2255, 0 failed; the full browser run two at a time, 106 of 111 green; of the five red, children was a fixture the new rolls no longer make (fixed, then green twice alone), and travel-drawn, battle-cinema, battle-grass and famous-people (the Neill sampled moment) green alone. Not proved: Chromebook, LAN or classroom; ThreatDown.

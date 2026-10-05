@@ -1,0 +1,115 @@
+{
+  "verdict": "PASS",
+  "people": [
+    {
+      "id": "gz-eighteen-1",
+      "sceneId": "crossing",
+      "pose": "listen",
+      "moving": false,
+      "clip": "elder-listen-s",
+      "x": 0.8982,
+      "y": -0.511,
+      "sx": 380,
+      "sy": 205
+    },
+    {
+      "id": "gz-eighteen-2",
+      "sceneId": "crossing",
+      "pose": "idle",
+      "moving": false,
+      "clip": "ochre-idle-s",
+      "x": 0.9162,
+      "y": -0.511,
+      "sx": 434,
+      "sy": 205
+    },
+    {
+      "id": "gz-eighteen-3",
+      "sceneId": "crossing",
+      "pose": "idle",
+      "moving": false,
+      "clip": "volunteer-idle-s",
+      "x": 0.9342,
+      "y": -0.511,
+      "sx": 488,
+      "sy": 205
+    },
+    {
+      "id": "gz-eighteen-4",
+      "sceneId": "crossing",
+      "pose": "listen",
+      "moving": false,
+      "clip": "blue-listen-s",
+      "x": 0.9072,
+      "y": -0.491,
+      "sx": 407,
+      "sy": 265
+    },
+    {
+      "id": "gz-eighteen-5",
+      "sceneId": "crossing",
+      "pose": "idle",
+      "moving": false,
+      "clip": "volunteer-idle-s",
+      "x": 0.9252,
+      "y": -0.491,
+      "sx": 461,
+      "sy": 265
+    },
+    {
+      "id": "gz-eighteen-6",
+      "sceneId": "crossing",
+      "pose": "idle",
+      "moving": false,
+      "clip": "volunteer-idle-s",
+      "x": 0.9432,
+      "y": -0.491,
+      "sx": 515,
+      "sy": 265
+    },
+    {
+      "id": "gz-clements",
+      "sceneId": "crossing",
+      "pose": "read-letter",
+      "moving": false,
+      "clip": "elder-read-letter",
+      "x": 0.9062,
+      "y": -0.517,
+      "sx": 404,
+      "sy": 187
+    },
+    {
+      "id": "gz-reader-1",
+      "sceneId": "crossing",
+      "pose": "listen",
+      "moving": false,
+      "clip": "ochre-listen-s",
+      "x": 0.9202,
+      "y": -0.515,
+      "sx": 446,
+      "sy": 193
+    },
+    {
+      "id": "gz-reader-2",
+      "sceneId": "crossing",
+      "pose": "listen",
+      "moving": false,
+      "clip": "blue-listen-s",
+      "x": 0.9282,
+      "y": -0.507,
+      "sx": 470,
+      "sy": 217
+    },
+    {
+      "id": "gz-mr-smith",
+      "sceneId": "crossing",
+      "pose": "listen",
+      "moving": false,
+      "clip": "elder-listen-s",
+      "x": 0.8942,
+      "y": -0.509,
+      "sx": 368,
+      "sy": 211
+    }
+  ]
+}

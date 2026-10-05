@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2700 usable sprites, 289 PNG atlases, 935 clips** (627 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2756 usable sprites, 293 PNG atlases, 953 clips** (645 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -191,12 +191,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
 | gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
+| people-gonzales-bundle-ns | 16 | 1254 × 1254 | 667017 |
+| people-gonzales-bundle-walk | 16 | 1254 × 1254 | 936355 |
 | people-gonzales-digging | 12 | 1448 × 1086 | 774818 |
 | gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
+| people-gonzales-letter-reading | 12 | 1254 × 1254 | 984871 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
 | people-river-gestures | 8 | 1774 × 887 | 1213332 |
+| people-gonzales-seated-paint | 12 | 1254 × 1254 | 1247274 |
 | people-gonzales-smiths | 16 | 1254 × 1254 | 1257016 |
 | gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
@@ -1880,6 +1884,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
 | gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
 | gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
+| teal-bundle-walk-s-1 | people-gonzales-bundle-ns | teal-bundle-walk-s |
+| teal-bundle-walk-s-2 | people-gonzales-bundle-ns | teal-bundle-walk-s |
+| teal-bundle-walk-n-1 | people-gonzales-bundle-ns | teal-bundle-walk-n |
+| teal-bundle-walk-n-2 | people-gonzales-bundle-ns | teal-bundle-walk-n |
+| indigo-bundle-walk-s-1 | people-gonzales-bundle-ns | indigo-bundle-walk-s |
+| indigo-bundle-walk-s-2 | people-gonzales-bundle-ns | indigo-bundle-walk-s |
+| indigo-bundle-walk-n-1 | people-gonzales-bundle-ns | indigo-bundle-walk-n |
+| indigo-bundle-walk-n-2 | people-gonzales-bundle-ns | indigo-bundle-walk-n |
+| blue-girl-bundle-walk-s-1 | people-gonzales-bundle-ns | blue-girl-bundle-walk-s |
+| blue-girl-bundle-walk-s-2 | people-gonzales-bundle-ns | blue-girl-bundle-walk-s |
+| blue-girl-bundle-walk-n-1 | people-gonzales-bundle-ns | blue-girl-bundle-walk-n |
+| blue-girl-bundle-walk-n-2 | people-gonzales-bundle-ns | blue-girl-bundle-walk-n |
+| elder-bundle-walk-s-1 | people-gonzales-bundle-ns | elder-bundle-walk-s |
+| elder-bundle-walk-s-2 | people-gonzales-bundle-ns | elder-bundle-walk-s |
+| elder-bundle-walk-n-1 | people-gonzales-bundle-ns | elder-bundle-walk-n |
+| elder-bundle-walk-n-2 | people-gonzales-bundle-ns | elder-bundle-walk-n |
+| teal-bundle-walk-1 | people-gonzales-bundle-walk | teal-bundle-walk |
+| teal-bundle-walk-2 | people-gonzales-bundle-walk | teal-bundle-walk |
+| teal-bundle-walk-3 | people-gonzales-bundle-walk | teal-bundle-walk |
+| teal-bundle-walk-4 | people-gonzales-bundle-walk | teal-bundle-walk |
+| indigo-bundle-walk-1 | people-gonzales-bundle-walk | indigo-bundle-walk |
+| indigo-bundle-walk-2 | people-gonzales-bundle-walk | indigo-bundle-walk |
+| indigo-bundle-walk-3 | people-gonzales-bundle-walk | indigo-bundle-walk |
+| indigo-bundle-walk-4 | people-gonzales-bundle-walk | indigo-bundle-walk |
+| blue-girl-bundle-walk-1 | people-gonzales-bundle-walk | blue-girl-bundle-walk |
+| blue-girl-bundle-walk-2 | people-gonzales-bundle-walk | blue-girl-bundle-walk |
+| blue-girl-bundle-walk-3 | people-gonzales-bundle-walk | blue-girl-bundle-walk |
+| blue-girl-bundle-walk-4 | people-gonzales-bundle-walk | blue-girl-bundle-walk |
+| elder-bundle-walk-1 | people-gonzales-bundle-walk | elder-bundle-walk |
+| elder-bundle-walk-2 | people-gonzales-bundle-walk | elder-bundle-walk |
+| elder-bundle-walk-3 | people-gonzales-bundle-walk | elder-bundle-walk |
+| elder-bundle-walk-4 | people-gonzales-bundle-walk | elder-bundle-walk |
 | elder-dig-1 | people-gonzales-digging | elder-dig |
 | elder-dig-2 | people-gonzales-digging | elder-dig |
 | elder-dig-3 | people-gonzales-digging | elder-dig |
@@ -1895,6 +1931,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-ploughed-earth | gonzales-ploughed-earth | State artwork; no motion required |
 | gonzales-flag-work-cloth | gonzales-flag-work-cloth | State artwork; no motion required |
 | gonzales-flag-work-painted | gonzales-flag-work-painted | State artwork; no motion required |
+| elder-read-letter-1 | people-gonzales-letter-reading | elder-read-letter |
+| elder-read-letter-2 | people-gonzales-letter-reading | elder-read-letter |
+| elder-read-letter-3 | people-gonzales-letter-reading | elder-read-letter |
+| elder-read-letter-4 | people-gonzales-letter-reading | elder-read-letter |
+| ochre-read-letter-1 | people-gonzales-letter-reading | ochre-read-letter |
+| ochre-read-letter-2 | people-gonzales-letter-reading | ochre-read-letter |
+| ochre-read-letter-3 | people-gonzales-letter-reading | ochre-read-letter |
+| ochre-read-letter-4 | people-gonzales-letter-reading | ochre-read-letter |
+| blue-read-letter-1 | people-gonzales-letter-reading | blue-read-letter |
+| blue-read-letter-2 | people-gonzales-letter-reading | blue-read-letter |
+| blue-read-letter-3 | people-gonzales-letter-reading | blue-read-letter |
+| blue-read-letter-4 | people-gonzales-letter-reading | blue-read-letter |
 | teal-paint-1 | people-gonzales-paint | teal-paint |
 | teal-paint-2 | people-gonzales-paint | teal-paint |
 | indigo-paint-1 | people-gonzales-paint | indigo-paint |
@@ -1909,6 +1957,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elder-river-watch-2 | people-river-gestures | elder-river-watch |
 | elder-river-point-1 | people-river-gestures | elder-river-point |
 | elder-river-point-2 | people-river-gestures | elder-river-point |
+| teal-seated-paint-1 | people-gonzales-seated-paint | teal-seated-paint |
+| teal-seated-paint-2 | people-gonzales-seated-paint | teal-seated-paint |
+| teal-seated-paint-3 | people-gonzales-seated-paint | teal-seated-paint |
+| teal-seated-paint-4 | people-gonzales-seated-paint | teal-seated-paint |
+| indigo-seated-paint-1 | people-gonzales-seated-paint | indigo-seated-paint |
+| indigo-seated-paint-2 | people-gonzales-seated-paint | indigo-seated-paint |
+| indigo-seated-paint-3 | people-gonzales-seated-paint | indigo-seated-paint |
+| indigo-seated-paint-4 | people-gonzales-seated-paint | indigo-seated-paint |
+| blue-girl-seated-paint-1 | people-gonzales-seated-paint | blue-girl-seated-paint |
+| blue-girl-seated-paint-2 | people-gonzales-seated-paint | blue-girl-seated-paint |
+| blue-girl-seated-paint-3 | people-gonzales-seated-paint | blue-girl-seated-paint |
+| blue-girl-seated-paint-4 | people-gonzales-seated-paint | blue-girl-seated-paint |
 | elder-smith-hammer-1 | people-gonzales-smiths | elder-smith-hammer |
 | elder-smith-hammer-2 | people-gonzales-smiths | elder-smith-hammer |
 | elder-smith-hammer-3 | people-gonzales-smiths | elder-smith-hammer |
@@ -3566,9 +3626,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
 | prisoner-walk-n | Pose cycle | 2 | 600 | yes | north |
+| teal-bundle-walk-s | Pose cycle | 2 | 1200 | yes | south |
+| teal-bundle-walk-n | Pose cycle | 2 | 1200 | yes | north |
+| indigo-bundle-walk-s | Pose cycle | 2 | 1200 | yes | south |
+| indigo-bundle-walk-n | Pose cycle | 2 | 1200 | yes | north |
+| blue-girl-bundle-walk-s | Pose cycle | 2 | 1200 | yes | south |
+| blue-girl-bundle-walk-n | Pose cycle | 2 | 1200 | yes | north |
+| elder-bundle-walk-s | Pose cycle | 2 | 1200 | yes | south |
+| elder-bundle-walk-n | Pose cycle | 2 | 1200 | yes | north |
+| teal-bundle-walk | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
+| indigo-bundle-walk | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
+| blue-girl-bundle-walk | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
+| elder-bundle-walk | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
 | elder-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | ochre-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | blue-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
+| elder-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
+| ochre-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
+| blue-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
@@ -3576,6 +3651,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | teal-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| teal-seated-paint | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| indigo-seated-paint | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| blue-girl-seated-paint | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
 | elder-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | elder-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | ochre-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |

@@ -4245,6 +4245,89 @@
           "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f7c7b031-22b8-414f-a895-d66ce7ae253a.png"
         }
       ]
+    },
+    {
+      "sheet": "people-gonzales-seated-paint",
+      "promptId": "frontier-v1/people-gonzales-seated-paint",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-19a979fd-828f-458b-b7ea-a3c6321da907.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dbba1824-bf62-4bf9-afda-55bef8e44c4c.png",
+      "refinements": [
+        {
+          "prompt": "Edit only spacing and scale in this exact twelve-sprite atlas. Keep exactly four columns three rows. SHRINK each whole woman+table+stool composite by 25 percent, centered inside its own cell. Minimum 35px completely empty transparent gutters on all four sides of every cell; no boots table legs hair brush or neighboring slivers crossing boundaries. Preserve every identity garment pose tool and furniture geometry. Same canvas aspect ratio, true zero alpha background. Stable furniture/base baseline and identical character size within each row. No shadows labels grids.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dbba1824-bf62-4bf9-afda-55bef8e44c4c.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-seated-paint.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Seated painting composites include furniture; registered for explicit scene integration, existing sewing remains unchanged."
+    },
+    {
+      "sheet": "people-gonzales-letter-reading",
+      "promptId": "frontier-v1/people-gonzales-letter-reading",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-6ec510f9-e3f8-424c-9bd7-e3ea8de1c1a9.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bda02d23-e19d-4025-9faf-06154fdfb3ad.png",
+      "refinements": [
+        {
+          "prompt": "Refine this exact 4-column 3-row twelve-pose letter-reading atlas. SHRINK each entire figure+paper composite by25percent centered within its own cell, min35px entirely empty zeroalpha gutter every side EACHcell. Stablefootbaseline eachrow and constantbodysize. Preserve eldertoprow beardhatclothes, bluebottomrow cleanfaceclothes, allpapershandposes and readinggestures. ONLY identity correction: OCHRE middle row must be CLEAN-SHAVEN, remove beard/stubble/moustache allfourfaces, match original youthful cleanface with expressiveeyes tousledbrownhair. Do not change garments or pose. No neighbor fragments, boots hats handspaper whollycontained. Truezeroalpha background samecanvaslayout nofloor/shadow/grid/text.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bda02d23-e19d-4025-9faf-06154fdfb3ad.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-letter-reading.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Interpretive existing cast identities; regidor retains existing elder appearance, blank paper leaves exact words in historical dialogue."
+    },
+    {
+      "sheet": "people-gonzales-bundle-walk",
+      "promptId": "frontier-v1/people-gonzales-bundle-walk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-47e77d24-00a4-4946-9653-d522b3496c10.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-893549bd-ca10-478f-844e-b27621ff4c97.png",
+      "refinements": [
+        {
+          "prompt": "Refine this EXACT4x4 sixteen-sprite loaded WALK atlas. SHRINK eachfullsprite by25percent centered owncell with35px emptytransparentgutters ALLsides. Preserveclothesidentities handsbundlebodyheight. Correctwalkingphases EACHrow: column1 longstride right-facing leftfootinfront; column2 passingpose BOTHbootsnearlyunderhips oneheelraised; column3 longstride OPPOSITEleginfront; column4 passingpose oppositeheelraised bothbootsnearhips. Columns2and4 MUSThave NARROW footspacing notsamewide strideas1and3. Legsalternate naturally includingelderbottomrow. Skirts clothbraid sway slightly butheadtorsoheight stable baseline constant. Womanrowskeeporiginal garmentsbunbraid colors. Elder keepshatbeardvest. Hands holdloads steadily allfourframes. Keep4columns4rows truezeroalpha nofloor/shadowslabelsgrids.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-893549bd-ca10-478f-844e-b27621ff4c97.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-bundle-walk.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Existing identities with cloth/parcels; east/west town carry travel only, north/south outstanding."
+    },
+    {
+      "sheet": "people-gonzales-bundle-ns",
+      "promptId": "frontier-v1/people-gonzales-bundle-ns",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-gonzales-bundle-walk.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3f0ad7a8-2a75-4c46-bb48-d29c9f9ae472.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4385f6ad-d57a-43d1-ad7a-681503f320ee.png",
+      "refinements": [
+        {
+          "prompt": "Edit exact4x4spriteatlas. First SHRINK EACHwholefigure25percent centeredowncell, at least35px fullyemptytransparentgutters every side. Preserveidentities garmentsloads orientation: cols1/2frontsouth cols3/4rearnorth everyrow. Correct alternatinglegs: col1LEFTlegstepsforward, col2RIGHTlegstepsforward. Col3LEFTlegstepsaway, col4RIGHTlegstepsaway. Swapwhichboot visiblyprojectsbelowhem incolumns2and4 compared1and3. Forfrontview leftlegappearsviewer'sRIGHT; rightlegviewerLEFT. Rearview opposite. NOidenticalbootposes inpair. Don'tcrosslegs aswalktightrope; feet naturallyhipwidthapart. Preserveallheadtorsoheights stablebaseline,bothhandsparcels, rearocclusion,no parcels strappedtoback. Samecanvas TRUEzeroalpha nofloor/shadow/labelsgrid.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4385f6ad-d57a-43d1-ad7a-681503f320ee.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-bundle-ns.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Loaded directional town walking, north parcels correctly torso-occluded; inventory not inferred from sprites."
     }
   ],
   "rejectedAttempts": [

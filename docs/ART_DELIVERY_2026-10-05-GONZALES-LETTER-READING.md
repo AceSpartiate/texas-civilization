@@ -1,0 +1,9 @@
+# Visible letter reading: 2026-10-05
+
+Twelve transparent frames in `people-gonzales-letter-reading.png`; four poses each for elder, ochre and blue. Authored clips `<figure>-read-letter` show holding paper, reading aloud, addressing listeners with a restrained gesture and returning attention to the sheet. East-facing, mirrored west, four 550ms poses per loop. Constant identity scale across each row.
+
+The existing Gonzales crossing-reading beat now gives `gz-clements` the semantic `read-letter` pose, selecting the elder clip. Existing travel remains a walk. Unsupported adults retain speaking fallback, children remain idle. Ochre and blue cycles are registered for subsequent explicit letter actions; their current listening poses remain intact. No extra named-person likeness is claimed: the regidor continues to use his existing elder identity. The paper is blank; exact historical words remain in the existing dialogue and claim records.
+
+Built-in imagegen generated against existing task sheets, then repaired gutters and removed unintended ochre facial hair. Selected PNG copied unchanged. Prompts, original and selected sources are in `scripts/art-deliveries/gonzales-letter-reading-2026-10-05.mjs`, `art-prompts.json` and `art-provenance.json`. Master art and animation manifests include all frames and clips.
+
+Validation: focused art tests plus `tests/town-scenes.test.mjs`; `scripts/gonzales-letter-reading-art-proof.mjs`. Evidence contact sheet and live crossing scene in `docs/evidence/gonzales-letter-reading-{art,scene}.{png,json}`. Checks require zero trimmed pixels, full silhouette retention, transparent corners, stable row heights, all browser frames rendering, all three clips changing pixels and live regidor selection. Historical dialogue, timing and visibility are unchanged.

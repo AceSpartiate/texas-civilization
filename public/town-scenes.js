@@ -82,6 +82,7 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
     if (moving) return dir === 'n' || dir === 's' ? { id: `${figure}-march-${dir}`, flip: false, mounted } : { id: `${figure}-march`, flip: dir === 'w', mounted };
     return { id: `${figure}-idle-${person.face || 'e'}`, flip: false, mounted };
   }
+  if (moving && person.pose === 'carry' && ['teal','indigo','blue-girl','elder'].includes(figure)) return { id: `${figure}-bundle-walk${dir === 'n' || dir === 's' ? `-${dir}` : ''}`, flip: dir === 'w' };
   if (moving) return dir === 'n' || dir === 's' ? { id: `${figure}-walk-${dir}`, flip: false } : { id: `${figure}-walk`, flip: dir === 'w' };
   const face = person.face || 's', pose = person.pose || 'idle';
   // The fandango (request 2026-09-27, item 4): a couple dancing is one drawing, made by the first of the pair (`partner`
@@ -89,6 +90,8 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   if (figure === 'dancers-couple') return { id: 'dancers-couple', flip: face === 'w', couple: person.lead ? 'partner' : 'lead' };
   if (figure === 'fiddler') return { id: 'fiddler-play', flip: face === 'w' };
   const child = !GROWN.has(figure) && !ALL_POSES.has(figure);
+  if (pose === 'read-letter' && ['elder','ochre','blue'].includes(figure)) return { id: `${figure}-read-letter`, flip: face === 'w' };
+  if (pose === 'read-letter') return { id: child ? `${figure}-idle-${face}` : `${figure}-speak`, flip: !child && face === 'w' };
   if (pose === 'dig' && ['elder','ochre','blue'].includes(figure)) return { id: `${figure}-dig`, flip: face === 'w' };
   if (pose === 'dig') return { id: child ? `${figure}-idle-${face}` : `${figure}-work`, flip: !child && face === 'w' };
   if (pose === 'forge' && ['elder','ochre'].includes(figure)) return { id: `${figure}-smith-${person.id === 'gz-smith-2' ? 'chain' : 'hammer'}`, flip: face === 'w' };

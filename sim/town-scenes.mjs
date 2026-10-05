@@ -619,7 +619,7 @@ export const TOWN_BEATS = Object.freeze([
     people: eighteenAt('crossing', ['idle', 'speak', 'listen', P.point, 'idle', 'idle']), props: CROSSING_PROPS() },
   { id: 'crossing-reading', scene: 'crossing', from: on(1, 16), to: on(1, 18), card: CARD_READING, talk: CROSSING_READING, seenFrom: ['gonzales', 'ford'],
     people: [...eighteenAt('crossing', ['listen', 'idle', 'idle', 'listen', 'idle', 'idle']),
-      at('gz-clements', 'crossing', -0.01, -0.006, 'speak', 'river'), at('gz-reader-1', 'crossing', 0.004, -0.004, 'listen', 'river'), at('gz-reader-2', 'crossing', 0.012, 0.004, 'listen', 's'), at('gz-mr-smith', 'crossing', -0.022, 0.002, 'listen', 'river')],
+      at('gz-clements', 'crossing', -0.01, -0.006, 'read-letter', 'river'), at('gz-reader-1', 'crossing', 0.004, -0.004, 'listen', 'river'), at('gz-reader-2', 'crossing', 0.012, 0.004, 'listen', 's'), at('gz-mr-smith', 'crossing', -0.022, 0.002, 'listen', 'river')],
     props: CROSSING_PROPS() },
   { id: 'crossing-after', scene: 'crossing', from: on(1, 18), to: on(2, 10), card: CARD_CROSSING, talk: CROSSING_WATCH, seenFrom: ['gonzales', 'ford'],
     people: eighteenAt('crossing', ['idle', 'listen', 'speak', 'idle', 'rest', 'idle']), props: CROSSING_PROPS() },

@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 289,
-    "sprites": 2700,
-    "clips": 935,
-    "poseCycles": 627,
+    "sheets": 293,
+    "sprites": 2756,
+    "clips": 953,
+    "poseCycles": 645,
     "rigs": 4
   },
   "entrypoints": {
@@ -15154,6 +15154,254 @@
         ]
       }
     },
+    "people-gonzales-bundle-ns": {
+      "image": "atlases/people-gonzales-bundle-ns.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 667017,
+      "sha256": "b8b12b5604f4fb2cb3ecacf98b9e4e2a53141a53a6d1cae8e345f51375e5e01c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.831721,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              98,
+              308
+            ],
+            "columns": [
+              [
+                101,
+                223
+              ],
+              [
+                415,
+                529
+              ],
+              [
+                722,
+                839
+              ],
+              [
+                1035,
+                1146
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              407,
+              625
+            ],
+            "columns": [
+              [
+                96,
+                226
+              ],
+              [
+                412,
+                533
+              ],
+              [
+                711,
+                844
+              ],
+              [
+                1029,
+                1160
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              723,
+              934
+            ],
+            "columns": [
+              [
+                92,
+                221
+              ],
+              [
+                407,
+                532
+              ],
+              [
+                717,
+                845
+              ],
+              [
+                1034,
+                1161
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              1002,
+              1189
+            ],
+            "columns": [
+              [
+                107,
+                216
+              ],
+              [
+                417,
+                529
+              ],
+              [
+                721,
+                831
+              ],
+              [
+                1036,
+                1146
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-gonzales-bundle-walk": {
+      "image": "atlases/people-gonzales-bundle-walk.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 936355,
+      "sha256": "4fb87b74bca991d56059c99ea5f29ad274740c07b86e58ac5acd4490c9a2f5f7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.748102,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              86,
+              327
+            ],
+            "columns": [
+              [
+                98,
+                264
+              ],
+              [
+                412,
+                548
+              ],
+              [
+                717,
+                881
+              ],
+              [
+                1028,
+                1158
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              384,
+              622
+            ],
+            "columns": [
+              [
+                98,
+                275
+              ],
+              [
+                411,
+                547
+              ],
+              [
+                714,
+                888
+              ],
+              [
+                1021,
+                1147
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              682,
+              919
+            ],
+            "columns": [
+              [
+                97,
+                276
+              ],
+              [
+                408,
+                551
+              ],
+              [
+                715,
+                892
+              ],
+              [
+                1019,
+                1159
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              966,
+              1196
+            ],
+            "columns": [
+              [
+                94,
+                261
+              ],
+              [
+                410,
+                550
+              ],
+              [
+                710,
+                880
+              ],
+              [
+                1031,
+                1165
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-gonzales-digging": {
       "image": "atlases/people-gonzales-digging.png",
       "width": 1448,
@@ -15364,6 +15612,105 @@
         ]
       }
     },
+    "people-gonzales-letter-reading": {
+      "image": "atlases/people-gonzales-letter-reading.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 984871,
+      "sha256": "62900e3681a4c1d23d434f7db1ad5e2cf2e204eb02a9f8a774b705f6c6bf18eb",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.708109,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              87,
+              407
+            ],
+            "columns": [
+              [
+                93,
+                259
+              ],
+              [
+                384,
+                563
+              ],
+              [
+                694,
+                899
+              ],
+              [
+                1002,
+                1167
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              474,
+              826
+            ],
+            "columns": [
+              [
+                91,
+                264
+              ],
+              [
+                394,
+                572
+              ],
+              [
+                691,
+                905
+              ],
+              [
+                1008,
+                1176
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              873,
+              1200
+            ],
+            "columns": [
+              [
+                94,
+                263
+              ],
+              [
+                398,
+                564
+              ],
+              [
+                694,
+                906
+              ],
+              [
+                1007,
+                1174
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-gonzales-paint": {
       "image": "atlases/people-gonzales-paint.png",
       "width": 1024,
@@ -15507,6 +15854,105 @@
               [
                 1414,
                 1764
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-gonzales-seated-paint": {
+      "image": "atlases/people-gonzales-seated-paint.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1247274,
+      "sha256": "c18dccde1b4e45f9edb9030e67dc34db2bf7d2b5042e265a645d986381b2c15c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.633539,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              93,
+              397
+            ],
+            "columns": [
+              [
+                46,
+                282
+              ],
+              [
+                360,
+                595
+              ],
+              [
+                673,
+                909
+              ],
+              [
+                987,
+                1222
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              488,
+              794
+            ],
+            "columns": [
+              [
+                41,
+                284
+              ],
+              [
+                355,
+                597
+              ],
+              [
+                669,
+                911
+              ],
+              [
+                982,
+                1223
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              879,
+              1180
+            ],
+            "columns": [
+              [
+                40,
+                284
+              ],
+              [
+                353,
+                597
+              ],
+              [
+                667,
+                911
+              ],
+              [
+                980,
+                1224
               ]
             ]
           }
@@ -79214,6 +79660,1126 @@
       "locationKits": [],
       "promptId": "frontier-v1/gonzales-dugout-canoe"
     },
+    "teal-bundle-walk-s-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 101,
+      "y": 100,
+      "w": 122,
+      "h": 208,
+      "anchorX": 0.5697,
+      "anchorY": 0.9327,
+      "logicalHeight": 209,
+      "label": "teal bundle walk s 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          103,
+          102,
+          118,
+          204
+        ],
+        "visiblePixels": 14202,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-bundle-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "teal-bundle-walk-s-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 415,
+      "y": 99,
+      "w": 114,
+      "h": 209,
+      "anchorX": 0.5658,
+      "anchorY": 0.9282,
+      "logicalHeight": 209,
+      "label": "teal bundle walk s 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          417,
+          101,
+          110,
+          205
+        ],
+        "visiblePixels": 13785,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-bundle-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "teal-bundle-walk-n-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 722,
+      "y": 99,
+      "w": 117,
+      "h": 207,
+      "anchorX": 0.4872,
+      "anchorY": 0.9517,
+      "logicalHeight": 209,
+      "label": "teal bundle walk n 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          724,
+          101,
+          113,
+          203
+        ],
+        "visiblePixels": 13512,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-bundle-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "teal-bundle-walk-n-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 1035,
+      "y": 98,
+      "w": 111,
+      "h": 207,
+      "anchorX": 0.4324,
+      "anchorY": 0.942,
+      "logicalHeight": 209,
+      "label": "teal bundle walk n 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1037,
+          100,
+          107,
+          203
+        ],
+        "visiblePixels": 13493,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-bundle-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "indigo-bundle-walk-s-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 96,
+      "y": 411,
+      "w": 130,
+      "h": 213,
+      "anchorX": 0.5769,
+      "anchorY": 0.9296,
+      "logicalHeight": 218,
+      "label": "indigo bundle walk s 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          98,
+          413,
+          126,
+          209
+        ],
+        "visiblePixels": 15189,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-bundle-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "indigo-bundle-walk-s-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 412,
+      "y": 407,
+      "w": 121,
+      "h": 218,
+      "anchorX": 0.5537,
+      "anchorY": 0.9404,
+      "logicalHeight": 218,
+      "label": "indigo bundle walk s 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          414,
+          409,
+          117,
+          214
+        ],
+        "visiblePixels": 15321,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-bundle-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "indigo-bundle-walk-n-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 711,
+      "y": 409,
+      "w": 133,
+      "h": 215,
+      "anchorX": 0.5,
+      "anchorY": 0.9395,
+      "logicalHeight": 218,
+      "label": "indigo bundle walk n 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          411,
+          129,
+          211
+        ],
+        "visiblePixels": 15227,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-bundle-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "indigo-bundle-walk-n-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 1029,
+      "y": 409,
+      "w": 131,
+      "h": 214,
+      "anchorX": 0.4313,
+      "anchorY": 0.9439,
+      "logicalHeight": 218,
+      "label": "indigo bundle walk n 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1031,
+          411,
+          127,
+          210
+        ],
+        "visiblePixels": 15287,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-bundle-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "blue-girl-bundle-walk-s-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 92,
+      "y": 725,
+      "w": 129,
+      "h": 208,
+      "anchorX": 0.6202,
+      "anchorY": 0.9279,
+      "logicalHeight": 211,
+      "label": "blue girl bundle walk s 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          94,
+          727,
+          125,
+          204
+        ],
+        "visiblePixels": 15761,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-bundle-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "blue-girl-bundle-walk-s-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 407,
+      "y": 725,
+      "w": 125,
+      "h": 209,
+      "anchorX": 0.584,
+      "anchorY": 0.9282,
+      "logicalHeight": 211,
+      "label": "blue girl bundle walk s 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          409,
+          727,
+          121,
+          205
+        ],
+        "visiblePixels": 15654,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-bundle-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "blue-girl-bundle-walk-n-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 717,
+      "y": 723,
+      "w": 128,
+      "h": 210,
+      "anchorX": 0.457,
+      "anchorY": 0.9381,
+      "logicalHeight": 211,
+      "label": "blue girl bundle walk n 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          719,
+          725,
+          124,
+          206
+        ],
+        "visiblePixels": 14335,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-bundle-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "blue-girl-bundle-walk-n-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 1034,
+      "y": 723,
+      "w": 127,
+      "h": 211,
+      "anchorX": 0.437,
+      "anchorY": 0.9336,
+      "logicalHeight": 211,
+      "label": "blue girl bundle walk n 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1036,
+          725,
+          123,
+          207
+        ],
+        "visiblePixels": 14487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-bundle-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "elder-bundle-walk-s-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 107,
+      "y": 1002,
+      "w": 109,
+      "h": 187,
+      "anchorX": 0.555,
+      "anchorY": 0.9251,
+      "logicalHeight": 187,
+      "label": "elder bundle walk s 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          109,
+          1004,
+          105,
+          183
+        ],
+        "visiblePixels": 11999,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-bundle-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "elder-bundle-walk-s-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 417,
+      "y": 1003,
+      "w": 112,
+      "h": 186,
+      "anchorX": 0.5804,
+      "anchorY": 0.9247,
+      "logicalHeight": 187,
+      "label": "elder bundle walk s 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          419,
+          1005,
+          108,
+          182
+        ],
+        "visiblePixels": 11799,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-bundle-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "elder-bundle-walk-n-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 721,
+      "y": 1002,
+      "w": 110,
+      "h": 187,
+      "anchorX": 0.5182,
+      "anchorY": 0.9358,
+      "logicalHeight": 187,
+      "label": "elder bundle walk n 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          723,
+          1004,
+          106,
+          183
+        ],
+        "visiblePixels": 11432,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-bundle-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "elder-bundle-walk-n-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 1036,
+      "y": 1002,
+      "w": 110,
+      "h": 187,
+      "anchorX": 0.5273,
+      "anchorY": 0.9251,
+      "logicalHeight": 187,
+      "label": "elder bundle walk n 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1038,
+          1004,
+          106,
+          183
+        ],
+        "visiblePixels": 11468,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-ns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-bundle-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-ns"
+    },
+    "teal-bundle-walk-1": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 98,
+      "y": 86,
+      "w": 166,
+      "h": 239,
+      "anchorX": 0.5452,
+      "anchorY": 0.9289,
+      "logicalHeight": 240,
+      "label": "teal bundle walk 1",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          100,
+          88,
+          162,
+          235
+        ],
+        "visiblePixels": 21598,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "teal-bundle-walk-2": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 412,
+      "y": 87,
+      "w": 136,
+      "h": 240,
+      "anchorX": 0.5257,
+      "anchorY": 0.9292,
+      "logicalHeight": 240,
+      "label": "teal bundle walk 2",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          414,
+          89,
+          132,
+          236
+        ],
+        "visiblePixels": 19832,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "teal-bundle-walk-3": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 717,
+      "y": 87,
+      "w": 164,
+      "h": 240,
+      "anchorX": 0.5274,
+      "anchorY": 0.9292,
+      "logicalHeight": 240,
+      "label": "teal bundle walk 3",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          719,
+          89,
+          160,
+          236
+        ],
+        "visiblePixels": 21626,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "teal-bundle-walk-4": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 1028,
+      "y": 87,
+      "w": 130,
+      "h": 239,
+      "anchorX": 0.5231,
+      "anchorY": 0.9372,
+      "logicalHeight": 240,
+      "label": "teal bundle walk 4",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          89,
+          126,
+          235
+        ],
+        "visiblePixels": 19525,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "indigo-bundle-walk-1": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 98,
+      "y": 384,
+      "w": 177,
+      "h": 237,
+      "anchorX": 0.5424,
+      "anchorY": 0.9283,
+      "logicalHeight": 238,
+      "label": "indigo bundle walk 1",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          100,
+          386,
+          173,
+          233
+        ],
+        "visiblePixels": 21527,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "indigo-bundle-walk-2": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 411,
+      "y": 384,
+      "w": 136,
+      "h": 237,
+      "anchorX": 0.5625,
+      "anchorY": 0.9283,
+      "logicalHeight": 238,
+      "label": "indigo bundle walk 2",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          413,
+          386,
+          132,
+          233
+        ],
+        "visiblePixels": 19620,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "indigo-bundle-walk-3": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 714,
+      "y": 384,
+      "w": 174,
+      "h": 238,
+      "anchorX": 0.5374,
+      "anchorY": 0.9286,
+      "logicalHeight": 238,
+      "label": "indigo bundle walk 3",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          716,
+          386,
+          170,
+          234
+        ],
+        "visiblePixels": 21403,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "indigo-bundle-walk-4": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 1021,
+      "y": 384,
+      "w": 126,
+      "h": 237,
+      "anchorX": 0.5675,
+      "anchorY": 0.9325,
+      "logicalHeight": 238,
+      "label": "indigo bundle walk 4",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1023,
+          386,
+          122,
+          233
+        ],
+        "visiblePixels": 18929,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "blue-girl-bundle-walk-1": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 97,
+      "y": 682,
+      "w": 179,
+      "h": 237,
+      "anchorX": 0.5279,
+      "anchorY": 0.9283,
+      "logicalHeight": 237,
+      "label": "blue girl bundle walk 1",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          99,
+          684,
+          175,
+          233
+        ],
+        "visiblePixels": 23406,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "blue-girl-bundle-walk-2": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 408,
+      "y": 682,
+      "w": 143,
+      "h": 237,
+      "anchorX": 0.535,
+      "anchorY": 0.9283,
+      "logicalHeight": 237,
+      "label": "blue girl bundle walk 2",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          410,
+          684,
+          139,
+          233
+        ],
+        "visiblePixels": 21087,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "blue-girl-bundle-walk-3": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 715,
+      "y": 682,
+      "w": 177,
+      "h": 237,
+      "anchorX": 0.5339,
+      "anchorY": 0.9283,
+      "logicalHeight": 237,
+      "label": "blue girl bundle walk 3",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          717,
+          684,
+          173,
+          233
+        ],
+        "visiblePixels": 22772,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "blue-girl-bundle-walk-4": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 1019,
+      "y": 682,
+      "w": 140,
+      "h": 237,
+      "anchorX": 0.5679,
+      "anchorY": 0.9325,
+      "logicalHeight": 237,
+      "label": "blue girl bundle walk 4",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1021,
+          684,
+          136,
+          233
+        ],
+        "visiblePixels": 20797,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "elder-bundle-walk-1": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 94,
+      "y": 966,
+      "w": 167,
+      "h": 230,
+      "anchorX": 0.518,
+      "anchorY": 0.9261,
+      "logicalHeight": 230,
+      "label": "elder bundle walk 1",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          968,
+          163,
+          226
+        ],
+        "visiblePixels": 20386,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "elder-bundle-walk-2": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 410,
+      "y": 966,
+      "w": 140,
+      "h": 230,
+      "anchorX": 0.5,
+      "anchorY": 0.9261,
+      "logicalHeight": 230,
+      "label": "elder bundle walk 2",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          412,
+          968,
+          136,
+          226
+        ],
+        "visiblePixels": 19171,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "elder-bundle-walk-3": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 710,
+      "y": 966,
+      "w": 170,
+      "h": 230,
+      "anchorX": 0.5235,
+      "anchorY": 0.9261,
+      "logicalHeight": 230,
+      "label": "elder bundle walk 3",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          712,
+          968,
+          166,
+          226
+        ],
+        "visiblePixels": 20298,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
+    "elder-bundle-walk-4": {
+      "sheet": "people-gonzales-bundle-walk",
+      "x": 1031,
+      "y": 966,
+      "w": 134,
+      "h": 229,
+      "anchorX": 0.4701,
+      "anchorY": 0.9258,
+      "logicalHeight": 230,
+      "label": "elder bundle walk 4",
+      "kind": "people-gonzales-bundle-walk",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1033,
+          968,
+          130,
+          225
+        ],
+        "visiblePixels": 18675,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-bundle-walk.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-bundle-walk"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-bundle-walk"
+    },
     "elder-dig-1": {
       "sheet": "people-gonzales-digging",
       "x": 134,
@@ -79730,6 +81296,426 @@
       "locationKits": [],
       "promptId": "frontier-v1/gonzales-flag-work-painted"
     },
+    "elder-read-letter-1": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 93,
+      "y": 89,
+      "w": 166,
+      "h": 318,
+      "anchorX": 0.3916,
+      "anchorY": 0.9371,
+      "logicalHeight": 320,
+      "label": "elder read letter 1",
+      "kind": "people-gonzales-letter-reading",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          91,
+          162,
+          314
+        ],
+        "visiblePixels": 30064,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "elder-read-letter-2": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 384,
+      "y": 87,
+      "w": 179,
+      "h": 320,
+      "anchorX": 0.3939,
+      "anchorY": 0.9344,
+      "logicalHeight": 320,
+      "label": "elder read letter 2",
+      "kind": "people-gonzales-letter-reading",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          386,
+          89,
+          175,
+          316
+        ],
+        "visiblePixels": 30897,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "elder-read-letter-3": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 694,
+      "y": 87,
+      "w": 205,
+      "h": 320,
+      "anchorX": 0.3439,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "label": "elder read letter 3",
+      "kind": "people-gonzales-letter-reading",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          696,
+          89,
+          201,
+          316
+        ],
+        "visiblePixels": 31790,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "elder-read-letter-4": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 1002,
+      "y": 89,
+      "w": 165,
+      "h": 318,
+      "anchorX": 0.4242,
+      "anchorY": 0.9403,
+      "logicalHeight": 320,
+      "label": "elder read letter 4",
+      "kind": "people-gonzales-letter-reading",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1004,
+          91,
+          161,
+          314
+        ],
+        "visiblePixels": 29960,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "ochre-read-letter-1": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 91,
+      "y": 474,
+      "w": 173,
+      "h": 351,
+      "anchorX": 0.4249,
+      "anchorY": 0.9516,
+      "logicalHeight": 351,
+      "label": "ochre read letter 1",
+      "kind": "people-gonzales-letter-reading",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          93,
+          476,
+          169,
+          347
+        ],
+        "visiblePixels": 34432,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "ochre-read-letter-2": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 394,
+      "y": 476,
+      "w": 178,
+      "h": 350,
+      "anchorX": 0.4213,
+      "anchorY": 0.94,
+      "logicalHeight": 351,
+      "label": "ochre read letter 2",
+      "kind": "people-gonzales-letter-reading",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          396,
+          478,
+          174,
+          346
+        ],
+        "visiblePixels": 35015,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "ochre-read-letter-3": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 691,
+      "y": 474,
+      "w": 214,
+      "h": 351,
+      "anchorX": 0.3575,
+      "anchorY": 0.9459,
+      "logicalHeight": 351,
+      "label": "ochre read letter 3",
+      "kind": "people-gonzales-letter-reading",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          693,
+          476,
+          210,
+          347
+        ],
+        "visiblePixels": 36446,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "ochre-read-letter-4": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 1008,
+      "y": 477,
+      "w": 168,
+      "h": 348,
+      "anchorX": 0.4435,
+      "anchorY": 0.9483,
+      "logicalHeight": 351,
+      "label": "ochre read letter 4",
+      "kind": "people-gonzales-letter-reading",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1010,
+          479,
+          164,
+          344
+        ],
+        "visiblePixels": 34247,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "blue-read-letter-1": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 94,
+      "y": 873,
+      "w": 169,
+      "h": 325,
+      "anchorX": 0.4172,
+      "anchorY": 0.9508,
+      "logicalHeight": 326,
+      "label": "blue read letter 1",
+      "kind": "people-gonzales-letter-reading",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          875,
+          165,
+          321
+        ],
+        "visiblePixels": 31087,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "blue-read-letter-2": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 398,
+      "y": 874,
+      "w": 166,
+      "h": 325,
+      "anchorX": 0.4428,
+      "anchorY": 0.9323,
+      "logicalHeight": 326,
+      "label": "blue read letter 2",
+      "kind": "people-gonzales-letter-reading",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          876,
+          162,
+          321
+        ],
+        "visiblePixels": 30817,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "blue-read-letter-3": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 694,
+      "y": 874,
+      "w": 212,
+      "h": 326,
+      "anchorX": 0.3491,
+      "anchorY": 0.9356,
+      "logicalHeight": 326,
+      "label": "blue read letter 3",
+      "kind": "people-gonzales-letter-reading",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          696,
+          876,
+          208,
+          322
+        ],
+        "visiblePixels": 33284,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "blue-read-letter-4": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 1007,
+      "y": 874,
+      "w": 167,
+      "h": 326,
+      "anchorX": 0.4461,
+      "anchorY": 0.9325,
+      "logicalHeight": 326,
+      "label": "blue read letter 4",
+      "kind": "people-gonzales-letter-reading",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1009,
+          876,
+          163,
+          322
+        ],
+        "visiblePixels": 31629,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
     "teal-paint-1": {
       "sheet": "people-gonzales-paint",
       "x": 139,
@@ -80219,6 +82205,426 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/people-river-gestures"
+    },
+    "teal-seated-paint-1": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 46,
+      "y": 93,
+      "w": 236,
+      "h": 304,
+      "anchorX": 0.4788,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "teal seated paint 1",
+      "kind": "people-gonzales-seated-paint",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          95,
+          232,
+          300
+        ],
+        "visiblePixels": 43193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "teal-seated-paint-2": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 360,
+      "y": 93,
+      "w": 235,
+      "h": 304,
+      "anchorX": 0.4809,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "teal seated paint 2",
+      "kind": "people-gonzales-seated-paint",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          362,
+          95,
+          231,
+          300
+        ],
+        "visiblePixels": 42500,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "teal-seated-paint-3": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 673,
+      "y": 93,
+      "w": 236,
+      "h": 304,
+      "anchorX": 0.4809,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "teal seated paint 3",
+      "kind": "people-gonzales-seated-paint",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          675,
+          95,
+          232,
+          300
+        ],
+        "visiblePixels": 42429,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "teal-seated-paint-4": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 987,
+      "y": 93,
+      "w": 235,
+      "h": 304,
+      "anchorX": 0.4809,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "teal seated paint 4",
+      "kind": "people-gonzales-seated-paint",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          989,
+          95,
+          231,
+          300
+        ],
+        "visiblePixels": 43121,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "indigo-seated-paint-1": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 41,
+      "y": 488,
+      "w": 243,
+      "h": 306,
+      "anchorX": 0.4794,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "indigo seated paint 1",
+      "kind": "people-gonzales-seated-paint",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          490,
+          239,
+          302
+        ],
+        "visiblePixels": 43964,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "indigo-seated-paint-2": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 355,
+      "y": 488,
+      "w": 242,
+      "h": 306,
+      "anchorX": 0.4814,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "indigo seated paint 2",
+      "kind": "people-gonzales-seated-paint",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          357,
+          490,
+          238,
+          302
+        ],
+        "visiblePixels": 43258,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "indigo-seated-paint-3": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 669,
+      "y": 488,
+      "w": 242,
+      "h": 306,
+      "anchorX": 0.4773,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "indigo seated paint 3",
+      "kind": "people-gonzales-seated-paint",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          671,
+          490,
+          238,
+          302
+        ],
+        "visiblePixels": 43073,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "indigo-seated-paint-4": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 982,
+      "y": 488,
+      "w": 241,
+      "h": 306,
+      "anchorX": 0.4813,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "indigo seated paint 4",
+      "kind": "people-gonzales-seated-paint",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          984,
+          490,
+          237,
+          302
+        ],
+        "visiblePixels": 43755,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "blue-girl-seated-paint-1": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 40,
+      "y": 879,
+      "w": 244,
+      "h": 301,
+      "anchorX": 0.4262,
+      "anchorY": 0.9269,
+      "logicalHeight": 301,
+      "label": "blue girl seated paint 1",
+      "kind": "people-gonzales-seated-paint",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          881,
+          240,
+          297
+        ],
+        "visiblePixels": 43921,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "blue-girl-seated-paint-2": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 353,
+      "y": 879,
+      "w": 244,
+      "h": 301,
+      "anchorX": 0.4262,
+      "anchorY": 0.9269,
+      "logicalHeight": 301,
+      "label": "blue girl seated paint 2",
+      "kind": "people-gonzales-seated-paint",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          355,
+          881,
+          240,
+          297
+        ],
+        "visiblePixels": 43234,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "blue-girl-seated-paint-3": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 667,
+      "y": 879,
+      "w": 244,
+      "h": 301,
+      "anchorX": 0.4283,
+      "anchorY": 0.9269,
+      "logicalHeight": 301,
+      "label": "blue girl seated paint 3",
+      "kind": "people-gonzales-seated-paint",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          669,
+          881,
+          240,
+          297
+        ],
+        "visiblePixels": 43122,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
+    },
+    "blue-girl-seated-paint-4": {
+      "sheet": "people-gonzales-seated-paint",
+      "x": 980,
+      "y": 879,
+      "w": 244,
+      "h": 301,
+      "anchorX": 0.4262,
+      "anchorY": 0.9269,
+      "logicalHeight": 301,
+      "label": "blue girl seated paint 4",
+      "kind": "people-gonzales-seated-paint",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          982,
+          881,
+          240,
+          297
+        ],
+        "visiblePixels": 43898,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-seated-paint.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-seated-paint"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-seated-paint"
     },
     "elder-smith-hammer-1": {
       "sheet": "people-gonzales-smiths",
@@ -126920,6 +129326,230 @@
       "motion": "none",
       "direction": "north"
     },
+    "teal-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "teal-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "teal-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "teal-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "teal-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "teal-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "indigo-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "indigo-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "indigo-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "indigo-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-girl-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-girl-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "elder-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "elder-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "elder-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "elder-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "elder-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "elder-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "teal-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "teal-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "indigo-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "blue-girl-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "elder-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "elder-dig": {
       "frames": [
         {
@@ -126984,6 +129614,78 @@
         },
         {
           "sprite": "blue-dig-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-read-letter": {
+      "frames": [
+        {
+          "sprite": "elder-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-read-letter": {
+      "frames": [
+        {
+          "sprite": "ochre-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-read-letter": {
+      "frames": [
+        {
+          "sprite": "blue-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-4",
           "duration": 550
         }
       ],
@@ -127097,6 +129799,78 @@
         {
           "sprite": "elder-river-point-2",
           "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-seated-paint": {
+      "frames": [
+        {
+          "sprite": "teal-seated-paint-1",
+          "duration": 450
+        },
+        {
+          "sprite": "teal-seated-paint-2",
+          "duration": 450
+        },
+        {
+          "sprite": "teal-seated-paint-3",
+          "duration": 450
+        },
+        {
+          "sprite": "teal-seated-paint-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-seated-paint": {
+      "frames": [
+        {
+          "sprite": "indigo-seated-paint-1",
+          "duration": 450
+        },
+        {
+          "sprite": "indigo-seated-paint-2",
+          "duration": 450
+        },
+        {
+          "sprite": "indigo-seated-paint-3",
+          "duration": 450
+        },
+        {
+          "sprite": "indigo-seated-paint-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-seated-paint": {
+      "frames": [
+        {
+          "sprite": "blue-girl-seated-paint-1",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-girl-seated-paint-2",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-girl-seated-paint-3",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-girl-seated-paint-4",
+          "duration": 450
         }
       ],
       "loop": true,
@@ -139097,7 +141871,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 289,
+    "sourceCount": 293,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

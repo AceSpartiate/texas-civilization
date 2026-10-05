@@ -1,0 +1,112 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "teal-bundle-walk-s-1",
+      "drawn": true
+    },
+    {
+      "id": "teal-bundle-walk-s-2",
+      "drawn": true
+    },
+    {
+      "id": "teal-bundle-walk-n-1",
+      "drawn": true
+    },
+    {
+      "id": "teal-bundle-walk-n-2",
+      "drawn": true
+    },
+    {
+      "id": "indigo-bundle-walk-s-1",
+      "drawn": true
+    },
+    {
+      "id": "indigo-bundle-walk-s-2",
+      "drawn": true
+    },
+    {
+      "id": "indigo-bundle-walk-n-1",
+      "drawn": true
+    },
+    {
+      "id": "indigo-bundle-walk-n-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-bundle-walk-s-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-bundle-walk-s-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-bundle-walk-n-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-bundle-walk-n-2",
+      "drawn": true
+    },
+    {
+      "id": "elder-bundle-walk-s-1",
+      "drawn": true
+    },
+    {
+      "id": "elder-bundle-walk-s-2",
+      "drawn": true
+    },
+    {
+      "id": "elder-bundle-walk-n-1",
+      "drawn": true
+    },
+    {
+      "id": "elder-bundle-walk-n-2",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "teal-bundle-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "teal-bundle-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "indigo-bundle-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "indigo-bundle-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-girl-bundle-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-girl-bundle-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "elder-bundle-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "elder-bundle-walk-n",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

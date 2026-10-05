@@ -8889,6 +8889,230 @@
       "motion": "none",
       "direction": "north"
     },
+    "teal-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "teal-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "teal-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "teal-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "teal-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "teal-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "indigo-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "indigo-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "indigo-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "indigo-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-girl-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-girl-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "elder-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "elder-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "elder-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "elder-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "elder-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "elder-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "teal-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "teal-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "indigo-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "blue-girl-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "elder-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "elder-dig": {
       "frames": [
         {
@@ -8953,6 +9177,78 @@
         },
         {
           "sprite": "blue-dig-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-read-letter": {
+      "frames": [
+        {
+          "sprite": "elder-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-read-letter": {
+      "frames": [
+        {
+          "sprite": "ochre-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-read-letter": {
+      "frames": [
+        {
+          "sprite": "blue-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-4",
           "duration": 550
         }
       ],
@@ -9066,6 +9362,78 @@
         {
           "sprite": "elder-river-point-2",
           "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-seated-paint": {
+      "frames": [
+        {
+          "sprite": "teal-seated-paint-1",
+          "duration": 450
+        },
+        {
+          "sprite": "teal-seated-paint-2",
+          "duration": 450
+        },
+        {
+          "sprite": "teal-seated-paint-3",
+          "duration": 450
+        },
+        {
+          "sprite": "teal-seated-paint-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-seated-paint": {
+      "frames": [
+        {
+          "sprite": "indigo-seated-paint-1",
+          "duration": 450
+        },
+        {
+          "sprite": "indigo-seated-paint-2",
+          "duration": 450
+        },
+        {
+          "sprite": "indigo-seated-paint-3",
+          "duration": 450
+        },
+        {
+          "sprite": "indigo-seated-paint-4",
+          "duration": 450
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-seated-paint": {
+      "frames": [
+        {
+          "sprite": "blue-girl-seated-paint-1",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-girl-seated-paint-2",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-girl-seated-paint-3",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-girl-seated-paint-4",
+          "duration": 450
         }
       ],
       "loop": true,
