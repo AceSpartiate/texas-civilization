@@ -1458,3 +1458,60 @@ hidden stats, and it reaches the page.
   for a family with stock.
 
 Evidence: `tests/herds.test.mjs` *a hand with stock* and *who may*, under [herds-injections.json](evidence/herds-injections.json).
+
+## Amendment, 2026-10-04 — help on a small farm: the young capped, and a spouse's two children (owner-decided; not released)
+
+**Owner-decided, 2026-10-04**, asked by the owner and confirmed by multiple choice ("As described"). Amends §3 (ages) and the lone
+parent's path above. Claims `FIC-GONZ-1161` and `-1163`; the third answer of the same message, the small family that keeps no custom,
+is docs/CUSTOMARY_WORK.md §1e (`FIC-GONZ-1162`).
+
+> "If a family has less than 6 members, there should be no more than one child less than 10 years old. If a family has less than
+> 10 members, no more than 2 children should be under the age of 10. That way smaller families have some help on the farm."
+>
+> "if a player rolls a family with a three or less (so they have the marriage gameplay loop) the person they're marrying should
+> enter the family with two children that are at least 10 years old or older." And: "You'll likely need to adjust the marriage
+> cutscene stuff so that it takes this stuff into account. Dialogue may have to change as well."
+
+**The young capped** (`sim/family.mjs` `youngAllowed`, `birthsFor`). On the die as it is (`d20-size`), a family of fewer than six
+people is dealt **one child under ten at most**, and a family of six to nine **two at most**; ten or more is as before. The children
+over the cap are ten or more, at their natural spacing; the young are born after them at any distance, so a small family can still
+have a baby - a late child, years after the rest. Measured over 20,000 rolls (none failed):
+
+| Family | Under ten, before | Under ten, now | A baby (≤1) now | Mother, median |
+| --- | --- | --- | --- | --- |
+| 3-5 | 1.6-2.3 on average; 3 in 4 had two or more | one at most | 15-17 in 100 | 32-33 (was 32-33) |
+| 6-9 | 3.2-4.5; nearly all had three or more | two at most | 23-26 in 100 | 32-37 (was 32-33) |
+
+What follows, said plainly: families of six to nine are older. A family of nine has a grown eldest (18 to 22, at home) four times in
+five, and a family of eight once in twenty; more sons of sixteen or more may answer a call or be sent to the fighting (§5); and the
+older children eat more (by age, the amendment of 2026-09-22). A family of seven people or fewer is still all under eighteen. A family
+rolled before keeps the ages it was dealt, and a family on an older table (2026-09-14, six sides) is not capped. No save version moved.
+
+**The spouse's two children** (`sim/courtship.mjs` `STEPCHILDREN`, `rollStepchildren`, `joinStepchildren`). On the lone parent's
+path, the one who marries in is **widowed and living with their parents, with two children of ten or more** - a son or a daughter
+on a coin each, two or three years apart, dealt the hidden stats and obedience every child is, named from the family's own pools. In
+the scenes:
+
+- *The second farm*: the two stand with their grandparents. The spouse's father says once, plainly, that the spouse "came home to us
+  with Levi and Ann when his wife died, two winters ago"; the elder child offers to help ("I can notch a log", or "I can daub a
+  chimney"); and the spouse says *we'll* fetch *our* axes.
+- *The wedding*: they stand at the spouse's side, a step in front, as the family's own children stand at the parent's
+  (public/courtship.js `sceneLayout`); after the vows the lone parent tells them "this is your home now too", and the younger
+  answers "Then we'll help keep it."
+- *Afterwards*: the spouse's elder asks one of the family's children to show them the creek ("Race you!"), and the closing words
+  count them in.
+
+At the wedding they join the family as the lone parent's stepchildren (`kin.stepchildren`) and the spouse's own children (their
+`kin.parents`), among the children by age, called by the family's name; the family's story says they came, and the family book
+gives each parent both lines ("Father to Levi Pruett and Ann Pruett. Stepfather to Rosa Pruett."). A family of three that marries is six,
+and so keeps the custom (CUSTOMARY_WORK.md §1e).
+
+**The spouse's age.** The owner's rule of 2026-09-29 is kept - the lone parent's own age - unless that is too young to have two
+children of ten; then the youngest age that can (`youngestWithTwo`): a mother of 29, a father of 30, and the family's story says
+"a few years older than" the parent instead. How the spouse was widowed is not said. A family that married before has no such
+children (`path.spouse.children` absent) and opens as it was.
+
+Evidence: `tests/family-roll.test.mjs` *a small family has help on the farm* (four injections caught: no cap, two for the smallest,
+the cap on an older table, no late child); `tests/courtship.test.mjs` *the one who marries in is widowed* and *a lone parent too
+young* (eight caught: no children, a child of nine, never joined, the spouse not aged, missing from the second farm, on the wrong
+side at the wedding, the save check gone, not among the children by age).

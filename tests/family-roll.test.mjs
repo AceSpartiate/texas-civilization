@@ -20,7 +20,7 @@ import { observedBy } from '../sim/town.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
 import {
   ADULT_AT, CHILD_MAX_AGE, GROWN_AT_HOME, MOTHER_AT_BIRTH, FATHER_AT_BIRTH, SENT_FROM_AGE, FIGHTS_FROM_AGE, NAME_POOLS, ageOnDay, canFight,
-  FAMILY_DIE, FAMILY_FACES, FAMILY_TABLE, compositionFor, tableOf, listWords, rolledWords, dealTraits, familyRoll, rolledPeople,
+  FAMILY_DIE, FAMILY_FACES, FAMILY_TABLE, compositionFor, tableOf, listWords, rolledWords, dealTraits, familyRoll, rolledPeople, youngAllowed,
 } from '../sim/family.mjs';
 
 /** The owner's table, 2026-09-22: the number is the family. [parents, children] for rolls 1 to 20. */
@@ -138,8 +138,9 @@ test('every family could exist: every child born to a mother of 17 to 42 and a f
     // A lone father's children's mother was two years younger than him.
     const motherAt = born => parents.length === 2 ? ageOnDay(parents[1].born, born) : parents[0].sex === 'female' ? ageOnDay(parents[0].born, born) : ageOnDay(parents[0].born, born) - 2;
     for (const child of children) {
-      // Under eighteen in every family of seven children or fewer; grown and at home, to 22, only in a larger one.
-      assert.ok(child.age >= 0 && child.age <= (children.length <= 7 ? CHILD_MAX_AGE : GROWN_AT_HOME), `a child aged ${child.age} in a family of ${children.length} children`);
+      // Under eighteen in every family of seven people or fewer; grown and at home, to 22, only in a larger one - since 2026-10-04 a
+      // family of eight or nine too, whose children over the cap on the young are ten or more (`youngAllowed`, the test below).
+      assert.ok(child.age >= 0 && child.age <= (people.length <= 7 ? CHILD_MAX_AGE : GROWN_AT_HOME), `a child aged ${child.age} in a family of ${people.length}`);
       const motherThen = motherAt(Date.parse(child.born));
       assert.ok(motherThen >= MOTHER_AT_BIRTH[0] && motherThen <= MOTHER_AT_BIRTH[1], `a mother born ${parents.at(-1).born} was ${motherThen} at a birth on ${child.born}`);
       if (father) assert.ok(ageOnDay(father.born, Date.parse(child.born)) >= FATHER_AT_BIRTH, `a father born ${father.born} was ${ageOnDay(father.born, Date.parse(child.born))} at a birth on ${child.born} (roll ${roll})`);
@@ -149,6 +150,27 @@ test('every family could exist: every child born to a mother of 17 to 42 and a f
   }
   assert.equal(checked, 800);
   assert.ok(lone.male > 0 && lone.female > 0, `a lone parent is sometimes a father and sometimes a mother (${lone.male}/${lone.female})`);
+});
+
+test('a small family has help on the farm: fewer than six people, one child under ten at most; fewer than ten, two', () => {
+  // The owner, 2026-10-04: "If a family has less than 6 members, there should be no more than one child less than 10 years old. If
+  // a family has less than 10 members, no more than 2 children should be under the age of 10. That way smaller families have some
+  // help on the farm." Before it, three families in four of three to five people had two or more children under ten.
+  assert.deepEqual([1, 5, 6, 9, 10, 20].map(youngAllowed), [1, 1, 2, 2, Infinity, Infinity]);
+  const baby = {};
+  for (let n = 0; n < 2000; n++) {
+    const roll = 1 + (n % 20);
+    const people = rolledPeople(`help-${n}`, `hh-${1 + (n % 30)}`, n % 30, roll);
+    const young = people.filter(person => !isParent(person) && person.age < SENT_FROM_AGE);
+    // The owner's numbers, written here rather than read from the code under test.
+    assert.ok(young.length <= (roll < 6 ? 1 : roll < 10 ? 2 : Infinity), `a family of ${roll} was dealt ${young.length} children under ten: ${young.map(child => child.age)}`);
+    if (young.some(child => child.age <= 1)) baby[roll] = (baby[roll] || 0) + 1;
+  }
+  // A small family still has a baby now and then - a late child, born years after the others.
+  for (const roll of [2, 3, 4, 5, 6, 7, 8, 9]) assert.ok((baby[roll] || 0) >= 10, `no family of ${roll} had a baby in a hundred (${baby[roll] || 0})`);
+  // Only on the die as it is: a family rolled on an older table keeps the ages it was dealt.
+  assert.ok(Array.from({ length: 200 }, (_, n) => rolledPeople(`help-old-${n}`, 'hh-1', 0, 9, 'd20-faces')).some(people => people.filter(person => !isParent(person) && person.age < SENT_FROM_AGE).length > 1),
+    'a family on an older table was held to the cap');
 });
 
 test('a 20 is two parents and eighteen children with their own names and ages, and it survives a save', () => {

@@ -20,7 +20,7 @@ import { buildRefusal, houseBuilt, houseSettled, shelterOf } from '../sim/houses
 import { choreAvailability } from '../sim/chores.mjs';
 import { observedBy } from '../sim/town.mjs';
 import { released } from '../sim/childhood.mjs';
-import { AWAY_MINUTES, RAISED_PLAN, courtshipScript, pathRefusal } from '../sim/courtship.mjs';
+import { AWAY_MINUTES, RAISED_PLAN, STEPCHILDREN, STEPCHILD_FROM, courtshipInvalid, courtshipScript, pathRefusal, youngestWithTwo } from '../sim/courtship.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
 import { flashbackScript } from '../sim/flashback.mjs';
 import { clipFor, sceneLayout, stepsOf } from '../public/courtship.js';
@@ -357,4 +357,82 @@ test('the page: everybody in a scene stands on it, the couple face each other cl
   assert.equal(clipFor(grown, 'vow', 'w', () => false).id.endsWith('-idle-w'), true, 'a missing vow pose did not fall back to standing');
   assert.equal(clipFor(grown, 'laugh', 'w', () => false).id.endsWith('-speak'), true);
   assert.deepEqual(clipFor(grown, 'laugh', 'w', () => true).flip, true);
+});
+
+test('the one who marries in is widowed and brings two children of ten or more, at the second farm and into the family at the wedding', () => {
+  // The owner, 2026-10-04: "the person they're marrying should enter the family with two children that are at least 10 years old or
+  // older"; and "you'll likely need to adjust the marriage cutscene stuff so that it takes this stuff into account".
+  const { world, household } = onTheLand({ stem: 'stepkids' });
+  const parent = parentsOf(world, household)[0];
+  applyAction(world, 'hh-1', { action: 'rename', surname: 'Hollister' });
+  const before = household.members.length;
+  applyAction(world, 'hh-1', { action: 'ask-neighbours' });
+  const path = household.courtship, spouse = path.spouse;
+  assert.equal(spouse.children.length, STEPCHILDREN);
+  for (const child of spouse.children) {
+    assert.ok(child.age >= STEPCHILD_FROM && child.age <= 17, `a child of the spouse aged ${child.age}`);
+    assert.ok(Number.isFinite(child.traits.strength) && Number.isFinite(child.traits.obedience), 'a child of the spouse was not dealt the hidden stats');
+    assert.equal(world.entities[child.id], undefined, 'a child of the spouse joined before the wedding');
+  }
+  assert.ok(spouse.children[0].age > spouse.children[1].age, 'eldest first');
+  assert.ok(spouse.age >= youngestWithTwo(spouse.sex), `a spouse of ${spouse.age} with children of ${spouse.children.map(child => child.age)}`);
+  assert.ok(spouse.age - spouse.children[0].age >= (spouse.sex === 'female' ? 17 : 18), 'the spouse was too young at the elder child\'s birth');
+  // The second farm: they are there, said once to be widowed, and one of them speaks; the wedding and afterwards have them too.
+  const script = courtshipScript(world, household);
+  const [, second, wedding, after] = script.scenes;
+  for (const scene of [second, wedding, after]) for (const child of spouse.children) assert.ok(scene.cast.includes(child.id), `${child.given} is not in the ${scene.id} scene`);
+  assert.ok(!script.scenes[0].cast.some(id => spouse.children.some(child => child.id === id)), 'the spouse\'s children were at the first farm');
+  assert.ok(second.lines.some(line => new RegExp(`came home to us with ${spouse.children[0].given} and ${spouse.children[1].given} when (his|her) (wife|husband) died`).test(line.text)), 'the second farm does not say the spouse is widowed, with the children');
+  assert.ok(second.lines.some(line => line.speaker === spouse.children[0].id), 'the spouse\'s eldest does not speak at the second farm');
+  assert.ok(wedding.lines.some(line => line.speaker === parent.id && /this is your home now too/.test(line.text)), 'the wedding does not welcome them');
+  assert.match(after.closing, new RegExp(`${spouse.children[0].given} and ${spouse.children[1].given} are one of the family now`));
+  // At the wedding they stand at the spouse's side, as the family's own children stand at the parent's.
+  const layout = sceneLayout(wedding, script.cast, 1366, 768);
+  const x = id => layout.places.find(place => place.id === id)?.x;
+  for (const child of spouse.children) assert.ok(x(child.id) > x(spouse.id), `${child.given} is not on the spouse's side at the wedding`);
+  // Home: the family is the lone parent's, the new parent and the two, children eldest first, all called by the family's name.
+  home(world, household);
+  assert.equal(household.members.length, before + 1 + STEPCHILDREN);
+  const kids = household.members.map(id => world.entities[id]).filter(one => ['son', 'daughter'].includes(one.kin.role));
+  assert.deepEqual(kids.map(one => one.age), [...kids.map(one => one.age)].sort((a, b) => b - a), 'the children are not eldest first');
+  for (const child of spouse.children) {
+    const one = world.entities[child.id];
+    assert.ok(one && household.members.includes(child.id), `${child.given} did not join the family`);
+    assert.deepEqual(one.kin.parents, [spouse.id]);
+    assert.ok(one.name.endsWith(` ${household.surname}`), `${one.name} is not called by the family's name`);
+    const work = choreAvailability(world, household, one, one.sex === 'male' ? 'clear-plot' : 'keep-house');
+    assert.ok(work.can || !/too young|custom|men's work|women's work/.test(work.why), `${one.name} cannot be given the family's work: ${work.why}`);
+  }
+  assert.deepEqual(world.entities[spouse.id].kin.children, spouse.children.map(child => child.id));
+  assert.ok(parent.kin.stepchildren.length === STEPCHILDREN, 'the lone parent has no stepchildren');
+  assert.ok(world.events.some(event => event.type === 'courtship' && /married by/.test(event.text) && event.text.includes(`${spouse.children[0].given} and ${spouse.children[1].given} came with`)), 'the story does not say they came');
+  // The book: both parents have children and stepchildren.
+  const book = familyProjection(world, household);
+  assert.match(book.people.find(one => one.id === spouse.id).of, new RegExp(`(Father|Mother) to ${world.entities[spouse.children[0].id].name} and ${world.entities[spouse.children[1].id].name}\. Step(father|mother) to `));
+  assert.match(book.people.find(one => one.id === parent.id).of, /Step(father|mother) to /);
+  validateWorld(world);
+  // A save keeps them, and one missing is caught.
+  const directory = mkdtempSync(join(tmpdir(), 'stepkids-'));
+  try {
+    const file = join(directory, 'class.json');
+    writeSave(file, { saveVersion: 3, revision: 1, world });
+    const back = readSave(file).world;
+    assert.ok(spouse.children.every(child => back.entities[child.id]), 'the spouse\'s children were lost in a save');
+    delete back.entities[spouse.children[1].id];
+    assert.throws(() => validateWorld(back));
+    assert.equal(courtshipInvalid(back, back.households['hh-1']), "A married family is missing the new parent's children");
+  } finally { rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('a lone parent too young to marry a widow or widower with two children of ten marries one a few years older', () => {
+  const { world, household } = onTheLand({ stem: 'stepkids-young' });
+  const parent = parentsOf(world, household)[0];
+  // Twenty-two today, and a child or two of their own of whatever ages they were dealt.
+  parent.age = 22; parent.born = `${new Date(world.calendar?.start || Date.UTC(1835, 9, 1)).getUTCFullYear() - 23}-01-01`;
+  applyAction(world, 'hh-1', { action: 'ask-neighbours' });
+  const spouse = household.courtship.spouse;
+  assert.equal(spouse.age, youngestWithTwo(spouse.sex), 'the spouse is not the youngest age with two children of ten');
+  assert.ok(spouse.children.every(child => child.age >= STEPCHILD_FROM));
+  for (let tick = 0; tick < 200 && !household.courtship.seen.includes('second'); tick++) stepWorld(world);
+  assert.ok(world.events.some(event => new RegExp(`${spouse.given}, a few years older than`).test(event.text)), 'the story still says the spouse is the parent\'s own age');
 });

@@ -35,7 +35,23 @@ function founding(seed = 'custom') {
   // Nobody here already shoots as well as anyone on the land, so practice at the mark is never refused for that.
   for (const key of ['thomas', 'elena', 'rosa', 'mateo']) world.entities[`hh-1-${key}`].skills = { ...world.entities[`hh-1-${key}`].skills, hunting: 1 };
   const [thomas, elena, rosa, mateo] = ['thomas', 'elena', 'rosa', 'mateo'].map(key => world.entities[`hh-1-${key}`]);
+  littleOnes(world, household);
   return { world, household, thomas, elena, rosa, mateo };
+}
+/**
+ * Two little ones, two and four, added to a family so that it is six people and keeps the custom: a family of fewer than six keeps
+ * none (owner, 2026-10-04, "Fewer than 6"; sim/custom.mjs `smallFamily`, the test of its own below). Under seven, neither keeps
+ * house, helps or keeps the custom for anybody, so nothing else this file holds moves.
+ */
+function littleOnes(world, household) {
+  const site = world.map.sites[household.homeSiteId];
+  for (const [n, age, sex] of [[1, 2, 'female'], [2, 4, 'male']]) {
+    const id = `${household.id}-little-${n}`;
+    world.entities[id] = { id, name: `Little ${n}`, kind: 'person', householdId: household.id, depth: 'moderate', principal: false, location: { x: site.x, y: site.y, siteId: site.id },
+      travel: null, health: { condition: 'well' }, task: 'rest', skills: {}, chore: null, kin: { role: sex === 'male' ? 'son' : 'daughter', spouse: null, parents: [], children: [] },
+      relationships: {}, propertyRefs: [], commitments: [], sex, age };
+    household.members.push(id);
+  }
 }
 /** A rolled family of this shape, home on its land: 'both', 'mother' (no father) or 'father' (no mother). */
 function rolled(shape, { seed = 'custom-shape', want = () => true } = {}) {
@@ -46,7 +62,8 @@ function rolled(shape, { seed = 'custom-shape', want = () => true } = {}) {
       const people = household.members.map(id => world.entities[id]);
       const roles = people.map(person => person.kin?.role);
       const has = { father: roles.includes('father'), mother: roles.includes('mother') };
-      const fits = shape === 'both' ? has.father && has.mother : shape === 'mother' ? has.mother && !has.father : has.father && !has.mother;
+      // Both parents in a family of six or more, which keeps the custom (a smaller one keeps none: `smallFamily`).
+      const fits = shape === 'both' ? has.father && has.mother && people.length >= 6 : shape === 'mother' ? has.mother && !has.father : has.father && !has.mother;
       // No grown child of the other sex: a lone mother's family has no man of sixteen or over at all.
       const grownOther = people.some(person => person.age >= 16 && !['father', 'mother'].includes(person.kin?.role) && person.sex === (shape === 'mother' ? 'male' : 'female'));
       if (!fits || (shape !== 'both' && grownOther) || !want(world, household)) continue;
@@ -430,4 +447,27 @@ test('only while serving: a man sent for or deserted and home again keeps the cu
     assert.equal(said.can, away, `${status}: ${said.why}`);
     if (!away) assert.match(said.why, new RegExp(`${thomas.name} is at home`));
   }
+});
+
+test('a small family keeps no custom: fewer than six living, every work is anybody\'s, said once; six or more keep it', () => {
+  // The owner, 2026-10-04, by multiple choice: "Fewer than 6". The founding four with their two little ones are six (`founding`).
+  const { world, household, thomas, elena } = founding('custom-small');
+  assert.equal(choreAvailability(world, household, elena, 'hunt-timber').can, false, 'a family of six did not keep the custom');
+  // One little one dies: five living, and the custom is gone, with Thomas at home.
+  world.entities[`${household.id}-little-1`].health = { condition: 'dead' };
+  assert.equal(household.members.length, 6, 'the dead are still the family\'s members');
+  const open = choreAvailability(world, household, elena, 'hunt-timber');
+  assert.equal(open.can, true, `a family of five living kept the custom: ${open.why}`);
+  assert.equal(choreAvailability(world, household, thomas, 'keep-house').can, true, 'the women\'s work was not open to the father of a small family');
+  assert.equal(customRefusal(world, household, elena, 'fell-trees', homeWork), null);
+  // Said once in the family's story, for the family's size, not for anybody away.
+  const from = world.events.length;
+  send(world, household.id, elena.id, 'hunt-timber');
+  const said = world.events.slice(from).filter(event => event.actorId === elena.id && /took up the rifle/.test(event.text));
+  assert.deepEqual(said.map(event => event.text), [`With so few hands in the family, ${elena.given || elena.name} took up the rifle.`]);
+  validateWorld(world);
+  // The two little ones away in town are still the family's: six, and the custom kept. Only the dead are not counted.
+  world.entities[`${household.id}-little-1`].health = { condition: 'well' };
+  world.entities[`${household.id}-little-1`].travel = { to: 'gonzales' };
+  assert.equal(choreAvailability(world, household, elena, 'fell-trees').can, false, 'somebody away was not counted in the family');
 });

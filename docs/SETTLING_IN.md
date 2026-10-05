@@ -568,6 +568,9 @@ rolled with one parent may take the lone parent's path (docs/FAMILY_CREATION.md,
 is away four hours at two neighbours' farms, and comes home married, **to a house its neighbours raised that day** - the house-raising
 of §6, given to the family that has nobody to raise walls with.
 
+- **Two more hands** (owner, 2026-10-04; FAMILY_CREATION.md, the amendment of that day): the one who marries in is widowed and brings
+  two children of ten or more, who join the family at the wedding - a lone parent's family of three comes home six, old enough
+  between them to work the land the house stands on.
 - **The plainest house**: the round-log cabin (`RAISED_PLAN`) - on the real land its plan's pieces (a round-log pen and a stick-and-mud
   chimney, sim/houseplot.mjs `PLANS`) every one finished; on the invented country the whole house, its work done. `improvements.cabin`
   is sound at once: the family sleeps under it that night, `houseBuilt` and `houseSettled` are true, the land line and the interior

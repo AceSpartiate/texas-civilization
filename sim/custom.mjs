@@ -135,11 +135,27 @@ export function customWhy(world, household, entity, row, homeWork = null) {
   if (!row || !customApplies(household, entity)) return null;
   const [whose, work] = row;
   const sex = SEX_OF[whose];
-  if (sexOf(entity) === sex) return null;
+  if (sexOf(entity) === sex || smallFamily(world, household)) return null;
   const home = keepers(world, household, sex, homeWork).filter(person => person.id !== entity.id);
   if (!home.length) return null;
   return `${work} is ${saysOf(whose, home)}`;
 }
+// ---------------------------------------------------------------------------------------------------- the small family
+
+/**
+ * **A small family keeps no custom** (owner, 2026-10-04, by multiple choice: "Fewer than 6"): in a family of fewer than
+ * `SMALL_FAMILY` living people every work is open to everybody old enough for it, whoever is at home - there are too few hands to
+ * leave one idle while another does all of one custom's work. BALANCE.md §23 measured the cost the custom put on such a family: one
+ * man for all the men's work roofed the house days later, and a lone parent fell behind. The families it frees are two parents
+ * and two or three children (a lone parent's family opened by necessity already); a lone parent who marries in a widowed husband
+ * or wife with two children (sim/courtship.mjs) is a family of six or more, and keeps it. Counted now, so a family that loses
+ * people to death comes under it, and the dead are not counted; those away (in town, at the war) still are. `FIC-GONZ-1162`.
+ */
+export const SMALL_FAMILY = 6;
+/** Whether this family is too small to keep the custom: fewer than `SMALL_FAMILY` of its people living. */
+export const smallFamily = (world, household) => (household?.members || [])
+  .filter(id => world.entities[id]?.kind === 'person' && world.entities[id].health?.condition !== 'dead').length < SMALL_FAMILY;
+
 /** The words after the work's name: "men's work, and James is at home." */
 const saysOf = (whose, home) => `${whose}'s work, and ${names(home)} ${home.length === 1 ? 'is' : 'are'} at home.`;
 /**
@@ -207,7 +223,7 @@ export function byNecessity(world, household, entity, row, homeWork = null) {
   if (!row || !customApplies(household, entity)) return null;
   const sex = SEX_OF[row[0]];
   if (sexOf(entity) === sex) return null;
-  return keepers(world, household, sex, homeWork).some(person => person.id !== entity.id) ? null : row;
+  return keepers(world, household, sex, homeWork).some(person => person.id !== entity.id) && !smallFamily(world, household) ? null : row;
 }
 
 /** Why one grown person of the custom is not here, as the opening line says it: "gone to the army", "in town", "dead". */
@@ -240,13 +256,16 @@ export function noteNecessity(world, household, entity, choreId, { row = CUSTOM[
   const [whose, , took] = opened;
   const sex = SEX_OF[whose];
   const grown = grownOf(world, household, sex).filter(person => person.id !== entity.id);
-  const reasons = grown.map(person => [person, goneWords(world, household, person, journeyOf)]);
-  const key = reasons.length ? reasons.map(([person, [why]]) => `${person.id}:${why}`).join(',') : 'none';
+  // In a small family (`smallFamily`) with one of the custom at home, the reason is the family's size, said once for each person.
+  const small = keepers(world, household, sex, homeWork).some(person => person.id !== entity.id);
+  const reasons = small ? [] : grown.map(person => [person, goneWords(world, household, person, journeyOf)]);
+  const key = small ? 'small' : reasons.length ? reasons.map(([person, [why]]) => `${person.id}:${why}`).join(',') : 'none';
   entity.necessity ??= {};
   if (entity.necessity[whose] === key) return null;
   entity.necessity[whose] = key;
   const self = sexOf(entity) === 'female' ? 'herself' : 'himself';
-  const said = reasons.length === 0 ? `With no ${sex === 'male' ? 'grown man' : 'grown woman'} in the family`
+  const said = small ? 'With so few hands in the family'
+    : reasons.length === 0 ? `With no ${sex === 'male' ? 'grown man' : 'grown woman'} in the family`
     : reasons.length === 1 ? `With ${reasons[0][0].given || reasons[0][0].name} ${reasons[0][1][1]}`
     : reasons.every(([, [why]]) => why === reasons[0][1][0]) ? `With ${names(reasons.map(([person]) => person))} ${reasons[0][1][1]}`
     : `With ${reasons.slice(0, 2).map(([person, [, words]]) => `${person.given || person.name} ${words}`).join(' and ')}${reasons.length > 2 ? ' and the others away' : ''}`;

@@ -123,10 +123,14 @@ export function sceneLayout(scene, cast, width, height) {
     put('commissioner', centre + h * 0.92, 'w', -0.35);
     const kids = inScene.filter(id => cast[id].family && !cast[id].lone);
     kids.forEach((id, k) => put(id, centre - h * (0.78 + 0.34 * k), 'e', 0.6));
+    // The spouse's own children (sim/courtship.mjs `STEPCHILDREN`) at the spouse's side, a step in front, as the family's are at the
+    // parent's; the spouse's family of neighbours beyond them.
+    const steps = inScene.filter(id => cast[id].step);
+    steps.forEach((id, k) => put(id, centre + h * (0.78 + 0.34 * k), 'w', 0.6));
     const first = inScene.filter(id => cast[id].of && cast[id].of.endsWith('-nb-1'));
-    const second = inScene.filter(id => cast[id].of && cast[id].of.endsWith('-nb-2'));
+    const second = inScene.filter(id => cast[id].of && cast[id].of.endsWith('-nb-2') && !cast[id].step);
     line(first, centre - h * (0.95 + 0.34 * kids.length + 0.25), -h * 0.46, 'e');
-    line(second, centre + h * 1.45, h * 0.46, 'w');
+    line(second, centre + h * (1.45 + 0.34 * steps.length), h * 0.46, 'w');
   } else {
     // Afterwards: the family of two parents before its house, facing the camera, the children beside them.
     const parents = inScene.filter(id => cast[id].lone || cast[id].spouse);

@@ -56,7 +56,7 @@
 // sim/appearance.mjs) does not change on the wedding day; the new parent is their step-parent (`kin.stepchildren`).
 import { record } from './events.mjs';
 import { dateOf } from './clock.mjs';
-import { ageBand, ageNow, compositionFor, dealTraits, householdName, listWords, tableOf } from './family.mjs';
+import { CHILD_MAX_AGE, FATHER_AT_BIRTH, MOTHER_AT_BIRTH, SENT_FROM_AGE, ageBand, ageNow, compositionFor, dealTraits, householdName, listWords, obedienceRoll, tableOf } from './family.mjs';
 import { appearanceOf } from './appearance.mjs';
 import { namingOf, poolsFor, skinChoices } from './starts.mjs';
 import { CLOTHING, HAIR, HEAD, SKIN } from './look-vocabulary.mjs';
@@ -75,6 +75,19 @@ export const AWAY_MINUTES = 240;
 export const SECOND_FARM_AT = 90;
 /** The plainest house there is, raised by the neighbours: one round-log pen and a stick-and-mud chimney (sim/houseplot.mjs `PLANS`). */
 export const RAISED_PLAN = 'round-log';
+/**
+ * **The one who marries in brings two children** (owner, 2026-10-04: "if a player rolls a family with a three or less (so they have
+ * the marriage gameplay loop) the person they're marrying should enter the family with two children that are at least 10 years old
+ * or older"): the new husband or wife is widowed, with a son or daughter or both of `STEPCHILD_FROM` or more, who come with them at
+ * the wedding and are the family's from then on - two more hands for the farm, old enough for its work. Rolled at the press with
+ * the spouse (`rollStepchildren`), at the neighbours' farm in the second scene, and joined at the wedding (`joinStepchildren`). The
+ * spouse is the lone parent's own age, as the owner asked on 2026-09-29, unless that is too young to have two children of ten; then
+ * the youngest age that can (`youngestWithTwo`): a mother of 29 or a father of 30. `FIC-GONZ-1163`.
+ */
+export const STEPCHILDREN = 2;
+export const STEPCHILD_FROM = SENT_FROM_AGE;
+/** The youngest a widowed parent of two children of ten can be: their age at the elder's birth, ten, and two years between. */
+export const youngestWithTwo = sex => (sex === 'female' ? MOTHER_AT_BIRTH[0] : FATHER_AT_BIRTH) + STEPCHILD_FROM + 2;
 /** The kinds of wedding the game can show: by bond, and by the priest from La Bahía for a Tejano family (see the head of this file). */
 export const RITES = Object.freeze(['bond', 'priest']);
 /** The wedding a family has: a Tejano family's is the priest's (owner, 2026-09-29, "Priest from La Bahía"), everybody else's by bond. */
@@ -151,6 +164,7 @@ const DAY_MS = 86400000;
 const isoDay = ms => new Date(ms).toISOString().slice(0, 10);
 const SEX_ROLE = Object.freeze({ male: { grown: 'father', young: 'son' }, female: { grown: 'mother', young: 'daughter' } });
 const other = sex => (sex === 'male' ? 'female' : 'male');
+const COUNT_WORDS = Object.freeze(['no', 'one', 'two', 'three', 'four', 'five']);
 const firstName = person => person?.given || String(person?.name || '').split(' ')[0] || 'somebody';
 
 // ---------------------------------------------------------------- who the path is for
@@ -236,8 +250,9 @@ export function dealNeighbours(world, household, parent, taken) {
   const usable = pools.first.filter(family => family.surname !== own);
   const first = pick(usable, `${key}:first`);
   const second = pick(pools.second.filter(family => family.surname !== own && family.farm !== first.farm), `${key}:second`);
-  const age = ageNow(world, parent) ?? parent.age ?? 30;
   const spouseSex = other(parent.sex);
+  // The lone parent's own age, or the youngest that can have two children of ten (`youngestWithTwo`).
+  const age = Math.max(ageNow(world, parent) ?? parent.age ?? 30, youngestWithTwo(spouseSex));
   let of = null, family = null;
   // Each neighbour named from the pools of its own family's list, so a Salcedo is not called Caleb (`namedAs`).
   const person = (familyId, n, role, sex, years) => {
@@ -257,7 +272,7 @@ export function dealNeighbours(world, household, parent, taken) {
   const one = { id: oneId, surname: first.surname, plural: first.plural, farm: first.farm, where: first.where,
     people: [person(oneId, 1, 'father', 'male', husband), person(oneId, 2, 'mother', 'female', wife), ...kids] };
   // The second: the parents of a grown son or daughter the lone parent's own age (the owner: "the age will be the same as our
-  // lone parent"), and the one who will marry, rolled like a parent (`rollSpouse`).
+  // lone parent"), widowed and come home with two children, and the one who will marry, rolled like a parent (`rollSpouse`).
   const father = age + 22 + (hashOf(`${key}:two-age`) % 8);
   const mother = Math.max(age + 18, father - (hashOf(`${key}:two-gap`) % 6));
   family = second; of = heritageOfNeighbour(second, heritage);
@@ -280,8 +295,33 @@ export function rollSpouse(world, household, parent, sex, age, taken) {
   const role = SEX_ROLE[sex].grown;
   // A name from the pools the family is named from (sim/starts.mjs `namingOf`): the family they marry into is theirs.
   const given = nameFrom(role, `${world.seed}:${id}:name`, taken, poolsFor(namingOf(household)));
-  return { id, given, sex, role, age, born: isoDay(bornMs), traits: dealTraits(world.seed, id, sex, age) };
+  return { id, given, sex, role, age, born: isoDay(bornMs), traits: dealTraits(world.seed, id, sex, age), children: rollStepchildren(world, household, id, sex, age, taken, today) };
 }
+
+/**
+ * The spouse's two children (`STEPCHILDREN`), eldest first: each of `STEPCHILD_FROM` or more, the younger two or three years after the
+ * elder, the elder born when the spouse was at least as old as a mother or father may be at a birth (sim/family.mjs), and no older
+ * than a child the die deals (`CHILD_MAX_AGE`). A son or a daughter on a coin each; named from the family's own pools; dealt the
+ * hidden stats and the obedience every child is.
+ */
+export function rollStepchildren(world, household, spouseId, spouseSex, spouseAge, taken, today) {
+  const key = `${world.seed}:${spouseId}:children`;
+  const eldest = Math.min(CHILD_MAX_AGE, spouseAge - (spouseSex === 'female' ? MOTHER_AT_BIRTH[0] : FATHER_AT_BIRTH));
+  const gap = 2 + (hashOf(`${key}:gap`) % 2);
+  const younger = STEPCHILD_FROM + (hashOf(`${key}:younger`) % Math.max(1, eldest - gap - STEPCHILD_FROM + 1));
+  const ages = [Math.min(eldest, younger + gap), younger];
+  return ages.map((age, n) => {
+    const id = `${spouseId}-child-${n + 1}`;
+    const sex = hashOf(`${key}:sex-${n}`) % 2 ? 'female' : 'male';
+    const role = SEX_ROLE[sex].young;
+    const back = 1 + (hashOf(`${key}:birthday-${n}`) % 364);
+    const bornMs = Date.UTC(new Date(today).getUTCFullYear() - age, new Date(today).getUTCMonth(), new Date(today).getUTCDate()) - back * DAY_MS;
+    const given = nameFrom(role, `${key}:name-${n}`, taken, poolsFor(namingOf(household)));
+    return { id, given, sex, role, age, born: isoDay(bornMs), traits: { ...dealTraits(world.seed, id, sex, age), obedience: obedienceRoll(world.seed, id) } };
+  });
+}
+/** The spouse's children as rolled at the press; none for a family that married before 2026-10-04. */
+export const stepchildrenOf = path => path?.spouse?.children || [];
 
 // ---------------------------------------------------------------- pressing it, and the day away
 
@@ -350,6 +390,12 @@ export function partOfDay(date) {
   return { light: 'night', when: 'Night', that: 'That night', by: 'by nightfall' };
 }
 
+/** "Martha's own age", or "a few years older than Martha" when the spouse had to be older to have two children of ten. */
+function ageWords(world, parent, spouse) {
+  const theirs = ageNow(world, parent) ?? parent?.age;
+  return Number.isFinite(theirs) && spouse.age > theirs ? `a few years older than ${firstName(parent)}` : `${firstName(parent)}'s own age`;
+}
+
 /** Every tick: the second farm said in the family's story when the clock reaches it, and the family home at `until`. */
 export function advanceCourtship(world) {
   for (const household of Object.values(world.households)) {
@@ -361,7 +407,7 @@ export function advanceCourtship(world) {
       path.seen.push('second');
       record(world, 'courtship', {
         actorId: parent?.id, householdId: household.id, importance: 2, claimId: CLAIMS.path,
-        text: `At the ${two.surname} place ${two.where}, the ${two.plural} promised their help too, and so did ${path.spouse.given}, who is ${firstName(parent)}'s own age and could not stop smiling.`,
+        text: `At the ${two.surname} place ${two.where}, the ${two.plural} promised their help too, and so did ${path.spouse.given}, ${ageWords(world, parent, path.spouse)}, widowed, with ${listWords(stepchildrenOf(path).map(child => child.given))} - and could not stop smiling.`,
       });
     }
     if (world.minute >= path.until) comeHome(world, household);
@@ -378,6 +424,7 @@ export function comeHome(world, household) {
   const parent = world.entities[path.parentId];
   const raised = raiseTheHouse(world, household);
   const spouse = joinTheFamily(world, household, parent, path.spouse);
+  const theirs = joinStepchildren(world, household, parent, spouse, stepchildrenOf(path));
   // A lone mother marries: the family takes his name and he leads it (owner, 2026-09-29: "His name", "New husband leads"). A lone
   // father marries: his wife takes his name, and he stays the principal.
   if (spouse.sex === 'male') { takeHisName(world, household, spouse, path); heLeads(household, parent, spouse); }
@@ -388,11 +435,13 @@ export function comeHome(world, household) {
   path.seen.push('home');
   const [one, two] = path.neighbours;
   const houseWords = raised === 'finished' ? 'finished the house the family had begun' : `raised a ${HOUSES[RAISED_PLAN].name.toLowerCase()}`;
+  // Said after the wedding's own words, so the family's story and the flashback (sim/flashback.mjs) still find "married by".
+  const came = theirs.length ? ` ${listWords(theirs.map(firstName))} came with ${spouse.sex === 'female' ? 'her' : 'him'}, and the family is ${household.members.length} now.` : '';
   record(world, 'courtship', {
     actorId: parent?.id, householdId: household.id, importance: 3, claimId: CLAIMS.path,
     text: path.rite === 'priest'
-      ? `The ${one.plural} and the ${two.plural} came to the land and ${houseWords}. ${partOfDay(dateOf(world, world.minute)).that} ${parent?.name} and ${spouse.name} were married by the priest from La Bahía, their neighbours the witnesses.`
-      : `The ${one.plural} and the ${two.plural} came to the land and ${houseWords}. ${partOfDay(dateOf(world, world.minute)).that} ${parent?.name} and ${spouse.name} were married by bond before the commissioner of the precinct and their neighbours, promising to be married by a priest when one comes.`,
+      ? `The ${one.plural} and the ${two.plural} came to the land and ${houseWords}. ${partOfDay(dateOf(world, world.minute)).that} ${parent?.name} and ${spouse.name} were married by the priest from La Bahía, their neighbours the witnesses.${came}`
+      : `The ${one.plural} and the ${two.plural} came to the land and ${houseWords}. ${partOfDay(dateOf(world, world.minute)).that} ${parent?.name} and ${spouse.name} were married by bond before the commissioner of the precinct and their neighbours, promising to be married by a priest when one comes.${came}`,
   });
   record(world, 'courtship', {
     actorId: spouse.id, householdId: household.id, importance: 2, claimId: CLAIMS.rite, classification: 'DOCUMENTED',
@@ -462,6 +511,40 @@ function joinTheFamily(world, household, parent, rolled) {
   household.members.splice(at1 < 0 ? household.members.length : at1 + 1, 0, entity.id);
   if (parent) parent.kin = { ...parent.kin, spouse: entity.id };
   return entity;
+}
+
+/**
+ * The spouse's children put into the family (`STEPCHILDREN`): stable new ids (`<household>-spouse-child-1`, `-2`), a son or daughter of
+ * the spouse and the lone parent's stepchildren, standing at home beside the new parent, among the family's children by age (the
+ * panel reads children oldest first). Named with the family's last name as the spouse is; a lone mother's family then takes the
+ * husband's (`takeHisName`), theirs already. They take after the spouse, the parent they were born to (sim/appearance.mjs).
+ */
+function joinStepchildren(world, household, parent, spouse, rolled) {
+  if (!rolled.length) return [];
+  const site = world.map.sites[household.homeSiteId];
+  const joined = rolled.map((child, n) => {
+    const entity = {
+      id: child.id, name: household.surname ? `${child.given} ${household.surname}` : child.given, ...(household.surname && { given: child.given }),
+      kind: 'person', householdId: household.id, depth: 'moderate', principal: false,
+      location: { x: +(spouse.location.x + 0.012 * (n + 1)).toFixed(4), y: +(spouse.location.y + 0.012).toFixed(4), siteId: household.homeSiteId },
+      travel: null, health: { condition: 'well' }, task: 'rest', skills: skillsFor(child.id), chore: null,
+      kin: { role: child.role, spouse: null, parents: [spouse.id], children: [] },
+      relationships: {}, propertyRefs: [`${household.id}-wagon`], commitments: [],
+      sex: child.sex, age: child.age, born: child.born, traits: { ...child.traits },
+    };
+    world.entities[entity.id] = entity;
+    return entity;
+  });
+  const ids = joined.map(child => child.id);
+  spouse.kin = { ...spouse.kin, children: [...ids] };
+  if (parent) parent.kin = { ...parent.kin, stepchildren: [...(parent.kin.stepchildren || []), ...ids] };
+  // Among the children by age, eldest first; the parents stay where they are.
+  const ageOf = id => ageNow(world, world.entities[id]) ?? world.entities[id]?.age ?? 0;
+  const isChild = id => ['son', 'daughter'].includes(world.entities[id]?.kin?.role);
+  const grown = household.members.filter(id => !isChild(id));
+  const children = [...household.members.filter(isChild), ...ids].sort((a, b) => ageOf(b) - ageOf(a));
+  household.members = [...grown, ...children];
+  return joined;
 }
 
 /**
@@ -563,6 +646,15 @@ const castOf = (world, household, path) => {
   const spouse = world.entities[path.spouse.id];
   const spouseLooks = spouse ? appearanceOf(world, spouse) : appearanceOf(world, { id: path.spouse.id, kind: 'person', householdId: household.id, sex: path.spouse.sex, age: path.spouse.age, kin: { role: path.spouse.role } });
   cast[path.spouse.id] = { id: path.spouse.id, name: path.spouse.given, given: path.spouse.given, sex: path.spouse.sex, age: path.spouse.age, band: 'adult', appearance: spouseLooks, family: false, spouse: true };
+  // The spouse's children: at the second farm with their grandparents (`of`), at the wedding at the spouse's side (`step`). Before
+  // the wedding they are not yet anybody's in the world, so their looks are the spouse's, as a child's of one parent are
+  // (sim/appearance.mjs `childAppearance`): the same picture before the wedding and after.
+  for (const child of stepchildrenOf(path)) {
+    const entity = world.entities[child.id];
+    const age = entity ? ageNow(world, entity) ?? entity.age : child.age;
+    const looks = entity ? appearanceOf(world, entity) : { skin: spouseLooks.skin, hair: spouseLooks.hair === 'grey' ? 'dark brown' : spouseLooks.hair, clothing: spouseLooks.clothing };
+    cast[child.id] = { id: child.id, name: entity?.name || child.given, given: child.given, sex: child.sex, age, band: ageBand(age) || 'child', appearance: looks, family: false, step: true, of: path.neighbours[1].id };
+  }
   for (const family of path.neighbours) for (const one of family.people) {
     cast[one.id] = { id: one.id, name: `${one.given} ${family.surname}`, given: one.given, sex: one.sex, age: one.age, band: ageBand(one.age) || 'adult', appearance: one.appearance, family: false, of: family.id };
   }
@@ -599,6 +691,10 @@ export function courtshipScript(world, household) {
   const t1 = at(path.began), t2 = at(path.began + SECOND_FARM_AT), t3 = at(path.until);
   const hello = t1.light === 'morning' ? 'Good morning!' : t1.when === 'Midday' ? 'Good day to you!' : 'Good evening!';
   const cap = text => text[0].toUpperCase() + text.slice(1);
+  // The spouse's children (`STEPCHILDREN`), eldest first: what they say, and what is said of them. None for a family married before.
+  const steps = stepchildrenOf(path), stepIds = steps.map(child => child.id), stepNames = steps.map(child => child.given);
+  const late = path.spouse.sex === 'female' ? 'husband' : 'wife';
+  const handy = child => (child.sex === 'male' ? 'I can notch a log.' : 'I can daub a chimney.');
   const raised = path.house === 'finished' || (path.stage === 'away' && (pieced(household) ? household.house?.pieces?.some(p => p.stage > 0 || p.progress > 0) : household.house?.work > 0));
 
   // The house the families stand beside at home: the plan the family had begun, finished, or the plain round-log cabin raised.
@@ -625,7 +721,7 @@ export function courtshipScript(world, household) {
   const second = {
     id: 'second', light: t2.light, farm: two.farm, place: `The ${two.surname} place, ${two.where}`, when: t2.when,
     between: `On ${two.where}, to the ${two.surname} place.`,
-    cast: [parent?.id, ...kids.map(kid => kid.id), b1.id, b2.id, path.spouse.id].filter(Boolean),
+    cast: [parent?.id, ...kids.map(kid => kid.id), b1.id, b2.id, path.spouse.id, ...stepIds].filter(Boolean),
     lines: [
       say(b1.id, `Welcome! Sit down and rest. ${aKids.length ? listWords(aKids.map(kid => kid.given)) : `The ${one.plural}`} ran over to say you'd be coming.`, 'greet'),
       say(parent?.id, 'Then you know why we\'ve come. I\'m asking for a day\'s help with a house.'),
@@ -634,15 +730,20 @@ export function courtshipScript(world, household) {
       say(parent?.id, 'Then I hope she\'s right about you.', 'laugh'),
       say(b2.id, `${S} hasn't taken ${spouseIs.their} eyes off you since you came through the gate.`, 'laugh'),
       say(path.spouse.id, `${b2word}!`, 'shy'),
+      // Widowed, and home with the children (owner, 2026-10-04): said plainly and once, and then the children speak for themselves.
+      ...(steps.length ? [
+        say(b1.id, `${S} came home to us with ${listWords(stepNames)} when ${spouseIs.their} ${late} died, two winters ago.`),
+        say(steps[0].id, `We'll come and help too. ${handy(steps[0])}`, 'speak'),
+      ] : []),
       ...(talker ? [say(talker.id, `I like ${spouseIs.them}.`, 'speak')] : []),
-      say(path.spouse.id, `I'll fetch my axe and come right behind you, ${P}.`, 'shy'),
+      say(path.spouse.id, steps.length ? `We'll fetch our axes and come right behind you, ${P}.` : `I'll fetch my axe and come right behind you, ${P}.`, 'shy'),
     ],
   };
   const wedding = {
     id: 'wedding', light: t3.light, farm: 'home', house: homeHouse, place: 'Your own land', when: t3.when,
     between: 'Both families come to your land with their axes.',
     caption: raised ? cap(`${t3.by} the house you had begun is finished.`) : cap(`${t3.by} a cabin stands where you camped.`),
-    cast: [parent?.id, path.spouse.id, ...kids.map(kid => kid.id), a1.id, a2.id, ...aKids.map(kid => kid.id), b1.id, b2.id, 'commissioner'].filter(Boolean),
+    cast: [parent?.id, path.spouse.id, ...kids.map(kid => kid.id), ...stepIds, a1.id, a2.id, ...aKids.map(kid => kid.id), b1.id, b2.id, 'commissioner'].filter(Boolean),
     lines: [
       say(a1.id, 'There - walls up and the roof on. You\'ll sleep dry tonight.'),
       say(path.spouse.id, `I've worked beside you today, ${P}, and I'd gladly work beside you every day after, if you'll have me.`, 'shy'),
@@ -659,6 +760,10 @@ export function courtshipScript(world, household) {
       path.rite === 'priest'
         ? say('commissioner', 'Then you are husband and wife, before the Church and your neighbours. God bless this house, and all of you in it.', 'read-paper')
         : say('commissioner', 'Then sign here, and your neighbours will sign as witnesses. You are married by bond.', 'read-paper'),
+      ...(steps.length ? [
+        say(parent?.id, `${listWords(stepNames)} - this is your home now too.`, 'laugh'),
+        say(steps.at(-1).id, 'Then we\'ll help keep it.', 'speak'),
+      ] : []),
       say(b1.id, `The ${one.plural} brought cornbread and a ham, and we brought tamales. Let's eat - and somebody find the fiddle!`, 'laugh'),
     ],
     history: path.rite === 'priest'
@@ -668,15 +773,19 @@ export function courtshipScript(world, household) {
   const after = {
     id: 'after', light: t3.light, farm: 'home', house: homeHouse, place: 'Your own land', when: 'Afterwards',
     between: t3.light === 'night' || t3.when === 'Evening' ? 'The neighbours go home by lantern light.' : 'The neighbours start for home, waving.',
-    cast: [parent?.id, path.spouse.id, ...kids.map(kid => kid.id)].filter(Boolean),
+    cast: [parent?.id, path.spouse.id, ...kids.map(kid => kid.id), ...stepIds].filter(Boolean),
     lines: [
       ...(youngest && (ageNow(world, youngest) ?? youngest.age ?? 0) >= 3 ? [say(youngest.id, 'Is this our house now?', 'speak'), say(parent?.id, 'It is. Ours - all of us.', 'laugh')] : [say(parent?.id, 'Our own roof. I can hardly believe it.', 'laugh')]),
       say(path.spouse.id, `And a good one. The ${one.plural} and my family built it to last.`),
+      ...(steps.length && talker ? [
+        say(steps[0].id, `${firstName(talker)}, show us where the creek is.`, 'speak'),
+        say(talker.id, 'Race you!', 'laugh'),
+      ] : []),
     ],
     // A lone mother's family takes the new husband's name at the wedding (owner, 2026-09-29: "His name"); a lone father's keeps his.
     closing: path.spouse.sex === 'male'
-      ? `${S} is one of the family now, and ${kids.length ? `${P} and the children take` : `${P} takes`} his name. The ${two.surname} family has two parents again, a roof of its own, and two families of neighbours who will not forget this day.`
-      : `${S} is one of the family now. ${household_.replace(/^the /, 'The ')} has two parents again, a roof of its own, and two families of neighbours who will not forget this day.`,
+      ? `${steps.length ? `${S}, ${listWords(stepNames)} are` : `${S} is`} one of the family now, and ${kids.length ? `${P} and the children take` : `${P} takes`} his name. The ${two.surname} family has two parents again, ${steps.length ? `${COUNT_WORDS[kids.length + steps.length] || kids.length + steps.length} children, ` : ''}a roof of its own, and two families of neighbours who will not forget this day.`
+      : `${steps.length ? `${S}, ${listWords(stepNames)} are` : `${S} is`} one of the family now. ${household_.replace(/^the /, 'The ')} has two parents again, ${steps.length ? `${COUNT_WORDS[kids.length + steps.length] || kids.length + steps.length} children, ` : ''}a roof of its own, and two families of neighbours who will not forget this day.`,
   };
   return { rite: path.rite, cast: castOf(world, household, path), scenes: [first, second, wedding, after], eldest: eldest?.id || null };
 }
@@ -697,8 +806,13 @@ export function courtshipInvalid(world, household) {
   if (!path.spouse || typeof path.spouse.id !== 'string' || !['male', 'female'].includes(path.spouse.sex)) return 'Invalid lone parent\'s path';
   if (path.stage === 'home' && !world.entities[path.spouse.id]) return 'A married family is missing its new parent';
   if (path.stage === 'away' && world.entities[path.spouse.id]) return 'The new parent joined before the wedding';
+  // The spouse's children: absent on a family that married before 2026-10-04, which had none.
+  const children = path.spouse.children;
+  if (children !== undefined && (!Array.isArray(children) || children.some(child => typeof child?.id !== 'string' || !['male', 'female'].includes(child.sex)))) return 'Invalid lone parent\'s path';
+  if (path.stage === 'home' && stepchildrenOf(path).some(child => !world.entities[child.id])) return 'A married family is missing the new parent\'s children';
+  if (path.stage === 'away' && stepchildrenOf(path).some(child => world.entities[child.id])) return 'The new parent\'s children joined before the wedding';
   if (path.watched !== undefined && path.watched !== true) return 'Invalid lone parent\'s path';
   return null;
 }
-/** How many people a rolled family is now: what it rolled, and one more once the lone parent has married. */
-export const marriedIn = household => (household.courtship?.stage === 'home' ? 1 : 0);
+/** How many people a rolled family is now: what it rolled, and the new parent and their children once the lone parent has married. */
+export const marriedIn = household => (household.courtship?.stage === 'home' ? 1 + stepchildrenOf(household.courtship).length : 0);

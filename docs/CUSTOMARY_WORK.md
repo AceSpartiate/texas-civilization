@@ -84,6 +84,32 @@ Asked by multiple choice once §24 was measured; answered the same day, verbatim
 2. *Should the house's short steps be lengthened so a man's help at the hearth shows?* **"Leave it"** - no change (§2b's `ceiling:`
    stands).
 
+## 1e. A small family keeps no custom (2026-10-04)
+
+The owner, asked to suggest a threshold for *"under a certain family population, gender locked tasks no longer become gender locked
+out of necessity"*, chose by multiple choice **"Fewer than 6"** (`sim/custom.mjs` `smallFamily`, `SMALL_FAMILY`; `FIC-GONZ-1162`):
+
+- In a family of **fewer than six living people** every work of §3 is open to everybody old enough for it, whoever is at home: a
+  mother may fell, hunt or build beside her husband, a father may keep house, and cattle on horseback are anybody's of twelve or
+  more. Help-not-lead (§2b) is then never needed. The age gates are unchanged (under ten, the children's own works; children of
+  seven keep house as §4b).
+- **Counted now.** The dead are not counted, so a family that loses people comes under it; those away - in town, at the war,
+  visiting - still are.
+- **Said once a person**, the first time each takes up the other custom's work: *"With so few hands in the family, Martha took up the
+  axe."* Where nobody of the custom is in the family at all (a lone parent), the old words stand (*"With no grown man in the
+  family"*).
+- **Which families.** A lone parent's family (one to three) opened by necessity already; the rule frees the two-parent families of
+  four and five, which BALANCE.md §23 found paid for the custom (one man for all the men's work roofed the house one to three days
+  later). The founding four of a household nobody joins are four, and so keep none. A lone parent who marries in a widowed husband or
+  wife with two children (FAMILY_CREATION.md, the amendment of 2026-10-04) is a family of six or more and keeps it. The same message
+  capped the young in small families (one under ten below six people, two below ten), so a family of four or five has at least two
+  or three of ten or more.
+- BALANCE.md §23's numbers were measured before this, on families of every size; they are not re-run here.
+
+Evidence: `tests/custom-work.test.mjs` *a small family keeps no custom* (five injections caught: the rule gone, a threshold of five,
+the dead counted, the words, the away not counted). The file's other tests now give the founding four two little ones, two and four,
+so that it is six and keeps the custom (`littleOnes`), and its rolled families of both parents are six or more.
+
 ## 2. The rule (`sim/custom.mjs`, `FIC-GONZ-1150`)
 
 - **Every work is men's, women's or shared** (§3). Only the table's works have a custom; everything else is shared and never asked.

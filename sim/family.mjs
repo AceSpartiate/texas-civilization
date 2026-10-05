@@ -297,7 +297,9 @@ export const MOTHER_AT_BIRTH = Object.freeze([17, 42]);
 export const CHILD_MAX_AGE = 17;
 /**
  * The oldest a son or daughter is, still at home and unmarried, in a family whose births will not fit in eighteen years at
- * their natural spacing (2026-09-22, `FIC-GONZ-363`). Every family of seven children or fewer is under eighteen as before.
+ * their natural spacing (2026-09-22, `FIC-GONZ-363`). Every family of seven people or fewer is under eighteen as before; since
+ * 2026-10-04 a family of eight or nine often has a grown eldest too, its children over the cap on the young being ten or more
+ * (`youngAllowed`).
  * A grown son or daughter is a person like any other of sixteen or more: eats a full share, may answer a call, and a son may
  * be sent to the fighting.
  */
@@ -327,7 +329,17 @@ export function ageOnDay(born, when) {
   return on.getUTCFullYear() - year - (passed ? 0 : 1);
 }
 
-function birthsFor(seed, householdId, parents, loneSex, children, on) {
+/**
+ * How many children under ten a family of this many people may be dealt (owner, 2026-10-04: "If a family has less than 6
+ * members, there should be no more than one child less than 10 years old. If a family has less than 10 members, no more than 2
+ * children should be under the age of 10. That way smaller families have some help on the farm."; `FIC-GONZ-1161`). Infinity for
+ * ten or more. On the die as it is (`FAMILY_TABLE`) only: a family rolled on an older table keeps the ages it was dealt.
+ */
+export const youngAllowed = people => (people < 6 ? 1 : people < 10 ? 2 : Infinity);
+/** Under this age a child is one of the young the cap counts: the age a child can be given the family's work (`SENT_FROM_AGE`). */
+const YOUNG_UNDER = 10;
+
+function birthsFor(seed, householdId, parents, loneSex, children, on, young = Infinity) {
   const key = `${seed}:${householdId}`;
   let first = PARENT_AGES[0] + (hashOf(`${key}:age-1`) % (PARENT_AGES[1] - PARENT_AGES[0] + 1));
   let second = parents === 2 ? clamp(first + (hashOf(`${key}:age-2`) % 17) - 8, [18, PARENT_AGES[1]]) : null;
@@ -352,28 +364,67 @@ function birthsFor(seed, householdId, parents, loneSex, children, on) {
     const high = Math.min(limits.childhood, limits.mother, limits.father);
     return { low: Math.max(0, mother - MOTHER_AT_BIRTH[1] - 1 + EDGE), high, bound: Object.keys(limits).find(name => limits[name] === high) };
   };
-  const fit = (span, capped) => {
+  // The cap on the young (`youngAllowed`): the eldest `elder` children are ten or more, and the `young` youngest may be born
+  // after them at any distance - a late child, years after the rest - so a small family can still have a baby. `floorFor`
+  // is where, in years ago, the elder children's youngest may be born: ten years back, or more if the young below them
+  // need the room.
+  const capped = children > young, elder = capped ? children - young : children;
+  const sum = list => list.reduce((total, gap) => total + gap, 0);
+  const elderDrawn = drawn.slice(1, elder), youngDrawn = drawn.slice(elder + 1), bridge = capped && twin[elder] ? 0 : SHORTEST_GAP;
+  const youngShortest = capped ? twin.slice(elder + 1).filter(same => !same).length * SHORTEST_GAP : 0;
+  const floorFor = low => Math.max(YOUNG_UNDER + EDGE, low + youngShortest + bridge);
+  /** The years the births need between `low` and the top of the window: at their natural spacing, or their closest. */
+  const need = (low, close) => {
+    const all = close ? shortest : natural;
+    if (!capped) return all;
+    const elders = close ? twin.slice(1, elder).filter(same => !same).length * SHORTEST_GAP : sum(elderDrawn);
+    return Math.max(all, floorFor(low) - low + elders);
+  };
+  const fit = (close, capParents) => {
     for (let step = 0; step < 100; step++) {
       const { low, high, bound } = window();
-      if (high - low >= span) return true;
+      if (high - low >= need(low, close)) return true;
       if (bound === 'childhood') {
         // All of childhood is open already; only a younger mother, whose youngest could then be younger, gives more.
         if (low <= 0) return false;
         first -= 1; if (second !== null) second -= 1;
-      } else if (bound === 'father' && first < second + 8 && (!capped || first < PARENT_AGES[1])) first += 1;
-      else if (!capped || Math.max(first, second ?? 0) < PARENT_AGES[1]) { first += 1; if (second !== null) second += 1; }
+      } else if (bound === 'father' && first < second + 8 && (!capParents || first < PARENT_AGES[1])) first += 1;
+      else if (!capParents || Math.max(first, second ?? 0) < PARENT_AGES[1]) { first += 1; if (second !== null) second += 1; }
       else return false;
     }
     return false;
   };
   // Children under eighteen at their natural spacing; if they will not fit, the eldest grown and still at home, up to
   // `GROWN_AT_HOME`; and only then closer births, and parents past 45.
-  if (!fit(natural, true)) {
+  if (!fit(false, true)) {
     eldest = GROWN_AT_HOME;
-    if (!fit(natural, true)) fit(shortest, false);
+    if (!fit(false, true)) fit(true, false);
   }
   const { low, high } = window();
-  if (high - low < shortest - 1e-9) throw new Error(`No parents fit ${children} children.`);
+  if (high - low < need(low, true) - 1e-9) throw new Error(`No parents fit ${children} children.`);
+  /**
+   * The capped family placed: the elder children at their spacing (drawn in as below if the years are short) with the youngest
+   * of them ten or more, somewhere between `floorFor(low)` and the top of the window; then the young below them, the youngest
+   * anywhere from the youngest the mother allows to as late as the elder leave room for. A twin of the youngest elder child is
+   * born the same day, and so is ten or more too.
+   */
+  const placeCapped = years => {
+    const drawIn = (list, room, salt) => {
+      const total = sum(list), least = list.filter(gap => gap > 0).length * SHORTEST_GAP;
+      const share = total > room ? Math.max(0, room - least) * (0.6 + 0.35 * unit(`${key}:${salt}`)) / (total - least) : 1;
+      return list.map(gap => (gap ? SHORTEST_GAP + (gap - SHORTEST_GAP) * share : 0));
+    };
+    const floor = floorFor(low);
+    const elderGaps = drawIn(elderDrawn, high - floor, 'squeeze');
+    years[elder - 1] = floor + Math.max(0, high - floor - sum(elderGaps)) * unit(`${key}:youngest-elder`);
+    for (let k = elder - 1; k > 0; k--) years[k - 1] = years[k] + elderGaps[k - 1];
+    const top = years[elder - 1] - bridge;
+    const youngGaps = drawIn(youngDrawn, top - low, 'squeeze-young');
+    years[children - 1] = low + Math.max(0, top - low - sum(youngGaps)) * unit(`${key}:youngest`);
+    for (let k = children - 1; k > elder; k--) years[k - 1] = years[k] + youngGaps[k - elder - 1];
+    // The eldest of the young the twin of the youngest elder child: the same day, and the rest of the young as far under them.
+    if (twin[elder]) { const shift = years[elder - 1] - years[elder]; for (let k = elder; k < children; k++) years[k] += shift; }
+  };
   // Every gap drawn in by the same share when natural spacing will not fit in the years there are - to fill 60 to 95 in 100
   // of the room past the closest spacing, not all of it, so a large family's eldest is not always just short of eighteen
   // and its youngest born the day the die is rolled.
@@ -382,8 +433,11 @@ function birthsFor(seed, householdId, parents, loneSex, children, on) {
   const gaps = drawn.map((gap, k) => (gap ? SHORTEST_GAP + (gap - SHORTEST_GAP) * squeeze : 0));
   const span = gaps.reduce((sum, gap) => sum + gap, 0);
   const years = [];
-  if (children) years[children - 1] = Math.max(low, low + (high - low - span) * unit(`${key}:youngest`));
-  for (let k = children - 1; k > 0; k--) years[k - 1] = years[k] + gaps[k];
+  if (capped) placeCapped(years);
+  else {
+    if (children) years[children - 1] = Math.max(low, low + (high - low - span) * unit(`${key}:youngest`));
+    for (let k = children - 1; k > 0; k--) years[k - 1] = years[k] + gaps[k];
+  }
   const day = midnight(on);
   const person = exact => { const born = bornBefore(day, exact); return { born, age: ageOnDay(born, day) }; };
   return {
@@ -403,7 +457,7 @@ function birthsFor(seed, householdId, parents, loneSex, children, on) {
 export function rolledPeople(seed, householdId, index, roll, table = FAMILY_TABLE, on = ROLL_DAY, heritage = null) {
   const { parents, children } = compositionFor(roll, table);
   const loneSex = parents === 1 ? (hashOf(`${seed}:${householdId}:lone-parent`) % 2 ? 'female' : 'male') : null;
-  const ages = birthsFor(seed, householdId, parents, loneSex, children, on);
+  const ages = birthsFor(seed, householdId, parents, loneSex, children, on, table === FAMILY_TABLE ? youngAllowed(parents + children) : Infinity);
   // Names from the pools of the family's start, where the class deals starts (sim/starts.mjs); the mixed pools otherwise.
   const deal = nameDealer(seed, heritage);
   const people = [];
@@ -806,11 +860,12 @@ export function familyProjection(world, household) {
       // A lone mother who married took her husband's name, and the children with her (owner, 2026-09-29: "His name"): the name
       // the family had until the wedding is kept on her line of the book.
       const formerly = path?.formerName && path.parentId === id ? ` Until the wedding, ${path.formerName}.` : '';
+      // A parent may have both since 2026-10-04: the widowed spouse brings two children of their own (sim/courtship.mjs `STEPCHILDREN`).
+      const married = kin.spouse ? `Married to ${nameOf(kin.spouse)}. ` : widowed;
+      const own = children.length ? `${Role} to ${listWords(children)}. ` : '';
+      const step = stepchildren.length ? `Step${kin.role} to ${listWords(stepchildren)}. ` : '';
       const of = !kin.role ? null
-        : stepchildren.length
-          ? `Married to ${nameOf(kin.spouse)}. Step${kin.role} to ${listWords(stepchildren)}.${born}`
-        : children.length
-          ? `${kin.spouse ? `Married to ${nameOf(kin.spouse)}. ` : widowed}${Role} to ${listWords(children)}.${formerly}`
+        : own || step || (parent && kin.spouse) ? `${married}${own}${step}`.trim() + born + formerly
           : parents.length ? `${Role} of ${parents.join(' and ')}.`
           : kin.spouse ? `Married to ${nameOf(kin.spouse)}.${born}`
           : widowed ? 'Widowed, with no children.' : null;
