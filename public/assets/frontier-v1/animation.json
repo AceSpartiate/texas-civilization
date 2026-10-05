@@ -8961,6 +8961,78 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "elder-read-letter": {
+      "frames": [
+        {
+          "sprite": "elder-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-read-letter": {
+      "frames": [
+        {
+          "sprite": "ochre-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-read-letter": {
+      "frames": [
+        {
+          "sprite": "blue-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "teal-paint": {
       "frames": [
         {

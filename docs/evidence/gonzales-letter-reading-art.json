@@ -1,0 +1,71 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "elder-read-letter-1",
+      "drawn": true
+    },
+    {
+      "id": "elder-read-letter-2",
+      "drawn": true
+    },
+    {
+      "id": "elder-read-letter-3",
+      "drawn": true
+    },
+    {
+      "id": "elder-read-letter-4",
+      "drawn": true
+    },
+    {
+      "id": "ochre-read-letter-1",
+      "drawn": true
+    },
+    {
+      "id": "ochre-read-letter-2",
+      "drawn": true
+    },
+    {
+      "id": "ochre-read-letter-3",
+      "drawn": true
+    },
+    {
+      "id": "ochre-read-letter-4",
+      "drawn": true
+    },
+    {
+      "id": "blue-read-letter-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-read-letter-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-read-letter-3",
+      "drawn": true
+    },
+    {
+      "id": "blue-read-letter-4",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "elder-read-letter",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "ochre-read-letter",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-read-letter",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

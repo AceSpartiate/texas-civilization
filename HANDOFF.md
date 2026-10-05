@@ -1,3 +1,7 @@
+## Art delivery 2026-10-05: visible letter reading
+
+Twelve frames and three authored reading cycles for elder, ochre and blue. The existing Gonzales regidor now holds a visible letter during the crossing-reading beat; dialogue, historical claims and timing are preserved. Other two identities are ready for future letter scenes. See `docs/ART_DELIVERY_2026-10-05-GONZALES-LETTER-READING.md`.
+
 ## Art delivery 2026-10-05: seated flag painters
 
 Twelve new frames and three four-frame seated brushwork clips for teal, indigo and blue-girl. Tables/stools are baked into these composites; keep the standing sewing clips for hemming. New painting art is registered and browser-tested, ready for an explicit seated painting beat. See `docs/ART_DELIVERY_2026-10-05-GONZALES-SEATED-PAINT.md` (relative to repository root).

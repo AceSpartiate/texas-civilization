@@ -74,6 +74,8 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   if (moving) return dir === 'n' || dir === 's' ? { id: `${figure}-walk-${dir}`, flip: false } : { id: `${figure}-walk`, flip: dir === 'w' };
   const face = person.face || 's', pose = person.pose || 'idle';
   const child = !GROWN.has(figure);
+  if (pose === 'read-letter' && ['elder','ochre','blue'].includes(figure)) return { id: `${figure}-read-letter`, flip: face === 'w' };
+  if (pose === 'read-letter') return { id: child ? `${figure}-idle-${face}` : `${figure}-speak`, flip: !child && face === 'w' };
   if (pose === 'dig' && ['elder','ochre','blue'].includes(figure)) return { id: `${figure}-dig`, flip: face === 'w' };
   if (pose === 'dig') return { id: child ? `${figure}-idle-${face}` : `${figure}-work`, flip: !child && face === 'w' };
   if (pose === 'forge' && ['elder','ochre'].includes(figure)) return { id: `${figure}-smith-${person.id === 'gz-smith-2' ? 'chain' : 'hammer'}`, flip: face === 'w' };

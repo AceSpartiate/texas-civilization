@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2712 usable sprites, 290 PNG atlases, 938 clips** (630 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2724 usable sprites, 291 PNG atlases, 941 clips** (633 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -195,6 +195,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
+| people-gonzales-letter-reading | 12 | 1254 × 1254 | 984871 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
 | people-river-gestures | 8 | 1774 × 887 | 1213332 |
 | people-gonzales-seated-paint | 12 | 1254 × 1254 | 1247274 |
@@ -1896,6 +1897,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-ploughed-earth | gonzales-ploughed-earth | State artwork; no motion required |
 | gonzales-flag-work-cloth | gonzales-flag-work-cloth | State artwork; no motion required |
 | gonzales-flag-work-painted | gonzales-flag-work-painted | State artwork; no motion required |
+| elder-read-letter-1 | people-gonzales-letter-reading | elder-read-letter |
+| elder-read-letter-2 | people-gonzales-letter-reading | elder-read-letter |
+| elder-read-letter-3 | people-gonzales-letter-reading | elder-read-letter |
+| elder-read-letter-4 | people-gonzales-letter-reading | elder-read-letter |
+| ochre-read-letter-1 | people-gonzales-letter-reading | ochre-read-letter |
+| ochre-read-letter-2 | people-gonzales-letter-reading | ochre-read-letter |
+| ochre-read-letter-3 | people-gonzales-letter-reading | ochre-read-letter |
+| ochre-read-letter-4 | people-gonzales-letter-reading | ochre-read-letter |
+| blue-read-letter-1 | people-gonzales-letter-reading | blue-read-letter |
+| blue-read-letter-2 | people-gonzales-letter-reading | blue-read-letter |
+| blue-read-letter-3 | people-gonzales-letter-reading | blue-read-letter |
+| blue-read-letter-4 | people-gonzales-letter-reading | blue-read-letter |
 | teal-paint-1 | people-gonzales-paint | teal-paint |
 | teal-paint-2 | people-gonzales-paint | teal-paint |
 | indigo-paint-1 | people-gonzales-paint | indigo-paint |
@@ -3582,6 +3595,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elder-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | ochre-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | blue-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
+| elder-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
+| ochre-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
+| blue-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |

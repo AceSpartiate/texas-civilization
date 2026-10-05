@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 290,
-    "sprites": 2712,
-    "clips": 938,
-    "poseCycles": 630,
+    "sheets": 291,
+    "sprites": 2724,
+    "clips": 941,
+    "poseCycles": 633,
     "rigs": 4
   },
   "entrypoints": {
@@ -15358,6 +15358,105 @@
               [
                 20,
                 1755
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-gonzales-letter-reading": {
+      "image": "atlases/people-gonzales-letter-reading.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 984871,
+      "sha256": "62900e3681a4c1d23d434f7db1ad5e2cf2e204eb02a9f8a774b705f6c6bf18eb",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.708109,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              87,
+              407
+            ],
+            "columns": [
+              [
+                93,
+                259
+              ],
+              [
+                384,
+                563
+              ],
+              [
+                694,
+                899
+              ],
+              [
+                1002,
+                1167
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              474,
+              826
+            ],
+            "columns": [
+              [
+                91,
+                264
+              ],
+              [
+                394,
+                572
+              ],
+              [
+                691,
+                905
+              ],
+              [
+                1008,
+                1176
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              873,
+              1200
+            ],
+            "columns": [
+              [
+                94,
+                263
+              ],
+              [
+                398,
+                564
+              ],
+              [
+                694,
+                906
+              ],
+              [
+                1007,
+                1174
               ]
             ]
           }
@@ -79745,6 +79844,426 @@
       "locationKits": [],
       "promptId": "frontier-v1/gonzales-flag-work-painted"
     },
+    "elder-read-letter-1": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 93,
+      "y": 89,
+      "w": 166,
+      "h": 318,
+      "anchorX": 0.3916,
+      "anchorY": 0.9371,
+      "logicalHeight": 320,
+      "label": "elder read letter 1",
+      "kind": "people-gonzales-letter-reading",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          91,
+          162,
+          314
+        ],
+        "visiblePixels": 30064,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "elder-read-letter-2": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 384,
+      "y": 87,
+      "w": 179,
+      "h": 320,
+      "anchorX": 0.3939,
+      "anchorY": 0.9344,
+      "logicalHeight": 320,
+      "label": "elder read letter 2",
+      "kind": "people-gonzales-letter-reading",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          386,
+          89,
+          175,
+          316
+        ],
+        "visiblePixels": 30897,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "elder-read-letter-3": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 694,
+      "y": 87,
+      "w": 205,
+      "h": 320,
+      "anchorX": 0.3439,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "label": "elder read letter 3",
+      "kind": "people-gonzales-letter-reading",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          696,
+          89,
+          201,
+          316
+        ],
+        "visiblePixels": 31790,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "elder-read-letter-4": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 1002,
+      "y": 89,
+      "w": 165,
+      "h": 318,
+      "anchorX": 0.4242,
+      "anchorY": 0.9403,
+      "logicalHeight": 320,
+      "label": "elder read letter 4",
+      "kind": "people-gonzales-letter-reading",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1004,
+          91,
+          161,
+          314
+        ],
+        "visiblePixels": 29960,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "ochre-read-letter-1": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 91,
+      "y": 474,
+      "w": 173,
+      "h": 351,
+      "anchorX": 0.4249,
+      "anchorY": 0.9516,
+      "logicalHeight": 351,
+      "label": "ochre read letter 1",
+      "kind": "people-gonzales-letter-reading",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          93,
+          476,
+          169,
+          347
+        ],
+        "visiblePixels": 34432,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "ochre-read-letter-2": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 394,
+      "y": 476,
+      "w": 178,
+      "h": 350,
+      "anchorX": 0.4213,
+      "anchorY": 0.94,
+      "logicalHeight": 351,
+      "label": "ochre read letter 2",
+      "kind": "people-gonzales-letter-reading",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          396,
+          478,
+          174,
+          346
+        ],
+        "visiblePixels": 35015,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "ochre-read-letter-3": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 691,
+      "y": 474,
+      "w": 214,
+      "h": 351,
+      "anchorX": 0.3575,
+      "anchorY": 0.9459,
+      "logicalHeight": 351,
+      "label": "ochre read letter 3",
+      "kind": "people-gonzales-letter-reading",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          693,
+          476,
+          210,
+          347
+        ],
+        "visiblePixels": 36446,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "ochre-read-letter-4": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 1008,
+      "y": 477,
+      "w": 168,
+      "h": 348,
+      "anchorX": 0.4435,
+      "anchorY": 0.9483,
+      "logicalHeight": 351,
+      "label": "ochre read letter 4",
+      "kind": "people-gonzales-letter-reading",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1010,
+          479,
+          164,
+          344
+        ],
+        "visiblePixels": 34247,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "blue-read-letter-1": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 94,
+      "y": 873,
+      "w": 169,
+      "h": 325,
+      "anchorX": 0.4172,
+      "anchorY": 0.9508,
+      "logicalHeight": 326,
+      "label": "blue read letter 1",
+      "kind": "people-gonzales-letter-reading",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          875,
+          165,
+          321
+        ],
+        "visiblePixels": 31087,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "blue-read-letter-2": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 398,
+      "y": 874,
+      "w": 166,
+      "h": 325,
+      "anchorX": 0.4428,
+      "anchorY": 0.9323,
+      "logicalHeight": 326,
+      "label": "blue read letter 2",
+      "kind": "people-gonzales-letter-reading",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          876,
+          162,
+          321
+        ],
+        "visiblePixels": 30817,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "blue-read-letter-3": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 694,
+      "y": 874,
+      "w": 212,
+      "h": 326,
+      "anchorX": 0.3491,
+      "anchorY": 0.9356,
+      "logicalHeight": 326,
+      "label": "blue read letter 3",
+      "kind": "people-gonzales-letter-reading",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          696,
+          876,
+          208,
+          322
+        ],
+        "visiblePixels": 33284,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
+    "blue-read-letter-4": {
+      "sheet": "people-gonzales-letter-reading",
+      "x": 1007,
+      "y": 874,
+      "w": 167,
+      "h": 326,
+      "anchorX": 0.4461,
+      "anchorY": 0.9325,
+      "logicalHeight": 326,
+      "label": "blue read letter 4",
+      "kind": "people-gonzales-letter-reading",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1009,
+          876,
+          163,
+          322
+        ],
+        "visiblePixels": 31629,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-letter-reading.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-read-letter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-letter-reading"
+    },
     "teal-paint-1": {
       "sheet": "people-gonzales-paint",
       "x": 139,
@@ -127215,6 +127734,78 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "elder-read-letter": {
+      "frames": [
+        {
+          "sprite": "elder-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "elder-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-read-letter": {
+      "frames": [
+        {
+          "sprite": "ochre-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "ochre-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-read-letter": {
+      "frames": [
+        {
+          "sprite": "blue-read-letter-1",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-2",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-3",
+          "duration": 550
+        },
+        {
+          "sprite": "blue-read-letter-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "teal-paint": {
       "frames": [
         {
@@ -139392,7 +139983,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 290,
+    "sourceCount": 291,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -4266,6 +4266,27 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-seated-paint.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Seated painting composites include furniture; registered for explicit scene integration, existing sewing remains unchanged."
+    },
+    {
+      "sheet": "people-gonzales-letter-reading",
+      "promptId": "frontier-v1/people-gonzales-letter-reading",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-6ec510f9-e3f8-424c-9bd7-e3ea8de1c1a9.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bda02d23-e19d-4025-9faf-06154fdfb3ad.png",
+      "refinements": [
+        {
+          "prompt": "Refine this exact 4-column 3-row twelve-pose letter-reading atlas. SHRINK each entire figure+paper composite by25percent centered within its own cell, min35px entirely empty zeroalpha gutter every side EACHcell. Stablefootbaseline eachrow and constantbodysize. Preserve eldertoprow beardhatclothes, bluebottomrow cleanfaceclothes, allpapershandposes and readinggestures. ONLY identity correction: OCHRE middle row must be CLEAN-SHAVEN, remove beard/stubble/moustache allfourfaces, match original youthful cleanface with expressiveeyes tousledbrownhair. Do not change garments or pose. No neighbor fragments, boots hats handspaper whollycontained. Truezeroalpha background samecanvaslayout nofloor/shadow/grid/text.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bda02d23-e19d-4025-9faf-06154fdfb3ad.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-letter-reading.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Interpretive existing cast identities; regidor retains existing elder appearance, blank paper leaves exact words in historical dialogue."
     }
   ],
   "rejectedAttempts": [
