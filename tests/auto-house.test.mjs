@@ -37,6 +37,22 @@ function onTheLand(seed, id = 'hh-1', count = 5) {
   for (let tick = 0; tick < 60 && household.members.some(member => world.entities[member].travel); tick++) stepWorld(world);
   return { world, household };
 }
+/**
+ * Two little ones, two and four, added to a family so that it is six people and keeps the custom: a family of fewer than six keeps
+ * no custom (sim/custom.mjs `smallFamily`, owner 2026-10-04), and hh-1 is the founding four. Kept, a man on auto whose task waits
+ * works about the place rather than keeping house meanwhile (sim/auto.mjs `houseworkMeanwhile`), which is what these tests read.
+ * Under seven, neither keeps house, helps or keeps the custom for anybody, so nothing else here moves.
+ */
+function littleOnes(world, household) {
+  const site = world.map.sites[household.homeSiteId];
+  for (const [n, age, sex] of [[1, 2, 'female'], [2, 4, 'male']]) {
+    const id = `${household.id}-little-${n}`;
+    world.entities[id] = { id, name: `Little ${n}`, kind: 'person', householdId: household.id, depth: 'moderate', principal: false, location: { x: site.x, y: site.y, siteId: site.id },
+      travel: null, health: { condition: 'well' }, task: 'rest', skills: {}, chore: null, kin: { role: sex === 'male' ? 'son' : 'daughter', spouse: null, parents: [], children: [] },
+      relationships: {}, propertyRefs: [], commitments: [], sex, age };
+    household.members.push(id);
+  }
+}
 // The family's men and boys: felling, building, clearing and surveying are the men's work while a man is at home (owner, 2026-10-03,
 // "Custom, necessity opens"; sim/custom.mjs).
 const grown = (world, household) => household.members.map(id => world.entities[id]).filter(person => person.kind === 'person' && !tooYoung(person) && sexOf(person) !== 'female');
@@ -44,6 +60,7 @@ const said = (world, id) => projectWorld(world, world.entities[id].householdId, 
 
 test('one person felling on auto and one building on auto, left alone, raise the house with no further clicks', () => {
   const { world, household } = onTheLand('auto-house');
+  littleOnes(world, household);
   applyAction(world, 'hh-1', { action: 'plan-house', layout: 'round-log' });
   const [feller, builder] = grown(world, household);
   applyAction(world, 'hh-1', { action: 'set-auto', entityId: feller.id, auto: true });
@@ -140,6 +157,7 @@ test('everything that uses wood takes it from the one pile: furniture made from 
 
 test('a feller on auto calls it enough when the house has its logs and a margin, and takes the axe up again when the pile falls', () => {
   const { world, household } = onTheLand('auto-enough');
+  littleOnes(world, household);
   applyAction(world, 'hh-1', { action: 'plan-house', layout: 'round-log' });
   const [feller] = grown(world, household);
   const wants = houseStillWants(world, household);
@@ -162,6 +180,7 @@ test('a feller on auto calls it enough when the house has its logs and a margin,
 
 test('clearing on auto: the plot given, then the next staked plot nearest the house, until none is left', () => {
   const { world, household } = onTheLand('auto-clear');
+  littleOnes(world, household);
   const [clearer, surveyor] = grown(world, household);
   const home = world.map.sites[household.homeSiteId];
   // Two plots staked, as a student stakes them.

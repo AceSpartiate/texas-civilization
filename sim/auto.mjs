@@ -45,7 +45,9 @@
 // (the plot chosen, then the next nearest the house: `plotFor`), the carreta while the family has nothing to draw, furniture while
 // a piece is wanted, and mending the hoe. A builder whose house wants logs the pile has not got says so - *"Waiting for logs."* -
 // and works about the place until the feller brings them.
-import { CHORES, beginChore, choreAvailability, choresFor, quickestForChore, workOf } from './chores.mjs';
+import { CHORES, beginChore, choreAvailability, choresFor, homeWork, quickestForChore, workOf } from './chores.mjs';
+import { customOf, keepers } from './custom.mjs';
+import { sexOf } from './family.mjs';
 import { barePlots, plotsOf, ripePlots } from './fields.mjs';
 import { houseWaitsForLogs } from './houses.mjs';
 import { plotWorkRefusal } from './survey.mjs';
@@ -71,6 +73,11 @@ const MEANWHILE = Object.freeze(['keep-house', 'wash-clothes', 'work-garden']);
 function houseworkMeanwhile(world, household, person, deps) {
   for (const chore of MEANWHILE) {
     if (chore === person.order?.chore || household.members.some(id => world.entities[id]?.chore?.id === chore)) continue;
+    // The other custom's work, which a small family's people may do (sim/custom.mjs `smallFamily`), is not taken up meanwhile while
+    // somebody grown of its own custom is at home: the man on auto in a family of four waits about the place, as before 2026-10-04,
+    // and the mother keeps the house. A student may still send him to it.
+    const own = { women: 'female', men: 'male' }[customOf(chore)];
+    if (own && sexOf(person) !== own && keepers(world, household, own, homeWork).some(other => other.id !== person.id)) continue;
     if (!CHORES[chore] || !choreAvailability(world, household, person, chore).can || lessonRefusal(world, household, { action: 'chore', chore, entityId: person.id })) continue;
     try { beginChore(world, household, person, chore, deps); return true; } catch { /* refused: the next */ }
   }

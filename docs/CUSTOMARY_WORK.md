@@ -104,10 +104,16 @@ out of necessity"*, chose by multiple choice **"Fewer than 6"** (`sim/custom.mjs
   wife with two children (FAMILY_CREATION.md, the amendment of 2026-10-04) is a family of six or more and keeps it. The same message
   capped the young in small families (one under ten below six people, two below ten), so a family of four or five has at least two
   or three of ten or more.
+- **What still leans to the custom, where nothing is refused.** The house's cue (§1c) points at somebody of the work's own custom
+  first - the mother, while she is idle - and at the father only when she is not (sim/housework.mjs `houseCue`, `ownCustom`). And
+  somebody on auto whose own task waits takes up the other custom's work meanwhile only when nobody grown of its custom is at home
+  (sim/auto.mjs `houseworkMeanwhile`): a father on auto waiting for powder works about the place while the mother is home, as
+  before, and keeps the house when she is away. A student may send either of them to anything.
 - BALANCE.md §23's numbers were measured before this, on families of every size; they are not re-run here.
 
 Evidence: `tests/custom-work.test.mjs` *a small family keeps no custom* (five injections caught: the rule gone, a threshold of five,
-the dead counted, the words, the away not counted). The file's other tests now give the founding four two little ones, two and four,
+the dead counted, the words, the away not counted); `tests/housework.test.mjs` *a small family's house cue* (the preference
+removed, caught); `tests/auto.test.mjs` *a small family on auto* (the meanwhile guard removed, caught). The file's other tests now give the founding four two little ones, two and four,
 so that it is six and keeps the custom (`littleOnes`), and its rolled families of both parents are six or more.
 
 ## 2. The rule (`sim/custom.mjs`, `FIC-GONZ-1150`)

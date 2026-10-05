@@ -1,6 +1,6 @@
 {
   "record": "family-twenty-browser",
-  "date": "2026-10-01",
+  "date": "2026-10-05",
   "seed": "twenty-4",
   "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom, a Chromebook or a real phone.",
   "pass": [
@@ -17,8 +17,8 @@
     "with the class running at 1024 by 768, every one of the twenty rows stands on one line in the column with its name whole",
     "with the class running at 1024 by 768, the panel ends at 522 px above the ability bar at 530 px, and the youngest child's portrait can be pressed",
     "at 1024 by 768, the column tight, 1 baby’s row shows one short word beside the name (\"crawling\") and the sentence as its title",
-    "on a 400 by 800 phone all six hold: 20 rows; the panel ends at 539 of 800 px; the page itself does not scroll; the panel is on top at 23% of the screen (asked: under 30%); the map is on top at 56% below the guided start (asked: over 40%); the last child can be brought into view ({\"inside\":true,\"onTop\":true,\"scrollTop\":664,\"id\":\"hh-1-child-18\",\"tip\":{\"id\":\"child\",\"top\":548}})",
-    "on a 400 by 800 phone the open row (Elias) stands on one line inside the column with the name whole",
+    "on a 400 by 800 phone all six hold: 20 rows; the panel ends at 558 of 800 px; the page itself does not scroll; the panel is on top at 23% of the screen (asked: under 30%); the map is on top at 56% below the guided start (asked: over 40%); the last child can be brought into view ({\"inside\":true,\"onTop\":true,\"scrollTop\":645,\"id\":\"hh-1-child-18\",\"tip\":{\"id\":\"order\",\"top\":567}})",
+    "on a 400 by 800 phone the open row (Alvin) stands on one line inside the column with the name whole",
     "no page error in either"
   ],
   "measured": {
@@ -133,11 +133,11 @@
         "left": 12,
         "top": 131,
         "width": 376,
-        "bottom": 539
+        "bottom": 558
       },
       "scrolls": true,
       "scrollHeight": 1076,
-      "clientHeight": 408,
+      "clientHeight": 427,
       "mapShare": 0.5572916666666666,
       "stripBottom": 0,
       "panelShare": 0.234375,
@@ -150,11 +150,11 @@
     "phoneLast": {
       "inside": true,
       "onTop": true,
-      "scrollTop": 664,
+      "scrollTop": 645,
       "id": "hh-1-child-18",
       "tip": {
-        "id": "child",
-        "top": 548
+        "id": "order",
+        "top": 567
       }
     },
     "phoneGate": {
@@ -167,7 +167,7 @@
         },
         {
           "held": true,
-          "what": "the panel ends at 539 of 800 px"
+          "what": "the panel ends at 558 of 800 px"
         },
         {
           "held": true,
@@ -183,14 +183,14 @@
         },
         {
           "held": true,
-          "what": "the last child can be brought into view ({\"inside\":true,\"onTop\":true,\"scrollTop\":664,\"id\":\"hh-1-child-18\",\"tip\":{\"id\":\"child\",\"top\":548}})"
+          "what": "the last child can be brought into view ({\"inside\":true,\"onTop\":true,\"scrollTop\":645,\"id\":\"hh-1-child-18\",\"tip\":{\"id\":\"order\",\"top\":567}})"
         }
       ]
     },
     "phoneOpenRow": [
       {
         "id": "hh-1-parent-1",
-        "name": "Elias",
+        "name": "Alvin",
         "inside": true,
         "oneLine": true,
         "whole": true

@@ -28,6 +28,22 @@ const autoOn = (world, id, on = true) => applyAction(world, world.entities[id].h
 const deps = { beginTravel, modeAvailability };
 // The crop taken off every plot at once (each plot its own crop since 2026-09-30, sim/crops.mjs): what a harvest leaves.
 const bare = household => { for (const plot of household.plots || []) { delete plot.sown; delete plot.grownMs; delete plot.ripe; } household.field = { ...household.field, state: 'bare' }; };
+/**
+ * Two little ones, two and four, added to a family so that it is six people and keeps the custom: a family of fewer than six keeps
+ * no custom (sim/custom.mjs `smallFamily`, owner 2026-10-04), and hh-1 is the founding four. Kept, a boy on auto whose hunt waits
+ * works about the place rather than keeping house meanwhile (sim/auto.mjs `houseworkMeanwhile`), and is free to go the tick it can.
+ * Under seven, neither keeps house, helps or keeps the custom for anybody, so nothing else here moves.
+ */
+function littleOnes(world, household) {
+  const site = world.map.sites[household.homeSiteId];
+  for (const [n, age, sex] of [[1, 2, 'female'], [2, 4, 'male']]) {
+    const id = `${household.id}-little-${n}`;
+    world.entities[id] = { id, name: `Little ${n}`, kind: 'person', householdId: household.id, depth: 'moderate', principal: false, location: { x: site.x, y: site.y, siteId: site.id },
+      travel: null, health: { condition: 'well' }, task: 'rest', skills: {}, chore: null, kin: { role: sex === 'male' ? 'son' : 'daughter', spouse: null, parents: [], children: [] },
+      relationships: {}, propertyRefs: [], commitments: [], sex, age };
+    household.members.push(id);
+  }
+}
 
 test('planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck', () => {
   const world = running('auto-season');
@@ -232,6 +248,7 @@ test('the page says what the server says: the switch\'s words, the row\'s line, 
 
 test('a class saved before opens as it was: a person on auto with a remembered hunt keeps it as their one task', () => {
   const world = running('auto-old');
+  littleOnes(world, world.households['hh-1']);
   const mateo = world.entities['hh-1-mateo'];
   world.households['hh-1'].resources.powder = 0;
   mateo.auto = true;

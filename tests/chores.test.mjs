@@ -10,6 +10,21 @@ import { customOf } from '../sim/custom.mjs';
 
 const running = (seed = 'chores', count = 5) => { const world = createWorld(seed, count); world.status = 'running'; return world; };
 const send = (world, householdId, who, chore) => applyAction(world, householdId, { action: 'chore', entityId: `${householdId}-${who}`, chore });
+/**
+ * Two little ones, two and four, added to a family so that it is six people and keeps the custom: a family of fewer than six keeps
+ * no custom (sim/custom.mjs `smallFamily`, owner 2026-10-04), and hh-1 is the founding four. Kept, the women's work is not on a
+ * man's list while a woman of the family is at home. Under seven, neither keeps house, helps or keeps the custom for anybody.
+ */
+function littleOnes(world, household) {
+  const site = world.map.sites[household.homeSiteId];
+  for (const [n, age, sex] of [[1, 2, 'female'], [2, 4, 'male']]) {
+    const id = `${household.id}-little-${n}`;
+    world.entities[id] = { id, name: `Little ${n}`, kind: 'person', householdId: household.id, depth: 'moderate', principal: false, location: { x: site.x, y: site.y, siteId: site.id },
+      travel: null, health: { condition: 'well' }, task: 'rest', skills: {}, chore: null, kin: { role: sex === 'male' ? 'son' : 'daughter', spouse: null, parents: [], children: [] },
+      relationships: {}, propertyRefs: [], commitments: [], sex, age };
+    household.members.push(id);
+  }
+}
 function runUntil(world, done, limit = 400) {
   for (let tick = 0; tick < limit; tick++) { stepWorld(world); if (done()) return tick + 1; }
   throw new Error('chore never finished');
@@ -143,6 +158,7 @@ test('chores survive save and reload, and a person who cannot work stops working
 
 test('what a person may be asked to do is decided on the server, with a reason', () => {
   const world = running();
+  littleOnes(world, world.households['hh-1']);
   const projected = projectWorld(world, 'hh-1', 'student', { includeMap: false });
   const offered = projected.work['hh-1-thomas'];
   // Every chore is on the list, refused or not - except house work for a family that already has a
@@ -165,7 +181,8 @@ test('what a person may be asked to do is decided on the server, with a reason',
   // And milking the cow (sim/milking.mjs, 2026-10-02), a child's work too, offered at home where there is a cow or - to a grown
   // person - a cow to buy at the stock pens, as there is in Gonzales: counted below with the gathering and the stock.
   // And the tent (sim/shelter.mjs, 2026-10-02), offered only while the family has no roof: this family has its cabin.
-  // And the women's work (sim/custom.mjs, owner 2026-10-04), not on a man's list while a woman of the family is at home: Elena is.
+  // And the women's work (sim/custom.mjs, owner 2026-10-04), not on a man's list while a woman of the family is at home: Elena is,
+  // and the two little ones above make the family six, so it keeps the custom.
   assert.equal(offered.length, Object.keys(CHORES).filter(id => !CHORES[id].retired && !CHORES[id].tent && !CHORES[id].carreta && !CHORES[id].house && !CHORES[id].helps && !CHORES[id].well && !CHORES[id].lane && !CHORES[id].fells && !CHORES[id].fetchesLogs && !CHORES[id].hauling && !CHORES[id].winter && !CHORES[id].road && !CHORES[id].camp && !CHORES[id].directorOnly && !CHORES[id].forage && !CHORES[id].stock && !CHORES[id].child && !CHORES[id].flight && !CHORES[id].nurses && customOf(id) !== 'women' && id !== 'clear-plot').length + offered.filter(entry => CHORES[entry.id].forage || CHORES[entry.id].stock || CHORES[entry.id].milk).length, 'every chore is accounted for, refused or not');
   // What a family ate between deer: the country decides which of the four a family is even shown. This one is inland with
   // timber about it, so the small game and the bee tree are there and **the oyster bed is not** - a family shown a bed

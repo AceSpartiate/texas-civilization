@@ -70,6 +70,20 @@ test('the rule: a small child on foot is carried, one to a carrier, the carrier 
   assert.equal(companyPace(people, plan, wagon), WAGON_SPEED);
 });
 
+/**
+ * The spring's hh-4 as these tests were written for it: a mother of thirty-eight, a father of thirty-two, a baby, and daughters of five
+ * and three. Since 2026-10-04 a rolled family of fewer than six has one child under ten (sim/family.mjs `youngAllowed`), so
+ * `road-1638` rolls it a baby and daughters of thirteen and twelve; the two elder are made the little ones here, as carrying is
+ * the road's rule and not the roll's.
+ */
+function littleOnes(world) {
+  const household = world.households['hh-4'];
+  const elder = household.members.map(id => world.entities[id]).filter(one => one.kin?.role === 'daughter' && one.age >= 10).sort((a, b) => b.age - a.age);
+  assert.deepEqual(elder.map(one => one.sex), ['female', 'female'], 'hh-4 no longer has two daughters of ten or more to make its little ones');
+  [elder[0].age, elder[1].age] = [5, 3];
+  return world;
+}
+
 /** What leaving the wagon was priced at in the chase below, for its own check. */
 let chasePrice = null;
 /** Only this family's mother and its child of three on the road: the rest stayed at home. */
@@ -84,7 +98,7 @@ const motherAndChild = h => (world => {
 test('the chase: a mother who leaves the wagon and runs from infantry carrying her child of three gets away', () => {
   // The owner's case. Walking, the child of three held them to a mile and a half an hour and the column took them; carried, the
   // mother goes at two and a quarter, the soldiers at two and a half close on her by yards a minute, and they give it up first.
-  const world = spring();
+  const world = littleOnes(spring());
   const { household } = sceneFor(world, { kind: 'infantry', how: 'wagon', householdId: 'hh-4', prepare: h => motherAndChild(h)(world) });
   const going = withFamily(world, household).people;
   const mum = going.find(one => one.kin?.role === 'mother'), small = going.find(one => one.age === 3);
@@ -114,7 +128,7 @@ test('the chase: leaving the wagon was priced at the carrier\'s pace, two and a 
 test('on the road east and home, on foot, the small children are carried and the pace is the slowest walker who is not', () => {
   // East: the whole family on foot from the start (sim/flight-route.mjs `setOutOnLeg`). Its baby in the mother's arms, the father
   // takes the child of three; the child of five has nobody free and walks, so the family goes at her pace.
-  let world = spring();
+  let world = littleOnes(spring());
   let household = world.households['hh-4'];
   stowAway(world, household, 'harrisburg');
   placeFamily(world, household, { from: 'harrisburg', to: 'lynchburg', atMiles: 1, how: 'foot' });
@@ -131,7 +145,7 @@ test('on the road east and home, on foot, the small children are carried and the
   assert.equal(household.flight.hurried, true, 'the little ones are not being kept walking');
   for (const one of withFamily(world, household).people) assert.equal(one.travel.speed, CARRYING_SPEED, `${one.name} does not go at the carrier's pace with the little ones kept walking`);
   // Seated again for the same two going on alone (sim/road.mjs `reseat`): she carries her child, at her pace.
-  world = spring(); household = world.households['hh-4'];
+  world = littleOnes(spring()); household = world.households['hh-4'];
   stowAway(world, household, 'harrisburg');
   placeFamily(world, household, { from: 'harrisburg', to: 'lynchburg', atMiles: 1, how: 'foot' });
   motherAndChild(household)(world);
@@ -141,7 +155,7 @@ test('on the road east and home, on foot, the small children are carried and the
   assert.ok(people.every(one => one.travel.speed === CARRYING_SPEED), 'a mother carrying her child does not go at the carrier\'s pace');
   // Home: turned for home from its refuge without its wagon (sim/scrape.mjs `turnHome`). The horse carries the youngest who is not
   // in arms; the child left on foot is carried; the family goes at the carrier's pace.
-  world = spring(); household = world.households['hh-4'];
+  world = littleOnes(spring()); household = world.households['hh-4'];
   stowAway(world, household, 'harrisburg');
   household.flight.mode = 'foot';
   turnHome(world, null, new Set([household.id]));

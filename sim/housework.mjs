@@ -18,8 +18,8 @@
 // smell and the prices are an invention for play** (`FIC-GONZ-1155`, `-1156`), the owner's, and the game says so in its docs.
 import { choreAvailability, homeWork, registerChores } from './chores.mjs';
 import { record } from './events.mjs';
-import { housekeepingSaving, tooYoung } from './family.mjs';
-import { childKeeps, grownForCustom, keepers, withTheArmy } from './custom.mjs';
+import { housekeepingSaving, sexOf, tooYoung } from './family.mjs';
+import { childKeeps, customOf, grownForCustom, keepers, withTheArmy } from './custom.mjs';
 import { calledAside } from './aside.mjs';
 import { larderShown } from './hunger.mjs';
 import { dateOf } from './clock.mjs';
@@ -385,6 +385,8 @@ function loneHand(world, household) {
   const grown = [...keepers(world, household, 'male', homeWork), ...keepers(world, household, 'female', homeWork)];
   return grown.length === 1 ? grown[0] : null;
 }
+/** 1 for somebody of the work's own custom (a woman or girl for the house's), 0 otherwise. */
+const ownCustom = (person, work) => (sexOf(person) === { women: 'female', men: 'male' }[customOf(work)] ? 1 : 0);
 function lonePair(world, household, person) {
   return grownForCustom(person) && loneHand(world, household)?.id === person.id;
 }
@@ -402,7 +404,9 @@ export function houseCue(world, household) {
     if (work === 'wash-clothes' && !washWanted(world, household).length) continue;
     const idle = people.filter(person => !person.chore && !person.travel && !person.auto && !calledAside(person) && !person.visiting && person.task !== 'help'
       && atTheHouse(world, household, person) && !withTheArmy(person) && person.health?.condition !== 'sick')
-      .sort((a, b) => (PANEL_RANK[a.kin?.role] ?? 2) - (PANEL_RANK[b.kin?.role] ?? 2) || (b.age ?? 0) - (a.age ?? 0));
+      // Somebody of the work's own custom first: in a small family, which keeps none (sim/custom.mjs `smallFamily`), the father may
+      // keep house too, and the cue still points at the mother while she is idle. Anywhere else the other custom is refused anyway.
+      .sort((a, b) => ownCustom(b, work) - ownCustom(a, work) || (PANEL_RANK[a.kin?.role] ?? 2) - (PANEL_RANK[b.kin?.role] ?? 2) || (b.age ?? 0) - (a.age ?? 0));
     for (const person of idle) {
       // Never the only grown hand at home (a lone parent, or a mother whose husband is away): theirs is all the family's work, and the
       // cue goes to a child of seven who may keep house for them instead (`childKeeps`), or to nobody. Measured (BALANCE.md §24): a

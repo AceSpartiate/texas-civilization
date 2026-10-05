@@ -1,16 +1,16 @@
 {
   "proof": "npm run test:lone-parent",
-  "when": "2026-10-03T05:10:06.003Z",
+  "when": "2026-10-05T16:09:19.758Z",
   "pass": [
     "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
     "on the land the ability waits, glowing (card-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Lucinda raise a house.\"",
     "Not now folds it to its glowing icon, which waits and opens it again: offered, never pressed on the student",
     "the scenes open on black with the travel said on it: \"Lucinda and the children walk to the nearest farm.\"",
     "a reload in the middle of the second farm takes the scenes up at the same line",
-    "the four scenes in order, 26 presses of Continue, 6 fades to and from black, every figure and building drawn",
-    "home: 4 people, two parents on the panel, a round-log house standing, and the ability gone",
+    "the four scenes in order, 38 presses of Continue, 6 fades to and from black, every figure and building drawn",
+    "home: 6 people, two parents on the panel, a round-log house standing, and the ability gone",
     "the family took his name - the page reads \"The Whitlow family\" - and Elias, the new husband, is its main person and principal",
-    "fades to black take 1107, 1116 ms; with less motion asked for, 281 ms - shorter, never a cut",
+    "fades to black take 1114, 1111 ms; with less motion asked for, 297 ms - shorter, never a cut",
     "no page errors on the student's, the other student's or the Host's page"
   ],
   "observed": {
@@ -18,17 +18,17 @@
       {
         "id": "hh-1-parent-1",
         "role": "mother",
-        "age": 25
+        "age": 27
       },
       {
         "id": "hh-1-child-1",
         "role": "daughter",
-        "age": 0
+        "age": 10
       },
       {
         "id": "hh-1-child-2",
         "role": "son",
-        "age": 0
+        "age": 10
       }
     ],
     "card": {
@@ -38,8 +38,8 @@
       "glow": "card-glow",
       "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
       "marker": {
-        "x": 693,
-        "y": 335,
+        "x": 691,
+        "y": 334,
         "r": 12
       },
       "icon": "drawn"
@@ -56,7 +56,7 @@
       "between": "Lucinda and the children walk to the nearest farm."
     },
     "fades": [
-      0.46,
+      0.44,
       0.59
     ],
     "reload": {
@@ -66,12 +66,12 @@
     "scenes": [
       {
         "id": "first",
-        "where": "The Salcedo farm, past the ford · Night",
+        "where": "The Salcedo farm, past the ford · Morning",
         "lines": [
           {
             "step": 0,
             "who": "Cipriano Salcedo",
-            "said": "Good evening! You must be the new family on the creek. Come in, come in."
+            "said": "Good morning! You must be the new family on the creek. Come in, come in."
           },
           {
             "step": 1,
@@ -90,6 +90,16 @@
           },
           {
             "step": 4,
+            "who": "Teodoro Salcedo",
+            "said": "Will you come back and play, Orpha? We have a new calf."
+          },
+          {
+            "step": 5,
+            "who": "Orpha Hollister",
+            "said": "If Ma says so!"
+          },
+          {
+            "step": 6,
             "who": "Lucinda Hollister",
             "said": "We'll come back. Thank you, both of you."
           }
@@ -101,6 +111,22 @@
             "x": 570,
             "y": 561,
             "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-1",
+            "clip": "youth-girl-idle-e",
+            "x": 468,
+            "y": 561,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-2",
+            "clip": "youth-boy-idle-e",
+            "x": 365,
+            "y": 561,
+            "h": 184,
             "drawn": true
           },
           {
@@ -120,22 +146,6 @@
             "drawn": true
           },
           {
-            "id": "hh-1-child-1",
-            "clip": "infant-idle-e",
-            "x": 468,
-            "y": 585,
-            "h": 74,
-            "drawn": true
-          },
-          {
-            "id": "hh-1-child-2",
-            "clip": "infant-idle-e",
-            "x": 394,
-            "y": 585,
-            "h": 74,
-            "drawn": true
-          },
-          {
             "id": "hh-1-nb-1-p3",
             "clip": "boy-idle-w",
             "x": 1001,
@@ -144,7 +154,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-evening",
+        "backdrop": "courtship-yard-morning",
         "buildings": [
           "jacal-ramada"
         ],
@@ -152,7 +162,7 @@
       },
       {
         "id": "second",
-        "where": "The Whitlow place, by the big pecan · Night",
+        "where": "The Whitlow place, by the big pecan · Morning",
         "lines": [
           {
             "step": 0,
@@ -191,8 +201,23 @@
           },
           {
             "step": 7,
+            "who": "Isaac Whitlow",
+            "said": "Elias came home to us with Micajah and Winnie when his wife died, two winters ago."
+          },
+          {
+            "step": 8,
+            "who": "Micajah",
+            "said": "We'll come and help too. I can notch a log."
+          },
+          {
+            "step": 9,
+            "who": "Orpha Hollister",
+            "said": "I like him."
+          },
+          {
+            "step": 10,
             "who": "Elias",
-            "said": "I'll fetch my axe and come right behind you, Lucinda."
+            "said": "We'll fetch our axes and come right behind you, Lucinda."
           }
         ],
         "drawn": [
@@ -202,6 +227,22 @@
             "x": 570,
             "y": 561,
             "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-1",
+            "clip": "youth-girl-idle-e",
+            "x": 468,
+            "y": 561,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-2",
+            "clip": "youth-boy-idle-e",
+            "x": 365,
+            "y": 561,
+            "h": 184,
             "drawn": true
           },
           {
@@ -229,23 +270,23 @@
             "drawn": true
           },
           {
-            "id": "hh-1-child-1",
-            "clip": "infant-idle-e",
-            "x": 468,
-            "y": 585,
-            "h": 74,
+            "id": "hh-1-spouse-child-1",
+            "clip": "youth-boy-idle-e",
+            "x": 1103,
+            "y": 561,
+            "h": 184,
             "drawn": true
           },
           {
-            "id": "hh-1-child-2",
-            "clip": "infant-idle-e",
-            "x": 394,
-            "y": 585,
-            "h": 74,
+            "id": "hh-1-spouse-child-2",
+            "clip": "youth-girl-idle-e",
+            "x": 1205,
+            "y": 561,
+            "h": 184,
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-evening",
+        "backdrop": "courtship-yard-morning",
         "buildings": [
           "cabin-wide"
         ],
@@ -253,12 +294,12 @@
       },
       {
         "id": "wedding",
-        "where": "Your own land · Morning",
+        "where": "Your own land · Midday",
         "lines": [
           {
             "step": 0,
             "who": "",
-            "said": "By mid-morning a cabin stands where you camped."
+            "said": "By midday a cabin stands where you camped."
           },
           {
             "step": 1,
@@ -272,7 +313,7 @@
           },
           {
             "step": 3,
-            "who": "Lucinda Hollister",
+            "who": "Lucinda Whitlow",
             "said": "I will."
           },
           {
@@ -287,21 +328,41 @@
           },
           {
             "step": 6,
-            "who": "Lucinda Hollister",
+            "who": "Lucinda Whitlow",
             "said": "I take you, Elias, to be my husband, and I will keep faith with you alone."
           },
           {
             "step": 7,
+            "who": "Jasper Whitlow",
+            "said": "Can I sign too?"
+          },
+          {
+            "step": 8,
+            "who": "The commissioner",
+            "said": "You can watch, and remember it. That is what witnesses are for."
+          },
+          {
+            "step": 9,
             "who": "The commissioner",
             "said": "Then sign here, and your neighbours will sign as witnesses. You are married by bond."
           },
           {
-            "step": 8,
+            "step": 10,
+            "who": "Lucinda Whitlow",
+            "said": "Micajah and Winnie - this is your home now too."
+          },
+          {
+            "step": 11,
+            "who": "Winnie Whitlow",
+            "said": "Then we'll help keep it."
+          },
+          {
+            "step": 12,
             "who": "Isaac Whitlow",
             "said": "The Salcedos brought cornbread and a ham, and we brought tamales. Let's eat - and somebody find the fiddle!"
           },
           {
-            "step": 9,
+            "step": 13,
             "who": "From the record",
             "said": "In Mexican Texas only a Catholic priest could marry a couple, and priests were few. Couples in the colonies often signed a bond like this before a local officer and witnesses, promising to be married by a priest when one came."
           }
@@ -350,7 +411,7 @@
           {
             "id": "hh-1-nb-2-p1",
             "clip": "father-moustache-idle-e",
-            "x": 980,
+            "x": 1119,
             "y": 561,
             "h": 205,
             "drawn": true
@@ -358,25 +419,41 @@
           {
             "id": "hh-1-nb-2-p2",
             "clip": "mother-straw-idle-e",
-            "x": 1074,
+            "x": 1214,
             "y": 561,
             "h": 205,
             "drawn": true
           },
           {
             "id": "hh-1-child-1",
-            "clip": "infant-idle-e",
+            "clip": "youth-girl-idle-e",
             "x": 523,
             "y": 575,
-            "h": 74,
+            "h": 184,
             "drawn": true
           },
           {
             "id": "hh-1-child-2",
-            "clip": "infant-idle-e",
+            "clip": "youth-boy-idle-e",
             "x": 454,
             "y": 575,
-            "h": 74,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-spouse-child-1",
+            "clip": "youth-boy-idle-e",
+            "x": 843,
+            "y": 575,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-spouse-child-2",
+            "clip": "youth-girl-idle-e",
+            "x": 912,
+            "y": 575,
+            "h": 184,
             "drawn": true
           },
           {
@@ -388,7 +465,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-morning",
+        "backdrop": "courtship-yard-noon",
         "buildings": [
           "house-round-log",
           "home-table"
@@ -403,18 +480,33 @@
         "lines": [
           {
             "step": 0,
-            "who": "Lucinda Whitlow",
-            "said": "Our own roof. I can hardly believe it."
+            "who": "Jasper Whitlow",
+            "said": "Is this our house now?"
           },
           {
             "step": 1,
+            "who": "Lucinda Whitlow",
+            "said": "It is. Ours - all of us."
+          },
+          {
+            "step": 2,
             "who": "Elias",
             "said": "And a good one. The Salcedos and my family built it to last."
           },
           {
-            "step": 2,
+            "step": 3,
+            "who": "Micajah Whitlow",
+            "said": "Orpha, show us where the creek is."
+          },
+          {
+            "step": 4,
+            "who": "Orpha Whitlow",
+            "said": "Race you!"
+          },
+          {
+            "step": 5,
             "who": "",
-            "said": "Elias is one of the family now, and Lucinda and the children take his name. The Whitlow family has two parents again, a roof of its own, and two families of neighbours who will not forget this day."
+            "said": "Elias, Micajah and Winnie are one of the family now, and Lucinda and the children take his name. The Whitlow family has two parents again, four children, a roof of its own, and two families of neighbours who will not forget this day."
           }
         ],
         "drawn": [
@@ -436,18 +528,34 @@
           },
           {
             "id": "hh-1-child-1",
-            "clip": "infant-idle-s",
+            "clip": "youth-girl-idle-s",
             "x": 556,
             "y": 585,
-            "h": 74,
+            "h": 184,
             "drawn": true
           },
           {
             "id": "hh-1-child-2",
-            "clip": "infant-idle-s",
+            "clip": "youth-boy-idle-s",
             "x": 810,
             "y": 585,
-            "h": 74,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-spouse-child-1",
+            "clip": "youth-boy-idle-s",
+            "x": 494,
+            "y": 585,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-spouse-child-2",
+            "clip": "youth-girl-idle-s",
+            "x": 872,
+            "y": 585,
+            "h": 184,
             "drawn": true
           },
           {
@@ -459,40 +567,50 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-morning",
+        "backdrop": "courtship-yard-noon",
         "buildings": [
           "house-round-log"
         ],
         "shot": true
       }
     ],
-    "presses": 26,
+    "presses": 38,
     "fadeCount": 6,
     "home": {
       "members": [
         {
           "id": "hh-1-parent-1",
           "role": "mother",
-          "age": 25
+          "age": 27
         },
         {
           "id": "hh-1-spouse",
           "role": "father",
-          "age": 25
+          "age": 30
+        },
+        {
+          "id": "hh-1-spouse-child-1",
+          "role": "son",
+          "age": 12
         },
         {
           "id": "hh-1-child-1",
           "role": "daughter",
-          "age": 0
+          "age": 10
         },
         {
           "id": "hh-1-child-2",
           "role": "son",
-          "age": 0
+          "age": 10
+        },
+        {
+          "id": "hh-1-spouse-child-2",
+          "role": "daughter",
+          "age": 10
         }
       ],
       "house": "round-log",
-      "rows": 4
+      "rows": 6
     },
     "named": {
       "heading": "The Whitlow family",
@@ -500,11 +618,11 @@
     },
     "fadeMs": {
       "full": [
-        1107,
-        1116
+        1114,
+        1111
       ],
       "reduced": [
-        281
+        297
       ]
     }
   },

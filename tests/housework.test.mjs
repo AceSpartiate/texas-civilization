@@ -219,6 +219,17 @@ test('a class saved before the wash opens with everybody clean, and nothing save
 // docs/CUSTOMARY_WORK.md §1c.
 
 /** The founding family with ages: Rosa a girl of 8, Mateo a boy of 7. */
+/** Two little ones, two and three, so the family is six and keeps the custom (sim/custom.mjs `smallFamily`); under seven, neither keeps house. */
+function littleOnes(world, household) {
+  const site = world.map.sites[household.homeSiteId];
+  for (const [n, age] of [[1, 2], [2, 3]]) {
+    const id = `${household.id}-little-${n}`;
+    world.entities[id] = { id, name: `Little ${n}`, kind: 'person', householdId: household.id, depth: 'moderate', principal: false, location: { x: site.x, y: site.y, siteId: site.id },
+      travel: null, health: { condition: 'well' }, task: 'rest', skills: {}, chore: null, kin: { role: 'son', spouse: null, parents: [], children: [] },
+      relationships: {}, propertyRefs: [], commitments: [], sex: 'male', age };
+    household.members.push(id);
+  }
+}
 function withChildren(seed) {
   const family = running(seed);
   Object.assign(family.rosa, { age: 8, sex: 'female' });
@@ -309,6 +320,8 @@ test('a child keeps house as the lone parent\'s would: the parent\'s housework i
 
 test('prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done', () => {
   const { world, household, thomas, elena, rosa, mateo } = withChildren('house-cue');
+  // Six, so the family keeps the custom (a family of fewer keeps none: the test after this one).
+  littleOnes(world, household);
   const cues = () => Object.fromEntries(view(world, 'hh-1').entities.filter(one => one.cue).map(one => [one.id, one.cue]));
   // Short of food the ways to food glow instead, and the house's cue is quiet.
   household.resources.food = 2;
@@ -380,4 +393,15 @@ test('wash whoever\'s dirty: a man who missed wash day is washed for before the 
   rosa.washed = household.washDay - 1;
   assert.equal(dirty(world, rosa), false);
   assert.equal(canDo(world, household, elena, 'wash-clothes'), true, `nobody may wash for a girl who missed wash day: ${choreAvailability(world, household, elena, 'wash-clothes').why}`);
+});
+
+test('a small family\'s house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom', () => {
+  const { world, household, thomas, elena } = withChildren('house-cue-small');
+  const cues = () => Object.fromEntries(view(world, 'hh-1').entities.filter(one => one.cue).map(one => [one.id, one.cue]));
+  household.resources.food = 200;
+  assert.deepEqual(cues(), { [elena.id]: 'keep-house' }, 'the mother is not pointed at the house first, idle beside the father');
+  elena.auto = true;
+  assert.deepEqual(cues(), { [thomas.id]: 'keep-house' }, 'the father of a family of four was not pointed at the house with the mother on auto');
+  littleOnes(world, household);
+  assert.deepEqual(cues(), {}, 'the father of a family of six was pointed at the women\'s work');
 });

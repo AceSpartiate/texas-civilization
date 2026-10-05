@@ -2,7 +2,9 @@
 // sim/housework.mjs, docs/CUSTOMARY_WORK.md).
 //
 // tests/custom-work.test.mjs and tests/housework.test.mjs prove the rules against the simulation. This proves what a class sees,
-// through the join flow at 1366x768, on the invented country (seed custom-proof-3: a father, a mother and two small sons):
+// through the join flow at 1366x768, on the invented country (seed custom-proof-38: a father, a mother,
+// sons of eleven and ten and daughters of seven and four - six, so the family keeps the custom: a family of fewer than six keeps none,
+// owner 2026-10-04, sim/custom.mjs `smallFamily`):
 //
 // The class is made as it would be a week after anybody washed (`washBase`), so the father's clothes want washing from the start.
 //
@@ -20,9 +22,9 @@
 // The owner's answers of 2026-10-04 (docs/CUSTOMARY_WORK.md §1c), on the same class:
 //   2b. the cue: the idle mother, the house not kept today, has the pot over the fire pulsing on her portrait and Keep house glowing;
 //   2c. help, not lead: the father at the house, the house on her bar with the helping-hands badge; pressed, she joins him as help;
-//   4b. children keep house: with the father gone on the errand to the store, their son of eight keeps house and does the wash for his mother;
+//   4b. children keep house: with the father gone on the errand to the store, their son of eleven keeps house and does the wash for his mother;
 //   6.  the wash for whoever's dirty: the father home from town in dirty clothes is washed for before the week is out, and alone.
-// The seed's eldest son is seven. The family is rolled in the world factory and given sixty food, since the cue is quiet while the
+// The seed's eldest son is eleven. The family is rolled in the world factory and given sixty food, since the cue is quiet while the
 // food is low.
 //
 // Same computer only: headless Chrome. Run: npm run test:custom-work
@@ -38,7 +40,7 @@ import { CUSTOM } from '../sim/custom.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
-const SEED = 'custom-proof-3';
+const SEED = 'custom-proof-38';
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const observed = {};
@@ -353,7 +355,15 @@ try {
   await page.waitForFunction(([id, k]) => !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${k}"]`) && window.__customButton && !document.contains(window.__customButton), [her.id, 'hunt-timber'], { timeout: 30000 });
   observed.offAgain = await barKeys(page, her.id);
   await focus(page, him.id);
-  const again = await command(page, { action: 'travel', entityId: him.id, destination: 'gonzales' });
+  // A little one with nothing to do may have stopped him to talk (sim/childhood.mjs): the children given their play, as a student would.
+  let again = null;
+  for (let attempt = 0; attempt < 20; attempt++) {
+    again = await command(page, { action: 'travel', entityId: him.id, destination: 'gonzales' });
+    if (again.status === 200 || !/stopped to talk|holding|baby/.test(again.body?.error || '')) break;
+    const little = (await snapshot(page)).entities.filter(one => one.kind === 'person' && one.age >= 2 && one.age < 10 && !one.chore);
+    for (const child of little) await command(page, { action: 'chore', entityId: child.id, chore: 'child-play' });
+    await page.waitForTimeout(800);
+  }
   assert.equal(again.status, 200, JSON.stringify(again.body));
   await focus(page, her.id);
   await page.waitForFunction(([id, k]) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${k}"]`), [her.id, 'hunt-timber'], { timeout: 30000 });

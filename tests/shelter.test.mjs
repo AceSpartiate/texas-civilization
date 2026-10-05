@@ -44,6 +44,22 @@ function family({ seed = 'shelter-16', id = 'hh-1', housed = false } = {}) {
   for (const person of people) { person.task = 'rest'; person.chore = null; }
   return { world, household, people };
 }
+/**
+ * A family with little ones: `shelter-16`'s third, of eighteen, with children of eight, seven, six, five, three and two under ten
+ * (its land rains on the first day and clears the next, as the first's does). Since 2026-10-04 a rolled family of fewer than ten has
+ * at most two under ten and the rest ten or more (sim/family.mjs `youngAllowed`); a family of ten or more still has many small
+ * children, and older ones with them. No baby: a baby crawls about from where it was set down (sim/babies.mjs), so it does not stand
+ * where it stood. `away`: its children of ten or more gone to town, so the father and mother are the only people of ten or more at
+ * home - the family these tests were written for.
+ */
+function withLittleOnes({ away = false } = {}) {
+  const scene = family({ id: 'hh-3' });
+  const { world, people } = scene;
+  const little = childrenOf(people);
+  assert.ok(little.length >= 3 && little.some(child => child.age >= 7 && child.sex === 'male') && !little.some(child => child.age < 2), 'hh-3 no longer has little ones, a boy of seven or more and no baby');
+  if (away) for (const one of grownOf(people).filter(person => !['father', 'mother'].includes(person.kin?.role))) one.location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
+  return scene;
+}
 const sky = (world, household, day = 0) => weatherAt(world, world.map.sites[household.homeSiteId], day).kind;
 const step = (world, n = 1) => { for (let t = 0; t < n; t++) stepWorld(world); };
 const view = (world, household) => projectWorld(world, household.id, 'student', { includeMap: false });
@@ -112,7 +128,7 @@ test('on the real land the tent waits for the site: none at the surveyor\'s mark
 });
 
 test('rain: everybody with no task and every child goes in under the tent; somebody at a task keeps at it; out again when it clears', () => {
-  const { world, household, people } = family();
+  const { world, household, people } = withLittleOnes();
   assert.ok(INCLEMENT.includes(sky(world, household, 0)) && !INCLEMENT.includes(sky(world, household, 1)), 'the seed no longer rains on day 0 and clears on day 1');
   household.tent = { ...tentPoint(world, household), minute: 0 };
   const [maker, idle] = grownOf(people);
@@ -162,7 +178,7 @@ test('rain: everybody with no task and every child goes in under the tent; someb
 });
 
 test('somebody of ten or more sits with the children: one already in first; else the nearest at work near the house, whose work stands', () => {
-  const { world, household, people } = family();
+  const { world, household, people } = withLittleOnes({ away: true });
   household.tent = { ...tentPoint(world, household), minute: 0 };
   const [father, mother] = grownOf(people);
   const children = childrenOf(people);
@@ -194,7 +210,7 @@ test('somebody of ten or more sits with the children: one already in first; else
 });
 
 test("a student's order wins: the one with the children sent to new work goes to it, and is not called in again that day", () => {
-  const { world, household, people } = family();
+  const { world, household, people } = withLittleOnes({ away: true });
   household.tent = { ...tentPoint(world, household), minute: 0 };
   const [first, other] = grownOf(people);
   // The other grown person away in town: the one at home is the only one who can sit with the children.
@@ -219,11 +235,11 @@ test("a student's order wins: the one with the children sent to new work goes to
 });
 
 test('the companion: somebody free before anybody at work, an older child of ten to fifteen before a grown person, and never the timber', () => {
-  const { world, household, people } = family();
+  const { world, household, people } = withLittleOnes({ away: true });
   household.tent = { ...tentPoint(world, household), minute: 0 };
   const [father, mother] = grownOf(people);
   const children = childrenOf(people);
-  const elder = children.find(child => child.age >= 7);
+  const elder = children.find(child => child.age >= 7 && child.sex === 'male');
   // An elder child of twelve at work near the house, the father at work near the house, the mother free.
   elder.age = 12;
   household.spares = { axe: [0, 0] };
@@ -234,11 +250,11 @@ test('the companion: somebody free before anybody at work, an older child of ten
   assert.equal(elder.aside, undefined);
   assert.equal(father.aside, undefined);
   // The mother is sent to fell: now an older child at work near the house is called in before the father.
-  const { world: w2, household: h2, people: p2 } = family();
+  const { world: w2, household: h2, people: p2 } = withLittleOnes({ away: true });
   h2.tent = { ...tentPoint(w2, h2), minute: 0 };
   h2.spares = { axe: [0, 0] };
   const [f2, m2] = grownOf(p2);
-  const e2 = childrenOf(p2).find(child => child.age >= 7);
+  const e2 = childrenOf(p2).find(child => child.age >= 7 && child.sex === 'male');
   e2.age = 12;
   // The father to the timber (felling is the men's work while he is home, owner 2026-10-03; sim/custom.mjs), the mother to the wash
   // by the house, the boy of twelve to the furniture by the house.

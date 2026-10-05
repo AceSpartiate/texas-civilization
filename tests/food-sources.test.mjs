@@ -14,6 +14,7 @@ import { FORAGE, FORAGE_MOST_DAYS, forageDays } from '../sim/gathering.mjs';
 import { COTTON_SEED_BALES, growMs, seedFor, seedKept } from '../sim/crops.mjs';
 import { plotsOf } from '../sim/fields.mjs';
 import { CORN_YIELD_PER_PLOT, YIELD_PER_PLOT } from '../sim/improvements.mjs';
+import { smallFamily } from '../sim/custom.mjs';
 import { createSettledWorld } from './support/settled.mjs';
 import { feedsNow } from '../public/family-panel.js';
 
@@ -178,7 +179,11 @@ test('a haul for every day out: a trip that spans days of the calendar brings ho
   assert.equal(forageDays(world, {}), 1, 'a trip saved before its start was written');
   assert.equal(FORAGE_MOST_DAYS, 3);
   // And in a class: at the campaign's half a day a tick, somebody at the creek on auto brings home about a mess of fish a day.
-  const { world: class_, household, grown } = onTheLand('food-bug');
+  // A family of six or more, which keeps the custom (sim/custom.mjs `smallFamily`, owner 2026-10-04): its father on auto waits about
+  // the place between trips, as he always did. `food-bug`'s family is four, keeps none, and its father keeps house meanwhile
+  // (sim/auto.mjs `houseworkMeanwhile`) - two days a time, which would measure the house and not the haul.
+  const { world: class_, household, grown } = onTheLand('food-days');
+  assert.ok(!smallFamily(class_, household), 'the family keeps no custom: its fisher keeps house between trips');
   for (let tick = 0; tick < 3000 && class_.director.phase !== 'campaign'; tick++) stepWorld(class_);
   const fisher = grown.find(person => !['dead', 'captured'].includes(person.health?.condition) && !person.service);
   household.resources.food = 500;

@@ -30,6 +30,22 @@ const untilMoment = (world, key) => until(world, () => world.director.milestones
 const untilMinute = (world, minute) => until(world, () => world.minute >= minute);
 const shown = (world, householdId, id) => view(world, householdId).entities.find(e => e.id === id);
 const story = (world, id) => world.events.filter(event => event.actorId === id).map(event => event.text);
+/**
+ * Two little ones, two and four, added to a family so that it is six people and keeps the custom: a family of fewer than six keeps
+ * no custom (sim/custom.mjs `smallFamily`, owner 2026-10-04), and hh-1 is the founding four. Kept, a man on auto whose hunt is held
+ * works about the place rather than keeping house meanwhile (sim/auto.mjs `houseworkMeanwhile`), and the hold is written down.
+ * Under seven, neither keeps house, helps or keeps the custom for anybody, so nothing else here moves.
+ */
+function littleOnes(world, household) {
+  const site = world.map.sites[household.homeSiteId];
+  for (const [n, age, sex] of [[1, 2, 'female'], [2, 4, 'male']]) {
+    const id = `${household.id}-little-${n}`;
+    world.entities[id] = { id, name: `Little ${n}`, kind: 'person', householdId: household.id, depth: 'moderate', principal: false, location: { x: site.x, y: site.y, siteId: site.id },
+      travel: null, health: { condition: 'well' }, task: 'rest', skills: {}, chore: null, kin: { role: sex === 'male' ? 'son' : 'daughter', spouse: null, parents: [], children: [] },
+      relationships: {}, propertyRefs: [], commitments: [], sex, age };
+    household.members.push(id);
+  }
+}
 
 test('the switch is the person\'s and the world\'s: set from the family, shown on the projection, refused for the wrong person, and off by default', () => {
   const world = running('auto-switch');
@@ -58,6 +74,7 @@ test('the switch is the person\'s and the world\'s: set from the family, shown o
 test('on auto a hunt never stops to ask: the shot is decided at once, the hunt repeated when they come home, and stopped by the switch', () => {
   const world = running('auto-hunt');
   const household = world.households['hh-1'];
+  littleOnes(world, household);
   // The father and the son: the rifle is the men's work while a man is at home (owner, 2026-10-03; sim/custom.mjs). The father is
   // given the steady hand the mother of this fixture has, so the two still decide the shot differently.
   const elena = world.entities['hh-1-thomas'], mateo = world.entities['hh-1-mateo'];
@@ -297,4 +314,23 @@ test('told to leave, a family whose main person is on auto packs as a neighbour 
   assert.ok(!world.events.some(e => e.householdId === stays.id && /Nobody gave the word/.test(e.text)));
   assert.ok(world.events.some(e => e.householdId === stays.id && /The family will stay, and take what comes/.test(e.text)));
   validateWorld(world);
+});
+
+test('a small family on auto: a man whose task waits does not take the house from the mother at home, and keeps it when she is away', () => {
+  // A family of four keeps no custom (sim/custom.mjs `smallFamily`, owner 2026-10-04), so Thomas may keep house. On auto, waiting for
+  // powder, he works about the place while Elena is at home; with her away the house is his meanwhile (sim/auto.mjs).
+  const world = running('auto-small-house');
+  const household = world.households['hh-1'];
+  const thomas = world.entities['hh-1-thomas'], elena = world.entities['hh-1-elena'];
+  household.resources.powder = 0;
+  household.housekept = undefined;
+  applyAction(world, 'hh-1', { action: 'set-auto', entityId: thomas.id, auto: true });
+  applyAction(world, 'hh-1', { action: 'chore', entityId: thomas.id, chore: 'hunt-timber' });
+  const took = new Set();
+  for (let t = 0; t < 60; t++) { stepWorld(world); if (thomas.chore) took.add(thomas.chore.id); }
+  assert.deepEqual([...took].filter(id => ['keep-house', 'wash-clothes', 'work-garden'].includes(id)), [], 'the father on auto took up the women\'s work with the mother at home');
+  household.housekept = undefined;
+  elena.visiting = true; // away at a neighbour's (sim/custom.mjs `atHome`)
+  for (let t = 0; t < 30 && !thomas.chore; t++) stepWorld(world);
+  assert.ok(['keep-house', 'wash-clothes', 'work-garden'].includes(thomas.chore?.id), `with the mother away the father on auto did not keep house meanwhile: ${thomas.chore?.id}`);
 });

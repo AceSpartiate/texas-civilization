@@ -47,6 +47,34 @@ function played(householdId) {
   return { world, household };
 }
 const orderedOut = (world, household) => until(world, () => household.flight?.status === 'ordered', 400);
+/** The spring class with the first family of the shape a test needs played and past its guided start. */
+function playedWhere(fits) {
+  const world = taught(spring());
+  const household = Object.values(world.households).find(one => fits(world, one));
+  assert.ok(household, 'no family of the shape this test needs was rolled, so this proves nothing');
+  household.played = true; delete household.absent;
+  return { world, household };
+}
+/**
+ * The lone father of little ones. Since the owner's rule of 2026-10-04 (sim/family.mjs `youngAllowed`: a family of fewer than six
+ * has at most one child under ten, one of six to nine at most two) no family is rolled as a father with only small children, so the
+ * scene is made from a large family as it stands: one with a father, a mother, a baby and two or more children under seven. Its
+ * mother dies and everybody else of seven or more is taken prisoner, and the father and the little ones are all of it left.
+ * Returns the little ones, oldest first.
+ */
+const littleFamily = (world, household) => {
+  const people = household.members.map(id => world.entities[id]).filter(one => one.kind === 'person');
+  return people.some(one => one.id === household.principalId) && people.some(one => one.kin?.role === 'mother')
+    && people.some(one => one.age < 2) && people.filter(one => one.age >= 2 && one.age < 7).length >= 2;
+};
+function leftWithLittleOnes(world, household) {
+  const people = household.members.map(id => world.entities[id]).filter(one => one.kind === 'person');
+  for (const one of people) {
+    if (one.kin?.role === 'mother') one.health = { condition: 'dead' };
+    else if (one.id !== household.principalId && one.age >= 7) one.health = { condition: 'captured' };
+  }
+  return people.filter(one => one.age < 7).sort((a, b) => b.age - a.age);
+}
 
 test('B1: the father serving with Houston, the order to leave goes to the mother at home - her "!", her answer - and his is refused in words that name her', () => {
   const { world, household } = played('hh-1');
@@ -123,15 +151,15 @@ test('the oldest child answers "¡Alto!" on the road for a family of children', 
 });
 
 test('with nobody of seven or more, the nearest neighbours take the little ones in; they go where that family goes; and the father home from the army fetches them', () => {
-  const { world, household } = played('hh-4');
+  const { world, household } = playedWhere(littleFamily);
   const father = world.entities[household.principalId];
-  person(world, household, one => one.kin?.role === 'mother').health = { condition: 'dead' };
+  const little = leftWithLittleOnes(world, household);
   serve(world, father);
   stepWorld(world);
-  assert.ok(household.takenIn, 'nobody took the girls of 4, 3 and 1 in');
+  assert.ok(household.takenIn, 'nobody took the little ones in');
   const host = world.households[household.takenIn.by];
   const girls = household.takenIn.ids.map(id => world.entities[id]);
-  assert.equal(girls.length, 3);
+  assert.deepEqual(girls.map(one => one.id).sort(), little.map(one => one.id).sort(), 'not every little one, or not only the little ones, was taken in');
   assert.ok(girls.every(one => one.location.siteId === host.homeSiteId), 'the little ones are not at the neighbours\'');
   assert.match(view(world, household.id).household.takenIn.name, /family|’s|'s/);
   assert.throws(() => applyAction(world, household.id, { action: 'flee', entityId: girls[0].id, refuge: 'washington', take: {} }), /goes where they go/);
@@ -150,8 +178,8 @@ test('with nobody of seven or more, the nearest neighbours take the little ones 
 });
 
 test('the family that owes this one most takes the little ones in before a nearer one, and it is written as a deed', () => {
-  const { world, household } = played('hh-4');
-  person(world, household, one => one.kin?.role === 'mother').health = { condition: 'dead' };
+  const { world, household } = playedWhere(littleFamily);
+  leftWithLittleOnes(world, household);
   const nearest = nearestNeighbour(world, household);
   assert.ok(nearest, 'no neighbour family could take anybody in');
   // This family raised walls for every family but the nearest: they all owe it, the nearest owes it nothing.
@@ -166,9 +194,9 @@ test('the family that owes this one most takes the little ones in before a neare
 });
 
 test('taken in at the neighbours\' own place, the father sent home from the army comes for the girls and they go home together', () => {
-  const { world, household } = played('hh-4');
+  const { world, household } = playedWhere(littleFamily);
   const father = world.entities[household.principalId];
-  person(world, household, one => one.kin?.role === 'mother').health = { condition: 'dead' };
+  leftWithLittleOnes(world, household);
   serve(world, father);
   stepWorld(world);
   assert.ok(household.takenIn);
@@ -184,7 +212,11 @@ test('taken in at the neighbours\' own place, the father sent home from the army
 });
 
 test('the oldest child at home may go for help: the neighbours take the family in', () => {
-  const { world, household } = played('hh-5');
+  // A family with a child of seven to nine, found by that shape rather than by the seed's roll of it (owner, 2026-10-04: a small
+  // family has at most one child under ten, so the family this was written against no longer has one; sim/family.mjs). Any younger
+  // child under ten has one of seven or more with them while the oldest runs: a little one left with nobody of seven or more is
+  // taken in by the neighbours on their own the tick the oldest sets out, which is the rule above, not this one.
+  const { world, household } = playedWhere((world, one) => { const kids = children(world, one); return kids[0]?.age >= 7 && (kids.length === 1 || kids[1].age >= 7); });
   for (const one of household.members.map(id => world.entities[id])) if (one.age >= 10) one.health = { condition: 'captured' };
   const zadok = oldestChild(world, household);
   const offered = view(world, household.id).work[zadok.id].find(entry => entry.id === 'child-help');
@@ -215,7 +247,8 @@ test('left behind: a son in town when the family goes is told where it went, and
 test('the wounded go with the family, in the wagon', () => {
   const { world, household } = played('hh-1');
   const father = world.entities[household.principalId];
-  const hurt = person(world, household, one => rolled(world, one) === 12);
+  // A daughter of the family, whatever age the roll gave her (owner, 2026-10-04, sim/family.mjs: the family is rolled older now).
+  const hurt = person(world, household, one => one.kin?.role === 'daughter');
   orderedOut(world, household);
   hurt.health = { condition: 'wounded', until: world.minute + 10 * 1440 };
   applyAction(world, household.id, { action: 'flee', entityId: father.id, refuge: 'washington', take: {} });
@@ -224,10 +257,10 @@ test('the wounded go with the family, in the wagon', () => {
 });
 
 test('a baby never marches with the army: the lone father goes to Houston, the baby stays with the girls, and he is warned before he goes', () => {
-  const { world, household } = played('hh-4');
+  const { world, household } = playedWhere(littleFamily);
   const father = world.entities[household.principalId];
-  person(world, household, one => one.kin?.role === 'mother').health = { condition: 'dead' };
-  const baby = person(world, household, one => one.age === 1);
+  const baby = leftWithLittleOnes(world, household).at(-1);
+  assert.ok(baby.age < 2, 'no baby is left at home, so this proves nothing');
   const join = view(world, household.id).work[father.id].find(entry => entry.id === 'join-houston');
   assert.ok(join?.can, `joining Houston is not open to the father: ${join?.why}`);
   assert.match(join.leaves || '', /nobody older than nine is left at home/, 'no warning that only small children are left');

@@ -30,6 +30,27 @@ function played(householdId) {
   household.played = true; delete household.absent;
   return { world, household };
 }
+/**
+ * The lone father of little ones, as tests/acting.test.mjs makes him. Since the owner's rule of 2026-10-04 (sim/family.mjs
+ * `youngAllowed`: a family of fewer than six has at most one child under ten, one of six to nine at most two) no family is rolled
+ * as a father with only small children, so the scene is made from the first large family with a father, a mother, a baby and two or
+ * more children under seven: its mother dies and everybody else of seven or more is taken prisoner.
+ */
+function littleOnesPlayed() {
+  const world = taught(spring());
+  const household = Object.values(world.households).find(one => {
+    const people = one.members.map(id => world.entities[id]).filter(entity => entity.kind === 'person');
+    return people.some(entity => entity.id === one.principalId) && people.some(entity => entity.kin?.role === 'mother')
+      && people.some(entity => entity.age < 2) && people.filter(entity => entity.age >= 2 && entity.age < 7).length >= 2;
+  });
+  assert.ok(household, 'no family of the shape this test needs was rolled, so this proves nothing');
+  household.played = true; delete household.absent;
+  for (const one of household.members.map(id => world.entities[id]).filter(entity => entity.kind === 'person')) {
+    if (one.kin?.role === 'mother') one.health = { condition: 'dead' };
+    else if (one.id !== household.principalId && one.age >= 7) one.health = { condition: 'captured' };
+  }
+  return { world, household };
+}
 /** What only a watching page carries, and what it has taken off: the rest must be the watched family's own page, byte for byte. */
 const STRIPPED = ['householdId', 'work', 'travelModes', 'offers', 'lesson', 'lessonResume', 'request', 'encounter', 'neighbourly', 'watching', 'ending'];
 const without = view => Object.fromEntries(Object.entries(view).filter(([key]) => !STRIPPED.includes(key)));
@@ -75,9 +96,8 @@ test('the rule: a student whose whole family is gone follows the nearest neighbo
 });
 
 test('the rule: a student whose little ones were taken in, with nobody else of the family left to play, watches the family that took them in, until somebody grown comes for them', () => {
-  const { world, household } = played('hh-4');
+  const { world, household } = littleOnesPlayed();
   const father = world.entities[household.principalId];
-  person(world, household, one => one.kin?.role === 'mother').health = { condition: 'dead' };
   serve(world, father);
   stepWorld(world);
   assert.ok(household.takenIn, 'nobody took the little ones in, so this proves nothing');
@@ -108,9 +128,8 @@ test('the rule: a student whose little ones were taken in, with nobody else of t
 test('the rule: a student watching the family that took their little ones in is still sent their own man\'s fight, its card through him, and the account of what became of him, with its line in the journal', async () => {
   // test:battle-south and test:battle-coleto (2026-09-29): a lone father at the war, his little ones taken in; the page turned to the
   // neighbours' the moment he fell or was taken, and lost the rest of his fight and the word of what became of him.
-  const { world, household } = played('hh-4');
+  const { world, household } = littleOnesPlayed();
   const father = world.entities[household.principalId];
-  person(world, household, one => one.kin?.role === 'mother').health = { condition: 'dead' };
   serve(world, father);
   stepWorld(world);
   assert.ok(household.takenIn, 'nobody took the little ones in, so this proves nothing');
@@ -170,8 +189,7 @@ test('the rule: somebody who reaches the refuge after the family has turned for 
 });
 
 test('the rule: little ones at home with no neighbour family near to take them in are not left without a word', () => {
-  const { world, household } = played('hh-4');
-  person(world, household, one => one.kin?.role === 'mother').health = { condition: 'dead' };
+  const { world, household } = littleOnesPlayed();
   serve(world, world.entities[household.principalId]);
   // Every neighbour family's grown people are away with the army: nobody at home to take anybody in.
   for (const other of Object.values(world.households)) {

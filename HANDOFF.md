@@ -1,5 +1,47 @@
 # Claude handoff — Astra foundation
 
+## Help on a small farm: the young capped, a small family keeps no custom, the spouse's two children — owner, 2026-10-04 (not released)
+
+Branch `family-help` from origin/main 0383a5cc. The owner asked three things in one message and confirmed by multiple choice ("As
+described"; "Fewer than 6", with the marriage added); then *"You'll likely need to adjust the marriage cutscene stuff ... Dialogue may
+have to change as well."* Specified in docs/FAMILY_CREATION.md (the amendment of 2026-10-04) and docs/CUSTOMARY_WORK.md §1e; claims
+`FIC-GONZ-1161` to `-1163`.
+
+- **The young capped** (`sim/family.mjs` `youngAllowed`, `birthsFor` `placeCapped`): a rolled family of fewer than six has one child
+  under ten at most, six to nine two at most; the rest ten or more, the young born after them at any distance (a late child), so a
+  small family still has a baby 15 to 26 times in 100. 20,000 rolls, none failed. Families of six to nine are older: a family of nine
+  has a grown eldest four times in five. Only the die as it is; a family rolled before keeps its ages; no save version moved.
+- **A small family keeps no custom** (`sim/custom.mjs` `smallFamily`, `SMALL_FAMILY` = 6): fewer than six living people, every work
+  open to everybody old enough, said once a person ("With so few hands in the family, Martha took up the axe."). The dead are not
+  counted, those away are. The founding four of a household nobody joins keep none now. What still leans to the custom: the house's
+  cue points at the mother first (sim/housework.mjs `ownCustom`), and somebody on auto whose task waits takes up the other custom's
+  work meanwhile only with nobody grown of its custom at home (sim/auto.mjs `houseworkMeanwhile`).
+- **The spouse's two children** (`sim/courtship.mjs` `STEPCHILDREN`, `rollStepchildren`, `joinStepchildren`, `youngestWithTwo`):
+  the one who marries in is widowed with a son or daughter or both of ten or more, rolled at the press, at the second farm, and
+  joined at the wedding as the lone parent's stepchildren, among the children by age. The spouse is the parent's age, or 29 (a
+  mother) / 30 (a father) when the parent is too young for two children of ten, and the story says "a few years older". Scenes:
+  the second farm says once that the spouse came home with the children when their husband or wife died, and the elder offers to
+  help; at the wedding they stand at the spouse's side (public/courtship.js `sceneLayout`), are welcomed home, and answer; afterwards
+  one of them asks the family's child to show them the creek. The family book gives a parent both lines (sim/family.mjs: "Father to
+  ... Stepfather to ..."). `courtshipInvalid` checks them; `marriedIn` counts them; a family married before has none.
+- **Tests.** New: family-roll *a small family has help on the farm* (4 injections caught), custom-work *a small family keeps no
+  custom* (5), courtship *the one who marries in is widowed* and *a lone parent too young* (8), housework *a small family's house
+  cue* (1), auto *a small family on auto* (1). Old tests whose fixtures no longer exist under the new rolls or assumed the founding
+  four keep the custom were brought up without weakening an assertion (three helpers working in parallel, each file's own): the
+  founding four given two little ones of two and four where a test is about the custom (custom-work, housework, auto, auto-house,
+  auto-repeat, chores); families picked by the shape a test needs instead of by id (acting, watching: `playedWhere`,
+  `littleFamily`, `littleOnesPlayed`; shelter: hh-3 of `shelter-16`, a family of 18; food-sources: seed `food-days`, a family of 15,
+  asserted not small); carry-kids sets the spring family's two daughters back to five and three. acting-injections 25/25 and
+  shelter-injections 31/31 re-run on a scratch copy. `scripts/custom-work-browser-proof.mjs` now uses `custom-proof-38` (both
+  parents, sons of 11 and 10, daughters of 7 and 4) and gives the little ones play when the father is stopped to talk.
+- **Evidence.** npm test 2255, 0 failed. test:custom-work (17 checks), test:lone-parent (the scenes with the two children, screenshots
+  `lone-parent-6-scene-second.png` and `-7-the-vow.png`), test:creation and test:family-twenty green.
+- **Not done, found on the way (before this change):** a child of seven to nine running for help can leave a younger child alone at
+  home, who is then taken in by the nearest neighbours before the runner arrives (acting.test.mjs chooses a family that avoids it;
+  the owner may want the runner to take the little one along). `scripts/watching-injections.mjs` ("The server sends the page no line
+  at all"), `scripts/shelter-injections.mjs` (two patterns) and `scripts/food-sources-injections.mjs` ("a haul day that cannot be is
+  opened") have search strings that no longer match the code. BALANCE.md §23's numbers predate all three rules.
+
 ## Released as v2026.10.05.1 — 2026-10-05
 
 Main at 0f9b3fb6, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.1>). Sets of changes: from v2026.10.04.1, 5.6 MB; from v2026.10.03.2, 11.5 MB (same launcher). Contents: people's colours made ahead (the Host's map frame time), and Astra's five art commits after 73410a79 (spade work, smiths, R1-R3, riverbank actions, covered fallen transport), with her bank climb put on the firing clock and the Claude stand-ins she replaced deleted. Verification on 0f9b3fb6: npm test 2249, 0 failed; test:famous-people twice (once red on "Neill was not drawn hurt at the guns", the sampled moment recorded before, its frame gates green, Host p95 19.9 ms; once green, Host p95 16.2 ms); battle-concepcion, battle-grass, gonzales-town, towns, art, battle-alamo, battle-gonzales and Astra's six delivery proofs green. Not proved: ThreatDown with either setup; a set of changes carrying a launcher; Chromebook, LAN or classroom.
