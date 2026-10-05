@@ -89,6 +89,12 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   if (figure === 'dancers-couple') return { id: 'dancers-couple', flip: face === 'w', couple: person.lead ? 'partner' : 'lead' };
   if (figure === 'fiddler') return { id: 'fiddler-play', flip: face === 'w' };
   const child = !GROWN.has(figure) && !ALL_POSES.has(figure);
+  if (pose === 'dig' && ['elder','ochre','blue'].includes(figure)) return { id: `${figure}-dig`, flip: face === 'w' };
+  if (pose === 'dig') return { id: child ? `${figure}-idle-${face}` : `${figure}-work`, flip: !child && face === 'w' };
+  if (pose === 'forge' && ['elder','ochre'].includes(figure)) return { id: `${figure}-smith-${person.id === 'gz-smith-2' ? 'chain' : 'hammer'}`, flip: face === 'w' };
+  if (pose === 'forge') return { id: child ? `${figure}-idle-${face}` : `${figure}-repair`, flip: !child && face === 'w' };
+  if (pose === 'point' && ['teal', 'elder'].includes(figure) && ['e','w'].includes(face)) return { id: `${figure}-river-point`, flip: face === 'w' };
+  if (pose === 'point') return { id: child ? `${figure}-idle-${face}` : `${figure}-search`, flip: !child && face === 'w' };
   if (pose === 'idle' || (child && !CHILD_POSES.has(pose))) return { id: `${figure}-idle-${face}`, flip: false };
   if (pose === 'listen') return { id: `${figure}-listen-${face === 'n' ? 'n' : 's'}`, flip: false };
   // A player's helper may be any adult figure. Keep the older working pose until that figure gets its own sewing frames.
@@ -171,6 +177,7 @@ function drawProp(ctx, prop, p, figure, time) {
     case 'cannon-buried': drawSprite(ctx, 'gonzales-cannon-buried', p.x, p.y, figure * .55, { flip }); return;
     case 'cannon': drawSprite(ctx, `cannon-cartwheels-${flip ? 'w' : 'e'}`, p.x, p.y, figure * .75) || drawSprite(ctx, 'cannon-bronze-e', p.x, p.y, figure * .62, { flip }); return;
     case 'wheel': drawSprite(ctx, 'wagon-wheel', p.x, p.y, figure * .5); return;
+    case 'smith-forge': drawSprite(ctx, 'gonzales-forge-lit', p.x, p.y, figure * .7, { flip, anchor: [.5,.98] }); return;
     case 'skiff': drawSprite(ctx, 'gonzales-dugout-canoe', p.x, p.y, figure * .42, { flip }); return;
     case 'flatboat': drawSprite(ctx, 'ferry-flatboat', p.x, p.y, figure * .6, { flip }); return;
     case 'breastwork': drawSprite(ctx, 'gonzales-log-breastwork', p.x, p.y, figure * .55, { flip }); return;

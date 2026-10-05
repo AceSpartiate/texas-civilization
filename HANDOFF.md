@@ -1,5 +1,25 @@
 # Claude handoff — Astra foundation
 
+## Art update: Gonzales spade work (2026-10-04)
+
+Dedicated elder/ochre/blue digging clips are registered. Existing elder and ochre orchard actors select them through semantic `dig`; blue is ready for a future explicit digging action. Movement still selects walk cycles. See [delivery notes](docs/ART_DELIVERY_2026-10-04-GONZALES-DIGGING.md), manifest and browser evidence.
+
+## Latest art delivery — Gonzales smiths, 2026-10-04
+
+Twenty frames, four hammer/chain clips and four forge/tool props. Elder/ochre shop workers now use their own smith actions and the shop displays the lit forge. Read docs/ART_DELIVERY_2026-10-04-GONZALES-SMITHS.md for exact bindings, proof and remaining requests. Actor composites already include anvils; avoid doubling them.
+
+## Latest art corrections and river gestures — 2026-10-04
+
+All R1–R3 artwork fixes from art-redo are complete: proper Texian recruitment/drill icons, stable Lamar/Joe idle scale, clean Grant gallop cells. New teal/elder river pointing is connected in Gonzales. Read docs/ART_REDO_RESOLUTION_2026-10-04.md for evidence, exact prompts, runtime contracts and remaining renderer C1–C3 work.
+
+## Latest art delivery — riverbank actions, 2026-10-04
+
+Six volunteer bank-action keyposes and one preview clip added to the catalog. Integrate against the live firing clock; the existing bank branch remains until timing and ground registration are verified. See docs/ART_DELIVERY_2026-10-04-BANK-ACTIONS.md.
+
+## Latest art delivery — covered fallen transport, 2026-10-04
+
+Eight frames, two authored bearer cycles now replace the anonymous dead-carrying composite. Living wounded, named figures and historical staging retain their branches. Read docs/ART_DELIVERY_2026-10-04-FALLEN-TRANSPORT.md for provenance, integration and remaining work.
+
 ## Released as v2026.10.04.1 — 2026-10-04
 
 Main at b7fd528f, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.04.1>), with the first set of changes carrying the new launcher scheme: from v2026.10.03.2, 6.7 MB (`TexasRevolution-Changes-From-v2026.10.03.2.patch`; same launcher, so no launcher in it). Contents: customary work (custom, help-not-lead, children keep house, the cue, wash whoever is dirty, weekly wash and the markup), the director called off clearing when food is short, triage 2.3/2.5/2.14/3.17, Astra's commerce UI, streets, flood water, military-life and engineering art, art measured right (C1-C3), the wagon's stock choice uncovered, `canFight` by `sexOf` (a founding mother could turn out). Verification: the full run on c2c77ca3 (npm test 2233/0 fail; 89 browser proofs two at a time, 13 red) and every red proof fixed or rerun alone green on b7fd528f (proofs-fix); npm test on proofs-fix 2235/0 fail. **test:famous-people's frame-time check is flaky on this machine**: alone, v2026.10.03.2 54.2 ms (red) then 24.4 (green); b7fd528f 44.9 (green) then 55 (red), against 50 ms - machine speed, though main's green runs were slower than the release's (follow-up: profile the Host's map with the famous people). Not proved: ThreatDown with either setup; a real download of a set of changes carrying a launcher; Chromebook, LAN or classroom.

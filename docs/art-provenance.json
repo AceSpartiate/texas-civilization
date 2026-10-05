@@ -800,11 +800,22 @@
       "sheet": "icons-family-service",
       "promptId": "frontier-v1/icons-family-service",
       "tool": "built-in image_gen.imagegen",
-      "mode": "generate",
-      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-d657bf4c-9d32-4407-8deb-8f27074b49f1.png",
+      "mode": "edit",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-67db64dc-e65f-48dc-9622-c18a7205d195.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/icons-family-service.png",
-      "postProcessing": "None. Generated PNG copied unchanged; only read-only validation.",
-      "review": "Accepted as distinct period-plausible action silhouettes on genuine alpha with explicit reading-order mapping."
+      "postProcessing": "None; selected edited PNG copied unchanged.",
+      "review": "2026-10-04 redo audit R1/R2/R3; IDs and animation bindings preserved.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-d657bf4c-9d32-4407-8deb-8f27074b49f1.png"
+      ],
+      "refinements": [
+        {
+          "prompt": "Edit this exact4x4 transparent icon atlas. Preserve14 other cells unchanged. REPLACE top left icon(row1col1) with a wooden recruiting table holding OPEN muster roll/quill/inkpot and a musket leaning againsttable: NO hat/headgear/uniform. REPLACE row3col1 with THREE Texian civilian men in file broadbrimhats brown/tan hunting shirts/coats muskets at shoulder, no shako navycoat redcuffs whiteuniform. Strong compact silhouette legible38px, warm outlinedpaintedstorybook style. No text. Entireiconsinsidecells transparentgutters truezeroalpha background. Samegrid/sheetdimensions.",
+          "sourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-67db64dc-e65f-48dc-9622-c18a7205d195.png",
+          "referenceRuntimePath": "public/assets/frontier-v1/atlases/icons-family-service.png",
+          "referenceSourcePath": "C:/Users/zachw/.codex/generated_images/01a0c395-fb73-7722-9646-234189c7e074/exec-d657bf4c-9d32-4407-8deb-8f27074b49f1.png"
+        }
+      ]
     },
     {
       "sheet": "icons-family-subsistence",
@@ -2506,11 +2517,22 @@
       "sheet": "famous-lamar",
       "promptId": "frontier-v1/famous-lamar",
       "tool": "built-in image_gen.imagegen",
-      "mode": "generate",
-      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png",
+      "mode": "edit",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-6321ee94-9ad5-4803-85ad-ab28fbe1ca13.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-lamar.png",
-      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
-      "review": "Distinct dark-teal cavalry figure and command, salute, reach and signal poses. Clothing and face are artistic interpretations."
+      "postProcessing": "None; selected edited PNG copied unchanged.",
+      "review": "2026-10-04 redo audit R1/R2/R3; IDs and animation bindings preserved.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png"
+      ],
+      "refinements": [
+        {
+          "prompt": "Edit this exact4x4 transparent animationatlas. Preserve first2rows8walkingposes unchanged and all face/clothing/poses. Bottom2rows8actionfigures are too large. SCALE every bottom2row figure down arounditsown bootbaseline to match top row walk head/shoulder/body size: target entire standing height262pixels versus current288, approximately91percent for rows3/4. Constant physique acrossall16, no new poses or costume changes. Same4x4cells samecanvas1312x1199 and samebootpositions. Preserve tealcoat beigevest blackhat redneckcloth sword. Transparentbackground zeroalpha gutters.",
+          "sourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-6321ee94-9ad5-4803-85ad-ab28fbe1ca13.png",
+          "referenceRuntimePath": "public/assets/frontier-v1/atlases/famous-lamar.png",
+          "referenceSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ecd14e1-d4e5-4937-93a8-f47838623372.png"
+        }
+      ]
     },
     {
       "sheet": "famous-lamar-mounted",
@@ -2631,14 +2653,22 @@
       "sheet": "famous-grant-gallop",
       "promptId": "frontier-v1/famous-grant-gallop",
       "tool": "built-in image_gen.imagegen",
-      "mode": "generate",
+      "mode": "edit",
       "referenced_image_paths": [
-        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-29266921-c917-4885-b2a7-e34f33fd6422.png"
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6621715-50ce-46af-9c3b-1f55f27985d6.png"
       ],
-      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6621715-50ce-46af-9c3b-1f55f27985d6.png",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-f311f690-a3a0-4ff9-94b7-351c4c867af3.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-grant-gallop.png",
-      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
-      "review": "Fast ride while Grant remains visible during the existing Agua Dulce pursuit; later fate remains off-screen."
+      "postProcessing": "None; selected edited PNG copied unchanged.",
+      "review": "2026-10-04 redo audit R1/R2/R3; IDs and animation bindings preserved.",
+      "refinements": [
+        {
+          "prompt": "Edit exact2x2fourpose transparent horse/rider atlas. Preserve Grant faceclothing olivehat tancoat greybrownhorse blackmane/tail tack and allfour distinct gallop legposes. SCALE EACH composite uniformly down to82percent current size aboutits own groundline, then CENTER horizontallyinsideitsowncell. All tailsnoseshooves complete, min40pixelsclear betweenEVERY silhouette and cellboundary includingcentralverticalboundary. Bottomtwohorses currentlyoverlap; remove neighbor slivers by isolatingwholefigures. Same2x2canvas1254square. Truezeroalpha background nofloorshadows text. Identicalcharacterbodysize/horseproportions across4.",
+          "sourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-f311f690-a3a0-4ff9-94b7-351c4c867af3.png",
+          "referenceRuntimePath": "public/assets/frontier-v1/atlases/famous-grant-gallop.png",
+          "referenceSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6621715-50ce-46af-9c3b-1f55f27985d6.png"
+        }
+      ]
     },
     {
       "sheet": "famous-condelle",
@@ -4106,6 +4136,115 @@
       "refinements": [],
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Original interpretive uniform and action poses. Fine foot registration remains polish; carry keyframes are subtle."
+    },
+    {
+      "sheet": "fallen-transport",
+      "promptId": "frontier-v1/fallen-transport",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a3d38489-f498-4b4c-b5bc-b3779df72686.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a3d38489-f498-4b4c-b5bc-b3779df72686.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/fallen-transport.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Covered still body with two walking bearers; interpretive garments. Fine registration remains polish."
+    },
+    {
+      "sheet": "volunteer-bank-actions",
+      "promptId": "frontier-v1/volunteer-bank-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-loophole-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-de2eb4b1-7e23-465c-b9f1-6f71d744cc4b.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e8dccc8a-7ae6-4735-9d1b-fd1e5bf152d1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/volunteer-bank-actions.png",
+      "refinements": [
+        {
+          "prompt": "Edit exact atlas to fix clipping: six sprites in2columns3rows. Make EACH whole sprite including hats boots rifles ramrod 25percent SMALLER inside its own cell, centered with generous transparent margins. No sprite or weapon touches or crosses horizontal/vertical cell boundary. Preserve same6poses sameidentity samecolors. Especially bottomright ramrod tip must stay below thirdrow topboundary, do not overlap middle right foot. True transparent background zeroalpha no glow no scenery. Full silhouettes intact.",
+          "source": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e8dccc8a-7ae6-4735-9d1b-fd1e5bf152d1.png"
+        }
+      ],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Six interpretive action keyposes. Preview sequence; live shot timing and ground registration require integration."
+    },
+    {
+      "sheet": "people-river-gestures",
+      "promptId": "frontier-v1/people-river-gestures",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7fc8b7b1-d65e-4f6b-bbf1-d7dee5444026.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7fc8b7b1-d65e-4f6b-bbf1-d7dee5444026.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-river-gestures.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Teal/elder identity-specific civilian observation and pointing. East/west only; other cast retains search fallback."
+    },
+    {
+      "sheet": "people-gonzales-smiths",
+      "promptId": "frontier-v1/people-gonzales-smiths",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png"
+      ],
+      "originalSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-00a453bc-d1d9-45b1-b536-868c374721e3.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2512594f-a995-4841-afd3-ace41fbe1e89.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-smiths.png",
+      "refinements": [
+        {
+          "prompt": "Edit this16pose4x4atlas to correct working stance and spacing. ALL16 men must be STANDING UPRIGHT onbothfeet, knees nearlystraight, lean onlyslightlyforward atwaist. NO sitting squatting or deepkneebend. Increase anvil woodstump to put anvil at WAISTheight forstandingworker. Preserve EXACT identities garments all16hammer/chisel/tongs/chainaction phases, eldertop8 ochrebottom8, eastfacing. Scale entire fullfigure+workstation composite smallenough tooccupy atmost70percent ofeachcellheightwidth with min40px transparentgutters. Samebodysizeall4phases stablegroundbaseline eachrow. Hammerraise reachesheadlevel butNOTabovehat. Handscontactworkpiececorrectly. TrueZEROalpha background nofloor/shadows scenery grid text. Standinghumanproportionsmatchingexistingwalkidentity; don't change facesclothes.",
+          "sourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-05cc4d2a-9102-4f3a-9ba9-9f73d1e33576.png"
+        },
+        {
+          "prompt": "Edit ONLY spacing/size in this exact16pose4x4transparentatlas. Every full man+anvil+tools composite MUST fit well inside one313x313cell. SHRINK EVERY composite by25percent relativecurrent, centeredinsideitsowncell; target fullheight230pixels not340. Put feet/base at y=280 within eachcell, hats at y~50. Atleast30pixels completely EMPTY transparent gutter around all4sides EACHcell. Preserve standingstance allposes identitiesclothes ironchain tools includingallboots. No stray neighbor bits/slivers anywhere. EXACT4columns4rows same1254squarecanvas TRUEzeroalpha background nofloorshadows/text. Top2rows elder hammer thenchain;bottom2rows ochrehammer thenchain. This is animationatlasgutterrepair; no pose redesign.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2512594f-a995-4841-afd3-ace41fbe1e89.png"
+        }
+      ],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive smith clothing and tools. Worker composites include anvils; standalone props are separate assembly states."
+    },
+    {
+      "sheet": "gonzales-smith-props",
+      "promptId": "frontier-v1/gonzales-smith-props",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/icons-family-service.png"
+      ],
+      "originalSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-b3dd2631-c4f8-4fc8-8e8f-df5eaaa9ad37.png",
+      "generatedSourcePath": "C:\\Users\\zachw\\.codex\\generated_images\\01a082eb-77f7-7f73-8400-ebcc7426ac7b\\exec-b3dd2631-c4f8-4fc8-8e8f-df5eaaa9ad37.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-smith-props.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive smith clothing and tools. Worker composites include anvils; standalone props are separate assembly states."
+    },
+    {
+      "sheet": "people-gonzales-digging",
+      "promptId": "frontier-v1/people-gonzales-digging",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-31112ff2-47b1-46a2-bd8b-87878d9b7279.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f7c7b031-22b8-414f-a895-d66ce7ae253a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-digging.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Interpretive frontier spade work matching existing elder, ochre and blue identities.",
+      "refinements": [
+        {
+          "prompt": "Shrink each full composite by 25 percent; preserve all poses and identities; minimum 35px empty transparent gutters on all sides.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f7c7b031-22b8-414f-a895-d66ce7ae253a.png"
+        }
+      ]
     }
   ],
   "rejectedAttempts": [

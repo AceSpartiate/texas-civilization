@@ -1,0 +1,38 @@
+{
+  "verdict": "PASS",
+  "people": [
+    {
+      "id": "gz-smith-1",
+      "sceneId": "cannon",
+      "pose": "dig",
+      "moving": false,
+      "clip": "ochre-dig",
+      "x": 0.874,
+      "y": -0.788,
+      "sx": 402,
+      "sy": 218
+    },
+    {
+      "id": "gz-smith-2",
+      "sceneId": "cannon",
+      "pose": "dig",
+      "moving": false,
+      "clip": "elder-dig",
+      "x": 0.906,
+      "y": -0.786,
+      "sx": 498,
+      "sy": 224
+    },
+    {
+      "id": "gz-smith-3",
+      "sceneId": "cannon",
+      "pose": "speak",
+      "moving": false,
+      "clip": "blue-speak",
+      "x": 0.89,
+      "y": -0.774,
+      "sx": 450,
+      "sy": 260
+    }
+  ]
+}

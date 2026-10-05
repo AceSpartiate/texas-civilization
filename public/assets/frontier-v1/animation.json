@@ -322,6 +322,38 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "volunteer-bank-climb": {
+      "frames": [
+        {
+          "sprite": "volunteer-bank-climb-1",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-bank-climb-2",
+          "duration": 500
+        },
+        {
+          "sprite": "volunteer-bank-climb-3",
+          "duration": 200
+        },
+        {
+          "sprite": "volunteer-bank-climb-4",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-bank-climb-5",
+          "duration": 650
+        },
+        {
+          "sprite": "volunteer-bank-climb-6",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "regular-bugler-call": {
       "frames": [
         {
@@ -2614,6 +2646,54 @@
         }
       ],
       "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-fallen-carry": {
+      "frames": [
+        {
+          "sprite": "volunteer-fallen-carry-1",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-fallen-carry-2",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-fallen-carry-3",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-fallen-carry-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "regular-fallen-carry": {
+      "frames": [
+        {
+          "sprite": "regular-fallen-carry-1",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-fallen-carry-2",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-fallen-carry-3",
+          "duration": 400
+        },
+        {
+          "sprite": "regular-fallen-carry-4",
+          "duration": 400
+        }
+      ],
+      "loop": true,
       "authored": true,
       "motion": "none",
       "direction": "east; west by mirroring"
@@ -8809,6 +8889,78 @@
       "motion": "none",
       "direction": "north"
     },
+    "elder-dig": {
+      "frames": [
+        {
+          "sprite": "elder-dig-1",
+          "duration": 450
+        },
+        {
+          "sprite": "elder-dig-2",
+          "duration": 450
+        },
+        {
+          "sprite": "elder-dig-3",
+          "duration": 450
+        },
+        {
+          "sprite": "elder-dig-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-dig": {
+      "frames": [
+        {
+          "sprite": "ochre-dig-1",
+          "duration": 450
+        },
+        {
+          "sprite": "ochre-dig-2",
+          "duration": 450
+        },
+        {
+          "sprite": "ochre-dig-3",
+          "duration": 450
+        },
+        {
+          "sprite": "ochre-dig-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-dig": {
+      "frames": [
+        {
+          "sprite": "blue-dig-1",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-dig-2",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-dig-3",
+          "duration": 450
+        },
+        {
+          "sprite": "blue-dig-4",
+          "duration": 550
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "teal-paint": {
       "frames": [
         {
@@ -8850,6 +9002,166 @@
         {
           "sprite": "blue-girl-paint-2",
           "duration": 760
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-river-watch": {
+      "frames": [
+        {
+          "sprite": "teal-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "teal-river-point": {
+      "frames": [
+        {
+          "sprite": "teal-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-river-watch": {
+      "frames": [
+        {
+          "sprite": "elder-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-river-point": {
+      "frames": [
+        {
+          "sprite": "elder-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-smith-hammer": {
+      "frames": [
+        {
+          "sprite": "elder-smith-hammer-1",
+          "duration": 350
+        },
+        {
+          "sprite": "elder-smith-hammer-2",
+          "duration": 400
+        },
+        {
+          "sprite": "elder-smith-hammer-3",
+          "duration": 220
+        },
+        {
+          "sprite": "elder-smith-hammer-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-smith-chain": {
+      "frames": [
+        {
+          "sprite": "elder-smith-chain-1",
+          "duration": 350
+        },
+        {
+          "sprite": "elder-smith-chain-2",
+          "duration": 400
+        },
+        {
+          "sprite": "elder-smith-chain-3",
+          "duration": 220
+        },
+        {
+          "sprite": "elder-smith-chain-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-smith-hammer": {
+      "frames": [
+        {
+          "sprite": "ochre-smith-hammer-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ochre-smith-hammer-2",
+          "duration": 400
+        },
+        {
+          "sprite": "ochre-smith-hammer-3",
+          "duration": 220
+        },
+        {
+          "sprite": "ochre-smith-hammer-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-smith-chain": {
+      "frames": [
+        {
+          "sprite": "ochre-smith-chain-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ochre-smith-chain-2",
+          "duration": 400
+        },
+        {
+          "sprite": "ochre-smith-chain-3",
+          "duration": 220
+        },
+        {
+          "sprite": "ochre-smith-chain-4",
+          "duration": 300
         }
       ],
       "loop": true,

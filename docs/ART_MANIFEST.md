@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2646 usable sprites, 283 PNG atlases, 921 clips** (613 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2700 usable sprites, 289 PNG atlases, 935 clips** (627 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -23,6 +23,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alamo-scaling-ladders | 4 | 1254 × 1254 | 995871 |
 | regular-ladder-climb | 4 | 1254 × 1254 | 636351 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
+| volunteer-bank-actions | 6 | 1536 × 1024 | 1560397 |
 | white-flag-regular | 4 | 1262 × 1246 | 786638 |
 | white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
 | regular-bugler | 4 | 1262 × 1246 | 691857 |
@@ -52,9 +53,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | land-clearing | 16 | 1254 × 1254 | 904975 |
 | coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
 | regular-prone-actions | 4 | 1536 × 1024 | 1506423 |
+| fallen-transport | 8 | 1536 × 1024 | 1987719 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
-| icons-family-service | 16 | 1254 × 1254 | 1734840 |
+| icons-family-service | 16 | 1254 × 1254 | 1771565 |
 | icons-family-subsistence | 8 | 1774 × 887 | 2248974 |
 | people-family-mother-scarf | 16 | 1254 × 1254 | 1353965 |
 | people-family-father-straw | 16 | 1254 × 1254 | 1351306 |
@@ -118,12 +120,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-castaneda-gestures | 4 | 1254 × 1254 | 929899 |
 | famous-grant | 16 | 1225 × 1284 | 1191949 |
 | famous-grant-mounted | 4 | 1254 × 1254 | 1312009 |
-| famous-grant-gallop | 4 | 1254 × 1254 | 1420237 |
+| famous-grant-gallop | 4 | 1254 × 1254 | 1154800 |
 | famous-hockley | 16 | 1246 × 1262 | 904693 |
 | famous-johnson | 16 | 1312 × 1199 | 1121505 |
 | famous-karnes | 16 | 1246 × 1263 | 1230841 |
 | famous-karnes-mounted | 4 | 1246 × 1263 | 1175856 |
-| famous-lamar | 16 | 1312 × 1199 | 932028 |
+| famous-lamar | 16 | 1312 × 1199 | 847578 |
 | famous-lamar-mounted | 4 | 1312 × 1199 | 1099794 |
 | famous-mcculloch | 16 | 1330 × 1182 | 1041853 |
 | famous-moore | 16 | 1254 × 1254 | 1092408 |
@@ -189,10 +191,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
 | gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
+| people-gonzales-digging | 12 | 1448 × 1086 | 774818 |
 | gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
+| people-river-gestures | 8 | 1774 × 887 | 1213332 |
+| people-gonzales-smiths | 16 | 1254 × 1254 | 1257016 |
+| gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | ground-fog-banks | 4 | 1774 × 887 | 1018893 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
@@ -268,7 +274,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | courier-encounters | 16 | 1254 × 1254 | 1697901 |
 | alamo-facades | 4 | 1254 × 1254 | 1715808 |
 | alamo-interiors | 16 | 1254 × 1254 | 1988444 |
-| joe-poses | 16 | 1254 × 1254 | 1043930 |
+| joe-poses | 16 | 1254 × 1254 | 1066368 |
 | people-search-trade | 16 | 1254 × 1254 | 1188777 |
 | courier-mounted | 16 | 1254 × 1254 | 1299408 |
 | animal-graze | 16 | 1254 × 1254 | 1596224 |
@@ -354,6 +360,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-roundshot-carry | artillery-service | regular-gun-shot-carry |
 | regular-lanyard-pull | artillery-service | regular-gun-fire |
 | regular-cover-ears | artillery-service | regular-gun-fire |
+| volunteer-bank-climb-1 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-2 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-3 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-4 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-5 | volunteer-bank-actions | volunteer-bank-climb |
+| volunteer-bank-climb-6 | volunteer-bank-actions | volunteer-bank-climb |
 | white-flag-regular-idle-e | white-flag-regular | State artwork; no motion required |
 | white-flag-regular-idle-s | white-flag-regular | State artwork; no motion required |
 | white-flag-regular-walk-e-1 | white-flag-regular | white-flag-regular-walk-e |
@@ -660,6 +672,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-prone-aim | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-fire | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-lock | regular-prone-actions | regular-prone-fire-reload |
+| volunteer-fallen-carry-1 | fallen-transport | volunteer-fallen-carry |
+| volunteer-fallen-carry-2 | fallen-transport | volunteer-fallen-carry |
+| volunteer-fallen-carry-3 | fallen-transport | volunteer-fallen-carry |
+| volunteer-fallen-carry-4 | fallen-transport | volunteer-fallen-carry |
+| regular-fallen-carry-1 | fallen-transport | regular-fallen-carry |
+| regular-fallen-carry-2 | fallen-transport | regular-fallen-carry |
+| regular-fallen-carry-3 | fallen-transport | regular-fallen-carry |
+| regular-fallen-carry-4 | fallen-transport | regular-fallen-carry |
 | icon-survey-plot | icons-family-actions-1 | State artwork; no motion required |
 | icon-cut-lane | icons-family-actions-1 | State artwork; no motion required |
 | icon-dig-well | icons-family-actions-1 | State artwork; no motion required |
@@ -1860,6 +1880,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
 | gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
 | gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
+| elder-dig-1 | people-gonzales-digging | elder-dig |
+| elder-dig-2 | people-gonzales-digging | elder-dig |
+| elder-dig-3 | people-gonzales-digging | elder-dig |
+| elder-dig-4 | people-gonzales-digging | elder-dig |
+| ochre-dig-1 | people-gonzales-digging | ochre-dig |
+| ochre-dig-2 | people-gonzales-digging | ochre-dig |
+| ochre-dig-3 | people-gonzales-digging | ochre-dig |
+| ochre-dig-4 | people-gonzales-digging | ochre-dig |
+| blue-dig-1 | people-gonzales-digging | blue-dig |
+| blue-dig-2 | people-gonzales-digging | blue-dig |
+| blue-dig-3 | people-gonzales-digging | blue-dig |
+| blue-dig-4 | people-gonzales-digging | blue-dig |
 | gonzales-ploughed-earth | gonzales-ploughed-earth | State artwork; no motion required |
 | gonzales-flag-work-cloth | gonzales-flag-work-cloth | State artwork; no motion required |
 | gonzales-flag-work-painted | gonzales-flag-work-painted | State artwork; no motion required |
@@ -1869,6 +1901,34 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | indigo-paint-2 | people-gonzales-paint | indigo-paint |
 | blue-girl-paint-1 | people-gonzales-paint | blue-girl-paint |
 | blue-girl-paint-2 | people-gonzales-paint | blue-girl-paint |
+| teal-river-watch-1 | people-river-gestures | teal-river-watch |
+| teal-river-watch-2 | people-river-gestures | teal-river-watch |
+| teal-river-point-1 | people-river-gestures | teal-river-point |
+| teal-river-point-2 | people-river-gestures | teal-river-point |
+| elder-river-watch-1 | people-river-gestures | elder-river-watch |
+| elder-river-watch-2 | people-river-gestures | elder-river-watch |
+| elder-river-point-1 | people-river-gestures | elder-river-point |
+| elder-river-point-2 | people-river-gestures | elder-river-point |
+| elder-smith-hammer-1 | people-gonzales-smiths | elder-smith-hammer |
+| elder-smith-hammer-2 | people-gonzales-smiths | elder-smith-hammer |
+| elder-smith-hammer-3 | people-gonzales-smiths | elder-smith-hammer |
+| elder-smith-hammer-4 | people-gonzales-smiths | elder-smith-hammer |
+| elder-smith-chain-1 | people-gonzales-smiths | elder-smith-chain |
+| elder-smith-chain-2 | people-gonzales-smiths | elder-smith-chain |
+| elder-smith-chain-3 | people-gonzales-smiths | elder-smith-chain |
+| elder-smith-chain-4 | people-gonzales-smiths | elder-smith-chain |
+| ochre-smith-hammer-1 | people-gonzales-smiths | ochre-smith-hammer |
+| ochre-smith-hammer-2 | people-gonzales-smiths | ochre-smith-hammer |
+| ochre-smith-hammer-3 | people-gonzales-smiths | ochre-smith-hammer |
+| ochre-smith-hammer-4 | people-gonzales-smiths | ochre-smith-hammer |
+| ochre-smith-chain-1 | people-gonzales-smiths | ochre-smith-chain |
+| ochre-smith-chain-2 | people-gonzales-smiths | ochre-smith-chain |
+| ochre-smith-chain-3 | people-gonzales-smiths | ochre-smith-chain |
+| ochre-smith-chain-4 | people-gonzales-smiths | ochre-smith-chain |
+| gonzales-forge-cold | gonzales-smith-props | State artwork; no motion required |
+| gonzales-forge-lit | gonzales-smith-props | State artwork; no motion required |
+| gonzales-anvil-stump | gonzales-smith-props | State artwork; no motion required |
+| gonzales-chain-tools | gonzales-smith-props | State artwork; no motion required |
 | mule-packed-grass-walk-e-1 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-2 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-3 | mule-packed-grass | mule-packed-grass-walk-e |
@@ -2967,6 +3027,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | regular-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | regular-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
+| volunteer-bank-climb | Pose cycle | 6 | 2950 | yes | east; west by mirroring |
 | regular-bugler-call | Pose cycle | 4 | 1340 | one-shot | east; mirror for west |
 | white-flag-regular-walk-e | Pose cycle | 2 | 560 | yes | east |
 | white-flag-volunteer-walk-e | Pose cycle | 2 | 560 | yes | east |
@@ -3117,6 +3178,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
 | regular-prone-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
+| volunteer-fallen-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
+| regular-fallen-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | mother-scarf-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
 | mother-scarf-walk-s | Pose cycle | 2 | 560 | yes | south |
 | mother-scarf-walk-n | Pose cycle | 2 | 560 | yes | north |
@@ -3503,9 +3566,20 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
 | prisoner-walk-n | Pose cycle | 2 | 600 | yes | north |
+| elder-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
+| ochre-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
+| blue-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| teal-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| teal-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| elder-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| elder-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| elder-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
+| elder-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
+| ochre-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
+| ochre-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | mule-packed-grass-walk-e | Pose cycle | 4 | 1120 | yes | east |
 | mule-packed-grass-walk-s | Pose cycle | 4 | 1120 | yes | south |
 | mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |

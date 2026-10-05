@@ -431,7 +431,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
   for (let p = 3; p < image.data.length; p += 4) if (image.data[p] === 0) transparentPixels++;
   if (transparentPixels / (image.width * image.height) < 0.25) throw new Error(`${sheet}: less than 25% clear alpha; inspect for a baked background`);
   const { found, labels } = regions(image), grouped = new Map();
-  const columns = names.length === 1 ? 1 : (names.length === 4 || names.length === 6) ? 2 : 4, rows = names.length / columns;
+  const columns = names.length === 1 ? 1 : (names.length === 4 || names.length === 6 || sheet === 'fallen-transport') ? 2 : 4, rows = names.length / columns;
   const cellWidth = image.width / columns, cellHeight = image.height / rows;
   for (const region of found) {
     const col = Math.min(columns - 1, Math.floor((region.minX + region.maxX) / 2 / cellWidth));
@@ -500,6 +500,10 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
     if (sheet === 'alamo-funeral-pyre') return heightOf(placed[0]);
     if (sheet === 'joe-poses' || sheet === 'joe-story-actions') return tallest(placed);
     if (sheet === 'wagon-rig') return name !== 'wagon-wheel' ? heightOf(placed[0]) : undefined;
+    // Astra's 2026-10-04 sheets: the bank actions at the height of their two standing rows; each smith at the height of his own
+    // two rows (hammer, chain).
+    if (sheet === 'volunteer-bank-actions') return tallest(placed.filter(p => p.row < 2));
+    if (sheet === 'people-gonzales-smiths') return tallest(placed.filter(p => Math.floor(p.row / 2) === Math.floor(frame.row / 2)));
     // Family sheets keep seated figures at their own standing scale.
     if (sheet.startsWith('people-family-')) return tallest(placed.filter(p => p.row < 3));
     if (/^(people-|animal-|military-|courier-)/.test(sheet)) return tallest(placed.filter(p => p.row === frame.row));

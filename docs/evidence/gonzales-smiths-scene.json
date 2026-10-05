@@ -1,0 +1,49 @@
+{
+  "verdict": "PASS",
+  "people": [
+    {
+      "id": "gz-smith-1",
+      "sceneId": "cannon",
+      "pose": "forge",
+      "moving": false,
+      "clip": "ochre-smith-hammer",
+      "x": 0.792,
+      "y": -0.961,
+      "sx": 347,
+      "sy": 234
+    },
+    {
+      "id": "gz-smith-2",
+      "sceneId": "cannon",
+      "pose": "forge",
+      "moving": false,
+      "clip": "elder-smith-chain",
+      "x": 0.826,
+      "y": -0.959,
+      "sx": 449,
+      "sy": 240
+    },
+    {
+      "id": "gz-smith-3",
+      "sceneId": "cannon",
+      "pose": "speak",
+      "moving": false,
+      "clip": "blue-speak",
+      "x": 0.806,
+      "y": -0.945,
+      "sx": 389,
+      "sy": 282
+    },
+    {
+      "id": "gz-smith-4",
+      "sceneId": "cannon",
+      "pose": "forge",
+      "moving": false,
+      "clip": "ochre-smith-hammer",
+      "x": 0.84,
+      "y": -0.953,
+      "sx": 491,
+      "sy": 258
+    }
+  ]
+}

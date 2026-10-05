@@ -1,0 +1,50 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "volunteer-fallen-carry-1",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-fallen-carry-2",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-fallen-carry-3",
+      "drawn": true
+    },
+    {
+      "id": "volunteer-fallen-carry-4",
+      "drawn": true
+    },
+    {
+      "id": "regular-fallen-carry-1",
+      "drawn": true
+    },
+    {
+      "id": "regular-fallen-carry-2",
+      "drawn": true
+    },
+    {
+      "id": "regular-fallen-carry-3",
+      "drawn": true
+    },
+    {
+      "id": "regular-fallen-carry-4",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "volunteer-fallen-carry",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "regular-fallen-carry",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

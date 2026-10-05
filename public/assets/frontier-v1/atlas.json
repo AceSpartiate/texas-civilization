@@ -697,6 +697,81 @@
         ]
       }
     },
+    "volunteer-bank-actions": {
+      "image": "atlases/volunteer-bank-actions.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1560397,
+      "sha256": "ee5ba9931e2625668da820aeb5db0450422b435ff99c903afbca11e531bb3435",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.837411,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              31,
+              338
+            ],
+            "columns": [
+              [
+                323,
+                648
+              ],
+              [
+                957,
+                1298
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              374,
+              676
+            ],
+            "columns": [
+              [
+                321,
+                675
+              ],
+              [
+                924,
+                1300
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              670,
+              969
+            ],
+            "columns": [
+              [
+                321,
+                679
+              ],
+              [
+                994,
+                1260
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "white-flag-regular": {
       "image": "atlases/white-flag-regular.png",
       "width": 1262,
@@ -3454,6 +3529,98 @@
         ]
       }
     },
+    "fallen-transport": {
+      "image": "atlases/fallen-transport.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1987719,
+      "sha256": "0f182ef45369a85688b9e462e33e9cfef7acbfee69909a65c2009c979f41e28c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.726426,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              7,
+              255
+            ],
+            "columns": [
+              [
+                192,
+                675
+              ],
+              [
+                910,
+                1298
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              267,
+              511
+            ],
+            "columns": [
+              [
+                190,
+                698
+              ],
+              [
+                910,
+                1301
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              510,
+              763
+            ],
+            "columns": [
+              [
+                182,
+                676
+              ],
+              [
+                889,
+                1335
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              763,
+              1015
+            ],
+            "columns": [
+              [
+                187,
+                685
+              ],
+              [
+                892,
+                1333
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "icons-family-actions-1": {
       "image": "atlases/icons-family-actions-1.png",
       "width": 1254,
@@ -3694,11 +3861,11 @@
       "image": "atlases/icons-family-service.png",
       "width": 1254,
       "height": 1254,
-      "bytes": 1734840,
-      "sha256": "354f0d932302976712764629af728ddb78b64ce631feb5e3067455490bf948fd",
+      "bytes": 1771565,
+      "sha256": "2cfd79fae1285a9d865a009466367ccca76ff69ce2033134abd9dad34efac1c5",
       "alpha": {
         "threshold": 24,
-        "transparentFraction": 0.55602,
+        "transparentFraction": 0.533542,
         "cornerAlpha": [
           0,
           0,
@@ -3714,100 +3881,100 @@
           {
             "row": 1,
             "yRange": [
-              44,
-              326
+              20,
+              329
             ],
             "columns": [
               [
-                42,
-                297
+                28,
+                320
               ],
               [
-                330,
-                626
+                329,
+                627
               ],
               [
-                643,
+                642,
                 936
               ],
               [
-                969,
-                1229
+                968,
+                1230
               ]
             ]
           },
           {
             "row": 2,
             "yRange": [
-              339,
-              633
+              338,
+              635
             ],
             "columns": [
               [
-                43,
-                290
+                42,
+                292
               ],
               [
                 317,
-                619
+                620
               ],
               [
                 632,
-                937
+                939
               ],
               [
-                954,
-                1237
+                951,
+                1238
               ]
             ]
           },
           {
             "row": 3,
             "yRange": [
-              641,
-              927
+              643,
+              936
             ],
             "columns": [
               [
-                87,
-                310
+                24,
+                323
               ],
               [
                 334,
-                617
+                618
               ],
               [
-                699,
-                903
+                698,
+                904
               ],
               [
-                959,
-                1232
+                958,
+                1233
               ]
             ]
           },
           {
             "row": 4,
             "yRange": [
-              944,
-              1214
+              943,
+              1215
             ],
             "columns": [
               [
-                20,
-                312
+                19,
+                313
               ],
               [
                 326,
-                609
+                613
               ],
               [
-                639,
-                934
+                637,
+                936
               ],
               [
-                951,
-                1228
+                949,
+                1229
               ]
             ]
           }
@@ -9336,15 +9503,15 @@
       "image": "atlases/famous-grant-gallop.png",
       "width": 1254,
       "height": 1254,
-      "bytes": 1420237,
-      "sha256": "3372949799975df14a1c1b0bc0d9380f978798cd4bacca4b6993f074a0eed0f1",
+      "bytes": 1154800,
+      "sha256": "7f54be0453800d7f93da18cc292be4039d4c8ce3636c831a7285230376daa608",
       "alpha": {
         "threshold": 24,
-        "transparentFraction": 0.623714,
+        "transparentFraction": 0.706613,
         "cornerAlpha": [
           0,
           0,
-          1,
+          0,
           0
         ]
       },
@@ -9356,34 +9523,34 @@
           {
             "row": 1,
             "yRange": [
-              56,
-              576
+              129,
+              579
             ],
             "columns": [
               [
-                9,
-                616
+                48,
+                586
               ],
               [
-                616,
-                1253
+                653,
+                1218
               ]
             ]
           },
           {
             "row": 2,
             "yRange": [
-              633,
-              1168
+              711,
+              1166
             ],
             "columns": [
               [
-                9,
-                619
+                41,
+                588
               ],
               [
-                619,
-                1247
+                660,
+                1232
               ]
             ]
           }
@@ -9824,11 +9991,11 @@
       "image": "atlases/famous-lamar.png",
       "width": 1312,
       "height": 1199,
-      "bytes": 932028,
-      "sha256": "1b373cad43726c6b4f180cfdadbd09cc9d3cb9d67e5fecc738aec88ac4c2f54f",
+      "bytes": 847578,
+      "sha256": "1a4baaff8bcbd77862835fe90c1a271cf5838edc2b3a2302de6d58b5936d3154",
       "alpha": {
         "threshold": 24,
-        "transparentFraction": 0.776676,
+        "transparentFraction": 0.785416,
         "cornerAlpha": [
           0,
           0,
@@ -9853,15 +10020,15 @@
                 288
               ],
               [
-                431,
+                430,
                 579
               ],
               [
-                736,
+                735,
                 904
               ],
               [
-                1047,
+                1045,
                 1210
               ]
             ]
@@ -9870,23 +10037,23 @@
             "row": 2,
             "yRange": [
               293,
-              562
+              561
             ],
             "columns": [
               [
-                146,
-                268
+                145,
+                269
               ],
               [
-                448,
+                447,
                 563
               ],
               [
-                755,
-                870
+                753,
+                869
               ],
               [
-                1067,
+                1066,
                 1179
               ]
             ]
@@ -9894,50 +10061,50 @@
           {
             "row": 3,
             "yRange": [
-              575,
-              863
+              585,
+              851
             ],
             "columns": [
               [
-                127,
-                243
+                129,
+                242
               ],
               [
-                441,
-                639
+                442,
+                636
               ],
               [
-                739,
-                874
+                745,
+                875
               ],
               [
-                1000,
-                1224
+                1003,
+                1217
               ]
             ]
           },
           {
             "row": 4,
             "yRange": [
-              887,
-              1172
+              884,
+              1142
             ],
             "columns": [
               [
-                94,
-                287
+                111,
+                289
               ],
               [
-                406,
-                589
+                413,
+                581
               ],
               [
-                743,
-                877
+                749,
+                873
               ],
               [
-                1078,
-                1186
+                1085,
+                1189
               ]
             ]
           }
@@ -14971,6 +15138,105 @@
         ]
       }
     },
+    "people-gonzales-digging": {
+      "image": "atlases/people-gonzales-digging.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 774818,
+      "sha256": "866248c8d013e3e60f9d48df8cae883ade58bde88bc068579a04014b4296d9be",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.799931,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              73,
+              328
+            ],
+            "columns": [
+              [
+                134,
+                273
+              ],
+              [
+                495,
+                636
+              ],
+              [
+                799,
+                989
+              ],
+              [
+                1150,
+                1370
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              428,
+              684
+            ],
+            "columns": [
+              [
+                131,
+                266
+              ],
+              [
+                495,
+                629
+              ],
+              [
+                795,
+                995
+              ],
+              [
+                1149,
+                1371
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              760,
+              1018
+            ],
+            "columns": [
+              [
+                128,
+                263
+              ],
+              [
+                494,
+                632
+              ],
+              [
+                794,
+                1002
+              ],
+              [
+                1147,
+                1376
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "gonzales-ploughed-earth": {
       "image": "atlases/gonzales-ploughed-earth.png",
       "width": 2172,
@@ -15151,6 +15417,262 @@
               [
                 614,
                 874
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-river-gestures": {
+      "image": "atlases/people-river-gestures.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1213332,
+      "sha256": "35480f699373fc30cb770205c79275bccac1597c1ae4d7b570ab8d6d77a83b35",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.639641,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              14,
+              443
+            ],
+            "columns": [
+              [
+                75,
+                387
+              ],
+              [
+                505,
+                852
+              ],
+              [
+                947,
+                1348
+              ],
+              [
+                1366,
+                1749
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              442,
+              874
+            ],
+            "columns": [
+              [
+                93,
+                388
+              ],
+              [
+                540,
+                844
+              ],
+              [
+                980,
+                1353
+              ],
+              [
+                1414,
+                1764
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-gonzales-smiths": {
+      "image": "atlases/people-gonzales-smiths.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1257016,
+      "sha256": "e3662414a9f5b55f9a8c7061735ab391b286592b63214d95b6e7ab67755317cd",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.640313,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              58,
+              325
+            ],
+            "columns": [
+              [
+                73,
+                270
+              ],
+              [
+                384,
+                581
+              ],
+              [
+                696,
+                895
+              ],
+              [
+                1012,
+                1207
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              370,
+              638
+            ],
+            "columns": [
+              [
+                73,
+                277
+              ],
+              [
+                386,
+                591
+              ],
+              [
+                696,
+                894
+              ],
+              [
+                1010,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              670,
+              925
+            ],
+            "columns": [
+              [
+                68,
+                271
+              ],
+              [
+                386,
+                584
+              ],
+              [
+                697,
+                898
+              ],
+              [
+                1014,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              968,
+              1209
+            ],
+            "columns": [
+              [
+                70,
+                274
+              ],
+              [
+                388,
+                590
+              ],
+              [
+                697,
+                896
+              ],
+              [
+                1014,
+                1210
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-smith-props": {
+      "image": "atlases/gonzales-smith-props.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1582180,
+      "sha256": "0f1afb9e305e0fd8b1c17d99529dad4ac3e912a72e8fc05474873db26ce8f3c2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.590497,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              106,
+              580
+            ],
+            "columns": [
+              [
+                13,
+                639
+              ],
+              [
+                649,
+                1254
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              633,
+              1189
+            ],
+            "columns": [
+              [
+                58,
+                617
+              ],
+              [
+                678,
+                1227
               ]
             ]
           }
@@ -21473,11 +21995,11 @@
       "image": "atlases/joe-poses.png",
       "width": 1254,
       "height": 1254,
-      "bytes": 1043930,
-      "sha256": "fededa5a14caef448c3726b8a4b857b70bb73415cd9fa2526493e713f7e33fa5",
+      "bytes": 1066368,
+      "sha256": "e18054881ef2afa01e2455d00f733db2a4e3c14a9ec7bdd003293cd4b9b8fb36",
       "alpha": {
         "threshold": 24,
-        "transparentFraction": 0.735989,
+        "transparentFraction": 0.71756,
         "cornerAlpha": [
           0,
           0,
@@ -21493,100 +22015,100 @@
           {
             "row": 1,
             "yRange": [
-              10,
-              314
+              9,
+              315
             ],
             "columns": [
               [
-                82,
-                289
+                77,
+                293
               ],
               [
-                387,
-                597
+                384,
+                601
               ],
               [
-                683,
-                883
+                682,
+                891
               ],
               [
-                992,
-                1192
+                993,
+                1201
               ]
             ]
           },
           {
             "row": 2,
             "yRange": [
-              325,
-              625
+              326,
+              631
             ],
             "columns": [
               [
-                104,
-                244
+                97,
+                247
               ],
               [
-                410,
-                554
+                409,
+                562
               ],
               [
-                711,
-                844
+                707,
+                851
               ],
               [
-                1017,
-                1152
+                1019,
+                1162
               ]
             ]
           },
           {
             "row": 3,
             "yRange": [
-              625,
-              900
+              630,
+              904
             ],
             "columns": [
               [
-                95,
-                262
+                93,
+                269
               ],
               [
-                403,
-                559
+                401,
+                568
               ],
               [
-                699,
-                877
+                693,
+                884
               ],
               [
-                1018,
-                1193
+                1017,
+                1208
               ]
             ]
           },
           {
             "row": 4,
             "yRange": [
-              897,
-              1233
+              924,
+              1224
             ],
             "columns": [
               [
-                122,
+                126,
                 231
               ],
               [
-                413,
-                528
+                421,
+                530
               ],
               [
-                692,
-                887
+                705,
+                886
               ],
               [
-                1014,
-                1182
+                1029,
+                1210
               ]
             ]
           }
@@ -26014,6 +26536,156 @@
         "visiblePixels": 21411,
         "trimmedPixels": 0,
         "retainedFraction": 1
+      }
+    },
+    "volunteer-bank-climb-1": {
+      "sheet": "volunteer-bank-actions",
+      "x": 323,
+      "y": 31,
+      "w": 325,
+      "h": 306,
+      "anchorX": 0.1092,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 1",
+      "kind": "volunteer-bank-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          325,
+          33,
+          321,
+          302
+        ],
+        "visiblePixels": 34640,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-bank-climb-2": {
+      "sheet": "volunteer-bank-actions",
+      "x": 957,
+      "y": 44,
+      "w": 341,
+      "h": 294,
+      "anchorX": 0.3065,
+      "anchorY": 0.9286,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 2",
+      "kind": "volunteer-bank-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          959,
+          46,
+          337,
+          290
+        ],
+        "visiblePixels": 34849,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-bank-climb-3": {
+      "sheet": "volunteer-bank-actions",
+      "x": 321,
+      "y": 374,
+      "w": 354,
+      "h": 302,
+      "anchorX": 0.3178,
+      "anchorY": 0.9338,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 3",
+      "kind": "volunteer-bank-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          323,
+          376,
+          350,
+          298
+        ],
+        "visiblePixels": 38599,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-bank-climb-4": {
+      "sheet": "volunteer-bank-actions",
+      "x": 924,
+      "y": 383,
+      "w": 376,
+      "h": 287,
+      "anchorX": 0.3072,
+      "anchorY": 0.9373,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 4",
+      "kind": "volunteer-bank-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          926,
+          385,
+          372,
+          286
+        ],
+        "visiblePixels": 37911,
+        "trimmedPixels": 8,
+        "retainedFraction": 0.999789
+      }
+    },
+    "volunteer-bank-climb-5": {
+      "sheet": "volunteer-bank-actions",
+      "x": 321,
+      "y": 717,
+      "w": 358,
+      "h": 247,
+      "anchorX": 0.3198,
+      "anchorY": 0.9271,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 5",
+      "kind": "volunteer-bank-actions",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          323,
+          719,
+          354,
+          243
+        ],
+        "visiblePixels": 38924,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-bank-climb-6": {
+      "sheet": "volunteer-bank-actions",
+      "x": 994,
+      "y": 670,
+      "w": 266,
+      "h": 299,
+      "anchorX": 0.3985,
+      "anchorY": 0.9331,
+      "logicalHeight": 306,
+      "label": "volunteer bank climb 6",
+      "kind": "volunteer-bank-actions",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          996,
+          669,
+          262,
+          298
+        ],
+        "visiblePixels": 38813,
+        "trimmedPixels": 1,
+        "retainedFraction": 0.999974
       }
     },
     "white-flag-regular-idle-e": {
@@ -33600,6 +34272,198 @@
         "retainedFraction": 1
       }
     },
+    "volunteer-fallen-carry-1": {
+      "sheet": "fallen-transport",
+      "x": 192,
+      "y": 7,
+      "w": 483,
+      "h": 247,
+      "anchorX": 0.5072,
+      "anchorY": 0.9271,
+      "label": "volunteer fallen carry 1",
+      "kind": "fallen-transport",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          194,
+          9,
+          479,
+          243
+        ],
+        "visiblePixels": 45253,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-fallen-carry-2": {
+      "sheet": "fallen-transport",
+      "x": 910,
+      "y": 7,
+      "w": 388,
+      "h": 248,
+      "anchorX": 0.5039,
+      "anchorY": 0.9315,
+      "label": "volunteer fallen carry 2",
+      "kind": "fallen-transport",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          912,
+          9,
+          384,
+          244
+        ],
+        "visiblePixels": 41199,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-fallen-carry-3": {
+      "sheet": "fallen-transport",
+      "x": 190,
+      "y": 268,
+      "w": 508,
+      "h": 242,
+      "anchorX": 0.4931,
+      "anchorY": 0.9298,
+      "label": "volunteer fallen carry 3",
+      "kind": "fallen-transport",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          192,
+          270,
+          504,
+          240
+        ],
+        "visiblePixels": 45146,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-fallen-carry-4": {
+      "sheet": "fallen-transport",
+      "x": 910,
+      "y": 267,
+      "w": 391,
+      "h": 244,
+      "anchorX": 0.509,
+      "anchorY": 0.9262,
+      "label": "volunteer fallen carry 4",
+      "kind": "fallen-transport",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          912,
+          269,
+          387,
+          242
+        ],
+        "visiblePixels": 41249,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-fallen-carry-1": {
+      "sheet": "fallen-transport",
+      "x": 182,
+      "y": 510,
+      "w": 494,
+      "h": 253,
+      "anchorX": 0.4929,
+      "anchorY": 0.9289,
+      "label": "regular fallen carry 1",
+      "kind": "fallen-transport",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          184,
+          511,
+          490,
+          250
+        ],
+        "visiblePixels": 44676,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-fallen-carry-2": {
+      "sheet": "fallen-transport",
+      "x": 889,
+      "y": 511,
+      "w": 446,
+      "h": 252,
+      "anchorX": 0.491,
+      "anchorY": 0.9286,
+      "label": "regular fallen carry 2",
+      "kind": "fallen-transport",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          891,
+          511,
+          442,
+          250
+        ],
+        "visiblePixels": 43382,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-fallen-carry-3": {
+      "sheet": "fallen-transport",
+      "x": 187,
+      "y": 763,
+      "w": 498,
+      "h": 252,
+      "anchorX": 0.492,
+      "anchorY": 0.9286,
+      "label": "regular fallen carry 3",
+      "kind": "fallen-transport",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          189,
+          765,
+          494,
+          248
+        ],
+        "visiblePixels": 44530,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-fallen-carry-4": {
+      "sheet": "fallen-transport",
+      "x": 892,
+      "y": 763,
+      "w": 441,
+      "h": 252,
+      "anchorX": 0.4989,
+      "anchorY": 0.9325,
+      "label": "regular fallen carry 4",
+      "kind": "fallen-transport",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          894,
+          765,
+          437,
+          248
+        ],
+        "visiblePixels": 43137,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
     "icon-survey-plot": {
       "sheet": "icons-family-actions-1",
       "x": 12,
@@ -34298,120 +35162,120 @@
     },
     "icon-enlist-regular": {
       "sheet": "icons-family-service",
-      "x": 42,
-      "y": 44,
-      "w": 255,
-      "h": 282,
-      "anchorX": 0.302,
-      "anchorY": 0.9291,
+      "x": 28,
+      "y": 20,
+      "w": 292,
+      "h": 309,
+      "anchorX": 0.1969,
+      "anchorY": 0.9288,
       "label": "icon enlist regular",
       "kind": "icons-family-service",
       "row": 1,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          44,
-          46,
-          251,
-          278
+          30,
+          22,
+          288,
+          305
         ],
-        "visiblePixels": 40573,
+        "visiblePixels": 44406,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-enlist-auxiliary": {
       "sheet": "icons-family-service",
-      "x": 330,
+      "x": 329,
       "y": 123,
-      "w": 296,
-      "h": 197,
-      "anchorX": 0.2044,
-      "anchorY": 0.9289,
+      "w": 298,
+      "h": 198,
+      "anchorX": 0.1997,
+      "anchorY": 0.9293,
       "label": "icon enlist auxiliary",
       "kind": "icons-family-service",
       "row": 1,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          332,
+          331,
           125,
-          292,
-          193
+          294,
+          194
         ],
-        "visiblePixels": 34768,
+        "visiblePixels": 35316,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-join-garrison": {
       "sheet": "icons-family-service",
-      "x": 643,
-      "y": 46,
-      "w": 293,
-      "h": 277,
-      "anchorX": 0.6809,
-      "anchorY": 0.9278,
+      "x": 642,
+      "y": 45,
+      "w": 294,
+      "h": 279,
+      "anchorX": 0.4966,
+      "anchorY": 0.9283,
       "label": "icon join garrison",
       "kind": "icons-family-service",
       "row": 1,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          645,
-          48,
-          289,
-          273
+          644,
+          47,
+          290,
+          275
         ],
-        "visiblePixels": 45022,
+        "visiblePixels": 47178,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-join-matamoros": {
       "sheet": "icons-family-service",
-      "x": 969,
+      "x": 968,
       "y": 81,
-      "w": 260,
-      "h": 233,
-      "anchorX": 0.7442,
-      "anchorY": 0.927,
+      "w": 262,
+      "h": 234,
+      "anchorX": 0.7462,
+      "anchorY": 0.9274,
       "label": "icon join matamoros",
       "kind": "icons-family-service",
       "row": 1,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          971,
+          970,
           83,
-          256,
-          229
+          258,
+          230
         ],
-        "visiblePixels": 29512,
+        "visiblePixels": 30904,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-go-vote": {
       "sheet": "icons-family-service",
-      "x": 43,
-      "y": 374,
-      "w": 247,
-      "h": 246,
-      "anchorX": 0.4453,
-      "anchorY": 0.9268,
+      "x": 42,
+      "y": 373,
+      "w": 250,
+      "h": 249,
+      "anchorX": 0.442,
+      "anchorY": 0.9277,
       "label": "icon go vote",
       "kind": "icons-family-service",
       "row": 2,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          45,
-          376,
-          243,
-          242
+          44,
+          375,
+          246,
+          245
         ],
-        "visiblePixels": 44468,
+        "visiblePixels": 45318,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -34420,10 +35284,10 @@
       "sheet": "icons-family-service",
       "x": 317,
       "y": 368,
-      "w": 302,
-      "h": 262,
-      "anchorX": 0.5315,
-      "anchorY": 0.9275,
+      "w": 303,
+      "h": 265,
+      "anchorX": 0.5264,
+      "anchorY": 0.9283,
       "label": "icon winter recall",
       "kind": "icons-family-service",
       "row": 2,
@@ -34432,10 +35296,10 @@
         "sourceBounds": [
           319,
           370,
-          298,
-          258
+          299,
+          261
         ],
-        "visiblePixels": 47645,
+        "visiblePixels": 51145,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -34443,11 +35307,11 @@
     "icon-join-relief": {
       "sheet": "icons-family-service",
       "x": 632,
-      "y": 384,
-      "w": 305,
-      "h": 244,
-      "anchorX": 0.2984,
-      "anchorY": 0.9262,
+      "y": 386,
+      "w": 307,
+      "h": 245,
+      "anchorX": 0.2948,
+      "anchorY": 0.9265,
       "label": "icon join relief",
       "kind": "icons-family-service",
       "row": 2,
@@ -34455,59 +35319,59 @@
       "audit": {
         "sourceBounds": [
           634,
-          386,
-          301,
-          240
+          388,
+          303,
+          241
         ],
-        "visiblePixels": 45453,
+        "visiblePixels": 48914,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-join-houston": {
       "sheet": "icons-family-service",
-      "x": 954,
-      "y": 339,
-      "w": 283,
-      "h": 294,
-      "anchorX": 0.3216,
-      "anchorY": 0.9286,
+      "x": 951,
+      "y": 338,
+      "w": 287,
+      "h": 297,
+      "anchorX": 0.3484,
+      "anchorY": 0.9394,
       "label": "icon join houston",
       "kind": "icons-family-service",
       "row": 2,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          956,
-          341,
-          279,
-          290
+          953,
+          340,
+          283,
+          293
         ],
-        "visiblePixels": 48550,
+        "visiblePixels": 50583,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-camp-drill": {
       "sheet": "icons-family-service",
-      "x": 87,
-      "y": 641,
-      "w": 223,
-      "h": 286,
-      "anchorX": 0.1973,
-      "anchorY": 0.9301,
+      "x": 24,
+      "y": 643,
+      "w": 299,
+      "h": 293,
+      "anchorX": 0.4783,
+      "anchorY": 0.9283,
       "label": "icon camp drill",
       "kind": "icons-family-service",
       "row": 3,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          89,
-          643,
-          219,
-          282
+          26,
+          645,
+          295,
+          289
         ],
-        "visiblePixels": 26660,
+        "visiblePixels": 54355,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -34515,11 +35379,11 @@
     "icon-camp-forage": {
       "sheet": "icons-family-service",
       "x": 334,
-      "y": 661,
-      "w": 283,
-      "h": 250,
-      "anchorX": 0.6996,
-      "anchorY": 0.948,
+      "y": 662,
+      "w": 284,
+      "h": 251,
+      "anchorX": 0.6972,
+      "anchorY": 0.9283,
       "label": "icon camp forage",
       "kind": "icons-family-service",
       "row": 3,
@@ -34527,22 +35391,22 @@
       "audit": {
         "sourceBounds": [
           336,
-          663,
-          279,
-          246
+          664,
+          280,
+          247
         ],
-        "visiblePixels": 27798,
+        "visiblePixels": 29173,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-camp-guard": {
       "sheet": "icons-family-service",
-      "x": 699,
-      "y": 642,
-      "w": 204,
+      "x": 698,
+      "y": 643,
+      "w": 206,
       "h": 277,
-      "anchorX": 0.1667,
+      "anchorX": 0.1675,
       "anchorY": 0.9278,
       "label": "icon camp guard",
       "kind": "icons-family-service",
@@ -34550,60 +35414,60 @@
       "column": 3,
       "audit": {
         "sourceBounds": [
-          701,
-          644,
-          200,
+          700,
+          645,
+          202,
           273
         ],
-        "visiblePixels": 18329,
+        "visiblePixels": 19031,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-camp-scout": {
       "sheet": "icons-family-service",
-      "x": 959,
+      "x": 958,
       "y": 692,
-      "w": 273,
-      "h": 212,
-      "anchorX": 0.4744,
-      "anchorY": 0.9292,
+      "w": 275,
+      "h": 213,
+      "anchorX": 0.4745,
+      "anchorY": 0.9296,
       "label": "icon camp scout",
       "kind": "icons-family-service",
       "row": 3,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          961,
+          960,
           694,
-          269,
-          208
+          271,
+          209
         ],
-        "visiblePixels": 26452,
+        "visiblePixels": 27344,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-hunt-road": {
       "sheet": "icons-family-service",
-      "x": 20,
+      "x": 19,
       "y": 1004,
-      "w": 292,
-      "h": 201,
-      "anchorX": 0.5839,
-      "anchorY": 0.9254,
+      "w": 294,
+      "h": 204,
+      "anchorX": 0.5799,
+      "anchorY": 0.9265,
       "label": "icon hunt road",
       "kind": "icons-family-service",
       "row": 4,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          22,
+          21,
           1006,
-          288,
-          197
+          290,
+          200
         ],
-        "visiblePixels": 27547,
+        "visiblePixels": 29656,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -34612,10 +35476,10 @@
       "sheet": "icons-family-service",
       "x": 326,
       "y": 977,
-      "w": 283,
-      "h": 225,
-      "anchorX": 0.6767,
-      "anchorY": 0.9289,
+      "w": 287,
+      "h": 228,
+      "anchorX": 0.6777,
+      "anchorY": 0.9298,
       "label": "icon tend sick",
       "kind": "icons-family-service",
       "row": 4,
@@ -34624,58 +35488,58 @@
         "sourceBounds": [
           328,
           979,
-          279,
-          221
+          283,
+          224
         ],
-        "visiblePixels": 45571,
+        "visiblePixels": 47509,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-trade-crossing": {
       "sheet": "icons-family-service",
-      "x": 639,
-      "y": 944,
-      "w": 295,
-      "h": 270,
-      "anchorX": 0.4966,
-      "anchorY": 0.9296,
+      "x": 637,
+      "y": 943,
+      "w": 299,
+      "h": 272,
+      "anchorX": 0.495,
+      "anchorY": 0.9265,
       "label": "icon trade crossing",
       "kind": "icons-family-service",
       "row": 4,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          641,
-          946,
-          291,
-          266
+          639,
+          945,
+          295,
+          268
         ],
-        "visiblePixels": 54395,
+        "visiblePixels": 56613,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "icon-fetch-logs": {
       "sheet": "icons-family-service",
-      "x": 951,
+      "x": 949,
       "y": 966,
-      "w": 277,
-      "h": 242,
-      "anchorX": 0.509,
-      "anchorY": 0.9298,
+      "w": 280,
+      "h": 244,
+      "anchorX": 0.5089,
+      "anchorY": 0.9262,
       "label": "icon fetch logs",
       "kind": "icons-family-service",
       "row": 4,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          953,
+          951,
           968,
-          273,
-          238
+          276,
+          240
         ],
-        "visiblePixels": 52477,
+        "visiblePixels": 54655,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -49470,102 +50334,102 @@
     },
     "grant-mounted-gallop-e-1": {
       "sheet": "famous-grant-gallop",
-      "x": 9,
-      "y": 56,
-      "w": 607,
-      "h": 508,
-      "anchorX": 0.4992,
-      "anchorY": 0.9291,
-      "logicalHeight": 535,
+      "x": 48,
+      "y": 129,
+      "w": 538,
+      "h": 443,
+      "anchorX": 0.4987,
+      "anchorY": 0.9278,
+      "logicalHeight": 455,
       "label": "grant mounted gallop e 1",
       "kind": "famous-grant-gallop",
       "row": 1,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          11,
-          58,
-          604,
-          504
+          50,
+          131,
+          534,
+          439
         ],
-        "visiblePixels": 132343,
+        "visiblePixels": 105446,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "grant-mounted-gallop-e-2": {
       "sheet": "famous-grant-gallop",
-      "x": 616,
-      "y": 69,
-      "w": 637,
-      "h": 507,
-      "anchorX": 0.4715,
-      "anchorY": 0.9645,
-      "logicalHeight": 535,
+      "x": 653,
+      "y": 147,
+      "w": 565,
+      "h": 432,
+      "anchorX": 0.4677,
+      "anchorY": 0.9653,
+      "logicalHeight": 455,
       "label": "grant mounted gallop e 2",
       "kind": "famous-grant-gallop",
       "row": 1,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          618,
-          71,
-          633,
-          503
+          655,
+          149,
+          561,
+          428
         ],
-        "visiblePixels": 138243,
+        "visiblePixels": 104837,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "grant-mounted-gallop-e-3": {
       "sheet": "famous-grant-gallop",
-      "x": 9,
-      "y": 633,
-      "w": 610,
-      "h": 535,
-      "anchorX": 0.4975,
-      "anchorY": 0.9308,
-      "logicalHeight": 535,
+      "x": 41,
+      "y": 711,
+      "w": 547,
+      "h": 455,
+      "anchorX": 0.4886,
+      "anchorY": 0.9297,
+      "logicalHeight": 455,
       "label": "grant mounted gallop e 3",
       "kind": "famous-grant-gallop",
       "row": 2,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          11,
-          635,
-          615,
-          531
+          43,
+          713,
+          543,
+          451
         ],
-        "visiblePixels": 135984,
-        "trimmedPixels": 142,
-        "retainedFraction": 0.998956
+        "visiblePixels": 106075,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
       }
     },
     "grant-mounted-gallop-e-4": {
       "sheet": "famous-grant-gallop",
-      "x": 619,
-      "y": 673,
-      "w": 628,
-      "h": 480,
-      "anchorX": 0.5018,
-      "anchorY": 0.9542,
-      "logicalHeight": 535,
+      "x": 660,
+      "y": 751,
+      "w": 572,
+      "h": 409,
+      "anchorX": 0.4995,
+      "anchorY": 0.9364,
+      "logicalHeight": 455,
       "label": "grant mounted gallop e 4",
       "kind": "famous-grant-gallop",
       "row": 2,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          613,
-          675,
-          632,
-          476
+          662,
+          753,
+          568,
+          405
         ],
-        "visiblePixels": 130560,
-        "trimmedPixels": 70,
-        "retainedFraction": 0.999464
+        "visiblePixels": 102078,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
       }
     },
     "hockley-walk-e-1": {
@@ -50874,9 +51738,9 @@
       "y": 11,
       "w": 147,
       "h": 261,
-      "anchorX": 0.5271,
+      "anchorX": 0.5304,
       "anchorY": 0.9272,
-      "logicalHeight": 269,
+      "logicalHeight": 268,
       "label": "lamar walk e 1",
       "kind": "famous-lamar",
       "row": 1,
@@ -50888,382 +51752,382 @@
           143,
           257
         ],
-        "visiblePixels": 16553,
+        "visiblePixels": 17533,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-walk-e-2": {
       "sheet": "famous-lamar",
-      "x": 431,
+      "x": 430,
       "y": 11,
-      "w": 148,
-      "h": 254,
-      "anchorX": 0.4687,
-      "anchorY": 0.9291,
-      "logicalHeight": 269,
+      "w": 149,
+      "h": 253,
+      "anchorX": 0.4749,
+      "anchorY": 0.9289,
+      "logicalHeight": 268,
       "label": "lamar walk e 2",
       "kind": "famous-lamar",
       "row": 1,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          433,
+          432,
           13,
-          144,
-          250
+          145,
+          249
         ],
-        "visiblePixels": 16987,
+        "visiblePixels": 17863,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-walk-e-3": {
       "sheet": "famous-lamar",
-      "x": 736,
+      "x": 735,
       "y": 11,
-      "w": 168,
+      "w": 169,
       "h": 254,
-      "anchorX": 0.4971,
+      "anchorX": 0.5002,
       "anchorY": 0.9291,
-      "logicalHeight": 269,
+      "logicalHeight": 268,
       "label": "lamar walk e 3",
       "kind": "famous-lamar",
       "row": 1,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          738,
+          737,
           13,
-          164,
+          165,
           250
         ],
-        "visiblePixels": 14860,
+        "visiblePixels": 15617,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-walk-e-4": {
       "sheet": "famous-lamar",
-      "x": 1047,
+      "x": 1045,
       "y": 13,
-      "w": 163,
+      "w": 165,
       "h": 253,
-      "anchorX": 0.5046,
+      "anchorX": 0.5125,
       "anchorY": 0.9289,
-      "logicalHeight": 269,
+      "logicalHeight": 268,
       "label": "lamar walk e 4",
       "kind": "famous-lamar",
       "row": 1,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          1049,
+          1047,
           15,
-          159,
+          161,
           249
         ],
-        "visiblePixels": 15826,
+        "visiblePixels": 16571,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-walk-s-1": {
       "sheet": "famous-lamar",
-      "x": 146,
-      "y": 294,
-      "w": 122,
-      "h": 265,
-      "anchorX": 0.4948,
-      "anchorY": 0.9283,
-      "logicalHeight": 269,
+      "x": 145,
+      "y": 295,
+      "w": 124,
+      "h": 264,
+      "anchorX": 0.494,
+      "anchorY": 0.928,
+      "logicalHeight": 268,
       "label": "lamar walk s 1",
       "kind": "famous-lamar",
       "row": 2,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          148,
-          296,
-          118,
-          261
+          147,
+          297,
+          120,
+          260
         ],
-        "visiblePixels": 16290,
+        "visiblePixels": 16692,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-walk-s-2": {
       "sheet": "famous-lamar",
-      "x": 448,
+      "x": 447,
       "y": 300,
-      "w": 115,
+      "w": 116,
       "h": 261,
-      "anchorX": 0.5316,
+      "anchorX": 0.5324,
       "anchorY": 0.9387,
-      "logicalHeight": 269,
+      "logicalHeight": 268,
       "label": "lamar walk s 2",
       "kind": "famous-lamar",
       "row": 2,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          450,
+          449,
           302,
-          111,
+          112,
           257
         ],
-        "visiblePixels": 16330,
+        "visiblePixels": 16669,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-walk-n-1": {
       "sheet": "famous-lamar",
-      "x": 755,
+      "x": 753,
       "y": 293,
-      "w": 115,
-      "h": 269,
-      "anchorX": 0.5405,
-      "anchorY": 0.9294,
-      "logicalHeight": 269,
+      "w": 116,
+      "h": 268,
+      "anchorX": 0.5453,
+      "anchorY": 0.9291,
+      "logicalHeight": 268,
       "label": "lamar walk n 1",
       "kind": "famous-lamar",
       "row": 2,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          757,
+          755,
           295,
-          111,
-          265
+          112,
+          264
         ],
-        "visiblePixels": 17431,
+        "visiblePixels": 17711,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-walk-n-2": {
       "sheet": "famous-lamar",
-      "x": 1067,
+      "x": 1066,
       "y": 295,
-      "w": 112,
+      "w": 113,
       "h": 263,
-      "anchorX": 0.5655,
-      "anchorY": 0.943,
-      "logicalHeight": 269,
+      "anchorX": 0.5598,
+      "anchorY": 0.9354,
+      "logicalHeight": 268,
       "label": "lamar walk n 2",
       "kind": "famous-lamar",
       "row": 2,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          1069,
+          1068,
           297,
-          108,
+          109,
           259
         ],
-        "visiblePixels": 16603,
+        "visiblePixels": 17027,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-idle": {
       "sheet": "famous-lamar",
-      "x": 127,
-      "y": 575,
-      "w": 116,
-      "h": 288,
-      "anchorX": 0.5431,
-      "anchorY": 0.9306,
-      "logicalHeight": 269,
+      "x": 129,
+      "y": 585,
+      "w": 113,
+      "h": 265,
+      "anchorX": 0.531,
+      "anchorY": 0.9283,
+      "logicalHeight": 268,
       "label": "lamar idle",
       "kind": "famous-lamar",
       "row": 3,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          129,
-          577,
-          112,
-          284
+          131,
+          587,
+          109,
+          261
         ],
-        "visiblePixels": 19586,
+        "visiblePixels": 17835,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-command": {
       "sheet": "famous-lamar",
-      "x": 441,
-      "y": 578,
-      "w": 198,
-      "h": 285,
-      "anchorX": 0.3232,
-      "anchorY": 0.9298,
-      "logicalHeight": 269,
+      "x": 442,
+      "y": 588,
+      "w": 194,
+      "h": 263,
+      "anchorX": 0.3093,
+      "anchorY": 0.9278,
+      "logicalHeight": 268,
       "label": "lamar command",
       "kind": "famous-lamar",
       "row": 3,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          443,
-          580,
-          194,
-          281
+          444,
+          590,
+          190,
+          259
         ],
-        "visiblePixels": 20968,
+        "visiblePixels": 19685,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-salute": {
       "sheet": "famous-lamar",
-      "x": 739,
-      "y": 582,
-      "w": 135,
-      "h": 279,
-      "anchorX": 0.5667,
-      "anchorY": 0.9319,
-      "logicalHeight": 269,
+      "x": 745,
+      "y": 589,
+      "w": 130,
+      "h": 260,
+      "anchorX": 0.5615,
+      "anchorY": 0.9346,
+      "logicalHeight": 268,
       "label": "lamar salute",
       "kind": "famous-lamar",
       "row": 3,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          741,
-          584,
-          131,
-          275
+          747,
+          591,
+          126,
+          256
         ],
-        "visiblePixels": 19374,
+        "visiblePixels": 17908,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-saber-low": {
       "sheet": "famous-lamar",
-      "x": 1000,
-      "y": 583,
-      "w": 224,
-      "h": 280,
-      "anchorX": 0.7031,
-      "anchorY": 0.9286,
-      "logicalHeight": 269,
+      "x": 1003,
+      "y": 587,
+      "w": 214,
+      "h": 263,
+      "anchorX": 0.715,
+      "anchorY": 0.9278,
+      "logicalHeight": 268,
       "label": "lamar saber low",
       "kind": "famous-lamar",
       "row": 3,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          1002,
-          585,
-          220,
-          276
+          1005,
+          589,
+          210,
+          259
         ],
-        "visiblePixels": 20590,
+        "visiblePixels": 19213,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-reach": {
       "sheet": "famous-lamar",
-      "x": 94,
-      "y": 903,
-      "w": 193,
-      "h": 269,
-      "anchorX": 0.2513,
-      "anchorY": 0.9294,
-      "logicalHeight": 269,
+      "x": 111,
+      "y": 900,
+      "w": 178,
+      "h": 242,
+      "anchorX": 0.2163,
+      "anchorY": 0.9298,
+      "logicalHeight": 268,
       "label": "lamar reach",
       "kind": "famous-lamar",
       "row": 4,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          96,
-          905,
-          189,
-          265
+          113,
+          902,
+          174,
+          238
         ],
-        "visiblePixels": 20049,
+        "visiblePixels": 17383,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-withdraw-signal": {
       "sheet": "famous-lamar",
-      "x": 406,
-      "y": 892,
-      "w": 183,
-      "h": 276,
-      "anchorX": 0.7869,
-      "anchorY": 0.9275,
-      "logicalHeight": 269,
+      "x": 413,
+      "y": 890,
+      "w": 168,
+      "h": 252,
+      "anchorX": 0.7857,
+      "anchorY": 0.9444,
+      "logicalHeight": 268,
       "label": "lamar withdraw signal",
       "kind": "famous-lamar",
       "row": 4,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          408,
-          894,
-          179,
-          272
+          415,
+          892,
+          164,
+          248
         ],
-        "visiblePixels": 19723,
+        "visiblePixels": 17582,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-listen": {
       "sheet": "famous-lamar",
-      "x": 743,
-      "y": 892,
-      "w": 134,
-      "h": 277,
-      "anchorX": 0.3694,
-      "anchorY": 0.9278,
-      "logicalHeight": 269,
+      "x": 749,
+      "y": 887,
+      "w": 124,
+      "h": 254,
+      "anchorX": 0.3427,
+      "anchorY": 0.9291,
+      "logicalHeight": 268,
       "label": "lamar listen",
       "kind": "famous-lamar",
       "row": 4,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          745,
-          894,
-          130,
-          273
+          751,
+          889,
+          120,
+          250
         ],
-        "visiblePixels": 18197,
+        "visiblePixels": 16210,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "lamar-rest": {
       "sheet": "famous-lamar",
-      "x": 1078,
-      "y": 887,
-      "w": 108,
-      "h": 285,
-      "anchorX": 0.213,
-      "anchorY": 0.9333,
-      "logicalHeight": 269,
+      "x": 1085,
+      "y": 884,
+      "w": 104,
+      "h": 258,
+      "anchorX": 0.2067,
+      "anchorY": 0.9302,
+      "logicalHeight": 268,
       "label": "lamar rest",
       "kind": "famous-lamar",
       "row": 4,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          1080,
-          889,
-          104,
-          281
+          1087,
+          886,
+          100,
+          254
         ],
-        "visiblePixels": 18632,
+        "visiblePixels": 16445,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -63532,6 +64396,306 @@
         "retainedFraction": 1
       }
     },
+    "elder-dig-1": {
+      "sheet": "people-gonzales-digging",
+      "x": 134,
+      "y": 73,
+      "w": 139,
+      "h": 254,
+      "anchorX": 0.4532,
+      "anchorY": 0.9449,
+      "logicalHeight": 254,
+      "label": "elder dig 1",
+      "kind": "people-gonzales-digging",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          136,
+          75,
+          135,
+          250
+        ],
+        "visiblePixels": 21402,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-dig-2": {
+      "sheet": "people-gonzales-digging",
+      "x": 495,
+      "y": 77,
+      "w": 141,
+      "h": 250,
+      "anchorX": 0.4716,
+      "anchorY": 0.956,
+      "logicalHeight": 254,
+      "label": "elder dig 2",
+      "kind": "people-gonzales-digging",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          497,
+          79,
+          137,
+          246
+        ],
+        "visiblePixels": 20845,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-dig-3": {
+      "sheet": "people-gonzales-digging",
+      "x": 799,
+      "y": 100,
+      "w": 190,
+      "h": 228,
+      "anchorX": 0.4947,
+      "anchorY": 0.9298,
+      "logicalHeight": 254,
+      "label": "elder dig 3",
+      "kind": "people-gonzales-digging",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          801,
+          102,
+          186,
+          224
+        ],
+        "visiblePixels": 21808,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-dig-4": {
+      "sheet": "people-gonzales-digging",
+      "x": 1150,
+      "y": 93,
+      "w": 220,
+      "h": 233,
+      "anchorX": 0.4977,
+      "anchorY": 0.9442,
+      "logicalHeight": 254,
+      "label": "elder dig 4",
+      "kind": "people-gonzales-digging",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1152,
+          95,
+          216,
+          229
+        ],
+        "visiblePixels": 23221,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-dig-1": {
+      "sheet": "people-gonzales-digging",
+      "x": 131,
+      "y": 428,
+      "w": 135,
+      "h": 256,
+      "anchorX": 0.4741,
+      "anchorY": 0.9453,
+      "logicalHeight": 256,
+      "label": "ochre dig 1",
+      "kind": "people-gonzales-digging",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          133,
+          430,
+          131,
+          252
+        ],
+        "visiblePixels": 21579,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-dig-2": {
+      "sheet": "people-gonzales-digging",
+      "x": 495,
+      "y": 428,
+      "w": 134,
+      "h": 256,
+      "anchorX": 0.4963,
+      "anchorY": 0.9414,
+      "logicalHeight": 256,
+      "label": "ochre dig 2",
+      "kind": "people-gonzales-digging",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          497,
+          430,
+          130,
+          252
+        ],
+        "visiblePixels": 21635,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-dig-3": {
+      "sheet": "people-gonzales-digging",
+      "x": 795,
+      "y": 449,
+      "w": 200,
+      "h": 235,
+      "anchorX": 0.4975,
+      "anchorY": 0.9447,
+      "logicalHeight": 256,
+      "label": "ochre dig 3",
+      "kind": "people-gonzales-digging",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          797,
+          451,
+          196,
+          231
+        ],
+        "visiblePixels": 23354,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-dig-4": {
+      "sheet": "people-gonzales-digging",
+      "x": 1149,
+      "y": 443,
+      "w": 222,
+      "h": 241,
+      "anchorX": 0.5,
+      "anchorY": 0.9295,
+      "logicalHeight": 256,
+      "label": "ochre dig 4",
+      "kind": "people-gonzales-digging",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1151,
+          445,
+          218,
+          237
+        ],
+        "visiblePixels": 24313,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-dig-1": {
+      "sheet": "people-gonzales-digging",
+      "x": 128,
+      "y": 761,
+      "w": 135,
+      "h": 255,
+      "anchorX": 0.4963,
+      "anchorY": 0.949,
+      "logicalHeight": 255,
+      "label": "blue dig 1",
+      "kind": "people-gonzales-digging",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          130,
+          763,
+          131,
+          251
+        ],
+        "visiblePixels": 21175,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-dig-2": {
+      "sheet": "people-gonzales-digging",
+      "x": 494,
+      "y": 760,
+      "w": 138,
+      "h": 255,
+      "anchorX": 0.5,
+      "anchorY": 0.9451,
+      "logicalHeight": 255,
+      "label": "blue dig 2",
+      "kind": "people-gonzales-digging",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          496,
+          762,
+          134,
+          251
+        ],
+        "visiblePixels": 21758,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-dig-3": {
+      "sheet": "people-gonzales-digging",
+      "x": 794,
+      "y": 777,
+      "w": 208,
+      "h": 241,
+      "anchorX": 0.4976,
+      "anchorY": 0.9295,
+      "logicalHeight": 255,
+      "label": "blue dig 3",
+      "kind": "people-gonzales-digging",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          796,
+          779,
+          204,
+          237
+        ],
+        "visiblePixels": 24265,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-dig-4": {
+      "sheet": "people-gonzales-digging",
+      "x": 1147,
+      "y": 777,
+      "w": 229,
+      "h": 239,
+      "anchorX": 0.4956,
+      "anchorY": 0.9289,
+      "logicalHeight": 255,
+      "label": "blue dig 4",
+      "kind": "people-gonzales-digging",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1149,
+          779,
+          225,
+          235
+        ],
+        "visiblePixels": 23426,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
     "gonzales-ploughed-earth": {
       "sheet": "gonzales-ploughed-earth",
       "x": 60,
@@ -63750,6 +64914,702 @@
           369
         ],
         "visiblePixels": 60037,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-river-watch-1": {
+      "sheet": "people-river-gestures",
+      "x": 75,
+      "y": 16,
+      "w": 312,
+      "h": 426,
+      "anchorX": 0.4375,
+      "anchorY": 0.9718,
+      "logicalHeight": 429,
+      "label": "teal river watch 1",
+      "kind": "people-river-gestures",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          18,
+          308,
+          423
+        ],
+        "visiblePixels": 73248,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-river-watch-2": {
+      "sheet": "people-river-gestures",
+      "x": 505,
+      "y": 16,
+      "w": 347,
+      "h": 427,
+      "anchorX": 0.4135,
+      "anchorY": 0.9649,
+      "logicalHeight": 429,
+      "label": "teal river watch 2",
+      "kind": "people-river-gestures",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          507,
+          18,
+          343,
+          423
+        ],
+        "visiblePixels": 73228,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-river-point-1": {
+      "sheet": "people-river-gestures",
+      "x": 947,
+      "y": 14,
+      "w": 401,
+      "h": 429,
+      "anchorX": 0.3491,
+      "anchorY": 0.972,
+      "logicalHeight": 429,
+      "label": "teal river point 1",
+      "kind": "people-river-gestures",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          949,
+          16,
+          397,
+          425
+        ],
+        "visiblePixels": 74168,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-river-point-2": {
+      "sheet": "people-river-gestures",
+      "x": 1366,
+      "y": 36,
+      "w": 383,
+      "h": 406,
+      "anchorX": 0.3747,
+      "anchorY": 0.968,
+      "logicalHeight": 429,
+      "label": "teal river point 2",
+      "kind": "people-river-gestures",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1368,
+          38,
+          379,
+          402
+        ],
+        "visiblePixels": 70428,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-river-watch-1": {
+      "sheet": "people-river-gestures",
+      "x": 93,
+      "y": 442,
+      "w": 295,
+      "h": 432,
+      "anchorX": 0.3458,
+      "anchorY": 0.9537,
+      "logicalHeight": 432,
+      "label": "elder river watch 1",
+      "kind": "people-river-gestures",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          444,
+          291,
+          428
+        ],
+        "visiblePixels": 62099,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-river-watch-2": {
+      "sheet": "people-river-gestures",
+      "x": 540,
+      "y": 473,
+      "w": 304,
+      "h": 401,
+      "anchorX": 0.3207,
+      "anchorY": 0.9451,
+      "logicalHeight": 432,
+      "label": "elder river watch 2",
+      "kind": "people-river-gestures",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          542,
+          475,
+          300,
+          397
+        ],
+        "visiblePixels": 56070,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-river-point-1": {
+      "sheet": "people-river-gestures",
+      "x": 980,
+      "y": 445,
+      "w": 373,
+      "h": 429,
+      "anchorX": 0.2815,
+      "anchorY": 0.951,
+      "logicalHeight": 432,
+      "label": "elder river point 1",
+      "kind": "people-river-gestures",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          982,
+          447,
+          369,
+          425
+        ],
+        "visiblePixels": 62515,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-river-point-2": {
+      "sheet": "people-river-gestures",
+      "x": 1414,
+      "y": 460,
+      "w": 350,
+      "h": 414,
+      "anchorX": 0.29,
+      "anchorY": 0.9517,
+      "logicalHeight": 432,
+      "label": "elder river point 2",
+      "kind": "people-river-gestures",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1416,
+          462,
+          346,
+          410
+        ],
+        "visiblePixels": 60205,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-smith-hammer-1": {
+      "sheet": "people-gonzales-smiths",
+      "x": 73,
+      "y": 62,
+      "w": 197,
+      "h": 262,
+      "anchorX": 0.4924,
+      "anchorY": 0.9504,
+      "logicalHeight": 267,
+      "label": "elder smith hammer 1",
+      "kind": "people-gonzales-smiths",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          64,
+          193,
+          258
+        ],
+        "visiblePixels": 29194,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-smith-hammer-2": {
+      "sheet": "people-gonzales-smiths",
+      "x": 384,
+      "y": 58,
+      "w": 197,
+      "h": 267,
+      "anchorX": 0.4924,
+      "anchorY": 0.9401,
+      "logicalHeight": 267,
+      "label": "elder smith hammer 2",
+      "kind": "people-gonzales-smiths",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          386,
+          60,
+          193,
+          263
+        ],
+        "visiblePixels": 30009,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-smith-hammer-3": {
+      "sheet": "people-gonzales-smiths",
+      "x": 696,
+      "y": 67,
+      "w": 199,
+      "h": 258,
+      "anchorX": 0.495,
+      "anchorY": 0.9419,
+      "logicalHeight": 267,
+      "label": "elder smith hammer 3",
+      "kind": "people-gonzales-smiths",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          69,
+          195,
+          254
+        ],
+        "visiblePixels": 28955,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-smith-hammer-4": {
+      "sheet": "people-gonzales-smiths",
+      "x": 1012,
+      "y": 64,
+      "w": 195,
+      "h": 261,
+      "anchorX": 0.4923,
+      "anchorY": 0.9579,
+      "logicalHeight": 267,
+      "label": "elder smith hammer 4",
+      "kind": "people-gonzales-smiths",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1014,
+          66,
+          191,
+          257
+        ],
+        "visiblePixels": 29003,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-smith-chain-1": {
+      "sheet": "people-gonzales-smiths",
+      "x": 73,
+      "y": 374,
+      "w": 204,
+      "h": 262,
+      "anchorX": 0.4975,
+      "anchorY": 0.9466,
+      "logicalHeight": 267,
+      "label": "elder smith chain 1",
+      "kind": "people-gonzales-smiths",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          376,
+          200,
+          258
+        ],
+        "visiblePixels": 31446,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-smith-chain-2": {
+      "sheet": "people-gonzales-smiths",
+      "x": 386,
+      "y": 370,
+      "w": 205,
+      "h": 266,
+      "anchorX": 0.4976,
+      "anchorY": 0.9511,
+      "logicalHeight": 267,
+      "label": "elder smith chain 2",
+      "kind": "people-gonzales-smiths",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          388,
+          372,
+          201,
+          262
+        ],
+        "visiblePixels": 32962,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-smith-chain-3": {
+      "sheet": "people-gonzales-smiths",
+      "x": 696,
+      "y": 381,
+      "w": 198,
+      "h": 257,
+      "anchorX": 0.4975,
+      "anchorY": 0.93,
+      "logicalHeight": 267,
+      "label": "elder smith chain 3",
+      "kind": "people-gonzales-smiths",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          383,
+          194,
+          253
+        ],
+        "visiblePixels": 30739,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-smith-chain-4": {
+      "sheet": "people-gonzales-smiths",
+      "x": 1010,
+      "y": 383,
+      "w": 200,
+      "h": 254,
+      "anchorX": 0.5,
+      "anchorY": 0.937,
+      "logicalHeight": 267,
+      "label": "elder smith chain 4",
+      "kind": "people-gonzales-smiths",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1012,
+          385,
+          196,
+          250
+        ],
+        "visiblePixels": 30424,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-smith-hammer-1": {
+      "sheet": "people-gonzales-smiths",
+      "x": 68,
+      "y": 671,
+      "w": 203,
+      "h": 253,
+      "anchorX": 0.5025,
+      "anchorY": 0.9447,
+      "logicalHeight": 254,
+      "label": "ochre smith hammer 1",
+      "kind": "people-gonzales-smiths",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          70,
+          673,
+          199,
+          249
+        ],
+        "visiblePixels": 29111,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-smith-hammer-2": {
+      "sheet": "people-gonzales-smiths",
+      "x": 386,
+      "y": 670,
+      "w": 198,
+      "h": 254,
+      "anchorX": 0.4975,
+      "anchorY": 0.9488,
+      "logicalHeight": 254,
+      "label": "ochre smith hammer 2",
+      "kind": "people-gonzales-smiths",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          388,
+          672,
+          194,
+          250
+        ],
+        "visiblePixels": 29926,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-smith-hammer-3": {
+      "sheet": "people-gonzales-smiths",
+      "x": 697,
+      "y": 674,
+      "w": 201,
+      "h": 250,
+      "anchorX": 0.495,
+      "anchorY": 0.928,
+      "logicalHeight": 254,
+      "label": "ochre smith hammer 3",
+      "kind": "people-gonzales-smiths",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          676,
+          197,
+          246
+        ],
+        "visiblePixels": 29131,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-smith-hammer-4": {
+      "sheet": "people-gonzales-smiths",
+      "x": 1014,
+      "y": 673,
+      "w": 196,
+      "h": 252,
+      "anchorX": 0.4949,
+      "anchorY": 0.9325,
+      "logicalHeight": 254,
+      "label": "ochre smith hammer 4",
+      "kind": "people-gonzales-smiths",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          675,
+          192,
+          248
+        ],
+        "visiblePixels": 28621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-smith-chain-1": {
+      "sheet": "people-gonzales-smiths",
+      "x": 70,
+      "y": 969,
+      "w": 204,
+      "h": 239,
+      "anchorX": 0.5,
+      "anchorY": 0.9289,
+      "logicalHeight": 254,
+      "label": "ochre smith chain 1",
+      "kind": "people-gonzales-smiths",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          72,
+          971,
+          200,
+          235
+        ],
+        "visiblePixels": 28625,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-smith-chain-2": {
+      "sheet": "people-gonzales-smiths",
+      "x": 388,
+      "y": 968,
+      "w": 202,
+      "h": 240,
+      "anchorX": 0.495,
+      "anchorY": 0.95,
+      "logicalHeight": 254,
+      "label": "ochre smith chain 2",
+      "kind": "people-gonzales-smiths",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          970,
+          198,
+          236
+        ],
+        "visiblePixels": 29466,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-smith-chain-3": {
+      "sheet": "people-gonzales-smiths",
+      "x": 697,
+      "y": 972,
+      "w": 199,
+      "h": 236,
+      "anchorX": 0.4925,
+      "anchorY": 0.9534,
+      "logicalHeight": 254,
+      "label": "ochre smith chain 3",
+      "kind": "people-gonzales-smiths",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          974,
+          195,
+          232
+        ],
+        "visiblePixels": 28069,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-smith-chain-4": {
+      "sheet": "people-gonzales-smiths",
+      "x": 1014,
+      "y": 973,
+      "w": 196,
+      "h": 236,
+      "anchorX": 0.4974,
+      "anchorY": 0.928,
+      "logicalHeight": 254,
+      "label": "ochre smith chain 4",
+      "kind": "people-gonzales-smiths",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1016,
+          975,
+          192,
+          232
+        ],
+        "visiblePixels": 27752,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-forge-cold": {
+      "sheet": "gonzales-smith-props",
+      "x": 13,
+      "y": 106,
+      "w": 626,
+      "h": 471,
+      "anchorX": 0.738,
+      "anchorY": 0.9299,
+      "label": "gonzales forge cold",
+      "kind": "gonzales-smith-props",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          15,
+          108,
+          622,
+          467
+        ],
+        "visiblePixels": 143150,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-forge-lit": {
+      "sheet": "gonzales-smith-props",
+      "x": 649,
+      "y": 107,
+      "w": 605,
+      "h": 473,
+      "anchorX": 0.7455,
+      "anchorY": 0.9281,
+      "label": "gonzales forge lit",
+      "kind": "gonzales-smith-props",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          651,
+          109,
+          602,
+          469
+        ],
+        "visiblePixels": 136258,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-anvil-stump": {
+      "sheet": "gonzales-smith-props",
+      "x": 58,
+      "y": 633,
+      "w": 559,
+      "h": 556,
+      "anchorX": 0.5572,
+      "anchorY": 0.9299,
+      "label": "gonzales anvil stump",
+      "kind": "gonzales-smith-props",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          60,
+          635,
+          555,
+          552
+        ],
+        "visiblePixels": 203251,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "gonzales-chain-tools": {
+      "sheet": "gonzales-smith-props",
+      "x": 678,
+      "y": 724,
+      "w": 549,
+      "h": 434,
+      "anchorX": 0.6621,
+      "anchorY": 0.9286,
+      "label": "gonzales chain tools",
+      "kind": "gonzales-smith-props",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          680,
+          726,
+          545,
+          430
+        ],
+        "visiblePixels": 136376,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
@@ -80320,400 +82180,400 @@
     },
     "joe-walk-1": {
       "sheet": "joe-poses",
-      "x": 82,
-      "y": 10,
-      "w": 207,
-      "h": 302,
-      "anchorX": 0.5094,
-      "anchorY": 0.9272,
-      "logicalHeight": 336,
+      "x": 77,
+      "y": 9,
+      "w": 216,
+      "h": 305,
+      "anchorX": 0.505,
+      "anchorY": 0.9279,
+      "logicalHeight": 305,
       "label": "joe walk 1",
       "kind": "joe-poses",
       "row": 1,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          84,
-          12,
-          203,
-          298
+          79,
+          11,
+          212,
+          301
         ],
-        "visiblePixels": 21634,
+        "visiblePixels": 23293,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-walk-2": {
       "sheet": "joe-poses",
-      "x": 387,
+      "x": 384,
       "y": 10,
-      "w": 210,
-      "h": 303,
-      "anchorX": 0.486,
-      "anchorY": 0.9274,
-      "logicalHeight": 336,
+      "w": 217,
+      "h": 305,
+      "anchorX": 0.4859,
+      "anchorY": 0.9279,
+      "logicalHeight": 305,
       "label": "joe walk 2",
       "kind": "joe-poses",
       "row": 1,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          389,
+          386,
           12,
-          206,
-          299
+          213,
+          301
         ],
-        "visiblePixels": 21602,
+        "visiblePixels": 22874,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-walk-3": {
       "sheet": "joe-poses",
-      "x": 683,
-      "y": 13,
-      "w": 200,
-      "h": 300,
-      "anchorX": 0.4994,
-      "anchorY": 0.93,
-      "logicalHeight": 336,
+      "x": 682,
+      "y": 11,
+      "w": 209,
+      "h": 303,
+      "anchorX": 0.5043,
+      "anchorY": 0.9274,
+      "logicalHeight": 305,
       "label": "joe walk 3",
       "kind": "joe-poses",
       "row": 1,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          685,
-          15,
-          196,
-          296
+          684,
+          13,
+          205,
+          299
         ],
-        "visiblePixels": 22795,
+        "visiblePixels": 24193,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-walk-4": {
       "sheet": "joe-poses",
-      "x": 992,
+      "x": 993,
       "y": 13,
-      "w": 200,
-      "h": 301,
-      "anchorX": 0.4731,
-      "anchorY": 0.9269,
-      "logicalHeight": 336,
+      "w": 208,
+      "h": 302,
+      "anchorX": 0.4711,
+      "anchorY": 0.9272,
+      "logicalHeight": 305,
       "label": "joe walk 4",
       "kind": "joe-poses",
       "row": 1,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          994,
+          995,
           15,
-          196,
-          297
+          204,
+          298
         ],
-        "visiblePixels": 20329,
+        "visiblePixels": 21572,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-walk-s-1": {
       "sheet": "joe-poses",
-      "x": 104,
-      "y": 331,
-      "w": 140,
-      "h": 291,
-      "anchorX": 0.454,
-      "anchorY": 0.9519,
-      "logicalHeight": 336,
+      "x": 97,
+      "y": 329,
+      "w": 150,
+      "h": 300,
+      "anchorX": 0.4663,
+      "anchorY": 0.9333,
+      "logicalHeight": 305,
       "label": "joe walk s 1",
       "kind": "joe-poses",
       "row": 2,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          106,
-          333,
-          136,
-          287
+          99,
+          331,
+          146,
+          296
         ],
-        "visiblePixels": 21085,
+        "visiblePixels": 23647,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-walk-s-2": {
       "sheet": "joe-poses",
-      "x": 410,
-      "y": 327,
-      "w": 144,
-      "h": 295,
-      "anchorX": 0.4475,
-      "anchorY": 0.939,
-      "logicalHeight": 336,
+      "x": 409,
+      "y": 326,
+      "w": 153,
+      "h": 303,
+      "anchorX": 0.4546,
+      "anchorY": 0.9307,
+      "logicalHeight": 305,
       "label": "joe walk s 2",
       "kind": "joe-poses",
       "row": 2,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          412,
-          329,
-          140,
-          291
+          411,
+          328,
+          149,
+          299
         ],
-        "visiblePixels": 21147,
+        "visiblePixels": 23656,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-walk-n-1": {
       "sheet": "joe-poses",
-      "x": 711,
-      "y": 325,
-      "w": 133,
-      "h": 299,
-      "anchorX": 0.5517,
-      "anchorY": 0.9599,
-      "logicalHeight": 336,
+      "x": 707,
+      "y": 327,
+      "w": 144,
+      "h": 304,
+      "anchorX": 0.5495,
+      "anchorY": 0.9605,
+      "logicalHeight": 305,
       "label": "joe walk n 1",
       "kind": "joe-poses",
       "row": 2,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          713,
-          327,
-          129,
-          295
+          709,
+          329,
+          140,
+          300
         ],
-        "visiblePixels": 20483,
+        "visiblePixels": 23309,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-walk-n-2": {
       "sheet": "joe-poses",
-      "x": 1017,
+      "x": 1019,
       "y": 327,
-      "w": 135,
-      "h": 298,
-      "anchorX": 0.5417,
-      "anchorY": 0.9732,
-      "logicalHeight": 336,
+      "w": 143,
+      "h": 303,
+      "anchorX": 0.5516,
+      "anchorY": 0.9736,
+      "logicalHeight": 305,
       "label": "joe walk n 2",
       "kind": "joe-poses",
       "row": 2,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          1019,
+          1021,
           329,
-          131,
-          295
+          139,
+          301
         ],
-        "visiblePixels": 20387,
+        "visiblePixels": 22926,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-hide-1": {
       "sheet": "joe-poses",
-      "x": 95,
-      "y": 686,
-      "w": 167,
-      "h": 194,
-      "anchorX": 0.4641,
-      "anchorY": 0.9485,
-      "logicalHeight": 336,
+      "x": 93,
+      "y": 688,
+      "w": 176,
+      "h": 197,
+      "anchorX": 0.4545,
+      "anchorY": 0.9442,
+      "logicalHeight": 305,
       "label": "joe hide 1",
       "kind": "joe-poses",
       "row": 3,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          97,
-          688,
-          163,
-          190
+          95,
+          690,
+          172,
+          193
         ],
-        "visiblePixels": 20769,
+        "visiblePixels": 22470,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-hide-2": {
       "sheet": "joe-poses",
-      "x": 403,
-      "y": 663,
-      "w": 156,
-      "h": 219,
-      "anchorX": 0.5224,
-      "anchorY": 0.9269,
-      "logicalHeight": 336,
+      "x": 401,
+      "y": 670,
+      "w": 167,
+      "h": 215,
+      "anchorX": 0.512,
+      "anchorY": 0.9256,
+      "logicalHeight": 305,
       "label": "joe hide 2",
       "kind": "joe-poses",
       "row": 3,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          405,
-          665,
-          152,
-          215
+          403,
+          672,
+          163,
+          211
         ],
-        "visiblePixels": 21070,
+        "visiblePixels": 22357,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-rise": {
       "sheet": "joe-poses",
-      "x": 699,
-      "y": 642,
-      "w": 178,
-      "h": 248,
-      "anchorX": 0.6854,
-      "anchorY": 0.9435,
-      "logicalHeight": 336,
+      "x": 693,
+      "y": 648,
+      "w": 191,
+      "h": 246,
+      "anchorX": 0.678,
+      "anchorY": 0.9512,
+      "logicalHeight": 305,
       "label": "joe rise",
       "kind": "joe-poses",
       "row": 3,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          701,
-          644,
-          174,
-          244
+          695,
+          650,
+          187,
+          242
         ],
-        "visiblePixels": 24747,
+        "visiblePixels": 26667,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-cautious": {
       "sheet": "joe-poses",
-      "x": 1018,
-      "y": 625,
-      "w": 175,
-      "h": 275,
-      "anchorX": 0.46,
-      "anchorY": 0.9382,
-      "logicalHeight": 336,
+      "x": 1017,
+      "y": 630,
+      "w": 191,
+      "h": 274,
+      "anchorX": 0.4555,
+      "anchorY": 0.9307,
+      "logicalHeight": 305,
       "label": "joe cautious",
       "kind": "joe-poses",
       "row": 3,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          1020,
-          627,
-          171,
-          271
+          1019,
+          630,
+          187,
+          272
         ],
-        "visiblePixels": 22008,
+        "visiblePixels": 24944,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-idle": {
       "sheet": "joe-poses",
-      "x": 122,
-      "y": 897,
-      "w": 109,
-      "h": 332,
-      "anchorX": 0.5,
-      "anchorY": 0.9277,
-      "logicalHeight": 336,
+      "x": 126,
+      "y": 924,
+      "w": 105,
+      "h": 300,
+      "anchorX": 0.4905,
+      "anchorY": 0.93,
+      "logicalHeight": 305,
       "label": "joe idle",
       "kind": "joe-poses",
       "row": 4,
       "column": 1,
       "audit": {
         "sourceBounds": [
-          124,
-          899,
-          105,
-          328
+          128,
+          926,
+          101,
+          296
         ],
-        "visiblePixels": 21222,
+        "visiblePixels": 18071,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-speak-1": {
       "sheet": "joe-poses",
-      "x": 413,
-      "y": 898,
-      "w": 115,
-      "h": 332,
-      "anchorX": 0.487,
-      "anchorY": 0.9307,
-      "logicalHeight": 336,
+      "x": 421,
+      "y": 928,
+      "w": 109,
+      "h": 294,
+      "anchorX": 0.4954,
+      "anchorY": 0.9286,
+      "logicalHeight": 305,
       "label": "joe speak 1",
       "kind": "joe-poses",
       "row": 4,
       "column": 2,
       "audit": {
         "sourceBounds": [
-          415,
-          900,
-          111,
-          328
+          423,
+          930,
+          105,
+          290
         ],
-        "visiblePixels": 23330,
+        "visiblePixels": 19471,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-speak-2": {
       "sheet": "joe-poses",
-      "x": 692,
-      "y": 897,
-      "w": 195,
-      "h": 336,
-      "anchorX": 0.4821,
-      "anchorY": 0.9464,
-      "logicalHeight": 336,
+      "x": 705,
+      "y": 925,
+      "w": 181,
+      "h": 296,
+      "anchorX": 0.4862,
+      "anchorY": 0.9426,
+      "logicalHeight": 305,
       "label": "joe speak 2",
       "kind": "joe-poses",
       "row": 4,
       "column": 3,
       "audit": {
         "sourceBounds": [
-          694,
-          899,
-          191,
-          332
+          707,
+          927,
+          177,
+          292
         ],
-        "visiblePixels": 27524,
+        "visiblePixels": 22922,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
     },
     "joe-rest-pose": {
       "sheet": "joe-poses",
-      "x": 1014,
-      "y": 993,
-      "w": 168,
-      "h": 220,
-      "anchorX": 0.6726,
-      "anchorY": 0.9273,
-      "logicalHeight": 336,
+      "x": 1029,
+      "y": 996,
+      "w": 181,
+      "h": 223,
+      "anchorX": 0.6602,
+      "anchorY": 0.9283,
+      "logicalHeight": 305,
       "label": "joe rest pose",
       "kind": "joe-poses",
       "row": 4,
       "column": 4,
       "audit": {
         "sourceBounds": [
-          1016,
-          995,
-          164,
-          216
+          1031,
+          998,
+          177,
+          219
         ],
-        "visiblePixels": 21303,
+        "visiblePixels": 23013,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

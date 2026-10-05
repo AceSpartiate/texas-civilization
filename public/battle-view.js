@@ -1278,14 +1278,18 @@ export function createBattleView(art) {
       ctx.restore();
       return;
     }
-    // Lying still. Carried: two comrades walk him back from the line (VISION.md §16 names both).
+    // Lying still. Carried: two comrades walk him back from the line (VISION.md §16 names both). The carried dead nobody names
+    // are Astra's covered, still bundle (`fallen-carry`, 2026-10-04); living wounded have their own art above.
     // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the wounded carried" - a Texian carried while he is being carried is
     // Claude's `bearers-carry` (two men and a blanket); otherwise, and while it loads, two walking figures beside the lying one.
     const carry = f.down.carried ? Math.min(1, (since - FALL.down) / 20000) : 0;
     const dx = carry * f.size * 3 * (f.side === 'mexican' ? 1 : -1);
-    if (carry > 0 && carry < 1 && f.side !== 'mexican' && art.animated(ctx, 'bearers-carry', x + dx, y, f.size, `${f.slot.index}:carry`, { flip: true })) return;
-    if (!art.drawSprite(ctx, `${kind}-reclining`, x + dx, y, f.size)) { ctx.fillStyle = '#6b6153'; ctx.fillRect(x + dx - f.size * 0.4, y - f.size * 0.12, f.size * 0.8, f.size * 0.12); }
-    if (f.down.carried) for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + dx + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.side !== 'mexican' });
+    const transported = f.down.carried && !f.name && art.animated(ctx, `${kind}-fallen-carry`, x + dx, y, f.size, `fallen:${f.slot.index}`, { timeMs: Math.max(0, since - FALL.down), flip: f.side !== 'mexican', paused: carry >= 1 });
+    if (!transported && carry > 0 && carry < 1 && f.side !== 'mexican' && art.animated(ctx, 'bearers-carry', x + dx, y, f.size, `${f.slot.index}:carry`, { flip: true })) return;
+    if (!transported) {
+      if (!art.drawSprite(ctx, `${kind}-reclining`, x + dx, y, f.size)) { ctx.fillStyle = '#6b6153'; ctx.fillRect(x + dx - f.size * 0.4, y - f.size * 0.12, f.size * 0.8, f.size * 0.12); }
+      if (f.down.carried) for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + dx + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.side !== 'mexican' });
+    }
     // A man the record names where he fell (Milam), and only him: the sampled figures are nobody.
     if (f.name && f.size >= 14) {
       ctx.font = `${Math.round(Math.max(11, Math.min(15, f.size * 0.3)))}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
