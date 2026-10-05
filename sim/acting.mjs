@@ -63,9 +63,15 @@ export function awayWithTheArmy(world, person) {
   if (['serving', 'prisoner'].includes(person?.service?.status)) return true;
   if (world?.army?.members?.includes(person?.id)) return true;
   if (WAR_PURPOSES.includes(person?.travel?.purpose)) return true;
-  if (person?.task === 'help' && !person.travel && person.location?.siteId !== world?.households?.[person.householdId]?.homeSiteId) return true;
+  const home = world?.households?.[person?.householdId]?.homeSiteId;
+  if (person?.task === 'help' && !person.travel && person.location?.siteId !== home) return true;
+  // A volunteer standing anywhere but home with his promise to serve still active: in the volunteers' camp at Gonzales after the
+  // fight, whatever task the walk back left him (owner, 2026-10-05: one state for being away at the war; sim/militia.mjs).
+  if (!person?.travel && person?.location?.siteId && person.location.siteId !== home && servesNow(person)) return true;
   return WAR_CHORES.includes(person?.chore?.id);
 }
+/** Whether this person's promise to serve is still standing (sim/calls.mjs, sim/army.mjs): a volunteer not yet sent for. */
+export const servesNow = person => Boolean(person?.commitments?.some(promise => promise.id === 'volunteer' && promise.status === 'active'));
 /** The camp the men went up the river to in October (sim/directors.mjs `CAMP_SITE`), restated so this file imports nothing of it. */
 const MARCH_CAMP = 'williams-camp';
 /** Whether the journey just begun takes the person to the war (the baby is never taken on it, interactions S4). */

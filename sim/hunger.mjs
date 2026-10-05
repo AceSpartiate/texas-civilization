@@ -31,6 +31,7 @@ import { houseSaving } from './housework.mjs';
 import { shelterOf } from './houses.mjs';
 import { furnitureShares } from './furniture.mjs';
 import { limitLeft, limitOut } from './decision-budget.mjs';
+import { awayWithTheArmy } from './acting.mjs';
 
 const DAY = 1440;
 const GONE = ['dead', 'captured'];
@@ -256,11 +257,13 @@ export function hungerShown(world, person) {
 
 /**
  * What the family eats in a day, as the store is drawn on: at home by whoever is there (sim/routines.mjs), on the road east by
- * everybody with it (sim/scrape.mjs). Whoever is serving eats the army's rations. `make` is what comes in without an order, which
+ * everybody with it (sim/scrape.mjs). Whoever is serving eats the army's rations, and whoever is away at the war his own pack. `make` is what comes in without an order, which
  * since 2026-10-02 is nothing (owner: working about the place makes no food; sim/routines.mjs).
  */
 export function dailyDraw(world, household) {
-  const people = household.members.map(id => world.entities[id]).filter(person => alive(person) && person.service?.status !== 'serving' && !person.visiting);
+  // Nor anybody away at the war (sim/acting.mjs `awayWithTheArmy`): a volunteer eats from his own pack, the militia's issue or what
+  // he finds where he is (owner, 2026-10-05: "They should have food on them, not be pulling from the home supply"; sim/militia.mjs).
+  const people = household.members.map(id => world.entities[id]).filter(person => alive(person) && person.service?.status !== 'serving' && !person.visiting && !awayWithTheArmy(world, person));
   // The road home is eaten as the road east is (sim/scrape.mjs `advanceFlight`, triage 2026-09-29 3.3).
   const onRoad = household.flight && ['fled', 'refuged', 'returning'].includes(household.flight.status);
   if (onRoad) return { eat: eatenADay(world, people), make: 0 };

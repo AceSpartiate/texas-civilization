@@ -8,8 +8,10 @@
 // volunteer takes the family's own powder.
 //
 // A family is asked once, by its settlement, when the express has brought the call for help to its door
-// (sim/expresses.mjs). Somebody who turns out rides to the gathering place and waits there: the gathering and the march
-// (§5.5, step 5) are not built, so what they find is said in words. Staying home is a whole answer, and on the coast the
+// (sim/expresses.mjs). Somebody who turns out rides to the gathering place. Standing in Gonzales when the men go up the river
+// on the night of October 1, he goes with them and is in the fight (sim/directors.mjs `enrolVolunteers`, owner 2026-10-05);
+// coming after it, he is told it by the men there (`tellTooLate`); either way he is away at the war, in the volunteers' camp
+// at its work (sim/militia.mjs) until the army is made (sim/army.mjs) or the family sends for him. Staying home is a whole answer, and on the coast the
 // letters themselves give it. The Gonzales calls - carrying food in, going upriver - are the Gonzales families' own and
 // are untouched (sim/directors.mjs).
 //
