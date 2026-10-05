@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## The Host's map with the famous people: people's colours made ahead — 2026-10-04 (not released)
+## Released as v2026.10.05.1 — 2026-10-05
+
+Main at 0f9b3fb6, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.1>). Sets of changes: from v2026.10.04.1, 5.6 MB; from v2026.10.03.2, 11.5 MB (same launcher). Contents: people's colours made ahead (the Host's map frame time), and Astra's five art commits after 73410a79 (spade work, smiths, R1-R3, riverbank actions, covered fallen transport), with her bank climb put on the firing clock and the Claude stand-ins she replaced deleted. Verification on 0f9b3fb6: npm test 2249, 0 failed; test:famous-people twice (once red on "Neill was not drawn hurt at the guns", the sampled moment recorded before, its frame gates green, Host p95 19.9 ms; once green, Host p95 16.2 ms); battle-concepcion, battle-grass, gonzales-town, towns, art, battle-alamo, battle-gonzales and Astra's six delivery proofs green. Not proved: ThreatDown with either setup; a set of changes carrying a launcher; Chromebook, LAN or classroom.
+
+## The Host's map with the famous people: people's colours made ahead — 2026-10-04 (released in v2026.10.05.1)
 
 Branch `colour-ahead` from origin/main 7fd84af3, with Astra's five art commits after 73410a79 merged in (spade work, smiths, the
 redo audit's R1-R3, riverbank actions, covered fallen transport). The follow-up from v2026.10.04.1: `test:famous-people`'s
