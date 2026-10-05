@@ -1,7 +1,7 @@
 // The armies fighting (docs/CLAUDE_ART_PLAN.md area C: C5, C6, C8, C10, C11): the Texian volunteer and the Mexican line
 // infantryman in the poses the battle engine stands in for today - a regular firing through a loophole, firing over a parapet,
-// a skirmisher running and kneeling to fire, climbing a cut bank to fire over its lip, wading through the marsh. (The wounded
-// carried, rest and sleep in camp, the volunteer at a loophole, the crowbar and the trench are Astra's since 2026-10-03.)
+// a skirmisher running and kneeling to fire, wading through the marsh. (The wounded
+// carried, rest and sleep in camp, the volunteer at a loophole, the crowbar and the trench are Astra's since 2026-10-03; the climb under a cut bank, `volunteer-bank-climb`, since 2026-10-04.)
 // Every figure faces east (mirrored for west) unless its name says -s or -n.
 //
 // Drawn from the person rig with the battle kit (scripts/claude-art/battle-kit/): the volunteer after Astra's `volunteer-*`
@@ -126,33 +126,6 @@ function sheet(id, request, replaceWith, rows, cell = WIDE, columns = 4) {
   sheet('claude-skirmisher', R.troops, 'item 3: `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire` (aim, fire, load; 4 frames), the line\'s regular', rows);
   clips['skirmisher-run-e'] = clip([1, 2, 3, 4].map(i => [`skirmisher-run-e-${i}`, 140]), { prompt: `${WHO.regular}, running east, four frames at a run (140 ms).` });
   clips['skirmisher-kneel-fire'] = clip([[`skirmisher-kneel-fire-1`, 700], [`skirmisher-kneel-fire-2`, 120], [`skirmisher-kneel-fire-3`, 750], [`skirmisher-kneel-fire-4`, 900]], { loop: false, prompt: `${WHO.regular}, kneeling to fire and load, on the fire-reload clip's timing.` });
-}
-
-// ---------------------------------------------------------------------------------------------------- C10: under the bank at Concepción
-{
-  const F = frameOf(VOLUNTEER), g = PO.g(F), c = PO.fireCycle(F, { kind: 'rifle' }), rows = [];
-  const bx = 22 * g, top = 58, step = 24;
-  const bank = ink => bankFace(ink, bx, { top, step });
-  const up = (p, dy) => ({ ...p, pelvis: add(p.pelvis, [0, dy]), feet: { near: add(p.feet.near, [0, dy]), far: add(p.feet.far, [0, dy]) }, ...(p.tool && { tool: { ...p.tool, butt: add(p.tool.butt, [0, dy]), tip: add(p.tool.tip, [0, dy]), draw: ink => drawGun(ink, add(p.tool.butt, [0, dy]), add(p.tool.tip, [0, dy]), { kind: 'rifle' }) } }) });
-  const shift = (p, dx) => ({ ...p, pelvis: add(p.pelvis, [dx, 0]), feet: { near: add(p.feet.near, [dx, 0]), far: add(p.feet.far, [dx, 0]) } });
-  const climb = { view: 'e', pelvis: PO.P(F, 8, 4), lean: 22, feet: { near: [bx + 3, step + 0.5 + F.ankle], far: PO.foot(F, -2) }, knees: { near: 1, far: 1 },
-    tool: PO.gun(F, 'rifle', [0, -6], [26, 60], { near: 0.3, far: 0.5, down: 1 }), elbows: { near: -1, far: -1 } };
-  const onStep = p => shift(up(p, step - 2), 6 * g);
-  const frames = [
-    [climb, 'stepping up the cut in the bank, the rifle in his hands'],
-    [onStep(c.aim), 'up on the step, aiming over the lip of the bank'],
-    [onStep(c.fire), 'the shot over the lip'],
-    [{ ...climb, pelvis: PO.P(F, 4, 2), lean: 8 }, 'stepping down off the cut'],
-    [shift(c.load, -4 * g), 'kneeling under the bank to load, out of the enemy\'s sight'],
-    [shift(c.ramrod, -4 * g), 'standing under the bank ramming the next load home'],
-  ];
-  frames.forEach(([p, what], i) => {
-    const name = `volunteer-bank-climb-${i + 1}`;
-    rows.push([name, `${WHO.volunteer}; at Concepción, October 28, 1835, under the cut riverbank: ${what} (frame ${i + 1} of 6). A slice of the bank - earth five or six feet high, a step cut in it, grass on the lip - is in the frame. ${STYLE}`,
-      () => frame(name, VOLUNTEER, p, { after: bank }), [['volunteer-load', 1], ['volunteer-aim', 1]]]);
-  });
-  sheet('claude-bank-climb', R.concepcion, 'item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank', rows, WIDE, 3);
-  clips['volunteer-bank-climb'] = clip([[1, 500], [2, 700], [3, 140], [4, 450], [5, 900], [6, 900]].map(([i, d]) => [`volunteer-bank-climb-${i}`, d]), { loop: false, prompt: `${WHO.volunteer}: the climb-fire-drop cycle under the bank, the shot on the third frame.` });
 }
 
 // ---------------------------------------------------------------------------------------------------- C11: into the marsh

@@ -6,7 +6,7 @@
 // is; the ground the map does not draw. scripts/battle-1835-browser-proof.mjs holds the same on a real page.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createBattleView, layoutSide } from '../public/battle-view.js';
+import { createBattleView, layoutSide, bankClip } from '../public/battle-view.js';
 import { isClaude, drawsClaude } from './support/claude-names.mjs';
 import { ENGAGEMENTS } from '../sim/battle-stage.mjs';
 
@@ -23,12 +23,12 @@ function fakeContext() {
  * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too, and
  * `{ claude: name => ... }` draws those it says yes to.
  */
-function fakeArt({ claude = false } = {}) {
+function fakeArt({ claude = false, missing = () => false } = {}) {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { if (isClaude(clip) && !drawsClaude(claude, clip)) return 0; drawn.push({ clip, x, y, size, seed, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { if (isClaude(sprite) && !drawsClaude(claude, sprite)) return 0; drawn.push({ sprite, x, y, size, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { if (missing(clip) || (isClaude(clip) && !drawsClaude(claude, clip))) return 0; drawn.push({ clip, x, y, size, seed, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { if (missing(sprite) || (isClaude(sprite) && !drawsClaude(claude, sprite))) return 0; drawn.push({ sprite, x, y, size, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -59,8 +59,23 @@ test('a group of a side is drawn apart from it, keyed by its own name: its own c
   assert.ok(shown.regularityBy.texian > 0.1, `the men under the bank stand in rows: ${shown.regularityBy.texian}`);
 });
 
-test('men under a bank drop below the lip to load and climb to fire; fog lies over the field at the phase\'s density and is gone when it lifts', () => {
+test('men under a bank climb to fire in Astra\'s climb on the firing clock, every man from the same point of her looping clip', () => {
+  // `volunteer-bank-climb` (2026-10-04) loops; the renderer gives a looping clip a seed's random start unless the seed is 0.
   const art = fakeArt(), view = createBattleView(art);
+  run(view, minute => battle(minute, { groups: [] }), 12);
+  const climbing = art.drawn.filter(one => one.clip === 'volunteer-bank-climb'), waiting = art.drawn.filter(one => one.sprite === 'volunteer-bank-climb-5');
+  assert.ok(climbing.length && waiting.length, 'nobody under the bank was drawn in Astra\'s climb, firing and kneeling to load');
+  assert.deepEqual([...new Set(climbing.map(one => one.seed))], [0], 'a man under the bank was set off at his own point of her looping clip');
+  // Her six frames end at 450, 950, 1150, 1600, 2250 and 2950 ms: the step up in the half second before the aim, the shot frame
+  // (950-1150) for exactly the shot, the ramrod (2250-2950) through the ramming.
+  assert.equal(bankClip(-500), 0); assert.ok(bankClip(-1) < 450); assert.equal(bankClip(0), 450);
+  assert.ok(bankClip(1499) < 950 && bankClip(1500) === 950 && bankClip(1699) < 1150 && bankClip(1700) === 1150, 'the shot frame is not the shot');
+  assert.ok(bankClip(1700 + 4200 - 1) < 2250 && bankClip(1700 + 4200) === 2250 && bankClip(1e6) < 2950, 'the ramrod frame is not the ramming');
+});
+
+test('men under a bank drop below the lip to load and climb to fire; fog lies over the field at the phase\'s density and is gone when it lifts', () => {
+  // While her climb has not loaded: the library's firing cycle, and the loading man drawn a third of a figure lower.
+  const art = fakeArt({ missing: name => name.startsWith('volunteer-bank-climb') }), view = createBattleView(art);
   run(view, minute => battle(minute, { fog: 0.8, groups: [] }), 12);
   const loading = art.drawn.filter(one => one.sprite === 'volunteer-load'), firing = art.drawn.filter(one => one.clip === 'volunteer-fire-reload');
   assert.ok(loading.length && firing.length, 'nobody under the bank was drawn loading and firing');

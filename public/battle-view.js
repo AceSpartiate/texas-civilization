@@ -67,6 +67,22 @@ export function musketClip(t, aim = MUSKET.aim) {
   t -= MUSKET.load;
   return Math.min(FIRE_CLIP_MS - 1, 1570 + 900 * t / MUSKET.ramrod);
 }
+/**
+ * Where in Astra's `volunteer-bank-climb` (2026-10-04: step up, aim, the shot, step down, kneel to the lock, the ramrod; 450, 500,
+ * 200, 450, 650 and 700 ms) a man under a bank is, `t` real milliseconds after he brought his piece up: the step up in the half
+ * second before, the shot frame on the shot, stepping down and the lock through the load, the ramrod through the ramming. Her
+ * clip loops at its own pace (a preview of the sequence); here it follows the firing clock, as she asked.
+ */
+export function bankClip(t, aim = MUSKET.aim) {
+  if (t < 0) return 450 * Math.max(0, t + 500) / 500;
+  if (t < aim) return 450 + 500 * t / aim;
+  t -= aim;
+  if (t < MUSKET.fire) return 950 + 200 * t / MUSKET.fire;
+  t -= MUSKET.fire;
+  if (t < MUSKET.load) return 1150 + 1100 * t / MUSKET.load;
+  t -= MUSKET.load;
+  return Math.min(2949, 2250 + 700 * t / MUSKET.ramrod);
+}
 /** How long a Texian waits, at his own pace, between loads: seconds, not a drill-book rate. `FIC-GONZ-446`. */
 const WAIT_MIN_MS = 2000, WAIT_SPAN_MS = 7000;
 /**
@@ -845,16 +861,15 @@ export function createBattleView(art) {
           const wait = slot.wait ?? (WAIT_MIN_MS + hash(`${seed}:w`) * WAIT_SPAN_MS), cycle = MUSKET_MS + wait;
           const t = (time + (slot.phase ?? hash(`${seed}:p`)) * 20000) % cycle;
           // Under a bank (Concepción's riverbank, the Grass Fight's creek beds): up the cut to fire over the lip, down to load.
-          // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 2 - Claude's `volunteer-bank-climb`
-          // (the step up begins half a second before the aim, so the shot falls on its third frame, as the aim's does); while it
-          // loads, the loading figure drawn lower, kneeling.
+          // Astra's `volunteer-bank-climb` (2026-10-04) on the firing clock (`bankClip`), the same seed for every man so her looping
+          // clip is not set off at a random point of itself; while it loads, the loading figure drawn lower, kneeling.
           const climbing = side.style === 'bank' && kind === 'volunteer';
           // At a stone house's loophole (Béxar): the one man seen of its garrison fires through the wall - a volunteer in Astra's
           // crouched `volunteer-loophole-*` (2026-10-03). stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a flat-roofed stone
           // house with loopholes" - a regular is Claude's `regular-loophole-fire`.
           const loophole = side.cover === 'loophole' && (kind === 'volunteer' || kind === 'regular');
           // Lying in the tall grass (Coleto's cazadores at night): Astra's prone marksman (2026-10-03); `prone` above.
-          if (climbing && t >= wait - 500) { clip = 'volunteer-bank-climb'; timeMs = t < wait ? t - wait + 500 : musketClip(t - wait) + 500; flip = !right; fallback = { clip: `${kind}-fire-reload`, timeMs: musketClip(t - wait) }; }
+          if (climbing && t >= wait - 500) { clip = 'volunteer-bank-climb'; timeMs = bankClip(t - wait); flip = !right; fallback = { clip: `${kind}-fire-reload`, timeMs: musketClip(t - wait) }; }
           else if (t < wait) {
             sprite = slot.kneel ? `${kind}-load` : `${kind}-${right ? 'e' : 'w'}`; still = true; flip = slot.kneel ? !right : false;
             if (side.style === 'bank') { sprite = `${kind}-load`; flip = !right; dy = figurePx * 0.32; }
@@ -916,7 +931,7 @@ export function createBattleView(art) {
         // until `clipReady` says it can be drawn.
         const placedAt = dy ? { x: point.x, y: point.y + dy } : point;
         if (prefer) figures.push({ y: point.y, kind, side: side.side, point: placedAt, size, clip: prefer.clip, timeMs: prefer.timeMs ?? timeMs, flip: prefer.flip ?? flip, still, seed, fallback: clip ? { clip, flip } : { sprite, flip } });
-        else figures.push({ y: point.y, kind, side: side.side, point: placedAt, size, clip, sprite, timeMs, flip, still, seed, ...(fallback && { fallback }) });
+        else figures.push({ y: point.y, kind, side: side.side, point: placedAt, size, clip, sprite, timeMs, flip, still, seed: clip === 'volunteer-bank-climb' ? 0 : seed, ...(fallback && { fallback }) });
         if (side.key === side.side || side.part) drawn[side.side].push(point);
         drawnBy[side.key].push(point);
       }

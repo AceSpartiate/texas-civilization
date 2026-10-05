@@ -24,7 +24,9 @@ test('carried dead use covered side-appropriate bundles',()=>{
   const battle=minute=>({id:'transport-proof',phase:'x',minute,live:true,over:false,lines:[],formations:[],members:[],
    sides:[{side,name:side,count:8,drawn:8,style,fire:'none',action:'stand',moving:false,x:0,y:0,facing:{x:1,y:0}}],
    fallen:minute?[{side,count:1,minute:1,wounded:false,carried:true}]:[]});
-  for(const t of [0,1000,2000,3000,4000,5000]) view.draw(ctx,battle(t/1000),{camera,time:t,now:t,tickMs:1000,bounds:{width:1000,height:700}});
+  // Ten seconds: a man of a fall goes down up to FALL.spread (2.4 s) after the first and lies still FALL.down (2.2 s) after he is hit
+  // (public/battle-view.js `drawFallen`); only then is he carried.
+  for(let t=0;t<=10000;t+=1000) view.draw(ctx,battle(t/1000),{camera,time:t,now:t,tickMs:1000,bounds:{width:1000,height:700}});
   assert.ok(drawn.includes(expected),`${side}/${style}: ${drawn}`);
  }
 });

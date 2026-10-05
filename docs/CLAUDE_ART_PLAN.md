@@ -10,11 +10,11 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 33 | 8 | 18 | 0 |
 | B — Children, babies and sickness | 20 | 7 | 13 | 2 |
-| C — Soldiers, battles and famous people | 17 | 1 | 14 | 6 |
+| C — Soldiers, battles and famous people | 16 | 1 | 13 | 7 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 26 | 2 | 12 | 5 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 18 | 4 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 21 | 2 | 11 | 17 |
-| **Total** | **137** | **22** | **86** | **34** |
+| **Total** | **136** | **22** | **85** | **35** |
 
 ## How a builder works
 
@@ -50,11 +50,11 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 4 and 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.notch` in `public/work-art.js`; `workSlot` stands several along the house front
   - **Stands in now:** the hoeing cycle with a drawn axe (drawn in code (canvas or CSS))
-- [ ] **A4** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 4 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-dig`, `rust-dig-well`, `teal-dig`, `teal-dig-well`, `elder-dig`, `elder-dig-well`, `blue-dig`, `blue-dig-well`, `rust-woman-dig`, `rust-woman-dig-well`, `indigo-dig`, `indigo-dig-well`, `ochre-dig`, `ochre-dig-well`, `blue-girl-dig`, `blue-girl-dig-well`)
+- [ ] **A4** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 4 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-dig`, `rust-dig-well`, `teal-dig`, `teal-dig-well`, `elder-dig-well`, `blue-dig-well`, `rust-woman-dig`, `rust-woman-dig-well`, `indigo-dig`, `indigo-dig-well`, `ochre-dig-well`, `blue-girl-dig`, `blue-girl-dig-well`)
   - **Deliver:** `<cast>-dig` (spade driven in with the foot, levered, earth thrown behind, back) and `<cast>-dig-well` (the same waist-deep in a square hole with a low bank of earth)
   - **Frames:** 4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.dig`, `STROKES.grub` in `public/work-art.js`
-  - **Stands in now:** the hoeing cycle with dark clods thrown up (drawn in code (canvas or CSS))
+  - **Stands in now:** elder, ochre and blue `-dig` are Astra's (2026-10-04); for the others and every `-dig-well`, the hoeing cycle with dark clods thrown up (drawn in code (canvas or CSS))
 - [ ] **A5** (priority 1) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-whittle`, `rust-mend-harness`, `rust-sew`, `rust-shell-corn`, `rust-clean-rifle`, `rust-pipe`, `rust-cards`, `rust-wash`, `rust-sweep`, `rust-carry-water`, `teal-whittle`, `teal-mend-harness`, `teal-sew`, `teal-shell-corn`, `teal-clean-rifle`, `teal-pipe`, `teal-cards`, `teal-wash`, `teal-sweep`, `teal-carry-water`, `elder-whittle`, `elder-mend-harness`, `elder-sew`, `elder-shell-corn`, `elder-clean-rifle`, `elder-pipe`, `elder-cards`, `elder-wash`, `elder-sweep`, `elder-carry-water`, `blue-whittle`, `blue-mend-harness`, `blue-sew`, `blue-shell-corn`, `blue-clean-rifle`, `blue-pipe`, `blue-cards`, `blue-wash`, `blue-sweep`, `blue-carry-water`, `rust-woman-whittle`, `rust-woman-mend-harness`, `rust-woman-sew`, `rust-woman-shell-corn`, `rust-woman-clean-rifle`, `rust-woman-pipe`, `rust-woman-cards`, `rust-woman-wash`, `rust-woman-sweep`, `rust-woman-carry-water`, `indigo-whittle`, `indigo-mend-harness`, `indigo-sew`, `indigo-shell-corn`, `indigo-clean-rifle`, `indigo-pipe`, `indigo-cards`, `indigo-wash`, `indigo-sweep`, `indigo-carry-water`, `ochre-whittle`, `ochre-mend-harness`, `ochre-sew`, `ochre-shell-corn`, `ochre-clean-rifle`, `ochre-pipe`, `ochre-cards`, `ochre-wash`, `ochre-sweep`, `ochre-carry-water`, `blue-girl-whittle`, `blue-girl-mend-harness`, `blue-girl-sew`, `blue-girl-shell-corn`, `blue-girl-clean-rifle`, `blue-girl-pipe`, `blue-girl-cards`, `blue-girl-wash`, `blue-girl-sweep`, `blue-girl-carry-water`)
   - **Deliver:** for each of the eight: `-whittle`, `-mend-harness`, `-sew`, `-shell-corn`, `-clean-rifle` (seated, 2 frames each), `-wash` (kneeling at a tub, 2), `-pipe`, `-cards` (seated, 2), `-sweep` (a broom, 4), `-carry-water` (a bucket in each hand, walking, 4, east)
   - **Frames:** 2-4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -314,7 +314,7 @@ Skipped:
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 17 to make, 6 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 16 to make, 7 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
@@ -347,11 +347,6 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** 4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `drawArmy` (`moving`) in `public/army-view.js`
   - **Stands in now:** `regular-march` men in files of three with a `dragoon-march` at the head (Astra's library art reused)
-- [ ] **C10** (priority 2) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), item 2 — **Claude stand-in held back: Astra has drawn the subject** (volunteer), so the page draws hers (`volunteer-bank-climb`)
-  - **Deliver:** `volunteer-bank-climb-1`..`-6` (step up the cut, aim and fire over the lip, step down, load under the bank)
-  - **Frames:** 6 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
-  - **Plugs into:** the `bank` branch of `draw` in `public/battle-view.js`
-  - **Stands in now:** `volunteer-load` a third of a figure lower than the men firing (Astra's library art reused)
 - [ ] **C11** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 4 — **Claude stand-in held back: Astra has drawn the subject** (regular, volunteer), so the page draws hers (`figure-wading-regular`, `figure-wading-volunteer`, `figure-wading`)
   - **Deliver:** `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close
   - **Frames:** 2-4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
@@ -412,6 +407,7 @@ Skipped:
 - ~~C2~~ [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for) — skipped: delivered 2026-10-03 (Astra's `bearers-carry` and `regular-bearers-carry`, living patients only; dead-body carrying is still asked of her in the request); Claude's deleted
 - ~~C4~~ [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto) — skipped: delivered 2026-10-03 (Astra's `*-rest-sit`, `*-sleep`, `musket-stack-small`/`-large`, `breastwork-packs-left`/`-right`); Claude's deleted
 - ~~C7~~ [Request 2026-09-25 — Coleto and Goliad](ART_REQUESTS.md#request-2026-09-25--coleto-and-goliad) — skipped: delivered 2026-10-03 (Astra's prone marksman, `regular-prone-lie` and `regular-prone-fire-reload`); Claude's deleted
+- ~~C10~~ [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight) — skipped: delivered 2026-10-04 (Astra's `volunteer-bank-climb-1`..`-6` and its clip, drawn on the firing clock by `bankClip` in public/battle-view.js); Claude's deleted
 - ~~C12~~ [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for) — skipped: delivered 2026-10-03 (Astra's civilian cannon crew, survivor-travel-gonzales-crew-2026-10-03); Claude's settlers deleted
 - ~~C13~~ [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses) — skipped: delivered 2026-10-03 (Astra's Kimbell, Martin, J. W. Smith, Horton, W. P. Smith, Smither, Sánchez Navarro, Barragán); Claude's sheets deleted
 - ~~CS2~~ [Request 2026-09-27 — Seguín, the ashes, and the later church claim](ART_REQUESTS.md#request-2026-09-27--seguín-the-ashes-and-the-later-church-claim) — skipped: art and storyboard delivered; the trigger is code

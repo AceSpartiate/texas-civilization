@@ -45,17 +45,20 @@ const POSES_A = {
 export const NEAREST = Object.fromEntries(Object.entries(POSES_A).map(([pose, p]) => [pose, p.near]));
 const makeOf = pose => POSES_A[pose].make || (F => WORK[pose](F));
 
+/** A figure's pose Astra has drawn (her frames and clip of the same name win in the loader): no Claude frame of it is made. */
+// Astra's Gonzales spade work, 2026-10-04 (docs/ART_DELIVERY_2026-10-04-GONZALES-DIGGING.md): elder, ochre and blue dig.
+const ASTRA_DREW = new Set(['elder-dig', 'ochre-dig', 'blue-dig']);
 export const SHEETS = Object.fromEntries(Object.entries(POSES_A).map(([pose, spec]) => [`claude-work-${pose}`, {
   cell: { w: 400, h: 400 }, scale: 0.6, columns: spec.what.length, request: REQUEST,
   replaceWith: `item ${spec.item}: \`-${pose}\`, ${spec.what.length} frames (${spec.request}), east-facing and mirrored for west, the cast figure's own logical height and foot baseline`,
-  frames: FIGURES.flatMap(figure => makeOf(pose)(frameOf(figure)).map((p, i) => ({
+  frames: FIGURES.filter(figure => !ASTRA_DREW.has(`${figure}-${pose}`)).flatMap(figure => makeOf(pose)(frameOf(figure)).map((p, i) => ({
     name: `${figure}-${pose}-${i + 1}`, compare: [[`${figure}-${spec.near}-1`, 1], [`${figure}-idle-e`, 1]],
     prompt: `${figure} at work, ${pose.replace('-', ' ')}, frame ${i + 1} of ${spec.what.length}: ${spec.what[i]}. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's ${figure} sheets; Texas 1835 frontier clothes and tools; nothing pointed at a person, no blood; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.`,
     draw: () => personFrame(`${figure}-${pose}-${i + 1}`, ink => drawPosed(ink, figure, p), { scale: p.scale || 1, note: `${figure} ${pose}, frame ${i + 1} of ${spec.what.length}: ${spec.what[i]}` }),
   }))),
 }]));
 
-export const CLIPS = Object.fromEntries(FIGURES.flatMap(figure => Object.entries(POSES_A).map(([pose, spec]) => {
+export const CLIPS = Object.fromEntries(FIGURES.flatMap(figure => Object.entries(POSES_A).filter(([pose]) => !ASTRA_DREW.has(`${figure}-${pose}`)).map(([pose, spec]) => {
   const timing = spec.timing || WORK_TIMING[pose];
   const sprites = (timing.frames || timing.durations.map((_, i) => `${pose}-${i + 1}`)).map(s => `${figure}-${s}`);
   return [`${figure}-${pose}`, {

@@ -509,25 +509,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-bank-climb": {
-      "image": "/assets/claude-standins/claude-bank-climb.png",
-      "width": 1440,
-      "height": 800,
-      "bytes": 420618,
-      "sha256": "10efe169bd11ee310e20a33ef1fb0fdc0bf1eeb61b5b1889d4523599c2862fe3",
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "layout": {
-        "rows": 2,
-        "columns": 3,
-        "cell": {
-          "w": 480,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-wading": {
       "image": "/assets/claude-standins/claude-wading.png",
       "width": 1920,
@@ -2476,14 +2457,14 @@
     "claude-work-dig": {
       "image": "/assets/claude-standins/claude-work-dig.png",
       "width": 1440,
-      "height": 1920,
-      "bytes": 828826,
-      "sha256": "00b88511207474a800351c1615c233aacd0fa7044fdff1202090d6c5add0c863",
+      "height": 1200,
+      "bytes": 538273,
+      "sha256": "cb1581d028506b1edaaa05623ae4388e60f2ded0de05f184a4158f5b9981be2a",
       "madeBy": "claude",
       "module": "work",
       "request": "Request 2026-09-28 — people at work",
       "layout": {
-        "rows": 8,
+        "rows": 5,
         "columns": 6,
         "cell": {
           "w": 240,
@@ -8820,108 +8801,6 @@
       "source": "svg/battle-soldiers/claude-skirmisher-kneel-fire-4.svg",
       "label": "skirmisher kneel fire 4",
       "kind": "claude-skirmisher"
-    },
-    "volunteer-bank-climb-1": {
-      "sheet": "claude-bank-climb",
-      "x": 0,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "volunteer-bank-climb-1: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
-      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-1.svg",
-      "label": "volunteer bank climb 1",
-      "kind": "claude-bank-climb"
-    },
-    "volunteer-bank-climb-2": {
-      "sheet": "claude-bank-climb",
-      "x": 480,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "volunteer-bank-climb-2: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
-      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-2.svg",
-      "label": "volunteer bank climb 2",
-      "kind": "claude-bank-climb"
-    },
-    "volunteer-bank-climb-3": {
-      "sheet": "claude-bank-climb",
-      "x": 960,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "volunteer-bank-climb-3: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
-      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-3.svg",
-      "label": "volunteer bank climb 3",
-      "kind": "claude-bank-climb"
-    },
-    "volunteer-bank-climb-4": {
-      "sheet": "claude-bank-climb",
-      "x": 0,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "volunteer-bank-climb-4: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
-      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-4.svg",
-      "label": "volunteer bank climb 4",
-      "kind": "claude-bank-climb"
-    },
-    "volunteer-bank-climb-5": {
-      "sheet": "claude-bank-climb",
-      "x": 480,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "volunteer-bank-climb-5: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
-      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-5.svg",
-      "label": "volunteer bank climb 5",
-      "kind": "claude-bank-climb"
-    },
-    "volunteer-bank-climb-6": {
-      "sheet": "claude-bank-climb",
-      "x": 960,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "volunteer-bank-climb-6: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
-      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-6.svg",
-      "label": "volunteer bank climb 6",
-      "kind": "claude-bank-climb"
     },
     "figure-wading-regular-1": {
       "sheet": "claude-wading",
@@ -25833,214 +25712,10 @@
       "label": "teal dig 6",
       "kind": "claude-work-dig"
     },
-    "elder-dig-1": {
-      "sheet": "claude-work-dig",
-      "x": 0,
-      "y": 480,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "elder-dig-1: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-elder-dig-1.svg",
-      "label": "elder dig 1",
-      "kind": "claude-work-dig"
-    },
-    "elder-dig-2": {
-      "sheet": "claude-work-dig",
-      "x": 240,
-      "y": 480,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "elder-dig-2: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-elder-dig-2.svg",
-      "label": "elder dig 2",
-      "kind": "claude-work-dig"
-    },
-    "elder-dig-3": {
-      "sheet": "claude-work-dig",
-      "x": 480,
-      "y": 480,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "elder-dig-3: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-elder-dig-3.svg",
-      "label": "elder dig 3",
-      "kind": "claude-work-dig"
-    },
-    "elder-dig-4": {
-      "sheet": "claude-work-dig",
-      "x": 720,
-      "y": 480,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "elder-dig-4: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-elder-dig-4.svg",
-      "label": "elder dig 4",
-      "kind": "claude-work-dig"
-    },
-    "elder-dig-5": {
-      "sheet": "claude-work-dig",
-      "x": 960,
-      "y": 480,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "elder-dig-5: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-elder-dig-5.svg",
-      "label": "elder dig 5",
-      "kind": "claude-work-dig"
-    },
-    "elder-dig-6": {
-      "sheet": "claude-work-dig",
-      "x": 1200,
-      "y": 480,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "elder-dig-6: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-elder-dig-6.svg",
-      "label": "elder dig 6",
-      "kind": "claude-work-dig"
-    },
-    "blue-dig-1": {
-      "sheet": "claude-work-dig",
-      "x": 0,
-      "y": 720,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "blue-dig-1: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-blue-dig-1.svg",
-      "label": "blue dig 1",
-      "kind": "claude-work-dig"
-    },
-    "blue-dig-2": {
-      "sheet": "claude-work-dig",
-      "x": 240,
-      "y": 720,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "blue-dig-2: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-blue-dig-2.svg",
-      "label": "blue dig 2",
-      "kind": "claude-work-dig"
-    },
-    "blue-dig-3": {
-      "sheet": "claude-work-dig",
-      "x": 480,
-      "y": 720,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "blue-dig-3: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-blue-dig-3.svg",
-      "label": "blue dig 3",
-      "kind": "claude-work-dig"
-    },
-    "blue-dig-4": {
-      "sheet": "claude-work-dig",
-      "x": 720,
-      "y": 720,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "blue-dig-4: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-blue-dig-4.svg",
-      "label": "blue dig 4",
-      "kind": "claude-work-dig"
-    },
-    "blue-dig-5": {
-      "sheet": "claude-work-dig",
-      "x": 960,
-      "y": 720,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "blue-dig-5: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-blue-dig-5.svg",
-      "label": "blue dig 5",
-      "kind": "claude-work-dig"
-    },
-    "blue-dig-6": {
-      "sheet": "claude-work-dig",
-      "x": 1200,
-      "y": 720,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "blue-dig-6: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-blue-dig-6.svg",
-      "label": "blue dig 6",
-      "kind": "claude-work-dig"
-    },
     "rust-woman-dig-1": {
       "sheet": "claude-work-dig",
       "x": 0,
-      "y": 960,
+      "y": 480,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26057,7 +25732,7 @@
     "rust-woman-dig-2": {
       "sheet": "claude-work-dig",
       "x": 240,
-      "y": 960,
+      "y": 480,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26074,7 +25749,7 @@
     "rust-woman-dig-3": {
       "sheet": "claude-work-dig",
       "x": 480,
-      "y": 960,
+      "y": 480,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26091,7 +25766,7 @@
     "rust-woman-dig-4": {
       "sheet": "claude-work-dig",
       "x": 720,
-      "y": 960,
+      "y": 480,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26108,7 +25783,7 @@
     "rust-woman-dig-5": {
       "sheet": "claude-work-dig",
       "x": 960,
-      "y": 960,
+      "y": 480,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26125,7 +25800,7 @@
     "rust-woman-dig-6": {
       "sheet": "claude-work-dig",
       "x": 1200,
-      "y": 960,
+      "y": 480,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26142,7 +25817,7 @@
     "indigo-dig-1": {
       "sheet": "claude-work-dig",
       "x": 0,
-      "y": 1200,
+      "y": 720,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26159,7 +25834,7 @@
     "indigo-dig-2": {
       "sheet": "claude-work-dig",
       "x": 240,
-      "y": 1200,
+      "y": 720,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26176,7 +25851,7 @@
     "indigo-dig-3": {
       "sheet": "claude-work-dig",
       "x": 480,
-      "y": 1200,
+      "y": 720,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26193,7 +25868,7 @@
     "indigo-dig-4": {
       "sheet": "claude-work-dig",
       "x": 720,
-      "y": 1200,
+      "y": 720,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26210,7 +25885,7 @@
     "indigo-dig-5": {
       "sheet": "claude-work-dig",
       "x": 960,
-      "y": 1200,
+      "y": 720,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26227,7 +25902,7 @@
     "indigo-dig-6": {
       "sheet": "claude-work-dig",
       "x": 1200,
-      "y": 1200,
+      "y": 720,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26241,112 +25916,10 @@
       "label": "indigo dig 6",
       "kind": "claude-work-dig"
     },
-    "ochre-dig-1": {
-      "sheet": "claude-work-dig",
-      "x": 0,
-      "y": 1440,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "ochre-dig-1: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-ochre-dig-1.svg",
-      "label": "ochre dig 1",
-      "kind": "claude-work-dig"
-    },
-    "ochre-dig-2": {
-      "sheet": "claude-work-dig",
-      "x": 240,
-      "y": 1440,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "ochre-dig-2: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-ochre-dig-2.svg",
-      "label": "ochre dig 2",
-      "kind": "claude-work-dig"
-    },
-    "ochre-dig-3": {
-      "sheet": "claude-work-dig",
-      "x": 480,
-      "y": 1440,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "ochre-dig-3: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-ochre-dig-3.svg",
-      "label": "ochre dig 3",
-      "kind": "claude-work-dig"
-    },
-    "ochre-dig-4": {
-      "sheet": "claude-work-dig",
-      "x": 720,
-      "y": 1440,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "ochre-dig-4: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-ochre-dig-4.svg",
-      "label": "ochre dig 4",
-      "kind": "claude-work-dig"
-    },
-    "ochre-dig-5": {
-      "sheet": "claude-work-dig",
-      "x": 960,
-      "y": 1440,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "ochre-dig-5: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-ochre-dig-5.svg",
-      "label": "ochre dig 5",
-      "kind": "claude-work-dig"
-    },
-    "ochre-dig-6": {
-      "sheet": "claude-work-dig",
-      "x": 1200,
-      "y": 1440,
-      "w": 240,
-      "h": 240,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 180,
-      "madeBy": "claude",
-      "module": "work",
-      "request": "Request 2026-09-28 — people at work",
-      "replaceWith": "ochre-dig-6: item 4: `-dig`, 6 frames (a spade driven in with the foot, levered, the earth thrown behind, and back), east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
-      "source": "svg/work/claude-ochre-dig-6.svg",
-      "label": "ochre dig 6",
-      "kind": "claude-work-dig"
-    },
     "blue-girl-dig-1": {
       "sheet": "claude-work-dig",
       "x": 0,
-      "y": 1680,
+      "y": 960,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26363,7 +25936,7 @@
     "blue-girl-dig-2": {
       "sheet": "claude-work-dig",
       "x": 240,
-      "y": 1680,
+      "y": 960,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26380,7 +25953,7 @@
     "blue-girl-dig-3": {
       "sheet": "claude-work-dig",
       "x": 480,
-      "y": 1680,
+      "y": 960,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26397,7 +25970,7 @@
     "blue-girl-dig-4": {
       "sheet": "claude-work-dig",
       "x": 720,
-      "y": 1680,
+      "y": 960,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26414,7 +25987,7 @@
     "blue-girl-dig-5": {
       "sheet": "claude-work-dig",
       "x": 960,
-      "y": 1680,
+      "y": 960,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -26431,7 +26004,7 @@
     "blue-girl-dig-6": {
       "sheet": "claude-work-dig",
       "x": 1200,
-      "y": 1680,
+      "y": 960,
       "w": 240,
       "h": 240,
       "anchorX": 0.5,
@@ -34795,40 +34368,6 @@
       "madeBy": "claude",
       "module": "battle-soldiers"
     },
-    "volunteer-bank-climb": {
-      "frames": [
-        {
-          "sprite": "volunteer-bank-climb-1",
-          "duration": 500
-        },
-        {
-          "sprite": "volunteer-bank-climb-2",
-          "duration": 700
-        },
-        {
-          "sprite": "volunteer-bank-climb-3",
-          "duration": 140
-        },
-        {
-          "sprite": "volunteer-bank-climb-4",
-          "duration": 450
-        },
-        {
-          "sprite": "volunteer-bank-climb-5",
-          "duration": 900
-        },
-        {
-          "sprite": "volunteer-bank-climb-6",
-          "duration": 900
-        }
-      ],
-      "loop": false,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
     "figure-wading-regular": {
       "frames": [
         {
@@ -41994,41 +41533,6 @@
       "madeBy": "claude",
       "module": "work"
     },
-    "elder-dig": {
-      "frames": [
-        {
-          "sprite": "elder-dig-1",
-          "duration": 300
-        },
-        {
-          "sprite": "elder-dig-2",
-          "duration": 240
-        },
-        {
-          "sprite": "elder-dig-3",
-          "duration": 130
-        },
-        {
-          "sprite": "elder-dig-4",
-          "duration": 280
-        },
-        {
-          "sprite": "elder-dig-5",
-          "duration": 120
-        },
-        {
-          "sprite": "elder-dig-6",
-          "duration": 130
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "beat": 3,
-      "authored": true,
-      "madeBy": "claude",
-      "module": "work"
-    },
     "elder-dig-well": {
       "frames": [
         {
@@ -42364,41 +41868,6 @@
         {
           "sprite": "blue-split-6",
           "duration": 170
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "beat": 3,
-      "authored": true,
-      "madeBy": "claude",
-      "module": "work"
-    },
-    "blue-dig": {
-      "frames": [
-        {
-          "sprite": "blue-dig-1",
-          "duration": 300
-        },
-        {
-          "sprite": "blue-dig-2",
-          "duration": 240
-        },
-        {
-          "sprite": "blue-dig-3",
-          "duration": 130
-        },
-        {
-          "sprite": "blue-dig-4",
-          "duration": 280
-        },
-        {
-          "sprite": "blue-dig-5",
-          "duration": 120
-        },
-        {
-          "sprite": "blue-dig-6",
-          "duration": 130
         }
       ],
       "loop": true,
@@ -43504,41 +42973,6 @@
         {
           "sprite": "ochre-split-6",
           "duration": 170
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "beat": 3,
-      "authored": true,
-      "madeBy": "claude",
-      "module": "work"
-    },
-    "ochre-dig": {
-      "frames": [
-        {
-          "sprite": "ochre-dig-1",
-          "duration": 300
-        },
-        {
-          "sprite": "ochre-dig-2",
-          "duration": 240
-        },
-        {
-          "sprite": "ochre-dig-3",
-          "duration": 130
-        },
-        {
-          "sprite": "ochre-dig-4",
-          "duration": 280
-        },
-        {
-          "sprite": "ochre-dig-5",
-          "duration": 120
-        },
-        {
-          "sprite": "ochre-dig-6",
-          "duration": 130
         }
       ],
       "loop": true,

@@ -1,5 +1,60 @@
 # Claude handoff — Astra foundation
 
+## The Host's map with the famous people: people's colours made ahead — 2026-10-04 (not released)
+
+Branch `colour-ahead` from origin/main 7fd84af3, with Astra's five art commits after 73410a79 merged in (spade work, smiths, the
+redo audit's R1-R3, riverbank actions, covered fallen transport). The follow-up from v2026.10.04.1: `test:famous-people`'s
+frame-time gate failed on main and on v2026.10.03.2 alike.
+
+- **What the slow frames were** (a diagnostic of the proof's Alamo class before the siege, `window.__mapDraws`, a CPU profile
+  of the Host's page, and a count of colourings in `public/art.js` `appearanceFrame`): not the famous people. The Host's
+  median steady frame was 7 ms, but 2-4 frames in 40 took 45-100 ms, and they were frames that coloured people. A person's
+  frame is coloured to the family's skin, hair and clothing once per frame and palette (public/person-palette.js, the parts
+  of the frame and then every pixel, 2-6 ms at full size, about 200x330). On v2026.09.29.2 the Host's map coloured 51 frames
+  in 86 ms in all, because every family's people stood at rest; on b7fd528f, 163 frames in about 630 ms, because they now walk
+  about their work and every step of every direction of a walk in every family's colours is a frame to colour. When a tick
+  set several families walking at once, one animation frame coloured a dozen.
+- **Changed** (`public/art.js` `appearanceFrame`, `colourFrame`, `askIdle`): (1) a frame coloured for the first time sends the
+  rest of its clip's frames in that palette to be coloured in the browser's idle time (`requestIdleCallback`; the Host's
+  page is idle three quarters of the time); (2) one drawing colours at most 6 ms of frames; past that, a frame whose clip has
+  been drawn in that palette is drawn as the clip's last drawn step, at that step's own measures, and coloured in the next
+  idle moment. A clip never drawn in a palette is coloured at once: nothing is drawn in the wrong colours. `ceiling:` in the
+  code - a person in a crowd that starts moving at once may hold a step for a drawing or two; a parts mask built beside each
+  sheet would make every colouring cheap.
+- **Numbers** (same computer, headless Chrome, the diagnostic, four runs each way): Host steady p95 39-56 ms on b7fd528f
+  (slowest 81-101), 17.5-20 ms with the change (slowest 24-31); medians 7 -> 3.3 ms. The proof itself, three runs: Host p95
+  11.0-12.2 ms over 54-56 steady frames (slowest 14-17), student 3.0-3.2 ms. `tests/colour-ahead.test.mjs`, six injections
+  caught (no budget, budget never reset, no colouring ahead, idle never asked, the hold in another palette, the hold at the
+  wrong measures).
+- **Seen once, not traced:** one of the three proof runs failed instead on "the famous at Béxar on the Host's map were drawn
+  as mini/..." - a Host draw before Travis's, Bowie's, Crockett's and Emily West's sheets had landed, so the stand-in figure
+  for a moment. The frame gates passed in that run. It did not recur in the other two runs or in eight runs of the diagnostic
+  (four on b7fd528f, four with the change), so it is a rare race between the Host's first draws and the famous sheets, and
+  is not shown to come from this change (which does not touch famous people, who are not recoloured).
+- **The merge with Astra's art:** three code conflicts against main's measuring and stand-ins. `public/battle-view.js`: her
+  covered `fallen-carry` for the carried dead nobody names comes first, then Claude's `bearers-carry` stand-in, then the lying
+  figure, on main's `FALL.down` clock. `public/town-scenes.js`: main's fandango and child rule, then her `dig`, `forge` and
+  `point` poses. `scripts/build-atlas-manifest.mjs`: main's `logicalOf`, with her two new sheets' heights added to it
+  (`volunteer-bank-actions` its two standing rows, `people-gonzales-smiths` each smith's own two rows). Regenerated with
+  `npm run build:art`: her 54 new frames come out exactly as in her atlas; the 52 frames that changed are her R1-R3 redraws,
+  measured by main's ground point per clip. docs/ART_REQUESTS.md: her updated wounded-transport row; R1-R3 marked delivered.
+  Her note that C1-C3 are still open predates seeing main: they are in main since v2026.10.04.1.
+- **What her art then asked of main** (npm test after the merge: 3 failed). (1) Her riverbank `volunteer-bank-climb-1`..`-6`
+  and her elder, ochre and blue `-dig` share names with Claude's stand-ins: Claude's are deleted (the `claude-bank-climb` sheet
+  in `battle-soldiers`, and an `ASTRA_DREW` set in `work` that makes no Claude frame of those three digs; rebuilt with
+  `npm run build:standins -- --only`, 25 orphaned SVGs and the PNG removed), plan item C10 marked delivered, A4 left open for
+  the other casts and every `-dig-well`, the stand-in row deleted, `tests/astra-art-wins.test.mjs`'s list brought current.
+  (2) Her `volunteer-bank-climb` clip loops at its own pace, and the battle view starts a looping clip at a random point of
+  itself for each man (`drawClip`'s seed): it would have climbed and fired off the firing clock, which her delivery note says
+  not to do. Now `bankClip` puts her six frames on the musket clock (step up in the half second before the aim, the shot frame
+  for exactly the shot, the ramrod through the ramming) and those figures are drawn with seed 0.
+  `tests/battle-view-groups.test.mjs`: a new test (random seed, an early shot frame, an early ramrod: three injections caught), and the old drop-to-load
+  check now holds the fallback while her sheet has not loaded. (3) Her `tests/fallen-transport-art.test.mjs` watched five
+  seconds, enough for the old 0.6 s fall; main's fall lies still up to 4.6 s after the hit (`FALL.down` plus `FALL.spread`), so
+  it watches ten. Removing the bundle from the renderer fails it.
+- **Not done:** her dig clips have four frames and `STROKES.dig` (public/work-art.js) still says the work lands on the fourth
+  (`beat: 3`, Claude's six-frame timing): roughly right, not measured against her frames.
+
 ## Art update: Gonzales spade work (2026-10-04)
 
 Dedicated elder/ochre/blue digging clips are registered. Existing elder and ochre orchard actors select them through semantic `dig`; blue is ready for a future explicit digging action. Movement still selects walk cycles. See [delivery notes](docs/ART_DELIVERY_2026-10-04-GONZALES-DIGGING.md), manifest and browser evidence.
