@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## Help on a small farm: the young capped, a small family keeps no custom, the spouse's two children — owner, 2026-10-04 (not released)
+## Released as v2026.10.05.2 — 2026-10-05
+
+Main at 87381d33, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.2>). Sets of changes: from v2026.10.05.1, 0.6 MB; from v2026.10.04.1, 6.1 MB; from v2026.10.03.2, 11.6 MB. Contents: help on a small farm - the young capped, a small family keeps no custom, the spouse's two children (the section below). Verification on 87381d33's branch: npm test 2255, 0 failed; the full browser run two at a time, 106 of 111 green; of the five red, children was a fixture the new rolls no longer make (fixed, then green twice alone), and travel-drawn, battle-cinema, battle-grass and famous-people (the Neill sampled moment) green alone. Not proved: Chromebook, LAN or classroom; ThreatDown.
+
+## Help on a small farm: the young capped, a small family keeps no custom, the spouse's two children — owner, 2026-10-04 (released in v2026.10.05.2)
 
 Branch `family-help` from origin/main 0383a5cc. The owner asked three things in one message and confirmed by multiple choice ("As
 described"; "Fewer than 6", with the marriage added); then *"You'll likely need to adjust the marriage cutscene stuff ... Dialogue may
