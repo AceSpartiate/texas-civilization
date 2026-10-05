@@ -1,3 +1,7 @@
+## Art delivery 2026-10-05: walking with cloth and bundles
+
+Sixteen frames and four authored loaded walking cycles for teal, indigo, blue-girl and elder. Horizontal moving Gonzales actors in `carry` pose retain their visible load. North/south still use existing walks and are an outstanding art gap. See `docs/ART_DELIVERY_2026-10-05-GONZALES-BUNDLE-WALK.md`.
+
 ## Art delivery 2026-10-05: visible letter reading
 
 Twelve frames and three authored reading cycles for elder, ochre and blue. The existing Gonzales regidor now holds a visible letter during the crossing-reading beat; dialogue, historical claims and timing are preserved. Other two identities are ready for future letter scenes. See `docs/ART_DELIVERY_2026-10-05-GONZALES-LETTER-READING.md`.

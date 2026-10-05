@@ -71,6 +71,7 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
     if (moving) return dir === 'n' || dir === 's' ? { id: `${figure}-march-${dir}`, flip: false, mounted } : { id: `${figure}-march`, flip: dir === 'w', mounted };
     return { id: `${figure}-idle-${person.face || 'e'}`, flip: false, mounted };
   }
+  if (moving && person.pose === 'carry' && ['teal','indigo','blue-girl','elder'].includes(figure) && ['e','w'].includes(dir)) return { id: `${figure}-bundle-walk`, flip: dir === 'w' };
   if (moving) return dir === 'n' || dir === 's' ? { id: `${figure}-walk-${dir}`, flip: false } : { id: `${figure}-walk`, flip: dir === 'w' };
   const face = person.face || 's', pose = person.pose || 'idle';
   const child = !GROWN.has(figure);

@@ -8889,6 +8889,102 @@
       "motion": "none",
       "direction": "north"
     },
+    "teal-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "teal-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "indigo-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "blue-girl-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "elder-bundle-walk": {
+      "frames": [
+        {
+          "sprite": "elder-bundle-walk-1",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-bundle-walk-2",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-bundle-walk-3",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-bundle-walk-4",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "elder-dig": {
       "frames": [
         {

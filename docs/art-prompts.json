@@ -4443,6 +4443,28 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-letter-reading.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Interpretive existing cast identities; regidor retains existing elder appearance, blank paper leaves exact words in historical dialogue."
+    },
+    {
+      "sheet": "people-gonzales-bundle-walk",
+      "prompt": "Original game sprite atlas exactly FOUR columns FOUR rows,16 isolated fullbody walking sprites TRUEzeroalpha background. Match supplied frontier storybook warm brown outlined handpainted muted colors slightly elevated3/4east/right view. Row1 TEAL woman brown bun tealblouse mustardskirt creamapron holding foldedwhitecottoncloth bundle bothhands atwaist. Row2 INDIGO woman brownbun indigo dress cream neckkerchief holding modest tan cloth parcel tiedwithstring bothhands waist. Row3 BLUE-GIRL woman longbrown braid blue dress creamapron holding foldedwhitecottoncloth waist. Row4 ELDER man tanbroadbrimhat whitebeard creamshirt olivevest browntrousers carrying tan tiedhouseholdbundle waist. EXACTreference identities unchanged, upright humanproportions. Each row FOUR distinct actual WALK CYCLE phases: leftfootforward contact,rightfootpassing,leftfootback rightfootforwardcontact,leftfootpassing. Legs clearlyalternate, skirts shift modestly revealing walkingboots, bundle held steadily attachedhands NEVERdrops, no dancing/jogging/crouching. Samefacesbodysize withinrow, feet samegroundbaseline, torsoheadstable. ALLsprites occupy ONLY CENTRAL60percent eachcell widthheight, generous45px minimum emptytransparentgutters EVERYside. Full hatsbraidbootscloth contained. No scenery floor shadows labels text grids weapons halos. This is travel animationnot fourstandingposes, clearfootmotion.",
+      "promptId": "frontier-v1/people-gonzales-bundle-walk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-47e77d24-00a4-4946-9653-d522b3496c10.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-893549bd-ca10-478f-844e-b27621ff4c97.png",
+      "refinements": [
+        {
+          "prompt": "Refine this EXACT4x4 sixteen-sprite loaded WALK atlas. SHRINK eachfullsprite by25percent centered owncell with35px emptytransparentgutters ALLsides. Preserveclothesidentities handsbundlebodyheight. Correctwalkingphases EACHrow: column1 longstride right-facing leftfootinfront; column2 passingpose BOTHbootsnearlyunderhips oneheelraised; column3 longstride OPPOSITEleginfront; column4 passingpose oppositeheelraised bothbootsnearhips. Columns2and4 MUSThave NARROW footspacing notsamewide strideas1and3. Legsalternate naturally includingelderbottomrow. Skirts clothbraid sway slightly butheadtorsoheight stable baseline constant. Womanrowskeeporiginal garmentsbunbraid colors. Elder keepshatbeardvest. Hands holdloads steadily allfourframes. Keep4columns4rows truezeroalpha nofloor/shadowslabelsgrids.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-893549bd-ca10-478f-844e-b27621ff4c97.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-bundle-walk.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Existing identities with cloth/parcels; east/west town carry travel only, north/south outstanding."
     }
   ]
 }
