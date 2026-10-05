@@ -27,7 +27,7 @@ test('carrying adults keep parcels in horizontal travel, other motion uses exist
   const p={figure,pose:'carry',face:'e'};
   assert.equal(ctx.pick(p,{moving:true,dir:'e'}).id,`${figure}-bundle-walk`);
   assert.equal(ctx.pick(p,{moving:true,dir:'w'}).flip,true);
-  assert.equal(ctx.pick(p,{moving:true,dir:'n'}).id,`${figure}-walk-n`);
+  assert.equal(ctx.pick(p,{moving:true,dir:'n'}).id,`${figure}-bundle-walk-n`);
   assert.equal(ctx.pick(p).id,`${figure}-carry`);
   assert.equal(ctx.pick({...p,pose:'idle'},{moving:true,dir:'e'}).id,`${figure}-walk`);
  }

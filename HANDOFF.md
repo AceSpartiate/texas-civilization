@@ -1,3 +1,7 @@
+## Art delivery 2026-10-05: north/south loaded walking
+
+Sixteen new frames and eight two-frame north/south cycles for teal, indigo, blue-girl and elder. Town carrying now selects loaded walking in every cardinal direction. Contents remain visually illustrative, not inventory evidence. See `docs/ART_DELIVERY_2026-10-05-GONZALES-BUNDLE-NS.md`.
+
 ## Art delivery 2026-10-05: walking with cloth and bundles
 
 Sixteen frames and four authored loaded walking cycles for teal, indigo, blue-girl and elder. Horizontal moving Gonzales actors in `carry` pose retain their visible load. North/south still use existing walks and are an outstanding art gap. See `docs/ART_DELIVERY_2026-10-05-GONZALES-BUNDLE-WALK.md`.

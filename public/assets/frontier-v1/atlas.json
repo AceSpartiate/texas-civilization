@@ -15138,6 +15138,130 @@
         ]
       }
     },
+    "people-gonzales-bundle-ns": {
+      "image": "atlases/people-gonzales-bundle-ns.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 667017,
+      "sha256": "b8b12b5604f4fb2cb3ecacf98b9e4e2a53141a53a6d1cae8e345f51375e5e01c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.831721,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              98,
+              308
+            ],
+            "columns": [
+              [
+                101,
+                223
+              ],
+              [
+                415,
+                529
+              ],
+              [
+                722,
+                839
+              ],
+              [
+                1035,
+                1146
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              407,
+              625
+            ],
+            "columns": [
+              [
+                96,
+                226
+              ],
+              [
+                412,
+                533
+              ],
+              [
+                711,
+                844
+              ],
+              [
+                1029,
+                1160
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              723,
+              934
+            ],
+            "columns": [
+              [
+                92,
+                221
+              ],
+              [
+                407,
+                532
+              ],
+              [
+                717,
+                845
+              ],
+              [
+                1034,
+                1161
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              1002,
+              1189
+            ],
+            "columns": [
+              [
+                107,
+                216
+              ],
+              [
+                417,
+                529
+              ],
+              [
+                721,
+                831
+              ],
+              [
+                1036,
+                1146
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-gonzales-bundle-walk": {
       "image": "atlases/people-gonzales-bundle-walk.png",
       "width": 1254,
@@ -64630,6 +64754,406 @@
           843
         ],
         "visiblePixels": 598977,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-bundle-walk-s-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 101,
+      "y": 100,
+      "w": 122,
+      "h": 208,
+      "anchorX": 0.5697,
+      "anchorY": 0.9327,
+      "logicalHeight": 209,
+      "label": "teal bundle walk s 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          103,
+          102,
+          118,
+          204
+        ],
+        "visiblePixels": 14202,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-bundle-walk-s-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 415,
+      "y": 99,
+      "w": 114,
+      "h": 209,
+      "anchorX": 0.5658,
+      "anchorY": 0.9282,
+      "logicalHeight": 209,
+      "label": "teal bundle walk s 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          417,
+          101,
+          110,
+          205
+        ],
+        "visiblePixels": 13785,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-bundle-walk-n-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 722,
+      "y": 99,
+      "w": 117,
+      "h": 207,
+      "anchorX": 0.4872,
+      "anchorY": 0.9517,
+      "logicalHeight": 209,
+      "label": "teal bundle walk n 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          724,
+          101,
+          113,
+          203
+        ],
+        "visiblePixels": 13512,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-bundle-walk-n-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 1035,
+      "y": 98,
+      "w": 111,
+      "h": 207,
+      "anchorX": 0.4324,
+      "anchorY": 0.942,
+      "logicalHeight": 209,
+      "label": "teal bundle walk n 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1037,
+          100,
+          107,
+          203
+        ],
+        "visiblePixels": 13493,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-bundle-walk-s-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 96,
+      "y": 411,
+      "w": 130,
+      "h": 213,
+      "anchorX": 0.5769,
+      "anchorY": 0.9296,
+      "logicalHeight": 218,
+      "label": "indigo bundle walk s 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          98,
+          413,
+          126,
+          209
+        ],
+        "visiblePixels": 15189,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-bundle-walk-s-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 412,
+      "y": 407,
+      "w": 121,
+      "h": 218,
+      "anchorX": 0.5537,
+      "anchorY": 0.9404,
+      "logicalHeight": 218,
+      "label": "indigo bundle walk s 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          414,
+          409,
+          117,
+          214
+        ],
+        "visiblePixels": 15321,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-bundle-walk-n-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 711,
+      "y": 409,
+      "w": 133,
+      "h": 215,
+      "anchorX": 0.5,
+      "anchorY": 0.9395,
+      "logicalHeight": 218,
+      "label": "indigo bundle walk n 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          411,
+          129,
+          211
+        ],
+        "visiblePixels": 15227,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-bundle-walk-n-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 1029,
+      "y": 409,
+      "w": 131,
+      "h": 214,
+      "anchorX": 0.4313,
+      "anchorY": 0.9439,
+      "logicalHeight": 218,
+      "label": "indigo bundle walk n 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1031,
+          411,
+          127,
+          210
+        ],
+        "visiblePixels": 15287,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-bundle-walk-s-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 92,
+      "y": 725,
+      "w": 129,
+      "h": 208,
+      "anchorX": 0.6202,
+      "anchorY": 0.9279,
+      "logicalHeight": 211,
+      "label": "blue girl bundle walk s 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          94,
+          727,
+          125,
+          204
+        ],
+        "visiblePixels": 15761,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-bundle-walk-s-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 407,
+      "y": 725,
+      "w": 125,
+      "h": 209,
+      "anchorX": 0.584,
+      "anchorY": 0.9282,
+      "logicalHeight": 211,
+      "label": "blue girl bundle walk s 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          409,
+          727,
+          121,
+          205
+        ],
+        "visiblePixels": 15654,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-bundle-walk-n-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 717,
+      "y": 723,
+      "w": 128,
+      "h": 210,
+      "anchorX": 0.457,
+      "anchorY": 0.9381,
+      "logicalHeight": 211,
+      "label": "blue girl bundle walk n 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          719,
+          725,
+          124,
+          206
+        ],
+        "visiblePixels": 14335,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-bundle-walk-n-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 1034,
+      "y": 723,
+      "w": 127,
+      "h": 211,
+      "anchorX": 0.437,
+      "anchorY": 0.9336,
+      "logicalHeight": 211,
+      "label": "blue girl bundle walk n 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1036,
+          725,
+          123,
+          207
+        ],
+        "visiblePixels": 14487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-bundle-walk-s-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 107,
+      "y": 1002,
+      "w": 109,
+      "h": 187,
+      "anchorX": 0.555,
+      "anchorY": 0.9251,
+      "logicalHeight": 187,
+      "label": "elder bundle walk s 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          109,
+          1004,
+          105,
+          183
+        ],
+        "visiblePixels": 11999,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-bundle-walk-s-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 417,
+      "y": 1003,
+      "w": 112,
+      "h": 186,
+      "anchorX": 0.5804,
+      "anchorY": 0.9247,
+      "logicalHeight": 187,
+      "label": "elder bundle walk s 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          419,
+          1005,
+          108,
+          182
+        ],
+        "visiblePixels": 11799,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-bundle-walk-n-1": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 721,
+      "y": 1002,
+      "w": 110,
+      "h": 187,
+      "anchorX": 0.5182,
+      "anchorY": 0.9358,
+      "logicalHeight": 187,
+      "label": "elder bundle walk n 1",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          723,
+          1004,
+          106,
+          183
+        ],
+        "visiblePixels": 11432,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-bundle-walk-n-2": {
+      "sheet": "people-gonzales-bundle-ns",
+      "x": 1036,
+      "y": 1002,
+      "w": 110,
+      "h": 187,
+      "anchorX": 0.5273,
+      "anchorY": 0.9251,
+      "logicalHeight": 187,
+      "label": "elder bundle walk n 2",
+      "kind": "people-gonzales-bundle-ns",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1038,
+          1004,
+          106,
+          183
+        ],
+        "visiblePixels": 11468,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

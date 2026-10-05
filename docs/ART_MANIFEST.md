@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2740 usable sprites, 292 PNG atlases, 945 clips** (637 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2756 usable sprites, 293 PNG atlases, 953 clips** (645 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -191,6 +191,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
 | gonzales-dugout-canoe | 1 | 1536 × 1024 | 2208839 |
+| people-gonzales-bundle-ns | 16 | 1254 × 1254 | 667017 |
 | people-gonzales-bundle-walk | 16 | 1254 × 1254 | 936355 |
 | people-gonzales-digging | 12 | 1448 × 1086 | 774818 |
 | gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
@@ -1883,6 +1884,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-cannon-buried | gonzales-cannon-buried | State artwork; no motion required |
 | gonzales-log-breastwork | gonzales-log-breastwork | State artwork; no motion required |
 | gonzales-dugout-canoe | gonzales-dugout-canoe | State artwork; no motion required |
+| teal-bundle-walk-s-1 | people-gonzales-bundle-ns | teal-bundle-walk-s |
+| teal-bundle-walk-s-2 | people-gonzales-bundle-ns | teal-bundle-walk-s |
+| teal-bundle-walk-n-1 | people-gonzales-bundle-ns | teal-bundle-walk-n |
+| teal-bundle-walk-n-2 | people-gonzales-bundle-ns | teal-bundle-walk-n |
+| indigo-bundle-walk-s-1 | people-gonzales-bundle-ns | indigo-bundle-walk-s |
+| indigo-bundle-walk-s-2 | people-gonzales-bundle-ns | indigo-bundle-walk-s |
+| indigo-bundle-walk-n-1 | people-gonzales-bundle-ns | indigo-bundle-walk-n |
+| indigo-bundle-walk-n-2 | people-gonzales-bundle-ns | indigo-bundle-walk-n |
+| blue-girl-bundle-walk-s-1 | people-gonzales-bundle-ns | blue-girl-bundle-walk-s |
+| blue-girl-bundle-walk-s-2 | people-gonzales-bundle-ns | blue-girl-bundle-walk-s |
+| blue-girl-bundle-walk-n-1 | people-gonzales-bundle-ns | blue-girl-bundle-walk-n |
+| blue-girl-bundle-walk-n-2 | people-gonzales-bundle-ns | blue-girl-bundle-walk-n |
+| elder-bundle-walk-s-1 | people-gonzales-bundle-ns | elder-bundle-walk-s |
+| elder-bundle-walk-s-2 | people-gonzales-bundle-ns | elder-bundle-walk-s |
+| elder-bundle-walk-n-1 | people-gonzales-bundle-ns | elder-bundle-walk-n |
+| elder-bundle-walk-n-2 | people-gonzales-bundle-ns | elder-bundle-walk-n |
 | teal-bundle-walk-1 | people-gonzales-bundle-walk | teal-bundle-walk |
 | teal-bundle-walk-2 | people-gonzales-bundle-walk | teal-bundle-walk |
 | teal-bundle-walk-3 | people-gonzales-bundle-walk | teal-bundle-walk |
@@ -3609,6 +3626,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
 | prisoner-walk-n | Pose cycle | 2 | 600 | yes | north |
+| teal-bundle-walk-s | Pose cycle | 2 | 1200 | yes | south |
+| teal-bundle-walk-n | Pose cycle | 2 | 1200 | yes | north |
+| indigo-bundle-walk-s | Pose cycle | 2 | 1200 | yes | south |
+| indigo-bundle-walk-n | Pose cycle | 2 | 1200 | yes | north |
+| blue-girl-bundle-walk-s | Pose cycle | 2 | 1200 | yes | south |
+| blue-girl-bundle-walk-n | Pose cycle | 2 | 1200 | yes | north |
+| elder-bundle-walk-s | Pose cycle | 2 | 1200 | yes | south |
+| elder-bundle-walk-n | Pose cycle | 2 | 1200 | yes | north |
 | teal-bundle-walk | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
 | indigo-bundle-walk | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
 | blue-girl-bundle-walk | Pose cycle | 4 | 1200 | yes | east; west by mirroring |

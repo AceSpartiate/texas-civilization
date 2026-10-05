@@ -8889,6 +8889,134 @@
       "motion": "none",
       "direction": "north"
     },
+    "teal-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "teal-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "teal-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "teal-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "teal-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "teal-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "indigo-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "indigo-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "indigo-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "indigo-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-girl-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-girl-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "elder-bundle-walk-s": {
+      "frames": [
+        {
+          "sprite": "elder-bundle-walk-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "elder-bundle-walk-s-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "elder-bundle-walk-n": {
+      "frames": [
+        {
+          "sprite": "elder-bundle-walk-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "elder-bundle-walk-n-2",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "teal-bundle-walk": {
       "frames": [
         {
