@@ -205,13 +205,37 @@ export async function loadArt({ all = false, sheets = [] } = {}) {
  * it for a person; a figure leaning in the wind would be animation, not weather. */
 const personPaletteCache = new Map();
 const PERSON_PALETTE_LIMIT = 320;
-function appearanceFrame(image, frame, name, appearance) {
-  const key = `${name}:${paletteKey(appearance)}`;
-  if (personPaletteCache.has(key)) {
-    const cached = personPaletteCache.get(key);
-    personPaletteCache.delete(key); personPaletteCache.set(key, cached);
-    return cached;
+/**
+ * A person's frame in their own colours, coloured ahead and in the browser's idle time where it can be.
+ *
+ * Colouring a frame costs 2-6 ms (public/person-palette.js: the frame's parts, then every pixel), once per frame and palette.
+ * Measured 2026-10-04 at the Alamo before the siege (scripts/famous-people-browser-proof.mjs, `window.__mapDraws` and a CPU
+ * profile of the Host): the Host's map coloured 163 frames in its first seconds, about 630 ms of colouring, where on 2026-09-29
+ * it coloured 51 in 86 ms. Then every family's people stood at rest there; now they walk about their work, and each step of each
+ * direction of a walk, in each family's colours, is a frame to colour. When a tick set several families walking at once, one
+ * animation frame coloured a dozen of them and took 45-90 ms against a median of 7.
+ *
+ * Now (1) a frame coloured for the first time sends the rest of its clip's frames in that palette (the same name but for the
+ * frame number: `smallchild-walk-e-1` sends `-2`, `-3`...) to be coloured while the browser is idle, which on the Host's map
+ * is three quarters of the time; and (2) one drawing colours at most COLOUR_BUDGET_MS of frames. A frame past that budget whose
+ * clip has already been drawn in that palette is drawn as the last frame drawn of it, and coloured in the next idle moment.
+ * A clip never drawn in that palette is coloured at once whatever the budget: nothing is ever drawn in the wrong colours.
+ * ceiling: a person in a crowd that starts moving at once may hold the step before for a drawing or two; colouring the parts at
+ * build time (a parts mask beside each sheet) would make every frame cheap, if the hold is ever seen.
+ */
+const COLOUR_BUDGET_MS = 6;
+const heldColour = new Map(), colourAhead = new Map(), warmed = new Set();
+let colourSpent = 0, budgetArmed = false, idleAsked = false, stems = null;
+const stemOf = name => name.replace(/-\d+$/, '');
+function framesOfStem(stem) {
+  if (!stems) {
+    if (!manifestsRead) return [];
+    stems = new Map();
+    for (const name of Object.keys(art.frames)) { const own = stemOf(name); if (own !== name) (stems.get(own) || stems.set(own, []).get(own)).push(name); }
   }
+  return stems.get(stem) || [];
+}
+function colourFrame(image, frame, name, appearance, key) {
   const canvas = document.createElement('canvas');
   canvas.width = frame.w; canvas.height = frame.h;
   const paint = canvas.getContext('2d', { willReadFrequently: true });
@@ -221,16 +245,61 @@ function appearanceFrame(image, frame, name, appearance) {
   paint.putImageData(pixels, 0, 0);
   personPaletteCache.set(key, canvas);
   if (personPaletteCache.size > PERSON_PALETTE_LIMIT) personPaletteCache.delete(personPaletteCache.keys().next().value);
+  const palette = paletteKey(appearance), stem = stemOf(name);
+  if (!warmed.has(`${stem}:${palette}`)) {
+    warmed.add(`${stem}:${palette}`);
+    for (const other of framesOfStem(stem)) if (other !== name) colourAhead.set(`${other}:${palette}`, { name: other, appearance });
+    askIdle();
+  }
   return canvas;
 }
+/** Colour what is waiting while the browser has nothing else to do; the next drawing finds it ready. */
+function askIdle() {
+  if (idleAsked || !colourAhead.size) return;
+  idleAsked = true;
+  const idle = globalThis.requestIdleCallback || (work => setTimeout(() => work({ timeRemaining: () => 8 }), 16));
+  idle(deadline => {
+    idleAsked = false;
+    for (const [key, { name, appearance }] of colourAhead) {
+      if (deadline.timeRemaining() < 4) break;
+      colourAhead.delete(key);
+      const frame = art.frames[name], image = frame && art.images[frame.sheet];
+      if (image && !personPaletteCache.has(key)) colourFrame(image, frame, name, appearance, key);
+    }
+    askIdle();
+  });
+}
+/** The coloured picture to draw for this frame and the frame whose measures it has: itself, or the clip's last drawn (above). */
+function appearanceFrame(image, frame, name, appearance) {
+  const palette = paletteKey(appearance), key = `${name}:${palette}`, hold = `${stemOf(name)}:${palette}`;
+  let canvas = personPaletteCache.get(key);
+  if (canvas) { personPaletteCache.delete(key); personPaletteCache.set(key, canvas); }
+  else {
+    if (!budgetArmed) { budgetArmed = true; colourSpent = 0; queueMicrotask(() => { budgetArmed = false; }); }
+    const held = heldColour.get(hold);
+    if (held && colourSpent >= COLOUR_BUDGET_MS) {
+      colourAhead.delete(key); colourAhead.set(key, { name, appearance });
+      askIdle();
+      return held;
+    }
+    const began = performance.now();
+    canvas = colourFrame(image, frame, name, appearance, key);
+    colourSpent += performance.now() - began;
+  }
+  const drawn = { canvas, frame };
+  heldColour.set(hold, drawn);
+  return drawn;
+}
 export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, anchor, lean = 0, appearance = null } = {}) {
-  const frame = art.frames[name];
+  let frame = art.frames[name];
   const image = frame && art.images[frame.sheet];
   if (!image || !(height > 0)) {
     if (frame && !image) { missing?.add(frame.sheet); requestSheet(frame.sheet); }
     return 0;
   }
   drawnSheets.add(frame.sheet);
+  let source = null;
+  if (appearance && typeof document !== 'undefined') ({ canvas: source, frame } = appearanceFrame(image, frame, name, appearance));
   const scale = height / (frame.logicalHeight || frame.h);
   const width = frame.w * scale, drawnHeight = frame.h * scale;
   // Undone by hand rather than with save and restore: the map lays down hundreds of sprites a redraw, and save and restore
@@ -240,9 +309,8 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
   ctx.translate(x, y);
   if (lean) ctx.transform(1, 0, lean, 1, 0, 0);
   if (flip) ctx.scale(-1, 1);
-  if (appearance && typeof document !== 'undefined') {
-    const coloured = appearanceFrame(image, frame, name, appearance);
-    ctx.drawImage(coloured, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
+  if (source) {
+    ctx.drawImage(source, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
   } else ctx.drawImage(image, frame.x, frame.y, frame.w, frame.h, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
   if (flip) ctx.scale(-1, 1);
   if (lean) ctx.transform(1, 0, -lean, 1, 0, 0);
