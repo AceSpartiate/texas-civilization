@@ -127,7 +127,6 @@ export function inCamp(world, person) {
  * to serve, which this state is not.
  */
 export const inTown = (world, person) => inCamp(world, person) && !person.travel && ['town', 'village'].includes(world.map?.sites?.[person.location.siteId]?.kind);
-/** The army's orders forbade shooting about the camp (`HIST-TEX-029`): a hunt goes out only from a town. */
 
 // --------------------------------------------------------------------------------------------------------- the record
 
@@ -223,7 +222,8 @@ const place = (world, person) => (world.map?.sites?.[person.location?.siteId]?.n
 export function militiaRefusal(world, household, person, choreId) {
   if (!atWar(world, person)) return `${person.name} is not away with the volunteers.`;
   if (!inCamp(world, person)) return person.travel ? `${person.name} is on the road.` : `${person.name} is with the men in the fight.`;
-  const m = militiaOf(world, person);
+  // Read, never made, here: this is asked by the projection, which changes nothing (`militiaOf` makes it on the tick).
+  const m = person.militia?.since !== undefined ? person.militia : { pack: round(rationOf(world, person) * DEFAULT_PACK_DAYS), rounds: 2, ...(person.militia || {}) };
   if (choreId === 'camp-drill' && (m.drilled || 0) >= DRILL_DAYS) return `${person.name} has drilled ${DRILL_DAYS} days and stands steady in the line.`;
   if (choreId === 'camp-bullets') {
     if (dateOf(world, world.minute).getTime() < LEAD_FROM && (world.period ?? 1) === 1) return 'There is no lead in the camp to mould: the men have written to the settlements for it.';
@@ -231,6 +231,8 @@ export function militiaRefusal(world, household, person, choreId) {
   }
   if (['camp-cook', 'camp-wood'].includes(choreId) && m.mess !== undefined && today(world) - m.mess < MESS_TURN_DAYS) return `${person.name} has had his turn at the mess's work; it comes round again in ${MESS_TURN_DAYS - (today(world) - m.mess)} ${MESS_TURN_DAYS - (today(world) - m.mess) === 1 ? 'day' : 'days'}.`;
   if (choreId === 'camp-shelter' && m.shelter) return m.shelter === 'board' ? `${person.name} sleeps in the house he works at.` : `${person.name} has a shelter put up already.`;
+  // The army keeps its men in its camp, and its orders forbade shooting about it (`HIST-TEX-029`): the town's work, a hunt and a
+  // counter are the gathering's, in a town.
   if (['camp-hunt', 'camp-buy', 'town-wages', 'town-board', 'camp-shelter'].includes(choreId) && !inTown(world, person)) return 'The army keeps its men in the camp.';
   if (choreId === 'camp-hunt') {
     if (!person.carries?.items?.includes('rifle')) return `${person.name} has no rifle with him.`;
@@ -298,6 +300,8 @@ export const MILITIA_RUNS = Object.freeze({
     if (found) m.pack = round(Math.min(rationOf(world, person) * PACK_MOST_DAYS, (m.pack || 0) + HUNT_FOOD));
     tell(world, person, found ? `${person.name} went out from ${place(world, person)} with the rifle and brought back a deer: ${HUNT_FOOD} food in his pack.` : `${person.name} went out from ${place(world, person)} with the rifle, fired once, and came back with nothing.`, { claimId: 'FIC-GONZ-1180' });
   },
+  // ceiling: bought at a counter from his bar at the store's own rate, not on the errand to town's popup (docs/TOWNS.md §4b) and not
+  // from a named keeper's stock; the errand, with its list and its keepers, from a volunteer in a town is the way out.
   buy(world, household, person) {
     const m = militiaOf(world, person);
     household.resources.money = (household.resources.money || 0) - 1;
@@ -360,6 +364,8 @@ export function advanceMilitia(world, { beginTravel, workFor = null, begin = nul
     if (!household) continue;
     if (!atWar(world, person)) { if (person.militia?.since !== undefined) homeWith(world, household, person); continue; }
     const m = militiaOf(world, person);
+    // Busy is not left alone: the tick he stands idle is counted from when his work ends.
+    if (person.chore) delete m.idle;
     if (inCamp(world, person)) walkToSpot(world, person);
     // The board he works for is a night's roof only: tomorrow he is under his own shelter, or the sky, again.
     if (m.shelter === 'board' && m.boardDay !== undefined && m.boardDay < today(world)) { delete m.shelter; delete m.boardDay; }
@@ -404,7 +410,7 @@ function eat(world, household, person, days) {
   m.pack = round(Math.max(0, (m.pack || 0) - fromPack));
   const had = issued + fromPack;
   ate(world, household, [person], need, had, days);
-  if (m.pack <= 1e-6 && !m.emptyTold) {
+  if (m.pack <= 1e-6 && share_ < 1 && !m.emptyTold) {
     m.emptyTold = true;
     tell(world, person, `${person.name} has eaten the last of the food he carried. The camp's beef is not enough to live on: he needs to buy food, hunt or work for his board, or come home.`, { claimId: 'FIC-GONZ-1179', importance: 3 });
   }

@@ -233,4 +233,4 @@ arrival; (b) staying on in Gonzales once the army has marched is not offered: a 
 and are journal lines only elsewhere (Victoria); (d) the coin he spends or earns is the family's, as if he carried it; (e) a man already
 away on a class saved before is given three days' food, not charged to his family; (f) only the Gonzales fight spends his rounds - the
 later fights do not yet; (g) the army's commissary feeds its men whole to the end of the autumn, though from November 22 it had only
-beef - counting that half would send the played families' men home before the storming of Béxar, which wants the owner's say-so.
+beef - counting that half would send the played families' men home before the storming of Béxar, which wants the owner's say-so; (h) food is bought from his bar at the store's own rate, not on the errand to town's popup (docs/TOWNS.md §4b).
