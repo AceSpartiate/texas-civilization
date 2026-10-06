@@ -11,13 +11,14 @@
     "help, not lead: with Samuel Proofwright at the house it is on Almira Proofwright's bar with the helping-hands badge (\"Helps Samuel, and leaves off when they do.\"); pressed, she joins him: \"Almira Proofwright went to help Samuel: work on the house.\"",
     "the errand popup says \"Samuel's clothes want washing: the shops ask a quarter more and pay a fifth less.\", and 31 prices are dearer, seed \"2 reales or 3.75 food for 2 seed (1 real or 3 food to a clean customer)\"",
     "with Samuel Proofwright on the road to town, build-house appears on Almira Proofwright's bar, lit",
-    "the family's story says: \"With Samuel gone to town, Almira went to work on the house herself.\"",
+    "the family's story says: \"With Samuel gone to town and no son old enough, Almira went to work on the house herself.\"",
     "in gonzales: \"Ruth Crandall at Gonzales wrinkled her nose at Samuel Proofwright's clothes: \"Stand a little off from the counter, if you please.\"\"; drawn over the speaker: \"Stand a little off from the counter, if you please.\"; flies over him",
-    "children keep house: with Samuel Proofwright gone to the store, Joseph Proofwright (11) has keep-house and wash-clothes on his bar; drawn fire; the story: \"Joseph Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.\" \"Joseph Proofwright did the wash: the clothes of 5 boiled, beaten and hung on the fence to dry.\"",
+    "with Samuel Proofwright on the errand and Almira Proofwright at home, Joseph Proofwright (11) has neither Keep house nor the wash on his bar",
+    "children keep house: with Samuel Proofwright gone to the store and Almira Proofwright to town, Joseph Proofwright (11) has keep-house and wash-clothes on his bar; drawn fire; the story: \"Joseph Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.\" \"Joseph Proofwright did the wash: the clothes of 4 boiled, beaten and hung on the fence to dry.\"",
     "the story says: \"Samuel Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Samuel Proofwright's clothes and asked more.\"",
     "Almira Proofwright at work-garden: drawn hoe (mother-loose-work), and the garden drawn beside the house ({\"x\":683,\"y\":384,\"half\":23,\"season\":\"growing\"})",
     "Almira Proofwright at wash-clothes: drawn scrub (mother-loose-work)",
-    "the story says: \"Almira Proofwright laid out a kitchen garden beside the house. It will give a little every day it is worked, from tomorrow.\" \"Almira Proofwright did a wash for Samuel, who wanted it before wash day: one set of clothes boiled, beaten and hung on the fence to dry.\"",
+    "the story says: \"Almira Proofwright laid out a kitchen garden beside the house. It will give a little every day it is worked, from tomorrow.\" \"Almira Proofwright did a wash for Samuel and Almira, who wanted it before wash day: the clothes of 2 boiled, beaten and hung on the fence to dry.\"",
     "the wash for whoever's dirty done, Samuel Proofwright's clothes are clean and no flies are drawn over him",
     "hunt-timber left Almira Proofwright's bar with Samuel Proofwright home and came back when he went again, the same button",
     "no page errors"
@@ -122,7 +123,7 @@
       "label": "Work on the house. Put work into the house the family has chosen until it stands."
     },
     "huntLit": true,
-    "line": "With Samuel gone to town, Almira went to work on the house herself.",
+    "line": "With Samuel gone to town and no son old enough, Almira went to work on the house herself.",
     "remark": "Ruth Crandall at Gonzales wrinkled her nose at Samuel Proofwright's clothes: \"Stand a little off from the counter, if you please.\"",
     "said": [
       {
@@ -156,6 +157,25 @@
       "sprite": false
     },
     "where": "gonzales",
+    "childBarMotherHome": [
+      "survey-plot",
+      "fence-yard",
+      "plant-field",
+      "fence-plot",
+      "hunt-timber",
+      "visit-shop",
+      "make-furniture",
+      "buy-furniture",
+      "hunt-land",
+      "take-small-game",
+      "cut-bee-tree",
+      "milk-cow",
+      "travel-gonzales",
+      "visit",
+      "work",
+      "rest",
+      "go-inside"
+    ],
     "childBar": [
       "survey-plot",
       "fence-yard",
@@ -170,6 +190,7 @@
       "cut-bee-tree",
       "milk-cow",
       "keep-house",
+      "work-garden",
       "wash-clothes",
       "travel-gonzales",
       "visit",
@@ -188,8 +209,8 @@
       "art": "stand-in",
       "clip": "youth-boy-work",
       "frame": 0,
-      "since": 1407,
-      "count": 42,
+      "since": 846,
+      "count": 43,
       "marks": 4,
       "shift": 0,
       "flip": false,
@@ -199,7 +220,7 @@
     },
     "childStory": [
       "Joseph Proofwright kept house: the cooking, the mending and the sweeping done, and the food made to go further.",
-      "Joseph Proofwright did the wash: the clothes of 5 boiled, beaten and hung on the fence to dry."
+      "Joseph Proofwright did the wash: the clothes of 4 boiled, beaten and hung on the fence to dry."
     ],
     "paid": "Samuel Proofwright bought 2 seed at the store for 3.75 food - 3 food to a clean customer, but Marta Ibarra looked at Samuel Proofwright's clothes and asked more.",
     "garden": {
@@ -228,7 +249,7 @@
         "season": "growing"
       }
     },
-    "washFor": "Almira Proofwright did a wash for Samuel, who wanted it before wash day: one set of clothes boiled, beaten and hung on the fence to dry.",
+    "washFor": "Almira Proofwright did a wash for Samuel and Almira, who wanted it before wash day: the clothes of 2 boiled, beaten and hung on the fence to dry.",
     "offAgain": [
       "plant-field",
       "visit-shop",

@@ -84,14 +84,18 @@ a long stretch with nothing, people die of it, the youngest and the sick first. 
 amber to red as the days of food run down, and glows and pulses as the family weakens; the faces of the hungry are ringed in the
 same colours. A starving person has an "!" and at least a real minute before anything worse can happen.
 
-**Men's work, women's work, and the wash** (owner, 2026-10-03, "Custom, necessity opens", and 2026-10-04; [docs/CUSTOMARY_WORK.md](docs/CUSTOMARY_WORK.md)).
+**Men's work, women's work, and the wash** (owner, 2026-10-03, "Custom, necessity opens", 2026-10-04 and 2026-10-05; [docs/CUSTOMARY_WORK.md](docs/CUSTOMARY_WORK.md)).
 Every work is the men's, the women's or shared, as it was on the frontier. The men's - clearing, fencing, building, felling, the
 well, hunting and the cattle - is not on a woman's bar at all while a man of the family of sixteen or over is at home and able (the
 owner: *"none, they only appear if the correct gender isn't around to do it"*), and an order for it sent anyway is refused in words
 (*"Felling is men's work, and James is at home."*); the women's - keeping house, the kitchen garden, the wash and nursing - is kept
 off a man's bar the same way. The field, the town, the water, the hogs, the milking and everything on the road east
-are everybody's. **When every man is away, sick or dead the men's work appears on her bar, lit, by itself**, and the family's story says so once
-(*"With James gone to the army, Martha took up the axe."*); a lone mother can do everything, and so can a lone father. **Keep house**
+are everybody's. **With no grown man at home a son of twelve to fifteen keeps the men's work** (owner, 2026-10-05, "Boys 12+ carry
+it"): his mother and sisters may only help him at it, and the refusal names him (*"Felling is men's work, and Hiram is at home."*).
+**When every man and every such boy is away, sick or dead the men's work appears on the mother's bar, lit, by itself** - on a grown
+woman's only, never a girl's (*"Felling is men's work; with no man at home it falls to Elizabeth."*), and a girl may help her at it -
+and the family's story says so once (*"With James gone to the army, Martha took up the axe."*, *"With Jesse away with the volunteers
+and no son old enough, Elizabeth took up the axe."*); a lone mother can do everything, and so can a lone father. **Keep house**
 makes the food go further today and tomorrow (it no longer does so by itself); **Work the garden** lays out a kitchen garden beside
 the house and brings in a little food every day; **Wash clothes** keeps everybody at home clean for a week, and is done once a week (a weekly wash day). Somebody away from home
 in dirty clothes has flies about them, is told so by whoever they meet in town or at the war, and pays a quarter more at the shops and
@@ -99,11 +103,12 @@ gets a fifth less for what they sell - the errand popup says why. A woman on aut
 waits. **The owner's answers of 2026-10-04** ([docs/CUSTOMARY_WORK.md](docs/CUSTOMARY_WORK.md) §1c): **help, not lead** - while a man is
 at the house, the clearing, the felling, a fence or the well, that work is on his wife's and daughters' bars (ten and over) with a small
 green helping-hands badge, and pressing it puts them beside him, faster; they never begin it, and leave off when he does; the same the
-other way for a man or boy joining a woman at the house work, the garden or the wash. **Children keep house** for a lone parent - with
-no grown man at home, or no grown woman, a child of seven or more may keep house and do the wash, and does on auto. **A cue**: the
+other way for a man or boy joining a woman at the house work, the garden or the wash. **Children keep house** only when no grown woman
+is at home (owner, 2026-10-05; until then for a lone mother too) - a lone father's child of seven or more may keep house and do the
+wash, and does on auto. **A cue**: the
 idle woman (or whoever may do it) gets a pulsing pot or washtub on her portrait and the matching icon glows while the house is not kept
 today or somebody's clothes want the wash - never while she is busy, never while the food is low (the food icons glow then), and never
-on a lone parent (a child of seven gets it instead). **The wash for whoever's dirty**: before the week is out the wash
+on a lone parent (a daughter of ten, or a lone father's child of seven, gets it instead). **The wash for whoever's dirty**: before the week is out the wash
 may be done again for anybody at home who is dirty or missed wash day, so the one going to town can be washed first. A man sent for
 from the army, or who deserted, is at home again in the custom's eyes.
 

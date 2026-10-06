@@ -239,7 +239,7 @@ function withChildren(seed) {
 const canDo = (world, household, person, id) => choreAvailability(world, household, person, id).can;
 const send = (world, entityId, chore) => applyAction(world, 'hh-1', { action: 'chore', entityId, chore });
 
-test('children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up', () => {
+test('children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up', () => {
   const { world, household, thomas, elena, rosa, mateo } = withChildren('children-keep');
   washedAgo(world, CLEAN_DAYS);
   // Both at home: the children's own works, not the house.
@@ -247,10 +247,18 @@ test('children keep house: a child of seven keeps house and does the wash for a 
     assert.equal(canDo(world, household, child, id), false, `${child.name} may ${id} with both parents at home`);
     assert.equal(view(world, 'hh-1').work[child.id].find(entry => entry.id === id), undefined, `${id} is on ${child.name}'s bar with both parents home`);
   }
-  // The father gone: a lone mother's children of seven or more keep house and wash, girl and boy alike, on their own bars.
+  // The father gone: a lone mother keeps the house herself (owner, 2026-10-05: "Children keep house only when no grown woman is
+  // home"; until then her children of seven kept it for her).
   thomas.health = { condition: 'dead' };
   for (const child of [rosa, mateo]) for (const id of ['keep-house', 'wash-clothes']) {
-    assert.equal(canDo(world, household, child, id), true, `${child.name} may not ${id} for a lone mother: ${choreAvailability(world, household, child, id).why}`);
+    assert.equal(canDo(world, household, child, id), false, `${child.name} may ${id} beside a lone mother`);
+  }
+  // The mother gone instead, the father home: a lone father's children of seven or more keep house and wash, girl and boy alike,
+  // on their own bars.
+  thomas.health = { condition: 'well' };
+  elena.health = { condition: 'dead' };
+  for (const child of [rosa, mateo]) for (const id of ['keep-house', 'wash-clothes']) {
+    assert.equal(canDo(world, household, child, id), true, `${child.name} may not ${id} for a lone father: ${choreAvailability(world, household, child, id).why}`);
     assert.ok(view(world, 'hh-1').work[child.id].find(entry => entry.id === id)?.can, `${id} is not on ${child.name}'s bar`);
   }
   // Not the garden, and not a child of six.
@@ -261,13 +269,9 @@ test('children keep house: a child of seven keeps house and does the wash for a 
   // A child on their own automation keeps house first, and the house is kept by her.
   applyAction(world, 'hh-1', { action: 'set-auto', entityId: rosa.id, auto: true });
   for (let tick = 0; tick < 3 && rosa.chore?.id !== 'keep-house'; tick++) stepWorld(world);
-  assert.equal(rosa.chore?.id, 'keep-house', `a child on auto did not keep house for a lone mother: ${rosa.chore?.id}`);
+  assert.equal(rosa.chore?.id, 'keep-house', `a child on auto did not keep house for a lone father: ${rosa.chore?.id}`);
   for (let tick = 0; tick < 60 && !household.housekept; tick++) stepWorld(world);
   assert.equal(household.housekept?.by, rosa.id, 'the house was not kept by the child');
-  // And for a lone father the same: the mother gone, the father home.
-  const other = withChildren('children-keep-father');
-  other.elena.health = { condition: 'dead' };
-  assert.equal(canDo(other.world, other.household, other.mateo, 'keep-house'), true, choreAvailability(other.world, other.household, other.mateo, 'keep-house').why);
   validateWorld(world);
 });
 
@@ -285,36 +289,31 @@ test('a child keeps house as the lone parent\'s would: the parent\'s housework i
     return { saving: houseSaving(family.world, family.household), kept: { ...family.household.housekept } };
   };
   const traits = (person, housework) => { person.traits = { strength: 5, health: 9, housework }; };
-  // A lone mother, a good housekeeper, and a daughter of eight who is not yet.
-  const mother = withChildren('child-keeps-mother');
-  traits(mother.elena, 10); traits(mother.rosa, 1); traits(mother.thomas, 1);
-  mother.thomas.health = { condition: 'dead' };
-  const asHers = keep(mother, mother.rosa);
-  assert.equal(asHers.kept.by, mother.rosa.id);
-  assert.equal(asHers.kept.for, mother.elena.id, 'the house the child kept is not recorded kept for her mother');
-  assert.equal(asHers.saving, housekeepingSaving([mother.elena]), `the child's keeping saved ${asHers.saving}, not her mother's`);
-  assert.ok(asHers.saving > 0.2);
-  // A lone father: his own housework, poor as it is.
+  // A lone father, a good housekeeper, and a daughter of eight who is not yet. (A lone mother keeps the house herself since
+  // 2026-10-05, owner: "Children keep house only when no grown woman is home".)
   const father = withChildren('child-keeps-father');
-  traits(father.thomas, 5); traits(father.rosa, 1); traits(father.elena, 10);
+  traits(father.thomas, 10); traits(father.rosa, 1); traits(father.elena, 1);
   father.elena.health = { condition: 'dead' };
   const asHis = keep(father, father.rosa);
-  assert.equal(asHis.kept.for, father.thomas.id);
-  assert.equal(asHis.saving, housekeepingSaving([father.thomas]));
-  // No lone parent - the mother and a grown daughter of seventeen, the father dead: nobody directs the child as one parent, and the
+  assert.equal(asHis.kept.by, father.rosa.id);
+  assert.equal(asHis.kept.for, father.thomas.id, 'the house the child kept is not recorded kept for her father');
+  assert.equal(asHis.saving, housekeepingSaving([father.thomas]), `the child's keeping saved ${asHis.saving}, not her father's`);
+  assert.ok(asHis.saving > 0.2);
+  // No lone parent - the father and a grown son of seventeen, the mother dead: nobody directs the child as one parent, and the
   // child's own housework is read.
   const two = withChildren('child-keeps-two');
-  traits(two.elena, 10); traits(two.rosa, 1);
-  Object.assign(two.mateo, { age: 17, sex: 'female' }); traits(two.mateo, 10);
-  two.thomas.health = { condition: 'dead' };
+  traits(two.thomas, 10); traits(two.rosa, 1);
+  Object.assign(two.mateo, { age: 17, sex: 'male' }); traits(two.mateo, 10);
+  two.elena.health = { condition: 'dead' };
   const asOwn = keep(two, two.rosa);
   assert.equal(asOwn.kept.for, undefined);
   assert.equal(asOwn.saving, housekeepingSaving([two.rosa]));
   // A grown person keeping house keeps it as themself; and a saved `for` that cannot be is refused.
-  const own = keep(mother, mother.elena);
+  delete father.thomas.aside; // a child may have stopped him to talk meanwhile (sim/aside.mjs)
+  const own = keep(father, father.thomas);
   assert.equal(own.kept.for, undefined);
-  const bad = structuredClone(mother.world);
-  bad.households['hh-1'].housekept = { day: 0, by: mother.rosa.id, for: 7 };
+  const bad = structuredClone(father.world);
+  bad.households['hh-1'].housekept = { day: 0, by: father.rosa.id, for: 7 };
   assert.throws(() => validateWorld(bad), /housekeeping/i);
 });
 
@@ -346,14 +345,14 @@ test('prompt the student: the idle woman is pointed at keeping house, then at th
   // The wash wanted: the wash.
   washedAgo(world, CLEAN_DAYS);
   assert.deepEqual(cues(), { [elena.id]: 'wash-clothes' });
-  // With the father gone she is the only grown hand at home, with all the family's work: never pointed at the house, and the eldest
-  // idle child, who may keep house for her, is pointed at the wash instead.
+  // With the father gone she is the only grown hand at home, with all the family's work: never pointed at the house, and a daughter
+  // of ten, whose work it is by custom, is pointed at the wash instead.
   thomas.health = { condition: 'dead' };
-  assert.deepEqual(cues(), { [rosa.id]: 'wash-clothes' }, 'the lone mother, not the eldest idle child, was pointed at the wash');
-  // No child of seven: nobody.
-  rosa.age = 6; mateo.age = 5;
-  assert.deepEqual(cues(), {}, 'the lone mother was pointed at the house with no child to do it');
-  rosa.age = 8; mateo.age = 7;
+  rosa.age = 11;
+  assert.deepEqual(cues(), { [rosa.id]: 'wash-clothes' }, 'the lone mother, not the eldest idle daughter, was pointed at the wash');
+  // Children under ten do not keep house beside a grown woman (owner, 2026-10-05): with no daughter of ten, nobody.
+  rosa.age = 8;
+  assert.deepEqual(cues(), {}, 'the lone mother, or a child under ten beside her, was pointed at the house');
   // Somebody at the wash already: nobody is pointed at it.
   send(world, elena.id, 'wash-clothes');
   assert.deepEqual(cues(), {});

@@ -59,9 +59,11 @@ export const keptToday = (world, household) => household?.housekept?.day === day
  * would"** - the child does the chores the parent directs). A child of seven to fifteen keeping house for a lone parent (sim/custom.mjs
  * `childKeeps`) saves what that parent's own housekeeping would: the house is recorded kept by the child **for** the parent (`for`),
  * and the saving is read from the parent's housework (`keptBy`). The lone parent is the only grown hand at home and able when the
- * child keeps it (`loneHand`): a lone father or a lone mother, or a mother whose husband is away. ceiling: with two grown hands of one
- * custom at home and none of the other (a lone father and a son of seventeen), or none at all, nobody directs the child as one parent,
- * and the child's own housework is read; worth undoing only if such a family shows a child keeping house for nothing. `FIC-GONZ-1158`.
+ * child keeps it (`loneHand`): since 2026-10-05 a lone father only, a child keeping house only when no grown woman is at home (owner:
+ * "Children keep house only when no grown woman is home"; until then a lone mother, and a mother whose husband was away, too).
+ * ceiling: with two grown men at home and no woman (a lone father and a son of seventeen), or nobody grown, nobody directs the
+ * child as one parent, and the child's own housework is read; worth undoing only if such a family shows a child keeping house for
+ * nothing. `FIC-GONZ-1158`, `-1171`.
  */
 function keepHouse(world, household, entity) {
   const parent = childKeeps(world, household, entity, 'keep-house', homeWork) ? loneHand(world, household) : null;
@@ -281,8 +283,8 @@ export function remarkLines(world, household) {
 const homeAndSettled = (world, household) => !household.arriving && (!household.flight || ['home', 'ordered', 'stayed'].includes(household.flight.status));
 const atTheHouse = (world, household, entity) => entity.location?.siteId === household.homeSiteId;
 /**
- * A child under ten keeps house and does the wash only for a lone parent (owner, 2026-10-04, "Children keep house"; sim/custom.mjs
- * `childKeeps`): seven or more, and only one custom kept at home. The two works are marked a child's (`child`: a child's bar shows them
+ * A child under ten keeps house and does the wash only with no grown woman at home (owner, 2026-10-04, "Children keep house";
+ * amended 2026-10-05, "Children keep house only when no grown woman is home"; sim/custom.mjs `childKeeps`): seven or more. The two works are marked a child's (`child`: a child's bar shows them
  * and a child's order is taken) and `grown` (worked at a grown work's pace); this is their age ladder.
  */
 const childMay = (world, household, entity, id) => !tooYoung(entity) || childKeeps(world, household, entity, id, homeWork);
@@ -293,10 +295,10 @@ const childMay = (world, household, entity, id) => !tooYoung(entity) || childKee
 const WORKS = {
   'keep-house': {
     name: 'Keep house', skill: 'hands', where: 'home', job: true, keeps: 'house', crew: 'join', child: true, grown: true, indoors: true,
-    describe: 'An hour or two at the hearth and about the house: the cooking, the mending and the sweeping. A house kept makes the family\'s food go further, today and tomorrow; a house nobody keeps does not. Women\'s work by custom: a man keeps house when no woman of the family is at home, and a man or boy of ten may help a woman at it. A child of seven keeps house for a lone parent.',
+    describe: 'An hour or two at the hearth and about the house: the cooking, the mending and the sweeping. A house kept makes the family\'s food go further, today and tomorrow; a house nobody keeps does not. Women\'s work by custom: a man keeps house when no woman of the family is at home, and a man or boy of ten may help a woman at it. A child of seven keeps house when no grown woman is at home.',
     offered: (world, household, entity) => homeAndSettled(world, household) && (!entity || childMay(world, household, entity, 'keep-house')),
     refusal: (world, household, entity) => {
-      if (!childMay(world, household, entity, 'keep-house')) return `${entity.name} is too young to keep house while a man and a woman of the family are at home.`;
+      if (!childMay(world, household, entity, 'keep-house')) return `${entity.name} is too young to keep house while a grown woman of the family is at home.`;
       if (!atTheHouse(world, household, entity)) return `${entity.name} is not at home.`;
       if (keptToday(world, household)) return `The house has been kept today, by ${nameOf(world.entities[household.housekept.by])}.`;
       return null;
@@ -328,10 +330,10 @@ const WORKS = {
   },
   'wash-clothes': {
     name: 'Wash clothes', skill: 'hands', where: 'home', job: true, keeps: 'wash', crew: 'join', child: true, grown: true,
-    describe: `Wash day: water carried up and heated, the clothes boiled with lye soap, beaten on the bench and hung on the fence. Everybody at home goes clean for ${CLEAN_DAYS} days. Once a week, and before the week is out for anybody at home whose clothes want it - somebody who missed wash day, or is dirty. Somebody away in dirty clothes is told so - in town the shops ask a quarter more and pay a fifth less. Women's work by custom, and the girls help; a man or boy of ten may help a woman at it, and a child of seven does it for a lone parent.`,
+    describe: `Wash day: water carried up and heated, the clothes boiled with lye soap, beaten on the bench and hung on the fence. Everybody at home goes clean for ${CLEAN_DAYS} days. Once a week, and before the week is out for anybody at home whose clothes want it - somebody who missed wash day, or is dirty. Somebody away in dirty clothes is told so - in town the shops ask a quarter more and pay a fifth less. Women's work by custom, and the girls help; a man or boy of ten may help a woman at it, and a child of seven does it when no grown woman is at home.`,
     offered: (world, household, entity) => homeAndSettled(world, household) && (!entity || childMay(world, household, entity, 'wash-clothes')),
     refusal: (world, household, entity) => {
-      if (!childMay(world, household, entity, 'wash-clothes')) return `${entity.name} is too young to do the wash while a man and a woman of the family are at home.`;
+      if (!childMay(world, household, entity, 'wash-clothes')) return `${entity.name} is too young to do the wash while a grown woman of the family is at home.`;
       if (!atTheHouse(world, household, entity)) return `${entity.name} is not at home.`;
       const since = sinceWash(world, household);
       // Before the week is out, only while somebody at home wants it (`washWanted`): the weekly day is the household's.
@@ -371,7 +373,7 @@ export function gardenProjection(world, household) {
  * house when nobody has today, else the wash when somebody at home wants it (dirty, or missed wash day). Pointed at the first of
  * the family in the panel's order - father, mother, then the eldest child - who is **idle** (at home, nothing in hand, not on the road,
  * not stopped by a child, not on auto, which keeps house by itself, and able) and **may begin it** (`choreAvailability`, so the custom
- * decides who: a woman or girl while one is home, a man when none is, a child for a lone parent; never somebody who could only help).
+ * decides who: a woman or girl while one is home, a man when none is, a child for a lone father; never somebody who could only help).
  * Nobody while somebody of the family is at that work already, or once it is done. The page draws it as a cue on the portrait and
  * on the icon, with no words (public/app.js `paintCue`). Null when nothing is wanted or nobody idle may do it.
  */
@@ -409,7 +411,7 @@ export function houseCue(world, household) {
       .sort((a, b) => ownCustom(b, work) - ownCustom(a, work) || (PANEL_RANK[a.kin?.role] ?? 2) - (PANEL_RANK[b.kin?.role] ?? 2) || (b.age ?? 0) - (a.age ?? 0));
     for (const person of idle) {
       // Never the only grown hand at home (a lone parent, or a mother whose husband is away): theirs is all the family's work, and the
-      // cue goes to a child of seven who may keep house for them instead (`childKeeps`), or to nobody. Measured (BALANCE.md §24): a
+      // cue goes to a daughter of ten, or for a lone father a child of seven (`childKeeps`), or to nobody. Measured (BALANCE.md §24): a
       // student who followed the cue drew lone parents from the field to the house and lost children to hunger.
       if (lonePair(world, household, person)) continue;
       const said = choreAvailability(world, household, person, work);

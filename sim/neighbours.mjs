@@ -479,10 +479,10 @@ export function thinkFor(world, household, { project, act }) {
       : attempt({ action: 'chore', entityId: person.id, chore });
     if (sent && ONE_AT_A_TIME.includes(chore)) busy.add(chore);
   }
-  // Children keep house (owner, 2026-10-04; sim/custom.mjs `childKeeps`): with only one custom kept at home - a lone parent - a child
-  // of seven to nine at home with nothing in hand keeps the house, or does the wash, that the grown hands have not been given: after
-  // them, so a lone parent free of the farm keeps the house herself (her housework saves more than a small child's, `FIC-GONZ-021`)
-  // and the child keeps it while she is at the field. Measured the other way first (docs/BALANCE.md §24): with the child before her, a
+  // Children keep house (owner, 2026-10-04; sim/custom.mjs `childKeeps`): with no grown woman at home - a lone father, since the
+  // owner's "Children keep house only when no grown woman is home" (2026-10-05; until then a lone mother too) - a child of seven to
+  // nine at home with nothing in hand keeps the house, or does the wash, that the grown hands have not been given: after them, so a
+  // lone father free of the farm keeps the house himself and the child keeps it while he is at the field. Measured the other way first (docs/BALANCE.md §24): with the child before her, a
   // lone mother of small children lost the housekeeping saving, and three of their children died of hunger in six families (none after).
   for (const child of people.filter(person => tooYoung(person) && person.age >= CHILD_KEEPS_FROM && !person.chore && !person.travel
     && person.location?.siteId === view.household.homeSiteId && !['dead', 'captured', 'sick'].includes(person.health?.condition))) {
