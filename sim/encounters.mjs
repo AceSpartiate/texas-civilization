@@ -33,6 +33,8 @@ import { QUEUED_QUESTION_MS, limitLeft, limitOut, riderLimitKey, riderOnLimit } 
 import { STUDY_TICK_MS } from './crops.mjs';
 import { RIDER_SPEED } from './travel.mjs';
 import { supplyAskFor } from './supplies.mjs';
+import { sceneFor, sceneInvalid, sceneView } from './rider-scene.mjs';
+import { askerFor, awayOf, expressScript, kinLine, plainScript, react } from './rider-talk.mjs';
 
 /**
  * How far the calendar has been stretched, as a multiplier (sim/clock.mjs, docs/COLONIES.md §5.7).
@@ -166,32 +168,35 @@ export const CONVERSATIONS = {
       : `I've come from ${toldAt}, and I did not see any of this myself. ${toldBy} put it in my hands there${tellerSaw ? `, straight out of ${origin}` : `, and had it from another rider before that, out of ${origin}`}. There are Mexican soldiers on the far bank of the Guadalupe, across from the town. They came for the cannon, and the town has told them no.`,
     lines: [
       {
-        id: 'how-many', ask: 'How many of them are there?',
+        id: 'how-many', ask: 'How many of them are there?', by: ['father', 'grown', 'town', 'child'],
+        react: { by: ['child', 'grown'], text: 'More than a handful. That is no answer at all.' },
         // HISTORY.md: "Do not add exact troop totals". So nobody in the chain has one.
         answer: ({ firsthand, toldBy }) => firsthand
           ? 'I did not count them, and I will not guess for you. More than a handful. I was not going to ride down and ask.'
           : `I would not guess at it if I had seen them, and I did not see them. ${toldBy} said more than a handful and would put no number to it either.`,
       },
       {
-        id: 'when-left', ask: 'When did you leave?',
+        id: 'when-left', ask: 'When did you leave?', by: ['mother', 'grown', 'town'],
         answer: ({ departedAgo, observedAgo, firsthand, toldBy, toldAt }) => firsthand
           ? `${departedAgo} on the road to get here, and what I am telling you was already ${observedAgo} old when I set out. Reckon on it being older still by now.`
           : `${departedAgo} since ${toldBy} gave me the word at ${toldAt}, and it was already ${observedAgo} old when it came into my hands. Reckon on it being older still by now.`,
       },
       {
-        id: 'saw-it', ask: 'Did you see them yourself?',
+        id: 'saw-it', ask: 'Did you see them yourself?', by: ['child', 'town', 'grown'],
         answer: ({ firsthand, toldBy, hands, origin }) => firsthand
           ? 'I saw the camp across the water with my own eyes. What the town means to do about it, I only heard said.'
           : `No. ${toldBy} did${hands === 1 ? ', and told me so - the camp across the water, seen from the near bank' : ` not either. It was through ${hands} hands before mine, and I never met whoever it was that saw it`}. I am telling you what I was told, out of ${origin}.`,
       },
       {
-        id: 'crossing', ask: 'Are they crossing?',
+        id: 'crossing', ask: 'Are they crossing?', by: ['mother', 'child', 'grown'],
+        react: { by: ['mother', 'grown'], text: 'Pray the river stays between them.' },
         answer: ({ firsthand, observedAgo, origin }) => firsthand
           ? 'The river was between them and the town when I turned my horse. I cannot tell you where they are now.'
           : `The river was between them when the word started out of ${origin}, and that was ${observedAgo} before ever I heard it. Where they are now, nobody on this road can tell you.`,
       },
       {
-        id: 'what-wanted', ask: 'What does the town want from us?',
+        id: 'what-wanted', ask: 'What does the town want from us?', by: ['father', 'town', 'grown'],
+        react: { by: ['father', 'grown', 'town'], text: 'Men, and food. They will be asking at every gate.' },
         // The one place this could turn into recruitment, so it is the one place the
         // rider is made to disclaim. VISION.md 11: pressure, never a demand with a
         // meter behind it.
@@ -220,7 +225,8 @@ CONVERSATIONS['gonzales-outcome'] = {
     : `I've come from ${toldAt}, and I did not see any of this myself. ${toldBy} put it in my hands there${tellerSaw ? `, straight from ${origin}` : `, and had it from another rider before that, out of ${origin}`}. There was a fight at the Mexican camp, and it was short. The soldiers have gone back toward Béxar, and the cannon did not go with them.`,
   lines: [
     {
-      id: 'anyone-killed', ask: 'Was anybody killed?',
+      id: 'anyone-killed', ask: 'Was anybody killed?', by: ['mother', 'grown', 'town'],
+      react: { by: ['mother', 'grown'], text: 'Lord, let it be nobody’s boy.' },
       // HISTORY.md: no casualty counts and no individual wounds. So nobody has one - and
       // nobody says "nobody was killed" either, because omitting casualties is not a claim
       // that nobody was harmed.
@@ -229,25 +235,26 @@ CONVERSATIONS['gonzales-outcome'] = {
         : `${toldBy} would not say, and I will not guess. People on this road tell it every way.`,
     },
     {
-      id: 'where-gone', ask: 'Where did the soldiers go?',
+      id: 'where-gone', ask: 'Where did the soldiers go?', by: ['child', 'father', 'town'],
       answer: ({ firsthand }) => firsthand
         ? 'Back up the road toward Béxar. They went in good order, not running.'
         : 'Back toward Béxar, is what I was told. Whether anybody watched them all the way out, I cannot say.',
     },
     {
-      id: 'when-left', ask: 'When did you leave?',
+      id: 'when-left', ask: 'When did you leave?', by: ['grown', 'town', 'mother'],
       answer: ({ departedAgo, observedAgo, firsthand, toldBy, toldAt }) => firsthand
         ? `${departedAgo} on the road to get here, and it was ${observedAgo} over when I set out.`
         : `${departedAgo} since ${toldBy} gave me the word at ${toldAt}, and it was already ${observedAgo} old then.`,
     },
     {
-      id: 'saw-it', ask: 'Did you see it yourself?',
+      id: 'saw-it', ask: 'Did you see it yourself?', by: ['child', 'town', 'grown'],
       answer: ({ firsthand, toldBy, hands, origin }) => firsthand
         ? 'I was with the men at the camp. I heard the cannon and I saw the soldiers go. What passed between the two sides before it, I did not hear.'
         : `No. ${toldBy} did${hands === 1 ? ', and told me so' : ` not either. It came through ${hands} hands before mine`}. I am telling you what I was told, out of ${origin}.`,
     },
     {
-      id: 'over', ask: 'Is it over, then?',
+      id: 'over', ask: 'Is it over, then?', by: ['father', 'mother', 'town'],
+      react: { by: ['father', 'grown', 'town'], text: 'That fight is. I do not like the sound of the rest.' },
       answer: ({ firsthand }) => firsthand
         ? 'That fight is. Nobody I stood with thought the matter was settled for good.'
         : 'That fight is. What comes of it, nobody on this road can tell you.',
@@ -395,7 +402,8 @@ function waitingBehind(world, encounter) {
   const home = world.households[householdId]?.homeSiteId;
   const riders = Object.values(world.entities).filter(one => one.id !== encounter.carrierId && one.report?.inPerson && one.report.audience === householdId
     && !one.travel && one.location?.siteId === home && wouldLearn(world, householdId, one.report.topicId, one.report.status));
-  return { questions: questions.length ? 1 : 0, riders: riders.length };
+  const scenes = Object.values(world.encounters || {}).filter(one => one.householdId === householdId && one.status === 'waiting').length;
+  return { questions: questions.length ? 1 : 0, riders: riders.length + scenes };
 }
 const placeName = (world, siteId) => world.map.sites[siteId]?.name || 'elsewhere';
 /**
@@ -412,15 +420,17 @@ export const spotName = (world, siteId) => {
   return site.name.startsWith('The ') ? `the ${site.name.slice(4)}` : site.name;
 };
 
-function say(world, encounter, speaker, text, causes = []) {
-  const who = speaker === 'rider' ? encounter.carrierName : world.entities[encounter.listenerId].name;
+function say(world, encounter, speaker, text, causes = [], speakerId = null) {
+  // Who of the scene said it (sim/rider-talk.mjs `askerFor`): a question the student chose is asked by somebody standing there.
+  const by = speaker === 'rider' ? encounter.carrierId : speakerId && world.entities[speakerId] ? speakerId : encounter.listenerId;
+  const who = speaker === 'rider' ? encounter.carrierName : world.entities[by].name;
   const eventId = record(world, 'spoken', {
     householdId: encounter.householdId, importance: 2,
-    actorId: speaker === 'rider' ? encounter.carrierId : encounter.listenerId,
+    actorId: by,
     classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-013',
     causes, text: `${who}: “${text}”`,
   });
-  encounter.said.push({ speaker, text, minute: world.minute, eventId });
+  encounter.said.push({ speaker, text, minute: world.minute, eventId, ...(speaker !== 'rider' && by !== encounter.listenerId && { speakerId: by }) });
   encounter.lastSpokenMinute = world.minute;
   return eventId;
 }
@@ -454,11 +464,42 @@ export function accountOf(world, encounter) {
     toldBy: told?.name || null,
     toldAt: told ? spotName(world, told.atSiteId) : null,
     tellerSaw: chain.length === 1,
+    // A rider who came by with word that came in by express (`tellPassing`): what the word is, where it came in and from where.
+    ...(encounter.word && { express: true, word: encounter.word, stop: encounter.word.stop, from: encounter.word.from }),
   };
 }
 
+/**
+ * What a rider can say of his word: the conversation written for it (`CONVERSATIONS`), an express's (sim/rider-talk.mjs
+ * `expressScript`, for a word carried by express and every word the director sends by `sendWord`), or the plain one for a
+ * word with nothing written (`plainScript`). Since 2026-10-05 every rider who reaches a family has one (owner: "Every rider
+ * who reaches you").
+ */
+export function scriptOf(encounter) {
+  if (encounter.word) return encounter.via === 'express' ? expressScript(encounter.topicId) : plainScript();
+  return CONVERSATIONS[encounter.topicId] || plainScript();
+}
+/** Every question of this meeting: the word's own, and asking after the one of the family who is away, if somebody is. */
+export function linesOf(encounter) {
+  const lines = scriptOf(encounter).lines || [];
+  return encounter.kin ? [...lines, kinLine(encounter.kin)] : lines;
+}
+/**
+ * The scene a meeting plays as (owner, 2026-10-05; sim/rider-scene.mjs): where the person stands and who is with them, and
+ * whether one of the family is away with the volunteers to be asked after (`kin`). Settled the minute he reins in.
+ */
+function setScene(world, encounter) {
+  encounter.scene = sceneFor(world, encounter, { blocked: (a, b) => blockedByWater(world, a, b), alamo: encounter.kind === 'alamo-runner' });
+  encounter.talk = [];
+  if (encounter.kind) return;
+  const household = world.households[encounter.householdId];
+  const away = awayOf(world, household, new Set((encounter.scene?.cast || []).map(one => one.id)));
+  if (away) encounter.kin = { id: away.id, given: String(away.name).split(' ')[0], he: (away.sex || (away.kin?.role === 'mother' || away.kin?.role === 'daughter' ? 'female' : 'male')) === 'female' ? 'she' : 'he' };
+}
+export { setScene as settleScene };
+
 function begin(world, carrier, person, point, householdId) {
-  const report = carrier.report, script = CONVERSATIONS[report.topicId];
+  const report = carrier.report, script = scriptOf({ topicId: report.topicId });
   const truth = world.truth[report.topicId];
   const id = `enc-${world.nextEncounterId++}`;
   const encounter = world.encounters[id] = {
@@ -479,12 +520,14 @@ function begin(world, carrier, person, point, householdId) {
     classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-013', causes: [truth.eventId],
     text: `${carrier.name} reined in ${where} and spoke with ${person.name}.`,
   });
+  setScene(world, encounter);
   const spokenId = say(world, encounter, 'rider', script.opening(said), [encounter.metEventId]);
   // The receipt point, and the whole reason the rest of this exists: the family knows
   // now, because a person told them, and not because a courier touched a map pin. How
   // they know is part of what they know: the journal names the rider, and when the word
   // came through other people it says so and how many.
   learn(world, encounter.householdId, encounter.topicId, { status: report.status, hands: said.hands, source: sourceOf(carrier, said), causes: [spokenId] });
+  react(world, encounter, 'opening');
   return encounter;
 }
 /** How the journal names the person a word came from: who rode, and through whose hands. */
@@ -525,7 +568,67 @@ function joinVisit(world, carrier, { person, householdId, joining }) {
   if (householdId === report.audience) delete carrier.report;
 }
 
+/**
+ * A rider who came by one of the family's people with word that was carried by express, or by a rider of a class saved before
+ * every rider was a person (owner, 2026-10-05: "Every rider who reaches you ... an express rider who passes your people ...
+ * play[s] as a scene where your person is"; docs/COLONIES.md §5.4e, `FIC-GONZ-1196`).
+ *
+ * The word itself is the caller's: it is learned when a rider could have reached the family (sim/expresses.mjs `hearExpresses`),
+ * on the minute the letters calibrate, whether or not anybody watches. What this adds is the rider who brought it, saying it to
+ * `listenerId` where they stand: the opening is said now, in the world, on that same minute (so the spoken word and the known
+ * word never part), and he waits to be asked something as any rider does - his ninety real seconds at a family whose student
+ * is there, his short stop where nobody is. One family listens to one rider at a time: a rider who comes while another is
+ * talking with the family has said his word, and waits his turn to be asked (`waiting`; `advanceEncounters` brings him on).
+ *
+ * He is a rider of the settlement the word came in to, and nobody on the map: the express riders are drawn on the roads already
+ * (sim/expresses.mjs), and the one who comes to the family is the scene's alone (`gone`, never drawn, never met again).
+ * ceiling: a scene-only rider and not one more horseman on the map for every family; drawing him would put a rider at every
+ * family's gate at once in the spring, which is what the one-rider rule (§5.4b) was made to stop. Only for a family a student
+ * has played (`played`): a family nobody has ever played has nobody to show a scene to, and its word is known as before.
+ */
+export function tellPassing(world, householdId, { topicId, listenerId, via = 'express', text, source, status = 'confirmed', fromSiteId, stopSiteId = null, departedMinute = world.minute }) {
+  const household = world.households[householdId];
+  const listener = world.entities[listenerId];
+  const truth = world.truth[topicId];
+  if (!household?.played || !listener || !canSpeak(listener) || listener.householdId !== householdId || !truth) return null;
+  if (!world.encounters) { world.encounters = {}; world.nextEncounterId = world.nextEncounterId || 1; }
+  const number = world.nextCourierId = (world.nextCourierId || 1);
+  world.nextCourierId += 1;
+  const stop = world.map.sites[stopSiteId] ? stopSiteId : world.map.sites[fromSiteId] ? fromSiteId : null;
+  // Kept at the settlement he rode out of, where the record of him belongs: he is never drawn, sent or met there (`gone`).
+  const home = world.map.sites[stop] || world.map.sites[world.households[householdId].homeSiteId] || Object.values(world.map.sites)[0];
+  const carrier = {
+    id: `courier-${number}`, name: riderName(number), kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true,
+    base: stop, location: { x: home.x, y: home.y, siteId: home.id }, task: 'rest', health: { condition: 'well' }, travel: null, gone: true,
+  };
+  world.entities[carrier.id] = carrier;
+  const id = `enc-${world.nextEncounterId++}`;
+  const queued = Boolean(openFor(world, householdId));
+  const encounter = world.encounters[id] = {
+    id, carrierId: carrier.id, carrierName: carrier.name, householdId, listenerId, topicId,
+    status: queued ? 'waiting' : 'open', passing: true, via,
+    originSiteId: world.map.sites[fromSiteId] ? fromSiteId : stop, departedMinute, observedMinute: truth.minute,
+    openedMinute: world.minute, lastSpokenMinute: world.minute,
+    // Where the word came in and was read, as a hand the family can walk back: the express's rider, at that settlement.
+    provenance: stop && stop !== fromSiteId ? [{ name: 'an express rider', atSiteId: stop, minute: departedMinute }] : [],
+    reportStatus: status, place: { x: listener.location.x, y: listener.location.y, siteId: listener.location.siteId || null },
+    said: [], asked: [],
+    word: { text: text || truth.text, source: source || null, status, from: placeName(world, fromSiteId), stop: stop ? spotName(world, stop) : placeName(world, fromSiteId) },
+  };
+  encounter.metEventId = record(world, 'encounter', {
+    householdId, actorId: listener.id, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-1196', causes: [truth.eventId],
+    text: `${carrier.name} came by with word from ${encounter.word.stop} and stopped to tell ${listener.name}.`,
+  });
+  setScene(world, encounter);
+  say(world, encounter, 'rider', scriptOf(encounter).opening(accountOf(world, encounter)), [encounter.metEventId]);
+  react(world, encounter, 'opening');
+  return encounter;
+}
+
 function finish(world, encounter, reason) {
+  // The farewell and what the family says once he has gone (sim/rider-talk.mjs `react`), said before the record of his going.
+  // Not when the two were separated: nobody was there to say goodbye to.
+  if (reason !== 'parted' && encounter.scene) react(world, encounter, 'closing');
   encounter.status = 'closed';
   encounter.closedMinute = world.minute;
   encounter.reason = reason;
@@ -563,6 +666,16 @@ function finish(world, encounter, reason) {
  */
 export function advanceEncounters(world) {
   if (!world.encounters) { world.encounters = {}; world.nextEncounterId = world.nextEncounterId || 1; }
+  // A rider who came by while the family was listening to another waits his turn (`tellPassing`): he comes on at the first tick
+  // after the one before has gone (the page plays out the last words of the one before from what it already has).
+  for (const encounter of Object.values(world.encounters)) {
+    if (encounter.status !== 'waiting' || openFor(world, encounter.householdId)) continue;
+    const listener = world.entities[encounter.listenerId];
+    if (!listener || !canSpeak(listener)) { encounter.status = 'closed'; encounter.closedMinute = world.minute; encounter.reason = 'parted'; continue; }
+    encounter.status = 'open';
+    encounter.openedMinute = world.minute;
+    encounter.lastSpokenMinute = world.minute;
+  }
   for (const encounter of Object.values(world.encounters)) {
     if (encounter.status !== 'open') continue;
     // Travis's runner in the Alamo is not a rider with word: he waits for an answer and is closed by it, or by its budget
@@ -571,15 +684,16 @@ export function advanceEncounters(world) {
     const carrier = world.entities[encounter.carrierId], listener = world.entities[encounter.listenerId];
     if (!carrier || !listener || !canSpeak(listener)) { finish(world, encounter, 'parted'); continue; }
     // A little hysteresis, so a listener shifting about their own yard does not end a
-    // conversation. Walking away from it does.
+    // conversation. Walking away from it does. A rider who came by with an express's word (`passing`) is with the family in
+    // its scene and nowhere on the map, so only his patience ends it.
     const apart = between(carrier.location, listener.location);
-    const together = (carrier.location.siteId && carrier.location.siteId === listener.location.siteId)
+    const together = encounter.passing || (carrier.location.siteId && carrier.location.siteId === listener.location.siteId)
       || (apart <= EARSHOT_MILES * 2 && !blockedByWater(world, carrier.location, listener.location));
     if (!together) { finish(world, encounter, 'parted'); continue; }
     // Somebody met on the way gets a short stop; the family the word is for gets as long
     // as it takes, because by then the rider has nowhere else to be. A student reading him has ninety real seconds from the
     // last thing said, either way (owner, 2026-09-29; sim/decision-budget.mjs).
-    const errand = carrier.report && carrier.report.audience !== encounter.householdId;
+    const errand = encounter.passing || (carrier.report && carrier.report.audience !== encounter.householdId);
     // And a rider a student has not yet sent on rides on in time for the question waiting behind him (`riderMustGo`).
     const waited = riderOnLimit(world, encounter) ? limitOut(world, riderLimitKey(encounter)) || riderMustGo(world, encounter)
       : world.minute - encounter.lastSpokenMinute >= attention(world, errand ? PASSING_MINUTES : PATIENCE_MINUTES, encounter.householdId);
@@ -756,7 +870,7 @@ export function sendOnFrom(world, householdId) {
 
 /** Everything the listener could still ask, and nothing they could not. */
 export function questionsFor(encounter) {
-  return (CONVERSATIONS[encounter.topicId]?.lines || []).filter(line => !encounter.asked.includes(line.id));
+  return linesOf(encounter).filter(line => !encounter.asked.includes(line.id));
 }
 
 export function askRider(world, householdId, entity, lineId) {
@@ -765,10 +879,13 @@ export function askRider(world, householdId, entity, lineId) {
   if (encounter.listenerId !== entity.id) throw new Error(`${world.entities[encounter.listenerId].name} is the one standing with the rider.`);
   const line = questionsFor(encounter).find(candidate => candidate.id === lineId);
   if (!line) throw new Error('That has already been asked.');
-  const asked = say(world, encounter, 'listener', line.ask, [encounter.metEventId]);
-  const answer = line.answer(accountOf(world, encounter));
+  // Asked by somebody of the scene (owner, 2026-10-05: "family or townsfolk ask the questions"), the student choosing which.
+  const asked = say(world, encounter, 'listener', line.ask, [encounter.metEventId], askerFor(world, encounter, line));
+  const account = accountOf(world, encounter);
+  const answer = line.answer(account);
   say(world, encounter, 'rider', answer, [asked]);
   encounter.asked.push(line.id);
+  if (encounter.scene) react(world, encounter, 'answer', { ...line, account });
   // What the family understands really changed, and it outlives the conversation: the
   // report in the journal now carries what was asked and what came back.
   const report = world.knowledge.households[householdId]?.[encounter.topicId];
@@ -797,9 +914,16 @@ export function leaveRider(world, householdId, entity) {
 export function encounterProjection(world, householdId, role) {
   if (role === 'host' || !householdId) return null;
   const mine = Object.values(world.encounters || {}).filter(e => e.householdId === householdId);
-  const encounter = mine.find(e => e.status === 'open') || mine.at(-1);
+  // A rider waiting his turn (`tellPassing`) is not shown until he comes on: the open one, or the last one there was.
+  const encounter = mine.find(e => e.status === 'open') || mine.filter(e => e.status !== 'waiting').at(-1);
   if (!encounter) return null;
   const open = encounter.status === 'open';
+  // The scene it plays as (owner, 2026-10-05; sim/rider-scene.mjs): where, who, the light, and what the people standing there
+  // said among themselves (sim/rider-talk.mjs `react`), every line of it already said. Who said each line of the conversation.
+  const scene = sceneView(world, encounter);
+  const talk = (encounter.talk || []).map(({ after, speakerId, text, farewell, closing }) => ({ after, speakerId: speakerId === 'rider' ? encounter.carrierId : speakerId, text, ...(farewell && { farewell: true }), ...(closing && { closing: true }) }));
+  const lines = encounter.said.map(({ speaker, text, minute, speakerId }) => ({ speaker, text, minute, speakerId: speaker === 'rider' ? encounter.carrierId : speakerId || encounter.listenerId }));
+  const queued = mine.filter(e => e.status === 'waiting').length;
   // Travis's runner (sim/alamo-runner.mjs): what he said, the two answers while he waits, and what happens if nobody gives
   // one - the question lapses and nothing is chosen (sim/lapse.mjs), in words, before it happens. `pressing` once most of the real-time budget is gone
   // (sim/decision-budget.mjs). Nothing of any other family's runner, and nothing of what Travis will choose.
@@ -810,7 +934,7 @@ export function encounterProjection(world, householdId, role) {
       id: encounter.id, kind: encounter.kind, status: encounter.status, reason: encounter.reason || null, topicId: encounter.topicId,
       carrierId: encounter.carrierId, carrierName: encounter.carrierName, listenerId: encounter.listenerId,
       origin: 'From Colonel Travis’s quarters, inside the Alamo',
-      said: encounter.said.map(({ speaker, text, minute }) => ({ speaker, text, minute })), questions: [],
+      said: lines, questions: [], ...(scene && { scene }), talk,
       choices: open ? [{ answer: 'volunteer', label: `${listener?.name || 'They'} offers to ride out with the letters` }, { answer: 'stay', label: `${listener?.name || 'They'} stays inside the walls` }] : [],
       ifUnanswered: open && listener ? courierIfUnanswered(listener) : null,
       pressing: Boolean(open && clock && clock.spent >= clock.of * (2 / 3)),
@@ -833,8 +957,9 @@ export function encounterProjection(world, householdId, role) {
     // are the ones this rider named out loud in the opening line.
     firsthand: said.firsthand, hands: said.hands, toldBy: said.toldBy, toldAt: said.toldAt,
     reportStatus: encounter.reportStatus || 'confirmed',
-    said: encounter.said.map(({ speaker, text, minute }) => ({ speaker, text, minute })),
-    questions: open ? questionsFor(encounter).map(({ id, ask }) => ({ id, ask })) : [],
+    said: lines, talk, ...(scene && { scene }), ...(encounter.passing && { passing: true }), ...(queued && { queued }),
+    // Each question with who of the scene will ask it (`askerFor`): the asker's words, never the answer.
+    questions: open ? questionsFor(encounter).map(line => ({ id: line.id, ask: line.ask, by: askerFor(world, encounter, line) })) : [],
     // The real milliseconds he will wait yet, for the countdown on the "!" (owner, 2026-09-29, "Real-time limits").
     ...(riderOnLimit(world, encounter) && { leftMs: limitLeft(world, riderLimitKey(encounter), 'rider') }),
   };
@@ -942,7 +1067,8 @@ export function facingOf(world, carrier) {
  */
 export function listeningOf(world, person) {
   const encounter = Object.values(world.encounters || {}).find(e => e.listenerId === person.id && e.status === 'open');
-  if (!encounter) return null;
+  // A rider who came by with an express's word is with the family in its scene and nowhere on the map (`tellPassing`).
+  if (!encounter || encounter.passing) return null;
   const carrier = world.entities[encounter.carrierId];
   if (!carrier) return null;
   return turnedToward(world, encounter, person, carrier, 'listener');
@@ -966,4 +1092,18 @@ function turnedToward(world, encounter, person, other, speaker) {
       : other.location.x < person.location.x ? 'w' : 'e',
     speaking: Boolean(said) && world.minute - said.minute < attention(world, SPEAKING_MINUTES, encounter.householdId),
   };
+}
+
+/**
+ * What a rider's scene keeps on its encounter is well formed (2026-10-05): the scene (sim/rider-scene.mjs), what the people in it
+ * said (`talk`), the word an express rider came by with (`word`), and somebody of the family asked after (`kin`). Each is absent
+ * on every encounter of a class saved before, which correctly reads as a meeting of the person and the rider alone.
+ */
+export function riderSceneInvalid(world, encounter) {
+  const scene = sceneInvalid(world, encounter.scene);
+  if (scene) return scene;
+  if (encounter.talk !== undefined && (!Array.isArray(encounter.talk) || encounter.talk.some(line => typeof line?.text !== 'string' || !Number.isFinite(line.after) || typeof line.speakerId !== 'string'))) return 'Invalid scene talk';
+  if (encounter.word !== undefined && (typeof encounter.word?.text !== 'string' || !['rumor', 'unconfirmed', 'confirmed', 'contradicted'].includes(encounter.word.status))) return 'Invalid word a rider came by with';
+  if (encounter.kin !== undefined && (!world.entities[encounter.kin?.id] || typeof encounter.kin.given !== 'string')) return 'Invalid person asked after';
+  return null;
 }

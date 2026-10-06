@@ -1,0 +1,219 @@
+{
+ "record": "rider-scene-injections",
+ "date": "2026-10-06",
+ "caught": 17,
+ "only": 14,
+ "of": 17,
+ "injections": [
+  {
+   "name": "never at home",
+   "files": [
+    "sim/rider-scene.mjs"
+   ],
+   "expected": "the scene is where the person the rider stopped is standing",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the scene is where the person the rider stopped is standing: their yard, a town, the camp, a ford, the road or the woods",
+    "the rider who stops is met in a scene: the people standing there react, ask the questions, and say goodbye - never ahead of him",
+    "somebody of the family away with the volunteers is asked after, by their own, and the rider has no names",
+    "a class saved before rider scenes still opens: a meeting in progress has its scene settled from where its people stand"
+   ]
+  },
+  {
+   "name": "a serving man is wherever he stands",
+   "files": [
+    "sim/rider-scene.mjs"
+   ],
+   "expected": "the scene is where the person the rider stopped is standing",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the scene is where the person the rider stopped is standing: their yard, a town, the camp, a ford, the road or the woods"
+   ]
+  },
+  {
+   "name": "the river does not part a scene",
+   "files": [
+    "sim/rider-scene.mjs"
+   ],
+   "expected": "whoever is near is in the scene",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "whoever is near is in the scene, the person he stopped first, and nobody away or across the river"
+   ]
+  },
+  {
+   "name": "the town's people never in it",
+   "files": [
+    "sim/rider-scene.mjs"
+   ],
+   "expected": "whoever is near is in the scene",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "whoever is near is in the scene, the person he stopped first, and nobody away or across the river"
+   ]
+  },
+  {
+   "name": "everybody said before the rider",
+   "files": [
+    "sim/rider-talk.mjs"
+   ],
+   "expected": "the rider who stops is met in a scene",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the rider who stops is met in a scene: the people standing there react, ask the questions, and say goodbye - never ahead of him"
+   ]
+  },
+  {
+   "name": "nobody says goodbye",
+   "files": [
+    "sim/encounters.mjs"
+   ],
+   "expected": "the rider who stops is met in a scene",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the rider who stops is met in a scene: the people standing there react, ask the questions, and say goodbye - never ahead of him",
+    "somebody of the family away with the volunteers is asked after, by their own, and the rider has no names"
+   ]
+  },
+  {
+   "name": "the listener asks every question",
+   "files": [
+    "sim/encounters.mjs"
+   ],
+   "expected": "the rider who stops is met in a scene",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the rider who stops is met in a scene: the people standing there react, ask the questions, and say goodbye - never ahead of him",
+    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked"
+   ]
+  },
+  {
+   "name": "the one away asked after by anybody",
+   "files": [
+    "sim/rider-talk.mjs",
+    "sim/rider-talk.mjs"
+   ],
+   "expected": "somebody of the family away with the volunteers",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "somebody of the family away with the volunteers is asked after, by their own, and the rider has no names"
+   ]
+  },
+  {
+   "name": "a word with nothing of its own to ask",
+   "files": [
+    "sim/rider-talk.mjs"
+   ],
+   "expected": "every word the director sends by express",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "every word the director sends by express has a rider who can say it and be asked about it"
+   ]
+  },
+  {
+   "name": "the express told with no rider",
+   "files": [
+    "sim/expresses.mjs"
+   ],
+   "expected": "an express rider tells the family",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked"
+   ]
+  },
+  {
+   "name": "a family nobody plays given a scene",
+   "files": [
+    "sim/encounters.mjs"
+   ],
+   "expected": "an express rider tells the family",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked"
+   ]
+  },
+  {
+   "name": "the answers sent with the questions",
+   "files": [
+    "sim/encounters.mjs"
+   ],
+   "expected": "an express rider tells the family",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked"
+   ]
+  },
+  {
+   "name": "two riders talk to a family at once",
+   "files": [
+    "sim/encounters.mjs"
+   ],
+   "expected": "one family listens to one rider at a time",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "one family listens to one rider at a time: the next has said his word and waits his turn, and comes on when the first has gone"
+   ]
+  },
+  {
+   "name": "the next comes on while the first still talks",
+   "files": [
+    "sim/encounters.mjs"
+   ],
+   "expected": "one family listens to one rider at a time",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "one family listens to one rider at a time: the next has said his word and waits his turn, and comes on when the first has gone"
+   ]
+  },
+  {
+   "name": "an old save without a scene refused",
+   "files": [
+    "sim/rider-scene.mjs"
+   ],
+   "expected": "a class saved before rider scenes still opens",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a class saved before rider scenes still opens: a meeting in progress has its scene settled from where its people stand"
+   ]
+  },
+  {
+   "name": "the afternoon an hour short",
+   "files": [
+    "sim/rider-scene.mjs"
+   ],
+   "expected": "the scene is lit by the class",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the scene is lit by the class's own clock, the wedding's hours"
+   ]
+  },
+  {
+   "name": "Gonzales drawn as any town",
+   "files": [
+    "public/rider-scene.js"
+   ],
+   "expected": "the page sets each place",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the page sets each place with its own pieces and stands the family on the left, the town's people behind the rider"
+   ]
+  }
+ ]
+}

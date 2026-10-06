@@ -762,17 +762,22 @@
       <div id="interior-body"></div>
     </section>
 
-    <!-- The meeting itself. It never takes the camera and never blocks the class: a
-         student can close it, go and see to somebody else, and come back to it. -->
-    <section id="encounter" hidden role="dialog" aria-labelledby="encounter-title">
-      <header id="encounter-head">
-        <div><span class="eyebrow">A MEETING</span><h2 id="encounter-title"></h2></div>
-        <button id="encounter-close" aria-label="Close this for now">&times;</button>
-      </header>
-      <p id="encounter-origin"></p>
-      <ol id="encounter-said"></ol>
-      <div id="encounter-asks"></div>
-      <p id="encounter-note"></p>
+    <!-- The meeting itself, as a scene over the whole screen (owner, 2026-10-05; public/rider-scene.js): the place where the
+         family's person stands and whoever is near, drawn on the canvas, and the words and questions in the strip. It never
+         takes the camera and never holds the class: the world goes on while it plays, and Escape or the × puts it away. -->
+    <section id="encounter" hidden role="dialog" aria-modal="true" aria-labelledby="encounter-title">
+      <canvas id="encounter-canvas" aria-hidden="true"></canvas>
+      <div id="encounter-strip">
+        <header id="encounter-head">
+          <div><span class="eyebrow" id="encounter-where">A MEETING</span><h2 id="encounter-title"></h2></div>
+          <button id="encounter-close" aria-label="Close this for now">&times;</button>
+        </header>
+        <p id="encounter-origin"></p>
+        <ol id="encounter-said" aria-live="polite"></ol>
+        <div id="encounter-asks"></div>
+        <button type="button" id="encounter-continue" hidden>Continue</button>
+        <p id="encounter-note"></p>
+      </div>
     </section>
 
     <!-- Gonzales before the fight: what one of the town's scenes is, told by somebody there (public/town-scenes.js). Opened

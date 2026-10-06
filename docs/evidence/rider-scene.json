@@ -1,0 +1,232 @@
+{
+  "proved": "2026-10-05",
+  "pass": [
+    "the rider rides into the family's own yard (riding-in, mounted-courier-e); the ground is the map's at the family's land",
+    "\"At home · Afternoon\": 8 of the family in their own looks (ochre-idle-e, father-straw-idle-e, rust-woman-idle-e, teal-idle-e, ochre-idle-e, youth-boy-idle-e, youth-boy-idle-e, youth-girl-idle-e), the tent, campfire behind them, the rider by his horse",
+    "Moses asks \"How many of them are there?\", and the rider answers; the family's record keeps it",
+    "Done: he gets up and rides on, \"Ride safe. / I mean to. / Back to work, all of you. Worry never hoed a row.\", and the scene goes",
+    "\"Gonzales · Midday\": the street (storehouse, shop-blacksmith, cabin-wide, shop-carpenter), the family's 1 and the town's 3 (Rafael Cantú, Tobias Rhine, Josiah Pike)",
+    "Escape puts the scene away at once and lets him go",
+    "no page errors"
+  ],
+  "measured": {
+    "home": {
+      "setting": {
+        "kind": "home",
+        "siteId": "home-1",
+        "name": "At home",
+        "house": {
+          "shelter": "camp"
+        },
+        "field": {
+          "crop": null,
+          "state": "bare"
+        },
+        "water": "creek",
+        "woods": false
+      },
+      "cast": [
+        {
+          "id": "hh-1-child-1",
+          "role": "listener"
+        },
+        {
+          "id": "hh-1-parent-1",
+          "role": "family"
+        },
+        {
+          "id": "hh-1-parent-2",
+          "role": "family"
+        },
+        {
+          "id": "hh-1-child-2",
+          "role": "family"
+        },
+        {
+          "id": "hh-1-child-3",
+          "role": "family"
+        },
+        {
+          "id": "hh-1-child-4",
+          "role": "family"
+        },
+        {
+          "id": "hh-1-child-5",
+          "role": "family"
+        },
+        {
+          "id": "hh-1-child-6",
+          "role": "family"
+        }
+      ],
+      "drawn": [
+        {
+          "id": "hh-1-child-1",
+          "role": "listener",
+          "clip": "ochre-idle-e",
+          "x": 702,
+          "y": 430,
+          "h": 184,
+          "drawn": true
+        },
+        {
+          "id": "hh-1-parent-1",
+          "role": "family",
+          "clip": "father-straw-idle-e",
+          "x": 613,
+          "y": 430,
+          "h": 184,
+          "drawn": true
+        },
+        {
+          "id": "hh-1-parent-2",
+          "role": "family",
+          "clip": "rust-woman-idle-e",
+          "x": 525,
+          "y": 430,
+          "h": 184,
+          "drawn": true
+        },
+        {
+          "id": "hh-1-child-2",
+          "role": "family",
+          "clip": "teal-idle-e",
+          "x": 437,
+          "y": 430,
+          "h": 184,
+          "drawn": true
+        },
+        {
+          "id": "hh-1-child-3",
+          "role": "family",
+          "clip": "ochre-idle-e",
+          "x": 348,
+          "y": 430,
+          "h": 184,
+          "drawn": true
+        },
+        {
+          "id": "hh-1-child-4",
+          "role": "family",
+          "clip": "youth-boy-idle-e",
+          "x": 260,
+          "y": 430,
+          "h": 166,
+          "drawn": true
+        },
+        {
+          "id": "hh-1-child-5",
+          "role": "family",
+          "clip": "youth-boy-idle-e",
+          "x": 171,
+          "y": 430,
+          "h": 166,
+          "drawn": true
+        },
+        {
+          "id": "hh-1-child-6",
+          "role": "family",
+          "clip": "youth-girl-idle-e",
+          "x": 83,
+          "y": 430,
+          "h": 166,
+          "drawn": true
+        }
+      ],
+      "pieces": [
+        "tent",
+        "campfire"
+      ],
+      "rider": {
+        "state": "speaking",
+        "sprite": "courier-onfoot-4",
+        "x": 867,
+        "y": 430
+      },
+      "place": "At home · Afternoon",
+      "asked": {
+        "by": "hh-1-child-1",
+        "asker": "Moses",
+        "ask": "How many of them are there?",
+        "line": "how-many",
+        "answer": "I would not guess at it if I had seen them, and I did not see them. Ned Falk said more than a handful and would put no number to it either."
+      },
+      "closing": [
+        "Ride safe.",
+        "I mean to.",
+        "Back to work, all of you. Worry never hoed a row."
+      ]
+    },
+    "town": {
+      "setting": {
+        "kind": "town",
+        "siteId": "gonzales",
+        "name": "Gonzales",
+        "water": "river"
+      },
+      "cast": [
+        {
+          "id": "hh-1-parent-1",
+          "role": "listener"
+        },
+        {
+          "id": "town-wheelwright-gonzales",
+          "role": "town"
+        },
+        {
+          "id": "town-gunsmith-gonzales",
+          "role": "town"
+        },
+        {
+          "id": "town-pike",
+          "role": "town"
+        }
+      ],
+      "drawn": [
+        {
+          "id": "town-wheelwright-gonzales",
+          "role": "town",
+          "clip": "ochre-idle-w",
+          "x": 921,
+          "y": 408,
+          "h": 162,
+          "drawn": true
+        },
+        {
+          "id": "town-gunsmith-gonzales",
+          "role": "town",
+          "clip": "elder-idle-w",
+          "x": 1010,
+          "y": 408,
+          "h": 162,
+          "drawn": true
+        },
+        {
+          "id": "town-pike",
+          "role": "town",
+          "clip": "elder-idle-w",
+          "x": 1098,
+          "y": 408,
+          "h": 162,
+          "drawn": true
+        },
+        {
+          "id": "hh-1-parent-1",
+          "role": "listener",
+          "clip": "father-straw-speak",
+          "x": 569,
+          "y": 430,
+          "h": 184,
+          "drawn": true
+        }
+      ],
+      "pieces": [
+        "storehouse",
+        "shop-blacksmith",
+        "cabin-wide",
+        "shop-carpenter"
+      ],
+      "place": "Gonzales · Midday"
+    }
+  }
+}

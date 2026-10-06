@@ -20,7 +20,7 @@
 import { muxWebM } from '/webm-writer.js';
 import { drawSprite, drawClip, spriteFrame, sheetsInFlight, loadArt, clipReady } from '/art.js';
 // The lone parent's scenes' figures (public/courtship.js): who a person is drawn as, and their pose, for the homecoming's yard.
-import { clipFor, figureOf } from '/courtship.js';
+import { clipFor, figureOf } from '/cutscene.js';
 // Which videos to make next: the class's alone, then families two at a time (owner, 2026-09-30: "make two at once").
 import { toStart } from '/making-plan.js';
 import { drawArmy } from '/army-view.js';

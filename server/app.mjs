@@ -109,6 +109,9 @@ const files = new Map([
   ['/neighbours.js', ['../public/neighbours.js', 'text/javascript']],
   // The lone parent's path, as scenes over the whole screen (sim/courtship.mjs, owner 2026-09-29).
   ['/courtship.js', ['../public/courtship.js', 'text/javascript']],
+  // The cutscene's stage both kinds of scene draw with, and a rider's visit as a scene (owner, 2026-10-05).
+  ['/cutscene.js', ['../public/cutscene.js', 'text/javascript']],
+  ['/rider-scene.js', ['../public/rider-scene.js', 'text/javascript']],
   ['/appearance.js', ['../public/appearance.js', 'text/javascript']],
   ['/looks-art.js', ['../public/looks-art.js', 'text/javascript']],
   ['/avatar-art.js', ['../public/avatar-art.js', 'text/javascript']],
