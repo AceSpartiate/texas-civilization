@@ -407,9 +407,9 @@ function eat(world, household, person, days) {
   const need = rationOf(world, person) * days;
   // The army's commissary fed its men whole - beef and corn in rations, flour from Goliad (`HIST-TEX-1184`); the gathering before it
   // gives half (`ISSUE_SHARE`); a road nothing.
-  // ceiling: the army's rations are whole to the end of the autumn, though from November 22 it was "out of Flour and the corn is
-  // exhausted" and men lived on beef; counting that half would send the played families' men home before the storming of Béxar,
-  // which a record of men going home in early December (`HIST-TEX-036`) would justify only with the owner's say-so.
+  // Whole to the end of the autumn by the owner's decision (2026-10-06: "Keep the army's food in full", `FIC-GONZ-1184`), though from
+  // November 22 it was "out of Flour and the corn is exhausted" and men lived on beef (`HIST-TEX-029`): counted half, it would send the
+  // played families' men home before the storming of Béxar.
   const share_ = m.fed === today(world) || world.army?.members?.includes(person.id) ? 1 : inCamp(world, person) ? ISSUE_SHARE : 0;
   const issued = need * share_;
   const fromPack = Math.min(m.pack || 0, need - issued);
