@@ -1,5 +1,61 @@
 # Claude handoff — Astra foundation
 
+## Away at the war: the volunteer in the battle, the militia's bar, his pack and powder, staying, and what he overhears — owner, 2026-10-05 (not released)
+
+Branch `volunteer-life`. The owner's report of 2026-10-05 (a San Felipe father who reached Gonzales two hours after the fight and stood
+on the town's point doing nothing, home chores greyed on his bar, the family's food gauge counting him) and two multiple-choice answers:
+**"Camp duties, auto"** and, for rations, **"i like the pick days to carry, but i also want them to have historically accurate ways to
+replenish."** Specified in docs/MILITARY_EXPERIENCE.md, *Away at the war* (with the owner's words), amending docs/BATTLES.md §2.6–2.8,
+docs/COLONIES.md §6f and §6i (two ceilings superseded) and docs/MONEY_AND_GLORY.md §3 (work for somebody else). Claims `FIC-GONZ-1175` to
+`-1183` and `HIST-TEX-1184` to `-1187` (researched for this from the *Papers of the Texas Revolution*, Austin's Order Book and Smithwick,
+reminiscence marked).
+
+- **The battle** (`sim/directors.mjs` `enrolVolunteers`, `tellTooLate`, `lateAccount`). A far family's volunteer standing in Gonzales
+  when the men go up the river (the upriver call to `marchCloses`) is enrolled on the Gonzales men's own march record (`world.marches`,
+  now with `actorIds` and `enrolled`), walks to them by `joinPlan`, is alerted through himself with Watch, is in the line, is given the
+  account and his part and glory, and walks back to the volunteers' camp. Measured: Mina's men reach Gonzales first and fight; San
+  Felipe's and the coast's arrive after, and are told it in the town ("What … heard in Gonzales", the card for a day), and the family
+  learns how it ended. The owner's save is that case: his man was called at noon on October 1 and rode in at noon on the 2nd.
+- **One state** (`sim/acting.mjs` `awayWithTheArmy`, `servesNow`, `awayVolunteer`). A volunteer with his promise standing, away from
+  home, is away at the war whatever his task. The food gauge (`sim/hunger.mjs` `dailyDraw`) leaves him out; the neighbours' director
+  no longer sends him home from the camp.
+- **The militia's bar** (`sim/camp.mjs` `CAMP_CHORES`, `sim/militia.mjs`). One camp bar for everybody away at the war: drill, *Stand
+  picket* (Houston's guard renamed), *Cook at the mess fire*, *Cut firewood*, *Mould bullets*; Houston's forage and scouts his men's;
+  in a town *Put up a shelter*, *Buy food in town*, *Hunt for the pot*, *Work for hire*, *Work for board*. No farm work (`choresFor`,
+  and refused in words); the page's bar is the camp's work, *Come home* and calling off, for anybody of the family (public/family-panel.js
+  `panelActions`). Idle a tick, he takes up a duty himself (`militiaChoice`); a duty is changed for another at one press. At Gonzales he
+  walks to his work's place on the commons, where the volunteers' camp is drawn October 2–13 (sim/town-scenes.mjs `volunteers-camp`:
+  fires, blanket rolls, men drilling, cooking, chopping, moulding; its card cites `HIST-TEX-1184`–`-1186`). Three days' drill steady him
+  in the autumn's rolled fights (`sim/army.mjs` `militiaSteadiness`). His row says "food N days, M rounds".
+- **Powder and ball** (`militia.rounds`): the powder he took is his; moulding adds two from the militia's (to six), refused before
+  October 11 in the record's words; the fight spends two, a hunt one; home again it goes into the house's powder.
+- **The pack** (`militia.pack`): the going popup for a settlement's call asks 3 / 7 / 14 days (public/going.js `drawRations`, the
+  server's `rations` on `/api/ways`), taken from the store, a size the store cannot fill shut. He eats: half issued at the gathering,
+  whole once the army is made, whole on a day of mess work (one in three) or board; the rest from the pack. Empty, he is told what he can
+  do; two days short with it empty and he walks home, said why. Home, what is left goes back into the store.
+- **Staying**: a blanket under the sky (a chill possible in a norther) until a brush shelter or a night's board; work for hire half a
+  real a day, for board a quarter and meals and a bed, paid to the family's coin in whole reales; *Come home* (`send-for`, sim/militia.mjs
+  `walkHome`) from the gathering as from the army.
+- **What he overhears** (`overhear`, `newsHere`, `overheardFor`): about once a minute, two men near a played family's person away at the
+  war say a war-news line the place has heard (`hearsayOf`) and the family has not; said over two of the volunteers' camp's men (or an
+  army camp's) on the family's page only, in the journal, and known from then as "Heard it said at …". A picket can bring the same.
+- **Found and fixed on the way:** a man out of the army's ranks who was too sick to get up stopped the whole class's tick
+  (`sim/army.mjs` `leaveArmy` threw from `beginTravel`); he now stays where he is.
+- **Tests.** New `tests/volunteer-life.test.mjs`, 11 tests; each failed against its own injection and only it: 14 injections, all caught (scripts run in a scratch harness, CRLF-safe, restored byte for byte): no enrolment; no telling the late; the gauge counting him; home work on the militia bar; the mess feeding nobody; moulding adding nothing; moulding before the lead came; never forced home; a pack size the house cannot fill let through; wages never paid; news the place has not heard; overheard and never learned; drill counting for nothing in the roll; and (tests/camp.test.mjs) a camp duty not changed at a press. Changed,
+  without weakening: tests/calls.test.mjs (a volunteer who has arrived is waiting *or at the camp's work*), tests/camp.test.mjs (the
+  camp's work is now `HOUSTON_CAMP`, and a man at one duty may be sent to another), scripts/camp-browser-proof.mjs (the same list).
+  npm test: 2266 tests, 2230 pass, 0 fail (the rest skipped as before).
+- **Proofs.** New `npm run test:volunteer-life` (scripts/volunteer-life-browser-proof.mjs): 9 checks, the call answered from the "!",
+  seven days chosen on the food row, the militia's bar at Gonzales, a duty pressed at the camp, the alert with Watch, in the line while it
+  fired, back at the camp set to board, the pack eaten from, *Come home*, phone width (`docs/evidence/volunteer-life-browser.json`,
+  seven screenshots). Also run, green: camp (its list brought to `HOUSTON_CAMP`), settlement-call, going, battle-gonzales, family-panel, gonzales-town, army, concepcion, family-commands, panel-press, panels, one-rider, story-cards, storming, armies, chatter, overlap, travel, watching, errand, tips (lesson skips itself: the guided start is off). battle-1835 was red once on a Grass Fight frame check ("no shot was fired between two moments") and green alone. siege was red once: the family's own line of the Grass Fight had been pushed out of the few lines its page is sent by the camp's routine (a day's drill, picket or cooking every few minutes); the routine a man takes up himself is now `ambient` (kept in the story, not sent in that window) and the set-out line once a day, and siege was then green.
+- **Limits** (`ceiling:` in the code): a volunteer still on the road when the men go is not turned to catch them; staying on in
+  Gonzales after the army marches is not offered; the overheard words are drawn only over the Gonzales camp's and an army camp's men
+  (journal elsewhere); the coin he spends or earns is the family's; an old save's man away is given three days not charged; only the
+  Gonzales fight spends rounds; the army feeds whole to the end of the autumn though it had only beef from November 22. Stand-ins: the
+  eight new icons and three poses (docs/ART_REQUESTS.md request 2026-10-05 "away at the war", F39 and C23). The House icon still ends a
+  volunteer's bar (owner, 2026-09-30, "whoever's it is"). Not proved: Chromebook, LAN, classroom.
+
 ## Every rider who reaches you, as a scene — owner, 2026-10-05 (not released)
 
 Branch `rider-scenes` from main 3f0ef6c7. The owner, verbatim: *"I want to radically redesign the whole rider and or news person
@@ -217,62 +273,6 @@ cluster as they walk (graphical glitch)."*; *"Paths don't seem natural around th
 ## Released as v2026.10.05.2 — 2026-10-05
 
 Main at 87381d33, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.2>). Sets of changes: from v2026.10.05.1, 0.6 MB; from v2026.10.04.1, 6.1 MB; from v2026.10.03.2, 11.6 MB. Contents: help on a small farm - the young capped, a small family keeps no custom, the spouse's two children (the section below). Verification on 87381d33's branch: npm test 2255, 0 failed; the full browser run two at a time, 106 of 111 green; of the five red, children was a fixture the new rolls no longer make (fixed, then green twice alone), and travel-drawn, battle-cinema, battle-grass and famous-people (the Neill sampled moment) green alone. Not proved: Chromebook, LAN or classroom; ThreatDown.
-
-## Away at the war: the volunteer in the battle, the militia's bar, his pack and powder, staying, and what he overhears — owner, 2026-10-05 (not released)
-
-Branch `volunteer-life`. The owner's report of 2026-10-05 (a San Felipe father who reached Gonzales two hours after the fight and stood
-on the town's point doing nothing, home chores greyed on his bar, the family's food gauge counting him) and two multiple-choice answers:
-**"Camp duties, auto"** and, for rations, **"i like the pick days to carry, but i also want them to have historically accurate ways to
-replenish."** Specified in docs/MILITARY_EXPERIENCE.md, *Away at the war* (with the owner's words), amending docs/BATTLES.md §2.6–2.8,
-docs/COLONIES.md §6f and §6i (two ceilings superseded) and docs/MONEY_AND_GLORY.md §3 (work for somebody else). Claims `FIC-GONZ-1175` to
-`-1183` and `HIST-TEX-1184` to `-1187` (researched for this from the *Papers of the Texas Revolution*, Austin's Order Book and Smithwick,
-reminiscence marked).
-
-- **The battle** (`sim/directors.mjs` `enrolVolunteers`, `tellTooLate`, `lateAccount`). A far family's volunteer standing in Gonzales
-  when the men go up the river (the upriver call to `marchCloses`) is enrolled on the Gonzales men's own march record (`world.marches`,
-  now with `actorIds` and `enrolled`), walks to them by `joinPlan`, is alerted through himself with Watch, is in the line, is given the
-  account and his part and glory, and walks back to the volunteers' camp. Measured: Mina's men reach Gonzales first and fight; San
-  Felipe's and the coast's arrive after, and are told it in the town ("What … heard in Gonzales", the card for a day), and the family
-  learns how it ended. The owner's save is that case: his man was called at noon on October 1 and rode in at noon on the 2nd.
-- **One state** (`sim/acting.mjs` `awayWithTheArmy`, `servesNow`, `awayVolunteer`). A volunteer with his promise standing, away from
-  home, is away at the war whatever his task. The food gauge (`sim/hunger.mjs` `dailyDraw`) leaves him out; the neighbours' director
-  no longer sends him home from the camp.
-- **The militia's bar** (`sim/camp.mjs` `CAMP_CHORES`, `sim/militia.mjs`). One camp bar for everybody away at the war: drill, *Stand
-  picket* (Houston's guard renamed), *Cook at the mess fire*, *Cut firewood*, *Mould bullets*; Houston's forage and scouts his men's;
-  in a town *Put up a shelter*, *Buy food in town*, *Hunt for the pot*, *Work for hire*, *Work for board*. No farm work (`choresFor`,
-  and refused in words); the page's bar is the camp's work, *Come home* and calling off, for anybody of the family (public/family-panel.js
-  `panelActions`). Idle a tick, he takes up a duty himself (`militiaChoice`); a duty is changed for another at one press. At Gonzales he
-  walks to his work's place on the commons, where the volunteers' camp is drawn October 2–13 (sim/town-scenes.mjs `volunteers-camp`:
-  fires, blanket rolls, men drilling, cooking, chopping, moulding; its card cites `HIST-TEX-1184`–`-1186`). Three days' drill steady him
-  in the autumn's rolled fights (`sim/army.mjs` `militiaSteadiness`). His row says "food N days, M rounds".
-- **Powder and ball** (`militia.rounds`): the powder he took is his; moulding adds two from the militia's (to six), refused before
-  October 11 in the record's words; the fight spends two, a hunt one; home again it goes into the house's powder.
-- **The pack** (`militia.pack`): the going popup for a settlement's call asks 3 / 7 / 14 days (public/going.js `drawRations`, the
-  server's `rations` on `/api/ways`), taken from the store, a size the store cannot fill shut. He eats: half issued at the gathering,
-  whole once the army is made, whole on a day of mess work (one in three) or board; the rest from the pack. Empty, he is told what he can
-  do; two days short with it empty and he walks home, said why. Home, what is left goes back into the store.
-- **Staying**: a blanket under the sky (a chill possible in a norther) until a brush shelter or a night's board; work for hire half a
-  real a day, for board a quarter and meals and a bed, paid to the family's coin in whole reales; *Come home* (`send-for`, sim/militia.mjs
-  `walkHome`) from the gathering as from the army.
-- **What he overhears** (`overhear`, `newsHere`, `overheardFor`): about once a minute, two men near a played family's person away at the
-  war say a war-news line the place has heard (`hearsayOf`) and the family has not; said over two of the volunteers' camp's men (or an
-  army camp's) on the family's page only, in the journal, and known from then as "Heard it said at …". A picket can bring the same.
-- **Found and fixed on the way:** a man out of the army's ranks who was too sick to get up stopped the whole class's tick
-  (`sim/army.mjs` `leaveArmy` threw from `beginTravel`); he now stays where he is.
-- **Tests.** New `tests/volunteer-life.test.mjs`, 11 tests; each failed against its own injection and only it: 14 injections, all caught (scripts run in a scratch harness, CRLF-safe, restored byte for byte): no enrolment; no telling the late; the gauge counting him; home work on the militia bar; the mess feeding nobody; moulding adding nothing; moulding before the lead came; never forced home; a pack size the house cannot fill let through; wages never paid; news the place has not heard; overheard and never learned; drill counting for nothing in the roll; and (tests/camp.test.mjs) a camp duty not changed at a press. Changed,
-  without weakening: tests/calls.test.mjs (a volunteer who has arrived is waiting *or at the camp's work*), tests/camp.test.mjs (the
-  camp's work is now `HOUSTON_CAMP`, and a man at one duty may be sent to another), scripts/camp-browser-proof.mjs (the same list).
-  npm test: 2266 tests, 2230 pass, 0 fail (the rest skipped as before).
-- **Proofs.** New `npm run test:volunteer-life` (scripts/volunteer-life-browser-proof.mjs): 9 checks, the call answered from the "!",
-  seven days chosen on the food row, the militia's bar at Gonzales, a duty pressed at the camp, the alert with Watch, in the line while it
-  fired, back at the camp set to board, the pack eaten from, *Come home*, phone width (`docs/evidence/volunteer-life-browser.json`,
-  seven screenshots). Also run, green: camp (its list brought to `HOUSTON_CAMP`), settlement-call, going, battle-gonzales, family-panel, gonzales-town, army, concepcion, family-commands, panel-press, panels, one-rider, story-cards, storming, armies, chatter, overlap, travel, watching, errand, tips (lesson skips itself: the guided start is off). battle-1835 was red once on a Grass Fight frame check ("no shot was fired between two moments") and green alone. siege was red once: the family's own line of the Grass Fight had been pushed out of the few lines its page is sent by the camp's routine (a day's drill, picket or cooking every few minutes); the routine a man takes up himself is now `ambient` (kept in the story, not sent in that window) and the set-out line once a day, and siege was then green.
-- **Limits** (`ceiling:` in the code): a volunteer still on the road when the men go is not turned to catch them; staying on in
-  Gonzales after the army marches is not offered; the overheard words are drawn only over the Gonzales camp's and an army camp's men
-  (journal elsewhere); the coin he spends or earns is the family's; an old save's man away is given three days not charged; only the
-  Gonzales fight spends rounds; the army feeds whole to the end of the autumn though it had only beef from November 22. Stand-ins: the
-  eight new icons and three poses (docs/ART_REQUESTS.md request 2026-10-05 "away at the war", F39 and C23). The House icon still ends a
-  volunteer's bar (owner, 2026-09-30, "whoever's it is"). Not proved: Chromebook, LAN, classroom.
 
 ## Help on a small farm: the young capped, a small family keeps no custom, the spouse's two children — owner, 2026-10-04 (released in v2026.10.05.2)
 
