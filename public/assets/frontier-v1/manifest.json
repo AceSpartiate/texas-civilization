@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 296,
-    "sprites": 2796,
-    "clips": 973,
-    "poseCycles": 665,
+    "sheets": 297,
+    "sprites": 2804,
+    "clips": 977,
+    "poseCycles": 669,
     "rigs": 4
   },
   "entrypoints": {
@@ -15854,6 +15854,80 @@
               [
                 1428,
                 1702
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-gonzales-river-final-east": {
+      "image": "atlases/people-gonzales-river-final-east.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 615222,
+      "sha256": "4a734beed1a76a942760201e2155738498e407eabfc2f15dcf691006fc5f95ee",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.828616,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              129,
+              404
+            ],
+            "columns": [
+              [
+                143,
+                316
+              ],
+              [
+                582,
+                759
+              ],
+              [
+                1008,
+                1245
+              ],
+              [
+                1464,
+                1705
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              517,
+              805
+            ],
+            "columns": [
+              [
+                139,
+                315
+              ],
+              [
+                580,
+                761
+              ],
+              [
+                1007,
+                1261
+              ],
+              [
+                1462,
+                1717
               ]
             ]
           }
@@ -82444,6 +82518,286 @@
       "locationKits": [],
       "promptId": "frontier-v1/people-gonzales-river-cast-east"
     },
+    "ochre-river-watch-1": {
+      "sheet": "people-gonzales-river-final-east",
+      "x": 143,
+      "y": 129,
+      "w": 173,
+      "h": 274,
+      "anchorX": 0.4335,
+      "anchorY": 0.9453,
+      "logicalHeight": 274,
+      "label": "ochre river watch 1",
+      "kind": "people-gonzales-river-final-east",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          145,
+          131,
+          169,
+          270
+        ],
+        "visiblePixels": 26837,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-final-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-river-watch"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-final-east"
+    },
+    "ochre-river-watch-2": {
+      "sheet": "people-gonzales-river-final-east",
+      "x": 582,
+      "y": 130,
+      "w": 177,
+      "h": 274,
+      "anchorX": 0.452,
+      "anchorY": 0.938,
+      "logicalHeight": 274,
+      "label": "ochre river watch 2",
+      "kind": "people-gonzales-river-final-east",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          584,
+          132,
+          173,
+          270
+        ],
+        "visiblePixels": 26034,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-final-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-river-watch"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-final-east"
+    },
+    "ochre-river-point-1": {
+      "sheet": "people-gonzales-river-final-east",
+      "x": 1008,
+      "y": 130,
+      "w": 237,
+      "h": 273,
+      "anchorX": 0.3143,
+      "anchorY": 0.9487,
+      "logicalHeight": 274,
+      "label": "ochre river point 1",
+      "kind": "people-gonzales-river-final-east",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1010,
+          132,
+          233,
+          269
+        ],
+        "visiblePixels": 28895,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-final-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-river-point"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-final-east"
+    },
+    "ochre-river-point-2": {
+      "sheet": "people-gonzales-river-final-east",
+      "x": 1464,
+      "y": 129,
+      "w": 241,
+      "h": 274,
+      "anchorX": 0.3237,
+      "anchorY": 0.9416,
+      "logicalHeight": 274,
+      "label": "ochre river point 2",
+      "kind": "people-gonzales-river-final-east",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1466,
+          131,
+          237,
+          270
+        ],
+        "visiblePixels": 28191,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-final-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-river-point"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-final-east"
+    },
+    "blue-girl-river-watch-1": {
+      "sheet": "people-gonzales-river-final-east",
+      "x": 139,
+      "y": 517,
+      "w": 176,
+      "h": 288,
+      "anchorX": 0.4943,
+      "anchorY": 0.9479,
+      "logicalHeight": 288,
+      "label": "blue girl river watch 1",
+      "kind": "people-gonzales-river-final-east",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          141,
+          519,
+          172,
+          284
+        ],
+        "visiblePixels": 32207,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-final-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-river-watch"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-final-east"
+    },
+    "blue-girl-river-watch-2": {
+      "sheet": "people-gonzales-river-final-east",
+      "x": 580,
+      "y": 517,
+      "w": 181,
+      "h": 287,
+      "anchorX": 0.4751,
+      "anchorY": 0.9582,
+      "logicalHeight": 288,
+      "label": "blue girl river watch 2",
+      "kind": "people-gonzales-river-final-east",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          582,
+          519,
+          177,
+          283
+        ],
+        "visiblePixels": 32024,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-final-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-river-watch"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-final-east"
+    },
+    "blue-girl-river-point-1": {
+      "sheet": "people-gonzales-river-final-east",
+      "x": 1007,
+      "y": 517,
+      "w": 254,
+      "h": 288,
+      "anchorX": 0.3327,
+      "anchorY": 0.9444,
+      "logicalHeight": 288,
+      "label": "blue girl river point 1",
+      "kind": "people-gonzales-river-final-east",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1009,
+          519,
+          250,
+          284
+        ],
+        "visiblePixels": 34243,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-final-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-river-point"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-final-east"
+    },
+    "blue-girl-river-point-2": {
+      "sheet": "people-gonzales-river-final-east",
+      "x": 1462,
+      "y": 517,
+      "w": 255,
+      "h": 288,
+      "anchorX": 0.3333,
+      "anchorY": 0.941,
+      "logicalHeight": 288,
+      "label": "blue girl river point 2",
+      "kind": "people-gonzales-river-final-east",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1464,
+          519,
+          251,
+          284
+        ],
+        "visiblePixels": 35135,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-final-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-river-point"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-final-east"
+    },
     "teal-river-watch-1": {
       "sheet": "people-river-gestures",
       "x": 75,
@@ -131232,6 +131586,70 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "ochre-river-watch": {
+      "frames": [
+        {
+          "sprite": "ochre-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-river-point": {
+      "frames": [
+        {
+          "sprite": "ochre-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-river-watch": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-river-point": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "teal-river-watch": {
       "frames": [
         {
@@ -143617,7 +144035,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 296,
+    "sourceCount": 297,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

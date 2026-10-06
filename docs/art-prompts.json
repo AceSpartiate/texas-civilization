@@ -4556,6 +4556,28 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-cast-east.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Indigo apron corrected to existing plain dress. East/west point integrated; watch catalog-ready."
+    },
+    {
+      "sheet": "people-gonzales-river-final-east",
+      "prompt": "Original transparent game sprite atlas EXACT FOUR columns TWO rows EIGHT isolated fullbody figures. Match supplied painted warm brown outlined frontierstorybook style, not pixels not 3D. Identity reference firstimage row3 OCHRE man brown tousledhair ochreshirt darkbrownvest grey-browntrousers boots. Row1 in NEWatlas ONLY this ochre man. Identity firstimage row4 BLUE-GIRL younger woman long darkbrown braid over shoulder blue dress cream apron boots; SAME age and proportions as reference, NOT child or indigo woman. Row2 newatlas ONLY this braided woman. BOTHrows allfigures east/right facing slight elevated3/4 view. Columns1/2 watch with onehand shadingeyes atbrow, subtle hand/headvariation; columns3/4 BOTHpoint with armextended right indexfingerout, otherhand shadingeyes, subtle armanglechange. Uprightfeetgrounded samebodyheight andbootbaseline eachrow. EveryWHOLEfigure includingfinger fits central60percent owncellwidthheight, minimum45px emptytransparentgutter allfour sides. NOneighborfragments. Exact4x2 only, nofloor/shadow scenery text grid. TRUEzeroalpha. Preserve existingfaces clothes braid manvest. Completebootsandhands contained.",
+      "promptId": "frontier-v1/people-gonzales-river-final-east",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-gonzales-river-cast-east.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-10c51d0b-3d00-4555-bbc7-809f5d6e33ed.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c283606e-c542-43db-9fa0-42e27ab6a620.png",
+      "refinements": [
+        {
+          "prompt": "Edit spacing ONLY in this exact four columns two rows sprite atlas. Shrink each entire figure INCLUDING outstretched finger by25percent and center in its own equal cell. At least35px fullyemptytransparentmargin ALLsides eachcell includingbottomboots andrightpointingfingers. Keep samebodyheight andbootbaseline withinrow. Preserve all eight east facing watch/point poses, same brownhaired ochre-shirt darkvest man top row and blue-dress cream-apron longbraided woman bottomrow. Pointarmout BOTH cols3/4, otherhandatbrow. No redesign, no new elements, truezeroalpha nofloorsshadowlabelsgrid.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c283606e-c542-43db-9fa0-42e27ab6a620.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-final-east.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Ochre vest and blue-girl braid/apron retained. East/west pointing integrated; north/south remain fallback. Watch catalog-ready."
     }
   ]
 }

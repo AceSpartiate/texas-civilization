@@ -9369,6 +9369,70 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "ochre-river-watch": {
+      "frames": [
+        {
+          "sprite": "ochre-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-river-point": {
+      "frames": [
+        {
+          "sprite": "ochre-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-river-watch": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-river-point": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "teal-river-watch": {
       "frames": [
         {

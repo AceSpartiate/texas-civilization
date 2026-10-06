@@ -1,3 +1,7 @@
+## Art delivery 2026-10-06: remaining east-west river cast
+
+Eight frames and four authored watch/point clips for ochre and blue-girl. All six adult town figures now have dedicated east/west pointing. These two still need north/south gestures; watch clips remain catalog-ready. See `docs/ART_DELIVERY_2026-10-06-GONZALES-RIVER-FINAL-EAST.md`.
+
 ## Art delivery 2026-10-06: indigo/blue east-west river gestures
 
 Eight frames and four authored watch/point cycles. Indigo and blue east/west pointing now selects dedicated art. Teal, indigo, elder and blue have complete cardinal pointing coverage; watch cycles remain catalog-ready for explicit scene actions. See `docs/ART_DELIVERY_2026-10-06-GONZALES-RIVER-CAST-EAST.md`.
