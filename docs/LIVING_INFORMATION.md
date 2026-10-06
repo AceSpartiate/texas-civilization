@@ -72,7 +72,7 @@ Military continuation, 2026-09-22: [Military experience and seamless continuity]
 
 **Overheard talk, 2026-10-05** (owner: *"Players should be able to read the conversations they're having via thought bubbles to learn
 what's going on in that area even if a rider wouldn't normally tell them"*; sim/militia.mjs `overhear`, `FIC-GONZ-1183`). A played
-family's person away at the war, standing in a camp or a town, overhears about once a minute two men say a war-news line **the place has
+family's volunteer away at the war (never an enlisted man of the garrison or the army, amended 2026-10-06), standing in a camp or a town, overhears about once a minute two men say a war-news line **the place has
 heard** (sim/ambient.mjs `hearsayOf`: word walking fifteen miles a day from where it happened) and the family has not. That is a real
 receipt: the words are said over two of the camp's men on the family's own page (and nobody else's), the journal keeps them, and the
 family knows the topic from then, its source "Heard it said at …", at the place's own certainty (a rumour while word is new). Nothing the

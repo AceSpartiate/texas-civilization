@@ -219,7 +219,8 @@ stood on the town's point with `task: 'help'` and every home chore greyed on his
    shelter"), paid to the family's coin in whole reales. **Come home** (`send-for`, sim/militia.mjs `walkHome`) starts him home from the
    gathering as the army's own sending-for does from the army.
 6. **What he overhears** (`FIC-GONZ-1183`). About once a minute of the class, two men near a played family's person away at the war -
-   at the volunteers' camp, in the army's camp, at Houston's - say a war-news line the place has heard (word walking fifteen miles a
+   at the volunteers' camp or in the army's camp (a volunteer; never an enlisted man - the garrison, Fannin's, Houston's - whose
+   family hears the war's word by its couriers, amended 2026-10-06) - say a war-news line the place has heard (word walking fifteen miles a
    day from where it happened, sim/ambient.mjs `hearsayOf`) and the family has not: over two of the camp's men on the family's page, in
    the journal, and known from then with the source "Heard it said at …" (docs/LIVING_INFORMATION.md: heard, then known). Nothing the
    place has not heard is said.

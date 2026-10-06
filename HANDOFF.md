@@ -36,8 +36,8 @@ reminiscence marked).
 - **Staying**: a blanket under the sky (a chill possible in a norther) until a brush shelter or a night's board; work for hire half a
   real a day, for board a quarter and meals and a bed, paid to the family's coin in whole reales; *Come home* (`send-for`, sim/militia.mjs
   `walkHome`) from the gathering as from the army.
-- **What he overhears** (`overhear`, `newsHere`, `overheardFor`): about once a minute, two men near a played family's person away at the
-  war say a war-news line the place has heard (`hearsayOf`) and the family has not; said over two of the volunteers' camp's men (or an
+- **What he overhears** (`overhear`, `newsHere`, `overheardFor`): about once a minute, two men near a played family's volunteer away at the
+  war (never an enlisted man: amended 2026-10-06, below) say a war-news line the place has heard (`hearsayOf`) and the family has not; said over two of the volunteers' camp's men (or an
   army camp's) on the family's page only, in the journal, and known from then as "Heard it said at …". A picket can bring the same.
 - **Found and fixed on the way:** a man out of the army's ranks who was too sick to get up stopped the whole class's tick
   (`sim/army.mjs` `leaveArmy` threw from `beginTravel`); he now stays where he is.
@@ -56,6 +56,7 @@ reminiscence marked).
   eight new icons and three poses (docs/ART_REQUESTS.md request 2026-10-05 "away at the war", F39 and C23). The House icon still ends a
   volunteer's bar (owner, 2026-09-30, "whoever's it is"). Not proved: Chromebook, LAN, classroom.
 
+- **Follow-up, 2026-10-06** (after the merge to main: `test:battle-alamo` lost "Isaac was never seen to fall" and `test:famous-people` timed out in the siege). The overhearing reached every person away at the war, the garrison too: Isaac, shut in the Alamo, "overheard" the siege and, after the assault, "They say the Alamo fell", and his family learned them through him days before the word (docs/BATTLES.md §2b.1). Overhearing is now a volunteer's only (`sim/militia.mjs` `overhearing` reads `atWar`); new test *an enlisted man ... overhears nothing for his family* (injection: overhearing by `awayWithTheArmy` again - caught, only it). Measured, the alamo-class (seed battle-alamo, two families played, 326 ticks to the fall): stepWorld 2.08 ms a tick at 90eaee58 and 2.19 ms after (advanceMilitia and overhear together about 0.1 ms); three projections a tick 20.3 ms and 21.1 ms. Not the cause of the slow siege. `test:battle-alamo` alone: 13 checks green. FAMOUS.
 ## Every rider who reaches you, as a scene — owner, 2026-10-05 (not released)
 
 Branch `rider-scenes` from main 3f0ef6c7. The owner, verbatim: *"I want to radically redesign the whole rider and or news person

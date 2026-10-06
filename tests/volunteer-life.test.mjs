@@ -282,3 +282,18 @@ test("three days of drill at the volunteers' camp steady a man in the autumn's r
   assert.equal(fateAt(plain, death), 'killed');
   assert.notEqual(fateAt(drilled, death), 'killed', 'the drill counted for nothing in the roll');
 });
+
+test("an enlisted man - the garrison shut in the Alamo - overhears nothing for his family: the war's word reaches it by its own couriers", () => {
+  const world = copyOf();
+  const { household, person } = campMan(world);
+  // Put in the garrison at Béxar, as sim/alamo.mjs does: the army's man, no longer a volunteer of the gathering.
+  const site = world.map.sites.bexar;
+  Object.assign(person, { travel: null, chore: null, task: 'rest', location: { x: site.x, y: site.y, siteId: 'bexar' }, service: { kind: 'garrison', status: 'serving', since: world.minute, siteId: 'bexar' } });
+  assert.ok(awayWithTheArmy(world, person));
+  establishTruth(world, { id: 'alamo-siege', text: 'The Alamo is besieged.', siteId: 'bexar', classification: 'DOCUMENTED' });
+  world.truth['alamo-siege'].minute = world.minute - 7 * 1440;
+  delete world.knowledge.households[household.id]['alamo-siege'];
+  for (let i = 0; i < 3; i++) { delete world.heardAt; overhear(world); }
+  assert.equal(world.knowledge.households[household.id]['alamo-siege'], undefined, 'the family heard the siege through its man inside');
+  assert.ok(!world.events.some(event => event.actorId === person.id && /heard men talking/.test(event.text)), 'the man in the garrison overheard for his family');
+});

@@ -558,13 +558,16 @@ export function overhear(world) {
 }
 
 /**
- * Who can overhear: anybody of the family away at the war standing in a camp or a town - a volunteer at Gonzales, a man in the army's
- * camp, Houston's men, the garrison - never on a road, in a fight, or at home (sim/acting.mjs `awayWithTheArmy`).
+ * Who can overhear: a volunteer away at the war (`atWar`) standing in the volunteers' camp or the army's - never on a road, in a
+ * fight, or at home. Not an enlisted man (sim/winter.mjs `service`): the garrison shut in the Alamo, Fannin's men and Houston's are
+ * the army's, whose word reaches their families by the war's own couriers and expresses (docs/BATTLES.md §2b.1: the family learns of
+ * the fall "only when the word reaches them"). Found 2026-10-06: a man of the garrison "overheard" the siege and the fall, and his
+ * family learned them through him days before the word - `test:battle-alamo` lost him falling.
  */
 export function overhearing(world, person) {
-  if (!alive(person) || !awayWithTheArmy(world, person) || heldByBattle(world, person)) return false;
+  if (!atWar(world, person) || heldByBattle(world, person)) return false;
   if (inArmyCamp(world, person)) return true;
-  return !person.travel && Boolean(person.location?.siteId) && ['town', 'village', 'camp'].includes(world.map?.sites?.[person.location.siteId]?.kind) && person.location.siteId !== 'williams-camp';
+  return !person.travel && ['town', 'village'].includes(world.map?.sites?.[person.location?.siteId]?.kind);
 }
 
 /**
