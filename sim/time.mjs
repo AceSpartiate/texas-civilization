@@ -1,7 +1,7 @@
 import { record } from './events.mjs';
 import { advanceRoutine } from './routines.mjs';
 import { deliverReports } from './knowledge.mjs';
-import { advanceEncounters } from './encounters.mjs';
+import { advanceEncounters, tellPassing } from './encounters.mjs';
 import { advanceRelays, milesATick, progressTravel, validateWorld } from './world.mjs';
 import { groundLeft } from './travel.mjs';
 import { calendarMinutes } from './clock.mjs';
@@ -52,7 +52,7 @@ export function resolveTimeJump(world, requestedMinutes) {
     // a fork during a jump would stand there holding it until the class ticked live again,
     // and the family at the far end of the chain would never be told at all.
     advanceRelays(world);
-    advanceRoutine(world, minutes); deliverReports(world); remaining -= minutes;
+    advanceRoutine(world, minutes); deliverReports(world, tellPassing); remaining -= minutes;
     // A rider coming alongside a family is the moment the jump was skipping over, so the
     // jump stops there rather than carrying the class past a conversation it never saw.
     const met = [...passed, ...advanceEncounters(world)];

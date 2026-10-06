@@ -18,6 +18,7 @@ import { record } from './events.mjs';
 import { establishTruth } from './knowledge.mjs';
 import { alamoRole } from './alamo.mjs';
 import { courierIfUnanswered } from './lapse.mjs';
+import { settleScene } from './encounters.mjs';
 // Where the compound lies on the map, and each person's post on its walls: sim/alamo-posts.mjs (docs/BATTLES.md §9).
 import { ALAMO_ORIGIN, onMap, postFor, spotOf, walkToPost } from './alamo-posts.mjs';
 export { ALAMO_ORIGIN, onMap };
@@ -139,6 +140,8 @@ function openRunner(world, runner, person) {
     causes: world.truth[RUNNER_TOPIC]?.eventId ? [world.truth[RUNNER_TOPIC].eventId] : [],
     text: `${runner.name} came across the plaza from Colonel Travis's quarters to speak with ${person.name}.`,
   });
+  // Played as a scene inside the walls, like every rider who reaches a family (owner, 2026-10-05; sim/rider-scene.mjs).
+  settleScene(world, encounter);
   const spoken = say(world, encounter, 'rider', runnerOpening(job.day, person.service.courierOffer), [encounter.metEventId]);
   record(world, 'pressure', {
     actorId: person.id, householdId: person.householdId, importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-055', causes: [spoken],

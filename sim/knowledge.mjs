@@ -51,7 +51,13 @@ export function reportsFor(world, audience) {
   const knowledge = audience === 'public' ? world.knowledge.public : world.knowledge.households[audience];
   return Object.values(knowledge || {}).map(report => ({ ...report, ageMinutes: world.minute - report.receivedMinute, observationAgeMinutes: world.minute - report.observedMinute }));
 }
-export function deliverReports(world) {
+/**
+ * A courier of a class saved before word was carried in person, arriving at the family's gate: the word is known as it always
+ * was, and since 2026-10-05 (owner: "Every rider who reaches you") the courier is also a scene - he tells the one of the family
+ * nearest the house, if anybody is there to tell (`tell`, sim/encounters.mjs `tellPassing`, passed in so this module needs
+ * nothing of the riders).
+ */
+export function deliverReports(world, tell = null) {
   for (const entity of Object.values(world.entities)) {
     // A report that is carried in person is handed over by being said, in `sim/encounters.mjs`,
     // to somebody who is actually standing there. It is never posted through the door of an
@@ -60,8 +66,12 @@ export function deliverReports(world) {
     if (entity.report?.inPerson) continue;
     if (entity.report && !entity.travel && entity.location.siteId === entity.report.destination) {
       const report = entity.report;
-      learn(world, report.audience, report.topicId, { status: report.status, source: `Courier ${entity.name}` });
+      const learned = learn(world, report.audience, report.topicId, { status: report.status, source: `Courier ${entity.name}` });
       record(world, 'report-delivered', { actorId: entity.id, householdId: report.audience, text: `${entity.name} brought a report.`, causes: [world.knowledge.households[report.audience][report.topicId].eventId] });
+      const household = world.households[report.audience], home = world.map.sites[household?.homeSiteId];
+      const there = home && household.members.map(id => world.entities[id]).filter(person => person?.location && !['dead', 'captured'].includes(person.health?.condition))
+        .map(person => ({ person, miles: Math.hypot(person.location.x - home.x, person.location.y - home.y) })).filter(one => one.miles <= 0.5).sort((a, b) => a.miles - b.miles)[0]?.person;
+      if (learned && tell && there) tell(world, report.audience, { topicId: report.topicId, listenerId: there.id, via: 'report', status: report.status, source: `Courier ${entity.name}`, fromSiteId: report.originSiteId || entity.base || household.homeSiteId, departedMinute: report.departedMinute ?? world.minute });
       delete entity.report;
     }
   }

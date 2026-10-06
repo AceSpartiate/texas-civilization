@@ -70,7 +70,7 @@ import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './tr
 // What families did for each other, and the help they offer back (sim/neighbourly.mjs, owner 2026-09-28).
 import { advanceNeighbourly, answerNeighbour, neighbourlyInvalid, neighbourlyView, owes, recordTakenIn, standings } from './neighbourly.mjs';
 import { buildGonzalesRegion, findPath, polylineLength } from './geography.mjs';
-import { advanceDepartures, advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, spotName } from './encounters.mjs';
+import { advanceDepartures, advanceEncounters, askRider, carriedInPerson, encounterProjection, leaveRider, listeningOf, riderName, riderSceneInvalid, spotName, tellPassing } from './encounters.mjs';
 import { DEFAULT_MODE, HIGH_WATER_TIMES, MODES, WADE_WRONG_MINUTES, WADE_WRONG_SHARE, fordMinutes, modeOf, offeredModes, moveOnGround, propertyId, RIDER_SPEED } from './travel.mjs';
 import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
@@ -790,7 +790,7 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   // (owner, 2026-09-27; sim/encounters.mjs `advanceDepartures`).
   advanceDepartures(world, { beginTravel });
   // Days of the calendar: what is eaten, what spoils, what mends, whatever the tick was worth.
-  advanceRoutine(world, calendar); deliverReports(world);
+  advanceRoutine(world, calendar); deliverReports(world, tellPassing);
   // Somebody whose wound mended away from home, outside any service, is told to the family and starts home (sim/army.mjs).
   sendMendedHome(world, { beginTravel });
   // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
@@ -1811,7 +1811,10 @@ export function validateWorld(world) {
     if (!world.households[encounter.householdId]) throw new Error('Unknown encounter household');
     if (!world.entities[encounter.carrierId] || !world.entities[encounter.listenerId]) throw new Error('Dangling encounter reference');
     if (world.entities[encounter.listenerId].householdId !== encounter.householdId) throw new Error('An encounter must be heard by the household that owns it');
-    if (!['open', 'closed'].includes(encounter.status)) throw new Error('Invalid encounter status');
+    // `waiting`: a rider who came by while the family was listening to another, his word said, waiting his turn (2026-10-05).
+    if (!['open', 'closed', 'waiting'].includes(encounter.status)) throw new Error('Invalid encounter status');
+    const badScene = riderSceneInvalid(world, encounter);
+    if (badScene) throw new Error(badScene);
     if (!world.truth[encounter.topicId]) throw new Error('An encounter must be about something that happened');
     if (!Array.isArray(encounter.said) || !Array.isArray(encounter.asked)) throw new Error('Invalid encounter transcript');
     // Absent on a class saved before word changed hands, which correctly reads as an

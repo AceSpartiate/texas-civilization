@@ -19,11 +19,14 @@
 // however far off it was. Each now leaves by express from where the record has the word come in (`sendExpress`) - Gonzales,
 // Houston's camp, Fort Bend - on the same roads, stops, six-hour waits and riders as the autumn's letters, and each family
 // hears it when a rider from the nearest stop that has read it could have reached wherever its people are (`hearExpresses`),
-// at home or on the road east. It is a quiet line in the journal, as all the spring's news has been since the one-rider rule
+// at home or on the road east. It was a quiet line in the journal, as all the spring's news had been since the one-rider rule
 // (§5.4b), never a rider who reins in to talk: the riders are seen passing on the roads, and nothing piles up at a gate.
+// **Amended 2026-10-05** (owner: "Every rider who reaches you"; docs/COLONIES.md §5.4e): at a family a student plays, the word
+// is now also said, on that same minute, by a rider of the stop it was read at, in a scene where the family's person stands
+// (sim/encounters.mjs `tellPassing`); still nobody on the map at the gate, and one rider at a time.
 import { record } from './events.mjs';
 import { findPath } from './geography.mjs';
-import { riderName } from './encounters.mjs';
+import { riderName, tellPassing } from './encounters.mjs';
 import { isStage } from './colonies-map.mjs';
 import { learn, wouldLearn } from './knowledge.mjs';
 import { FARMING_TICK_MINUTES, RIDER_SPEED } from './travel.mjs';
@@ -178,11 +181,11 @@ const lostUntold = service => Boolean(service && !service.told && (LOST.includes
  * ceiling: household knowledge, not person by person (docs/LIVING_INFORMATION.md): what one of the family hears, the family knows,
  * as sim/advance-word.mjs `eyesOf` has it for the Mexican advance.
  */
-function listeners(world, household) {
+function hearers(world, household) {
   return household.members.map(id => world.entities[id]).filter(person => person?.kind === 'person' && person.location
-    && person.health?.condition !== 'dead' && !['prisoner', 'captured'].includes(person.service?.status) && !lostUntold(person.service))
-    .map(person => person.location);
+    && person.health?.condition !== 'dead' && !['prisoner', 'captured'].includes(person.service?.status) && !lostUntold(person.service));
 }
+const listeners = (world, household) => hearers(world, household).map(person => person.location);
 /** Whether anybody of the family could hear word at all: nobody, if every one of them is dead or a prisoner of the war. */
 export const canHear = (world, household) => listeners(world, household).length > 0;
 const crow = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -314,17 +317,18 @@ export function settleExpresses(world, source) {
  * once where the word came in) and a rider has ridden out, by the road to a family's gate or a town, as the crow flies to
  * somebody out on the road. `null` if not yet.
  */
-function heardBy(world, state, places) {
+function heardBy(world, state, people) {
   const stops = [state.from, ...Object.keys(state.routes)].map(id => world.map.sites[id]).filter(Boolean);
   let best = null;
-  for (const place of places) {
+  for (const person of people) {
+    const place = person.location;
     const site = place.siteId && stops.find(stop => stop.id === place.siteId)
       || stops.reduce((near, stop) => !near || crow(stop, place) < crow(near, place) ? stop : near, null);
     const minute = site && state.heard[site.id];
     if (!Number.isFinite(minute)) continue;
     const at = place.siteId === site.id ? minute
       : minute + (site.id === state.from ? 0 : RELAY_MINUTES) + rideMinutes(place.siteId && world.map.sites[place.siteId] ? roadMiles(world, site.id, place.siteId) : crow(site, place));
-    if (at <= world.minute && (!best || at < best.minute)) best = { minute: at, stop: site.id };
+    if (at <= world.minute && (!best || at < best.minute)) best = { minute: at, stop: site.id, personId: person.id };
   }
   return best;
 }
@@ -337,12 +341,17 @@ export function hearExpresses(world) {
     const { status, text, source, causeId } = state.word;
     for (const household of Object.values(world.households)) {
       if (!wouldLearn(world, household.id, topicId, status)) continue;
-      const heard = heardBy(world, state, listeners(world, household));
+      const heard = heardBy(world, state, hearers(world, household));
       if (!heard) continue;
       const stop = world.map.sites[heard.stop].name.replace(/^The /, 'the ');
       // "Travis's letter, carried on from Gonzales" already says it was carried on: "…, and on from San Felipe de Austin".
       const via = heard.stop === state.from ? '' : /carried on from/.test(source || '') ? `, and on from ${stop}` : `, carried on from ${stop}`;
-      learn(world, household.id, topicId, { status, text, source: `${source || 'Word by express'}${via}`, causes: causeId ? [causeId] : [] });
+      if (!learn(world, household.id, topicId, { status, text, source: `${source || 'Word by express'}${via}`, causes: causeId ? [causeId] : [] })) continue;
+      // The rider who brought it, and who of the family he told, as a scene (owner, 2026-10-05: "Every rider who reaches you";
+      // sim/encounters.mjs `tellPassing`, `FIC-GONZ-1196`): said to them on the minute the word is known, and asked about after.
+      // He set out from the stop once it was read there (none where the word came in), so his ride and the word's age are told.
+      const read = heard.stop === state.from ? state.heard[heard.stop] : state.heard[heard.stop] + RELAY_MINUTES;
+      tellPassing(world, household.id, { topicId, listenerId: heard.personId, via: 'express', text, source, status, fromSiteId: state.from, stopSiteId: heard.stop, departedMinute: Math.min(world.minute, Number.isFinite(read) ? read : world.minute) });
     }
   }
 }

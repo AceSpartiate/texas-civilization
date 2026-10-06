@@ -326,6 +326,8 @@ what a family sends. Liberty and Mina have no documented call in these letters a
 
 ### 5.4b One rider, one visit — owner-decided 2026-09-29 (`FIC-GONZ-909`)
 
+> **Amended 2026-10-05** (§5.4e, owner: *"Every rider who reaches you"*): every rider who reaches one of a played family's people - the one who stops to talk and the express rider alike - now plays as a scene where that person is standing, and the express's word is said by a rider of the settlement it was read at. One family still listens to one rider at a time; a rider who comes while another talks has said his word and waits his turn.
+
 **The ask.** Owner, 2026-09-29, verbatim: *"At the start of the game, there's multiple riders that arrive at the same time. If
 they're all carrying similar news, why does the family receive multiples? Why don't we integrate and simplify things?"* And the
 same day, refining it: *"players shouldn't see riders merge, they should have a seamless experience. it should be an off screen
@@ -430,6 +432,8 @@ a family's gate, so the rules above have nothing new to merge, queue or hold.
 
 ### 5.4c The spring's word by express — 2026-09-29 (`FIC-GONZ-955`; triage 2.7, not released)
 
+> **Amended 2026-10-05** (§5.4e, owner: *"Every rider who reaches you"*): every rider who reaches one of a played family's people - the one who stops to talk and the express rider alike - now plays as a scene where that person is standing, and the express's word is said by a rider of the settlement it was read at. What follows says the spring's word is "a quiet line in the journal ... never a rider who reins in to talk": for a played family that no longer holds.
+
 **What was wrong.** VISION §19 says information moved slowly and unevenly, and in the autumn it did (§5.4, §6e). In the spring it
 did not: the fall of the Alamo reached every family away from Gonzales on the same evening, and Houston's retreat over the
 Colorado, Goliad, the Brazos, the massacre, Santa Anna over the Brazos and San Jacinto reached every family in the country on
@@ -509,6 +513,8 @@ own arrival with a schedule and so changed the spring's numbers above (§5.4d ha
 no other settlements, is told as before.
 
 ### 5.4d All the rest of the news by express, and the end held for it — owner-decided 2026-09-29, its two open questions confirmed 2026-09-30 (`FIC-GONZ-956` to `-958`; not released)
+
+> **Amended 2026-10-05** (§5.4e, owner: *"Every rider who reaches you"*): every rider who reaches one of a played family's people - the one who stops to talk and the express rider alike - now plays as a scene where that person is standing, and the express's word is said by a rider of the settlement it was read at. The words here are said the same way.
 
 **The owner's answers** to the three questions of §5.4c, 2026-09-29: (1) *"Hold the end"* - the class's end at dawn on April 25
 waits up to one game day until every played family has heard of San Jacinto, as the autumn waited for its furthest family;
@@ -610,6 +616,61 @@ is not used. `ceiling:` the schedule is worked out when the word leaves; a road 
 `ceiling:` San Patricio's and Agua Dulce's tellings are the second period's; a family that first hears of them in the spring is
 told only the word. `ceiling:` the hold waits only for played families, a day at most; a family nobody plays hears at the next
 period, or not at all if it is the last.
+
+### 5.4e Every rider who reaches you, as a scene — owner-decided 2026-10-05 (`FIC-GONZ-1195` to `-1199`; not released)
+
+**Amends §5.4b, §5.4c and §5.4d.** The owner, 2026-10-05, verbatim: *"I want to radically redesign the whole rider and or news
+person shows up. The conversation is boring. Let's redo each of them as a cutscene sort of like with the wedding. The environment
+should change in the cutscene based on where they are and who's around them."* And choosing among options the same day: **"Every
+rider who reaches you"** - *"A rider who stops to talk, and an express rider who passes your people, both play as a scene where
+your person is: the home yard, the town street, camp or road. Whoever is near is in it, the rider dismounts, and family or
+townsfolk ask the questions. Stand-in backdrops come from the map ground until Astra's art lands."*
+
+So §5.4c's "a quiet line in the journal ... never a rider who reins in to talk" and §5.4d's journal-only words no longer hold for a
+family a student plays: the word still comes when the express could have brought it, and now a rider says it.
+
+1. **Where** (`sim/rider-scene.mjs` `settingFor`): settled the minute the rider reins in, from where the person he stopped is
+   standing - **home** (within half a mile of the family's house site: the house as it stands, the tent and fire before it is up,
+   the field as it is, the water if near), **town** (in or within 0.6 mile of a town or village: which one), **camp** (serving with
+   the volunteers, or at a camp), **ford** (at a ford, ferry or bridge, or by a river or creek), or the **road** ("In the woods"
+   where the map's timber is about). The light is the class's clock at that minute, the wedding's hours.
+2. **Who** (`castFor`): the person he stopped first, then the family's own within a third of a mile on the same side of the river
+   (parents, then children oldest first), then whoever else is about - the town's keepers in a town, the volunteers in camp, another
+   family's people as neighbours; eight at most. Each is drawn in their own looks (the family's appearance; the town's as the map
+   draws them).
+3. **The scene** (`public/rider-scene.js`, on the wedding's stage, `public/cutscene.js`): over the whole screen, the family on the
+   left facing the rider, the town's people or volunteers behind him on the right; he rides in, gets down by his horse (Astra's
+   `courier-dismount` sheet), talks and listens standing by it, and when let go (Done) gets up and rides on and the scene fades.
+   The words go along the foot a line at a time, as before; nobody speaks until he has got down. Escape and the × put it away at
+   once and let him go, as they always did; Continue cuts his going short.
+4. **The questions** are asked by the people standing there (`sim/rider-talk.mjs` `askerFor`): the student chooses which; who asks
+   it is named on its button. The ask/answer rules are unchanged: an answer is never on the wire before it is asked, and what is
+   asked is kept in the family's record. Somebody of the family away with the volunteers is asked after by their own, and the
+   rider has no names (`FIC-GONZ-1199`).
+5. **What they say among themselves** (`react`, `FIC-GONZ-1198`): a reaction or two when the word is said, two of the town arguing
+   it where there are two, a reaction to some answers, and a farewell, his reply and a last line when he goes - kept on the
+   meeting (`talk`), each after the line it follows, never said before it.
+6. **The express rider** (`sim/encounters.mjs` `tellPassing`, `FIC-GONZ-1196`): when a played family hears a word carried by
+   express (`hearExpresses`), an invented rider of the stop it was read at says it to whichever of the family the word reached, on
+   that same minute - so the word known and the word said are never apart - and waits to be asked as any rider does (ninety real
+   seconds at a family whose student is there, his short stop where nobody is). He is the scene's alone and never on the map: the
+   express riders are drawn on the roads already, and drawing one more at every family's gate would bring back the crowd §5.4b
+   ended. Every word the director sends by express has its own conversation (`expressScript`): the word, when, who says so, how
+   sure, and one question the word raises - nothing added to the word but its provenance and what he does not know.
+7. **One at a time** (§5.4b still holds): a rider who comes while another is talking with the family has said his word (it is
+   known, and in the journal) and waits his turn (`waiting`); he comes on once the first has gone, never on the tick he goes. The
+   count of what waits is said, as before. Questions put to the family still wait behind a rider.
+8. **When the student is not looking**: nothing waits on the page. The "!" on the person and the screen reader's line invite as
+   before; a scene never opens by itself over what a student is doing (docs/LIVING_INFORMATION.md: no camera hijack). A rider
+   nobody listens to has still said his word - the family knows it and the journal has it - and rides on when his patience runs
+   out, his last words said; the journal's *Read what he said* opens the scene again with everybody standing, to be re-read.
+9. **A family nobody plays** is told as before and shown no scene; the Host's page is unchanged. **The invented Gonzales country**
+   has no expresses (§5.4d), so its words are still told at once.
+
+`ceiling:` the scene is settled when he reins in - somebody who walks up during it is not added, somebody who walks off stays
+drawn. `ceiling:` the express rider is not a horseman on the map. `ceiling:` the backdrops are the map's own ground laid back to a
+painted sky, with the library's buildings, tents and trees (docs/ART_REQUESTS.md, request 2026-10-05 - rider scenes' backdrops).
+`ceiling:` a word told at once (no express can carry it) has no rider and no scene.
 
 ### 5.5 After October 2: the gathering and the march
 

@@ -8,7 +8,9 @@ export function militaryNotices(world) {
   if (!world || world.role === 'host') return [];
   const own = (world.entities || []).filter(person => person.householdId === world.householdId);
   const notices = [];
-  const meeting = world.encounter;
+  // A rider who came by with an express's word (sim/encounters.mjs `tellPassing`, 2026-10-05) asks nothing of the family: the
+  // word is known already, and the "!" on the person invites to his scene. He puts up no card, and holds no card back.
+  const meeting = world.encounter?.passing ? null : world.encounter;
   const runnerWith = meeting?.status === 'open' && meeting.kind === 'alamo-runner' ? meeting.listenerId : null;
   if (meeting?.status === 'open' && own.some(person => person.id === meeting.listenerId)) {
     const person = own.find(person => person.id === meeting.listenerId);

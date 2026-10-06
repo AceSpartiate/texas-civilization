@@ -41,6 +41,7 @@ const ICON = 'Action icon: 128×128, transparent, one silhouette, thin dark outl
 const MARK = 'Mark: 96×96, transparent, no text, reads at 22–24 CSS px';
 const PROP = 'Prop: transparent, anchored at its base, at the scale of the sprites it stands beside';
 const BUILDING = 'Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable';
+const SCENE = '960×540, a whole painting the page draws to cover a scene, anchored at its foot; no people; the light graded by the page';
 const PLACE = 'Map cutout as `public/place-art.js` gives the places past the box';
 const GROUND = 'Ground piece: seen from above at the map\'s scale, transparent, tiles or scatters';
 const FX = 'Effect: 3 frames on the ground anchor of the work, one played from the strike';
@@ -107,6 +108,7 @@ const R = {
   wedding: 'Request 2026-09-29 — the lone parent\'s wedding',
   starts: 'Request 2026-09-29 — the family\'s start: Tejano and free Black families, and the people of the road east',
   homecoming: 'Request 2026-09-29 — the homecoming\'s scenes',
+  riderScenes: 'Request 2026-10-05 — rider scenes\' backdrops',
   armies: 'Claude-drawn stand-ins (replace with Astra\'s)',
 };
 
@@ -386,6 +388,19 @@ export const ITEMS = [
     frames: '1', size: PROP, standIn: 'Claude\'s `wedding-table`', kind: 'claude', plugs: 'the wedding scene in `public/courtship.js`', status: 'open' },
   { id: 'E19', area: 'E', priority: 2, request: R.wedding, item: 'item 5', deliver: '`courtship-yard-morning`, `courtship-yard-noon`, `courtship-yard-evening` (a farm yard with trees behind and sky above, no people, no buildings)', names: ['courtship-yard-*'],
     frames: '1 each', size: '960×540, a whole painting the page draws to cover the scene, anchored at its foot', standIn: 'Claude\'s three yards; without them the sky and ground painted in canvas', kind: 'claude', plugs: '`BACKDROP` in `public/courtship.js`', status: 'open', phrases: ['the sky and ground are painted in canvas'] },
+
+  // A rider's visit as a scene (owner, 2026-10-05): until these are painted the scene's ground is the map's own at the spot,
+  // laid back toward a painted sky, with the library's buildings, tents and trees set on it (`piecesOf`, public/rider-scene.js).
+  { id: 'E40', area: 'E', priority: 1, request: R.riderScenes, item: 'items 1-2', deliver: '`scene-street-gonzales`, `scene-street-texian` (an Anglo colonial town\'s street: log stores, a smithy, a tavern, a rail fence, a wagon track) and `scene-street-tejano` (a street of Béxar or Goliad: flat-roofed stone and adobe houses, jacales, a church front)', names: ['scene-street-*'],
+    frames: '1 each', size: SCENE, standIn: 'the map\'s ground at the spot laid back to a painted sky, with the library\'s `storehouse`, `shop-*`, `cabin-wide`, `jacal-broad`, `town-mexican-river`, `church-generic` or `village-irish-colony` set behind the people', kind: 'code', plugs: '`piecesOf` and `drawBackdrop` in `public/rider-scene.js`', status: 'open', phrases: ['rider scenes\' backdrops'] },
+  { id: 'E41', area: 'E', priority: 1, request: R.riderScenes, item: 'item 3', deliver: '`scene-camp-volunteers` (the volunteers\' camp: wagon-sheet tents and brush shelters, a fire with a kettle, rifles stacked, horses on a picket line, in the post oaks)', names: ['scene-camp-*'],
+    frames: '1', size: SCENE, standIn: 'the map\'s ground laid back, four `tent`s, the `campfire` and the `camp-cookpot-tripod`', kind: 'code', plugs: '`piecesOf` in `public/rider-scene.js`', status: 'open' },
+  { id: 'E42', area: 'E', priority: 2, request: R.riderScenes, item: 'items 4-5', deliver: '`scene-road-prairie` (a wagon road across open prairie), `scene-road-woods` (the same road through post oak and live oak timber) and `scene-ford` (a road going down a low bank to a ford across a creek, cottonwoods and cypress)', names: ['scene-road-*', 'scene-ford'],
+    frames: '1 each', size: SCENE, standIn: 'the map\'s ground laid back with a road painted to the horizon, a painted tree line, water painted across a ford, and the library\'s `post-oak-large`, `live-oak-large`, `pecan-large`, `cottonwood`, `cypress-bald-large`', kind: 'code', plugs: '`drawBackdrop` and `piecesOf` in `public/rider-scene.js`', status: 'open' },
+  { id: 'E43', area: 'E', priority: 2, request: R.riderScenes, item: 'item 6', deliver: '`scene-yard-night` (a farm yard by night, no house and no people: the ground before a cabin door under stars and a rising moon, a little lamplight)', names: ['scene-yard-*'],
+    frames: '1', size: SCENE, standIn: 'the map\'s ground at the family\'s land laid back, graded dark, with the house as it stands (or the tent and fire) and the field', kind: 'code', plugs: '`drawBackdrop` and `piecesOf` in `public/rider-scene.js`', status: 'open' },
+  { id: 'E44', area: 'E', priority: 2, request: R.riderScenes, item: 'item 7', deliver: '`scene-alamo-plaza` (inside the Alamo\'s walls: the plaza, the long barrack, the church front beyond, men on the walls)', names: ['scene-alamo-*'],
+    frames: '1', size: SCENE, standIn: 'the map\'s ground laid back with `alamo-wall-corner` and `church-generic` set behind; Travis\'s runner the `courier-march` walk and a grown man of the cast standing', kind: 'code', plugs: '`piecesOf` and `drawRider` in `public/rider-scene.js`', status: 'open' },
 
   // ---------------------------------------------------------------- F: terrain, trees, the norther, fields, icons, marks and effects
   { id: 'F1', area: 'F', priority: 1, request: R.portraits, item: '', deliver: '`portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`', names: ['portrait-*'],

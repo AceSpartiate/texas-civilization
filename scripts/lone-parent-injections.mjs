@@ -118,7 +118,7 @@ const INJECTIONS = [
   { name: 'the couple stand too far apart to hold hands', expect: T.page, edits: [
     { file: 'public/courtship.js', from: "    put(spouse, centre + h * 0.245, 'w');", to: "    put(spouse, centre + h * 0.95, 'w');" }] },
   { name: 'a pose not drawn yet is asked for anyway, and nothing is drawn', expect: T.page, edits: [
-    { file: 'public/courtship.js', from: '  if (ready(own)) return { id: own, flip: face === \'w\' };', to: '  return { id: own, flip: face === \'w\' };' }] },
+    { file: 'public/cutscene.js', from: '  if (ready(own)) return { id: own, flip: face === \'w\' };', to: '  return { id: own, flip: face === \'w\' };' }] },
   // ------------------------------------------------------------------------------------------------ the browser's (npm run test:lone-parent)
   { name: 'the ability does not glow', browser: true, edits: [
     { file: 'public/style.css', from: 'box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px var(--card-ring),0 0 10px 2px var(--card-glow);animation:card-glow var(--card-beat) ease-in-out infinite}', to: 'box-shadow:0 0 0 1px #fff3cf inset}' }] },

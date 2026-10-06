@@ -130,7 +130,10 @@ function deciding(world, { riders = true } = {}) {
   // the same tick he speaks (sim/neighbours.mjs), and holding the whole class's calendar for one
   // of those put eighty-five minutes on a fifty-minute lesson when it was measured.
   // Nor for a family whose student has gone (sim/absence.mjs): the director answers for it in the same tick.
-  if (riders && Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && world.households[encounter.householdId]?.played && !world.households[encounter.householdId].absent)) return true;
+  // Nor for a rider who came by with an express's word (sim/encounters.mjs `tellPassing`, 2026-10-05): the word is already known
+  // when he says it, and the winter's and spring's words come by the dozen - holding the calendar for each would put the
+  // siege's and the Scrape's real minutes back on the lesson. His scene waits for the student; the class does not.
+  if (riders && Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && !encounter.passing && world.households[encounter.householdId]?.played && !world.households[encounter.householdId].absent)) return true;
   // A played family told to leave in the spring (sim/scrape.mjs): the calendar holds at the farming scale until it has gone - by
   // its word, or packed off when its three real minutes are out (sim/auto.mjs) - or the army has burned it out.
   // Only a family with somebody with it to answer (sim/acting.mjs `actingFor`): a family wiped out, with nobody at home but a man

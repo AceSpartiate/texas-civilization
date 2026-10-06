@@ -347,23 +347,46 @@ button:hover:enabled{background:#60673e}
    main person's icons and the five controls of the card under it, wholly covered. That is not a placement to be fixed:
    the family's column, a 520px meeting and a 544px strip come to 1380px of a 1366px screen. It is written up with its
    arithmetic for the owner in §12.12 and deliberately not decided here. */
-#encounter{position:absolute;left:50%;transform:translateX(-50%);bottom:64px;z-index:22;width:min(520px,calc(100% - 24px));max-height:min(70vh,620px,calc(100vh - 82px - var(--lesson-room,0px)));overflow-y:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:14px 16px 16px}
-#encounter-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:1px solid #c5b286;padding-bottom:7px}
+/* Since 2026-10-05 the meeting is a scene over the whole screen (owner: "redo each of them as a cutscene sort of like with the
+   wedding"; public/rider-scene.js): the place and its people drawn on a canvas, the words and the questions in a strip along the
+   foot - the words on the left, the questions on the right, one column on a narrow screen. */
+#encounter{position:fixed;inset:0;z-index:50;background:#000;display:block;overflow:hidden}
+#encounter-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#encounter-strip{position:absolute;left:50%;bottom:clamp(8px,2.4vh,22px);transform:translateX(-50%);box-sizing:border-box;width:min(1000px,calc(100% - 24px));max-height:min(40vh,calc(100vh - 24px - var(--lesson-room,0px)));overflow-y:auto;
+  background:linear-gradient(118deg,rgba(255,247,227,.97),rgba(240,228,198,.97));border:1px solid #9c8259;border-radius:12px;box-shadow:0 6px 28px #0008;padding:10px 16px 12px;
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "origin" "said" "asks" "note";transition:opacity .4s}
+#encounter[data-phase=arrive] #encounter-strip{opacity:.86}
+/* During the guided start its strip keeps the top of the screen: the scene starts below it (`--lesson-room`, its measured height). */
+body[data-lesson=true] #encounter{top:calc(8px + var(--lesson-room,82px))}
+/* The connection line and a solo game's Pause, Resume and Save stay above the scene's sky, where they always are. */
+body[data-rider-scene=true] #hud-right{z-index:51}
+#encounter-head{grid-area:head;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:1px solid #c5b286;padding-bottom:5px}
+#encounter-where{color:#8a4a1e}
 #encounter-head h2{font-size:21px;margin:1px 0 0;color:#4b3e28}
 #encounter-close{background:none;border:none;color:#756342;font-size:24px;min-height:0;padding:0 4px}
 #encounter-close:hover{background:none;color:#3b3221}
-#encounter-origin{margin:7px 0 10px;font-size:12px;color:#6c6046;font-variant-numeric:tabular-nums}
-#encounter-said{list-style:none;margin:0;padding:0}
+#encounter-origin{grid-area:origin;margin:5px 0 6px;font-size:12px;color:#6c6046;font-variant-numeric:tabular-nums}
+#encounter-said{grid-area:said;list-style:none;margin:0;padding:0;max-height:min(16vh,140px);overflow-y:auto}
+#encounter-said li[data-latest]{font-size:16.5px;font-family:Georgia,serif}
+#encounter-strip #encounter-said li{padding:4px 0 5px}
+#encounter-strip .ask-option{padding:6px 10px}
+#encounter-said li[data-talk]{color:#5a4a30}
+.ask-by{display:inline;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8a5a2b;margin-right:6px}
+#encounter-continue{grid-area:asks;justify-self:end;margin-top:8px;font:700 15px/1 Georgia,serif;padding:10px 18px;border-radius:20px;border:1px solid #8a3b22;color:#fff8e6;background:linear-gradient(#d06a3a,#a2471e);min-height:0}
 #encounter-said li{font-size:14.5px;line-height:1.45;padding:7px 0 8px;border-bottom:1px solid #ddcda3;color:#3e3524}
 #encounter-said li:last-child{border-bottom:none}
 #encounter-said li[data-speaker=listener]{color:#5b513a;padding-left:18px;font-style:italic}
 .said-who{display:block;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:#8a7549;margin-bottom:2px}
-#encounter-asks{display:flex;flex-direction:column;gap:5px;margin-top:11px}
+#encounter-asks{grid-area:asks;display:flex;flex-direction:column;gap:5px;margin-top:4px}
+/* In the scene the questions are a row of choices that wraps, so all of them and Done fit above the foot of a Chromebook's screen. */
+#encounter-strip #encounter-asks{flex-direction:row;flex-wrap:wrap;gap:6px;margin-top:8px}
+#encounter-strip #encounter-asks .ask-leave{margin-top:0;margin-left:auto}
 .ask-option{text-align:left;background:#f7eed7;color:#493e2b;border-color:#c1ad83;font-size:13.5px;padding:8px 11px;min-height:0}
 .ask-option:hover:enabled{background:#eee2c4}
 .ask-leave{margin-top:5px;background:#6d6248;border-color:#8d8062;color:#fff6e2;font-size:13px;min-height:0;padding:8px 11px}
 .ask-leave:hover:enabled{background:#5a5039}
-#encounter-note{margin:9px 0 0;font-size:12px;color:#706348}
+#encounter-note{grid-area:note;margin:7px 0 0;font-size:12px;color:#706348}
+@media(max-width:760px){#encounter-strip{max-height:52vh}#encounter-said{max-height:20vh}}
 #family [data-task=meeting] button{border-left:4px solid #41556b}
 /* Gonzales before the fight: a scene's card (public/town-scenes.js). On the right, clear of the family's column on the left
    and the bar along the bottom; it never dims the map. */
@@ -389,7 +412,6 @@ button:hover:enabled{background:#60673e}
 @media(max-width:760px){#town-scene{top:auto;bottom:64px;right:8px;width:calc(100% - 16px);max-height:52vh}}
 
 @media(max-width:760px){
-  #encounter{bottom:auto;top:96px;max-height:60vh;width:calc(100% - 16px)}
 }
 .report-transcript:hover:enabled{background:#ddd4b6}
 
@@ -492,7 +514,6 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
      "Not now" - a panel whose one button a student could not press. The fixed tops they had (104, 96, 56) were guesses
      at a height that varies with what the step says; this is the height itself. */
   body[data-lesson=true] #call-menu{top:calc(14px + var(--lesson-room,90px));max-height:52vh}
-  body[data-lesson=true] #encounter{top:calc(14px + var(--lesson-room,82px))}
   body[data-lesson=true] #site-choose,body[data-lesson=true] #survey-choose{top:calc(14px + var(--lesson-room,90px))}
 }
 
@@ -1555,10 +1576,7 @@ body[data-creating=true] #away>button{min-height:50px;background:#355243;border-
    `--bar-room` is the height from the foot of the screen to the ability bar's top, measured (fitColumn in public/app.js), so
    a panel over the map stops above the bar rather than being given a number for each screen. */
 @media (min-width:761px){
-  /* The meeting stood in the bottom middle, over the very person the rider was talking to - where the camera keeps them -
-     and over the card and the land chooser at every size. On the right it covers neither; the bar still steps aside while
-     a rider talks (owner, 2026-09-22), and its max-height still stops it under the guided start's strip. */
-  #encounter{left:auto;right:12px;transform:none;width:min(520px,calc(50% - 48px))}
+  /* (The meeting stood on the right here until 2026-10-05; it is a scene over the whole screen now, public/rider-scene.js.) */
   /* The call's menu stood in the top middle over the person being asked, the card, the land chooser's words and the top row
      of the bar. It goes down the right, under the strip, and stops above the bar. */
   #call-menu{left:auto;right:12px;transform:none;width:min(440px,calc(50% - 48px));max-height:min(72vh,600px,calc(100% - 60px - var(--right-foot,74px)))}

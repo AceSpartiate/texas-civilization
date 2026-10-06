@@ -112,7 +112,8 @@ const deliberate = (pair, flags) => DELIBERATE.find(rule => {
   return (rule.a.test(pair.a) && rule.b.test(pair.b)) || (rule.a.test(pair.b) && rule.b.test(pair.a));
 });
 /** What may lie over a control without that being a fault: a dialog or a tooltip, or the dim a dialog brings with it. */
-const DELIBERATE_COVER = /^(journal|ending|inside the house|reconnecting|icon tip|lone parent scenes|#journal-backdrop|#panel-backdrop)$/;
+// The meeting since 2026-10-05: a rider's visit is a scene over the whole screen, as the lone parent's are (public/rider-scene.js).
+const DELIBERATE_COVER = /^(journal|ending|inside the house|reconnecting|icon tip|lone parent scenes|meeting|#journal-backdrop|#panel-backdrop)$/;
 
 /**
  * A class on the real land whose first family was rolled with one parent, in at its land with the house site chosen: the lone

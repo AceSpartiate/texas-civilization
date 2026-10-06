@@ -35,6 +35,7 @@ import { figureBox, inFront, redrawn } from '/trees-front.js';
 import { bindEnding, renderEnding, setEndingReader } from '/ending.js';
 import { bindFlashback, renderFlashback } from '/flashback.js';
 import { createCourtship } from '/courtship.js';
+import { createRiderScene } from '/rider-scene.js';
 import { bindNeighbours, openNeighbours, renderNeighbours } from '/neighbours.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { avatarBinding, avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
@@ -120,6 +121,9 @@ const courtshipScenes = createCourtship({
   send: input => api('/api/command', { ...input, id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}` }),
   onMood: () => { if (window.__snapshot) soundscape?.observe(window.__snapshot); },
 });
+// A rider's visit as a scene over the whole screen (owner, 2026-10-05; public/rider-scene.js, sim/rider-scene.mjs): the meeting's
+// own panel holds it, and the map's ground at the spot is lent to it as it is to the flashback.
+const riderScene = createRiderScene({ root: $('#encounter'), hooks: { camera: (...args) => flashbackCamera(...args), ground: (...args) => flashbackGround(...args) } });
 let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0, drawingAnimation = false;
 // The end-of-game flashback's recorder (public/flashback.js): the video's own clock while it draws a frame, which the figures'
 // cycles are timed by instead of the page's, and how many pictures of the land are still being made. Up here, above the page's
@@ -8813,12 +8817,30 @@ let sayFor = null, sayCount = 0, sayAt = 0, sayTimer = null;
 // on the interface. Measured from the line just shown, not from a fixed beat: a one-word
 // answer should not sit for as long as a paragraph.
 const speakingBeat = line => Math.max(450, Math.min(2200, 260 + (line?.text?.length || 0) * 11));
+/**
+ * Every word of a meeting in the order it was said: the rider's and the questions (`said`), and between them what the people of
+ * the scene said among themselves (`talk`, each after the line it followed; sim/rider-talk.mjs `react`), with who said each.
+ */
+function meetingLines(encounter) {
+  const talk = encounter.talk || [], out = [];
+  for (let i = 0; i <= encounter.said.length; i++) {
+    for (const line of talk) if (line.after === i) out.push({ speaker: line.speakerId === encounter.carrierId ? 'rider' : 'cast', speakerId: line.speakerId, text: line.text, talk: true, ...(line.farewell && { farewell: true }), ...(line.closing && { closing: true }) });
+    if (i < encounter.said.length) out.push({ ...encounter.said[i], speakerId: encounter.said[i].speakerId || (encounter.said[i].speaker === 'rider' ? encounter.carrierId : encounter.listenerId) });
+  }
+  return out;
+}
 function renderEncounter(world) {
-  const encounter = world.encounter;
+  // A rider riding on keeps his scene until he has gone (public/rider-scene.js `leave`), even if the next has come on meanwhile.
+  const leaving = riderScene.leaving;
+  let encounter = world.encounter;
+  if (leaving && encounter?.id === leaving.id) riderScene.keep(encounter);
+  else if (leaving) encounter = leaving;
   const live = encounter?.status === 'open';
   if (encounter && encounter.id !== lastEncounterId) { lastEncounterId = encounter.id; encounterOpen = false; }
   const listener = entitiesOf(world).find(person => person.id === encounter?.listenerId);
   const name = listener?.name || 'Someone';
+  // Who of the scene said a line (sim/rider-scene.mjs): the rider, the one he stopped for, or somebody standing with them.
+  const nameOf = id => id === encounter?.carrierId ? encounter.carrierName : encounter?.scene?.cast?.[id]?.name || entitiesOf(world).find(person => person.id === id)?.name || name;
   // The arrival is a rider drawn at the gate with a mark over the person he stopped, and
   // a Listen button on that person's own panel. Nothing floats over the map about it.
   // This line is the same thing said for a screen reader, which cannot see either - and,
@@ -8829,12 +8851,17 @@ function renderEncounter(world) {
   $('#arrival').textContent = live && world.role !== 'host' ? (runner ? `${encounter.carrierName} has come from Colonel Travis to speak with ${name}. Choose ${name} and listen.` : `${name} has met a rider. Choose ${name} and listen.`) : '';
   const panel = $('#encounter');
   panel.hidden = !encounter || !encounterOpen || world.role === 'host';
+  // The meeting over the whole screen, as a scene (owner, 2026-10-05; public/rider-scene.js): put away with the panel.
+  if (panel.hidden) { if (riderScene.phase !== 'closed') riderScene.hide(); delete document.body.dataset.riderScene; }
   // Every way in - the panel's "!", Listen, the mark on the map - comes through here, so the bar is told here.
   renderScreenMoments();
   moveOn(world);
   if (panel.hidden) return;
+  document.body.dataset.riderScene = 'true';
+  riderScene.show(encounter, world);
   panel.dataset.encounterId = encounter.id;
   panel.dataset.status = encounter.status;
+  $('#encounter-where').textContent = encounter.scene?.place || 'A meeting';
   $('#encounter-title').textContent = `${name} and ${encounter.carrierName}`;
   // Where it came from and how old it is, which is the part a report line could never
   // carry: this rider left somewhere, at a time, and the thing itself is older still.
@@ -8849,11 +8876,15 @@ function renderEncounter(world) {
       : `Had it from ${encounter.toldBy} at ${encounter.toldAt} · ${handLabel(encounter.hands)} out of ${encounter.origin}`;
     $('#encounter-origin').textContent = `${chain} · ${timeLabel(encounter.rodeForMinutes)} on the road · already ${timeLabel(encounter.observedAgoMinutes)} old when they set out`;
   }
-  // How much of the conversation has been said out loud so far.
-  const lines = encounter.said;
+  // How much of the conversation has been said out loud so far: the rider's words, the questions and what the people standing
+  // there said among themselves, in the order they were said.
+  const lines = meetingLines(encounter);
   if (sayFor !== encounter.id) { sayFor = encounter.id; sayCount = 0; sayAt = 0; }
   const now = performance.now();
+  // Nobody speaks until he has ridden up and got down from his horse (public/rider-scene.js `ready`).
+  const arrived = riderScene.ready(encounter.id);
   if (reducedMotion.matches) { sayCount = lines.length; sayAt = 0; }
+  else if (!arrived) { sayCount = 0; sayAt = 0; }
   else {
     // The first line is there the moment the panel opens - the rider has already spoken,
     // and making a student wait to be greeted is the interface talking about itself.
@@ -8863,13 +8894,19 @@ function renderEncounter(world) {
   }
   const shown = lines.slice(0, sayCount);
   const speakingNow = sayCount < lines.length ? lines[sayCount] : null;
-  const who = line => line.speaker === 'rider' ? encounter.carrierName : name;
-  $('#encounter-said').replaceChildren(...shown.map((line, index) => {
+  const who = line => line.speaker === 'rider' ? encounter.carrierName : nameOf(line.speakerId);
+  // The one speaking is the one glowing in the scene, named over their head.
+  riderScene.speaker(shown.length ? shown.at(-1).speakerId : null);
+  const said = $('#encounter-said');
+  said.replaceChildren(...shown.map((line, index) => {
     const item = element('li', line.text);
     item.dataset.speaker = line.speaker;
+    if (line.talk) item.dataset.talk = 'true';
+    if (index === shown.length - 1) item.dataset.latest = 'true';
     item.prepend(element('span', who(line), 'said-who'));
-    // Read aloud in the speaker's own voice: the rider's (or Travis's runner's) and the family's person's, a man's or a woman's.
-    const read = readLine(`said:${encounter.id}:${index}`, () => [{ text: line.text, voice: line.speaker === 'rider' ? 'rider' : voiceOfPerson(listener) }]);
+    // Read aloud in the speaker's own voice: the rider's (or Travis's runner's), or the person's of the scene who said it, a man's or a woman's.
+    const person = entitiesOf(world).find(one => one.id === line.speakerId) || encounter.scene?.cast?.[line.speakerId] || listener;
+    const read = readLine(`said:${encounter.id}:${index}`, () => [{ text: line.text, voice: line.speaker === 'rider' ? 'rider' : voiceOfPerson(person) }]);
     if (read) item.append(read);
     return item;
   }), ...(speakingNow ? [(() => {
@@ -8883,12 +8920,17 @@ function renderEncounter(world) {
     return item;
   })()] : []));
   clearTimeout(sayTimer);
-  if (speakingNow) sayTimer = setTimeout(() => { if (window.__snapshot) renderEncounter(window.__snapshot.world); }, Math.max(30, sayAt - now));
+  if (speakingNow) sayTimer = setTimeout(() => { if (window.__snapshot) renderEncounter(window.__snapshot.world); }, arrived ? Math.max(30, sayAt - now) : 200);
+  // The latest words in view: the strip holds a few lines, and the newest is the one being said.
+  said.scrollTop = said.scrollHeight;
   // Presentation evidence, same contract as `__viewEntities`: how much of the exchange is
   // on screen against how much the family has been told. A proof needs to be able to see
   // that those converge, and that nothing is held back for ever.
   window.__conversation = { id: encounter.id, revealed: shown.length, total: lines.length };
-  $('#encounter-asks').hidden = Boolean(speakingNow);
+  // Nothing to choose while somebody is still speaking, or while he rides away; a way to skip his going instead.
+  const going = Boolean(riderScene.leaving);
+  $('#encounter-asks').hidden = Boolean(speakingNow) || going;
+  $('#encounter-continue').hidden = !going;
   // Rebuilt only when what it offers changes: rebuilt every tick, a button was replaced between the press and the release and
   // the press was lost - found on 2026-09-29 by the one-rider proof at a tenth of a second a tick, pressing Done.
   const asksKey = JSON.stringify([encounter.id, live, runner, world.status === 'running', encounter.questions.map(question => question.id), runner ? (encounter.choices || []).map(choice => choice.answer) : []]);
@@ -8909,6 +8951,9 @@ function renderEncounter(world) {
 function renderAsks(world, encounter, { live, runner }) {
   $('#encounter-asks').replaceChildren(...encounter.questions.map(question => {
     const button = element('button', question.ask, 'ask-option');
+    // Who of the scene will ask it (sim/rider-talk.mjs `askerFor`): their name, small, before their words.
+    const asker = question.by ? encounter.scene?.cast?.[question.by]?.given : null;
+    if (asker) { button.prepend(element('span', asker, 'ask-by')); button.dataset.by = question.by; }
     button.dataset.action = 'ask-rider';
     button.dataset.lineId = question.id;
     button.dataset.entityId = encounter.listenerId;
@@ -8943,14 +8988,30 @@ function renderAsks(world, encounter, { live, runner }) {
  * behind him comes up by itself (`moveOn`): the student asked to be done with this one, so the next is theirs to see.
  */
 let moveOnFrom = null, moveOnUntil = 0, moveOnQuestion = false;
-function endConversation(sendOn = true) {
-  const encounter = window.__snapshot?.world?.encounter;
+/**
+ * Done plays him away (`ride`): he gets up on his horse and rides on, the family says its last words, and then the scene goes
+ * (owner, 2026-10-05; public/rider-scene.js `leave`). Escape, the × and Continue put it away at once, as they always did.
+ */
+function endConversation(sendOn = true, { ride = false } = {}) {
+  const encounter = riderScene.leaving || window.__snapshot?.world?.encounter;
   const leave = $('#encounter .ask-leave:not(.ask-done)');
   if (sendOn && leave && !leave.disabled && !$('#encounter').hidden) leave.click();
-  encounterOpen = false;
-  $('#encounter').hidden = true;
-  renderScreenMoments();
-  if (encounter && encounter.kind !== 'alamo-runner') { moveOnFrom = encounter.id; moveOnUntil = performance.now() + 8000; moveOnQuestion = Boolean(encounter.waiting); }
+  const putAway = () => {
+    encounterOpen = false;
+    $('#encounter').hidden = true;
+    riderScene.hide();
+    delete document.body.dataset.riderScene;
+    renderScreenMoments();
+    if (encounter && encounter.kind !== 'alamo-runner') { moveOnFrom = encounter.id; moveOnUntil = performance.now() + 8000; moveOnQuestion = Boolean(encounter.waiting); }
+    if (window.__snapshot) renderEncounter(window.__snapshot.world);
+  };
+  if (ride && !riderScene.leaving && riderScene.phase !== 'closed' && !$('#encounter').hidden && encounter?.kind !== 'alamo-runner') {
+    riderScene.leave(putAway);
+    if (window.__snapshot) renderEncounter(window.__snapshot.world);
+    return;
+  }
+  if (riderScene.leaving) { riderScene.finish(); return; }
+  putAway();
 }
 /** After a conversation was put away: the first thing waiting on the family, opened as its "!" opens it, once he has gone. */
 function moveOn(world) {
@@ -8971,7 +9032,7 @@ document.addEventListener('keydown', event => {
   // A tip standing over it is put away first, by its own Escape.
   if ($('#tip') && !$('#tip').hidden) return;
   event.preventDefault();
-  if (window.__snapshot?.world?.encounter?.kind === 'alamo-runner') { encounterOpen = false; $('#encounter').hidden = true; renderScreenMoments(); return; }
+  if (window.__snapshot?.world?.encounter?.kind === 'alamo-runner' && !riderScene.leaving) { encounterOpen = false; $('#encounter').hidden = true; riderScene.hide(); delete document.body.dataset.riderScene; renderScreenMoments(); return; }
   endConversation();
 });
 document.addEventListener('click', event => {
@@ -9008,14 +9069,19 @@ bindLooks({
   family: () => familyCache,
 });
 $('#encounter')?.addEventListener('click', event => {
-  // Done: sent as every answer is (the action dispatcher), and the conversation goes with it.
-  if (event.target.closest('.ask-leave')) setTimeout(() => endConversation(false), 0);
+  // Done: sent as every answer is (the action dispatcher), and he rides on in the scene before it goes. The Done of a meeting
+  // already over only puts it away.
+  if (event.target.closest('.ask-leave')) { const ride = !event.target.closest('.ask-done'); setTimeout(() => endConversation(false, { ride }), 0); }
+  // Continue while he rides away: the scene goes at once.
+  if (event.target.closest('#encounter-continue')) endConversation(false);
 });
 $('#encounter-close')?.addEventListener('click', () => {
   // A rider is let go (`endConversation`); a runner still waiting for an answer is only put away.
-  if (window.__snapshot?.world?.encounter?.kind !== 'alamo-runner') endConversation();
+  if (window.__snapshot?.world?.encounter?.kind !== 'alamo-runner' || riderScene.leaving) endConversation();
   encounterOpen = false;
   $('#encounter').hidden = true;
+  riderScene.hide();
+  delete document.body.dataset.riderScene;
   renderScreenMoments();
   // Back to the control that opened it, which is on the person who was spoken to.
   const listen = $('#listen-rider');
