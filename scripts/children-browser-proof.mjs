@@ -392,8 +392,21 @@ try {
   await road.waitForFunction(() => [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon')].some(icon => icon.dataset.key === 'road-lookout'), null, { timeout: 30000 });
   const onRoad = await barOf(road);
   observed.roadBar = onRoad.keys.map(one => one.key);
-  await road.locator('.panel-row[data-focused=true] .panel-icon[data-key="road-lookout"]').click();
-  await road.waitForFunction(() => document.querySelector('.panel-row[data-focused=true] .panel-icon[data-key="road-lookout"]')?.dataset.active === 'true', null, { timeout: 15000 });
+  // Pressed again, as a student would, if the child ran off after something along the road instead (sim/childhood.mjs
+  // `wanderFromJob`, `FIC-GONZ-479`): a child of low obedience is let go of a job on a seeded roll each tick, so on some ticks the
+  // job is over before the page is ever sent it at work (seen 2026-10-06: "ran off after something along the road instead of
+  // watching the road behind" on the tick after the press, at 90eaee58 - the tick a press lands on is the real clock's).
+  const ranOff = () => roadApp.state.world.events.filter(event => event.actorId === boy.id && /ran off after something along the road instead of watching the road behind/.test(event.text)).length;
+  let glowed = false;
+  for (let press = 0; press < 4 && !glowed; press++) {
+    const before = ranOff();
+    await road.locator('.panel-row[data-focused=true] .panel-icon[data-key="road-lookout"]').click();
+    for (const until = Date.now() + 15000; Date.now() < until && !glowed && ranOff() === before; await road.waitForTimeout(150)) {
+      glowed = await road.evaluate(() => document.querySelector('.panel-row[data-focused=true] .panel-icon[data-key="road-lookout"]')?.dataset.active === 'true');
+    }
+    if (!glowed) await road.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, boy.id, { timeout: 15000 }).catch(() => {});
+  }
+  assert.ok(glowed, 'watching the road behind never glowed when pressed');
   await shot(road, 'scrape-road-1366');
   ok(`on the road the child's bar has the road's own work (${observed.roadBar.join(', ')}), and watching the road behind glows when pressed`);
   await road.setViewportSize({ width: 1024, height: 768 });
