@@ -8342,10 +8342,8 @@ function renderMilitaryNotice(world) {
   write('#military-toggle', `${folded ? 'Open messages' : 'Keep playing'} · ${notices.length}`);
   $('#military-toggle').setAttribute('aria-expanded', String(!folded));
   $('#military-message').hidden = folded;
-  // Astra, 2026-10-05: the person it is about, in their own looks (the roster's portrait), and their name under the title.
+  // Astra, 2026-10-05: the person it is about, in their own looks (the roster's portrait). Their name is in the card's words.
   const member = entitiesOf(world).find(person => person.id === notice.entityId);
-  write('#military-person', member?.name || '');
-  $('#military-person').hidden = !member;
   const portrait = $('#military-portrait');
   if (portrait.hidden !== !member) portrait.hidden = !member;
   const face = member ? `${member.id}:${member.band || ''}:${JSON.stringify(member.appearance || null)}` : '';

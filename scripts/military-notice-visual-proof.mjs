@@ -29,7 +29,7 @@ try {
   await page.setViewportSize({width,height:768});await page.evaluate(()=>window.__render(window.__snapshot));
   const result=await page.evaluate(()=>{
    const p=document.querySelector('#military-notice'),r=p.getBoundingClientRect(),c=document.querySelector('#military-portrait');
-   return {width:innerWidth,shown:!p.hidden,kind:p.dataset.accent,fits:r.width>0&&r.height>0&&r.left>=0&&r.right<=innerWidth&&r.bottom<=innerHeight-64,portrait:!c.hidden&&c.getContext('2d').getImageData(0,0,c.width,c.height).data.some(v=>v!==0),name:document.querySelector('#military-person').textContent,watched:Boolean(window.__watchedField)};
+   return {width:innerWidth,shown:!p.hidden,kind:p.dataset.accent,fits:r.width>0&&r.height>0&&r.left>=0&&r.right<=innerWidth&&r.bottom<=innerHeight-64,portrait:!c.hidden&&c.getContext('2d').getImageData(0,0,c.width,c.height).data.some(v=>v!==0),name:document.querySelector('#military-portrait').dataset.face?.split(':')[0],watched:Boolean(window.__watchedField)};
   });
   assert.ok(result.shown&&result.fits&&result.portrait,JSON.stringify(result));assert.equal(result.kind,'battle');assert.ok(result.name);assert.equal(result.watched,false);
   await page.locator('#military-notice').screenshot({path:`docs/evidence/military-notice-${width}.png`});evidence.push(result);
