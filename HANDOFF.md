@@ -52,7 +52,7 @@ reminiscence marked).
 - **Proofs.** New `npm run test:volunteer-life` (scripts/volunteer-life-browser-proof.mjs): 9 checks, the call answered from the "!",
   seven days chosen on the food row, the militia's bar at Gonzales, a duty pressed at the camp, the alert with Watch, in the line while it
   fired, back at the camp set to board, the pack eaten from, *Come home*, phone width (`docs/evidence/volunteer-life-browser.json`,
-  seven screenshots). PROOFS.
+  seven screenshots). Also run, green: camp (its list brought to `HOUSTON_CAMP`), settlement-call, going, battle-gonzales, family-panel, gonzales-town, army, concepcion, family-commands, panel-press, panels, one-rider, story-cards, storming, armies, chatter, overlap, travel, watching, errand, tips (lesson skips itself: the guided start is off). battle-1835 was red once on a Grass Fight frame check ("no shot was fired between two moments") and green alone. siege was red once: the family's own line of the Grass Fight had been pushed out of the few lines its page is sent by the camp's routine (a day's drill, picket or cooking every few minutes); the routine a man takes up himself is now `ambient` (kept in the story, not sent in that window) and the set-out line once a day, and siege was then green.
 - **Limits** (`ceiling:` in the code): a volunteer still on the road when the men go is not turned to catch them; staying on in
   Gonzales after the army marches is not offered; the overheard words are drawn only over the Gonzales camp's and an army camp's men
   (journal elsewhere); the coin he spends or earns is the family's; an old save's man away is given three days not charged; only the
