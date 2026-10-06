@@ -1,5 +1,9 @@
 # Claude handoff — Astra foundation
 
+## Released as v2026.10.06.2 — 2026-10-06
+
+Main at 53cc971d, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.06.2>). Set of changes from v2026.10.06.1: 1.1 MB. Evidence: `npm test` 2293 pass, 0 fail; the browser proofs two at a time, all passing but battle-grass and famous-people, which passed alone.
+
 ## Released as v2026.10.06.1 — 2026-10-06
 
 Main at 0d025f31, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.06.1>). Sets of changes: from v2026.10.05.3 (4.7 MB), v2026.10.05.2, v2026.10.05.1, v2026.10.04.1 and v2026.10.03.2. Evidence: `npm test` 2285 pass, 0 fail at 0d025f31; the browser proofs two at a time at 893b7ab4, the ones that failed then passing alone (end-sequence, volunteer-life, battle-alamo, famous-people, shelter) or fixed since and passing on the verify tree with the voices at 0d025f31 (overlap, tips, military-notice; with gonzales-town, panels and read-aloud at fb4a0e12). Found on the way and fixed: overheard talk reached an enlisted man in the Alamo (now volunteers only); an express rider's scene hid Travis's runner; the merged battle notice was taller than the 1024x600 layout allows.
