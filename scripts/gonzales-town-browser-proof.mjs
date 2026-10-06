@@ -164,11 +164,11 @@ try {
       const drawnPose = one => one.moving ? 'walking' : one.clip.replace(/^(teal|indigo|elder|ochre|blue-girl|blue|girl|boy|volunteer|dragoon|mounted-courier)-/, '').replace(/-[nesw]$/, '');
       const poses = new Set(now.cast.map(drawnPose));
       evidence.samples.push({ clock, beats: now.beats, people: now.cast.length, poses: [...poses],
-        flagMakerClips: now.beats.includes('flag-cloth') ? now.cast.filter(one => ['gz-townswoman-3', 'gz-townswoman-5'].includes(one.id) && !one.moving).map(one => one.clip) : [],
+        flagMakerClips: now.beats.includes('flag-cloth') || now.beats.includes('flag-paint') ? now.cast.filter(one => ['gz-townswoman-3', 'gz-townswoman-5'].includes(one.id) && !one.moving).map(one => one.clip) : [],
         idle: now.cast.filter(one => drawnPose(one) === 'idle').length });
     }
     // Pictures at the moments worth seeing.
-    for (const [name, beat, scene] of [['alarm', 'street-alarm', 'street'], ['camp', 'camp-mound', 'camp'], ['flag', 'flag-cloth', 'flag'], ['shop', 'shop-mount', 'cannon'], ['reading', 'crossing-reading', 'crossing'], ['muster', 'muster-day', 'muster'], ['over', 'crossing-over', 'crossing'], ['return', 'street-return', 'street']]) {
+    for (const [name, beat, scene] of [['alarm', 'street-alarm', 'street'], ['camp', 'camp-mound', 'camp'], ['flag', 'flag-cloth', 'flag'], ['paint', 'flag-paint', 'flag'], ['shop', 'shop-mount', 'cannon'], ['reading', 'crossing-reading', 'crossing'], ['muster', 'muster-day', 'muster'], ['over', 'crossing-over', 'crossing'], ['return', 'street-return', 'street']]) {
       if (now.beats.includes(beat) && !shots.some(path => path.includes(`-${name}.png`))) { await shot(page, name); await closeShot(page, `${name}-close`, scene); }
     }
     // The flag: click the scene and read its card, at 1024x768 too.
@@ -246,7 +246,7 @@ try {
 
   // ------------------------------------------------------------------------------------------------ what the page did
   const beatsSeen = Object.keys(evidence.beats);
-  for (const beat of ['street-alarm', 'crossing-hold', 'camp-mound', 'flag-cloth', 'flag-painted', 'shop-mount', 'muster-day', 'crossing-over', 'street-return']) {
+  for (const beat of ['street-alarm', 'crossing-hold', 'camp-mound', 'flag-cloth', 'flag-paint', 'flag-painted', 'shop-mount', 'muster-day', 'crossing-over', 'street-return']) {
     assert.ok(beatsSeen.includes(beat), `the page was never sent the town's "${beat}" (saw ${beatsSeen.join(', ')})`);
   }
   ok(`the student in Gonzales was sent the town's days as they came: ${beatsSeen.length} beats, from the alarm to the return`);
@@ -264,7 +264,11 @@ try {
   assert.ok(flagSamples.every(one => one.clock >= on(1, 14) && one.clock < on(2, 12)), 'the flag was being made outside its days');
   assert.ok(flagSamples.some(one => one.flagMakerClips.includes('blue-girl-paint')) && flagSamples.some(one => one.flagMakerClips.includes('indigo-paint')),
     'the two flag-makers never displayed their authored sewing animation');
-  ok(`the women were making the flag on September 30 and October 1 (${flagSamples.length} samples)`);
+  // Astra's seated painters (2026-10-05): on the morning of October 1 the two at the flag are drawn sitting at it.
+  const paintSamples = evidence.samples.filter(one => one.beats.includes('flag-paint'));
+  assert.ok(paintSamples.some(one => one.flagMakerClips.includes('blue-girl-seated-paint')) && paintSamples.some(one => one.flagMakerClips.includes('indigo-seated-paint')),
+    `the two painting the flag were never drawn seated (${JSON.stringify(paintSamples.map(one => one.flagMakerClips))})`);
+  ok(`the women were making the flag on September 30 and October 1 (${flagSamples.length} samples), and painted it seated on the morning of the first (${paintSamples.length})`);
 
   const reconstructed = Object.entries(evidence.said).filter(([key]) => key.startsWith('reconstructed:')).reduce((sum, [, n]) => sum + n, 0);
   const documented = Object.entries(evidence.said).filter(([key]) => key.startsWith('documented:'));

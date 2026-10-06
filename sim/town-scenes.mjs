@@ -685,12 +685,18 @@ export const TOWN_BEATS = Object.freeze([
     props: [{ id: 'gz-cannon', kind: 'cannon', going: { path: ['shop', 'muster'], span: [on(2, 17), on(2, 18)] }, dx: -0.025, dy: 0.03 }] },
 
   // ------------------------------------------------------------------------------- the flag
-  { id: 'flag-cloth', scene: 'flag', from: on(1, 14), to: on(2, 12), card: CARD_FLAG, talk: FLAG_WORK, help: 'flag',
+  { id: 'flag-cloth', scene: 'flag', from: on(1, 14), to: on(2, 6), card: CARD_FLAG, talk: FLAG_WORK, help: 'flag',
     people: [going('gz-townswoman-3', 'street', 'flagHouse', [on(1, 14), on(1, 15)], { pose: P.paint, face: 'e', stays: true }),
       going('gz-townswoman-5', 'street', 'flagHouse', [on(1, 16), on(1, 17)], { pose: P.paint, face: 'w', stays: true }),
       at('gz-townswoman-6', 'flagHouse', 0.004, 0.02, 'speak', 'n'), at('gz-townswoman-4', 'flagHouse', -0.03, 0.012, P.haul, 'e'), at('gz-girl-2', 'flagHouse', 0.026, 0.016, 'idle', 'w')],
     offsets: { 'gz-townswoman-3': [-0.018, 0.002], 'gz-townswoman-5': [0.018, 0.002] },
     props: [{ kind: 'table', place: 'flagHouse', dx: 0, dy: 0 }, { kind: 'flag-work', place: 'flagHouse', dx: 0, dy: 0, stage: 'cloth' }] },
+  // The cannon and the words painted on the morning of October 1, the two at it sitting each at her own end of the cloth (Astra's
+  // seated painters, delivered 2026-10-05: each drawing has its stool, its table, its pot and its breadth of cotton in it, so the
+  // beat sets no table and no cloth of its own).
+  { id: 'flag-paint', scene: 'flag', from: on(2, 6), to: on(2, 12), card: CARD_FLAG, talk: FLAG_WORK, help: 'flag',
+    people: [at('gz-townswoman-3', 'flagHouse', -0.018, 0.002, 'seated-paint', 'e'), at('gz-townswoman-5', 'flagHouse', 0.018, 0.002, 'seated-paint', 'w'),
+      at('gz-townswoman-6', 'flagHouse', 0.004, 0.02, 'speak', 'n'), at('gz-townswoman-4', 'flagHouse', -0.03, 0.012, 'listen', 'e'), at('gz-girl-2', 'flagHouse', 0.026, 0.016, 'idle', 'w')] },
   { id: 'flag-painted', scene: 'flag', from: on(2, 12), to: on(2, 17), card: CARD_FLAG, talk: FLAG_DONE, help: 'flag',
     people: [at('gz-townswoman-3', 'flagHouse', -0.018, 0.002, 'idle', 'e'), at('gz-townswoman-5', 'flagHouse', 0.018, 0.002, 'speak', 'w'),
       at('gz-townswoman-6', 'flagHouse', 0.004, 0.02, 'listen', 'n'), at('gz-townswoman-4', 'flagHouse', -0.03, 0.012, 'speak', 'e')],
