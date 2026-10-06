@@ -24,6 +24,7 @@ import { holdingOf } from './grants.mjs';
 import { WAGON_SPEED } from './travel.mjs';
 import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 import { woodsRule } from './woods.mjs';
+import { startingPlotIfSite, layStartingPlot } from './starting-plot.mjs';
 
 /** How much longer the heavy work of a place goes, per mile past carrying distance that water is fetched from (FIC-GONZ-026). */
 export const WATER_BURDEN_PER_MILE = 0.6;
@@ -58,7 +59,8 @@ export function chooseRefusal(world, household) {
  * Refuses anything that is not the family's to look at. The lane is laid for real, so what is shown is what is built.
  */
 export function siteFactsFor(world, household, point) {
-  return examine(world, household, point).facts;
+  // At the hundredth of a mile `chooseSite` sets the house to, so the place looked at is the place built on, its ten acres too.
+  return examine(world, household, { x: round(Number(point?.x)), y: round(Number(point?.y)) }).facts;
 }
 
 function examine(world, household, point) {
@@ -71,7 +73,9 @@ function examine(world, household, point) {
   const lane = road && layLane(road, point, rule);
   if (!lane) return { facts: { ...facts, can: false, why: 'No wagon can be brought to that spot.' } };
   const laneMiles = round(polylineLength(lane));
-  return { facts: { ...facts, laneMiles, words: siteWords(facts, laneMiles) }, lane };
+  // Where the first ten acres would be laid were the house here, for the chooser to draw (owner, 2026-10-05: a picture, not words).
+  const field = startingPlotIfSite(world, household, point);
+  return { facts: { ...facts, laneMiles, words: siteWords(facts, laneMiles), ...(field && { field }) }, lane };
 }
 
 /**
@@ -90,11 +94,15 @@ export function chooseSite(world, household, point) {
   // Marked out, not cut: the family cuts it (owner, 2026-09-14), from the house outward.
   route.cut = 0;
   home.x = x; home.y = y;
-  // The field is laid out beside the house, as it was beside the mark.
+  // The field is laid out beside the house, as it was beside the mark: carried over with it, and then its first ten acres laid
+  // where they can be worked - inside the line, off the yard, out of the water (owner, 2026-10-05; sim/starting-plot.mjs).
   const field = world.map.terrain.find(feature => feature.kind === 'field' && feature.ownerHouseholdId === household.id);
   if (field) field.points = field.points.map(p => ({ x: round(p.x + x - mark.x), y: round(p.y + y - mark.y) }));
+  // After the mark is kept: the labor stays round it (sim/grants.mjs `holdingOf`), and the ten acres are laid inside it.
   household.mark = mark;
-  const { can, words, ...kept } = facts;
+  // The homesteads are refetched once, below.
+  layStartingPlot(world, household, { tell: false });
+  const { can, words, field: _field, ...kept } = facts;
   household.site = kept;
   delete household.choosingSite;
   // Every client refetches the homesteads (server/app.mjs `mapId`).

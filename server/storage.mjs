@@ -5,6 +5,7 @@ import { STARTING_POWDER } from '../sim/world.mjs';
 import { widenPassages } from '../sim/houseplot.mjs';
 import { deriveUses } from '../sim/chores.mjs';
 import { foldLyingLogs } from '../sim/felling.mjs';
+import { settleStartingPlots } from '../sim/starting-plot.mjs';
 import { dirname, basename, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { openSouth } from '../sim/south.mjs';
@@ -171,6 +172,10 @@ export function readSave(path) {
   // `foldLyingLogs`, docs/WOODS_AND_BUILDING.md §6.7). No version moved: the pile is the field those classes already had, and a
   // log lying out and a log on the pile are the same log to every work that uses it now.
   if (save.world?.households) foldLyingLogs(save.world);
+  // The first ten acres of a family that cannot be worked where they lie - off the land, over the yard, in a river - and that nobody
+  // has worked are laid again round the house, and no tree stands in cleared ground (owner, 2026-10-05; sim/starting-plot.mjs
+  // `settleStartingPlots`, docs/LAND_GRANTS.md §5.4). No version moved: ten acres sown, fenced or being worked stay where they are.
+  if (save.world?.households) settleStartingPlots(save.world);
   if (save.world?.households && save.world.entities) deriveUses(save.world);
   // A class on the real land saved before the map went south to the Nueces (2026-09-25, docs/MAP_ACCURACY.md §13) gains San
   // Patricio, the Agua Dulce ground and the roads to them from the built map - added, nothing it had moved - so its Matamoros men

@@ -211,7 +211,8 @@ test('a class made in the week of 2026-09-15 opens on its own grid, its felled t
   assert.equal(woodsRule(opened), 'landfire');
   // Each felled tree where it stood on the 2016 grid, and its logs on the family's pile (since 2026-09-28 nothing lies out:
   // docs/WOODS_AND_BUILDING.md §6.7).
-  assert.deepEqual(new Set(Object.keys(opened.woods.felled)), new Set(trees.map(tree => tree.id)));
+  // Those the axe felled: the first ten acres' trees came down with the ground when the site was chosen (sim/starting-plot.mjs, 2026-10-05).
+  assert.deepEqual(new Set(Object.keys(opened.woods.felled).filter(id => !opened.woods.felled[id].field)), new Set(trees.map(tree => tree.id)));
   for (const tree of trees) assert.deepEqual(felledAt(tree.id, opened), { x: tree.x, y: tree.y });
   assert.equal(logsLying(opened, opened.households['hh-1']).length, 0);
   const pile = opened.households['hh-1'].logs;

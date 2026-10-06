@@ -16,10 +16,6 @@ Twelve frames and three authored reading cycles for elder, ochre and blue. The e
 
 Twelve new frames and three four-frame seated brushwork clips for teal, indigo and blue-girl. Tables/stools are baked into these composites; keep the standing sewing clips for hemming. New painting art is registered and browser-tested, ready for an explicit seated painting beat. See `docs/ART_DELIVERY_2026-10-05-GONZALES-SEATED-PAINT.md` (relative to repository root).
 
-## Released as v2026.10.05.2 — 2026-10-05
-
-Main at 87381d33, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.2>). Sets of changes: from v2026.10.05.1, 0.6 MB; from v2026.10.04.1, 6.1 MB; from v2026.10.03.2, 11.6 MB. Contents: help on a small farm - the young capped, a small family keeps no custom, the spouse's two children (the section below). Verification on 87381d33's branch: npm test 2255, 0 failed; the full browser run two at a time, 106 of 111 green; of the five red, children was a fixture the new rolls no longer make (fixed, then green twice alone), and travel-drawn, battle-cinema, battle-grass and famous-people (the Neill sampled moment) green alone. Not proved: Chromebook, LAN or classroom; ThreatDown.
-
 ## Boys 12+ carry the men's work; children keep house only with no grown woman home — owner, 2026-10-05 (not released)
 
 Branch `custom-away` from 3f0ef6c7. The owner played a family of nine (Jesse 34 away with the volunteers at Gonzales; Elizabeth 32;
@@ -68,6 +64,65 @@ woman is home (no mirror built)? (3) boys of ten and eleven still lead men's wor
 (4) lone mothers of small children lose the children's housekeeping that BALANCE.md §24 measured feeding them; not re-measured.
 
 **Also.** `scripts/custom-work-injections.mjs` had five search strings that no longer matched (two from before this branch); fixed.
+## The first ten acres, the trees round a walker, and walking about the homestead — owner, 2026-10-05 (not released)
+
+Branch `map-fixes` from 3f0ef6c7. The owner, playing solo, reported three map bugs: *"When starting the game, if I put my house
+somewhere, the starting plot that we can plant is frequently straddling a river, or outside of the borders of my property line. We
+should add something to dynamically take care of this."*; *"Characters that walk through woods sometimes bring the trees with them in a
+cluster as they walk (graphical glitch)."*; *"Paths don't seem natural around the house."* Specified in docs/LAND_GRANTS.md §5.4 and
+§10.5, docs/WOODS_AND_BUILDING.md §6.13 and docs/SETTLING_IN.md §4d; claims `FIC-GONZ-1164` to `-1167` (`-1168`, `-1169` unused).
+
+- **The first ten acres laid where they can be worked** (`sim/starting-plot.mjs`). Measured first: of 718 sites a family could choose
+  on four classes, the fixed block put them off the family's land 405 times, over the house 172 and in a drawn river or creek 21; on
+  average 115 trees still stood, unseen, in them. Now they are laid by the survey's own rules (inside the line, off the yard and every
+  house as drawn, no other plot, no drawn water), nearest the door, open ground before timber - when the site is chosen and again when
+  the first house is placed while nobody has worked them (a house may be set on them; they move round it). After: all 718 valid,
+  0.6 ms to find on average. The site chooser draws a dashed square where they would go. Their trees come down with no log to the pile
+  (owner's 2026-10-03 rule against free logs), and stand again if the ten acres move; clearing a plot now also fells its logless trees.
+  People sent "to the field" go to the cleared plot's edge by the door. **A class already in play**: at the save's door, first ten
+  acres that are invalid and unworked are laid again; worked ones stay wherever they are; cleared ground's standing trees come down.
+  No save version moved.
+- **The trees drawn over a walker** (`public/trees-front.js`, `public/app.js` `treesInFront`). Found: trees the ground leaves out (in
+  cleared ground, in a channel) were drawn round whoever walked there; in the zoom band where trees fade in each tree near the walker
+  was drawn again over itself, darker, travelling with them; drawn upright over trees the wind leans; picked round the server's point,
+  not the drawn figure. Now only a tree the ground drew, at full strength, with its lean, picked by the figure's drawn feet, clipped to
+  the figure. Shown on the code before by `PROOF_BEFORE=1 npm run test:trees-front` run from a copy of 3f0ef6c7 (the fade band).
+- **Walking about the homestead** (`sim/land-paths.mjs`, `public/motion.js`). Found by drawing the server's ways on `land-paths-10`:
+  a way to anything behind or under a long house (a dog-run is drawn a fifth of a mile long) was laid straight through it, the search box
+  having no room to go round; ways crossed the field (drawn over them) and hugged the yard's rails; people cut every corner off the
+  family's ways and came home to a yard spot, not the door; helpers and people going in out of the weather slid in straight lines;
+  corners were points; every walk took the whole tick. Now: round the house, in and out by its front; along a made way where one serves
+  (`viaWay`, at most 1.5 times the straight line), so walks out and home keep to the family's ways and a new way branches off one already
+  worn; round the field (`FIELD_ROUTE`); a little off walls and rails; home to the door; helpers walk the lead's way; sheltering is
+  walked; the page rounds every corner and draws a walk at a walking pace, done early when short. Cost measured on the code before and
+  after (`scripts/land-ways-measure.mjs`, 20 families, 600 walks, two runs each): a walk about the land 1.17-1.18 ms on average before
+  and 1.26-1.28 after (worst 8.3-8.8 and 7.5-8.1), a step about the yard 0.07 both, a tick of treading ways 1.01-1.05 and 0.76-0.78
+  (worst 9.0-9.2 and 4.5-5.0). Keeping people on the ways through the search's own estimate was tried first and made a walk five times
+  dearer; walking the way itself (`viaWay`) costs nothing to find.
+- **Tests.** New `tests/starting-plot.test.mjs` (4), `tests/trees-front.test.mjs` (5), `tests/land-ways.test.mjs` (5), and the rain
+  test of `tests/shelter.test.mjs` asserts walking in; `node scripts/map-fixes-injections.mjs`: **25 of 25 caught**, 22 failing only
+  their own test ([record](docs/evidence/map-fixes-injections.json)) - among them each bug as found: the field carried over unlooked-at,
+  its trees left standing, every tile tree drawn again, the fade-band redraw, the upright redraw, picking round the server's point, the
+  way through a long house, cutting across the ways, home to the yard spot, the slide into shelter, sharp corners, a whole tick for
+  every walk. A first run missed 8 (fixtures that could not tell; one redundant check, removed); each test was tightened. Brought up for the trees
+  now felled with the first ten acres (each counted only the axe's trees): felling (2), biomes (1), work-pace (1); homesite's "field
+  beside the house" (now: valid, near, where the chooser drew it); house-spacing's pair search keeps its first ten acres sown, so they
+  still refuse a house as when its places were found. `scripts/land-paths-injections.mjs` follows `lookedAt`'s new key.
+- **Evidence.** npm test 2269 tests, 2233 passed, 0 failed, 36 skipped (one earlier run, made while browser proofs ran beside it, failed
+  battle-floor and save-retry on timing; both green alone and in this run). `scripts/land-paths-injections.mjs` 33 of 33 still caught.
+  Browser, headless Chrome on this machine: `npm run test:trees-front` (3 checks: 51 trees drawn over the walker close in, every one the
+  ground's own at full strength; none in the fade band) and, with `PROOF_BEFORE=1` from a copy of 3f0ef6c7, the glitch shown: 28 trees
+  drawn again over him in the fade band ([record](docs/evidence/trees-front-before-browser.json)); `test:keyboard-farm` (the chooser's
+  dashed square, then the ten acres laid there, `keyboard-farm-site-field.png`); `test:land-paths` (8); the house-plot proof;
+  `test:shelter` (6); `test:farm`; `test:field-click` (18); `test:mixed-field`; `test:biome-game` (6) - all green.
+- **Limitations.** One size of plot (a land with no dry ten acres clear of the yard keeps them where they lay; none in 718). The herd's
+  night ground can lie under a big house (public/herd-view.js), its way going in at the front. The wagon, the garden and the woodpile are
+  not walked round; children's play steps straight inside the yard; a long walk still takes the whole tick. Not proved: Chromebook, LAN or
+  classroom.
+
+## Released as v2026.10.05.2 — 2026-10-05
+
+Main at 87381d33, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.2>). Sets of changes: from v2026.10.05.1, 0.6 MB; from v2026.10.04.1, 6.1 MB; from v2026.10.03.2, 11.6 MB. Contents: help on a small farm - the young capped, a small family keeps no custom, the spouse's two children (the section below). Verification on 87381d33's branch: npm test 2255, 0 failed; the full browser run two at a time, 106 of 111 green; of the five red, children was a fixture the new rolls no longer make (fixed, then green twice alone), and travel-drawn, battle-cinema, battle-grass and famous-people (the Neill sampled moment) green alone. Not proved: Chromebook, LAN or classroom; ThreatDown.
 
 ## Help on a small farm: the young capped, a small family keeps no custom, the spouse's two children — owner, 2026-10-04 (released in v2026.10.05.2)
 

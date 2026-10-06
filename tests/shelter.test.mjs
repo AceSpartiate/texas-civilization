@@ -144,6 +144,8 @@ test('rain: everybody with no task and every child goes in under the tent; someb
   applyAction(world, household.id, { action: 'chore', entityId: worker.id, chore: 'child-water' });
   const before = Object.fromEntries(people.map(person => [person.id, { ...person.location }]));
   step(world, 1);
+  // Walked in, round whatever stands between, not slid there in a line (owner, 2026-10-05: "Paths don't seem natural around the house").
+  for (const child of children) assert.ok(child.walked?.tick === world.tick && child.walked.points.length >= 2, `${child.name} was not drawn walking in: ${JSON.stringify(child.walked)}`);
   const job = structuredClone(worker.chore);
   step(world, 1);
   const tent = shelterPlace(world, household);

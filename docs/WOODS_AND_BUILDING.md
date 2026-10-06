@@ -958,6 +958,33 @@ on a families land."* The whole rule is docs/LAND_GRANTS.md §10; what it change
 - **Fencing the yard fells the trees standing inside it** (owner-decided 2026-10-03, "Auto kids; fell trees"; docs/LAND_GRANTS.md
   §10.3): at felling's own time each, their logs onto the pile, before the rails; the yard's icon says how many, the hours and the logs.
 
+### 6.13 No tree in cleared ground, and the trees drawn in front of somebody the ground's own — owner, 2026-10-05 (not released)
+
+> "When starting the game, if I put my house somewhere, the starting plot that we can plant is frequently straddling a river, or
+> outside of the borders of my property line." ... "Characters that walk through woods sometimes bring the trees with them in a cluster
+> as they walk (graphical glitch)."
+>
+> — the owner, 2026-10-05, playing solo
+
+- **The first ten acres' trees** (docs/LAND_GRANTS.md §5.4, `FIC-GONZ-1165`): the ten acres every family begins with broken began
+  "cleared" with their trees still standing in the woods - not drawn (cleared ground draws none) but counted by the way-finding, so people
+  walked round trees nobody could see. Now the trees on them come down when they are laid, **marked felled with no log** (`field:
+  'plot-1'`, `logs: 0`): the ground was broken before the class began, and the owner refused free logs for the yard (2026-10-03, §6.12).
+  They are drawn as stumps, and stand again where they were if the ten acres are laid elsewhere before anybody works them. A tree that
+  gives no log (a mesquite, a live oak pole) is felled with use `none` (`fellingInvalid` accepts it).
+- **Clearing a plot** (§6.1) takes down its trees that give no log as well, none of them onto the pile (sim/felling.mjs `fellStanding`).
+  A class saved before opens with every cleared plot's standing trees down, no log for them (`settleStartingPlots`).
+- **The trees drawn in front of somebody** (§6.12, `FIC-GONZ-1167`; public/trees-front.js, public/app.js `treesInFront`). Found: the
+  page drew again, over each person on the family's land, every tree near them in the tiles - also those the ground leaves out, in cleared
+  ground and in a river's channel, which then came and went round whoever walked there, *"a cluster as they walk"*; in the zoom band where
+  the trees fade in it drew each at its fading strength over itself, a darker tree walking with them; it stood them upright where the
+  ground leaned them in the wind; and it picked them round the server's point, while the figure is drawn off it (its separation from the
+  others, its place at the work). Now the ground keeps the trees it drew, as it drew them (`groundTrees`); a tree is drawn again over
+  somebody **only if the ground drew it, only at full strength, with the ground's lean and gale, picked by where the figure's feet were
+  drawn, and clipped to the figure** - so it is seen as nothing but the tree in front of them. In the fade band no tree is drawn again
+  (`ceiling:` there a person walks over the faint trees in front of them, as before 2026-10-02).
+  Tests `tests/trees-front.test.mjs`; browser `npm run test:trees-front`, which also shows the fade-band glitch on the code before.
+
 ## 7. Old saves
 
 A class saved before this has no `woods`, no log pile and its house as `{ layout, work }`. It keeps exactly that: its

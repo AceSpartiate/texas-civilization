@@ -97,11 +97,13 @@ test('felling: every tree half its ticks of felling and dragging, and the same l
   const pile = () => Object.values(household.logs || {}).reduce((sum, n) => sum + n, 0);
   const before = pile();
   let atTrees = 0;
-  for (let t = 0; t < 200 && feller.chore && Object.keys(world.woods?.felled || {}).length < 8; t++) {
+  // The axe's trees: the first ten acres' came down with the ground when the site was chosen (sim/starting-plot.mjs, 2026-10-05).
+  const byAxe = () => Object.keys(world.woods?.felled || {}).filter(id => !world.woods.felled[id].field);
+  for (let t = 0; t < 200 && feller.chore && byAxe().length < 8; t++) {
     if (feller.chore.felling) atTrees++;
     stepWorld(world);
   }
-  const felled = Object.keys(world.woods.felled).map(id => treeById(id, { rule: woodsRule(world), nearCreek: landAround().nearCreek }));
+  const felled = byAxe().map(id => treeById(id, { rule: woodsRule(world), nearCreek: landAround().nearCreek }));
   assert.ok(felled.length >= 8, `only ${felled.length} trees were felled`);
   const work = felled.reduce((sum, tree) => sum + fellAndCarryTicks(tree), 0);
   // Half again since 2026-10-02 (owner: "it takes too long to build the house at the start of the game"; `FELL_PACE`): a quarter of

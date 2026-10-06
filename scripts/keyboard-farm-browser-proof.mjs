@@ -12,6 +12,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { PLOT_SIDE, plotsOf } from '../sim/fields.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
@@ -115,12 +116,24 @@ try {
   const siteWords = (await page.locator('#site-text').textContent()).trim();
   assert.match(siteWords, /^The house will stand/, `the site is looked over in the server's words: ${siteWords}`);
   ok(`Enter on it looks the place over, and the map goes there: "${siteWords.slice(0, 90)}…"`);
+  // Where the first ten acres would be laid, drawn under the stake before the site is set (owner, 2026-10-05; sim/starting-plot.mjs).
+  await page.waitForFunction(() => window.__sitePick?.field, null, { timeout: 10000 });
+  const fieldDrawn = await page.evaluate(() => {
+    const camera = window.__camera, canvas = document.querySelector('#world-map'), f = window.__sitePick.field;
+    const world = s => ({ x: camera.cx + (s.x - canvas.width / 2) / camera.scale, y: camera.cy + (s.y - canvas.height / 2) / camera.scale });
+    const a = world({ x: f.left, y: f.top }), b = world({ x: f.right, y: f.bottom });
+    return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, side: b.x - a.x };
+  });
+  await page.screenshot({ path: 'docs/evidence/keyboard-farm-site-field.png' });
   await tabTo('#site-build', 20);
   await page.keyboard.press('Enter');
   await page.waitForFunction(() => !window.__snapshot?.world.land?.choosingSite, null, { timeout: 15000 });
   const household = app.state.world.households['hh-1'];
   assert.ok(household.site && !household.choosingSite, 'the server set the house site');
   ok('Tab to "Set the house here" and Enter: the house site is chosen, with no pointer');
+  const firstAcres = plotsOf(app.state.world, household).find(plot => plot.id === 'plot-1');
+  assert.ok(Math.hypot(firstAcres.x - fieldDrawn.x, firstAcres.y - fieldDrawn.y) < 0.004 && Math.abs(fieldDrawn.side - PLOT_SIDE) < 0.004, `the first ten acres were drawn at ${JSON.stringify(fieldDrawn)} and laid at ${JSON.stringify(firstAcres)}`);
+  ok(`the chooser drew where the first ten acres would go, a dashed square under the stake, and they were laid there (${firstAcres.ground})`);
 
   // --------------------------------------------------------------------- ten acres surveyed from a suggestion
   const principal = await page.evaluate(() => window.__snapshot.world.household.principalId);

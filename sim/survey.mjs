@@ -16,13 +16,11 @@
 // for where it lies are FIC-GONZ-025.
 import { record } from './events.mjs';
 import { TOOL_LIFE } from './tools.mjs';
-import { distanceToPolyline } from './terrain.mjs';
-import { landAround, onRealLand } from './ground.mjs';
-import { walkLand } from './land-paths.mjs';
+import { doorOf, walkLand } from './land-paths.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
 import { housesOnLand } from './house-placement.mjs';
-import { CLEARING_SPELLS, GROUNDS, PLOT_SIDE, clearingSpells, clearingTool, cropOf, cropState, fenceWords, groundAt, keepPlots, overlaps, plotAt, plotsOf, squareOf } from './fields.mjs';
+import { CLEARING_SPELLS, GROUNDS, clearingSpells, clearingTool, cropOf, cropState, fenceWords, groundAt, keepPlots, overlaps, plotAt, plotWater, plotsOf, squareOf } from './fields.mjs';
 import { fenceBy } from './woodpile.mjs';
 import { plotCropInvalid, plotReadyWords } from './crops.mjs';
 export { PLOT_ACRES, PLOT_SIDE, groundAt, plotsOf } from './fields.mjs';
@@ -31,28 +29,6 @@ export { PLOT_ACRES, PLOT_SIDE, groundAt, plotsOf } from './fields.mjs';
 export const YARD_MILES = 0.04;
 
 const round = (value, places = 3) => { const fixed = +value.toFixed(places); return fixed === 0 ? 0 : fixed; };
-
-/**
- * The river or creek a ten-acre square here would lie in, by name, or null: the water the class's own map draws, and
- * nothing it does not. A student is refused only for water they can see (found in the browser proof, 2026-09-14: the
- * first version counted every branch in the USGS data, most of which the map leaves off, and refused ground that looked
- * dry). A dry branch through a field was ploughed round or over. On the real land, ground at sea level is water too.
- * ceiling: the real-land map leaves off creeks under five miles (sim/colonies-region.mjs), so ten acres may be staked
- * across one; drawing every creek from the served colonies map is the way out for both.
- */
-function waterIn(world, point) {
-  const reach = PLOT_SIDE / 2;
-  if (onRealLand(world)) {
-    const land = landAround({ minX: point.x - 2, minY: point.y - 2, maxX: point.x + 2, maxY: point.y + 2 });
-    const height = land.heightAt(point.x, point.y);
-    if (!Number.isFinite(height) || height < 0.3) return 'the water';
-  }
-  // The invented map's rivers are drawn a quarter mile wide and its creeks a tenth; the real map's near their true width.
-  const width = feature => onRealLand(world) ? (feature.kind === 'river' ? 0.03 : 0.01) : (feature.kind === 'river' ? 0.28 : 0.12);
-  const course = world.map.terrain.find(feature => (feature.kind === 'river' || feature.kind === 'creek')
-    && distanceToPolyline(point, feature.points) < reach + width(feature));
-  return course ? course.name || (course.kind === 'river' ? 'the river' : 'the creek') : null;
-}
 
 const COMPASS = ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'];
 /** Where a place lies from the house, in words: "beside the house", "half a mile south-west of the house". */
@@ -86,7 +62,7 @@ export function plotRefusal(world, household, point, { ignoring = null } = {}) {
   if (under) return under.state === 'cleared' ? 'That runs over ground the family has already cleared.' : 'That runs over ground already staked out.';
   const surveying = household.members.map(id => world.entities[id]).filter(person => person && person !== ignoring && person.chore?.id === 'survey-plot' && person.chore.plot);
   if (surveying.some(person => overlaps(squareOf(person.chore.plot), square))) return `${surveying.find(person => overlaps(squareOf(person.chore.plot), square)).name} is already surveying there.`;
-  const water = waterIn(world, point);
+  const water = plotWater(world, point);
   if (water) return `That runs into ${water}.`;
   return null;
 }
@@ -188,6 +164,9 @@ export function strollTarget(world, household, entity, towards) {
     const next = fieldRound(world, household, entity.chore?.plots || null)[entity.chore?.visited || 0];
     return next ? { x: next.x, y: next.y } : null;
   }
+  // Home to the door of the house, where the family's ways begin (sim/land-paths.mjs `doorOf`), once there is a house: walked in
+  // along the way to it, not to a spot in the yard beside it (owner, 2026-10-05: "Paths don't seem natural around the house").
+  if (household.house) return doorOf(world, household);
   const home = world.map.sites[household.homeSiteId];
   return { x: round(home.x - .025), y: round(home.y + .035) };
 }

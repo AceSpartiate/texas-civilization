@@ -37,6 +37,31 @@ export function groundAt(world, point) {
   return water.some(course => distanceToPolyline(point, course.points) < 1.15) ? 'timber' : 'prairie';
 }
 
+/** The rivers and creeks the class's own map draws: what a plot is refused for lying in (`plotWater`). */
+export const drawnWater = world => world.map.terrain.filter(feature => feature.kind === 'river' || feature.kind === 'creek');
+
+/**
+ * The river or creek a ten-acre square here would lie in, by name, or null: the water the class's own map draws, and
+ * nothing it does not. A student is refused only for water they can see (found in the browser proof, 2026-09-14: the
+ * first version counted every branch in the USGS data, most of which the map leaves off, and refused ground that looked
+ * dry). A dry branch through a field was ploughed round or over. On the real land, ground at sea level is water too.
+ * `courses` is the water to look at, when the caller has already cut it down to what is near (sim/starting-plot.mjs).
+ * ceiling: the real-land map leaves off creeks under five miles (sim/colonies-region.mjs), so ten acres may be staked
+ * across one; drawing every creek from the served colonies map is the way out for both.
+ */
+export function plotWater(world, point, courses = drawnWater(world)) {
+  const reach = PLOT_SIDE / 2;
+  if (onRealLand(world)) {
+    const land = landAround({ minX: point.x - 2, minY: point.y - 2, maxX: point.x + 2, maxY: point.y + 2 });
+    const height = land.heightAt(point.x, point.y);
+    if (!Number.isFinite(height) || height < 0.3) return 'the water';
+  }
+  // The invented map's rivers are drawn a quarter mile wide and its creeks a tenth; the real map's near their true width.
+  const width = feature => onRealLand(world) ? (feature.kind === 'river' ? 0.03 : 0.01) : (feature.kind === 'river' ? 0.28 : 0.12);
+  const course = courses.find(feature => distanceToPolyline(point, feature.points) < reach + width(feature));
+  return course ? course.name || (course.kind === 'river' ? 'the river' : 'the creek') : null;
+}
+
 /**
  * The plots as the field counts them, without where they lie: what is stored, or a class's old field read as plots.
  * Enough for everything that only counts - seed, yield, the fence's share, the wagon - so none of that needs the map.

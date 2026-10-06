@@ -81,13 +81,15 @@ test('the trees come down one at a time, wall timber first, each a stump with it
   const { point } = timberOn(world, household, bounds).find(entry => entry.facts.trees >= 2 && entry.facts.trees <= 6);
   const before = standingTrees(world, point);
   const axe = world.entities[household.principalId];
+  // The first ten acres' trees came down when the site was chosen, with no log (sim/starting-plot.mjs, 2026-10-05): not this felling.
+  const revision = world.woods?.revision || 0;
   applyAction(world, 'hh-1', { action: 'fell-trees', entityId: axe.id, ...point });
   const order = [];
   for (let tick = 0; tick < 200 && axe.chore; tick++) {
     stepWorld(world);
     validateWorld(world);
     assert.equal(axe.location.siteId, household.homeSiteId, 'felling is on the family land, never a journey');
-    for (const id of Object.keys(world.woods?.felled || {})) if (!order.includes(id)) order.push(id);
+    for (const [id, entry] of Object.entries(world.woods?.felled || {})) if (!entry.field && !order.includes(id)) order.push(id);
   }
   assert.equal(axe.chore, null, 'the felling finished');
   assert.deepEqual(new Set(order), new Set(before.map(tree => tree.id)), 'every tree in reach came down, and no other');
@@ -100,7 +102,7 @@ test('the trees come down one at a time, wall timber first, each a stump with it
     assert.deepEqual({ by: entry.by, kind: entry.kind, use: entry.use, logs: entry.logs, left: entry.left }, { by: 'hh-1', kind: tree.kind, use: tree.use, logs: tree.logs, left: 0 });
   }
   assert.equal(standingTrees(world, point).length, 0);
-  assert.equal(world.woods.revision, order.length);
+  assert.equal(world.woods.revision - revision, order.length);
   // A big tree of a hard kind takes longer than a pole of a soft one.
   assert.ok(fellTicks({ size: 'large', kind: 'live-oak' }) > fellTicks({ size: 'pole', kind: 'cottonwood' }));
   const logs = before.reduce((sum, tree) => sum + tree.logs, 0);
@@ -199,9 +201,11 @@ test('the map is told what was felled: stumps with their logs in the tile, fetch
   applyAction(world, 'hh-1', { action: 'fell-trees', entityId: axe.id, ...point });
   for (let tick = 0; tick < 200 && axe.chore; tick++) stepWorld(world);
   const tile = woodsTile(world, 'trees', tx, ty);
-  const felled = Object.keys(world.woods.felled).filter(id => { const tree = treeById(id, woods()); return Math.floor(tree.x / size) === tx && Math.floor(tree.y / size) === ty; });
+  const inTile = Object.keys(world.woods.felled).filter(id => { const tree = treeById(id, woods()); return Math.floor(tree.x / size) === tx && Math.floor(tree.y / size) === ty; });
+  // Felled by this work: the first ten acres' trees came down when the site was chosen (sim/starting-plot.mjs, 2026-10-05).
+  const felled = inTile.filter(id => !world.woods.felled[id].field);
   assert.ok(felled.length > 0);
-  assert.equal(tile.stumps.length, felled.length);
+  assert.equal(tile.stumps.length, inTile.length);
   assert.equal(tile.trees.length, standing - felled.length);
   // Nothing lies beside a stump any more: the logs are on the pile at the house (2026-09-28).
   assert.ok(tile.stumps.every(([, , , left]) => left === 0));

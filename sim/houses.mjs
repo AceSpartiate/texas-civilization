@@ -1,4 +1,5 @@
 import { checkHousePlacement } from './house-placement.mjs';
+import { layStartingPlot } from './starting-plot.mjs';
 // The house a family chooses, raises, and then lives with.
 //
 // docs/SETTLING_IN.md §5, step 4. A family that arrives has no roof (sim/settling.mjs) and
@@ -298,13 +299,14 @@ export function planHouse(world, household, layout, additional = false, placemen
     household.completedHouses ||= [];
     household.completedHouses.push(structuredClone(household.house));
     household.house = plotted(world) ? { plan: layout, pieces: planPieces(layout) } : { layout, work: 0 };
-    if (position) household.house.placement = position;
+    if (position) { household.house.placement = position; layStartingPlot(world, household); }
     return household.house;
   }
   const why = planRefusal(world, household, layout);
   if (why) throw new Error(why);
   household.house = plotted(world) && !household.house?.layout ? { plan: layout, pieces: planPieces(layout) } : { layout, work: houseOf(household)?.work ?? 0 };
-  if (position) household.house.placement = position;
+  // Placed: the first ten acres, while nobody has worked them, are laid again round it (owner, 2026-10-05; sim/starting-plot.mjs).
+  if (position) { household.house.placement = position; layStartingPlot(world, household); }
   return household.house;
 }
 

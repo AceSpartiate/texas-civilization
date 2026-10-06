@@ -1,0 +1,34 @@
+{
+  "record": "The trees drawn over a walker are the ground's own (owner, 2026-10-05)",
+  "date": "2026-10-06",
+  "verdict": "PASS",
+  "note": "Same computer only: headless Chrome at 1366x768. No Chromebook, LAN or classroom claim.",
+  "checks": [
+    "close in: 40 frames of him walking among the trees, 51 trees drawn again over him, every one the ground's own at full strength",
+    "in the fade band (trees at 0.81): 40 frames of him walking, no tree drawn again over him",
+    "no page errors"
+  ],
+  "observed": {
+    "close": {
+      "area": 0.23089210059442156,
+      "strength": 1
+    },
+    "closeWalk": {
+      "frames": 40,
+      "drawnAgain": 51,
+      "notTheGround": 0
+    },
+    "fade": {
+      "area": 0.5110256624985925,
+      "strength": 0.8149572291690126
+    },
+    "fadeWalk": {
+      "frames": 40,
+      "drawnAgain": 0
+    }
+  },
+  "shots": [
+    "docs/evidence/trees-front-walking-among.png",
+    "docs/evidence/trees-front-walking-clear.png"
+  ]
+}

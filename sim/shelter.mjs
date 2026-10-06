@@ -37,6 +37,7 @@ export { tentPoint };
 import { wagonsOf } from './wagon.mjs';
 import { skyAtHome } from './houses.mjs';
 import { houseFront } from './house-placement.mjs';
+import { stepTo } from './land-paths.mjs';
 import { calendarMinutes } from './clock.mjs';
 import { TALK_SCALE, awake, endTalk } from './childhood.mjs';
 import { inLesson } from './lesson.mjs';
@@ -105,6 +106,17 @@ export function shelterPlace(world, household) {
   return camp ? { at: 'open', ...camp } : null;
 }
 
+/**
+ * Moved to a place on the family's own land in the tick, as always, and drawn walking the way there round the trees and the houses
+ * (sim/land-paths.mjs `stepTo`; owner, 2026-10-05: "Paths don't seem natural around the house" - in out of the weather and out again
+ * was a straight slide across the land, over whatever stood between). Off the land, or with no world to read the land from, put there.
+ */
+function walkOver(world, person, point, siteId = person.location?.siteId) {
+  const household = world?.households?.[person.householdId];
+  if (household && !person.travel && person.location?.siteId === household.homeSiteId && siteId === household.homeSiteId) stepTo(world, household, person, point);
+  else person.location = { x: point.x, y: point.y, siteId };
+}
+
 /** In: moved to the place, the place and where they were remembered. On the way the first tick; in after it. */
 function goIn(world, person, place) {
   const was = person.shelter;
@@ -113,7 +125,7 @@ function goIn(world, person, place) {
     return false;
   }
   person.shelter = { at: place.at, phase: 'going', since: world.tick, back: was?.back || { x: person.location.x, y: person.location.y } };
-  person.location = { x: place.x, y: place.y, siteId: person.location.siteId };
+  walkOver(world, person, place);
   return !was;
 }
 
@@ -121,19 +133,19 @@ function goIn(world, person, place) {
 const onTheLand = (person, homeSiteId) => !person.travel && person.location?.siteId === homeSiteId;
 
 /** Out again: back to where they were when the weather turned, unless their own work, or anything else, has taken them off since. */
-function comeOut(person, homeSiteId, { stay = false } = {}) {
+function comeOut(person, homeSiteId, { stay = false, world = null } = {}) {
   const back = person.shelter?.back;
   delete person.shelter;
-  if (!stay && back && onTheLand(person, homeSiteId)) person.location = { x: back.x, y: back.y, siteId: homeSiteId };
+  if (!stay && back && onTheLand(person, homeSiteId)) walkOver(world, person, back, homeSiteId);
 }
 
 /** The companion let go: back to exactly where and what they were at (or, sent to new work, off to it from where they are). */
-function letCompanionGo(person, homeSiteId, { stay = false } = {}) {
+function letCompanionGo(person, homeSiteId, { stay = false, world = null } = {}) {
   const was = person.aside?.kind === 'shelter' ? person.aside.was : null;
   delete person.aside;
   comeOut(person, homeSiteId, { stay: true });
   if (was && onTheLand(person, homeSiteId) && !stay) {
-    person.location = { x: was.x, y: was.y, siteId: homeSiteId };
+    walkOver(world, person, was, homeSiteId);
     if (was.task) person.task = was.task;
   }
 }
@@ -189,8 +201,8 @@ export function advanceShelter(world, travel = null) {
     const foul = world.status === 'running' && familyHome(household) && inclement(skyAtHome(world, household));
     if (!foul) {
       for (const person of people) {
-        if (person.aside?.kind === 'shelter') letCompanionGo(person, household.homeSiteId);
-        if (person.shelter) comeOut(person, household.homeSiteId);
+        if (person.aside?.kind === 'shelter') letCompanionGo(person, household.homeSiteId, { world });
+        if (person.shelter) comeOut(person, household.homeSiteId, { world });
       }
       continue;
     }
@@ -218,7 +230,7 @@ export function advanceShelter(world, travel = null) {
     // can see is a cost nobody chose. Its children still go in; they keep each other company.
     const quiet = !household.played || household.absent || inLesson(world, household) || !awake(world) || calendarMinutes(world) > TALK_SCALE;
     let companion = people.find(person => person.aside?.kind === 'shelter');
-    if (companion && (quiet || !here(household, companion) || !children.length || companion.health?.grave || companion.health?.condition === 'wounded')) { letCompanionGo(companion, household.homeSiteId); companion = null; }
+    if (companion && (quiet || !here(household, companion) || !children.length || companion.health?.grave || companion.health?.condition === 'wounded')) { letCompanionGo(companion, household.homeSiteId, { world }); companion = null; }
     // A student's order wins: somebody sent to new work goes to it, and is not called in again today; somebody else comes in.
     if (companion && companion.chore && companion.chore.id !== companion.aside.held) {
       companion.shelterExcused = dayOf(world);
@@ -228,7 +240,7 @@ export function advanceShelter(world, travel = null) {
     // Somebody already in out of the weather takes over from a worker called in, who goes back to their work.
     if (companion && companion.chore) {
       const better = companionFor(world, household, place, { callIn: false });
-      if (better && better !== companion) { letCompanionGo(companion, household.homeSiteId); companion = null; }
+      if (better && better !== companion) { letCompanionGo(companion, household.homeSiteId, { world }); companion = null; }
     }
     if (!companion && children.length && !quiet) {
       const chosen = companionFor(world, household, place);
@@ -237,7 +249,7 @@ export function advanceShelter(world, travel = null) {
         const from = chosen.shelter?.back || chosen.location;
         chosen.aside = { kind: 'shelter', childIds: children.map(one => one.id), was: { x: from.x, y: from.y, task: chosen.task }, held: chosen.chore?.id || null };
         if (!chosen.shelter) chosen.shelter = { at: place.at, phase: 'going', since: world.tick, back: { x: chosen.location.x, y: chosen.location.y } };
-        chosen.location = { x: place.x, y: place.y, siteId: chosen.location.siteId };
+        walkOver(world, chosen, place);
         companion = chosen;
         if (onceToday(household, `with:${chosen.id}`, world)) {
           const names = listWords(children.map(one => one.given || one.name));
@@ -253,7 +265,7 @@ export function advanceShelter(world, travel = null) {
       companion.aside.childIds = children.map(one => one.id);
       if (companion.shelter.at !== place.at) companion.shelter = { ...companion.shelter, at: place.at, phase: 'going', since: world.tick };
       else if (companion.shelter.phase === 'going' && world.tick > companion.shelter.since) companion.shelter.phase = 'in';
-      companion.location = { x: place.x, y: place.y, siteId: companion.location.siteId };
+      if (Math.abs(companion.location.x - place.x) > 1e-9 || Math.abs(companion.location.y - place.y) > 1e-9) walkOver(world, companion, place);
     }
   }
 }
@@ -288,7 +300,7 @@ function pitch(world, household, entity) {
 /** The person walks over to where the tent goes, in the same tick the work begins: drawn walking there over it. */
 function toTheTent(world, household, entity) {
   const at = tentPoint(world, household);
-  if (at && entity.location?.siteId === household.homeSiteId) entity.location = { x: at.x + 0.004, y: at.y + 0.002, siteId: household.homeSiteId };
+  if (at && entity.location?.siteId === household.homeSiteId) walkOver(world, entity, { x: at.x + 0.004, y: at.y + 0.002 });
 }
 
 let registered = false;

@@ -129,6 +129,8 @@ const files = new Map([
   // The weather, drawn: rain, a norther, a storm, fog and high water (docs/WEATHER.md, public/weather-art.js).
   ['/weather-art.js', ['../public/weather-art.js', 'text/javascript']],
   ['/woods-view.js', ['../public/woods-view.js', 'text/javascript']],
+  // Which of the ground's trees are drawn again over somebody walking among them (public/app.js `treesInFront`, 2026-10-05).
+  ['/trees-front.js', ['../public/trees-front.js', 'text/javascript']],
   ['/house-plot.js', ['../public/house-plot.js', 'text/javascript']],
   // A house on the ground, as drawn and as checked (sim/house-footprint.mjs): the page draws the footprint the server refuses.
   // At its own path, so public/house-plot.js reaches it as `../sim/house-footprint.mjs` from the page and from node alike.

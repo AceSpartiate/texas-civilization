@@ -130,7 +130,9 @@ const cabin = placement => ({ plan: 'round-log', placement, pieces: finished('ro
 const refusal = (world, household, placement) => { try { checkHousePlacement(world, household, placement, 'round-log'); return null; } catch (error) { return error.message; } };
 /** A round-log cabin site on hh-1's land where a second one can stand `offsets` away on open ground, each judged alone. */
 function pairSite(world, household, offsets) {
-  const bounds = holdingOf(world, household).bounds, alone = { ...household, completedHouses: [] };
+  // Its first ten acres sown, so they stand where they lie and a house is refused over them, as when these places were found: a
+  // house may be set on ten acres nobody has worked, which are laid again round it (sim/starting-plot.mjs, tests/starting-plot.test.mjs).
+  const bounds = holdingOf(world, household).bounds, alone = { ...household, completedHouses: [], field: { ...household.field, state: 'planted' } };
   for (let i = 0; i < 24; i++) for (let j = 0; j < 24; j++) {
     const first = { x: bounds.minX + (bounds.maxX - bounds.minX) * (i + 0.5) / 24, y: bounds.minY + (bounds.maxY - bounds.minY) * (j + 0.5) / 24, rotation: 0 };
     if (refusal(world, alone, first)) continue;

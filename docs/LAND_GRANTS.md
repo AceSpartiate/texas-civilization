@@ -297,6 +297,61 @@ field clicked or tapped on the map, with no work chosen first, opens the plot ch
   person chosen when the server would send them on fencing, else the next who may (`plotHand`). A fenced plot offers none.
 - `ceiling:` the hover highlight is for a mouse; a touch screen sees the outline only once tapped.
 
+### 5.4 The first ten acres laid where they can be worked — owner, 2026-10-05 (not released)
+
+> "When starting the game, if I put my house somewhere, the starting plot that we can plant is frequently straddling a river, or
+> outside of the borders of my property line. We should add something to dynamically take care of this."
+>
+> — the owner, 2026-10-05, playing solo
+
+**Found.** Every family begins with ten acres broken (`plot-1`). They were the corner of the forty-acre block of §8.5, fixed south-east
+of the house and carried over with it when the family chose its site (sim/homesite.mjs), never looked at (§8.5 had it as a
+`ceiling:`, "it can lie across a creek"). Measured on 718 sites a family could choose on four classes: the first ten acres lay partly or
+wholly **off the family's land 405 times**, over the house's ground 172 times and in a drawn river or creek 21 times. And they began
+"cleared" with their trees still standing in the woods: the map draws no tree in cleared ground, but people walking went round them -
+round nothing anybody could see (about 115 standing trees in the first ten acres on average).
+
+**Built** (`sim/starting-plot.mjs`, `FIC-GONZ-1164`, `-1165`):
+
+- **Laid by the rules a staked plot is held to** (§4.1, sim/survey.mjs `plotRefusal`): wholly inside the family's line; off the ground
+  kept round the site - the yard and the play spot, the woodpile, where the stock comes in at night, room for a yard's rails
+  (`KEEP_CLEAR`); off every house of the land as the map draws it, its pictures and its yard, and off the widest house the family could
+  still plan at the site; over no other plot or ground being surveyed; and in no river or creek the map draws (the water a student is
+  refused a survey for, sim/fields.mjs `plotWater`).
+- **Where**: the nearest such place to the door of the house (or the site, before there is a house), on a grid a quarter of a plot
+  apart out to three quarters of a mile, south-east first among places as near, where the field always lay. Ten acres of timber only
+  where open ground is more than 0.15 mile further (`TIMBER_PENALTY`): a settler broke the open or thinnest ground first, and ten acres
+  of timber taken as broken would take a hundred trees off the map. 0.6 ms on average to find, 3.6 at worst (351 sites, 2026-10-05).
+- **When**: as the site is chosen, and **again when the first house is placed** (sim/houses.mjs `planHouse`), round the house where
+  it will stand - so the field follows the house the student puts down. A house may now be set on the first ten acres **while nobody
+  has worked them**: they are laid again round it, as long as they have somewhere to go (sim/house-placement.mjs); otherwise *"That would
+  stand on your field."* as before. Nobody has worked them while nothing is sown, no rail stands, no crop was ever in them, the family's
+  old field is one patch, and nobody is at work on them or on the way to them (`startingPlotOpen`).
+- **Shown before choosing**: the site chooser draws the ten acres where they would be laid, a dashed square under the stake
+  (public/app.js `drawSitePick`, from the server's `field` on `/api/site`) - a picture, not words. The place looked at is rounded to the
+  hundredth of a mile the house is set to, so what is shown is what is laid.
+- **Their trees come down with them, no log onto the pile** (`clearStartingTrees`): the ground was broken before the class began, and
+  the owner refused free logs for the yard (2026-10-03, §10.3a). Marked felled with `field: 'plot-1'` and `logs: 0`, so they stand
+  again where they were if the ten acres are laid elsewhere. Drawn as stumps, as every cleared plot's are.
+- **Clearing a plot** (§5.1) now also takes down its trees that give no log - a mesquite, a live oak pole - with none for the pile
+  (sim/felling.mjs `fellStanding`): they stood unseen in the field for everybody walking there to go round.
+- **People sent out "to the field"** (practise at the mark, a beef up from the range, out after a hog, looking to the stock) go to the
+  edge of the cleared plot nearest the door, where its trodden way ends (sim/chores.mjs `fieldPoint`); it was the middle of the old
+  block, which could now lie off the field.
+- **A class already in play** (server/storage.mjs `readSave`, `settleStartingPlots`): its first ten acres **stay where they are unless
+  they cannot be** - off the land, over the yard or a house, in a drawn river or creek - **and nobody has worked them**; then they are
+  laid again round the house. Ten acres sown, fenced, ever cropped or being worked stay where they are, wherever that is. Every cleared
+  plot's standing trees come down, no log for them (a plot cleared before had its timber felled onto the pile already). **No save
+  version moved**: nothing new is stored but felled trees with a mark old code ignores, and `fellingInvalid` accepts a tree of no use
+  felled with no log.
+- `ceiling:` one size of plot. A family whose land has no dry ten acres clear of the yard keeps them where they lay; none was found in
+  718 sites, and a smaller first patch is the way out if a class ever shows one.
+- `ceiling:` a family placing its first house far from its site keeps the yard, the woodpile and the stock's ground round the site
+  (they always were the site's); the ten acres keep off both.
+
+Tests `tests/starting-plot.test.mjs` (4, each watched failing, `node scripts/map-fixes-injections.mjs`,
+[record](evidence/map-fixes-injections.json)); the chooser's square in `npm run test:keyboard-farm`.
+
 ## 6. Old saves
 
 No `saveVersion` bump: every missing field has a correct value.
@@ -478,7 +533,7 @@ read as five people wide at every zoom; the yard put the ox a fifth of a mile fr
 - **The yard** (`sim/world.mjs`, `sim/chores.mjs`): family, ox, horse and wagon within a few rods of the house; a hunter's
   steps in the timber a tenth of a mile or so. Classes saved before keep where their people stood.
 - **The field** (`sim/geography.mjs`, `sim/colonies-region.mjs`): forty acres beside the house, the first patch ten — the
-  plot size §4 already gives Survey. It is still one block at a fixed place (`ceiling:` it can lie across a creek); §4–5's
+  plot size §4 already gives Survey. It is still one block at a fixed place (`ceiling:` it can lie across a creek; **lifted 2026-10-05, §5.4**: the first ten acres are laid where they can be worked); §4–5's
   plots anywhere on the holding are what the owner's "they don't all have to be next to one another" asks for, and remain
   the next land step.
 - **Cutting the lane** (`sim/homesite.mjs` `cut-lane`): a marked lane is cut from the house outward, a spell at a time, by as
@@ -658,3 +713,57 @@ correct empty values (`yardGate` hangs it where it would go; the way is laid aga
 
 Proof: `tests/land-paths.test.mjs` (9 tests, every one watched failing under its own injection, `node scripts/land-paths-injections.mjs`)
 and `npm run test:land-paths` (docs/evidence/land-paths-*.png, docs/evidence/land-paths-browser.json).
+
+### 10.5 Walking about the homestead — owner, 2026-10-05 (not released)
+
+> "Paths don't seem natural around the house."
+>
+> — the owner, 2026-10-05, playing solo
+
+**Found** (the family's land drawn from the server's own ways of §10.1-10.2, a dog-run and a round-log cabin on
+`land-paths-10`): the search's box reached 0.08 mile past the two ends of a way, and a dog-run is drawn a fifth of a mile long - with
+no room in the box to go round the house, the way was laid **straight through it**, and so was a way to anything under it (where the
+stock is brought in at night can lie under a big house); the ways crossed the field, which the page draws over them, so a way vanished
+under the crop and came out the other side; the ways out of a fenced yard hugged its rails a cell out; each way ran its own line from
+the door and people walking cut across them; people came home to a spot in the yard beside the house, not the door where every way
+begins; somebody working beside another, going in out of the weather and out again was slid there in a straight line, over whatever
+stood between; every corner of a way was a point, the staircases round a trunk included; and every walk took the whole tick, so a step
+across the yard crept and a walk to the far field hurried.
+
+**Built** (`FIC-GONZ-1166`; sim/land-paths.mjs unless named):
+
+- **Round the house, in and out by its front**: the search's box takes in every house it touches with 0.03 mile round it
+  (`HOUSE_ROOM`); a way to or from a place inside a house as the map draws it goes in or out at the house's front (`frontOf`), where
+  its door is. A cell against a house's wall or the yard's rails counts 1.6 times (`NEAR_WALL`), so a way keeps a little off them.
+- **Keeping to the ways** (`viaWay`): somebody setting out from one end of a made way - the door, where every trodden way begins, or
+  the place it goes to - walks along it to where it comes nearest where they are going, and on from there round whatever stands between,
+  when that is no more than **1.5 times** the straight line (`WAY_DETOUR`; within `WAY_END`, 0.012 mile, of the way's end). So people walk
+  out to the field, the water and the woodpile by the family's own ways and home along them, and a way trodden to something new runs along
+  one already worn as far as it serves and branches off it - the ways share a trunk from the door. Elsewhere a cell of a made way counts
+  **0.6** of open ground to the way-finding (`PATH_ROUTE`; still walked at `PATH_PACE` 0.8).
+- **Round the field**: a cell of cleared ground counts **3** to the way-finding (`FIELD_ROUTE`; walked at open ground's pace), so a way
+  goes round the field, not across the crop, and into a plot it goes to from the nearest side.
+- **From and to the door**: people walking home walk to the door of the house (sim/survey.mjs `strollTarget`), where the ways begin,
+  once there is a house; the yard spot beside it before.
+- **No more straight slides**: somebody working beside another walks the very way that one walked, a step to the side (`walkBeside`,
+  sim/chores.mjs `standBeside`); going in out of the weather and out again, and to the tent, is walked round what stands between
+  (sim/shelter.mjs `walkOver`, `stepTo`). A step under 0.06 mile whose line is open ground all the way is taken straight with no search
+  (`SHORT_HOP`, `clearLine`). `ceiling:` the little ones' play about the yard still steps straight, a few rods inside the yard.
+- **On the page** (public/motion.js): every way is drawn, and every walk about the land drawn along, **with its corners rounded** - a
+  curve from up to 0.006 mile before each corner to as far after, never past the middle of a stretch (`roundCorners`), within half that of
+  the server's line; and **a walk is drawn at a walking pace**, 1.2 of a person's drawn height a second (`LAND_WALK_MILES_A_SECOND`, the
+  travel cycles' own gait), done before the tick is when it is short; a walk longer than the tick at that pace still takes the tick
+  (`ceiling:` the server has them there at its end).
+- **Cost**, measured 2026-10-05 on 20 families of two ten-family classes (`node scripts/land-ways-measure.mjs`, the same 600 walks and 600 yard
+  steps on the code before, a copy of 3f0ef6c7, and after; two runs each, this machine): a walk about the land 1.17-1.18 ms on average before
+  and 1.26-1.28 after (p95 4.5-4.8 and 4.8-5.0, worst 8.3-8.8 and 7.5-8.1); a step about the yard 0.07 and 0.07-0.08; a tick of treading ways
+  1.01-1.05 and 0.76-0.78 on average, 9.0-9.2 and 4.5-5.0 at worst. The search runs as often as it did, plus once for each going in or out
+  of the weather (a short step over open ground needs none) and each first step beside somebody; a walk along a way finds only the part off
+  it. Counting a way's cells cheap enough in the search's own estimate to keep people on them was tried first and made a walk five times
+  dearer (6.3 ms); walking the way itself (`viaWay`) costs nothing to find.
+- `ceiling:` the wagon, the kitchen garden and the woodpile are not walked round: they are places people go to, not ground a way keeps
+  off. `ceiling:` where the stock is brought in at night can lie under a big house (public/herd-view.js `nightGround`); its way now goes
+  in at the house's front, and the herd is still drawn there.
+
+Tests `tests/land-ways.test.mjs` (5) and the rain test of `tests/shelter.test.mjs`, each watched failing (`node
+scripts/map-fixes-injections.mjs`, [record](evidence/map-fixes-injections.json)); `npm run test:land-paths` re-run.
