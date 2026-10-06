@@ -20,6 +20,55 @@ Twelve new frames and three four-frame seated brushwork clips for teal, indigo a
 
 Main at 87381d33, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.2>). Sets of changes: from v2026.10.05.1, 0.6 MB; from v2026.10.04.1, 6.1 MB; from v2026.10.03.2, 11.6 MB. Contents: help on a small farm - the young capped, a small family keeps no custom, the spouse's two children (the section below). Verification on 87381d33's branch: npm test 2255, 0 failed; the full browser run two at a time, 106 of 111 green; of the five red, children was a fixture the new rolls no longer make (fixed, then green twice alone), and travel-drawn, battle-cinema, battle-grass and famous-people (the Neill sampled moment) green alone. Not proved: Chromebook, LAN or classroom; ThreatDown.
 
+## Boys 12+ carry the men's work; children keep house only with no grown woman home — owner, 2026-10-05 (not released)
+
+Branch `custom-away` from 3f0ef6c7. The owner played a family of nine (Jesse 34 away with the volunteers at Gonzales; Elizabeth 32;
+Hiram 15, Sally 13, Joseph 11, Peter 10, Lydia 10, Adela 7, Harriet 6) and said *"The gendered work seems to have disappeared."* Only
+people of sixteen kept the custom, so with Jesse away the men's work opened to everybody of ten (Lydia could fell trees), and the
+children kept house beside their mother. Answered by multiple choice, "Boys 12+ carry it": *"With no grown man home, a son of 12–15
+keeps the men's work and the others may only help him. Only if no such boy is home does it open, and then to the mother or grown women
+only, never girls. Children keep house only when no grown woman is home."* Specified in docs/CUSTOMARY_WORK.md §1f; claims
+`HIST-TEX-1170` (Dilue Harris's brother of thirteen sent to drive cattle, the large boys gone to the army - a source already read for
+`HIST-TEX-641`/`-1151`), `FIC-GONZ-1170`, `-1171`.
+
+- **The boy keeps it** (`sim/custom.mjs` `customKeepers`, `BOY_KEEPS_FROM` 12): with no man of sixteen at home and able, a son of twelve
+  to fifteen at home and able keeps the men's work; mother and sisters are refused it in words naming him (*"Felling is men's work, and
+  Hiram is at home."*) and may only help him (help-not-lead, from ten). Nothing opens; no line. Boys of ten and eleven follow the men's
+  work as their own and keep it from nobody (as with the father home).
+- **Then the grown women only** (`girlHeld`): with no such boy home, it opens to a woman of sixteen or the mother; a girl is refused
+  (*"Felling is men's work; with no man at home it falls to Elizabeth."*), may help whoever is at it - a grown woman now leads it for
+  `helpsWhom` - and is never said to take it up by necessity. Cattle on horseback likewise (a girl minds the hogs).
+- **The line** names boys of twelve to fifteen among those gone and adds "and no son old enough" where the family's sons are ten or
+  eleven: *"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe."*
+- **Children keep house only with no grown woman at home** (`childrenKeepHouse`): a lone father's children, or nobody grown home. A
+  lone mother or a mother whose husband is away keeps house herself or a daughter of ten does; the cue (never on the only grown hand)
+  points at an idle daughter of ten, or nobody. "As the parent's would" now applies to a lone father only. Refusal words and work
+  descriptions in sim/housework.mjs say "while a grown woman of the family is at home".
+- Auto, the house cue, the director's families and the guided start all go through `choreAvailability`; no change there beyond
+  comments. Small family (fewer than six) untouched. No save field, no save version.
+
+**Evidence.** New tests in tests/custom-work.test.mjs, the owner's family built from hh-1: *boys 12+ carry it* with the father away by
+`task: 'help'` and by `service.status: 'serving'`; *... opens to the mother only, never the girls*; the "no son old enough" line;
+*children keep house only when no grown woman is home*; *on auto*; *in the families nobody plays* (500 ticks, fathers serving).
+Brought up to the rule: *a boy under sixteen ...* (now 11 keeps nothing, 12 and 15 keep it), the lone-mother fixture (no son of 12+),
+the help-raise fixture; housework *children keep house*, *as the lone parent's would* (lone father; father plus a son of 17),
+*prompt the student* (a daughter of eleven cued for a lone mother). Twelve injections added to
+`npm run test:custom-work-injections`, each caught by the test written for it (no boy keeps it - three ways, auto and the director
+included; boys of eleven keep it; boys of twelve keep nothing; girls take it up; a girl may not help her mother; a girl helping said to
+take it up; a line with the boy keeping it; the boy away not said; "no son old enough" never said; children keep house beside a mother);
+the whole run 91 of 91, 58 by that test alone ([record](docs/evidence/custom-work-injections.json)). One older injection (*refused even
+with nobody at home*) is now expected of *it opens when every man is away*: the lone-mother fixture is a small family, which keeps no
+custom at all, so the lone-mother test no longer guards it.
+`npm run test:custom-work` 18 checks (was 17): the line with "and no son old enough"; the son of eleven with neither the house nor the
+wash on his bar while his mother is home, and keeping both once she has gone to the store too. `npm test`: 2261 tests, 2225 pass, 0 fail, 36 skipped.
+
+**Questions for the owner** (docs/CUSTOMARY_WORK.md §1f): (1) a mother at the men's work by necessity is still a grown woman at home,
+so her small children do not keep house for her - wanted? (2) should a daughter of twelve to fifteen keep the women's work when no grown
+woman is home (no mirror built)? (3) boys of ten and eleven still lead men's work as their own - should they only help a boy of twelve?
+(4) lone mothers of small children lose the children's housekeeping that BALANCE.md §24 measured feeding them; not re-measured.
+
+**Also.** `scripts/custom-work-injections.mjs` had five search strings that no longer matched (two from before this branch); fixed.
+
 ## Help on a small farm: the young capped, a small family keeps no custom, the spouse's two children — owner, 2026-10-04 (released in v2026.10.05.2)
 
 Branch `family-help` from origin/main 0383a5cc. The owner asked three things in one message and confirmed by multiple choice ("As

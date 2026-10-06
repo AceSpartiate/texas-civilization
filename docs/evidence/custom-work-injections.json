@@ -1,1019 +1,1215 @@
 {
- "record": "custom-work-injections",
- "date": "2026-10-04",
- "caught": 79,
- "only": 58,
- "of": 79,
- "injections": [
-  {
-   "name": "no custom at all",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "the rule: men's work is refused",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
-    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
-    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
-    "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
-    "a man coming home in the middle of her work lets it finish; her next is refused",
-    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's",
-    "the families nobody plays keep the custom too: no woman of them begins men's work while a man of hers is home",
-    "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
-    "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
-    "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
-    "only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away",
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "the mirror lost: a man may do the women's work with a woman at home",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "the rule: men's work is refused",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
-    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
-    "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
-    "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
-    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else",
-    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day",
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
-    "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
-   ]
-  },
-  {
-   "name": "the refusal not marked, so left on her list",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "the rule: men's work is refused",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
-    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
-    "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
-   ]
-  },
-  {
-   "name": "the custom-refused work sent greyed again",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "another's work is not on the bar",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
-    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
-    "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
-   ]
-  },
-  {
-   "name": "a sick man still keeps it",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "it opens when every man is away",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then"
-   ]
-  },
-  {
-   "name": "a man at the war still keeps it",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "it opens when every man is away",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
-    "only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away"
-   ]
-  },
-  {
-   "name": "a man in town still keeps it",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "it opens when every man is away",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
-    "a man coming home in the middle of her work lets it finish; her next is refused"
-   ]
-  },
-  {
-   "name": "a man out in the timber counted away",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "it opens when every man is away",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then"
-   ]
-  },
-  {
-   "name": "a man visiting or helping still keeps it",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "it opens when every man is away",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then"
-   ]
-  },
-  {
-   "name": "a boy of ten keeps it",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "a boy under sixteen",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "a boy under sixteen follows the men's work and keeps it from nobody; a grown son keeps it"
-   ]
-  },
-  {
-   "name": "refused even with nobody at home",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "a lone mother may do every work",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
-    "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
-    "a boy under sixteen follows the men's work and keeps it from nobody; a grown son keeps it",
-    "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\"",
-    "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden",
-    "the guided start's every step has somebody who may do it, in a two-parent family, a lone mother's and a lone father's",
-    "the guided start's work, played through by whoever the custom allows, in all three shapes: a house, a field, a crop, a hunt",
-    "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
-    "a man coming home in the middle of her work lets it finish; her next is refused",
-    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's",
-    "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
-    "only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away"
-   ]
-  },
-  {
-   "name": "the line said every time",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "the journal says it once",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\""
-   ]
-  },
-  {
-   "name": "the line never said",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "the journal says it once",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\"",
-    "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden",
-    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
-   ]
-  },
-  {
-   "name": "the war said as away",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "the journal says it once",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\""
-   ]
-  },
-  {
-   "name": "no man at all said wrong",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "a lone mother may do every work",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden"
-   ]
-  },
-  {
-   "name": "auto never keeps house meanwhile",
-   "files": [
-    "sim/auto.mjs"
-   ],
-   "expected": "auto keeps the custom",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone"
-   ]
-  },
-  {
-   "name": "a man home stops her work in hand",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "a man coming home in the middle",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "a man coming home in the middle of her work lets it finish; her next is refused",
-    "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
-    "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
-    "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
-   ]
-  },
-  {
-   "name": "a woman works the cattle with a man at home",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "cattle on the range are the men's",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
-   ]
-  },
-  {
-   "name": "the hogs only not kept as she sets out",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "cattle on the range are the men's",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
-   ]
-  },
-  {
-   "name": "the range refused her with hogs to mind",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "cattle on the range are the men's",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
-   ]
-  },
-  {
-   "name": "the saving from the best at home, kept or not",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "keeping house: the hidden saving",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did",
-    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else",
-    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
-   ]
-  },
-  {
-   "name": "a house kept once keeps for ever",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "keeping house: the hidden saving",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did",
-    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else"
-   ]
-  },
-  {
-   "name": "the house kept twice a day",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "keeping house: the hidden saving",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else",
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "the routine eats without the house kept",
-   "files": [
-    "sim/routines.mjs"
-   ],
-   "expected": "the house kept makes the food last longer",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did"
-   ]
-  },
-  {
-   "name": "the garden gives nothing",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the kitchen garden",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
-   ]
-  },
-  {
-   "name": "the garden gives the day it is dug",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the kitchen garden",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
-   ]
-  },
-  {
-   "name": "the garden worked twice a day",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the kitchen garden",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
-   ]
-  },
-  {
-   "name": "the garden not sent to the page",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the kitchen garden",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
-   ]
-  },
-  {
-   "name": "the wash cleans the man away too",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the wash: everybody at home",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven",
-    "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
-   ]
-  },
-  {
-   "name": "clean for eighty days",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the wash: everybody at home",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
-   ]
-  },
-  {
-   "name": "clean a day past the week",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the wash: everybody at home",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
-   ]
-  },
-  {
-   "name": "the wash done every day",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the wash: everybody at home",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven",
-    "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
-   ]
-  },
-  {
-   "name": "the wash a day before the week is out",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the wash: everybody at home",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
-   ]
-  },
-  {
-   "name": "no flies sent to the page",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the wash: everybody at home",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
-   ]
-  },
-  {
-   "name": "told again every tick in one town",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "dirty in town",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
-   ]
-  },
-  {
-   "name": "a clean customer told she smells",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "dirty in town",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
-   ]
-  },
-  {
-   "name": "the words never over the speaker",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "dirty in town",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
-   ]
-  },
-  {
-   "name": "the words over the speaker for ever",
-   "files": [
-    "sim/housework.mjs",
-    "sim/housework.mjs"
-   ],
-   "expected": "dirty in town",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
-   ]
-  },
-  {
-   "name": "the page not sent the words",
-   "files": [
-    "sim/world.mjs"
-   ],
-   "expected": "dirty in town",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
-   ]
-  },
-  {
-   "name": "the volunteers speak as townsmen",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "dirty at the war",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "dirty at the war: the other volunteers say so in their own words"
-   ]
-  },
-  {
-   "name": "never dearer",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the shops ask a quarter more",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
-   ]
-  },
-  {
-   "name": "never paid less",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "the shops ask a quarter more",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
-   ]
-  },
-  {
-   "name": "the reason not on the popup",
-   "files": [
-    "sim/errands.mjs"
-   ],
-   "expected": "the shops ask a quarter more",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
-   ]
-  },
-  {
-   "name": "quoted dearer, charged the plain price",
-   "files": [
-    "sim/errands.mjs"
-   ],
-   "expected": "the shops ask a quarter more",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
-   ]
-  },
-  {
-   "name": "an old class opens dirty",
-   "files": [
-    "sim/housework.mjs",
-    "sim/housework.mjs"
-   ],
-   "expected": "a class saved before the wash",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "a class saved before the wash opens with everybody clean, and nothing saved before is refused"
-   ]
-  },
-  {
-   "name": "a wash day that cannot be is opened",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "a class saved before the wash",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "a class saved before the wash opens with everybody clean, and nothing saved before is refused"
-   ]
-  },
-  {
-   "name": "no help across the custom at all",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "help, not lead: a woman or girl of ten joins",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the families nobody plays keep the custom too: no woman of them begins men's work while a man of hers is home",
-    "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
-    "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
-    "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
-   ]
-  },
-  {
-   "name": "a helper may begin it with nobody of its custom at it",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "help, not lead: a woman or girl of ten joins",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
-    "the families nobody plays keep the custom too: no woman of them begins men's work while a man of hers is home",
-    "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
-    "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
-    "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
-   ]
-  },
-  {
-   "name": "help one way only: the women's work never helped",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "help, not lead, the other way",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it"
-   ]
-  },
-  {
-   "name": "a girl of twelve may not help",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "help, not lead: a woman or girl of ten joins",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
-    "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it"
-   ]
-  },
-  {
-   "name": "help not marked on the bar",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "help, not lead: a woman or girl of ten joins",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
-   ]
-  },
-  {
-   "name": "help drawn as her own work",
-   "files": [
-    "public/family-panel.js"
-   ],
-   "expected": "help, not lead: a woman or girl of ten joins",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
-   ]
-  },
-  {
-   "name": "a helper leads on when he leaves off",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "help at work each puts their own hands into",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
-   ]
-  },
-  {
-   "name": "still help when the work is hers by necessity",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "help at work each puts their own hands into",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
-   ]
-  },
-  {
-   "name": "the help not said",
-   "files": [
-    "sim/chores.mjs"
-   ],
-   "expected": "help at work each puts their own hands into",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
-   ]
-  },
-  {
-   "name": "the families nobody plays never help",
-   "files": [
-    "sim/neighbours.mjs"
-   ],
-   "expected": "the families nobody plays keep the custom",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "the families nobody plays keep the custom too: no woman of them begins men's work while a man of hers is home"
-   ]
-  },
-  {
-   "name": "a man sent for or deserted counted away for good",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "only while serving",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away"
-   ]
-  },
-  {
-   "name": "children never keep house",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "children keep house",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up",
-    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own",
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "children keep house with both parents home",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "children keep house",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
-    "children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up",
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "a child of six keeps house",
-   "files": [
-    "sim/custom.mjs"
-   ],
-   "expected": "children keep house",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up",
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "keeping house not a child's work",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "children keep house",
-   "caught": true,
-   "only": false,
-   "failed": [
-    "children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up",
-    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
-   ]
-  },
-  {
-   "name": "a child on auto never keeps house",
-   "files": [
-    "sim/childhood.mjs"
-   ],
-   "expected": "children keep house",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "children keep house: a child of seven keeps house and does the wash for a lone parent, and not with both at home; on auto they take it up"
-   ]
-  },
-  {
-   "name": "no cue sent to the page",
-   "files": [
-    "sim/world.mjs"
-   ],
-   "expected": "prompt the student",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "the cue on somebody on auto",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "prompt the student",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "the cue on somebody who may not do it",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "prompt the student",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "the cue for the wash with nobody wanting it",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "prompt the student",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "the cue on the only grown hand at home",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "prompt the student",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "the cue with the food low",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "prompt the student",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "the icon does not glow with the cue",
-   "files": [
-    "public/family-panel.js"
-   ],
-   "expected": "prompt the student",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
-   ]
-  },
-  {
-   "name": "never washed for before the week is out",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "wash whoever's dirty",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
-   ]
-  },
-  {
-   "name": "the wash for one washes everybody",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "wash whoever's dirty",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
-   ]
-  },
-  {
-   "name": "the wash for one moves wash day",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "wash whoever's dirty",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
-   ]
-  },
-  {
-   "name": "who missed wash day not washed for",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "wash whoever's dirty",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
-   ]
-  },
-  {
-   "name": "the child's keeping read as the child's own",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "a child keeps house as the lone parent's would",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
-   ]
-  },
-  {
-   "name": "never recorded kept for the parent",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "a child keeps house as the lone parent's would",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
-   ]
-  },
-  {
-   "name": "kept for anybody grown at home, not a lone parent",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "a child keeps house as the lone parent's would",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
-   ]
-  },
-  {
-   "name": "a saved keeper-for that cannot be is opened",
-   "files": [
-    "sim/housework.mjs"
-   ],
-   "expected": "a child keeps house as the lone parent's would",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
-   ]
-  },
-  {
-   "name": "never called off the long work, the food gone",
-   "files": [
-    "sim/neighbours.mjs"
-   ],
-   "expected": "short of food with nobody after it",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "short of food with nobody after it, a family nobody plays calls its hand off clearing and the lane, and sends her after food"
-   ]
-  },
-  {
-   "name": "called off the long work with somebody out after food",
-   "files": [
-    "sim/neighbours.mjs"
-   ],
-   "expected": "short of food with nobody after it",
-   "caught": true,
-   "only": true,
-   "failed": [
-    "short of food with nobody after it, a family nobody plays calls its hand off clearing and the lane, and sends her after food"
-   ]
-  }
- ]
+  "record": "custom-work-injections",
+  "date": "2026-10-05",
+  "caught": 91,
+  "only": 58,
+  "of": 91,
+  "injections": [
+    {
+      "name": "no custom at all",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "the rule: men's work is refused",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
+        "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
+        "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
+        "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
+        "a man coming home in the middle of her work lets it finish; her next is refused",
+        "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's",
+        "the families nobody plays keep the custom too: no woman of them begins men's work while a man of hers is home",
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
+        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
+        "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
+        "only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away",
+        "a small family keeps no custom: fewer than six living, every work is anybody's, said once; six or more keep it",
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home",
+        "boys 12+ carry it in the families nobody plays: with the father away, the son of twelve does the men's work and no woman or girl begins it",
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
+        "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
+      ]
+    },
+    {
+      "name": "the mirror lost: a man may do the women's work with a woman at home",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "the rule: men's work is refused",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
+        "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
+        "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
+        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home",
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
+        "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
+      ]
+    },
+    {
+      "name": "the refusal not marked, so left on her list",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "the rule: men's work is refused",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
+        "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
+      ]
+    },
+    {
+      "name": "the custom-refused work sent greyed again",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "another's work is not on the bar",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
+        "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
+      ]
+    },
+    {
+      "name": "a sick man still keeps it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "it opens when every man is away",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then"
+      ]
+    },
+    {
+      "name": "a man at the war still keeps it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "it opens when every man is away",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
+        "only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away"
+      ]
+    },
+    {
+      "name": "a man in town still keeps it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "it opens when every man is away",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
+        "a man coming home in the middle of her work lets it finish; her next is refused",
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes"
+      ]
+    },
+    {
+      "name": "a man out in the timber counted away",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "it opens when every man is away",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
+        "boys 12+ carry it in the families nobody plays: with the father away, the son of twelve does the men's work and no woman or girl begins it"
+      ]
+    },
+    {
+      "name": "a man visiting or helping still keeps it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "it opens when every man is away",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then"
+      ]
+    },
+    {
+      "name": "a boy of ten keeps it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a boy under sixteen",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a boy under sixteen follows the men's work; with no grown man home a boy of twelve keeps it, a boy of ten or eleven from nobody; a grown son keeps it",
+        "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden",
+        "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\"",
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home",
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
+      ]
+    },
+    {
+      "name": "refused even with nobody at home",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "it opens when every man is away",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
+        "a boy under sixteen follows the men's work; with no grown man home a boy of twelve keeps it, a boy of ten or eleven from nobody; a grown son keeps it",
+        "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\"",
+        "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
+        "a man coming home in the middle of her work lets it finish; her next is refused",
+        "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
+        "only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away",
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\"",
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes"
+      ],
+      "note": "expectation moved 2026-10-05 from the lone-mother test (its fixture is a small family, which keeps no custom); re-run alone with --only=refused: caught"
+    },
+    {
+      "name": "the line said every time",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "the journal says it once",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\""
+      ]
+    },
+    {
+      "name": "the line never said",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "the journal says it once",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\"",
+        "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden",
+        "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's",
+        "a small family keeps no custom: fewer than six living, every work is anybody's, said once; six or more keep it",
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\""
+      ]
+    },
+    {
+      "name": "the war said as away",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "the journal says it once",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the journal says it once for each reason it opened: \"With Thomas gone to the army, Elena took up the rifle.\""
+      ]
+    },
+    {
+      "name": "no man at all said wrong",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a lone mother may do every work",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden"
+      ]
+    },
+    {
+      "name": "auto never keeps house meanwhile",
+      "files": [
+        "sim/auto.mjs"
+      ],
+      "expected": "auto keeps the custom",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "auto keeps the custom: a mother on auto at the hunt keeps house while her husband is home, and hunts when he is gone",
+        "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home"
+      ]
+    },
+    {
+      "name": "a man home stops her work in hand",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "a man coming home in the middle",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a man coming home in the middle of her work lets it finish; her next is refused",
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
+        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
+        "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
+      ]
+    },
+    {
+      "name": "a woman works the cattle with a man at home",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "cattle on the range are the men's",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's",
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+      ]
+    },
+    {
+      "name": "the hogs only not kept as she sets out",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "cattle on the range are the men's",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
+      ]
+    },
+    {
+      "name": "the range refused her with hogs to mind",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "cattle on the range are the men's",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's"
+      ]
+    },
+    {
+      "name": "the saving from the best at home, kept or not",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "keeping house: the hidden saving",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did",
+        "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else",
+        "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+      ]
+    },
+    {
+      "name": "a house kept once keeps for ever",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "keeping house: the hidden saving",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did",
+        "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else"
+      ]
+    },
+    {
+      "name": "the house kept twice a day",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "keeping house: the hidden saving",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "keeping house: the hidden saving comes from whoever kept house today or yesterday, once a day, and from nobody else",
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
+      ]
+    },
+    {
+      "name": "the routine eats without the house kept",
+      "files": [
+        "sim/routines.mjs"
+      ],
+      "expected": "the house kept makes the food last longer",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the house kept makes the food last longer: read from whoever kept house, and nothing when nobody did"
+      ]
+    },
+    {
+      "name": "the garden gives nothing",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the kitchen garden",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
+      ]
+    },
+    {
+      "name": "the garden gives the day it is dug",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the kitchen garden",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
+      ]
+    },
+    {
+      "name": "the garden worked twice a day",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the kitchen garden",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
+      ]
+    },
+    {
+      "name": "the garden not sent to the page",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the kitchen garden",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the kitchen garden: laid out the first day beside the house, then food every day it is worked, once a day"
+      ]
+    },
+    {
+      "name": "the wash cleans the man away too",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the wash: everybody at home",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven",
+        "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
+      ]
+    },
+    {
+      "name": "clean for eighty days",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the wash: everybody at home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
+      ]
+    },
+    {
+      "name": "clean a day past the week",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the wash: everybody at home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
+      ]
+    },
+    {
+      "name": "the wash done every day",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the wash: everybody at home",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven",
+        "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
+      ]
+    },
+    {
+      "name": "the wash a day before the week is out",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the wash: everybody at home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
+      ]
+    },
+    {
+      "name": "no flies sent to the page",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the wash: everybody at home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the wash: everybody at home is clean for seven days, and nobody away is washed; washed again after seven"
+      ]
+    },
+    {
+      "name": "told again every tick in one town",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "dirty in town",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+      ]
+    },
+    {
+      "name": "a clean customer told she smells",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "dirty in town",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+      ]
+    },
+    {
+      "name": "the words never over the speaker",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "dirty in town",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+      ]
+    },
+    {
+      "name": "the words over the speaker for ever",
+      "files": [
+        "sim/housework.mjs",
+        "sim/housework.mjs"
+      ],
+      "expected": "dirty in town",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+      ]
+    },
+    {
+      "name": "the page not sent the words",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expected": "dirty in town",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "dirty in town: somebody there says so, once, in the story and over their own head; clean, nobody says anything"
+      ]
+    },
+    {
+      "name": "the volunteers speak as townsmen",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "dirty at the war",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "dirty at the war: the other volunteers say so in their own words"
+      ]
+    },
+    {
+      "name": "never dearer",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the shops ask a quarter more",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
+      ]
+    },
+    {
+      "name": "never paid less",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "the shops ask a quarter more",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
+      ]
+    },
+    {
+      "name": "the reason not on the popup",
+      "files": [
+        "sim/errands.mjs"
+      ],
+      "expected": "the shops ask a quarter more",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
+      ]
+    },
+    {
+      "name": "quoted dearer, charged the plain price",
+      "files": [
+        "sim/errands.mjs"
+      ],
+      "expected": "the shops ask a quarter more",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the shops ask a quarter more and pay a fifth less of a customer in dirty clothes, say why on the list, and charge it"
+      ]
+    },
+    {
+      "name": "an old class opens dirty",
+      "files": [
+        "sim/housework.mjs",
+        "sim/housework.mjs"
+      ],
+      "expected": "a class saved before the wash",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a class saved before the wash opens with everybody clean, and nothing saved before is refused"
+      ]
+    },
+    {
+      "name": "a wash day that cannot be is opened",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "a class saved before the wash",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a class saved before the wash opens with everybody clean, and nothing saved before is refused"
+      ]
+    },
+    {
+      "name": "no help across the custom at all",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "help, not lead: a woman or girl of ten joins",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the families nobody plays keep the custom too: no woman of them begins men's work while a man of hers is home",
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
+        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
+        "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+      ]
+    },
+    {
+      "name": "a helper may begin it with nobody of its custom at it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "help, not lead: a woman or girl of ten joins",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
+        "the families nobody plays keep the custom too: no woman of them begins men's work while a man of hers is home",
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
+        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
+        "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes"
+      ]
+    },
+    {
+      "name": "help one way only: the women's work never helped",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "help, not lead, the other way",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it"
+      ]
+    },
+    {
+      "name": "a girl of twelve may not help",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "help, not lead: a woman or girl of ten joins",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
+        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\""
+      ]
+    },
+    {
+      "name": "help not marked on the bar",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "help, not lead: a woman or girl of ten joins",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
+      ]
+    },
+    {
+      "name": "help drawn as her own work",
+      "files": [
+        "public/family-panel.js"
+      ],
+      "expected": "help, not lead: a woman or girl of ten joins",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
+      ]
+    },
+    {
+      "name": "a helper leads on when he leaves off",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "help at work each puts their own hands into",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
+      ]
+    },
+    {
+      "name": "still help when the work is hers by necessity",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "help at work each puts their own hands into",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
+      ]
+    },
+    {
+      "name": "the help not said",
+      "files": [
+        "sim/chores.mjs"
+      ],
+      "expected": "help at work each puts their own hands into",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does"
+      ]
+    },
+    {
+      "name": "the families nobody plays never help",
+      "files": [
+        "sim/neighbours.mjs"
+      ],
+      "expected": "the families nobody plays keep the custom",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the families nobody plays keep the custom too: no woman of them begins men's work while a man of hers is home"
+      ]
+    },
+    {
+      "name": "a man sent for or deserted counted away for good",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "only while serving",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away"
+      ]
+    },
+    {
+      "name": "children never keep house",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "children keep house",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up",
+        "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+      ]
+    },
+    {
+      "name": "children keep house with both parents home",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "children keep house",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up",
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
+        "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
+      ]
+    },
+    {
+      "name": "a child of six keeps house",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "children keep house",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up"
+      ]
+    },
+    {
+      "name": "keeping house not a child's work",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "children keep house",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up",
+        "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+      ]
+    },
+    {
+      "name": "a child on auto never keeps house",
+      "files": [
+        "sim/childhood.mjs"
+      ],
+      "expected": "children keep house",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up"
+      ]
+    },
+    {
+      "name": "no cue sent to the page",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expected": "prompt the student",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
+        "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
+      ]
+    },
+    {
+      "name": "the cue on somebody on auto",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "prompt the student",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
+        "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
+      ]
+    },
+    {
+      "name": "the cue on somebody who may not do it",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "prompt the student",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
+        "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
+      ]
+    },
+    {
+      "name": "the cue for the wash with nobody wanting it",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "prompt the student",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
+      ]
+    },
+    {
+      "name": "the cue on the only grown hand at home",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "prompt the student",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
+      ]
+    },
+    {
+      "name": "the cue with the food low",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "prompt the student",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
+      ]
+    },
+    {
+      "name": "the icon does not glow with the cue",
+      "files": [
+        "public/family-panel.js"
+      ],
+      "expected": "prompt the student",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
+      ]
+    },
+    {
+      "name": "never washed for before the week is out",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "wash whoever's dirty",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
+      ]
+    },
+    {
+      "name": "the wash for one washes everybody",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "wash whoever's dirty",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
+      ]
+    },
+    {
+      "name": "the wash for one moves wash day",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "wash whoever's dirty",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
+      ]
+    },
+    {
+      "name": "who missed wash day not washed for",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "wash whoever's dirty",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "wash whoever's dirty: a man who missed wash day is washed for before the week is out, alone, and clean for town; the week stays"
+      ]
+    },
+    {
+      "name": "the child's keeping read as the child's own",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "a child keeps house as the lone parent's would",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+      ]
+    },
+    {
+      "name": "never recorded kept for the parent",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "a child keeps house as the lone parent's would",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+      ]
+    },
+    {
+      "name": "kept for anybody grown at home, not a lone parent",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "a child keeps house as the lone parent's would",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own",
+        "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
+      ]
+    },
+    {
+      "name": "a saved keeper-for that cannot be is opened",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "a child keeps house as the lone parent's would",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
+      ]
+    },
+    {
+      "name": "never called off the long work, the food gone",
+      "files": [
+        "sim/neighbours.mjs"
+      ],
+      "expected": "short of food with nobody after it",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "short of food with nobody after it, a family nobody plays calls its hand off clearing and the lane, and sends her after food"
+      ]
+    },
+    {
+      "name": "called off the long work with somebody out after food",
+      "files": [
+        "sim/neighbours.mjs"
+      ],
+      "expected": "short of food with nobody after it",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "short of food with nobody after it, a family nobody plays calls its hand off clearing and the lane, and sends her after food"
+      ]
+    },
+    {
+      "name": "no boy keeps it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it: with the father away",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a boy under sixteen follows the men's work; with no grown man home a boy of twelve keeps it, a boy of ten or eleven from nobody; a grown son keeps it",
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home",
+        "boys 12+ carry it in the families nobody plays: with the father away, the son of twelve does the men's work and no woman or girl begins it"
+      ]
+    },
+    {
+      "name": "no boy keeps it, on auto",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it on auto",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a boy under sixteen follows the men's work; with no grown man home a boy of twelve keeps it, a boy of ten or eleven from nobody; a grown son keeps it",
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home",
+        "boys 12+ carry it in the families nobody plays: with the father away, the son of twelve does the men's work and no woman or girl begins it"
+      ]
+    },
+    {
+      "name": "no boy keeps it, in the families nobody plays",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it in the families nobody plays",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a boy under sixteen follows the men's work; with no grown man home a boy of twelve keeps it, a boy of ten or eleven from nobody; a grown son keeps it",
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home",
+        "boys 12+ carry it in the families nobody plays: with the father away, the son of twelve does the men's work and no woman or girl begins it"
+      ]
+    },
+    {
+      "name": "a boy of eleven keeps it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it: with no son of twelve home",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a boy under sixteen follows the men's work; with no grown man home a boy of twelve keeps it, a boy of ten or eleven from nobody; a grown son keeps it",
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\"",
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home"
+      ]
+    },
+    {
+      "name": "a boy of twelve keeps nothing",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a boy under sixteen",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a boy under sixteen follows the men's work; with no grown man home a boy of twelve keeps it, a boy of ten or eleven from nobody; a grown son keeps it"
+      ]
+    },
+    {
+      "name": "a girl takes it up by necessity",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it: with no son of twelve home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+      ]
+    },
+    {
+      "name": "a girl may not help her mother at it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it: with no son of twelve home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+      ]
+    },
+    {
+      "name": "a girl helping said to take it up by necessity",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it: with no son of twelve home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+      ]
+    },
+    {
+      "name": "a line of necessity with the boy keeping it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it: with the father away",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens"
+      ]
+    },
+    {
+      "name": "the boy away not said",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it: with no son of twelve home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+      ]
+    },
+    {
+      "name": "no son old enough never said",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "boys 12+ carry it: \"With Jesse",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\""
+      ]
+    },
+    {
+      "name": "children keep house beside a mother at home",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "children keep house only when no grown woman is home",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up",
+        "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
+      ]
+    }
+  ]
 }

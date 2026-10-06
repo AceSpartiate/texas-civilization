@@ -99,7 +99,7 @@ function autoOff(world, household, entity, why) {
 // Milking the cow after the eggs (owner, 2026-10-02: "make it a chore that kids can do"; sim/milking.mjs).
 // Minding the hogs after the milking (owner, 2026-10-03; sim/stock.mjs `HOGS_FROM_AGE`): a child of seven on auto minds them once a day.
 // Keeping house and the wash first, where they are the child's to do (owner, 2026-10-04, "Children keep house"; sim/custom.mjs
-// `childKeeps`): a child of seven on auto keeps house for a lone parent, and does the wash when it is wanted.
+// `childKeeps`): a child of seven on auto keeps house with no grown woman at home (owner, 2026-10-05), and does the wash when it is wanted.
 const JOBS_FIRST = Object.freeze(['keep-house', 'wash-clothes', 'child-eggs', 'milk-cow', 'look-to-stock', 'child-water', 'child-mind', 'child-kindling', 'child-birds', 'child-hens']);
 
 /** What a child on auto takes up now: every other time a job they can do, and play between; play if there is no job. */

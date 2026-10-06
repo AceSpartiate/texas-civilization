@@ -12,7 +12,8 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { CHORES, beginChore, choreAvailability, homeWork } from '../sim/chores.mjs';
-import { CUSTOM, customOf, customRefusal } from '../sim/custom.mjs';
+import { BOY_KEEPS_FROM, CUSTOM, customOf, customRefusal } from '../sim/custom.mjs';
+import { herdWorkHere } from '../sim/chores.mjs';
 import { STEPS } from '../sim/lesson.mjs';
 import { advanceAuto } from '../sim/auto.mjs';
 import { createSettledWorld, settle } from './support/settled.mjs';
@@ -64,8 +65,9 @@ function rolled(shape, { seed = 'custom-shape', want = () => true } = {}) {
       const has = { father: roles.includes('father'), mother: roles.includes('mother') };
       // Both parents in a family of six or more, which keeps the custom (a smaller one keeps none: `smallFamily`).
       const fits = shape === 'both' ? has.father && has.mother && people.length >= 6 : shape === 'mother' ? has.mother && !has.father : has.father && !has.mother;
-      // No grown child of the other sex: a lone mother's family has no man of sixteen or over at all.
-      const grownOther = people.some(person => person.age >= 16 && !['father', 'mother'].includes(person.kin?.role) && person.sex === (shape === 'mother' ? 'male' : 'female'));
+      // No grown child of the other sex: a lone mother's family has no man of sixteen or over at all, and no boy of twelve to
+      // fifteen, who keeps the men's work from her (owner, 2026-10-05, "Boys 12+ carry it").
+      const grownOther = people.some(person => person.age >= (shape === 'mother' ? BOY_KEEPS_FROM : 16) && !['father', 'mother'].includes(person.kin?.role) && person.sex === (shape === 'mother' ? 'male' : 'female'));
       if (!fits || (shape !== 'both' && grownOther) || !want(world, household)) continue;
       settle(world);
       world.status = 'running';
@@ -148,14 +150,22 @@ test('it opens when every man is away: gone to town, at the war, sick, dead or t
   assert.match(customRefusal(world, household, elena, 'practise-shooting', homeWork) || '', /men's work/);
 });
 
-test('a boy under sixteen follows the men\'s work and keeps it from nobody; a grown son keeps it', () => {
+test('a boy under sixteen follows the men\'s work; with no grown man home a boy of twelve keeps it, a boy of ten or eleven from nobody; a grown son keeps it', () => {
   const { world, household, people } = rolled('both', { want: (w, h) => h.members.some(id => w.entities[id].sex === 'male' && w.entities[id].age >= 10 && w.entities[id].age < 16) });
   const father = roleOf(world, household, 'father'), mother = roleOf(world, household, 'mother');
   const boy = people.find(person => person.sex === 'male' && person.age >= 10 && person.age < 16);
+  // Only this boy of ten or more: the others too young to keep or help anything.
+  for (const other of people) if (other !== boy && !['father', 'mother'].includes(other.kin?.role)) other.age = Math.min(other.age, 6);
   assert.equal(customRefusal(world, household, boy, 'hunt-timber'), null, 'a boy was refused the men\'s work');
   father.health = { condition: 'dead' };
-  // With the father gone the boy keeps nothing from his mother: she may take up the rifle beside him.
-  assert.equal(customRefusal(world, household, mother, 'hunt-timber'), null, `a boy of ${boy.age} kept the men's work from his mother`);
+  // A boy of ten or eleven keeps nothing from his mother: she may take up the rifle beside him.
+  boy.age = 11;
+  assert.equal(customRefusal(world, household, mother, 'hunt-timber'), null, 'a boy of eleven kept the men\'s work from his mother');
+  // A boy of twelve to fifteen does (owner, 2026-10-05, "Boys 12+ carry it"), named as the one at home.
+  for (const age of [12, 15]) {
+    boy.age = age;
+    assert.equal(customRefusal(world, household, mother, 'hunt-timber'), `Hunting is men's work, and ${boy.given || boy.name} is at home.`, `a boy of ${age} kept nothing from his mother`);
+  }
   // A grown son does keep it.
   boy.age = 17;
   assert.match(customRefusal(world, household, mother, 'hunt-timber') || '', new RegExp(`${boy.given || boy.name} is at home`));
@@ -408,8 +418,8 @@ test('help, not lead, the other way: a man or boy of ten joins the women\'s work
 });
 
 test('help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does', () => {
-  // No grown son: the father is the only keeper of the men's custom.
-  const { world, household } = rolled('both', { seed: 'custom-help-raise', want: (w, h) => !h.members.some(id => w.entities[id].kin?.role === 'son' && w.entities[id].age >= 16) });
+  // No son of twelve or more: the father is the only keeper of the men's custom (a boy of twelve keeps it with him gone, owner 2026-10-05).
+  const { world, household } = rolled('both', { seed: 'custom-help-raise', want: (w, h) => !h.members.some(id => w.entities[id].sex === 'male' && w.entities[id].kin?.role !== 'father' && w.entities[id].age >= BOY_KEEPS_FROM) });
   const father = roleOf(world, household, 'father'), mother = roleOf(world, household, 'mother');
   household.improvements = { ...household.improvements, cabin: undefined };
   applyAction(world, household.id, { action: 'plan-house', layout: 'jacal' });
@@ -470,4 +480,186 @@ test('a small family keeps no custom: fewer than six living, every work is anybo
   world.entities[`${household.id}-little-1`].health = { condition: 'well' };
   world.entities[`${household.id}-little-1`].travel = { to: 'gonzales' };
   assert.equal(choreAvailability(world, household, elena, 'fell-trees').can, false, 'somebody away was not counted in the family');
+});
+
+// ------------------------------------------------------------------------------------------------ the owner's answer of 2026-10-05
+// "Boys 12+ carry it" (docs/CUSTOMARY_WORK.md §1f): the owner played a family of nine whose father was away with the volunteers at
+// Gonzales and said "The gendered work seems to have disappeared" - his daughter of ten could fell trees, and the children kept house
+// beside their mother. Verbatim: "With no grown man home, a son of 12–15 keeps the men's work and the others may only help him. Only if
+// no such boy is home does it open, and then to the mother or grown women only, never girls. Children keep house only when no grown
+// woman is home."
+
+/**
+ * The owner's family as he played it: Jesse 34 and Elizabeth 32; Hiram 15, Sally 13, Joseph 11, Peter 10, Lydia 10, Adela 7 and
+ * Harriet 6 - the founding four of hh-1 made into them, and five more. `away` sends Jesse off: 'help' (gone with the volunteers, the
+ * family's own call), 'serving' (enlisted).
+ */
+function ownersFamily(seed, away = 'help') {
+  const world = createSettledWorld(seed, 5);
+  world.status = 'running';
+  const household = world.households['hh-1'];
+  household.resources.powder = 6;
+  household.tools = { ...household.tools, axe: 0 };
+  const site = world.map.sites[household.homeSiteId];
+  const shape = { jesse: ['thomas', 34, 'male', 'father'], elizabeth: ['elena', 32, 'female', 'mother'], hiram: ['rosa', 15, 'male', 'son'], sally: ['mateo', 13, 'female', 'daughter'],
+    joseph: [null, 11, 'male', 'son'], peter: [null, 10, 'male', 'son'], lydia: [null, 10, 'female', 'daughter'], adela: [null, 7, 'female', 'daughter'], harriet: [null, 6, 'female', 'daughter'] };
+  const family = {};
+  for (const [given, [was, age, sex, role]] of Object.entries(shape)) {
+    const name = given[0].toUpperCase() + given.slice(1);
+    let person = was && world.entities[`hh-1-${was}`];
+    if (!person) {
+      const id = `hh-1-${given}`;
+      person = world.entities[id] = { id, kind: 'person', householdId: household.id, depth: 'moderate', principal: false, location: { x: site.x, y: site.y, siteId: site.id },
+        travel: null, health: { condition: 'well' }, task: 'rest', skills: {}, chore: null, kin: { role, spouse: null, parents: [], children: [] },
+        relationships: {}, propertyRefs: [], commitments: [] };
+      household.members.push(id);
+    }
+    Object.assign(person, { name, given: name, age, sex, kin: { ...person.kin, role }, skills: { ...person.skills, hunting: 1 } });
+    family[given] = person;
+  }
+  assert.equal(household.members.length, 9);
+  const { jesse } = family;
+  if (away === 'help') { jesse.task = 'help'; jesse.location = { ...jesse.location, siteId: 'gonzales' }; }
+  if (away === 'serving') { jesse.service = { kind: 'auxiliary-war', status: 'serving', since: 0, siteId: 'gonzales' }; jesse.location = { ...jesse.location, siteId: 'gonzales' }; }
+  return { world, household, ...family };
+}
+const opened = world => world.events.filter(event => event.claimId === 'FIC-GONZ-1151').map(event => event.text);
+
+test('boys 12+ carry it: with the father away, the son of fifteen keeps the men\'s work; his mother and sisters may only help him, and nothing opens', () => {
+  for (const away of ['help', 'serving']) {
+    const { world, household, hiram, elizabeth, sally, joseph, peter, lydia, adela } = ownersFamily(`custom-boys-${away}`, away);
+    // Hiram keeps it: his mother and his sisters are refused it in words that name him, and it is not on their bars.
+    for (const person of [elizabeth, sally, lydia]) {
+      for (const work of ['fell-trees', 'fence-yard', 'hunt-timber', 'cut-lane']) {
+        const said = choreAvailability(world, household, person, work);
+        assert.equal(said.can, false, `${away}: ${person.name} may ${work} with Hiram at home`);
+        assert.equal(customRefusal(world, household, person, work), `${CUSTOM[work][1]} is men's work, and Hiram is at home.`, `${away}: ${person.name}`);
+      }
+      assert.equal(view(world, household.id).work[person.id].find(entry => entry.id === 'fell-trees'), undefined, `${away}: felling is on ${person.name}'s bar`);
+    }
+    // The boys follow it as their own: Hiram, and Joseph and Peter, who keep it from nobody.
+    for (const boy of [hiram, joseph, peter]) assert.equal(customRefusal(world, household, boy, 'fence-yard'), null, `${away}: ${boy.name} was refused the men's work`);
+    // Hiram at the yard: his mother and sisters of ten or more may join him as help, never lead; a girl of seven may not.
+    send(world, household.id, hiram.id, 'fence-yard');
+    for (const person of [elizabeth, sally, lydia]) {
+      const said = choreAvailability(world, household, person, 'fence-yard');
+      assert.ok(said.can && said.help === hiram.id, `${away}: ${person.name} may not help Hiram: ${said.why}`);
+    }
+    assert.equal(choreAvailability(world, household, adela, 'fence-yard').can, false, `${away}: a girl of seven helps at the yard`);
+    send(world, household.id, elizabeth.id, 'fence-yard');
+    assert.equal(elizabeth.chore.helping, hiram.id);
+    // The boy leads: nothing opened, so the story says nothing of necessity.
+    assert.deepEqual(opened(world), [], `${away}: a line of necessity with the boy keeping it`);
+    validateWorld(world);
+  }
+});
+
+test('boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why', () => {
+  const { world, household, hiram, elizabeth, sally, joseph, lydia } = ownersFamily('custom-boys-open');
+  // Hiram gone to town: Joseph is eleven and Peter ten, and nobody keeps it. Elizabeth may take it up, by necessity, as her own.
+  hiram.location = { ...hiram.location, siteId: 'gonzales' };
+  const hers = choreAvailability(world, household, elizabeth, 'fence-yard');
+  assert.ok(hers.can && !hers.help, `the mother may not take up the yard with no son of twelve home: ${hers.why}`);
+  // The girls may not, in words that say whose it is now.
+  for (const girl of [sally, lydia]) {
+    assert.equal(choreAvailability(world, household, girl, 'fence-yard').can, false, `${girl.name}, ${girl.age}, took up the men's work by necessity`);
+    assert.equal(customRefusal(world, household, girl, 'fell-trees'), 'Felling is men\'s work; with no man at home it falls to Elizabeth.');
+  }
+  // The younger boys follow it as their own, as with their father home.
+  assert.equal(customRefusal(world, household, joseph, 'fell-trees'), null);
+  send(world, household.id, elizabeth.id, 'fence-yard');
+  assert.equal(elizabeth.chore.helping, undefined, 'the mother is marked as helping at work that is hers by necessity');
+  assert.deepEqual(opened(world), ['With Jesse away with the volunteers and Hiram gone to town, Elizabeth split the rails herself.']);
+  // A girl may help her mother at it, and only help.
+  const help = choreAvailability(world, household, sally, 'fence-yard');
+  assert.ok(help.can && help.help === elizabeth.id, `a girl may not help her mother at the men's work: ${help.why}`);
+  send(world, household.id, sally.id, 'fence-yard');
+  assert.equal(sally.chore.helping, elizabeth.id);
+  assert.equal(opened(world).length, 1, 'a girl helping was said to take it up by necessity');
+  // The cattle on horseback likewise: the mother's now, the girl's never - she minds the hogs.
+  household.herd = { cattle: 6, hogs: 4 };
+  assert.equal(herdWorkHere(world, household, elizabeth), 'all');
+  assert.equal(herdWorkHere(world, household, sally), 'hogs', 'a girl of thirteen worked the cattle by necessity');
+  // With the mother gone to town too, nobody grown is home: it waits for her, and the boy of eleven may still do it as his own.
+  elizabeth.chore = null; sally.chore = null;
+  elizabeth.location = { ...elizabeth.location, siteId: 'gonzales' };
+  assert.equal(customRefusal(world, household, sally, 'fell-trees'), 'Felling is men\'s work; with no man at home it waits for a grown woman.');
+  assert.equal(choreAvailability(world, household, joseph, 'practise-shooting').can, true, choreAvailability(world, household, joseph, 'practise-shooting').why);
+  validateWorld(world);
+});
+
+test('boys 12+ carry it: "With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe."', () => {
+  const { world, household, hiram, sally, elizabeth } = ownersFamily('custom-boys-line');
+  // No son of twelve to fifteen at all: Hiram and Sally made younger, so the sons of ten or more are eleven and ten.
+  hiram.age = 9; sally.age = 8;
+  beginChore(world, household, elizabeth, 'cut-bee-tree', deps);
+  assert.deepEqual(opened(world), ['With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.']);
+});
+
+test('children keep house only when no grown woman is home: not beside their mother with the father away, even at the men\'s work; with no woman home, yes', () => {
+  const { world, household, hiram, elizabeth, joseph, adela, harriet } = ownersFamily('custom-children-house');
+  // The father away with the volunteers and the mother home: the children of seven to nine keep their own works, not the house.
+  for (const id of ['keep-house', 'wash-clothes']) {
+    assert.equal(choreAvailability(world, household, adela, id).can, false, `a girl of seven may ${id} beside her mother`);
+    assert.equal(view(world, household.id).work[adela.id].find(entry => entry.id === id), undefined, `${id} is on Adela's bar with her mother home`);
+    // A boy of eleven may help his mother at it, not begin it.
+    assert.match(choreAvailability(world, household, joseph, id).why, /women's work, and Elizabeth is at home/);
+  }
+  // The mother at the men's work by necessity (Hiram away), still home: the children still do not keep house (the owner's words,
+  // taken literally; a question put to him, docs/CUSTOMARY_WORK.md §1f).
+  hiram.location = { ...hiram.location, siteId: 'gonzales' };
+  send(world, household.id, elizabeth.id, 'fence-yard');
+  assert.equal(choreAvailability(world, household, adela, 'keep-house').can, false, 'a child kept house with her mother at the men\'s work at home');
+  // The mother gone to town too: no grown woman at home, and the children of seven keep house and wash.
+  elizabeth.chore = null;
+  elizabeth.location = { ...elizabeth.location, siteId: 'gonzales' };
+  for (const id of ['keep-house', 'wash-clothes']) assert.equal(choreAvailability(world, household, adela, id).can, true, `${id}: ${choreAvailability(world, household, adela, id).why}`);
+  assert.equal(choreAvailability(world, household, harriet, 'keep-house').can, false, 'a child of six keeps house');
+});
+
+test('boys 12+ carry it on auto: the son takes up the men\'s work he is set to, and the mother on auto at it keeps house while he is home', () => {
+  const { world, household, hiram, elizabeth } = ownersFamily('custom-boys-auto');
+  for (const person of [hiram, elizabeth]) { person.auto = true; person.order = { chore: 'practise-shooting', mode: 'foot' }; }
+  advanceAuto(world, deps);
+  assert.equal(hiram.chore?.id, 'practise-shooting', `the boy on auto did not take up the men's work: ${hiram.order?.held}`);
+  assert.notEqual(elizabeth.chore?.id, 'practise-shooting', 'the mother on auto took up the men\'s work with her son of fifteen home');
+  assert.equal(elizabeth.chore?.id, 'keep-house', 'the mother on auto did not keep house meanwhile');
+  assert.match(elizabeth.order.held, /Hiram is at home/);
+});
+
+test('boys 12+ carry it in the families nobody plays: with the father away, the son of twelve does the men\'s work and no woman or girl begins it', () => {
+  const world = createGonzalesWorld('custom-director-boys', 8, { neighbours: true });
+  for (const household of Object.values(world.households)) rollFamily(world, household);
+  world.status = 'running';
+  // Every family of six or more with a son of twelve to fifteen and no grown son: its father away with the volunteers, serving (a
+  // father given `task: 'help'` by hand here is set back to work at the first tick, which would prove nothing).
+  const boys = new Set();
+  const sentAway = [];
+  for (const household of Object.values(world.households)) {
+    const people = household.members.map(id => world.entities[id]);
+    const father = people.find(person => person.kin?.role === 'father');
+    const boy = people.filter(person => person.sex === 'male' && person.age >= BOY_KEEPS_FROM && person.age < 16);
+    if (!father || people.length < 6 || !boy.length || people.some(person => person !== father && person.sex === 'male' && person.age >= 16)) continue;
+    father.service = { kind: 'auxiliary-war', status: 'serving', since: 0, siteId: 'gonzales' };
+    father.location = { ...father.location, siteId: 'gonzales' };
+    sentAway.push(father);
+    for (const one of boy) boys.add(one.id);
+  }
+  assert.ok(sentAway.length >= 2, `too few families of that shape to prove anything: ${sentAway.length}`);
+  const wrong = [];
+  let boysAtIt = 0;
+  for (let tick = 0; tick < 500; tick++) {
+    const before = new Map([...boys, ...sentAway.flatMap(father => world.households[father.householdId].members)].map(id => [id, world.entities[id].chore?.id || null]));
+    stepWorld(world);
+    for (const [id, was] of before) {
+      const person = world.entities[id];
+      const now = person.chore?.id;
+      if (!now || now === was || CUSTOM[now]?.[0] !== 'men') continue;
+      if (boys.has(id)) boysAtIt++;
+      else if (person.sex === 'female' && !person.chore.helping) wrong.push(`${person.name}, ${person.age}: ${now}`);
+    }
+    for (const father of sentAway) assert.equal(father.service?.status, 'serving', 'the father came home, so this proves nothing');
+  }
+  assert.deepEqual(wrong, [], 'a woman or girl of a family nobody plays began men\'s work with a son of twelve at home');
+  assert.ok(boysAtIt > 0, 'no son of twelve to fifteen was ever set to the men\'s work with his father away');
 });

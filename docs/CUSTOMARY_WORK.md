@@ -1,6 +1,6 @@
 # Men's work, women's work, and the wash: "Custom, necessity opens"
 
-**Owner-decided 2026-10-03, its four follow-up questions answered 2026-10-04 (§1b), and the viability study's seven answered the same day (§1c); not released.** Amends [FAMILY_CREATION.md](FAMILY_CREATION.md) §4 (the housekeeping saving now comes
+**Owner-decided 2026-10-03, its four follow-up questions answered 2026-10-04 (§1b), and the viability study's seven answered the same day (§1c); amended 2026-10-05, "Boys 12+ carry it" (§1f, not released).** Amends [FAMILY_CREATION.md](FAMILY_CREATION.md) §4 (the housekeeping saving now comes
 from somebody keeping house) and [STOCK.md](STOCK.md) §10.3 and §10.7 question 3 (who works the cattle). Built in `sim/custom.mjs`
 (the rule), `sim/housework.mjs` (keeping house, the garden, the wash, what people say and what the shops ask), `sim/chores.mjs`
 (`choreAvailability`, `beginChore`, `herdWorkHere`), `sim/auto.mjs`, `sim/neighbours.mjs` and `sim/errands.mjs`; drawn by
@@ -57,7 +57,7 @@ verbatim, from the multiple choice:
 
 - **Help, not lead** (§2b, `FIC-GONZ-1159`): both ways, from ten, only work more hands speed; on the bar only while one of its custom is
   at it, with the helping-hands badge; never begun; left off when he (or she) leaves off.
-- **Children keep house** (§4b, `FIC-GONZ-1158`): the honest reading of the owner's question about lone parents - **whenever only one
+- **Children keep house** (§4b, `FIC-GONZ-1158`; amended 2026-10-05, §1f: only when no grown woman is home): the honest reading of the owner's question about lone parents - **whenever only one
   custom is kept at home** (no grown man at home and able, or no grown woman), a child of **seven** or more of either sex may keep house
   and do the wash: a lone father's children, a lone mother's (so she can work the field and the men's work), and a mother's whose
   husband is at the war. A child on auto takes it up first; so do the families nobody plays.
@@ -116,12 +116,71 @@ the dead counted, the words, the away not counted); `tests/housework.test.mjs` *
 removed, caught); `tests/auto.test.mjs` *a small family on auto* (the meanwhile guard removed, caught). The file's other tests now give the founding four two little ones, two and four,
 so that it is six and keeps the custom (`littleOnes`), and its rolled families of both parents are six or more.
 
+## 1f. Boys 12+ carry it (owner, 2026-10-05)
+
+The owner played a family of nine - the father, Jesse (34), away with the volunteers at Gonzales; the mother, Elizabeth (32); Hiram 15,
+Sally 13, Joseph 11, Peter 10, Lydia 10, Adela 7 and Harriet 6 - and said: *"The gendered work seems to have disappeared."* It had: only
+people of sixteen kept the custom, so with Jesse away the men's work opened by necessity to everybody of ten or more (Lydia, ten, could
+fell trees), and the children of seven to fifteen of either sex kept house beside their mother because only one custom was kept at
+home. Asked by multiple choice, the owner chose **"Boys 12+ carry it"**, verbatim:
+
+> "With no grown man home, a son of 12–15 keeps the men's work and the others may only help him. Only if no such boy is home does it
+> open, and then to the mother or grown women only, never girls. Children keep house only when no grown woman is home."
+
+**Built** (branch `custom-away`; `sim/custom.mjs`; `FIC-GONZ-1170`, `-1171`, `HIST-TEX-1170`):
+
+- **The boy keeps it** (`customKeepers`, `BOY_KEEPS_FROM` 12): with no man of sixteen or over at home and able, a boy of the family of
+  twelve to fifteen at home and able keeps the men's work. His mother and sisters are refused it in the custom's words, which name him
+  (*"Felling is men's work, and Hiram is at home."*), it is off their bars, and they may only **help** him at the work he is at (§2b),
+  from ten. Nothing opens, so no line is said. A boy of ten or eleven follows the men's work as his own, as he does with his father home,
+  and keeps it from nobody. A father home again keeps it as before; so does a grown son.
+- **Then the grown women only** (`girlHeld`): with no such boy at home either, the men's work opens by necessity to a woman of sixteen or
+  over (or the founding mother) - never to a girl under sixteen, who is refused it (*"Felling is men's work; with no man at home it falls
+  to Elizabeth."*, or *"... it waits for a grown woman."* when none is home) and may help whoever is at it, the grown woman too
+  (`helpsWhom`). Never said to take it up by necessity: she only helps. The cattle on horseback likewise (§7): a girl minds the hogs.
+- **The line** (`noteNecessity`) names the boys of twelve to fifteen among those gone, and says *"and no son old enough"* where the
+  family has a son of ten or eleven and none of twelve: *"With Jesse away with the volunteers and Hiram gone to town, Elizabeth split the
+  rails herself."*, *"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe."*
+- **Children keep house only when no grown woman is home** (`childrenKeepHouse`, amends §4b): a child of seven or more keeps house and
+  does the wash, by that rule, only while no woman of sixteen or over is at home and able - for a lone father, or with nobody grown at
+  home. A lone mother, and a mother whose husband is away, keep house themselves, or a daughter of ten or more does (it is a girl's own
+  work by custom). The house's cue (§8) is never on the only grown hand at home, as before, so for her it points at an idle daughter of
+  ten, or at nobody.
+- **Unchanged**: the small family (§1e, fewer than six keep no custom); the age ladders; help-not-lead's own rules; the women's work.
+- **Auto and the families nobody plays** follow from the one gate (`choreAvailability`): a son of fifteen on auto at the men's work takes
+  it up; his mother on auto at it is held and keeps house meanwhile; the director's women and girls do not begin men's work while a son
+  of twelve is home, and its sons of twelve to fifteen are set to it with their father away.
+
+**Questions for the owner** (not built; the owner's words taken literally):
+
+1. *A mother at the men's work by necessity, at home.* With Jesse away and no son of twelve home, Elizabeth may fell and fence; she is
+   still a grown woman at home, so her children of seven to nine do **not** keep house for her, and the house is hers or a daughter of
+   ten's. Should children keep house while the only grown woman at home is at the men's work?
+2. *The mirror.* Should a daughter of twelve to fifteen keep the women's work when no grown woman is home - so that a father with a
+   daughter of thirteen at home may only help her keep house? Not built: the owner's words are about the men's work.
+3. *A boy of ten or eleven* follows the men's work as his own whoever is home (as with his father there). The brief that came with the
+   answer read "the others may only help him" as everybody but the keeper, so that Joseph and Peter would only help Hiram; built the other
+   way, because a boy of ten may already fell beside his father without helping, and the owner's words are about the women and girls.
+   Should a boy under twelve only help a boy of twelve to fifteen?
+4. *Lone mothers of small children* lose the children's keeping house (BALANCE.md §24 measured that it fed them). Not re-measured here.
+
+Evidence: `tests/custom-work.test.mjs` - *boys 12+ carry it* with the father away by `task: 'help'` and by `service.status: 'serving'`;
+*... with no son of twelve home it opens to the mother only*; *... "With Jesse away ... and no son old enough"*; *children keep house only
+when no grown woman is home*; *boys 12+ carry it on auto*; *boys 12+ carry it in the families nobody plays*; and *a boy under sixteen ...*
+brought up to the rule. `tests/housework.test.mjs` *children keep house*, *as the lone parent's would* and *prompt the student* brought up
+to it (the lone mother's case now refused; the lone father's kept). Twelve injections in `npm run test:custom-work-injections`, each caught
+by the test written for it (the run: 91 of 91; one older injection, *refused even with nobody at home*, is now expected of *it opens
+when every man is away*, since the lone mother's fixture is a small family that keeps no custom at all; five older search strings that
+no longer matched were brought up to the code). `npm run test:custom-work` (18 checks): the line with *"and no son old enough"*, and the son of eleven with
+neither the house nor the wash on his bar while his mother is home, keeping both once she is gone to town too.
+
 ## 2. The rule (`sim/custom.mjs`, `FIC-GONZ-1150`)
 
 - **Every work is men's, women's or shared** (§3). Only the table's works have a custom; everything else is shared and never asked.
 - **Who keeps the custom**: a man (or a woman) of the family of **sixteen or over** (`FIGHTS_FROM_AGE`), or a parent of the founding
-  four, who have no stated age. **A boy of ten to fifteen follows the men's work and a girl the women's, but nobody under sixteen keeps
-  it from anybody else**: a mother whose husband is at the war may take up the axe beside her son of fourteen.
+  four, who have no stated age. **A boy of ten to fifteen follows the men's work and a girl the women's.** **Since 2026-10-05 (§1f)**,
+  with no grown man at home and able **a boy of twelve to fifteen keeps the men's work** (`customKeepers`): a mother whose husband is
+  at the war may only help her son of fourteen at it. Until then nobody under sixteen kept it from anybody else.
 - **At home and able** (`keepers`): on the family's own land - standing there, or out on a work of the place that comes home by
   itself (the creek, the timber, the range; `homeWork` in sim/chores.mjs) - and not dead, taken, very sick, sick or lying wounded.
   Tired or slightly hurt, a man still keeps it. **Away** is a journey to town or to the war, serving with any force (or held its
@@ -134,7 +193,8 @@ so that it is six and keeps the custom (`littleOnes`), and its rolled families o
   altogether** (`choresFor`) and never reaches the bar: not greyed, not there (owner, 2026-10-04: *"none, they only appear if the
   correct gender isn't around to do it"*). It **appears, lit, the tick nobody of that custom is home**. An order for it sent anyway -
   a page a tick stale, a direct command - is refused validly, in those words.
-- **Opens by itself** when every keeper is away, sick or dead, with **one line in the family's story** the first time the person takes
+- **Opens by itself** when every keeper is away, sick or dead - the men's work **to the grown women only, never a girl under sixteen**
+  (§1f, `girlHeld`), who may help whoever is at it - with **one line in the family's story** the first time the person takes
   such work up for that reason (`noteNecessity`, `FIC-GONZ-1151`): *"With James gone to the army, Martha took up the axe."*, *"With
   James dead, Martha rode out after the cattle herself."*, *"With no grown woman in the family, Elias did the wash himself."* It is
   said again only when the reason changes (James home from town and gone to the army is a new line; his second trip to town is not),
@@ -157,7 +217,8 @@ so that it is six and keeps the custom (`littleOnes`), and its rolled families o
 The owner, 2026-10-04, **"Help, not lead"**, both ways (§1c, answers 1 and 5):
 
 - **Who**: a woman or girl of **ten** or more (`HELPS_FROM_AGE`) may join men's work, and a man or boy of ten or more women's work -
-  while the custom refuses them that work (somebody of its custom is at home).
+  while the custom refuses them that work (somebody of its custom is at home: since 2026-10-05 a son of twelve to fifteen too, §1f; and a
+  girl always, once it has opened to the grown women, who may then lead it with the girl helping her).
 - **What**: only work more hands speed - a `crew` on the chore table: the house, a clearing, the lane, the felling, a fence, the yard,
   the well, the carreta, furniture, keeping house, the garden and the wash (the three house works are joined like the fence since
   2026-10-04). **Not** the hunt, the survey, the range (its cattle are the men's by necessity; she minds the hogs there, §7), killing a
@@ -215,9 +276,10 @@ gives it to Mary Rabb; the hogs ran semi-wild and anybody minded them.
 
 The owner, 2026-10-04, **"Children keep house"** (§1c, answer 2; BALANCE.md §23 issue 2: a lone parent doing both customs fell behind):
 
-- **When**: whenever **only one custom is kept at home** (`childrenKeepHouse`): no grown man at home and able - a lone mother, or a mother
-  whose husband is at the war or in town, who has the men's work to do - or no grown woman (a lone father). With both at home, the
-  children keep their own works.
+- **When**: **only when no grown woman is at home and able** (`childrenKeepHouse`; owner, 2026-10-05, §1f: *"Children keep house only
+  when no grown woman is home"*) - a lone father, or nobody grown at home. Until 2026-10-05 it was whenever only one custom was kept at
+  home, so a lone mother and a mother whose husband was at the war or in town had it too; now she keeps house herself, or a daughter of
+  ten. With a grown woman at home, the children keep their own works.
 - **Who and what**: a child of the family of **seven** or more (`CHILD_KEEPS_FROM`), girl or boy, may **keep house and do the wash**
   (`CHILDREN_KEEP`); a boy of ten to fifteen too, whom the custom held from the women's work while his mother was home. Not the garden,
   which stays the women's.
@@ -225,9 +287,10 @@ The owner, 2026-10-04, **"Children keep house"** (§1c, answer 2; BALANCE.md §2
   and the eggs, only while they are theirs to do; a child's order for them is taken; and they are worked at a grown work's pace (`grown`).
 - **Auto**: a child on their own automation keeps house first, then the wash when it is wanted (sim/childhood.mjs `JOBS_FIRST`); a
   grown person or a child of ten on auto keeps house while their task waits as before. The families nobody plays give the house to a
-  child of seven to nine after the grown hands have their work, so a lone parent free of the farm keeps it herself.
+  child of seven to nine after the grown hands have their work, so a lone father free of the farm keeps it himself.
 - **What it saves** (owner, 2026-10-04, §1d: **"As the parent's would"**): a child keeping house **for a lone parent** - the only grown
-  hand at home and able when the child keeps it: a lone father, a lone mother, or a mother whose husband is away - saves what **that
+  hand at home and able when the child keeps it: since 2026-10-05 (§1f) a lone father only; until then a lone mother, or a mother whose
+  husband was away, too - saves what **that
   parent's own housekeeping** would (the hidden trait of FAMILY_CREATION.md §4): the child does the chores the parent directs. The house
   is recorded kept by the child for the parent (`housekept.for`, absent on every class saved before, which reads as the keeper's own),
   and the saving is read from the parent while they live (`keptBy`). Until 2026-10-04 it was the child's own housework, which grows with
@@ -279,15 +342,16 @@ The owner, 2026-10-04, **"Children keep house"** (§1c, answer 2; BALANCE.md §2
   does not move (*"Elena did a wash for Thomas, who wanted it before wash day: one set of clothes boiled, beaten and hung on the fence to
   dry."*). So the one sent to town, who was the one most often away on wash day, can be washed for before he goes again. With nobody
   at home wanting it the refusal is as before (*"The wash was done 3 days ago; it is done once a week."*).
-- **A family with no woman can always wash**: the men by necessity (§2), and a child of seven or more for a lone parent (§4b).
+- **A family with no woman can always wash**: the men by necessity (§2), and a child of seven or more with no grown woman at home (§4b).
 - `ceiling:` the families nobody plays are sent to town by their director's own errands, which pay fixed prices; the markup is on the
   student's errand (the shops' list). Their women wash anyway (§4), so it would rarely bite.
 - `ceiling:` the retired walk to the shops (`visit-shop-street`, kept for a class saved in the middle of it) pays the plain price.
 
 ## 7. The cattle (STOCK.md §10.7, question 3, answered again)
 
-*Ride the range after the stock* (`look-to-stock`): **the cattle are the men's and boys' of twelve and over; a woman's or girl's only
-when no man of sixteen or over is at home and able; the hogs are everybody's from seven**. While a man is home a woman sent to the
+*Ride the range after the stock* (`look-to-stock`): **the cattle are the men's and boys' of twelve and over; a grown woman's only
+when no man of sixteen or over and no boy of twelve to fifteen is at home and able (since 2026-10-05, §1f), and never a girl's; the hogs
+are everybody's from seven**. While a man is home a woman sent to the
 range **minds the hogs only**, on foot (`herdWorkHere`, `hogsOnly`, decided as she sets out); with no hogs to mind she is refused in the
 custom's words (*"Working the cattle is men's work, and James is at home."*); with no man at home she works the cattle on the horse,
 and the line says so once (*"With James dead, Martha rode out after the cattle herself."*). The milking stays everybody's.
@@ -303,12 +367,13 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
   leaves the work.
 - **The house's cue** (owner, 2026-10-04, **"Prompt the student"**; sim/housework.mjs `houseCue`, sent as `cue` on one person): while the
   house is not kept today, or somebody at home wants the wash, the one idle person who may begin it - in the panel's order, father,
-  mother, then the eldest child; so a woman or girl while one is home, a man when none is, a child for a lone parent - has the work's
+  mother, then the eldest child; so a woman or girl while one is home, a man when none is, a child for a lone father - has the work's
   own picture (the pot over the fire, or the washtub) **pulsing in the foot of her portrait**, and the matching icon on her bar **glows
   blue** (`data-cue`). No words. Not on somebody busy, on auto, stopped by a child, sick or away; gone the tick somebody is at that work
   or it is done. One cue at a time for the family: the house before the wash. **Quiet while the food is low** (under a week of the
   family's eating, `CUE_FOOD_DAYS`, the food gauge's own "low": the ways to food glow then) and **never on the only grown hand at home**
-  (a lone parent, or a mother whose husband is away: the cue goes to a child of seven who may keep house for them, or to nobody).
+  (a lone parent, or a mother whose husband is away: the cue goes to a daughter of ten, or a lone father's child of seven, or to
+  nobody; since 2026-10-05 a child under ten keeps no house beside a grown woman, §1f).
   Measured (BALANCE.md §24): a student who pressed the cue first, before both rules, drew lone parents from the field into the wash and
   lost children to hunger at home.
 - The map: a woman keeping house at the front of the house, in the garden, at the wash; **the garden beside the house**; **flies over
@@ -338,6 +403,9 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
 | `FIC-GONZ-1158` | Children of seven keep house and wash whenever only one custom is kept at home (owner, 2026-10-04) |
 | `FIC-GONZ-1159` | Help, not lead: from ten, both ways, joined never begun, left off with the lead (owner, 2026-10-04) |
 | `FIC-GONZ-1160` | The wash for whoever at home wants it before the week is out; the weekly day stays (owner, 2026-10-04) |
+| `HIST-TEX-1170` | Boys of about thirteen did men's work with the men at the army: Dilue Harris's brother sent to drive cattle, the large boys gone to the army (Harris, as read for `HIST-TEX-641`, `-1151`) |
+| `FIC-GONZ-1170` | Boys 12+ carry it: a son of twelve to fifteen keeps the men's work with no grown man home; then the grown women only, never girls (owner, 2026-10-05) |
+| `FIC-GONZ-1171` | Children keep house only when no grown woman is home (owner, 2026-10-05; amends `-1158`) |
 
 ## 10. Balance
 
@@ -369,8 +437,9 @@ the house's short steps.
   once a reason; the lone mother and the lone father; every step of the guided start has a hand in all three shapes, and its work
   played through by whoever the custom allows; auto; the job in hand finished; the cattle; the families nobody plays) and
   `tests/housework.test.mjs` (7: keeping house and the saving; the garden; the wash; the remark in town; at the war; the prices; an
-  old save). Each proved by injection: `npm run test:custom-work-injections`, **73 of 73** (2026-10-04, with the answers below; 46 of
-  46 before them) caught by the test written for them, 53 by that test alone ([record](evidence/custom-work-injections.json)).
+  old save). Each proved by injection: `npm run test:custom-work-injections`, **91 of 91** (2026-10-05, with §1f's twelve; 73 of 73 on
+  2026-10-04, 46 of 46 before the answers) caught by the test written for them, 58 by that test alone
+  ([record](evidence/custom-work-injections.json)).
 - The owner's answers of 2026-10-04: `tests/custom-work.test.mjs` *help, not lead* (a woman or girl of ten joins the yard he is at, drawn
   as help, faster, never begun; a girl of nine not), *help, not lead, the other way* (a man and a boy of twelve join her at the house
   and the wash, faster; a boy of eight not), *help at work each puts their own hands into* (she helps raise the house, leaves off when he does, and goes on by
@@ -380,4 +449,4 @@ the house's short steps.
   were caught by nothing, because another gate already holds the line (a boy of eight helping, held by the age ladder; the cue on
   somebody busy, held by `choreAvailability`), and were replaced by ones that bite (a girl of twelve refused; the cue on the only grown
   hand at home).
-- `npm run test:custom-work`: the browser proof with screenshots, 17 checks - none of the men's work on the mother's bar with the father home and an order for it refused in words, the work lit once he is on the road, and the same button back when he goes again; and since 2026-10-04 the cue on the idle mother (and off her once busy), the house on her bar with the helping-hands badge while he builds and her joining him as help, their son of seven keeping house and doing the wash while the father is on the errand, and the father washed for, alone, before the week is out ([record](evidence/custom-work-browser.json)).
+- `npm run test:custom-work`: the browser proof with screenshots, 18 checks since 2026-10-05 (§1f), 17 before - none of the men's work on the mother's bar with the father home and an order for it refused in words, the work lit once he is on the road, and the same button back when he goes again; and since 2026-10-04 the cue on the idle mother (and off her once busy), the house on her bar with the helping-hands badge while he builds and her joining him as help, their son of seven keeping house and doing the wash while the father is on the errand, and the father washed for, alone, before the week is out ([record](evidence/custom-work-browser.json)).

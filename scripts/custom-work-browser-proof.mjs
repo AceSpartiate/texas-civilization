@@ -22,7 +22,9 @@
 // The owner's answers of 2026-10-04 (docs/CUSTOMARY_WORK.md §1c), on the same class:
 //   2b. the cue: the idle mother, the house not kept today, has the pot over the fire pulsing on her portrait and Keep house glowing;
 //   2c. help, not lead: the father at the house, the house on her bar with the helping-hands badge; pressed, she joins him as help;
-//   4b. children keep house: with the father gone on the errand to the store, their son of eleven keeps house and does the wash for his mother;
+//   4b. children keep house: with the father gone on the errand to the store and the mother home, their son of eleven has neither the
+//       house nor the wash on his bar (owner, 2026-10-05: "Children keep house only when no grown woman is home"); with the mother
+//       gone to town too, he keeps house and does the wash;
 //   6.  the wash for whoever's dirty: the father home from town in dirty clothes is washed for before the week is out, and alone.
 // The seed's eldest son is eleven. The family is rolled in the world factory and given sixty food, since the cue is quiet while the
 // food is low.
@@ -114,7 +116,7 @@ try {
   assert.ok(fatherId && motherId, `the seed did not give a father and a mother: ${JSON.stringify(roles)}`);
   const nameOf = id => people.find(one => one.id === id)?.name || id;
   const him = { id: fatherId, name: nameOf(fatherId) }, her = { id: motherId, name: nameOf(motherId) };
-  // The eldest child: a child of seven or more keeps house for a lone parent (owner, 2026-10-04).
+  // The eldest child: a child of seven or more keeps house with no grown woman at home (owner, 2026-10-04; amended 2026-10-05).
   const childId = people.filter(one => !['father', 'mother'].includes(roles[one.id])).sort((a, b) => (b.age ?? 0) - (a.age ?? 0))[0]?.id;
   assert.ok(childId, 'the seed gave no child');
   const kid = { id: childId, name: nameOf(childId), age: people.find(one => one.id === childId)?.age };
@@ -231,7 +233,8 @@ try {
   ok(`with ${him.name} on the road to town, ${observed.lit.key} appears on ${her.name}'s bar, lit`);
   const taken = await command(page, { action: 'chore', entityId: her.id, chore: key });
   assert.equal(taken.status, 200, JSON.stringify(taken.body));
-  await page.waitForFunction(id => window.__snapshot.world.events.some(event => event.actorId === id && /^With .* gone to town, .*/.test(event.text || '')), her.id, { timeout: 20000 });
+  // "With Thomas gone to town and no son old enough, ...": the sons are eleven and ten, and a son of twelve would keep it (owner, 2026-10-05).
+  await page.waitForFunction(id => window.__snapshot.world.events.some(event => event.actorId === id && /^With .* gone to town(?: and no son old enough)?, .*/.test(event.text || '')), her.id, { timeout: 20000 });
   observed.line = (await snapshot(page)).events.find(event => event.actorId === her.id && /^With /.test(event.text || '')).text;
   ok(`the family's story says: "${observed.line}"`);
 
@@ -260,9 +263,27 @@ try {
   await page.waitForFunction(id => { const e = window.__snapshot.world.entities.find(one => one.id === id); return !e.travel && e.location?.siteId === window.__snapshot.world.household.homeSiteId; }, him.id, { timeout: 180000 });
   const errand = await command(page, { action: 'chore', entityId: him.id, chore: 'visit-shop', errand: [{ id: 'store:seed', n: 1, pay: 'food' }] });
   assert.equal(errand.status, 200, JSON.stringify(errand.body));
-  // 4b. Children keep house (owner, 2026-10-04): with the father gone on the errand to the store the mother is alone at home with the men's work, and the
-  // son of eight has Keep house and the wash on his own bar, lit; he keeps house, drawn at it, and then does the wash.
+  // 4b. Children keep house (owner, 2026-10-04; amended 2026-10-05: "Children keep house only when no grown woman is home"): with the
+  // father gone on the errand to the store and the mother at home, the son of eleven has neither the house nor the wash on his bar.
   await focus(page, kid.id);
+  await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.travel, him.id, { timeout: 30000 });
+  await page.waitForTimeout(800);
+  observed.childBarMotherHome = await barKeys(page, kid.id);
+  assert.ok(!observed.childBarMotherHome.some(k => ['keep-house', 'wash-clothes'].includes(k)), `the house or the wash is on ${kid.name}'s bar with his mother at home: ${observed.childBarMotherHome.join(', ')}`);
+  ok(`with ${him.name} on the errand and ${her.name} at home, ${kid.name} (${kid.age}) has neither Keep house nor the wash on his bar`);
+  // The mother gone to town too, on an errand to the store - nobody grown at home: he has Keep house and the wash on his own bar, lit; he keeps house, drawn at
+  // it, and then does the wash. A little one may have stopped her to talk: the children given their play, as a student would.
+  let gone = null;
+  if ((await snapshot(page)).entities.find(one => one.id === her.id)?.chore) await command(page, { action: 'stop-chore', entityId: her.id });
+  for (let attempt = 0; attempt < 20; attempt++) {
+    gone = await command(page, { action: 'chore', entityId: her.id, chore: 'visit-shop', errand: [{ id: 'store:seed', n: 1, pay: 'food' }] });
+    if (gone.status === 200 || !/stopped to talk|holding|baby|already/.test(gone.body?.error || '')) break;
+    if (/already/.test(gone.body?.error || '')) await command(page, { action: 'stop-chore', entityId: her.id });
+    const little = (await snapshot(page)).entities.filter(one => one.kind === 'person' && one.age >= 2 && one.age < 10 && !one.chore);
+    for (const child of little) await command(page, { action: 'chore', entityId: child.id, chore: 'child-play' });
+    await page.waitForTimeout(800);
+  }
+  assert.equal(gone.status, 200, JSON.stringify(gone.body));
   await page.waitForFunction(id => ['keep-house', 'wash-clothes'].every(k => { const button = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${k}"]`); return button && button.getAttribute('aria-disabled') !== 'true'; }), kid.id, { timeout: 30000 });
   observed.childBar = await barKeys(page, kid.id);
   // A child may wander off a job before it is done (sim/obedience.mjs): sent again until the story says it was done. Slowed, so a
@@ -298,11 +319,13 @@ try {
   assert.ok(observed['keep-house'] || observed.childIndoors, `${kid.name} was never drawn keeping house, nor indoors at it`);
   observed.childStory = (await snapshot(page)).events.filter(event => event.actorId === kid.id && /kept house|did the wash/.test(event.text || '')).map(event => event.text);
   assert.equal(observed.childStory.length, 2, `the child's story: ${observed.childStory.join(' | ')}`);
-  ok(`children keep house: with ${him.name} gone to the store, ${kid.name} (${kid.age}) has ${observed.childBar.filter(k => ['keep-house', 'wash-clothes'].includes(k)).join(' and ')} on his bar; ${observed['keep-house'] ? `drawn ${observed['keep-house'].stroke}` : 'keeping it indoors, out of the weather'}; the story: ${observed.childStory.map(text => `"${text}"`).join(' ')}`);
+  ok(`children keep house: with ${him.name} gone to the store and ${her.name} to town, ${kid.name} (${kid.age}) has ${observed.childBar.filter(k => ['keep-house', 'wash-clothes'].includes(k)).join(' and ')} on his bar; ${observed['keep-house'] ? `drawn ${observed['keep-house'].stroke}` : 'keeping it indoors, out of the weather'}; the story: ${observed.childStory.map(text => `"${text}"`).join(' ')}`);
   await page.waitForFunction(id => window.__snapshot.world.events.some(event => event.actorId === id && /bought 2 seed .* to a clean customer/.test(event.text || '')), him.id, { timeout: 120000 });
   observed.paid = (await snapshot(page)).events.find(event => event.actorId === him.id && /bought 2 seed/.test(event.text || '')).text;
   ok(`the story says: "${observed.paid}"`);
   await page.waitForFunction(id => { const e = window.__snapshot.world.entities.find(one => one.id === id); return !e.chore && !e.travel && e.location?.siteId === window.__snapshot.world.household.homeSiteId; }, him.id, { timeout: 180000 });
+  // The mother home from her errand.
+  await page.waitForFunction(id => { const e = window.__snapshot.world.entities.find(one => one.id === id); return !e.chore && !e.travel && e.location?.siteId === window.__snapshot.world.household.homeSiteId; }, her.id, { timeout: 180000 });
   await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, her.id, { timeout: 180000 }).catch(() => command(page, { action: 'stop-chore', entityId: her.id }));
   await page.waitForTimeout(500);
 
@@ -342,7 +365,8 @@ try {
   await shot(page, 'garden');
   const told =(await snapshot(page)).events.filter(event => event.actorId === her.id && /kitchen garden|worked the garden|did (?:the|a) wash/.test(event.text || '')).map(event => event.text);
   assert.ok(told.some(text => /kitchen garden|worked the garden/.test(text)), `the story: ${told.join(' | ')}`);
-  // The wash for whoever's dirty (owner, 2026-10-04): the family washed on the son's day; the father, away then, is washed for alone.
+  // The wash for whoever's dirty (owner, 2026-10-04): the family washed on the son's day; the father, away then, is washed for, with the
+  // mother, who was away in town that day too (since 2026-10-05 the son keeps house only with no grown woman at home).
   observed.washFor = told.find(text => text.includes(`did a wash for ${him.name.split(' ')[0]}`));
   assert.ok(observed.washFor, `the father was not washed for before the week was out: ${told.join(' | ')}`);
   ok(`the story says: ${told.map(text => `"${text}"`).join(' ')}`);
