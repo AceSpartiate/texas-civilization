@@ -1,5 +1,12 @@
 # Claude handoff — Astra foundation
 
+## Astra's 2026-10-05 art wired in: the flag painted seated, the eighteen watching the far bank, the battle notice's portrait — 2026-10-06 (not released)
+
+- **The flag painted seated.** A `flag-paint` beat, 6 to noon on October 1 (sim/town-scenes.mjs), sits blue-girl and indigo at her `<figure>-seated-paint` drawings; each drawing has its own stool, table, pot and cloth, so the beat sets no table or cloth. They are drawn at the share of a standing woman's height that matches the head (`seated` in public/town-scenes.js `sceneClip`: .77, the girl .95, measured from the head's width in the frames; a `ceiling:`). Anybody else seated at the flag paints standing. The sewing beat (`flag-cloth`) now ends at 6 that morning.
+- **Watching the far bank.** A `watch` pose: her `-river-watch-n`/`-s` for teal, indigo, elder and blue, `-river-watch` east and west for teal and elder, standing for the rest. Two of the eighteen at the crossing watch on September 29 and 30.
+- **The battle notice** (her commit 14c7888f, made against an older page): ported onto the current story card — see her section below.
+- Evidence: `tests/gonzales-seated-paint-art.test.mjs` and `tests/river-gestures-art.test.mjs`, each new test proved by injection (5 and 4 caught); the gonzales-town proof samples the seated clips. Art plan A12 narrowed to what is left: pointing east and west for indigo, blue and the figures not yet drawn pointing.
+
 ## Away at the war: the volunteer in the battle, the militia's bar, his pack and powder, staying, and what he overhears — owner, 2026-10-05 (not released)
 
 Branch `volunteer-life`. The owner's report of 2026-10-05 (a San Felipe father who reached Gonzales two hours after the fight and stood

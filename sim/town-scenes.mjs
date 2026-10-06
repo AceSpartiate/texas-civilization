@@ -636,13 +636,13 @@ export const TOWN_BEATS = Object.freeze([
 
   // ------------------------------------------------------------------------------ the crossing: the eighteen and the boats
   { id: 'crossing-hold', scene: 'crossing', from: on(0, 12), to: on(0, 16), card: CARD_CROSSING, talk: CROSSING_HOLD, seenFrom: ['gonzales', 'ford'],
-    people: eighteenAt('crossing', ['idle', P.point, 'speak', 'idle', 'listen', 'idle']), props: CROSSING_PROPS() },
+    people: eighteenAt('crossing', ['watch', P.point, 'speak', 'watch', 'listen', 'idle']), props: CROSSING_PROPS() },
   { id: 'crossing-swimmer', scene: 'crossing', from: on(0, 16), to: on(0, 18), card: CARD_CROSSING, talk: CROSSING_SWIMMER, seenFrom: ['gonzales', 'ford'],
     people: eighteenAt('crossing', [P.point, 'speak', 'speak', 'listen', 'idle', 'idle']), props: CROSSING_PROPS() },
   { id: 'crossing-night', scene: 'crossing', from: on(0, 18), to: on(1, 7), card: CARD_CROSSING, talk: CROSSING_NIGHT, seenFrom: ['gonzales', 'ford'],
     people: eighteenAt('crossing', ['idle', 'speak', 'listen', 'idle', 'rest', 'rest']), props: [...CROSSING_PROPS(), { kind: 'fire', place: 'crossing', dx: -0.004, dy: 0.02 }] },
   { id: 'crossing-watch', scene: 'crossing', from: on(1, 7), to: on(1, 16), card: CARD_CROSSING, talk: CROSSING_WATCH, seenFrom: ['gonzales', 'ford'],
-    people: eighteenAt('crossing', ['idle', 'speak', 'listen', P.point, 'idle', 'idle']), props: CROSSING_PROPS() },
+    people: eighteenAt('crossing', ['watch', 'speak', 'listen', P.point, 'idle', 'idle']), props: CROSSING_PROPS() },
   { id: 'crossing-reading', scene: 'crossing', from: on(1, 16), to: on(1, 18), card: CARD_READING, talk: CROSSING_READING, seenFrom: ['gonzales', 'ford'],
     people: [...eighteenAt('crossing', ['listen', 'idle', 'idle', 'listen', 'idle', 'idle']),
       at('gz-clements', 'crossing', -0.01, -0.006, 'read-letter', 'river'), at('gz-reader-1', 'crossing', 0.004, -0.004, 'listen', 'river'), at('gz-reader-2', 'crossing', 0.012, 0.004, 'listen', 's'), at('gz-mr-smith', 'crossing', -0.022, 0.002, 'listen', 'river')],

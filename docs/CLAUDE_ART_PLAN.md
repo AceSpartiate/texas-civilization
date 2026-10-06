@@ -106,10 +106,10 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Plugs into:** `propItem` in `public/ambient.js`
   - **Stands in now:** the plain `bucket`, the Alamo's `alamo-firewood`, `chicken-idle` (Astra's library art reused)
 - [ ] **A12** (priority 2) — [Request 2026-09-25 — Gonzales before the fight](ART_REQUESTS.md#request-2026-09-25--gonzales-before-the-fight), items 1-4
-  - **Deliver:** a seated flag painter for `teal`, `indigo`, `blue-girl` (`<figure>-paint-seated`, 2 frames); `elder`, `ochre`, `blue` `-dig` with a spade (4 frames, shared with A4); `-forge` (a smith at the anvil, 2-4 frames) with `forge-anvil` as a prop; `-point` (arm out across the river, the other shading the eyes, 2 frames, east and south)
-  - **Frames:** 2-4 frames, east (and south for pointing). **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
-  - **Plugs into:** `STAND_INS` in `sim/town-scenes.mjs`; `drawProp` in `public/town-scenes.js`
-  - **Stands in now:** the delivered `repair`, `work`, `search` and `speak` poses (Astra's library art reused)
+  - **Deliver:** what remains of items 1-4: `-point` east and west (arm out across the river, the other shading the eyes, 2 frames) for `indigo`, `blue` and the cast figures not yet drawn pointing (`ochre`, `blue-girl`, `volunteer`). Delivered by Astra 2026-10-04/05 and used: the seated flag painters (`<figure>-seated-paint`, the flag-paint beat), the spade, the smiths, and pointing and watching north and south for teal, indigo, elder and blue, east and west for teal and elder
+  - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `sceneClip` in `public/town-scenes.js`
+  - **Stands in now:** the delivered `search` pose (Astra's library art reused)
   - **Research first:** the Gonzales scenes of September 29 - October 2, 1835 (docs/battle-research/gonzales-town.md, HIST-TEX-460-469)
 - [ ] **A22** (priority 2) — [Request 2026-09-29 — the family's start: Tejano and free Black families, and the people of the road east](ART_REQUESTS.md#request-2026-09-29--the-familys-start-tejano-and-free-black-families-and-the-people-of-the-road-east), item 2
   - **Deliver:** a Tejano ranchero family’s dress for the parents’ figures: a man in a low-crowned wide sombrero, a short jacket and calzoneras (`tejano-man`), a woman in a rebozo, a full skirt and a loose chemise (`tejano-woman`), each in every pose the cast has (idle four ways, walk, work, rest, speak, care, ride, drive), in the layered form of A18 so the palette dyes them
