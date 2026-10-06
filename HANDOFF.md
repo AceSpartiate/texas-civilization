@@ -1,13 +1,17 @@
 # Claude handoff — Astra foundation
 
-## Astra's 2026-10-05 art wired in: the flag painted seated, the eighteen watching the far bank, the battle notice's portrait — 2026-10-06 (not released)
+## Released as v2026.10.06.1 — 2026-10-06
+
+Main at 0d025f31, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.06.1>). Sets of changes: from v2026.10.05.3 (4.7 MB), v2026.10.05.2, v2026.10.05.1, v2026.10.04.1 and v2026.10.03.2. Evidence: `npm test` 2285 pass, 0 fail at 0d025f31; the browser proofs two at a time at 893b7ab4, the ones that failed then passing alone (end-sequence, volunteer-life, battle-alamo, famous-people, shelter) or fixed since and passing on the verify tree with the voices at 0d025f31 (overlap, tips, military-notice; with gonzales-town, panels and read-aloud at fb4a0e12). Found on the way and fixed: overheard talk reached an enlisted man in the Alamo (now volunteers only); an express rider's scene hid Travis's runner; the merged battle notice was taller than the 1024x600 layout allows.
+
+## Astra's 2026-10-05 art wired in: the flag painted seated, the eighteen watching the far bank, the battle notice's portrait — 2026-10-06 (released in v2026.10.06.1)
 
 - **The flag painted seated.** A `flag-paint` beat, 6 to noon on October 1 (sim/town-scenes.mjs), sits blue-girl and indigo at her `<figure>-seated-paint` drawings; each drawing has its own stool, table, pot and cloth, so the beat sets no table or cloth. They are drawn at the share of a standing woman's height that matches the head (`seated` in public/town-scenes.js `sceneClip`: .77, the girl .95, measured from the head's width in the frames; a `ceiling:`). Anybody else seated at the flag paints standing. The sewing beat (`flag-cloth`) now ends at 6 that morning.
 - **Watching the far bank.** A `watch` pose: her `-river-watch-n`/`-s` for teal, indigo, elder and blue, `-river-watch` east and west for teal and elder, standing for the rest. Two of the eighteen at the crossing watch on September 29 and 30.
 - **The battle notice** (her commit 14c7888f, made against an older page): ported onto the current story card — see her section below.
 - Evidence: `tests/gonzales-seated-paint-art.test.mjs` and `tests/river-gestures-art.test.mjs`, each new test proved by injection (5 and 4 caught); the gonzales-town proof samples the seated clips. Art plan A12 narrowed to what is left: pointing east and west for indigo, blue and the figures not yet drawn pointing.
 
-## Away at the war: the volunteer in the battle, the militia's bar, his pack and powder, staying, and what he overhears — owner, 2026-10-05 (not released)
+## Away at the war: the volunteer in the battle, the militia's bar, his pack and powder, staying, and what he overhears — owner, 2026-10-05 (released in v2026.10.06.1)
 
 Branch `volunteer-life`. The owner's report of 2026-10-05 (a San Felipe father who reached Gonzales two hours after the fight and stood
 on the town's point doing nothing, home chores greyed on his bar, the family's food gauge counting him) and two multiple-choice answers:
@@ -64,7 +68,7 @@ reminiscence marked).
   volunteer's bar (owner, 2026-09-30, "whoever's it is"). Not proved: Chromebook, LAN, classroom.
 
 - **Follow-up, 2026-10-06** (after the merge to main: `test:battle-alamo` lost "Isaac was never seen to fall" and `test:famous-people` timed out in the siege). The overhearing reached every person away at the war, the garrison too: Isaac, shut in the Alamo, "overheard" the siege and, after the assault, "They say the Alamo fell", and his family learned them through him days before the word (docs/BATTLES.md §2b.1). Overhearing is now a volunteer's only (`sim/militia.mjs` `overhearing` reads `atWar`); new test *an enlisted man ... overhears nothing for his family* (injection: overhearing by `awayWithTheArmy` again - caught, only it). Measured, the alamo-class (seed battle-alamo, two families played, 326 ticks to the fall): stepWorld 2.08 ms a tick at 90eaee58 and 2.19 ms after (advanceMilitia and overhear together about 0.1 ms); three projections a tick 20.3 ms and 21.1 ms. Not the cause of the slow siege. `test:battle-alamo` alone: 13 checks green. `test:famous-people`: the server ran the siege at the same pace at 90eaee58 and after (the same calendar minute at each 20 s mark), and an in-process run of its class sends the student and the Host the same phases at both; the proof's own loop stalled 32 s at a time in `answerRunner`, whose click on a card already gone waited out Playwright's 30 s for the next one - at the alarm, the whole assault went by unsampled - at 90eaee58 too. Its click now gives up after 2 s. Run alone twice each after that: this branch one red ("the line in the sand was never drawn", a second sampling race) and one green (22 checks, 231 s); 90eaee58 the same, one red with the same message and one green (225 s). npm test after: 2313, 2277 pass, 0 fail.
-## Every rider who reaches you, as a scene — owner, 2026-10-05 (not released)
+## Every rider who reaches you, as a scene — owner, 2026-10-05 (released in v2026.10.06.1)
 
 **Follow-up 2026-10-06, after the merge to main (b740cb4b).** (1) `test:children` red at its road step: not the scenes. The press of
 *Watch the road behind* took ("set out"), and the boy wandered from the job on the next tick on his seeded obedience roll
