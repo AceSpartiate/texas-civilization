@@ -20,7 +20,7 @@ Twelve new frames and three four-frame seated brushwork clips for teal, indigo a
 
 Main at 87381d33, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.2>). Sets of changes: from v2026.10.05.1, 0.6 MB; from v2026.10.04.1, 6.1 MB; from v2026.10.03.2, 11.6 MB. Contents: help on a small farm - the young capped, a small family keeps no custom, the spouse's two children (the section below). Verification on 87381d33's branch: npm test 2255, 0 failed; the full browser run two at a time, 106 of 111 green; of the five red, children was a fixture the new rolls no longer make (fixed, then green twice alone), and travel-drawn, battle-cinema, battle-grass and famous-people (the Neill sampled moment) green alone. Not proved: Chromebook, LAN or classroom; ThreatDown.
 
-## Boys 12+ carry the men's work; children keep house only with no grown woman home — owner, 2026-10-05 (not released)
+## Boys 12+ carry the men's work, girls 12+ the women's; children keep house only with nobody keeping it — owner, 2026-10-05 (not released)
 
 Branch `custom-away` from 3f0ef6c7. The owner played a family of nine (Jesse 34 away with the volunteers at Gonzales; Elizabeth 32;
 Hiram 15, Sally 13, Joseph 11, Peter 10, Lydia 10, Adela 7, Harriet 6) and said *"The gendered work seems to have disappeared."* Only
@@ -62,9 +62,23 @@ custom at all, so the lone-mother test no longer guards it.
 `npm run test:custom-work` 18 checks (was 17): the line with "and no son old enough"; the son of eleven with neither the house nor the
 wash on his bar while his mother is home, and keeping both once she has gone to the store too. `npm test`: 2261 tests, 2225 pass, 0 fail, 36 skipped.
 
+**The mirror** (owner, 2026-10-05, answering question 2 below: *"Let a daughter of 12–15 keep the women's work too"*; built after
+c9fa3356 was merged, on the same branch; `FIC-GONZ-1172`, `-1173`). With no grown woman home and able, a daughter of twelve to fifteen
+home and able keeps the women's work (house, garden, wash, nursing); her father and brothers are refused it in words naming her
+(*"Keeping house is women's work, and Sally is at home."*) and may only help her. With no such girl it opens to the grown men only, never
+a boy under sixteen (*"The kitchen garden is women's work; with no woman at home it falls to Jesse."*); a boy may help a grown man at
+it. The line says *"and no daughter old enough"* the way the men's says "no son". Children keep house only with nobody keeping the
+women's work at home (no grown woman, no daughter of twelve), and a child refused is told who keeps it (*"Adela is too young to keep
+house while Sally is at home."*). sim/custom.mjs `customKeepers` now covers both sexes (`GIRL_KEEPS_FROM`, `youthOf`, `youngHeld`);
+sim/auto.mjs `houseworkMeanwhile` asks `customKeepers`; sim/housework.mjs names the keeper. Tests: five *a daughter of twelve keeps
+the women's work* tests (the mother in town and Sally keeping house, the cue on her, Jesse and Hiram only helping; with Sally away too,
+to Jesse only; the line; auto; the families nobody plays with the mother dead), and *children keep house only when no grown woman is
+home* brought up to it; the lone-father fixture now has no daughter of twelve. Eleven injections added (102 in all): each caught by
+the test written for it. One, *no girl keeps it, in the families nobody plays*, was missed at first because the test read who keeps it
+from the rule under test; rewritten to read it from the world, it is caught (re-run alone). `npm test` 2276 tests, 2240 pass, 0 fail, 36 skipped; `npm run test:custom-work` 18 checks (its family has no daughter of twelve, so unchanged).
+
 **Questions for the owner** (docs/CUSTOMARY_WORK.md §1f): (1) a mother at the men's work by necessity is still a grown woman at home,
-so her small children do not keep house for her - wanted? (2) should a daughter of twelve to fifteen keep the women's work when no grown
-woman is home (no mirror built)? (3) boys of ten and eleven still lead men's work as their own - should they only help a boy of twelve?
+so her small children do not keep house for her - wanted? (2) answered, above. (3) boys of ten and eleven still lead men's work as their own - should they only help a boy of twelve?
 (4) lone mothers of small children lose the children's housekeeping that BALANCE.md §24 measured feeding them; not re-measured.
 
 **Also.** `scripts/custom-work-injections.mjs` had five search strings that no longer matched (two from before this branch); fixed.

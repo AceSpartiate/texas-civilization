@@ -45,7 +45,7 @@
 import { record } from './events.mjs';
 import { FIGHTS_FROM_AGE, sexOf } from './family.mjs';
 
-export const CLAIMS = Object.freeze({ rule: 'FIC-GONZ-1150', opened: 'FIC-GONZ-1151', reconstructed: 'FIC-GONZ-1152', childrenKeep: 'FIC-GONZ-1158', help: 'FIC-GONZ-1159', boys: 'FIC-GONZ-1170', childrenWithNoWoman: 'FIC-GONZ-1171' });
+export const CLAIMS = Object.freeze({ rule: 'FIC-GONZ-1150', opened: 'FIC-GONZ-1151', reconstructed: 'FIC-GONZ-1152', childrenKeep: 'FIC-GONZ-1158', help: 'FIC-GONZ-1159', boys: 'FIC-GONZ-1170', childrenWithNoWoman: 'FIC-GONZ-1171', girls: 'FIC-GONZ-1172' });
 
 /**
  * Every work with a custom: `[whose, the work as the refusal says it, what taking it up by necessity is called]`. Everything not
@@ -126,27 +126,33 @@ export function keepers(world, household, sex, homeWork = null) {
  * only help him."). A boy of the family of `BOY_KEEPS_FROM` (twelve) to fifteen - the age the cattle are a boy's (sim/stock.mjs
  * `CATTLE_FROM_AGE`) - keeps the men's work from his mother and sisters while no grown man is at home and able; they may help him at
  * it (`helpsWhom`). As Dilue Harris's brother of thirteen drove the oxen and was sent to help drive cattle, the large boys being gone
- * to the army (`HIST-TEX-1170`). `FIC-GONZ-1170`. A younger boy follows the men's work as before and keeps it from nobody. The
- * women's work has no mirror: a girl of twelve keeps nothing from her father (a question for the owner, docs/CUSTOMARY_WORK.md §1f).
+ * to the army (`HIST-TEX-1170`). `FIC-GONZ-1170`. A younger boy follows the men's work as before and keeps it from nobody.
+ *
+ * **And the mirror** (owner, 2026-10-05, the same day, answering the question this left: "Let a daughter of 12–15 keep the women's
+ * work too"): with no grown woman at home and able, a daughter of `GIRL_KEEPS_FROM` (twelve) to fifteen at home and able keeps the
+ * women's work - the house, the garden, the wash and the sick - and her father and brothers may only help her at it. `FIC-GONZ-1172`.
+ * A younger girl follows it as her own and keeps it from nobody.
  */
-export const BOY_KEEPS_FROM = 12;
-const boyKeeper = person => person?.kind === 'person' && sexOf(person) === 'male' && Number.isFinite(person.age) && person.age >= BOY_KEEPS_FROM && !grownForCustom(person);
-/** The family's boys of twelve to fifteen, living or not: eldest first. */
-const boysOf = (world, household) => household.members.map(id => world.entities[id]).filter(boyKeeper).sort((a, b) => b.age - a.age);
+export const BOY_KEEPS_FROM = 12, GIRL_KEEPS_FROM = 12;
+const KEEPS_FROM = Object.freeze({ male: BOY_KEEPS_FROM, female: GIRL_KEEPS_FROM });
+const youthKeeper = sex => person => person?.kind === 'person' && sexOf(person) === sex && Number.isFinite(person.age) && person.age >= KEEPS_FROM[sex] && !grownForCustom(person);
+/** The family's boys (or girls) of twelve to fifteen, living or not: eldest first. */
+const youthOf = (world, household, sex) => household.members.map(id => world.entities[id]).filter(youthKeeper(sex)).sort((a, b) => b.age - a.age);
 /**
- * Who keeps this custom now, as the refusal names them: the grown of it at home and able; and for the men's work, with none of
- * them, the boys of twelve to fifteen at home and able (`BOY_KEEPS_FROM`).
+ * Who keeps this custom now, as the refusal names them: the grown of it at home and able; and with none of them, the boys (for the
+ * men's work) or the girls (for the women's) of twelve to fifteen at home and able (`BOY_KEEPS_FROM`, `GIRL_KEEPS_FROM`).
  */
 export function customKeepers(world, household, sex, homeWork = null) {
   const grown = keepers(world, household, sex, homeWork);
-  if (grown.length || sex !== 'male') return grown;
-  return boysOf(world, household).filter(person => able(person) && atHome(household, person, homeWork));
+  if (grown.length) return grown;
+  return youthOf(world, household, sex).filter(person => able(person) && atHome(household, person, homeWork));
 }
 /**
- * Whether the men's work, opened by necessity, is still refused this person: a girl under sixteen (owner, 2026-10-05: "then to the
- * mother or grown women only, never girls"). She may still help whoever is at it (`helpsWhom`).
+ * Whether the other custom's work, opened by necessity, is still refused this person: anybody under sixteen (owner, 2026-10-05: the
+ * men's "then to the mother or grown women only, never girls", and its mirror, the women's to the grown men only, never boys). They
+ * may still help whoever is at it (`helpsWhom`), and a child keeps house and does the wash with no keeper of it home (`childKeeps`).
  */
-const girlHeld = (entity, sex) => sex === 'male' && !grownForCustom(entity);
+const youngHeld = entity => !grownForCustom(entity);
 /** The family's grown people of this sex, living or not: father and mother first, then eldest first. */
 function grownOf(world, household, sex) {
   const rank = person => (['father', 'mother'].includes(person.kin?.role) ? -1 : -(person.age ?? 0));
@@ -169,10 +175,12 @@ export function customWhy(world, household, entity, row, homeWork = null) {
   if (sexOf(entity) === sex || smallFamily(world, household)) return null;
   const home = customKeepers(world, household, sex, homeWork).filter(person => person.id !== entity.id);
   if (home.length) return `${work} is ${saysOf(whose, home)}`;
-  // Opened by necessity, to the grown women only (owner, 2026-10-05): "Felling is men's work; with no man at home it falls to Elizabeth."
-  if (!girlHeld(entity, sex)) return null;
-  const women = keepers(world, household, 'female', homeWork).filter(person => person.id !== entity.id);
-  return `${work} is men's work; with no man at home it ${women.length ? `falls to ${names(women)}` : 'waits for a grown woman'}.`;
+  // Opened by necessity, to the grown of the other sex only (owner, 2026-10-05): "Felling is men's work; with no man at home it falls
+  // to Elizabeth.", "The kitchen garden is women's work; with no woman at home it falls to Jesse."
+  if (!youngHeld(entity)) return null;
+  const other = sex === 'male' ? 'female' : 'male';
+  const grown = keepers(world, household, other, homeWork).filter(person => person.id !== entity.id);
+  return `${work} is ${whose}'s work; with no ${sex === 'male' ? 'man' : 'woman'} at home it ${grown.length ? `falls to ${names(grown)}` : `waits for a grown ${other === 'male' ? 'man' : 'woman'}`}.`;
 }
 // ---------------------------------------------------------------------------------------------------- the small family
 
@@ -218,10 +226,12 @@ export const CHILD_KEEPS_FROM = 7;
  * Whether the family's children keep house now: **no grown woman at home and able** (owner, 2026-10-05: "Children keep house only
  * when no grown woman is home"; `FIC-GONZ-1171`). Until then it was whenever only one custom was kept at home, so a lone mother, or a
  * mother whose husband was away, had her children of seven keeping house beside her; now she keeps it herself (or a daughter of ten,
- * whose work it is by custom), and the children keep it for a lone father, or with nobody grown at home.
+ * whose work it is by custom), and the children keep it for a lone father, or with nobody grown at home. **Amended the same day**
+ * (owner, "Let a daughter of 12–15 keep the women's work too"; `FIC-GONZ-1173`): no keeper of the women's work at home - no grown
+ * woman, and no daughter of twelve to fifteen, who keeps it then (`customKeepers`).
  */
-export const childrenKeepHouse = (world, household, homeWork = null) => !keepers(world, household, 'female', homeWork).length;
-/** Whether this child may keep house or do the wash now, with no grown woman at home (`CHILDREN_KEEP`). */
+export const childrenKeepHouse = (world, household, homeWork = null) => !customKeepers(world, household, 'female', homeWork).length;
+/** Whether this child may keep house or do the wash now, with nobody keeping the women's work at home (`CHILDREN_KEEP`). */
 export function childKeeps(world, household, entity, choreId, homeWork = null) {
   if (!CHILDREN_KEEP.includes(choreId) || !customApplies(household, entity)) return false;
   if (!Number.isFinite(entity.age) || entity.age < CHILD_KEEPS_FROM || entity.age >= FIGHTS_FROM_AGE) return false;
@@ -251,8 +261,9 @@ export function helpsWhom(world, household, entity, choreId, atIt) {
   if (!row || !customApplies(household, entity) || !oldEnoughToHelp(entity)) return null;
   const sex = SEX_OF[row[0]];
   if (sexOf(entity) === sex) return null;
-  // A grown woman at the men's work leads it too (owner, 2026-10-05): it is hers by necessity, and a girl may only help her at it.
-  return atIt.find(person => person.id !== entity.id && (sexOf(person) === sex || (sex === 'male' && grownForCustom(person))) && !person.chore?.helping) || null;
+  // A grown woman at the men's work leads it too (owner, 2026-10-05): it is hers by necessity, and a girl may only help her at it;
+  // and a grown man at the women's work, a boy helping him.
+  return atIt.find(person => person.id !== entity.id && (sexOf(person) === sex || grownForCustom(person)) && !person.chore?.helping) || null;
 }
 
 /**
@@ -264,8 +275,9 @@ export function byNecessity(world, household, entity, row, homeWork = null) {
   const sex = SEX_OF[row[0]];
   if (sexOf(entity) === sex) return null;
   if (smallFamily(world, household)) return row;
-  // A boy of twelve at home keeps the men's work (`customKeepers`), and a girl never takes it up by necessity: she only helps.
-  return customKeepers(world, household, sex, homeWork).some(person => person.id !== entity.id) || girlHeld(entity, sex) ? null : row;
+  // A boy of twelve at home keeps the men's work and a girl of twelve the women's (`customKeepers`), and nobody under sixteen takes the
+  // other's up by necessity: they only help.
+  return customKeepers(world, household, sex, homeWork).some(person => person.id !== entity.id) || youngHeld(entity) ? null : row;
 }
 
 /** Why one grown person of the custom is not here, as the opening line says it: "gone to the army", "in town", "dead". */
@@ -297,16 +309,16 @@ export function noteNecessity(world, household, entity, choreId, { row = CUSTOM[
   if (!opened) return null;
   const [whose, , took] = opened;
   const sex = SEX_OF[whose];
-  // The grown of the custom and, for the men's work, the boys of twelve to fifteen who would keep it (owner, 2026-10-05).
-  const grown = [...grownOf(world, household, sex), ...(sex === 'male' ? boysOf(world, household) : [])].filter(person => person.id !== entity.id);
+  // The grown of the custom and the boys (or girls) of twelve to fifteen who would keep it (owner, 2026-10-05).
+  const grown = [...grownOf(world, household, sex), ...youthOf(world, household, sex)].filter(person => person.id !== entity.id);
   // In a small family (`smallFamily`) with one of the custom at home, the reason is the family's size, said once for each person.
   const small = customKeepers(world, household, sex, homeWork).some(person => person.id !== entity.id);
   const reasons = small ? [] : grown.map(person => [person, goneWords(world, household, person, journeyOf)]);
   // "With Jesse away with the volunteers and no son old enough": said where the family has no boy of twelve to fifteen but a son of
-  // ten or eleven, who follows the men's work and is not old enough to keep it.
-  const young = sex === 'male' && !small && !boysOf(world, household).length && household.members.some(id => {
+  // ten or eleven, who follows the men's work and is not old enough to keep it; and "no daughter old enough" for the women's.
+  const young = !small && !youthOf(world, household, sex).length && household.members.some(id => {
     const person = world.entities[id];
-    return person?.kind === 'person' && sexOf(person) === 'male' && Number.isFinite(person.age) && person.age >= HELPS_FROM_AGE && person.age < BOY_KEEPS_FROM
+    return person?.kind === 'person' && sexOf(person) === sex && Number.isFinite(person.age) && person.age >= HELPS_FROM_AGE && person.age < KEEPS_FROM[sex]
       && person.health?.condition !== 'dead';
   });
   const key = small ? 'small' : reasons.length ? reasons.map(([person, [why]]) => `${person.id}:${why}`).join(',') : 'none';
@@ -319,7 +331,7 @@ export function noteNecessity(world, household, entity, choreId, { row = CUSTOM[
     : reasons.length === 1 ? `With ${reasons[0][0].given || reasons[0][0].name} ${reasons[0][1][1]}`
     : reasons.every(([, [why]]) => why === reasons[0][1][0]) ? `With ${names(reasons.map(([person]) => person))} ${reasons[0][1][1]}`
     : `With ${reasons.slice(0, 2).map(([person, [, words]]) => `${person.given || person.name} ${words}`).join(' and ')}${reasons.length > 2 ? ' and the others away' : ''}`;
-  const text = `${said}${young ? ' and no son old enough' : ''}, ${entity.given || entity.name} ${took.replace('{self}', self)}.`;
+  const text = `${said}${young ? ` and no ${sex === 'male' ? 'son' : 'daughter'} old enough` : ''}, ${entity.given || entity.name} ${took.replace('{self}', self)}.`;
   record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: CLAIMS.opened, text });
   return text;
 }

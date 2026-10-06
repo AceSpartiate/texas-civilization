@@ -46,7 +46,7 @@
 // a piece is wanted, and mending the hoe. A builder whose house wants logs the pile has not got says so - *"Waiting for logs."* -
 // and works about the place until the feller brings them.
 import { CHORES, beginChore, choreAvailability, choresFor, homeWork, quickestForChore, workOf } from './chores.mjs';
-import { customOf, keepers } from './custom.mjs';
+import { customKeepers, customOf } from './custom.mjs';
 import { sexOf } from './family.mjs';
 import { barePlots, plotsOf, ripePlots } from './fields.mjs';
 import { houseWaitsForLogs } from './houses.mjs';
@@ -77,7 +77,8 @@ function houseworkMeanwhile(world, household, person, deps) {
     // somebody grown of its own custom is at home: the man on auto in a family of four waits about the place, as before 2026-10-04,
     // and the mother keeps the house. A student may still send him to it.
     const own = { women: 'female', men: 'male' }[customOf(chore)];
-    if (own && sexOf(person) !== own && keepers(world, household, own, homeWork).some(other => other.id !== person.id)) continue;
+    // Who keeps it: a grown woman, or a daughter of twelve with none home (owner, 2026-10-05, sim/custom.mjs `customKeepers`).
+    if (own && sexOf(person) !== own && customKeepers(world, household, own, homeWork).some(other => other.id !== person.id)) continue;
     if (!CHORES[chore] || !choreAvailability(world, household, person, chore).can || lessonRefusal(world, household, { action: 'chore', chore, entityId: person.id })) continue;
     try { beginChore(world, household, person, chore, deps); return true; } catch { /* refused: the next */ }
   }

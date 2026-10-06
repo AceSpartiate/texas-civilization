@@ -1,6 +1,6 @@
 {
   "record": "Men's work, women's work and the wash, in a browser (sim/custom.mjs, sim/housework.mjs)",
-  "date": "2026-10-05",
+  "date": "2026-10-06",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. One real class through the join flow on the invented country (seed custom-proof-38). No LAN or district claim.",
   "checks": [
@@ -190,7 +190,6 @@
       "cut-bee-tree",
       "milk-cow",
       "keep-house",
-      "work-garden",
       "wash-clothes",
       "travel-gonzales",
       "visit",
@@ -209,7 +208,7 @@
       "art": "stand-in",
       "clip": "youth-boy-work",
       "frame": 0,
-      "since": 846,
+      "since": 740,
       "count": 43,
       "marks": 4,
       "shift": 0,

@@ -151,13 +151,13 @@ home. Asked by multiple choice, the owner chose **"Boys 12+ carry it"**, verbati
   it up; his mother on auto at it is held and keeps house meanwhile; the director's women and girls do not begin men's work while a son
   of twelve is home, and its sons of twelve to fifteen are set to it with their father away.
 
-**Questions for the owner** (not built; the owner's words taken literally):
+**Questions for the owner** (the owner's words taken literally; the second answered the same day, below):
 
 1. *A mother at the men's work by necessity, at home.* With Jesse away and no son of twelve home, Elizabeth may fell and fence; she is
    still a grown woman at home, so her children of seven to nine do **not** keep house for her, and the house is hers or a daughter of
    ten's. Should children keep house while the only grown woman at home is at the men's work?
 2. *The mirror.* Should a daughter of twelve to fifteen keep the women's work when no grown woman is home - so that a father with a
-   daughter of thirteen at home may only help her keep house? Not built: the owner's words are about the men's work.
+   daughter of thirteen at home may only help her keep house? **Answered 2026-10-05: yes** (below).
 3. *A boy of ten or eleven* follows the men's work as his own whoever is home (as with his father there). The brief that came with the
    answer read "the others may only help him" as everybody but the keeper, so that Joseph and Peter would only help Hiram; built the other
    way, because a boy of ten may already fell beside his father without helping, and the owner's words are about the women and girls.
@@ -174,13 +174,44 @@ when every man is away*, since the lone mother's fixture is a small family that 
 no longer matched were brought up to the code). `npm run test:custom-work` (18 checks): the line with *"and no son old enough"*, and the son of eleven with
 neither the house nor the wash on his bar while his mother is home, keeping both once she is gone to town too.
 
+**The mirror** (owner, 2026-10-05, answering question 2 the same day, verbatim): **"Let a daughter of 12–15 keep the women's work
+too."** Built (branch `custom-away`; `FIC-GONZ-1172`, `-1173`):
+
+- **The girl keeps it** (`customKeepers`, `GIRL_KEEPS_FROM` 12): with no woman of sixteen or over at home and able, a daughter of twelve
+  to fifteen at home and able keeps the women's work - keeping house, the garden, the wash and nursing. Her father and brothers are
+  refused it in words that name her (*"Keeping house is women's work, and Sally is at home."*), it is off their bars, and they may only
+  help her at the work she is at, from ten (§2b). Nothing opens; no line. A girl of ten or eleven follows it as her own and keeps it
+  from nobody. The house's cue points at her.
+- **Then the grown men only** (`youngHeld`, now both ways): with no such girl home either, the women's work opens by necessity to a man
+  of sixteen or the father - never to a boy under sixteen (*"The kitchen garden is women's work; with no woman at home it falls to
+  Jesse."*, or *"... it waits for a grown man."*), who may help whoever is at it (a grown man at the women's work leads it for
+  `helpsWhom`).
+- **The line** names the girls of twelve to fifteen among those gone and says *"and no daughter old enough"* where the family has a
+  daughter of ten or eleven and none of twelve: *"With Elizabeth and Sally gone to town, Jesse worked the garden himself."*,
+  *"With Elizabeth gone to town and no daughter old enough, Jesse worked the garden himself."*
+- **Children keep house only when no keeper of the women's work is home** (`childrenKeepHouse`): no grown woman, and no daughter of
+  twelve to fifteen. Then a child of seven or more, girl or boy, keeps house and does the wash (`childKeeps`) - a boy of ten to fifteen
+  too, though the garden and nursing are the grown men's then. A child refused it is told who keeps it (*"Adela is too young to keep
+  house while Sally is at home."*).
+- **Auto** (sim/auto.mjs `houseworkMeanwhile` asks `customKeepers`): a father on auto whose task waits does not keep house while his
+  daughter of thirteen is home; she, on auto, takes up her own. **The families nobody plays**: no man or boy begins the women's work
+  while a daughter of twelve is home.
+
+Evidence: `tests/custom-work.test.mjs` *a daughter of twelve keeps the women's work* - with the mother in town (Sally keeps house, the
+cue on her, her father and brothers only help); with no such girl home (to the father only, a boy refused and helping, the children
+keeping house); the "no daughter old enough" line; on auto; in the families nobody plays (mothers dead, a daughter of thirteen) - and
+*children keep house only when no grown woman is home* brought up to it (Adela refused while Sally is home). Eleven more injections in
+`npm run test:custom-work-injections` (102 in all), each caught by the test written for it; the families-nobody-plays test first read
+who keeps it from the rule under test and missed its injection, and was rewritten to read it from the world.
+
 ## 2. The rule (`sim/custom.mjs`, `FIC-GONZ-1150`)
 
 - **Every work is men's, women's or shared** (§3). Only the table's works have a custom; everything else is shared and never asked.
 - **Who keeps the custom**: a man (or a woman) of the family of **sixteen or over** (`FIGHTS_FROM_AGE`), or a parent of the founding
   four, who have no stated age. **A boy of ten to fifteen follows the men's work and a girl the women's.** **Since 2026-10-05 (§1f)**,
   with no grown man at home and able **a boy of twelve to fifteen keeps the men's work** (`customKeepers`): a mother whose husband is
-  at the war may only help her son of fourteen at it. Until then nobody under sixteen kept it from anybody else.
+  at the war may only help her son of fourteen at it; and with no grown woman at home **a girl of twelve to fifteen keeps the women's
+  work** (the mirror, the same day). Until then nobody under sixteen kept it from anybody else.
 - **At home and able** (`keepers`): on the family's own land - standing there, or out on a work of the place that comes home by
   itself (the creek, the timber, the range; `homeWork` in sim/chores.mjs) - and not dead, taken, very sick, sick or lying wounded.
   Tired or slightly hurt, a man still keeps it. **Away** is a journey to town or to the war, serving with any force (or held its
@@ -277,7 +308,8 @@ gives it to Mary Rabb; the hogs ran semi-wild and anybody minded them.
 The owner, 2026-10-04, **"Children keep house"** (§1c, answer 2; BALANCE.md §23 issue 2: a lone parent doing both customs fell behind):
 
 - **When**: **only when no grown woman is at home and able** (`childrenKeepHouse`; owner, 2026-10-05, §1f: *"Children keep house only
-  when no grown woman is home"*) - a lone father, or nobody grown at home. Until 2026-10-05 it was whenever only one custom was kept at
+  when no grown woman is home"*), **nor a daughter of twelve to fifteen**, who keeps it then (the mirror, §1f) - a lone father, or
+  nobody grown at home. Until 2026-10-05 it was whenever only one custom was kept at
   home, so a lone mother and a mother whose husband was at the war or in town had it too; now she keeps house herself, or a daughter of
   ten. With a grown woman at home, the children keep their own works.
 - **Who and what**: a child of the family of **seven** or more (`CHILD_KEEPS_FROM`), girl or boy, may **keep house and do the wash**
@@ -406,6 +438,8 @@ and the line says so once (*"With James dead, Martha rode out after the cattle h
 | `HIST-TEX-1170` | Boys of about thirteen did men's work with the men at the army: Dilue Harris's brother sent to drive cattle, the large boys gone to the army (Harris, as read for `HIST-TEX-641`, `-1151`) |
 | `FIC-GONZ-1170` | Boys 12+ carry it: a son of twelve to fifteen keeps the men's work with no grown man home; then the grown women only, never girls (owner, 2026-10-05) |
 | `FIC-GONZ-1171` | Children keep house only when no grown woman is home (owner, 2026-10-05; amends `-1158`) |
+| `FIC-GONZ-1172` | The mirror: a daughter of twelve to fifteen keeps the women's work with no grown woman home; then the grown men only, never boys (owner, 2026-10-05) |
+| `FIC-GONZ-1173` | Children keep house only with no keeper of the women's work home - no grown woman, no daughter of twelve (owner, 2026-10-05; amends `-1171`) |
 
 ## 10. Balance
 

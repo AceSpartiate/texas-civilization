@@ -131,8 +131,9 @@ fifteen at home will see the boy carry the men's work - as Dilue Rose's brother 
 the older boys being gone to the army - and his mother and sisters help him at it; with no such boy at home the men's work lights up on the mother's bar - never
 a girl's - and the family's story says so. That moment is the one to talk about: what the war took out of a household besides
 the man, and what the women who stayed did. While he is home, his wife and daughters may still **help** with the men's work he is
-at - the green hands on an icon - and a man may help his wife at hers; neither may start the other's. When no grown woman is at home, children of seven and up keep house and do the wash; with the mother home, the house is hers and
-her daughters'. A family of fewer than six people keeps no custom at all: with so few
+at - the green hands on an icon - and a man may help his wife at hers; neither may start the other's. The same holds the other way: with no grown woman at home, a daughter of twelve to fifteen keeps the house, the garden and the wash,
+and her father and brothers help her. When nobody keeps the women's work at home - no grown woman, no daughter of twelve - children of
+seven and up keep house and do the wash. A family of fewer than six people keeps no custom at all: with so few
 hands, everybody does whatever work needs doing. A pulsing pot or washtub on a woman's portrait means the house
 or the wash wants doing and she is free to do it. The washing, and the townspeople's remarks about a dirty shirt, are the game's own
 invention to make the women's work matter; say so if a student asks. Nothing in the game says that men or women are better at

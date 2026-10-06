@@ -1,9 +1,9 @@
 {
   "record": "custom-work-injections",
-  "date": "2026-10-05",
-  "caught": 91,
-  "only": 58,
-  "of": 91,
+  "date": "2026-10-06",
+  "caught": 102,
+  "only": 54,
+  "of": 102,
   "injections": [
     {
       "name": "no custom at all",
@@ -31,6 +31,10 @@
         "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
         "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home",
         "boys 12+ carry it in the families nobody plays: with the father away, the son of twelve does the men's work and no woman or girl begins it",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home",
+        "a daughter of twelve keeps the women's work in the families nobody plays: with the mother gone, no man or boy begins it while she is home",
         "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
         "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
       ]
@@ -50,6 +54,10 @@
         "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
         "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
         "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home",
+        "a daughter of twelve keeps the women's work in the families nobody plays: with the mother gone, no man or boy begins it while she is home",
         "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
         "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
       ]
@@ -65,7 +73,8 @@
       "failed": [
         "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
         "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
-        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her"
       ]
     },
     {
@@ -79,7 +88,8 @@
       "failed": [
         "the rule: men's work is refused a mother while the father is at home, in words, and is not on her list; shared work is",
         "another's work is not on the bar while one of its custom is home, and appears, lit, the tick it opens",
-        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it"
+        "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her"
       ]
     },
     {
@@ -119,7 +129,11 @@
         "it opens when every man is away: gone to town, at the war, sick, dead or taken; and only then",
         "a man coming home in the middle of her work lets it finish; her next is refused",
         "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
-        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes"
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
+        "a daughter of twelve keeps the women's work: \"With Elizabeth gone to town and no daughter old enough, Jesse worked the garden himself.\"",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home"
       ]
     },
     {
@@ -157,13 +171,16 @@
       "only": false,
       "failed": [
         "a boy under sixteen follows the men's work; with no grown man home a boy of twelve keeps it, a boy of ten or eleven from nobody; a grown son keeps it",
-        "a lone mother may do every work the family lives by; a lone father may milk, nurse, keep house, wash and garden",
         "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
         "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
         "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
         "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\"",
         "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
         "boys 12+ carry it on auto: the son takes up the men's work he is set to, and the mother on auto at it keeps house while he is home",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
+        "a daughter of twelve keeps the women's work: \"With Elizabeth gone to town and no daughter old enough, Jesse worked the garden himself.\"",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home",
         "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
       ]
     },
@@ -185,9 +202,10 @@
         "only while serving: a man sent for or deserted and home again keeps the custom; serving or a prisoner, he is away",
         "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
         "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\"",
-        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes"
-      ],
-      "note": "expectation moved 2026-10-05 from the lone-mother test (its fixture is a small family, which keeps no custom); re-run alone with --only=refused: caught"
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
+        "a daughter of twelve keeps the women's work: \"With Elizabeth gone to town and no daughter old enough, Jesse worked the garden himself.\""
+      ]
     },
     {
       "name": "the line said every time",
@@ -215,7 +233,9 @@
         "cattle on the range are the men's: a woman minds the hogs while a man is home, works the cattle when none is, and the hogs are everybody's",
         "a small family keeps no custom: fewer than six living, every work is anybody's, said once; six or more keep it",
         "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
-        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\""
+        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\"",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
+        "a daughter of twelve keeps the women's work: \"With Elizabeth gone to town and no daughter old enough, Jesse worked the garden himself.\""
       ]
     },
     {
@@ -641,7 +661,9 @@
         "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
         "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
         "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
-        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why"
       ]
     },
     {
@@ -660,7 +682,9 @@
         "help at work each puts their own hands into: she helps raise the house while he is at it, and leaves off when he does",
         "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
         "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
-        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes"
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home"
       ]
     },
     {
@@ -670,9 +694,11 @@
       ],
       "expected": "help, not lead, the other way",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it"
+        "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why"
       ]
     },
     {
@@ -687,7 +713,9 @@
         "help, not lead: a woman or girl of ten joins the men's work a man is at - drawn as help, the work faster - and never begins it",
         "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
         "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
-        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\""
+        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\"",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work: \"With Elizabeth gone to town and no daughter old enough, Jesse worked the garden himself.\""
       ]
     },
     {
@@ -784,6 +812,7 @@
       "only": false,
       "failed": [
         "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
         "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up",
         "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
       ]
@@ -799,6 +828,8 @@
       "failed": [
         "help, not lead, the other way: a man or boy of ten joins the women's work a woman is at, and never begins it",
         "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work in the families nobody plays: with the mother gone, no man or boy begins it while she is home",
         "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up",
         "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done",
         "a small family's house cue: the mother while she is idle, and the father when she is not, since a family of four keeps no custom"
@@ -827,6 +858,7 @@
       "only": false,
       "failed": [
         "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
         "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up",
         "a child keeps house as the lone parent's would: the parent's housework is read, not the child's; with no lone parent, the child's own"
       ]
@@ -1132,9 +1164,10 @@
       ],
       "expected": "boys 12+ carry it: with no son of twelve home",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why"
       ]
     },
     {
@@ -1144,9 +1177,10 @@
       ],
       "expected": "boys 12+ carry it: with no son of twelve home",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why"
       ]
     },
     {
@@ -1168,9 +1202,10 @@
       ],
       "expected": "boys 12+ carry it: with the father away",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens"
+        "boys 12+ carry it: with the father away, the son of fifteen keeps the men's work; his mother and sisters may only help him, and nothing opens",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her"
       ]
     },
     {
@@ -1180,9 +1215,10 @@
       ],
       "expected": "boys 12+ carry it: with no son of twelve home",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why"
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why"
       ]
     },
     {
@@ -1192,9 +1228,10 @@
       ],
       "expected": "boys 12+ carry it: \"With Jesse",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\""
+        "boys 12+ carry it: \"With Jesse away with the volunteers and no son old enough, Elizabeth took up the axe.\"",
+        "a daughter of twelve keeps the women's work: \"With Elizabeth gone to town and no daughter old enough, Jesse worked the garden himself.\""
       ]
     },
     {
@@ -1207,8 +1244,161 @@
       "only": false,
       "failed": [
         "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work in the families nobody plays: with the mother gone, no man or boy begins it while she is home",
         "children keep house: a child of seven keeps house and does the wash for a lone father, and not with a grown woman at home; on auto they take it up",
         "prompt the student: the idle woman is pointed at keeping house, then at the wash; never while she is busy, on auto, or it is done"
+      ]
+    },
+    {
+      "name": "no girl keeps it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a daughter of twelve keeps the women's work: with the mother in town",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home"
+      ]
+    },
+    {
+      "name": "no girl keeps it, on auto",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a daughter of twelve keeps the women's work on auto",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home"
+      ]
+    },
+    {
+      "name": "no girl keeps it, in the families nobody plays",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a daughter of twelve keeps the women's work in the families nobody plays",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home"
+      ],
+      "note": "missed in the full run: the test read who keeps it from the rule under test; rewritten to read it from the world, and re-run alone with --only: caught"
+    },
+    {
+      "name": "a girl of ten keeps it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a daughter of twelve keeps the women's work: with no such girl home",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
+        "a daughter of twelve keeps the women's work: \"With Elizabeth gone to town and no daughter old enough, Jesse worked the garden himself.\"",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home"
+      ]
+    },
+    {
+      "name": "a girl of thirteen keeps nothing",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a daughter of twelve keeps the women's work: with the mother in town",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why",
+        "a daughter of twelve keeps the women's work on auto: the father on auto whose task waits does not keep house while she is home"
+      ]
+    },
+    {
+      "name": "a boy takes up the women's work by necessity",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a daughter of twelve keeps the women's work: with no such girl home",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why"
+      ]
+    },
+    {
+      "name": "a boy may not help his father at it",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a daughter of twelve keeps the women's work: with no such girl home",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why"
+      ]
+    },
+    {
+      "name": "the girl away not said",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a daughter of twelve keeps the women's work: with no such girl home",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "boys 12+ carry it: with no son of twelve home it opens to the mother only, never the girls, who may help her; and the line says why",
+        "a daughter of twelve keeps the women's work: with no such girl home it opens to the father only, never the boys, who may help him; and the line says why"
+      ]
+    },
+    {
+      "name": "no daughter old enough never said",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "a daughter of twelve keeps the women's work: \"With Elizabeth",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a daughter of twelve keeps the women's work: \"With Elizabeth gone to town and no daughter old enough, Jesse worked the garden himself.\""
+      ]
+    },
+    {
+      "name": "children keep house beside an elder sister",
+      "files": [
+        "sim/custom.mjs"
+      ],
+      "expected": "children keep house only when no grown woman is home",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes",
+        "a daughter of twelve keeps the women's work: with the mother in town, Sally keeps house and her father and brother may only help her",
+        "a daughter of twelve keeps the women's work in the families nobody plays: with the mother gone, no man or boy begins it while she is home"
+      ]
+    },
+    {
+      "name": "a child's refusal names no keeper",
+      "files": [
+        "sim/housework.mjs"
+      ],
+      "expected": "children keep house only when no grown woman is home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "children keep house only when no grown woman is home: not beside their mother with the father away, even at the men's work; with no woman home, yes"
       ]
     }
   ]
