@@ -8,13 +8,13 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const FILES = ['tests/rider-scenes.test.mjs'];
+const FILES = ['tests/rider-scenes.test.mjs', 'tests/military-attention.test.mjs'];
 const T = {
   where: 'the scene is where the person the rider stopped is standing', who: 'whoever is near is in the scene',
   talk: 'the rider who stops is met in a scene', kin: 'somebody of the family away with the volunteers',
   words: 'every word the director sends by express', express: 'an express rider tells the family',
   queue: 'one family listens to one rider at a time', old: 'a class saved before rider scenes still opens',
-  light: 'the scene is lit by the class', page: 'the page sets each place',
+  light: 'the scene is lit by the class', page: 'the page sets each place', card: 'a rider who came by with an express',
 };
 const one = (file, from, to) => ({ file, from, to });
 const S = 'sim/rider-scene.mjs', R = 'sim/rider-talk.mjs', E = 'sim/encounters.mjs', X = 'sim/expresses.mjs', P = 'public/rider-scene.js';
@@ -31,10 +31,13 @@ const INJECTIONS = [
   { name: 'the express told with no rider', edits: [one(X, "      tellPassing(world, household.id, { topicId, listenerId: heard.personId,", "      false && tellPassing(world, household.id, { topicId, listenerId: heard.personId,")], expect: T.express },
   { name: 'a family nobody plays given a scene', edits: [one(E, '  if (!household?.played || !listener ||', '  if (!household || !listener ||')], expect: T.express },
   { name: 'the answers sent with the questions', edits: [one(E, 'questions: open ? questionsFor(encounter).map(line => ({ id: line.id, ask: line.ask, by: askerFor(world, encounter, line) }))', 'questions: open ? questionsFor(encounter).map(line => ({ id: line.id, ask: line.ask, by: askerFor(world, encounter, line), answer: line.answer(accountOf(world, encounter)) }))')], expect: T.express },
+  { name: 'an express rider holds the class', edits: [one('sim/clock.mjs', "encounter.status === 'open' && !encounter.passing && world.households", "encounter.status === 'open' && world.households")], expect: T.express },
+  { name: 'an express rider shown over the runner', edits: [one(E, "  const encounter = mine.find(e => e.status === 'open' && e.kind) || mine.find(e => e.status === 'open') ||", "  const encounter = mine.find(e => e.status === 'open') ||")], expect: T.queue },
   { name: 'two riders talk to a family at once', edits: [one(E, '  const queued = Boolean(openFor(world, householdId));', '  const queued = false;')], expect: T.queue },
   { name: 'the next comes on while the first still talks', edits: [one(E, "    if (encounter.status !== 'waiting' || openFor(world, encounter.householdId)) continue;", "    if (encounter.status !== 'waiting') continue;")], expect: T.queue },
   { name: 'an old save without a scene refused', edits: [one(S, '  if (scene === undefined) return null;', "  if (scene === undefined) return 'Invalid rider scene';")], expect: T.old },
   { name: 'the afternoon an hour short', edits: [one(S, "  if (hour < 18) return { light: 'evening', when: 'Afternoon' };", "  if (hour < 17) return { light: 'evening', when: 'Afternoon' };")], expect: T.light },
+  { name: 'an express rider holds back the Watch card', edits: [one('public/military-attention.js', '  const meeting = world.encounter?.passing ? null : world.encounter;', '  const meeting = world.encounter;')], expect: T.card },
   { name: 'Gonzales drawn as any town', edits: [one(P, "    const row = id === 'gonzales' ? STREET.gonzales :", "    const row = id === 'gonzalez' ? STREET.gonzales :")], expect: T.page },
 ];
 

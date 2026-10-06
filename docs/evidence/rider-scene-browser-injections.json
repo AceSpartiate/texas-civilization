@@ -1,0 +1,28 @@
+{
+ "record": "rider-scene-browser-injections",
+ "date": "2026-10-06",
+ "caught": 4,
+ "of": 4,
+ "injections": [
+  {
+   "name": "the yard painted, not the map's ground",
+   "caught": true,
+   "failed": "FAIL the yard was not laid from the map's own ground (painted)"
+  },
+  {
+   "name": "the question's asker not sent",
+   "caught": true,
+   "failed": "FAIL the question does not say who of the scene asks it: {\"by\":null,\"asker\":null,\"ask\":\"How many of them are there?\",\"line\":\"how-many\"} "
+  },
+  {
+   "name": "Done puts it away without his riding off",
+   "caught": true,
+   "failed": "FAIL page.waitForFunction: Timeout 8000ms exceeded. "
+  },
+  {
+   "name": "the town's people left out",
+   "caught": true,
+   "failed": "FAIL nobody of the town is in the scene: [{\"id\":\"hh-1-parent-1\",\"role\":\"listener\"},{\"id\":\"town-wheelwright-gonzales\",\"role\":\"neighbour\"},{\"id\":\"town-gunsmith-gonzales\",\"role\":\"neighbour\"},{\"id\":\"town-pike\",\"role\":\"neighbour\"}] "
+  }
+ ]
+}

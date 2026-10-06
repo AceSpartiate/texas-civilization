@@ -1,9 +1,9 @@
 {
  "record": "rider-scene-injections",
  "date": "2026-10-06",
- "caught": 17,
- "only": 14,
- "of": 17,
+ "caught": 20,
+ "only": 17,
+ "of": 20,
  "injections": [
   {
    "name": "never at home",
@@ -91,7 +91,7 @@
    "only": false,
    "failed": [
     "the rider who stops is met in a scene: the people standing there react, ask the questions, and say goodbye - never ahead of him",
-    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked"
+    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked, the class not held"
    ]
   },
   {
@@ -128,7 +128,7 @@
    "caught": true,
    "only": true,
    "failed": [
-    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked"
+    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked, the class not held"
    ]
   },
   {
@@ -140,7 +140,7 @@
    "caught": true,
    "only": true,
    "failed": [
-    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked"
+    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked, the class not held"
    ]
   },
   {
@@ -152,7 +152,31 @@
    "caught": true,
    "only": true,
    "failed": [
-    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked"
+    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked, the class not held"
+   ]
+  },
+  {
+   "name": "an express rider holds the class",
+   "files": [
+    "sim/clock.mjs"
+   ],
+   "expected": "an express rider tells the family",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked, the class not held"
+   ]
+  },
+  {
+   "name": "an express rider shown over the runner",
+   "files": [
+    "sim/encounters.mjs"
+   ],
+   "expected": "one family listens to one rider at a time",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "one family listens to one rider at a time: the next has said his word and waits his turn, and comes on when the first has gone"
    ]
   },
   {
@@ -201,6 +225,18 @@
    "only": true,
    "failed": [
     "the scene is lit by the class's own clock, the wedding's hours"
+   ]
+  },
+  {
+   "name": "an express rider holds back the Watch card",
+   "files": [
+    "public/military-attention.js"
+   ],
+   "expected": "a rider who came by with an express",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a rider who came by with an express's word puts up no card and holds back none: the Watch card still goes up"
    ]
   },
   {

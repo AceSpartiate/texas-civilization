@@ -33,7 +33,10 @@ export const SCENE_PERSON = 0.24;
  */
 export const COURIER_MAN = 190, COURIER_MOUNTED = 239;
 
-/** The buildings of a town's street by who built it. stand-in: docs/ART_REQUESTS.md, request 2026-10-05 - rider scenes' backdrops, items 1-2. */
+/**
+ * The buildings of a town's street by who built it. stand-in: docs/ART_REQUESTS.md, request 2026-10-05 - rider scenes' backdrops,
+ * items 1-2. ceiling: by who built the town, not each town's own buildings; a street painted for each researched town would undo it.
+ */
 export const STREET = Object.freeze({
   gonzales: ['storehouse', 'shop-blacksmith', 'cabin-wide', 'shop-carpenter'],
   anglo: ['cabin-wide', 'shop-tavern', 'storehouse', 'shop-blacksmith'],
@@ -121,7 +124,11 @@ export function createRiderScene({ root, hooks = {} }) {
     world = snapshotWorld;
     if (!encounter?.scene) return;
     const fresh = data?.id !== encounter.id;
+    const was = data?.status;
     data = encounter;
+    // He would wait no longer, or was sent on from elsewhere, while the scene stood open: he mounts and rides off, and the
+    // scene stays for the student to read the last words and put away.
+    if (!fresh && phase === 'talk' && was === 'open' && encounter.status === 'closed' && encounter.kind !== 'alamo-runner') { setPhase(reducedMotion() ? 'away' : 'departing'); return; }
     if (!fresh && phase !== 'closed') return;
     evidence.open = true; evidence.id = encounter.id; evidence.setting = encounter.scene.setting; evidence.place = encounter.scene.place;
     speakerId = null;
@@ -202,7 +209,7 @@ export function createRiderScene({ root, hooks = {} }) {
       ctx.fillStyle = fill; ctx.fillRect(0, horizon, width, height - horizon);
     }
     // Timber along the horizon where there is timber about, or along the water.
-    if (setting.woods || setting.kind === 'ford' || setting.water) stage.paintTreeline(width, height, horizon + height * 0.012, light, { count: 30, alpha: 0.85 });
+    if (setting.woods || setting.kind === 'ford' || setting.water) stage.paintTreeline(width, height, horizon + height * 0.006, light, { count: 44, alpha: 0.8, scale: 0.5 });
     // The water at a ford, across the ground behind the people.
     if (setting.kind === 'ford') {
       const y = height * (HORIZON + 0.1);
@@ -260,7 +267,7 @@ export function createRiderScene({ root, hooks = {} }) {
     if (rider.on === 'foot') {
       const figure = { band: 'adult', sex: 'male', appearance: null };
       if (phase === 'arrive' && elapsed < RIDE_IN_MS) { x = x0 + (width * 0.6) * (1 - elapsed / RIDE_IN_MS); sprite = drawClip(ctx, 'courier-march', x, y, h * 1.02, { timeMs: now, flip: true }) ? 'courier-march' : null; state = 'walking-in'; }
-      else if (phase === 'leave' || phase === 'gone') { const t = clamp(elapsed / RIDE_OUT_MS, 0, 1); x = x0 + width * 0.6 * t; sprite = drawClip(ctx, 'courier-march', x, y, h * 1.02, { timeMs: now }) ? 'courier-march' : null; state = 'walking-out'; }
+      else if (['leave', 'gone', 'departing', 'away'].includes(phase)) { const t = phase === 'away' ? 1 : clamp(elapsed / RIDE_OUT_MS, 0, 1); x = x0 + width * 0.6 * t; sprite = drawClip(ctx, 'courier-march', x, y, h * 1.02, { timeMs: now }) ? 'courier-march' : null; state = 'walking-out'; }
       else { const clip = clipFor(figure, talking ? 'speak' : 'idle', 'w'); sprite = stage.drawPerson(figure, { x, y, h, id: rider.id }, clip, { at: now, speaking: talking }) ? clip.id : null; }
       return { x, y, state, sprite, top: y - h * 1.05 };
     }
@@ -273,7 +280,8 @@ export function createRiderScene({ root, hooks = {} }) {
         sprite = drawClip(ctx, 'mounted-courier-e', x, y, COURIER_MOUNTED * k, { timeMs: now, flip: true }) ? 'mounted-courier-e' : null;
         state = 'riding-in';
       } else { sprite = drawCourier('courier-dismount', x, y, k, elapsed - RIDE_IN_MS, true); state = 'dismounting'; }
-    } else if (phase === 'leave' || phase === 'gone') {
+    } else if (['leave', 'gone', 'departing', 'away'].includes(phase)) {
+      if (phase === 'away' || elapsed >= REMOUNT_MS + RIDE_OUT_MS) return { x: width * 2, y, state: 'gone', sprite: null, top: y };
       if (elapsed < REMOUNT_MS && !reducedMotion()) { sprite = drawCourier('courier-remount', x, y, k, elapsed, true); state = 'mounting'; }
       else {
         // Back the way he came, off the right.
@@ -335,7 +343,9 @@ export function createRiderScene({ root, hooks = {} }) {
     if (phase === 'leave') dark = clamp((elapsed - leaving) / fadeMs(), 0, 1);
     stage.darken(dark, width, height);
     Object.assign(evidence, { backdrop, pieces, drawn: people.drawn, rider: people.rider, speaker: speakerId, dark: +dark.toFixed(2) });
-    if (phase === 'arrive' && elapsed >= RIDE_IN_MS + DISMOUNT_MS) { remember(data.id); setPhase('talk'); }
+    // On foot (Travis's runner) the arriving is only the walk in.
+    if (phase === 'arrive' && elapsed >= RIDE_IN_MS + (data.scene.rider?.on === 'foot' ? 0 : DISMOUNT_MS)) { remember(data.id); setPhase('talk'); }
+    else if (phase === 'departing' && elapsed >= REMOUNT_MS + RIDE_OUT_MS) setPhase('away');
     else if (phase === 'leave' && elapsed >= leaving + fadeMs()) finish();
   }
 

@@ -139,7 +139,7 @@
       ],
       "rider": {
         "state": "speaking",
-        "sprite": "courier-onfoot-4",
+        "sprite": "courier-onfoot-3",
         "x": 867,
         "y": 430
       },
@@ -187,7 +187,7 @@
           "id": "town-wheelwright-gonzales",
           "role": "town",
           "clip": "ochre-idle-w",
-          "x": 921,
+          "x": 1010,
           "y": 408,
           "h": 162,
           "drawn": true
@@ -196,7 +196,7 @@
           "id": "town-gunsmith-gonzales",
           "role": "town",
           "clip": "elder-idle-w",
-          "x": 1010,
+          "x": 1098,
           "y": 408,
           "h": 162,
           "drawn": true
@@ -205,7 +205,7 @@
           "id": "town-pike",
           "role": "town",
           "clip": "elder-idle-w",
-          "x": 1098,
+          "x": 1187,
           "y": 408,
           "h": 162,
           "drawn": true

@@ -914,8 +914,9 @@ export function leaveRider(world, householdId, entity) {
 export function encounterProjection(world, householdId, role) {
   if (role === 'host' || !householdId) return null;
   const mine = Object.values(world.encounters || {}).filter(e => e.householdId === householdId);
-  // A rider waiting his turn (`tellPassing`) is not shown until he comes on: the open one, or the last one there was.
-  const encounter = mine.find(e => e.status === 'open') || mine.filter(e => e.status !== 'waiting').at(-1);
+  // A rider waiting his turn (`tellPassing`) is not shown until he comes on: the open one, or the last one there was. Travis's
+  // runner first, who waits for an answer on a budget of his own, over an express rider who came by before him.
+  const encounter = mine.find(e => e.status === 'open' && e.kind) || mine.find(e => e.status === 'open') || mine.filter(e => e.status !== 'waiting').at(-1);
   if (!encounter) return null;
   const open = encounter.status === 'open';
   // The scene it plays as (owner, 2026-10-05; sim/rider-scene.mjs): where, who, the light, and what the people standing there

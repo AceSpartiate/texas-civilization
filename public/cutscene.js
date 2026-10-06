@@ -114,14 +114,14 @@ export function createStage(canvas) {
       ctx.beginPath(); ctx.ellipse(width / 2, height * 0.7, width * 0.42, height * 0.1, 0, 0, Math.PI * 2); ctx.fill();
     }
   }
-  function paintTreeline(width, height, treeline, light, { count = 26, alpha = 1 } = {}) {
+  function paintTreeline(width, height, treeline, light, { count = 26, alpha = 1, scale = 1 } = {}) {
     ctx.save(); ctx.globalAlpha = alpha;
     for (let pass = 0; pass < 2; pass++) {
       ctx.fillStyle = light === 'night' ? (pass ? '#233126' : '#1b271e') : pass ? '#6f7f45' : '#56683a';
       for (let i = 0; i < count; i++) {
         const x = (i / (count - 1)) * width * 1.1 - width * 0.05 + (pass ? width * 0.02 : 0);
-        const r = height * (0.05 + ((i * 37 + pass * 11) % 7) / 90);
-        ctx.beginPath(); ctx.ellipse(x, treeline - r * 0.3 + pass * height * 0.02, r * 1.3, r, 0, 0, Math.PI * 2); ctx.fill();
+        const r = height * (0.05 + ((i * 37 + pass * 11) % 7) / 90) * scale;
+        ctx.beginPath(); ctx.ellipse(x, treeline - r * 0.3 + pass * height * 0.02 * scale, r * 1.3, r, 0, 0, Math.PI * 2); ctx.fill();
       }
     }
     ctx.restore();

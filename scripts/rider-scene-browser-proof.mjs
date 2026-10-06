@@ -109,8 +109,8 @@ try {
     measured.home = { setting: server.scene.setting, cast: server.scene.cast };
     assert.equal(server.scene.setting.kind, 'home', `the family was met at home, but the scene is ${server.scene.setting.kind}`);
     // The riding in, caught as it is drawn.
-    await page.waitForFunction(() => ['riding-in', 'dismounting'].includes(window.__riderScene?.rider?.state), null, { timeout: 8000 });
-    const arriving = await page.evaluate(() => ({ ...window.__riderScene, timeline: undefined }));
+    // What the page drew at the moment he was seen riding in, then its picture.
+    const arriving = await (await page.waitForFunction(() => window.__riderScene?.rider?.state === 'riding-in' && { ...window.__riderScene, timeline: undefined }, null, { timeout: 8000 })).jsonValue();
     await shot(page, 'home-arriving');
     assert.equal(arriving.backdrop, 'map-ground', `the yard was not laid from the map's own ground (${arriving.backdrop})`);
     ok(`the rider rides into the family's own yard (${arriving.rider.state}, ${arriving.rider.sprite}); the ground is the map's at the family's land`);
@@ -156,10 +156,11 @@ try {
     // Done: he mounts and rides on, the family's last words, and the scene goes.
     await page.waitForFunction(() => !document.querySelector('#encounter-asks').hidden, null, { timeout: 30000 });
     await page.locator('#encounter .ask-leave:not(.ask-done)').click();
-    await page.waitForFunction(() => ['mounting', 'riding-on'].includes(window.__riderScene?.rider?.state), null, { timeout: 8000 });
-    await until('the meeting closing on the server', () => app.state.world.encounters[encounter.id].status === 'closed', 10000);
-    await page.waitForFunction(() => window.__riderScene?.rider?.state === 'riding-on', null, { timeout: 8000 });
+    await page.waitForFunction(() => window.__riderScene?.rider?.state === 'mounting', null, { timeout: 8000 });
+    await page.waitForTimeout(900);
     await shot(page, 'home-leaving');
+    await page.waitForFunction(() => window.__riderScene?.rider?.state === 'riding-on' || document.querySelector('#encounter').hidden, null, { timeout: 8000 });
+    await until('the meeting closing on the server', () => app.state.world.encounters[encounter.id].status === 'closed', 10000);
     const closing = app.state.world.encounters[encounter.id].talk.filter(line => line.farewell || line.closing).map(line => line.text);
     assert.ok(closing.length >= 2, `nobody said goodbye: ${JSON.stringify(closing)}`);
     await page.waitForFunction(() => document.querySelector('#encounter').hidden, null, { timeout: 15000 });

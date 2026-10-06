@@ -151,7 +151,11 @@ export function castFor(world, listener, setting, blocked = () => false) {
   return cast;
 }
 
-/** The scene of an encounter, settled when the rider reins in (sim/encounters.mjs `begin`). */
+/**
+ * The scene of an encounter, settled when the rider reins in (sim/encounters.mjs `begin`).
+ * ceiling: settled once - somebody who walks up while he talks is not added, and somebody who walks off is still drawn; following
+ * them would mean a scene that changes under the student's eyes, which a class may or may not want.
+ */
 export function sceneFor(world, encounter, { blocked, alamo = false } = {}) {
   const listener = world.entities[encounter.listenerId];
   if (!listener) return null;
@@ -174,7 +178,8 @@ export function layoutOf(cast, castView) {
     if (role === 'listener' || role === 'family') {
       const small = ['infant', 'small', 'child'].includes(view.band);
       placed[id] = small ? { side: 'left', slot: leftSmall++ + 0.6, row: 1, face: 'e' } : { side: 'left', slot: leftGrown++, row: 0, face: 'e' };
-    } else placed[id] = { side: 'right', slot: 1.4 + right++, row: -1, face: 'w' };
+    // Clear of the rider's horse, which stands across the right of the middle.
+    } else placed[id] = { side: 'right', slot: 2.4 + right++, row: -1, face: 'w' };
   }
   return placed;
 }

@@ -104,3 +104,13 @@ test('the call to arms is drawn under everybody who can answer it, and nothing e
   assert.equal(callCue({ ...world, role: 'host' }), null);
   assert.equal(callCue({ ...world, watching: { householdId: 'other' } }), null);
 });
+
+test('a rider who came by with an express\'s word puts up no card and holds back none: the Watch card still goes up (2026-10-05)', () => {
+  const alert = { id: 'alert-2', entityId: 'p', title: 'The fight', text: 'At Elena\'s side.', action: 'Watch' };
+  // sim/encounters.mjs `tellPassing`: the word is known already, and only the "!" on the person invites to his scene.
+  const passing = militaryNotices(home({ battleAlert: alert, encounter: { id: 'e', status: 'open', listenerId: 'k', passing: true } }));
+  assert.deepEqual(passing.map(one => one.kind), ['battle'], 'an express rider\'s scene held the Watch card back or put up a card of its own');
+  // A rider who stops to talk still holds it back, as he always did.
+  const stopped = militaryNotices(home({ battleAlert: alert, encounter: { id: 'e', status: 'open', listenerId: 'k' } }));
+  assert.ok(stopped.some(one => one.kind === 'rider') && stopped.every(one => one.kind !== 'battle'));
+});

@@ -1,5 +1,84 @@
 # Claude handoff — Astra foundation
 
+## Every rider who reaches you, as a scene — owner, 2026-10-05 (not released)
+
+Branch `rider-scenes` from main 3f0ef6c7. The owner, verbatim: *"I want to radically redesign the whole rider and or news person
+shows up. The conversation is boring. Let's redo each of them as a cutscene sort of like with the wedding. The environment should
+change in the cutscene based on where they are and who's around them."* By multiple choice: **"Every rider who reaches you"**.
+Specified in docs/COLONIES.md §5.4e (amends §5.4b-d, dated notes in each), docs/LIVING_INFORMATION.md (build order 2), GAME.md,
+TEACHER.md (*Riders, as scenes*); claims `FIC-GONZ-1195` to `-1199`.
+
+- **The stage** (`public/cutscene.js`, new): the wedding's drawing taken out of `public/courtship.js` - fitting the canvas, the
+  painted yard, the light of the hour, the speaker's glow and name tag, figures and their clips (`figureOf`, `clipFor`), the black
+  and the words on it - plus `placeCast`, a layout from data (side, slot, row, face). Courtship keeps its own `sceneLayout`, poses,
+  buildings, fiddle and steps, and draws with the stage; `npm run test:lone-parent` passes unchanged (10 checks), its scenes pixel
+  for pixel the same layout (the one screenshot difference is the hour the proof's clock reached). public/flashback.js imports the
+  two figure helpers from the stage.
+- **Where and who** (`sim/rider-scene.mjs`, new): settled when the rider reins in and kept on the encounter (`scene`): home (the
+  house as `landView` has it, the field, water, woods), a town (which), camp (serving, or at a camp), a ford (a crossing, or by
+  water), the road or the woods; the cast is the person stopped, the family within 0.3 mile on the same side of the river, then the
+  town's keepers / volunteers / neighbours about them, eight at most. The light is the class clock (`lightOf`, the wedding's hours,
+  kept in step with `partOfDay` by a test: sim/courtship.mjs cannot be imported this early in the load).
+- **What is said** (`sim/rider-talk.mjs`, new): who of the scene asks each question (`askerFor`, named on the button before it is
+  pressed: `questions[].by`); reactions by how the word lands (`TOPIC_MOOD`): one or two of the family when the word is said, two
+  townsmen or volunteers arguing it where there are two, a reaction to some answers, a farewell, his reply and a last line when he
+  goes - kept as `talk`, each after the line it follows, never before it; somebody of the family serving with the volunteers is
+  asked after by their own and the rider has no names (`kin`). `expressScript`: every word the director sends by express (23
+  words, read from sim/directors.mjs by the test) has an opening (the journal's own text), *when*, *who says so*, *is it certain*,
+  and one question of its own; `plainScript` for anything else.
+- **Every rider who reaches you** (`sim/encounters.mjs` `tellPassing`): when a played family hears an express's word
+  (`hearExpresses`, the minute unchanged) a rider of the stop it was read at says it, on that minute, to whichever of the family it
+  reached, and waits to be asked as any rider does; a legacy courier (`deliverReports`) does the same at the gate. He is never on
+  the map (`gone`, kept at his settlement). One rider at a time: one who comes while another talks has said his word and is
+  `waiting` (a new encounter status; validators accept it), and comes on at the next tick after the first has gone. **He does not
+  hold the class's calendar** (sim/clock.mjs `deciding`): found by npm test - the siege, Béxar's episodes and Coleto ran 12 real
+  minutes against 8 when every family's express rider held the farming scale. Travis's runner is a scene too (inside the Alamo, on
+  foot, his two answers kept), and is shown before an express rider who came first (found by `test:battle-alamo` and
+  `test:famous-people`: the express rider's scene had hidden him). **Nor does an express rider put up a card or hold the Watch
+  card back** (public/military-attention.js): found by the same two proofs, the assault's card never came while a winter word's
+  rider stood open. A family nobody plays: no scene, word as before. Host: unchanged.
+- **The page** (`public/rider-scene.js`, new; `#encounter` is now full-screen, its canvas and a strip; app.js changes kept to the
+  meeting's region): the rider rides in (`mounted-courier-e`), gets down (`courier-dismount`, Astra's sheet of 2026-09-14, at last
+  bound, every frame at one scale so the horse does not change size), talks and listens by his horse (`courier-onfoot-*`), and on
+  Done gets up (`courier-remount`) and rides off before the fade; Escape, the × and Continue put it away at once. Nobody speaks until
+  he is down (`ready`). Closed from elsewhere while open, he mounts and rides off and the scene stays to be read. Stand-in
+  backdrops (owner: "from the map ground"): the map's own ground at the spot drawn from above as the flashback does and laid back
+  in 56 bands toward a sky for the hour, with the library's buildings, tents and trees (`piecesOf`). The meeting sits below the
+  guided start's strip; `#hud-right` (connection, solo Pause/Resume/Save) stays above the scene.
+- **Not blocking**: nothing opens by itself; the "!" invites as before; unread, the word is known and journaled, he rides on when
+  his ninety real seconds (or his short stop) are out, and *Read what he said* reopens the scene with everybody standing.
+- **Old saves**: no saveVersion moved. An encounter without `scene` has one settled from where its people stand when projected;
+  `talk`, `kin`, `word`, `speakerId` are absent and read as empty; `riderSceneInvalid` checks each when present.
+- **Tests** (`tests/rider-scenes.test.mjs`, 10): where; who; the stopping rider's scene, askers, reactions, goodbye; the one away;
+  every express word has a conversation; the express rider (said and known on one minute, nothing on the wire before it is told or
+  asked, the calendar not held, no scene for an unplayed family); one at a time; an old save; the light; the page's pieces and
+  layout. `scripts/rider-scene-injections.mjs`: **20 of 20 caught** by the test written for each (17 by it alone), including
+  the calendar hold, the runner's precedence and the Watch card (tests/military-attention.test.mjs, one new test). Two first
+  missed and were answered by sharper tests, not by dropping them: *the one away asked after by anybody* (the wife now asks
+  something first) and a promotion rule no test could see (`closedNow`, removed as dead code).
+- **Proofs**: `npm run test:rider-scene` (new): at home - the yard from the map ground, all 8 of the family in their looks, the tent
+  and fire, the rider riding in and down, Moses (a son) asking "How many of them are there?", the answer and the family's record,
+  Done, the farewell and the ride off; in town - Gonzales's street with Rafael Cantú, Tobias Rhine and Josiah Pike arguing; Escape.
+  Screenshots `docs/evidence/rider-scene-*.png`, record `docs/evidence/rider-scene.json`.
+  `scripts/rider-scene-browser-injections.mjs`: 4 of 4 caught (the painted yard for the map's ground, the asker not sent, Done
+  without his riding off, the town's people left out). Existing proofs run on this branch, green: `test:lone-parent` (10,
+  unchanged), `test:one-rider` (10; it Resumes a paused solo game with the meeting open - hence `#hud-right` above the scene),
+  `test:relay`, `test:family-commands` (25), `test:alamo-siege` (9; now waits for the runner to walk in before reading his
+  words), `test:battle-alamo` (13), `test:famous-people` (22), `test:panels` (14), `test:watching` (8), `test:travel-sight` (16),
+  `test:lesson`, and `test:overlap` (the meeting is now a whole-screen dialog like the lone parent's scenes:
+  scripts/support/screen-furniture.mjs, `DELIBERATE_COVER`). `scripts/one-rider-injections.mjs`'s pattern for what waits behind
+  a rider brought up to the code.
+- **npm test**: 2266 tests, 2230 passed, 0 failed, 36 skipped (on the branch before its last commit).
+- **Art**: docs/ART_REQUESTS.md *Request 2026-10-05 — rider scenes' backdrops* (seven items, contract and check), one row under
+  *Stand-ins in use*, plan items E40-E44 (`scripts/claude-art/plan.mjs`, regenerated).
+- `ceiling:`s: the scene is settled when he reins in (people walking up or off are not followed); the express rider is not drawn on
+  the map; a word told at once (no express) has no rider; the woods are the map's drawn woods and named timbers, not the LANDFIRE
+  stand (`woodsNear`); the town's buildings are chosen by who built the town, not researched per town.
+- **Not done / doubtful**: `test:read-aloud` was not run (needs `node scripts/build-voice.mjs` on this machine). The family on the
+  map still speaks from the saddle (only the scene dismounts). Reactions are by mood, not written per word. Questions still wait
+  behind each express rider in a queue of several (their minutes held, `questionWaits`); not measured in a class. Not proved:
+  Chromebook, LAN or classroom.
+
 ## Released as v2026.10.05.2 — 2026-10-05
 
 Main at 87381d33, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.2>). Sets of changes: from v2026.10.05.1, 0.6 MB; from v2026.10.04.1, 6.1 MB; from v2026.10.03.2, 11.6 MB. Contents: help on a small farm - the young capped, a small family keeps no custom, the spouse's two children (the section below). Verification on 87381d33's branch: npm test 2255, 0 failed; the full browser run two at a time, 106 of 111 green; of the five red, children was a fixture the new rolls no longer make (fixed, then green twice alone), and travel-drawn, battle-cinema, battle-grass and famous-people (the Neill sampled moment) green alone. Not proved: Chromebook, LAN or classroom; ThreatDown.

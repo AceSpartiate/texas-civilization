@@ -68,7 +68,6 @@ export const STUDENT_FURNITURE = [
   { name: 'call menu', selector: '#call-menu', kind: 'popup' },
   { name: 'errand popup', selector: '#errand', kind: 'popup' },
   { name: 'going popup', selector: '#going', kind: 'popup' },
-  { name: 'meeting', selector: '#encounter', kind: 'popup' },
   { name: 'town scene', selector: '#town-scene', kind: 'popup' },
   { name: 'site chooser', selector: '#site-choose', kind: 'popup' },
   { name: 'stake chooser', selector: '#survey-choose', kind: 'popup' },
@@ -86,6 +85,10 @@ export const STUDENT_FURNITURE = [
   { name: 'inside the house', selector: '#interior', kind: 'dialog' },
   // The lone parent's scenes: the whole screen while they last, Continue the only way on (public/courtship.js).
   { name: 'lone parent scenes', selector: '#courtship', kind: 'dialog' },
+  // A rider's visit, as a scene over the whole screen since 2026-10-05 (owner: "redo each of them as a cutscene sort of like with
+  // the wedding"; public/rider-scene.js): it stands over everything on purpose while it lasts, the connection line and a solo
+  // game's controls above it.
+  { name: 'meeting', selector: '#encounter', kind: 'dialog' },
   { name: 'reconnecting', selector: '#reconnecting', kind: 'dialog' },
 ];
 

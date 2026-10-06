@@ -127,6 +127,8 @@ try {
   await student.locator('#military-go').click();
   await student.locator('#encounter').waitFor({ state: 'visible', timeout: 10000 });
   await student.waitForFunction(() => document.querySelectorAll('#encounter-asks [data-action="alamo-courier"]').length === 2, null, { timeout: 15000 });
+  // Since 2026-10-05 the meeting is a scene: the runner walks in before he speaks (public/rider-scene.js).
+  await student.waitForFunction(() => document.querySelectorAll('#encounter-said li:not([data-pending])').length >= 1, null, { timeout: 15000 });
   observed.meeting = (await student.locator('#encounter').innerText()).replace(/\s+/g, ' ').trim();
   assert.match(observed.meeting, /Colonel Travis/);
   assert.match(observed.meeting, /leaves the fort tonight/);

@@ -358,6 +358,8 @@ button:hover:enabled{background:#60673e}
 #encounter[data-phase=arrive] #encounter-strip{opacity:.86}
 /* During the guided start its strip keeps the top of the screen: the scene starts below it (`--lesson-room`, its measured height). */
 body[data-lesson=true] #encounter{top:calc(8px + var(--lesson-room,82px))}
+/* The connection line and a solo game's Pause, Resume and Save stay above the scene's sky, where they always are. */
+body[data-rider-scene=true] #hud-right{z-index:51}
 #encounter-head{grid-area:head;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:1px solid #c5b286;padding-bottom:5px}
 #encounter-where{color:#8a4a1e}
 #encounter-head h2{font-size:21px;margin:1px 0 0;color:#4b3e28}

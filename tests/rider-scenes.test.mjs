@@ -20,7 +20,7 @@ import { CONVERSATIONS, accountOf, blockedByWater, linesOf, tellPassing } from '
 import { establishTruth } from '../sim/knowledge.mjs';
 import { sendExpress } from '../sim/expresses.mjs';
 import { partOfDay } from '../sim/courtship.mjs';
-import { dateOf } from '../sim/clock.mjs';
+import { CALENDAR_SCALE, calendarMinutes, dateOf } from '../sim/clock.mjs';
 import { STREET, piecesOf } from '../public/rider-scene.js';
 import { placeCast } from '../public/cutscene.js';
 
@@ -187,7 +187,7 @@ test('every word the director sends by express has a rider who can say it and be
   assert.equal(wordAsSaid('Word from Béxar: Colonel Travis does not look for them.'), 'Colonel Travis does not look for them.');
 });
 
-test('an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked', () => {
+test('an express rider tells the family where its person stands: the word said and known on one minute, no answer sent before it is asked, the class not held', () => {
   const world = createGonzalesWorld('express-scene', 6, { map: 'colonies' });
   for (const household of Object.values(world.households)) rollFamily(world, household);
   world.status = 'running';
@@ -222,6 +222,14 @@ test('an express rider tells the family where its person stands: the word said a
   applyAction(world, 'hh-1', { action: 'ask-rider', entityId: scene.listenerId, lineId: 'sure' });
   assert.equal(scene.said.at(-2).speakerId || scene.listenerId, by);
   assert.match(scene.said.at(-1).text, /no doubt/);
+  // His scene waits for the student; the class's calendar does not (sim/clock.mjs `deciding`), where a rider who stops holds it.
+  const phase = world.director.phase;
+  world.director.phase = 'gathering';
+  assert.equal(calendarMinutes(world), CALENDAR_SCALE.gathering, 'the scene of an express rider held the calendar of the class');
+  scene.passing = false;
+  assert.equal(calendarMinutes(world), 20, 'a rider who stops no longer holds the calendar for the student reading him');
+  scene.passing = true;
+  world.director.phase = phase;
   // A family nobody plays knows it as before, and is shown no scene.
   step(() => heard());
   assert.ok(heard(), 'a family never heard');
@@ -254,6 +262,10 @@ test('one family listens to one rider at a time: the next has said his word and 
   projected = view(world, 'hh-2').encounter;
   assert.equal(projected.id, second.id);
   assert.ok(second.said[0].minute < second.openedMinute, 'his word was not said when he came');
+  // Travis's runner, who comes while an express rider is talking, is shown over him: his question has a budget of its own.
+  const runner = world.encounters['enc-runner'] = { ...structuredClone(second), id: 'enc-runner', kind: 'alamo-runner', passing: undefined, said: [], asked: [], talk: [] };
+  delete runner.passing; delete runner.word; delete runner.via;
+  assert.equal(view(world, 'hh-2').encounter.id, 'enc-runner', 'the express rider was shown over Travis\'s runner');
 });
 
 test('a class saved before rider scenes still opens: a meeting in progress has its scene settled from where its people stand', () => {
