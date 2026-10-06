@@ -1,0 +1,178 @@
+{
+  "record": "Away at the war, in a browser: docs/MILITARY_EXPERIENCE.md, \"Away at the war\"",
+  "date": "2026-10-06",
+  "verdict": "PASS",
+  "note": "Same computer only. A real class on the colonies map (seed volunteer-life-0, the first family at Mina), played in process to the Colorado's call and served live at 1366x768: the student answered the call from the father's \"!\", chose seven days of food on the going popup, set him to the camp's work at Gonzales from his militia bar, was alerted through him with Watch, saw him in the line, read the account, set him to stay, and sent for him. No LAN, Chromebook or classroom claim.",
+  "checks": [
+    "the call answered from Samuel Proofwright's \"!\": the going popup asked 3, 7 or 14 days of food, seven were chosen, and 2.5 food went from the house into his pack",
+    "at Gonzales his bar is the militia's: camp-drill, camp-guard, camp-cook, camp-wood, camp-shelter, camp-buy, camp-hunt, town-wages, town-board, send-for, go-inside - and left alone he had taken up camp-shelter himself",
+    "pressing camp-cook set him at it, the icon glowing, 0.069 miles off the town's point at the volunteers' camp",
+    "the alert came through Samuel Proofwright before the fight, with Watch: \"At Samuel Proofwright's side: the men are going up the river tonight after the Mexican camp on Williams's land, and Samu\"",
+    "he stood in the line while it fired (minute 5740), and the account came through him afterwards",
+    "after the fight he is back in the volunteers' camp, set to town-board; his pack is down to 2.21 food and his row says \"the best shot on this land, steady in the line, food 6.3 days, 0 rounds, the best hand with stock\"",
+    "*Come home* started Samuel Proofwright home from the volunteers' camp",
+    "at phone width the page does not scroll sideways",
+    "no page errors"
+  ],
+  "observed": {
+    "rations": {
+      "options": [
+        {
+          "days": 3,
+          "food": 1.1,
+          "can": true
+        },
+        {
+          "days": 7,
+          "food": 2.5,
+          "can": true
+        },
+        {
+          "days": 14,
+          "food": 4.9,
+          "can": true
+        }
+      ],
+      "chosen": 3,
+      "buttons": [
+        {
+          "days": 3,
+          "text": "3 days · 1.1 food",
+          "disabled": false
+        },
+        {
+          "days": 7,
+          "text": "7 days · 2.5 food",
+          "disabled": false
+        },
+        {
+          "days": 14,
+          "text": "14 days · 4.9 food",
+          "disabled": false
+        }
+      ]
+    },
+    "pack": {
+      "days": 7,
+      "pack": 2.45,
+      "ration": 0.35,
+      "storeBefore": 52.2482,
+      "storeAfter": 52.2482
+    },
+    "took": "Samuel Proofwright took 2.5 food for the road, about 7 days of his; there is 49.8 left in the house.",
+    "arrived": {
+      "minute": 4800,
+      "upriverCall": 5040,
+      "closes": 5606
+    },
+    "bar": [
+      "camp-drill",
+      "camp-guard",
+      "camp-cook",
+      "camp-wood",
+      "camp-shelter",
+      "camp-buy",
+      "camp-hunt",
+      "town-wages",
+      "town-board",
+      "send-for",
+      "go-inside"
+    ],
+    "selfBegun": "camp-shelter",
+    "atCamp": {
+      "duty": "camp-cook",
+      "from": 0.069
+    },
+    "alert": {
+      "id": "battle:gonzales:hh-1",
+      "entityId": "hh-1-parent-1",
+      "title": "The fight is coming",
+      "text": "At Samuel Proofwright's side: the men are going up the river tonight after the Mexican camp on Williams's land, and Samuel Proofwright is going with them. They mean to be there before first light.",
+      "field": {
+        "x": 0.8124439239960808,
+        "y": 1.7400426756121894
+      },
+      "watching": false,
+      "card": true,
+      "go": "Watch"
+    },
+    "drawn": {
+      "member": true,
+      "shots": 0,
+      "minute": 5740
+    },
+    "account": {
+      "id": "account:gonzales:hh-1",
+      "entityId": "hh-1-parent-1",
+      "title": "What Samuel Proofwright saw at Williams’s place",
+      "text": "What happened: the Texians crossed the river in the night and went up it in the fog to Castañeda's camp on Williams's land. About three in the morning the Mexican outpost fired, and the dragoons mounted and took a rise. At first light the men went out of the timber firing; forty dragoons charged them, they fell back into the trees and fired the cannon, and the dragoons went back up the rise. When the fog lifted, the two commanders met between the lines. Castañeda said he was a republican and had orders to obey; Colonel Moore told him to join them or fight. Then the cannon was fired again, the men went forward at the double, and the dragoons wheeled and rode away toward Béxar.\n\nWhat Samuel Proofwright did: Samuel Proofwright marched up the river with the men in the dark, was in the line when they went out firing at first light, and loaded and fired with them. Samuel Proofwright was not hit.\n\nWhy it ended so: Castañeda had orders to bring the cannon back without starting a war, and he was outnumbered. When the Texians would not give it up and came on, he withdrew rather than fight for it. No Texian was killed. Castañeda reported one of his soldiers hit by a carbine ball; others said one or two of the dragoons were killed. The reports do not agree.\n\nSamuel Proofwright is going back to Gonzales with the men and the cannon, to the volunteers' camp: its work until the volunteers are made into an army, or home when the family sends for him."
+    },
+    "offeredAfter": [
+      {
+        "id": "camp-drill",
+        "can": true,
+        "why": ""
+      },
+      {
+        "id": "camp-guard",
+        "can": true,
+        "why": ""
+      },
+      {
+        "id": "camp-cook",
+        "can": false,
+        "why": "Samuel Proofwright has had his turn at the mess's work; it comes round again in 2 days."
+      },
+      {
+        "id": "camp-wood",
+        "can": false,
+        "why": "Samuel Proofwright has had his turn at the mess's work; it comes round again in 2 days."
+      },
+      {
+        "id": "camp-bullets",
+        "can": false,
+        "why": "There is no lead in the camp to mould: the men have written to the settlements for it."
+      },
+      {
+        "id": "camp-shelter",
+        "can": false,
+        "why": "Samuel Proofwright has a shelter put up already."
+      },
+      {
+        "id": "camp-buy",
+        "can": true,
+        "why": ""
+      },
+      {
+        "id": "camp-hunt",
+        "can": false,
+        "why": "Samuel Proofwright has no powder and ball left to hunt with."
+      },
+      {
+        "id": "town-wages",
+        "can": true,
+        "why": ""
+      },
+      {
+        "id": "town-board",
+        "can": true,
+        "why": ""
+      }
+    ],
+    "after": {
+      "pack": 2.2101,
+      "days": 7,
+      "rounds": 0,
+      "shelter": "board",
+      "chore": "camp-guard"
+    }
+  },
+  "screenshots": [
+    "docs/evidence/volunteer-life-food-row.png",
+    "docs/evidence/volunteer-life-camp-duty.png",
+    "docs/evidence/volunteer-life-alert.png",
+    "docs/evidence/volunteer-life-in-the-line.png",
+    "docs/evidence/volunteer-life-staying.png",
+    "docs/evidence/volunteer-life-phone.png"
+  ]
+}

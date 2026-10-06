@@ -87,6 +87,7 @@
     "test:scrape-pursuit-injections": "node scripts/scrape-pursuit-injections.mjs",
     "study:scrape-pursuit": "node scripts/scrape-pursuit-study.mjs",
     "test:camp": "node scripts/camp-browser-proof.mjs",
+    "test:volunteer-life": "node scripts/volunteer-life-browser-proof.mjs",
     "study:overlap": "node scripts/screen-overlap-study.mjs",
     "test:auto": "node scripts/auto-browser-proof.mjs",
     "test:whole-game": "node scripts/whole-game-browser-proof.mjs",

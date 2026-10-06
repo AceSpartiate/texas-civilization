@@ -73,6 +73,13 @@ the choices this build makes, each recorded so it can be reversed in one place.
    happened, what their own person did, and why the battle ended as it did, and a choice where the history offered
    one. This is what "walk away understanding what happened" is held to.
 
+**Amended 2026-10-05 (owner: *"When my character reached Gonzales I never received a notification that he was participating in
+battle"*; docs/MILITARY_EXPERIENCE.md, *Away at the war*).** §2.6–2.8 now hold for a far family's volunteer too: one who answered his
+settlement's call and stands in Gonzales when the men go up the river is enrolled with the force without a second question and is
+alerted, placed in the line and given the account (`sim/directors.mjs` `enrolVolunteers`, `FIC-GONZ-1175`); one whose ride brings him
+after the fight is told it by the men in the town (`tellTooLate`), since the call reached his settlement too late for any road to
+bring him in time - the date never moves. Between fights he is at the volunteers' camp's work, not standing in the town.
+
 ## 2b. Decided by the owner, 2026-09-25, by multiple choice over docs/battle-research/staging.md
 
 1. **The Alamo — a student may watch their own man fall.** It is drawn without gore and the camera stays on the wall.

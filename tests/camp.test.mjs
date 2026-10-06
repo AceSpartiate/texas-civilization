@@ -12,7 +12,7 @@ import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { ARRIVAL_MINUTES, TIMELINE, momentOf } from '../sim/directors.mjs';
 import { frailty, rollFates } from '../sim/army.mjs';
 import { DRILLED_STEADINESS, DRILL_TO_STEADY, GROCES_FROM, HOUSTON_CAMPS, HOUSTON_WORD, MARCH_CAMPS, SAN_JACINTO, campClock, drilledSteady, houstonCamp } from '../sim/houston.mjs';
-import { CAMP_CHORES, CAMP_QUESTIONS, CAMP_SHARES, SCOUT_HURT, campChoice, campInvalid, campQuestionOpen, campRefusal, scoutHurt } from '../sim/camp.mjs';
+import { CAMP_CHORES, CAMP_QUESTIONS, HOUSTON_CAMP, CAMP_SHARES, SCOUT_HURT, campChoice, campInvalid, campQuestionOpen, campRefusal, scoutHurt } from '../sim/camp.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { GLORY_WEIGHT } from '../sim/glory.mjs';
 import { gloryRule } from '../sim/ending.mjs';
@@ -74,9 +74,11 @@ test('the camp\'s work is on a serving man\'s row and nobody else\'s; three days
   const [man, home] = grownMen(world);
   serve(world, man);
   world.households[home.householdId].played = true;
-  // Only the camp's four, all open, and nothing else on the channel for him; nothing of the camp for somebody at home.
-  assert.deepEqual(work(world, man).map(entry => entry.id), [...CAMP_CHORES]);
-  assert.deepEqual(work(world, man).filter(entry => entry.id !== 'camp-scout').map(entry => entry.can), [true, true, true], JSON.stringify(work(world, man)));
+  // Only the camp's work, all open, and nothing else on the channel for him; nothing of the camp for somebody at home. Since
+  // 2026-10-05 the camp's four are joined by the mess fire, the wood and the bullet moulds (sim/militia.mjs); the town's work is
+  // a volunteer's in a town, not Houston's man's.
+  assert.deepEqual(work(world, man).map(entry => entry.id), [...HOUSTON_CAMP]);
+  assert.deepEqual(work(world, man).filter(entry => entry.id !== 'camp-scout').map(entry => entry.can), HOUSTON_CAMP.filter(id => id !== 'camp-scout').map(() => true), JSON.stringify(work(world, man)));
   assert.ok(!work(world, home).some(entry => entry.id.startsWith('camp-')), 'the camp\'s work was offered at home');
   // Freed first: this assertion is about the camp's own rule, and a man already at work is refused for being at work
   // before anything about Houston is reached. What the director has the neighbours doing changes under this test
@@ -87,7 +89,9 @@ test('the camp\'s work is on a serving man\'s row and nobody else\'s; three days
   // A day's drill, said and counted: the first of the camp's work is the one supporting award.
   order(world, man, 'camp-drill');
   assert.equal(man.chore.id, 'camp-drill');
-  assert.ok(work(world, man).find(entry => entry.id === 'camp-forage').why.length > 0, 'a busy man was offered more work without a reason');
+  // Busy at one of the camp's duties, another is a press away (owner, 2026-10-05, "Camp duties, auto": "you can pick one"): open,
+  // and pressing it changes his work (sim/chores.mjs). Work that is not the camp's is still refused for being busy.
+  assert.ok(work(world, man).find(entry => entry.id === 'camp-forage').can, 'a man at the drill cannot be sent out for the mess instead');
   finish(world, man);
   assert.equal(man.service.drilled, 1);
   assert.ok(world.events.some(event => event.actorId === man.id && /drilled a day with the company .* \(1 of 3 days/.test(event.text)), 'the drill was not said');
@@ -607,7 +611,7 @@ test('a class saved on a map without Bernardo keeps the army at Groce\'s until A
   assert.ok(world.minute < momentOf(world, 'houston-harrisburg'), 'the calendar stepped past the march');
   assert.equal(man.location.siteId, 'groces', 'the man left Groce\'s with nowhere to go');
   assert.equal(man.travel, null);
-  assert.deepEqual(work(world, man).filter(entry => entry.id !== 'camp-scout').map(entry => entry.can), [true, true, true], 'the camp\'s work closed at Groce\'s');
+  assert.deepEqual(work(world, man).filter(entry => entry.id !== 'camp-scout').map(entry => entry.can), HOUSTON_CAMP.filter(id => id !== 'camp-scout').map(() => true), 'the camp\'s work closed at Groce\'s');
   untilMoment(world, 'houston-harrisburg');
   assert.equal(man.travel?.to, 'harrisburg', 'the army did not march for Harrisburg from Groce\'s');
   validateWorld(world);

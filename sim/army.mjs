@@ -530,7 +530,14 @@ export function frailty(person) {
  * ceiling: frailty weights every battle alike; an execution like Goliad's, where strength saved nobody, would want a
  * rate given without the weighting (an option here) once that arc is built from its research.
  */
-export function rollFates(world, ids, { event, death, wound, weightOf = frailty }) {
+/**
+ * A volunteer's frailty in the autumn's fights, steadied by the drill he did at the volunteers' camp (owner, 2026-10-05; sim/militia.mjs,
+ * `FIC-GONZ-1177`): three days make him steady in the line, and a steady man's weight is three quarters of his frailty - Houston's
+ * camp's own rule (sim/houston.mjs `DRILLED_STEADINESS`), restated since that module reads this one. Nobody who never drilled moves:
+ * every class saved before has no drill, and its fights roll exactly as they did.
+ */
+export const militiaSteadiness = person => frailty(person) * ((person?.militia?.drilled || 0) >= 3 ? 0.75 : 1);
+export function rollFates(world, ids, { event, death, wound, weightOf = militiaSteadiness }) {
   const weighted = (rate, weight) => 1 - (1 - Math.max(0, Math.min(1, rate))) ** weight;
   return ids.map(id => {
     // `weightOf` is the one place a battle may read something besides frailty: San Jacinto reads whether the man drilled
@@ -897,7 +904,14 @@ function leaveArmy(world, person, { beginTravel, text, keepPromise = false }) {
   // On the horse they came with, as a volunteer sent for does (`callHome`); on foot if that way home is shut.
   const home = world.households[person.householdId].homeSiteId, mode = modeWith(world, person);
   // Somebody already on a road of their own (a man let go from the town who set out himself) keeps it.
-  if (beginTravel && !person.travel) { try { beginTravel(world, person, home, causeId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, person, home, causeId, 'home'); } }
+  // Somebody too sick to get up, or lying wounded, cannot set out (sim/world.mjs `beginTravel`): out of the ranks, he stays where the
+  // army left him until he can - a chill caught sleeping under the sky at the gathering can do it (sim/militia.mjs, 2026-10-05).
+  // Until then the refusal stopped the whole class's tick.
+  if (beginTravel && !person.travel) {
+    for (const how of mode === 'foot' ? ['foot'] : [mode, 'foot']) {
+      try { beginTravel(world, person, home, causeId, 'home', how); break; } catch { /* the next way, or he stays where he is */ }
+    }
+  }
 }
 
 /**

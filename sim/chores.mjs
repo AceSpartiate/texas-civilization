@@ -29,7 +29,7 @@ import { record } from './events.mjs';
 import { answeredFor, recordLapse } from './lapse.mjs';
 import { limitLeft, limitOut, workKind, workLimitKey, workOnLimit } from './decision-budget.mjs';
 // Who is left at home when a man goes to the war (sim/acting.mjs, design audit S14, 2026-09-28): said on the control.
-import { WAR_CHORES, leavesLittleOnes } from './acting.mjs';
+import { WAR_CHORES, awayVolunteer, leavesLittleOnes } from './acting.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 // A small child's play lasts until the day ends (owner, 2026-09-29; sim/child-day.mjs): the `allDay` step below.
 import { dayBegun, dayOf, dayOver, onceToday } from './child-day.mjs';
@@ -1661,14 +1661,19 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // Away with the family at the neighbours' farms (sim/courtship.mjs, the lone parent's path): nothing is taken up until home.
   if (entity.visiting) return { can: false, why: `${entity.name} is away with the family at the neighbours' farms.` };
   if (asideRefuses(entity)) return { can: false, why: asideWhy(entity, id => world.entities[id]?.given || world.entities[id]?.name || 'a child') };
-  if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
+  // One of the camp's duties is changed for another at a press (owner, 2026-10-05, "Camp duties, auto": he takes them up himself
+  // when left alone, "and you can pick one"): the one he took up himself is left for the one the student picks (`beginChore`).
+  const switching = Boolean(chore.camp) && Boolean(CHORES[entity.chore?.id]?.camp) && entity.chore.id !== choreId;
+  if (entity.chore && !switching) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   // The road's own chores (sim/road.mjs) are for somebody travelling east with the family, or camped with it at the refuge.
   // Somebody the class's clock is carrying faster than a student can follow is not on the map at all (sim/sight.mjs,
   // owner 2026-09-21). Their row on the family panel is the one place a student is certain to look for them, so it says
   // what became of them rather than the bare "on the road" that would now read as a person who had vanished.
   // A work that may be begun from the family's road or refuge (`fromFlight`, joining Houston) is begun where he is with them.
   const withTheFlight = Boolean(chore.fromFlight) && withFlight(household, entity);
-  if (entity.travel && !chore.road && !withTheFlight) {
+  // The camp's work is done in the army's camp on its road too, where its men stand on its halted journey (sim/militia.mjs `inArmyCamp`).
+  const armyCamp = Boolean(chore.camp) && entity.travel?.purpose === 'march' && Boolean(entity.travel.halted) && Boolean(world.army?.camp);
+  if (entity.travel && !chore.road && !withTheFlight && !armyCamp) {
     if (!tooFastToFollow(entity.travel, milesATick(world, entity), world.minute)) return { can: false, why: `${entity.name} is on the road.` };
     const to = world.map?.sites?.[entity.travel.to]?.name || 'where they were sent';
     const away = awayProjection(world, entity.travel, { milesATick: milesATick(world, entity), minutes: calendarMinutes(world) });
@@ -1678,7 +1683,10 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.refuse) { const why = chore.refuse(world, household, entity, chore); if (why) return { can: false, why }; }
   // One haul of each of the four works a person a day (owner, 2026-10-02; sim/gathering.mjs `forageRefusal`).
   if (chore.forage) { const why = forageRefusal(world, entity, chore.forage); if (why) return { can: false, why }; }
-  if (entity.task === 'help') return { can: false, why: `${entity.name} is away helping.` };
+  if (entity.task === 'help' && !chore.camp) return { can: false, why: `${entity.name} is away helping.` };
+  // A volunteer away at the war is sent only the camp's work (sim/militia.mjs); an order for the farm's from a page that has not
+  // caught up is refused in words.
+  if (!chore.camp && awayVolunteer(world, entity)) return { can: false, why: `${entity.name} is away with the volunteers, at the camp's work.` };
   // Somebody who has joined the army, the garrison or the expedition is in one place and does nothing else (sim/winter.mjs) -
   // except the camp's own work, which a chore kept in its own module marks `camp` and gates itself (sim/camp.mjs).
   if (entity.service?.status === 'serving' && !chore.camp) return { can: false, why: servingWhy(world, entity) };
@@ -2281,6 +2289,9 @@ export function choresFor(world, household, entity, logsOut = null) {
     // (`rowReason`, public/family-panel.js).
     && !(childBar && !chore.child)
     && !(entity.service?.status === 'serving' && !chore.camp)
+    // And a volunteer away at the war: the militia's bar, not the farm's (owner, 2026-10-05: "Why can they still see the tasks
+    // they could do back home?"; sim/militia.mjs).
+    && !(!chore.camp && awayVolunteer(world, entity))
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells || chore.fetchesLogs) && world.status === 'lobby')).map(([id, chore]) => {
     const { can, why, lack, custom, help } = choreAvailability(world, household, entity, id, logsOut);
@@ -2515,6 +2526,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   }
   const { can, why } = choreAvailability(world, household, entity, choreId);
   if (!can) throw new Error(why || 'That work is not available.');
+  // A camp duty picked over another: the other is left off first (`choreAvailability`'s `switching`).
+  if (chore.camp && entity.chore && CHORES[entity.chore.id]?.camp && entity.chore.id !== choreId) abandonChore(world, household, entity);
   // Taken up by necessity, the custom's own line the first time for each reason (owner, 2026-10-03; sim/custom.mjs): written only
   // once the work has really begun or been joined, so a refusal further down says nothing.
   const begun = result => { noteNecessity(world, household, entity, choreId, { row: custom(world, household, entity, choreId), homeWork, journeyOf }); return result; };
@@ -2588,7 +2601,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   const { held, shares } = heldBy(world, household, entity, chore, modeId, choreId, extra);
   // `spell`: play a child's own automation or a wander took up between jobs, which goes its old couple of hours and not the
   // whole day (owner, 2026-09-29; sim/childhood.mjs): the automation itself is what lasts until the day ends.
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(extra.spell && chore.childJob && !chore.play && { onAuto: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(extra.plots && { plots: [...extra.plots] }), ...(extra.sow && { sow: { ...extra.sow } }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(extra.spell && chore.childJob && !chore.play && { onAuto: true }), ...(extra.campAuto && chore.camp && { onAuto: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(extra.plots && { plots: [...extra.plots] }), ...(extra.sow && { sow: { ...extra.sow } }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
   entity.task = 'work';
   // Joined across the custom (`helpLead`): theirs only while somebody of its custom is at it (`helpHeld`).
   if (helping) entity.chore.helping = helping.id;
@@ -2639,7 +2652,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   // halted on its way east: the road is still theirs, but the ground has stopped going past.
   // A road chore that goes on while the family moves (`moving`: watching the road behind, singing the little ones along;
   // sim/flight-work.mjs) runs on the road itself.
-  if (entity.travel && !(chore.road && (entity.travel.halted || chore.moving))) return;
+  if (entity.travel && !(chore.road && (entity.travel.halted || chore.moving)) && !(chore.camp && entity.travel.purpose === 'march' && entity.travel.halted && world.army?.camp)) return;
   // Called aside by the family's little ones (sim/aside.mjs): the work stands exactly where it is, step, wait and all.
   if (calledAside(entity)) return;
   // A child in out of the weather (sim/shelter.mjs, owner 2026-10-02): their job or their play waits for it to clear - except work

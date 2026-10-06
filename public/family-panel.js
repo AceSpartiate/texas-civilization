@@ -73,8 +73,18 @@ export const PANEL_SUMMARIES = Object.freeze({
   'winter-recall': 'Send for them to leave where they serve and come home.',
   'camp-drill': 'Spend a day drilling with the company at the camp; three days make them steady in the line.',
   'camp-forage': 'Spend a day out for the mess, bringing beef and corn in to the camp.',
-  'camp-guard': 'Stand a night on the camp guard.',
+  'camp-guard': 'Stand a watch on the picket round the camp, where men riding in bring word.',
   'camp-scout': 'Ride out with the scouts for a day to find the enemy, which wants a horse and can bring them back hurt.',
+  // The volunteers' camp (owner, 2026-10-05, "Camp duties, auto"; sim/militia.mjs).
+  'camp-cook': 'Cook at the mess fire; the mess feeds whoever does its work, so none of his own food is eaten today.',
+  'camp-wood': 'Cut firewood for the mess fires; the mess feeds whoever does its work, so none of his own food is eaten today.',
+  'camp-bullets': 'Mould bullets from the militia’s lead, with its powder: more powder and ball, none from home.',
+  'camp-shelter': 'Put up a shelter of brush with his blanket over it, so a norther does not find him under the sky.',
+  'camp-buy': 'Buy meal and dried beef in the town with a real of the family’s coin, for his pack.',
+  'camp-hunt': 'Go out with the rifle after a deer for his pack; it takes a round, and he may come back with nothing.',
+  'town-wages': 'Work a day for hire in the town for half a real, paid to the family when it comes to a real.',
+  'town-board': 'Work a day at a house in the town for his meals and a bed, at a quarter of a real a day.',
+  'send-for': 'Send for him: he leaves the volunteers and walks home, with what is left of his food.',
   // What a family's children can be set to (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
   'child-play': 'Let them have the rest of the day to themselves at whatever play they choose, which makes nothing and is the point of it.',
   // The kinds of play and the hens (sim/children.mjs `PLAY_KINDS`, owner 2026-09-26: "different types of play").
@@ -124,6 +134,7 @@ export const PANEL_SUMMARIES = Object.freeze({
 export const ORDER_NAMES = Object.freeze({
   'travel-gonzales': 'Travel to Gonzales', 'travel-home': 'Return home', visit: 'Go to a neighbour’s homestead',
   work: 'Work about the place', rest: 'Rest', 'stop-chore': 'Call off the work', 'winter-recall': 'Send for them to come home',
+  'send-for': 'Come home',
 });
 
 /**
@@ -147,6 +158,13 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['join-seguin', { sprite: 'icon-join-houston' }],
   // The camp's four (sim/camp.mjs) select their registered `icon-<key>` sprites in drawIcon; glyphs remain load fallbacks.
   ['camp-drill', { glyph: 'drill' }], ['camp-forage', { glyph: 'forage' }], ['camp-guard', { glyph: 'guard' }], ['camp-scout', { glyph: 'scout' }],
+  // The volunteers' camp (sim/militia.mjs, owner 2026-10-05). stand-in: docs/ART_REQUESTS.md, request 2026-10-05 "away at the war",
+  // item 1 - `icon-camp-cook`, `-camp-wood`, `-camp-bullets`, `-camp-shelter`, `-camp-buy`, `-camp-hunt`, `-town-wages`,
+  // `-town-board`: until each is drawn, the nearest picture the library has.
+  ['camp-cook', { sprite: 'icon-camp-forage', glyph: 'camp-fire' }], ['camp-wood', { sprite: 'icon-child-kindling', glyph: 'child-kindling' }],
+  ['camp-bullets', { sprite: 'icon-fetch-powder', glyph: 'forage' }], ['camp-shelter', { glyph: 'pitch-tent' }],
+  ['camp-buy', { sprite: 'icon-visit-shop' }], ['camp-hunt', { sprite: 'icon-hunt-timber' }],
+  ['town-wages', { sprite: 'icon-work' }], ['town-board', { sprite: 'icon-build-house' }], ['send-for', { sprite: 'icon-travel-home' }],
   // The road's chores (sim/road.mjs, docs/ROAD_EAST.md) have registered `icon-<key>` frames; glyphs are load fallbacks.
   ['hunt-road', { glyph: 'hunt-road' }], ['tend-sick', { glyph: 'tend-sick' }], ['trade-crossing', { glyph: 'trade-crossing' }],
   // Sickness (sim/disease.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sickness icons" - `icon-rest-road`,
@@ -191,8 +209,12 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
     'keep-house', 'work-garden', 'wash-clothes',
   ].map(key => [key, { glyph: key }]),
 ]));
-/** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
-export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
+/**
+ * The camp's work (sim/camp.mjs `CAMP_CHORES`): what a man serving with Houston's army, or a volunteer away at the war (sim/militia.mjs),
+ * is offered - the only work their rows show. tests/family-panel.test.mjs holds it equal to the server's.
+ */
+export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-cook', 'camp-wood', 'camp-bullets', 'camp-scout',
+  'camp-shelter', 'camp-buy', 'camp-hunt', 'town-wages', 'town-board']);
 
 /**
  * Chores sent with a place the student taps on the map: their icon starts choosing the place (sim/survey.mjs). Felling was one
@@ -289,6 +311,19 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
   // Somebody with the men in a fight (sim/battle-stage.mjs `heldByBattle`) is given no order until it is over and they come
   // back with the men; the server refuses any, and the reason is theirs (`held`).
   if (entity.held) return [];
+  // A volunteer away at the war (owner, 2026-10-05: "A militia bar replaces the home bar"; sim/militia.mjs `militiaShown`): the camp's
+  // work as the server offers it, coming home, and calling off what he is at - never the farm's work, and none of the main person's
+  // orders about the place. Any of the family, not only the main person.
+  if (entity.militia) {
+    const camp = offered.filter(entry => CAMP_CHORES.includes(entry.id)).map(entry => {
+      const spec = catalogue.get?.(entry.id) || {};
+      return { key: entry.id, kind: 'chore', name: spec.name || entry.id, summary: PANEL_SUMMARIES[entry.id] || firstSentence(spec.describe),
+        note: entry.cost ? `Costs ${entry.cost}.` : '', can: Boolean(settable && entry.can), why: entry.can ? '' : entry.why || '', onMap: false, active: entity.chore?.id === entry.id };
+    });
+    return [...camp, { key: 'send-for', kind: 'order', name: ORDER_NAMES['send-for'], summary: PANEL_SUMMARIES['send-for'], note: '', why: entity.travel ? `${entity.name || 'He'} is on the road.` : '',
+      can: Boolean(settable && !entity.travel), active: false },
+    ...(entity.chore ? [{ key: 'stop-chore', kind: 'order', name: ORDER_NAMES['stop-chore'], summary: PANEL_SUMMARIES['stop-chore'], note: '', why: '', can: settable, active: false }] : [])];
+  }
   // Somebody with the army, the garrison or the expedition (sim/winter.mjs) has one order and no other: sending for them -
   // except a man with Houston's army, whose row has the camp's work first (sim/camp.mjs), as the server offers it.
   if (entity.service?.status === 'serving') {
@@ -633,7 +668,9 @@ export function standing(entity) {
   const hunting = entity?.skills?.hunting ?? 1;
   if (hunting >= 3) words.push('the best shot on this land');
   else if (hunting >= 2) words.push('a steady shot');
-  if ((entity?.service?.drilled ?? 0) >= DRILLED_ROW) words.push('steady in the line');
+  if ((entity?.service?.drilled ?? 0) >= DRILLED_ROW || (entity?.militia?.drilled ?? 0) >= DRILLED_ROW) words.push('steady in the line');
+  // Away at the war (sim/militia.mjs `militiaShown`): the days of food in his pack and his powder and ball, at a glance.
+  if (entity?.militia) words.push(`food ${entity.militia.days} ${entity.militia.days === 1 ? 'day' : 'days'}, ${entity.militia.rounds} ${entity.militia.rounds === 1 ? 'round' : 'rounds'}`);
   // A hand with stock (owner, 2026-10-03; sim/stock.mjs `herdingOf`), sent only for a family with stock (`hand`).
   if (entity?.hand >= 3) words.push('the best hand with stock');
   else if (entity?.hand >= 2) words.push('a good hand with stock');

@@ -45,10 +45,42 @@ export function skipsTheChooser(going, { shown = false, error = '' } = {}) {
   return way ? way.id : null;
 }
 
-/** The order as the server is asked about it: what it is, without its id or a way already chosen. */
+/** The order as the server is asked about it: what it is, without its id, a way already chosen or the food chosen to carry. */
 export function orderAsked(input) {
-  const { id, mode, entityId, ...order } = input || {};
+  const { id, mode, entityId, packDays, ...order } = input || {};
   return order;
+}
+
+/**
+ * The days of food chosen to carry to the war (owner, 2026-10-05; sim/militia.mjs `packOptions`): the student's, while the server
+ * says the store has it, otherwise the server's `chosen` (the smallest, which always can).
+ */
+export function chosenDays(rations = null, pressed = null) {
+  if (!rations) return null;
+  const pick = pressed && rations.options?.find(one => one.days === pressed && one.can);
+  return pick ? pick.days : rations.chosen;
+}
+
+/**
+ * The food row (owner, 2026-10-05: "the going popup asks how many days of food (3 / 7 / 14), taken from the home store"): one button
+ * a size, with the food it takes out of the house, a size the store cannot fill shut with the server's reason. Hidden when the order
+ * carries no food. `element(tag, text, className)` is the page's own.
+ */
+export function drawRations(host, rations, chosen, element) {
+  if (!host) return;
+  host.hidden = !rations;
+  if (!rations) { host.replaceChildren(); return; }
+  const row = [element('span', 'Food to carry:', 'going-rations-label')];
+  for (const option of rations.options || []) {
+    const button = element('button', `${option.days} days · ${option.food} food`, 'going-ration');
+    button.type = 'button';
+    button.dataset.days = String(option.days);
+    button.setAttribute('aria-pressed', String(option.days === chosen));
+    button.disabled = !option.can;
+    if (!option.can || option.note) button.title = option.why || option.note || '';
+    row.push(button);
+  }
+  host.replaceChildren(...row);
 }
 
 /**
@@ -144,20 +176,24 @@ export function mountGoing({ $, element, api, say = () => {}, send: sendCommand 
     $('#going-text').textContent = facts ? facts.journey.says : 'Asking how they can go…';
     const chosen = chosenWay(facts?.ways, facts?.quickest, state.mode);
     drawWays($('#going-ways'), { ways: facts?.ways || [], quickest: facts?.quickest || null, chosen }, element);
+    const days = chosenDays(facts?.rations, state.days);
+    drawRations($('#going-rations'), facts?.rations || null, days, element);
     const why = state.error || facts?.shut || (facts && !chosen ? 'No way of going is open to them now.' : '');
     $('#going-why').textContent = why;
     const send = $('#going-send');
     send.disabled = Boolean(state.busy) || !facts || !chosen || Boolean(facts.shut);
     send.textContent = state.busy ? 'Sending…' : `Send ${name}`;
     // What a proof reads: the server's ways as drawn, and the way the order would carry.
-    window.__going = { entityId: state.input.entityId, order: orderAsked(state.input), ways: facts?.ways || null, quickest: facts?.quickest || null, chosen, why, can: !send.disabled };
+    window.__going = { entityId: state.input.entityId, order: orderAsked(state.input), ways: facts?.ways || null, quickest: facts?.quickest || null, chosen, why, can: !send.disabled,
+      ...(facts?.rations && { rations: facts.rations, days }) };
   }
 
   async function sendNow(mode = null, { quiet = false } = {}) {
     if (!state || state.busy) return;
     state.busy = true;
     if (state.facts?.journey && !quiet) draw();
-    const input = { ...state.input, ...(mode && { mode }) };
+    const days = chosenDays(state.facts?.rations, state.days);
+    const input = { ...state.input, ...(mode && { mode }), ...(days && { packDays: days }) };
     try {
       await sendCommand(input);
       finish({ sent: true });
@@ -185,6 +221,8 @@ export function mountGoing({ $, element, api, say = () => {}, send: sendCommand 
     if (event.target.closest('#going-send')) { send(); return; }
     const way = event.target.closest('[data-way]');
     if (way && !way.disabled) { state.mode = way.dataset.way; state.error = ''; draw(); root.querySelector(`[data-way="${way.dataset.way}"]`)?.focus({ preventScroll: true }); }
+    const ration = event.target.closest('[data-days]');
+    if (ration && !ration.disabled) { state.days = Number(ration.dataset.days); draw(); root.querySelector(`[data-days="${ration.dataset.days}"]`)?.focus({ preventScroll: true }); }
   });
   // Escape sends nobody; Enter sends them the way that is chosen, from anywhere in the chooser but its close and cancel (on a
   // way, Enter chooses it and sends: the one press a keyboard needs).
@@ -206,7 +244,7 @@ export function mountGoing({ $, element, api, say = () => {}, send: sendCommand 
       window.__goingPending = true;
       window.__goingAsked = (window.__goingAsked || 0) + 1;
       return new Promise(resolve => {
-        state = { input, facts: null, mode: null, busy: false, error: '', refused: '', seq: 0, key: null, shown: false, resolve };
+        state = { input, facts: null, mode: null, days: null, busy: false, error: '', refused: '', seq: 0, key: null, shown: false, resolve };
         // The keyboard lands on the way that is chosen: Enter sends them by it, Tab reaches the others, Escape sends nobody.
         fetchFacts().then(() => { if (state?.facts?.journey) (root.querySelector('[data-way][aria-pressed=true]:not([disabled])') || root.querySelector('#going-cancel'))?.focus({ preventScroll: true }); });
       });

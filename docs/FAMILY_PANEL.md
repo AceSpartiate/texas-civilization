@@ -2216,3 +2216,13 @@ weather."* (`shelterLine`, through `life`). Their bar is **not** shut: an order 
 §13). *Put up the tent* (`pitch-tent`) has an icon, a stroked tent until `icon-pitch-tent` is drawn; since 2026-10-03 ("Automatic on arrival") it is on nobody's bar and glows on a row only while somebody puts up a tent the family did not have. `stand-in:` the mark is drawn in
 the style sheet until `mark-shelter-house` and `mark-shelter-tent` are (docs/ART_REQUESTS.md, request 2026-10-02).
 
+## Amendment, 2026-10-05 — the militia's bar for somebody away at the war (owner)
+
+The owner, 2026-10-05: *"Why can they still see the tasks they could do back home? They're off to serve as part of the militia and/or
+army. They should have skills and tasks for that."* - and by multiple choice, **"Camp duties, auto"** ("A militia bar replaces the home
+bar ... He does them on his own when left alone, and you can pick one."). A row whose person is away at the war as a volunteer (the
+server's `militia` on the person, sim/militia.mjs `militiaShown`) is drawn with the camp's work the server offers (`CAMP_CHORES`), **Come
+home** (`send-for`, with its confirming second press) and calling off - nothing of the farm's work and none of the main person's orders
+about the place (public/family-panel.js `panelActions`), whoever of the family it is. One of the camp's duties is changed for another at
+one press (sim/chores.mjs). The row's standing line says what he carries: "food N days, M rounds". The page's own House still ends the
+bar, as on every bar (§ amendment 2026-09-30). docs/MILITARY_EXPERIENCE.md, *Away at the war*, has the rest.

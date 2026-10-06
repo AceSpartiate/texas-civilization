@@ -12,6 +12,7 @@
 //   - It runs only in a class that asked for it (`world.neighbours`), so every class and save made before is unchanged.
 //
 // Every threshold and valuation below is invented (`FIC-GONZ-028`).
+import { awayWithTheArmy } from './acting.mjs';
 import { ADULT_RATION, mouthsOf, tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
 import { barePlots, clearedPlots, cropOf, overlaps, sownPlots, squareOf } from './fields.mjs';
@@ -395,7 +396,8 @@ export function thinkFor(world, household, { project, act }) {
     // Somebody away from home with nothing to do there comes home.
     // Somebody who went with the volunteers, or to help at Gonzales, is where the family sent them (task 'help'), and stays;
     // so does somebody serving (sim/winter.mjs), whose day at the camp was chosen above.
-    if (person.task === 'help' || person.service) continue;
+    // And a volunteer standing in the volunteers' camp whatever his task (sim/acting.mjs `awayWithTheArmy`, owner 2026-10-05).
+    if (person.task === 'help' || person.service || awayWithTheArmy(world, world.entities[person.id])) continue;
     // A family it owes is raising its walls (sim/neighbourly.mjs): one of its people goes to help, as it was helped.
     if (raisingHand(view, household, person, ride)) continue;
     if (person.location?.siteId !== view.household.homeSiteId) { ride({ action: 'travel', entityId: person.id, destination: view.household.homeSiteId }); continue; }

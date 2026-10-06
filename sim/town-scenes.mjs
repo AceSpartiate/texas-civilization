@@ -118,6 +118,9 @@ export const TOWN_CAST = Object.freeze({
   ...Object.fromEntries([1, 2, 3, 4].map(n => [`gz-smith-${n}`, { label: 'a man at the blacksmith shop', figure: ['ochre', 'elder', 'blue', 'ochre'][n - 1] }])),
   ...Object.fromEntries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => [`gz-volunteer-${n}`, { label: 'one of the men who came in', figure: 'volunteer' }])),
   ...Object.fromEntries([1, 2, 3, 4].map(n => [`gz-mounted-${n}`, { label: 'one of the men riding in', figure: ['elder', 'ochre', 'blue', 'elder'][n - 1], rides: true }])),
+  // The volunteers' camp on the commons after the fight (owner, 2026-10-05; sim/militia.mjs): men of the settlements in their own
+  // clothes at the mess fire, the wood and the bullet moulds.
+  ...Object.fromEntries([1, 2, 3, 4].map(n => [`gz-camp-${n}`, { label: 'one of the volunteers in camp', figure: ['elder', 'ochre', 'blue', 'ochre'][n - 1] }])),
   'gz-rider-1': { label: 'a rider carrying a letter', figure: 'courier', rides: true },
   'gz-rider-2': { label: 'a rider carrying a letter', figure: 'courier', rides: true },
   'gz-family-father': { label: 'a father of the town', figure: 'ochre' },
@@ -330,6 +333,15 @@ const MUSTER_MARCH = [
   [['gz-volunteer-1', 'Fall in. Down to the ferry.', said('HIST-TEX-465')], ['gz-volunteer-2', 'Bring the gun.']],
   [['gz-volunteer-3', 'Keep the flag up where we can see it.', said('HIST-TEX-468')], ['gz-volunteer-4', 'Quiet, now.']],
 ];
+// The volunteers' camp, October 2 to 13 (`FIC-GONZ-1176`; what fed and armed them, `HIST-TEX-1184`, `-1185`). Reconstructed.
+const VOLUNTEERS_CAMP = [
+  [['gz-camp-1', 'Beef again tonight, and no bread.'], ['gz-camp-4', 'Better than nothing at all.']],
+  [['gz-volunteer-3', 'We want powder and lead.', said('HIST-TEX-1185')], ['gz-volunteer-4', 'Somebody has written for it.']],
+  [['gz-volunteer-1', 'More men came in from the Brazos.', said('HIST-TEX-018')], ['gz-volunteer-2', 'Good. We need every one.']],
+  [['gz-camp-2', 'Who will command us?'], ['gz-camp-3', 'They will choose soon enough.', said('HIST-TEX-018')]],
+  [['gz-volunteer-5', 'I have the picket tonight.'], ['gz-volunteer-4', 'Keep your powder dry.']],
+  [['gz-camp-3', 'Hold the ladle steady.'], ['gz-camp-1', 'Mind the lead. It is hot.']],
+];
 const LEAVING = [
   [['gz-family-mother', 'Everything we can carry. The rest stays.', said('HIST-TEX-467')], ['gz-family-father', 'To the Colorado, until this is done.', said('HIST-TEX-467')]],
   [['gz-family-girl', 'Is the house staying?'], ['gz-family-mother', 'The house stays. We go.']],
@@ -534,6 +546,20 @@ const CARD_MUSTER_DECIDED = {
     { label: 'DOCUMENTED', text: 'Moore was elected colonel and Wallace lieutenant colonel.', claimId: 'HIST-TEX-465' },
   ],
 };
+const CARD_VOLUNTEERS_CAMP = {
+  title: "The volunteers' camp",
+  teller: 'One of the volunteers at the fire tells you:',
+  said: [
+    'Men are coming in from every settlement to be made into an army and go against Béxar. Until then we drill, stand picket round the town, cook and cut wood for the mess, and mould bullets when there is lead.',
+    'There is beef enough. Bread and meal are short, and so are powder and lead. Most of us sleep in our blankets on the ground.',
+  ],
+  known: [
+    { label: 'DOCUMENTED', text: '"We are well supplied with beef and bread" (Macomb, from Gonzales, about October 5); later the men "suffer greatly for the want of bread".', claimId: 'HIST-TEX-1184' },
+    { label: 'DOCUMENTED', text: '"We want powder and lead" (a letter from Gonzales, October 6); lead was fetched for the army on October 11.', claimId: 'HIST-TEX-1185' },
+    { label: 'DOCUMENTED', text: 'The army had no tents in November; the men brought their own quilts and blankets.', claimId: 'HIST-TEX-1186' },
+  ],
+  madeUp: `${PICTURE} A few men stand for the hundreds in camp.`,
+};
 const CARD_LEAVING = {
   title: 'A family leaving',
   teller: 'The mother, loading the wagon, tells you:',
@@ -692,6 +718,20 @@ export const TOWN_BEATS = Object.freeze([
     residents: [at('town-tavern-gonzales', null, 0, 0, 'listen', 's')] },
   // The men go down to the ferry: the `crossing-over` beat walks them there.
   { id: 'muster-march', scene: 'muster', from: on(2, 19), to: on(2, 20), card: CARD_MUSTER_DECIDED, talk: MUSTER_MARCH, people: [] },
+  // The volunteers' camp on the commons, from the evening the men are back from the fight until the army marches on the 13th (owner,
+  // 2026-10-05: "They shouldn't be just standing around"; sim/militia.mjs, `FIC-GONZ-1176`). No tents: the army had none
+  // (`HIST-TEX-1186`); the men's blanket rolls lie by the fires. A family's own volunteer is drawn among them at his own work.
+  { id: 'volunteers-camp', scene: 'muster', from: on(3, 20), to: on(14, 8), card: CARD_VOLUNTEERS_CAMP, talk: VOLUNTEERS_CAMP,
+    people: [at('gz-volunteer-1', 'muster', 0.05, -0.035, 'march', 'e'), at('gz-volunteer-2', 'muster', 0.066, -0.03, 'march', 'e'),
+      at('gz-volunteer-3', 'muster', 0.024, 0.03, 'gun-ram', 'w'), at('gz-volunteer-4', 'muster', 0.04, 0.02, 'speak', 'w'),
+      at('gz-volunteer-5', 'muster', 0.06, 0.012, 'listen', 'w'), at('gz-volunteer-6', 'muster', -0.012, 0.042, 'speak', 'e'),
+      at('gz-volunteer-7', 'muster', 0.002, 0.048, 'listen', 'w'), at('gz-volunteer-8', 'muster', 0.016, 0.052, 'speak', 'w'),
+      at('gz-camp-1', 'muster', -0.004, 0.026, 'care', 'e'), at('gz-camp-2', 'muster', -0.05, 0.036, 'chop', 'e'),
+      at('gz-camp-3', 'muster', 0.016, 0.024, 'repair', 'w'), at('gz-camp-4', 'muster', 0.012, 0.036, 'rest', 'w'),
+      at('gz-volunteer-9', 'eastEdge', -0.02, 0.01, 'idle', 'e')],
+    props: [{ kind: 'fire', place: 'muster', dx: 0.004, dy: 0.032 }, { kind: 'fire', place: 'muster', dx: 0.03, dy: 0.04 },
+      { kind: 'bundles', place: 'muster', dx: -0.024, dy: -0.01 }, { kind: 'bundles', place: 'muster', dx: -0.04, dy: -0.002 },
+      { kind: 'horse', place: 'muster', dx: 0.09, dy: -0.06 }, { kind: 'horse', place: 'muster', dx: 0.11, dy: -0.052, face: 'w' }] },
 
   // ------------------------------------------------------------------------------- families leaving
   { id: 'leaving-load', scene: 'leaving', from: on(0, 13), to: on(0, 17), card: CARD_LEAVING, talk: LEAVING,

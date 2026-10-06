@@ -1,12 +1,13 @@
 import { record } from './events.mjs';
 import { spotlight } from './host.mjs';
-import { SHOT_COST, goToWar } from './chores.mjs';
+import { SHOT_COST, abandonChore, goToWar } from './chores.mjs';
 import { establishTruth, learn } from './knowledge.mjs';
 import { TIRING_MILES } from './routines.mjs';
 import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { canHear, distantHouseholds, expressLeaves, expressMinutes, sendExpress, startExpress } from './expresses.mjs';
-import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
+import { callOptions, expireCalls, offerCalls, settleCalls, volunteersOf } from './calls.mjs';
+import { modeWith } from './keeping.mjs';
 import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, rideOut, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
 import { seguinRidesOut } from './tejano.mjs';
 import { ARRIVAL_WORD, SPRING_WORD, arrivalWord, hearTheBell, tellHerrera } from './surprise.mjs';
@@ -50,7 +51,8 @@ const HIST_GATHERING = 'HIST-TEX-018';
 /**
  * A family that lives near another settlement on the real map (docs/COLONIES.md §5.4). It hears by express, and the
  * Gonzales calls - a neighbour carrying food to the town, a rumor worth riding in to check - are not its calls.
- * ceiling: until build step 4's settlement calls it is asked nothing; it only hears.
+ * It is asked its own settlement's call instead (sim/calls.mjs), and a volunteer it sends who stands in Gonzales when the men
+ * go up the river goes with them (`enrolVolunteers`).
  */
 const distant = household => Boolean(household.settlementId && household.settlementId !== 'gonzales');
 /**
@@ -850,7 +852,9 @@ function moveFormations(world) {
 export function formationMembers(world) {
   return Object.values(world.marches || {})
     .filter(march => march.status === 'accepted')
-    .map(march => world.entities[march.actorId])
+    // A far family's volunteers who were in Gonzales when the men went up the river, more than one of a family (`enrolVolunteers`).
+    .flatMap(march => marchersOf(march))
+    .map(id => world.entities[id])
     .filter(person => person && !person.travel && person.location.siteId === CAMP_SITE && !['dead', 'captured'].includes(person.health.condition))
     .sort((a, b) => (a.id < b.id ? -1 : 1));
 }
@@ -903,10 +907,96 @@ const ownAtField = (world, householdId) => formationMembers(world).filter(person
 function goingOrThere(world, householdId) {
   const march = world.marches?.[householdId];
   if (march?.status !== 'accepted') return null;
-  const person = world.entities[march.actorId];
-  if (!person || ['dead', 'captured'].includes(person.health.condition)) return null;
-  if (person.location.siteId === CAMP_SITE || person.travel?.to === CAMP_SITE) return person;
+  for (const id of marchersOf(march)) {
+    const person = world.entities[id];
+    if (!person || ['dead', 'captured'].includes(person.health.condition)) continue;
+    if (person.location.siteId === CAMP_SITE || person.travel?.to === CAMP_SITE) return person;
+  }
   return null;
+}
+/** Everybody a march took up the river: its one person, or a far family's volunteers (`actorIds`, absent on every older save). */
+export const marchersOf = march => march?.actorIds || (march?.actorId ? [march.actorId] : []);
+
+/**
+ * A volunteer who answered his settlement's call and is standing in Gonzales when the men go up the river goes with them
+ * (owner, 2026-10-05: "When my character reached Gonzales I never received a notification that he was participating in
+ * battle"; docs/BATTLES.md §2.6, "if they sent a character ... their character arrives in time to participate and does
+ * participate"; `FIC-GONZ-1175`). He went to fight: he is not asked again, he is enrolled in the force on the same road, the
+ * same arrival guarantee (`joinPlan`, `marchCloses`) and the same record (`world.marches`, `formationMembers`) as a Gonzales
+ * family's man who said yes upriver, so the alert with its Watch, the place in the line and the account afterwards are the
+ * ones that already exist. The men of the Colorado did fight there (`HIST-TEX-014`); the companies of San Felipe and the
+ * coast came after, and a volunteer who reaches the town too late is told so honestly (`settleCalls`, `lateAccount`).
+ * Replaces the ceiling of docs/COLONIES.md §6f ("a volunteer from a near settlement ... is not offered the upriver march").
+ */
+function enrolVolunteers(world, movement) {
+  if (!movement?.beginTravel || !world.director.milestones['upriver-call'] || world.minute >= momentOf(world, 'approach')) return;
+  if (!world.marches) world.marches = {};
+  const closes = marchCloses(world);
+  for (const [householdId, call] of Object.entries(world.calls || {})) {
+    if (call.status !== 'accepted' || call.gather !== 'gonzales') continue;
+    for (const id of volunteersOf(call)) {
+      const person = world.entities[id];
+      if (!person || person.travel || person.location.siteId !== 'gonzales' || ['dead', 'captured'].includes(person.health.condition) || !canFight(person)) continue;
+      const march = world.marches[householdId];
+      // A family of Gonzales's own question is its own (never a far family's), and nobody is enrolled twice.
+      if (march && (!march.enrolled || marchersOf(march).includes(id))) continue;
+      // ceiling: one still on the road when the men go is not turned off it to catch them; he is told on arriving (`tellTooLate`). A
+      // ride redirected up the west bank, with the arrival guarantee measured from where he is, is the way out.
+      if (world.minute > closes) continue;
+      const mode = modeWith(world, person) === 'horse' ? 'horse' : 'foot';
+      const plan = joinPlan(world, person, mode) || joinPlan(world, person, 'foot');
+      if (!plan) continue;
+      if (person.chore) abandonChore(world, world.households[householdId], person);
+      const text = `The men in Gonzales are going over the river tonight and up it after the Mexican camp, and ${person.name} goes with them, as the volunteers who came in from the settlements do.`;
+      const eventId = record(world, 'consequence', { householdId, actorId: id, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-1175', causes: [call.choices?.[id] || call.choiceId].filter(Boolean), text });
+      let went = false;
+      for (const how of [mode, 'foot']) {
+        try { movement.beginTravel(world, person, CAMP_SITE, eventId, 'help', how); went = true; break; } catch { /* the other way, or not at all */ }
+      }
+      if (!went || !person.travel) continue;
+      endWithTheForce(person.travel, plan.target);
+      for (const beast of Object.values(world.entities)) if (beast.borrowedBy === id && beast.travel?.to === CAMP_SITE) { endWithTheForce(beast.travel, plan.target); beast.travel.settle.task = 'rest'; }
+      if (march) { march.actorIds = [...marchersOf(march), id]; continue; }
+      world.marches[householdId] = { id: eventId, text, status: 'accepted', enrolled: true, actorId: id, actorIds: [id], offeredMinute: world.minute, choiceId: eventId, mode: person.travel.mode, joins: plan.where, due: plan.eta };
+    }
+  }
+}
+
+/**
+ * What a far family's volunteer who reached Gonzales after the fight is told there, by the men who were in it (owner,
+ * 2026-10-05; `FIC-GONZ-1175`): the account the men give (`HIST-TEX-470`-`-478`, as `gonzalesAccount` says it), that he came
+ * too late for it, and what the volunteers in town are waiting for. On the family's card for a day, through him, as the
+ * account of somebody who was there is (`accountFor`).
+ */
+export function lateAccount(world, person) {
+  const name = person.name;
+  return [
+    `What the men in Gonzales say happened: on the night of the 1st they crossed the river with the cannon and went up it in the fog to Castañeda's camp on Williams's land. At first light they went out of the timber firing; the dragoons charged and fell back. After a parley the cannon was fired again, the men went forward, and the dragoons rode away toward Béxar. None of the Texians died.`,
+    `${name} rode in after it was over, too late to be in it.`,
+    `Volunteers are still coming in from the settlements, waiting to be made into an army. ${name} is in the volunteers' camp, and does its work until then, or the family can send for him.`,
+  ].join('\n\n');
+}
+/**
+ * Every far family's volunteer standing in Gonzales once the fight is over who was not in it is told, once, through himself
+ * (`lateAccount`): the one who came after, and the one who came too late to go up the river and waited in town. Kept on the
+ * fight's own record (`battle.late`, absent on every older save: nobody told) beside the families told by their own man.
+ */
+function tellTooLate(world) {
+  const battle = world.battles?.gonzales;
+  if (!battle || world.minute < momentOf(world, 'resolved') || !world.director.milestones.resolved) return;
+  for (const [householdId, call] of Object.entries(world.calls || {})) {
+    if (call.status !== 'accepted' || call.gather !== 'gonzales' || call.settlementId === 'gonzales') continue;
+    for (const id of volunteersOf(call)) {
+      const person = world.entities[id];
+      if (!person || person.travel || person.location.siteId !== 'gonzales' || ['dead', 'captured'].includes(person.health.condition)) continue;
+      if (battle.participants[id] || battle.late?.[id]) continue;
+      const text = lateAccount(world, person);
+      const eventId = record(world, 'consequence', { householdId, actorId: id, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-1175', causes: [world.truth['gonzales-outcome']?.eventId].filter(Boolean), text });
+      (battle.late ||= {})[id] = { householdId, eventId, minute: world.minute };
+      // Told in the town by those who were there, so the family knows how it ended (sim/knowledge.mjs).
+      learn(world, householdId, 'gonzales-outcome', { source: 'Told in Gonzales' });
+    }
+  }
 }
 /** The middle of the field, where the Host's camera and a student's Watch go: between the timber and the rise. */
 export function fieldCentre(world) {
@@ -974,11 +1064,25 @@ function advanceGonzalesFight(world, movement) {
       const eventId = record(world, 'consequence', { householdId: person.householdId, actorId: person.id, importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-GONZ-004', causes: [march?.choiceId, world.truth['gonzales-outcome']?.eventId].filter(Boolean), text });
       remember(world, world.households[person.householdId], person, eventId, `${person.name} was in the line at Williams's place when the dragoons rode away, and came home with the cannon.`);
       battle.told[person.householdId] = { eventId, minute: world.minute, entityId: person.id, text };
+      // A far family's volunteer has no food request for `settleHelp` to write his part from: it is written here, from the same
+      // record, as the part of a Gonzales family's man is (docs/MONEY_AND_GLORY.md §4; `FIC-GONZ-1175`).
+      if (march?.enrolled) {
+        const taking = ((world.participation ||= {}).gonzales ||= {});
+        if (!taking[person.id]) {
+          // What he fired in the line came out of what he carried (sim/militia.mjs, `FIC-GONZ-1178`): two rounds, or what he had.
+          // ceiling: only this fight spends a man's rounds; the later fights' directors would spend theirs the same way.
+          if (person.militia && Number.isFinite(entry.fought)) person.militia.rounds = Math.max(0, (person.militia.rounds || 0) - 2);
+          taking[person.id] = { householdId: person.householdId, role: Number.isFinite(entry.fought) ? 'fought' : 'present', minute: Number.isFinite(entry.fought) ? entry.fought : entry.joined };
+          awardGlory(world, { event: 'gonzales', claimId: 'HIST-GONZ-004', personId: person.id, householdId: person.householdId, role: taking[person.id].role, fromSiteId: 'gonzales', causes: [march.choiceId].filter(Boolean) });
+        }
+      }
       if (movement?.beginTravel) {
         try {
           const here = { x: person.location.x, y: person.location.y };
           movement.beginTravel(world, person, 'gonzales', eventId, 'visit', march?.mode || 'foot');
           if (person.travel) { startFrom(person.travel, here); person.location = { ...here, siteId: null }; person.travel.withForce = true; }
+          // A far family's volunteer goes back to the volunteers' camp in the town, still away at the war (sim/militia.mjs).
+          if (person.travel && march?.enrolled) person.travel.settle = { ...(person.travel.settle || {}), task: 'help' };
           for (const beast of Object.values(world.entities)) if (beast.borrowedBy === person.id && beast.travel) beast.travel.withForce = true;
         } catch { /* a person who cannot travel stays at the field, and says so in the account */ }
       }
@@ -996,7 +1100,9 @@ export function gonzalesAccount(world, person, entry, march) {
   const joined = entry.joined < momentOf(world, 'crossing') + phaseOffset(GONZALES, 'approach') ? 'marched up the river with the men in the dark' : 'caught the men up in the timber before first light';
   const fired = Number.isFinite(entry.fought) ? ', was in the line when they went out firing at first light, and loaded and fired with them' : ', and was with them through the morning';
   const powder = march?.carried ? ` ${name} had taken ${march.carried} powder from the house for it.` : '';
-  const next = world.map.source
+  const next = march?.enrolled
+    ? `${name} is going back to Gonzales with the men and the cannon, to the volunteers' camp: its work until the volunteers are made into an army, or home when the family sends for him.`
+    : world.map.source
     ? `${name} is going back to Gonzales with the men and the cannon. Volunteers are coming in from the settlements, and whether ${name} stays for the gathering or comes home is the family's to say when the town asks.`
     : `${name} is going back to Gonzales with the men and the cannon, and can come home from there.`;
   return [
@@ -1603,6 +1709,8 @@ export function advanceDirectors(world, movement) {
     }
   }
   offerRequests(world); offerMarch(world);
+  // A far family's volunteer standing in Gonzales goes up the river with the men (owner, 2026-10-05; `FIC-GONZ-1175`).
+  enrolVolunteers(world, movement);
   // A family far from Gonzales is asked its own settlement's call instead (sim/calls.mjs).
   offerCalls(world);
   once(world, 'gathering', () => setBattlePhase(world, 'gathering'));
@@ -1664,7 +1772,7 @@ export function advanceDirectors(world, movement) {
       else if (!distant(household)) movement.dispatchReport(world, truth.id, household.id);
     }
   });
-  settleHelp(world); settleCalls(world); moveFormations(world); standWithTheForce(world);
+  settleHelp(world); settleCalls(world); tellTooLate(world); moveFormations(world); standWithTheForce(world);
   // The fight on the engine (sim/battle-stage.mjs, sim/battles/gonzales.mjs): the alert, the gun heard in town, the Host's
   // camera, and the walk home with the account.
   advanceGonzalesFight(world, movement);
@@ -1806,7 +1914,13 @@ function alertFor(world, householdId, state, watching) {
 /** The account card, for a day after the men leave the field. */
 function accountFor(world, householdId) {
   const told = world.battles?.gonzales?.told?.[householdId];
-  if (!told || world.minute - told.minute > 1440) return null;
+  // A volunteer who came after it is told by the men in the town (`tellTooLate`), on the same card for the same day.
+  if (!told || world.minute - told.minute > 1440) {
+    const late = Object.entries(world.battles?.gonzales?.late || {}).filter(([, entry]) => entry.householdId === householdId && world.minute - entry.minute <= 1440).at(-1);
+    const person = late && world.entities[late[0]];
+    if (!person) return null;
+    return { id: `account:gonzales-late:${person.id}`, entityId: person.id, title: `What ${person.name} heard in Gonzales`, text: lateAccount(world, person) };
+  }
   const person = world.entities[told.entityId];
   if (!person) return null;
   return { id: `account:gonzales:${householdId}`, entityId: person.id, title: `What ${person.name} saw at Williams’s place`, text: told.text };

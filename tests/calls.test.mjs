@@ -13,6 +13,7 @@ import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/worl
 import { SETTLEMENT_CALLS, VOLUNTEER_POWDER, callsInvalid, volunteersOf } from '../sim/calls.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { withTheArmy } from '../sim/army.mjs';
+import { CHORES } from '../sim/chores.mjs';
 
 const colonies = (seed, players = 15, options = {}) => {
   const world = createGonzalesWorld(seed, players, { map: 'colonies', ...options });
@@ -246,7 +247,8 @@ test('a family may send more than one to the settlement’s call, each with the 
   validateWorld(world);
   const said = storyOf(world, household.id).map(event => event.text);
   for (const id of [first, second]) {
-    assert.equal(world.entities[id].task, 'help');
+    // Waiting with the volunteers, or already at the camp's work (owner, 2026-10-05; sim/militia.mjs): away at the war either way.
+    assert.ok(world.entities[id].task === 'help' || CHORES[world.entities[id].chore?.id]?.camp, `${id} is neither waiting nor at the camp's work`);
     assert.ok(said.some(text => text === `${world.entities[id].name} reached Gonzales, where volunteers from the settlements are gathering and waiting to be made into an army.`), `${id}'s arrival was never said`);
   }
   assert.ok(world.calls[household.id].arrivedMinute <= world.calls[household.id].arrived[second]);
