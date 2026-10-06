@@ -9369,6 +9369,262 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "teal-river-watch-n": {
+      "frames": [
+        {
+          "sprite": "teal-river-watch-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-river-watch-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "teal-river-point-n": {
+      "frames": [
+        {
+          "sprite": "teal-river-point-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-river-point-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "indigo-river-watch-n": {
+      "frames": [
+        {
+          "sprite": "indigo-river-watch-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "indigo-river-watch-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "indigo-river-point-n": {
+      "frames": [
+        {
+          "sprite": "indigo-river-point-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "indigo-river-point-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "elder-river-watch-n": {
+      "frames": [
+        {
+          "sprite": "elder-river-watch-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-river-watch-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "elder-river-point-n": {
+      "frames": [
+        {
+          "sprite": "elder-river-point-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-river-point-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-river-watch-n": {
+      "frames": [
+        {
+          "sprite": "blue-river-watch-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-river-watch-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-river-point-n": {
+      "frames": [
+        {
+          "sprite": "blue-river-point-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-river-point-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "teal-river-watch-s": {
+      "frames": [
+        {
+          "sprite": "teal-river-watch-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-river-watch-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "teal-river-point-s": {
+      "frames": [
+        {
+          "sprite": "teal-river-point-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "teal-river-point-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "indigo-river-watch-s": {
+      "frames": [
+        {
+          "sprite": "indigo-river-watch-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "indigo-river-watch-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "indigo-river-point-s": {
+      "frames": [
+        {
+          "sprite": "indigo-river-point-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "indigo-river-point-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "elder-river-watch-s": {
+      "frames": [
+        {
+          "sprite": "elder-river-watch-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-river-watch-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "elder-river-point-s": {
+      "frames": [
+        {
+          "sprite": "elder-river-point-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "elder-river-point-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-river-watch-s": {
+      "frames": [
+        {
+          "sprite": "blue-river-watch-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-river-watch-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-river-point-s": {
+      "frames": [
+        {
+          "sprite": "blue-river-point-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-river-point-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
     "teal-seated-paint": {
       "frames": [
         {

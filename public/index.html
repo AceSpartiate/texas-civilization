@@ -197,12 +197,15 @@
     <section id="military-notice" class="story-card" hidden aria-label="Messages and military service">
       <button type="button" id="military-toggle" aria-expanded="true" aria-controls="military-message">Messages</button>
       <div id="military-message">
-        <div id="military-head"><canvas id="military-icon" width="96" height="96" aria-hidden="true"></canvas><div><span class="eyebrow" id="military-eyebrow"></span>
-        <strong id="military-title"></strong></div></div>
+        <div id="military-head"><span id="military-face"><canvas id="military-portrait" width="144" height="144" aria-hidden="true" hidden></canvas><canvas id="military-icon" width="96" height="96" aria-hidden="true"></canvas></span><div><span class="eyebrow" id="military-eyebrow"></span>
+        <strong id="military-title"></strong><span id="military-person" hidden></span></div></div>
         <p id="military-left" hidden></p>
         <p id="military-words" role="status"></p>
+        <div id="military-actions">
         <button type="button" id="military-go"></button>
         <button type="button" id="military-next">Next message</button>
+        </div>
+        <p id="military-hint"></p>
       </div>
     </section>
     <!-- A tip at first meeting (owner, 2026-09-28: "Short tips at first meeting"; public/tips.js). One short line the first

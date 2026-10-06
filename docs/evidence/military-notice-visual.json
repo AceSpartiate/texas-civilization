@@ -1,0 +1,27 @@
+{
+  "verdict": "PASS",
+  "fixture": "presentation only",
+  "evidence": [
+    {
+      "width": 1366,
+      "shown": true,
+      "kind": "battle",
+      "fits": true,
+      "portrait": true,
+      "name": "Asa Proofwright",
+      "watched": false
+    },
+    {
+      "width": 1024,
+      "shown": true,
+      "kind": "battle",
+      "fits": true,
+      "portrait": true,
+      "name": "Asa Proofwright",
+      "watched": false
+    }
+  ],
+  "collapseReopen": true,
+  "watchOnClickOnly": true,
+  "errors": []
+}

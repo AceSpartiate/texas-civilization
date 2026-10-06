@@ -135,10 +135,21 @@ TEACHER.md (*Riders, as scenes*); claims `FIC-GONZ-1195` to `-1199`.
   behind each express rider in a queue of several (their minutes held, `questionWaits`); not measured in a class. Not proved:
   Chromebook, LAN or classroom.
 
+## Art delivery 2026-10-05: north-facing river gestures
+
+Sixteen rear-view frames and eight watch/point clips for teal, indigo, elder and blue. Existing north pointing now selects dedicated identity art; watch clips await explicit watch semantics. See `docs/ART_DELIVERY_2026-10-05-GONZALES-RIVER-NORTH.md`.
+
+## Battle notice presentation (2026-10-05)
+
+Military invitations now use a framed family portrait, parchment card, clearer headline and prominent action. Portrait uses the same chosen-appearance renderer as the roster. Queue, visibility, collapse/reopen and click-only camera behavior remain intact. `scripts/military-notice-visual-proof.mjs` verifies supported desktop sizes with a presentation fixture; evidence in `docs/evidence/military-notice-*`. Five military-attention logic tests pass. This is presentation work, not a change to courier delivery or battle rules. **Merged 2026-10-06 onto the current card** (her change was made against an older page): the story-card frame the owner chose on 2026-09-29 is kept, with her family-member portrait (the moment's icon a badge on it), the person's name under the title and the larger action; her explanatory hint line was left out under the owner's preference for visual cues over words, and her proof reads the card's accent (`data-accent`) for its kind. `npm run test:military-notice`.
+
+## Art delivery 2026-10-05: south-facing river gestures
+
+Sixteen new frames and eight authored watch/point cycles for teal, indigo, elder and blue. Existing south-facing pointing selects dedicated art; watch clips are ready for explicit future watch poses. North-facing and remaining cast directions stay outstanding. See `docs/ART_DELIVERY_2026-10-05-GONZALES-RIVER-SOUTH.md`.
+
 ## Released as v2026.10.05.3 — 2026-10-05
 
 Main at d0da42e5, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.3>). Sets of changes: from v2026.10.05.2 (4.4 MB), v2026.10.05.1, v2026.10.04.1 and v2026.10.03.2. Evidence: `npm test` 2254 pass, 0 fail; the browser proofs two at a time, all passing but four: `children` and `chatter` passed alone; `battle-grass` passed alone twice at d0da42e5 (and failed once at v2026.10.05.2: timing); `looks-face` failed one run in two - its measurement drew four times in one task and so met the colouring budget (public/art.js `appearanceFrame`), fixed in the proof since (2 of 2 after).
-
 ## Art delivery 2026-10-05: north/south loaded walking
 
 Sixteen new frames and eight two-frame north/south cycles for teal, indigo, blue-girl and elder. Town carrying now selects loaded walking in every cardinal direction. Contents remain visually illustrative, not inventory evidence. See `docs/ART_DELIVERY_2026-10-05-GONZALES-BUNDLE-NS.md`.
