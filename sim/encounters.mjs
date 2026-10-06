@@ -668,6 +668,13 @@ export function advanceEncounters(world) {
   if (!world.encounters) { world.encounters = {}; world.nextEncounterId = world.nextEncounterId || 1; }
   // A rider who came by while the family was listening to another waits his turn (`tellPassing`): he comes on at the first tick
   // after the one before has gone (the page plays out the last words of the one before from what it already has).
+  // Travis's runner comes to somebody an express rider is talking with (2026-10-06): the express rider steps back and waits his
+  // turn again - his word is said and known, and his ninety seconds start afresh when he comes on - so the runner's question is
+  // the one thing in front of the family, and when it is answered the runner's meeting stays on the page to be put away rather
+  // than the express rider's taking its place under the student's hand (found by test:famous-people: the × that puts the
+  // answered runner away was gone, and the proof's wait for it let the assault go by unwatched).
+  const runnerAt = new Set(Object.values(world.encounters).filter(one => one.status === 'open' && one.kind).map(one => one.householdId));
+  for (const encounter of Object.values(world.encounters)) if (encounter.status === 'open' && encounter.passing && runnerAt.has(encounter.householdId)) encounter.status = 'waiting';
   for (const encounter of Object.values(world.encounters)) {
     if (encounter.status !== 'waiting' || openFor(world, encounter.householdId)) continue;
     const listener = world.entities[encounter.listenerId];

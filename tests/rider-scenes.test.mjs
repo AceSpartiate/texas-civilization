@@ -266,6 +266,13 @@ test('one family listens to one rider at a time: the next has said his word and 
   const runner = world.encounters['enc-runner'] = { ...structuredClone(second), id: 'enc-runner', kind: 'alamo-runner', passing: undefined, said: [], asked: [], talk: [] };
   delete runner.passing; delete runner.word; delete runner.via;
   assert.equal(view(world, 'hh-2').encounter.id, 'enc-runner', 'the express rider was shown over Travis\'s runner');
+  // And steps back to wait his turn again, so that the runner's meeting, once answered, is the one on the page to be put away.
+  stepWorld(world);
+  assert.equal(second.status, 'waiting', 'the express rider stayed open beside Travis\'s runner');
+  Object.assign(runner, { status: 'closed', closedMinute: world.minute, reason: 'answered' });
+  assert.equal(view(world, 'hh-2').encounter.id, 'enc-runner', 'the answered runner was taken off the page for the express rider');
+  stepWorld(world);
+  assert.equal(second.status, 'open', 'the express rider never came on again after the runner');
 });
 
 test('a class saved before rider scenes still opens: a meeting in progress has its scene settled from where its people stand', () => {

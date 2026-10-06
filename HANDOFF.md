@@ -59,6 +59,20 @@ reminiscence marked).
 - **Follow-up, 2026-10-06** (after the merge to main: `test:battle-alamo` lost "Isaac was never seen to fall" and `test:famous-people` timed out in the siege). The overhearing reached every person away at the war, the garrison too: Isaac, shut in the Alamo, "overheard" the siege and, after the assault, "They say the Alamo fell", and his family learned them through him days before the word (docs/BATTLES.md §2b.1). Overhearing is now a volunteer's only (`sim/militia.mjs` `overhearing` reads `atWar`); new test *an enlisted man ... overhears nothing for his family* (injection: overhearing by `awayWithTheArmy` again - caught, only it). Measured, the alamo-class (seed battle-alamo, two families played, 326 ticks to the fall): stepWorld 2.08 ms a tick at 90eaee58 and 2.19 ms after (advanceMilitia and overhear together about 0.1 ms); three projections a tick 20.3 ms and 21.1 ms. Not the cause of the slow siege. `test:battle-alamo` alone: 13 checks green. `test:famous-people`: the server ran the siege at the same pace at 90eaee58 and after (the same calendar minute at each 20 s mark), and an in-process run of its class sends the student and the Host the same phases at both; the proof's own loop stalled 32 s at a time in `answerRunner`, whose click on a card already gone waited out Playwright's 30 s for the next one - at the alarm, the whole assault went by unsampled - at 90eaee58 too. Its click now gives up after 2 s. Run alone twice each after that: this branch one red ("the line in the sand was never drawn", a second sampling race) and one green (22 checks, 231 s); 90eaee58 the same, one red with the same message and one green (225 s). npm test after: 2313, 2277 pass, 0 fail.
 ## Every rider who reaches you, as a scene — owner, 2026-10-05 (not released)
 
+**Follow-up 2026-10-06, after the merge to main (b740cb4b).** (1) `test:children` red at its road step: not the scenes. The press of
+*Watch the road behind* took ("set out"), and the boy wandered from the job on the next tick on his seeded obedience roll
+(sim/childhood.mjs `wanderFromJob`, `FIC-GONZ-479`), so the page never saw it glow; which tick a press lands on is the real
+clock's. The product is right; the proof presses again if he ran off (injected: no glow for road-lookout -> "never glowed").
+(2) `test:famous-people` red at 923 s: mine. After the student answered Travis's runner, the express rider who had been open
+beside him took the meeting's place on the page, so the runner's × was gone and the proof's 30-second wait for it let the
+assault go by unwatched. Now an express rider steps back to `waiting` while a runner is with the family (sim/encounters.mjs
+`advanceEncounters`; tests/rider-scenes.test.mjs, injection caught), and the page keeps a meeting the student has open after it
+ends until they put it away, rather than swapping in an express rider under their hand (public/app.js `heldEncounter`).
+`test:famous-people` green alone in 219 s; `test:children` green. `test:battle-alamo` is red on main for another reason
+("Isaac was never seen to fall"; with this fix, "the family was told the Alamo had fallen and not what became of its own" - the
+word reached Matagorda on the winter's last tick): it fails the same way at d0da42e5, before rider-scenes, so it is not this
+branch's.
+
 Branch `rider-scenes` from main 3f0ef6c7. The owner, verbatim: *"I want to radically redesign the whole rider and or news person
 shows up. The conversation is boring. Let's redo each of them as a cutscene sort of like with the wedding. The environment should
 change in the cutscene based on where they are and who's around them."* By multiple choice: **"Every rider who reaches you"**.
