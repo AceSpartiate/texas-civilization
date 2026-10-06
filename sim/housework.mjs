@@ -19,7 +19,7 @@
 import { choreAvailability, homeWork, registerChores } from './chores.mjs';
 import { record } from './events.mjs';
 import { housekeepingSaving, sexOf, tooYoung } from './family.mjs';
-import { childKeeps, customOf, grownForCustom, keepers, withTheArmy } from './custom.mjs';
+import { childKeeps, customKeepers, customOf, grownForCustom, keepers, withTheArmy } from './custom.mjs';
 import { calledAside } from './aside.mjs';
 import { larderShown } from './hunger.mjs';
 import { dateOf } from './clock.mjs';
@@ -288,6 +288,8 @@ const atTheHouse = (world, household, entity) => entity.location?.siteId === hou
  * and a child's order is taken) and `grown` (worked at a grown work's pace); this is their age ladder.
  */
 const childMay = (world, household, entity, id) => !tooYoung(entity) || childKeeps(world, household, entity, id, homeWork);
+/** Who keeps the women's work at home, as a child's refusal names her: the mother, a grown woman, or a daughter of twelve (owner, 2026-10-05). */
+const keeperWord = (world, household) => { const keeper = customKeepers(world, household, 'female', homeWork)[0]; return keeper ? keeper.given || keeper.name : 'a woman of the family'; };
 // The three works are joined like a fence (`crew: 'join'`) since 2026-10-04, so a man or boy may help a woman at them (sim/custom.mjs
 // `helpsWhom`). ceiling: keeping house and the garden are steps of a tick each and a step is never shorter than a tick, so a second
 // pair of hands does not shorten them (the wash goes five ticks to four). Worth undoing only if a class wants that help to show.
@@ -295,10 +297,10 @@ const childMay = (world, household, entity, id) => !tooYoung(entity) || childKee
 const WORKS = {
   'keep-house': {
     name: 'Keep house', skill: 'hands', where: 'home', job: true, keeps: 'house', crew: 'join', child: true, grown: true, indoors: true,
-    describe: 'An hour or two at the hearth and about the house: the cooking, the mending and the sweeping. A house kept makes the family\'s food go further, today and tomorrow; a house nobody keeps does not. Women\'s work by custom: a man keeps house when no woman of the family is at home, and a man or boy of ten may help a woman at it. A child of seven keeps house when no grown woman is at home.',
+    describe: 'An hour or two at the hearth and about the house: the cooking, the mending and the sweeping. A house kept makes the family\'s food go further, today and tomorrow; a house nobody keeps does not. Women\'s work by custom: a man keeps house when no woman of the family is at home, and a man or boy of ten may help a woman at it. A child of seven keeps house when no woman or girl of twelve is at home.',
     offered: (world, household, entity) => homeAndSettled(world, household) && (!entity || childMay(world, household, entity, 'keep-house')),
     refusal: (world, household, entity) => {
-      if (!childMay(world, household, entity, 'keep-house')) return `${entity.name} is too young to keep house while a grown woman of the family is at home.`;
+      if (!childMay(world, household, entity, 'keep-house')) return `${entity.name} is too young to keep house while ${keeperWord(world, household)} is at home.`;
       if (!atTheHouse(world, household, entity)) return `${entity.name} is not at home.`;
       if (keptToday(world, household)) return `The house has been kept today, by ${nameOf(world.entities[household.housekept.by])}.`;
       return null;
@@ -330,10 +332,10 @@ const WORKS = {
   },
   'wash-clothes': {
     name: 'Wash clothes', skill: 'hands', where: 'home', job: true, keeps: 'wash', crew: 'join', child: true, grown: true,
-    describe: `Wash day: water carried up and heated, the clothes boiled with lye soap, beaten on the bench and hung on the fence. Everybody at home goes clean for ${CLEAN_DAYS} days. Once a week, and before the week is out for anybody at home whose clothes want it - somebody who missed wash day, or is dirty. Somebody away in dirty clothes is told so - in town the shops ask a quarter more and pay a fifth less. Women's work by custom, and the girls help; a man or boy of ten may help a woman at it, and a child of seven does it when no grown woman is at home.`,
+    describe: `Wash day: water carried up and heated, the clothes boiled with lye soap, beaten on the bench and hung on the fence. Everybody at home goes clean for ${CLEAN_DAYS} days. Once a week, and before the week is out for anybody at home whose clothes want it - somebody who missed wash day, or is dirty. Somebody away in dirty clothes is told so - in town the shops ask a quarter more and pay a fifth less. Women's work by custom, and the girls help; a man or boy of ten may help a woman at it, and a child of seven does it when no woman or girl of twelve is at home.`,
     offered: (world, household, entity) => homeAndSettled(world, household) && (!entity || childMay(world, household, entity, 'wash-clothes')),
     refusal: (world, household, entity) => {
-      if (!childMay(world, household, entity, 'wash-clothes')) return `${entity.name} is too young to do the wash while a grown woman of the family is at home.`;
+      if (!childMay(world, household, entity, 'wash-clothes')) return `${entity.name} is too young to do the wash while ${keeperWord(world, household)} is at home.`;
       if (!atTheHouse(world, household, entity)) return `${entity.name} is not at home.`;
       const since = sinceWash(world, household);
       // Before the week is out, only while somebody at home wants it (`washWanted`): the weekly day is the household's.

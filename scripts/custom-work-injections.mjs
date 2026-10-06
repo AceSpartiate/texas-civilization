@@ -25,6 +25,9 @@ const T = {
   longWork: 'short of food with nobody after it',
   // The owner's answer of 2026-10-05, "Boys 12+ carry it" (docs/CUSTOMARY_WORK.md §1f).
   boysKeep: 'boys 12+ carry it: with the father away', boysOpen: 'boys 12+ carry it: with no son of twelve home', boysLine: 'boys 12+ carry it: "With Jesse',
+  girlsKeep: "a daughter of twelve keeps the women's work: with the mother in town", girlsOpen: "a daughter of twelve keeps the women's work: with no such girl home",
+  girlsLine: "a daughter of twelve keeps the women's work: \"With Elizabeth", girlsAuto: "a daughter of twelve keeps the women's work on auto",
+  girlsDirector: "a daughter of twelve keeps the women's work in the families nobody plays",
   boysAuto: 'boys 12+ carry it on auto', boysDirector: 'boys 12+ carry it in the families nobody plays', childrenNoWoman: 'children keep house only when no grown woman is home',
 };
 const one = (file, from, to) => ({ file, from, to });
@@ -44,7 +47,7 @@ const INJECTIONS = [
   { name: 'a man visiting or helping still keeps it', edits: [one(K, "  if (entity.visiting || entity.task === 'help') return false;\n", '')], expect: T.opens },
   { name: 'a boy of ten keeps it', edits: [one(K, '  if (Number.isFinite(entity?.age)) return entity.age >= FIGHTS_FROM_AGE;', '  if (Number.isFinite(entity?.age)) return entity.age >= 10;')], expect: T.boy },
   // Expected of the rule's own test since 2026-10-05: the lone mother's fixture is a small family, which keeps no custom anyway.
-  { name: 'refused even with nobody at home', edits: [one(K, '  if (!girlHeld(entity, sex)) return null;', "  return 'Nobody may.';")], expect: T.opens },
+  { name: 'refused even with nobody at home', edits: [one(K, '  if (!youngHeld(entity)) return null;', "  return 'Nobody may.';")], expect: T.opens },
   // The line.
   { name: 'the line said every time', edits: [one(K, '  if (entity.necessity[whose] === key) return null;\n', '')], expect: T.line },
   { name: 'the line never said', edits: [one(K, "  record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: CLAIMS.opened, text });\n", '')], expect: T.line },
@@ -106,7 +109,7 @@ const INJECTIONS = [
   { name: 'a man sent for or deserted counted away for good', edits: [one(K, "export const withTheArmy = entity => ['serving', 'prisoner'].includes(entity?.service?.status);", 'export const withTheArmy = entity => Boolean(entity?.service);')], expect: T.serving },
   // Children keep house (owner, 2026-10-04).
   { name: 'children never keep house', edits: [one(K, '  if (!CHILDREN_KEEP.includes(choreId) || !customApplies(household, entity)) return false;', '  return false;')], expect: T.children },
-  { name: 'children keep house with both parents home', edits: [one(K, "export const childrenKeepHouse = (world, household, homeWork = null) => !keepers(world, household, 'female', homeWork).length;", 'export const childrenKeepHouse = () => true;')], expect: T.children },
+  { name: 'children keep house with both parents home', edits: [one(K, "export const childrenKeepHouse = (world, household, homeWork = null) => !customKeepers(world, household, 'female', homeWork).length;", 'export const childrenKeepHouse = () => true;')], expect: T.children },
   { name: 'a child of six keeps house', edits: [one(K, 'export const CHILD_KEEPS_FROM = 7;', 'export const CHILD_KEEPS_FROM = 6;')], expect: T.children },
   { name: 'keeping house not a child\'s work', edits: [one(H, "    name: 'Keep house', skill: 'hands', where: 'home', job: true, keeps: 'house', crew: 'join', child: true, grown: true,", "    name: 'Keep house', skill: 'hands', where: 'home', job: true, keeps: 'house', crew: 'join',")], expect: T.children },
   { name: 'a child on auto never keeps house', edits: [one(CH, "const JOBS_FIRST = Object.freeze(['keep-house', 'wash-clothes', ", 'const JOBS_FIRST = Object.freeze([')], expect: T.children },
@@ -133,18 +136,31 @@ const INJECTIONS = [
   { name: 'called off the long work with somebody out after food', edits: [one(N, ' && hunters === 0 && foraging === 0) {', ') {')], expect: T.longWork },
   // Boys 12+ carry it (owner, 2026-10-05): a son of twelve to fifteen keeps the men's work with no grown man home; it opens to the grown
   // women only, never girls; children keep house only when no grown woman is home.
-  { name: 'no boy keeps it', edits: [one(K, "  if (grown.length || sex !== 'male') return grown;", '  return grown;')], expect: T.boysKeep },
-  { name: 'no boy keeps it, on auto', edits: [one(K, "  if (grown.length || sex !== 'male') return grown;", '  return grown;')], expect: T.boysAuto },
-  { name: 'no boy keeps it, in the families nobody plays', edits: [one(K, "  if (grown.length || sex !== 'male') return grown;", '  return grown;')], expect: T.boysDirector },
-  { name: 'a boy of eleven keeps it', edits: [one(K, 'export const BOY_KEEPS_FROM = 12;', 'export const BOY_KEEPS_FROM = 11;')], expect: T.boysOpen },
-  { name: 'a boy of twelve keeps nothing', edits: [one(K, 'export const BOY_KEEPS_FROM = 12;', 'export const BOY_KEEPS_FROM = 13;')], expect: T.boy },
-  { name: 'a girl takes it up by necessity', edits: [one(K, "const girlHeld = (entity, sex) => sex === 'male' && !grownForCustom(entity);", 'const girlHeld = () => false;')], expect: T.boysOpen },
-  { name: 'a girl may not help her mother at it', edits: [one(K, "(sexOf(person) === sex || (sex === 'male' && grownForCustom(person)))", 'sexOf(person) === sex')], expect: T.boysOpen },
-  { name: 'a girl helping said to take it up by necessity', edits: [one(K, '.some(person => person.id !== entity.id) || girlHeld(entity, sex) ? null : row;', '.some(person => person.id !== entity.id) ? null : row;')], expect: T.boysOpen },
-  { name: 'a line of necessity with the boy keeping it', edits: [one(K, '  return customKeepers(world, household, sex, homeWork).some(person => person.id !== entity.id) || girlHeld', '  return keepers(world, household, sex, homeWork).some(person => person.id !== entity.id) || girlHeld')], expect: T.boysKeep },
-  { name: 'the boy away not said', edits: [one(K, "...(sex === 'male' ? boysOf(world, household) : [])", '...[]')], expect: T.boysOpen },
-  { name: 'no son old enough never said', edits: [one(K, "${young ? ' and no son old enough' : ''}", '')], expect: T.boysLine },
-  { name: 'children keep house beside a mother at home', edits: [one(K, "export const childrenKeepHouse = (world, household, homeWork = null) => !keepers(world, household, 'female', homeWork).length;", "export const childrenKeepHouse = (world, household, homeWork = null) => !keepers(world, household, 'male', homeWork).length || !keepers(world, household, 'female', homeWork).length;")], expect: T.childrenNoWoman },
+  { name: 'no boy keeps it', edits: [one(K, '  if (grown.length) return grown;', "  if (grown.length || sex === 'male') return grown;")], expect: T.boysKeep },
+  { name: 'no boy keeps it, on auto', edits: [one(K, '  if (grown.length) return grown;', "  if (grown.length || sex === 'male') return grown;")], expect: T.boysAuto },
+  { name: 'no boy keeps it, in the families nobody plays', edits: [one(K, '  if (grown.length) return grown;', "  if (grown.length || sex === 'male') return grown;")], expect: T.boysDirector },
+  { name: 'a boy of eleven keeps it', edits: [one(K, 'export const BOY_KEEPS_FROM = 12,', 'export const BOY_KEEPS_FROM = 11,')], expect: T.boysOpen },
+  { name: 'a boy of twelve keeps nothing', edits: [one(K, 'export const BOY_KEEPS_FROM = 12,', 'export const BOY_KEEPS_FROM = 13,')], expect: T.boy },
+  { name: 'a girl takes it up by necessity', edits: [one(K, 'const youngHeld = entity => !grownForCustom(entity);', 'const youngHeld = () => false;')], expect: T.boysOpen },
+  { name: 'a girl may not help her mother at it', edits: [one(K, '(sexOf(person) === sex || grownForCustom(person))', 'sexOf(person) === sex')], expect: T.boysOpen },
+  { name: 'a girl helping said to take it up by necessity', edits: [one(K, '.some(person => person.id !== entity.id) || youngHeld(entity) ? null : row;', '.some(person => person.id !== entity.id) ? null : row;')], expect: T.boysOpen },
+  { name: 'a line of necessity with the boy keeping it', edits: [one(K, '  return customKeepers(world, household, sex, homeWork).some(person => person.id !== entity.id) || youngHeld', '  return keepers(world, household, sex, homeWork).some(person => person.id !== entity.id) || youngHeld')], expect: T.boysKeep },
+  { name: 'the boy away not said', edits: [one(K, '...youthOf(world, household, sex)].filter', '].filter')], expect: T.boysOpen },
+  { name: 'no son old enough never said', edits: [one(K, "${young ? ` and no ${sex === 'male' ? 'son' : 'daughter'} old enough` : ''}", '')], expect: T.boysLine },
+  { name: 'children keep house beside a mother at home', edits: [one(K, "export const childrenKeepHouse = (world, household, homeWork = null) => !customKeepers(world, household, 'female', homeWork).length;", "export const childrenKeepHouse = (world, household, homeWork = null) => !keepers(world, household, 'male', homeWork).length || !keepers(world, household, 'female', homeWork).length;")], expect: T.childrenNoWoman },
+  // Its mirror (owner, 2026-10-05, "Let a daughter of 12-15 keep the women's work too"): a daughter of twelve to fifteen keeps the
+  // women's work with no grown woman home; it opens to the grown men only, never boys; children keep house only with no keeper of it.
+  { name: 'no girl keeps it', edits: [one(K, '  if (grown.length) return grown;', "  if (grown.length || sex === 'female') return grown;")], expect: T.girlsKeep },
+  { name: 'no girl keeps it, on auto', edits: [one(K, '  if (grown.length) return grown;', "  if (grown.length || sex === 'female') return grown;")], expect: T.girlsAuto },
+  { name: 'no girl keeps it, in the families nobody plays', edits: [one(K, '  if (grown.length) return grown;', "  if (grown.length || sex === 'female') return grown;")], expect: T.girlsDirector },
+  { name: 'a girl of ten keeps it', edits: [one(K, 'GIRL_KEEPS_FROM = 12;', 'GIRL_KEEPS_FROM = 10;')], expect: T.girlsOpen },
+  { name: 'a girl of thirteen keeps nothing', edits: [one(K, 'GIRL_KEEPS_FROM = 12;', 'GIRL_KEEPS_FROM = 14;')], expect: T.girlsKeep },
+  { name: 'a boy takes up the women\'s work by necessity', edits: [one(K, 'const youngHeld = entity => !grownForCustom(entity);', 'const youngHeld = () => false;')], expect: T.girlsOpen },
+  { name: 'a boy may not help his father at it', edits: [one(K, '(sexOf(person) === sex || grownForCustom(person))', 'sexOf(person) === sex')], expect: T.girlsOpen },
+  { name: 'the girl away not said', edits: [one(K, '...youthOf(world, household, sex)].filter', '].filter')], expect: T.girlsOpen },
+  { name: 'no daughter old enough never said', edits: [one(K, "${sex === 'male' ? 'son' : 'daughter'} old enough", 'son old enough')], expect: T.girlsLine },
+  { name: 'children keep house beside an elder sister', edits: [one(K, "export const childrenKeepHouse = (world, household, homeWork = null) => !customKeepers(world, household, 'female', homeWork).length;", "export const childrenKeepHouse = (world, household, homeWork = null) => !keepers(world, household, 'female', homeWork).length;")], expect: T.childrenNoWoman },
+  { name: 'a child\'s refusal names no keeper', edits: [one(H, "return keeper ? keeper.given || keeper.name : 'a woman of the family';", "return 'a woman of the family';")], expect: T.childrenNoWoman },
 ];
 
 const failing = output => [...new Set([...output.matchAll(/^\s*✖ (.+?) \(\d/gm)].map(match => match[1].trim()).filter(name => !/^tests[\\/]/.test(name) && name !== 'failing tests:'))];

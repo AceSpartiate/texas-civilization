@@ -95,7 +95,10 @@ it"): his mother and sisters may only help him at it, and the refusal names him 
 **When every man and every such boy is away, sick or dead the men's work appears on the mother's bar, lit, by itself** - on a grown
 woman's only, never a girl's (*"Felling is men's work; with no man at home it falls to Elizabeth."*), and a girl may help her at it -
 and the family's story says so once (*"With James gone to the army, Martha took up the axe."*, *"With Jesse away with the volunteers
-and no son old enough, Elizabeth took up the axe."*); a lone mother can do everything, and so can a lone father. **Keep house**
+and no son old enough, Elizabeth took up the axe."*); a lone mother can do everything, and so can a lone father. **The mirror**
+(owner, 2026-10-05): with no grown woman at home a daughter of twelve to fifteen keeps the women's work, her father and brothers only
+helping her (*"Keeping house is women's work, and Sally is at home."*), and with no such girl it opens to the grown men only, never
+boys. **Keep house**
 makes the food go further today and tomorrow (it no longer does so by itself); **Work the garden** lays out a kitchen garden beside
 the house and brings in a little food every day; **Wash clothes** keeps everybody at home clean for a week, and is done once a week (a weekly wash day). Somebody away from home
 in dirty clothes has flies about them, is told so by whoever they meet in town or at the war, and pays a quarter more at the shops and
@@ -103,9 +106,9 @@ gets a fifth less for what they sell - the errand popup says why. A woman on aut
 waits. **The owner's answers of 2026-10-04** ([docs/CUSTOMARY_WORK.md](docs/CUSTOMARY_WORK.md) §1c): **help, not lead** - while a man is
 at the house, the clearing, the felling, a fence or the well, that work is on his wife's and daughters' bars (ten and over) with a small
 green helping-hands badge, and pressing it puts them beside him, faster; they never begin it, and leave off when he does; the same the
-other way for a man or boy joining a woman at the house work, the garden or the wash. **Children keep house** only when no grown woman
-is at home (owner, 2026-10-05; until then for a lone mother too) - a lone father's child of seven or more may keep house and do the
-wash, and does on auto. **A cue**: the
+other way for a man or boy joining a woman at the house work, the garden or the wash. **Children keep house** only when nobody
+keeps the women's work at home - no grown woman and no daughter of twelve (owner, 2026-10-05; until then for a lone mother too) - and
+then a child of seven or more may keep house and do the wash, and does on auto. **A cue**: the
 idle woman (or whoever may do it) gets a pulsing pot or washtub on her portrait and the matching icon glows while the house is not kept
 today or somebody's clothes want the wash - never while she is busy, never while the food is low (the food icons glow then), and never
 on a lone parent (a daughter of ten, or a lone father's child of seven, gets it instead). **The wash for whoever's dirty**: before the week is out the wash
