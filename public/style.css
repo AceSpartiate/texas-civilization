@@ -193,6 +193,9 @@ button:disabled{opacity:.4;cursor:default}
 .going-way[aria-pressed=true]{background:#244c42;border-color:#1b3a33;color:#fff;box-shadow:inset 0 0 0 2px #e0b25b}
 .going-way:disabled{opacity:1;cursor:not-allowed;background:#ebe6d7;border-style:dashed;color:#7b806f}
 .going-way-name{font-weight:650;font-size:13px}
+/* The food he carries to the war (owner, 2026-10-05; public/going.js `drawRations`): three days, a week, a fortnight, as the ways. */
+#going-rations{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0 2px}#going-rations .going-rations-label{font-size:12px;font-weight:650;color:#3f3524;margin-right:2px}
+.going-ration{padding:5px 9px;font-size:12px;background:#f3ead2;color:#3f3524;border:1px solid #b09a6d;border-radius:7px;cursor:pointer}.going-ration[aria-pressed=true]{background:#244c42;border-color:#1b3a33;color:#fff;box-shadow:inset 0 0 0 2px #e0b25b}.going-ration:disabled{cursor:not-allowed;background:#ebe6d7;border-style:dashed;color:#7b806f}
 .going-way-facts,.going-way-tiring{font-size:12px;opacity:.9}
 .going-way-brings{font-size:12px;font-weight:600}
 .going-way-why{font-size:12px;color:#8a3b22;font-weight:600}

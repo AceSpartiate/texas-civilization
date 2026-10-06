@@ -397,7 +397,7 @@ export function thinkFor(world, household, { project, act }) {
     // Somebody who went with the volunteers, or to help at Gonzales, is where the family sent them (task 'help'), and stays;
     // so does somebody serving (sim/winter.mjs), whose day at the camp was chosen above.
     // And a volunteer standing in the volunteers' camp whatever his task (sim/acting.mjs `awayWithTheArmy`, owner 2026-10-05).
-    if (person.task === 'help' || person.service || awayWithTheArmy(world, person)) continue;
+    if (person.task === 'help' || person.service || awayWithTheArmy(world, world.entities[person.id])) continue;
     // A family it owes is raising its walls (sim/neighbourly.mjs): one of its people goes to help, as it was helped.
     if (raisingHand(view, household, person, ride)) continue;
     if (person.location?.siteId !== view.household.homeSiteId) { ride({ action: 'travel', entityId: person.id, destination: view.household.homeSiteId }); continue; }

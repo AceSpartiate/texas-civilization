@@ -173,7 +173,9 @@ function noteArrival(world, call, entity) {
  * whole answer: the call is refused, and nobody goes after it. Once somebody has gone, staying is no longer a question;
  * those not sent simply stay.
  */
-export function handleCall(world, householdId, entity, action, { beginTravel, travelRefusal }, mode) {
+// `pack` (sim/world.mjs, from sim/militia.mjs): the food he carries, chosen on the going popup (owner, 2026-10-05: "the pick days
+// to carry") - `refusal` before anything is written, `take` once he goes. Absent (an older caller) he takes none, as before.
+export function handleCall(world, householdId, entity, action, { beginTravel, travelRefusal, pack = null }, mode) {
   const call = world.calls?.[householdId];
   const going = action === 'turn-out';
   if (!call || !(call.status === 'open' || (call.status === 'accepted' && going))) throw new Error('Nobody is asking that.');
@@ -188,6 +190,7 @@ export function handleCall(world, householdId, entity, action, { beginTravel, tr
     const why = travelRefusal?.(world, entity, call.gather, mode);
     if (why) throw new Error(why);
   }
+  if (going) { const why = pack?.refusal(world, household, entity); if (why) throw new Error(why); }
   const first = call.status === 'open', before = volunteersOf(call);
   const seguin = going && seguinFamily(world, household);
   const choiceId = record(world, 'choice', {
@@ -213,6 +216,9 @@ export function handleCall(world, householdId, entity, action, { beginTravel, tr
   const other = takeToWar(world, household, entity, `gone with the volunteers to ${place.name.replace(/^The /, 'the ')}`);
   const said = warRifleWords(world, household, entity, other);
   record(world, 'property', { actorId: entity.id, householdId, importance: 2, causes: [choiceId], text: carried > 0 ? `${said} He took ${carried} powder; there is ${household.resources.powder} left in the house.` : said });
+  // His food for the road out of the store, and the powder he took as his own powder and ball from now on (sim/militia.mjs).
+  const packed = pack?.take(world, household, entity, { rounds: carried });
+  if (packed) record(world, 'property', { actorId: entity.id, householdId, importance: 2, causes: [choiceId], claimId: 'FIC-GONZ-1179', text: packed });
   if (entity.location.siteId === call.gather) { noteArrival(world, call, entity); return; }
   beginTravel(world, entity, call.gather, choiceId, 'volunteer', mode);
 }

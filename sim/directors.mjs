@@ -1067,6 +1067,8 @@ function advanceGonzalesFight(world, movement) {
       if (march?.enrolled) {
         const taking = ((world.participation ||= {}).gonzales ||= {});
         if (!taking[person.id]) {
+          // What he fired in the line came out of what he carried (sim/militia.mjs, `FIC-GONZ-1178`): two rounds, or what he had.
+          if (person.militia && Number.isFinite(entry.fought)) person.militia.rounds = Math.max(0, (person.militia.rounds || 0) - 2);
           taking[person.id] = { householdId: person.householdId, role: Number.isFinite(entry.fought) ? 'fought' : 'present', minute: Number.isFinite(entry.fought) ? entry.fought : entry.joined };
           awardGlory(world, { event: 'gonzales', claimId: 'HIST-GONZ-004', personId: person.id, householdId: person.householdId, role: taking[person.id].role, fromSiteId: 'gonzales', causes: [march.choiceId].filter(Boolean) });
         }

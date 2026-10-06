@@ -41,13 +41,26 @@ import { modeWith, ridesAHorse } from './keeping.mjs';
 import { DRILL_TO_STEADY, MARCH_CAMPS, atGroces, campName, drilledSteady, houstonCamp } from './houston.mjs';
 import { recallFromService, recallRefusal } from './winter.mjs';
 import { share } from './scrape.mjs';
+// The volunteers' own camp, before the army and in it (owner, 2026-10-05, "Camp duties, auto"): one bar of the camp's work for
+// everybody away at the war, Houston's men and the volunteers alike (sim/militia.mjs).
+import { MILITIA_RUNS, inCamp, militiaRefusal } from './militia.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
 /** About two outings in a hundred bring a scout back hurt (`FIC-GONZ-053`; the record has one man wounded in the skirmish of April 20, `HIST-TEX-067`). */
 export const SCOUT_HURT = 0.02;
-/** The camp's chores, in the order a row shows them. */
-export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout']);
+/**
+ * The camp's chores, in the order a row shows them: Houston's four, and since 2026-10-05 the volunteers' duties (owner: "drill,
+ * stand picket, cook at the mess fire, cut firewood, mould bullets") and what a man staying in a town does for himself - his
+ * shelter, food bought or hunted, and work for wages or for board (sim/militia.mjs). Each is offered where it makes sense: the
+ * forage and the scouts are Houston's, the town's work the volunteers' in a town.
+ */
+export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-guard', 'camp-cook', 'camp-wood', 'camp-bullets', 'camp-scout',
+  'camp-shelter', 'camp-buy', 'camp-hunt', 'town-wages', 'town-board']);
+/** Houston's alone, and the volunteers' alone (in a town, where there is a counter, work, and game about). */
+const HOUSTON_ONLY = Object.freeze(['camp-forage', 'camp-scout']), MILITIA_ONLY = Object.freeze(['camp-shelter', 'camp-buy', 'camp-hunt', 'town-wages', 'town-board']);
+/** What a man with Houston's army is offered: the camp's work less the town's. */
+export const HOUSTON_CAMP = Object.freeze(CAMP_CHORES.filter(id => !MILITIA_ONLY.includes(id)));
 /**
  * How a man whose family does not choose spends a day at the camp (`FIC-GONZ-055`): mostly drilling, as the army did at
  * Groce's; about one day in six out for the mess, one in six on guard, one in twenty with the scouts. Chosen by a hashed
@@ -117,22 +130,65 @@ const RUNS = {
 /** Whether this outing brings the scout back hurt: the documented share, by a hashed share of the outing. */
 export const scoutHurt = (world, entity, outing) => share(world, entity.id, `scout:${outing}`) < SCOUT_HURT;
 
-const offered = (world, household, entity) => withHouston(entity);
+/** Who sees this camp work: Houston's men their army's, a volunteer away at the war his camp's (sim/militia.mjs `inCamp`). */
+const offeredFor = id => (world, household, entity) => (withHouston(entity) ? !MILITIA_ONLY.includes(id) : inCamp(world, entity) && !HOUSTON_ONLY.includes(id));
+/** Why not now: Houston's camp's words for his men, the volunteers' for theirs. */
+const refusalFor = id => (world, household, entity) => (withHouston(entity) ? campRefusal(world, household, entity, id) : militiaRefusal(world, household, entity, id));
+/** What the last step does: the camp's own for Houston's men (`RUNS`), the volunteers' (sim/militia.mjs `MILITIA_RUNS`) for theirs. */
+// `militia` names the volunteers' run (sim/militia.mjs `MILITIA_RUNS`), read when it runs: that module loads after this one.
+const runFor = (houston, militia) => (world, household, entity) => (withHouston(entity) ? houston(world, household, entity) : MILITIA_RUNS[militia](world, household, entity));
+const militiaRun = key => (world, household, entity) => MILITIA_RUNS[key](world, household, entity);
 const chore = (id, name, describe, steps, extra = {}) => ({
-  name, skill: 'hands', where: 'camp', camp: true, describe, steps, offered, refusal: (world, household, entity) => campRefusal(world, household, entity, id), ...extra,
+  name, skill: 'hands', where: 'camp', camp: true, describe, steps, offered: offeredFor(id), refusal: refusalFor(id), ...extra,
 });
+/** A day's work for Houston's men with no account of its own at his camp: said, and counted as served. */
+const said = words => (world, household, entity) => served(world, entity, tell(world, entity, words(entity.name, campName(world))));
 registerChores({
   'camp-drill': chore('camp-drill', 'Drill with the company', `A day's drill with the company at the camp. Three days of it make a man steady in the line, and that counts when the army fights: the drilled companies held at San Jacinto.`, [
     { work: 3, doing: 'drilling with the company' },
-    { run: RUNS.drill },
+    { run: runFor(RUNS.drill, 'drill') },
   ]),
   'camp-forage': chore('camp-forage', 'Go out for beef and corn', `A day out for the mess: a beef and corn from the farms the families left, or from Groce's, brought in to the camp's fires.`, [
     { work: 3, doing: 'out for beef and corn for the mess' },
     { run: RUNS.forage },
   ]),
-  'camp-guard': chore('camp-guard', 'Stand guard', `A night on the camp guard, round the fires and the baggage.`, [
-    { work: 2, doing: 'on the camp guard' },
-    { run: RUNS.guard },
+  // "Stand picket" since 2026-10-05 (the owner's word): the guard posted out on the road round the camp. A volunteer's picket may
+  // bring in word of what the country round about has heard (sim/militia.mjs `newsHere`).
+  'camp-guard': chore('camp-guard', 'Stand picket', `A watch on the picket round the camp, out on the road, where men riding in bring word.`, [
+    { work: 2, doing: 'on picket' },
+    { run: runFor(RUNS.guard, 'picket') },
+  ]),
+  'camp-cook': chore('camp-cook', 'Cook at the mess fire', `Cook for the mess at its fire. The mess feeds whoever does its work: a day's food, and none out of his own pack.`, [
+    { work: 2, doing: 'cooking at the mess fire' },
+    { run: runFor(said((name, camp) => `${name} cooked for the mess at ${camp}.`), 'cook') },
+  ]),
+  'camp-wood': chore('camp-wood', 'Cut firewood', `Cut firewood for the mess fires. The mess feeds whoever does its work: a day's food, and none out of his own pack.`, [
+    { work: 3, doing: 'cutting firewood for the mess' },
+    { run: runFor(said((name, camp) => `${name} cut firewood for the fires at ${camp}.`), 'wood') },
+  ]),
+  'camp-bullets': chore('camp-bullets', 'Mould bullets', `Melt the militia's lead at the fire and mould bullets, with powder for them from its stores: more powder and ball for him, none from home.`, [
+    { work: 2, doing: 'moulding bullets at the fire' },
+    { run: runFor(said((name, camp) => `${name} moulded bullets at ${camp}.`), 'bullets') },
+  ]),
+  'camp-shelter': chore('camp-shelter', 'Put up a shelter', `Put up a shelter of brush and poles with his blanket over it, so a norther does not find him sleeping under the sky.`, [
+    { work: 2, doing: 'putting up a shelter' },
+    { run: militiaRun('shelter') },
+  ]),
+  'camp-buy': chore('camp-buy', 'Buy food in town', `Buy meal and dried beef at a counter in the town with a real of the family's coin: food in his pack.`, [
+    { work: 1, doing: 'buying food in the town' },
+    { run: militiaRun('buy') },
+  ]),
+  'camp-hunt': chore('camp-hunt', 'Hunt for the pot', `Go out from the town with the rifle after a deer, for food in his pack. It takes a round of his powder and ball, and he may come back with nothing.`, [
+    { work: 3, doing: 'out hunting for the pot' },
+    { run: militiaRun('hunt') },
+  ]),
+  'town-wages': chore('town-wages', 'Work for hire', `A day's work for hire in the town, hauling and grinding meal: half a real a day for the family's coin.`, [
+    { work: 3, doing: 'working for hire in the town' },
+    { run: militiaRun('wages') },
+  ]),
+  'town-board': chore('town-board', 'Work for board', `A day's work at a house in the town for his meals and a bed: fed and under a roof, at a quarter of a real a day.`, [
+    { work: 3, doing: 'working for his board' },
+    { run: militiaRun('board') },
   ]),
   'camp-scout': chore('camp-scout', 'Ride out with the scouts', `A day out with the scouts, looking for the enemy. Only with a horse at the camp. The scouts meet the enemy's patrols, and a scout can come back hurt.`, [
     { work: 3, doing: 'out with the scouts' },
@@ -164,7 +220,9 @@ export function advanceCamp(world) {
     if (!entity.chore || !CHORES[entity.chore.id]?.camp || !entity.householdId) continue;
     const household = household_(world, entity);
     if (!household) continue;
-    if (!withHouston(entity) || entity.travel || entity.location?.siteId !== houstonCamp(world)) abandonChore(world, household, entity);
+    // A volunteer's camp work stops when he leaves the camp - marched off, sent home, into a fight (sim/militia.mjs `inCamp`).
+    const still = withHouston(entity) ? !entity.travel && entity.location?.siteId === houstonCamp(world) : inCamp(world, entity);
+    if (!still) abandonChore(world, household, entity);
   }
 }
 
@@ -296,6 +354,11 @@ export function campInvalid(world) {
     for (const key of ['leave', 'road']) if (service[key] !== undefined && !['open', 'yes', 'no'].includes(service[key])) return `Invalid camp answer`;
     for (const key of ['drilled', 'scouted']) if (service[key] !== undefined && (!Number.isInteger(service[key]) || service[key] < 0)) return `Invalid camp count`;
     if (entity.chore && CHORES[entity.chore.id]?.camp && service.kind !== 'houston') return 'Camp work by somebody not with Houston';
+  }
+  // A volunteer's camp work is a volunteer's (sim/militia.mjs): somebody with no promise to serve and no service has none.
+  for (const entity of Object.values(world.entities)) {
+    if (entity.service || !entity.chore || !CHORES[entity.chore.id]?.camp) continue;
+    if (!entity.commitments?.some(promise => promise.id === 'volunteer')) return 'Camp work by somebody not away at the war';
   }
   return null;
 }

@@ -65,7 +65,7 @@ import { asideRefuses, asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
 import { advanceTown, createTownspeople, observedBy, seenAs } from './town.mjs';
 import { helpTownScene, townScenesFor } from './town-scenes.mjs';
-import { ambientFor } from './ambient.mjs';
+import { EXCHANGES, ambientFor, hearsayOf } from './ambient.mjs';
 import { GOODS, advanceOffers, makeOffer, offersFor, respondToOffer } from './trade.mjs';
 // What families did for each other, and the help they offer back (sim/neighbourly.mjs, owner 2026-09-28).
 import { advanceNeighbourly, answerNeighbour, neighbourlyInvalid, neighbourlyView, owes, recordTakenIn, standings } from './neighbourly.mjs';
@@ -119,11 +119,15 @@ import { herdInvalid, herdingOf, ranchShown } from './stock.mjs';
 import { advanceShelter, registerShelter, shelterInvalid, shelterLine, shelterShown } from './shelter.mjs';
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
 import { liftWants } from './wants.mjs';
+// Away at the war (owner, 2026-10-05; sim/militia.mjs): the volunteer's pack, rounds, shelter, camp work and what he overhears.
+import { DEFAULT_PACK_DAYS, PACK_DAYS, advanceMilitia, atWar, hearNewsFrom, homeRefusal, militiaInvalid, militiaShown, overhear, overheardFor, packOptions, packWords, takePack, walkHome } from './militia.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
 export { MODES, MODE_IDS, DEFAULT_MODE, carryCapacity, modeOf } from './travel.mjs';
 export { record } from './events.mjs';
+// What a volunteer away at the war may overhear: the talk's war news, as far as word has walked (sim/militia.mjs `hearNewsFrom`).
+hearNewsFrom({ exchanges: EXCHANGES, hearsayOf });
 export function seededRandom(seed) {
   let value = 2166136261;
   for (const char of String(seed)) value = Math.imul(value ^ char.charCodeAt(0), 16777619);
@@ -791,6 +795,10 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   advanceDepartures(world, { beginTravel });
   // Days of the calendar: what is eaten, what spoils, what mends, whatever the tick was worth.
   advanceRoutine(world, calendar); deliverReports(world);
+  // Away at the war (sim/militia.mjs): each volunteer eats from the camp's issue and his own pack, walks to his place in the camp,
+  // takes up its work when left alone, and goes home when nothing feeds him; and what is said about him is overheard.
+  advanceMilitia(world, { beginTravel, workFor: choresFor, begin: (w, household, person, choreId) => beginChore(w, household, person, choreId, { beginTravel, modeAvailability }) });
+  overhear(world);
   // Somebody whose wound mended away from home, outside any service, is told to the family and starts home (sim/army.mjs).
   sendMendedHome(world, { beginTravel });
   // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
@@ -1222,6 +1230,13 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
     // The army's November questions (sim/army.mjs `ARMY_QUESTIONS`, docs/COLONIES.md §6k): storm, pledge, the Grass Fight.
     answerQuestion(world, householdId, entity, String(input.question || ''), input.answer === 'yes', { beginTravel });
   }
+  else if (input.action === 'send-for' && !world.army?.members?.includes(entity.id) && atWar(world, entity)) {
+    // A volunteer away at the war before there is an army, or not in it - at the gathering in Gonzales, in its camp - is sent for
+    // the same way, and starts home on what he came with (owner, 2026-10-05; sim/militia.mjs `walkHome`). Any of the family.
+    const why = homeRefusal(world, household, entity);
+    if (why) throw new Error(why);
+    walkHome(world, household, entity, { beginTravel, why: `The family sent for ${entity.name}, and he left the volunteers and started home.` });
+  }
   else if (input.action === 'send-for') {
     // A family sends for its own volunteer, and they leave the army where it stands and start
     // home (sim/army.mjs, docs/COLONIES.md §5.5). Always allowed while the class runs: what it
@@ -1237,7 +1252,13 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   else if (['turn-out', 'stay-put'].includes(input.action)) {
     // A far settlement's call (sim/calls.mjs): turning out costs the afternoon's work, as every call does.
     if (input.action === 'turn-out' && entity.chore) abandonChore(world, world.households[householdId], entity);
-    handleCall(world, householdId, entity, input.action, { beginTravel, travelRefusal }, mode);
+    // With the days of food he carries, chosen on the going popup (owner, 2026-10-05; sim/militia.mjs `takePack`): the smallest
+    // when an order names none - a family nobody plays, a page from before.
+    const days = Number(input.packDays) || DEFAULT_PACK_DAYS;
+    if (!PACK_DAYS.includes(days)) throw new Error('Choose three, seven or fourteen days of food.');
+    const pack = { refusal: (w, household, person) => packOptions(w, household, person).find(one => one.days === days)?.why || null,
+      take: (w, household, person, { rounds }) => packWords(w, household, person, takePack(w, household, person, days, { rounds })) };
+    handleCall(world, householdId, entity, input.action, { beginTravel, travelRefusal, pack }, mode);
   }
   else if (['help', 'stay'].includes(input.action)) {
     // Answering the call costs the afternoon's work. Leaving the chore merely frozen
@@ -1325,9 +1346,13 @@ export function goingFor(world, householdId, entityId, input) {
   // 'how will they go?' chooser"): the page sends it that way without asking. The order still carries the way, and the server
   // still checks it where the journey begins. None that can go is still asked, so the refusal is read on the chooser.
   const open = ways.filter(way => way.can);
+  // Going to the war, how many days of food he carries out of the store (owner, 2026-10-05: "the going popup asks how many days of
+  // food (3 / 7 / 14), taken from the home store"; sim/militia.mjs `packOptions`): asked on the same popup, so it is never skipped.
+  const rations = order.action === 'turn-out' ? { options: packOptions(world, household, entity), chosen: DEFAULT_PACK_DAYS } : null;
   return {
     person, journey: { to: journey.to, place: journey.place, says: journeyWords(world, household, entity, order, journey), ...(journey.only && { only: journey.only }) },
-    ways: shownWays(ways), quickest: quickestOf(ways), ...(shut && { shut }), ...(!shut && open.length === 1 && { oneWay: open[0].id }),
+    ways: shownWays(ways), quickest: quickestOf(ways), ...(shut && { shut }), ...(!shut && open.length === 1 && !rations && { oneWay: open[0].id }),
+    ...(rations && { rations }),
   };
 }
 // The map is public geography and never changes during a class, so it is fetched once
@@ -1458,6 +1483,8 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // Hungry, weak or starving (sim/hunger.mjs): the stage the row is coloured by, and while a starving person's minute runs, its
     // real time left for the "!". Absent while fed.
     ...(e.kind === 'person' ? hungerShown(world, e) : {}),
+    // Away at the war (sim/militia.mjs): days of food in his pack, his powder and ball, his shelter. Absent for everybody else.
+    ...(e.kind === 'person' ? militiaShown(world, e) : {}),
     // Clothes that want washing (owner, 2026-10-03; sim/housework.mjs): the flies drawn over them. Absent while clean.
     ...(e.kind === 'person' ? washShown(world, e) : {}),
     // The house's work wanting doing, on the one idle person who may begin it (owner, 2026-10-04, "Prompt the student";
@@ -1573,6 +1600,17 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // the view just built, so nothing is drawn busy that this page could not already see. A picture only: never stored, never read.
   const ambient = ambientFor(world, householdId, role, view);
   if (ambient) view.ambient = ambient;
+  // What the family's volunteer overheard in the camp this tick (owner, 2026-10-05; sim/militia.mjs `overhear`), said over two of the
+  // volunteers' camp's men drawn on this page - the family's own page only. Elsewhere (the army's camp, Victoria) the journal has it.
+  // ceiling: only where the volunteers' camp at Gonzales is drawn; the army's camp men (sim/ambient.mjs `campAmbient`) are the way out.
+  // In an army's camp it is two of the camp's own men drawn by the page (sim/ambient.mjs `campAmbient`), as the camp's talk is.
+  if (role !== 'host' && householdId && world.overheard?.[householdId]) {
+    const speakers = view.townScenes ? ['gz-volunteer-6', 'gz-volunteer-7', 'gz-volunteer-8'].filter(id => view.townScenes.people.some(person => person.id === id)) : [];
+    const camp = !speakers.length && Object.keys(view.ambient?.camps || {})[0];
+    const said = overheardFor(world, householdId, speakers.length ? speakers : camp ? [`camp:${camp}:0`, `camp:${camp}:1`] : []);
+    if (said && speakers.length) view.townScenes.lines = [...said, ...view.townScenes.lines];
+    else if (said) view.ambient.lines = [...said, ...(view.ambient.lines || [])];
+  }
   return copy ? structuredClone(view) : view;
 }
 /**
@@ -1858,7 +1896,7 @@ export function validateWorld(world) {
   if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world) || actingInvalid(world);
   if (badChildren) throw new Error(badChildren);
-  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || foragedInvalid(world) || milkingInvalid(world) || houseworkInvalid(world) || customInvalid(world) || shelterInvalid(world) || herdInvalid(world);
+  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || militiaInvalid(world) || foragedInvalid(world) || milkingInvalid(world) || houseworkInvalid(world) || customInvalid(world) || shelterInvalid(world) || herdInvalid(world);
   if (badLedger) throw new Error(badLedger);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');

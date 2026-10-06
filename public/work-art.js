@@ -185,6 +185,18 @@ export const WORK = Object.freeze({
   'camp-forage': { stroke: 'search', spread: 0.6 },
   'camp-guard': { stroke: 'guard', spread: 0.6 },
   'camp-scout': { stroke: 'search', spread: 0.6 },
+  // The volunteers' camp (owner, 2026-10-05, "Camp duties, auto"; sim/militia.mjs): cooking at the mess fire is the hearth's
+  // tend-fire stroke, the firewood the axe, moulding bullets the mending pose at the fire, the shelter the tent's pegging, buying at a
+  // counter, the hunt out with the rifle, and a day's work in the town carried. stand-in: docs/ART_REQUESTS.md, request 2026-10-05
+  // "away at the war", item 2 - a volunteer's own cooking, moulding and picket poses replace these.
+  'camp-cook': { stroke: 'fire', spread: 0.6 },
+  'camp-wood': { stroke: 'chop', spread: 0.5 },
+  'camp-bullets': { stroke: 'mend', spread: 0.4 },
+  'camp-shelter': { stroke: 'notch', spread: 0.5 },
+  'camp-buy': { stroke: 'trade', spread: 0.6 },
+  'camp-hunt': { stroke: 'search', spread: 0.5 },
+  'town-wages': { stroke: 'carry', spread: 0.6 },
+  'town-board': { stroke: 'about', spread: 0.6 },
   // Sickness (sim/disease.mjs).
   'tend-sick': { stroke: 'tend', spread: 0.5 },
   'nurse-home': { stroke: 'tend', spread: 0.5 },

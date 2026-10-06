@@ -72,6 +72,11 @@ export function awayWithTheArmy(world, person) {
 }
 /** Whether this person's promise to serve is still standing (sim/calls.mjs, sim/army.mjs): a volunteer not yet sent for. */
 export const servesNow = person => Boolean(person?.commitments?.some(promise => promise.id === 'volunteer' && promise.status === 'active'));
+/**
+ * A volunteer away at the war, nobody's enlisted man: the camp's work is the only work he is offered (sim/chores.mjs `choresFor`,
+ * sim/militia.mjs `atWar`, owner 2026-10-05: "Why can they still see the tasks they could do back home?").
+ */
+export const awayVolunteer = (world, person) => !person?.service && servesNow(person) && awayWithTheArmy(world, person);
 /** The camp the men went up the river to in October (sim/directors.mjs `CAMP_SITE`), restated so this file imports nothing of it. */
 const MARCH_CAMP = 'williams-camp';
 /** Whether the journey just begun takes the person to the war (the baby is never taken on it, interactions S4). */
