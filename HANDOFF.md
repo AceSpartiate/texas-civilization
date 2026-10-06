@@ -58,6 +58,20 @@ reminiscence marked).
 
 ## Every rider who reaches you, as a scene — owner, 2026-10-05 (not released)
 
+**Follow-up 2026-10-06, after the merge to main (b740cb4b).** (1) `test:children` red at its road step: not the scenes. The press of
+*Watch the road behind* took ("set out"), and the boy wandered from the job on the next tick on his seeded obedience roll
+(sim/childhood.mjs `wanderFromJob`, `FIC-GONZ-479`), so the page never saw it glow; which tick a press lands on is the real
+clock's. The product is right; the proof presses again if he ran off (injected: no glow for road-lookout -> "never glowed").
+(2) `test:famous-people` red at 923 s: mine. After the student answered Travis's runner, the express rider who had been open
+beside him took the meeting's place on the page, so the runner's × was gone and the proof's 30-second wait for it let the
+assault go by unwatched. Now an express rider steps back to `waiting` while a runner is with the family (sim/encounters.mjs
+`advanceEncounters`; tests/rider-scenes.test.mjs, injection caught), and the page keeps a meeting the student has open after it
+ends until they put it away, rather than swapping in an express rider under their hand (public/app.js `heldEncounter`).
+`test:famous-people` green alone in 219 s; `test:children` green. `test:battle-alamo` is red on main for another reason
+("Isaac was never seen to fall"; with this fix, "the family was told the Alamo had fallen and not what became of its own" - the
+word reached Matagorda on the winter's last tick): it fails the same way at d0da42e5, before rider-scenes, so it is not this
+branch's.
+
 Branch `rider-scenes` from main 3f0ef6c7. The owner, verbatim: *"I want to radically redesign the whole rider and or news person
 shows up. The conversation is boring. Let's redo each of them as a cutscene sort of like with the wedding. The environment should
 change in the cutscene based on where they are and who's around them."* By multiple choice: **"Every rider who reaches you"**.

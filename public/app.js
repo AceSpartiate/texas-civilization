@@ -8795,7 +8795,7 @@ function watchField(world, field) {
   if (world.battle?.sides) studentCinema.resume({ ...cinemaInput(world, canvas), current: { ...manualView } }, performance.now());
   drawWorld(world);
 }
-let encounterOpen = false, lastEncounterId = null;
+let encounterOpen = false, lastEncounterId = null, heldEncounter = null;
 /**
  * A conversation happens a line at a time.
  *
@@ -8835,6 +8835,10 @@ function renderEncounter(world) {
   let encounter = world.encounter;
   if (leaving && encounter?.id === leaving.id) riderScene.keep(encounter);
   else if (leaving) encounter = leaving;
+  // A meeting the student has open and that has just ended (answered, ridden on) stays on the page until they put it away, rather
+  // than the express rider waiting behind it taking its place under their hand (2026-10-06); his "!" is there when they have.
+  else if (encounterOpen && heldEncounter && encounter?.id !== heldEncounter.id && encounter?.passing && heldEncounter.status !== 'open') encounter = heldEncounter;
+  else if (encounterOpen && heldEncounter && encounter?.id === heldEncounter.id) heldEncounter = encounter;
   const live = encounter?.status === 'open';
   if (encounter && encounter.id !== lastEncounterId) { lastEncounterId = encounter.id; encounterOpen = false; }
   const listener = entitiesOf(world).find(person => person.id === encounter?.listenerId);
@@ -8852,12 +8856,13 @@ function renderEncounter(world) {
   const panel = $('#encounter');
   panel.hidden = !encounter || !encounterOpen || world.role === 'host';
   // The meeting over the whole screen, as a scene (owner, 2026-10-05; public/rider-scene.js): put away with the panel.
-  if (panel.hidden) { if (riderScene.phase !== 'closed') riderScene.hide(); delete document.body.dataset.riderScene; }
+  if (panel.hidden) { heldEncounter = null; if (riderScene.phase !== 'closed') riderScene.hide(); delete document.body.dataset.riderScene; }
   // Every way in - the panel's "!", Listen, the mark on the map - comes through here, so the bar is told here.
   renderScreenMoments();
   moveOn(world);
   if (panel.hidden) return;
   document.body.dataset.riderScene = 'true';
+  heldEncounter = encounter;
   riderScene.show(encounter, world);
   panel.dataset.encounterId = encounter.id;
   panel.dataset.status = encounter.status;
