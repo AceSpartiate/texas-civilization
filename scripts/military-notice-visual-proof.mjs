@@ -14,10 +14,11 @@ try {
  await page.locator('[name=name]').fill('Notice reader');await page.locator('[name=code]').fill(app.state.sessionCode);
  await page.getByRole('button',{name:'Join',exact:true}).click();await page.waitForFunction(()=>window.__snapshot?.world.householdId==='hh-1');
  await meetFamily(page);await page.evaluate(()=>window.__proofStreams.forEach(s=>s.close()));
- // Presentation fixture on the real joined page; does not simulate a historical outcome.
+ // Presentation fixture on the real joined page; does not simulate a historical outcome. The wagon's packing, open at the
+ // start of a class since 2026-09-12 and hiding the card while it is (public/style.css), is put away first.
  await page.evaluate(()=>{
   const s=structuredClone(window.__snapshot),w=s.world;
-  w.request=null;w.encounter=null;w.lesson=null;w.lessonResume=null;w.battleAccount=null;w.army=null;
+  w.request=null;w.encounter=null;w.wagon=null;w.lesson=null;w.lessonResume=null;w.battleAccount=null;w.army=null;
   for(const p of w.entities) {p.service=null;p.pressing=false;}
   const p=w.entities.find(p=>p.householdId===w.householdId&&p.kind==='person'&&p.band==='adult');
   w.battleAlert={id:'visual-battle',entityId:p.id,title:'Your family at Gonzales',text:`${p.name} is with the volunteers. They are approaching the field. Look in on them before the fighting begins.`,action:'Watch the battle',field:{x:p.x||0,y:p.y||0}};
@@ -28,7 +29,7 @@ try {
   await page.setViewportSize({width,height:768});await page.evaluate(()=>window.__render(window.__snapshot));
   const result=await page.evaluate(()=>{
    const p=document.querySelector('#military-notice'),r=p.getBoundingClientRect(),c=document.querySelector('#military-portrait');
-   return {width:innerWidth,shown:!p.hidden,kind:p.dataset.accent,fits:r.left>=0&&r.right<=innerWidth&&r.bottom<=innerHeight-64,portrait:!c.hidden&&c.getContext('2d').getImageData(0,0,c.width,c.height).data.some(v=>v!==0),name:document.querySelector('#military-person').textContent,watched:Boolean(window.__watchedField)};
+   return {width:innerWidth,shown:!p.hidden,kind:p.dataset.accent,fits:r.width>0&&r.height>0&&r.left>=0&&r.right<=innerWidth&&r.bottom<=innerHeight-64,portrait:!c.hidden&&c.getContext('2d').getImageData(0,0,c.width,c.height).data.some(v=>v!==0),name:document.querySelector('#military-person').textContent,watched:Boolean(window.__watchedField)};
   });
   assert.ok(result.shown&&result.fits&&result.portrait,JSON.stringify(result));assert.equal(result.kind,'battle');assert.ok(result.name);assert.equal(result.watched,false);
   await page.locator('#military-notice').screenshot({path:`docs/evidence/military-notice-${width}.png`});evidence.push(result);

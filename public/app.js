@@ -8371,6 +8371,8 @@ function renderMilitaryNotice(world) {
     const drawn = ICONS[notice.kind] && drawSprite(ctx, ICONS[notice.kind], icon.width / 2, icon.height * 0.9, icon.height * 0.84);
     icon.dataset.drawn = drawn ? `${ICONS[notice.kind]}:1` : '';
   }
+  // On the portrait the icon is a badge: an empty one is a blank white button, so it goes while nothing is drawn in it.
+  if (icon) { const blank = !portrait.hidden && !icon.dataset.drawn; if (icon.hidden !== blank) icon.hidden = blank; }
   $('#military-next').hidden = notices.length < 2;
   placeMilitaryNotice();
 }
