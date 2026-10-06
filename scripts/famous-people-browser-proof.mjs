@@ -83,7 +83,9 @@ async function start(host) {
 async function answerRunner(page) {
   const asking = await page.evaluate(() => document.querySelector('#military-title')?.textContent === 'A call for riders at the Alamo' && !document.querySelector('#military-notice').hidden);
   if (!asking) return;
-  await page.locator('#military-go').click();
+  // A card read as up may be gone by the click - the class runs on at half a second a tick - and a click that waited its 30 s for
+  // the next card to come up let the whole assault go by unsampled (2026-10-06: 32 s stalls at the alarm, at 90eaee58 and after alike).
+  if (!(await page.locator('#military-go').click({ timeout: 2000 }).then(() => true, () => false))) return;
   const stay = page.locator('#encounter-asks [data-action="alamo-courier"][data-answer="stay"]');
   if (await stay.waitFor({ state: 'visible', timeout: 8000 }).then(() => true, () => false)) { await stay.click(); await page.locator('#encounter-close').click().catch(() => {}); }
 }
