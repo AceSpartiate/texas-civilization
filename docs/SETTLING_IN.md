@@ -375,6 +375,24 @@ from dawn to dark):
 - **No save version moved**: `household.tent`, `entity.shelter`, `entity.shelterExcused`, the `shelter` kind of `aside` and
   `household.shelterTold` are absent on every class saved before, which reads as no tent and nobody in.
 
+### 4d. The first ten acres follow the house, and going in is walked — owner, 2026-10-05 (not released)
+
+> "When starting the game, if I put my house somewhere, the starting plot that we can plant is frequently straddling a river, or
+> outside of the borders of my property line. We should add something to dynamically take care of this." ... "Paths don't seem
+> natural around the house."
+>
+> — the owner, 2026-10-05, playing solo
+
+What changes in arriving and setting the house (the rule is docs/LAND_GRANTS.md §5.4 and §10.5):
+
+- **Choosing the site**: the chooser draws, under the stake, a dashed square where the family's first ten acres would be laid were the
+  house there - inside the line, off the yard, out of the water - and they are laid there when the site is chosen. No words are added.
+- **Placing the first house**: it may be set down on the first ten acres while nobody has worked them; they are laid again round the
+  house where it stands, the trees on them coming down and those where they were standing again. Ten acres sown, fenced or being worked
+  are still refused a house (*"That would stand on your field."*).
+- **Going in out of the weather** (§4c), and out again when it clears, is walked round whatever stands between, not slid there; and
+  everybody coming home from the land walks to the door of the house, where the family's ways begin.
+
 ## 5. Houses: layouts, construction methods, benefits and problems
 
 **Amended 2026-09-15** ([docs/WOODS_AND_BUILDING.md](WOODS_AND_BUILDING.md) §6): the owner decided a house is felled from the family's own land and raised piece by piece from a period plan or pieces placed on a grid. Until that is built, this section is what plays.

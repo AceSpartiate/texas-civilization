@@ -19,6 +19,8 @@ import { chooseRefusal, LANE_TICKS_PER_MILE, laneRefusal, laneState, siteFactsFo
 import { findPath } from '../sim/geography.mjs';
 import { paceOf } from '../sim/ground.mjs';
 import { taught } from './support/settled.mjs';
+import { plotsOf } from '../sim/fields.mjs';
+import { startingPlotWhy } from '../sim/starting-plot.mjs';
 import { groundLeft } from '../sim/travel.mjs';
 import { realTerrain } from '../sim/terrain-data.mjs';
 import { createClassroom } from '../server/app.mjs';
@@ -104,9 +106,13 @@ test('choosing moves the house, lays the lane from the road over the ground, put
   assert.deepEqual(lane.points.at(-1), place, 'and ends at the house');
   assert.equal(lane.ground.length, lane.points.length - 1, 'with its going');
   assert.ok(Math.abs(lane.points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p.x - lane.points[i].x, p.y - lane.points[i].y), 0) - facts.laneMiles) < 0.01, 'as long as the family was told');
-  field.points.forEach((point, i) => {
-    assert.ok(Math.abs(point.x - (fieldBefore[i].x + place.x - mark.x)) < 0.011 && Math.abs(point.y - (fieldBefore[i].y + place.y - mark.y)) < 0.011, 'the field is beside the house');
-  });
+  // The field beside the house: its first ten acres laid where they can be worked, near the house (owner, 2026-10-05;
+  // sim/starting-plot.mjs, tests/starting-plot.test.mjs), where the family was shown they would go when it looked the place over.
+  assert.notDeepEqual(field.points, fieldBefore, 'the field moved with the house');
+  const first = plotsOf(world, household)[0];
+  assert.equal(startingPlotWhy(world, household, first), null, 'on ground ten acres may lie on');
+  assert.ok(Math.hypot(first.x - place.x, first.y - place.y) < 0.4, 'beside the house');
+  assert.deepEqual(facts.field, { x: first.x, y: first.y }, 'where the chooser drew them');
   assert.equal(world.map.revision, 1, 'every client is told the homesteads changed');
   assert.equal(household.site.laneMiles, facts.laneMiles);
   assert.equal(household.choosingSite, undefined);

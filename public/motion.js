@@ -769,10 +769,64 @@ export function walkedFrom(previous, entity) {
   const first = points[0], last = points.at(-1);
   if (Math.hypot(first.x - previous.location.x, first.y - previous.location.y) > 0.002) return null;
   if (Math.hypot(last.x - entity.location.x, last.y - entity.location.y) > 0.002) return null;
-  let miles = 0;
-  for (let i = 1; i < points.length; i++) miles += Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y);
-  return miles > 1e-6 ? { points, miles } : null;
+  const miles = lengthOf(points);
+  if (!(miles > 1e-6)) return null;
+  // Drawn along the same points with their corners rounded (`roundCorners`), so nobody turns on a pin (owner, 2026-10-05).
+  const way = roundCorners(points);
+  return { points, miles, way, wayMiles: lengthOf(way) };
 }
+const lengthOf = points => { let miles = 0; for (let i = 1; i < points.length; i++) miles += Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y); return miles; };
+/**
+ * How far a corner of a way about the family's land is rounded off, in miles, at most: about a tree cell and a half (sim/woods.mjs
+ * `TREE_MILES`), and never more than half the stretch either side, so a staircase of single cells round a trunk is drawn as one
+ * curve. The owner, 2026-10-05: "Paths don't seem natural around the house." The server's ways are straight stretches between the
+ * middles of its cells, found on a grid of them (sim/land-paths.mjs `landRoute`); the page draws them, and walks people along
+ * them, as a trodden path is: with no corners in it. A rounded corner keeps within about a tenth of a person's drawn height of the
+ * server's line (`ROUND_MILES` / 4 at a right angle), so nobody is drawn off the way they walked.
+ */
+export const ROUND_MILES = 0.006;
+/** Points along each rounded corner: enough that the curve does not read as two more corners. */
+const ROUND_STEPS = 4;
+/**
+ * A way's corners rounded: each corner replaced by a curve from a little before it to a little after (a quadratic with the corner
+ * for its control point), the ends left where they are. Pure: the same points always round the same.
+ */
+export function roundCorners(points, cut = ROUND_MILES) {
+  if (!Array.isArray(points) || points.length < 3 || !(cut > 0)) return points;
+  const out = [{ x: points[0].x, y: points[0].y }];
+  for (let i = 1; i < points.length - 1; i++) {
+    const a = points[i - 1], b = points[i], c = points[i + 1];
+    const ab = Math.hypot(b.x - a.x, b.y - a.y), bc = Math.hypot(c.x - b.x, c.y - b.y);
+    if (!(ab > 1e-9) || !(bc > 1e-9)) { out.push({ x: b.x, y: b.y }); continue; }
+    // Never past the middle of a stretch, so two corners' curves never cross.
+    const d1 = Math.min(cut, ab / 2), d2 = Math.min(cut, bc / 2);
+    const p = { x: b.x + (a.x - b.x) * d1 / ab, y: b.y + (a.y - b.y) * d1 / ab }, q = { x: b.x + (c.x - b.x) * d2 / bc, y: b.y + (c.y - b.y) * d2 / bc };
+    for (let k = 0; k <= ROUND_STEPS; k++) {
+      const t = k / ROUND_STEPS, u = 1 - t;
+      push(out, { x: u * u * p.x + 2 * u * t * b.x + t * t * q.x, y: u * u * p.y + 2 * u * t * b.y + t * t * q.y });
+    }
+  }
+  push(out, { x: points.at(-1).x, y: points.at(-1).y });
+  return out;
+}
+/** A point onto a rounded way, unless it is where the way already is: two corners' curves meet at one point, and it is kept once. */
+function push(out, point) {
+  const last = out.at(-1);
+  if (last && Math.abs(last.x - point.x) < 1e-12 && Math.abs(last.y - point.y) < 1e-12) return;
+  out.push(point);
+}
+/**
+ * How fast somebody walking about their own land is drawn, in miles a real second: a grown person's walk (`GAIT_CEILING` of their
+ * drawn height a second, the drawn height sim/house-footprint.mjs `PERSON_MILES`, 0.019 of a mile). The page imports nothing from
+ * sim/, so tests/land-paths.test.mjs holds the two equal. A short walk is drawn at this pace and done before the tick is (owner,
+ * 2026-10-05: "Paths don't seem natural around the house"); until then every walk took the whole tick, a step across the yard
+ * crept and a walk out to the field hurried.
+ * ceiling: a walk longer than the tick's real time at this pace is still drawn in the tick, quicker than a walk - the server has
+ * them there at its end; drawing a walk on into the next tick is the way out if long walks about the land ever read as hurried.
+ */
+export const LAND_WALK_MILES_A_SECOND = 1.2 * 0.019;
+/** The real milliseconds a walk of `miles` about the family's land is drawn over, in a tick drawn over `tickMs`. */
+export const landWalkMs = (miles, tickMs) => Math.min(tickMs, Math.max(0, miles) / LAND_WALK_MILES_A_SECOND * 1000);
 /** The point `miles` along a road, for a caller drawing somebody somewhere other than where `position` puts them. */
 export const alongRoute = (points, miles) => along(points, miles);
 function along(points, distance) {
@@ -885,7 +939,7 @@ export class ProjectionMotion {
     // Walked about their own land this tick (sim/land-paths.mjs, owner 2026-10-02: "it's weird seeing characters walk over trees"):
     // along the very points the server walked them, round the trees, and never the straight line between where they were and are.
     const walked = walkedFrom(previous, entity);
-    if (walked) return along(walked.points, walked.miles * f);
+    if (walked) return along(walked.way, walked.wayMiles * this.walkedShare(record, walked, now));
     if (previous.location.siteId && previous.location.siteId === entity.location.siteId && Math.hypot(previous.location.x - entity.location.x, previous.location.y - entity.location.y) < .6) {
       return { x: previous.location.x + (entity.location.x - previous.location.x) * f, y: previous.location.y + (entity.location.y - previous.location.y) * f };
     }
@@ -897,8 +951,13 @@ export class ProjectionMotion {
    */
   walkingShare(entity, now, reducedMotion = false) {
     const record = this.records.get(entity.id), previous = record?.previous;
-    if (!previous || reducedMotion || !walkedFrom(previous, entity)) return null;
-    return Math.min(1, Math.max(0, (now - record.at) / record.duration));
+    const walked = previous && !reducedMotion ? walkedFrom(previous, entity) : null;
+    return walked ? this.walkedShare(record, walked, now) : null;
+  }
+  /** How far through a walk about the land somebody is drawn, 0 to 1: at a walking pace, the whole tick at most (`landWalkMs`). */
+  walkedShare(record, walked, now) {
+    const ms = landWalkMs(walked.wayMiles, record.duration);
+    return ms > 0 ? Math.min(1, Math.max(0, (now - record.at) / ms)) : 1;
   }
   /**
    * Which way somebody not on a journey is being moved over the ground this frame - 'e', 'w', 'n' or 's' - or null while they
@@ -915,8 +974,10 @@ export class ProjectionMotion {
     // Along the points walked round the trees: the way of the stretch they are on now.
     const walked = walkedFrom(previous, entity);
     if (walked) {
-      const f = Math.min(1, Math.max(0, (now - record.at) / record.duration));
-      const a = along(walked.points, walked.miles * Math.max(0, f - 0.02)), b = along(walked.points, walked.miles * Math.min(1, f + 0.02));
+      const f = this.walkedShare(record, walked, now);
+      // Arrived before the tick is out (a short walk, at a walking pace): standing, turned as they came.
+      if (f >= 1) return null;
+      const a = along(walked.way, walked.wayMiles * Math.max(0, f - 0.02)), b = along(walked.way, walked.wayMiles * Math.min(1, f + 0.02));
       if (Math.hypot(b.x - a.x, b.y - a.y) > 1e-7) return headingOf(b.x - a.x, b.y - a.y);
     }
     const dx = to.x - from.x, dy = to.y - from.y, far = Math.hypot(dx, dy);

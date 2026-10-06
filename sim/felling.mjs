@@ -51,10 +51,10 @@ const options = world => ({ rule: woodsRule(world), nearCreek: landAround().near
 const felledOf = world => world.woods?.felled || {};
 
 /** Every tree still standing within reach of a place that would give a log, nearest first. */
-export function standingTrees(world, point, reach = FELL_REACH) {
+export function standingTrees(world, point, reach = FELL_REACH, { logless = false } = {}) {
   const felled = felledOf(world);
   return (treesIn({ minX: point.x - reach, minY: point.y - reach, maxX: point.x + reach, maxY: point.y + reach }, options(world)) || [])
-    .filter(tree => tree.logs > 0 && !felled[tree.id] && Math.hypot(tree.x - point.x, tree.y - point.y) <= reach)
+    .filter(tree => (logless || tree.logs > 0) && !felled[tree.id] && Math.hypot(tree.x - point.x, tree.y - point.y) <= reach)
     .sort((a, b) => Math.hypot(a.x - point.x, a.y - point.y) - Math.hypot(b.x - point.x, b.y - point.y));
 }
 
@@ -266,7 +266,8 @@ export function fellingInvalid(world) {
     for (const [id, entry] of Object.entries(world.woods.felled)) {
       if (!parseTreeId(id)) return 'A felled tree that is no tree';
       if (!world.households[entry?.by]) return 'A tree felled by nobody';
-      if (!KINDS[entry.kind] || !USE_ORDER.includes(entry.use) || !Number.isInteger(entry.logs) || !Number.isInteger(entry.left) || entry.left < 0 || entry.left > entry.logs) return 'Invalid felled tree';
+      // A tree that gives no log (a mesquite, a live oak pole) is felled with cleared ground, its use 'none' (sim/starting-plot.mjs).
+      if (!KINDS[entry.kind] || !(USE_ORDER.includes(entry.use) || (entry.use === 'none' && entry.logs === 0)) || !Number.isInteger(entry.logs) || !Number.isInteger(entry.left) || entry.left < 0 || entry.left > entry.logs) return 'Invalid felled tree';
     }
   }
   for (const household of Object.values(world.households)) {
@@ -293,13 +294,15 @@ export function fellStanding(world, household, plot) {
   const half = PLOT_SIDE / 2;
   // The corners of the plot as well as its middle: `standingTrees` reaches a radius, and a plot is a square.
   const reach = Math.hypot(half, half);
-  const trees = standingTrees(world, plot, reach).filter(tree => Math.abs(tree.x - plot.x) <= half && Math.abs(tree.y - plot.y) <= half);
+  // Every tree on it, those that give no log (a mesquite, a live oak pole) too: cleared ground has none standing, and one left
+  // stood unseen in the field - the page draws no tree in cleared ground - for everybody walking there to go round (2026-10-05).
+  const trees = standingTrees(world, plot, reach, { logless: true }).filter(tree => Math.abs(tree.x - plot.x) <= half && Math.abs(tree.y - plot.y) <= half);
   if (!trees.length) return { trees: 0, logs: 0 };
   world.woods ||= { felled: {}, revision: 0 };
   let logs = 0;
   for (const tree of trees) {
     world.woods.felled[tree.id] = { by: household.id, minute: world.minute, kind: tree.kind, use: tree.use, logs: tree.logs, left: 0 };
-    stackLogs(household, { [tree.use]: tree.logs });
+    if (tree.logs > 0) stackLogs(household, { [tree.use]: tree.logs });
     logs += tree.logs;
   }
   world.woods.revision += 1;

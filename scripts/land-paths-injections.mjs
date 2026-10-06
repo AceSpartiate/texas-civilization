@@ -51,7 +51,7 @@ const INJECTIONS = [
   { name: 'a way to stock the family no longer has stays', expect: [T.follow],
     file: 'sim/land-paths.mjs', from: "    if (pathsOf(household).some(path => path.kind === 'trodden' && path.to && !places.has(path.to))) household.paths = pathsOf(household).filter(path => path.kind !== 'trodden' || !path.to || places.has(path.to));", to: '' },
   { name: 'a plot cleared later gets no way (the family is not looked at again)', expect: [T.follow],
-    file: 'sim/land-paths.mjs', from: "    plotsOf(world, household).filter(plot => plot.state === 'cleared').map(plot => plot.id).join(','), household.site?.needsWell", to: "    '', household.site?.needsWell" },
+    file: 'sim/land-paths.mjs', from: "    plotsOf(world, household).filter(plot => plot.state === 'cleared').map(plot => `${plot.id}@${plot.x},${plot.y}`).join(','), household.site?.needsWell", to: "    '', household.site?.needsWell" },
   // Cut a path gone, and a class saved in the middle of it.
   { name: 'the order to cut a path is taken as it was', expect: [T.gone],
     file: 'sim/land-paths.mjs', from: "export const pathOrderRefusal = input => (input?.action === 'cut-path' || (input?.action === 'chore' && input.chore === 'cut-path') ? PATHS_TRODDEN_WHY : null);", to: 'export const pathOrderRefusal = input => null;' },

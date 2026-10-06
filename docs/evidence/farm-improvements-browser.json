@@ -1,6 +1,6 @@
 {
   "record": "farm-improvements-browser",
-  "date": "2026-10-02",
+  "date": "2026-10-06",
   "browser": "154.0.8037.93",
   "ownerDirection": "\"players should be able to clear any piece of land on their land ... and create more plots through an action called Survey.\" (2026-09-13)",
   "checks": [
@@ -9,7 +9,7 @@
     "ten acres chosen on the map and cleared are drawn as field: \"Ten acres of prairie a quarter mile south of the house, staked. 10 spells of clearing, with the hoe.\"",
     "rails are drawn round the plot a family fenced, and only that one",
     "the land is the first thing in the list of what the family has: \"Their land: 20 acres cleared in 2 plots, 1 fenced.\"",
-    "the ground stayed right while the land changed: 30 snapshots checked against a fresh drawing, none stale; drawn 35 times ({\"first\":1,\"art or tiles\":1,\"camera\":4,\"zoom\":12,\"pick\":6,\"land\":11})",
+    "the ground stayed right while the land changed: 29 snapshots checked against a fresh drawing, none stale; drawn 36 times ({\"first\":1,\"art or tiles\":1,\"camera\":4,\"land\":12,\"zoom\":12,\"pick\":6})",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -81,6 +81,42 @@
           "ground": "prairie",
           "state": "cleared",
           "fence": "sound"
+        }
+      ],
+      "paths": [
+        {
+          "id": "path-1",
+          "kind": "trodden",
+          "points": [
+            {
+              "x": 4.145,
+              "y": -16.375
+            },
+            {
+              "x": 4.2195,
+              "y": -16.3695
+            }
+          ],
+          "to": "plot-1"
+        },
+        {
+          "id": "path-2",
+          "kind": "trodden",
+          "points": [
+            {
+              "x": 4.145,
+              "y": -16.375
+            },
+            {
+              "x": 4.2195,
+              "y": -16.3695
+            },
+            {
+              "x": 4.2195,
+              "y": -16.1695
+            }
+          ],
+          "to": "plot-2"
         }
       ],
       "crops": {

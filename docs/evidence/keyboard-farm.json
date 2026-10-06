@@ -1,18 +1,19 @@
 {
   "record": "keyboard-farm",
-  "date": "2026-10-01",
+  "date": "2026-10-06",
   "sameComputerOnly": true,
   "verdict": "PASS",
-  "checks": 10,
+  "checks": 11,
   "passed": [
     "the house site's panel offers 3 suggested places, labelled: \"South-west of the wagon: open ground, water close by\", \"South-east of the wagon: open ground, water close by\", \"North-west of the wagon: open ground, water close by\"",
     "Tab reaches a suggested site from the map (28 presses)",
     "Enter on it looks the place over, and the map goes there: \"The house will stand on open ground, 0 feet above Pelican Slough. Water that runs all year…\"",
     "Tab to \"Set the house here\" and Enter: the house site is chosen, with no pointer",
-    "Tab to Survey (12 presses) and Enter: the panel opens with the focus on the first of 3: \"Prairie, beside the house\", \"Prairie, beside the house\", \"Prairie, a quarter mile north-east of the house\"",
+    "the chooser drew where the first ten acres would go, a dashed square under the stake, and they were laid there (prairie)",
+    "Tab to Survey (12 presses) and Enter: the panel opens with the focus on the first of 3: \"Prairie, beside the house\", \"Prairie, a quarter mile north-east of the house\", \"Prairie, a quarter mile south-east of the house\"",
     "Tab reaches the map, which shows the ring Enter looks through while a place is being chosen",
     "the arrow keys move the map and Enter looks at its middle, in the server's words: \"That is not your land.\"",
-    "Tab to the first suggested place, Enter, Tab to \"Survey it\" and Enter: the surveyor is sent (after putting Basilio and Silvano on Auto from the panel by the keyboard, when the server said a child had stopped them)",
+    "Tab to the first suggested place, Enter, Tab to \"Survey it\" and Enter: the surveyor is sent (after putting Micajah on Auto from the panel by the keyboard, when the server said a child had stopped them)",
     "the plot the survey staked is offered to clear (\"Prairie, beside the house\"), and Enter, Tab, Enter sets the clearing going",
     "no page errors"
   ]

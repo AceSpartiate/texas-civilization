@@ -1,0 +1,33 @@
+{
+  "record": "The trees drawn over a walker, on the code before 2026-10-05: the fade-band glitch shown",
+  "date": "2026-10-06",
+  "verdict": "PASS",
+  "note": "Same computer only: headless Chrome at 1366x768. No Chromebook, LAN or classroom claim.",
+  "checks": [
+    "the code before, in the fade band (trees at 0.81): 28 trees drawn again over him at their fading strength, over themselves - the cluster that walks with him",
+    "no page errors"
+  ],
+  "observed": {
+    "close": {
+      "area": 0.23089210059442156,
+      "strength": 1
+    },
+    "closeWalk": {
+      "frames": 40,
+      "drawnAgain": 31,
+      "notTheGround": 31
+    },
+    "fade": {
+      "area": 0.5110256624985925,
+      "strength": 0.8149572291690126
+    },
+    "fadeWalk": {
+      "frames": 40,
+      "drawnAgain": 28
+    }
+  },
+  "shots": [
+    "docs/evidence/trees-front-before-walking-among.png",
+    "docs/evidence/trees-front-before-walking-among.png"
+  ]
+}

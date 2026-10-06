@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, sheetsFirstDrawn, spriteFrame, spriteReady, watchMissing } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward, roundCorners } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { herdMarkOf, actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands, keepList, pressHold } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -31,6 +31,7 @@ const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
 import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesNear, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
+import { figureBox, inFront, redrawn } from '/trees-front.js';
 import { bindEnding, renderEnding, setEndingReader } from '/ending.js';
 import { bindFlashback, renderFlashback } from '/flashback.js';
 import { createCourtship } from '/courtship.js';
@@ -836,6 +837,18 @@ function postOak(ctx, x, y, size, tint = 0, lean = 0, gale = false) {
   for (const [dx, dy, r] of [[-.42, -1.12, .46], [.4, -1.10, .44], [0, -1.36, .54], [0, -1.0, .48]]) {
     ctx.beginPath(); ctx.arc(x + (dx + lean * -dy) * size, y + dy * size, r * size, 0, Math.PI * 2); ctx.fill();
   }
+}
+/**
+ * One tree of the woods as the ground draws it: its gale pose in a hard norther, else its picture leaning with the wind, else the
+ * picture it borrowed, else the drawn oak. The ground (`drawGroundDetail`) and the tree drawn again in front of somebody
+ * (`treesInFront`) are this one draw, so the tree drawn again is the very tree under it.
+ */
+function paintTree(ctx, { tree, standIn = null, point, height, seed = 0, lean = 0, gale = false }) {
+  if (gale && GALE_POSES[tree] && drawSprite(ctx, GALE_POSES[tree], point.x, point.y, height)) { galeDrawn++; return; }
+  if (drawSprite(ctx, tree, point.x, point.y, height, { lean })) return;
+  // A kind's own art not loaded (or not there): the picture it borrowed, in its gale pose where it has one.
+  if (standIn && gale && GALE_POSES[standIn] && drawSprite(ctx, GALE_POSES[standIn], point.x, point.y, height)) { galeDrawn++; return; }
+  if (!(standIn && drawSprite(ctx, standIn, point.x, point.y, height, { lean }))) postOak(ctx, point.x, point.y, height, seed, lean, gale);
 }
 // Worm-rail fence: the frontier fence, split rails stacked in a zigzag. `fence-rail` was
 // delivered on the equipment sheet and is used whenever a rail would be big enough to read;
@@ -2948,7 +2961,7 @@ function insidePolygon(x, y, points) {
  */
 const SCATTER_ACROSS = 48, SCATTER_CHANCE = .105;
 const groundDetailOpacity = scale => ramp(scale, 28, 40);
-function drawGroundDetail(ctx, world, camera) {
+function drawGroundDetail(ctx, world, camera, kept = null) {
   // Fades in as the camera comes down to a few miles across, rather than appearing whole at one scale.
   const detail = groundDetailOpacity(camera.scale);
   if (detail <= 0) { window.__galeDrawn = null; return; }
@@ -3073,7 +3086,10 @@ function drawGroundDetail(ctx, world, camera) {
       if (channels.length && inWater(tree.x, tree.y)) continue;
       const point = camera.toScreen(tree), look = treeLook(tree, figure);
       const mix = windAt ? windAt(tree.x) : null;
-      scattered.push({ ...look, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
+      const item = { ...look, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false };
+      scattered.push(item);
+      // Kept for the trees drawn again in front of somebody (`treesInFront`): only a tree the ground drew, drawn as it drew it.
+      kept?.set(`${tree.x},${tree.y}`, item);
     }
     // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs). The
     // trunk is `log-fallen-hardwood` (trees-colonies-2, 2026-09-21) where a hardwood was cut and the softer `log-fallen`
@@ -3138,13 +3154,7 @@ function drawGroundDetail(ctx, world, camera) {
     if (fall !== undefined) {
       faded(alpha, () => drawClip(ctx, 'tree-fall', point.x, point.y, height, { timeMs: fall, flip }));
     } else if (tree) {
-      faded(alpha, () => {
-        if (gale && GALE_POSES[tree] && drawSprite(ctx, GALE_POSES[tree], point.x, point.y, height)) { galeDrawn++; return; }
-        if (drawSprite(ctx, tree, point.x, point.y, height, { lean })) return;
-        // A kind's own art not loaded (or not there): the picture it borrowed, in its gale pose where it has one.
-        if (standIn && gale && GALE_POSES[standIn] && drawSprite(ctx, GALE_POSES[standIn], point.x, point.y, height)) { galeDrawn++; return; }
-        if (!(standIn && drawSprite(ctx, standIn, point.x, point.y, height, { lean }))) postOak(ctx, point.x, point.y, height, seed, lean, gale);
-      });
+      faded(alpha, () => paintTree(ctx, { tree, standIn, point, height, seed, lean, gale }));
     } else if (timber && share < .5) {
       // A scattered oak in the timber, handing over to the real trees where the land's trees are drawn.
       faded(alpha * (1 - treesShown), () => postOak(ctx, point.x, point.y, figure * SIZE.timberTree, seed, lean, gale));
@@ -3369,7 +3379,9 @@ function drawLandPaths(ctx, world, camera) {
     const [worn, staked] = made >= total - 1e-6 ? [path.points, []] : made <= 1e-6 ? [[], path.points] : splitAlong(path.points, made);
     ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     if (worn.length > 1) {
-      const line = worn.map(camera.toScreen);
+      // Its corners rounded, as a trodden way is and as the family is walked along it (public/motion.js `roundCorners`; owner,
+      // 2026-10-05: "Paths don't seem natural around the house").
+      const line = roundCorners(worn).map(camera.toScreen);
       ctx.beginPath(); line.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
       ctx.strokeStyle = 'rgba(160,128,86,.42)'; ctx.lineWidth = width; ctx.stroke();
       ctx.strokeStyle = 'rgba(122,94,60,.55)'; ctx.lineWidth = Math.max(1, width * .4); ctx.stroke();
@@ -3424,43 +3436,49 @@ function treeLook(tree, figure) {
   const picture = tree.kind.pictures?.[tree.size] || (deliveredSizes ? `${tree.kind.picture}-${sizeName}` : tree.kind.picture);
   return { tree: tree.kind.own ? `${tree.kind.own}-${sizeName}` : picture, standIn: tree.kind.own ? picture : null, height };
 }
-/** How wide a tree's crown is drawn, as a share of its height either side of its trunk; a person's figure, of theirs. */
-const CROWN_HALF = 0.42, FIGURE_HALF = 0.28;
+/** The ground's trees as it last drew them, by where they stand (`drawGroundDetail`): what `treesInFront` may draw again. */
+const groundTrees = new Map();
+// Presentation evidence for the proofs (scripts/trees-front-browser-proof.mjs), read by nothing in the application.
+window.__groundTrees = groundTrees;
 /**
  * The trees standing in front of somebody on the family's land and over their figure, drawn again after them in the order of the
  * ground (owner, 2026-10-02: "it's weird seeing characters walk over trees"). The woods are drawn into the kept ground, under
  * everybody; a person walking behind a tree was drawn over its crown. Now a tree whose trunk stands nearer the viewer than their
  * feet, and whose crown reaches over them, is drawn again over them, so they are seen among the trees and behind the ones in front.
- * `people` are `{ point, figure }` on the screen. Only while the trees are drawn one by one; cheap, because only the tiles under
- * each person are read.
+ * Exactly the tree the ground drew (owner, 2026-10-05: "Characters that walk through woods sometimes bring the trees with them in a
+ * cluster as they walk"; public/trees-front.js): only a tree the ground drew, at full strength, with its lean, picked by where the
+ * figure's feet were drawn (`drawnAt`, read when it is drawn: the figure stands off the server's point) and kept to the figure.
+ * `people` are `{ id, point, figure }` on the screen. Only while the trees are drawn one by one; cheap, because only the tiles
+ * under each person are read.
  */
 function treesInFront(ctx, world, camera, canvas, people, standing) {
   const shown = [];
-  if (!woodsShown(world) || !woodsCatalogue || !people.length) { window.__treesInFront = shown; return; }
-  const strength = woodsLayersFor(camera, canvas).trees;
-  if (!(strength > 0.02)) { window.__treesInFront = shown; return; }
-  const figure = camera.figure, reach = figure * SIZE.timberTree * 1.2 / camera.scale;
-  const seen = new Set();
+  window.__treesInFront = shown;
+  if (!woodsShown(world) || !woodsCatalogue || !people.length || !groundTrees.size) return;
+  // The person's separation from the others carries them a figure or two off their point (`stableOffset`, `workSlot`).
+  const figure = camera.figure, reach = figure * (SIZE.timberTree * 1.2 + 2.5) / camera.scale;
   for (const person of people) {
     const at = camera.toWorld(person.point);
     for (const tree of treesNear(at, reach, woodsCatalogue)) {
-      const key = `${tree.x},${tree.y}`;
-      if (seen.has(key)) continue;
+      const item = redrawn(groundTrees, tree);
+      if (!item) continue;
       const point = camera.toScreen(tree), look = treeLook(tree, figure);
-      // In front (nearer the viewer, lower on the screen), and its crown over the figure's body.
-      if (point.y <= person.point.y || point.y - look.height >= person.point.y) continue;
-      if (Math.abs(point.x - person.point.x) >= look.height * CROWN_HALF + person.figure * FIGURE_HALF) continue;
-      seen.add(key);
-      standing.push({ y: point.y, draw: () => {
-        const was = ctx.globalAlpha; ctx.globalAlpha = was * strength;
-        if (!drawSprite(ctx, look.tree, point.x, point.y, look.height) && !(look.standIn && drawSprite(ctx, look.standIn, point.x, point.y, look.height))) postOak(ctx, point.x, point.y, look.height, Math.round(tree.x * 1e5));
-        ctx.globalAlpha = was;
+      if (point.y - look.height >= person.point.y + figure * 2.5) continue;
+      // After the person, whose feet the order of the ground puts at their point: never before them, so it can cover them.
+      standing.push({ y: Math.max(point.y, person.point.y + 0.01), draw: () => {
+        const spot = drawnAt.get(person.id);
+        if (!spot) return;
+        const feet = { x: spot.x, y: spot.y + spot.size * 0.45 };
+        if (!inFront(point, look.height, feet, spot.size)) return;
+        const box = figureBox(feet, spot.size);
+        ctx.save();
+        ctx.beginPath(); ctx.rect(box.left, box.top, box.width, box.height); ctx.clip();
+        paintTree(ctx, { tree: look.tree, standIn: look.standIn, point, height: look.height, seed: item.seed, lean: item.lean, gale: item.gale });
+        ctx.restore();
+        shown.push({ x: Math.round(point.x), y: Math.round(point.y), over: person.id, key: `${tree.x},${tree.y}` });
       } });
-      shown.push({ x: Math.round(point.x), y: Math.round(point.y), over: person.id });
     }
   }
-  // Presentation evidence for the proofs (scripts/land-paths-browser-proof.mjs), read by nothing in the application.
-  window.__treesInFront = shown;
 }
 /** A polyline cut in two at a distance along it, in world miles: the part before and the part after. */
 function splitAlong(points, miles) {
@@ -3505,6 +3523,19 @@ function drawSitePick(ctx, world, camera) {
   }
   if (!world.land?.choosingSite || !sitePick) { window.__sitePick = null; return; }
   const at = camera.toScreen(sitePick.point), size = Math.max(8, Math.min(22, camera.figure * .45));
+  // Where the first ten acres would be laid were the house here (owner, 2026-10-05; sim/starting-plot.mjs): staked out in dashes,
+  // a picture rather than words, so a student sees the field go somewhere it can be worked before choosing.
+  const field = sitePick.facts?.can && sitePick.facts.field;
+  let fieldShown = null;
+  if (field) {
+    const a = camera.toScreen({ x: field.x - PLOT_SIDE / 2, y: field.y - PLOT_SIDE / 2 }), b = camera.toScreen({ x: field.x + PLOT_SIDE / 2, y: field.y + PLOT_SIDE / 2 });
+    ctx.save();
+    ctx.fillStyle = 'rgba(150,112,64,.28)'; ctx.fillRect(a.x, a.y, b.x - a.x, b.y - a.y);
+    ctx.setLineDash([Math.max(4, (b.x - a.x) * .06), Math.max(3, (b.x - a.x) * .04)]); ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(255,248,226,.9)';
+    ctx.strokeRect(a.x, a.y, b.x - a.x, b.y - a.y);
+    ctx.restore();
+    fieldShown = { left: Math.round(a.x), top: Math.round(a.y), right: Math.round(b.x), bottom: Math.round(b.y) };
+  }
   ctx.save();
   ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(255,248,226,.9)';
   ctx.beginPath(); ctx.moveTo(at.x, at.y); ctx.lineTo(at.x, at.y - size * 1.6); ctx.stroke();
@@ -3512,7 +3543,7 @@ function drawSitePick(ctx, world, camera) {
   ctx.fillStyle = sitePick.facts?.can ? '#b5452f' : '#8a8171';
   ctx.beginPath(); ctx.moveTo(at.x, at.y - size * 1.6); ctx.lineTo(at.x + size, at.y - size * 1.3); ctx.lineTo(at.x, at.y - size); ctx.closePath(); ctx.fill();
   ctx.restore();
-  window.__sitePick = { x: at.x, y: at.y, can: Boolean(sitePick.facts?.can) };
+  window.__sitePick = { x: at.x, y: at.y, can: Boolean(sitePick.facts?.can), ...(fieldShown && { field: fieldShown }) };
 }
 /**
  * Where Enter would look (triage 2.13): a ring and cross in the map's middle while the map has the keyboard's focus and a place is
@@ -4008,7 +4039,9 @@ function drawWorldNow(world) {
     if (woodsShown(world) && woodsCatalogue) drawWoodsCover(ground, camera, canvas, woodsCatalogue);
     // The family's paths and its yard's swept earth, under the trees and the grass (owner, 2026-10-02).
     try { drawLandPaths(ground, world, camera); } catch { /* the ground without its paths */ }
-    drawGroundDetail(ground, world, camera);
+    // The trees it draws kept by where they stand (`groundTrees`), but not by the audit's second drawing aside.
+    if (!audit) groundTrees.clear();
+    drawGroundDetail(ground, world, camera, audit ? null : groundTrees);
     drawTerrain(ground, world, camera);
     drawHolding(ground, world, camera);
     drawPlots(ground, world, camera);

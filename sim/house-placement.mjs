@@ -11,6 +11,7 @@ import { woodsRule } from './woods.mjs';
 import { plotCatalogue } from './houseplot.mjs';
 import { plotsOf, squareOf } from './fields.mjs';
 import { PERSON_MILES, houseOnGround, overlaps, spacingRefusal, standingAt } from './house-footprint.mjs';
+import { FIRST_PLOT, startingPlotMovesFor } from './starting-plot.mjs';
 
 let catalogue = null;
 /** The plot's pieces and plans, as the page is sent them: what a footprint is worked out from on both sides. */
@@ -24,6 +25,18 @@ export function housesOnLand(world, household, houses = [household.house, ...(ho
   const site = world.map.sites[household.homeSiteId];
   return houses.filter(Boolean).map(house => ({ house, at: standingAt(house, site) })).filter(each => each.at)
     .map(({ house, at }) => houseOnGround(house, pieceCatalogue(), at));
+}
+
+/**
+ * The widest house of the catalogue standing where a house placed nowhere stands, at the family's site (`standingAt`): the ground a
+ * house the family has yet to plan may take there, which its first ten acres keep off (sim/starting-plot.mjs).
+ */
+export function widestHouseAtSite(world, household) {
+  const site = world.map.sites[household.homeSiteId];
+  if (!site) return null;
+  const at = standingAt(null, site);
+  const area = ({ claim }) => (claim.maxX - claim.minX) * (claim.maxY - claim.minY);
+  return pieceCatalogue().plans.map(plan => houseOnGround({ plan: plan.id }, pieceCatalogue(), at)).reduce((best, one) => (!best || area(one) > area(best) ? one : best), null);
 }
 
 /** The nine points of a box that the ground under a house is read at: its corners, the middles of its sides, its middle. */
@@ -50,9 +63,13 @@ export function checkHousePlacement(world, household, placement, layout) {
   // Its pictures stand on the family's own land too: set back from the line, a house's roof never stands over a neighbour's
   // ground, so no two families' houses can be drawn one over the other.
   if (house.claim.minX < bounds.minX || house.claim.maxX > bounds.maxX || house.claim.minY < bounds.minY || house.claim.maxY > bounds.maxY) throw new Error('That is on the line of your land. Set the house back from it.');
-  // Not on the family's field: ground it has staked or cleared (sim/survey.mjs refuses a plot over a house the same way).
-  if (plotsOf(world, household).some(plot => overlaps(squareOf(plot), house.footprint))) throw new Error('That would stand on your field.');
-  const why = spacingRefusal(house, housesOnLand(world, household, household.completedHouses || []));
+  // Not on the family's field: ground it has staked or cleared (sim/survey.mjs refuses a plot over a house the same way). But the
+  // first house may stand on the first ten acres while nobody has worked them: they are laid again round it (owner, 2026-10-05,
+  // "if I put my house somewhere, the starting plot ..."; sim/starting-plot.mjs), so long as they have somewhere to go.
+  const standing = housesOnLand(world, household, household.completedHouses || []);
+  const under = plotsOf(world, household).filter(plot => overlaps(squareOf(plot), house.footprint));
+  if (under.length && !(under.every(plot => plot.id === FIRST_PLOT) && startingPlotMovesFor(world, household, [house, ...standing]))) throw new Error('That would stand on your field.');
+  const why = spacingRefusal(house, standing);
   if (why) throw new Error(why);
   return at;
 }

@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-03",
+  "date": "2026-10-06",
   "files": [
     "tests/land-paths.test.mjs"
   ],
@@ -71,8 +71,9 @@
     {
       "injection": "a trodden way counts a tree as somebody walking does, and is laid through the timber out of a fenced yard (found 2026-10-03)",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
+        "once the house stands the family treads a way from the door to its water, each plot, the woodpile and where its stock comes in at night - round the trees, nobody sent, nothing felled; a class saved with none opens with none",
         "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
       ]
     },

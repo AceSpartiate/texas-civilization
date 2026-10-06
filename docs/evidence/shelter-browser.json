@@ -1,12 +1,12 @@
 {
   "record": "Out of the weather: the tent, the family going in, and somebody with the children, in a browser (sim/shelter.mjs)",
-  "date": "2026-10-03",
+  "date": "2026-10-06",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. One real class through the join flow on the invented country (seed shelter-proof-165), its own weather: fair, rain, fair. No LAN or district claim.",
   "checks": [
-    "the tent went up as the family made camp (\"The family has reached its own land. There is no house yet, so they camp by the ...\") and is drawn by the camp ({\"x\":660,\"y\":379,\"size\":13}); nobody's bar has \"Put up the tent\"",
-    "the rain came on day 1: Temperance (37), Aaron (11), Eli (8), Minerva (6), Matilda (3) went in under the tent; Aaron (11) sits with the children; Isaac kept at the house",
-    "the children are drawn sitting at the tent (boy-rest, girl-rest, smallchild-rest), each portrait carries the tent mark, and Aaron's row says \"Inside with Eli, Minerva and Matilda, out of the weather.\"",
+    "the tent went up as the family made camp (\"The family has reached its own land. There is no house yet, so they camp by the ...\") and is drawn by the camp ({\"x\":653,\"y\":379,\"size\":13}); nobody's bar has \"Put up the tent\"",
+    "the rain came on day 1: Temperance (37), Aaron (15), Eli (12), Minerva (5), Matilda (2) went in under the tent; Aaron (15) sits with the children; Isaac kept at the house",
+    "the children are drawn sitting at the tent (girl-rest, smallchild-rest), each portrait carries the tent mark, and Aaron's row says \"Inside with Minerva and Matilda, out of the weather.\"",
     "at 1024x768 the marks and the tent are shown and nothing scrolls sideways",
     "the rain cleared on day 2: nobody is sheltering, nobody sits with the children, and every mark is gone",
     "no page errors"
@@ -26,22 +26,22 @@
       {
         "id": "hh-1-child-1",
         "name": "Aaron Proofwright",
-        "age": 11
+        "age": 15
       },
       {
         "id": "hh-1-child-2",
         "name": "Eli Proofwright",
-        "age": 8
+        "age": 12
       },
       {
         "id": "hh-1-child-3",
         "name": "Minerva Proofwright",
-        "age": 6
+        "age": 5
       },
       {
         "id": "hh-1-child-4",
         "name": "Matilda Proofwright",
-        "age": 3
+        "age": 2
       }
     ],
     "tent": {
@@ -50,7 +50,7 @@
         "y": -15.7412
       },
       "drawn": {
-        "x": 660,
+        "x": 653,
         "y": 379,
         "size": 13
       },
@@ -67,34 +67,33 @@
       {
         "id": "hh-1-child-1",
         "name": "Aaron Proofwright",
-        "age": 11,
+        "age": 15,
         "at": "tent",
         "minding": true
       },
       {
         "id": "hh-1-child-2",
         "name": "Eli Proofwright",
-        "age": 8,
+        "age": 12,
         "at": "tent",
         "minding": false
       },
       {
         "id": "hh-1-child-3",
         "name": "Minerva Proofwright",
-        "age": 6,
+        "age": 5,
         "at": "tent",
         "minding": false
       },
       {
         "id": "hh-1-child-4",
         "name": "Matilda Proofwright",
-        "age": 3,
+        "age": 2,
         "at": "tent",
         "minding": false
       }
     ],
     "clipsInTheRain": [
-      "boy-rest",
       "girl-rest",
       "smallchild-rest"
     ],
@@ -106,7 +105,7 @@
       "hh-1-child-3": "tent",
       "hh-1-child-4": "tent"
     },
-    "companionRow": "Inside with Eli, Minerva and Matilda, out of the weather.",
+    "companionRow": "Inside with Minerva and Matilda, out of the weather.",
     "afterTheRain": [
       {
         "id": "hh-1-parent-1",

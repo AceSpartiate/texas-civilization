@@ -1,0 +1,218 @@
+{
+  "date": "2026-10-06",
+  "files": [
+    "tests/starting-plot.test.mjs",
+    "tests/trees-front.test.mjs",
+    "tests/land-ways.test.mjs",
+    "tests/shelter.test.mjs"
+  ],
+  "caught": 25,
+  "of": 25,
+  "results": [
+    {
+      "injection": "choosing the site carries the field over with the house and looks at nothing (the bug)",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "wherever the house is set, the first ten acres are laid inside the line, off the yard and the house, out of the water, with no tree standing in them and none on the pile",
+        "the first house may be set on ten acres nobody has worked: they are laid again round it, their trees standing again where they were; worked ten acres refuse it"
+      ]
+    },
+    {
+      "injection": "the first ten acres may lie in a river or creek the map draws",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "wherever the house is set, the first ten acres are laid inside the line, off the yard and the house, out of the water, with no tree standing in them and none on the pile"
+      ]
+    },
+    {
+      "injection": "the trees in the first ten acres are left standing, unseen, for walkers to go round",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "wherever the house is set, the first ten acres are laid inside the line, off the yard and the house, out of the water, with no tree standing in them and none on the pile",
+        "the first house may be set on ten acres nobody has worked: they are laid again round it, their trees standing again where they were; worked ten acres refuse it",
+        "a class saved with its first ten acres off its land opens with them laid again; ten acres worked stay where they are; no tree stands in cleared ground"
+      ]
+    },
+    {
+      "injection": "the chooser is not told where the ten acres would go",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "wherever the house is set, the first ten acres are laid inside the line, off the yard and the house, out of the water, with no tree standing in them and none on the pile"
+      ]
+    },
+    {
+      "injection": "placing the first house leaves the ten acres where they lay, under it",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the first house may be set on ten acres nobody has worked: they are laid again round it, their trees standing again where they were; worked ten acres refuse it"
+      ]
+    },
+    {
+      "injection": "a house is refused over ten acres nobody has worked",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the first house may be set on ten acres nobody has worked: they are laid again round it, their trees standing again where they were; worked ten acres refuse it"
+      ]
+    },
+    {
+      "injection": "the trees taken off where the ten acres were stay down when they move",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the first house may be set on ten acres nobody has worked: they are laid again round it, their trees standing again where they were; worked ten acres refuse it"
+      ]
+    },
+    {
+      "injection": "ten acres already sown are moved too",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the first house may be set on ten acres nobody has worked: they are laid again round it, their trees standing again where they were; worked ten acres refuse it",
+        "a class saved with its first ten acres off its land opens with them laid again; ten acres worked stay where they are; no tree stands in cleared ground"
+      ]
+    },
+    {
+      "injection": "a class saved before opens with its ten acres off its land",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a class saved with its first ten acres off its land opens with them laid again; ten acres worked stay where they are; no tree stands in cleared ground"
+      ]
+    },
+    {
+      "injection": "a person sent out to the field goes to the middle of the old block",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a person sent out to the field goes to the field, at the edge of the cleared ground nearest the door"
+      ]
+    },
+    {
+      "injection": "every tree in the tiles is drawn again, the ground's or not (the bug)",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a tree the ground left out - in cleared ground, in a river - is never drawn round somebody walking there",
+        "while the trees fade in with the zoom, none is drawn again: one over itself would read darker and walk with them"
+      ]
+    },
+    {
+      "injection": "a tree is drawn again at its fading strength over itself (the bug)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "while the trees fade in with the zoom, none is drawn again: one over itself would read darker and walk with them"
+      ]
+    },
+    {
+      "injection": "a tree is drawn again upright over the tree the wind leans (the bug)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a tree the ground drew in front of somebody is drawn again over them, as the ground drew it, and kept to the figure"
+      ]
+    },
+    {
+      "injection": "the trees are picked round the server's point, not the figure (the bug)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the trees are picked by where the figure is drawn, not by the server's point it is drawn off"
+      ]
+    },
+    {
+      "injection": "a tree drawn again is not kept to the figure",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a tree the ground drew in front of somebody is drawn again over them, as the ground drew it, and kept to the figure"
+      ]
+    },
+    {
+      "injection": "the way-finding's box has no room to go round a long house: the way goes through it (found 2026-10-05)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a way round the house goes round it - into a place under it by its front - and never through it, however long the house"
+      ]
+    },
+    {
+      "injection": "a place under a house is no way anybody can find, and the way is laid straight through the house",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a way round the house goes round it - into a place under it by its front - and never through it, however long the house"
+      ]
+    },
+    {
+      "injection": "nobody keeps to a way: the search cuts across the grass at the place (found 2026-10-05)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "people keep to the family's trodden ways, and walk home along them to the door"
+      ]
+    },
+    {
+      "injection": "home is the yard spot beside the house, not its door",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "people keep to the family's trodden ways, and walk home along them to the door"
+      ]
+    },
+    {
+      "injection": "a way runs straight across the crop",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a way goes round the field, not across the crop, and into the plot it goes to"
+      ]
+    },
+    {
+      "injection": "somebody working beside another is put beside them however they walked",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "somebody working beside another walks the way they walk; going in out of the weather is walked, not slid"
+      ]
+    },
+    {
+      "injection": "a short step is taken straight whatever stands on its line",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "somebody working beside another walks the way they walk; going in out of the weather is walked, not slid"
+      ]
+    },
+    {
+      "injection": "going in out of the weather is a slide, as it was (the bug)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "rain: everybody with no task and every child goes in under the tent; somebody at a task keeps at it; out again when it clears"
+      ]
+    },
+    {
+      "injection": "the page draws the server's corners as they are",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the page draws a way with its corners rounded, within a step of the server's line, and a walk about the land at a walking pace"
+      ]
+    },
+    {
+      "injection": "every walk about the land takes the whole tick, however short (the bug)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the page draws a way with its corners rounded, within a step of the server's line, and a walk about the land at a walking pace"
+      ]
+    }
+  ]
+}

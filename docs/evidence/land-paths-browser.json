@@ -1,12 +1,12 @@
 {
   "record": "Paths all automatic, the way round the trees and the fenced yard with its gate, in a browser (owner, 2026-10-02 and 2026-10-03)",
-  "date": "2026-10-04",
+  "date": "2026-10-06",
   "verdict": "PASS",
   "note": "Same computer only: headless Chrome at 1366x768. No Chromebook, LAN or classroom claim.",
   "checks": [
-    "the family's trodden ways are drawn on its land: path-1 0.228 mi, path-2 0.0764 mi, path-3 0.052 mi, path-4 0.0786 mi, path-5 0.0722 mi",
-    "walked round the trees: 20 frames on her way drawn on the server's walked points (at worst 0 mi off), 13 of them on a bending way, none over a tree; trees in front drawn over her: 10",
-    "no Cut a path on any row (26 kinds of icon on the rows)",
+    "the family's trodden ways are drawn on its land: path-1 0.228 mi, path-2 0.0685 mi, path-3 0.052 mi, path-4 0.0791 mi, path-5 0.0741 mi",
+    "walked round the trees: 23 frames on her way drawn on the server's walked points (at worst 0.00058 mi off), 15 of them on a bending way, none over a tree; trees in front drawn over her: 8",
+    "no Cut a path on any row (29 kinds of icon on the rows)",
     "the ways trodden on their own and drawn: water, plot-1, woodpile, stock-cattle, stock-hogs - every one round the trees, nobody sent",
     "Fence a yard from the bar: rails drawn round the house at {\"fence\":\"sound\",\"left\":649,\"top\":260,\"right\":809,\"bottom\":409,\"gate\":[{\"x\":704,\"y\":409},{\"x\":679,\"y\":409}]}",
     "the yard's gate left open at [{\"x\":704,\"y\":409},{\"x\":679,\"y\":409}], a way trodden to it, and all 6 ways laid through it, none over the rails",
@@ -35,7 +35,7 @@
       },
       {
         "id": "path-2",
-        "miles": 0.0764
+        "miles": 0.0685
       },
       {
         "id": "path-3",
@@ -43,15 +43,15 @@
       },
       {
         "id": "path-4",
-        "miles": 0.0786
+        "miles": 0.0791
       },
       {
         "id": "path-5",
-        "miles": 0.0722
+        "miles": 0.0741
       }
     ],
-    "walkedOff": 0,
-    "inFront": 10,
+    "walkedOff": 0.00058,
+    "inFront": 8,
     "rowKeys": [
       "survey-plot",
       "cut-lane",
@@ -72,13 +72,35 @@
       "cut-bee-tree",
       "make-carreta",
       "milk-cow",
+      "keep-house",
+      "work-garden",
+      "wash-clothes",
       "travel-gonzales",
       "visit",
       "work",
       "rest",
       "go-inside",
+      "survey-plot",
+      "cut-lane",
+      "fence-yard",
+      "plant-field",
+      "fence-plot",
+      "visit-shop",
+      "make-furniture",
+      "buy-furniture",
+      "fell-trees",
       "hunt-land",
-      "stop-chore",
+      "butcher-beef",
+      "butcher-hog",
+      "look-to-stock",
+      "take-small-game",
+      "fish-the-water",
+      "cut-bee-tree",
+      "make-carreta",
+      "milk-cow",
+      "keep-house",
+      "work-garden",
+      "wash-clothes",
       "child-play",
       "stop-chore",
       "survey-plot",
@@ -99,7 +121,10 @@
       "fish-the-water",
       "cut-bee-tree",
       "make-carreta",
-      "milk-cow"
+      "milk-cow",
+      "keep-house",
+      "work-garden",
+      "wash-clothes"
     ],
     "ways": [
       {
@@ -109,7 +134,7 @@
       },
       {
         "to": "plot-1",
-        "points": 3,
+        "points": 2,
         "trees": 0
       },
       {
@@ -119,16 +144,16 @@
       },
       {
         "to": "stock-cattle",
-        "points": 2,
+        "points": 3,
         "trees": 0
       },
       {
         "to": "stock-hogs",
-        "points": 2,
+        "points": 3,
         "trees": 0
       }
     ],
-    "felledForWays": 0,
+    "felledForWays": 1,
     "yardLine": "",
     "yardTrees": 0,
     "yard": {

@@ -39,7 +39,7 @@ import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import {
   SEED_PER_PLOT, clearSpell, clearedOf, cropYields, harvestShare, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
-import { barePlots, cropOf, cropState, fenceWords, fenceWork, groundAt, plotsOf, ripePlots, sownPlots } from './fields.mjs';
+import { PLOT_SIDE, barePlots, cropOf, cropState, fenceWords, fenceWork, groundAt, plotsOf, ripePlots, sownPlots } from './fields.mjs';
 import { MOST_HANDS, crewPace, crowdedWhy, handShare } from './hands.mjs';
 import { FURNITURE_LOGS, fenceBy, furnitureFromPile, pileFull, shortOfSound, takeSpare } from './woodpile.mjs';
 import { CROPS, growCrop, inWinter, keepCrops, minutesNow, reapPlot, seedFor, seedKept, settleField, soonestCrop, sowPlot } from './crops.mjs';
@@ -69,7 +69,7 @@ import { FELL_PACE, WORK_PACE, hoursSaid, workHours, workPaceOf } from './work-p
 import { hungerPace } from './hunger.mjs';
 import { houseFront } from './house-placement.mjs';
 // The way across the family's own land, its paths and its yard (owner, 2026-10-02; sim/land-paths.mjs).
-import { YARD_SHARE, raiseYard, stepTo, treesInBox, yardBox, yardFenced, yardGround, yardMiddle, yardOf, yardRefusal } from './land-paths.mjs';
+import { YARD_SHARE, doorOf, raiseYard, stepTo, walkBeside, treesInBox, yardBox, yardFenced, yardGround, yardMiddle, yardOf, yardRefusal } from './land-paths.mjs';
 // Men's work and women's work (owner, 2026-10-03, "Custom, necessity opens"; sim/custom.mjs, docs/CUSTOMARY_WORK.md).
 import { CATTLE, CUSTOM, customRefusal, customWhy, helpsWhom, noteNecessity } from './custom.mjs';
 import { gardenPoint } from './housework.mjs';
@@ -1322,8 +1322,19 @@ export const toolState = wear => wear >= TOOL_LIFE ? 'worn' : 'sound';
 /** A price as a student reads it: "2 food", "1 real", "2 food, 1 seed". */
 const costWords = set => Object.entries(set).map(([resource, amount]) => resource === 'money' ? reales(amount) : `${amount} ${resource}`).join(', ');
 
-/** The field a household works, as a point, so a person can stand in their own crop. */
+/**
+ * The field a household works, as a point, so a person can stand at their own crop: the edge of the cleared plot nearest the door,
+ * where its trodden way ends (sim/land-paths.mjs `troddenTo`). It was the middle of the old forty-acre block, which since the
+ * first ten acres are laid where they can be worked (owner, 2026-10-05) can lie off the field altogether.
+ */
 function fieldPoint(world, household) {
+  const door = doorOf(world, household);
+  const plots = plotsOf(world, household).filter(plot => plot.state === 'cleared' && Number.isFinite(plot.x));
+  if (door && plots.length) {
+    const plot = plots.reduce((best, one) => Math.hypot(one.x - door.x, one.y - door.y) < Math.hypot(best.x - door.x, best.y - door.y) ? one : best);
+    const half = PLOT_SIDE / 2, inset = Math.min(0.01, PLOT_SIDE / 4);
+    return { x: round(Math.min(plot.x + half - inset, Math.max(plot.x - half + inset, door.x))), y: round(Math.min(plot.y + half - inset, Math.max(plot.y - half + inset, door.y))) };
+  }
   const feature = world.map.terrain.find(f => f.kind === 'field' && f.ownerHouseholdId === household.id);
   if (!feature) return null;
   const xs = feature.points.map(p => p.x), ys = feature.points.map(p => p.y);
@@ -1589,7 +1600,8 @@ function joinAlongside(world, household, entity, chore, choreId, lead, extra, he
 /** Beside the one they work alongside, while that one is on the family's own land: never carried off it with them. */
 function standBeside(world, household, entity, lead) {
   if (lead.travel || lead.location?.siteId !== household.homeSiteId || entity.location?.siteId !== household.homeSiteId) return;
-  entity.location = { x: round(lead.location.x + 0.004), y: round(lead.location.y + 0.003), siteId: household.homeSiteId };
+  // Walked over to them, or along the way they walked, not slid there in a line (owner, 2026-10-05; sim/land-paths.mjs `walkBeside`).
+  walkBeside(world, household, entity, lead, { x: 0.004, y: 0.003 });
 }
 /**
  * A tick of somebody working alongside the lead of a job: beside them, doing what they are doing. When the lead has left off -

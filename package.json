@@ -185,6 +185,7 @@
     "test:web-setup": "node scripts/verify-web-setup.mjs",
     "test:web-setup-injections": "node scripts/web-setup-injections.mjs",
     "measure:voice-burst": "node scripts/voice-burst.mjs",
-    "test:land-paths": "node scripts/land-paths-browser-proof.mjs"
+    "test:land-paths": "node scripts/land-paths-browser-proof.mjs",
+    "test:trees-front": "node scripts/trees-front-browser-proof.mjs"
   }
 }
