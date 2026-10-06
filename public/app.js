@@ -249,6 +249,9 @@ const confirmKeyOf = button => {
   }
   return button.dataset.action;
 };
+// A family panel icon's question is asked on its name line: written over the whole button it took the icon's picture, and art
+// arriving after drew into a canvas no longer there (2026-10-06, found by the volunteer-life proof's *Come home*).
+const confirmText = button => button.querySelector('.panel-action-name') || button;
 let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = false;
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
@@ -385,7 +388,8 @@ function ensureHomes(snapshot) {
 }
 function resetConfirm(button) {
   if (!button?.dataset.confirming) return;
-  button.textContent = button.dataset.label || button.textContent;
+  const words = confirmText(button);
+  words.textContent = button.dataset.label || words.textContent;
   const notice = $('#host-notice');
   if (notice?.dataset.confirmFor && notice.dataset.confirmFor === button.dataset.confirmKey) { notice.hidden = true; notice.textContent = ''; delete notice.dataset.confirmFor; }
   delete button.dataset.confirming; delete button.dataset.confirmKey; delete button.dataset.armedAt;
@@ -6372,7 +6376,7 @@ function openNeed(id, kind = null) {
     // The conversation itself, not its first question: the questions are drawn again every tick, and a focused one would be
     // replaced under the keyboard.
     target = $('#encounter');
-  } else if (need.kind === 'call' && world.request?.kind !== 'supply') {
+  } else if (need.kind === 'call' && !['supply', 'muster'].includes(world.request?.kind)) {
     // (The army's request for supplies is answered on the person's card, below: what to send, not who goes.)
     // One menu for the whole family's call, whichever "!" was pressed (docs/FAMILY_PANEL.md §11.2).
     callMenuFor = { id, requestId: world.request?.id, checked: new Set(), key: null };
@@ -6689,7 +6693,7 @@ function panelIcon(entityId, icon) {
 function describeIcon(button, icon, lesson = null) {
   button.dataset.name = icon.name;
   const label = button.querySelector('.panel-action-name');
-  setText(label, `${icon.active ? 'Now: ' : ''}${icon.name}`);
+  if (button.dataset.confirming !== 'true') setText(label, `${icon.active ? 'Now: ' : ''}${icon.name}`);
   button.dataset.summary = icon.summary;
   const shut = Boolean(lesson?.shut);
   // Somebody at this already is not refused it: they are doing it, and the popup says so rather than giving the busy reason.
@@ -9118,6 +9122,9 @@ function renderSlice(world) {
       ? { open: `Your family can choose how to respond.${request.pressing ? ' The call will not stand much longer.' : ''}${request.lapses ? ` ${request.lapses}` : ''}`, accepted: 'Somebody from your family went with the volunteers.', refused: 'Your family stayed home.', expired: request.lapsed ? 'Nobody answered in time, and the call lapsed: nobody from your family turned out.' : 'Nobody from your family answered.' }
       : request.kind === 'supply'
       ? { open: `Your family can choose what to send, or keep everything.${request.pressing ? ' The request will not stand much longer.' : ''}${request.lapses ? ` ${request.lapses}` : ''}` }
+      // The muster (sim/muster.mjs): answered on each man's card; nobody answering is joining.
+      : request.kind === 'muster'
+      ? { open: `Your family can choose for each man.${request.lapses ? ` ${request.lapses}` : ''}` }
       : request.kind === 'rumor'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went to see for itself.', refused: 'Your family stayed home.', expired: 'Nobody went to find out.' }
       : { open: 'Your family can choose how to respond.', accepted: 'Your family chose to help.', refused: 'Your family chose to stay home.', expired: 'This request has passed.' };
@@ -9867,8 +9874,9 @@ document.addEventListener('click', async event => {
   if (confirmLabel[confirmKeyOf(button)] && button.dataset.confirming !== 'true') {
     resetConfirm(confirming);
     const key = confirmKeyOf(button);
-    button.dataset.label = button.dataset.label || button.textContent;
-    button.textContent = confirmLabel[key];
+    const words = confirmText(button);
+    button.dataset.label = button.dataset.label || words.textContent;
+    words.textContent = confirmLabel[key];
     button.dataset.confirming = 'true';
     button.dataset.confirmKey = key;
     button.dataset.armedAt = String(Date.now());

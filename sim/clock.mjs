@@ -145,6 +145,10 @@ function deciding(world, { riders = true } = {}) {
   // while it is deciding - ninety real seconds at most (sim/decision-budget.mjs) - and never for the road itself; a family nobody is at the screen
   // for (sim/absence.mjs) is answered the next tick and holds nothing.
   if (Object.values(world.households).some(household => household.played && !household.absent && household.flight?.ask && answering(household))) return true;
+  // The muster's question (owner, 2026-10-06; sim/muster.mjs): whether a played family's man joins the army made at Gonzales, stays or
+  // comes home. Between the army made on the 11th and its march on the 13th are four ticks at half a day a tick; held at the farming
+  // scale while the family decides - five real minutes at most (sim/decision-budget.mjs), then he joins. Read here without importing.
+  if (Object.entries(world.muster || {}).some(([householdId, ask]) => ask?.status === 'open' && world.households[householdId]?.played && !world.households[householdId].absent)) return true;
   // A question Houston's army has put to a played family's man (sim/camp.mjs: leaving after the word of Goliad, the fork of
   // the road) holds the calendar while that family decides - never for the camp itself, and never for a family whose
   // student has gone, which is answered the tick it is asked. Read here without importing, as the flight is.

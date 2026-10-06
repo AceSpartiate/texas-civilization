@@ -85,6 +85,8 @@ export const PANEL_SUMMARIES = Object.freeze({
   'town-wages': 'Work a day for hire in the town for half a real, paid to the family when it comes to a real.',
   'town-board': 'Work a day at a house in the town for his meals and a bed, at a quarter of a real a day.',
   'send-for': 'Send for him: he leaves the volunteers and walks home, with what is left of his food.',
+  // The muster (owner, 2026-10-06; sim/muster.mjs): a man who stayed in Gonzales goes after the army while it is in the field.
+  'join-army': 'Go after the army and join it: he walks to its camp and is mustered in when he gets there.',
   // What a family's children can be set to (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
   'child-play': 'Let them have the rest of the day to themselves at whatever play they choose, which makes nothing and is the point of it.',
   // The kinds of play and the hens (sim/children.mjs `PLAY_KINDS`, owner 2026-09-26: "different types of play").
@@ -134,7 +136,7 @@ export const PANEL_SUMMARIES = Object.freeze({
 export const ORDER_NAMES = Object.freeze({
   'travel-gonzales': 'Travel to Gonzales', 'travel-home': 'Return home', visit: 'Go to a neighbour’s homestead',
   work: 'Work about the place', rest: 'Rest', 'stop-chore': 'Call off the work', 'winter-recall': 'Send for them to come home',
-  'send-for': 'Come home',
+  'send-for': 'Come home', 'join-army': 'Join the army',
 });
 
 /**
@@ -165,6 +167,7 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['camp-bullets', { sprite: 'icon-fetch-powder', glyph: 'forage' }], ['camp-shelter', { glyph: 'pitch-tent' }],
   ['camp-buy', { sprite: 'icon-visit-shop' }], ['camp-hunt', { sprite: 'icon-hunt-timber' }],
   ['town-wages', { sprite: 'icon-work' }], ['town-board', { sprite: 'icon-build-house' }], ['send-for', { sprite: 'icon-travel-home' }],
+  ['join-army', { sprite: 'icon-enlist-auxiliary' }],
   // The road's chores (sim/road.mjs, docs/ROAD_EAST.md) have registered `icon-<key>` frames; glyphs are load fallbacks.
   ['hunt-road', { glyph: 'hunt-road' }], ['tend-sick', { glyph: 'tend-sick' }], ['trade-crossing', { glyph: 'trade-crossing' }],
   // Sickness (sim/disease.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sickness icons" - `icon-rest-road`,
@@ -320,7 +323,10 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
       return { key: entry.id, kind: 'chore', name: spec.name || entry.id, summary: PANEL_SUMMARIES[entry.id] || firstSentence(spec.describe),
         note: entry.cost ? `Costs ${entry.cost}.` : '', can: Boolean(settable && entry.can), why: entry.can ? '' : entry.why || '', onMap: false, active: entity.chore?.id === entry.id };
     });
-    return [...camp, { key: 'send-for', kind: 'order', name: ORDER_NAMES['send-for'], summary: PANEL_SUMMARIES['send-for'], note: '', why: entity.travel ? `${entity.name || 'He'} is on the road.` : '',
+    // Staying in Gonzales, he may still go after the army (sim/muster.mjs): the server says whether, and why not.
+    const join = entity.militia.join ? [{ key: 'join-army', kind: 'order', name: ORDER_NAMES['join-army'], summary: PANEL_SUMMARIES['join-army'], note: '',
+      why: entity.militia.join.can ? '' : entity.militia.join.why || '', can: Boolean(settable && entity.militia.join.can), active: false }] : [];
+    return [...camp, ...join, { key: 'send-for', kind: 'order', name: ORDER_NAMES['send-for'], summary: PANEL_SUMMARIES['send-for'], note: '', why: entity.travel ? `${entity.name || 'He'} is on the road.` : '',
       can: Boolean(settable && !entity.travel), active: false },
     ...(entity.chore ? [{ key: 'stop-chore', kind: 'order', name: ORDER_NAMES['stop-chore'], summary: PANEL_SUMMARIES['stop-chore'], note: '', why: '', can: settable, active: false }] : [])];
   }

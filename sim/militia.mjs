@@ -49,7 +49,8 @@ import { placeOf } from './town-scenes.mjs';
 import { share } from './shares.mjs';
 import { SICK_PER_DAY, coldSky, sicknessWeight } from './scrape.mjs';
 import { fallSick } from './disease.mjs';
-import { modeWith } from './keeping.mjs';
+import { modeWith } from './keeping.mjs';
+import { joinRefusal } from './muster.mjs';
 
 const DAY = 1440;
 const GONE = Object.freeze(['dead', 'captured']);
@@ -121,10 +122,8 @@ export function inCamp(world, person) {
   return !person.travel && ['town', 'village'].includes(world.map?.sites?.[person.location?.siteId]?.kind);
 }
 /**
- * In a town, where there is a counter to buy at and work to be had: the gathering at Gonzales or Victoria, never the army's camp.
- * ceiling: staying on in the town once the army has marched is not offered - a volunteer there follows it (sim/army.mjs
- * `followTheArmy`) or is sent home; leaving the volunteers to live in the town would want a person away from home with no promise
- * to serve, which this state is not.
+ * In a town, where there is a counter to buy at and work to be had: the gathering at Gonzales or Victoria, never the army's camp. A
+ * volunteer stays on in Gonzales after the army has marched if his family chose it at the muster (owner, 2026-10-06; sim/muster.mjs).
  */
 export const inTown = (world, person) => inCamp(world, person) && !person.travel && ['town', 'village'].includes(world.map?.sites?.[person.location.siteId]?.kind);
 
@@ -410,7 +409,10 @@ function eat(world, household, person, days) {
   // Whole to the end of the autumn by the owner's decision (2026-10-06: "Keep the army's food in full", `FIC-GONZ-1184`), though from
   // November 22 it was "out of Flour and the corn is exhausted" and men lived on beef (`HIST-TEX-029`): counted half, it would send the
   // played families' men home before the storming of Béxar.
-  const share_ = m.fed === today(world) || world.army?.members?.includes(person.id) ? 1 : inCamp(world, person) ? ISSUE_SHARE : 0;
+  // The gathering's half goes with the army when it marches (owner, 2026-10-06, the muster: a man who stays in Gonzales is on his own
+  // food from then; sim/muster.mjs, `FIC-GONZ-1187`). No record read has the town or the committee issuing to men left behind.
+  const gathering = !world.army || world.army.phase === 'organised';
+  const share_ = m.fed === today(world) || world.army?.members?.includes(person.id) ? 1 : inCamp(world, person) && gathering ? ISSUE_SHARE : 0;
   const issued = need * share_;
   const fromPack = Math.min(m.pack || 0, need - issued);
   m.pack = round(Math.max(0, (m.pack || 0) - fromPack));
@@ -588,7 +590,10 @@ export function overheardFor(world, householdId, speakers = []) {
 export function militiaShown(world, person) {
   if (!atWar(world, person)) return {};
   const m = person.militia || {};
-  return { militia: { days: m.since !== undefined ? packDays(world, person) : DEFAULT_PACK_DAYS, rounds: m.since !== undefined ? m.rounds || 0 : 2, ...(m.shelter && { shelter: m.shelter }), ...(m.drilled && { drilled: m.drilled }), ...(inCamp(world, person) && { camp: true }) } };
+  // Whether he may go after the army from his bar now that he stays in Gonzales (sim/muster.mjs `joinRefusal`): sent only to a man
+  // who stayed, while the class has an army.
+  const join = m.stays && world.army ? { join: { can: !joinRefusal(world, person), ...(joinRefusal(world, person) && { why: joinRefusal(world, person) }) } } : {};
+  return { militia: { ...join, days: m.since !== undefined ? packDays(world, person) : DEFAULT_PACK_DAYS, rounds: m.since !== undefined ? m.rounds || 0 : 2, ...(m.shelter && { shelter: m.shelter }), ...(m.drilled && { drilled: m.drilled }), ...(inCamp(world, person) && { camp: true }) } };
 }
 
 /** A saved militia record that cannot be, or null. Absent everywhere is correct: no class saved before has one. */

@@ -27,6 +27,7 @@ import { decideCampQuestionFor } from './camp.mjs';
 import { answeredFor } from './lapse.mjs';
 import { lapseCall } from './calls.mjs';
 import { lapseSupply, supplyAskFor } from './supplies.mjs';
+import { lapseMuster, musterAskFor } from './muster.mjs';
 import { questionWaits, sendOnFrom } from './encounters.mjs';
 import { actingId } from './acting.mjs';
 import { STUDY_TICK_MS } from './crops.mjs';
@@ -88,6 +89,14 @@ export function openDecisions(world, { heldFor, fightUp } = {}) {
     // over the request (public/military-attention.js), and a student watching it is not spending the request's minutes, so they
     // stand where they were until the card is down and the request is in front of them again.
     open.push({ key: `call:supply:${householdId}:${ask.askId}`, personId, call: true, held: Boolean(heldFor?.(household)) || questionWaits(world, householdId, ask) || Boolean(fightUp?.(household)), expire: () => { lapseSupply(world, householdId); sendOnFrom(world, householdId); } });
+  }
+  // The muster's question (sim/muster.mjs, owner 2026-10-06), on the call's clock: five real minutes from when it is shown, and then
+  // every man not answered for joins the army - what most did, and what the class did before anybody was asked.
+  for (const householdId of Object.keys(world.muster || {})) {
+    const household = world.households?.[householdId], ask = musterAskFor(world, householdId);
+    if (!ask || !household?.played || household.absent) continue;
+    const personId = Object.keys(ask.asks).find(id => ask.asks[id] === 'open' && world.entities[id]) || household.principalId;
+    open.push({ key: `call:muster:${householdId}`, personId, call: true, held: Boolean(heldFor?.(household)) || questionWaits(world, householdId, ask) || Boolean(fightUp?.(household)), expire: () => lapseMuster(world, householdId) });
   }
   return open;
 }

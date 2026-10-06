@@ -8,6 +8,7 @@ import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, to
 import { canHear, distantHouseholds, expressLeaves, expressMinutes, sendExpress, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls, volunteersOf } from './calls.mjs';
 import { modeWith } from './keeping.mjs';
+import { closeMuster, musterOptions, musterProjection, offerMuster } from './muster.mjs';
 import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, rideOut, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
 import { seguinRidesOut } from './tejano.mjs';
 import { ARRIVAL_WORD, SPRING_WORD, arrivalWord, hearTheBell, tellHerrera } from './surprise.mjs';
@@ -1239,12 +1240,17 @@ function advanceGathering(world, movement) {
       visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId: HIST_GATHERING,
       text: 'At four in the afternoon the volunteers at Gonzales were made into an army, and chose Stephen F. Austin to command it.',
     });
+    // Each played family is asked first whether its men join, stay in Gonzales or come home (owner, 2026-10-06; sim/muster.mjs):
+    // the army takes only the men not held by that question.
+    offerMuster(world, { forming: true, causeId: eventId });
     formArmy(world, eventId);
     // Standing in the ranks the day it was made an army is a part a family took, and it is
     // written down now rather than at the end, because somebody sent for tomorrow was still there today.
     recordPresent(world, 'gathering', { claimId: HIST_GATHERING, causes: [eventId] });
   });
   once(world, 'march', () => {
+    // A muster question still open when the army steps off is answered for it: he joins, as most did (sim/muster.mjs).
+    closeMuster(world);
     marchOut(world);
     // The weeks to Béxar: the calendar's longest stride, and the phase the two clocks were built for.
     world.director.phase = 'campaign';
@@ -1273,6 +1279,8 @@ function advanceGathering(world, movement) {
   });
   // The main body comes up from Espada when the firing is heard (sim/concepcion-grass.mjs), before the ranks are stood.
   concepcionArmyProgress(world, momentOf);
+  // A volunteer who comes in while the army stands in the town is asked too, before it takes him (sim/muster.mjs).
+  offerMuster(world);
   advanceArmy(world, { hold, beginTravel: movement?.beginTravel });
   // Concepción on the engine: the division's march, the morning in the bend, the fates, the alerts and the account.
   // Its word leaves the army before Béxar by express when the Mexicans have gone (docs/COLONIES.md §5.4d; the record has it at San
@@ -1852,15 +1860,23 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   // What the army before Béxar asks (sim/supplies.mjs, owner 2026-09-29, D5), while it is open: the settlement's call is long
   // answered by then, and stays the family's request in the record behind it.
   const supply = householdId ? supplyProjection(world, householdId) : null;
-  const asked = (march && march.status === 'open' ? march : null) || supply || call || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
+  // The muster's question (sim/muster.mjs, owner 2026-10-06): whether each of the family's men at Gonzales joins the army.
+  const muster = householdId ? musterProjection(world, householdId) : null;
+  const asked = (march && march.status === 'open' ? march : null) || muster || supply || call || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
   // Put while a rider is still talking with the family, it waits until he has gone (sim/encounters.mjs `questionWaits`, owner
   // 2026-09-29, `FIC-GONZ-909`): the rider's meeting says one more thing is waiting, and this comes up when it ends.
   const request = asked && questionWaits(world, householdId, asked) ? null : asked;
-  const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : request === supply ? 'supply' : request === call ? 'call' : request === rumor ? 'rumor' : 'supplies' } : null;
+  const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : request === muster ? 'muster' : request === supply ? 'supply' : request === call ? 'call' : request === rumor ? 'rumor' : 'supplies' } : null;
   // The army's request lapses after the call's five real minutes, counted from when it is shown (sim/decision-budget.mjs).
   if (shown?.kind === 'supply' && world.households[householdId]?.played) {
     const clock = world.decisionClock?.[`call:supply:${householdId}:${supply.askId}`];
     shown.lapses = 'If nobody answers within a few minutes, the request lapses and nothing is sent. The minutes do not run while the class is paused.';
+    if (clock) { shown.leftMs = Math.max(0, Math.round(clock.of - clock.spent)); if (clock.spent >= clock.of * (2 / 3)) shown.pressing = true; }
+  }
+  // The muster's question: five real minutes, and then he joins the army (sim/decision-budget.mjs).
+  if (shown?.kind === 'muster') {
+    shown.lapses = 'No answer in a few minutes, and he joins the army.';
+    const clock = world.decisionClock?.[`call:muster:${householdId}`];
     if (clock) { shown.leftMs = Math.max(0, Math.round(clock.of - clock.spent)); if (clock.spent >= clock.of * (2 / 3)) shown.pressing = true; }
   }
   // A played family's settlement call lapses after its five real minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`): said
@@ -1886,11 +1902,11 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
     const household = world.households[householdId];
     // The army's request is answered by somebody at home, who hands it over: nobody away is shown it.
     const home = id => world.entities[id]?.location?.siteId === household.homeSiteId && !world.entities[id].travel && !['dead', 'captured'].includes(world.entities[id].health?.condition);
-    const people = shown.kind === 'march' ? [march.actorId] : household.members.filter(id => canAnswerCalls(world.entities[id]) && (shown.kind !== 'supply' || home(id)));
+    const people = shown.kind === 'march' ? [march.actorId] : shown.kind === 'muster' ? muster.people : household.members.filter(id => canAnswerCalls(world.entities[id]) && (shown.kind !== 'supply' || home(id)));
     // A settlement's call answered after the army has marched says, honestly, when the man would catch it up (sim/army.mjs
     // `armyArrivalWords`, staging.md §1.6 fix 5): the offer stands either way.
     const honest = (options, entity) => options.map(option => option.id === 'turn-out' ? { ...option, note: `${option.note}${armyArrivalWords(world, entity, call.gather, momentOf(world, 'detachment-out'))}` } : option);
-    shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? honest(callOptions(world, householdId, call, world.entities[id]), world.entities[id]) : shown.kind === 'supply' ? supplyOptions(world, householdId, world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
+    shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? honest(callOptions(world, householdId, call, world.entities[id]), world.entities[id]) : shown.kind === 'supply' ? supplyOptions(world, householdId, world.entities[id]) : shown.kind === 'muster' ? musterOptions(world, householdId, world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
     shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
   }
   // San Jacinto (sim/san-jacinto.mjs): the same four things, for the spring's battle, from its own director.

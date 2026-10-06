@@ -8,7 +8,9 @@
 // come out of the house; when he reaches Gonzales his bar is the militia's - the camp's work and *Come home*, nothing of the farm - and
 // pressing *Cook at the mess fire* sets him cooking at the volunteers' camp on the commons, not on the town's point; when the men go up
 // the river the alert card comes through him with Watch, and he is in the line while it fires; afterwards he is back in the volunteers'
-// camp, where staying offers a shelter and work for board, and he has eaten from his pack; and *Come home* starts him home.
+// camp, where staying offers a shelter and work for board, and he has eaten from his pack; when the army is made (October 11) the
+// family is asked on its card whether he joins it, stays in Gonzales or comes home, and *Stay in Gonzales* is pressed (owner, 2026-10-06);
+// the army marches without him and his bar offers *Join the army*; and *Come home* starts him home.
 //
 // Same computer only: headless Chrome at 1366x768, and at phone width. Run: npm run test:volunteer-life
 import assert from 'node:assert/strict';
@@ -139,8 +141,11 @@ try {
   const DUTIES = ['camp-cook', 'camp-wood', 'camp-drill', 'camp-guard'];
   await student.waitForFunction(({ id, keys }) => keys.some(key => document.querySelector(`.panel-icon[data-entity-id="${id}"][data-key="${key}"]:not([aria-disabled=true])`)), { id: father.id, keys: DUTIES }, { timeout: 20000 });
   const duty = await student.evaluate(({ id, keys }) => keys.find(key => document.querySelector(`.panel-icon[data-entity-id="${id}"][data-key="${key}"]:not([aria-disabled=true])`)), { id: father.id, keys: DUTIES });
+  const before = world().events.length;
   await icon(duty).click();
-  await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-icon[data-entity-id="${id}"][data-key="${key}"]`)?.dataset.active === 'true', { id: father.id, key: duty }, { timeout: 20000 });
+  // Set to it by the server - said in the family's story - however soon a short duty is over (the mess's fire is two ticks).
+  for (let i = 0; i < 100 && !world().events.slice(before).some(event => event.actorId === father.id && /set out:/.test(event.text)); i++) await student.waitForTimeout(100);
+  assert.ok(world().events.slice(before).some(event => event.actorId === father.id && /set out:/.test(event.text)), `pressing ${duty} did not set him to it`);
   await student.waitForTimeout(2500);
   const town = world().map.sites.gonzales;
   observed.atCamp = { duty, from: Math.round(Math.hypot(me().location.x - town.x, me().location.y - town.y) * 1000) / 1000 };
@@ -149,7 +154,7 @@ try {
   await student.getByRole('button', { name: 'Gonzales', exact: true }).click().catch(() => {});
   await student.waitForTimeout(1500);
   await shot(student, 'camp-duty');
-  ok(`pressing ${duty} set him at it, the icon glowing, ${observed.atCamp.from} miles off the town's point at the volunteers' camp`);
+  ok(`pressing ${duty} set him at it, ${observed.atCamp.from} miles off the town's point at the volunteers' camp`);
 
   // ------------------------------------------------------------------ the fight: the card through him, and he is in the line
   await student.waitForFunction(() => window.__snapshot?.world.battleAlert, null, { timeout: 300000 });
@@ -176,6 +181,10 @@ try {
   observed.account = await student.evaluate(() => window.__snapshot.world.battleAccount);
   assert.match(observed.account.text, /volunteers' camp/);
   ok(`he stood in the line while it fired (minute ${entry.fought}), and the account came through him afterwards`);
+  // The muster's question holds the calendar at twenty minutes a tick; between the army made and its march are about 117 of those, which
+  // at the Study pace is some eighteen real minutes, but at this proof's 300 ms under forty seconds - gone before the checks below are
+  // done. When it is put, the class goes at a slow classroom's pace (2 s a tick) until the family has answered.
+  const slowForMuster = setInterval(() => { if (world().muster?.['hh-1']?.status === 'open') { app.setPace(2000); clearInterval(slowForMuster); } }, 25);
 
   // ------------------------------------------------------------------ staying: back at the camp, shelter and board, the pack eaten from
   await student.waitForFunction(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one?.location?.siteId === 'gonzales' && !one.travel; }, father.id, { timeout: 300000 });
@@ -200,6 +209,39 @@ try {
   const row = await student.evaluate(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-standing`)?.textContent || '', father.id);
   assert.match(row, /food \d/, `his row does not say what he carries: "${row}"`);
   ok(`after the fight he is back in the volunteers' camp${stay ? `, set to ${stay}` : ''}; his pack is down to ${Math.round(observed.after.pack * 100) / 100} food and his row says "${row}"`);
+
+  // ------------------------------------------------------------------ the muster: stay in Gonzales, answered on his card
+  // (owner, 2026-10-06: "Volunteers should be given a chance to legitimately join the army, or stay in gonzales as a volunteer,
+  // or go home."; sim/muster.mjs). The afternoon of October 11 the family is asked, on its request card, for each man there.
+  // A rider talking with the family keeps the question back until he has gone (sim/encounters.mjs `questionWaits`): let go here, as
+  // a student would with Done, so the card is in front of the family while the army stands in the town.
+  for (let i = 0; i < 2100 && !(await student.evaluate(() => window.__snapshot?.world.request?.kind === 'muster')); i++) {
+    for (const one of Object.values(world().encounters || {})) if (one.status === 'open' && !one.kind && one.householdId === 'hh-1') { try { applyAction(world(), 'hh-1', { action: 'leave-rider', entityId: one.listenerId }); } catch { /* gone */ } }
+    await student.waitForTimeout(200);
+  }
+  if (!(await student.evaluate(() => window.__snapshot?.world.request?.kind === 'muster'))) throw new Error(`the muster's card never came: ${JSON.stringify({ minute: world().minute, asks: world().muster?.['hh-1']?.asks, status: world().muster?.['hh-1']?.status, offered: world().muster?.['hh-1']?.offeredMinute, army: world().army?.phase, request: await student.evaluate(() => window.__snapshot?.world.request?.kind || null), said: world().events.filter(event => /FIC-GONZ-118[56]/.test(event.claimId || '') && event.householdId === 'hh-1').map(event => `${event.minute}: ${event.text}`) })}`);
+  observed.muster = await student.evaluate(id => ({ text: window.__snapshot.world.request.text, lapses: window.__snapshot.world.request.lapses, options: (window.__snapshot.world.request.answerers?.[id] || []).map(option => option.id) }), father.id);
+  assert.deepEqual(observed.muster.options, ['muster-join', 'muster-stay', 'muster-home'], `the card does not offer the three answers: ${JSON.stringify(observed.muster)}`);
+  assert.ok(!world().army.members.includes(father.id), 'he was taken into the army before his family answered');
+  const asked = student.locator(`.panel-row[data-entity-id="${father.id}"] .panel-attention`);
+  await asked.waitFor({ state: 'visible', timeout: 30000 });
+  await asked.click();
+  const stayButton = student.locator('#selection-call [data-action="muster-stay"]');
+  await stayButton.waitFor({ state: 'visible', timeout: 20000 });
+  await shot(student, 'muster');
+  await stayButton.click();
+  await student.waitForFunction(id => !window.__snapshot?.world.request || window.__snapshot.world.request.kind !== 'muster' || !window.__snapshot.world.request.answerers?.[id], father.id, { timeout: 20000 });
+  assert.equal(world().muster['hh-1'].asks[father.id], 'stay');
+  clearInterval(slowForMuster);
+  app.setPace(300);
+  ok(`when the army was made the family was asked on its card ("${observed.muster.text.slice(0, 70)}…", "${observed.muster.lapses}"), and *Stay in Gonzales* was pressed`);
+  // The army marches without him; he is still in the town with the militia's bar, which now offers going after the army.
+  await student.waitForFunction(() => window.__snapshot?.world.army?.phase === 'marching', null, { timeout: 300000 });
+  await student.waitForTimeout(1500);
+  assert.ok(!world().army.members.includes(father.id) && !me().travel && me().location.siteId === 'gonzales', `he went with the army: ${JSON.stringify(me().location)}`);
+  await asMain(student, father.id);
+  await icon('join-army').waitFor({ state: 'visible', timeout: 30000 });
+  ok(`the army marched without ${father.name}; he stays in Gonzales, and his bar offers *Join the army* while it is in the field`);
 
   // ------------------------------------------------------------------ Come home
   if (me().chore) await icon('stop-chore').click().catch(() => {});

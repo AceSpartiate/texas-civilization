@@ -139,8 +139,8 @@ export const MOMENTS = Object.freeze({
   flight: { title: () => 'Told to leave for the east', action: () => 'Choose what to do' },
   // The settlement's call to turn out is a call to arms; the food wanted in Gonzales, the march upriver and the rumour are asked too.
   // What the army before Béxar asks of the family at home (sim/supplies.mjs, owner 2026-09-29, D5) is put up the same way.
-  call: { title: (person, world) => (world?.request?.kind === 'call' ? 'A call to arms' : world?.request?.kind === 'march' ? 'The march upriver' : world?.request?.kind === 'supply' ? 'The army asks for supplies' : 'Your family is being asked'),
-    action: (person, world) => (world?.request?.kind === 'call' ? 'Choose who goes' : world?.request?.kind === 'supply' ? 'Choose what to send' : 'Choose who answers') },
+  call: { title: (person, world) => (world?.request?.kind === 'call' ? 'A call to arms' : world?.request?.kind === 'march' ? 'The march upriver' : world?.request?.kind === 'supply' ? 'The army asks for supplies' : world?.request?.kind === 'muster' ? 'The army is made' : 'Your family is being asked'),
+    action: (person, world) => (world?.request?.kind === 'call' ? 'Choose who goes' : world?.request?.kind === 'supply' ? 'Choose what to send' : world?.request?.kind === 'muster' ? 'Choose for him' : 'Choose who answers') },
   sick: { title: person => `${first(person)} is very sick`, action: person => `Go to ${first(person)}` },
   // Somebody starving (sim/hunger.mjs, owner 2026-09-30): the story card's alarm, in as few words as the "!".
   hunger: { title: person => `${first(person)} is starving`, action: person => `Go to ${first(person)}` },

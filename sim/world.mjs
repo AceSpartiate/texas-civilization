@@ -120,6 +120,7 @@ import { advanceShelter, registerShelter, shelterInvalid, shelterLine, shelterSh
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
 import { liftWants } from './wants.mjs';
 // Away at the war (owner, 2026-10-05; sim/militia.mjs): the volunteer's pack, rounds, shelter, camp work and what he overhears.
+import { MUSTER_ANSWERS, answerMuster, joinArmyLater, musterInvalid } from './muster.mjs';
 import { DEFAULT_PACK_DAYS, PACK_DAYS, advanceMilitia, atWar, hearNewsFrom, homeRefusal, militiaInvalid, militiaShown, overhear, overheardFor, packOptions, packWords, takePack, walkHome } from './militia.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
@@ -1208,7 +1209,7 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // The historical calls are answered by whichever parent or grown child the family sends
   // (docs/FAMILY_CREATION.md step 4). Each handler checks who may answer; travelling, the
   // yard and resting are the main person's (`mainPersonId`: the student's choice, the principal until one is made).
-  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put', 'send-for', 'detachment-go', 'detachment-stay', 'army-answer', ...SUPPLY_ANSWERS].includes(input.action);
+  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put', 'send-for', 'detachment-go', 'detachment-stay', 'army-answer', 'join-army', ...SUPPLY_ANSWERS, ...MUSTER_ANSWERS].includes(input.action);
   if (!answering && entity.id !== mainPersonId(world, household)) throw new Error('Only your main person can be asked that. Choose them with the star on their row.');
   if (['go-upriver', 'stay-in-town'].includes(input.action)) {
     // Going upriver abandons whatever work was in hand, for the same reason answering
@@ -1229,6 +1230,16 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   else if (input.action === 'army-answer') {
     // The army's November questions (sim/army.mjs `ARMY_QUESTIONS`, docs/COLONIES.md §6k): storm, pledge, the Grass Fight.
     answerQuestion(world, householdId, entity, String(input.question || ''), input.answer === 'yes', { beginTravel });
+  }
+  else if (MUSTER_ANSWERS.includes(input.action)) {
+    // The muster (owner, 2026-10-06; sim/muster.mjs): whether he joins the army, stays in Gonzales as a volunteer, or comes home.
+    if (entity.chore && input.action !== 'muster-stay') abandonChore(world, household, entity);
+    answerMuster(world, householdId, entity, input.action, { beginTravel });
+  }
+  else if (input.action === 'join-army') {
+    // A volunteer who stayed in Gonzales goes after the army while it is in the field (sim/muster.mjs `joinArmyLater`).
+    if (entity.chore) abandonChore(world, household, entity);
+    joinArmyLater(world, household, entity);
   }
   else if (input.action === 'send-for' && !world.army?.members?.includes(entity.id) && atWar(world, entity)) {
     // A volunteer away at the war before there is an army, or not in it - at the gathering in Gonzales, in its camp - is sent for
@@ -1899,7 +1910,7 @@ export function validateWorld(world) {
   if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world) || actingInvalid(world);
   if (badChildren) throw new Error(badChildren);
-  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || militiaInvalid(world) || foragedInvalid(world) || milkingInvalid(world) || houseworkInvalid(world) || customInvalid(world) || shelterInvalid(world) || herdInvalid(world);
+  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || militiaInvalid(world) || musterInvalid(world) || foragedInvalid(world) || milkingInvalid(world) || houseworkInvalid(world) || customInvalid(world) || shelterInvalid(world) || herdInvalid(world);
   if (badLedger) throw new Error(badLedger);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');

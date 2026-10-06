@@ -46,6 +46,16 @@ export const volunteersOf = (world, householdId) => world.households[householdId
   .map(id => world.entities[id])
   .filter(person => person?.commitments?.some(promise => promise.id === 'volunteer' && promise.status === 'active'));
 
+/**
+ * Kept out of the army's ranks by the muster (owner, 2026-10-06; sim/muster.mjs): his family not yet answered for him, or he stays in
+ * Gonzales as a volunteer. Read from the record here, so this file imports nothing of that one. Absent everywhere on a class saved
+ * before: nobody held, and its army takes its men as it always did.
+ */
+const heldFromArmy = (world, person) => {
+  const answer = world.muster?.[person?.householdId]?.asks?.[person?.id];
+  return answer === 'open' || answer === 'stay' || Boolean(person?.militia?.stays);
+};
+
 /** Whether this person is marching with the army right now. */
 export const withTheArmy = (world, entityId) => Boolean(world.army?.members?.includes(entityId));
 
@@ -98,6 +108,8 @@ function fallIn(world, causeId, { beginTravel } = {}) {
       const following = person.travel?.purpose === 'follow';
       if (army.members.includes(person.id) || (person.travel && !following)) continue;
       if (['dead', 'captured'].includes(person.health.condition)) continue;
+      // Asked at the muster and not answered yet, or staying in Gonzales as a volunteer (sim/muster.mjs).
+      if (heldFromArmy(world, person)) continue;
       const near = Math.hypot(person.location.x - army.x, person.location.y - army.y) <= FALL_IN_MILES;
       if (!near && (following || person.location.siteId !== army.siteId)) continue;
       if (following) { person.travel = null; person.location = { ...person.location, siteId: army.siteId || OBJECTIVE }; }
@@ -167,6 +179,8 @@ export function followTheArmy(world, { beginTravel }) {
     for (const person of volunteersOf(world, household.id)) {
       if (army.members.includes(person.id) || person.travel || !person.location.siteId) continue;
       if (['dead', 'captured', 'wounded'].includes(person.health?.condition) || withAForce(world, person.id)) continue;
+      // Staying in Gonzales as a volunteer (sim/muster.mjs): he goes after it only when his family sends him (`joinArmyLater`).
+      if (heldFromArmy(world, person)) continue;
       const at = person.location.siteId;
       const again = army.followers[person.id] && at === OBJECTIVE;
       // Or from home, where the call was answered there (Seguín's company near Béxar, sim/calls.mjs `SETTLEMENT_CALLS.bexar`).

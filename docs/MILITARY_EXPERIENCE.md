@@ -229,9 +229,42 @@ stood on the town's point with `task: 'help'` and every home chore greyed on his
 `npm run test:volunteer-life` (scripts/volunteer-life-browser-proof.mjs).
 
 **Limits.** `ceiling:` (a) a volunteer still on the road when the men go up the river is not redirected to catch them - he is told on
-arrival; (b) staying on in Gonzales once the army has marched is not offered: a volunteer there follows the army (sim/army.mjs
-`followTheArmy`) or is sent home; (c) the overheard words are drawn over the volunteers' camp at Gonzales and over an army's camp men,
+arrival; ~~(b) staying on in Gonzales once the army has marched is not offered~~ (lifted 2026-10-06: *The muster*, below); (c) the overheard words are drawn over the volunteers' camp at Gonzales and over an army's camp men,
 and are journal lines only elsewhere (Victoria); (d) the coin he spends or earns is the family's, as if he carried it; (e) a man already
 away on a class saved before is given three days' food, not charged to his family; (f) only the Gonzales fight spends his rounds - the
 later fights do not yet; (g) the army's commissary feeds its men whole to the end of the autumn, though from November 22 it had only
 beef - **kept whole by the owner's decision** (2026-10-06: "Keep the army's food in full"), since counting it half would send the played families' men home before the storming of Béxar (`FIC-GONZ-1184`); (h) food is bought from his bar at the store's own rate, not on the errand to town's popup (docs/TOWNS.md §4b).
+
+## The muster — owner, 2026-10-06
+
+The owner, 2026-10-06, verbatim: *"Volunteers should be given a chance to legitimately join the army, or stay in gonzales as a
+volunteer, or go home."*
+
+Until then the afternoon the volunteers at Gonzales were made into an army (`organised`, October 11, `HIST-TEX-018`) took into it
+everybody standing in the town with a promise to serve, unasked (sim/army.mjs `formArmy`, `fallIn`). As built (`sim/muster.mjs`,
+`FIC-GONZ-1185` to `-1187`):
+
+- **Asked of the family.** A family a student plays and is at the screen of is asked, the moment the army is made and again for a man
+  who comes in while it stands in the town, on its request card ("The army is made"), each of its men there with his own three
+  answers: **Join the army**, **Stay in Gonzales**, **Come home**. The army takes nobody its family has not answered for.
+- **Join the army**: mustered in (`fallIn`): he marches with it, its commissary feeds him whole (`FIC-GONZ-1184`), he does the camp's
+  work with it and takes his part in its questions and fights - the autumn army as this game has always had it. It is not the
+  winter's enlistment (`service`): no land goes with it, because none was promised in October 1835 - the land of Houston's terms came
+  with his proclamation of December 12 (`HIST-TEX-048`).
+- **Stay in Gonzales**: still a volunteer, in the town, with the militia's bar - his pack, a shelter, town work for hire or board,
+  buying, hunting, overheard talk. The army neither takes him nor sends him after it. When it marches the town's half issue goes with
+  it (`FIC-GONZ-1187`; no record read has the town or the committee issuing to men left behind): from then he eats what he carries,
+  buys, hunts or earns, and the two-day rule sends him home when nothing feeds him. While the army is in the field his bar offers
+  **Join the army** (`FIC-GONZ-1186`): he walks after it and is mustered in when he comes up with it (sim/army.mjs `followTheArmy`,
+  `fallIn`); refused in words once the army has broken up after Béxar ("The army has broken up, and the men are going home."). **Come
+  home** stays on his bar throughout.
+- **Come home**: he leaves the volunteers and walks home; the family's custom and bar are his again at home.
+- **Nobody answering** in the call's five real minutes, or the army marching with the question still open: **he joins**, which the
+  card says ("No answer in a few minutes, and he joins the army.") - what most of the men did, and what every class did before. While
+  a played family decides, the calendar holds at the farming scale (sim/clock.mjs `deciding`), so the two days between the army's
+  making and its march are long enough to answer in.
+- **Families nobody plays, or whose student has gone**, are not asked: their men join as before. **Old saves**: no `world.muster`,
+  and a man already in the army stays in it. No save version moved.
+
+Tests `tests/muster.test.mjs` (8, each failed against its own injection); `npm run test:volunteer-life` answers the card in the
+browser (*Stay in Gonzales*) and sees the army march without him and *Join the army* on his bar.

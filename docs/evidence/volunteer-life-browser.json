@@ -5,11 +5,13 @@
   "note": "Same computer only. A real class on the colonies map (seed volunteer-life-0, the first family at Mina), played in process to the Colorado's call and served live at 1366x768: the student answered the call from the father's \"!\", chose seven days of food on the going popup, set him to the camp's work at Gonzales from his militia bar, was alerted through him with Watch, saw him in the line, read the account, set him to stay, and sent for him. No LAN, Chromebook or classroom claim.",
   "checks": [
     "the call answered from Samuel Proofwright's \"!\": the going popup asked 3, 7 or 14 days of food, seven were chosen, and 2.5 food went from the house into his pack",
-    "at Gonzales his bar is the militia's: camp-drill, camp-guard, camp-cook, camp-wood, camp-shelter, camp-buy, camp-hunt, town-wages, town-board, send-for, go-inside - and left alone he had taken up camp-shelter himself",
-    "pressing camp-cook set him at it, the icon glowing, 0.069 miles off the town's point at the volunteers' camp",
+    "at Gonzales his bar is the militia's: camp-drill, camp-guard, camp-cook, camp-wood, camp-shelter, camp-buy, camp-hunt, town-wages, town-board, send-for, go-inside",
+    "pressing camp-cook set him at it, 0.069 miles off the town's point at the volunteers' camp",
     "the alert came through Samuel Proofwright before the fight, with Watch: \"At Samuel Proofwright's side: the men are going up the river tonight after the Mexican camp on Williams's land, and Samu\"",
     "he stood in the line while it fired (minute 5740), and the account came through him afterwards",
     "after the fight he is back in the volunteers' camp, set to town-board; his pack is down to 2.21 food and his row says \"the best shot on this land, steady in the line, food 6.3 days, 0 rounds, the best hand with stock\"",
+    "when the army was made the family was asked on its card (\"The volunteers here have been made into an army, with Stephen F. Austi…\", \"No answer in a few minutes, and he joins the army.\"), and *Stay in Gonzales* was pressed",
+    "the army marched without Samuel Proofwright; he stays in Gonzales, and his bar offers *Join the army* while it is in the field",
     "*Come home* started Samuel Proofwright home from the volunteers' camp",
     "at phone width the page does not scroll sideways",
     "no page errors"
@@ -56,12 +58,12 @@
       "days": 7,
       "pack": 2.45,
       "ration": 0.35,
-      "storeBefore": 52.2482,
-      "storeAfter": 52.2482
+      "storeBefore": 52.3883,
+      "storeAfter": 52.3883
     },
-    "took": "Samuel Proofwright took 2.5 food for the road, about 7 days of his; there is 49.8 left in the house.",
+    "took": "Samuel Proofwright took 2.5 food for the road, about 7 days of his; there is 49.9 left in the house.",
     "arrived": {
-      "minute": 4800,
+      "minute": 4740,
       "upriverCall": 5040,
       "closes": 5606
     },
@@ -78,7 +80,7 @@
       "send-for",
       "go-inside"
     ],
-    "selfBegun": "camp-shelter",
+    "selfBegun": null,
     "atCamp": {
       "duty": "camp-cook",
       "from": 0.069
@@ -110,13 +112,13 @@
     "offeredAfter": [
       {
         "id": "camp-drill",
-        "can": true,
-        "why": ""
+        "can": false,
+        "why": "Samuel Proofwright has drilled 3 days and stands steady in the line."
       },
       {
         "id": "camp-guard",
-        "can": true,
-        "why": ""
+        "can": false,
+        "why": "Samuel Proofwright is already on picket."
       },
       {
         "id": "camp-cook",
@@ -160,11 +162,20 @@
       }
     ],
     "after": {
-      "pack": 2.2101,
+      "pack": 2.2126,
       "days": 7,
       "rounds": 0,
       "shelter": "board",
-      "chore": "camp-guard"
+      "chore": null
+    },
+    "muster": {
+      "text": "The volunteers here have been made into an army, with Stephen F. Austin to command it. It marches for Béxar. Does your man go with it?",
+      "lapses": "No answer in a few minutes, and he joins the army.",
+      "options": [
+        "muster-join",
+        "muster-stay",
+        "muster-home"
+      ]
     }
   },
   "screenshots": [
@@ -173,6 +184,7 @@
     "docs/evidence/volunteer-life-alert.png",
     "docs/evidence/volunteer-life-in-the-line.png",
     "docs/evidence/volunteer-life-staying.png",
+    "docs/evidence/volunteer-life-muster.png",
     "docs/evidence/volunteer-life-phone.png"
   ]
 }

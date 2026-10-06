@@ -1073,6 +1073,10 @@ about 41 minutes at the Study pace. The invented Gonzales country still ends at 
   Being *near* it is not joining it and being still on the road is not either; both are guarded and both are tested.
   Somebody who arrives late, or catches the column, falls in where they are. The people in it are carried along
   rather than each walking their own road, which is what keeps a thirty-family class inside its tick budget.
+  **Amended 2026-10-06** (owner: *"Volunteers should be given a chance to legitimately join the army, or stay in gonzales as a
+  volunteer, or go home."*): a played family is asked first, for each of its men at the rendezvous, whether he joins, stays in
+  Gonzales as a volunteer or comes home; no answer is joining, and a family nobody plays joins as before (docs/MILITARY_EXPERIENCE.md,
+  *The muster*; `sim/muster.mjs`). A man who stayed is not sent after the army unless his family sends him.
 - **A volunteer is still a person.** Marching is a journey of the army's own — the world knows a person as at a place
   or between two — so the ranks hold real people on a real road, and a family can **send for** its own at any time.
   They leave the column, start home from the last place it passed, and the promise ends. It is asked twice on the page.
