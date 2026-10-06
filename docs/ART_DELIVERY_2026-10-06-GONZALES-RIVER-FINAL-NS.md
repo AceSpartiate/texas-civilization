@@ -1,0 +1,9 @@
+# Complete cardinal river cast: 2026-10-06
+
+Sixteen transparent frames in `people-gonzales-river-final-ns.png`: two watch and two point poses for ochre and blue-girl, facing south and north. Eight authored `<figure>-river-watch-<direction>` / `-river-point-<direction>` clips, two 650ms frames each. Layout: ochre south, blue-girl south, ochre north, blue-girl north; four columns per row. Row logical height stays constant within each direction.
+
+Existing north/south town pointing now selects these identities. All six adult town figures have dedicated cardinal pointing. East/west remains mirrored from the previous deliveries. Watch cycles remain catalog-ready; no new watch beat is invented. Moving actors keep their walks, and children retain age-appropriate idle fallback. Historical dialogue, timing, visibility and movement speed are preserved.
+
+Built-in imagegen references cast2 idle identities and the previous rear river gestures. Ochre retains his vest and blue-girl her braid/apron. North is an authored back view rather than a mirrored front. Selected PNG is copied unchanged. Exact generation/refinement prompts and original/selected sources are recorded in `scripts/art-deliveries/gonzales-river-final-ns-2026-10-06.mjs`, `docs/art-prompts.json` and `docs/art-provenance.json`. All frames/clips are in the master manifests.
+
+Validation: silhouette retention, transparent corners, zero trimmed pixels, row logical heights, authored two-pose timing, cardinal selectors and walk/child behavior, plus existing river/town regressions. Browser proof renders sixteen frames and verifies eight changing clips; reproduce with `scripts/gonzales-river-final-ns-art-proof.mjs`. Evidence: `docs/evidence/gonzales-river-final-ns-art.png` and `.json`. These are restrained two-pose gestures, not continuous hand interpolation or turn transitions.

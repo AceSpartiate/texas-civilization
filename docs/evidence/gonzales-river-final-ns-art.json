@@ -1,0 +1,112 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "ochre-river-watch-s-1",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-watch-s-2",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-point-s-1",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-point-s-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-watch-s-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-watch-s-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-point-s-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-point-s-2",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-watch-n-1",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-watch-n-2",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-point-n-1",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-point-n-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-watch-n-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-watch-n-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-point-n-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-point-n-2",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "ochre-river-watch-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "ochre-river-point-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-girl-river-watch-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-girl-river-point-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "ochre-river-watch-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "ochre-river-point-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-girl-river-watch-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-girl-river-point-n",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

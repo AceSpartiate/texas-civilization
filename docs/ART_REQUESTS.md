@@ -1,3 +1,7 @@
+## Art delivery 2026-10-06: complete cardinal river cast
+
+Sixteen frames and eight north/south watch/point clips for ochre and blue-girl. All six adult town figures now have dedicated pointing in every cardinal direction. Watch cycles remain catalog-ready for explicit scene actions. See `docs/ART_DELIVERY_2026-10-06-GONZALES-RIVER-FINAL-NS.md`.
+
 ## Art delivery 2026-10-06: remaining east-west river cast
 
 Eight frames and four authored watch/point clips for ochre and blue-girl. All six adult town figures now have dedicated east/west pointing. These two still need north/south gestures; watch clips remain catalog-ready. See `docs/ART_DELIVERY_2026-10-06-GONZALES-RIVER-FINAL-EAST.md`.

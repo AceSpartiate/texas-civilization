@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2804 usable sprites, 297 PNG atlases, 977 clips** (669 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2820 usable sprites, 298 PNG atlases, 985 clips** (677 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -201,6 +201,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
 | people-gonzales-river-cast-east | 8 | 1774 × 887 | 738523 |
 | people-gonzales-river-final-east | 8 | 1774 × 887 | 615222 |
+| people-gonzales-river-final-ns | 16 | 1267 × 1241 | 771406 |
 | people-river-gestures | 8 | 1774 × 887 | 1213332 |
 | people-gonzales-river-north | 16 | 1267 × 1241 | 696900 |
 | people-gonzales-river-south | 16 | 1267 × 1241 | 903349 |
@@ -1969,6 +1970,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-river-watch-2 | people-gonzales-river-final-east | blue-girl-river-watch |
 | blue-girl-river-point-1 | people-gonzales-river-final-east | blue-girl-river-point |
 | blue-girl-river-point-2 | people-gonzales-river-final-east | blue-girl-river-point |
+| ochre-river-watch-s-1 | people-gonzales-river-final-ns | ochre-river-watch-s |
+| ochre-river-watch-s-2 | people-gonzales-river-final-ns | ochre-river-watch-s |
+| ochre-river-point-s-1 | people-gonzales-river-final-ns | ochre-river-point-s |
+| ochre-river-point-s-2 | people-gonzales-river-final-ns | ochre-river-point-s |
+| blue-girl-river-watch-s-1 | people-gonzales-river-final-ns | blue-girl-river-watch-s |
+| blue-girl-river-watch-s-2 | people-gonzales-river-final-ns | blue-girl-river-watch-s |
+| blue-girl-river-point-s-1 | people-gonzales-river-final-ns | blue-girl-river-point-s |
+| blue-girl-river-point-s-2 | people-gonzales-river-final-ns | blue-girl-river-point-s |
+| ochre-river-watch-n-1 | people-gonzales-river-final-ns | ochre-river-watch-n |
+| ochre-river-watch-n-2 | people-gonzales-river-final-ns | ochre-river-watch-n |
+| ochre-river-point-n-1 | people-gonzales-river-final-ns | ochre-river-point-n |
+| ochre-river-point-n-2 | people-gonzales-river-final-ns | ochre-river-point-n |
+| blue-girl-river-watch-n-1 | people-gonzales-river-final-ns | blue-girl-river-watch-n |
+| blue-girl-river-watch-n-2 | people-gonzales-river-final-ns | blue-girl-river-watch-n |
+| blue-girl-river-point-n-1 | people-gonzales-river-final-ns | blue-girl-river-point-n |
+| blue-girl-river-point-n-2 | people-gonzales-river-final-ns | blue-girl-river-point-n |
 | teal-river-watch-1 | people-river-gestures | teal-river-watch |
 | teal-river-watch-2 | people-river-gestures | teal-river-watch |
 | teal-river-point-1 | people-river-gestures | teal-river-point |
@@ -3707,6 +3724,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ochre-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | blue-girl-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | blue-girl-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| ochre-river-watch-s | Pose cycle | 2 | 1300 | yes | south |
+| ochre-river-point-s | Pose cycle | 2 | 1300 | yes | south |
+| blue-girl-river-watch-s | Pose cycle | 2 | 1300 | yes | south |
+| blue-girl-river-point-s | Pose cycle | 2 | 1300 | yes | south |
+| ochre-river-watch-n | Pose cycle | 2 | 1300 | yes | north |
+| ochre-river-point-n | Pose cycle | 2 | 1300 | yes | north |
+| blue-girl-river-watch-n | Pose cycle | 2 | 1300 | yes | north |
+| blue-girl-river-point-n | Pose cycle | 2 | 1300 | yes | north |
 | teal-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | teal-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |

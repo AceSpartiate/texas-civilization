@@ -81,7 +81,7 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   if (pose === 'dig') return { id: child ? `${figure}-idle-${face}` : `${figure}-work`, flip: !child && face === 'w' };
   if (pose === 'forge' && ['elder','ochre'].includes(figure)) return { id: `${figure}-smith-${person.id === 'gz-smith-2' ? 'chain' : 'hammer'}`, flip: face === 'w' };
   if (pose === 'forge') return { id: child ? `${figure}-idle-${face}` : `${figure}-repair`, flip: !child && face === 'w' };
-  if (pose === 'point' && ['teal','indigo','elder','blue'].includes(figure) && ['n','s'].includes(face)) return { id: `${figure}-river-point-${face}`, flip: false };
+  if (pose === 'point' && ['teal','indigo','elder','blue','ochre','blue-girl'].includes(figure) && ['n','s'].includes(face)) return { id: `${figure}-river-point-${face}`, flip: false };
   if (pose === 'point' && ['teal', 'indigo', 'elder', 'blue', 'ochre', 'blue-girl'].includes(figure) && ['e','w'].includes(face)) return { id: `${figure}-river-point`, flip: face === 'w' };
   if (pose === 'point') return { id: child ? `${figure}-idle-${face}` : `${figure}-search`, flip: !child && face === 'w' };
   if (pose === 'idle' || (child && !CHILD_POSES.has(pose))) return { id: `${figure}-idle-${face}`, flip: false };

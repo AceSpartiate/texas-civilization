@@ -18,7 +18,7 @@ test('town river pointing preserves identity, direction and walking',()=>{
   assert.equal(ctx.pick({figure,pose:'point',face:'w'}).flip,true);
   assert.equal(ctx.pick({figure,pose:'point',face:'e'},{moving:true,dir:'e'}).id,`${figure}-walk`);
  }
- assert.equal(ctx.pick({figure:'ochre',pose:'point',face:'n'}).id,'ochre-search');
+ assert.equal(ctx.pick({figure:'ochre',pose:'point',face:'n'}).id,'ochre-river-point-n');
  assert.equal(ctx.pick({figure:'girl',pose:'point',face:'s'}).id,'girl-idle-s');
  assert.equal(ctx.pick({figure:'volunteer',pose:'point',face:'e'}).id,'volunteer-idle-e');
 });

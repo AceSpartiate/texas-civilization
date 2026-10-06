@@ -4578,6 +4578,28 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-final-east.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Ochre vest and blue-girl braid/apron retained. East/west pointing integrated; north/south remain fallback. Watch catalog-ready."
+    },
+    {
+      "sheet": "people-gonzales-river-final-ns",
+      "prompt": "Original game sprite atlas EXACT FOUR columns FOUR rows SIXTEEN fullbody figures transparent zeroalpha. Match first reference cast2 warmbrown outlined handpainted frontierstorybook identities and second rear gesture reference camera. Row1 OCHRE MAN SOUTH frontview browntousledhair ochreshirt darkbrownvest grey-browntrousers boots. Row2 BLUE-GIRL SOUTH frontview youngwoman longdarkbrown braid blue dress creamapron boots sameageproportions firstreference bottomrow. Row3 SAME OCHRE MAN NORTH rearview backofhead/backvest visible NOfaceeyesnose. Row4 SAME BLUE-GIRL NORTH rearview longbraid downback blue dress apronrear ties visible NOfaceeyesnose. Eachrow columns1/2 WATCH with left hand shadingeyesatforehead rightarmdown smallhead/elbowshift. Eachrow cols3/4 BOTH POINT with lefthandatbrow RIGHTarm extendeddiagonallytoIMAGEUPPERRIGHT fingerpointing BOTHposes smallarmanglechange. North pointing foreshortenedforward but handvisiblepastshoulder, nothandonback. Uprightstandingbothbootsgrounded samebodyheightbootbaseline throughoutrow. Preserve identities nohat/newclothes. WHOLEfigure includingfinger ONLYcentral60percent owncellwidthheight minimum40px completelyemptytransparentmargin ALLsides EACHcell. EXACT4x4 grid nofloor/shadows textlabelsgrid scenery weapons. Rearrows realbackviews notmirroredfront. Slight elevated3/4gamecamera, nopixelart no3D. Keep braid andvest clearlyvisible.",
+      "promptId": "frontier-v1/people-gonzales-river-final-ns",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-gonzales-river-north.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-408ff78b-52a5-4a4a-be57-9f88df5fe292.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e05c81a5-80ac-4d49-8171-00762b86f01a.png",
+      "refinements": [
+        {
+          "prompt": "Edit ONLY spacing andscale this exact16sprite4columns4rowsatlas. Shrink everywholefigureINCLUDING extendedarms by25percent centeredowncell. Minimum35px fullyemptytransparentgutters ALLsides eachcell, especiallyrightfinger andbottomboots. Samebodyheightbootbaseline throughoutownrow. Preservefrontsouthrows1/2 rearNORTHrows3/4, samefacesbrownvestochre andbluebraidedwomancreamapron identities. Watchfirstpair andpointlastpair BOTH extendedarms intact. Northrear noface. Truezeroalpha nofloors shadowslabelsgrid. No redesign.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e05c81a5-80ac-4d49-8171-00762b86f01a.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-final-ns.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Dedicated south/front and north/rear. Pointing integrated; watch catalog-ready. Completes six adult town identities cardinal pointing."
     }
   ]
 }

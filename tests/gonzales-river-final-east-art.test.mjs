@@ -29,6 +29,6 @@ test('remaining adult cast points east/west without losing their walk',()=>{
   assert.equal(ctx.pick(p).flip,face==='w');
   assert.equal(ctx.pick(p,{moving:true,dir:face}).id,`${figure}-walk${['n','s'].includes(face)?'-'+face:''}`);
  }
- assert.equal(ctx.pick({figure:'ochre',pose:'point',face:'n'}).id,'ochre-search');
+ assert.equal(ctx.pick({figure:'ochre',pose:'point',face:'n'}).id,'ochre-river-point-n');
  assert.equal(ctx.pick({figure:'girl',pose:'point',face:'s'}).id,'girl-idle-s');
 });

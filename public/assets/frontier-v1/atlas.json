@@ -15918,6 +15918,130 @@
         ]
       }
     },
+    "people-gonzales-river-final-ns": {
+      "image": "atlases/people-gonzales-river-final-ns.png",
+      "width": 1267,
+      "height": 1241,
+      "bytes": 771406,
+      "sha256": "05bbe16c7ccb3b6e2c316cf8fbf24d51329f8409a807995218def8a1d2bb4320",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.798658,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              93,
+              308
+            ],
+            "columns": [
+              [
+                116,
+                241
+              ],
+              [
+                433,
+                556
+              ],
+              [
+                734,
+                879
+              ],
+              [
+                1046,
+                1186
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              388,
+              609
+            ],
+            "columns": [
+              [
+                118,
+                246
+              ],
+              [
+                434,
+                559
+              ],
+              [
+                726,
+                883
+              ],
+              [
+                1038,
+                1189
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              673,
+              884
+            ],
+            "columns": [
+              [
+                112,
+                244
+              ],
+              [
+                435,
+                562
+              ],
+              [
+                719,
+                887
+              ],
+              [
+                1039,
+                1204
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              942,
+              1157
+            ],
+            "columns": [
+              [
+                117,
+                251
+              ],
+              [
+                430,
+                561
+              ],
+              [
+                723,
+                887
+              ],
+              [
+                1036,
+                1196
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-river-gestures": {
       "image": "atlases/people-river-gestures.png",
       "width": 1774,
@@ -67172,6 +67296,406 @@
           284
         ],
         "visiblePixels": 35135,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-river-watch-s-1": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 116,
+      "y": 93,
+      "w": 125,
+      "h": 215,
+      "anchorX": 0.476,
+      "anchorY": 0.9349,
+      "logicalHeight": 215,
+      "label": "ochre river watch s 1",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          118,
+          95,
+          121,
+          211
+        ],
+        "visiblePixels": 15760,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-river-watch-s-2": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 433,
+      "y": 95,
+      "w": 123,
+      "h": 213,
+      "anchorX": 0.4837,
+      "anchorY": 0.9343,
+      "logicalHeight": 215,
+      "label": "ochre river watch s 2",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          435,
+          97,
+          119,
+          209
+        ],
+        "visiblePixels": 15501,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-river-point-s-1": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 734,
+      "y": 95,
+      "w": 145,
+      "h": 213,
+      "anchorX": 0.3621,
+      "anchorY": 0.9296,
+      "logicalHeight": 215,
+      "label": "ochre river point s 1",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          736,
+          97,
+          141,
+          209
+        ],
+        "visiblePixels": 15104,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-river-point-s-2": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 1046,
+      "y": 96,
+      "w": 140,
+      "h": 212,
+      "anchorX": 0.3536,
+      "anchorY": 0.9387,
+      "logicalHeight": 215,
+      "label": "ochre river point s 2",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1048,
+          98,
+          136,
+          208
+        ],
+        "visiblePixels": 14790,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-river-watch-s-1": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 118,
+      "y": 388,
+      "w": 128,
+      "h": 221,
+      "anchorX": 0.4844,
+      "anchorY": 0.9412,
+      "logicalHeight": 221,
+      "label": "blue girl river watch s 1",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          120,
+          390,
+          124,
+          217
+        ],
+        "visiblePixels": 18871,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-river-watch-s-2": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 434,
+      "y": 388,
+      "w": 125,
+      "h": 220,
+      "anchorX": 0.5,
+      "anchorY": 0.9318,
+      "logicalHeight": 221,
+      "label": "blue girl river watch s 2",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          436,
+          390,
+          121,
+          216
+        ],
+        "visiblePixels": 18240,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-river-point-s-1": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 726,
+      "y": 392,
+      "w": 157,
+      "h": 216,
+      "anchorX": 0.4013,
+      "anchorY": 0.9444,
+      "logicalHeight": 221,
+      "label": "blue girl river point s 1",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          728,
+          394,
+          153,
+          212
+        ],
+        "visiblePixels": 17786,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-river-point-s-2": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 1038,
+      "y": 391,
+      "w": 151,
+      "h": 218,
+      "anchorX": 0.4139,
+      "anchorY": 0.9266,
+      "logicalHeight": 221,
+      "label": "blue girl river point s 2",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1040,
+          393,
+          147,
+          214
+        ],
+        "visiblePixels": 17827,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-river-watch-n-1": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 112,
+      "y": 674,
+      "w": 132,
+      "h": 210,
+      "anchorX": 0.4962,
+      "anchorY": 0.9286,
+      "logicalHeight": 211,
+      "label": "ochre river watch n 1",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          114,
+          676,
+          128,
+          206
+        ],
+        "visiblePixels": 16296,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-river-watch-n-2": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 435,
+      "y": 673,
+      "w": 127,
+      "h": 211,
+      "anchorX": 0.4882,
+      "anchorY": 0.9289,
+      "logicalHeight": 211,
+      "label": "ochre river watch n 2",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          437,
+          675,
+          123,
+          207
+        ],
+        "visiblePixels": 16015,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-river-point-n-1": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 719,
+      "y": 673,
+      "w": 168,
+      "h": 211,
+      "anchorX": 0.3929,
+      "anchorY": 0.9289,
+      "logicalHeight": 211,
+      "label": "ochre river point n 1",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          675,
+          164,
+          207
+        ],
+        "visiblePixels": 16516,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-river-point-n-2": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 1039,
+      "y": 675,
+      "w": 165,
+      "h": 209,
+      "anchorX": 0.3939,
+      "anchorY": 0.9282,
+      "logicalHeight": 211,
+      "label": "ochre river point n 2",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1041,
+          677,
+          161,
+          205
+        ],
+        "visiblePixels": 16559,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-river-watch-n-1": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 117,
+      "y": 943,
+      "w": 134,
+      "h": 213,
+      "anchorX": 0.4925,
+      "anchorY": 0.9296,
+      "logicalHeight": 215,
+      "label": "blue girl river watch n 1",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          119,
+          945,
+          130,
+          209
+        ],
+        "visiblePixels": 19214,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-river-watch-n-2": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 430,
+      "y": 942,
+      "w": 131,
+      "h": 215,
+      "anchorX": 0.5076,
+      "anchorY": 0.9256,
+      "logicalHeight": 215,
+      "label": "blue girl river watch n 2",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          432,
+          944,
+          127,
+          211
+        ],
+        "visiblePixels": 18683,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-river-point-n-1": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 723,
+      "y": 943,
+      "w": 164,
+      "h": 214,
+      "anchorX": 0.4116,
+      "anchorY": 0.9299,
+      "logicalHeight": 215,
+      "label": "blue girl river point n 1",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          725,
+          945,
+          160,
+          210
+        ],
+        "visiblePixels": 20022,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-river-point-n-2": {
+      "sheet": "people-gonzales-river-final-ns",
+      "x": 1036,
+      "y": 943,
+      "w": 160,
+      "h": 214,
+      "anchorX": 0.425,
+      "anchorY": 0.9299,
+      "logicalHeight": 215,
+      "label": "blue girl river point n 2",
+      "kind": "people-gonzales-river-final-ns",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1038,
+          945,
+          156,
+          210
+        ],
+        "visiblePixels": 19872,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
