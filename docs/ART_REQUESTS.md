@@ -1,3 +1,7 @@
+## Art delivery 2026-10-05: north-facing river gestures
+
+Sixteen rear-view frames and eight watch/point clips for teal, indigo, elder and blue. Existing north pointing now selects dedicated identity art; watch clips await explicit watch semantics. See `docs/ART_DELIVERY_2026-10-05-GONZALES-RIVER-NORTH.md`.
+
 ## Art delivery 2026-10-05: south-facing river gestures
 
 Sixteen new frames and eight authored watch/point cycles for teal, indigo, elder and blue. Existing south-facing pointing selects dedicated art; watch clips are ready for explicit future watch poses. North-facing and remaining cast directions stay outstanding. See `docs/ART_DELIVERY_2026-10-05-GONZALES-RIVER-SOUTH.md`.

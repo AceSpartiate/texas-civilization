@@ -15844,6 +15844,130 @@
         ]
       }
     },
+    "people-gonzales-river-north": {
+      "image": "atlases/people-gonzales-river-north.png",
+      "width": 1267,
+      "height": 1241,
+      "bytes": 696900,
+      "sha256": "a3a31bdc37b75c68bda192a21ea973b961a5cfb02a725d4e6eae76a43c4c6fe4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.818935,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              100,
+              299
+            ],
+            "columns": [
+              [
+                117,
+                244
+              ],
+              [
+                430,
+                554
+              ],
+              [
+                731,
+                888
+              ],
+              [
+                1037,
+                1199
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              411,
+              620
+            ],
+            "columns": [
+              [
+                116,
+                254
+              ],
+              [
+                423,
+                562
+              ],
+              [
+                725,
+                891
+              ],
+              [
+                1032,
+                1202
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              706,
+              885
+            ],
+            "columns": [
+              [
+                115,
+                246
+              ],
+              [
+                429,
+                561
+              ],
+              [
+                726,
+                899
+              ],
+              [
+                1035,
+                1210
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              973,
+              1152
+            ],
+            "columns": [
+              [
+                114,
+                240
+              ],
+              [
+                423,
+                551
+              ],
+              [
+                725,
+                892
+              ],
+              [
+                1041,
+                1208
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-gonzales-river-south": {
       "image": "atlases/people-gonzales-river-south.png",
       "width": 1267,
@@ -66700,6 +66824,406 @@
           410
         ],
         "visiblePixels": 60205,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-river-watch-n-1": {
+      "sheet": "people-gonzales-river-north",
+      "x": 117,
+      "y": 100,
+      "w": 127,
+      "h": 197,
+      "anchorX": 0.5,
+      "anchorY": 0.9289,
+      "logicalHeight": 197,
+      "label": "teal river watch n 1",
+      "kind": "people-gonzales-river-north",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          119,
+          102,
+          123,
+          193
+        ],
+        "visiblePixels": 15911,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-river-watch-n-2": {
+      "sheet": "people-gonzales-river-north",
+      "x": 430,
+      "y": 102,
+      "w": 124,
+      "h": 197,
+      "anchorX": 0.5,
+      "anchorY": 0.9289,
+      "logicalHeight": 197,
+      "label": "teal river watch n 2",
+      "kind": "people-gonzales-river-north",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          432,
+          104,
+          120,
+          193
+        ],
+        "visiblePixels": 15700,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-river-point-n-1": {
+      "sheet": "people-gonzales-river-north",
+      "x": 731,
+      "y": 103,
+      "w": 157,
+      "h": 195,
+      "anchorX": 0.3917,
+      "anchorY": 0.9282,
+      "logicalHeight": 197,
+      "label": "teal river point n 1",
+      "kind": "people-gonzales-river-north",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          733,
+          105,
+          153,
+          191
+        ],
+        "visiblePixels": 16173,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "teal-river-point-n-2": {
+      "sheet": "people-gonzales-river-north",
+      "x": 1037,
+      "y": 102,
+      "w": 162,
+      "h": 197,
+      "anchorX": 0.3889,
+      "anchorY": 0.9289,
+      "logicalHeight": 197,
+      "label": "teal river point n 2",
+      "kind": "people-gonzales-river-north",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1039,
+          104,
+          158,
+          193
+        ],
+        "visiblePixels": 16431,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-river-watch-n-1": {
+      "sheet": "people-gonzales-river-north",
+      "x": 116,
+      "y": 411,
+      "w": 138,
+      "h": 207,
+      "anchorX": 0.5,
+      "anchorY": 0.9275,
+      "logicalHeight": 208,
+      "label": "indigo river watch n 1",
+      "kind": "people-gonzales-river-north",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          118,
+          413,
+          134,
+          203
+        ],
+        "visiblePixels": 18202,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-river-watch-n-2": {
+      "sheet": "people-gonzales-river-north",
+      "x": 423,
+      "y": 412,
+      "w": 139,
+      "h": 207,
+      "anchorX": 0.5,
+      "anchorY": 0.9275,
+      "logicalHeight": 208,
+      "label": "indigo river watch n 2",
+      "kind": "people-gonzales-river-north",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          425,
+          414,
+          135,
+          203
+        ],
+        "visiblePixels": 18223,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-river-point-n-1": {
+      "sheet": "people-gonzales-river-north",
+      "x": 725,
+      "y": 414,
+      "w": 166,
+      "h": 206,
+      "anchorX": 0.4187,
+      "anchorY": 0.9272,
+      "logicalHeight": 208,
+      "label": "indigo river point n 1",
+      "kind": "people-gonzales-river-north",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          727,
+          416,
+          162,
+          202
+        ],
+        "visiblePixels": 18416,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-river-point-n-2": {
+      "sheet": "people-gonzales-river-north",
+      "x": 1032,
+      "y": 411,
+      "w": 170,
+      "h": 208,
+      "anchorX": 0.4147,
+      "anchorY": 0.9279,
+      "logicalHeight": 208,
+      "label": "indigo river point n 2",
+      "kind": "people-gonzales-river-north",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1034,
+          413,
+          166,
+          204
+        ],
+        "visiblePixels": 18786,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-river-watch-n-1": {
+      "sheet": "people-gonzales-river-north",
+      "x": 115,
+      "y": 707,
+      "w": 131,
+      "h": 178,
+      "anchorX": 0.5229,
+      "anchorY": 0.927,
+      "logicalHeight": 179,
+      "label": "elder river watch n 1",
+      "kind": "people-gonzales-river-north",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          117,
+          709,
+          127,
+          174
+        ],
+        "visiblePixels": 14518,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-river-watch-n-2": {
+      "sheet": "people-gonzales-river-north",
+      "x": 429,
+      "y": 706,
+      "w": 132,
+      "h": 179,
+      "anchorX": 0.5076,
+      "anchorY": 0.9274,
+      "logicalHeight": 179,
+      "label": "elder river watch n 2",
+      "kind": "people-gonzales-river-north",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          431,
+          708,
+          128,
+          175
+        ],
+        "visiblePixels": 14727,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-river-point-n-1": {
+      "sheet": "people-gonzales-river-north",
+      "x": 726,
+      "y": 706,
+      "w": 173,
+      "h": 179,
+      "anchorX": 0.3988,
+      "anchorY": 0.9274,
+      "logicalHeight": 179,
+      "label": "elder river point n 1",
+      "kind": "people-gonzales-river-north",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          728,
+          708,
+          169,
+          175
+        ],
+        "visiblePixels": 15067,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elder-river-point-n-2": {
+      "sheet": "people-gonzales-river-north",
+      "x": 1035,
+      "y": 706,
+      "w": 175,
+      "h": 178,
+      "anchorX": 0.3943,
+      "anchorY": 0.927,
+      "logicalHeight": 179,
+      "label": "elder river point n 2",
+      "kind": "people-gonzales-river-north",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1037,
+          708,
+          171,
+          174
+        ],
+        "visiblePixels": 15353,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-river-watch-n-1": {
+      "sheet": "people-gonzales-river-north",
+      "x": 114,
+      "y": 974,
+      "w": 126,
+      "h": 178,
+      "anchorX": 0.5119,
+      "anchorY": 0.927,
+      "logicalHeight": 179,
+      "label": "blue river watch n 1",
+      "kind": "people-gonzales-river-north",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          116,
+          976,
+          122,
+          174
+        ],
+        "visiblePixels": 13386,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-river-watch-n-2": {
+      "sheet": "people-gonzales-river-north",
+      "x": 423,
+      "y": 973,
+      "w": 128,
+      "h": 179,
+      "anchorX": 0.5117,
+      "anchorY": 0.9274,
+      "logicalHeight": 179,
+      "label": "blue river watch n 2",
+      "kind": "people-gonzales-river-north",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          425,
+          975,
+          124,
+          175
+        ],
+        "visiblePixels": 13580,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-river-point-n-1": {
+      "sheet": "people-gonzales-river-north",
+      "x": 725,
+      "y": 974,
+      "w": 167,
+      "h": 178,
+      "anchorX": 0.4012,
+      "anchorY": 0.927,
+      "logicalHeight": 179,
+      "label": "blue river point n 1",
+      "kind": "people-gonzales-river-north",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          727,
+          976,
+          163,
+          174
+        ],
+        "visiblePixels": 14229,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-river-point-n-2": {
+      "sheet": "people-gonzales-river-north",
+      "x": 1041,
+      "y": 973,
+      "w": 167,
+      "h": 179,
+      "anchorX": 0.3862,
+      "anchorY": 0.9274,
+      "logicalHeight": 179,
+      "label": "blue river point n 2",
+      "kind": "people-gonzales-river-north",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1043,
+          975,
+          163,
+          175
+        ],
+        "visiblePixels": 14271,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

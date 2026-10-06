@@ -1,3 +1,7 @@
+## Art delivery 2026-10-05: north-facing river gestures
+
+Sixteen rear-view frames and eight watch/point clips for teal, indigo, elder and blue. Existing north pointing now selects dedicated identity art; watch clips await explicit watch semantics. See `docs/ART_DELIVERY_2026-10-05-GONZALES-RIVER-NORTH.md`.
+
 ## Battle notice presentation (2026-10-05)
 
 Military invitations now use a framed family portrait, parchment card, clearer headline and prominent action. Portrait uses the same chosen-appearance renderer as the roster. Queue, visibility, collapse/reopen and click-only camera behavior remain intact. `scripts/military-notice-visual-proof.mjs` verifies supported desktop sizes with a presentation fixture; evidence in `docs/evidence/military-notice-*`. Five military-attention logic tests pass. This is presentation work, not a change to courier delivery or battle rules.
