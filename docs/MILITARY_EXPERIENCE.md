@@ -250,7 +250,7 @@ everybody standing in the town with a promise to serve, unasked (sim/army.mjs `f
 - **Join the army**: mustered in (`fallIn`): he marches with it, its commissary feeds him whole (`FIC-GONZ-1184`), he does the camp's
   work with it and takes his part in its questions and fights - the autumn army as this game has always had it. It is not the
   winter's enlistment (`service`): no land goes with it, because none was promised in October 1835 - the land of Houston's terms came
-  with his proclamation of December 12 (`HIST-TEX-048`).
+  with his proclamation of December 12 (`HIST-TEX-048`). Confirmed by the owner, 2026-10-06: "No land until December is right."
 - **Stay in Gonzales**: still a volunteer, in the town, with the militia's bar - his pack, a shelter, town work for hire or board,
   buying, hunting, overheard talk. The army neither takes him nor sends him after it. When it marches the town's half issue goes with
   it (`FIC-GONZ-1187`; no record read has the town or the committee issuing to men left behind): from then he eats what he carries,
