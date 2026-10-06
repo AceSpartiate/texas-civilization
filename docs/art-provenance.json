@@ -4374,6 +4374,27 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-north.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Rear north-facing watch/point; point connected, watch catalog-ready. Other cast east/west gestures remain outstanding."
+    },
+    {
+      "sheet": "people-gonzales-river-cast-east",
+      "promptId": "frontier-v1/people-gonzales-river-cast-east",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-gonzales-river-south.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-river-gestures.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-61747b21-e39c-41da-a931-7314813a862f.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9716a05d-1648-4f4b-8843-07565fa71350.png",
+      "refinements": [
+        {
+          "prompt": "Edit this exact 4 columns 2 rows eight sprite atlas. Top row INDIGO woman must have uninterrupted plain indigo blue dress, cream neck kerchief ONLY. REMOVE the cream apron and waist bow from ALL FOUR top-row figures. Preserve brown bun, face and existing identity. Bottom row blue man unchanged identity clothing. SHRINK every whole figure including extended hands by 25 percent centered in its own cell, minimum35px empty transparent gutters on every side. Same body height and boot baseline within each row. Preserve east facing upright poses: cols1/2 watch shading eyes, cols3/4 pointing arm extended right in BOTH frames with small variation. True transparent zero alpha no shadows floor labels grid. Preserve warm brown outlined handpainted frontierstorybook style.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9716a05d-1648-4f4b-8843-07565fa71350.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-cast-east.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Indigo apron corrected to existing plain dress. East/west point integrated; watch catalog-ready."
     }
   ],
   "rejectedAttempts": [

@@ -1,3 +1,7 @@
+## Art delivery 2026-10-06: indigo/blue east-west river gestures
+
+Eight frames and four authored watch/point cycles. Indigo and blue east/west pointing now selects dedicated art. Teal, indigo, elder and blue have complete cardinal pointing coverage; watch cycles remain catalog-ready for explicit scene actions. See `docs/ART_DELIVERY_2026-10-06-GONZALES-RIVER-CAST-EAST.md`.
+
 ## Art delivery 2026-10-05: north-facing river gestures
 
 Sixteen rear-view frames and eight watch/point clips for teal, indigo, elder and blue. Existing north pointing now selects dedicated identity art; watch clips await explicit watch semantics. See `docs/ART_DELIVERY_2026-10-05-GONZALES-RIVER-NORTH.md`.

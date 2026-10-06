@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2788 usable sprites, 295 PNG atlases, 969 clips** (661 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2796 usable sprites, 296 PNG atlases, 973 clips** (665 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -199,6 +199,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | people-gonzales-letter-reading | 12 | 1254 × 1254 | 984871 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
+| people-gonzales-river-cast-east | 8 | 1774 × 887 | 738523 |
 | people-river-gestures | 8 | 1774 × 887 | 1213332 |
 | people-gonzales-river-north | 16 | 1267 × 1241 | 696900 |
 | people-gonzales-river-south | 16 | 1267 × 1241 | 903349 |
@@ -1951,6 +1952,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | indigo-paint-2 | people-gonzales-paint | indigo-paint |
 | blue-girl-paint-1 | people-gonzales-paint | blue-girl-paint |
 | blue-girl-paint-2 | people-gonzales-paint | blue-girl-paint |
+| indigo-river-watch-1 | people-gonzales-river-cast-east | indigo-river-watch |
+| indigo-river-watch-2 | people-gonzales-river-cast-east | indigo-river-watch |
+| indigo-river-point-1 | people-gonzales-river-cast-east | indigo-river-point |
+| indigo-river-point-2 | people-gonzales-river-cast-east | indigo-river-point |
+| blue-river-watch-1 | people-gonzales-river-cast-east | blue-river-watch |
+| blue-river-watch-2 | people-gonzales-river-cast-east | blue-river-watch |
+| blue-river-point-1 | people-gonzales-river-cast-east | blue-river-point |
+| blue-river-point-2 | people-gonzales-river-cast-east | blue-river-point |
 | teal-river-watch-1 | people-river-gestures | teal-river-watch |
 | teal-river-watch-2 | people-river-gestures | teal-river-watch |
 | teal-river-point-1 | people-river-gestures | teal-river-point |
@@ -3681,6 +3690,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| indigo-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| indigo-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| blue-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| blue-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | teal-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | teal-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |

@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 295,
-    "sprites": 2788,
-    "clips": 969,
-    "poseCycles": 661,
+    "sheets": 296,
+    "sprites": 2796,
+    "clips": 973,
+    "poseCycles": 665,
     "rigs": 4
   },
   "entrypoints": {
@@ -15780,6 +15780,80 @@
               [
                 614,
                 874
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-gonzales-river-cast-east": {
+      "image": "atlases/people-gonzales-river-cast-east.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 738523,
+      "sha256": "0e7e94f99edfd2039e4ed788925e5c370add44a19dc68835c1bf0de52fe9b466",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.776412,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              84,
+              430
+            ],
+            "columns": [
+              [
+                141,
+                365
+              ],
+              [
+                580,
+                806
+              ],
+              [
+                983,
+                1278
+              ],
+              [
+                1407,
+                1695
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              509,
+              822
+            ],
+            "columns": [
+              [
+                145,
+                348
+              ],
+              [
+                585,
+                796
+              ],
+              [
+                999,
+                1277
+              ],
+              [
+                1428,
+                1702
               ]
             ]
           }
@@ -82090,6 +82164,286 @@
       "locationKits": [],
       "promptId": "frontier-v1/people-gonzales-paint"
     },
+    "indigo-river-watch-1": {
+      "sheet": "people-gonzales-river-cast-east",
+      "x": 141,
+      "y": 84,
+      "w": 224,
+      "h": 345,
+      "anchorX": 0.4754,
+      "anchorY": 0.9565,
+      "logicalHeight": 346,
+      "label": "indigo river watch 1",
+      "kind": "people-gonzales-river-cast-east",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          86,
+          220,
+          341
+        ],
+        "visiblePixels": 46020,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-cast-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-river-watch"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-cast-east"
+    },
+    "indigo-river-watch-2": {
+      "sheet": "people-gonzales-river-cast-east",
+      "x": 580,
+      "y": 84,
+      "w": 226,
+      "h": 346,
+      "anchorX": 0.4757,
+      "anchorY": 0.9451,
+      "logicalHeight": 346,
+      "label": "indigo river watch 2",
+      "kind": "people-gonzales-river-cast-east",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          582,
+          86,
+          222,
+          342
+        ],
+        "visiblePixels": 45929,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-cast-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-river-watch"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-cast-east"
+    },
+    "indigo-river-point-1": {
+      "sheet": "people-gonzales-river-cast-east",
+      "x": 983,
+      "y": 89,
+      "w": 295,
+      "h": 341,
+      "anchorX": 0.361,
+      "anchorY": 0.9589,
+      "logicalHeight": 346,
+      "label": "indigo river point 1",
+      "kind": "people-gonzales-river-cast-east",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          985,
+          91,
+          291,
+          337
+        ],
+        "visiblePixels": 45854,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-cast-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-river-point"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-cast-east"
+    },
+    "indigo-river-point-2": {
+      "sheet": "people-gonzales-river-cast-east",
+      "x": 1407,
+      "y": 89,
+      "w": 288,
+      "h": 341,
+      "anchorX": 0.3715,
+      "anchorY": 0.9501,
+      "logicalHeight": 346,
+      "label": "indigo river point 2",
+      "kind": "people-gonzales-river-cast-east",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1409,
+          91,
+          284,
+          337
+        ],
+        "visiblePixels": 45218,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-cast-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-river-point"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-cast-east"
+    },
+    "blue-river-watch-1": {
+      "sheet": "people-gonzales-river-cast-east",
+      "x": 145,
+      "y": 510,
+      "w": 203,
+      "h": 312,
+      "anchorX": 0.4606,
+      "anchorY": 0.9551,
+      "logicalHeight": 313,
+      "label": "blue river watch 1",
+      "kind": "people-gonzales-river-cast-east",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          147,
+          512,
+          199,
+          308
+        ],
+        "visiblePixels": 36052,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-cast-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-river-watch"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-cast-east"
+    },
+    "blue-river-watch-2": {
+      "sheet": "people-gonzales-river-cast-east",
+      "x": 585,
+      "y": 511,
+      "w": 211,
+      "h": 311,
+      "anchorX": 0.481,
+      "anchorY": 0.9614,
+      "logicalHeight": 313,
+      "label": "blue river watch 2",
+      "kind": "people-gonzales-river-cast-east",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          587,
+          513,
+          207,
+          307
+        ],
+        "visiblePixels": 34952,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-cast-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-river-watch"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-cast-east"
+    },
+    "blue-river-point-1": {
+      "sheet": "people-gonzales-river-cast-east",
+      "x": 999,
+      "y": 509,
+      "w": 278,
+      "h": 313,
+      "anchorX": 0.3237,
+      "anchorY": 0.9521,
+      "logicalHeight": 313,
+      "label": "blue river point 1",
+      "kind": "people-gonzales-river-cast-east",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1001,
+          511,
+          274,
+          309
+        ],
+        "visiblePixels": 38560,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-cast-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-river-point"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-cast-east"
+    },
+    "blue-river-point-2": {
+      "sheet": "people-gonzales-river-cast-east",
+      "x": 1428,
+      "y": 509,
+      "w": 274,
+      "h": 313,
+      "anchorX": 0.3704,
+      "anchorY": 0.9457,
+      "logicalHeight": 313,
+      "label": "blue river point 2",
+      "kind": "people-gonzales-river-cast-east",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1430,
+          511,
+          270,
+          309
+        ],
+        "visiblePixels": 35183,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-gonzales-river-cast-east.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-river-point"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-gonzales-river-cast-east"
+    },
     "teal-river-watch-1": {
       "sheet": "people-river-gestures",
       "x": 75,
@@ -130814,6 +131168,70 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "indigo-river-watch": {
+      "frames": [
+        {
+          "sprite": "indigo-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "indigo-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-river-point": {
+      "frames": [
+        {
+          "sprite": "indigo-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "indigo-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-river-watch": {
+      "frames": [
+        {
+          "sprite": "blue-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-river-point": {
+      "frames": [
+        {
+          "sprite": "blue-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "teal-river-watch": {
       "frames": [
         {
@@ -143199,7 +143617,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 295,
+    "sourceCount": 296,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

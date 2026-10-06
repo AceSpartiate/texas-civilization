@@ -1,0 +1,60 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "indigo-river-watch-1",
+      "drawn": true
+    },
+    {
+      "id": "indigo-river-watch-2",
+      "drawn": true
+    },
+    {
+      "id": "indigo-river-point-1",
+      "drawn": true
+    },
+    {
+      "id": "indigo-river-point-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-river-watch-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-river-watch-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-river-point-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-river-point-2",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "indigo-river-watch",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "indigo-river-point",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-river-watch",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-river-point",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}
