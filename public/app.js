@@ -5528,6 +5528,20 @@ function renderMilitaryNotice(world) {
   const notice = notices.find(one => one.id === militarySelected) || notices[0];
   militarySelected = notice.id;
   const write = (id, text) => { if ($(id).textContent !== text) $(id).textContent = text; };
+  panel.dataset.kind = notice.kind;
+  const member = entitiesOf(world).find(person => person.id === notice.entityId);
+  write('#military-kicker', notice.kind === 'battle' ? 'At your family member’s side' : notice.kind === 'account' ? 'Their story' : 'Word for your family');
+  write('#military-person', member?.name || 'Your family');
+  write('#military-hint', notice.kind === 'battle' ? 'Watch takes you to the field. You can keep playing and return to this message.' : 'Choose when to look in. Your family’s story keeps moving.');
+  const portrait = $('#military-portrait');
+  portrait.hidden = !member;
+  if (member) {
+    if (member.appearance) drawAvatarPortrait(portrait, member.appearance, member.sex, member);
+    else {
+      const figure = figureOf(member);
+      drawPortrait(portrait, { clip: `${figure}-idle-s`, figure, band: member.band, principal: member.principal, tint: hashOf(member.id) }, { drawClip, drawSprite, spriteFrame });
+    }
+  }
   write('#military-toggle', `${militaryCollapsed ? 'Open messages' : 'Keep playing'} · ${notices.length}`);
   $('#military-toggle').setAttribute('aria-expanded', String(!militaryCollapsed));
   $('#military-message').hidden = militaryCollapsed;
@@ -5539,6 +5553,7 @@ function renderMilitaryNotice(world) {
   const above = ['#lesson', '#lesson-resume', '#site-choose', '#survey-choose'].map(selector => $(selector)).filter(one => one && !one.hidden);
   const top = Math.max(44, ...above.map(one => one.getBoundingClientRect().bottom + 8));
   panel.style.top = `${top}px`;
+  panel.style.maxHeight = `${Math.max(100, innerHeight - top - 96)}px`;
   // On a phone the card is as wide as the screen, so it starts right of the family's faces and their "!": it must never
   // cover the other way to the same question (panels proof, 390px).
   const faces = innerWidth < 760 ? [...document.querySelectorAll('#family-panel .panel-portrait, #family-panel .panel-attention:not([hidden])')]

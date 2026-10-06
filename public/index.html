@@ -107,10 +107,16 @@
     <section id="military-notice" hidden aria-label="Messages and military service">
       <button type="button" id="military-toggle" aria-expanded="true" aria-controls="military-message">Messages</button>
       <div id="military-message">
-        <strong id="military-title"></strong>
+        <header id="military-heading">
+          <canvas id="military-portrait" width="144" height="144" aria-hidden="true"></canvas>
+          <div><span id="military-kicker"></span><strong id="military-title"></strong><span id="military-person"></span></div>
+        </header>
         <p id="military-words" role="status"></p>
+        <div id="military-actions">
         <button type="button" id="military-go"></button>
         <button type="button" id="military-next">Next message</button>
+        </div>
+        <p id="military-hint"></p>
       </div>
     </section>
     <div id="hud-right" class="hud">
