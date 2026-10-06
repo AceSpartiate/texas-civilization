@@ -1,0 +1,112 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "teal-river-watch-s-1",
+      "drawn": true
+    },
+    {
+      "id": "teal-river-watch-s-2",
+      "drawn": true
+    },
+    {
+      "id": "teal-river-point-s-1",
+      "drawn": true
+    },
+    {
+      "id": "teal-river-point-s-2",
+      "drawn": true
+    },
+    {
+      "id": "indigo-river-watch-s-1",
+      "drawn": true
+    },
+    {
+      "id": "indigo-river-watch-s-2",
+      "drawn": true
+    },
+    {
+      "id": "indigo-river-point-s-1",
+      "drawn": true
+    },
+    {
+      "id": "indigo-river-point-s-2",
+      "drawn": true
+    },
+    {
+      "id": "elder-river-watch-s-1",
+      "drawn": true
+    },
+    {
+      "id": "elder-river-watch-s-2",
+      "drawn": true
+    },
+    {
+      "id": "elder-river-point-s-1",
+      "drawn": true
+    },
+    {
+      "id": "elder-river-point-s-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-river-watch-s-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-river-watch-s-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-river-point-s-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-river-point-s-2",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "teal-river-watch-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "teal-river-point-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "indigo-river-watch-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "indigo-river-point-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "elder-river-watch-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "elder-river-point-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-river-watch-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-river-point-s",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

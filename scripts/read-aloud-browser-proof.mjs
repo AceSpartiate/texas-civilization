@@ -10,7 +10,7 @@
 //      fetched as Ogg Opus and played to its end; the tip's own "Got it" still reached and its words still letting a click through;
 //   2. the rider's first line read aloud in the rider's voice (a man's: am_fenrir): the sentences naming where he came from and
 //      who gave him the word are spoken on the Host, the button says "Getting ready…" until they are, and then it plays;
-//   3. the daughter's question read aloud in a woman's voice (af_kore);
+//   3. the question read aloud in its asker's own voice - a woman's (af_kore) or a man's - since the rider's scenes (2026-10-05) have whoever of the scene ask it;
 //   4. one line at a time: a second button pressed stops the first;
 //   4b. the end of the game (owner, 2026-09-30: "Yes, add it"): a button on every part of the family's breakdown, and its
 //      story read to its end, a line asked at a time, the sentences with its names spoken on the Host, none refused;
@@ -175,25 +175,32 @@ try {
   await shot(student, 'rider');
   ok(`the rider's opening read in the rider's voice (${VOICES.rider.id}, a man's): ${riderKeys.length} sentences, ${riderMade.length} spoken on the Host (${riderLog.map(one => `${one.priority}, ${Math.round(one.tookMs)} ms`).join('; ')}), the button ${[...states].map(one => `"${one.split(':')[1]}"`).join(' then ')}; each fetched and played to its end`);
 
-  // ------------------------------------------------------------------ 3. the daughter's question, in a woman's voice
+  // ------------------------------------------------------------------ 3. the question, in its asker's voice
   await student.locator('[data-solo="solo-resume"]').click();
   await student.waitForFunction(() => window.__snapshot?.world?.status === 'running', null, { timeout: 10000 });
   await student.locator('#encounter-asks .ask-option').first().click();
   await student.waitForFunction(() => document.querySelectorAll('#encounter-said li[data-speaker="listener"]').length >= 1, null, { timeout: 15000 });
   await student.locator('[data-solo="solo-pause"]').click();
   await student.waitForFunction(() => window.__snapshot?.world?.status === 'paused', null, { timeout: 10000 });
-  const asked = (await student.evaluate(() => window.__snapshot.world.encounter.said.find(line => line.speaker === 'listener').text));
-  const womanKeys = splitSentences(asked).map(sentence => keyOf('woman', sentence));
+  // Since the rider's scenes (2026-10-05) a question is asked by whoever of the scene the page names on it, and read in that
+  // person's own voice: a woman's for a woman or a girl, a man's for a man or a boy (public/read-aloud.js `voiceOfPerson`).
+  const { asked, askerSex } = await student.evaluate(() => {
+    const world = window.__snapshot.world, line = world.encounter.said.find(one => one.speaker === 'listener');
+    const person = world.entities.find(one => one.id === line.speakerId) || world.encounter.scene?.cast?.[line.speakerId];
+    return { asked: line.text, askerSex: person?.sex || null };
+  });
+  const askedVoice = askerSex === 'female' ? 'woman' : 'man';
+  const womanKeys = splitSentences(asked).map(sentence => keyOf(askedVoice, sentence));
   const beforeWoman = await student.evaluate(() => window.__readAloud.ended);
   await student.locator('#encounter-said li[data-speaker="listener"] .read-aloud').first().click();
   await until('the daughter\'s question read to its end', () => student.evaluate(n => window.__readAloud.ended > n, beforeWoman), 60000);
   const womanPlays = await student.evaluate(() => window.__plays.map(one => ({ ...one })));
-  for (const key of womanKeys) assert.ok(womanPlays.some(one => one.src.endsWith(`/voice/${key}.opus`) && one.ended), `the question's sentence ${key} was not played in the woman's voice`);
+  for (const key of womanKeys) assert.ok(womanPlays.some(one => one.src.endsWith(`/voice/${key}.opus`) && one.ended), `the question's sentence ${key} was not played in the ${askedVoice}'s voice`);
   const pressedVoice = await student.evaluate(() => window.__readAloud.pressed.at(-1).lines.map(line => line.voice));
-  assert.deepEqual(pressedVoice, ['woman'], `the daughter's line was asked in the voice ${pressedVoice}`);
-  assert.equal(listener.sex || (listener.kin?.role === 'daughter' ? 'female' : null), 'female');
-  measured.womanLine = { text: asked, speaker: listener.name, voice: VOICES.woman.id, fromPackage: womanKeys.every(key => packaged[key]) };
-  ok(`${listener.name}'s question ("${asked}") read in the woman's voice (${VOICES.woman.id})${measured.womanLine.fromPackage ? ', from the package' : ''}`);
+  assert.ok(askerSex, 'the question\'s asker is nobody the page knows');
+  assert.deepEqual(pressedVoice, [askedVoice], `the question was asked in the voice ${pressedVoice}, by somebody ${askerSex}`);
+  measured.womanLine = { text: asked, askerSex, voice: VOICES[askedVoice].id, fromPackage: womanKeys.every(key => packaged[key]) };
+  ok(`the question ("${asked}") read in its asker's own voice, a ${askedVoice}'s (${VOICES[askedVoice].id})${measured.womanLine.fromPackage ? ', from the package' : ''}`);
 
   // ------------------------------------------------------------------ 4. one line at a time
   await student.locator('#encounter-said li[data-speaker="rider"] .read-aloud').first().click();

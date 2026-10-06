@@ -4328,6 +4328,52 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-bundle-ns.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Loaded directional town walking, north parcels correctly torso-occluded; inventory not inferred from sprites."
+    },
+    {
+      "sheet": "people-gonzales-river-south",
+      "promptId": "frontier-v1/people-gonzales-river-south",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-river-gestures.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-tasks.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-tasks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-962808b2-c91c-4deb-b828-a0d11482d8ab.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-70369a47-c927-4d6d-a7ab-09f324f8f48a.png",
+      "refinements": [
+        {
+          "prompt": "CORRECT this16pose4x4atlas. Redraw ALL16 bodies facing FRONT/SOUTH toward viewer: face both eyes visible nosecenter, torsobothshoulders squarefront, toesbottomimage. Absolutely NOeastsideprofiles. Rows sameidentitiesclothes teal indigo elder blue. Cols1/2 WATCH handshadeseyes gaze forward, smallvariation. Cols3/4 BOTH are POINT: left handshadesbrow, RIGHT ARM extended diagonally towardBOTTOMRIGHTimage pointingindexfinger. In BOTH columns3 AND4 pointerstaysEXTENDED; mustNOTfalltohip or revertwatch. Arm slightanglechange betweenpointframes. STANDINGstraight BOTHfeet, no crouch. Wholefigure60percentcellheightwidth SHRINK25percentvsoriginal minimum35pxemptyzeroalpha gutter EACHsideeachcell. Sameheightfootbaseline eachrow. Keepfacesclothes agehatbeard reference. TRUEtransparentbackground nofloor/shadowsgridtext. Exact4columns4rows. Thiscorrects FRONTfacing and missingPOINTarm especially row1row2row4col4.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fe5f612e-7d7c-4fac-a49f-8bf40252759e.png"
+        },
+        {
+          "prompt": "Keep this exact FRONT-facing16pose4x4atlas. ONLY TWO repairs: 1) row3 ELDER column3 must have RIGHT ARM EXTENDED forward/downright pointingindexfinger exactlylike otherpointframes, LEFT handshadingeyes. It currentlyhas no pointingarm: replace lower hangingrightarm withpoint. Also row3col4 LEFT hand mustshadeeyes whileRIGHTarm points; bothelderpointframes shouldmatchthis two-arm arrangement. 2) SHRINK EVERYcompletefigure by25percent centeredowncell, maintainfootbaseline perrow, at least35pxemptytransparentgutters ALLsides everycell includingbottomrow. Preserveallotherposesidentitiesclothesfront-facing stablebodysize. TRUEzeroalpha nofloor/shadowsgridlabels. Do notaltercolcountsorrows.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-70369a47-c927-4d6d-a7ab-09f324f8f48a.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-south.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "South-facing quiet gestures; point connected, watch catalog-ready. Other cast and north gestures remain outstanding."
+    },
+    {
+      "sheet": "people-gonzales-river-north",
+      "promptId": "frontier-v1/people-gonzales-river-north",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-gonzales-river-south.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3a619248-ebd7-434a-88e4-93c5edf8f2d8.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7155fb86-4565-483a-9579-69357f64d6a8.png",
+      "refinements": [
+        {
+          "prompt": "Edit ONLY spacing/scale in exact16sprite4x4atlas. SHRINK every completefigure includingarms by25percent centeredowncell; min35px fullyemptytransparentgutters ALLsides EACHcell. Preserveallnorthrearorientationidentities poses hatsclothes, watchtopair and pointedarmslastpair. Stable feetbaseline withinrow and samebodyheight allfourframes. Fullboots armsfit their OWNcell no neighborfragments. Truezeroalpha nofloor/shadowslabelsgrid samecanvasratio. Do notredesignposes.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7155fb86-4565-483a-9579-69357f64d6a8.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-north.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Rear north-facing watch/point; point connected, watch catalog-ready. Other cast east/west gestures remain outstanding."
     }
   ],
   "rejectedAttempts": [

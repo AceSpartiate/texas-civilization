@@ -8342,6 +8342,18 @@ function renderMilitaryNotice(world) {
   write('#military-toggle', `${folded ? 'Open messages' : 'Keep playing'} · ${notices.length}`);
   $('#military-toggle').setAttribute('aria-expanded', String(!folded));
   $('#military-message').hidden = folded;
+  // Astra, 2026-10-05: the person it is about, in their own looks (the roster's portrait), and their name under the title.
+  const member = entitiesOf(world).find(person => person.id === notice.entityId);
+  write('#military-person', member?.name || '');
+  $('#military-person').hidden = !member;
+  const portrait = $('#military-portrait');
+  if (portrait.hidden !== !member) portrait.hidden = !member;
+  const face = member ? `${member.id}:${member.band || ''}:${JSON.stringify(member.appearance || null)}` : '';
+  if (member && portrait.dataset.face !== face) {
+    portrait.dataset.face = face;
+    if (member.appearance) drawAvatarPortrait(portrait, member.appearance, member.sex, member);
+    else { const figure = figureOf(member); drawPortrait(portrait, { clip: `${figure}-idle-s`, figure, band: member.band, principal: member.principal, tint: hashOf(member.id) }, { drawClip, drawSprite, spriteFrame }); }
+  }
   write('#military-title', notice.title);
   write('#military-words', notice.text);
   write('#military-go', notice.action);
@@ -8359,6 +8371,8 @@ function renderMilitaryNotice(world) {
     const drawn = ICONS[notice.kind] && drawSprite(ctx, ICONS[notice.kind], icon.width / 2, icon.height * 0.9, icon.height * 0.84);
     icon.dataset.drawn = drawn ? `${ICONS[notice.kind]}:1` : '';
   }
+  // On the portrait the icon is a badge: an empty one is a blank white button, so it goes while nothing is drawn in it.
+  if (icon) { const blank = !portrait.hidden && !icon.dataset.drawn; if (icon.hidden !== blank) icon.hidden = blank; }
   $('#military-next').hidden = notices.length < 2;
   placeMilitaryNotice();
 }

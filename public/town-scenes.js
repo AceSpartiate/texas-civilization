@@ -90,12 +90,23 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   if (figure === 'dancers-couple') return { id: 'dancers-couple', flip: face === 'w', couple: person.lead ? 'partner' : 'lead' };
   if (figure === 'fiddler') return { id: 'fiddler-play', flip: face === 'w' };
   const child = !GROWN.has(figure) && !ALL_POSES.has(figure);
+  // Astra's seated painters (2026-10-05) are a woman on a stool at a table, drawn whole: `seated` is the share of a standing figure's
+  // height the drawing is given, so her head is the size of the women standing by her (her head is .39 of the drawing's height,
+  // a standing woman's .30; the girl's .35 against .335). Anybody else at the flag paints standing.
+  // ceiling: one share for each figure, measured by eye from the head's width; a parts mask would let it be measured, if a seat ever looks off.
+  if (pose === 'seated-paint' && ['teal','indigo','blue-girl'].includes(figure)) return { id: `${figure}-seated-paint`, flip: face === 'w', seated: figure === 'blue-girl' ? .95 : .77 };
+  if (pose === 'seated-paint') return sceneClip({ ...person, pose: 'paint' });
   if (pose === 'read-letter' && ['elder','ochre','blue'].includes(figure)) return { id: `${figure}-read-letter`, flip: face === 'w' };
   if (pose === 'read-letter') return { id: child ? `${figure}-idle-${face}` : `${figure}-speak`, flip: !child && face === 'w' };
   if (pose === 'dig' && ['elder','ochre','blue'].includes(figure)) return { id: `${figure}-dig`, flip: face === 'w' };
   if (pose === 'dig') return { id: child ? `${figure}-idle-${face}` : `${figure}-work`, flip: !child && face === 'w' };
   if (pose === 'forge' && ['elder','ochre'].includes(figure)) return { id: `${figure}-smith-${person.id === 'gz-smith-2' ? 'chain' : 'hammer'}`, flip: face === 'w' };
   if (pose === 'forge') return { id: child ? `${figure}-idle-${face}` : `${figure}-repair`, flip: !child && face === 'w' };
+  // Watching the far bank, a hand shading the eyes (Astra, 2026-10-05): her watch drawings where she has them, standing otherwise.
+  if (pose === 'watch' && ['teal','indigo','elder','blue'].includes(figure) && ['n','s'].includes(face)) return { id: `${figure}-river-watch-${face}`, flip: false };
+  if (pose === 'watch' && ['teal', 'elder'].includes(figure) && ['e','w'].includes(face)) return { id: `${figure}-river-watch`, flip: face === 'w' };
+  if (pose === 'watch') return sceneClip({ ...person, pose: 'idle' });
+  if (pose === 'point' && ['teal','indigo','elder','blue'].includes(figure) && ['n','s'].includes(face)) return { id: `${figure}-river-point-${face}`, flip: false };
   if (pose === 'point' && ['teal', 'elder'].includes(figure) && ['e','w'].includes(face)) return { id: `${figure}-river-point`, flip: face === 'w' };
   if (pose === 'point') return { id: child ? `${figure}-idle-${face}` : `${figure}-search`, flip: !child && face === 'w' };
   if (pose === 'idle' || (child && !CHILD_POSES.has(pose))) return { id: `${figure}-idle-${face}`, flip: false };
@@ -246,8 +257,8 @@ export function townSceneDrawables(ctx, scenes, { toScreen, figure, scale, now, 
 const heightOf = (person, figure) => figure * (person.rides || person.figure === 'dragoon' ? MOUNTED_HEIGHT : 1) * (person.small || 1);
 function personItem(ctx, person, stepped, { toScreen, figure, scale, time, drawn, partner = null }) {
   const p = toScreen(stepped.at);
-  const height = heightOf(person, figure);
   const clip = sceneClip(person, stepped);
+  const height = heightOf(person, figure) * (clip.seated || 1);
   drawn.set(person.id, { x: p.x, y: p.y - height, size: height, box: { x: p.x - height * .3, y: p.y - height, w: height * .6, h: height } });
   // A couple is drawn between the two dancers' places.
   const q = clip.couple === 'lead' && partner ? toScreen(partner) : null;

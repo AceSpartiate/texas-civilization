@@ -1429,7 +1429,16 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
 #military-left{margin:2px 0 6px;font:700 12px/1.3 system-ui;color:var(--card-eyebrow)}
 #military-notice button{min-height:36px;font-size:12px}
 #military-toggle{display:block;margin:0 0 4px auto;background:transparent;color:#65482b;border:1px solid #bca77d}
-#military-title{display:block;font-family:Georgia,serif;font-size:18px;color:var(--card-ink)}
+#military-title{display:block;font-family:Georgia,serif;font-size:20px;line-height:1.2;color:var(--card-ink)}
+/* Astra, 2026-10-05: the family's own person in the frame, the moment's icon a badge on the portrait, the name under the title, and
+   a prominent action. */
+#military-face{position:relative;flex:none;display:block}
+#military-portrait{display:block;width:60px;height:60px;border:2px solid var(--card-edge);border-radius:50%;background:radial-gradient(circle,#fffbe8 0,var(--card-paper-b) 70%,var(--card-paper-c) 100%);box-shadow:0 0 8px 2px var(--card-glow)}
+#military-portrait[hidden]{display:none}
+#military-portrait:not([hidden])+#military-icon{position:absolute;right:-6px;bottom:-4px;width:28px;height:28px}
+#military-person{display:block;font-size:12px;color:var(--card-eyebrow);margin-top:2px}
+#military-person[hidden]{display:none}
+#military-notice #military-go{min-height:42px;font-size:14px}
 #military-words{margin:6px 0 10px}
 #military-go{border:1px solid var(--card-btn-edge);color:#fff9e9;background:linear-gradient(var(--card-btn-a),var(--card-btn-b));box-shadow:0 2px 0 var(--card-btn-shadow);font-weight:700}
 /* A fight's account comes in paragraphs - what happened, what they did, why it ended so (docs/BATTLES.md §2.8). */

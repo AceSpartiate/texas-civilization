@@ -1,5 +1,12 @@
 # Claude handoff — Astra foundation
 
+## Astra's 2026-10-05 art wired in: the flag painted seated, the eighteen watching the far bank, the battle notice's portrait — 2026-10-06 (not released)
+
+- **The flag painted seated.** A `flag-paint` beat, 6 to noon on October 1 (sim/town-scenes.mjs), sits blue-girl and indigo at her `<figure>-seated-paint` drawings; each drawing has its own stool, table, pot and cloth, so the beat sets no table or cloth. They are drawn at the share of a standing woman's height that matches the head (`seated` in public/town-scenes.js `sceneClip`: .77, the girl .95, measured from the head's width in the frames; a `ceiling:`). Anybody else seated at the flag paints standing. The sewing beat (`flag-cloth`) now ends at 6 that morning.
+- **Watching the far bank.** A `watch` pose: her `-river-watch-n`/`-s` for teal, indigo, elder and blue, `-river-watch` east and west for teal and elder, standing for the rest. Two of the eighteen at the crossing watch on September 29 and 30.
+- **The battle notice** (her commit 14c7888f, made against an older page): ported onto the current story card — see her section below.
+- Evidence: `tests/gonzales-seated-paint-art.test.mjs` and `tests/river-gestures-art.test.mjs`, each new test proved by injection (5 and 4 caught); the gonzales-town proof samples the seated clips. Art plan A12 narrowed to what is left: pointing east and west for indigo, blue and the figures not yet drawn pointing.
+
 ## Away at the war: the volunteer in the battle, the militia's bar, his pack and powder, staying, and what he overhears — owner, 2026-10-05 (not released)
 
 Branch `volunteer-life`. The owner's report of 2026-10-05 (a San Felipe father who reached Gonzales two hours after the fight and stood
@@ -150,10 +157,21 @@ TEACHER.md (*Riders, as scenes*); claims `FIC-GONZ-1195` to `-1199`.
   behind each express rider in a queue of several (their minutes held, `questionWaits`); not measured in a class. Not proved:
   Chromebook, LAN or classroom.
 
+## Art delivery 2026-10-05: north-facing river gestures
+
+Sixteen rear-view frames and eight watch/point clips for teal, indigo, elder and blue. Existing north pointing now selects dedicated identity art; watch clips await explicit watch semantics. See `docs/ART_DELIVERY_2026-10-05-GONZALES-RIVER-NORTH.md`.
+
+## Battle notice presentation (2026-10-05)
+
+Military invitations now use a framed family portrait, parchment card, clearer headline and prominent action. Portrait uses the same chosen-appearance renderer as the roster. Queue, visibility, collapse/reopen and click-only camera behavior remain intact. `scripts/military-notice-visual-proof.mjs` verifies supported desktop sizes with a presentation fixture; evidence in `docs/evidence/military-notice-*`. Five military-attention logic tests pass. This is presentation work, not a change to courier delivery or battle rules. **Merged 2026-10-06 onto the current card** (her change was made against an older page): the story-card frame the owner chose on 2026-09-29 is kept, with her family-member portrait (the moment's icon a badge on it), the person's name under the title and the larger action; her explanatory hint line was left out under the owner's preference for visual cues over words, and her proof reads the card's accent (`data-accent`) for its kind. `npm run test:military-notice`.
+
+## Art delivery 2026-10-05: south-facing river gestures
+
+Sixteen new frames and eight authored watch/point cycles for teal, indigo, elder and blue. Existing south-facing pointing selects dedicated art; watch clips are ready for explicit future watch poses. North-facing and remaining cast directions stay outstanding. See `docs/ART_DELIVERY_2026-10-05-GONZALES-RIVER-SOUTH.md`.
+
 ## Released as v2026.10.05.3 — 2026-10-05
 
 Main at d0da42e5, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.3>). Sets of changes: from v2026.10.05.2 (4.4 MB), v2026.10.05.1, v2026.10.04.1 and v2026.10.03.2. Evidence: `npm test` 2254 pass, 0 fail; the browser proofs two at a time, all passing but four: `children` and `chatter` passed alone; `battle-grass` passed alone twice at d0da42e5 (and failed once at v2026.10.05.2: timing); `looks-face` failed one run in two - its measurement drew four times in one task and so met the colouring budget (public/art.js `appearanceFrame`), fixed in the proof since (2 of 2 after).
-
 ## Art delivery 2026-10-05: north/south loaded walking
 
 Sixteen new frames and eight two-frame north/south cycles for teal, indigo, blue-girl and elder. Town carrying now selects loaded walking in every cardinal direction. Contents remain visually illustrative, not inventory evidence. See `docs/ART_DELIVERY_2026-10-05-GONZALES-BUNDLE-NS.md`.
