@@ -213,9 +213,15 @@ function walkToSpot(world, person) {
 
 // ---------------------------------------------------------------------------------------------------------- the duties
 
-const tell = (world, person, text, { claimId = 'FIC-GONZ-1176', importance = 2, type = 'consequence' } = {}) => record(world, type, {
-  actorId: person.id, householdId: person.householdId, importance, classification: 'FICTIONAL FOR GAMEPLAY', claimId, text,
+const tell = (world, person, text, { claimId = 'FIC-GONZ-1176', importance = 2, type = 'consequence', ambient = false } = {}) => record(world, type, {
+  actorId: person.id, householdId: person.householdId, importance, classification: 'FICTIONAL FOR GAMEPLAY', claimId, text, ...(ambient && { ambient: true }),
 });
+/**
+ * The camp's routine, said in the family's story but not in the few lines its page is sent (sim/world.mjs `projectWorld` leaves
+ * `ambient` lines out) when he took it up himself: a day's drill or cooking every few minutes of the class would push out the news a
+ * family must read. A duty the student picked is said as it always is.
+ */
+const routine = person => Boolean(person.chore?.onAuto);
 const place = (world, person) => (world.map?.sites?.[person.location?.siteId]?.name || 'the camp').replace(/^The /, 'the ');
 
 /** Why this man cannot be given this work of the militia's now, or null (sim/camp.mjs gives every camp chore its refusal here). */
@@ -267,7 +273,7 @@ export const MILITIA_RUNS = Object.freeze({
     m.drilled = (m.drilled || 0) + 1;
     tell(world, person, m.drilled >= DRILL_DAYS
       ? `${person.name} drilled a day with the volunteers at ${place(world, person)}, and has drilled ${m.drilled} days: steady in the line now, which will count when they fight.`
-      : `${person.name} drilled a day with the volunteers at ${place(world, person)} (${m.drilled} of ${DRILL_DAYS} days to stand steady in the line).`, { type: 'memory', claimId: 'FIC-GONZ-1177' });
+      : `${person.name} drilled a day with the volunteers at ${place(world, person)} (${m.drilled} of ${DRILL_DAYS} days to stand steady in the line).`, { type: 'memory', claimId: 'FIC-GONZ-1177', ambient: routine(person) && m.drilled < DRILL_DAYS });
   },
   picket(world, household, person) {
     // Word brought in by whoever rode past the picket (`FIC-GONZ-1183`): what the country round about has heard and the family has not.
@@ -275,23 +281,23 @@ export const MILITIA_RUNS = Object.freeze({
     if (heard) learn(world, household.id, heard.topic, { status: heard.status, source: `Heard on picket at ${place(world, person)}` });
     tell(world, person, heard
       ? `${person.name} stood picket on the road above ${place(world, person)}, and a man riding in told the picket: "${heard.words[0]}"`
-      : `${person.name} stood a watch on the picket line round ${place(world, person)}. Nothing came up the road.`);
+      : `${person.name} stood a watch on the picket line round ${place(world, person)}. Nothing came up the road.`, { ambient: !heard && routine(person) });
   },
   cook(world, household, person) {
     const m = militiaOf(world, person);
     m.fed = today(world); m.mess = today(world);
-    tell(world, person, `${person.name} cooked at the mess fire, and the mess fed him his day's beef and bread.`, { claimId: 'FIC-GONZ-1180' });
+    tell(world, person, `${person.name} cooked at the mess fire, and the mess fed him his day's beef and bread.`, { claimId: 'FIC-GONZ-1180', ambient: routine(person) });
   },
   wood(world, household, person) {
     const m = militiaOf(world, person);
     m.fed = today(world); m.mess = today(world);
-    tell(world, person, `${person.name} cut firewood for the mess fires, and the mess fed him his day's beef and bread.`, { claimId: 'FIC-GONZ-1180' });
+    tell(world, person, `${person.name} cut firewood for the mess fires, and the mess fed him his day's beef and bread.`, { claimId: 'FIC-GONZ-1180', ambient: routine(person) });
   },
   bullets(world, household, person) {
     const m = militiaOf(world, person);
     const before = m.rounds || 0;
     m.rounds = Math.min(ROUNDS_MOST, before + MOULD_ROUNDS);
-    tell(world, person, `${person.name} moulded bullets at the fire from the militia's lead, and was given powder for them: ${m.rounds} rounds now.`, { claimId: 'FIC-GONZ-1178' });
+    tell(world, person, `${person.name} moulded bullets at the fire from the militia's lead, and was given powder for them: ${m.rounds} rounds now.`, { claimId: 'FIC-GONZ-1178', ambient: routine(person) });
   },
   hunt(world, household, person) {
     const m = militiaOf(world, person);

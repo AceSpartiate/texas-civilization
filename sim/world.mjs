@@ -797,7 +797,7 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   advanceRoutine(world, calendar); deliverReports(world);
   // Away at the war (sim/militia.mjs): each volunteer eats from the camp's issue and his own pack, walks to his place in the camp,
   // takes up its work when left alone, and goes home when nothing feeds him; and what is said about him is overheard.
-  advanceMilitia(world, { beginTravel, workFor: choresFor, begin: (w, household, person, choreId) => beginChore(w, household, person, choreId, { beginTravel, modeAvailability }) });
+  advanceMilitia(world, { beginTravel, workFor: choresFor, begin: (w, household, person, choreId) => beginChore(w, household, person, choreId, { beginTravel, modeAvailability }, DEFAULT_MODE, { campAuto: true }) });
   overhear(world);
   // Somebody whose wound mended away from home, outside any service, is told to the family and starts home (sim/army.mjs).
   sendMendedHome(world, { beginTravel });
