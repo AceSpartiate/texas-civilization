@@ -94,7 +94,10 @@ async function measure(page, name, figure, faceBox) {
     const frame = art.spriteFrame(name);
     if (!frame) return { missing: true };
     const w = frame.w, h = frame.h, logical = frame.logicalHeight || h;
-    const draw = appearance => {
+    // Each drawing on a task of its own: one drawing colours at most a few milliseconds of frames, and past that draws the clip's
+    // last frame coloured in its place (public/art.js `appearanceFrame`) - right on the map, wrong for a measurement of this frame.
+    const draw = async appearance => {
+      await new Promise(resolve => setTimeout(resolve, 0));
       const canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
@@ -103,7 +106,7 @@ async function measure(page, name, figure, faceBox) {
       return ctx.getImageData(0, 0, w, h).data;
     };
     const base = { skin: 'olive', hair: 'black', clothing: 'teal', head: 'hat' };
-    const src = draw(null), a = draw(base), hairB = draw({ ...base, hair: 'fair' }), skinB = draw({ ...base, skin: 'deep brown' });
+    const src = await draw(null), a = await draw(base), hairB = await draw({ ...base, hair: 'fair' }), skinB = await draw({ ...base, skin: 'deep brown' });
     const d2 = (p, c) => (p[0] - c[0]) ** 2 + (p[1] - c[1]) ** 2 + (p[2] - c[2]) ** 2;
     const bottom = faceBox ? (faceBox[3] + .1) * h : h * .45;
     let head = 0, stray = 0, face = 0, undyed = 0;

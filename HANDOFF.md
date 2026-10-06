@@ -135,6 +135,10 @@ TEACHER.md (*Riders, as scenes*); claims `FIC-GONZ-1195` to `-1199`.
   behind each express rider in a queue of several (their minutes held, `questionWaits`); not measured in a class. Not proved:
   Chromebook, LAN or classroom.
 
+## Released as v2026.10.05.3 — 2026-10-05
+
+Main at d0da42e5, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.05.3>). Sets of changes: from v2026.10.05.2 (4.4 MB), v2026.10.05.1, v2026.10.04.1 and v2026.10.03.2. Evidence: `npm test` 2254 pass, 0 fail; the browser proofs two at a time, all passing but four: `children` and `chatter` passed alone; `battle-grass` passed alone twice at d0da42e5 (and failed once at v2026.10.05.2: timing); `looks-face` failed one run in two - its measurement drew four times in one task and so met the colouring budget (public/art.js `appearanceFrame`), fixed in the proof since (2 of 2 after).
+
 ## Art delivery 2026-10-05: north/south loaded walking
 
 Sixteen new frames and eight two-frame north/south cycles for teal, indigo, blue-girl and elder. Town carrying now selects loaded walking in every cardinal direction. Contents remain visually illustrative, not inventory evidence. See `docs/ART_DELIVERY_2026-10-05-GONZALES-BUNDLE-NS.md`.
@@ -151,7 +155,7 @@ Twelve frames and three authored reading cycles for elder, ochre and blue. The e
 
 Twelve new frames and three four-frame seated brushwork clips for teal, indigo and blue-girl. Tables/stools are baked into these composites; keep the standing sewing clips for hemming. New painting art is registered and browser-tested, ready for an explicit seated painting beat. See `docs/ART_DELIVERY_2026-10-05-GONZALES-SEATED-PAINT.md` (relative to repository root).
 
-## Boys 12+ carry the men's work, girls 12+ the women's; children keep house only with nobody keeping it — owner, 2026-10-05 (not released)
+## Boys 12+ carry the men's work, girls 12+ the women's; children keep house only with nobody keeping it — owner, 2026-10-05 (released in v2026.10.05.3)
 
 Branch `custom-away` from 3f0ef6c7. The owner played a family of nine (Jesse 34 away with the volunteers at Gonzales; Elizabeth 32;
 Hiram 15, Sally 13, Joseph 11, Peter 10, Lydia 10, Adela 7, Harriet 6) and said *"The gendered work seems to have disappeared."* Only
@@ -214,7 +218,7 @@ so her small children do not keep house for her - wanted? (2) answered, above. (
 
 **Also.** `scripts/custom-work-injections.mjs` had five search strings that no longer matched (two from before this branch); fixed.
 
-## The first ten acres, the trees round a walker, and walking about the homestead — owner, 2026-10-05 (not released)
+## The first ten acres, the trees round a walker, and walking about the homestead — owner, 2026-10-05 (released in v2026.10.05.3)
 
 Branch `map-fixes` from 3f0ef6c7. The owner, playing solo, reported three map bugs: *"When starting the game, if I put my house
 somewhere, the starting plot that we can plant is frequently straddling a river, or outside of the borders of my property line. We
