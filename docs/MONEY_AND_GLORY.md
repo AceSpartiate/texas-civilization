@@ -100,7 +100,7 @@ also said players "should have to trade or spend money". Both hold at once:
 | Selling cotton at the store for coin instead of food | The main one. A choice at the counter: food now, or coin. |
 | Selling surplus food | A family with more than it eats has something the town wants. |
 | Trading with a neighbour | Coin is one of the `GOODS`, so it changes hands face to face like anything else. |
-| Work for somebody else | Held. It needs wages, employers and a labour model, and none exist. |
+| Work for somebody else | Held until 2026-10-05. **Since then** (owner: *"they would find local work? Try to make some money? ... or if they find local work maybe they take reduced pay for food and shelter?"*): a volunteer away at the war in a town may *Work for hire* at half a real a day or *Work for board* at a quarter and his meals and bed, paid to the family's coin in whole reales (`sim/militia.mjs`, `FIC-GONZ-1182`; no volunteer is recorded doing either, `HIST-TEX-1187`). Nobody at home works for wages. |
 
 | Sink | Note |
 | --- | --- |

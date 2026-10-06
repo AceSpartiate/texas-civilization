@@ -63,9 +63,11 @@ export const DEFAULT_PACK_DAYS = 3;
 /** The most days of food a man carries: the fourteen of the largest pack. */
 export const PACK_MOST_DAYS = 14;
 /**
- * The share of a day's eating the commissary issues a man in camp: beef, without the bread or meal that was short (`HIST-TEX-1184`:
- * "well supplied with beef"; "the men here are beginning to suffer greatly for the want of bread"; "out of Flour and the corn is
- * exhausted"). The half is the game's (`FIC-GONZ-1180`); the rest he eats from his pack, or is fed whole by the mess he works for.
+ * The share of a day's eating a man is issued at the gathering of the volunteers, before there is an army: the beef the town and the
+ * commissary had in plenty, and not the bread and meal he was told to bring (`HIST-TEX-1184`, `-1185`: "Bring as much as they can").
+ * The half is the game's (`FIC-GONZ-1180`), so that what he carries matters - the record's men at Gonzales were "well supplied with
+ * beef and bread" early on, and the bread ran short later. The rest he eats from his pack, or is fed whole by the mess or the house
+ * he works for. Once the army is made its commissary feeds its men whole (`eat`).
  */
 export const ISSUE_SHARE = 0.5;
 /** Days in a row of the pack empty and the man short before he gives it up and walks home (`FIC-GONZ-1179`). */
@@ -118,7 +120,12 @@ export function inCamp(world, person) {
   // where the fight is the only work (sim/directors.mjs `CAMP_SITE`), nor a road's crossing.
   return !person.travel && ['town', 'village'].includes(world.map?.sites?.[person.location?.siteId]?.kind);
 }
-/** In a town, where there is a counter to buy at and work to be had: the gathering at Gonzales or Victoria, never the army's camp. */
+/**
+ * In a town, where there is a counter to buy at and work to be had: the gathering at Gonzales or Victoria, never the army's camp.
+ * ceiling: staying on in the town once the army has marched is not offered - a volunteer there follows it (sim/army.mjs
+ * `followTheArmy`) or is sent home; leaving the volunteers to live in the town would want a person away from home with no promise
+ * to serve, which this state is not.
+ */
 export const inTown = (world, person) => inCamp(world, person) && !person.travel && ['town', 'village'].includes(world.map?.sites?.[person.location.siteId]?.kind);
 /** The army's orders forbade shooting about the camp (`HIST-TEX-029`): a hunt goes out only from a town. */
 
@@ -236,7 +243,11 @@ export function militiaRefusal(world, household, person, choreId) {
   return null;
 }
 
-/** Whole reales of what he has earned go to the family's coin, the rest kept until it is a real (docs/MONEY_AND_GLORY.md §3). */
+/**
+ * Whole reales of what he has earned go to the family's coin, the rest kept until it is a real (docs/MONEY_AND_GLORY.md §3).
+ * ceiling: the coin he earns and spends is the family's, as if he carried its purse; coin of his own, and sending it home by
+ * somebody going that way, would want a person's purse, which nothing has yet.
+ */
 function earn(world, household, person, amount) {
   const m = militiaOf(world, person);
   const owed = round((m.owed || 0) + amount);
@@ -354,7 +365,10 @@ export function advanceMilitia(world, { beginTravel, workFor = null, begin = nul
     if (m.shelter === 'board' && m.boardDay !== undefined && m.boardDay < today(world)) { delete m.shelter; delete m.boardDay; }
     eat(world, household, person, days);
     coldNight(world, person);
-    if (m.short >= SHORT_DAYS_HOME && beginTravel && !heldByBattle(world, person)) walkHome(world, household, person, { beginTravel });
+    // Never on a road or in the army's ranks (fed whole there, `eat`), and never one who cannot get up: said, and he waits.
+    if (m.short >= SHORT_DAYS_HOME && beginTravel && !world.army?.members?.includes(person.id) && !homeRefusal(world, household, person)) {
+      try { walkHome(world, household, person, { beginTravel }); } catch { /* no road home from here today: tried again the next tick */ }
+    }
   }
   // Idle men take up the camp's work by themselves: asked of the list a student would be sent.
   if (workFor && begin) {
@@ -379,7 +393,12 @@ function eat(world, household, person, days) {
   // A family nobody plays, or whose student has gone, is the director's: its man is fed, and his pack is not drawn (`FIC-GONZ-998`).
   if (!watchedFamily(household) || !(days > 0)) return;
   const need = rationOf(world, person) * days;
-  const share_ = m.fed === today(world) ? 1 : inCamp(world, person) || world.army?.members?.includes(person.id) ? ISSUE_SHARE : 0;
+  // The army's commissary fed its men whole - beef and corn in rations, flour from Goliad (`HIST-TEX-1184`); the gathering before it
+  // gives half (`ISSUE_SHARE`); a road nothing.
+  // ceiling: the army's rations are whole to the end of the autumn, though from November 22 it was "out of Flour and the corn is
+  // exhausted" and men lived on beef; counting that half would send the played families' men home before the storming of Béxar,
+  // which a record of men going home in early December (`HIST-TEX-036`) would justify only with the owner's say-so.
+  const share_ = m.fed === today(world) || world.army?.members?.includes(person.id) ? 1 : inCamp(world, person) ? ISSUE_SHARE : 0;
   const issued = need * share_;
   const fromPack = Math.min(m.pack || 0, need - issued);
   m.pack = round(Math.max(0, (m.pack || 0) - fromPack));

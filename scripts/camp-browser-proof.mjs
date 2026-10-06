@@ -21,6 +21,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { HOUSTON_CAMP } from '../sim/camp.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
@@ -102,7 +103,9 @@ try {
   // bar only when he has one, and otherwise refused in words by the server. This checked a refused scout icon until
   // 2026-09-26 and had failed since that rule.
   observed.offered = await student.evaluate(id => window.__snapshot?.world.work?.[id] || [], person.id);
-  assert.deepEqual(observed.offered.map(entry => entry.id), ['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout'], `the server offers him more or less than the camp's work: ${JSON.stringify(observed.offered)}`);
+  // Since 2026-10-05 the camp's work is one bar with the volunteers' (sim/camp.mjs `HOUSTON_CAMP`): the mess fire, the wood and the
+  // bullet moulds beside Houston's four.
+  assert.deepEqual(observed.offered.map(entry => entry.id), [...HOUSTON_CAMP], `the server offers him more or less than the camp's work: ${JSON.stringify(observed.offered)}`);
   const scout = observed.offered.find(entry => entry.id === 'camp-scout');
   if (!scout.can) assert.match(scout.why || '', /no horse at the camp/, 'the scouts are refused without saying why');
   // And, once the family has a house, the page's own House last: the rooms inside, opened from whoever's bar is shown, sending

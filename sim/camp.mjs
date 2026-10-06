@@ -43,7 +43,7 @@ import { recallFromService, recallRefusal } from './winter.mjs';
 import { share } from './scrape.mjs';
 // The volunteers' own camp, before the army and in it (owner, 2026-10-05, "Camp duties, auto"): one bar of the camp's work for
 // everybody away at the war, Houston's men and the volunteers alike (sim/militia.mjs).
-import { MILITIA_RUNS, inCamp, militiaRefusal } from './militia.mjs';
+import { MILITIA_RUNS, atWar, inCamp, militiaRefusal } from './militia.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -133,7 +133,7 @@ export const scoutHurt = (world, entity, outing) => share(world, entity.id, `sco
 /** Who sees this camp work: Houston's men their army's, a volunteer away at the war his camp's (sim/militia.mjs `inCamp`). */
 const offeredFor = id => (world, household, entity) => (withHouston(entity) ? !MILITIA_ONLY.includes(id) : inCamp(world, entity) && !HOUSTON_ONLY.includes(id));
 /** Why not now: Houston's camp's words for his men, the volunteers' for theirs. */
-const refusalFor = id => (world, household, entity) => (withHouston(entity) ? campRefusal(world, household, entity, id) : militiaRefusal(world, household, entity, id));
+const refusalFor = id => (world, household, entity) => (atWar(world, entity) ? militiaRefusal(world, household, entity, id) : campRefusal(world, household, entity, id));
 /** What the last step does: the camp's own for Houston's men (`RUNS`), the volunteers' (sim/militia.mjs `MILITIA_RUNS`) for theirs. */
 // `militia` names the volunteers' run (sim/militia.mjs `MILITIA_RUNS`), read when it runs: that module loads after this one.
 const runFor = (houston, militia) => (world, household, entity) => (withHouston(entity) ? houston(world, household, entity) : MILITIA_RUNS[militia](world, household, entity));

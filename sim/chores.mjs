@@ -1649,7 +1649,10 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // Away with the family at the neighbours' farms (sim/courtship.mjs, the lone parent's path): nothing is taken up until home.
   if (entity.visiting) return { can: false, why: `${entity.name} is away with the family at the neighbours' farms.` };
   if (asideRefuses(entity)) return { can: false, why: asideWhy(entity, id => world.entities[id]?.given || world.entities[id]?.name || 'a child') };
-  if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
+  // One of the camp's duties is changed for another at a press (owner, 2026-10-05, "Camp duties, auto": he takes them up himself
+  // when left alone, "and you can pick one"): the one he took up himself is left for the one the student picks (`beginChore`).
+  const switching = Boolean(chore.camp) && Boolean(CHORES[entity.chore?.id]?.camp) && entity.chore.id !== choreId;
+  if (entity.chore && !switching) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   // The road's own chores (sim/road.mjs) are for somebody travelling east with the family, or camped with it at the refuge.
   // Somebody the class's clock is carrying faster than a student can follow is not on the map at all (sim/sight.mjs,
   // owner 2026-09-21). Their row on the family panel is the one place a student is certain to look for them, so it says
@@ -2511,6 +2514,8 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   }
   const { can, why } = choreAvailability(world, household, entity, choreId);
   if (!can) throw new Error(why || 'That work is not available.');
+  // A camp duty picked over another: the other is left off first (`choreAvailability`'s `switching`).
+  if (chore.camp && entity.chore && CHORES[entity.chore.id]?.camp && entity.chore.id !== choreId) abandonChore(world, household, entity);
   // Taken up by necessity, the custom's own line the first time for each reason (owner, 2026-10-03; sim/custom.mjs): written only
   // once the work has really begun or been joined, so a refusal further down says nothing.
   const begun = result => { noteNecessity(world, household, entity, choreId, { row: custom(world, household, entity, choreId), homeWork, journeyOf }); return result; };

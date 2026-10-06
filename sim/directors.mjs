@@ -940,6 +940,8 @@ function enrolVolunteers(world, movement) {
       const march = world.marches[householdId];
       // A family of Gonzales's own question is its own (never a far family's), and nobody is enrolled twice.
       if (march && (!march.enrolled || marchersOf(march).includes(id))) continue;
+      // ceiling: one still on the road when the men go is not turned off it to catch them; he is told on arriving (`tellTooLate`). A
+      // ride redirected up the west bank, with the arrival guarantee measured from where he is, is the way out.
       if (world.minute > closes) continue;
       const mode = modeWith(world, person) === 'horse' ? 'horse' : 'foot';
       const plan = joinPlan(world, person, mode) || joinPlan(world, person, 'foot');
@@ -1068,6 +1070,7 @@ function advanceGonzalesFight(world, movement) {
         const taking = ((world.participation ||= {}).gonzales ||= {});
         if (!taking[person.id]) {
           // What he fired in the line came out of what he carried (sim/militia.mjs, `FIC-GONZ-1178`): two rounds, or what he had.
+          // ceiling: only this fight spends a man's rounds; the later fights' directors would spend theirs the same way.
           if (person.militia && Number.isFinite(entry.fought)) person.militia.rounds = Math.max(0, (person.militia.rounds || 0) - 2);
           taking[person.id] = { householdId: person.householdId, role: Number.isFinite(entry.fought) ? 'fought' : 'present', minute: Number.isFinite(entry.fought) ? entry.fought : entry.joined };
           awardGlory(world, { event: 'gonzales', claimId: 'HIST-GONZ-004', personId: person.id, householdId: person.householdId, role: taking[person.id].role, fromSiteId: 'gonzales', causes: [march.choiceId].filter(Boolean) });

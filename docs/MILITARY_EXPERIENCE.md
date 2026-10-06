@@ -150,3 +150,87 @@ harness `scripts/military-regression-check.mjs` now holds 39 mutations, each fai
 longer than the budget holding it, the budget running out after Resume with its journal line, the next day's runner and an
 answer given in the meeting, at 1440 × 950 and 1366 × 768 (`docs/evidence/alamo-siege-browser.json`). HANDOFF.md has the
 counts. Not proved: anything on a LAN, a Chromebook device or in a classroom; whether 90 seconds is the right number.
+
+## Away at the war — owner, 2026-10-05
+
+The owner, 2026-10-05, after a class (verbatim): *"When my character reached Gonzales I never received a notification that he was
+participating in battle. I went to check on him and he was just standing around in town doing nothing with others that had been sent
+by npc's. They shouldn't be just standing around. Why can they still see the tasks they could do back home? They're off to serve as
+part of the militia and/or army. They should have skills and tasks for that. After the battle, if they're just staying in Gonzales,
+I'm assuming that they would find local work? Try to make some money? Talking to other people that are nearby? Players should be able
+to read the conversations they're having via thought bubbles to learn what's going on in that area even if a rider wouldn't normally
+tell them. I understand that maybe I want to send them back home, but what if I wanted them to stay in Gonzales? They should be able
+to do things that make sense for staying there. They'll need shelter, so they should set up a tent, or if they find local work maybe
+they take reduced pay for food and shelter? They should have food on them, not be pulling from the home supply. They should have to
+replenish that supply, or be forced to return home. If they're serving in the militia then the militia/army should give them
+replacement ammunition, they're not at home, so they're not pulling from the same supply."*
+
+And by multiple choice the same day:
+
+- **Camp duties: "Camp duties, auto"** - "A militia bar replaces the home bar: drill, stand picket, cook at the mess fire, cut
+  firewood, mould bullets. He does them on his own when left alone, and you can pick one. An alert card with Watch fires when the
+  fight begins, and he takes part."
+- **Rations: "i like the pick days to carry, but i also want them to have historically accurate ways to replenish."** (The option
+  was: the going popup asks how many days of food (3 / 7 / 14), taken from the home store; he eats from his own pack; when it runs
+  out and he can't buy, earn or draw militia rations, he must walk home, with a line saying why.)
+
+What the owner's save showed (`data/solo/classroom.json`, read-only, copied): a San Felipe family's father, called on the express at
+noon on October 1, rode in at noon on the 2nd - two hours after the dragoons had gone. He was never in the fight and nothing said so; he
+stood on the town's point with `task: 'help'` and every home chore greyed on his bar, while his family's food gauge counted him.
+
+### As built (2026-10-05, not released; `sim/militia.mjs`, claims `FIC-GONZ-1175` to `-1183`, `HIST-TEX-1184` to `-1187`)
+
+1. **One state, and the battle** (`FIC-GONZ-1175`, `-1176`). A person is *away at the war* while his promise to serve stands and he is
+   away from home (`sim/acting.mjs` `awayWithTheArmy`, now true for a volunteer standing in the volunteers' camp whatever his task).
+   A far family's volunteer standing in Gonzales when the men go up the river on the night of October 1 goes with them without a
+   second question (`sim/directors.mjs` `enrolVolunteers`): enrolled on the Gonzales men's own march record, with the same arrival
+   guarantee (`marchCloses`, `joinPlan`), so he is alerted through himself with Watch, is placed in the line, is given the account and
+   his part (`fought`) and glory, and walks back to the volunteers' camp. In the classes measured the families of Mina reach Gonzales
+   first and fight; San Felipe's and the coast's come after - as the record has the Colorado's men at Gonzales and the Brazos's
+   companies later (`HIST-TEX-014`). A volunteer who comes after it is **told it by the men in town**, on the family's card for a day
+   ("What … heard in Gonzales", `tellTooLate`), and the family knows how it ended. Nothing about the date moves. The family's food
+   gauge (`sim/hunger.mjs` `dailyDraw`) leaves out anybody away at the war.
+2. **The militia's bar** (`FIC-GONZ-1176`, `-1177`). One bar of the camp's work for everybody away at the war (`sim/camp.mjs`
+   `CAMP_CHORES`): *Drill with the company*, *Stand picket* (Houston's guard, renamed), *Cook at the mess fire*, *Cut firewood* and
+   *Mould bullets* for the volunteers and Houston's men alike; Houston's forage and scouts stay his men's; in a town a volunteer also
+   has *Put up a shelter*, *Buy food in town*, *Hunt for the pot*, *Work for hire* and *Work for board*. Nothing of the farm is on it
+   (`sim/chores.mjs` `choresFor`, refused in words if sent from a stale page), and the page's bar for him is the camp's work, **Come
+   home** and calling off (public/family-panel.js `panelActions`), for any of the family, not only the main person. Left idle a tick he
+   takes up a duty himself (`militiaChoice`): a shelter first, food when nearly out, the mess's work when short, otherwise drill three
+   times in six until steady, picket, the mess fire, the wood. At Gonzales he walks to his work's own place on the commons
+   (`campSpot`), where the volunteers' camp is drawn from the evening of October 2 to the 13th (sim/town-scenes.mjs `volunteers-camp`:
+   two fires, blanket rolls, men drilling, cooking, cutting wood and moulding; no tents, `HIST-TEX-1186`). Three days' drill steady him
+   in the autumn's rolled fights as at San Jacinto (`sim/army.mjs` `militiaSteadiness`). A picket may bring in word.
+3. **Powder and ball** (`FIC-GONZ-1178`, `HIST-TEX-1185`). The powder he took from home is his rounds from then on, never the house's
+   again; *Mould bullets* adds two from the militia's lead and powder, to six, refused before October 11 ("There is no lead in the camp
+   to mould: the men have written to the settlements for it."); the fight at Gonzales spends two, a hunt one; home again, what he carries
+   goes into the house's powder.
+4. **The pack** (`FIC-GONZ-1179`, `-1180`, `HIST-TEX-1184`). The going popup for a settlement's call (public/going.js `drawRations`,
+   sim/world.mjs `goingFor` `rations`) asks **3, 7 or 14 days**, each with the food it takes from the store; a size the store cannot
+   fill is shut, and with less than three days in the house he takes what there is. Away, he eats: at the gathering before the army is made the
+   commissary's issue is **half** his day (the beef the town had in plenty; the bread and meal he was told to bring), and once the army
+   is made its commissary feeds him whole; a turn at the mess's fire or wood (one day in three) or a day's work for
+   board feeds him whole; the rest comes out of his pack. A real buys 3 food in a town; a hunt from a town finds a deer three times in
+   five. With the pack empty he is told what he can do; after **two days** short with it empty he walks home, said in his family's
+   story. Home, what is left goes back into the store. A family nobody plays, or whose student has gone, keeps him fed (`FIC-GONZ-998`).
+5. **Staying** (`FIC-GONZ-1181`, `-1182`, `HIST-TEX-1187`). He sleeps in his blanket under the sky - in a norther a chill on the chest
+   is possible, at the road's daily chance - until he puts up a shelter of brush, or sleeps in the house he works at for board. *Work
+   for hire* pays half a real a day and *Work for board* a quarter and his meals and bed (the owner's "reduced pay for food and
+   shelter"), paid to the family's coin in whole reales. **Come home** (`send-for`, sim/militia.mjs `walkHome`) starts him home from the
+   gathering as the army's own sending-for does from the army.
+6. **What he overhears** (`FIC-GONZ-1183`). About once a minute of the class, two men near a played family's person away at the war -
+   at the volunteers' camp, in the army's camp, at Houston's - say a war-news line the place has heard (word walking fifteen miles a
+   day from where it happened, sim/ambient.mjs `hearsayOf`) and the family has not: over two of the camp's men on the family's page, in
+   the journal, and known from then with the source "Heard it said at …" (docs/LIVING_INFORMATION.md: heard, then known). Nothing the
+   place has not heard is said.
+
+**Tests** (`tests/volunteer-life.test.mjs`, eleven; each failed against its own injection, recorded in HANDOFF.md). **Proof**
+`npm run test:volunteer-life` (scripts/volunteer-life-browser-proof.mjs).
+
+**Limits.** `ceiling:` (a) a volunteer still on the road when the men go up the river is not redirected to catch them - he is told on
+arrival; (b) staying on in Gonzales once the army has marched is not offered: a volunteer there follows the army (sim/army.mjs
+`followTheArmy`) or is sent home; (c) the overheard words are drawn over the volunteers' camp at Gonzales and over an army's camp men,
+and are journal lines only elsewhere (Victoria); (d) the coin he spends or earns is the family's, as if he carried it; (e) a man already
+away on a class saved before is given three days' food, not charged to his family; (f) only the Gonzales fight spends his rounds - the
+later fights do not yet; (g) the army's commissary feeds its men whole to the end of the autumn, though from November 22 it had only
+beef - counting that half would send the played families' men home before the storming of Béxar, which wants the owner's say-so.

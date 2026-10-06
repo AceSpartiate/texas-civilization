@@ -10,11 +10,11 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 33 | 8 | 18 | 0 |
 | B — Children, babies and sickness | 20 | 7 | 13 | 2 |
-| C — Soldiers, battles and famous people | 16 | 1 | 13 | 7 |
+| C — Soldiers, battles and famous people | 17 | 1 | 14 | 7 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 26 | 2 | 12 | 5 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 18 | 4 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 21 | 2 | 11 | 17 |
-| **Total** | **136** | **22** | **85** | **35** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 22 | 2 | 11 | 17 |
+| **Total** | **138** | **22** | **86** | **35** |
 
 ## How a builder works
 
@@ -314,7 +314,7 @@ Skipped:
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 16 to make, 7 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 17 to make, 7 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
@@ -373,6 +373,11 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** as C1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `poseOf` `cast` in `public/battle-view.js`; `drawFigure` in `public/app.js`
   - **Stands in now:** her work cycle while the others fire (`drawFigure` in `public/app.js`); her hurt rest and her standing figure laid down (Astra's library art reused)
+- [ ] **C23** (priority 2) — [Request 2026-10-05 — away at the war](ART_REQUESTS.md#request-2026-10-05--away-at-the-war), item 2 — **Claude stand-in held back: Astra has drawn the subject** (volunteer), so the page draws hers (`volunteer-camp-cook`)
+  - **Deliver:** for the eight cast figures and `volunteer`: `-camp-cook` (stirring a kettle at a mess fire, 2 frames), `-mould` (seated at a fire pouring lead from a ladle into a bullet mould, 2 frames), `-picket` (standing with a rifle, looking down the road, 2 frames), east
+  - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `WORK['camp-cook']`, `WORK['camp-bullets']`, `WORK['camp-guard']` in `public/work-art.js`
+  - **Stands in now:** the hearth’s tend-fire (`fire`), the mending pose (`mend`) and the guard (`guard`) strokes (Astra's library art reused)
 - [ ] **C15** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), Castrillón and the rest — **Claude stand-in held back: Astra has drawn the subject** (crate), so the page draws hers (`ammunition-crate`)
   - **Deliver:** the remaining Tejano cast, and an `ammunition-crate` prop at the people's scale (Castrillón's north and south walks, his crate rally with the crate in his own frames, and Travis firing at the north battery are delivered, 2026-10-03)
   - **Frames:** as the famous sheets. **Size:** Famous sheets
@@ -676,7 +681,7 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 21 to make, 17 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 22 to make, 17 skipped.
 
 - [ ] **F1** (priority 1) — [Request 2026-09-15 — face portraits for the family panel](ART_REQUESTS.md#request-2026-09-15--face-portraits-for-the-family-panel) — **Claude stand-in in place** (`portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant`); Astra's replaces it
   - **Deliver:** `portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`
@@ -743,6 +748,11 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 1 each. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px; at 20 CSS px in the foot of a portrait
   - **Plugs into:** `cueMark` in `public/app.js`
   - **Stands in now:** the work's own icon (or its stroked glyph until F34) in a small blue disc (`cueMark`) (drawn in code (canvas or CSS))
+- [ ] **F39** (priority 2) — [Request 2026-10-05 — away at the war](ART_REQUESTS.md#request-2026-10-05--away-at-the-war), item 1
+  - **Deliver:** `icon-camp-cook` (a pot over a fire), `icon-camp-wood` (an axe in a log), `icon-camp-bullets` (a bullet mould and ladle), `icon-camp-shelter` (a brush lean-to), `icon-camp-buy` (a sack and a coin), `icon-camp-hunt` (a rifle and a deer track), `icon-town-wages` (a sack on a shoulder and a coin), `icon-town-board` (a bowl before a house)
+  - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
+  - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
+  - **Stands in now:** the nearest icons the library has: the forage, the kindling, the powder, the tent glyph, the shop, the timber hunt, the work about the place, the house (Astra's library art reused)
 - [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (pine-loblolly-pole, cedar-pole, mesquite-pole, live-oak-pole, elm-pole, post-oak-pole, blackjack-pole, pecan-pole, hackberry-pole, sweetgum-pole, pine-loblolly-log, cedar-log, mesquite-log, live-oak-log, elm-log, post-oak-log, blackjack-log, pecan-log, hackberry-log, sweetgum-log, pine-loblolly-large, cedar-large, mesquite-large, live-oak-large, elm-large, post-oak-large, blackjack-large, pecan-large, hackberry-large, sweetgum-large, pine-longleaf-pole, pine-longleaf-log, pine-longleaf-large, palm-sabal-pole, palm-sabal-log, palm-sabal-large, cypress-bald-pole, cypress-bald-log, cypress-bald-large, magnolia-log, magnolia-large, beech-log, beech-large, cottonwood, scrub, reeds, prickly-pear, marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`pine-loblolly-pole-wind`, `cedar-pole-wind`, `mesquite-pole-wind`, `live-oak-pole-wind`, `elm-pole-wind`, `post-oak-pole-wind`, `blackjack-pole-wind`, `pecan-pole-wind`, `hackberry-pole-wind`, `sweetgum-pole-wind`, `pine-loblolly-log-wind`, `cedar-log-wind`, `mesquite-log-wind`, `live-oak-log-wind`, `elm-log-wind`, `post-oak-log-wind`, `blackjack-log-wind`, `pecan-log-wind`, `hackberry-log-wind`, `sweetgum-log-wind`, `pine-loblolly-large-wind`, `cedar-large-wind`, `mesquite-large-wind`, `live-oak-large-wind`, `elm-large-wind`, `post-oak-large-wind`, `blackjack-large-wind`, `pecan-large-wind`, `hackberry-large-wind`, `sweetgum-large-wind`, `pine-longleaf-pole-wind`, `pine-longleaf-log-wind`, `pine-longleaf-large-wind`, `palm-sabal-pole-wind`, `palm-sabal-log-wind`, `palm-sabal-large-wind`, `cypress-bald-pole-wind`, `cypress-bald-log-wind`, `cypress-bald-large-wind`, `magnolia-log-wind`, `magnolia-large-wind`, `beech-log-wind`, `beech-large-wind`, `cottonwood-wind`, `scrub-wind`, `reeds-wind`, `prickly-pear-wind`, `marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
   - **Deliver:** a gale silhouette for each remaining tree kind and ground mark - pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` (`<tree>-wind`)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite

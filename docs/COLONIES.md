@@ -870,9 +870,13 @@ another family's wagon, no loan of a tool or a horse (owner questions).
   Columbia man who went rode the eighty-odd miles to Victoria in about sixteen hours. In a class of thirty neighbours every
   coast family stayed and eleven inland families sent a man, all of whom arrived.
 - `ceiling:` James Kerr's on the Lavaca is not a place on the real map, so the coast's volunteers ride for Victoria, where
-  the Matagorda and Lavaca companies went (pp. 164, 169, 174); a documented Kerr's is the way out. `ceiling:` a volunteer
+  the Matagorda and Lavaca companies went (pp. 164, 169, 174); a documented Kerr's is the way out. ~~`ceiling:` a volunteer
   from a near settlement can reach Gonzales before the fight and is not offered the upriver march, which remains the
-  Gonzales families' own; step 5 decides what a volunteer at Gonzales does. `ceiling:` one call a family, at the first
+  Gonzales families' own; step 5 decides what a volunteer at Gonzales does.~~ **Superseded 2026-10-05** (owner: *"When my
+  character reached Gonzales I never received a notification that he was participating in battle"*): a volunteer standing in
+  Gonzales when the men go up the river goes with them, alerted, in the line and given the account; one who comes after is told
+  it in town; and while away he is at the volunteers' camp's work (docs/MILITARY_EXPERIENCE.md, *Away at the war*;
+  `sim/directors.mjs` `enrolVolunteers`, `sim/militia.mjs`). `ceiling:` one call a family, at the first
   word; the circulars of October 3 and 8 do not ask again.
 - **Speed, found on the way.** A real-map class of thirty neighbours took some 290 ms a tick, nearly all of it rebuilding the
   land's water index (`sim/ground.mjs` `landAround`) for a fresh box on every line across country and every point. The
@@ -1053,8 +1057,10 @@ caught when built, and the casualty tests re-proven for the correction of §7d);
 `ceiling:` the detachment is not drawn apart from the main body; both are one formation until the fight.
 `ceiling:` battle news is told to the country on the day rather than carried by rider, though it reached San Felipe in
 three days and wrong about who was hurt (`HIST-TEX-024`). `ceiling:` the family of somebody killed is told at once.
-`ceiling:` no horse is lost, though "a few horses" were. `ceiling:` a volunteer's card still shows the road and the
-neighbour-visit controls while they are in the ranks, which predates this step.
+`ceiling:` no horse is lost, though "a few horses" were. ~~`ceiling:` a volunteer's card still shows the road and the
+neighbour-visit controls while they are in the ranks, which predates this step.~~ **Superseded 2026-10-05**: a volunteer away at
+the war has the militia's bar - the camp's work, *Come home* and calling off - and nothing of the farm's or the road's
+(docs/MILITARY_EXPERIENCE.md, *Away at the war*).
 
 ### 6j. As built: the map corrected from the town research (2026-09-16)
 

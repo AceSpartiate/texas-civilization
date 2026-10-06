@@ -904,7 +904,14 @@ function leaveArmy(world, person, { beginTravel, text, keepPromise = false }) {
   // On the horse they came with, as a volunteer sent for does (`callHome`); on foot if that way home is shut.
   const home = world.households[person.householdId].homeSiteId, mode = modeWith(world, person);
   // Somebody already on a road of their own (a man let go from the town who set out himself) keeps it.
-  if (beginTravel && !person.travel) { try { beginTravel(world, person, home, causeId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, person, home, causeId, 'home'); } }
+  // Somebody too sick to get up, or lying wounded, cannot set out (sim/world.mjs `beginTravel`): out of the ranks, he stays where the
+  // army left him until he can - a chill caught sleeping under the sky at the gathering can do it (sim/militia.mjs, 2026-10-05).
+  // Until then the refusal stopped the whole class's tick.
+  if (beginTravel && !person.travel) {
+    for (const how of mode === 'foot' ? ['foot'] : [mode, 'foot']) {
+      try { beginTravel(world, person, home, causeId, 'home', how); break; } catch { /* the next way, or he stays where he is */ }
+    }
+  }
 }
 
 /**

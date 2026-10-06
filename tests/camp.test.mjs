@@ -89,7 +89,9 @@ test('the camp\'s work is on a serving man\'s row and nobody else\'s; three days
   // A day's drill, said and counted: the first of the camp's work is the one supporting award.
   order(world, man, 'camp-drill');
   assert.equal(man.chore.id, 'camp-drill');
-  assert.ok(work(world, man).find(entry => entry.id === 'camp-forage').why.length > 0, 'a busy man was offered more work without a reason');
+  // Busy at one of the camp's duties, another is a press away (owner, 2026-10-05, "Camp duties, auto": "you can pick one"): open,
+  // and pressing it changes his work (sim/chores.mjs). Work that is not the camp's is still refused for being busy.
+  assert.ok(work(world, man).find(entry => entry.id === 'camp-forage').can, 'a man at the drill cannot be sent out for the mess instead');
   finish(world, man);
   assert.equal(man.service.drilled, 1);
   assert.ok(world.events.some(event => event.actorId === man.id && /drilled a day with the company .* \(1 of 3 days/.test(event.text)), 'the drill was not said');
