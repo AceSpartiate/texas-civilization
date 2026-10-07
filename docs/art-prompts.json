@@ -4626,6 +4626,48 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-flag-variants.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "No-star pole four-pose wind; flat half/finished variants with/without star. Historical default unchanged."
+    },
+    {
+      "sheet": "cart-open-complete",
+      "prompt": "Production transparent sprite atlas EXACT FOUR columns FIVE rows TWENTY isolated uncovered two-wheel ox carts WITHOUTox WITHOUTpeople. Match reference same simplebrownplankbed curvedwoodshaft bigironrimmedspokewheels warmbrownoutlined paintedfrontierstyle. Row1 EAST emptycart4travelposes wheelspokesrotate noticeably0/25/50/75degrees BODY remainsidentical stationary nojump. Row2 SOUTH frontviewshafttowardviewer4rollingwheelposes subtlewheelrotation treadchanges samebody. Row3 NORTH rearviewshaftaway4rollingwheelposes samebody. Row4 parked EMPTY east/south/north then LOADED east. Row5 LOADED south/north/east alternate/north alternate. Loads modestcreamclothbundles crate rolledblanket belowrailheight, nopeople noox no weapons. Eachentirecart fits central60percentofequalcell widthheight with min40px completelyemptytransparentgutters ALLsides INCLUDINGshaft wheels. EXACT4x5layout. Samebodydimensions andgroundbaseline eachrowtravel, no changesbedshaftwheelsize. Truezeroalpha nofloor shadowsgridlabels text. Cardinalnorthsouth NOTsideturn mirror. Wholecarttwowheels only.",
+      "promptId": "frontier-v1/cart-open-complete",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cart-open.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec3d4d79-8c12-474c-84eb-e097d43f7191.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ffb0d2d6-f0b3-43ee-aa81-b3e37a645fbf.png",
+      "refinements": [
+        {
+          "prompt": "Edit exact4columns5rows20cartatlas. CRITICAL first3rows wheelanimation currently too similar. Keepbodyshaftsgroundposition identicalwithinrow, ROTATE wheelspokes and ironrim rivets in EACH successivecolumn by22.5degrees. Eastfrontvisible wheel add ONE subtle darkwood knot/rimscuff at12oclockcol1,3oclockcol2,6oclockcol3,9oclockcol4 makingrotationobvious. Southnorth wheel tread/rim smallscuff moves up/front/down/back across4poses, bodyunchanged. Shrink everywholecart INCLUDINGshafts25percent centeredowncell min30px emptytransparentguttersALLsides. Preserve original rowlayout emptyE/S/Ntravel, parkedstatesrow4 andloadedrow5. NOpeopleox backgroundshadowslabelsgrid. Truezeroalpha preservewarmbrownoutlinedwoodgameart. Allfullobjectscontained.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ffb0d2d6-f0b3-43ee-aa81-b3e37a645fbf.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/cart-open-complete.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Cart-only subgroup: cardinal empty/loaded travel and parked views; separate ox. Broader passenger/infant request remains open."
+    },
+    {
+      "sheet": "cart-open-loaded-travel",
+      "prompt": "Transparent gameatlas EXACT FOURcolumns THREErows TWELVE LOADED openwooden two-wheel carts withoutox withoutpeople, same identity as reference loadedparkedcart. Row1 EAST, row2 SOUTHfront shafttowardviewer,row3 NORTHrear shaftaway. EACHROW four rollingwheelposes: SAMEbodycargoorientationthroughoutrow, wheels rotate visibly acrosscolumns. East wheel distinctive darkrimscuff at12/3/6/9oclock successivecols and spokes rotate22.5degrees. Southnorth wheelironrimscuff shiftsfront/down/back/up, no bobbingbody. Modestcargo creamclothbundle woodcrate rolledblanket remainssecureidentical eachframe. Warmbrownoutlinedpaintedfrontierstyle. Everywholecartincludingcurvedshaft ONLYcentral55percent owncellwidthheight min45px emptytransparentgutterallsides. EXACT4x3 nofloor shadowslabelsgrid text ox people. Samebodyheightbaseline row allcompletepartscontained truezeroalpha. NOTcoveredwagon, two wheels.",
+      "promptId": "frontier-v1/cart-open-loaded-travel",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ffb0d2d6-f0b3-43ee-aa81-b3e37a645fbf.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-15a04300-99e4-4651-b3b5-f4e5cbc7a384.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c9ed54a0-05bd-492b-aed9-02413458adaa.png",
+      "refinements": [
+        {
+          "prompt": "Edit exact12sprite4x3 loadedcartatlas. Bottomrow NORTH must realREARview: curvedshaft behindbed extends UPWARD towardTOPofimage, never down towardviewer. Rearboardclosestviewer cargo crateleft bundlecenter blanketleft ascurrent preserve. TOProw east MIDrow south unchangedorientation. SHRINK EVERY completecartincludingSHAFT25percent centeredowncell min35px emptytransparentguttersALLsides. Preserve visiblewhitewheelscuffrotation top12/3/6/9 and verticaltreadscuffsvariation, keepbodycargoaligned throughoutrow. Truezeroalpha nofloor shadow labelsgridpeopleox. Samepaintedwoodstyle. Northcurvedshaftup clearly visible abovebed.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c9ed54a0-05bd-492b-aed9-02413458adaa.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/cart-open-loaded-travel.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Cart-only subgroup: cardinal empty/loaded travel and parked views; separate ox. Broader passenger/infant request remains open."
     }
   ]
 }

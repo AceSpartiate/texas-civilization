@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2828 usable sprites, 299 PNG atlases, 986 clips** (678 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2860 usable sprites, 301 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -233,6 +233,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
 | night-settlement-lights | 16 | 1254 × 1254 | 1713707 |
+| cart-open-complete | 20 | 1402 × 1122 | 1382518 |
+| cart-open-loaded-travel | 12 | 1448 × 1086 | 1151276 |
 | town-mexican-river | 1 | 1426 × 1103 | 1719481 |
 | presidio-spanish | 1 | 1536 × 1024 | 2103476 |
 | village-irish-colony | 1 | 1536 × 1024 | 2454172 |
@@ -2335,6 +2337,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | cabin-night-lit-2 | night-settlement-lights | cabin-night-lit |
 | cabin-night-lit-3 | night-settlement-lights | cabin-night-lit |
 | cabin-night-lit-4 | night-settlement-lights | cabin-night-lit |
+| cart-open-travel-e-1 | cart-open-complete | cart-open-travel-e |
+| cart-open-travel-e-2 | cart-open-complete | cart-open-travel-e |
+| cart-open-travel-e-3 | cart-open-complete | cart-open-travel-e |
+| cart-open-travel-e-4 | cart-open-complete | cart-open-travel-e |
+| cart-open-travel-s-1 | cart-open-complete | cart-open-travel-s |
+| cart-open-travel-s-2 | cart-open-complete | cart-open-travel-s |
+| cart-open-travel-s-3 | cart-open-complete | cart-open-travel-s |
+| cart-open-travel-s-4 | cart-open-complete | cart-open-travel-s |
+| cart-open-travel-n-1 | cart-open-complete | cart-open-travel-n |
+| cart-open-travel-n-2 | cart-open-complete | cart-open-travel-n |
+| cart-open-travel-n-3 | cart-open-complete | cart-open-travel-n |
+| cart-open-travel-n-4 | cart-open-complete | cart-open-travel-n |
+| cart-open-idle-e | cart-open-complete | State artwork; no motion required |
+| cart-open-idle-s | cart-open-complete | State artwork; no motion required |
+| cart-open-idle-n | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-e | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-s | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-n | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-e-alt | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-n-alt | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-travel-e-1 | cart-open-loaded-travel | cart-open-loaded-travel-e |
+| cart-open-loaded-travel-e-2 | cart-open-loaded-travel | cart-open-loaded-travel-e |
+| cart-open-loaded-travel-e-3 | cart-open-loaded-travel | cart-open-loaded-travel-e |
+| cart-open-loaded-travel-e-4 | cart-open-loaded-travel | cart-open-loaded-travel-e |
+| cart-open-loaded-travel-s-1 | cart-open-loaded-travel | cart-open-loaded-travel-s |
+| cart-open-loaded-travel-s-2 | cart-open-loaded-travel | cart-open-loaded-travel-s |
+| cart-open-loaded-travel-s-3 | cart-open-loaded-travel | cart-open-loaded-travel-s |
+| cart-open-loaded-travel-s-4 | cart-open-loaded-travel | cart-open-loaded-travel-s |
+| cart-open-loaded-travel-n-1 | cart-open-loaded-travel | cart-open-loaded-travel-n |
+| cart-open-loaded-travel-n-2 | cart-open-loaded-travel | cart-open-loaded-travel-n |
+| cart-open-loaded-travel-n-3 | cart-open-loaded-travel | cart-open-loaded-travel-n |
+| cart-open-loaded-travel-n-4 | cart-open-loaded-travel | cart-open-loaded-travel-n |
 | town-mexican-river | town-mexican-river | State artwork; no motion required |
 | presidio-spanish | presidio-spanish | State artwork; no motion required |
 | village-irish-colony | village-irish-colony | State artwork; no motion required |
@@ -3829,6 +3863,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | adobe-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | jacal-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | cabin-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
+| cart-open-travel-e | Pose cycle | 4 | 980 | yes | east; west by mirroring |
+| cart-open-travel-s | Pose cycle | 4 | 980 | yes | south |
+| cart-open-travel-n | Pose cycle | 4 | 980 | yes | north |
+| cart-open-loaded-travel-e | Pose cycle | 4 | 980 | yes | east; west by mirroring |
+| cart-open-loaded-travel-s | Pose cycle | 4 | 980 | yes | south |
+| cart-open-loaded-travel-n | Pose cycle | 4 | 980 | yes | north |
 | ox-packed-walk-e | Pose cycle | 4 | 960 | yes | east |
 | ox-packed-idle-e | breathe | 1 | 2700 | yes | east |
 | ox-packed-walk-s | Pose cycle | 4 | 960 | yes | south |

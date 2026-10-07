@@ -11429,6 +11429,150 @@
       "motion": "none",
       "direction": "scenery"
     },
+    "cart-open-travel-e": {
+      "frames": [
+        {
+          "sprite": "cart-open-travel-e-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-e-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-e-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-e-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cart-open-travel-s": {
+      "frames": [
+        {
+          "sprite": "cart-open-travel-s-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-s-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-s-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-s-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cart-open-travel-n": {
+      "frames": [
+        {
+          "sprite": "cart-open-travel-n-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-n-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-n-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-n-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cart-open-loaded-travel-e": {
+      "frames": [
+        {
+          "sprite": "cart-open-loaded-travel-e-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-e-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-e-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-e-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cart-open-loaded-travel-s": {
+      "frames": [
+        {
+          "sprite": "cart-open-loaded-travel-s-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-s-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-s-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-s-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cart-open-loaded-travel-n": {
+      "frames": [
+        {
+          "sprite": "cart-open-loaded-travel-n-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-n-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-n-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-n-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "ox-packed-walk-e": {
       "frames": [
         {

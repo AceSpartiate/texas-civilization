@@ -1,3 +1,7 @@
+## Completed vehicle group 2026-10-07: open carts
+
+The open-cart vehicle portion of the September 25 travel request is complete: 32 frames, six cardinal empty/loaded rolling cycles and parked states. Live carts select direction, cargo and motion while preserving the separate ox. Seated passengers and infant-carrying remain separate open portions of the broader travel request. See `docs/ART_DELIVERY_2026-10-07-OPEN-CART.md`.
+
 ## Art delivery 2026-10-07: Gonzales flag variants
 
 Eight frames supply a four-pose no-star pole flag and half-painted/finished flat cloth with and without the star. `drawFlag` supports explicit `star:false` and flat `stage:'half'`; default scenes preserve their existing choice. See `docs/ART_DELIVERY_2026-10-07-GONZALES-FLAG-VARIANTS.md`.

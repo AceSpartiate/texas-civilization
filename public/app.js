@@ -395,7 +395,12 @@ function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
     if (entity.travel && animated(ctx, `carreta-travel-${heading || 'e'}`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
     if (drawSprite(ctx, entity.laden ? 'carreta-loaded-e' : `carreta-idle-${heading || 'e'}`, x, y, size, { flip: heading ? false : flip })) return;
   }
-  if (entity.cart && (!entity.condition || entity.condition === 'sound') && drawSprite(ctx, `cart-open-${heading || 'e'}`, x, y, size, { flip: heading ? false : flip })) return;
+  if (entity.cart && (!entity.condition || entity.condition === 'sound')) {
+    const direction = heading || 'e', options = { flip: heading ? false : flip, gait: entity.gait };
+    if (entity.travel && animated(ctx, `cart-open-${entity.laden ? 'loaded-' : ''}travel-${direction}`, x, y, size, entity.id, options)) return;
+    if (drawSprite(ctx, `cart-open-${entity.laden ? 'loaded' : 'idle'}-${direction}`, x, y, size, options)) return;
+    if (drawSprite(ctx, `cart-open-${direction}`, x, y, size, options)) return;
+  }
   const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
   if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip, gait: entity.gait })) return;
   // A wagon that has come to harm shows it. Nothing here invents that state: it is drawn

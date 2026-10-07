@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 299,
-    "sprites": 2828,
-    "clips": 986,
-    "poseCycles": 678,
+    "sheets": 301,
+    "sprites": 2860,
+    "clips": 992,
+    "poseCycles": 684,
     "rigs": 4
   },
   "entrypoints": {
@@ -19061,6 +19061,254 @@
               [
                 948,
                 1239
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "cart-open-complete": {
+      "image": "atlases/cart-open-complete.png",
+      "width": 1402,
+      "height": 1122,
+      "bytes": 1382518,
+      "sha256": "5e673b5f90bcd16c7f9620a719b3222bbe75dd7103d9c4e7ece3cce6368f231d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.614274,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 5,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              53,
+              201
+            ],
+            "columns": [
+              [
+                53,
+                344
+              ],
+              [
+                398,
+                689
+              ],
+              [
+                749,
+                1039
+              ],
+              [
+                1096,
+                1388
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              256,
+              428
+            ],
+            "columns": [
+              [
+                67,
+                293
+              ],
+              [
+                415,
+                643
+              ],
+              [
+                764,
+                992
+              ],
+              [
+                1114,
+                1341
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              453,
+              621
+            ],
+            "columns": [
+              [
+                64,
+                295
+              ],
+              [
+                413,
+                645
+              ],
+              [
+                762,
+                994
+              ],
+              [
+                1110,
+                1344
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              669,
+              853
+            ],
+            "columns": [
+              [
+                53,
+                344
+              ],
+              [
+                418,
+                641
+              ],
+              [
+                762,
+                993
+              ],
+              [
+                1079,
+                1383
+              ]
+            ]
+          },
+          {
+            "row": 5,
+            "yRange": [
+              877,
+              1068
+            ],
+            "columns": [
+              [
+                65,
+                297
+              ],
+              [
+                414,
+                643
+              ],
+              [
+                753,
+                1038
+              ],
+              [
+                1110,
+                1343
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "cart-open-loaded-travel": {
+      "image": "atlases/cart-open-loaded-travel.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1151276,
+      "sha256": "beb41cb16aeb8589c308e160eaab792f220f9f8e5b0204bf43f4ffc48db1853c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.677923,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              104,
+              309
+            ],
+            "columns": [
+              [
+                42,
+                360
+              ],
+              [
+                417,
+                738
+              ],
+              [
+                780,
+                1101
+              ],
+              [
+                1142,
+                1448
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              449,
+              663
+            ],
+            "columns": [
+              [
+                53,
+                323
+              ],
+              [
+                417,
+                690
+              ],
+              [
+                780,
+                1051
+              ],
+              [
+                1139,
+                1414
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              751,
+              993
+            ],
+            "columns": [
+              [
+                49,
+                315
+              ],
+              [
+                411,
+                678
+              ],
+              [
+                774,
+                1045
+              ],
+              [
+                1137,
+                1406
               ]
             ]
           }
@@ -95488,6 +95736,1078 @@
       "locationKits": [],
       "promptId": "frontier-v1/night-settlement-lights"
     },
+    "cart-open-travel-e-1": {
+      "sheet": "cart-open-complete",
+      "x": 53,
+      "y": 53,
+      "w": 291,
+      "h": 148,
+      "anchorX": 0.2491,
+      "anchorY": 0.9257,
+      "label": "cart open travel e 1",
+      "kind": "cart-open-complete",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          55,
+          287,
+          144
+        ],
+        "visiblePixels": 24501,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-e-2": {
+      "sheet": "cart-open-complete",
+      "x": 398,
+      "y": 53,
+      "w": 291,
+      "h": 148,
+      "anchorX": 0.2526,
+      "anchorY": 0.9257,
+      "label": "cart open travel e 2",
+      "kind": "cart-open-complete",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          55,
+          287,
+          144
+        ],
+        "visiblePixels": 24483,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-e-3": {
+      "sheet": "cart-open-complete",
+      "x": 749,
+      "y": 53,
+      "w": 290,
+      "h": 148,
+      "anchorX": 0.2534,
+      "anchorY": 0.9257,
+      "label": "cart open travel e 3",
+      "kind": "cart-open-complete",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          751,
+          55,
+          286,
+          144
+        ],
+        "visiblePixels": 24408,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-e-4": {
+      "sheet": "cart-open-complete",
+      "x": 1096,
+      "y": 53,
+      "w": 292,
+      "h": 148,
+      "anchorX": 0.2517,
+      "anchorY": 0.9257,
+      "label": "cart open travel e 4",
+      "kind": "cart-open-complete",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1098,
+          55,
+          288,
+          144
+        ],
+        "visiblePixels": 24563,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-s-1": {
+      "sheet": "cart-open-complete",
+      "x": 67,
+      "y": 256,
+      "w": 226,
+      "h": 172,
+      "anchorX": 0.4956,
+      "anchorY": 0.9244,
+      "label": "cart open travel s 1",
+      "kind": "cart-open-complete",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          69,
+          258,
+          222,
+          168
+        ],
+        "visiblePixels": 22957,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-s-2": {
+      "sheet": "cart-open-complete",
+      "x": 415,
+      "y": 256,
+      "w": 228,
+      "h": 172,
+      "anchorX": 0.4978,
+      "anchorY": 0.9244,
+      "label": "cart open travel s 2",
+      "kind": "cart-open-complete",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          417,
+          258,
+          224,
+          168
+        ],
+        "visiblePixels": 23159,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-s-3": {
+      "sheet": "cart-open-complete",
+      "x": 764,
+      "y": 256,
+      "w": 228,
+      "h": 171,
+      "anchorX": 0.4956,
+      "anchorY": 0.9298,
+      "label": "cart open travel s 3",
+      "kind": "cart-open-complete",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          766,
+          258,
+          224,
+          167
+        ],
+        "visiblePixels": 23198,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-s-4": {
+      "sheet": "cart-open-complete",
+      "x": 1114,
+      "y": 256,
+      "w": 227,
+      "h": 172,
+      "anchorX": 0.4956,
+      "anchorY": 0.9244,
+      "label": "cart open travel s 4",
+      "kind": "cart-open-complete",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1116,
+          258,
+          223,
+          168
+        ],
+        "visiblePixels": 23151,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-n-1": {
+      "sheet": "cart-open-complete",
+      "x": 64,
+      "y": 453,
+      "w": 231,
+      "h": 168,
+      "anchorX": 0.4978,
+      "anchorY": 0.9286,
+      "label": "cart open travel n 1",
+      "kind": "cart-open-complete",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          66,
+          455,
+          227,
+          164
+        ],
+        "visiblePixels": 23269,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-n-2": {
+      "sheet": "cart-open-complete",
+      "x": 413,
+      "y": 453,
+      "w": 232,
+      "h": 167,
+      "anchorX": 0.4957,
+      "anchorY": 0.9281,
+      "label": "cart open travel n 2",
+      "kind": "cart-open-complete",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          415,
+          455,
+          228,
+          163
+        ],
+        "visiblePixels": 23360,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-n-3": {
+      "sheet": "cart-open-complete",
+      "x": 762,
+      "y": 453,
+      "w": 232,
+      "h": 167,
+      "anchorX": 0.5,
+      "anchorY": 0.9281,
+      "label": "cart open travel n 3",
+      "kind": "cart-open-complete",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          764,
+          455,
+          228,
+          163
+        ],
+        "visiblePixels": 23257,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-travel-n-4": {
+      "sheet": "cart-open-complete",
+      "x": 1110,
+      "y": 453,
+      "w": 234,
+      "h": 168,
+      "anchorX": 0.4979,
+      "anchorY": 0.9286,
+      "label": "cart open travel n 4",
+      "kind": "cart-open-complete",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1112,
+          455,
+          230,
+          164
+        ],
+        "visiblePixels": 23668,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-idle-e": {
+      "sheet": "cart-open-complete",
+      "x": 53,
+      "y": 690,
+      "w": 291,
+      "h": 147,
+      "anchorX": 0.2526,
+      "anchorY": 0.9252,
+      "label": "cart open idle e",
+      "kind": "cart-open-complete",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          692,
+          287,
+          143
+        ],
+        "visiblePixels": 24506,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-idle-s": {
+      "sheet": "cart-open-complete",
+      "x": 418,
+      "y": 683,
+      "w": 223,
+      "h": 170,
+      "anchorX": 0.4933,
+      "anchorY": 0.9294,
+      "label": "cart open idle s",
+      "kind": "cart-open-complete",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          420,
+          685,
+          219,
+          166
+        ],
+        "visiblePixels": 22296,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-idle-n": {
+      "sheet": "cart-open-complete",
+      "x": 762,
+      "y": 669,
+      "w": 231,
+      "h": 159,
+      "anchorX": 0.5,
+      "anchorY": 0.9245,
+      "label": "cart open idle n",
+      "kind": "cart-open-complete",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          764,
+          671,
+          227,
+          155
+        ],
+        "visiblePixels": 22848,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-loaded-e": {
+      "sheet": "cart-open-complete",
+      "x": 1079,
+      "y": 671,
+      "w": 304,
+      "h": 171,
+      "anchorX": 0.2648,
+      "anchorY": 0.9298,
+      "label": "cart open loaded e",
+      "kind": "cart-open-complete",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1081,
+          673,
+          300,
+          167
+        ],
+        "visiblePixels": 29447,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-loaded-s": {
+      "sheet": "cart-open-complete",
+      "x": 65,
+      "y": 884,
+      "w": 232,
+      "h": 184,
+      "anchorX": 0.4935,
+      "anchorY": 0.9293,
+      "label": "cart open loaded s",
+      "kind": "cart-open-complete",
+      "row": 5,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          67,
+          886,
+          228,
+          180
+        ],
+        "visiblePixels": 25999,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-loaded-n": {
+      "sheet": "cart-open-complete",
+      "x": 414,
+      "y": 887,
+      "w": 229,
+      "h": 154,
+      "anchorX": 0.4956,
+      "anchorY": 0.9286,
+      "label": "cart open loaded n",
+      "kind": "cart-open-complete",
+      "row": 5,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          416,
+          889,
+          225,
+          150
+        ],
+        "visiblePixels": 23279,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-loaded-e-alt": {
+      "sheet": "cart-open-complete",
+      "x": 753,
+      "y": 892,
+      "w": 285,
+      "h": 163,
+      "anchorX": 0.2544,
+      "anchorY": 0.9264,
+      "label": "cart open loaded e alt",
+      "kind": "cart-open-complete",
+      "row": 5,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          755,
+          894,
+          281,
+          159
+        ],
+        "visiblePixels": 26066,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-loaded-n-alt": {
+      "sheet": "cart-open-complete",
+      "x": 1110,
+      "y": 877,
+      "w": 233,
+      "h": 164,
+      "anchorX": 0.5,
+      "anchorY": 0.9268,
+      "label": "cart open loaded n alt",
+      "kind": "cart-open-complete",
+      "row": 5,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1112,
+          879,
+          229,
+          160
+        ],
+        "visiblePixels": 24500,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-complete"
+    },
+    "cart-open-loaded-travel-e-1": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 42,
+      "y": 105,
+      "w": 318,
+      "h": 203,
+      "anchorX": 0.2689,
+      "anchorY": 0.9261,
+      "label": "cart open loaded travel e 1",
+      "kind": "cart-open-loaded-travel",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          44,
+          107,
+          314,
+          199
+        ],
+        "visiblePixels": 36872,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-e-2": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 417,
+      "y": 105,
+      "w": 321,
+      "h": 204,
+      "anchorX": 0.2726,
+      "anchorY": 0.9265,
+      "label": "cart open loaded travel e 2",
+      "kind": "cart-open-loaded-travel",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          419,
+          107,
+          317,
+          200
+        ],
+        "visiblePixels": 37193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-e-3": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 780,
+      "y": 105,
+      "w": 321,
+      "h": 203,
+      "anchorX": 0.2695,
+      "anchorY": 0.9261,
+      "label": "cart open loaded travel e 3",
+      "kind": "cart-open-loaded-travel",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          782,
+          107,
+          317,
+          199
+        ],
+        "visiblePixels": 37281,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-e-4": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 1142,
+      "y": 104,
+      "w": 306,
+      "h": 205,
+      "anchorX": 0.2827,
+      "anchorY": 0.9268,
+      "label": "cart open loaded travel e 4",
+      "kind": "cart-open-loaded-travel",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1144,
+          106,
+          304,
+          201
+        ],
+        "visiblePixels": 36963,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-s-1": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 53,
+      "y": 449,
+      "w": 270,
+      "h": 213,
+      "anchorX": 0.5019,
+      "anchorY": 0.9296,
+      "label": "cart open loaded travel s 1",
+      "kind": "cart-open-loaded-travel",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          451,
+          266,
+          209
+        ],
+        "visiblePixels": 35265,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-s-2": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 417,
+      "y": 449,
+      "w": 273,
+      "h": 214,
+      "anchorX": 0.5,
+      "anchorY": 0.9299,
+      "label": "cart open loaded travel s 2",
+      "kind": "cart-open-loaded-travel",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          419,
+          451,
+          269,
+          210
+        ],
+        "visiblePixels": 35587,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-s-3": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 780,
+      "y": 449,
+      "w": 271,
+      "h": 214,
+      "anchorX": 0.5,
+      "anchorY": 0.9299,
+      "label": "cart open loaded travel s 3",
+      "kind": "cart-open-loaded-travel",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          782,
+          451,
+          267,
+          210
+        ],
+        "visiblePixels": 35461,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-s-4": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 1139,
+      "y": 450,
+      "w": 275,
+      "h": 212,
+      "anchorX": 0.4982,
+      "anchorY": 0.9292,
+      "label": "cart open loaded travel s 4",
+      "kind": "cart-open-loaded-travel",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1141,
+          452,
+          271,
+          208
+        ],
+        "visiblePixels": 35696,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-n-1": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 49,
+      "y": 751,
+      "w": 266,
+      "h": 242,
+      "anchorX": 0.4962,
+      "anchorY": 0.9298,
+      "label": "cart open loaded travel n 1",
+      "kind": "cart-open-loaded-travel",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          51,
+          753,
+          262,
+          238
+        ],
+        "visiblePixels": 33072,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-n-2": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 411,
+      "y": 751,
+      "w": 267,
+      "h": 242,
+      "anchorX": 0.4981,
+      "anchorY": 0.9298,
+      "label": "cart open loaded travel n 2",
+      "kind": "cart-open-loaded-travel",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          413,
+          753,
+          263,
+          238
+        ],
+        "visiblePixels": 33125,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-n-3": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 774,
+      "y": 751,
+      "w": 271,
+      "h": 242,
+      "anchorX": 0.4982,
+      "anchorY": 0.9298,
+      "label": "cart open loaded travel n 3",
+      "kind": "cart-open-loaded-travel",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          776,
+          753,
+          267,
+          238
+        ],
+        "visiblePixels": 33600,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
+    "cart-open-loaded-travel-n-4": {
+      "sheet": "cart-open-loaded-travel",
+      "x": 1137,
+      "y": 751,
+      "w": 269,
+      "h": 242,
+      "anchorX": 0.4981,
+      "anchorY": 0.9298,
+      "label": "cart open loaded travel n 4",
+      "kind": "cart-open-loaded-travel",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1139,
+          753,
+          265,
+          238
+        ],
+        "visiblePixels": 33487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cart-open-loaded-travel.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-open-loaded-travel-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cart-open-loaded-travel"
+    },
     "town-mexican-river": {
       "sheet": "town-mexican-river",
       "x": 46,
@@ -134668,6 +135988,150 @@
       "motion": "none",
       "direction": "scenery"
     },
+    "cart-open-travel-e": {
+      "frames": [
+        {
+          "sprite": "cart-open-travel-e-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-e-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-e-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-e-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cart-open-travel-s": {
+      "frames": [
+        {
+          "sprite": "cart-open-travel-s-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-s-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-s-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-s-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cart-open-travel-n": {
+      "frames": [
+        {
+          "sprite": "cart-open-travel-n-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-n-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-n-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-n-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cart-open-loaded-travel-e": {
+      "frames": [
+        {
+          "sprite": "cart-open-loaded-travel-e-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-e-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-e-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-e-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cart-open-loaded-travel-s": {
+      "frames": [
+        {
+          "sprite": "cart-open-loaded-travel-s-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-s-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-s-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-s-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cart-open-loaded-travel-n": {
+      "frames": [
+        {
+          "sprite": "cart-open-loaded-travel-n-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-n-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-n-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-n-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "ox-packed-walk-e": {
       "frames": [
         {
@@ -145209,7 +146673,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 299,
+    "sourceCount": 301,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
