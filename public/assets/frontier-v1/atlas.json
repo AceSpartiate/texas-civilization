@@ -5295,6 +5295,81 @@
         ]
       }
     },
+    "family-panel-marks": {
+      "image": "atlases/family-panel-marks.png",
+      "width": 1286,
+      "height": 1223,
+      "bytes": 985678,
+      "sha256": "5ac93f3e58f5643f25c2ed1a0f37c4e5b69b32ffedb9f9a8d6d4e5e67fed251b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.708727,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              78,
+              395
+            ],
+            "columns": [
+              [
+                215,
+                540
+              ],
+              [
+                744,
+                1071
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              450,
+              767
+            ],
+            "columns": [
+              [
+                217,
+                537
+              ],
+              [
+                727,
+                1098
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              813,
+              1146
+            ],
+            "columns": [
+              [
+                204,
+                549
+              ],
+              [
+                733,
+                1075
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-bonham": {
       "image": "atlases/famous-bonham.png",
       "width": 1254,
@@ -41010,6 +41085,150 @@
           249
         ],
         "visiblePixels": 32375,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mark-need": {
+      "sheet": "family-panel-marks",
+      "x": 215,
+      "y": 78,
+      "w": 325,
+      "h": 316,
+      "anchorX": 0.4985,
+      "anchorY": 0.9272,
+      "label": "mark need",
+      "kind": "family-panel-marks",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          217,
+          80,
+          321,
+          312
+        ],
+        "visiblePixels": 79004,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mark-need-rider": {
+      "sheet": "family-panel-marks",
+      "x": 744,
+      "y": 78,
+      "w": 327,
+      "h": 317,
+      "anchorX": 0.4969,
+      "anchorY": 0.9274,
+      "label": "mark need rider",
+      "kind": "family-panel-marks",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          746,
+          80,
+          323,
+          313
+        ],
+        "visiblePixels": 79886,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mark-main": {
+      "sheet": "family-panel-marks",
+      "x": 217,
+      "y": 450,
+      "w": 320,
+      "h": 302,
+      "anchorX": 0.4969,
+      "anchorY": 0.9404,
+      "label": "mark main",
+      "kind": "family-panel-marks",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          219,
+          452,
+          316,
+          298
+        ],
+        "visiblePixels": 48875,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mark-idle": {
+      "sheet": "family-panel-marks",
+      "x": 727,
+      "y": 451,
+      "w": 371,
+      "h": 316,
+      "anchorX": 0.4811,
+      "anchorY": 0.9272,
+      "label": "mark idle",
+      "kind": "family-panel-marks",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          729,
+          453,
+          367,
+          312
+        ],
+        "visiblePixels": 61991,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mark-auto-off": {
+      "sheet": "family-panel-marks",
+      "x": 204,
+      "y": 813,
+      "w": 345,
+      "h": 331,
+      "anchorX": 0.4986,
+      "anchorY": 0.9275,
+      "label": "mark auto off",
+      "kind": "family-panel-marks",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          206,
+          815,
+          341,
+          327
+        ],
+        "visiblePixels": 87727,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mark-auto-on": {
+      "sheet": "family-panel-marks",
+      "x": 733,
+      "y": 813,
+      "w": 342,
+      "h": 333,
+      "anchorX": 0.4971,
+      "anchorY": 0.9279,
+      "label": "mark auto on",
+      "kind": "family-panel-marks",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          735,
+          815,
+          338,
+          329
+        ],
+        "visiblePixels": 87373,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

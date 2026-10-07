@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2864 usable sprites, 302 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2870 usable sprites, 303 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -68,6 +68,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-family-youth-boy | 16 | 1254 × 1254 | 1278306 |
 | people-family-youth-girl | 16 | 1254 × 1254 | 1537178 |
 | people-family-father-hat | 16 | 1254 × 1254 | 1292458 |
+| family-panel-marks | 6 | 1286 × 1223 | 985678 |
 | famous-bonham | 16 | 1254 × 1254 | 1241019 |
 | famous-almeron-dickinson | 16 | 1254 × 1254 | 905031 |
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
@@ -906,6 +907,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | father-hat-rest | people-family-father-hat | father-hat-rest |
 | father-hat-injured-rest | people-family-father-hat | father-hat-injured-rest |
 | father-hat-quiet | people-family-father-hat | State artwork; no motion required |
+| mark-need | family-panel-marks | State artwork; no motion required |
+| mark-need-rider | family-panel-marks | State artwork; no motion required |
+| mark-main | family-panel-marks | State artwork; no motion required |
+| mark-idle | family-panel-marks | State artwork; no motion required |
+| mark-auto-off | family-panel-marks | State artwork; no motion required |
+| mark-auto-on | family-panel-marks | State artwork; no motion required |
 | bonham-walk-e-1 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-2 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-3 | famous-bonham | bonham-walk-e |

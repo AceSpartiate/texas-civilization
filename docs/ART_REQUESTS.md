@@ -1,3 +1,7 @@
+## Completed request group 2026-10-07: family-panel marks
+
+All six requested marks are production artwork: rust attention, slate waiting rider, brass selected-person badge, idle hat/peg and automation off/on. Existing panel bindings select these frames ahead of stand-ins. See `docs/ART_DELIVERY_2026-10-07-FAMILY-PANEL-MARKS.md`.
+
 ## Completed request group 2026-10-07: guided-start marks
 
 All four requested lesson marks are painted, registered and integrated: downward pointer, transparent-center ring, pending pip and completed pip. Pointer bobs with reduced-motion support. See `docs/ART_DELIVERY_2026-10-07-LESSON-MARKS.md`.
@@ -953,7 +957,7 @@ drilling, going out for beef and corn, standing guard, riding with the scouts.
 
 ## Request 2026-09-16 — the family panel's marks
 
-**Status: open; Claude-drawn stand-ins in use since 2026-09-16 (see *Claude-drawn stand-ins* above); before that, type and CSS.** The owner asked for "an exclamation point there for me to click on" when a person
+**Status: complete 2026-10-07; all six production marks delivered and selected by existing bindings.** The owner asked for "an exclamation point there for me to click on" when a person
 needs the student, and for one person to be chosen as the main one ([FAMILY_PANEL.md](FAMILY_PANEL.md) §11). Rows now also
 show who is idle. None of the three has art; each is a character or a word styled by the page.
 

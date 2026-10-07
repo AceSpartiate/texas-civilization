@@ -4515,6 +4515,38 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/lesson-marks.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Downward carved hand, hollow rust rope square, hollow/complete tally markers. CSS bob only marker; reduced-motion supported."
+    },
+    {
+      "sheet": "family-panel-marks",
+      "promptId": "frontier-v1/family-panel-marks",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lesson-marks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-540e3a4f-5404-4a16-abd7-673e1216b7e7.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-787b68de-17e0-428a-a240-2c2ede02a60b.png",
+      "refinements": [
+        {
+          "prompt": "Edit ONLY top TWO roundtokens in this transparent2x3 sixiconatlas: ADD a LARGE creamraised EXCLAMATION pictogram ! centered on BOTH orangeandblue tokens. Uprightthickverticalstrokeandseparaterounddot boldreads24px. Change blue tokenfieldfrompurple to mutedSLATEBLUE #41556b. Preserve ALL otherfouricons exactly andallpositionssizes truezeroalpha transparentbackground. No floor vignette glow labels words or extras. ! marks REQUIRED attentionandwaitingrider. Keeptransparentgutters.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-787b68de-17e0-428a-a240-2c2ede02a60b.png"
+        }
+      ],
+      "discardedAttempts": [
+        {
+          "prompt": "Production game UI transparent atlas EXACT TWOcolumns THREErows SIX isolated icons. Match suppliedwarm handpainted brownoutlinedfrontierstorybook marks; clearbold shapesread24px. Row1col1 round RUSTORANGE tokencream raisedEXCLAMATION symbolic ! sameasattention; row1col2 SAMEroundtoken SLATEBLUE creamraised! forwaitingrider. Row2col1 small BRASSGOLD fivepointstar badge thinbrownoutline; row2col2 resting strawhat hungonsinglewoodpeg simplewholehat noface orbody. Row3col1 clockworkwindingkey OFF dimbrownbrasskey horizontalposition onsmallrounddarkwoodmedallion; row3col2 SAME windingkey ON brightmutedgreenmedallion keyrotated45degrees, smallcreamcheck symbol lowercorner distinguishesONnotcoloronly. Noletterswordsnumbers. ! and check and star areallowed pictograms. Wholeiconfitcentral60percent equalcellwidthheight min45px emptytransparentmarginALLsides. Truezeroalpha nofloor shadows scenes labelsgrid. Exact2x3 rowmajorONLY sixobjects. Allroundtokenssamecirclegeometry. Noextratokenstext. Samepaperwood brasspalette rust#c2582c slate#41556b green#4f7a3a.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c279f82-b814-4a45-9a6c-1e22789d69eb.png",
+          "reason": "Opaque background"
+        },
+        {
+          "prompt": "Remove entirebrownbackground andglow around allsixicons, replacewith TRUEzeroalpha transparency. Preserve exact2columns3rows sixiconidentities and designs. SHRINK eachwholeicon25percent centeredowncell minimum35px emptytransparentgutterALLsides; noframescontactadjacentcells. ! tokenrust slate, goldstarbadge, hatpeg, brownkeyoff greenkeyon checkpreserved. NOshadows glow vignette floor scene opaquebackground. Onlyactualiconobjects opaque, allspacebetween fullytransparent. Preservepaintedstyle.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f47d3125-99d4-4835-ada8-f15011b48bae.png",
+          "reason": "Background removal failed"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/family-panel-marks.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "All six requested family marks replace existing stand-in IDs."
     }
   ],
   "rejectedAttempts": [

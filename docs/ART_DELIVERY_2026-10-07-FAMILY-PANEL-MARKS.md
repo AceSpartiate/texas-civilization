@@ -1,0 +1,9 @@
+# Family-panel marks group complete: 2026-10-07
+
+Six production sprites replace the complete September 16 panel-marks group: `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`, `mark-auto-on`. Rust/slate exclamation tokens, brass five-point selected-person badge, straw hat on a peg, and winding-key off/on states. On differs by angled key and checkmark as well as green. No word labels are baked into art.
+
+Existing panelMark/paintMark calls already use these exact IDs. Production frames take precedence over Claude stand-ins in the art loader; no additional UI state logic is needed. Existing attention bob, selected-person visibility and automation state controls are retained. Reduced-motion already suppresses attention bob. Accessible labels remain unchanged; typed marks remain load fallbacks. Icons themselves are static, with the requested attention motion supplied by CSS.
+
+Built-in imagegen uses the illustrated lesson marks as reference. A transparent regeneration and exclamation/slate refinement replace rejected opaque attempts, with selected PNG copied unchanged. Exact prompts, references, original/selected paths and refinements are in `scripts/art-deliveries/family-panel-marks-2026-10-07.mjs`, master prompt/provenance records and generated manifests.
+
+Tests verify complete inventory, production source, transparent corners and full silhouette retention. Family-panel rules regressions cover existing controls. Browser proof loads the normal art pipeline, verifies every selected frame comes from production rather than stand-ins, and draws all six at 20/24/32px on dark and portrait-colored backgrounds. Reproduce with `scripts/family-panel-marks-art-proof.mjs`; evidence `docs/evidence/family-panel-marks-art.png` and `.json`. The visual fixture checks drawing, not a full family gameplay playthrough.

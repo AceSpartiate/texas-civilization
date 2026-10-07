@@ -1,3 +1,7 @@
+## Completed request group 2026-10-07: family-panel marks
+
+All six requested marks are production artwork: rust attention, slate waiting rider, brass selected-person badge, idle hat/peg and automation off/on. Existing panel bindings select these frames ahead of stand-ins. See `docs/ART_DELIVERY_2026-10-07-FAMILY-PANEL-MARKS.md`.
+
 ## Completed request group 2026-10-07: guided-start marks
 
 All four requested lesson marks are painted, registered and integrated: downward pointer, transparent-center ring, pending pip and completed pip. Pointer bobs with reduced-motion support. See `docs/ART_DELIVERY_2026-10-07-LESSON-MARKS.md`.
