@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 303,
-    "sprites": 2870,
+    "sheets": 304,
+    "sprites": 2871,
     "clips": 992,
     "poseCycles": 684,
     "rigs": 4
@@ -20318,6 +20318,43 @@
               [
                 695,
                 1196
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "interior-saddlebag": {
+      "image": "atlases/interior-saddlebag.png",
+      "width": 1860,
+      "height": 846,
+      "bytes": 1858682,
+      "sha256": "14cc88f7d36670d6839d1788407256f61a81cd9975c8a2646be1843451e466a0",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.468316,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              86,
+              699
+            ],
+            "columns": [
+              [
+                78,
+                1782
               ]
             ]
           }
@@ -100401,6 +100438,38 @@
       "locationKits": [],
       "promptId": "frontier-v1/steamboat-moored"
     },
+    "interior-saddlebag": {
+      "sheet": "interior-saddlebag",
+      "x": 78,
+      "y": 86,
+      "w": 1704,
+      "h": 613,
+      "anchorX": 0.4997,
+      "anchorY": 0.9299,
+      "label": "interior saddlebag",
+      "kind": "interior-saddlebag",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          88,
+          1700,
+          609
+        ],
+        "visiblePixels": 825912,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/interior-saddlebag.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/interior-saddlebag"
+    },
     "seguin-ashes-stand": {
       "sheet": "famous-seguin-ashes",
       "x": 219,
@@ -147126,7 +147195,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 303,
+    "sourceCount": 304,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

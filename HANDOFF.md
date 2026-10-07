@@ -1,3 +1,7 @@
+## Completed request group 2026-10-07: saddlebag interior
+
+Dedicated roofless two-room cutaway replaces the dog-run stand-in. One central double chimney, no breezeway, ten preserved furnishing IDs with re-measured positions. Wide rendering supports the new sprite. Seven tests and an actual-renderer browser placement check pass. See `docs/ART_DELIVERY_2026-10-07-SADDLEBAG-INTERIOR.md`.
+
 ## Completed request group 2026-10-07: family-panel marks
 
 All six requested marks are production artwork: rust attention, slate waiting rider, brass selected-person badge, idle hat/peg and automation off/on. Existing panel bindings select these frames ahead of stand-ins. See `docs/ART_DELIVERY_2026-10-07-FAMILY-PANEL-MARKS.md`.

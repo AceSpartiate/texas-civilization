@@ -5,7 +5,7 @@
 /**
  * The spots in each interior, as fractions of the interior picture (sim is art-free, so these are the picture's own box: x
  * left to right, y top to bottom, at the item's feet). Read off the delivered `home-interiors` sheet. A saddlebag house has
- * its own spots, two pens and no passage, on a stand-in picture (below). ceiling: every spot takes any item; a bedstead under
+ * its own spots, two pens and no passage, on its dedicated cutaway. ceiling: every spot takes any item; a bedstead under
  * the window and a pot in the passage are the student's own choice.
  */
 export const INTERIORS = Object.freeze({
@@ -51,21 +51,18 @@ export const INTERIORS = Object.freeze({
     ['east-middle', 'In the east pen', 0.77, 0.76],
     ['east-front', 'At the front of the east pen', 0.66, 0.78],
   ] },
-  // stand-in: Request 2026-09-12 (second) — interiors and furnishings. A saddlebag house (two pens round one central chimney,
-  // sim/houseplot.mjs) has no interior picture, so it is drawn as the dog-run's and its spots are measured on that picture: the
-  // hearths are where the dog-run draws them, at the outer ends, and nothing is set in the passage the picture shows between
-  // the pens. When `interior-saddlebag` is delivered, name it here and re-measure the spots, the hearths at the centre.
-  saddlebag: { sprite: 'interior-dog-run', spots: [
-    ['west-hearth', 'By the west hearth', 0.17, 0.66],
-    ['west-window', "Under the west pen's window", 0.27, 0.53],
-    ['west-back', "Against the west pen's back wall", 0.19, 0.53],
-    ['west-middle', 'In the west pen', 0.26, 0.69],
-    ['west-door', "By the west pen's door", 0.31, 0.79],
-    ['east-hearth', 'By the east hearth', 0.83, 0.66],
-    ['east-window', "Under the east pen's window", 0.74, 0.53],
-    ['east-back', "Against the east pen's back wall", 0.81, 0.53],
-    ['east-middle', 'In the east pen', 0.74, 0.69],
-    ['east-door', "By the east pen's door", 0.69, 0.79],
+  // Dedicated two-room saddlebag cutaway. Stable IDs preserve existing saved furnishings.
+  saddlebag: { sprite: 'interior-saddlebag', spots: [
+    ['west-hearth', 'By the west hearth', 0.42, 0.70],
+    ['west-window', "Under the west pen's window", 0.27, 0.59],
+    ['west-back', "Against the west pen's back wall", 0.17, 0.58],
+    ['west-middle', 'In the west pen', 0.26, 0.77],
+    ['west-door', "By the west pen's door", 0.26, 0.90],
+    ['east-hearth', 'By the east hearth', 0.58, 0.70],
+    ['east-window', "Under the east pen's window", 0.73, 0.59],
+    ['east-back', "Against the east pen's back wall", 0.83, 0.58],
+    ['east-middle', 'In the east pen', 0.74, 0.77],
+    ['east-door', "By the east pen's door", 0.74, 0.90],
   ] },
 });
 

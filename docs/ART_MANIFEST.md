@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2870 usable sprites, 303 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2871 usable sprites, 304 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -248,6 +248,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
 | ferry-flatboat | 3 | 1254 × 1254 | 203701 |
 | steamboat-moored | 4 | 1254 × 1254 | 799173 |
+| interior-saddlebag | 1 | 1860 × 846 | 1858682 |
 | famous-seguin-ashes | 4 | 1230 × 1278 | 646296 |
 | alamo-ash-sites-1837 | 4 | 1536 × 1024 | 2505356 |
 | seguin-funeral-props | 4 | 1536 × 1024 | 2000785 |
@@ -2472,6 +2473,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored-2 | steamboat-moored | steamboat-moored |
 | steamboat-moored-3 | steamboat-moored | steamboat-gangplank |
 | steamboat-moored-4 | steamboat-moored | steamboat-cotton-moored |
+| interior-saddlebag | interior-saddlebag | State artwork; no motion required |
 | seguin-ashes-stand | famous-seguin-ashes | seguin-ashes-collect |
 | seguin-ashes-kneel | famous-seguin-ashes | seguin-ashes-collect |
 | seguin-ashes-gather | famous-seguin-ashes | seguin-ashes-collect |
