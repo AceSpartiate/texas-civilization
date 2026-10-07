@@ -4600,6 +4600,32 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-final-ns.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Dedicated south/front and north/rear. Pointing integrated; watch catalog-ready. Completes six adult town identities cardinal pointing."
+    },
+    {
+      "sheet": "gonzales-flag-variants",
+      "prompt": "Production game transparent atlas EXACT FOUR columns TWO rows EIGHT isolated flag sprites. Match reference warmpainted brownoutlined parchment cotton frontierstorybook cloth. Row1 four complete NO-STAR pole flags wind poses: rest slightlift billow settle. Same straightwoodenpole lengthbaseposition eachcell clothright, EXACT black cannonprofile and uppercase lettering 'COME AND TAKE IT' undercannon. NO STAR anywhere row1. Row2 four flatcottoncloth cutouts no poles no table: col1 HALFPAINTED WITHSTAR blackstar complete cannonhalfpainted words incomplete only 'COME'; col2 FINISHED WITHSTAR cannonstar exact 'COME AND TAKE IT'; col3 HALFPAINTED NOSTAR cannonhalfpainted incomplete 'COME'; col4 FINISHED NOSTAR cannon exact 'COME AND TAKE IT'. Allflatclothsameoutlinefoldsstitching about2:1lengthwidth, slightelevatedtopview. Paintingprogress staticstates NOT windanimation. Row1 flagclothshape subtlychanges eachpose whilepainteddesignconsistent. Eachentireobject ONLYcentral60percentofowncell widthheight min45px completelyemptytransparentguttersallsides. Fullycontainedpolebase cloth handsewnedges. Truezeroalpha nofloor castshadows people labelsgrid extraobjects. EXACT4x2. Textspellingcorrect, absolutelyNOstar inrow1androw2cols3/4.",
+      "promptId": "frontier-v1/gonzales-flag-variants",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/flag-come-and-take-it.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/gonzales-flag-work-painted.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a935402f-833d-4787-8218-fe03cf671688.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f35126ce-89d2-4036-909e-9f239c883cae.png",
+      "refinements": [
+        {
+          "prompt": "Edit spacing/scale ONLY exact4columns2rows8flags. Shrink everywholeobject by25percent centerowncell minimum35px emptytransparentgutters all sides, noedgeorneighborcontact. Allfourtoprowwoodenpoles identicalheightbasebaseline. Preserve allcorrectlettering COME AND TAKE IT, blackcannon, no-star TOPROW, row2withstarhalfCOME/finishedfullwords, nostarhalfCOME/finishedfullwords. Preserve windpose variationtoprow, flatclothbottomrow. Noaddedstars nochangedwords truezeroalpha nofloor shadowslabelsgrid.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f3862cec-749f-4e90-bd6b-58785bccf39a.png"
+        },
+        {
+          "prompt": "Edit ONLY edge cleanup this exact8sprite4x2atlas. REMOVE ALL RED, YELLOW, GREEN coloredfringes/glows/artifacts around clothandpoles. Cloth/polesedges should endcleanly brown outline into truezeroalpha. Preserve exact shapes positions sizes clothfolds words blackcannons starpresence unchanged. Do not add shadowsbackground or change spacing. Everyredpixel/fringeoutsidesilhouette becomes fullytransparent, no red anywhere in artwork. Keep warmcreamcloth darkbrownoutline woodenpoles blackink. EXACT current4x2layout.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f35126ce-89d2-4036-909e-9f239c883cae.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-flag-variants.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "No-star pole four-pose wind; flat half/finished variants with/without star. Historical default unchanged."
     }
   ]
 }

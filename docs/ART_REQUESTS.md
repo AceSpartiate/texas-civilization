@@ -1,3 +1,7 @@
+## Art delivery 2026-10-07: Gonzales flag variants
+
+Eight frames supply a four-pose no-star pole flag and half-painted/finished flat cloth with and without the star. `drawFlag` supports explicit `star:false` and flat `stage:'half'`; default scenes preserve their existing choice. See `docs/ART_DELIVERY_2026-10-07-GONZALES-FLAG-VARIANTS.md`.
+
 ## Art delivery 2026-10-06: complete cardinal river cast
 
 Sixteen frames and eight north/south watch/point clips for ochre and blue-girl. All six adult town figures now have dedicated pointing in every cardinal direction. Watch cycles remain catalog-ready for explicit scene actions. See `docs/ART_DELIVERY_2026-10-06-GONZALES-RIVER-FINAL-NS.md`.

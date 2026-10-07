@@ -1,0 +1,45 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "flag-come-and-take-it-no-star-wind-1",
+      "drawn": true
+    },
+    {
+      "id": "flag-come-and-take-it-no-star-wind-2",
+      "drawn": true
+    },
+    {
+      "id": "flag-come-and-take-it-no-star-wind-3",
+      "drawn": true
+    },
+    {
+      "id": "flag-come-and-take-it-no-star-wind-4",
+      "drawn": true
+    },
+    {
+      "id": "gonzales-flag-work-half-star",
+      "drawn": true
+    },
+    {
+      "id": "gonzales-flag-work-done-star",
+      "drawn": true
+    },
+    {
+      "id": "gonzales-flag-work-half-no-star",
+      "drawn": true
+    },
+    {
+      "id": "gonzales-flag-work-done-no-star",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "flag-come-and-take-it-no-star-wind",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

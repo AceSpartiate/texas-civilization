@@ -9185,6 +9185,30 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "flag-come-and-take-it-no-star-wind": {
+      "frames": [
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-1",
+          "duration": 850
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-2",
+          "duration": 600
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-3",
+          "duration": 650
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-4",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
     "elder-read-letter": {
       "frames": [
         {

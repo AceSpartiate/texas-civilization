@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 298,
-    "sprites": 2820,
-    "clips": 985,
-    "poseCycles": 677,
+    "sheets": 299,
+    "sprites": 2828,
+    "clips": 986,
+    "poseCycles": 678,
     "rigs": 4
   },
   "entrypoints": {
@@ -15495,6 +15495,80 @@
               [
                 1147,
                 1376
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "gonzales-flag-variants": {
+      "image": "atlases/gonzales-flag-variants.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1089563,
+      "sha256": "7e0a57356b8e74655c0a1de9141ac5424d4c22fefff570e1e4b236b07786591f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.668438,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              120,
+              500
+            ],
+            "columns": [
+              [
+                105,
+                416
+              ],
+              [
+                521,
+                854
+              ],
+              [
+                953,
+                1294
+              ],
+              [
+                1378,
+                1706
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              583,
+              781
+            ],
+            "columns": [
+              [
+                51,
+                424
+              ],
+              [
+                495,
+                862
+              ],
+              [
+                926,
+                1293
+              ],
+              [
+                1360,
+                1729
               ]
             ]
           }
@@ -81636,6 +81710,270 @@
       "locationKits": [],
       "promptId": "frontier-v1/people-gonzales-digging"
     },
+    "flag-come-and-take-it-no-star-wind-1": {
+      "sheet": "gonzales-flag-variants",
+      "x": 105,
+      "y": 120,
+      "w": 311,
+      "h": 379,
+      "anchorX": 0.0691,
+      "anchorY": 0.9393,
+      "label": "flag come and take it no star wind 1",
+      "kind": "gonzales-flag-variants",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          107,
+          122,
+          307,
+          375
+        ],
+        "visiblePixels": 58554,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-variants.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "flag-come-and-take-it-no-star-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-variants"
+    },
+    "flag-come-and-take-it-no-star-wind-2": {
+      "sheet": "gonzales-flag-variants",
+      "x": 521,
+      "y": 120,
+      "w": 333,
+      "h": 380,
+      "anchorX": 0.0646,
+      "anchorY": 0.9289,
+      "label": "flag come and take it no star wind 2",
+      "kind": "gonzales-flag-variants",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          523,
+          122,
+          329,
+          376
+        ],
+        "visiblePixels": 58710,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-variants.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "flag-come-and-take-it-no-star-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-variants"
+    },
+    "flag-come-and-take-it-no-star-wind-3": {
+      "sheet": "gonzales-flag-variants",
+      "x": 953,
+      "y": 120,
+      "w": 341,
+      "h": 379,
+      "anchorX": 0.0616,
+      "anchorY": 0.9288,
+      "label": "flag come and take it no star wind 3",
+      "kind": "gonzales-flag-variants",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          955,
+          122,
+          337,
+          375
+        ],
+        "visiblePixels": 56902,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-variants.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "flag-come-and-take-it-no-star-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-variants"
+    },
+    "flag-come-and-take-it-no-star-wind-4": {
+      "sheet": "gonzales-flag-variants",
+      "x": 1378,
+      "y": 120,
+      "w": 328,
+      "h": 378,
+      "anchorX": 0.0655,
+      "anchorY": 0.9286,
+      "label": "flag come and take it no star wind 4",
+      "kind": "gonzales-flag-variants",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1380,
+          122,
+          324,
+          374
+        ],
+        "visiblePixels": 57537,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-variants.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "flag-come-and-take-it-no-star-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-variants"
+    },
+    "gonzales-flag-work-half-star": {
+      "sheet": "gonzales-flag-variants",
+      "x": 51,
+      "y": 583,
+      "w": 373,
+      "h": 198,
+      "anchorX": 0.5,
+      "anchorY": 0.9293,
+      "label": "gonzales flag work half star",
+      "kind": "gonzales-flag-variants",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          53,
+          585,
+          369,
+          194
+        ],
+        "visiblePixels": 61399,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-variants.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-variants"
+    },
+    "gonzales-flag-work-done-star": {
+      "sheet": "gonzales-flag-variants",
+      "x": 495,
+      "y": 583,
+      "w": 367,
+      "h": 197,
+      "anchorX": 0.4986,
+      "anchorY": 0.9289,
+      "label": "gonzales flag work done star",
+      "kind": "gonzales-flag-variants",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          497,
+          585,
+          363,
+          193
+        ],
+        "visiblePixels": 60291,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-variants.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-variants"
+    },
+    "gonzales-flag-work-half-no-star": {
+      "sheet": "gonzales-flag-variants",
+      "x": 926,
+      "y": 583,
+      "w": 367,
+      "h": 197,
+      "anchorX": 0.5,
+      "anchorY": 0.9289,
+      "label": "gonzales flag work half no star",
+      "kind": "gonzales-flag-variants",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          928,
+          585,
+          363,
+          193
+        ],
+        "visiblePixels": 60427,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-variants.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-variants"
+    },
+    "gonzales-flag-work-done-no-star": {
+      "sheet": "gonzales-flag-variants",
+      "x": 1360,
+      "y": 583,
+      "w": 369,
+      "h": 198,
+      "anchorX": 0.5,
+      "anchorY": 0.9293,
+      "label": "gonzales flag work done no star",
+      "kind": "gonzales-flag-variants",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1362,
+          585,
+          365,
+          194
+        ],
+        "visiblePixels": 60912,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/gonzales-flag-variants.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/gonzales-flag-variants"
+    },
     "gonzales-ploughed-earth": {
       "sheet": "gonzales-ploughed-earth",
       "x": 60,
@@ -132086,6 +132424,30 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "flag-come-and-take-it-no-star-wind": {
+      "frames": [
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-1",
+          "duration": 850
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-2",
+          "duration": 600
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-3",
+          "duration": 650
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-4",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
     "elder-read-letter": {
       "frames": [
         {
@@ -144847,7 +145209,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 298,
+    "sourceCount": 299,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

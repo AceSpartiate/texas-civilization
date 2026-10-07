@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2820 usable sprites, 298 PNG atlases, 985 clips** (677 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2828 usable sprites, 299 PNG atlases, 986 clips** (678 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -194,6 +194,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-gonzales-bundle-ns | 16 | 1254 × 1254 | 667017 |
 | people-gonzales-bundle-walk | 16 | 1254 × 1254 | 936355 |
 | people-gonzales-digging | 12 | 1448 × 1086 | 774818 |
+| gonzales-flag-variants | 8 | 1774 × 887 | 1089563 |
 | gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
@@ -1933,6 +1934,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-dig-2 | people-gonzales-digging | blue-dig |
 | blue-dig-3 | people-gonzales-digging | blue-dig |
 | blue-dig-4 | people-gonzales-digging | blue-dig |
+| flag-come-and-take-it-no-star-wind-1 | gonzales-flag-variants | flag-come-and-take-it-no-star-wind |
+| flag-come-and-take-it-no-star-wind-2 | gonzales-flag-variants | flag-come-and-take-it-no-star-wind |
+| flag-come-and-take-it-no-star-wind-3 | gonzales-flag-variants | flag-come-and-take-it-no-star-wind |
+| flag-come-and-take-it-no-star-wind-4 | gonzales-flag-variants | flag-come-and-take-it-no-star-wind |
+| gonzales-flag-work-half-star | gonzales-flag-variants | State artwork; no motion required |
+| gonzales-flag-work-done-star | gonzales-flag-variants | State artwork; no motion required |
+| gonzales-flag-work-half-no-star | gonzales-flag-variants | State artwork; no motion required |
+| gonzales-flag-work-done-no-star | gonzales-flag-variants | State artwork; no motion required |
 | gonzales-ploughed-earth | gonzales-ploughed-earth | State artwork; no motion required |
 | gonzales-flag-work-cloth | gonzales-flag-work-cloth | State artwork; no motion required |
 | gonzales-flag-work-painted | gonzales-flag-work-painted | State artwork; no motion required |
@@ -3710,6 +3719,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elder-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | ochre-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | blue-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
+| flag-come-and-take-it-no-star-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | elder-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
 | ochre-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
 | blue-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |

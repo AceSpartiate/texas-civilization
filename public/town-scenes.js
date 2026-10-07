@@ -113,9 +113,10 @@ function fallbackPerson(ctx, x, y, size, tone) {
  * under it.
  * The raised flag and both table-top work states use delivered cloth art. Canvas is a load fallback.
  */
-export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = true, flat = false } = {}) {
-  if (stage === 'done' && pole && !flat && drawClip(ctx, 'flag-come-and-take-it-wind', x, y, height, { timeMs: time })) return;
-  if (flat && drawSprite(ctx, stage === 'done' ? 'gonzales-flag-work-painted' : 'gonzales-flag-work-cloth', x, y, height * .22, { anchor: [.5, 1] })) return;
+export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = true, flat = false, star = true } = {}) {
+  if (stage === 'done' && pole && !flat && drawClip(ctx, star ? 'flag-come-and-take-it-wind' : 'flag-come-and-take-it-no-star-wind', x, y, height, { timeMs: time })) return;
+  const flatFrame = stage === 'half' ? `gonzales-flag-work-half${star ? '-star' : '-no-star'}` : stage === 'done' ? (star ? 'gonzales-flag-work-painted' : 'gonzales-flag-work-done-no-star') : 'gonzales-flag-work-cloth';
+  if (flat && drawSprite(ctx, flatFrame, x, y, height * .22, { anchor: [.5, 1] })) return;
   const w = height * .62, h = height * .38;
   ctx.save();
   if (pole && !flat) {
@@ -135,8 +136,8 @@ export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = t
   const cx = left + w * .5, cy = top + h * .5;
   ctx.fillStyle = '#1e1b17';
   // The star, over the cannon.
-  const star = (sx, sy, r) => { ctx.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .45 : r; ctx.lineTo(sx + Math.cos(a) * rr, sy + Math.sin(a) * rr); } ctx.closePath(); ctx.fill(); };
-  star(cx, top + h * .2, h * .1);
+  const drawStar = (sx, sy, r) => { ctx.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .45 : r; ctx.lineTo(sx + Math.cos(a) * rr, sy + Math.sin(a) * rr); } ctx.closePath(); ctx.fill(); };
+  if (star) drawStar(cx, top + h * .2, h * .1);
   // The cannon: a barrel on a carriage wheel.
   ctx.fillRect(cx - w * .2, cy - h * .06, w * .36, h * .1);
   ctx.beginPath(); ctx.arc(cx - w * .08, cy + h * .08, h * .09, 0, Math.PI * 2); ctx.fill();
