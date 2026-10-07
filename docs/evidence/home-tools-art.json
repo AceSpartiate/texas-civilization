@@ -1,0 +1,13 @@
+{
+  "verdict": "PASS",
+  "sources": [
+    "home-tools",
+    "home-tools",
+    "home-tools",
+    "home-tools",
+    "home-tools"
+  ],
+  "spots": 10,
+  "placedTools": 5,
+  "errors": []
+}

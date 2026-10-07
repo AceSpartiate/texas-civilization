@@ -1,3 +1,7 @@
+## Completed request group 2026-10-07: household tools
+
+All five wagon tools now use dedicated painted production frames through the existing interior bindings. A separate froe club is also registered. Inventory names, placement controls and relative sizes are unchanged. Loose props are static; use independent actor action clips for work. See `docs/ART_DELIVERY_2026-10-07-HOME-TOOLS.md`.
+
 ## Completed request group 2026-10-07: saddlebag interior
 
 Dedicated roofless two-room cutaway replaces the dog-run stand-in. One central double chimney, no breezeway, ten preserved furnishing IDs with re-measured positions. Wide rendering supports the new sprite. Seven tests and an actual-renderer browser placement check pass. See `docs/ART_DELIVERY_2026-10-07-SADDLEBAG-INTERIOR.md`.

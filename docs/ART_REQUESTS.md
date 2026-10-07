@@ -1,3 +1,7 @@
+## Completed request group 2026-10-07: household tools
+
+Five dedicated floor props replace the wagon-tool stand-ins: hoe, felling axe, broadaxe, froe with club and auger. A separate club frame is available for future animation composition. Stable inventory/frame names are preserved. See `ART_DELIVERY_2026-10-07-HOME-TOOLS.md`.
+
 ## Completed request group 2026-10-07: family-panel marks
 
 All six requested marks are production artwork: rust attention, slate waiting rider, brass selected-person badge, idle hat/peg and automation off/on. Existing panel bindings select these frames ahead of stand-ins. See `docs/ART_DELIVERY_2026-10-07-FAMILY-PANEL-MARKS.md`.
@@ -257,7 +261,7 @@ can never be mistaken for hers:
 | Request 2026-09-17 — the armies on the map (owner: "there was no army. they were just off in the middle of no where") | Not a sheet: the tents, the fire and the flag are drawn in canvas by public/army-view.js; the men are the militia and regular figures the battles already use | public/app.js draws each army the server sends (sim/armies.mjs): a camp with its men close up, a flag far off | A camp: three or four wedge tents, a cook fire with a pot, stacked arms and a colour on a pole, at 192 by 192, in the map art's own light; then drawArmy lays her sprites down instead of its strokes |
 | Request 2026-09-17 — the title screen (owner, 2026-09-17: "a professional game introduction experience") | Delivered as `public/assets/creation-title-landscape.png`: painted dawn country, the family's wagon, a river crossing and a settlement, composed for the title and entry card | `#creation` in `public/style.css`, behind the title, join, beginning and later wizard steps | Delivered; source, final prompt and UI intent in `docs/CREATION_TITLE_ART.md` |
 | Request 2026-09-12 (second) — layered people: the How We Look pop-up (owner, 2026-09-17) | Recoloured authored cast in `public/avatar-art.js` and `public/person-palette.js` | `public/appearance.js`: full preview, each option, live family portrait and walking figure share the cast style | Painted layers must cover every head choice in `sim/appearance.mjs` and idle, walk, work, combat and seated poses; retain the saved appearance object |
-| Request 2026-09-12 (second) — interiors and furnishings: the wagon's tools | `claude-home-tools.png`: `home-hoe`, `home-felling-axe`, `home-broadaxe`, `home-froe`, `home-auger` | `INTERIOR_ART` `tool:*` in `sim/interior-data.mjs`, drawn by `public/interior.js` (the long-handled tools still drawn larger) | The five tools in the `home-furnishings` style and scale, standing or leaning as in a cabin |
+| **Delivered 2026-10-07:** wagon household tools | `home-tools.png`: `home-hoe`, `home-felling-axe`, `home-broadaxe`, `home-froe`, `home-auger`; reusable `home-froe-club` | `INTERIOR_ART` `tool:*` in `sim/interior-data.mjs`, drawn by `public/interior.js` (the long-handled tools still drawn larger) | The five tools in the `home-furnishings` style and scale, standing or leaning as in a cabin |
 
 **Not attempted, still on the nearest library art** (each needs animation sheets or whole buildings in Astra's painted
 style, which a hand-written SVG cannot match without jarring beside her work; their rows stay under *Stand-ins in use*):
@@ -1186,7 +1190,7 @@ legs astride and no hands on the reins.
 
 ## Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen
 
-**Status: houses delivered and in use 2026-09-14** (`houses-settling`: the four houses and their `-site`, `-walls` and `-roofing` stages, drawn by the stage the server reports). **Interiors and furnishings delivered 2026-09-14** (`home-interiors`, `home-furnishings`), in use in the interior view since 2026-09-16; dedicated saddlebag interior delivered 2026-10-07 (below); the wagon's tools are Claude-drawn stand-ins since 2026-09-16 (see *Claude-drawn stand-ins* above). Parent head variants and age-specific bodies delivered 2026-10-02; semantic layers and task-specific refinements remain open. Specified in [SETTLING_IN.md](SETTLING_IN.md); the exact sheets are to be written
+**Status: houses delivered and in use 2026-09-14** (`houses-settling`: the four houses and their `-site`, `-walls` and `-roofing` stages, drawn by the stage the server reports). **Interiors and furnishings delivered 2026-09-14** (`home-interiors`, `home-furnishings`), in use in the interior view since 2026-09-16; dedicated saddlebag interior delivered 2026-10-07 (below); the wagon's five tools have dedicated production artwork delivered 2026-10-07. Parent head variants and age-specific bodies delivered 2026-10-02; semantic layers and task-specific refinements remain open. Specified in [SETTLING_IN.md](SETTLING_IN.md); the exact sheets are to be written
 into this request when that chapter's build reaches them, in the contract format of the request below.
 
 - **Layered people.** Students now choose what parents look like (skin tone, hair colour, clothing colour,
@@ -1252,7 +1256,7 @@ into this request when that chapter's build reaches them, in the contract format
     in front of and behind it correctly in the back-to-front sort.
 - **Interiors.** A single-pen interior, a dog-run's two pens and breezeway, and a jacal interior, drawn as
   rooms a student can place furniture in. **Delivered 2026-09-14 and in use since the interior view was built 2026-09-16**
-  (`SETTLING_IN.md` §7.2). **Saddlebag interior delivered 2026-10-07; wagon tools remain a separate request.** Original specification written 2026-09-16 — stand-ins were
+  (`SETTLING_IN.md` §7.2). **Saddlebag interior and all five wagon tools delivered 2026-10-07.** Original specification written 2026-09-16 — stand-ins were
   drawing both (listed above):**
   - **Why.** A saddlebag house (two pens either side of one big central chimney, a fireplace in each, `sim/houseplot.mjs`)
     has its own rooms but is drawn on the dog-run's picture, so a student sees a passage and end chimneys their house does

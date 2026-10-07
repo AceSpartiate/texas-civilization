@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2871 usable sprites, 304 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2877 usable sprites, 305 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -212,6 +212,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | ground-fog-banks | 4 | 1774 × 887 | 1018893 |
+| home-tools | 6 | 1024 × 1536 | 1685412 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
@@ -2098,6 +2099,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fog-bank-dense-2 | ground-fog-banks | fog-bank-dense |
 | fog-bank-thin-1 | ground-fog-banks | fog-bank-thin |
 | fog-bank-thin-2 | ground-fog-banks | fog-bank-thin |
+| home-hoe | home-tools | State artwork; no motion required |
+| home-felling-axe | home-tools | State artwork; no motion required |
+| home-broadaxe | home-tools | State artwork; no motion required |
+| home-froe | home-tools | State artwork; no motion required |
+| home-auger | home-tools | State artwork; no motion required |
+| home-froe-club | home-tools | State artwork; no motion required |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |

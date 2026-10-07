@@ -4560,6 +4560,16 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/interior-saddlebag.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Roofless two-room cutaway, central shared chimney, inward hearths; separate furnishings and stable spot IDs."
+    },
+    {
+      "sheet": "home-tools",
+      "promptId": "frontier-v1/home-tools",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-74ea9a41-24d8-40af-8551-aaca65337534.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/home-tools.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Five distinct period tools plus reusable club; production alpha checked; floor props kept independent from actors."
     }
   ],
   "rejectedAttempts": [

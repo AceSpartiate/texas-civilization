@@ -16976,6 +16976,81 @@
         ]
       }
     },
+    "home-tools": {
+      "image": "atlases/home-tools.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1685412,
+      "sha256": "8eb893e56d313b04d715046d12cf2690441536b9b1f7430b8971d3d2e0007c0e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.844854,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              44,
+              501
+            ],
+            "columns": [
+              [
+                129,
+                483
+              ],
+              [
+                685,
+                919
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              572,
+              967
+            ],
+            "columns": [
+              [
+                94,
+                475
+              ],
+              [
+                607,
+                977
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1047,
+              1483
+            ],
+            "columns": [
+              [
+                90,
+                476
+              ],
+              [
+                618,
+                915
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "house-modules": {
       "image": "atlases/house-modules.png",
       "width": 1448,
@@ -70800,6 +70875,150 @@
           183
         ],
         "visiblePixels": 71332,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "home-hoe": {
+      "sheet": "home-tools",
+      "x": 129,
+      "y": 62,
+      "w": 354,
+      "h": 439,
+      "anchorX": 0.3785,
+      "anchorY": 0.9294,
+      "label": "home hoe",
+      "kind": "home-tools",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          131,
+          64,
+          350,
+          435
+        ],
+        "visiblePixels": 31595,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "home-felling-axe": {
+      "sheet": "home-tools",
+      "x": 685,
+      "y": 44,
+      "w": 234,
+      "h": 457,
+      "anchorX": 0.2799,
+      "anchorY": 0.93,
+      "label": "home felling axe",
+      "kind": "home-tools",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          687,
+          46,
+          230,
+          453
+        ],
+        "visiblePixels": 26399,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "home-broadaxe": {
+      "sheet": "home-tools",
+      "x": 94,
+      "y": 642,
+      "w": 381,
+      "h": 292,
+      "anchorX": 0.1772,
+      "anchorY": 0.9281,
+      "label": "home broadaxe",
+      "kind": "home-tools",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          644,
+          377,
+          288
+        ],
+        "visiblePixels": 47179,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "home-froe": {
+      "sheet": "home-tools",
+      "x": 607,
+      "y": 572,
+      "w": 370,
+      "h": 395,
+      "anchorX": 0.6892,
+      "anchorY": 0.9291,
+      "label": "home froe",
+      "kind": "home-tools",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          609,
+          574,
+          366,
+          391
+        ],
+        "visiblePixels": 48751,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "home-auger": {
+      "sheet": "home-tools",
+      "x": 90,
+      "y": 1047,
+      "w": 386,
+      "h": 436,
+      "anchorX": 0.478,
+      "anchorY": 0.9289,
+      "label": "home auger",
+      "kind": "home-tools",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          92,
+          1049,
+          382,
+          432
+        ],
+        "visiblePixels": 24786,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "home-froe-club": {
+      "sheet": "home-tools",
+      "x": 618,
+      "y": 1100,
+      "w": 297,
+      "h": 315,
+      "anchorX": 0.1296,
+      "anchorY": 0.927,
+      "label": "home froe club",
+      "kind": "home-tools",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          620,
+          1102,
+          293,
+          311
+        ],
+        "visiblePixels": 33551,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }
