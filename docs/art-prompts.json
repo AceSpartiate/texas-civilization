@@ -4668,6 +4668,20 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/cart-open-loaded-travel.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Cart-only subgroup: cardinal empty/loaded travel and parked views; separate ox. Broader passenger/infant request remains open."
+    },
+    {
+      "sheet": "lesson-marks",
+      "prompt": "Production transparent game UI atlas EXACT TWOcolumns TWOrows FOUR icons. Match supplied warm handpainted thin darkbrown outlines frontierstorybook style readabletiny. Row1col1 downwardpointing carved wooden hand/signpostfinger painted rustorange #c2582c, points STRAIGHTDOWN atbuttonbelow, simpleboldsilhouette. Row1col2 SQUARE rusttooledrope borderframe around HUGEcleartransparentcenter: roundedcorners, outershape square72x72 ratio, border only~8percentwidth, central80percenttransparent NOdiagonalrails nofill. Row2col1 unfilled simple horizontalwoodentally lozenge outline centered, mutedcreamwood border darkbrown, hollowcenter. Row2col2 SAME horizontalwoodentallylozenge fullyfilledrustorange withcream smallcheckmark completedstate. Nolettersnumbers labelsfloor castshadows. Everywholeicon fits central60percentofits equalcell widthheight generouscleartransparentgutters40pxallsides. Exact2x2 isolated nooverlap. TRUEzeroalpha includinghollowframecenter andunfilledpip. NOTscenery props. Pointmarkervertical, ringSQUARE, pipswidehorizontal.",
+      "promptId": "frontier-v1/lesson-marks",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/icons-children.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-117df682-6e6d-4c53-b75d-56c48db988be.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/lesson-marks.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Downward carved hand, hollow rust rope square, hollow/complete tally markers. CSS bob only marker; reduced-motion supported."
     }
   ]
 }

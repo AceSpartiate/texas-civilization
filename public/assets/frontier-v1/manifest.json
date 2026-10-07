@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 301,
-    "sprites": 2860,
+    "sheets": 302,
+    "sprites": 2864,
     "clips": 992,
     "poseCycles": 684,
     "rigs": 4
@@ -17109,6 +17109,64 @@
               [
                 1339,
                 1763
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "lesson-marks": {
+      "image": "atlases/lesson-marks.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 782966,
+      "sha256": "253d05ebd885d20b48e6c5f39f9a83fd674417fd12ab3851fd856cb77c8704b4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.788305,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              143,
+              627
+            ],
+            "columns": [
+              [
+                199,
+                467
+              ],
+              [
+                696,
+                1181
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              844,
+              1073
+            ],
+            "columns": [
+              [
+                81,
+                584
+              ],
+              [
+                668,
+                1174
               ]
             ]
           }
@@ -88052,6 +88110,134 @@
       "locationKits": [],
       "promptId": "frontier-v1/icons-gather-stock-carreta"
     },
+    "lesson-point": {
+      "sheet": "lesson-marks",
+      "x": 199,
+      "y": 151,
+      "w": 268,
+      "h": 476,
+      "anchorX": 0.6474,
+      "anchorY": 0.9286,
+      "label": "lesson point",
+      "kind": "lesson-marks",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          201,
+          153,
+          264,
+          472
+        ],
+        "visiblePixels": 87565,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lesson-marks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/lesson-marks"
+    },
+    "lesson-ring": {
+      "sheet": "lesson-marks",
+      "x": 696,
+      "y": 143,
+      "w": 485,
+      "h": 466,
+      "anchorX": 0.5,
+      "anchorY": 0.9292,
+      "label": "lesson ring",
+      "kind": "lesson-marks",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          698,
+          145,
+          481,
+          462
+        ],
+        "visiblePixels": 88837,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lesson-marks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/lesson-marks"
+    },
+    "lesson-pip": {
+      "sheet": "lesson-marks",
+      "x": 81,
+      "y": 848,
+      "w": 503,
+      "h": 222,
+      "anchorX": 0.505,
+      "anchorY": 0.9279,
+      "label": "lesson pip",
+      "kind": "lesson-marks",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          850,
+          499,
+          218
+        ],
+        "visiblePixels": 45211,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lesson-marks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/lesson-marks"
+    },
+    "lesson-pip-done": {
+      "sheet": "lesson-marks",
+      "x": 668,
+      "y": 844,
+      "w": 506,
+      "h": 229,
+      "anchorX": 0.496,
+      "anchorY": 0.9258,
+      "label": "lesson pip done",
+      "kind": "lesson-marks",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          670,
+          846,
+          502,
+          225
+        ],
+        "visiblePixels": 89659,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/lesson-marks.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/lesson-marks"
+    },
     "live-oak-mott-dense-1": {
       "sheet": "live-oak-mott",
       "x": 29,
@@ -146673,7 +146859,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 301,
+    "sourceCount": 302,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

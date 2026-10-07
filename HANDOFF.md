@@ -1,3 +1,7 @@
+## Completed request group 2026-10-07: guided-start marks
+
+All four requested lesson marks are painted, registered and integrated: downward pointer, transparent-center ring, pending pip and completed pip. Pointer bobs with reduced-motion support. See `docs/ART_DELIVERY_2026-10-07-LESSON-MARKS.md`.
+
 ## Completed vehicle group 2026-10-07: open carts
 
 The open-cart vehicle portion of the September 25 travel request is complete: 32 frames, six cardinal empty/loaded rolling cycles and parked states. Live carts select direction, cargo and motion while preserving the separate ox. Seated passengers and infant-carrying remain separate open portions of the broader travel request. See `docs/ART_DELIVERY_2026-10-07-OPEN-CART.md`.

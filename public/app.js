@@ -4341,6 +4341,8 @@ function panelMark(tag, text, className, mark) {
 function paintMark(node, mark) {
   node.dataset.mark = mark;
   setData(node, 'drawn', String(drawMark(node.querySelector('canvas'), mark, { drawSprite, spriteFrame })));
+  const button = node.closest('.panel-icon');
+  if (button) setData(button, 'lesson-art', String([...button.querySelectorAll('.lesson-ring-art,.lesson-point-art')].every(piece => piece.dataset.drawn === 'true')));
 }
 function panelIcon(entityId, icon) {
   const button = element('button', '', 'panel-icon');
@@ -4356,7 +4358,7 @@ function panelIcon(entityId, icon) {
   canvas.width = canvas.height = 72;
   canvas.setAttribute('aria-hidden', 'true');
   drawIcon(canvas, icon.key, { drawSprite, spriteFrame });
-  button.append(canvas, element('span', '', 'panel-action-name'));
+  button.append(canvas, element('span', '', 'panel-action-name'), panelMark('span', '', 'lesson-ring-art', 'lesson-ring'), panelMark('span', '', 'lesson-point-art', 'lesson-point'));
   return button;
 }
 /**
@@ -4380,6 +4382,7 @@ function describeIcon(button, icon, lesson = null) {
   if (icon.can && !shut) button.removeAttribute('aria-disabled'); else button.setAttribute('aria-disabled', 'true');
   setData(button, 'shut', shut ? 'true' : '');
   setData(button, 'pointed', lesson?.pointed ? 'true' : '');
+  setData(button, 'lesson-art', String([...button.querySelectorAll('.lesson-ring-art,.lesson-point-art')].every(node => node.dataset.drawn === 'true')));
   // Work somebody on auto is given to wait for (sim/auto.mjs `waitingWork`): sent as it is, the way chosen when it goes.
   setData(button, 'waits', icon.waits ? 'true' : '');
   button.dataset.active = String(icon.active);
@@ -4451,6 +4454,7 @@ function repaintFamilyPanel() {
     for (const node of row.item.querySelectorAll('[data-mark]')) paintMark(node, node.dataset.mark);
     for (const icon of row.icons.querySelectorAll('.panel-icon')) drawIcon(icon.querySelector('canvas'), icon.dataset.key, { drawSprite, spriteFrame });
   }
+  for (const node of document.querySelectorAll('.lesson-ring-art,.lesson-point-art,.lesson-pip[data-mark]')) paintMark(node, node.dataset.mark);
   if (window.__snapshot) renderFamilyPanel(window.__snapshot.world);
 }
 /**
@@ -5442,9 +5446,9 @@ function renderLesson(world) {
   $('#lesson-did').hidden = !words.did;
   // One pip a step, filled up to where the world says the student is. Type only: it repeats the numbers already said.
   const pips = $('#lesson-pips');
-  if (words.of && pips.children.length !== words.of) pips.replaceChildren(...Array.from({ length: words.of }, () => element('span', '', 'lesson-pip')));
+  if (words.of && pips.children.length !== words.of) pips.replaceChildren(...Array.from({ length: words.of }, () => panelMark('span', '', 'lesson-pip', 'lesson-pip')));
   if (!words.of) pips.replaceChildren();
-  [...pips.children].forEach((pip, at) => setData(pip, 'done', String(at < words.done)));
+  [...pips.children].forEach((pip, at) => { setData(pip, 'done', String(at < words.done)); paintMark(pip, at < words.done ? 'lesson-pip-done' : 'lesson-pip'); });
   // Said once, as a status, for somebody who cannot see the ring round the icon.
   $('#lesson-read').textContent = lessonAnnouncement(words);
   lessonRoom();

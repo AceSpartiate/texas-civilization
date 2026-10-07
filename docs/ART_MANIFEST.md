@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2860 usable sprites, 301 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2864 usable sprites, 302 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -213,6 +213,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ground-fog-banks | 4 | 1774 × 887 | 1018893 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
+| lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
 | military-camp-life | 16 | 1254 × 1254 | 1457813 |
 | volunteer-engineer-actions | 16 | 1254 × 1254 | 1490159 |
@@ -2113,6 +2114,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-hog-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-look-to-stock-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-make-carreta | icons-gather-stock-carreta | State artwork; no motion required |
+| lesson-point | lesson-marks | State artwork; no motion required |
+| lesson-ring | lesson-marks | State artwork; no motion required |
+| lesson-pip | lesson-marks | State artwork; no motion required |
+| lesson-pip-done | lesson-marks | State artwork; no motion required |
 | live-oak-mott-dense-1 | live-oak-mott | live-oak-mott-dense-wind |
 | live-oak-mott-dense-2 | live-oak-mott | live-oak-mott-dense-wind |
 | live-oak-mott-open-1 | live-oak-mott | live-oak-mott-open-wind |
