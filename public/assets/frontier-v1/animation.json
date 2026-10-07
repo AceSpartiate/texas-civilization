@@ -11429,6 +11429,51 @@
       "motion": "none",
       "direction": "scenery"
     },
+    "scrub-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "scrub-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "scrub-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "reeds-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "reeds-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "reeds-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "prickly-pear-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "prickly-pear-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "prickly-pear-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "cart-open-travel-e": {
       "frames": [
         {

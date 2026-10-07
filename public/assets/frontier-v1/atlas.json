@@ -19259,6 +19259,81 @@
         ]
       }
     },
+    "norther-ground": {
+      "image": "atlases/norther-ground.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2216491,
+      "sha256": "233b1dfc8eba5d20ff90695b98804c4efb04976347dbfa6da006ead57987086c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.676074,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              144,
+              502
+            ],
+            "columns": [
+              [
+                91,
+                505
+              ],
+              [
+                609,
+                959
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              626,
+              963
+            ],
+            "columns": [
+              [
+                83,
+                502
+              ],
+              [
+                603,
+                971
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1063,
+              1393
+            ],
+            "columns": [
+              [
+                100,
+                465
+              ],
+              [
+                620,
+                962
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "cart-open-complete": {
       "image": "atlases/cart-open-complete.png",
       "width": 1402,
@@ -77215,6 +77290,150 @@
           259
         ],
         "visiblePixels": 58556,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "scrub-gale-1": {
+      "sheet": "norther-ground",
+      "x": 91,
+      "y": 144,
+      "w": 414,
+      "h": 356,
+      "anchorX": 0.3816,
+      "anchorY": 0.9326,
+      "label": "scrub gale 1",
+      "kind": "norther-ground",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          93,
+          146,
+          410,
+          352
+        ],
+        "visiblePixels": 84532,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "scrub-gale-2": {
+      "sheet": "norther-ground",
+      "x": 609,
+      "y": 197,
+      "w": 350,
+      "h": 305,
+      "anchorX": 0.41,
+      "anchorY": 0.9311,
+      "label": "scrub gale 2",
+      "kind": "norther-ground",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          611,
+          199,
+          346,
+          301
+        ],
+        "visiblePixels": 65073,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "reeds-gale-1": {
+      "sheet": "norther-ground",
+      "x": 83,
+      "y": 626,
+      "w": 419,
+      "h": 333,
+      "anchorX": 0.3652,
+      "anchorY": 0.9279,
+      "label": "reeds gale 1",
+      "kind": "norther-ground",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          85,
+          628,
+          415,
+          329
+        ],
+        "visiblePixels": 73861,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "reeds-gale-2": {
+      "sheet": "norther-ground",
+      "x": 603,
+      "y": 659,
+      "w": 368,
+      "h": 304,
+      "anchorX": 0.3777,
+      "anchorY": 0.9276,
+      "label": "reeds gale 2",
+      "kind": "norther-ground",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          605,
+          661,
+          364,
+          300
+        ],
+        "visiblePixels": 62005,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prickly-pear-gale-1": {
+      "sheet": "norther-ground",
+      "x": 100,
+      "y": 1063,
+      "w": 365,
+      "h": 326,
+      "anchorX": 0.4712,
+      "anchorY": 0.9294,
+      "label": "prickly pear gale 1",
+      "kind": "norther-ground",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          102,
+          1065,
+          361,
+          322
+        ],
+        "visiblePixels": 76243,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "prickly-pear-gale-2": {
+      "sheet": "norther-ground",
+      "x": 620,
+      "y": 1085,
+      "w": 342,
+      "h": 308,
+      "anchorX": 0.4854,
+      "anchorY": 0.9286,
+      "label": "prickly pear gale 2",
+      "kind": "norther-ground",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          622,
+          1087,
+          338,
+          304
+        ],
+        "visiblePixels": 69238,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

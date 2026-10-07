@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2877 usable sprites, 305 PNG atlases, 992 clips** (684 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2883 usable sprites, 306 PNG atlases, 995 clips** (687 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -236,6 +236,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
 | night-settlement-lights | 16 | 1254 × 1254 | 1713707 |
+| norther-ground | 6 | 1024 × 1536 | 2216491 |
 | cart-open-complete | 20 | 1402 × 1122 | 1382518 |
 | cart-open-loaded-travel | 12 | 1448 × 1086 | 1151276 |
 | town-mexican-river | 1 | 1426 × 1103 | 1719481 |
@@ -2357,6 +2358,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | cabin-night-lit-2 | night-settlement-lights | cabin-night-lit |
 | cabin-night-lit-3 | night-settlement-lights | cabin-night-lit |
 | cabin-night-lit-4 | night-settlement-lights | cabin-night-lit |
+| scrub-gale-1 | norther-ground | scrub-gale |
+| scrub-gale-2 | norther-ground | scrub-gale |
+| reeds-gale-1 | norther-ground | reeds-gale |
+| reeds-gale-2 | norther-ground | reeds-gale |
+| prickly-pear-gale-1 | norther-ground | prickly-pear-gale |
+| prickly-pear-gale-2 | norther-ground | prickly-pear-gale |
 | cart-open-travel-e-1 | cart-open-complete | cart-open-travel-e |
 | cart-open-travel-e-2 | cart-open-complete | cart-open-travel-e |
 | cart-open-travel-e-3 | cart-open-complete | cart-open-travel-e |
@@ -3884,6 +3891,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | adobe-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | jacal-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | cabin-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
+| scrub-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| reeds-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| prickly-pear-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | cart-open-travel-e | Pose cycle | 4 | 980 | yes | east; west by mirroring |
 | cart-open-travel-s | Pose cycle | 4 | 980 | yes | south |
 | cart-open-travel-n | Pose cycle | 4 | 980 | yes | north |

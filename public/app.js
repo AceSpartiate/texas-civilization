@@ -2280,8 +2280,8 @@ function drawGroundDetail(ctx, world, camera) {
   // One mark of the ground, from its class's table entry, or the entry's shape while the art has not loaded.
   const plain = (share, point, ground, lean = 0, gale = false) => {
     const mark = markFor(ground, share);
-    // The painted gale pose where the wind is a hard norther and the library has one for this mark - the grass tuft, so
-    // far - drawn straight, because the pose is already flattened (public/weather-art.js `GALE_POSES`).
+    // Delivered ground-cover gale poses are drawn straight in the kept ground: the artwork
+    // already contains the wind deformation (public/weather-art.js `GALE_POSES`).
     if (gale && GALE_POSES[mark.sprite] && drawSprite(ctx, GALE_POSES[mark.sprite], point.x, point.y, figure * mark.size)) { galeDrawn++; return; }
     if (mark.sprite && drawSprite(ctx, mark.sprite, point.x, point.y, figure * mark.size, { lean })) return;
     if (mark.fallback === 'rock') {

@@ -205,11 +205,9 @@ export function galeForce(mix) {
 }
 export function inGale(mix) { return galeForce(mix) >= GALE; }
 /**
- * The authored pose for an upright sprite: only the four the delivery painted. Anything else the map scatters - a pine, a
- * cedar, a mesquite, prickly pear, reeds, and every sized tree of `trees-colonies-1` and `-2` - has no gale pose and
- * keeps the shear at every strength of wind.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-20 - the country in a norther. A pine in a hard norther is still the
- * library's own upright pine sheared about its foot. More gale silhouettes replace it, one sprite at a time.
+ * Authored gale poses replace upright shear for delivered trees and ground cover. Basic scrub,
+ * reeds and prickly pear now have dedicated poses; pine, cedar, mesquite, live oak, elm and
+ * remaining sized trees still use upright shear until their own gale art is delivered.
  *
  * The names collide with four one-frame `*-wind` CLIPS that predate the delivery and hold the upright sprite swaying
  * (public/assets/frontier-v1/animation.json). Frames and clips are separate tables in public/art.js, so `drawSprite`
@@ -226,6 +224,11 @@ export const GALE_POSES = Object.freeze({
   'grass-tall': 'grass-tall-wind',
   'cane-1': 'cane-wind',
   'cane-2': 'cane-wind',
+  // Dedicated basic ground-cover gale poses, 2026-10-07. The kept ground uses
+  // the first authored pose; two-frame clips are available for animated close views.
+  scrub: 'scrub-gale-1',
+  reeds: 'reeds-gale-1',
+  'prickly-pear': 'prickly-pear-gale-1',
 });
 /** The gale pose to draw this sprite as, or null to draw it upright and sheared by `windLean`. */
 export function galePose(sprite, mix) {

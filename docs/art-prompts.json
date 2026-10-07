@@ -4740,6 +4740,27 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/home-tools.png",
       "postProcessing": "None; selected generated PNG copied unchanged.",
       "review": "Five distinct period tools plus reusable club; production alpha checked; floor props kept independent from actors."
+    },
+    {
+      "sheet": "norther-ground",
+      "prompt": "Production GAME SPRITE ATLAS on genuine transparent alpha. EXACT TWO COLUMNS THREE ROWS six equal cells. Warm muted hand-painted frontier storybook look matching provided nature reference, brown ink outlines olive green ochre highlights elevated threequarter view no photo no 3D. Row1 two poses SAME low woody SCRUB BUSH: knotted rooted base stays identical, pliant twigs bent toward screen RIGHT under hard wind, leaves streaming right, second pose slightly more compressed crown. Row2 two poses SAME REEDS cattail clump: rooted base fixed, olive blades strongly bowed right with brown cattail heads, second pose tips shift a little farther right. Row3 two poses SAME PRICKLY PEAR cactus: fleshy rounded green pads and small red fruits, anchored stem remains firmly upright, outermost pads only slight change in angle, attached low grasses stream RIGHT; cactus must NOT bend like grass. Six wind-stressed poses for one shared wind direction, bases identical within each pair, no detached airborne leaves crossing cells. Each entire plant confined to central 65 percent own cell width and height, plenty of EMPTY TRANSPARENT gutter, all roots grounded near same lower baseline within respective row. NO exterior shadow, no background, no glow, no ground slab, no rain, no person, no labels or grids. Canvas alpha=0 around subjects. Preserve recognizable silhouette of each reference ground mark. Not tree-sized.",
+      "promptId": "frontier-v1/norther-ground",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b7ea27cf-3eaf-4243-a802-20e3326598db.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY. Preserve all six plants and differences, exact TWO columns THREE rows. Shrink each entire plant by 25 percent toward center of own cell, make at least40pixels fully transparent gutter INSIDE every cell boundary. Remove any glow or stray colored fringe outside plants, truezero alpha outside silhouettes. Same anchored base within each pair. Preserve rust brown outlines muted olive foliage and plant details. No background ground scenery text. Rightward wind scrub and reeds; cactus anchored upright with slight grass and outer pad variation.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d92303be-42ca-4f91-aa74-1cc7894463b5.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d92303be-42ca-4f91-aa74-1cc7894463b5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/norther-ground.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Three ground covers, two distinct gale poses each. Cached ground uses pose one; authored clips available for close views."
     }
   ]
 }

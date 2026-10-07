@@ -1,3 +1,7 @@
+## Completed art subgroup 2026-10-07: norther ground cover
+
+Six frames and three authored two-frame clips for scrub, reeds and prickly pear. `GALE_POSES` now selects their first pose for hard northers in the existing cached-ground path. Close-view animation clips are available; ordinary map ground is deliberately not redrawn per animation frame. Remaining tree gale art stays open. See `docs/ART_DELIVERY_2026-10-07-NORTHER-GROUND.md`.
+
 ## Completed request group 2026-10-07: household tools
 
 All five wagon tools now use dedicated painted production frames through the existing interior bindings. A separate froe club is also registered. Inventory names, placement controls and relative sizes are unchanged. Loose props are static; use independent actor action clips for work. See `docs/ART_DELIVERY_2026-10-07-HOME-TOOLS.md`.
