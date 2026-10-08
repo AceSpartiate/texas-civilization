@@ -1,3 +1,7 @@
+## Completed art group 2026-10-07: oak gale poses
+
+Post oak and blackjack at all three sizes: twelve frames, six authored two-frame loops. `GALE_POSES` integrates their first pose into cached-ground weather rendering. Animation loops are available for close views; no per-frame ground-cache invalidation. Remaining sized pecan, hackberry, sweetgum and biome-tree gale art stays open. See `docs/ART_DELIVERY_2026-10-07-OAK-GALE.md`.
+
 ## Completed art group 2026-10-07: first-sheet hardwood gale poses
 
 Eighteen frames, nine two-frame loops: mesquite, live oak and elm at pole/log/large sizes. All standing trees from `trees-colonies-1` now have gale art. Existing cached-ground rendering selects pose one; loops await animated close-view use. Weather, forestry, saves and visibility unchanged. Trees-colonies-2 and biome trees remain separate open gale groups. See `docs/ART_DELIVERY_2026-10-07-HARDWOOD-GALE.md`.

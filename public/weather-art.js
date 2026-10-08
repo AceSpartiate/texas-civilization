@@ -241,6 +241,13 @@ export const GALE_POSES = Object.freeze({
   'mesquite-large': 'mesquite-large-gale-1',
   'live-oak-large': 'live-oak-large-gale-1',
   'elm-large': 'elm-large-gale-1',
+  // Post oak and blackjack gale poses at all sizes, 2026-10-07.
+  'post-oak-pole': 'post-oak-pole-gale-1',
+  'blackjack-pole': 'blackjack-pole-gale-1',
+  'post-oak-log': 'post-oak-log-gale-1',
+  'blackjack-log': 'blackjack-log-gale-1',
+  'post-oak-large': 'post-oak-large-gale-1',
+  'blackjack-large': 'blackjack-large-gale-1',
   // Basic ground-cover gale poses. The kept ground uses pose one; clips are
   // available for animated close views.
   scrub: 'scrub-gale-1',

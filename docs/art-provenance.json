@@ -4654,6 +4654,19 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/elm-gale.png",
       "postProcessing": "None; selected generated PNG copied unchanged.",
       "review": "Two gale poses for each size, production alpha and retained-frame tests; first pose used by cached ground."
+    },
+    {
+      "sheet": "oak-gale",
+      "promptId": "frontier-v1/oak-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-2.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-db753a9b-409c-4757-8bc1-16ec95fbfbbd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/oak-gale.png",
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Two crown poses per oak size, same grounded trunks, static map selector and close-view loops."
     }
   ],
   "rejectedAttempts": [

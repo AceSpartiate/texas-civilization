@@ -11699,6 +11699,96 @@
         }
       ]
     },
+    "post-oak-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "post-oak-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "post-oak-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "blackjack-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "blackjack-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blackjack-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "post-oak-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "post-oak-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "post-oak-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "blackjack-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "blackjack-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blackjack-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "post-oak-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "post-oak-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "post-oak-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "blackjack-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "blackjack-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blackjack-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "cart-open-travel-e": {
       "frames": [
         {

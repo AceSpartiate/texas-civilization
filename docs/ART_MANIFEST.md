@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2913 usable sprites, 309 PNG atlases, 1010 clips** (702 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2925 usable sprites, 310 PNG atlases, 1016 clips** (708 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -240,6 +240,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
 | night-settlement-lights | 16 | 1254 × 1254 | 1713707 |
 | norther-ground | 6 | 1024 × 1536 | 2216491 |
+| oak-gale | 12 | 1448 × 1086 | 1964372 |
 | cart-open-complete | 20 | 1402 × 1122 | 1382518 |
 | cart-open-loaded-travel | 12 | 1448 × 1086 | 1151276 |
 | town-mexican-river | 1 | 1426 × 1103 | 1719481 |
@@ -2397,6 +2398,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | reeds-gale-2 | norther-ground | reeds-gale |
 | prickly-pear-gale-1 | norther-ground | prickly-pear-gale |
 | prickly-pear-gale-2 | norther-ground | prickly-pear-gale |
+| post-oak-pole-gale-1 | oak-gale | post-oak-pole-gale |
+| post-oak-pole-gale-2 | oak-gale | post-oak-pole-gale |
+| blackjack-pole-gale-1 | oak-gale | blackjack-pole-gale |
+| blackjack-pole-gale-2 | oak-gale | blackjack-pole-gale |
+| post-oak-log-gale-1 | oak-gale | post-oak-log-gale |
+| post-oak-log-gale-2 | oak-gale | post-oak-log-gale |
+| blackjack-log-gale-1 | oak-gale | blackjack-log-gale |
+| blackjack-log-gale-2 | oak-gale | blackjack-log-gale |
+| post-oak-large-gale-1 | oak-gale | post-oak-large-gale |
+| post-oak-large-gale-2 | oak-gale | post-oak-large-gale |
+| blackjack-large-gale-1 | oak-gale | blackjack-large-gale |
+| blackjack-large-gale-2 | oak-gale | blackjack-large-gale |
 | cart-open-travel-e-1 | cart-open-complete | cart-open-travel-e |
 | cart-open-travel-e-2 | cart-open-complete | cart-open-travel-e |
 | cart-open-travel-e-3 | cart-open-complete | cart-open-travel-e |
@@ -3942,6 +3955,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | scrub-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | reeds-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | prickly-pear-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| post-oak-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| blackjack-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| post-oak-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| blackjack-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| post-oak-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| blackjack-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | cart-open-travel-e | Pose cycle | 4 | 980 | yes | east; west by mirroring |
 | cart-open-travel-s | Pose cycle | 4 | 980 | yes | south |
 | cart-open-travel-n | Pose cycle | 4 | 980 | yes | north |

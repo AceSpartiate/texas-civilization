@@ -1,3 +1,7 @@
+## Completed art group 2026-10-07: post oak and blackjack gale poses
+
+Twelve frames and six authored two-frame clips cover pole, log and large sizes. Existing weather rendering selects their first pose in hard northers; close-view clips are available. Sized pecan, hackberry, sweetgum and biome-tree gale art remains open. See `ART_DELIVERY_2026-10-07-OAK-GALE.md`.
+
 ## Completed art group 2026-10-07: first colony-sheet hardwood gale poses
 
 Mesquite, live oak and elm now have two dedicated gale poses at pole, log and large sizes: eighteen frames and nine authored clips. Together with pine/cedar this completes gale art for all fifteen standing-tree frames in `trees-colonies-1`. Map weather selects pose one; close-view loops are available. Second-sheet and biome-tree gale art remains open. See `ART_DELIVERY_2026-10-07-HARDWOOD-GALE.md`.

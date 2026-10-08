@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 309,
-    "sprites": 2913,
-    "clips": 1010,
-    "poseCycles": 702,
+    "sheets": 310,
+    "sprites": 2925,
+    "clips": 1016,
+    "poseCycles": 708,
     "rigs": 4
   },
   "entrypoints": {
@@ -19617,6 +19617,105 @@
               [
                 620,
                 962
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "oak-gale": {
+      "image": "atlases/oak-gale.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1964372,
+      "sha256": "488a382f2d468e5ddceba421cf845c3caef391947a29ba667906a2eeff9b125f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.577159,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              60,
+              339
+            ],
+            "columns": [
+              [
+                124,
+                279
+              ],
+              [
+                457,
+                676
+              ],
+              [
+                851,
+                1008
+              ],
+              [
+                1185,
+                1391
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              386,
+              672
+            ],
+            "columns": [
+              [
+                57,
+                345
+              ],
+              [
+                420,
+                724
+              ],
+              [
+                796,
+                1068
+              ],
+              [
+                1155,
+                1433
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              712,
+              1031
+            ],
+            "columns": [
+              [
+                26,
+                362
+              ],
+              [
+                394,
+                724
+              ],
+              [
+                744,
+                1078
+              ],
+              [
+                1117,
+                1436
               ]
             ]
           }
@@ -98065,6 +98164,414 @@
       "locationKits": [],
       "promptId": "frontier-v1/norther-ground"
     },
+    "post-oak-pole-gale-1": {
+      "sheet": "oak-gale",
+      "x": 124,
+      "y": 65,
+      "w": 155,
+      "h": 274,
+      "anchorX": 0.5258,
+      "anchorY": 0.9708,
+      "label": "post oak pole gale 1",
+      "kind": "oak-gale",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          126,
+          67,
+          151,
+          270
+        ],
+        "visiblePixels": 19467,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "post-oak-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "post-oak-pole-gale-2": {
+      "sheet": "oak-gale",
+      "x": 457,
+      "y": 68,
+      "w": 219,
+      "h": 271,
+      "anchorX": 0.4498,
+      "anchorY": 0.9705,
+      "label": "post oak pole gale 2",
+      "kind": "oak-gale",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          459,
+          70,
+          215,
+          267
+        ],
+        "visiblePixels": 26612,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "post-oak-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "blackjack-pole-gale-1": {
+      "sheet": "oak-gale",
+      "x": 851,
+      "y": 60,
+      "w": 157,
+      "h": 279,
+      "anchorX": 0.5,
+      "anchorY": 0.9713,
+      "label": "blackjack pole gale 1",
+      "kind": "oak-gale",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          853,
+          62,
+          153,
+          275
+        ],
+        "visiblePixels": 22098,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blackjack-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "blackjack-pole-gale-2": {
+      "sheet": "oak-gale",
+      "x": 1185,
+      "y": 69,
+      "w": 206,
+      "h": 270,
+      "anchorX": 0.4733,
+      "anchorY": 0.9667,
+      "label": "blackjack pole gale 2",
+      "kind": "oak-gale",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1187,
+          71,
+          202,
+          266
+        ],
+        "visiblePixels": 25500,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blackjack-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "post-oak-log-gale-1": {
+      "sheet": "oak-gale",
+      "x": 57,
+      "y": 387,
+      "w": 288,
+      "h": 285,
+      "anchorX": 0.4948,
+      "anchorY": 0.9684,
+      "label": "post oak log gale 1",
+      "kind": "oak-gale",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          59,
+          389,
+          284,
+          281
+        ],
+        "visiblePixels": 43047,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "post-oak-log-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "post-oak-log-gale-2": {
+      "sheet": "oak-gale",
+      "x": 420,
+      "y": 389,
+      "w": 304,
+      "h": 282,
+      "anchorX": 0.4112,
+      "anchorY": 0.9752,
+      "label": "post oak log gale 2",
+      "kind": "oak-gale",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          422,
+          391,
+          300,
+          278
+        ],
+        "visiblePixels": 43914,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "post-oak-log-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "blackjack-log-gale-1": {
+      "sheet": "oak-gale",
+      "x": 796,
+      "y": 386,
+      "w": 272,
+      "h": 285,
+      "anchorX": 0.4669,
+      "anchorY": 0.9684,
+      "label": "blackjack log gale 1",
+      "kind": "oak-gale",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          798,
+          388,
+          268,
+          281
+        ],
+        "visiblePixels": 42857,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blackjack-log-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "blackjack-log-gale-2": {
+      "sheet": "oak-gale",
+      "x": 1155,
+      "y": 399,
+      "w": 278,
+      "h": 272,
+      "anchorX": 0.4191,
+      "anchorY": 0.9706,
+      "label": "blackjack log gale 2",
+      "kind": "oak-gale",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1157,
+          401,
+          274,
+          268
+        ],
+        "visiblePixels": 41897,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blackjack-log-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "post-oak-large-gale-1": {
+      "sheet": "oak-gale",
+      "x": 26,
+      "y": 714,
+      "w": 336,
+      "h": 317,
+      "anchorX": 0.4955,
+      "anchorY": 0.9653,
+      "label": "post oak large gale 1",
+      "kind": "oak-gale",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          28,
+          716,
+          332,
+          313
+        ],
+        "visiblePixels": 59315,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "post-oak-large-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "post-oak-large-gale-2": {
+      "sheet": "oak-gale",
+      "x": 394,
+      "y": 712,
+      "w": 330,
+      "h": 319,
+      "anchorX": 0.4864,
+      "anchorY": 0.9655,
+      "label": "post oak large gale 2",
+      "kind": "oak-gale",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          396,
+          714,
+          326,
+          315
+        ],
+        "visiblePixels": 57076,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "post-oak-large-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "blackjack-large-gale-1": {
+      "sheet": "oak-gale",
+      "x": 744,
+      "y": 715,
+      "w": 334,
+      "h": 316,
+      "anchorX": 0.5344,
+      "anchorY": 0.962,
+      "label": "blackjack large gale 1",
+      "kind": "oak-gale",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          746,
+          717,
+          330,
+          312
+        ],
+        "visiblePixels": 59673,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blackjack-large-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
+    "blackjack-large-gale-2": {
+      "sheet": "oak-gale",
+      "x": 1117,
+      "y": 724,
+      "w": 319,
+      "h": 307,
+      "anchorX": 0.5392,
+      "anchorY": 0.9642,
+      "label": "blackjack large gale 2",
+      "kind": "oak-gale",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1119,
+          726,
+          315,
+          303
+        ],
+        "visiblePixels": 57209,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/oak-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blackjack-large-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/oak-gale"
+    },
     "cart-open-travel-e-1": {
       "sheet": "cart-open-complete",
       "x": 53,
@@ -138619,6 +139126,96 @@
         }
       ]
     },
+    "post-oak-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "post-oak-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "post-oak-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "blackjack-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "blackjack-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blackjack-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "post-oak-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "post-oak-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "post-oak-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "blackjack-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "blackjack-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blackjack-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "post-oak-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "post-oak-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "post-oak-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "blackjack-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "blackjack-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blackjack-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "cart-open-travel-e": {
       "frames": [
         {
@@ -149304,7 +149901,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 309,
+    "sourceCount": 310,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
