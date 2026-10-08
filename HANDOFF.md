@@ -1,3 +1,7 @@
+## Completed art group 2026-10-07: final colony hardwood gale poses
+
+Eighteen frames and nine authored clips cover pecan, hackberry and sweetgum at all sizes. Both colony sheets now have gale coverage for every standing tree. Cached-map bindings use pose one; loops are ready for close views. Biome-tree gale art remains separate. See `docs/ART_DELIVERY_2026-10-07-REMAINING-HARDWOOD-GALE.md`.
+
 ## Completed art group 2026-10-07: oak gale poses
 
 Post oak and blackjack at all three sizes: twelve frames, six authored two-frame loops. `GALE_POSES` integrates their first pose into cached-ground weather rendering. Animation loops are available for close views; no per-frame ground-cache invalidation. Remaining sized pecan, hackberry, sweetgum and biome-tree gale art stays open. See `docs/ART_DELIVERY_2026-10-07-OAK-GALE.md`.

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2925 usable sprites, 310 PNG atlases, 1016 clips** (708 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2943 usable sprites, 312 PNG atlases, 1025 clips** (717 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -249,6 +249,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ferry-landing | 1 | 1536 × 1024 | 2091884 |
 | ox-packed | 16 | 1254 × 1254 | 1531260 |
 | regular-engineer-actions | 16 | 1254 × 1254 | 1448705 |
+| pecan-hackberry-gale | 12 | 1448 × 1086 | 1526598 |
+| sweetgum-gale | 6 | 1254 × 1254 | 1081732 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
@@ -2478,6 +2480,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-sandbag-fill-2 | regular-engineer-actions | regular-sandbag-fill |
 | regular-sandbag-fill-3 | regular-engineer-actions | regular-sandbag-fill |
 | regular-sandbag-fill-4 | regular-engineer-actions | regular-sandbag-fill |
+| pecan-pole-gale-1 | pecan-hackberry-gale | pecan-pole-gale |
+| pecan-pole-gale-2 | pecan-hackberry-gale | pecan-pole-gale |
+| hackberry-pole-gale-1 | pecan-hackberry-gale | hackberry-pole-gale |
+| hackberry-pole-gale-2 | pecan-hackberry-gale | hackberry-pole-gale |
+| pecan-log-gale-1 | pecan-hackberry-gale | pecan-log-gale |
+| pecan-log-gale-2 | pecan-hackberry-gale | pecan-log-gale |
+| hackberry-log-gale-1 | pecan-hackberry-gale | hackberry-log-gale |
+| hackberry-log-gale-2 | pecan-hackberry-gale | hackberry-log-gale |
+| pecan-large-gale-1 | pecan-hackberry-gale | pecan-large-gale |
+| pecan-large-gale-2 | pecan-hackberry-gale | pecan-large-gale |
+| hackberry-large-gale-1 | pecan-hackberry-gale | hackberry-large-gale |
+| hackberry-large-gale-2 | pecan-hackberry-gale | hackberry-large-gale |
+| sweetgum-pole-gale-1 | sweetgum-gale | sweetgum-pole-gale |
+| sweetgum-pole-gale-2 | sweetgum-gale | sweetgum-pole-gale |
+| sweetgum-log-gale-1 | sweetgum-gale | sweetgum-log-gale |
+| sweetgum-log-gale-2 | sweetgum-gale | sweetgum-log-gale |
+| sweetgum-large-gale-1 | sweetgum-gale | sweetgum-large-gale |
+| sweetgum-large-gale-2 | sweetgum-gale | sweetgum-large-gale |
 | courier-dismount-1 | courier-dismount | courier-dismount |
 | courier-dismount-2 | courier-dismount | courier-dismount |
 | courier-dismount-3 | courier-dismount | courier-dismount |
@@ -3977,6 +3997,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-crowbar | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
 | regular-sandbag-carry | Pose cycle | 4 | 1280 | yes | east; west by mirroring |
 | regular-sandbag-fill | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| pecan-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| hackberry-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pecan-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| hackberry-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pecan-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| hackberry-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| sweetgum-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| sweetgum-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| sweetgum-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | courier-dismount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-remount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-onfoot-listen | Pose cycle | 3 | 2050 | yes | east; west by mirroring |

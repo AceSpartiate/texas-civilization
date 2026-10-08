@@ -152,11 +152,11 @@ test('a hard norther is drawn in the painted gale pose, and every lesser wind is
 
 test('only the things the gale was painted for take a pose; everything else in the timber keeps the shear', () => {
   const hard = weatherMix(weatherOf({ west: 'norther', centre: 'norther', east: 'norther' }), 200, 600);
-  assert.deepEqual(Object.keys(GALE_POSES).sort(), ['blackjack-large', 'blackjack-log', 'blackjack-pole', 'cane-1', 'cane-2', 'cedar-large', 'cedar-log', 'cedar-pole', 'elm-large', 'elm-log', 'elm-pole', 'grass-tall', 'grass-tuft', 'live-oak-large', 'live-oak-log', 'live-oak-pole', 'mesquite-large', 'mesquite-log', 'mesquite-pole', 'oak-broad', 'oak-spreading', 'pecan', 'pine-loblolly-large', 'pine-loblolly-log', 'pine-loblolly-pole', 'post-oak-large', 'post-oak-log', 'post-oak-pole', 'prickly-pear', 'reeds', 'scrub']);
+  assert.deepEqual(Object.keys(GALE_POSES).sort(), ['blackjack-large', 'blackjack-log', 'blackjack-pole', 'cane-1', 'cane-2', 'cedar-large', 'cedar-log', 'cedar-pole', 'elm-large', 'elm-log', 'elm-pole', 'grass-tall', 'grass-tuft', 'hackberry-large', 'hackberry-log', 'hackberry-pole', 'live-oak-large', 'live-oak-log', 'live-oak-pole', 'mesquite-large', 'mesquite-log', 'mesquite-pole', 'oak-broad', 'oak-spreading', 'pecan', 'pecan-large', 'pecan-log', 'pecan-pole', 'pine-loblolly-large', 'pine-loblolly-log', 'pine-loblolly-pole', 'post-oak-large', 'post-oak-log', 'post-oak-pole', 'prickly-pear', 'reeds', 'scrub', 'sweetgum-large', 'sweetgum-log', 'sweetgum-pole']);
   assert.equal(galePose('grass-tall', hard), 'grass-tall-wind');
   assert.equal(galePose('cane-2', hard), 'cane-wind');
-  // Remaining hardwood gale art is separate; those trees retain upright shear.
-  for (const upright of ['pecan-log', 'hackberry-log', 'sweetgum-large', 'rocks']) {
+  // Biome-tree gale art is separate; those trees retain upright shear.
+  for (const upright of ['pine-longleaf-pole', 'cypress-bald-log', 'palm-sabal-large', 'rocks']) {
     assert.equal(galePose(upright, hard), null, `${upright} has no painted gale pose`);
   }
   assert.ok(Math.abs(windLean(hard)) > 0.1, 'and the shear they fall back on is still a real bend');

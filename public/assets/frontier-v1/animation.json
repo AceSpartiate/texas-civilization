@@ -12137,6 +12137,141 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "pecan-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pecan-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pecan-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "hackberry-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "hackberry-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "hackberry-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pecan-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pecan-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pecan-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "hackberry-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "hackberry-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "hackberry-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pecan-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pecan-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pecan-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "hackberry-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "hackberry-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "hackberry-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "sweetgum-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "sweetgum-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "sweetgum-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "sweetgum-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "sweetgum-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "sweetgum-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "sweetgum-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "sweetgum-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "sweetgum-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "courier-dismount": {
       "frames": [
         {

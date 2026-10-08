@@ -20350,6 +20350,180 @@
         ]
       }
     },
+    "pecan-hackberry-gale": {
+      "image": "atlases/pecan-hackberry-gale.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1526598,
+      "sha256": "60f86dc23a7dbc118e1dc4082c9f0fef624ccdbb146999e164b18310fc7bfcea",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.663387,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              95,
+              324
+            ],
+            "columns": [
+              [
+                141,
+                266
+              ],
+              [
+                480,
+                693
+              ],
+              [
+                842,
+                987
+              ],
+              [
+                1186,
+                1370
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              413,
+              672
+            ],
+            "columns": [
+              [
+                68,
+                330
+              ],
+              [
+                430,
+                727
+              ],
+              [
+                794,
+                1055
+              ],
+              [
+                1157,
+                1418
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              739,
+              1031
+            ],
+            "columns": [
+              [
+                40,
+                357
+              ],
+              [
+                400,
+                740
+              ],
+              [
+                778,
+                1058
+              ],
+              [
+                1121,
+                1422
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "sweetgum-gale": {
+      "image": "atlases/sweetgum-gale.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1081732,
+      "sha256": "269c5d7e50feb82e804993a4ccd7455a4b677e3bbb7831a4ca6bf673cd87c6f1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.76874,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              82,
+              381
+            ],
+            "columns": [
+              [
+                289,
+                480
+              ],
+              [
+                824,
+                1047
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              445,
+              786
+            ],
+            "columns": [
+              [
+                219,
+                555
+              ],
+              [
+                754,
+                1150
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              880,
+              1180
+            ],
+            "columns": [
+              [
+                213,
+                564
+              ],
+              [
+                728,
+                1109
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "courier-dismount": {
       "image": "atlases/courier-dismount.png",
       "width": 1254,
@@ -80446,6 +80620,438 @@
           229
         ],
         "visiblePixels": 28769,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pecan-pole-gale-1": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 141,
+      "y": 98,
+      "w": 125,
+      "h": 226,
+      "anchorX": 0.376,
+      "anchorY": 0.9513,
+      "label": "pecan pole gale 1",
+      "kind": "pecan-hackberry-gale",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          100,
+          121,
+          222
+        ],
+        "visiblePixels": 14381,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pecan-pole-gale-2": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 480,
+      "y": 95,
+      "w": 213,
+      "h": 226,
+      "anchorX": 0.223,
+      "anchorY": 0.9469,
+      "label": "pecan pole gale 2",
+      "kind": "pecan-hackberry-gale",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          482,
+          97,
+          209,
+          222
+        ],
+        "visiblePixels": 22113,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "hackberry-pole-gale-1": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 842,
+      "y": 108,
+      "w": 145,
+      "h": 216,
+      "anchorX": 0.4,
+      "anchorY": 0.9444,
+      "label": "hackberry pole gale 1",
+      "kind": "pecan-hackberry-gale",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          844,
+          110,
+          141,
+          212
+        ],
+        "visiblePixels": 15331,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "hackberry-pole-gale-2": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 1186,
+      "y": 112,
+      "w": 184,
+      "h": 209,
+      "anchorX": 0.2636,
+      "anchorY": 0.9474,
+      "label": "hackberry pole gale 2",
+      "kind": "pecan-hackberry-gale",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1188,
+          114,
+          180,
+          205
+        ],
+        "visiblePixels": 19843,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pecan-log-gale-1": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 68,
+      "y": 419,
+      "w": 262,
+      "h": 253,
+      "anchorX": 0.437,
+      "anchorY": 0.9486,
+      "label": "pecan log gale 1",
+      "kind": "pecan-hackberry-gale",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          70,
+          421,
+          258,
+          249
+        ],
+        "visiblePixels": 34800,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pecan-log-gale-2": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 430,
+      "y": 413,
+      "w": 297,
+      "h": 258,
+      "anchorX": 0.3367,
+      "anchorY": 0.9535,
+      "label": "pecan log gale 2",
+      "kind": "pecan-hackberry-gale",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          432,
+          415,
+          293,
+          254
+        ],
+        "visiblePixels": 42360,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "hackberry-log-gale-1": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 794,
+      "y": 425,
+      "w": 261,
+      "h": 247,
+      "anchorX": 0.4291,
+      "anchorY": 0.9433,
+      "label": "hackberry log gale 1",
+      "kind": "pecan-hackberry-gale",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          796,
+          427,
+          257,
+          243
+        ],
+        "visiblePixels": 34005,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "hackberry-log-gale-2": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 1157,
+      "y": 431,
+      "w": 261,
+      "h": 239,
+      "anchorX": 0.3238,
+      "anchorY": 0.9456,
+      "label": "hackberry log gale 2",
+      "kind": "pecan-hackberry-gale",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1159,
+          433,
+          257,
+          235
+        ],
+        "visiblePixels": 35197,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pecan-large-gale-1": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 40,
+      "y": 739,
+      "w": 317,
+      "h": 292,
+      "anchorX": 0.4621,
+      "anchorY": 0.9486,
+      "label": "pecan large gale 1",
+      "kind": "pecan-hackberry-gale",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          42,
+          741,
+          313,
+          288
+        ],
+        "visiblePixels": 50743,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pecan-large-gale-2": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 400,
+      "y": 743,
+      "w": 340,
+      "h": 288,
+      "anchorX": 0.4074,
+      "anchorY": 0.9479,
+      "label": "pecan large gale 2",
+      "kind": "pecan-hackberry-gale",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          402,
+          745,
+          336,
+          284
+        ],
+        "visiblePixels": 50624,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "hackberry-large-gale-1": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 778,
+      "y": 758,
+      "w": 280,
+      "h": 273,
+      "anchorX": 0.4732,
+      "anchorY": 0.9451,
+      "label": "hackberry large gale 1",
+      "kind": "pecan-hackberry-gale",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          780,
+          760,
+          276,
+          269
+        ],
+        "visiblePixels": 43615,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "hackberry-large-gale-2": {
+      "sheet": "pecan-hackberry-gale",
+      "x": 1121,
+      "y": 756,
+      "w": 301,
+      "h": 274,
+      "anchorX": 0.4169,
+      "anchorY": 0.9453,
+      "label": "hackberry large gale 2",
+      "kind": "pecan-hackberry-gale",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1123,
+          758,
+          297,
+          270
+        ],
+        "visiblePixels": 47526,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sweetgum-pole-gale-1": {
+      "sheet": "sweetgum-gale",
+      "x": 289,
+      "y": 86,
+      "w": 191,
+      "h": 295,
+      "anchorX": 0.4712,
+      "anchorY": 0.9492,
+      "label": "sweetgum pole gale 1",
+      "kind": "sweetgum-gale",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          291,
+          88,
+          187,
+          291
+        ],
+        "visiblePixels": 28870,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sweetgum-pole-gale-2": {
+      "sheet": "sweetgum-gale",
+      "x": 824,
+      "y": 82,
+      "w": 223,
+      "h": 299,
+      "anchorX": 0.3722,
+      "anchorY": 0.9498,
+      "label": "sweetgum pole gale 2",
+      "kind": "sweetgum-gale",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          826,
+          84,
+          219,
+          295
+        ],
+        "visiblePixels": 34762,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sweetgum-log-gale-1": {
+      "sheet": "sweetgum-gale",
+      "x": 219,
+      "y": 445,
+      "w": 336,
+      "h": 340,
+      "anchorX": 0.4524,
+      "anchorY": 0.95,
+      "label": "sweetgum log gale 1",
+      "kind": "sweetgum-gale",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          221,
+          447,
+          332,
+          336
+        ],
+        "visiblePixels": 65236,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sweetgum-log-gale-2": {
+      "sheet": "sweetgum-gale",
+      "x": 754,
+      "y": 445,
+      "w": 396,
+      "h": 341,
+      "anchorX": 0.3952,
+      "anchorY": 0.9413,
+      "label": "sweetgum log gale 2",
+      "kind": "sweetgum-gale",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          756,
+          447,
+          392,
+          337
+        ],
+        "visiblePixels": 74888,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sweetgum-large-gale-1": {
+      "sheet": "sweetgum-gale",
+      "x": 213,
+      "y": 880,
+      "w": 351,
+      "h": 299,
+      "anchorX": 0.5128,
+      "anchorY": 0.9498,
+      "label": "sweetgum large gale 1",
+      "kind": "sweetgum-gale",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          215,
+          882,
+          347,
+          295
+        ],
+        "visiblePixels": 60583,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sweetgum-large-gale-2": {
+      "sheet": "sweetgum-gale",
+      "x": 728,
+      "y": 887,
+      "w": 381,
+      "h": 293,
+      "anchorX": 0.4462,
+      "anchorY": 0.9488,
+      "label": "sweetgum large gale 2",
+      "kind": "sweetgum-gale",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          730,
+          889,
+          377,
+          289
+        ],
+        "visiblePixels": 63637,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

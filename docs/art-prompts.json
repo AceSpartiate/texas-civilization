@@ -4842,6 +4842,52 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/oak-gale.png",
       "postProcessing": "None; PNG copied unchanged.",
       "review": "Two crown poses per oak size, same grounded trunks, static map selector and close-view loops."
+    },
+    {
+      "sheet": "pecan-hackberry-gale",
+      "prompt": "Transparent game sprite atlas matching trees-colonies-2 reference: muted olive painted foliage warm brown outlines slightly elevated threequarter frontier storybook. Two gust poses per tree size, rooted lower trunks firm fixed base withinpairs; upperbranches and foliage visibly yielding SCREEN RIGHT under hard norther. Second pose stronger gust different crownshape but sameidentityproportions. No brokenuprooted trees, no airborne leaves. Entire tree ONLY central55percent owncell widthheight; minimum40px fullytransparentgutter insideeverycell boundary; no overlap, no background glow shadowgroundslab textgrid. Truealpha=0 outside silhouettes. EXACT FOUR COLUMNS THREE ROWS twelve sprites. Row1 PECAN POLE young slim upright lighter feathery compoundleaf crown poses1/2 col1/2; HACKBERRY POLE young slender rounded olive leafy crown poses1/2 col3/4. Row2 PECAN LOG medium longtrunk spreading compoundleaf branches poses1/2 col1/2; HACKBERRY LOG medium broad rounded irregular olive crown poses1/2 col3/4. Row3 PECAN LARGE tallstout forked trunk broad open spreading compoundleaf canopy poses1/2 col1/2; HACKBERRY LARGE stout branchy rugged trunk broad irregular rounded crown poses1/2 col3/4. Preserve referencepecan airy feathery versus hackberry rounded denser. Same age/size across pair. All12trees framed separately.",
+      "promptId": "frontier-v1/pecan-hackberry-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-2.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-af5dd662-3b3e-4fac-9e8a-18449f8cc44f.png",
+      "refinements": [
+        {
+          "prompt": "Spacing ONLY exact FOUR columns THREE rows twelve trees. SHRINK EACH WHOLE TREE BY THIRTY PERCENT toward its own cell center. Every tree central55percentcell, minimum40px EMPTY TRANSPARENT gutters inside EACH boundary. Especially bottomrow canopies must not touch/cross neighboringcells orcanvasedge. Preserve allidentities needlelikepecanleaves versus roundedhackberry leaves windposes rootfootprints proportions colors, no new branches or background. Truezeroalpha outside plants. No labelsglow terrainshadows.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e60b5319-805e-4e1e-aea0-0250af456bbe.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e60b5319-805e-4e1e-aea0-0250af456bbe.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/pecan-hackberry-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Two gale poses at every size; cached-map pose one and close-view loops."
+    },
+    {
+      "sheet": "sweetgum-gale",
+      "prompt": "Transparent game sprite atlas matching trees-colonies-2 reference: muted olive painted foliage warm brown outlines slightly elevated threequarter frontier storybook. Two gust poses per tree size, rooted lower trunks firm fixed base withinpairs; upperbranches and foliage visibly yielding SCREEN RIGHT under hard norther. Second pose stronger gust different crownshape but sameidentityproportions. No brokenuprooted trees, no airborne leaves. Entire tree ONLY central55percent owncell widthheight; minimum40px fullytransparentgutter insideeverycell boundary; no overlap, no background glow shadowgroundslab textgrid. Truealpha=0 outside silhouettes. EXACT TWO COLUMNS THREE ROWS six sprites. SWEETGUM tree with visibly star-shaped leaves, straight rooted lowertrunk and conical youngcrown spreading maturecrown, warmolivecolor. Row1 POLE young slender upright trunk narrowcrown gust1left gust2right. Row2 LOG medium branched broad oval crown gust1left gust2right. Row3 LARGE mature stoutforkedtrunk broad irregular spreading canopy gust1left gust2right. Eachpairedtree sameage/proportions but different wind-stressed canopy. Preserve exact reference sweetgum starleaf identity. Entire six trees within owncells with empty gutters.",
+      "promptId": "frontier-v1/sweetgum-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-2.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2ecba871-e9a1-41c9-acbb-a4bb379b2a43.png",
+      "refinements": [
+        {
+          "prompt": "Spacing ONLY exact TWO columns THREE rows six sweetgum trees. SHRINK EACH WHOLE TREE by THIRTY PERCENT toward CENTER OF ITS OWN CELL, strictly fit eachtree central55percentcell and at least40px EMPTY TRANSPARENT gutters inside EVERY boundary. Middle row trees must fit y=one-third to two-thirds canvas, bottomrow must start BELOW two-thirds plusgutter. No canopy crosses itsrow seam orneighbor cell. Preserve star leaves proportions speciesidentity rootedfeet distinctgustposesandallcolors. Alpha0outsideplants, no newbackgroundshadowglowlabels.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e9bc87d2-cf72-4a08-bf2f-701f13412ae5.png"
+        },
+        {
+          "prompt": "Precise atlas layout correction. SIX sweetgum sprites TWOcolumns THREErows. Preserve identities and everywindpose. In output canvas, eachrow MUST contain WHOLE trees: top objects staybetween y=0% and33.33%, middle objectsbetween33.33%and66.66%, bottom objectsbetween66.66%and100%. Bottomrow crowns currentlycross ABOVE66.66%line. SHRINK bottomrowwhole trees20percent and moveDOWNwithinrow so allbottomrowpixels between70%and96%canvasheight. Keep bottomrowpair samefootbaseline. Maintain middle andtoprows unchanged. Truealpha transparent gutters; no extra background text or labels. Bottomrow no pixelsabove70percentcanvasheight.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-decbdc95-0420-45a0-b226-901cf3da1a51.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-decbdc95-0420-45a0-b226-901cf3da1a51.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/sweetgum-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Two gale poses at every size; cached-map pose one and close-view loops."
     }
   ]
 }
