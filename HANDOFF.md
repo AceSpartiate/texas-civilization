@@ -1,3 +1,7 @@
+## Completed art group 2026-10-07: first-sheet hardwood gale poses
+
+Eighteen frames, nine two-frame loops: mesquite, live oak and elm at pole/log/large sizes. All standing trees from `trees-colonies-1` now have gale art. Existing cached-ground rendering selects pose one; loops await animated close-view use. Weather, forestry, saves and visibility unchanged. Trees-colonies-2 and biome trees remain separate open gale groups. See `docs/ART_DELIVERY_2026-10-07-HARDWOOD-GALE.md`.
+
 ## Completed art subgroup 2026-10-07: conifer gale poses
 
 Twelve frames and six two-frame loops supply loblolly pine and cedar at all three existing sizes. `GALE_POSES` selects pose one in the cached map ground. Animation clips remain available for close views, without per-frame map-cache invalidation. Shortleaf retains its existing loblolly stand-in and therefore inherits its weather artwork; no species or simulation distribution changed. See `docs/ART_DELIVERY_2026-10-07-CONIFER-GALE.md`.

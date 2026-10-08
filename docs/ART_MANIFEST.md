@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2895 usable sprites, 307 PNG atlases, 1001 clips** (693 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2913 usable sprites, 309 PNG atlases, 1010 clips** (702 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -213,6 +213,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | ground-fog-banks | 4 | 1774 × 887 | 1018893 |
+| mesquite-liveoak-gale | 12 | 1536 × 1024 | 2225195 |
+| elm-gale | 6 | 1243 × 1265 | 1228004 |
 | home-tools | 6 | 1024 × 1536 | 1685412 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
@@ -2113,6 +2115,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fog-bank-dense-2 | ground-fog-banks | fog-bank-dense |
 | fog-bank-thin-1 | ground-fog-banks | fog-bank-thin |
 | fog-bank-thin-2 | ground-fog-banks | fog-bank-thin |
+| mesquite-pole-gale-1 | mesquite-liveoak-gale | mesquite-pole-gale |
+| mesquite-pole-gale-2 | mesquite-liveoak-gale | mesquite-pole-gale |
+| live-oak-pole-gale-1 | mesquite-liveoak-gale | live-oak-pole-gale |
+| live-oak-pole-gale-2 | mesquite-liveoak-gale | live-oak-pole-gale |
+| mesquite-log-gale-1 | mesquite-liveoak-gale | mesquite-log-gale |
+| mesquite-log-gale-2 | mesquite-liveoak-gale | mesquite-log-gale |
+| live-oak-log-gale-1 | mesquite-liveoak-gale | live-oak-log-gale |
+| live-oak-log-gale-2 | mesquite-liveoak-gale | live-oak-log-gale |
+| mesquite-large-gale-1 | mesquite-liveoak-gale | mesquite-large-gale |
+| mesquite-large-gale-2 | mesquite-liveoak-gale | mesquite-large-gale |
+| live-oak-large-gale-1 | mesquite-liveoak-gale | live-oak-large-gale |
+| live-oak-large-gale-2 | mesquite-liveoak-gale | live-oak-large-gale |
+| elm-pole-gale-1 | elm-gale | elm-pole-gale |
+| elm-pole-gale-2 | elm-gale | elm-pole-gale |
+| elm-log-gale-1 | elm-gale | elm-log-gale |
+| elm-log-gale-2 | elm-gale | elm-log-gale |
+| elm-large-gale-1 | elm-gale | elm-large-gale |
+| elm-large-gale-2 | elm-gale | elm-large-gale |
 | home-hoe | home-tools | State artwork; no motion required |
 | home-felling-axe | home-tools | State artwork; no motion required |
 | home-broadaxe | home-tools | State artwork; no motion required |
@@ -3855,6 +3875,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |
 | fog-bank-dense | Pose cycle | 2 | 12000 | yes | scenery |
 | fog-bank-thin | Pose cycle | 2 | 12000 | yes | scenery |
+| mesquite-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| live-oak-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| mesquite-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| live-oak-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| mesquite-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| live-oak-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| elm-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| elm-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| elm-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | volunteer-rest-sit | Pose cycle | 2 | 1800 | yes | east; west by mirroring |

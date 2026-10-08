@@ -10267,6 +10267,141 @@
       "motion": "none",
       "direction": "scenery"
     },
+    "mesquite-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "mesquite-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "mesquite-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "live-oak-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "live-oak-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "live-oak-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "mesquite-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "mesquite-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "mesquite-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "live-oak-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "live-oak-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "live-oak-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "mesquite-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "mesquite-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "mesquite-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "live-oak-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "live-oak-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "live-oak-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "elm-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "elm-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "elm-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "elm-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "elm-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "elm-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "elm-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "elm-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "elm-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "live-oak-mott-dense-wind": {
       "frames": [
         {

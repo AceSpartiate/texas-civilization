@@ -17075,6 +17075,180 @@
         ]
       }
     },
+    "mesquite-liveoak-gale": {
+      "image": "atlases/mesquite-liveoak-gale.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2225195,
+      "sha256": "9323534bf14d07e835c100e5c9cfad8fda0f7ba8a1853dcdedcfa01e11ba7aa8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.630582,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              106,
+              286
+            ],
+            "columns": [
+              [
+                130,
+                305
+              ],
+              [
+                480,
+                694
+              ],
+              [
+                865,
+                1054
+              ],
+              [
+                1240,
+                1433
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              395,
+              612
+            ],
+            "columns": [
+              [
+                65,
+                364
+              ],
+              [
+                454,
+                761
+              ],
+              [
+                822,
+                1106
+              ],
+              [
+                1203,
+                1493
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              693,
+              945
+            ],
+            "columns": [
+              [
+                34,
+                409
+              ],
+              [
+                429,
+                781
+              ],
+              [
+                805,
+                1136
+              ],
+              [
+                1172,
+                1502
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "elm-gale": {
+      "image": "atlases/elm-gale.png",
+      "width": 1243,
+      "height": 1265,
+      "bytes": 1228004,
+      "sha256": "32a561b917f350bb60b94cbd447c2deceb8f32d9f14472d63708281de97aa2c1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.737214,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              63,
+              353
+            ],
+            "columns": [
+              [
+                303,
+                497
+              ],
+              [
+                792,
+                1022
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              431,
+              756
+            ],
+            "columns": [
+              [
+                244,
+                552
+              ],
+              [
+                745,
+                1080
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              818,
+              1178
+            ],
+            "columns": [
+              [
+                80,
+                584
+              ],
+              [
+                683,
+                1178
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "home-tools": {
       "image": "atlases/home-tools.png",
       "width": 1024,
@@ -71337,6 +71511,438 @@
           183
         ],
         "visiblePixels": 71332,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mesquite-pole-gale-1": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 130,
+      "y": 112,
+      "w": 175,
+      "h": 172,
+      "anchorX": 0.26,
+      "anchorY": 0.936,
+      "label": "mesquite pole gale 1",
+      "kind": "mesquite-liveoak-gale",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          132,
+          114,
+          171,
+          168
+        ],
+        "visiblePixels": 11426,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mesquite-pole-gale-2": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 480,
+      "y": 106,
+      "w": 214,
+      "h": 180,
+      "anchorX": 0.2944,
+      "anchorY": 0.9333,
+      "label": "mesquite pole gale 2",
+      "kind": "mesquite-liveoak-gale",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          482,
+          108,
+          210,
+          176
+        ],
+        "visiblePixels": 15773,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "live-oak-pole-gale-1": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 865,
+      "y": 117,
+      "w": 189,
+      "h": 168,
+      "anchorX": 0.328,
+      "anchorY": 0.9286,
+      "label": "live oak pole gale 1",
+      "kind": "mesquite-liveoak-gale",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          867,
+          119,
+          185,
+          164
+        ],
+        "visiblePixels": 15713,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "live-oak-pole-gale-2": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 1240,
+      "y": 112,
+      "w": 193,
+      "h": 172,
+      "anchorX": 0.3187,
+      "anchorY": 0.9302,
+      "label": "live oak pole gale 2",
+      "kind": "mesquite-liveoak-gale",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1242,
+          114,
+          189,
+          168
+        ],
+        "visiblePixels": 17018,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mesquite-log-gale-1": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 65,
+      "y": 399,
+      "w": 299,
+      "h": 210,
+      "anchorX": 0.3445,
+      "anchorY": 0.9333,
+      "label": "mesquite log gale 1",
+      "kind": "mesquite-liveoak-gale",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          67,
+          401,
+          295,
+          206
+        ],
+        "visiblePixels": 26918,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mesquite-log-gale-2": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 454,
+      "y": 395,
+      "w": 307,
+      "h": 215,
+      "anchorX": 0.3306,
+      "anchorY": 0.9302,
+      "label": "mesquite log gale 2",
+      "kind": "mesquite-liveoak-gale",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          456,
+          397,
+          303,
+          211
+        ],
+        "visiblePixels": 27492,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "live-oak-log-gale-1": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 822,
+      "y": 395,
+      "w": 284,
+      "h": 217,
+      "anchorX": 0.4085,
+      "anchorY": 0.9309,
+      "label": "live oak log gale 1",
+      "kind": "mesquite-liveoak-gale",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          824,
+          397,
+          280,
+          213
+        ],
+        "visiblePixels": 33043,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "live-oak-log-gale-2": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 1203,
+      "y": 401,
+      "w": 290,
+      "h": 210,
+      "anchorX": 0.4466,
+      "anchorY": 0.9381,
+      "label": "live oak log gale 2",
+      "kind": "mesquite-liveoak-gale",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1205,
+          403,
+          286,
+          206
+        ],
+        "visiblePixels": 32625,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mesquite-large-gale-1": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 34,
+      "y": 693,
+      "w": 375,
+      "h": 252,
+      "anchorX": 0.3587,
+      "anchorY": 0.9365,
+      "label": "mesquite large gale 1",
+      "kind": "mesquite-liveoak-gale",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          36,
+          695,
+          371,
+          248
+        ],
+        "visiblePixels": 42837,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mesquite-large-gale-2": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 429,
+      "y": 700,
+      "w": 352,
+      "h": 244,
+      "anchorX": 0.3011,
+      "anchorY": 0.9303,
+      "label": "mesquite large gale 2",
+      "kind": "mesquite-liveoak-gale",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          431,
+          702,
+          348,
+          240
+        ],
+        "visiblePixels": 41707,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "live-oak-large-gale-1": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 805,
+      "y": 704,
+      "w": 331,
+      "h": 241,
+      "anchorX": 0.4215,
+      "anchorY": 0.9295,
+      "label": "live oak large gale 1",
+      "kind": "mesquite-liveoak-gale",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          807,
+          706,
+          327,
+          237
+        ],
+        "visiblePixels": 45989,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "live-oak-large-gale-2": {
+      "sheet": "mesquite-liveoak-gale",
+      "x": 1172,
+      "y": 716,
+      "w": 330,
+      "h": 228,
+      "anchorX": 0.5167,
+      "anchorY": 0.9298,
+      "label": "live oak large gale 2",
+      "kind": "mesquite-liveoak-gale",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1174,
+          718,
+          326,
+          224
+        ],
+        "visiblePixels": 45940,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elm-pole-gale-1": {
+      "sheet": "elm-gale",
+      "x": 303,
+      "y": 63,
+      "w": 194,
+      "h": 289,
+      "anchorX": 0.3041,
+      "anchorY": 0.9446,
+      "label": "elm pole gale 1",
+      "kind": "elm-gale",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          305,
+          65,
+          190,
+          285
+        ],
+        "visiblePixels": 26289,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elm-pole-gale-2": {
+      "sheet": "elm-gale",
+      "x": 792,
+      "y": 69,
+      "w": 230,
+      "h": 284,
+      "anchorX": 0.2522,
+      "anchorY": 0.9401,
+      "label": "elm pole gale 2",
+      "kind": "elm-gale",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          794,
+          71,
+          226,
+          280
+        ],
+        "visiblePixels": 29887,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elm-log-gale-1": {
+      "sheet": "elm-gale",
+      "x": 244,
+      "y": 431,
+      "w": 308,
+      "h": 325,
+      "anchorX": 0.3912,
+      "anchorY": 0.9477,
+      "label": "elm log gale 1",
+      "kind": "elm-gale",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          246,
+          433,
+          304,
+          321
+        ],
+        "visiblePixels": 51476,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elm-log-gale-2": {
+      "sheet": "elm-gale",
+      "x": 745,
+      "y": 438,
+      "w": 335,
+      "h": 318,
+      "anchorX": 0.3343,
+      "anchorY": 0.9434,
+      "label": "elm log gale 2",
+      "kind": "elm-gale",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          747,
+          440,
+          331,
+          314
+        ],
+        "visiblePixels": 53602,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elm-large-gale-1": {
+      "sheet": "elm-gale",
+      "x": 80,
+      "y": 818,
+      "w": 504,
+      "h": 360,
+      "anchorX": 0.4484,
+      "anchorY": 0.9444,
+      "label": "elm large gale 1",
+      "kind": "elm-gale",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          82,
+          820,
+          500,
+          356
+        ],
+        "visiblePixels": 98022,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "elm-large-gale-2": {
+      "sheet": "elm-gale",
+      "x": 683,
+      "y": 823,
+      "w": 495,
+      "h": 355,
+      "anchorX": 0.3879,
+      "anchorY": 0.9437,
+      "label": "elm large gale 2",
+      "kind": "elm-gale",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          685,
+          825,
+          491,
+          351
+        ],
+        "visiblePixels": 95743,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

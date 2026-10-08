@@ -206,8 +206,8 @@ export function galeForce(mix) {
 export function inGale(mix) { return galeForce(mix) >= GALE; }
 /**
  * Authored gale poses replace upright shear for delivered trees and ground cover. Basic scrub,
- * reeds, prickly pear, loblolly pine and cedar now have dedicated poses; mesquite, live oak, elm and
- * remaining sized trees still use upright shear until their own gale art is delivered.
+ * reeds, prickly pear and every sized tree from trees-colonies-1 now have dedicated poses.
+ * Remaining trees-colonies-2 and biome-tree sizes retain upright shear pending their gale art.
  *
  * The names collide with four one-frame `*-wind` CLIPS that predate the delivery and hold the upright sprite swaying
  * (public/assets/frontier-v1/animation.json). Frames and clips are separate tables in public/art.js, so `drawSprite`
@@ -231,6 +231,16 @@ export const GALE_POSES = Object.freeze({
   'cedar-log': 'cedar-log-gale-1',
   'pine-loblolly-large': 'pine-loblolly-large-gale-1',
   'cedar-large': 'cedar-large-gale-1',
+  // Remaining trees-colonies-1 hardwoods, all sizes, 2026-10-07.
+  'mesquite-pole': 'mesquite-pole-gale-1',
+  'live-oak-pole': 'live-oak-pole-gale-1',
+  'elm-pole': 'elm-pole-gale-1',
+  'mesquite-log': 'mesquite-log-gale-1',
+  'live-oak-log': 'live-oak-log-gale-1',
+  'elm-log': 'elm-log-gale-1',
+  'mesquite-large': 'mesquite-large-gale-1',
+  'live-oak-large': 'live-oak-large-gale-1',
+  'elm-large': 'elm-large-gale-1',
   // Basic ground-cover gale poses. The kept ground uses pose one; clips are
   // available for animated close views.
   scrub: 'scrub-gale-1',

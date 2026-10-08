@@ -4782,6 +4782,52 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/conifer-gale.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Six pine/cedar size identities, two distinct gust poses each; cached-map first-pose integration and close-view clips."
+    },
+    {
+      "sheet": "mesquite-liveoak-gale",
+      "prompt": "Production transparent sprite atlas for Texas frontier game. Match reference warm muted olive painted foliage, dark brown outlines, slightly elevated threequarter view. Each rooted lower trunk stays firm while upper branches and foliage stream SCREEN RIGHT in a hard norther. Two subtle gust variants per size, same root footprint within each pair. No uprooted/broken trees. Every plant confined central SIXTY PERCENT own cell width and height with at least35px EMPTY TRANSPARENT gutters all sides. NO detached leaves crossing cells, no labels grid backdrop glow terrain slab castshadow or rain. Truealpha=0 outside silhouettes. EXACT FOUR COLUMNS THREE ROWS twelve sprites. ROW1 col1 MESQUITE POLE small branching narrow young tree pose1,col2 SAME mesquite pole pose2,col3 LIVE OAK POLE young dark dense rounded green tree pose1,col4 SAME liveoak pole pose2. ROW2 col1 MESQUITE LOG medium spreading airy twiggy tree pose1,col2 SAME mesquite log pose2,col3 LIVE OAK LOG medium dense rounded crown pose1,col4 SAME liveoak log pose2. ROW3 col1 MESQUITE LARGE mature broad airy irregular canopy, twisted trunk small compound leaf masses pose1,col2 SAME mesquite large pose2,col3 LIVE OAK LARGE mature wide low heavy dark evergreen crown stout gnarled trunk pose1,col4 SAME liveoak large pose2. Preserve differences mesquite open airy versus liveoak dark dense. Age/size increase down rows; same original species style as reference.",
+      "promptId": "frontier-v1/mesquite-liveoak-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing/edge edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-1.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a1ca31b6-938a-4a2e-926e-1f72e462d605.png",
+      "refinements": [
+        {
+          "prompt": "Spacing and edge cleanup ONLY. Preserve exact FOUR columns THREE rows twelve sprites, mesquite pair then liveoak pair each row. Shrink each entire tree by THIRTY percent toward its own cell center, at least40px fullytransparent gutter INSIDE EVERY cell boundary on allfour sides. Preserve proportions identities and two different rightward gust poses and matchingrootfootprints. Remove allredgreenyellowfringe/glowoutside outlines; brown/olive painted edges into actualzeroalpha, no backdrop shadows addedleaves text grid. Do not make species identical. Leave clearseams between everycell and generouscanvasborder.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec7742a5-b450-4479-8c8e-6ea14533ce46.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec7742a5-b450-4479-8c8e-6ea14533ce46.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/mesquite-liveoak-gale.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Two gale poses for each size, production alpha and retained-frame tests; first pose used by cached ground."
+    },
+    {
+      "sheet": "elm-gale",
+      "prompt": "Production transparent sprite atlas for Texas frontier game. Match reference warm muted olive painted foliage, dark brown outlines, slightly elevated threequarter view. Each rooted lower trunk stays firm while upper branches and foliage stream SCREEN RIGHT in a hard norther. Two subtle gust variants per size, same root footprint within each pair. No uprooted/broken trees. Every plant confined central SIXTY PERCENT own cell width and height with at least35px EMPTY TRANSPARENT gutters all sides. NO detached leaves crossing cells, no labels grid backdrop glow terrain slab castshadow or rain. Truealpha=0 outside silhouettes. EXACT TWO COLUMNS THREE ROWS six sprites. ROW1 ELM POLE young slender narrow trunk small open crown, windpose1 LEFT windpose2 RIGHT. ROW2 ELM LOG medium spreading leafy crown long upright trunk, pose1LEFT pose2RIGHT. ROW3 ELM LARGE mature broad arching spreading crown stout forked trunk, pose1LEFT pose2RIGHT. Elm olive foliage lighter than liveoak, original elm reference identity. Age/size increase downrows. Root positions identical within each pair, gentle differentiated swaying canopy no drastic distortion.",
+      "promptId": "frontier-v1/elm-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing/edge edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-1.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dae5f16c-8a88-475d-b507-8e53295bac96.png",
+      "refinements": [
+        {
+          "prompt": "Spacing and edge cleanup ONLY. Preserve exact TWO columns THREE rows six sprites, elm pole/log/large pairs by row. Shrink each entire tree by THIRTY percent toward its own cell center, at least40px fullytransparent gutter INSIDE EVERY cell boundary on allfour sides. Preserve proportions identities and two different rightward gust poses and matchingrootfootprints. Remove allredgreenyellowfringe/glowoutside outlines; brown/olive painted edges into actualzeroalpha, no backdrop shadows addedleaves text grid. Do not make species identical. Leave clearseams between everycell and generouscanvasborder.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b03212ff-8703-4f3b-8cab-3e95ae466038.png"
+        },
+        {
+          "prompt": "Edit ONLY colored artifact cleanup. Preserve exact six elm trees positions sizes species and wind poses TWOcolumns THREErows. There are bright RED vertical strips beside trunks at middle and bottom rows, and YELLOW/GREEN fringe pixels outside foliage. REMOVE those artifact pixels into fully transparent alpha=0. No red exists on real elms here; trunks darkbrown foliagemutedolive, no red paint or glow anywhere. Do not replace artifact with background fill; clear it. Keep genuine foliage leaf color, roots, all silhouettes and transparent gutters unchanged. No resizing new art or background.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c8c00bb-e341-46cc-9012-052a0f9e7fb7.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c8c00bb-e341-46cc-9012-052a0f9e7fb7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/elm-gale.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Two gale poses for each size, production alpha and retained-frame tests; first pose used by cached ground."
     }
   ]
 }
