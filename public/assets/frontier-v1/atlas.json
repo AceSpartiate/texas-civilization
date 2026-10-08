@@ -1070,6 +1070,254 @@
         ]
       }
     },
+    "biome-pine-palm-gale": {
+      "image": "atlases/biome-pine-palm-gale.png",
+      "width": 1445,
+      "height": 1089,
+      "bytes": 873328,
+      "sha256": "e9a637263fc14f6df36ef8b0847fe4bfb5bde9d47065da4e836012b346836263",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.804231,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              137,
+              338
+            ],
+            "columns": [
+              [
+                133,
+                265
+              ],
+              [
+                487,
+                638
+              ],
+              [
+                805,
+                984
+              ],
+              [
+                1173,
+                1364
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              446,
+              663
+            ],
+            "columns": [
+              [
+                109,
+                258
+              ],
+              [
+                467,
+                639
+              ],
+              [
+                806,
+                984
+              ],
+              [
+                1177,
+                1361
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              757,
+              1006
+            ],
+            "columns": [
+              [
+                90,
+                288
+              ],
+              [
+                456,
+                667
+              ],
+              [
+                794,
+                990
+              ],
+              [
+                1159,
+                1366
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "biome-cypress-gale": {
+      "image": "atlases/biome-cypress-gale.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2205619,
+      "sha256": "3657961b829b429005fc2fb9eeaea0e208d81a2e457d0a9939e3373a285cba01",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.671603,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              111,
+              442
+            ],
+            "columns": [
+              [
+                193,
+                395
+              ],
+              [
+                657,
+                901
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              558,
+              945
+            ],
+            "columns": [
+              [
+                114,
+                459
+              ],
+              [
+                583,
+                952
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1030,
+              1437
+            ],
+            "columns": [
+              [
+                59,
+                496
+              ],
+              [
+                555,
+                966
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "biome-broadleaf-gale": {
+      "image": "atlases/biome-broadleaf-gale.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1022515,
+      "sha256": "d4b572263db8b5fb6283bbb38d80901e0b5dd1142411ecb27bf33c819cba2e0c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.772675,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              133,
+              359
+            ],
+            "columns": [
+              [
+                127,
+                337
+              ],
+              [
+                556,
+                789
+              ],
+              [
+                986,
+                1216
+              ],
+              [
+                1414,
+                1662
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              516,
+              781
+            ],
+            "columns": [
+              [
+                94,
+                371
+              ],
+              [
+                523,
+                822
+              ],
+              [
+                964,
+                1240
+              ],
+              [
+                1401,
+                1688
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "biome-trees-fields": {
       "image": "atlases/biome-trees-fields.png",
       "width": 1254,
@@ -29486,6 +29734,630 @@
           186
         ],
         "visiblePixels": 35336,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-longleaf-pole-gale-1": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 133,
+      "y": 137,
+      "w": 132,
+      "h": 197,
+      "anchorX": 0.3636,
+      "anchorY": 0.9289,
+      "label": "pine longleaf pole gale 1",
+      "kind": "biome-pine-palm-gale",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          135,
+          139,
+          128,
+          193
+        ],
+        "visiblePixels": 13952,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-longleaf-pole-gale-2": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 487,
+      "y": 139,
+      "w": 151,
+      "h": 195,
+      "anchorX": 0.3377,
+      "anchorY": 0.9282,
+      "label": "pine longleaf pole gale 2",
+      "kind": "biome-pine-palm-gale",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          489,
+          141,
+          147,
+          191
+        ],
+        "visiblePixels": 15006,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "palm-sabal-pole-gale-1": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 805,
+      "y": 196,
+      "w": 179,
+      "h": 142,
+      "anchorX": 0.4497,
+      "anchorY": 0.9296,
+      "label": "palm sabal pole gale 1",
+      "kind": "biome-pine-palm-gale",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          807,
+          198,
+          175,
+          138
+        ],
+        "visiblePixels": 16168,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "palm-sabal-pole-gale-2": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 1173,
+      "y": 207,
+      "w": 191,
+      "h": 131,
+      "anchorX": 0.4188,
+      "anchorY": 0.9237,
+      "label": "palm sabal pole gale 2",
+      "kind": "biome-pine-palm-gale",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1175,
+          209,
+          187,
+          127
+        ],
+        "visiblePixels": 16801,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-longleaf-log-gale-1": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 109,
+      "y": 446,
+      "w": 149,
+      "h": 212,
+      "anchorX": 0.4732,
+      "anchorY": 0.9292,
+      "label": "pine longleaf log gale 1",
+      "kind": "biome-pine-palm-gale",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          111,
+          448,
+          145,
+          208
+        ],
+        "visiblePixels": 17355,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-longleaf-log-gale-2": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 467,
+      "y": 446,
+      "w": 172,
+      "h": 212,
+      "anchorX": 0.4244,
+      "anchorY": 0.9292,
+      "label": "pine longleaf log gale 2",
+      "kind": "biome-pine-palm-gale",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          469,
+          448,
+          168,
+          208
+        ],
+        "visiblePixels": 18787,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "palm-sabal-log-gale-1": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 806,
+      "y": 462,
+      "w": 178,
+      "h": 201,
+      "anchorX": 0.4747,
+      "anchorY": 0.9254,
+      "label": "palm sabal log gale 1",
+      "kind": "biome-pine-palm-gale",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          808,
+          464,
+          174,
+          197
+        ],
+        "visiblePixels": 20227,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "palm-sabal-log-gale-2": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 1177,
+      "y": 463,
+      "w": 184,
+      "h": 200,
+      "anchorX": 0.4375,
+      "anchorY": 0.93,
+      "label": "palm sabal log gale 2",
+      "kind": "biome-pine-palm-gale",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1179,
+          465,
+          180,
+          196
+        ],
+        "visiblePixels": 20273,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-longleaf-large-gale-1": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 90,
+      "y": 762,
+      "w": 198,
+      "h": 240,
+      "anchorX": 0.4495,
+      "anchorY": 0.9292,
+      "label": "pine longleaf large gale 1",
+      "kind": "biome-pine-palm-gale",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          92,
+          764,
+          194,
+          236
+        ],
+        "visiblePixels": 25555,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-longleaf-large-gale-2": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 456,
+      "y": 757,
+      "w": 211,
+      "h": 245,
+      "anchorX": 0.3791,
+      "anchorY": 0.9265,
+      "label": "pine longleaf large gale 2",
+      "kind": "biome-pine-palm-gale",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          458,
+          759,
+          207,
+          241
+        ],
+        "visiblePixels": 26495,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "palm-sabal-large-gale-1": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 794,
+      "y": 771,
+      "w": 196,
+      "h": 235,
+      "anchorX": 0.4745,
+      "anchorY": 0.9277,
+      "label": "palm sabal large gale 1",
+      "kind": "biome-pine-palm-gale",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          796,
+          773,
+          192,
+          231
+        ],
+        "visiblePixels": 25465,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "palm-sabal-large-gale-2": {
+      "sheet": "biome-pine-palm-gale",
+      "x": 1159,
+      "y": 768,
+      "w": 207,
+      "h": 238,
+      "anchorX": 0.4662,
+      "anchorY": 0.9286,
+      "label": "palm sabal large gale 2",
+      "kind": "biome-pine-palm-gale",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1161,
+          770,
+          203,
+          234
+        ],
+        "visiblePixels": 27000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cypress-bald-pole-gale-1": {
+      "sheet": "biome-cypress-gale",
+      "x": 193,
+      "y": 111,
+      "w": 202,
+      "h": 330,
+      "anchorX": 0.3886,
+      "anchorY": 0.9303,
+      "label": "cypress bald pole gale 1",
+      "kind": "biome-cypress-gale",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          195,
+          113,
+          198,
+          326
+        ],
+        "visiblePixels": 30935,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cypress-bald-pole-gale-2": {
+      "sheet": "biome-cypress-gale",
+      "x": 657,
+      "y": 111,
+      "w": 244,
+      "h": 331,
+      "anchorX": 0.3094,
+      "anchorY": 0.9335,
+      "label": "cypress bald pole gale 2",
+      "kind": "biome-cypress-gale",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          659,
+          113,
+          240,
+          327
+        ],
+        "visiblePixels": 34128,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cypress-bald-log-gale-1": {
+      "sheet": "biome-cypress-gale",
+      "x": 114,
+      "y": 558,
+      "w": 345,
+      "h": 387,
+      "anchorX": 0.4333,
+      "anchorY": 0.9406,
+      "label": "cypress bald log gale 1",
+      "kind": "biome-cypress-gale",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          116,
+          560,
+          341,
+          383
+        ],
+        "visiblePixels": 69276,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cypress-bald-log-gale-2": {
+      "sheet": "biome-cypress-gale",
+      "x": 583,
+      "y": 560,
+      "w": 369,
+      "h": 385,
+      "anchorX": 0.3943,
+      "anchorY": 0.9403,
+      "label": "cypress bald log gale 2",
+      "kind": "biome-cypress-gale",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          585,
+          562,
+          365,
+          381
+        ],
+        "visiblePixels": 74773,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cypress-bald-large-gale-1": {
+      "sheet": "biome-cypress-gale",
+      "x": 59,
+      "y": 1030,
+      "w": 437,
+      "h": 407,
+      "anchorX": 0.4359,
+      "anchorY": 0.9312,
+      "label": "cypress bald large gale 1",
+      "kind": "biome-cypress-gale",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          1032,
+          433,
+          403
+        ],
+        "visiblePixels": 105875,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "cypress-bald-large-gale-2": {
+      "sheet": "biome-cypress-gale",
+      "x": 555,
+      "y": 1030,
+      "w": 411,
+      "h": 406,
+      "anchorX": 0.4343,
+      "anchorY": 0.936,
+      "label": "cypress bald large gale 2",
+      "kind": "biome-cypress-gale",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          557,
+          1032,
+          407,
+          402
+        ],
+        "visiblePixels": 98997,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "magnolia-log-gale-1": {
+      "sheet": "biome-broadleaf-gale",
+      "x": 127,
+      "y": 146,
+      "w": 210,
+      "h": 212,
+      "anchorX": 0.419,
+      "anchorY": 0.9292,
+      "label": "magnolia log gale 1",
+      "kind": "biome-broadleaf-gale",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          129,
+          148,
+          206,
+          208
+        ],
+        "visiblePixels": 26695,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "magnolia-log-gale-2": {
+      "sheet": "biome-broadleaf-gale",
+      "x": 556,
+      "y": 145,
+      "w": 233,
+      "h": 214,
+      "anchorX": 0.3927,
+      "anchorY": 0.9299,
+      "label": "magnolia log gale 2",
+      "kind": "biome-broadleaf-gale",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          558,
+          147,
+          229,
+          210
+        ],
+        "visiblePixels": 29068,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "beech-log-gale-1": {
+      "sheet": "biome-broadleaf-gale",
+      "x": 986,
+      "y": 133,
+      "w": 230,
+      "h": 225,
+      "anchorX": 0.4152,
+      "anchorY": 0.9289,
+      "label": "beech log gale 1",
+      "kind": "biome-broadleaf-gale",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          988,
+          135,
+          226,
+          221
+        ],
+        "visiblePixels": 30113,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "beech-log-gale-2": {
+      "sheet": "biome-broadleaf-gale",
+      "x": 1414,
+      "y": 134,
+      "w": 248,
+      "h": 225,
+      "anchorX": 0.3972,
+      "anchorY": 0.9289,
+      "label": "beech log gale 2",
+      "kind": "biome-broadleaf-gale",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1416,
+          136,
+          244,
+          221
+        ],
+        "visiblePixels": 31597,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "magnolia-large-gale-1": {
+      "sheet": "biome-broadleaf-gale",
+      "x": 94,
+      "y": 516,
+      "w": 277,
+      "h": 264,
+      "anchorX": 0.4477,
+      "anchorY": 0.928,
+      "label": "magnolia large gale 1",
+      "kind": "biome-broadleaf-gale",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          518,
+          273,
+          260
+        ],
+        "visiblePixels": 44782,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "magnolia-large-gale-2": {
+      "sheet": "biome-broadleaf-gale",
+      "x": 523,
+      "y": 518,
+      "w": 299,
+      "h": 263,
+      "anchorX": 0.4348,
+      "anchorY": 0.9278,
+      "label": "magnolia large gale 2",
+      "kind": "biome-broadleaf-gale",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          525,
+          520,
+          295,
+          259
+        ],
+        "visiblePixels": 47699,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "beech-large-gale-1": {
+      "sheet": "biome-broadleaf-gale",
+      "x": 964,
+      "y": 517,
+      "w": 276,
+      "h": 264,
+      "anchorX": 0.442,
+      "anchorY": 0.9318,
+      "label": "beech large gale 1",
+      "kind": "biome-broadleaf-gale",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          966,
+          519,
+          272,
+          260
+        ],
+        "visiblePixels": 43588,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "beech-large-gale-2": {
+      "sheet": "biome-broadleaf-gale",
+      "x": 1401,
+      "y": 517,
+      "w": 287,
+      "h": 264,
+      "anchorX": 0.4443,
+      "anchorY": 0.928,
+      "label": "beech large gale 2",
+      "kind": "biome-broadleaf-gale",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1403,
+          519,
+          283,
+          260
+        ],
+        "visiblePixels": 46319,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

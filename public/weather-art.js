@@ -207,8 +207,8 @@ export function inGale(mix) { return galeForce(mix) >= GALE; }
 /**
  * Authored gale poses replace upright shear for delivered trees and ground cover. Basic scrub,
  * reeds, prickly pear and every sized tree from trees-colonies-1 now have dedicated poses.
- * All standing trees from both colony sheets have gale poses. Biome-tree sizes retain
- * upright shear pending their gale art.
+ * All standing trees from both colony sheets and all delivered biome-tree sizes have gale poses.
+ * Remaining generic nature marks retain upright shear when no pose is registered.
  *
  * The names collide with four one-frame `*-wind` CLIPS that predate the delivery and hold the upright sprite swaying
  * (public/assets/frontier-v1/animation.json). Frames and clips are separate tables in public/art.js, so `drawSprite`
@@ -259,6 +259,20 @@ export const GALE_POSES = Object.freeze({
   'pecan-large': 'pecan-large-gale-1',
   'hackberry-large': 'hackberry-large-gale-1',
   'sweetgum-large': 'sweetgum-large-gale-1',
+  // All thirteen delivered biome-tree sizes, 2026-10-08.
+  'pine-longleaf-pole': 'pine-longleaf-pole-gale-1',
+  'palm-sabal-pole': 'palm-sabal-pole-gale-1',
+  'cypress-bald-pole': 'cypress-bald-pole-gale-1',
+  'pine-longleaf-log': 'pine-longleaf-log-gale-1',
+  'palm-sabal-log': 'palm-sabal-log-gale-1',
+  'cypress-bald-log': 'cypress-bald-log-gale-1',
+  'pine-longleaf-large': 'pine-longleaf-large-gale-1',
+  'palm-sabal-large': 'palm-sabal-large-gale-1',
+  'cypress-bald-large': 'cypress-bald-large-gale-1',
+  'magnolia-log': 'magnolia-log-gale-1',
+  'beech-log': 'beech-log-gale-1',
+  'magnolia-large': 'magnolia-large-gale-1',
+  'beech-large': 'beech-large-gale-1',
   // Basic ground-cover gale poses. The kept ground uses pose one; clips are
   // available for animated close views.
   scrub: 'scrub-gale-1',

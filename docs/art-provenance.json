@@ -4711,6 +4711,66 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/sweetgum-gale.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Two gale poses at every size; cached-map pose one and close-view loops."
+    },
+    {
+      "sheet": "biome-pine-palm-gale",
+      "promptId": "frontier-v1/biome-pine-palm-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-trees-fields.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3186aeaa-9432-4225-94af-a9682691dbec.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve FOUR columns THREE rows twelve trees and exact species/age/pose order. Shrink EVERY whole tree THIRTY PERCENT and CENTER it within its own equally divided cell. EVERY objectincluding roots moss flowersfronds ONLY central55percent owncell widthheight, at least40px emptytransparentgutter insideeveryboundary. Row1pixelsstay in row1, row2pixelsstay inrow2, row3pixelsstay inrow3. No tree crosses seams orcanvasboundaries. Preserve species shapes colors flowers moss fronds and pairedgust differences. Actualzeroalpha outside silhouettes no glowgroundshadow backdrop labels. Keeprootbaseline matched within eachpair.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ea628043-5e0c-41fd-8639-e62b7d5d3226.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ea628043-5e0c-41fd-8639-e62b7d5d3226.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-pine-palm-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Distinct paired gust poses, retained species features; measured registration and cached-map pose selection."
+    },
+    {
+      "sheet": "biome-cypress-gale",
+      "promptId": "frontier-v1/biome-cypress-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-trees-fields.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-114cb930-74bc-4188-9181-8566fc4ddbd8.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve TWO columns THREE rows six trees and exact species/age/pose order. Shrink EVERY whole tree THIRTY PERCENT and CENTER it within its own equally divided cell. EVERY objectincluding roots moss flowersfronds ONLY central55percent owncell widthheight, at least40px emptytransparentgutter insideeveryboundary. Row1pixelsstay in row1, row2pixelsstay inrow2, row3pixelsstay inrow3. No tree crosses seams orcanvasboundaries. Preserve species shapes colors flowers moss fronds and pairedgust differences. Actualzeroalpha outside silhouettes no glowgroundshadow backdrop labels. Keeprootbaseline matched within eachpair.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-63a405da-eda9-4503-86cf-353b5e7e7fc3.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-63a405da-eda9-4503-86cf-353b5e7e7fc3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-cypress-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Distinct paired gust poses, retained species features; measured registration and cached-map pose selection."
+    },
+    {
+      "sheet": "biome-broadleaf-gale",
+      "promptId": "frontier-v1/biome-broadleaf-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-trees-fields.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e835b09a-9fb3-4d6d-a843-3509115a01a4.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve FOUR columns TWO rows eight trees and exact species/age/pose order. Shrink EVERY whole tree THIRTY PERCENT and CENTER it within its own equally divided cell. EVERY objectincluding roots moss flowersfronds ONLY central55percent owncell widthheight, at least40px emptytransparentgutter insideeveryboundary. Row1pixelsstay in row1, row2pixelsstay inrow2, row3pixelsstay inrow3. No tree crosses seams orcanvasboundaries. Preserve species shapes colors flowers moss fronds and pairedgust differences. Actualzeroalpha outside silhouettes no glowgroundshadow backdrop labels. Keeprootbaseline matched within eachpair.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f75b7b7f-3fef-4ec0-a8d2-029cc873348a.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f75b7b7f-3fef-4ec0-a8d2-029cc873348a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-broadleaf-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Distinct paired gust poses, retained species features; measured registration and cached-map pose selection."
     }
   ],
   "rejectedAttempts": [

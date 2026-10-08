@@ -434,6 +434,201 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "pine-longleaf-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-longleaf-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-longleaf-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "palm-sabal-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "palm-sabal-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "palm-sabal-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-longleaf-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-longleaf-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-longleaf-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "palm-sabal-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "palm-sabal-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "palm-sabal-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-longleaf-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-longleaf-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-longleaf-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "palm-sabal-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "palm-sabal-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "palm-sabal-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cypress-bald-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cypress-bald-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cypress-bald-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cypress-bald-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cypress-bald-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cypress-bald-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cypress-bald-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cypress-bald-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cypress-bald-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "magnolia-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "magnolia-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "magnolia-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "beech-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "beech-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "beech-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "magnolia-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "magnolia-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "magnolia-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "beech-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "beech-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "beech-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "pine-longleaf-pole-wind": {
       "frames": [
         {

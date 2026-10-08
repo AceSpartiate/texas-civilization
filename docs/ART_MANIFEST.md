@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2943 usable sprites, 312 PNG atlases, 1025 clips** (717 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2969 usable sprites, 315 PNG atlases, 1038 clips** (730 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -28,6 +28,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
 | regular-bugler | 4 | 1262 × 1246 | 691857 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
+| biome-pine-palm-gale | 12 | 1445 × 1089 | 873328 |
+| biome-cypress-gale | 6 | 1024 × 1536 | 2205619 |
+| biome-broadleaf-gale | 8 | 1774 × 887 | 1022515 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
 | canister-burst | 4 | 1254 × 1254 | 822977 |
 | cannon-cartwheels | 4 | 1254 × 1254 | 1420895 |
@@ -417,6 +420,32 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | acequia-bend | biome-ground-bexar | State artwork; no motion required |
 | acequia-crossing | biome-ground-bexar | State artwork; no motion required |
 | fence-brush | biome-ground-bexar | State artwork; no motion required |
+| pine-longleaf-pole-gale-1 | biome-pine-palm-gale | pine-longleaf-pole-gale |
+| pine-longleaf-pole-gale-2 | biome-pine-palm-gale | pine-longleaf-pole-gale |
+| palm-sabal-pole-gale-1 | biome-pine-palm-gale | palm-sabal-pole-gale |
+| palm-sabal-pole-gale-2 | biome-pine-palm-gale | palm-sabal-pole-gale |
+| pine-longleaf-log-gale-1 | biome-pine-palm-gale | pine-longleaf-log-gale |
+| pine-longleaf-log-gale-2 | biome-pine-palm-gale | pine-longleaf-log-gale |
+| palm-sabal-log-gale-1 | biome-pine-palm-gale | palm-sabal-log-gale |
+| palm-sabal-log-gale-2 | biome-pine-palm-gale | palm-sabal-log-gale |
+| pine-longleaf-large-gale-1 | biome-pine-palm-gale | pine-longleaf-large-gale |
+| pine-longleaf-large-gale-2 | biome-pine-palm-gale | pine-longleaf-large-gale |
+| palm-sabal-large-gale-1 | biome-pine-palm-gale | palm-sabal-large-gale |
+| palm-sabal-large-gale-2 | biome-pine-palm-gale | palm-sabal-large-gale |
+| cypress-bald-pole-gale-1 | biome-cypress-gale | cypress-bald-pole-gale |
+| cypress-bald-pole-gale-2 | biome-cypress-gale | cypress-bald-pole-gale |
+| cypress-bald-log-gale-1 | biome-cypress-gale | cypress-bald-log-gale |
+| cypress-bald-log-gale-2 | biome-cypress-gale | cypress-bald-log-gale |
+| cypress-bald-large-gale-1 | biome-cypress-gale | cypress-bald-large-gale |
+| cypress-bald-large-gale-2 | biome-cypress-gale | cypress-bald-large-gale |
+| magnolia-log-gale-1 | biome-broadleaf-gale | magnolia-log-gale |
+| magnolia-log-gale-2 | biome-broadleaf-gale | magnolia-log-gale |
+| beech-log-gale-1 | biome-broadleaf-gale | beech-log-gale |
+| beech-log-gale-2 | biome-broadleaf-gale | beech-log-gale |
+| magnolia-large-gale-1 | biome-broadleaf-gale | magnolia-large-gale |
+| magnolia-large-gale-2 | biome-broadleaf-gale | magnolia-large-gale |
+| beech-large-gale-1 | biome-broadleaf-gale | beech-large-gale |
+| beech-large-gale-2 | biome-broadleaf-gale | beech-large-gale |
 | pine-longleaf-pole | biome-trees-fields | pine-longleaf-pole-wind |
 | pine-longleaf-log | biome-trees-fields | pine-longleaf-log-wind |
 | pine-longleaf-large | biome-trees-fields | pine-longleaf-large-wind |
@@ -3299,6 +3328,19 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | white-flag-volunteer-walk-e | Pose cycle | 2 | 560 | yes | east |
 | cane-wind | Still state | 1 | 900 | yes | not applicable |
 | grass-tall-wind | Still state | 1 | 900 | yes | not applicable |
+| pine-longleaf-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| palm-sabal-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-longleaf-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| palm-sabal-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-longleaf-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| palm-sabal-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cypress-bald-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cypress-bald-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cypress-bald-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| magnolia-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| beech-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| magnolia-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| beech-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-longleaf-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-longleaf-log-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-longleaf-large-wind | sway | 1 | 3800 | yes | not applicable |

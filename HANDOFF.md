@@ -1,3 +1,7 @@
+## Completed art group 2026-10-08: biome-tree gale poses
+
+Twenty-six frames, thirteen authored loops cover every tree size in biome-trees-fields. Existing `GALE_POSES` callers select pose one in hard northers. Close-view loops remain available without per-frame map-cache invalidation. All existing colony/biome tree frames now have gale coverage; generic nature marks such as sapling/cottonwood remain separate. See `docs/ART_DELIVERY_2026-10-08-BIOME-TREE-GALE.md`.
+
 ## Completed art group 2026-10-07: final colony hardwood gale poses
 
 Eighteen frames and nine authored clips cover pecan, hackberry and sweetgum at all sizes. Both colony sheets now have gale coverage for every standing tree. Cached-map bindings use pose one; loops are ready for close views. Biome-tree gale art remains separate. See `docs/ART_DELIVERY_2026-10-07-REMAINING-HARDWOOD-GALE.md`.
