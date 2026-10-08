@@ -1,4 +1,4 @@
-// The fifty words and phrases on Read Aloud's grid: what a teacher says most in a day. Edit freely; the grid
+// The sixty words and phrases on Read Aloud's grid: what a teacher says most in a day. Edit freely; the grid
 // shows them in this order, and the program speaks each one ahead of time in the chosen voice.
 export const PRESETS = Object.freeze([
   // Greetings and courtesy
@@ -16,4 +16,8 @@ export const PRESETS = Object.freeze([
   // Questions and checks
   'Do you have any questions?', 'Do you understand?', 'Show me a thumbs up if you are ready.', 'What do you think?', 'Can you explain why?',
   'Who can help?', 'Let\'s read together.', 'Time is almost up.', 'Five more minutes.', 'Time to stop.',
+  // Corrections
+  'That is not okay.', 'Stop that, please.', 'That was not kind.', 'That is not your best work.', 'You are not listening.',
+  'That is not the right answer.', 'Please do not interrupt.', 'That behavior is not acceptable.', 'I am disappointed.',
+  'You need to do it again.',
 ]);

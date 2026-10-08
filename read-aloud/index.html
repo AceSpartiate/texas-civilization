@@ -8,7 +8,7 @@
   :root {
     --bg: #f6f1e7; --panel: #fffdf8; --ink: #2b2118; --muted: #6d5f50; --line: #d9ccb6;
     --accent: #8a3b12; --accent-ink: #fff;
-    --c0: #e5efe0; --c1: #f4e2d6; --c2: #dfe8f3; --c3: #f6ecc8; --c4: #ebe0f0;
+    --c0: #e5efe0; --c1: #f4e2d6; --c2: #dfe8f3; --c3: #f6ecc8; --c4: #ebe0f0; --c5: #f0d6d6;
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; margin: 0; }
@@ -37,7 +37,7 @@
   .preset:active { transform: scale(.97); }
   .preset.playing { outline: 3px solid var(--accent); outline-offset: 1px; }
   .preset.r0 { background: var(--c0); } .preset.r1 { background: var(--c1); } .preset.r2 { background: var(--c2); }
-  .preset.r3 { background: var(--c3); } .preset.r4 { background: var(--c4); }
+  .preset.r3 { background: var(--c3); } .preset.r4 { background: var(--c4); } .preset.r5 { background: var(--c5); }
   footer { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--panel); align-items: stretch; }
   textarea { flex: 1; resize: none; height: 64px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px;
     background: #fff; font-size: 18px; }
@@ -195,7 +195,7 @@ fetch('/config').then(r => r.json()).then(cfg => {
     voices.filter(v => !v.game).map(v => `<option value="${v.id}">${v.name} (${v.who})</option>`).join('');
   cfg.presets.forEach((p, i) => {
     const b = document.createElement('button');
-    b.className = `preset r${Math.floor(i / 10) % 5}`; b.textContent = p;
+    b.className = `preset r${Math.floor(i / 10) % 6}`; b.textContent = p;
     b.onclick = () => read(p, b);
     $('grid').append(b);
   });
