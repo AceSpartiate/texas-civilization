@@ -123,6 +123,9 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) {
       return send(res, 200, readFileSync(join(here, 'index.html')), 'text/html; charset=utf-8');
     }
+    if (req.method === 'GET' && url.pathname === '/gender.mjs') {
+      return send(res, 200, readFileSync(join(here, 'gender.mjs')), 'text/javascript; charset=utf-8');
+    }
     if (req.method === 'GET' && url.pathname === '/config') {
       return send(res, 200, { ready: ready(), runtime: RUNTIME, voices: VOICES, presets: PRESETS });
     }

@@ -60,6 +60,8 @@
     <span class="label">Voice:</span>
     <span id="cast" class="voices"></span>
     <select id="more" aria-label="More voices"></select>
+    <button id="auto" class="toggle" aria-pressed="false"
+      title="Reads each sentence in a woman's or a man's voice when the words say who is speaking: a quotation's speaker (&quot;said Mom&quot;), a label (&quot;Dad: ...&quot;), or a reader who says who they are (&quot;I am a mother&quot;). Anything else is read in the chosen voice.">Auto voice <small id="autoState">off</small></button>
   </div>
   <label class="speed"><span class="label">Speed</span>
     <input id="speed" type="range" min="0.6" max="1.5" step="0.05" value="1">
@@ -79,12 +81,29 @@
   <button id="again" class="btn" disabled>Repeat</button>
   <button id="clear" class="btn">Clear</button>
 </footer>
-<script>
+<script type="module">
+import { assignSpeakers } from '/gender.mjs';
 const $ = id => document.getElementById(id);
 const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } },
   set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
 let voices = [], voice = store.get('ra.voice') || 'af_heart', speed = Number(store.get('ra.speed')) || 1;
+let auto = store.get('ra.auto') === '1';
 let run = 0, audio = null, last = '', playingEl = null;
+
+// Auto voice: a woman's line in the chosen voice if it is a woman's, else Kore (the game's woman); a man's line in
+// the chosen voice if it is a man's, else Puck (the game's man). A line with no speaker keeps the chosen voice.
+const isWoman = id => id[1] === 'f';
+function voiceFor(gender) {
+  if (!auto || !gender) return voice;
+  if (gender === 'female') return isWoman(voice) ? voice : 'af_kore';
+  return isWoman(voice) ? 'am_puck' : voice;
+}
+function setAuto(on) {
+  auto = on; store.set('ra.auto', on ? '1' : '0');
+  $('auto').setAttribute('aria-pressed', String(on)); $('autoState').textContent = on ? 'on' : 'off';
+  if (on) fetch('/warm', { method: 'POST', body: JSON.stringify({ voice: voiceFor(isWoman(voice) ? 'male' : 'female'), speed }) }).catch(() => {});
+}
+const nameOf = id => voices.find(v => v.id === id)?.name || id;
 
 function status(msg, err) { $('status').textContent = msg || ''; $('status').className = err ? 'err' : ''; }
 
@@ -97,10 +116,7 @@ function setVoice(id) {
 function warm() { fetch('/warm', { method: 'POST', body: JSON.stringify({ voice, speed }) }).catch(() => {}); }
 
 // Sentences go to the voice one at a time, so the first one plays while the rest are still being made.
-function sentences(text) {
-  return (text.match(/[^.!?\n]+[.!?]+["')\]]*|[^.!?\n]+/g) || []).map(s => s.trim()).filter(Boolean);
-}
-async function fetchWav(text) {
+async function fetchWav({ text, voice }) {
   const r = await fetch('/speak', { method: 'POST', body: JSON.stringify({ text, voice, speed }) });
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || `HTTP ${r.status}`);
   return URL.createObjectURL(await r.blob());
@@ -120,11 +136,14 @@ async function read(text, el) {
   const mine = ++run;
   last = text; $('again').disabled = false; $('stop').disabled = false; $('pause').disabled = false;
   if (el) { playingEl = el; el.classList.add('playing'); }
-  const parts = sentences(text);
-  status('Reading…');
+  const parts = assignSpeakers(text).map(p => ({ ...p, voice: voiceFor(p.gender) }));
+  if (!parts.length) return finish();
   try {
     let next = fetchWav(parts[0]);
     for (let i = 0; i < parts.length && mine === run; i++) {
+      const p = parts[i];
+      status(auto ? (p.gender ? `Auto: ${nameOf(p.voice)}, ${p.gender === 'female' ? 'a woman' : 'a man'} (${p.why})`
+        : `Auto: ${nameOf(p.voice)}, no speaker named`) : 'Reading…');
       const url = await next;
       next = i + 1 < parts.length ? fetchWav(parts[i + 1]) : null;
       next?.catch(() => {});
@@ -160,7 +179,8 @@ $('text').addEventListener('keydown', e => {
 $('speed').value = speed; $('speedOut').textContent = speed.toFixed(2) + '×';
 $('speed').oninput = () => { $('speedOut').textContent = Number($('speed').value).toFixed(2) + '×'; };
 $('speed').onchange = () => { speed = Number($('speed').value); store.set('ra.speed', speed); warm(); };
-$('more').onchange = () => { if ($('more').value) setVoice($('more').value); };
+$('auto').onclick = () => setAuto(!auto);
+$('more').onchange =() => { if ($('more').value) setVoice($('more').value); };
 
 fetch('/config').then(r => r.json()).then(cfg => {
   voices = cfg.voices;
@@ -184,6 +204,7 @@ fetch('/config').then(r => r.json()).then(cfg => {
     $('missing').textContent = `The voices were not found at ${cfg.runtime}. Copy the game's runtime\\voice folder there, or set READ_ALOUD_VOICE_DIR.`;
   }
   setVoice(voices.some(v => v.id === voice) ? voice : 'af_heart');
+  setAuto(auto);
   $('text').focus();
 }).catch(e => status('Could not reach the Read Aloud program: ' + e.message, true));
 </script>
