@@ -45,6 +45,13 @@
   .btn { border: 1px solid var(--line); border-radius: 10px; padding: 0 18px; background: var(--bg); cursor: pointer; font-weight: 600; }
   .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-size: 18px; padding: 0 26px; }
   .btn:disabled { opacity: .5; cursor: default; }
+  #story { display: none; width: 100%; height: 100%; min-height: 300px; resize: none; padding: 18px 22px;
+    font-size: 22px; line-height: 1.55; }
+  #story::selection { background: #f3c9a8; color: var(--ink); }
+  body.story main { display: flex; flex-direction: column; }
+  body.story #grid, body.story #text, body.story #again { display: none; }
+  body.story #story { display: block; flex: 1; }
+  body.story footer { justify-content: flex-end; }
   .missing { margin: 16px; padding: 14px; border: 1px solid #b3261e; border-radius: 10px; background: #fdecea; display: none; }
   @media (max-width: 1100px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
   @media (max-width: 640px) {
@@ -67,11 +74,14 @@
     <input id="speed" type="range" min="0.6" max="1.5" step="0.05" value="1">
     <span id="speedOut">1.00×</span>
   </label>
+  <button id="storyMode" class="toggle" aria-pressed="false"
+    title="Hides the presets and makes room to paste a long story. Speak reads it from the start, or from the sentence the cursor is in.">Story mode <small id="storyState">off</small></button>
   <span id="status" aria-live="polite"></span>
 </header>
 <main>
   <div id="missing" class="missing"></div>
   <div id="grid" class="grid"></div>
+  <textarea id="story" placeholder="Paste or type a story here, then press Read story. Click in a sentence first to start from there." aria-label="Story to read aloud"></textarea>
 </main>
 <footer>
   <textarea id="text" placeholder="Type anything here, then press Speak (or Enter). Shift+Enter makes a new line." aria-label="Text to read aloud"></textarea>
@@ -88,6 +98,7 @@ const store = { get: k => { try { return localStorage.getItem(k); } catch { retu
   set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
 let voices = [], voice = store.get('ra.voice') || 'af_heart', speed = Number(store.get('ra.speed')) || 1;
 let auto = store.get('ra.auto') === '1';
+let story = store.get('ra.storyMode') === '1';
 let run = 0, audio = null, last = '', playingEl = null;
 
 // Auto voice: a woman's line in the chosen voice if it is a woman's, else Kore (the game's woman); a man's line in
@@ -129,29 +140,64 @@ function playUrl(url, mine) {
     audio.play().catch(resolve);
   });
 }
-async function read(text, el) {
-  text = text.trim();
-  if (!text) return;
+// Each sentence with where it sits in the text, so story mode can start at the cursor and select what is being read.
+function partsOf(text) {
+  let at = 0;
+  return assignSpeakers(text).map(p => {
+    const start = Math.max(at, text.indexOf(p.text, at));
+    at = start + p.text.length;
+    return { ...p, voice: voiceFor(p.gender), start, end: at };
+  });
+}
+async function read(text, el, { box = null, from = 0 } = {}) {
+  if (!text.trim()) return;
   stop();
   const mine = ++run;
   last = text; $('again').disabled = false; $('stop').disabled = false; $('pause').disabled = false;
   if (el) { playingEl = el; el.classList.add('playing'); }
-  const parts = assignSpeakers(text).map(p => ({ ...p, voice: voiceFor(p.gender) }));
+  const all = partsOf(text);
+  // A cursor in the middle of the story starts at its sentence; one at the very end (just pasted) starts at the top.
+  const first = from > 0 && from < text.trimEnd().length ? Math.max(0, all.findIndex(p => p.end >= from)) : 0;
+  const parts = all.slice(first);
   if (!parts.length) return finish();
   try {
     let next = fetchWav(parts[0]);
     for (let i = 0; i < parts.length && mine === run; i++) {
       const p = parts[i];
-      status(auto ? (p.gender ? `Auto: ${nameOf(p.voice)}, ${p.gender === 'female' ? 'a woman' : 'a man'} (${p.why})`
-        : `Auto: ${nameOf(p.voice)}, no speaker named`) : 'Reading…');
+      const where = box ? `Sentence ${first + i + 1} of ${all.length}` : '';
+      const who = auto ? (p.gender ? `${nameOf(p.voice)}, ${p.gender === 'female' ? 'a woman' : 'a man'} (${p.why})`
+        : `${nameOf(p.voice)}, no speaker named`) : '';
+      status([where, who && 'Auto: ' + who].filter(Boolean).join(' · ') || 'Reading…');
       const url = await next;
       next = i + 1 < parts.length ? fetchWav(parts[i + 1]) : null;
       next?.catch(() => {});
+      if (box && mine === run) { box.focus(); box.setSelectionRange(p.start, p.end); scrollToSelection(box, p.start); }
       await playUrl(url, mine);
     }
     if (mine === run) status('');
   } catch (e) { if (mine === run) status(e.message, true); }
   if (mine === run) finish();
+}
+// Keep the sentence being read in view: measure its line with a hidden copy of the box.
+function scrollToSelection(box, at) {
+  const mirror = document.createElement('div');
+  const cs = getComputedStyle(box);
+  Object.assign(mirror.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'pre-wrap', wordWrap: 'break-word',
+    width: box.clientWidth + 'px', font: cs.font, lineHeight: cs.lineHeight, padding: cs.padding, boxSizing: 'border-box' });
+  mirror.textContent = box.value.slice(0, at);
+  document.body.append(mirror);
+  const y = mirror.scrollHeight;
+  mirror.remove();
+  box.scrollTop = Math.max(0, y - box.clientHeight / 3);
+}
+function setStory(on) {
+  stop();
+  story = on; store.set('ra.storyMode', on ? '1' : '0');
+  document.body.classList.toggle('story', on);
+  $('storyMode').setAttribute('aria-pressed', String(on)); $('storyState').textContent = on ? 'on' : 'off';
+  $('speak').textContent = on ? 'Read story' : 'Speak';
+  $('clear').textContent = on ? 'Clear story' : 'Clear';
+  (on ? $('story') : $('text')).focus();
 }
 function finish() {
   playingEl?.classList.remove('playing'); playingEl = null;
@@ -163,10 +209,22 @@ function stop() {
   finish(); status('');
 }
 
-$('speak').onclick = () => read($('text').value);
+$('speak').onclick = () => story
+  ? read($('story').value, null, { box: $('story'), from: $('story').selectionStart })
+  : read($('text').value);
 $('stop').onclick = stop;
 $('again').onclick = () => read(last);
-$('clear').onclick = () => { $('text').value = ''; $('text').focus(); };
+$('clear').onclick = () => {
+  if (story) {
+    if ($('story').value.length > 300 && !confirm('Clear the whole story?')) return;
+    stop(); $('story').value = ''; store.set('ra.story', ''); $('story').focus();
+  } else { $('text').value = ''; $('text').focus(); }
+};
+$('storyMode').onclick = () => setStory(!story);
+// The story is kept in this browser, so a long one pasted in survives closing the page.
+$('story').value = store.get('ra.story') || '';
+$('story').addEventListener('input', () => store.set('ra.story', $('story').value));
+$('story').addEventListener('keydown', e => { if (e.key === 'Escape') stop(); });
 $('pause').onclick = () => {
   if (!audio) return;
   if (audio.paused) { audio.play(); $('pause').textContent = 'Pause'; }
@@ -205,6 +263,7 @@ fetch('/config').then(r => r.json()).then(cfg => {
   }
   setVoice(voices.some(v => v.id === voice) ? voice : 'af_heart');
   setAuto(auto);
+  setStory(story);
   $('text').focus();
 }).catch(e => status('Could not reach the Read Aloud program: ' + e.message, true));
 </script>
