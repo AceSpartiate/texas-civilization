@@ -4,7 +4,7 @@
 //
 // Layout, the same as in this repo so the program finds its parts the same way:
 //   Read Aloud.vbs, Stop Read Aloud.vbs, Add desktop shortcut.vbs, README.txt
-//   read-aloud/      server.mjs, index.html, presets.mjs, gender.mjs (never the cache)
+//   read-aloud/      server.mjs, index.html, presets.mjs, gender.mjs (never the cache), voice-worker/ with node_modules
 //   runtime/node.exe, runtime/LICENSE
 //   runtime/voice/   the game's downloaded voices: bin, kokoro, LICENSES (with the GPL source), manifest.json
 import { execFileSync } from 'node:child_process';
@@ -33,6 +33,12 @@ for (const name of readdirSync(join(repo, 'read-aloud', 'package'))) crlf(join(r
 for (const name of ['server.mjs', 'index.html', 'presets.mjs', 'gender.mjs']) {
   cpSync(join(repo, 'read-aloud', name), join(stage, 'read-aloud', name));
 }
+// The voice helper that keeps Kokoro loaded, with its sherpa-onnx (npm install in read-aloud/voice-worker first).
+const worker = join(repo, 'read-aloud', 'voice-worker');
+if (!existsSync(join(worker, 'node_modules', 'sherpa-onnx-win-x64', 'sherpa-onnx.node'))) {
+  throw new Error('read-aloud/voice-worker has no node_modules: run npm install there first.');
+}
+cpSync(worker, join(stage, 'read-aloud', 'voice-worker'), { recursive: true });
 cpSync(join(repo, 'runtime', 'node.exe'), join(stage, 'runtime', 'node.exe'));
 cpSync(join(repo, 'runtime', 'LICENSE'), join(stage, 'runtime', 'LICENSE'));
 cpSync(voice, join(stage, 'runtime', 'voice'), { recursive: true });

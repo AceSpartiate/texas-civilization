@@ -111,14 +111,25 @@ export function readerOf(text) {
 
 /** Split a text into sentences, keeping a quotation that runs over several sentences together. */
 export function utterances(text) {
-  // "Mrs. Brown" is not the end of a sentence.
-  const held = String(text).replace(/\b(Mr|Mrs|Ms|Dr|St|Jr|Sr|Capt|Col|Gen|Lt|Sgt|Prof|Rev)\./g, '$1\u0001');
-  const sentences = (held.match(/[^.!?\n]+(?:[.!?]+["”')\]]*|$)|\n/g) || []).map(s => s.replace(/\u0001/g, '.'));
+  // Not the end of a sentence: "Mrs. Brown", "e.g.", "U.S.", "a.m.", "John F. Kennedy", "3.5".
+  const held = String(text)
+    .replace(/\b(Mr|Mrs|Ms|Dr|St|Jr|Sr|Capt|Col|Gen|Lt|Sgt|Prof|Rev|Mt|Ft|vs|etc|approx|Jan|Feb|Aug|Sept|Oct|Nov|Dec|No|Vol|Inc|Co)\./g, '$1\u0001')
+    // ceiling: "Neither am I. Then..." is kept as one piece too; it is read the same, only made in one go.
+    .replace(/\b([A-Za-z])\.(?![ \t]*(?:\n|$))/g, '$1\u0001')
+    .replace(/(\d)\.(\d)/g, '$1\u0001$2')
+    // Text pasted from a PDF or a web page breaks its lines inside sentences: a line break after anything but the
+    // end of a sentence (or a colon) is a space. A blank line still ends a paragraph, and a line still ends where its
+    // sentence does, so "Dad: ...\nMom: ..." stays two lines.
+    .replace(/([^.!?:\s"”')\]])([ \t]*)\n(?=[ \t]*\S)/g, '$1$2 ');
+  // Every character is kept the same length above, so each sentence is cut from the text as it was written.
+  // A line or paragraph with no full stop at all (a title, the end of a paragraph) is a sentence of its own.
+  const sentences = [...held.matchAll(/[^.!?\n]+(?:[.!?]+["”')\]]*|(?=\n)|$)|\n/g)].map(m => String(text).slice(m.index, m.index + m[0].length));
   const out = [];
   let open = null;
   for (const raw of sentences) {
     const s = raw.trim();
-    if (!s) { open = null; continue; }
+    // A paragraph ends any quotation still open (a stray quote mark must not swallow the rest of the story).
+    if (!s) { if (open) out.push(open); open = null; continue; }
     // "Run!" said Mom. - the words after a quotation that ends in ! or ? still say who said it.
     const prev = out[out.length - 1];
     if (!open && prev && /["”]$/.test(prev[prev.length - 1]) && /^[a-z]/.test(s)) { prev.push(s); continue; }

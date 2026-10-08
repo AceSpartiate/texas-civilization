@@ -1,0 +1,11 @@
+{
+  "name": "read-aloud-voice-worker",
+  "private": true,
+  "description": "Read Aloud's voice: keeps Kokoro loaded in its own process (see worker.mjs).",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "dependencies": {
+    "sherpa-onnx-node": "1.13.8",
+    "sherpa-onnx-win-x64": "1.13.8"
+  }
+}
