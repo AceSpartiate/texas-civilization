@@ -10629,6 +10629,52 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "marsh-edge-dense": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "marsh-edge-dense-1",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-dense-2",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-dense-3",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-dense-4",
+          "duration": 350
+        }
+      ]
+    },
+    "marsh-edge-sparse": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "marsh-edge-sparse-1",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-sparse-2",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-sparse-3",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-sparse-4",
+          "duration": 350
+        }
+      ]
+    },
     "volunteer-rest-sit": {
       "frames": [
         {

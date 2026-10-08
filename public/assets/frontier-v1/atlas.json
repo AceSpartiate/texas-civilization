@@ -17886,6 +17886,80 @@
         ]
       }
     },
+    "marsh-edge": {
+      "image": "atlases/marsh-edge.png",
+      "width": 2172,
+      "height": 724,
+      "bytes": 1222516,
+      "sha256": "f0cd986ff24a4b4231729e4d22187d1ef9a2f14018be006d986cf275cbe56f3e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.710606,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              96,
+              331
+            ],
+            "columns": [
+              [
+                130,
+                511
+              ],
+              [
+                637,
+                1026
+              ],
+              [
+                1147,
+                1537
+              ],
+              [
+                1671,
+                2068
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              422,
+              634
+            ],
+            "columns": [
+              [
+                116,
+                487
+              ],
+              [
+                648,
+                1016
+              ],
+              [
+                1155,
+                1519
+              ],
+              [
+                1683,
+                2050
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "military-camp-life": {
       "image": "atlases/military-camp-life.png",
       "width": 1254,
@@ -74036,6 +74110,198 @@
           362
         ],
         "visiblePixels": 200454,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "marsh-edge-dense-1": {
+      "sheet": "marsh-edge",
+      "x": 130,
+      "y": 99,
+      "w": 381,
+      "h": 230,
+      "anchorX": 0.5236,
+      "anchorY": 0.9261,
+      "label": "marsh edge dense 1",
+      "kind": "marsh-edge",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          132,
+          101,
+          377,
+          226
+        ],
+        "visiblePixels": 55103,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "marsh-edge-dense-2": {
+      "sheet": "marsh-edge",
+      "x": 637,
+      "y": 97,
+      "w": 389,
+      "h": 233,
+      "anchorX": 0.5219,
+      "anchorY": 0.927,
+      "label": "marsh edge dense 2",
+      "kind": "marsh-edge",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          639,
+          99,
+          385,
+          229
+        ],
+        "visiblePixels": 56930,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "marsh-edge-dense-3": {
+      "sheet": "marsh-edge",
+      "x": 1147,
+      "y": 99,
+      "w": 390,
+      "h": 231,
+      "anchorX": 0.5141,
+      "anchorY": 0.9264,
+      "label": "marsh edge dense 3",
+      "kind": "marsh-edge",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1149,
+          101,
+          386,
+          227
+        ],
+        "visiblePixels": 56850,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "marsh-edge-dense-4": {
+      "sheet": "marsh-edge",
+      "x": 1671,
+      "y": 96,
+      "w": 397,
+      "h": 235,
+      "anchorX": 0.5214,
+      "anchorY": 0.9277,
+      "label": "marsh edge dense 4",
+      "kind": "marsh-edge",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1673,
+          98,
+          393,
+          231
+        ],
+        "visiblePixels": 57753,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "marsh-edge-sparse-1": {
+      "sheet": "marsh-edge",
+      "x": 116,
+      "y": 423,
+      "w": 371,
+      "h": 211,
+      "anchorX": 0.6024,
+      "anchorY": 0.9289,
+      "label": "marsh edge sparse 1",
+      "kind": "marsh-edge",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          118,
+          425,
+          367,
+          207
+        ],
+        "visiblePixels": 43183,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "marsh-edge-sparse-2": {
+      "sheet": "marsh-edge",
+      "x": 648,
+      "y": 422,
+      "w": 368,
+      "h": 212,
+      "anchorX": 0.5897,
+      "anchorY": 0.9292,
+      "label": "marsh edge sparse 2",
+      "kind": "marsh-edge",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          650,
+          424,
+          364,
+          208
+        ],
+        "visiblePixels": 43745,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "marsh-edge-sparse-3": {
+      "sheet": "marsh-edge",
+      "x": 1155,
+      "y": 427,
+      "w": 364,
+      "h": 207,
+      "anchorX": 0.5934,
+      "anchorY": 0.9275,
+      "label": "marsh edge sparse 3",
+      "kind": "marsh-edge",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1157,
+          429,
+          360,
+          203
+        ],
+        "visiblePixels": 41898,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "marsh-edge-sparse-4": {
+      "sheet": "marsh-edge",
+      "x": 1683,
+      "y": 423,
+      "w": 367,
+      "h": 211,
+      "anchorX": 0.5886,
+      "anchorY": 0.9289,
+      "label": "marsh edge sparse 4",
+      "kind": "marsh-edge",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1685,
+          425,
+          363,
+          207
+        ],
+        "visiblePixels": 43184,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

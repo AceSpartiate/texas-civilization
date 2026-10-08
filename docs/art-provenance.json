@@ -4771,6 +4771,25 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/biome-broadleaf-gale.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Distinct paired gust poses, retained species features; measured registration and cached-map pose selection."
+    },
+    {
+      "sheet": "marsh-edge",
+      "promptId": "frontier-v1/marsh-edge",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-ground-bexar.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5504c352-3f47-4372-9db8-aada977ae091.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-210c778b-1e2f-4d62-822a-350750791684.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit only. Preserve exact FOUR columns TWO rows eight marsh patches, dense four loop poses row1 and sparse four poses row2. Shrink each entire patch by THIRTY PERCENT and center it inside its own equal cell. Every opaque pixel fits central60percent cell widthheight, minimum40px fullytransparent gutters on all sides everycell. Preserve warm outlined painted style ripples plants bank shapes and pose variations. No labels grid background glow shadows. True zeroalpha outside patches."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/marsh-edge.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Dense and sparse animated shoreline patches, production battle binding and retained-pixel audit."
     }
   ],
   "rejectedAttempts": [

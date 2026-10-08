@@ -1,3 +1,7 @@
+## Completed art group 2026-10-08: San Jacinto marsh edges
+
+Eight painted frames, two four-frame ripple/grass loops now render in battle marsh works. Stable placement and open-water ripples are preserved, with legacy reeds fallback. Pause/reduced-motion holds works still. Wading figures remain a separate outstanding request. Twelve tests and a production-art browser fixture pass. See `docs/ART_DELIVERY_2026-10-08-MARSH-EDGE.md`.
+
 ## Completed art group 2026-10-08: biome-tree gale poses
 
 Twenty-six frames, thirteen authored loops cover every tree size in biome-trees-fields. Existing `GALE_POSES` callers select pose one in hard northers. Close-view loops remain available without per-frame map-cache invalidation. All existing colony/biome tree frames now have gale coverage; generic nature marks such as sapling/cottonwood remain separate. See `docs/ART_DELIVERY_2026-10-08-BIOME-TREE-GALE.md`.

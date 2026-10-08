@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2969 usable sprites, 315 PNG atlases, 1038 clips** (730 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2977 usable sprites, 316 PNG atlases, 1040 clips** (732 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -223,6 +223,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
+| marsh-edge | 8 | 2172 × 724 | 1222516 |
 | military-camp-life | 16 | 1254 × 1254 | 1457813 |
 | volunteer-engineer-actions | 16 | 1254 × 1254 | 1490159 |
 | volunteer-bearers | 4 | 1254 × 1254 | 1164328 |
@@ -2203,6 +2204,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | live-oak-mott-dense-2 | live-oak-mott | live-oak-mott-dense-wind |
 | live-oak-mott-open-1 | live-oak-mott | live-oak-mott-open-wind |
 | live-oak-mott-open-2 | live-oak-mott | live-oak-mott-open-wind |
+| marsh-edge-dense-1 | marsh-edge | marsh-edge-dense |
+| marsh-edge-dense-2 | marsh-edge | marsh-edge-dense |
+| marsh-edge-dense-3 | marsh-edge | marsh-edge-dense |
+| marsh-edge-dense-4 | marsh-edge | marsh-edge-dense |
+| marsh-edge-sparse-1 | marsh-edge | marsh-edge-sparse |
+| marsh-edge-sparse-2 | marsh-edge | marsh-edge-sparse |
+| marsh-edge-sparse-3 | marsh-edge | marsh-edge-sparse |
+| marsh-edge-sparse-4 | marsh-edge | marsh-edge-sparse |
 | volunteer-rest-sit-1 | military-camp-life | volunteer-rest-sit |
 | volunteer-rest-sit-2 | military-camp-life | volunteer-rest-sit |
 | volunteer-sleep-1 | military-camp-life | volunteer-sleep |
@@ -3961,6 +3970,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elm-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
+| marsh-edge-dense | Pose cycle | 4 | 1400 | yes | undefined |
+| marsh-edge-sparse | Pose cycle | 4 | 1400 | yes | undefined |
 | volunteer-rest-sit | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
 | volunteer-sleep | Pose cycle | 2 | 4800 | yes | east; west by mirroring |
 | volunteer-camp-drink | Pose cycle | 2 | 1800 | yes | east; west by mirroring |

@@ -457,7 +457,7 @@ export function createBattleView(art) {
     const memberPoints = [...view.memberSpots.entries()].filter(([id]) => view.members.has(id)).map(([, spot]) => spot);
 
     // What stands on the ground, under the men: the breastwork, the camps' fires, the marsh and the lake.
-    const worksDrawn = drawWorks(ctx, battle, camera, figurePx, time, bounds);
+    const worksDrawn = drawWorks(ctx, battle, camera, figurePx, still ? 0 : time, bounds);
     const figures = [];
     let civilians = 0, surrendering = 0;
     // The houses, the fire and the groves the fight is among, behind everybody, and the herd (§6.13).
@@ -1041,8 +1041,8 @@ export function createBattleView(art) {
   /**
    * What stands on the ground (sim/battles/<id>.mjs `works`), laid across the line between the two camps: a breastwork with the
    * opening its gun stood in, a camp's fires, a marsh, open water. Stable: every piece is placed by its work's id.
-   * The baggage breastwork uses authored pack/saddle sections. The marsh still uses cordgrass, reeds and ripples;
-   * marsh-edge tiles and wading poses remain requested in docs/ART_REQUESTS.md.
+   * The baggage breastwork uses authored pack/saddle sections. The marsh uses authored shoreline ripple loops and open-water ripples;
+   * wading poses remain requested in docs/ART_REQUESTS.md.
    * ceiling: the pieces are drawn over the map's own ground, whatever the map has there.
    */
   function drawWorks(ctx, battle, camera, figurePx, time, bounds) {
@@ -1076,7 +1076,12 @@ export function createBattleView(art) {
           const point = at(Math.cos(a * Math.PI * 2) * r * work.width, Math.sin(a * Math.PI * 2) * r * work.width * 0.55);
           const size = figurePx * (0.6 + 0.5 * b);
           put(point, p => {
-            if (marsh && b < 0.7) { if (!art.animated(ctx, 'reeds-wind', p.x, p.y, size, `${work.id}:${i}`, { timeMs: time })) art.drawSprite(ctx, b < 0.35 ? 'marsh-cordgrass' : 'reeds', p.x, p.y, size); }
+            if (marsh && b < 0.7) {
+              const clip = b < 0.35 ? 'marsh-edge-dense' : 'marsh-edge-sparse';
+              if (!art.animated(ctx, clip, p.x, p.y, size, `${work.id}:${i}`, { timeMs: time }) &&
+                  !art.animated(ctx, 'reeds-wind', p.x, p.y, size, `${work.id}:${i}`, { timeMs: time }))
+                art.drawSprite(ctx, b < 0.35 ? 'marsh-cordgrass' : 'reeds', p.x, p.y, size);
+            }
             else if (!art.animated(ctx, 'water-motion', p.x, p.y, size, `${work.id}:${i}`, { timeMs: time })) art.drawSprite(ctx, 'water-ripple', p.x, p.y, size);
           });
         }

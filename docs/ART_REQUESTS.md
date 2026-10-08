@@ -1,3 +1,7 @@
+## Delivered 2026-10-08: San Jacinto marsh-edge scenery
+
+Complete: dense/sparse shoreline patches, eight frames and two animated ripple/grass loops, integrated in `battle-view.js` marsh works. See `ART_DELIVERY_2026-10-08-MARSH-EDGE.md`. The marsh request below is now **partially delivered**: shoreline scenery is complete; thigh-deep wading/running figures remain open. Do not regenerate these shoreline assets.
+
 ## Completed art group 2026-10-08: biome-tree gale poses
 
 Twenty-six frames and thirteen clips cover every existing longleaf, sabal palm, bald cypress, magnolia and beech size. Existing cached map selects first gale poses; loops are available for animated close views. Generic nature marks remain separate. See `ART_DELIVERY_2026-10-08-BIOME-TREE-GALE.md`.
