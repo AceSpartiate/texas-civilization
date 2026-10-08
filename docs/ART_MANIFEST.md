@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2993 usable sprites, 318 PNG atlases, 1044 clips** (736 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3025 usable sprites, 320 PNG atlases, 1060 clips** (752 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -43,6 +43,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-cast2-search-trade | 16 | 1254 × 1254 | 1289372 |
 | people-cast2-tasks | 16 | 1254 × 1254 | 1471967 |
 | people-cast2-vertical | 16 | 1254 × 1254 | 816027 |
+| cast2-drivers-women | 16 | 1254 × 1254 | 1167338 |
+| cast2-drivers-youth | 16 | 1254 × 1254 | 1067911 |
 | people-cast2-walk | 16 | 1254 × 1254 | 1288383 |
 | people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
@@ -589,6 +591,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-walk-s-2 | people-cast2-vertical | blue-girl-walk-s |
 | blue-girl-walk-n-1 | people-cast2-vertical | blue-girl-walk-n |
 | blue-girl-walk-n-2 | people-cast2-vertical | blue-girl-walk-n |
+| rust-woman-wagon-driver-s-1 | cast2-drivers-women | rust-woman-wagon-driver-s |
+| rust-woman-wagon-driver-s-2 | cast2-drivers-women | rust-woman-wagon-driver-s |
+| indigo-wagon-driver-s-1 | cast2-drivers-women | indigo-wagon-driver-s |
+| indigo-wagon-driver-s-2 | cast2-drivers-women | indigo-wagon-driver-s |
+| rust-woman-wagon-driver-e-1 | cast2-drivers-women | rust-woman-wagon-driver-e |
+| rust-woman-wagon-driver-e-2 | cast2-drivers-women | rust-woman-wagon-driver-e |
+| indigo-wagon-driver-e-1 | cast2-drivers-women | indigo-wagon-driver-e |
+| indigo-wagon-driver-e-2 | cast2-drivers-women | indigo-wagon-driver-e |
+| rust-woman-wagon-driver-w-1 | cast2-drivers-women | rust-woman-wagon-driver-w |
+| rust-woman-wagon-driver-w-2 | cast2-drivers-women | rust-woman-wagon-driver-w |
+| indigo-wagon-driver-w-1 | cast2-drivers-women | indigo-wagon-driver-w |
+| indigo-wagon-driver-w-2 | cast2-drivers-women | indigo-wagon-driver-w |
+| rust-woman-wagon-driver-n-1 | cast2-drivers-women | rust-woman-wagon-driver-n |
+| rust-woman-wagon-driver-n-2 | cast2-drivers-women | rust-woman-wagon-driver-n |
+| indigo-wagon-driver-n-1 | cast2-drivers-women | indigo-wagon-driver-n |
+| indigo-wagon-driver-n-2 | cast2-drivers-women | indigo-wagon-driver-n |
+| ochre-wagon-driver-s-1 | cast2-drivers-youth | ochre-wagon-driver-s |
+| ochre-wagon-driver-s-2 | cast2-drivers-youth | ochre-wagon-driver-s |
+| blue-girl-wagon-driver-s-1 | cast2-drivers-youth | blue-girl-wagon-driver-s |
+| blue-girl-wagon-driver-s-2 | cast2-drivers-youth | blue-girl-wagon-driver-s |
+| ochre-wagon-driver-e-1 | cast2-drivers-youth | ochre-wagon-driver-e |
+| ochre-wagon-driver-e-2 | cast2-drivers-youth | ochre-wagon-driver-e |
+| blue-girl-wagon-driver-e-1 | cast2-drivers-youth | blue-girl-wagon-driver-e |
+| blue-girl-wagon-driver-e-2 | cast2-drivers-youth | blue-girl-wagon-driver-e |
+| ochre-wagon-driver-w-1 | cast2-drivers-youth | ochre-wagon-driver-w |
+| ochre-wagon-driver-w-2 | cast2-drivers-youth | ochre-wagon-driver-w |
+| blue-girl-wagon-driver-w-1 | cast2-drivers-youth | blue-girl-wagon-driver-w |
+| blue-girl-wagon-driver-w-2 | cast2-drivers-youth | blue-girl-wagon-driver-w |
+| ochre-wagon-driver-n-1 | cast2-drivers-youth | ochre-wagon-driver-n |
+| ochre-wagon-driver-n-2 | cast2-drivers-youth | ochre-wagon-driver-n |
+| blue-girl-wagon-driver-n-1 | cast2-drivers-youth | blue-girl-wagon-driver-n |
+| blue-girl-wagon-driver-n-2 | cast2-drivers-youth | blue-girl-wagon-driver-n |
 | rust-woman-walk-1 | people-cast2-walk | rust-woman-walk |
 | rust-woman-walk-2 | people-cast2-walk | rust-woman-walk |
 | rust-woman-walk-3 | people-cast2-walk | rust-woman-walk |
@@ -3441,6 +3475,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ochre-walk-n | Pose cycle | 2 | 440 | yes | north |
 | blue-girl-walk-s | Pose cycle | 2 | 440 | yes | south |
 | blue-girl-walk-n | Pose cycle | 2 | 440 | yes | north |
+| rust-woman-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| rust-woman-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| rust-woman-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| rust-woman-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
+| indigo-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| indigo-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| indigo-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| indigo-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
+| ochre-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| ochre-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| ochre-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| ochre-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
+| blue-girl-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| blue-girl-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| blue-girl-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| blue-girl-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
 | rust-woman-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
 | indigo-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
 | ochre-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |

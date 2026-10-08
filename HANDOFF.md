@@ -1,3 +1,7 @@
+## Completed art group 2026-10-08: second-cast wagon drivers
+
+Thirty-two frames and sixteen two-pose loops cover rust-woman, indigo, ochre and blue-girl in all four headings. `DRIVING_FIGURES` now selects complete seated layers for all eight adult/adolescent identities. Eight transport/art tests and production browser rendering proof pass. Age-specific child drivers remain separate. See `docs/ART_DELIVERY_2026-10-08-CAST2-WAGON-DRIVERS.md`.
+
 ## Completed art group 2026-10-08: generic volunteer crowbar directions
 
 Eight painted south/north frames and two loops complete the generic volunteer crowbar directions alongside existing east/mirrored west. Generic breach workers now use crowbar art rather than gun ramming; optional `breach.facing` selects north/south. Named Karnes retains his identity-specific animation. Twelve tests and browser rendering proof pass. See `docs/ART_DELIVERY_2026-10-08-VOLUNTEER-CROWBAR.md`.

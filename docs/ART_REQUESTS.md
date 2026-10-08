@@ -1,3 +1,7 @@
+## Delivered 2026-10-08: second-cast wagon drivers
+
+Complete: rust-woman, indigo, ochre and blue-girl, all four headings with two authored poses each (32 frames, 16 loops). Full seated layers are connected to the existing driver chooser. Age-specific child drivers and passenger/carry layers remain separate. See `ART_DELIVERY_2026-10-08-CAST2-WAGON-DRIVERS.md`.
+
 ## Delivered 2026-10-08: generic volunteer crowbar directions
 
 Complete: eight south/north action frames, two four-frame loops; existing east/mirrored west completes the generic volunteer direction group. Generic breach workers now use crowbar animations. Named Karnes keeps his own art. See `ART_DELIVERY_2026-10-08-VOLUNTEER-CROWBAR.md`.
@@ -1141,7 +1145,7 @@ south-facing like the other buildings, with a ground-contact shadow and no paint
 
 ## Request 2026-09-16 — driving the ox wagon
 
-**Status: partially delivered and wired 2026-09-21** for `rust`, `teal`, `elder` and `blue`; the second cast and the children are still the composite stand-in. `people-wagon-drivers.png` supplies compositing-ready south/east/west/north seated driver layers for the original rust, teal, elder and blue cast. The second cast and child/adolescent coverage remain open. Owner's playtest, 2026-09-16: "characters don't actually
+**Status: partially delivered and wired 2026-09-21** for `rust`, `teal`, `elder` and `blue`; the second cast and the children are still the composite stand-in. `people-wagon-drivers.png` supplies compositing-ready south/east/west/north seated driver layers for the original rust, teal, elder and blue cast. Second-cast adult/adolescent coverage delivered 2026-10-08; age-specific child drivers remain open. Owner's playtest, 2026-09-16: "characters don't actually
 sit on the horse when using it ... Same thing for the Ox and Wagon." Whoever takes the ox and wagon was drawn walking in front
 of it; they are now their own standing figure cut off at the waist and put on the front of the wagon, with the ox drawn
 separately ahead. Nothing hitches the ox to the wagon, and going north or south the wagon is still side-on.

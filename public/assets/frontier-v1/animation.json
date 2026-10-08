@@ -1765,6 +1765,262 @@
       "motion": "none",
       "direction": "north"
     },
+    "rust-woman-wagon-driver-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "rust-woman-wagon-driver-s-2",
+          "duration": 600
+        }
+      ]
+    },
+    "rust-woman-wagon-driver-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "rust-woman-wagon-driver-e-2",
+          "duration": 600
+        }
+      ]
+    },
+    "rust-woman-wagon-driver-w": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "rust-woman-wagon-driver-w-2",
+          "duration": 600
+        }
+      ]
+    },
+    "rust-woman-wagon-driver-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "rust-woman-wagon-driver-n-2",
+          "duration": 600
+        }
+      ]
+    },
+    "indigo-wagon-driver-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-wagon-driver-s-2",
+          "duration": 600
+        }
+      ]
+    },
+    "indigo-wagon-driver-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-wagon-driver-e-2",
+          "duration": 600
+        }
+      ]
+    },
+    "indigo-wagon-driver-w": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-wagon-driver-w-2",
+          "duration": 600
+        }
+      ]
+    },
+    "indigo-wagon-driver-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-wagon-driver-n-2",
+          "duration": 600
+        }
+      ]
+    },
+    "ochre-wagon-driver-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "ochre-wagon-driver-s-2",
+          "duration": 600
+        }
+      ]
+    },
+    "ochre-wagon-driver-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "ochre-wagon-driver-e-2",
+          "duration": 600
+        }
+      ]
+    },
+    "ochre-wagon-driver-w": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "ochre-wagon-driver-w-2",
+          "duration": 600
+        }
+      ]
+    },
+    "ochre-wagon-driver-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "ochre-wagon-driver-n-2",
+          "duration": 600
+        }
+      ]
+    },
+    "blue-girl-wagon-driver-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-wagon-driver-s-2",
+          "duration": 600
+        }
+      ]
+    },
+    "blue-girl-wagon-driver-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-wagon-driver-e-2",
+          "duration": 600
+        }
+      ]
+    },
+    "blue-girl-wagon-driver-w": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-wagon-driver-w-2",
+          "duration": 600
+        }
+      ]
+    },
+    "blue-girl-wagon-driver-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-wagon-driver-n-2",
+          "duration": 600
+        }
+      ]
+    },
     "rust-woman-walk": {
       "frames": [
         {

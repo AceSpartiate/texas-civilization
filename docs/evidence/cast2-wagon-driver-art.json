@@ -1,0 +1,121 @@
+{
+  "verdict": "PASS",
+  "widths": [
+    107.2198275862069,
+    104.7872340425532,
+    110.99137931034484,
+    108.22510822510823,
+    112.44541484716159,
+    110.38961038961038,
+    114.9789029535865,
+    115.42553191489361,
+    107.75862068965519,
+    103.8961038961039,
+    106.98689956331879,
+    105.89519650655023,
+    111.8421052631579,
+    112.72321428571429,
+    115.8008658008658,
+    116.34199134199135,
+    94.2982456140351,
+    92.24890829694324,
+    97.34513274336283,
+    98.45132743362831,
+    100.77092511013215,
+    103.8888888888889,
+    103.04054054054055,
+    110.29411764705883,
+    98.95833333333334,
+    96.77419354838709,
+    116.35944700460828,
+    115.2073732718894,
+    116.27906976744187,
+    117.51152073732717,
+    115.16203703703704,
+    116.35944700460828
+  ],
+  "distinctFrames": 32,
+  "selected": [
+    {
+      "id": "rust-woman-wagon-driver-s",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "rust-woman-wagon-driver-e",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "rust-woman-wagon-driver-w",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "rust-woman-wagon-driver-n",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "indigo-wagon-driver-s",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "indigo-wagon-driver-e",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "indigo-wagon-driver-w",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "indigo-wagon-driver-n",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "ochre-wagon-driver-s",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "ochre-wagon-driver-e",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "ochre-wagon-driver-w",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "ochre-wagon-driver-n",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "blue-girl-wagon-driver-s",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "blue-girl-wagon-driver-e",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "blue-girl-wagon-driver-w",
+      "upright": true,
+      "seated": true
+    },
+    {
+      "id": "blue-girl-wagon-driver-n",
+      "upright": true,
+      "seated": true
+    }
+  ],
+  "errors": []
+}

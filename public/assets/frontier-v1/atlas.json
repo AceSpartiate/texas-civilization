@@ -2542,6 +2542,254 @@
         ]
       }
     },
+    "cast2-drivers-women": {
+      "image": "atlases/cast2-drivers-women.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1167338,
+      "sha256": "d0896742765a71b3637952ec6347dfaf66913a1fa127229f6bc371a10d9ec8b3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.698209,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              69,
+              304
+            ],
+            "columns": [
+              [
+                99,
+                298
+              ],
+              [
+                392,
+                589
+              ],
+              [
+                671,
+                871
+              ],
+              [
+                968,
+                1160
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              354,
+              586
+            ],
+            "columns": [
+              [
+                115,
+                321
+              ],
+              [
+                410,
+                610
+              ],
+              [
+                701,
+                897
+              ],
+              [
+                992,
+                1186
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              648,
+              880
+            ],
+            "columns": [
+              [
+                79,
+                285
+              ],
+              [
+                372,
+                576
+              ],
+              [
+                654,
+                858
+              ],
+              [
+                946,
+                1148
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              937,
+              1174
+            ],
+            "columns": [
+              [
+                83,
+                301
+              ],
+              [
+                377,
+                594
+              ],
+              [
+                661,
+                875
+              ],
+              [
+                955,
+                1170
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "cast2-drivers-youth": {
+      "image": "atlases/cast2-drivers-youth.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1067911,
+      "sha256": "441618d334d94082c25d6ebc5eac1b51be54a5b392d001922290304525f0079b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.724035,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              88,
+              318
+            ],
+            "columns": [
+              [
+                106,
+                278
+              ],
+              [
+                407,
+                576
+              ],
+              [
+                690,
+                861
+              ],
+              [
+                990,
+                1158
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              385,
+              612
+            ],
+            "columns": [
+              [
+                127,
+                303
+              ],
+              [
+                431,
+                609
+              ],
+              [
+                696,
+                898
+              ],
+              [
+                1002,
+                1202
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              664,
+              895
+            ],
+            "columns": [
+              [
+                72,
+                255
+              ],
+              [
+                374,
+                561
+              ],
+              [
+                654,
+                854
+              ],
+              [
+                948,
+                1152
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              941,
+              1164
+            ],
+            "columns": [
+              [
+                82,
+                265
+              ],
+              [
+                371,
+                566
+              ],
+              [
+                654,
+                853
+              ],
+              [
+                948,
+                1150
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-cast2-walk": {
       "image": "atlases/people-cast2-walk.png",
       "width": 1254,
@@ -34032,6 +34280,774 @@
           214
         ],
         "visiblePixels": 16308,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rust-woman-wagon-driver-s-1": {
+      "sheet": "cast2-drivers-women",
+      "x": 99,
+      "y": 71,
+      "w": 199,
+      "h": 232,
+      "anchorX": 0.5779,
+      "anchorY": 0.9267,
+      "label": "rust woman wagon driver s 1",
+      "kind": "cast2-drivers-women",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          101,
+          73,
+          195,
+          228
+        ],
+        "visiblePixels": 24960,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rust-woman-wagon-driver-s-2": {
+      "sheet": "cast2-drivers-women",
+      "x": 392,
+      "y": 69,
+      "w": 197,
+      "h": 235,
+      "anchorX": 0.5761,
+      "anchorY": 0.9277,
+      "label": "rust woman wagon driver s 2",
+      "kind": "cast2-drivers-women",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          394,
+          71,
+          193,
+          231
+        ],
+        "visiblePixels": 24991,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-wagon-driver-s-1": {
+      "sheet": "cast2-drivers-women",
+      "x": 671,
+      "y": 71,
+      "w": 200,
+      "h": 232,
+      "anchorX": 0.57,
+      "anchorY": 0.9267,
+      "label": "indigo wagon driver s 1",
+      "kind": "cast2-drivers-women",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          673,
+          73,
+          196,
+          228
+        ],
+        "visiblePixels": 25174,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-wagon-driver-s-2": {
+      "sheet": "cast2-drivers-women",
+      "x": 968,
+      "y": 71,
+      "w": 192,
+      "h": 231,
+      "anchorX": 0.5755,
+      "anchorY": 0.9264,
+      "label": "indigo wagon driver s 2",
+      "kind": "cast2-drivers-women",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          970,
+          73,
+          188,
+          227
+        ],
+        "visiblePixels": 24645,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rust-woman-wagon-driver-e-1": {
+      "sheet": "cast2-drivers-women",
+      "x": 115,
+      "y": 354,
+      "w": 206,
+      "h": 232,
+      "anchorX": 0.5097,
+      "anchorY": 0.9267,
+      "label": "rust woman wagon driver e 1",
+      "kind": "cast2-drivers-women",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          117,
+          356,
+          202,
+          228
+        ],
+        "visiblePixels": 25272,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rust-woman-wagon-driver-e-2": {
+      "sheet": "cast2-drivers-women",
+      "x": 410,
+      "y": 354,
+      "w": 200,
+      "h": 231,
+      "anchorX": 0.505,
+      "anchorY": 0.9264,
+      "label": "rust woman wagon driver e 2",
+      "kind": "cast2-drivers-women",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          412,
+          356,
+          196,
+          227
+        ],
+        "visiblePixels": 24922,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-wagon-driver-e-1": {
+      "sheet": "cast2-drivers-women",
+      "x": 701,
+      "y": 355,
+      "w": 196,
+      "h": 229,
+      "anchorX": 0.477,
+      "anchorY": 0.9258,
+      "label": "indigo wagon driver e 1",
+      "kind": "cast2-drivers-women",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          703,
+          357,
+          192,
+          225
+        ],
+        "visiblePixels": 24642,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-wagon-driver-e-2": {
+      "sheet": "cast2-drivers-women",
+      "x": 992,
+      "y": 355,
+      "w": 194,
+      "h": 229,
+      "anchorX": 0.4897,
+      "anchorY": 0.9258,
+      "label": "indigo wagon driver e 2",
+      "kind": "cast2-drivers-women",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          994,
+          357,
+          190,
+          225
+        ],
+        "visiblePixels": 24797,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rust-woman-wagon-driver-w-1": {
+      "sheet": "cast2-drivers-women",
+      "x": 79,
+      "y": 651,
+      "w": 206,
+      "h": 229,
+      "anchorX": 0.4782,
+      "anchorY": 0.9258,
+      "label": "rust woman wagon driver w 1",
+      "kind": "cast2-drivers-women",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          653,
+          202,
+          225
+        ],
+        "visiblePixels": 25358,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rust-woman-wagon-driver-w-2": {
+      "sheet": "cast2-drivers-women",
+      "x": 372,
+      "y": 648,
+      "w": 204,
+      "h": 231,
+      "anchorX": 0.4804,
+      "anchorY": 0.9264,
+      "label": "rust woman wagon driver w 2",
+      "kind": "cast2-drivers-women",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          374,
+          650,
+          200,
+          227
+        ],
+        "visiblePixels": 24910,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-wagon-driver-w-1": {
+      "sheet": "cast2-drivers-women",
+      "x": 654,
+      "y": 651,
+      "w": 204,
+      "h": 228,
+      "anchorX": 0.4902,
+      "anchorY": 0.9298,
+      "label": "indigo wagon driver w 1",
+      "kind": "cast2-drivers-women",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          656,
+          653,
+          200,
+          224
+        ],
+        "visiblePixels": 24904,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-wagon-driver-w-2": {
+      "sheet": "cast2-drivers-women",
+      "x": 946,
+      "y": 654,
+      "w": 202,
+      "h": 224,
+      "anchorX": 0.4802,
+      "anchorY": 0.9286,
+      "label": "indigo wagon driver w 2",
+      "kind": "cast2-drivers-women",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          948,
+          656,
+          198,
+          220
+        ],
+        "visiblePixels": 24316,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rust-woman-wagon-driver-n-1": {
+      "sheet": "cast2-drivers-women",
+      "x": 83,
+      "y": 937,
+      "w": 218,
+      "h": 237,
+      "anchorX": 0.5115,
+      "anchorY": 0.9283,
+      "label": "rust woman wagon driver n 1",
+      "kind": "cast2-drivers-women",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          85,
+          939,
+          214,
+          233
+        ],
+        "visiblePixels": 26507,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "rust-woman-wagon-driver-n-2": {
+      "sheet": "cast2-drivers-women",
+      "x": 377,
+      "y": 939,
+      "w": 217,
+      "h": 235,
+      "anchorX": 0.4931,
+      "anchorY": 0.9277,
+      "label": "rust woman wagon driver n 2",
+      "kind": "cast2-drivers-women",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          379,
+          941,
+          213,
+          231
+        ],
+        "visiblePixels": 26087,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-wagon-driver-n-1": {
+      "sheet": "cast2-drivers-women",
+      "x": 661,
+      "y": 943,
+      "w": 214,
+      "h": 231,
+      "anchorX": 0.5,
+      "anchorY": 0.9264,
+      "label": "indigo wagon driver n 1",
+      "kind": "cast2-drivers-women",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          663,
+          945,
+          210,
+          227
+        ],
+        "visiblePixels": 26165,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "indigo-wagon-driver-n-2": {
+      "sheet": "cast2-drivers-women",
+      "x": 955,
+      "y": 943,
+      "w": 215,
+      "h": 231,
+      "anchorX": 0.4953,
+      "anchorY": 0.9264,
+      "label": "indigo wagon driver n 2",
+      "kind": "cast2-drivers-women",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          957,
+          945,
+          211,
+          227
+        ],
+        "visiblePixels": 26460,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-wagon-driver-s-1": {
+      "sheet": "cast2-drivers-youth",
+      "x": 106,
+      "y": 89,
+      "w": 172,
+      "h": 228,
+      "anchorX": 0.6047,
+      "anchorY": 0.9298,
+      "label": "ochre wagon driver s 1",
+      "kind": "cast2-drivers-youth",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          108,
+          91,
+          168,
+          224
+        ],
+        "visiblePixels": 20702,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-wagon-driver-s-2": {
+      "sheet": "cast2-drivers-youth",
+      "x": 407,
+      "y": 88,
+      "w": 169,
+      "h": 229,
+      "anchorX": 0.5,
+      "anchorY": 0.9258,
+      "label": "ochre wagon driver s 2",
+      "kind": "cast2-drivers-youth",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          409,
+          90,
+          165,
+          225
+        ],
+        "visiblePixels": 20796,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-wagon-driver-s-1": {
+      "sheet": "cast2-drivers-youth",
+      "x": 690,
+      "y": 102,
+      "w": 171,
+      "h": 216,
+      "anchorX": 0.617,
+      "anchorY": 0.9352,
+      "label": "blue girl wagon driver s 1",
+      "kind": "cast2-drivers-youth",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          692,
+          104,
+          167,
+          212
+        ],
+        "visiblePixels": 20637,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-wagon-driver-s-2": {
+      "sheet": "cast2-drivers-youth",
+      "x": 990,
+      "y": 101,
+      "w": 168,
+      "h": 217,
+      "anchorX": 0.6161,
+      "anchorY": 0.9309,
+      "label": "blue girl wagon driver s 2",
+      "kind": "cast2-drivers-youth",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          992,
+          103,
+          164,
+          213
+        ],
+        "visiblePixels": 20518,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-wagon-driver-e-1": {
+      "sheet": "cast2-drivers-youth",
+      "x": 127,
+      "y": 385,
+      "w": 176,
+      "h": 226,
+      "anchorX": 0.5625,
+      "anchorY": 0.9336,
+      "label": "ochre wagon driver e 1",
+      "kind": "cast2-drivers-youth",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          129,
+          387,
+          172,
+          222
+        ],
+        "visiblePixels": 20649,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-wagon-driver-e-2": {
+      "sheet": "cast2-drivers-youth",
+      "x": 431,
+      "y": 385,
+      "w": 178,
+      "h": 226,
+      "anchorX": 0.5562,
+      "anchorY": 0.9292,
+      "label": "ochre wagon driver e 2",
+      "kind": "cast2-drivers-youth",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          433,
+          387,
+          174,
+          222
+        ],
+        "visiblePixels": 20823,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-wagon-driver-e-1": {
+      "sheet": "cast2-drivers-youth",
+      "x": 696,
+      "y": 394,
+      "w": 202,
+      "h": 217,
+      "anchorX": 0.6188,
+      "anchorY": 0.9401,
+      "label": "blue girl wagon driver e 1",
+      "kind": "cast2-drivers-youth",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          396,
+          198,
+          213
+        ],
+        "visiblePixels": 22541,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-wagon-driver-e-2": {
+      "sheet": "cast2-drivers-youth",
+      "x": 1002,
+      "y": 395,
+      "w": 200,
+      "h": 217,
+      "anchorX": 0.61,
+      "anchorY": 0.9401,
+      "label": "blue girl wagon driver e 2",
+      "kind": "cast2-drivers-youth",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1004,
+          397,
+          196,
+          213
+        ],
+        "visiblePixels": 22536,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-wagon-driver-w-1": {
+      "sheet": "cast2-drivers-youth",
+      "x": 72,
+      "y": 664,
+      "w": 183,
+      "h": 227,
+      "anchorX": 0.4344,
+      "anchorY": 0.9339,
+      "label": "ochre wagon driver w 1",
+      "kind": "cast2-drivers-youth",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          74,
+          666,
+          179,
+          223
+        ],
+        "visiblePixels": 21275,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-wagon-driver-w-2": {
+      "sheet": "cast2-drivers-youth",
+      "x": 374,
+      "y": 666,
+      "w": 187,
+      "h": 225,
+      "anchorX": 0.4519,
+      "anchorY": 0.9467,
+      "label": "ochre wagon driver w 2",
+      "kind": "cast2-drivers-youth",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          376,
+          668,
+          183,
+          221
+        ],
+        "visiblePixels": 21325,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-wagon-driver-w-1": {
+      "sheet": "cast2-drivers-youth",
+      "x": 654,
+      "y": 679,
+      "w": 200,
+      "h": 215,
+      "anchorX": 0.395,
+      "anchorY": 0.9256,
+      "label": "blue girl wagon driver w 1",
+      "kind": "cast2-drivers-youth",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          656,
+          681,
+          196,
+          211
+        ],
+        "visiblePixels": 22180,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-wagon-driver-w-2": {
+      "sheet": "cast2-drivers-youth",
+      "x": 948,
+      "y": 678,
+      "w": 204,
+      "h": 217,
+      "anchorX": 0.3848,
+      "anchorY": 0.9355,
+      "label": "blue girl wagon driver w 2",
+      "kind": "cast2-drivers-youth",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          950,
+          680,
+          200,
+          213
+        ],
+        "visiblePixels": 23107,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-wagon-driver-n-1": {
+      "sheet": "cast2-drivers-youth",
+      "x": 82,
+      "y": 941,
+      "w": 183,
+      "h": 222,
+      "anchorX": 0.5847,
+      "anchorY": 0.9279,
+      "label": "ochre wagon driver n 1",
+      "kind": "cast2-drivers-youth",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          84,
+          943,
+          179,
+          218
+        ],
+        "visiblePixels": 21986,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "ochre-wagon-driver-n-2": {
+      "sheet": "cast2-drivers-youth",
+      "x": 371,
+      "y": 942,
+      "w": 195,
+      "h": 221,
+      "anchorX": 0.6051,
+      "anchorY": 0.9276,
+      "label": "ochre wagon driver n 2",
+      "kind": "cast2-drivers-youth",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          373,
+          944,
+          191,
+          217
+        ],
+        "visiblePixels": 22203,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-wagon-driver-n-1": {
+      "sheet": "cast2-drivers-youth",
+      "x": 654,
+      "y": 948,
+      "w": 199,
+      "h": 216,
+      "anchorX": 0.5829,
+      "anchorY": 0.9259,
+      "label": "blue girl wagon driver n 1",
+      "kind": "cast2-drivers-youth",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          656,
+          950,
+          195,
+          212
+        ],
+        "visiblePixels": 23466,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "blue-girl-wagon-driver-n-2": {
+      "sheet": "cast2-drivers-youth",
+      "x": 948,
+      "y": 947,
+      "w": 202,
+      "h": 217,
+      "anchorX": 0.5941,
+      "anchorY": 0.9263,
+      "label": "blue girl wagon driver n 2",
+      "kind": "cast2-drivers-youth",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          950,
+          949,
+          198,
+          213
+        ],
+        "visiblePixels": 23608,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

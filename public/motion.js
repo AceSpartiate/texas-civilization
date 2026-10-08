@@ -257,10 +257,10 @@ export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'r
  * docs/ART_DELIVERY_2026-09-21-WAGON-DRIVERS.md): a seated figure with connected reins and a short ox goad and no bench,
  * wagon, team or ground, composited over the wagon the renderer already draws.
  *
- * **The second cast's driver layers are not delivered and are not invented**: `rust-woman`, `indigo`, `ochre` and
- * `blue-girl` - and every child's figure - keep the standing pose cut at the hip until their own layers land.
+ * Second-cast layers have authored rein-handling poses in all four headings (2026-10-08).
+ * Child figures keep the standing composite until their age-specific seated layers land.
  */
-export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue']);
+export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl']);
 /**
  * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
  * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),
@@ -287,7 +287,7 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
     return { id: `${figure}-ride-${facing === 'w' ? 'e' : facing}`, whole: true, ...(facing === 'n' || facing === 's' ? { upright: true } : {}) };
   }
   // Each heading is painted, west included, so a driver is never mirrored. Not frozen: the delivery registers one held
-  // breathing frame and the renderer's own breath is what keeps it alive.
+  // breathing frame for the original cast; second-cast layers use two authored rein-handling poses.
   if (seat === 'wagon' && DRIVING_FIGURES.includes(figure)) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
   // The infant's sheet has no back view.
   const pose = figure === 'infant' && facing === 'n' ? 'idle-s' : `idle-${facing}`;
