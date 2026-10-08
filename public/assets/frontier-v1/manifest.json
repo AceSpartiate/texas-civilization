@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 306,
-    "sprites": 2883,
-    "clips": 995,
-    "poseCycles": 687,
+    "sheets": 307,
+    "sprites": 2895,
+    "clips": 1001,
+    "poseCycles": 693,
     "rigs": 4
   },
   "entrypoints": {
@@ -3539,6 +3539,105 @@
               [
                 807,
                 1504
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "conifer-gale": {
+      "image": "atlases/conifer-gale.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1381008,
+      "sha256": "806629f8b0049e917beb2f944f19e7d14e539df9bf92766e5e490f87158faf08",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.680699,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              85,
+              298
+            ],
+            "columns": [
+              [
+                142,
+                253
+              ],
+              [
+                488,
+                616
+              ],
+              [
+                851,
+                961
+              ],
+              [
+                1202,
+                1344
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              374,
+              653
+            ],
+            "columns": [
+              [
+                97,
+                293
+              ],
+              [
+                457,
+                676
+              ],
+              [
+                802,
+                1003
+              ],
+              [
+                1185,
+                1400
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              698,
+              1026
+            ],
+            "columns": [
+              [
+                41,
+                349
+              ],
+              [
+                417,
+                720
+              ],
+              [
+                793,
+                1047
+              ],
+              [
+                1144,
+                1415
               ]
             ]
           }
@@ -39401,6 +39500,414 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/regular-prone-actions"
+    },
+    "pine-loblolly-pole-gale-1": {
+      "sheet": "conifer-gale",
+      "x": 142,
+      "y": 85,
+      "w": 111,
+      "h": 211,
+      "anchorX": 0.3919,
+      "anchorY": 0.9384,
+      "label": "pine loblolly pole gale 1",
+      "kind": "conifer-gale",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          144,
+          87,
+          107,
+          207
+        ],
+        "visiblePixels": 10609,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pine-loblolly-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "pine-loblolly-pole-gale-2": {
+      "sheet": "conifer-gale",
+      "x": 488,
+      "y": 89,
+      "w": 128,
+      "h": 207,
+      "anchorX": 0.3477,
+      "anchorY": 0.9275,
+      "label": "pine loblolly pole gale 2",
+      "kind": "conifer-gale",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          490,
+          91,
+          124,
+          203
+        ],
+        "visiblePixels": 12579,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pine-loblolly-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "cedar-pole-gale-1": {
+      "sheet": "conifer-gale",
+      "x": 851,
+      "y": 97,
+      "w": 110,
+      "h": 201,
+      "anchorX": 0.4591,
+      "anchorY": 0.9254,
+      "label": "cedar pole gale 1",
+      "kind": "conifer-gale",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          853,
+          99,
+          106,
+          197
+        ],
+        "visiblePixels": 11564,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cedar-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "cedar-pole-gale-2": {
+      "sheet": "conifer-gale",
+      "x": 1202,
+      "y": 96,
+      "w": 142,
+      "h": 202,
+      "anchorX": 0.3592,
+      "anchorY": 0.9307,
+      "label": "cedar pole gale 2",
+      "kind": "conifer-gale",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1204,
+          98,
+          138,
+          198
+        ],
+        "visiblePixels": 13637,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cedar-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "pine-loblolly-log-gale-1": {
+      "sheet": "conifer-gale",
+      "x": 97,
+      "y": 379,
+      "w": 196,
+      "h": 272,
+      "anchorX": 0.4362,
+      "anchorY": 0.9449,
+      "label": "pine loblolly log gale 1",
+      "kind": "conifer-gale",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          99,
+          381,
+          192,
+          268
+        ],
+        "visiblePixels": 27535,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pine-loblolly-log-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "pine-loblolly-log-gale-2": {
+      "sheet": "conifer-gale",
+      "x": 457,
+      "y": 374,
+      "w": 219,
+      "h": 278,
+      "anchorX": 0.3584,
+      "anchorY": 0.9353,
+      "label": "pine loblolly log gale 2",
+      "kind": "conifer-gale",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          459,
+          376,
+          215,
+          274
+        ],
+        "visiblePixels": 30935,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pine-loblolly-log-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "cedar-log-gale-1": {
+      "sheet": "conifer-gale",
+      "x": 802,
+      "y": 394,
+      "w": 201,
+      "h": 259,
+      "anchorX": 0.495,
+      "anchorY": 0.9344,
+      "label": "cedar log gale 1",
+      "kind": "conifer-gale",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          804,
+          396,
+          197,
+          255
+        ],
+        "visiblePixels": 29234,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cedar-log-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "cedar-log-gale-2": {
+      "sheet": "conifer-gale",
+      "x": 1185,
+      "y": 389,
+      "w": 215,
+      "h": 263,
+      "anchorX": 0.3907,
+      "anchorY": 0.9316,
+      "label": "cedar log gale 2",
+      "kind": "conifer-gale",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1187,
+          391,
+          211,
+          259
+        ],
+        "visiblePixels": 30574,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cedar-log-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "pine-loblolly-large-gale-1": {
+      "sheet": "conifer-gale",
+      "x": 41,
+      "y": 698,
+      "w": 308,
+      "h": 328,
+      "anchorX": 0.4416,
+      "anchorY": 0.936,
+      "label": "pine loblolly large gale 1",
+      "kind": "conifer-gale",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          700,
+          304,
+          324
+        ],
+        "visiblePixels": 51670,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pine-loblolly-large-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "pine-loblolly-large-gale-2": {
+      "sheet": "conifer-gale",
+      "x": 417,
+      "y": 705,
+      "w": 303,
+      "h": 320,
+      "anchorX": 0.4406,
+      "anchorY": 0.9375,
+      "label": "pine loblolly large gale 2",
+      "kind": "conifer-gale",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          419,
+          707,
+          299,
+          316
+        ],
+        "visiblePixels": 50117,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "pine-loblolly-large-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "cedar-large-gale-1": {
+      "sheet": "conifer-gale",
+      "x": 793,
+      "y": 698,
+      "w": 254,
+      "h": 328,
+      "anchorX": 0.4705,
+      "anchorY": 0.939,
+      "label": "cedar large gale 1",
+      "kind": "conifer-gale",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          795,
+          700,
+          250,
+          324
+        ],
+        "visiblePixels": 49413,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cedar-large-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
+    },
+    "cedar-large-gale-2": {
+      "sheet": "conifer-gale",
+      "x": 1144,
+      "y": 700,
+      "w": 271,
+      "h": 324,
+      "anchorX": 0.4686,
+      "anchorY": 0.9444,
+      "label": "cedar large gale 2",
+      "kind": "conifer-gale",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1146,
+          702,
+          267,
+          320
+        ],
+        "visiblePixels": 53265,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/conifer-gale.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cedar-large-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/conifer-gale"
     },
     "volunteer-fallen-carry-1": {
       "sheet": "fallen-transport",
@@ -128277,6 +128784,96 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "pine-loblolly-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-loblolly-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-loblolly-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cedar-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cedar-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cedar-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-loblolly-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-loblolly-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-loblolly-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cedar-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cedar-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cedar-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-loblolly-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-loblolly-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-loblolly-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cedar-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cedar-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cedar-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "volunteer-fallen-carry": {
       "frames": [
         {
@@ -147786,7 +148383,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 306,
+    "sourceCount": 307,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

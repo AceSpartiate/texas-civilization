@@ -1,3 +1,7 @@
+## Completed art subgroup 2026-10-07: conifer gale poses
+
+Twelve frames and six two-frame loops supply loblolly pine and cedar at all three existing sizes. `GALE_POSES` selects pose one in the cached map ground. Animation clips remain available for close views, without per-frame map-cache invalidation. Shortleaf retains its existing loblolly stand-in and therefore inherits its weather artwork; no species or simulation distribution changed. See `docs/ART_DELIVERY_2026-10-07-CONIFER-GALE.md`.
+
 ## Completed art subgroup 2026-10-07: norther ground cover
 
 Six frames and three authored two-frame clips for scrub, reeds and prickly pear. `GALE_POSES` now selects their first pose for hard northers in the existing cached-ground path. Close-view animation clips are available; ordinary map ground is deliberately not redrawn per animation frame. Remaining tree gale art stays open. See `docs/ART_DELIVERY_2026-10-07-NORTHER-GROUND.md`.

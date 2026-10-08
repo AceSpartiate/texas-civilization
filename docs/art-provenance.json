@@ -4590,6 +4590,26 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/norther-ground.png",
       "postProcessing": "None; selected generated PNG copied unchanged.",
       "review": "Three ground covers, two distinct gale poses each. Cached ground uses pose one; authored clips available for close views."
+    },
+    {
+      "sheet": "conifer-gale",
+      "promptId": "frontier-v1/conifer-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-1.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7a5836d3-2b8a-4356-80ee-66b399bb49b2.png",
+      "refinements": [
+        {
+          "prompt": "Edit spacing and edge cleanup only this exact FOUR columns THREE rows twelve conifer sprites. Shrink every whole tree by twenty percent toward its own cell center to leave at least30px fully transparent gutter allfour sides within every cell. Maintain base alignment and root silhouette within each pair. Preserve identities, ages, proportions, rightward branch streaming and distinct two poses. Remove all colored RED YELLOW GREEN fringe/glow pixels outside outlines; clean brown/olive edges into true transparent alpha=0. No new foliage beyond boundary, backdrop, shadows, ground slabs or text. Three rows pinepolepair cedarpolepair / pinelogpair cedarlogpair / pinelargepair cedarlargepair, exact unchanged order.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-89968c83-b455-404a-8166-da77a1a33c4d.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-89968c83-b455-404a-8166-da77a1a33c4d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/conifer-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Six pine/cedar size identities, two distinct gust poses each; cached-map first-pose integration and close-view clips."
     }
   ],
   "rejectedAttempts": [

@@ -2650,6 +2650,96 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "pine-loblolly-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-loblolly-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-loblolly-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cedar-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cedar-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cedar-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-loblolly-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-loblolly-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-loblolly-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cedar-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cedar-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cedar-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-loblolly-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-loblolly-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-loblolly-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cedar-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cedar-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cedar-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "volunteer-fallen-carry": {
       "frames": [
         {

@@ -206,7 +206,7 @@ export function galeForce(mix) {
 export function inGale(mix) { return galeForce(mix) >= GALE; }
 /**
  * Authored gale poses replace upright shear for delivered trees and ground cover. Basic scrub,
- * reeds and prickly pear now have dedicated poses; pine, cedar, mesquite, live oak, elm and
+ * reeds, prickly pear, loblolly pine and cedar now have dedicated poses; mesquite, live oak, elm and
  * remaining sized trees still use upright shear until their own gale art is delivered.
  *
  * The names collide with four one-frame `*-wind` CLIPS that predate the delivery and hold the upright sprite swaying
@@ -224,8 +224,15 @@ export const GALE_POSES = Object.freeze({
   'grass-tall': 'grass-tall-wind',
   'cane-1': 'cane-wind',
   'cane-2': 'cane-wind',
-  // Dedicated basic ground-cover gale poses, 2026-10-07. The kept ground uses
-  // the first authored pose; two-frame clips are available for animated close views.
+  // Conifer gale poses at all three delivered sizes, 2026-10-07.
+  'pine-loblolly-pole': 'pine-loblolly-pole-gale-1',
+  'cedar-pole': 'cedar-pole-gale-1',
+  'pine-loblolly-log': 'pine-loblolly-log-gale-1',
+  'cedar-log': 'cedar-log-gale-1',
+  'pine-loblolly-large': 'pine-loblolly-large-gale-1',
+  'cedar-large': 'cedar-large-gale-1',
+  // Basic ground-cover gale poses. The kept ground uses pose one; clips are
+  // available for animated close views.
   scrub: 'scrub-gale-1',
   reeds: 'reeds-gale-1',
   'prickly-pear': 'prickly-pear-gale-1',

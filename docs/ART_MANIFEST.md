@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2883 usable sprites, 306 PNG atlases, 995 clips** (687 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2895 usable sprites, 307 PNG atlases, 1001 clips** (693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -53,6 +53,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | land-clearing | 16 | 1254 × 1254 | 904975 |
 | coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
 | regular-prone-actions | 4 | 1536 × 1024 | 1506423 |
+| conifer-gale | 12 | 1448 × 1086 | 1381008 |
 | fallen-transport | 8 | 1536 × 1024 | 1987719 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
@@ -689,6 +690,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-prone-aim | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-fire | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-lock | regular-prone-actions | regular-prone-fire-reload |
+| pine-loblolly-pole-gale-1 | conifer-gale | pine-loblolly-pole-gale |
+| pine-loblolly-pole-gale-2 | conifer-gale | pine-loblolly-pole-gale |
+| cedar-pole-gale-1 | conifer-gale | cedar-pole-gale |
+| cedar-pole-gale-2 | conifer-gale | cedar-pole-gale |
+| pine-loblolly-log-gale-1 | conifer-gale | pine-loblolly-log-gale |
+| pine-loblolly-log-gale-2 | conifer-gale | pine-loblolly-log-gale |
+| cedar-log-gale-1 | conifer-gale | cedar-log-gale |
+| cedar-log-gale-2 | conifer-gale | cedar-log-gale |
+| pine-loblolly-large-gale-1 | conifer-gale | pine-loblolly-large-gale |
+| pine-loblolly-large-gale-2 | conifer-gale | pine-loblolly-large-gale |
+| cedar-large-gale-1 | conifer-gale | cedar-large-gale |
+| cedar-large-gale-2 | conifer-gale | cedar-large-gale |
 | volunteer-fallen-carry-1 | fallen-transport | volunteer-fallen-carry |
 | volunteer-fallen-carry-2 | fallen-transport | volunteer-fallen-carry |
 | volunteer-fallen-carry-3 | fallen-transport | volunteer-fallen-carry |
@@ -3378,6 +3391,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
 | regular-prone-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
+| pine-loblolly-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cedar-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-loblolly-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cedar-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-loblolly-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cedar-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | volunteer-fallen-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | regular-fallen-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | mother-scarf-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |

@@ -152,11 +152,11 @@ test('a hard norther is drawn in the painted gale pose, and every lesser wind is
 
 test('only the things the gale was painted for take a pose; everything else in the timber keeps the shear', () => {
   const hard = weatherMix(weatherOf({ west: 'norther', centre: 'norther', east: 'norther' }), 200, 600);
-  assert.deepEqual(Object.keys(GALE_POSES).sort(), ['cane-1', 'cane-2', 'grass-tall', 'grass-tuft', 'oak-broad', 'oak-spreading', 'pecan', 'prickly-pear', 'reeds', 'scrub']);
+  assert.deepEqual(Object.keys(GALE_POSES).sort(), ['cane-1', 'cane-2', 'cedar-large', 'cedar-log', 'cedar-pole', 'grass-tall', 'grass-tuft', 'oak-broad', 'oak-spreading', 'pecan', 'pine-loblolly-large', 'pine-loblolly-log', 'pine-loblolly-pole', 'prickly-pear', 'reeds', 'scrub']);
   assert.equal(galePose('grass-tall', hard), 'grass-tall-wind');
   assert.equal(galePose('cane-2', hard), 'cane-wind');
-  // ceiling: a pine, a cedar, a mesquite and the rest of the scatter are still sheared uprights in a norther.
-  for (const upright of ['pine-loblolly-large', 'cedar-pole', 'mesquite-pole', 'rocks']) {
+  // Remaining hardwood gale art is separate; those trees retain upright shear.
+  for (const upright of ['mesquite-pole', 'live-oak-large', 'elm-log', 'rocks']) {
     assert.equal(galePose(upright, hard), null, `${upright} has no painted gale pose`);
   }
   assert.ok(Math.abs(windLean(hard)) > 0.1, 'and the shear they fall back on is still a real bend');
