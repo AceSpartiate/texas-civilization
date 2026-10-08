@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 317,
-    "sprites": 2985,
-    "clips": 1042,
-    "poseCycles": 734,
+    "sheets": 318,
+    "sprites": 2993,
+    "clips": 1044,
+    "poseCycles": 736,
     "rigs": 4
   },
   "entrypoints": {
@@ -23439,6 +23439,80 @@
               [
                 681,
                 1232
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "volunteer-crowbar-vertical": {
+      "image": "atlases/volunteer-crowbar-vertical.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 994951,
+      "sha256": "0df9abe0a359638274fed17c4f1a07aa8c56a585a001d4bb3e15138329fc412a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.748839,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              61,
+              427
+            ],
+            "columns": [
+              [
+                137,
+                356
+              ],
+              [
+                554,
+                803
+              ],
+              [
+                965,
+                1225
+              ],
+              [
+                1409,
+                1632
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              465,
+              831
+            ],
+            "columns": [
+              [
+                129,
+                360
+              ],
+              [
+                544,
+                820
+              ],
+              [
+                946,
+                1243
+              ],
+              [
+                1413,
+                1648
               ]
             ]
           }
@@ -111220,6 +111294,278 @@
       "locationKits": [],
       "promptId": "frontier-v1/twin-sisters-painted"
     },
+    "volunteer-crowbar-s-1": {
+      "sheet": "volunteer-crowbar-vertical",
+      "x": 137,
+      "y": 61,
+      "w": 219,
+      "h": 366,
+      "anchorX": 0.4977,
+      "anchorY": 0.959,
+      "label": "volunteer crowbar s 1",
+      "kind": "volunteer-crowbar-vertical",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          139,
+          63,
+          215,
+          362
+        ],
+        "visiblePixels": 45568,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-crowbar-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-crowbar-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-crowbar-vertical"
+    },
+    "volunteer-crowbar-s-2": {
+      "sheet": "volunteer-crowbar-vertical",
+      "x": 554,
+      "y": 107,
+      "w": 249,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.9563,
+      "label": "volunteer crowbar s 2",
+      "kind": "volunteer-crowbar-vertical",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          556,
+          109,
+          245,
+          316
+        ],
+        "visiblePixels": 42525,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-crowbar-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-crowbar-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-crowbar-vertical"
+    },
+    "volunteer-crowbar-s-3": {
+      "sheet": "volunteer-crowbar-vertical",
+      "x": 965,
+      "y": 91,
+      "w": 260,
+      "h": 334,
+      "anchorX": 0.5,
+      "anchorY": 0.9581,
+      "label": "volunteer crowbar s 3",
+      "kind": "volunteer-crowbar-vertical",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          967,
+          93,
+          256,
+          330
+        ],
+        "visiblePixels": 46985,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-crowbar-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-crowbar-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-crowbar-vertical"
+    },
+    "volunteer-crowbar-s-4": {
+      "sheet": "volunteer-crowbar-vertical",
+      "x": 1409,
+      "y": 62,
+      "w": 223,
+      "h": 364,
+      "anchorX": 0.4978,
+      "anchorY": 0.9588,
+      "label": "volunteer crowbar s 4",
+      "kind": "volunteer-crowbar-vertical",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1411,
+          64,
+          219,
+          360
+        ],
+        "visiblePixels": 44976,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-crowbar-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-crowbar-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-crowbar-vertical"
+    },
+    "volunteer-crowbar-n-1": {
+      "sheet": "volunteer-crowbar-vertical",
+      "x": 129,
+      "y": 469,
+      "w": 231,
+      "h": 362,
+      "anchorX": 0.4978,
+      "anchorY": 0.9503,
+      "label": "volunteer crowbar n 1",
+      "kind": "volunteer-crowbar-vertical",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          131,
+          471,
+          227,
+          358
+        ],
+        "visiblePixels": 42575,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-crowbar-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-crowbar-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-crowbar-vertical"
+    },
+    "volunteer-crowbar-n-2": {
+      "sheet": "volunteer-crowbar-vertical",
+      "x": 544,
+      "y": 508,
+      "w": 276,
+      "h": 323,
+      "anchorX": 0.4982,
+      "anchorY": 0.9319,
+      "label": "volunteer crowbar n 2",
+      "kind": "volunteer-crowbar-vertical",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          546,
+          510,
+          272,
+          319
+        ],
+        "visiblePixels": 42470,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-crowbar-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-crowbar-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-crowbar-vertical"
+    },
+    "volunteer-crowbar-n-3": {
+      "sheet": "volunteer-crowbar-vertical",
+      "x": 946,
+      "y": 507,
+      "w": 297,
+      "h": 324,
+      "anchorX": 0.5,
+      "anchorY": 0.929,
+      "label": "volunteer crowbar n 3",
+      "kind": "volunteer-crowbar-vertical",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          948,
+          509,
+          293,
+          320
+        ],
+        "visiblePixels": 43727,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-crowbar-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-crowbar-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-crowbar-vertical"
+    },
+    "volunteer-crowbar-n-4": {
+      "sheet": "volunteer-crowbar-vertical",
+      "x": 1413,
+      "y": 465,
+      "w": 235,
+      "h": 365,
+      "anchorX": 0.4979,
+      "anchorY": 0.9507,
+      "label": "volunteer crowbar n 4",
+      "kind": "volunteer-crowbar-vertical",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1415,
+          467,
+          231,
+          361
+        ],
+        "visiblePixels": 42893,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/volunteer-crowbar-vertical.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-crowbar-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/volunteer-crowbar-vertical"
+    },
     "rust-wagon-driver-s": {
       "sheet": "people-wagon-drivers",
       "x": 77,
@@ -143988,6 +144334,52 @@
       "motion": "none",
       "direction": "west"
     },
+    "volunteer-crowbar-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "volunteer-crowbar-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-s-2",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-s-3",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-s-4",
+          "duration": 300
+        }
+      ]
+    },
+    "volunteer-crowbar-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "volunteer-crowbar-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-n-2",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-n-3",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-n-4",
+          "duration": 300
+        }
+      ]
+    },
     "rust-wagon-driver-s": {
       "frames": [
         {
@@ -152933,7 +153325,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 317,
+    "sourceCount": 318,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

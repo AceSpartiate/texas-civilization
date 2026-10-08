@@ -1,3 +1,7 @@
+## Completed art group 2026-10-08: generic volunteer crowbar directions
+
+Eight painted south/north frames and two loops complete the generic volunteer crowbar directions alongside existing east/mirrored west. Generic breach workers now use crowbar art rather than gun ramming; optional `breach.facing` selects north/south. Named Karnes retains his identity-specific animation. Twelve tests and browser rendering proof pass. See `docs/ART_DELIVERY_2026-10-08-VOLUNTEER-CROWBAR.md`.
+
 ## Completed art group 2026-10-08: San Jacinto marsh wading
 
 Eight painted frames and two four-frame loops complete the generic volunteer/regular wading request. San Jacinto moving non-firing foot soldiers inside marsh/water works now use them; surrender, injury, mounted and firing poses keep priority. Final battle figure animation honors pause and reduced motion. Sixteen tests and the production-art browser fixture pass. See `docs/ART_DELIVERY_2026-10-08-MARSH-WADING.md`.

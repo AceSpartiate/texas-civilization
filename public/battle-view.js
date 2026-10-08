@@ -1154,8 +1154,8 @@ export function createBattleView(art) {
 
   /**
    * A wall or a door broken in (Karnes's crowbar, `HIST-TEX-038`): a man at it with the bar until the minute it gives, then the
-   * hole. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a crowbar at a door" - the gun crew's ramming stroke for the bar,
-   * the library's tools beside him, and its `wall-breach` for the hole.
+   * hole. Generic workers use authored crowbar cycles; optional breach.facing selects north/south views.
+   * Named Karnes retains his own action; the gun-ram cycle remains a missing-library fallback.
    */
   function drawBreaches(ctx, camera, figurePx, time, now, reducedMotion, battle) {
     let shown = 0;
@@ -1168,7 +1168,12 @@ export function createBattleView(art) {
       } else if (!(battle.id === 'bexar-storming' && battle.phase === 'karnes' && (battle.people || []).some(person => person.id === 'karnes' && person.pose === 'work'))) {
         const who = breach.side === 'mexican' ? 'regular' : 'volunteer';
         art.drawSprite(ctx, 'tools', p.x + figurePx * 0.5, p.y, figurePx * 0.6);
-        art.animated(ctx, `${who}-gun-ram`, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, { timeMs: time, paused: reducedMotion });
+        const direction = ['n', 's'].includes(breach.facing) ? breach.facing : 'e';
+        const clip = `${who}-crowbar${direction === 'e' ? '' : `-${direction}`}`;
+        const options = { timeMs: time, paused: reducedMotion };
+        if (!art.animated(ctx, clip, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, options) &&
+            !(direction !== 'e' && art.animated(ctx, `${who}-crowbar`, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, options)))
+          art.animated(ctx, `${who}-gun-ram`, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, options);
       }
     }
     return shown;

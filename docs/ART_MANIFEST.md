@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2985 usable sprites, 317 PNG atlases, 1042 clips** (734 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2993 usable sprites, 318 PNG atlases, 1044 clips** (736 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -292,6 +292,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | twin-sisters-crew | 4 | 1254 × 1254 | 792510 |
 | regular-drummer | 4 | 1262 × 1246 | 833370 |
 | twin-sisters-painted | 4 | 1254 × 1254 | 1249122 |
+| volunteer-crowbar-vertical | 8 | 1774 × 887 | 994951 |
 | people-wagon-drivers | 16 | 1254 × 1254 | 1460212 |
 | weather-norther | 5 | 1536 × 1024 | 1669037 |
 | wildlife-bear-javelina | 16 | 1254 × 1254 | 1249275 |
@@ -2775,6 +2776,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | twin-sister-painted-recoil-e | twin-sisters-painted | twin-sister-painted-e-recoil |
 | twin-sister-painted-w | twin-sisters-painted | twin-sister-painted-w-recoil |
 | twin-sister-painted-recoil-w | twin-sisters-painted | twin-sister-painted-w-recoil |
+| volunteer-crowbar-s-1 | volunteer-crowbar-vertical | volunteer-crowbar-s |
+| volunteer-crowbar-s-2 | volunteer-crowbar-vertical | volunteer-crowbar-s |
+| volunteer-crowbar-s-3 | volunteer-crowbar-vertical | volunteer-crowbar-s |
+| volunteer-crowbar-s-4 | volunteer-crowbar-vertical | volunteer-crowbar-s |
+| volunteer-crowbar-n-1 | volunteer-crowbar-vertical | volunteer-crowbar-n |
+| volunteer-crowbar-n-2 | volunteer-crowbar-vertical | volunteer-crowbar-n |
+| volunteer-crowbar-n-3 | volunteer-crowbar-vertical | volunteer-crowbar-n |
+| volunteer-crowbar-n-4 | volunteer-crowbar-vertical | volunteer-crowbar-n |
 | rust-wagon-driver-s | people-wagon-drivers | rust-wagon-driver-s |
 | rust-wagon-driver-e | people-wagon-drivers | rust-wagon-driver-e |
 | rust-wagon-driver-w | people-wagon-drivers | rust-wagon-driver-w |
@@ -4160,6 +4169,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-drummer-beat | Pose cycle | 2 | 480 | yes | east; mirror for west |
 | twin-sister-painted-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
 | twin-sister-painted-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
+| volunteer-crowbar-s | Pose cycle | 4 | 1200 | yes | undefined |
+| volunteer-crowbar-n | Pose cycle | 4 | 1200 | yes | undefined |
 | rust-wagon-driver-s | breathe | 1 | 2200 | yes | south |
 | rust-wagon-driver-e | breathe | 1 | 2200 | yes | east |
 | rust-wagon-driver-w | breathe | 1 | 2200 | yes | west |

@@ -13951,6 +13951,52 @@
       "motion": "none",
       "direction": "west"
     },
+    "volunteer-crowbar-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "volunteer-crowbar-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-s-2",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-s-3",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-s-4",
+          "duration": 300
+        }
+      ]
+    },
+    "volunteer-crowbar-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "volunteer-crowbar-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-n-2",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-n-3",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-n-4",
+          "duration": 300
+        }
+      ]
+    },
     "rust-wagon-driver-s": {
       "frames": [
         {

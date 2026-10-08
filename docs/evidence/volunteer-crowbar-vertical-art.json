@@ -1,0 +1,19 @@
+{
+  "verdict": "PASS",
+  "widths": [
+    65.81967213114754,
+    85.59375,
+    85.62874251497006,
+    67.39010989010988,
+    70.19337016574586,
+    93.9938080495356,
+    100.83333333333334,
+    70.82191780821917
+  ],
+  "sheets": [
+    "volunteer-crowbar-vertical",
+    "volunteer-crowbar-vertical"
+  ],
+  "distinctFrames": 8,
+  "errors": []
+}

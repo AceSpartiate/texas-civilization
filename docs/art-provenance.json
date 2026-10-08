@@ -4810,6 +4810,19 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/marsh-wading.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Two faction costumes with authored arm and ripple poses. Retained pixel audit and battle-renderer selection tests."
+    },
+    {
+      "sheet": "volunteer-crowbar-vertical",
+      "promptId": "frontier-v1/volunteer-crowbar-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-engineer-actions.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6e79d47-3483-46b2-bb1d-bbd99ea6d3a0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/volunteer-crowbar-vertical.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Four keyframes each south/north with set, brace, leverage and reset poses."
     }
   ],
   "rejectedAttempts": [
