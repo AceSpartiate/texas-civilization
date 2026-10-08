@@ -13547,6 +13547,51 @@
       "motion": "rock",
       "direction": "east; west by mirroring"
     },
+    "pine-shortleaf-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-shortleaf-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-shortleaf-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-shortleaf-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-shortleaf-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-shortleaf-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-shortleaf-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-shortleaf-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-shortleaf-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "susanna-child-walk-e": {
       "frames": [
         {

@@ -260,6 +260,9 @@ export const GALE_POSES = Object.freeze({
   'hackberry-large': 'hackberry-large-gale-1',
   'sweetgum-large': 'sweetgum-large-gale-1',
   // All thirteen delivered biome-tree sizes, 2026-10-08.
+  'pine-shortleaf-pole': 'pine-shortleaf-pole-gale-1',
+  'pine-shortleaf-log': 'pine-shortleaf-log-gale-1',
+  'pine-shortleaf-large': 'pine-shortleaf-large-gale-1',
   'pine-longleaf-pole': 'pine-longleaf-pole-gale-1',
   'palm-sabal-pole': 'palm-sabal-pole-gale-1',
   'cypress-bald-pole': 'cypress-bald-pole-gale-1',

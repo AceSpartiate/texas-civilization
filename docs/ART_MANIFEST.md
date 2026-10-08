@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3025 usable sprites, 320 PNG atlases, 1060 clips** (752 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3037 usable sprites, 321 PNG atlases, 1063 clips** (755 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -282,6 +282,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-gunsmith | 1 | 1536 × 1024 | 2035238 |
 | shop-doctor | 1 | 1536 × 1024 | 2118390 |
 | shop-stockman | 1 | 1536 × 1024 | 1863839 |
+| trees-shortleaf | 12 | 1448 × 1086 | 870477 |
 | famous-susanna-child-travel | 4 | 1254 × 1254 | 1207824 |
 | famous-susanna-child-cardinal | 4 | 1254 × 1254 | 1204335 |
 | gonzales-settler-rammer | 4 | 1254 × 1254 | 892360 |
@@ -2714,6 +2715,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-gunsmith | shop-gunsmith | State artwork; no motion required |
 | shop-doctor | shop-doctor | State artwork; no motion required |
 | shop-stockman | shop-stockman | State artwork; no motion required |
+| pine-shortleaf-pole | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-pole-gale-1 | trees-shortleaf | pine-shortleaf-pole-gale |
+| pine-shortleaf-pole-gale-2 | trees-shortleaf | pine-shortleaf-pole-gale |
+| stump-pine-shortleaf-pole | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-log | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-log-gale-1 | trees-shortleaf | pine-shortleaf-log-gale |
+| pine-shortleaf-log-gale-2 | trees-shortleaf | pine-shortleaf-log-gale |
+| stump-pine-shortleaf-log | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-large | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-large-gale-1 | trees-shortleaf | pine-shortleaf-large-gale |
+| pine-shortleaf-large-gale-2 | trees-shortleaf | pine-shortleaf-large-gale |
+| stump-pine-shortleaf | trees-shortleaf | State artwork; no motion required |
 | susanna-child-walk-e-1 | famous-susanna-child-travel | susanna-child-walk-e |
 | susanna-child-walk-e-2 | famous-susanna-child-travel | susanna-child-walk-e |
 | susanna-child-hold-1 | famous-susanna-child-travel | susanna-child-hold |
@@ -4171,6 +4184,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hog-root | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
 | home-chest-opening | Pose cycle | 2 | 1000 | one-shot | east; west by mirroring |
 | home-cradle-rock | rock | 1 | 2000 | yes | east; west by mirroring |
+| pine-shortleaf-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-shortleaf-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-shortleaf-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | susanna-child-walk-e | Pose cycle | 2 | 560 | yes | east |
 | susanna-child-hold | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | susanna-child-walk-s | Pose cycle | 2 | 560 | yes | south |

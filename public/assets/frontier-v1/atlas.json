@@ -22717,6 +22717,105 @@
         ]
       }
     },
+    "trees-shortleaf": {
+      "image": "atlases/trees-shortleaf.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 870477,
+      "sha256": "ebb8c9f5787f3be713e6362b1d3cffead94994e3b473dad8fd411dbaa2e17701",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.802606,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              90,
+              310
+            ],
+            "columns": [
+              [
+                146,
+                264
+              ],
+              [
+                500,
+                656
+              ],
+              [
+                851,
+                1016
+              ],
+              [
+                1201,
+                1334
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              396,
+              633
+            ],
+            "columns": [
+              [
+                117,
+                283
+              ],
+              [
+                475,
+                673
+              ],
+              [
+                826,
+                1045
+              ],
+              [
+                1197,
+                1346
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              709,
+              1017
+            ],
+            "columns": [
+              [
+                92,
+                315
+              ],
+              [
+                451,
+                691
+              ],
+              [
+                811,
+                1079
+              ],
+              [
+                1177,
+                1377
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-susanna-child-travel": {
       "image": "atlases/famous-susanna-child-travel.png",
       "width": 1254,
@@ -86846,6 +86945,294 @@
           623
         ],
         "visiblePixels": 443393,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-shortleaf-pole": {
+      "sheet": "trees-shortleaf",
+      "x": 146,
+      "y": 97,
+      "w": 118,
+      "h": 213,
+      "anchorX": 0.5,
+      "anchorY": 0.9531,
+      "label": "pine shortleaf pole",
+      "kind": "trees-shortleaf",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          148,
+          99,
+          114,
+          209
+        ],
+        "visiblePixels": 12458,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-shortleaf-pole-gale-1": {
+      "sheet": "trees-shortleaf",
+      "x": 500,
+      "y": 90,
+      "w": 156,
+      "h": 220,
+      "anchorX": 0.3622,
+      "anchorY": 0.9545,
+      "label": "pine shortleaf pole gale 1",
+      "kind": "trees-shortleaf",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          502,
+          92,
+          152,
+          216
+        ],
+        "visiblePixels": 16117,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-shortleaf-pole-gale-2": {
+      "sheet": "trees-shortleaf",
+      "x": 851,
+      "y": 92,
+      "w": 165,
+      "h": 218,
+      "anchorX": 0.2939,
+      "anchorY": 0.9541,
+      "label": "pine shortleaf pole gale 2",
+      "kind": "trees-shortleaf",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          853,
+          94,
+          161,
+          214
+        ],
+        "visiblePixels": 17381,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "stump-pine-shortleaf-pole": {
+      "sheet": "trees-shortleaf",
+      "x": 1201,
+      "y": 214,
+      "w": 133,
+      "h": 89,
+      "anchorX": 0.5038,
+      "anchorY": 0.9213,
+      "label": "stump pine shortleaf pole",
+      "kind": "trees-shortleaf",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1203,
+          216,
+          129,
+          85
+        ],
+        "visiblePixels": 7282,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-shortleaf-log": {
+      "sheet": "trees-shortleaf",
+      "x": 117,
+      "y": 396,
+      "w": 166,
+      "h": 237,
+      "anchorX": 0.5211,
+      "anchorY": 0.9536,
+      "label": "pine shortleaf log",
+      "kind": "trees-shortleaf",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          119,
+          398,
+          162,
+          233
+        ],
+        "visiblePixels": 18830,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-shortleaf-log-gale-1": {
+      "sheet": "trees-shortleaf",
+      "x": 475,
+      "y": 396,
+      "w": 198,
+      "h": 237,
+      "anchorX": 0.4116,
+      "anchorY": 0.9578,
+      "label": "pine shortleaf log gale 1",
+      "kind": "trees-shortleaf",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          477,
+          398,
+          194,
+          233
+        ],
+        "visiblePixels": 23081,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-shortleaf-log-gale-2": {
+      "sheet": "trees-shortleaf",
+      "x": 826,
+      "y": 402,
+      "w": 219,
+      "h": 231,
+      "anchorX": 0.3333,
+      "anchorY": 0.9524,
+      "label": "pine shortleaf log gale 2",
+      "kind": "trees-shortleaf",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          828,
+          404,
+          215,
+          227
+        ],
+        "visiblePixels": 24689,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "stump-pine-shortleaf-log": {
+      "sheet": "trees-shortleaf",
+      "x": 1197,
+      "y": 528,
+      "w": 149,
+      "h": 103,
+      "anchorX": 0.4732,
+      "anchorY": 0.9223,
+      "label": "stump pine shortleaf log",
+      "kind": "trees-shortleaf",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1199,
+          530,
+          145,
+          99
+        ],
+        "visiblePixels": 9580,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-shortleaf-large": {
+      "sheet": "trees-shortleaf",
+      "x": 92,
+      "y": 709,
+      "w": 223,
+      "h": 308,
+      "anchorX": 0.5,
+      "anchorY": 0.961,
+      "label": "pine shortleaf large",
+      "kind": "trees-shortleaf",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          94,
+          711,
+          219,
+          304
+        ],
+        "visiblePixels": 29157,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-shortleaf-large-gale-1": {
+      "sheet": "trees-shortleaf",
+      "x": 451,
+      "y": 709,
+      "w": 240,
+      "h": 308,
+      "anchorX": 0.4104,
+      "anchorY": 0.961,
+      "label": "pine shortleaf large gale 1",
+      "kind": "trees-shortleaf",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          453,
+          711,
+          236,
+          304
+        ],
+        "visiblePixels": 31973,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "pine-shortleaf-large-gale-2": {
+      "sheet": "trees-shortleaf",
+      "x": 811,
+      "y": 712,
+      "w": 268,
+      "h": 305,
+      "anchorX": 0.3451,
+      "anchorY": 0.9607,
+      "label": "pine shortleaf large gale 2",
+      "kind": "trees-shortleaf",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          813,
+          714,
+          264,
+          301
+        ],
+        "visiblePixels": 35538,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "stump-pine-shortleaf": {
+      "sheet": "trees-shortleaf",
+      "x": 1177,
+      "y": 880,
+      "w": 200,
+      "h": 136,
+      "anchorX": 0.49,
+      "anchorY": 0.9265,
+      "label": "stump pine shortleaf",
+      "kind": "trees-shortleaf",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1179,
+          882,
+          196,
+          132
+        ],
+        "visiblePixels": 16864,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

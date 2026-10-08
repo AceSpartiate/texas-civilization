@@ -1,3 +1,7 @@
+## Completed art group 2026-10-08: shortleaf pine
+
+Twelve species-specific frames include three sizes, paired gusts and three stumps. `KINDS.shortleaf` replaces its loblolly picture/stump fallback; forestry yields are unchanged. `GALE_POSES` selects authored first gust poses for cached maps, with three two-frame loops available for close views. Twenty-seven tests and production browser proof pass. See `docs/ART_DELIVERY_2026-10-08-SHORTLEAF.md`.
+
 ## Completed art group 2026-10-08: second-cast wagon drivers
 
 Thirty-two frames and sixteen two-pose loops cover rust-woman, indigo, ochre and blue-girl in all four headings. `DRIVING_FIGURES` now selects complete seated layers for all eight adult/adolescent identities. Eight transport/art tests and production browser rendering proof pass. Age-specific child drivers remain separate. See `docs/ART_DELIVERY_2026-10-08-CAST2-WAGON-DRIVERS.md`.

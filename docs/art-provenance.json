@@ -4863,6 +4863,25 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/cast2-drivers-youth.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Four directions and paired seated rein-handling poses preserving cast costumes."
+    },
+    {
+      "sheet": "trees-shortleaf",
+      "promptId": "frontier-v1/trees-shortleaf",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-1.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0122083c-3d14-406e-886c-b343f93f3833.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ea55c354-fc2c-4898-a472-0a4ecfb0c188.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve exact4columns3rows12sprites ordertreesstumpsandgusts. Shrink EACHWHOLEobjectbyTHIRTYPERCENT center own equalcell; every opaque pixel onlycentral55percent owncellwidthheight minimum40px actualtransparentgutters ALLsides boundaries. No crossrow/column roots branches needlebits. Keeptreeidentity color branchshape sizecategory and leftto right poses distinct. Preserve rootedbaseline withinrow. Stumpsonlylastcolumn. Nootherplants backgroundglow shadow labelsgrid. Truealpha0."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/trees-shortleaf.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Species-specific illustrative three-size trees, paired gust poses and cut stumps. Botanical design reference https://research.fs.usda.gov/feis/species-reviews/pinech"
     }
   ],
   "rejectedAttempts": [
