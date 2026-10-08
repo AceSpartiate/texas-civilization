@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2977 usable sprites, 316 PNG atlases, 1040 clips** (732 pose cycles; 4 layered rigs).
+Generated from the shipped library: **2985 usable sprites, 317 PNG atlases, 1042 clips** (734 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -224,6 +224,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
 | marsh-edge | 8 | 2172 × 724 | 1222516 |
+| marsh-wading | 8 | 1774 × 887 | 1112271 |
 | military-camp-life | 16 | 1254 × 1254 | 1457813 |
 | volunteer-engineer-actions | 16 | 1254 × 1254 | 1490159 |
 | volunteer-bearers | 4 | 1254 × 1254 | 1164328 |
@@ -2212,6 +2213,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | marsh-edge-sparse-2 | marsh-edge | marsh-edge-sparse |
 | marsh-edge-sparse-3 | marsh-edge | marsh-edge-sparse |
 | marsh-edge-sparse-4 | marsh-edge | marsh-edge-sparse |
+| volunteer-wade-1 | marsh-wading | volunteer-wade |
+| volunteer-wade-2 | marsh-wading | volunteer-wade |
+| volunteer-wade-3 | marsh-wading | volunteer-wade |
+| volunteer-wade-4 | marsh-wading | volunteer-wade |
+| regular-wade-1 | marsh-wading | regular-wade |
+| regular-wade-2 | marsh-wading | regular-wade |
+| regular-wade-3 | marsh-wading | regular-wade |
+| regular-wade-4 | marsh-wading | regular-wade |
 | volunteer-rest-sit-1 | military-camp-life | volunteer-rest-sit |
 | volunteer-rest-sit-2 | military-camp-life | volunteer-rest-sit |
 | volunteer-sleep-1 | military-camp-life | volunteer-sleep |
@@ -3972,6 +3981,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | marsh-edge-dense | Pose cycle | 4 | 1400 | yes | undefined |
 | marsh-edge-sparse | Pose cycle | 4 | 1400 | yes | undefined |
+| volunteer-wade | Pose cycle | 4 | 960 | yes | undefined |
+| regular-wade | Pose cycle | 4 | 960 | yes | undefined |
 | volunteer-rest-sit | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
 | volunteer-sleep | Pose cycle | 2 | 4800 | yes | east; west by mirroring |
 | volunteer-camp-drink | Pose cycle | 2 | 1800 | yes | east; west by mirroring |

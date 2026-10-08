@@ -1,3 +1,4 @@
+import { marshWadingClip } from './wading-art.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
 //
 // Owner, 2026-09-25: "when i try to watch a battle ... i see npc's just standing around ... the battle itself never actually
@@ -643,6 +644,8 @@ export function createBattleView(art) {
         if (hands) {
           // Surrendering, hands raised (`*-surrender`): drawn, never counted (docs/battle-research/staging.md §8.5).
           clip = `${kind === 'volunteer' ? 'volunteer' : 'regular'}-surrender`; flip = !right; surrendering++;
+        } else if ((kind === 'regular' || kind === 'volunteer') && marshWadingClip(battle, side, ground)) {
+          clip = marshWadingClip(battle, side, ground); flip = !right;
         } else if (kind === 'dragoon' || kind === 'rider') {
           // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 7 - lancers (Ramírez y Sesma's, outside the
           // Alamo's walls) are drawn as the library's dragoons, without lances, until a lancer set exists.
@@ -750,7 +753,7 @@ export function createBattleView(art) {
         continue;
       }
       let ok = 0;
-      if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
+      if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: still });
       else if (f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
       if (!ok) art.miniPerson(ctx, f.point.x, f.point.y, f.size, { side: f.side, flip: f.flip });
     }
@@ -1042,7 +1045,7 @@ export function createBattleView(art) {
    * What stands on the ground (sim/battles/<id>.mjs `works`), laid across the line between the two camps: a breastwork with the
    * opening its gun stood in, a camp's fires, a marsh, open water. Stable: every piece is placed by its work's id.
    * The baggage breastwork uses authored pack/saddle sections. The marsh uses authored shoreline ripple loops and open-water ripples;
-   * wading poses remain requested in docs/ART_REQUESTS.md.
+   * moving non-firing infantry use authored wading poses within the wet works.
    * ceiling: the pieces are drawn over the map's own ground, whatever the map has there.
    */
   function drawWorks(ctx, battle, camera, figurePx, time, bounds) {

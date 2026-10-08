@@ -4971,6 +4971,27 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/marsh-edge.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Dense and sparse animated shoreline patches, production battle binding and retained-pixel audit."
+    },
+    {
+      "sheet": "marsh-wading",
+      "prompt": "Transparent production sprite atlas EXACT FOUR COLUMNS TWO ROWS 8 sprites. Style references for costume and warm painted brownoutlined frontier storybook elevatedthreequarter art ONLY. Row1 SAME Texian volunteer brown brimhat browncoat creamtrousers satchel, ROW2 SAME Mexican regular black shako redpom navycoat redcuffs creamcrossbelts creamtrousers satchel. Each row four consecutive WADING RUN LOOP frames, all facing SCREEN RIGHT. Water thighdeep, lowerlegs submerged invisible, small opaque muted bluegraygreen shallowwater oval intersects thighs, distinct advancing ripples and little splashes fourposes. Arms alternating forwardback for effort, torso slightlyleaning, each frame has recognizable distinct shoulderarm movement without changingidentity costume orwaterline. No gun, no blood no wounds no death. Full hatheadtorsoarms upperthigh visible above water. No floating legs below puddle. WholepersonANDwater central55percent OWNcell widthheight with at least40px fullytransparentgutters ALLsides. Row1 staysrow1 row2staysrow2, no shared background ground islands reeds props textlabelgrid shadowsglow. Actualalpha0 outside figurewater silhouettes. Same baseline scaleviewpoint withinrows. Fourloop phases contacting pushing recovery alternatecontact.",
+      "promptId": "frontier-v1/marsh-wading",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-bank-actions.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/regular-engineer-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-723c53ab-44e0-4145-b90f-1c05130d95eb.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a2ed5c33-648e-4830-acb3-faac56dacdb7.png",
+      "refinements": [
+        {
+          "prompt": "Spacing correction ONLY preserve exact FOUR columns TWO rows eight wading figures, row1volunteer row2regular fourloopposes each facingright. Shrink every entire figure ANDwater patch by thirtypercent and center within own equally dividedcell. Every opaque pixel central60percentcellwidthheight minimum40px emptytransparentgutters ALLsides everycell and canvas. Allhatandwaterandsplash within owncell no crossboundary. Preserve poses faces outfits and warmoutlined painted style. Realalpha0 outside silhouettes no backdropglowshadow labelsgrid."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/marsh-wading.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Two faction costumes with authored arm and ripple poses. Retained pixel audit and battle-renderer selection tests."
     }
   ]
 }

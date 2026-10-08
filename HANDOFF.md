@@ -1,3 +1,7 @@
+## Completed art group 2026-10-08: San Jacinto marsh wading
+
+Eight painted frames and two four-frame loops complete the generic volunteer/regular wading request. San Jacinto moving non-firing foot soldiers inside marsh/water works now use them; surrender, injury, mounted and firing poses keep priority. Final battle figure animation honors pause and reduced motion. Sixteen tests and the production-art browser fixture pass. See `docs/ART_DELIVERY_2026-10-08-MARSH-WADING.md`.
+
 ## Completed art group 2026-10-08: San Jacinto marsh edges
 
 Eight painted frames, two four-frame ripple/grass loops now render in battle marsh works. Stable placement and open-water ripples are preserved, with legacy reeds fallback. Pause/reduced-motion holds works still. Wading figures remain a separate outstanding request. Twelve tests and a production-art browser fixture pass. See `docs/ART_DELIVERY_2026-10-08-MARSH-EDGE.md`.

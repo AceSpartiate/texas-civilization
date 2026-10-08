@@ -1,6 +1,10 @@
+## Delivered 2026-10-08: marsh-wading figures
+
+Complete: generic volunteer and regular thigh-deep wading, eight frames and two loops; integrated for moving non-firing infantry inside San Jacinto wet works. East/west via mirror. Together with marsh-edge scenery this closes the original generic marsh request. Family appearance layers and north/south refinements are not included. See `ART_DELIVERY_2026-10-08-MARSH-WADING.md`.
+
 ## Delivered 2026-10-08: San Jacinto marsh-edge scenery
 
-Complete: dense/sparse shoreline patches, eight frames and two animated ripple/grass loops, integrated in `battle-view.js` marsh works. See `ART_DELIVERY_2026-10-08-MARSH-EDGE.md`. The marsh request below is now **partially delivered**: shoreline scenery is complete; thigh-deep wading/running figures remain open. Do not regenerate these shoreline assets.
+Complete: dense/sparse shoreline patches, eight frames and two animated ripple/grass loops, integrated in `battle-view.js` marsh works. See `ART_DELIVERY_2026-10-08-MARSH-EDGE.md`. The shoreline portion is complete; the subsequent marsh-wading delivery above completes the generic figure portion. Do not regenerate these shoreline assets.
 
 ## Completed art group 2026-10-08: biome-tree gale poses
 

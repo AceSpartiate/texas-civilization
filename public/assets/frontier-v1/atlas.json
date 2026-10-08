@@ -17960,6 +17960,80 @@
         ]
       }
     },
+    "marsh-wading": {
+      "image": "atlases/marsh-wading.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1112271,
+      "sha256": "98ee611feb28f05fb9c0c3b882bc2ed7c4d312c9a445ee68f2782796ffef54b7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.728523,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              121,
+              404
+            ],
+            "columns": [
+              [
+                81,
+                385
+              ],
+              [
+                521,
+                825
+              ],
+              [
+                949,
+                1250
+              ],
+              [
+                1378,
+                1684
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              505,
+              819
+            ],
+            "columns": [
+              [
+                89,
+                393
+              ],
+              [
+                520,
+                826
+              ],
+              [
+                948,
+                1248
+              ],
+              [
+                1378,
+                1684
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "military-camp-life": {
       "image": "atlases/military-camp-life.png",
       "width": 1254,
@@ -74302,6 +74376,198 @@
           207
         ],
         "visiblePixels": 43184,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-wade-1": {
+      "sheet": "marsh-wading",
+      "x": 81,
+      "y": 123,
+      "w": 304,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9286,
+      "label": "volunteer wade 1",
+      "kind": "marsh-wading",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          125,
+          300,
+          276
+        ],
+        "visiblePixels": 47958,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-wade-2": {
+      "sheet": "marsh-wading",
+      "x": 521,
+      "y": 124,
+      "w": 304,
+      "h": 279,
+      "anchorX": 0.4951,
+      "anchorY": 0.9283,
+      "label": "volunteer wade 2",
+      "kind": "marsh-wading",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          523,
+          126,
+          300,
+          275
+        ],
+        "visiblePixels": 44647,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-wade-3": {
+      "sheet": "marsh-wading",
+      "x": 949,
+      "y": 121,
+      "w": 301,
+      "h": 282,
+      "anchorX": 0.5066,
+      "anchorY": 0.9291,
+      "label": "volunteer wade 3",
+      "kind": "marsh-wading",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          951,
+          123,
+          297,
+          278
+        ],
+        "visiblePixels": 45719,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-wade-4": {
+      "sheet": "marsh-wading",
+      "x": 1378,
+      "y": 125,
+      "w": 306,
+      "h": 279,
+      "anchorX": 0.5,
+      "anchorY": 0.9283,
+      "label": "volunteer wade 4",
+      "kind": "marsh-wading",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1380,
+          127,
+          302,
+          275
+        ],
+        "visiblePixels": 45734,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-wade-1": {
+      "sheet": "marsh-wading",
+      "x": 89,
+      "y": 510,
+      "w": 304,
+      "h": 306,
+      "anchorX": 0.5,
+      "anchorY": 0.9281,
+      "label": "regular wade 1",
+      "kind": "marsh-wading",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          512,
+          300,
+          302
+        ],
+        "visiblePixels": 48677,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-wade-2": {
+      "sheet": "marsh-wading",
+      "x": 520,
+      "y": 513,
+      "w": 306,
+      "h": 304,
+      "anchorX": 0.4951,
+      "anchorY": 0.9276,
+      "label": "regular wade 2",
+      "kind": "marsh-wading",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          522,
+          515,
+          302,
+          300
+        ],
+        "visiblePixels": 47110,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-wade-3": {
+      "sheet": "marsh-wading",
+      "x": 948,
+      "y": 505,
+      "w": 300,
+      "h": 314,
+      "anchorX": 0.5033,
+      "anchorY": 0.9299,
+      "label": "regular wade 3",
+      "kind": "marsh-wading",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          950,
+          507,
+          296,
+          310
+        ],
+        "visiblePixels": 48476,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-wade-4": {
+      "sheet": "marsh-wading",
+      "x": 1378,
+      "y": 508,
+      "w": 306,
+      "h": 309,
+      "anchorX": 0.5016,
+      "anchorY": 0.9288,
+      "label": "regular wade 4",
+      "kind": "marsh-wading",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1380,
+          510,
+          302,
+          305
+        ],
+        "visiblePixels": 47712,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

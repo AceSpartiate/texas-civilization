@@ -4790,6 +4790,26 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/marsh-edge.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Dense and sparse animated shoreline patches, production battle binding and retained-pixel audit."
+    },
+    {
+      "sheet": "marsh-wading",
+      "promptId": "frontier-v1/marsh-wading",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-bank-actions.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/regular-engineer-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-723c53ab-44e0-4145-b90f-1c05130d95eb.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a2ed5c33-648e-4830-acb3-faac56dacdb7.png",
+      "refinements": [
+        {
+          "prompt": "Spacing correction ONLY preserve exact FOUR columns TWO rows eight wading figures, row1volunteer row2regular fourloopposes each facingright. Shrink every entire figure ANDwater patch by thirtypercent and center within own equally dividedcell. Every opaque pixel central60percentcellwidthheight minimum40px emptytransparentgutters ALLsides everycell and canvas. Allhatandwaterandsplash within owncell no crossboundary. Preserve poses faces outfits and warmoutlined painted style. Realalpha0 outside silhouettes no backdropglowshadow labelsgrid."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/marsh-wading.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Two faction costumes with authored arm and ripple poses. Retained pixel audit and battle-renderer selection tests."
     }
   ],
   "rejectedAttempts": [
