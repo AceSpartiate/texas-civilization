@@ -5068,6 +5068,26 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/trees-shortleaf.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Species-specific illustrative three-size trees, paired gust poses and cut stumps. Botanical design reference https://research.fs.usda.gov/feis/species-reviews/pinech"
+    },
+    {
+      "sheet": "timber-felled",
+      "prompt": "Production transparent sprite atlas EXACT TWO columns TWO rows FOUR isolated timberprops, warm muted frontierstorybook handpainted darkbrown outlines elevatedthreequarter viewpoint matches supplied treebarkstumps reference. TOPLEFT freshfelled long reddishbrown barktrunk withpale growthring CUTEND atLEFT and fewsmall prunedbranchstubs alongside, lies EASTWEST horizontal; TOPRIGHT same freshfelledtrunk lying NORTHSOUTH inperspective endfaces viewer foregroundbottom trunk recedesup, samecutendbarkdiameter. BOTTOMLEFT trimmedconstructionlog EASTWEST horizontal pale cutends bark mostlyretained but noprotrudingbranches, modestaxefacetsalongcutends; BOTTOMRIGHT tidy lowstackofFIVE similar trimmedlogs, threebottomtwotop, pale growthring ends facingbottomleft notfirewoodshortchunks. Each propwholecentral55percent own equalcellwidthheight min50px fullytransparentgutters allboundaries, zeroalpha outsideobject. No standingtrees foliage grass groundslab shadowsglow flames smoke axes people labelsgridbackground. Fullentiretrunkendinsidecell. Theseare independent rigidprops notanimationframes, no motionblur. Originalinterpretive timberobjects for1835frontiergame.",
+      "promptId": "frontier-v1/timber-felled",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-shortleaf.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7a32ee90-9d45-4a9a-a48c-ea1f869f2c6c.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e0d4e54b-928b-46c1-bc86-94510b60ecfa.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY exactTWOcolumnsTWOrows4timberprops. Shrink EACH entireobject40percent center insideown equalquadrantcell. Allopaque pixels onlycentral55percent owncellwidthheight at least50px truealpha0gutter allfour sides everycell. TopLEFThorizontalbranchstubslog topRIGHTverticalperspectivelog bottomLEFTtrimmedhorizontallog bottomRIGHTfive-logstack. NOparts acrosscenterseams orcanvasedges. Preservebarkrings orientationcountshapes nootherprops backgroundlabelsgrid shadowglow."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/timber-felled.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Four rigid timber states, transparent backgrounds, production drawing and hauling translation proof."
     }
   ]
 }

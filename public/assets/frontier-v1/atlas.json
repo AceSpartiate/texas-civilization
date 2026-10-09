@@ -15515,6 +15515,64 @@
         ]
       }
     },
+    "timber-felled": {
+      "image": "atlases/timber-felled.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 641371,
+      "sha256": "cf5d6f2ad869cfa9a3fa894be4b8f4baa31922116ee73aaf3dc245d4ec77b565",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.860676,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              141,
+              452
+            ],
+            "columns": [
+              [
+                164,
+                623
+              ],
+              [
+                1011,
+                1171
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              665,
+              929
+            ],
+            "columns": [
+              [
+                150,
+                618
+              ],
+              [
+                903,
+                1284
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "flag-come-and-take-it": {
       "image": "atlases/flag-come-and-take-it.png",
       "width": 1254,
@@ -68551,6 +68609,102 @@
           246
         ],
         "visiblePixels": 27579,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "timber-felled-e": {
+      "sheet": "timber-felled",
+      "x": 164,
+      "y": 224,
+      "w": 459,
+      "h": 162,
+      "anchorX": 0.4651,
+      "anchorY": 0.9259,
+      "label": "timber felled e",
+      "kind": "timber-felled",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          166,
+          226,
+          455,
+          158
+        ],
+        "visiblePixels": 49672,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "timber-felled-n": {
+      "sheet": "timber-felled",
+      "x": 1011,
+      "y": 141,
+      "w": 160,
+      "h": 311,
+      "anchorX": 0.4906,
+      "anchorY": 0.9293,
+      "label": "timber felled n",
+      "kind": "timber-felled",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          143,
+          156,
+          307
+        ],
+        "visiblePixels": 34070,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "timber-trimmed-e": {
+      "sheet": "timber-felled",
+      "x": 150,
+      "y": 737,
+      "w": 468,
+      "h": 122,
+      "anchorX": 0.1891,
+      "anchorY": 0.9262,
+      "label": "timber trimmed e",
+      "kind": "timber-felled",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          152,
+          739,
+          464,
+          118
+        ],
+        "visiblePixels": 48712,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "timber-stack": {
+      "sheet": "timber-felled",
+      "x": 903,
+      "y": 665,
+      "w": 381,
+      "h": 264,
+      "anchorX": 0.5092,
+      "anchorY": 0.928,
+      "label": "timber stack",
+      "kind": "timber-felled",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          905,
+          667,
+          377,
+          260
+        ],
+        "visiblePixels": 64962,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

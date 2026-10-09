@@ -9350,6 +9350,50 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "timber-felled-e": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-felled-e",
+          "duration": 1000
+        }
+      ]
+    },
+    "timber-felled-n": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-felled-n",
+          "duration": 1000
+        }
+      ]
+    },
+    "timber-trimmed-e": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-trimmed-e",
+          "duration": 1000
+        }
+      ]
+    },
+    "timber-stack": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-stack",
+          "duration": 1000
+        }
+      ]
+    },
     "flag-come-and-take-it-wind": {
       "frames": [
         {

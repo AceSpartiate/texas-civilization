@@ -4882,6 +4882,25 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/trees-shortleaf.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Species-specific illustrative three-size trees, paired gust poses and cut stumps. Botanical design reference https://research.fs.usda.gov/feis/species-reviews/pinech"
+    },
+    {
+      "sheet": "timber-felled",
+      "promptId": "frontier-v1/timber-felled",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-shortleaf.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7a32ee90-9d45-4a9a-a48c-ea1f869f2c6c.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e0d4e54b-928b-46c1-bc86-94510b60ecfa.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY exactTWOcolumnsTWOrows4timberprops. Shrink EACH entireobject40percent center insideown equalquadrantcell. Allopaque pixels onlycentral55percent owncellwidthheight at least50px truealpha0gutter allfour sides everycell. TopLEFThorizontalbranchstubslog topRIGHTverticalperspectivelog bottomLEFTtrimmedhorizontallog bottomRIGHTfive-logstack. NOparts acrosscenterseams orcanvasedges. Preservebarkrings orientationcountshapes nootherprops backgroundlabelsgrid shadowglow."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/timber-felled.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Four rigid timber states, transparent backgrounds, production drawing and hauling translation proof."
     }
   ],
   "rejectedAttempts": [

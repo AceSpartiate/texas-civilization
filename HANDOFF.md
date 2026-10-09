@@ -1,3 +1,7 @@
+## Completed art group 2026-10-09: felled timber library
+
+Four transparent rigid props cover horizontal/perspective fallen trunks, trimmed construction timber and a five-log stack. Registered sprites and non-looping held clips; hauling moves the prop by position rather than morphing wood. Library delivery only: persistent timber-object placement and hauling behavior remain gameplay work. See `docs/ART_DELIVERY_2026-10-09-FELLED-TIMBER.md`.
+
 ## Completed art group 2026-10-08: shortleaf pine
 
 Twelve species-specific frames include three sizes, paired gusts and three stumps. `KINDS.shortleaf` replaces its loblolly picture/stump fallback; forestry yields are unchanged. `GALE_POSES` selects authored first gust poses for cached maps, with three two-frame loops available for close views. Twenty-seven tests and production browser proof pass. See `docs/ART_DELIVERY_2026-10-08-SHORTLEAF.md`.

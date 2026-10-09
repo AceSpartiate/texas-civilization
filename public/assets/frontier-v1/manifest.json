@@ -3,9 +3,9 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 321,
-    "sprites": 3037,
-    "clips": 1063,
+    "sheets": 322,
+    "sprites": 3041,
+    "clips": 1067,
     "poseCycles": 755,
     "rigs": 4
   },
@@ -15525,6 +15525,64 @@
               [
                 1015,
                 1208
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "timber-felled": {
+      "image": "atlases/timber-felled.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 641371,
+      "sha256": "cf5d6f2ad869cfa9a3fa894be4b8f4baa31922116ee73aaf3dc245d4ec77b565",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.860676,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              141,
+              452
+            ],
+            "columns": [
+              [
+                164,
+                623
+              ],
+              [
+                1011,
+                1171
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              665,
+              929
+            ],
+            "columns": [
+              [
+                150,
+                618
+              ],
+              [
+                903,
+                1284
               ]
             ]
           }
@@ -83913,6 +83971,142 @@
       "locationKits": [],
       "promptId": "frontier-v1/famous-wp-smith"
     },
+    "timber-felled-e": {
+      "sheet": "timber-felled",
+      "x": 164,
+      "y": 224,
+      "w": 459,
+      "h": 162,
+      "anchorX": 0.4651,
+      "anchorY": 0.9259,
+      "label": "timber felled e",
+      "kind": "timber-felled",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          166,
+          226,
+          455,
+          158
+        ],
+        "visiblePixels": 49672,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/timber-felled.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [
+        "timber-felled-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/timber-felled"
+    },
+    "timber-felled-n": {
+      "sheet": "timber-felled",
+      "x": 1011,
+      "y": 141,
+      "w": 160,
+      "h": 311,
+      "anchorX": 0.4906,
+      "anchorY": 0.9293,
+      "label": "timber felled n",
+      "kind": "timber-felled",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          143,
+          156,
+          307
+        ],
+        "visiblePixels": 34070,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/timber-felled.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [
+        "timber-felled-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/timber-felled"
+    },
+    "timber-trimmed-e": {
+      "sheet": "timber-felled",
+      "x": 150,
+      "y": 737,
+      "w": 468,
+      "h": 122,
+      "anchorX": 0.1891,
+      "anchorY": 0.9262,
+      "label": "timber trimmed e",
+      "kind": "timber-felled",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          152,
+          739,
+          464,
+          118
+        ],
+        "visiblePixels": 48712,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/timber-felled.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [
+        "timber-trimmed-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/timber-felled"
+    },
+    "timber-stack": {
+      "sheet": "timber-felled",
+      "x": 903,
+      "y": 665,
+      "w": 381,
+      "h": 264,
+      "anchorX": 0.5092,
+      "anchorY": 0.928,
+      "label": "timber stack",
+      "kind": "timber-felled",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          905,
+          667,
+          377,
+          260
+        ],
+        "visiblePixels": 64962,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/timber-felled.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [
+        "timber-stack"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/timber-felled"
+    },
     "flag-come-and-take-it": {
       "sheet": "flag-come-and-take-it",
       "x": 142,
@@ -141564,6 +141758,50 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "timber-felled-e": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-felled-e",
+          "duration": 1000
+        }
+      ]
+    },
+    "timber-felled-n": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-felled-n",
+          "duration": 1000
+        }
+      ]
+    },
+    "timber-trimmed-e": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-trimmed-e",
+          "duration": 1000
+        }
+      ]
+    },
+    "timber-stack": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-stack",
+          "duration": 1000
+        }
+      ]
+    },
     "flag-come-and-take-it-wind": {
       "frames": [
         {
@@ -155457,7 +155695,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 321,
+    "sourceCount": 322,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3037 usable sprites, 321 PNG atlases, 1063 clips** (755 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3041 usable sprites, 322 PNG atlases, 1067 clips** (755 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -193,6 +193,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-urrea | 16 | 1254 × 1254 | 955697 |
 | famous-urrea-mounted | 4 | 1226 × 1283 | 1293956 |
 | famous-wp-smith | 16 | 1254 × 1254 | 1120598 |
+| timber-felled | 4 | 1448 × 1086 | 641371 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
 | goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
@@ -1965,6 +1966,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wp-smith-read | famous-wp-smith | State artwork; no motion required |
 | wp-smith-point | famous-wp-smith | State artwork; no motion required |
 | wp-smith-rest | famous-wp-smith | State artwork; no motion required |
+| timber-felled-e | timber-felled | timber-felled-e |
+| timber-felled-n | timber-felled | timber-felled-n |
+| timber-trimmed-e | timber-felled | timber-trimmed-e |
+| timber-stack | timber-felled | timber-stack |
 | flag-come-and-take-it | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
@@ -3966,6 +3971,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wp-smith-walk-s | Pose cycle | 2 | 560 | yes | south |
 | wp-smith-walk-n | Pose cycle | 2 | 560 | yes | north |
 | wp-smith-address | Pose cycle | 2 | 1850 | yes | east; mirror for west |
+| timber-felled-e | Still state | 1 | 1000 | one-shot | undefined |
+| timber-felled-n | Still state | 1 | 1000 | one-shot | undefined |
+| timber-trimmed-e | Still state | 1 | 1000 | one-shot | undefined |
+| timber-stack | Still state | 1 | 1000 | one-shot | undefined |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |

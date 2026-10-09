@@ -1,3 +1,7 @@
+## Delivered 2026-10-09: general felled timber props
+
+Complete library art: fallen trunk in two orientations, trimmed log and five-log stack. Four rigid held poses support position-based hauling animation. Live fallen-timber object placement remains separate gameplay work. See `ART_DELIVERY_2026-10-09-FELLED-TIMBER.md`.
+
 ## Delivered 2026-10-08: shortleaf pine species group
 
 Complete: pole/log/large standing art, six gust frames with three loops, three stumps (12 frames). Live forestry now selects shortleaf artwork; cached weather selects pose one. See `ART_DELIVERY_2026-10-08-SHORTLEAF.md`. Generic felled logs and other species remain separate.
@@ -1086,7 +1090,7 @@ so several read poorly at 38 pixels (a barrel, a crate and sacks look alike) and
 at pole, log and large sizes, plus a pine stump. The owner asked for realistic woods (docs/WOODS_AND_BUILDING.md §4). The map now
 draws every tree where it stands on the real land, of its kind: loblolly pine round Bastrop and in the east, live oak in the
 coastal bottoms, post oak and blackjack on the savanna, pecan, elm and hackberry by the water, cedar in the hills, mesquite
-west of the Guadalupe. Post oak and blackjack size variants, additional species-specific hardwoods and the general felled log remain open. Shortleaf received its own sized atlas, stumps and gust loops on 2026-10-08.
+west of the Guadalupe. Post oak and blackjack size variants, additional species-specific hardwoods remain open; general felled timber library art delivered 2026-10-09. Shortleaf received its own sized atlas, stumps and gust loops on 2026-10-08.
 
 - **Why.** A student standing in the Lost Pines sees broadleaf trees; one in the thornscrub sees bushes where the mesquite is
   a small tree. The kind of tree is what tells a family what its timber is good for (felling, step 4).
