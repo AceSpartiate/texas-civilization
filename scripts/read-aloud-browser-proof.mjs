@@ -30,6 +30,7 @@ import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { createVoice } from '../server/voice/service.mjs';
 import { VOICES, keyOf, splitSentences } from '../server/voice/text.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { pickSite } from '../sim/neighbours.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -105,7 +106,18 @@ try {
   measured.volumeSetting = await student.evaluate(() => JSON.parse(localStorage.getItem('tr-audio:solo') || 'null'));
 
   // ------------------------------------------------------------------ 1. a tip, from the package
-  await until('a tip on the screen', () => student.evaluate(() => Boolean(window.__tip) && !document.querySelector('#tip').hidden));
+  // Tips wait for the cards and choosers to close and come one at a time with a pause (owner, 2026-10-09; public/tips.js), so the
+  // family's house site is chosen first - as a neighbour chooses it (sim/neighbours.mjs `pickSite`), through the student's own API.
+  for (const deadline = Date.now() + 120000; Date.now() < deadline; await new Promise(resolve => setTimeout(resolve, 500))) {
+    const land = await student.evaluate(() => window.__snapshot.world.land);
+    if (!land?.choosingSite) break;
+    if (!land.choosingSite.can) continue;
+    for (const point of pickSite(land.grant.bounds, land.choosingSite.mark)) {
+      const status = await student.evaluate(async point => (await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `site-${Date.now()}`, action: 'choose-site', ...point }) })).status, point);
+      if (status === 200) break;
+    }
+  }
+  await until('a tip on the screen', () => student.evaluate(() => Boolean(window.__tip) && !document.querySelector('#tip').hidden), 150000);
   const tipId = await student.evaluate(() => window.__tip);
   const tipText = await student.evaluate(() => document.querySelector('#tip .tip-words').textContent);
   const tipKeys = splitSentences(tipText).map(sentence => keyOf('narrator', sentence));

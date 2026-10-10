@@ -214,9 +214,10 @@ try {
     play.on('pageerror', error => errors.push(error.message));
     await play.goto(answer.playUrl);
     await play.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1', null, { timeout: 60000 });
-    // A page opened on a family already made shows the title screen first, and then the world (public/creation.js).
-    await play.locator('#creation-begin-button').click({ timeout: 15000 });
+    // A page opened on a family already made goes straight to the world, with no "Make my family" title screen (2026-10-09, the
+    // play-through's defect 056; public/creation.js).
     await play.waitForFunction(() => document.querySelector('#creation')?.hidden, null, { timeout: 15000 });
+    assert.ok(!(await play.locator('#creation-begin-button').isVisible()), 'a saved family was shown the title screen again');
     return play;
   }
   const soloButtons = page => page.evaluate(() => ({
