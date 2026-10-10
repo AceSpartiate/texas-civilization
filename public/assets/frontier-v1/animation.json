@@ -11008,6 +11008,52 @@
         }
       ]
     },
+    "herd-drove": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "herd-drove-1",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-drove-2",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-drove-3",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-drove-4",
+          "duration": 250
+        }
+      ]
+    },
+    "herd-scatter": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "herd-scatter-1",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-scatter-2",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-scatter-3",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-scatter-4",
+          "duration": 250
+        }
+      ]
+    },
     "live-oak-mott-dense-wind": {
       "frames": [
         {

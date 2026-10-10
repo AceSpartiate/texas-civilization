@@ -463,7 +463,7 @@ export function createBattleView(art) {
     let civilians = 0, surrendering = 0;
     // The houses, the fire and the groves the fight is among, behind everybody, and the herd (§6.13).
     const sceneryDrawn = drawScenery(ctx, battle, camera, figurePx, time);
-    const herdDrawn = drawHerd(ctx, camera, figurePx, time, now);
+    const herdDrawn = drawHerd(ctx, camera, figurePx, time, now, still);
     const poses = { asleep: 0, hidden: 0, surrender: 0, rider: 0 };
     const offScreen = point => bounds && (point.x < -90 || point.y < -90 || point.x > bounds.width + 90 || point.y > bounds.height + 140);
     for (const side of bodies) {
@@ -920,15 +920,21 @@ export function createBattleView(art) {
    * Several hundred horses as a loose drove a couple of dozen strong, moving with the drive and scattering in a charge.
    * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" item 4 - the library's mustang, repeated.
    */
-  function drawHerd(ctx, camera, figurePx, time, now) {
+  function drawHerd(ctx, camera, figurePx, time, now, paused = false) {
     const herd = view.herd;
     if (!herd) return 0;
     const at = placeAt(herd, now), right = herd.to.x >= herd.from.x;
     const n = Math.min(24, Math.max(6, Math.round((herd.count || 60) / 12)));
+    // A moving mass is illustrative scenery, not an exact head count or separate simulated horses.
+    if (n >= 8 && (herd.moving || herd.scatter)) {
+      const p = camera.toScreen(at), clip = herd.scatter ? 'herd-scatter' : 'herd-drove';
+      if (art.animated(ctx, clip, p.x, p.y, figurePx * (herd.scatter ? 3.6 : 2.8), 'herd:group',
+          { timeMs: time, flip: !right, paused })) return herd.scatter ? 6 : 7;
+    }
     const width = herd.scatter ? 0.7 : 0.26, depth = herd.scatter ? 0.5 : 0.16;
     for (let i = 0; i < n; i++) {
       const q = camera.toScreen({ x: at.x + (hash(`herd:${i}:x`) - 0.5) * width, y: at.y + (hash(`herd:${i}:y`) - 0.5) * depth });
-      if (!art.animated(ctx, herd.moving || herd.scatter ? 'mustang-gallop' : 'mustang-graze', q.x, q.y, figurePx * 1.15, `herd:${i}`, { timeMs: time + i * 211, flip: !right })) {
+      if (!art.animated(ctx, herd.moving || herd.scatter ? 'mustang-gallop' : 'mustang-graze', q.x, q.y, figurePx * 1.15, `herd:${i}`, { timeMs: time + i * 211, flip: !right, paused })) {
         ctx.fillStyle = '#7a5b3c'; ctx.fillRect(q.x - figurePx * 0.4, q.y - figurePx * 0.5, figurePx * 0.8, figurePx * 0.35);
       }
     }

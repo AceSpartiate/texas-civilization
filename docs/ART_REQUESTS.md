@@ -1,3 +1,7 @@
+## Delivered 2026-10-10: driven herd and scattering art
+
+Complete: `herd-drove` and `herd-scatter`, eight frames/two authored loops, integrated in `drawHerd`. Seven compact or six scattering painted horses illustrate the larger projected herd; simulation counts are unchanged. Individual grazing/small-herd fallback remains. See `ART_DELIVERY_2026-10-10-HORSE-HERDS.md`.
+
 ## Delivered 2026-10-09: child conversation art
 
 Complete group: girl, boy and smallchild have paired speaking poses and front/back listening (12 frames), registered and selected through `CHILD_POSES`. Three speech loops and six breathing listen clips preserve age-specific bodies. Infant, task and transport art remain separate. See `ART_DELIVERY_2026-10-09-CHILDREN-DIALOGUE.md`.

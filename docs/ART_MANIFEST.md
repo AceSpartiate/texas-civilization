@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3053 usable sprites, 323 PNG atlases, 1076 clips** (758 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3061 usable sprites, 324 PNG atlases, 1078 clips** (760 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -223,6 +223,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mesquite-liveoak-gale | 12 | 1536 × 1024 | 2225195 |
 | elm-gale | 6 | 1243 × 1265 | 1228004 |
 | home-tools | 6 | 1024 × 1536 | 1685412 |
+| horse-herds | 8 | 1774 × 887 | 1516208 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
@@ -2227,6 +2228,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | home-froe | home-tools | State artwork; no motion required |
 | home-auger | home-tools | State artwork; no motion required |
 | home-froe-club | home-tools | State artwork; no motion required |
+| herd-drove-1 | horse-herds | herd-drove |
+| herd-drove-2 | horse-herds | herd-drove |
+| herd-drove-3 | horse-herds | herd-drove |
+| herd-drove-4 | horse-herds | herd-drove |
+| herd-scatter-1 | horse-herds | herd-scatter |
+| herd-scatter-2 | horse-herds | herd-scatter |
+| herd-scatter-3 | horse-herds | herd-scatter |
+| herd-scatter-4 | horse-herds | herd-scatter |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -4080,6 +4089,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elm-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | elm-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | elm-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| herd-drove | Pose cycle | 4 | 1000 | yes | undefined |
+| herd-scatter | Pose cycle | 4 | 1000 | yes | undefined |
 | live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | marsh-edge-dense | Pose cycle | 4 | 1400 | yes | undefined |

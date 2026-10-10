@@ -1,3 +1,7 @@
+## Completed art group 2026-10-10: driven and scattering horse herds
+
+Eight painted frames and two four-frame loops now bind to moving/scattering battle herds. Smaller or grazing herds and missing assets use the prior individual horses. Pause/reduced motion holds both paths; historical simulation counts are unchanged. Eleven tests and production browser proof pass. See `docs/ART_DELIVERY_2026-10-10-HORSE-HERDS.md`.
+
 ## Completed art group 2026-10-09: children conversation poses
 
 Twelve age-specific frames cover girl, boy and smallchild speaking and front/back listening. Three authored speech loops and six breathing listen clips are registered; `CHILD_POSES` selects them from existing projected conversation fields. Original child scaling and infant fallback remain. Eleven tests and the production browser fixture pass. See `docs/ART_DELIVERY_2026-10-09-CHILDREN-DIALOGUE.md`.

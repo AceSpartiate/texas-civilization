@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 323,
-    "sprites": 3053,
-    "clips": 1076,
-    "poseCycles": 758,
+    "sheets": 324,
+    "sprites": 3061,
+    "clips": 1078,
+    "poseCycles": 760,
     "rigs": 4
   },
   "entrypoints": {
@@ -17987,6 +17987,80 @@
               [
                 618,
                 915
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "horse-herds": {
+      "image": "atlases/horse-herds.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1516208,
+      "sha256": "ba46cd503ce5a7aeb4d2c00e988b4ad4297d0b4d6d28d5e5986f1391537e1906",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.615479,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              137,
+              390
+            ],
+            "columns": [
+              [
+                45,
+                414
+              ],
+              [
+                494,
+                865
+              ],
+              [
+                915,
+                1291
+              ],
+              [
+                1358,
+                1727
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              534,
+              831
+            ],
+            "columns": [
+              [
+                27,
+                421
+              ],
+              [
+                467,
+                872
+              ],
+              [
+                910,
+                1308
+              ],
+              [
+                1355,
+                1745
               ]
             ]
           }
@@ -93008,6 +93082,278 @@
       "locationKits": [],
       "promptId": "frontier-v1/home-tools"
     },
+    "herd-drove-1": {
+      "sheet": "horse-herds",
+      "x": 45,
+      "y": 141,
+      "w": 369,
+      "h": 244,
+      "anchorX": 0.5122,
+      "anchorY": 0.9262,
+      "label": "herd drove 1",
+      "kind": "horse-herds",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          47,
+          143,
+          365,
+          240
+        ],
+        "visiblePixels": 56025,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/horse-herds.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "herd-drove"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/horse-herds"
+    },
+    "herd-drove-2": {
+      "sheet": "horse-herds",
+      "x": 494,
+      "y": 139,
+      "w": 371,
+      "h": 246,
+      "anchorX": 0.5175,
+      "anchorY": 0.9268,
+      "label": "herd drove 2",
+      "kind": "horse-herds",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          496,
+          141,
+          367,
+          242
+        ],
+        "visiblePixels": 58011,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/horse-herds.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "herd-drove"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/horse-herds"
+    },
+    "herd-drove-3": {
+      "sheet": "horse-herds",
+      "x": 915,
+      "y": 138,
+      "w": 376,
+      "h": 248,
+      "anchorX": 0.5173,
+      "anchorY": 0.9556,
+      "label": "herd drove 3",
+      "kind": "horse-herds",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          917,
+          140,
+          372,
+          244
+        ],
+        "visiblePixels": 59254,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/horse-herds.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "herd-drove"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/horse-herds"
+    },
+    "herd-drove-4": {
+      "sheet": "horse-herds",
+      "x": 1358,
+      "y": 137,
+      "w": 369,
+      "h": 253,
+      "anchorX": 0.523,
+      "anchorY": 0.9407,
+      "label": "herd drove 4",
+      "kind": "horse-herds",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1360,
+          139,
+          365,
+          249
+        ],
+        "visiblePixels": 58859,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/horse-herds.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "herd-drove"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/horse-herds"
+    },
+    "herd-scatter-1": {
+      "sheet": "horse-herds",
+      "x": 27,
+      "y": 535,
+      "w": 394,
+      "h": 279,
+      "anchorX": 0.5279,
+      "anchorY": 0.9462,
+      "label": "herd scatter 1",
+      "kind": "horse-herds",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          537,
+          390,
+          275
+        ],
+        "visiblePixels": 57739,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/horse-herds.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "herd-scatter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/horse-herds"
+    },
+    "herd-scatter-2": {
+      "sheet": "horse-herds",
+      "x": 467,
+      "y": 535,
+      "w": 405,
+      "h": 286,
+      "anchorX": 0.5556,
+      "anchorY": 0.9266,
+      "label": "herd scatter 2",
+      "kind": "horse-herds",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          469,
+          537,
+          401,
+          282
+        ],
+        "visiblePixels": 59948,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/horse-herds.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "herd-scatter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/horse-herds"
+    },
+    "herd-scatter-3": {
+      "sheet": "horse-herds",
+      "x": 910,
+      "y": 534,
+      "w": 398,
+      "h": 277,
+      "anchorX": 0.4786,
+      "anchorY": 0.9567,
+      "label": "herd scatter 3",
+      "kind": "horse-herds",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          912,
+          536,
+          394,
+          273
+        ],
+        "visiblePixels": 60943,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/horse-herds.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "herd-scatter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/horse-herds"
+    },
+    "herd-scatter-4": {
+      "sheet": "horse-herds",
+      "x": 1355,
+      "y": 535,
+      "w": 390,
+      "h": 296,
+      "anchorX": 0.4,
+      "anchorY": 0.9291,
+      "label": "herd scatter 4",
+      "kind": "horse-herds",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1357,
+          537,
+          386,
+          292
+        ],
+        "visiblePixels": 60627,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/horse-herds.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "herd-scatter"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/horse-herds"
+    },
     "house-round-sill": {
       "sheet": "house-modules",
       "x": 29,
@@ -143923,6 +144269,52 @@
         }
       ]
     },
+    "herd-drove": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "herd-drove-1",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-drove-2",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-drove-3",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-drove-4",
+          "duration": 250
+        }
+      ]
+    },
+    "herd-scatter": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "herd-scatter-1",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-scatter-2",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-scatter-3",
+          "duration": 250
+        },
+        {
+          "sprite": "herd-scatter-4",
+          "duration": 250
+        }
+      ]
+    },
     "live-oak-mott-dense-wind": {
       "frames": [
         {
@@ -156313,7 +156705,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 323,
+    "sourceCount": 324,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
