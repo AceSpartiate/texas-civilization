@@ -520,7 +520,7 @@ export function createBattleView(art) {
         // A family's person stands in for the sampled man nearest them: on a wall of a given length (the Alamo's), where men
         // stand a few yards apart, only the one they are standing in is given up.
         if (!down && memberPoints.some(m => Math.hypot(m.x - ground.x, m.y - ground.y) < (side.style === 'wall' && side.spread?.width ? 0.004 : 0.014))) continue;
-        const kind = figureOf(side, slot);
+        const kind = side.figure === 'prisoner' && slot.index % 2 === 1 ? 'prisoner2' : figureOf(side, slot);
         if (down) view.fallenFigure.set(seedKey, kind);
         const point = camera.toScreen(ground);
         if (offScreen(point)) continue;
@@ -609,8 +609,12 @@ export function createBattleView(art) {
         if (side.figure === 'prisoner') {
           const vertical = Math.abs(facing.y) > Math.abs(facing.x) * 1.2;
           const dir = vertical ? (facing.y >= 0 ? 's' : 'n') : 'e';
-          figures.push({ y: point.y, kind: 'prisoner', side: side.side, point, size: figurePx, clip: moving ? `prisoner-walk-${dir}` : null,
-            sprite: moving ? null : dir === 'n' ? 'prisoner-walk-n-1' : `prisoner-idle-${dir}`, timeMs: time, flip: dir === 'e' && !right, seed });
+          const identity = kind === 'prisoner2' ? 'prisoner2' : 'prisoner';
+          figures.push({ y: point.y, kind: 'prisoner', side: side.side, point, size: figurePx, clip: moving ? `${identity}-walk-${dir}` : null,
+            sprite: moving ? null : dir === 'n' ? `${identity}-walk-n-1` : `${identity}-idle-${dir}`,
+            fallbackClip: moving ? `prisoner-walk-${dir}` : null,
+            fallbackSprite: moving ? null : dir === 'n' ? 'prisoner-walk-n-1' : `prisoner-idle-${dir}`,
+            timeMs: time, flip: dir === 'e' && !right, seed });
           drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
           continue;
         }
@@ -755,6 +759,10 @@ export function createBattleView(art) {
       let ok = 0;
       if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: still });
       else if (f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
+      if (!ok && f.kind === 'prisoner') {
+        if (f.fallbackClip) ok = art.animated(ctx, f.fallbackClip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: still });
+        else if (f.fallbackSprite) ok = art.drawSprite(ctx, f.fallbackSprite, f.point.x, f.point.y, f.size, { flip: f.flip });
+      }
       if (!ok) art.miniPerson(ctx, f.point.x, f.point.y, f.size, { side: f.side, flip: f.flip });
     }
     // The cannon and the men serving it.
@@ -971,8 +979,12 @@ export function createBattleView(art) {
     const since = now - f.down.at, kind = f.side === 'mexican' ? 'regular' : 'volunteer';
     const x = f.point.x, y = f.point.y;
     if (view.key === 'goliad-massacre' && f.side === 'texian') {
-      const pose = f.down.wounded || since < 600 ? 'prisoner-injured' : 'prisoner-still';
-      if (!art.drawSprite(ctx, pose, x, y, f.size)) art.miniPerson(ctx, x, y, f.size, { side: f.side });
+      const pose = f.down.wounded || since < 600 ? 'injured' : 'still';
+      const identity = f.figure === 'prisoner2' ? 'prisoner2' : 'prisoner';
+      // The loader sizes by visible height: a reclining pose must not expand to a standing man's height.
+      const poseSize = f.size * (pose === 'still' ? 0.32 : 0.55);
+      if (!art.drawSprite(ctx, `${identity}-${pose}`, x, y, poseSize) &&
+          !(identity === 'prisoner2' && art.drawSprite(ctx, `prisoner-${pose}`, x, y, poseSize))) art.miniPerson(ctx, x, y, f.size, { side: f.side });
       return;
     }
     if (f.down.wounded && f.inward) {

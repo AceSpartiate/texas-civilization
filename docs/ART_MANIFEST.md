@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3077 usable sprites, 326 PNG atlases, 1081 clips** (763 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3093 usable sprites, 327 PNG atlases, 1084 clips** (766 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -196,6 +196,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-wp-smith | 16 | 1254 × 1254 | 1120598 |
 | timber-felled | 4 | 1448 × 1086 | 641371 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
+| goliad-prisoner-second | 16 | 1254 × 1254 | 1116777 |
 | goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
@@ -1990,6 +1991,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-3 | flag-come-and-take-it | flag-come-and-take-it-wind |
+| prisoner2-walk-e-1 | goliad-prisoner-second | prisoner2-walk-e |
+| prisoner2-walk-e-2 | goliad-prisoner-second | prisoner2-walk-e |
+| prisoner2-walk-e-3 | goliad-prisoner-second | prisoner2-walk-e |
+| prisoner2-walk-e-4 | goliad-prisoner-second | prisoner2-walk-e |
+| prisoner2-walk-s-1 | goliad-prisoner-second | prisoner2-walk-s |
+| prisoner2-walk-s-2 | goliad-prisoner-second | prisoner2-walk-s |
+| prisoner2-walk-n-1 | goliad-prisoner-second | prisoner2-walk-n |
+| prisoner2-walk-n-2 | goliad-prisoner-second | prisoner2-walk-n |
+| prisoner2-idle-e | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-idle-s | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-listen | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-look-back | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-run-e | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-duck | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-injured | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-still | goliad-prisoner-second | State artwork; no motion required |
 | prisoner-walk-e-1 | goliad-prisoner | prisoner-walk-e |
 | prisoner-walk-e-2 | goliad-prisoner | prisoner-walk-e |
 | prisoner-walk-e-3 | goliad-prisoner | prisoner-walk-e |
@@ -4025,6 +4042,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | timber-trimmed-e | Still state | 1 | 1000 | one-shot | undefined |
 | timber-stack | Still state | 1 | 1000 | one-shot | undefined |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
+| prisoner2-walk-e | Pose cycle | 4 | 840 | yes | east |
+| prisoner2-walk-s | Pose cycle | 2 | 600 | yes | south |
+| prisoner2-walk-n | Pose cycle | 2 | 600 | yes | north |
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
 | prisoner-walk-n | Pose cycle | 2 | 600 | yes | north |

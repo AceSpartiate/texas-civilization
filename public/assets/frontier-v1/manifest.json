@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 326,
-    "sprites": 3077,
-    "clips": 1081,
-    "poseCycles": 763,
+    "sheets": 327,
+    "sprites": 3093,
+    "clips": 1084,
+    "poseCycles": 766,
     "rigs": 4
   },
   "entrypoints": {
@@ -15740,6 +15740,130 @@
               [
                 751,
                 1183
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "goliad-prisoner-second": {
+      "image": "atlases/goliad-prisoner-second.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1116777,
+      "sha256": "381c627f984334c896ff6661972b48672828c90d25de9339169d97de661aa873",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.729284,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              35,
+              320
+            ],
+            "columns": [
+              [
+                75,
+                264
+              ],
+              [
+                381,
+                572
+              ],
+              [
+                690,
+                892
+              ],
+              [
+                1006,
+                1205
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              350,
+              638
+            ],
+            "columns": [
+              [
+                80,
+                230
+              ],
+              [
+                397,
+                544
+              ],
+              [
+                714,
+                856
+              ],
+              [
+                1024,
+                1167
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              658,
+              937
+            ],
+            "columns": [
+              [
+                111,
+                216
+              ],
+              [
+                398,
+                534
+              ],
+              [
+                709,
+                880
+              ],
+              [
+                1031,
+                1186
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              956,
+              1217
+            ],
+            "columns": [
+              [
+                46,
+                286
+              ],
+              [
+                377,
+                560
+              ],
+              [
+                667,
+                906
+              ],
+              [
+                951,
+                1232
               ]
             ]
           }
@@ -84972,6 +85096,534 @@
       "locationKits": [],
       "promptId": "frontier-v1/flag-come-and-take-it"
     },
+    "prisoner2-walk-e-1": {
+      "sheet": "goliad-prisoner-second",
+      "x": 75,
+      "y": 37,
+      "w": 189,
+      "h": 282,
+      "anchorX": 0.5159,
+      "anchorY": 0.9291,
+      "label": "prisoner2 walk e 1",
+      "kind": "goliad-prisoner-second",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          39,
+          185,
+          278
+        ],
+        "visiblePixels": 24412,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "prisoner2-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-walk-e-2": {
+      "sheet": "goliad-prisoner-second",
+      "x": 381,
+      "y": 35,
+      "w": 191,
+      "h": 283,
+      "anchorX": 0.5131,
+      "anchorY": 0.9293,
+      "label": "prisoner2 walk e 2",
+      "kind": "goliad-prisoner-second",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          383,
+          37,
+          187,
+          279
+        ],
+        "visiblePixels": 23895,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "prisoner2-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-walk-e-3": {
+      "sheet": "goliad-prisoner-second",
+      "x": 690,
+      "y": 37,
+      "w": 202,
+      "h": 283,
+      "anchorX": 0.5025,
+      "anchorY": 0.9293,
+      "label": "prisoner2 walk e 3",
+      "kind": "goliad-prisoner-second",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          692,
+          39,
+          198,
+          279
+        ],
+        "visiblePixels": 23544,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "prisoner2-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-walk-e-4": {
+      "sheet": "goliad-prisoner-second",
+      "x": 1006,
+      "y": 38,
+      "w": 199,
+      "h": 282,
+      "anchorX": 0.5,
+      "anchorY": 0.9291,
+      "label": "prisoner2 walk e 4",
+      "kind": "goliad-prisoner-second",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1008,
+          40,
+          195,
+          278
+        ],
+        "visiblePixels": 22759,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "prisoner2-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-walk-s-1": {
+      "sheet": "goliad-prisoner-second",
+      "x": 80,
+      "y": 351,
+      "w": 150,
+      "h": 287,
+      "anchorX": 0.4867,
+      "anchorY": 0.9512,
+      "label": "prisoner2 walk s 1",
+      "kind": "goliad-prisoner-second",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          82,
+          353,
+          146,
+          283
+        ],
+        "visiblePixels": 23657,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "prisoner2-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-walk-s-2": {
+      "sheet": "goliad-prisoner-second",
+      "x": 397,
+      "y": 351,
+      "w": 147,
+      "h": 287,
+      "anchorX": 0.432,
+      "anchorY": 0.9512,
+      "label": "prisoner2 walk s 2",
+      "kind": "goliad-prisoner-second",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          399,
+          353,
+          143,
+          283
+        ],
+        "visiblePixels": 23378,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "prisoner2-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-walk-n-1": {
+      "sheet": "goliad-prisoner-second",
+      "x": 714,
+      "y": 350,
+      "w": 142,
+      "h": 288,
+      "anchorX": 0.4049,
+      "anchorY": 0.9271,
+      "label": "prisoner2 walk n 1",
+      "kind": "goliad-prisoner-second",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          716,
+          352,
+          138,
+          284
+        ],
+        "visiblePixels": 22976,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "prisoner2-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-walk-n-2": {
+      "sheet": "goliad-prisoner-second",
+      "x": 1024,
+      "y": 350,
+      "w": 143,
+      "h": 288,
+      "anchorX": 0.5524,
+      "anchorY": 0.9306,
+      "label": "prisoner2 walk n 2",
+      "kind": "goliad-prisoner-second",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1026,
+          352,
+          139,
+          284
+        ],
+        "visiblePixels": 23443,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "prisoner2-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-idle-e": {
+      "sheet": "goliad-prisoner-second",
+      "x": 111,
+      "y": 658,
+      "w": 105,
+      "h": 277,
+      "anchorX": 0.5238,
+      "anchorY": 0.9278,
+      "label": "prisoner2 idle e",
+      "kind": "goliad-prisoner-second",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          113,
+          660,
+          101,
+          273
+        ],
+        "visiblePixels": 18555,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-idle-s": {
+      "sheet": "goliad-prisoner-second",
+      "x": 398,
+      "y": 658,
+      "w": 136,
+      "h": 276,
+      "anchorX": 0.5441,
+      "anchorY": 0.9384,
+      "label": "prisoner2 idle s",
+      "kind": "goliad-prisoner-second",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          660,
+          132,
+          272
+        ],
+        "visiblePixels": 24097,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-listen": {
+      "sheet": "goliad-prisoner-second",
+      "x": 709,
+      "y": 666,
+      "w": 171,
+      "h": 271,
+      "anchorX": 0.4561,
+      "anchorY": 0.9299,
+      "label": "prisoner2 listen",
+      "kind": "goliad-prisoner-second",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          668,
+          167,
+          267
+        ],
+        "visiblePixels": 26625,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-look-back": {
+      "sheet": "goliad-prisoner-second",
+      "x": 1031,
+      "y": 661,
+      "w": 155,
+      "h": 274,
+      "anchorX": 0.5452,
+      "anchorY": 0.927,
+      "label": "prisoner2 look back",
+      "kind": "goliad-prisoner-second",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1033,
+          663,
+          151,
+          270
+        ],
+        "visiblePixels": 22087,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-run-e": {
+      "sheet": "goliad-prisoner-second",
+      "x": 46,
+      "y": 956,
+      "w": 240,
+      "h": 261,
+      "anchorX": 0.7917,
+      "anchorY": 0.9272,
+      "label": "prisoner2 run e",
+      "kind": "goliad-prisoner-second",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          958,
+          236,
+          257
+        ],
+        "visiblePixels": 27655,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-duck": {
+      "sheet": "goliad-prisoner-second",
+      "x": 377,
+      "y": 1022,
+      "w": 183,
+      "h": 186,
+      "anchorX": 0.4563,
+      "anchorY": 0.9247,
+      "label": "prisoner2 duck",
+      "kind": "goliad-prisoner-second",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          379,
+          1024,
+          179,
+          182
+        ],
+        "visiblePixels": 21063,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-injured": {
+      "sheet": "goliad-prisoner-second",
+      "x": 667,
+      "y": 1032,
+      "w": 239,
+      "h": 181,
+      "anchorX": 0.6402,
+      "anchorY": 0.9282,
+      "label": "prisoner2 injured",
+      "kind": "goliad-prisoner-second",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          669,
+          1034,
+          235,
+          177
+        ],
+        "visiblePixels": 21661,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
+    "prisoner2-still": {
+      "sheet": "goliad-prisoner-second",
+      "x": 951,
+      "y": 1108,
+      "w": 281,
+      "h": 101,
+      "anchorX": 0.3719,
+      "anchorY": 0.9208,
+      "label": "prisoner2 still",
+      "kind": "goliad-prisoner-second",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          953,
+          1110,
+          277,
+          97
+        ],
+        "visiblePixels": 18290,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/goliad-prisoner-second.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/goliad-prisoner-second"
+    },
     "prisoner-walk-e-1": {
       "sheet": "goliad-prisoner",
       "x": 79,
@@ -143474,6 +144126,62 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "prisoner2-walk-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "prisoner2-walk-e-1",
+          "duration": 210
+        },
+        {
+          "sprite": "prisoner2-walk-e-2",
+          "duration": 210
+        },
+        {
+          "sprite": "prisoner2-walk-e-3",
+          "duration": 210
+        },
+        {
+          "sprite": "prisoner2-walk-e-4",
+          "duration": 210
+        }
+      ],
+      "direction": "east"
+    },
+    "prisoner2-walk-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "prisoner2-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "prisoner2-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "direction": "south"
+    },
+    "prisoner2-walk-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "prisoner2-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "prisoner2-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "direction": "north"
+    },
     "prisoner-walk-e": {
       "frames": [
         {
@@ -157458,7 +158166,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 326,
+    "sourceCount": 327,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

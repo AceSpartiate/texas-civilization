@@ -1,3 +1,7 @@
+## Completed art group 2026-10-10: Goliad prisoner variety
+
+Sixteen painted poses and three walking loops add a second unarmed identity. Sampled prisoner slots keep their appearance through marching and non-graphic down states; named/family figures retain their own art. Corrected seated/lying scale for both identities. Eleven tests and production browser proof pass. See `docs/ART_DELIVERY_2026-10-10-GOLIAD-PRISONER-VARIETY.md`.
+
 ## Completed art group 2026-10-10: Grass Fight creek terrain
 
 Four painted dry creek/ditch modules and a four-frame flowing-water loop replace the engagement's low-bank stand-ins and detail its existing crossing. Locations, paths and historical staging remain; pause/reduced motion and missing-art fallbacks are covered. Seventeen art/battle tests and the production browser fixture pass. See `docs/ART_DELIVERY_2026-10-10-GRASS-CREEKS.md`.

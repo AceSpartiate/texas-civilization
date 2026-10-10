@@ -4972,6 +4972,19 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/grass-creek-terrain.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Recessed gravel beds, brush ditch and coherent moving water crossing."
+    },
+    {
+      "sheet": "goliad-prisoner-second",
+      "promptId": "frontier-v1/goliad-prisoner-second",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/goliad-prisoner.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-65fc21f6-2163-4e62-950e-d1a3a12abba3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/goliad-prisoner-second.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Distinct clean-shaven olive-coated unarmed identity; directional walks, free-handed idle and non-graphic down poses."
     }
   ],
   "rejectedAttempts": [

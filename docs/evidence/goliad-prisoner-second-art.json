@@ -1,0 +1,49 @@
+{
+  "verdict": "PASS",
+  "widths": [
+    87.12765957446808,
+    87.73851590106007,
+    92.79151943462897,
+    91.73758865248227,
+    67.94425087108014,
+    66.58536585365853,
+    64.09722222222223,
+    64.54861111111111,
+    49.277978339350184,
+    64.05797101449275,
+    82.02952029520296,
+    73.54014598540145,
+    119.54022988505747,
+    76.74193548387098,
+    94.41160220994475,
+    115.73861386138614
+  ],
+  "clipWidths": [
+    67.02127659574468,
+    67.49116607773851,
+    52.264808362369344,
+    51.21951219512196,
+    49.30555555555556,
+    49.65277777777778
+  ],
+  "sheets": [
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second",
+    "goliad-prisoner-second"
+  ],
+  "distinctFrames": 16,
+  "errors": []
+}
