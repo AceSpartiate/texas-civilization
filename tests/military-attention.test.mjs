@@ -91,7 +91,9 @@ test('the call to arms is drawn under everybody who can answer it, and nothing e
   const answers = [{ id: 'turn-out', label: 'Turn out' }];
   const world = { role: 'student', householdId: 'h', entities: [father, mother, child, stranger],
     request: { id: 'call-1', kind: 'call', status: 'open', text: 'Does somebody from your family go?', answerers: { f: answers, m: [{ id: 'stay', label: 'Stay home' }] }, options: answers, leftMs: 240000 } };
-  assert.deepEqual(callCue(world), { id: 'call-1', ids: ['f', 'm'] });
+  // Only on who can go (owner, 2026-10-09: the play-through found the call's "!" on a mother who "does not go"); the mother here may only
+  // stay, and the call's menu still lists her (public/family-panel.js `answersRequest`).
+  assert.deepEqual(callCue(world), { id: 'call-1', ids: ['f'] });
   // The same people as the call's "!".
   assert.ok(militaryNotices(world).some(notice => notice.kind === 'call'));
   // Answered, lapsed or gone: nothing drawn.

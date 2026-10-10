@@ -17,6 +17,7 @@ import { meetFamily } from './support/meet-family.mjs';
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
 
+import { openMore, openMoreEverywhere } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
@@ -175,6 +176,8 @@ try {
   ok('focusing an icon from the keyboard shows the same popup, and Escape puts it away');
   await page.screenshot({ path: 'test-results/family-panel-lobby.png' });
 
+  // Practice at the mark waits behind "More" (owner, 2026-10-09, "Short bar + More"): opened on every row, as a student opens it.
+  await openMoreEverywhere(page);
   const worker = await page.waitForFunction(() => {
     const icon = document.querySelector('.panel-icon[data-key="practise-shooting"]:not([aria-disabled="true"])');
     return icon?.dataset.entityId || null;
@@ -268,7 +271,8 @@ try {
   await page.waitForFunction(id => (window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId) === id, worker, { timeout: 10000 });
   const portraitSays = await page.locator(`.panel-portrait[data-portrait="${otherAdult}"]`).getAttribute('aria-label');
   assert.match(portraitSays, /Make .+ your main person/, `the portrait does not say it makes them main: "${portraitSays}"`);
-  // Somebody the server will not have as main person: the portrait is refused in the star's own words, and still opens them.
+  // Somebody the server will not have as main person: the star is refused in the server's own words; the portrait only chooses them -
+  // their bar, nothing sent and nothing said (owner, 2026-10-09: "too young to be sent" belongs to sending, not to choosing).
   const young = rows.find(person => person.age < 10)?.id;
   let refusal = null;
   if (young) {
@@ -277,18 +281,24 @@ try {
     await page.waitForFunction(() => (document.querySelector('#error')?.textContent || '').trim(), null, { timeout: 10000 });
     const starSaid = (await page.locator('#error').textContent()).trim();
     await page.evaluate(() => { document.querySelector('#error').textContent = ''; });
+    const setMains = [];
+    const listen = request => { if (request.url().endsWith('/api/command') && request.postDataJSON()?.action === 'set-main') setMains.push(request.postDataJSON()); };
+    page.on('request', listen);
     await page.locator(`.panel-portrait[data-portrait="${young}"]`).click();
-    await page.waitForFunction(() => (document.querySelector('#error')?.textContent || '').trim(), null, { timeout: 10000 });
+    await page.waitForFunction(id => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === id, young, { timeout: 10000 });
+    await page.waitForTimeout(1200);
     const portraitSaid = (await page.locator('#error').textContent()).trim();
-    assert.equal(portraitSaid, starSaid, 'the portrait of somebody who cannot be main is refused in other words than the star');
-    assert.equal(await mainNow(), worker, 'a refused portrait changed the main person');
-    assert.equal(await page.locator('#selection').isVisible(), false, 'a refused portrait opened a card');
-    assert.equal(await page.evaluate(() => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId), young, 'a refused portrait did not give them the bar');
-    refusal = portraitSaid;
+    assert.equal(portraitSaid, '', `the portrait of a small child said "${portraitSaid}" when it only chose her`);
+    page.off('request', listen);
+    assert.deepEqual(setMains, [], 'the portrait of a small child asked the server to make her the main person');
+    assert.equal(await mainNow(), worker, "a small child's portrait changed the main person");
+    assert.equal(await page.locator('#selection').isVisible(), false, "a small child's portrait opened a card");
+    assert.match(await page.locator(`.panel-portrait[data-portrait="${young}"]`).getAttribute('aria-label'), /Choose /, "a small child's portrait says it makes her main");
+    refusal = starSaid;
     await page.evaluate(() => { document.querySelector('#error').textContent = ''; });
   }
   measured.portrait = { pressed: otherAdult, madeMain: true, sent: 1, starBack: worker, refusal };
-  ok(`the main person's portrait sends nothing, the star makes ${worker} main again${refusal ? `, and a child's portrait is refused as the star is: "${refusal}", and still gives them their bar` : ''}`);
+  ok(`the main person's portrait sends nothing, the star makes ${worker} main again${refusal ? `; a child's star is refused ("${refusal}") and her portrait only chooses her, with her bar, saying nothing` : ''}`);
   // Back out first. Choosing the practising worker as the main person (§12: their work has to be on the screen to be
   // pressed) took the camera to them and zoomed it to the stop, and a camera already at the stop cannot zoom in again.
   for (let step = 0; step < 4; step++) await page.locator('#map-nav [data-view=out]').click();

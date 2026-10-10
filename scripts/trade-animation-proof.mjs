@@ -8,6 +8,7 @@ import { asMain } from './support/main-person.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { createWorld } from '../sim/world.mjs';
 import { keepFoundingFamilies } from '../tests/support/settled.mjs';
+import { keepMoreOpen } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const app = createClassroom({ seed: 'trade-animation-proof', playerCount: 5, tickMs: 250, worldFactory(seed, count) {
@@ -32,6 +33,7 @@ try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 950 } });
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(url);
+  await keepMoreOpen(page);
   await page.locator('[name=name]').fill('Trade reader');
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();

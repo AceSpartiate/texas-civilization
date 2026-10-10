@@ -22,6 +22,7 @@ import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
 import { sendTheWay } from './support/going.mjs';
 
+import { openMore } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
@@ -69,6 +70,8 @@ try {
   // the price of the lesson is on the button.
   // His work is on his row of the family panel (docs/FAMILY_PANEL.md); the price is in the icon's popup.
   await asMain(page, 'hh-1-mateo');
+  // Practice at the mark waits behind "More" (owner, 2026-10-09, "Short bar + More"): opened first, as a student does.
+  await openMore(page, 'hh-1-mateo');
   const mateo = key => page.locator(`.panel-row[data-entity-id="hh-1-mateo"] .panel-icon[data-key="${key}"]`);
   const mark = `${await mateo('practise-shooting').getAttribute('data-name')}: ${await mateo('practise-shooting').getAttribute('data-note')}`;
   assert.match(mark, /2 powder/, `the mark does not state its price: "${mark}"`);

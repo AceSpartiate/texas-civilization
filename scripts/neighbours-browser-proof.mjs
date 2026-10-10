@@ -30,6 +30,7 @@ import { flightRoom } from '../sim/scrape.mjs';
 import { NEAR_MILES, canHelp, deedsOf, goodsSpace, homeMiles } from '../sim/neighbourly.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
+import { openMore } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
@@ -150,6 +151,9 @@ try {
   // homesteads and "Go there", is gone; docs/FAMILY_PANEL.md, amendment 2026-09-29).
   await helper.locator('#neighbours-toggle').waitFor({ state: 'visible', timeout: 30000 });
   if (await helper.locator('#neighbours').getAttribute('data-open') === 'true') await helper.locator('#neighbours-close').click();
+  // The neighbour's homestead waits behind "More" on a short bar (owner, 2026-10-09, "Short bar + More"): opened first, as a student does.
+  await helper.waitForFunction(() => document.querySelector('.panel-row[data-focused=true] .panel-icon[data-visit], .panel-row[data-focused=true] .panel-more'), null, { timeout: 30000 });
+  await openMore(helper);
   const visit = helper.locator('.panel-row[data-focused=true] .panel-icon[data-visit]');
   await visit.waitFor({ state: 'attached', timeout: 30000 });
   await visit.evaluate(node => node.click());

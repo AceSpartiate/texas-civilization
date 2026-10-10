@@ -1,0 +1,217 @@
+{
+ "when": "2026-10-09",
+ "note": "Each regression put back alone, its test file or browser proof run, the file restored. unit: node --test; proof: npm run test:simple-ui. Two proof injections were missed on the first run (the tip held back only by the gap; the idle mark with nothing overlapping it) and the proof was strengthened (17 s past the gap; the ring and the stacking asserted); their second runs are recorded. The proof records of the second run that stopped at Charity's bar having no More are runs the proof then made robust (a bar with fewer than two works waiting shows none); the third run is the clean record for those two.",
+ "unit": [
+  {
+   "file": "public/short-bar.js",
+   "injection": "'butcher-beef', 'butcher-hog', 'look-to-stock', -> 'butcher-hog', 'look-to-stock',",
+   "expect": "the owner's works and the like",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/short-bar.js",
+   "injection": "const open = FIELD_JOBS.find( -> const open = [...FIELD_JOBS].reverse().find(",
+   "expect": "the field's job now is the one",
+   "caught": true,
+   "alsoFailed": [
+    "the owner's works and the like wait behind \"More\"; the field's job now, the house, food, the town, the journeys and rest stay"
+   ]
+  },
+  {
+   "file": "public/short-bar.js",
+   "injection": "Boolean(icon.active || icon.cue -> Boolean(icon.cue",
+   "expect": "a work the person is at",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/short-bar.js",
+   "injection": "  if (!said) return new Set(); ->   return new Set();",
+   "expect": "a work a tip, a story card or a refusal names",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/short-bar.js",
+   "injection": "    if (icon.goal && icon.key !== HOUSE_WORK) return true;\n -> ",
+   "expect": "a goal greyed for want of a thing",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/short-bar.js",
+   "injection": "if (more.length < 2) -> if (more.length < 1)",
+   "expect": "a small child keeps her own works",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/short-bar.js",
+   "injection": "try { kept = storage?.getItem(key(id)) === '1'; } -> try { kept = false; }",
+   "expect": "remembered per person for the session",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/short-bar.js",
+   "injection": "  const field = fieldJob(icons);\n ->   const field = fieldJob(icons);\n  if (icons.some(one => one.name === ",
+   "expect": "on the play-through's family",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "sim/directors.mjs",
+   "injection": "return hour < 6 || hour >= 21; -> return hour < 6 || hour >= 22;",
+   "expect": "hours of dark",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/tips.js",
+   "injection": "if (next.show && (held || now < quietUntil || next.retire)) -> if (next.show && (now < quietUntil || next.retire))",
+   "expect": "a tip waits while a card or dialog is open",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/tips.js",
+   "injection": "Turn on “Auto” and they keep at it; until it stands, the family camps. -> Turn on “Auto” and they keep at it. Until it stands, the family camps.",
+   "expect": "every tip is one or two short sentences",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/tips.js",
+   "injection": "set one person to “Fell trees” for logs and another to “Work on the ho -> set one person to “Fell trees” for logs and another to “Build house”",
+   "expect": "every tip is one or two short sentences",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/family-panel.js",
+   "injection": "export const portraitSetsMain = entity => Boolean(entity) && !gone(ent -> export const portraitSetsMain = entity => Boolean(entity) && !gone(ent",
+   "expect": "a small child's portrait",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/creation.js",
+   "injection": "if (!state.begun) return madeAlready(family) ? null : 'begin'; -> if (!state.begun) return 'begin';",
+   "expect": "an empty last name says what is needed",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/app.js",
+   "injection": "if (!surname) { $('#surname-error').textContent = SURNAME_EMPTY; $('#s -> if (!surname) return;",
+   "expect": "an empty last name says what is needed",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/roster-line.js",
+   "injection": "rest: 'is resting', -> rest: ': rest,',",
+   "expect": "the journal's roster",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/tips.js",
+   "injection": "Boolean(world.land?.arriving) && Boolean(world.land.choosingSite || !w -> Boolean(world.land?.arriving),",
+   "expect": "each tip is due when its thing",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/family-panel.js",
+   "injection": "  if (dark || entity.sickness || entity.age < 10) return false; -> ",
+   "expect": "the idle mark is for somebody",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/family-panel.js",
+   "injection": "  if (!answerers) return true; ->   return true;",
+   "expect": "the call to arms",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/family-panel.js",
+   "injection": "  if (!Object.values(answerers).some(options => (options || []).some(o -> ",
+   "expect": "the call to arms",
+   "caught": true,
+   "alsoFailed": []
+  },
+  {
+   "file": "public/app.js",
+   "injection": "const TIP_WAITS_FOR = [...TIP_HELD_BY, '#house-placement', '#call-menu -> const TIP_WAITS_FOR = [...TIP_HELD_BY, '#house-placement', '#encounter",
+   "expect": "a tip waits while a card",
+   "caught": true,
+   "alsoFailed": []
+  }
+ ],
+ "proof": [
+  {
+   "file": "public/style.css",
+   "injection": "#site-build{margin-top:9px;position:sticky;bottom:-13px; -> #site-build{margin-top:9px;",
+   "caught": true,
+   "failure": "AssertionError [ERR_ASSERTION]: 1366: \"Set the house here\" stands 50px below the card's fold at file:///C:/Users/zachw/TexasData/simple-ui-tree/scripts/simple-ui-browser-proof.mjs:121:12 { "
+  },
+  {
+   "file": "public/app.js",
+   "injection": "errandOpen, held: tipHeld(), now: Date.now() -> errandOpen, held: false, now: Date.now()",
+   "caught": false,
+   "failure": ""
+  },
+  {
+   "file": "public/short-bar.js",
+   "injection": "  if (more.length < 2) return { shown: [...icons], more: [] }; ->   return { shown: [...icons], more: [] };",
+   "caught": true,
+   "failure": "AssertionError [ERR_ASSERTION]: Wiley's bar has 21 tiles: survey-plot, cut-lane, plant-field, fence-plot, visit-shop, make-furniture, buy-furniture, fell-trees, hunt-land, take-small-game, fish-the-water, cut-bee-tree, make-carreta, milk-cow, keep-house, work-garden, wash-clothes, travel-gonzales, v"
+  },
+  {
+   "file": "public/app.js",
+   "injection": "if (person && !portraitSetsMain(person)) goToPerson(id); else pressStar(id); -> pressStar(id);",
+   "caught": true,
+   "failure": "AssertionError [ERR_ASSERTION]: choosing the small child said \"Lavinia Hill is too young to be sent.\" at file:///C:/Users/zachw/TexasData/simple-ui-tree/scripts/simple-ui-browser-proof.mjs:284:10 { "
+  },
+  {
+   "file": "public/style.css",
+   "injection": ".panel-row[data-idle=true] .panel-idle-mark[data-drawn=true]{z-index:4; -> .panel-row[data-idle=true] .panel-idle-mark[data-drawn=true]{z-index:1;",
+   "caught": false,
+   "failure": ""
+  },
+  {
+   "file": "public/app.js",
+   "injection": "errandOpen, held: tipHeld(), now: Date.now() -> errandOpen, held: false, now: Date.now()",
+   "caught": true,
+   "failure": "AssertionError [ERR_ASSERTION]: a tip (order) stands while the house-site card is open "
+  },
+  {
+   "file": "public/style.css",
+   "injection": ".panel-row[data-idle=true] .panel-idle-mark[data-drawn=true]{z-index:4; -> .panel-row[data-idle=true] .panel-idle-mark[data-drawn=true]{z-index:1;",
+   "caught": false,
+   "failure": "AssertionError [ERR_ASSERTION]: Charity's bar has no \"More\" at file:///C:/Users/zachw/TexasData/simple-ui-tree/scripts/simple-ui-browser-proof.mjs:176:12 { "
+  },
+  {
+   "file": "public/style.css",
+   "injection": "box-sizing:border-box;padding:1px;border-radius:50%;background:#fbf3dc;border:1. -> box-sizing:border-box;padding:1px;",
+   "caught": false,
+   "failure": "AssertionError [ERR_ASSERTION]: Charity's bar has no \"More\" at file:///C:/Users/zachw/TexasData/simple-ui-tree/scripts/simple-ui-browser-proof.mjs:176:12 { "
+  },
+  {
+   "file": "public/style.css",
+   "injection": ".panel-row[data-idle=true] .panel-idle-mark[data-drawn=true]{z-index:4; -> .panel-row[data-idle=true] .panel-idle-mark[data-drawn=true]{z-index:1;",
+   "caught": true,
+   "failure": "AssertionError [ERR_ASSERTION]: another mark on the face can stand over the idle mark (z 1 against 3) at file:///C:/Users/zachw/TexasData/simple-ui-tree/scripts/simple-ui-browser-proof.mjs:283:10 { "
+  },
+  {
+   "file": "public/style.css",
+   "injection": "box-sizing:border-box;padding:1px;border-radius:50%;background:#fbf3dc;border:1. -> box-sizing:border-box;padding:1px;",
+   "caught": true,
+   "failure": "AssertionError [ERR_ASSERTION]: the idle mark is not a ringed disc: 0px rgb(247, 238, 213), radius 4px 0px 0px at file:///C:/Users/zachw/TexasData/simple-ui-tree/scripts/simple-ui-browser-proof.mjs:282:10 { "
+  }
+ ]
+}

@@ -114,13 +114,15 @@ try {
   assert.equal(observed.open.card.hidden, false); assert.equal(observed.open.card.open, true, 'the call\'s card came up folded');
   assert.equal(observed.open.card.accent, 'call'); assert.equal(observed.open.card.call, 'open');
   assert.equal(observed.open.card.glow, 'card-glow');
-  assert.deepEqual(observed.open.beacons.map(one => one.id).sort(), [first.id, second.id].sort(), `the beacons stand under ${observed.open.beacons.map(one => one.id).join(', ')}, not under the two who can answer`);
+  // Only under who can go (owner, 2026-10-09: the play-through found the call's "!" on a mother who "does not go"): the first may turn out,
+  // the second may only stay ("Only the men turn out."), and carries neither beacon nor "!" (public/family-panel.js `answersRequest`).
+  assert.deepEqual(observed.open.beacons.map(one => one.id).sort(), [first.id], `the beacons stand under ${observed.open.beacons.map(one => one.id).join(', ')}, not under the one who can go`);
   assert.ok(observed.open.beacons.every(one => one.x > 0 && one.x < 1366 && one.y > 0 && one.y < 768), `a beacon is off the screen: ${JSON.stringify(observed.open.beacons)}`);
   // Never as small as the figures it stands under: the family framed on its land is drawn a dozen pixels high.
   assert.ok(observed.open.beacons.every(one => one.reach >= 60 && one.reach >= one.size * 2), `a beacon spreads only ${JSON.stringify(observed.open.beacons)} - the small "!" again`);
-  assert.deepEqual(calledRows(observed.open).map(row => row.beckon), ['call-beckon', 'call-beckon'], `the portraits of the two who can answer do not beckon: ${JSON.stringify(observed.open.rows)}`);
+  assert.deepEqual(calledRows(observed.open).map(row => row.beckon), ['call-beckon'], `the portrait of the one who can go does not beckon alone: ${JSON.stringify(observed.open.rows)}`);
   assert.ok(observed.open.rows.filter(row => row.called !== 'true').every(row => row.beckon !== 'call-beckon'), 'somebody who cannot answer beckons');
-  ok(`the call open: its card (${observed.open.card.title}), a beacon under ${first.name} and ${second.name}, and their two portraits beckoning; the flash gone by itself`);
+  ok(`the call open: its card (${observed.open.card.title}), a beacon under ${first.name}, who may go, and that portrait beckoning; none under ${second.name}, who may not; the flash gone by itself`);
   // A close look at the beacon under the first.
   const under = observed.open.beacons.find(one => one.id === first.id);
   await shot(page, 'beacon', { clip: { x: Math.max(0, under.x - 140), y: Math.max(0, under.y - 170), width: 280, height: 240 } });
@@ -140,7 +142,7 @@ try {
   await shot(page, 'folded');
   assert.equal(observed.folded.card.open, false, '"Keep playing" did not fold the card');
   assert.equal(observed.folded.card.glow, 'call-beckon', `folded, the call's messages are still (${observed.folded.card.glow})`);
-  assert.equal(observed.folded.beacons.length, 2, 'folding the card took the beacons away');
+  assert.equal(observed.folded.beacons.length, 1, 'folding the card took the beacon away');
   // Another kind, folded, is still as it was: a rider's card.
   await show(`w.encounter = { id: 'enc-proof', status: 'open', listenerId: '${first.id}', carrierName: 'Silas Roe' };`);
   await page.waitForTimeout(400);
@@ -168,7 +170,7 @@ try {
   await page.waitForFunction(() => document.querySelector('#call-flash').hidden, null, { timeout: 6000 });
   observed.small = await read();
   await shot(page, 'open-1024x600');
-  assert.equal(observed.small.beacons.length, 2, 'at 1024x600 the beacons were not drawn');
+  assert.equal(observed.small.beacons.length, 1, 'at 1024x600 the beacon was not drawn under the one who can go');
   assert.ok(observed.small.beacons.every(one => one.x > 0 && one.x < 1024 && one.y > 0 && one.y < 600), `at 1024x600 a beacon is off the screen: ${JSON.stringify(observed.small.beacons)}`);
   ok('at 1024x600 the call\'s beacons stand on the screen, and the flash came and went for the new call');
 
@@ -180,7 +182,7 @@ try {
   observed.still = await read();
   await shot(page, 'reduced-motion');
   assert.equal(observed.still.flash.hidden, true, 'with reduced motion the screen\'s edges flashed');
-  assert.equal(observed.still.beacons.length, 2, 'with reduced motion the beacon was not drawn at all');
+  assert.equal(observed.still.beacons.length, 1, 'with reduced motion the beacon was not drawn at all');
   assert.ok(calledRows(observed.still).every(row => row.beckon === 'none'), 'with reduced motion the portraits still move');
   ok('with reduced motion: the beacons drawn still, the portraits ringed and still, no flash');
 

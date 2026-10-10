@@ -31,6 +31,7 @@ import { pickSite } from '../../sim/neighbours.mjs';
 import { setImprovement } from '../../sim/improvements.mjs';
 import { meetFamily } from './meet-family.mjs';
 
+import { openMore } from './short-bar.mjs';
 /** Everything on the screen a student is meant to be able to press or read - the study's own list, unchanged. */
 export const CONTROLS = 'button:not([hidden]):not(:disabled),.panel-icon,.panel-focus,.panel-name,#lesson-says,#lesson-help';
 
@@ -468,6 +469,8 @@ export async function openSite(page) {
  * server's own words about that ground and not the empty hint it opens with.
  */
 export async function openSurvey(page) {
+  // Surveying new ground waits behind "More" while there is bare ground to plant (owner, 2026-10-09, "Short bar + More").
+  await openMore(page);
   const pressed = await page.evaluate(() => {
     const icon = document.querySelector('.panel-icon[data-action=survey-start][data-chore=survey-plot]:not([aria-disabled=true])');
     if (!icon) return false;

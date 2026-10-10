@@ -55,6 +55,7 @@ const R = {
   house: "Request 2026-10-03 — men's work, women's work and the wash",
   help: 'Request 2026-10-04 — help and the house cue',
   war: 'Request 2026-10-05 — away at the war',
+  more: 'Request 2026-10-09 — the More icon on a short bar',
   huntField: "Request 2026-10-02 — the hunter's first-person field",
   shelter: 'Request 2026-10-02 — the tent, and going in out of the weather',
   paths: 'Request 2026-10-02 — paths and the yard',
@@ -471,6 +472,8 @@ export const ITEMS = [
     frames: '4 frames, east, and 2 idle', size: MOUNTED, standIn: 'the family\'s horse grazing beside the herder, who is drawn on foot at the search stroke', kind: 'library', plugs: '`drawHerd` (`chore.mounted`) and `rangeHorses` in `public/app.js`', status: 'open', phrases: ['the herder on horseback working cattle'] },
   { id: 'A30', area: 'A', priority: 3, request: R.shelter, item: 'item 4', deliver: 'for each of the eight cast figures: `-pitch-tent` (knelt, driving a tent peg with a maul, 2 frames, east)', names: ['<cast>-pitch-tent*'],
     frames: '2 frames each, east', size: PEOPLE, standIn: 'the house\'s notching stroke (`notch`, the hoeing cycle with a drawn axe)', kind: 'library', plugs: '`WORK[\'pitch-tent\']` in `public/work-art.js`', status: 'open', phrases: ['-pitch-tent'] },
+  { id: 'F40', area: 'F', priority: 2, request: R.more, item: 'item 1', deliver: '`icon-more` (three or four small tiles of the bar fanned out with a hand reaching for them, or a row of the bar’s tiles running on behind a fold: more works than these; not "add", not a plus)', names: ['icon-more'],
+    frames: '1', size: ICON + '; at 32 CSS px in a tile of the bar beside the works', standIn: 'three tiles fanned with three dots, drawn in canvas (`drawMoreIcon`)', kind: 'code', plugs: '`drawMoreIcon` in `public/short-bar.js`, `moreButton` in `public/app.js`', status: 'open' },
   // Requests delivered whole or withdrawn: kept on the list, skipped, so nobody draws them again.
   ...[
     ['B', 'Request 2026-09-21 — the children\'s icons', 'delivered 2026-09-22 (`icons-children.png`)'],

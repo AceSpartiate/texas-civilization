@@ -202,6 +202,56 @@ Main at 53cc971d, packaged from the verify tree and published as the latest rele
 
 Main at 0d025f31, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.06.1>). Sets of changes: from v2026.10.05.3 (4.7 MB), v2026.10.05.2, v2026.10.05.1, v2026.10.04.1 and v2026.10.03.2. Evidence: `npm test` 2285 pass, 0 fail at 0d025f31; the browser proofs two at a time at 893b7ab4, the ones that failed then passing alone (end-sequence, volunteer-life, battle-alamo, famous-people, shelter) or fixed since and passing on the verify tree with the voices at 0d025f31 (overlap, tips, military-notice; with gonzales-town, panels and read-aloud at fb4a0e12). Found on the way and fixed: overheard talk reached an enlisted man in the Alamo (now volunteers only); an express rider's scene hid Travis's runner; the merged battle notice was taller than the 1024x600 layout allows.
 
+## The short bar and More, the idle mark, spaced tips and the play-through's small defects — owner, 2026-10-09 (not released)
+
+Branch `simple-ui`. A play-through as a new student (2026-10-09, seed `playthrough-1`, eight families on the colonies map; the
+student's family rolled 5) counted 18 to 26 icons on every grown person's bar and found a handful of small defects. The owner chose by
+multiple choice **"Short bar + More"** ("Each bar shows the few works that matter now (field, house, food, town); butchering, carreta,
+furniture, range, wash and the like sit behind a 'More' button.") and kept the guided start off: tips are the only guidance; fix their
+timing and wording. Specified in docs/FAMILY_PANEL.md, *Amendment, 2026-10-09*, with docs/LESSON.md §9b; GAME.md, TEACHER.md, TECH.md
+and docs/FAMILY_CREATION.md say it where they describe the bar or the title screen. No save field, action or saved state; no save
+version moved (`dark` is a projection field, absent in daylight). No historical claim.
+
+- **The short bar** (`public/short-bar.js`, wired in `renderFamilyPanel`). What waits behind "More": the owner's list and the like
+  (`MORE_WORKS`), the field jobs that are not the field's job now (`fieldJob`: a ripe crop, then bare ground, then staked, then new),
+  a goal greyed for want of a thing unless it is the house or the field's job, and the garden offered only to help. Never behind it: a
+  work the person is at or the server marks active, one that glows (the house's cue, food while the food is low), and one the tip, the
+  refusal line, a story card or the house plans name (`namedKeys`; the house's work outright while the house's card stands). "More"
+  is a tile of the bar (`.panel-icon.panel-more`, `data-more-for`, `aria-expanded`), before *House*; it opens the full bar in place,
+  says *Fewer*, keeps the focus, and is remembered per person for the tab (`moreMemory`, session storage). A goal's way on to a work
+  behind "More" opens it first. `stand-in:` the tile's picture (request 2026-10-09 "the More icon on a short bar", art plan F40).
+- **Measured on the play-through's family** (tests/short-bar.test.mjs on the simulation and `npm run test:simple-ui` in the browser),
+  tiles with "More" among them, each person as the main person: at arrival father 15 → 8, mother 16 → 9, Ruth (13) 15 → 7, Winnie (10)
+  16 → 7, Lavinia (6) 11 → 5; with the site set father 21 → 10, mother 22 → 11, Ruth 21 → 9, Winnie 22 → 9, Lavinia 11 → 5. The
+  mother's 11 is ten plus the house's cue on *Keep house* beside her *Work about the place* in hand, both kept by the rule.
+- **The idle mark** was there and could not be seen (grey on a greyed face, under the horn of a hand with stock): now a cream disc ringed
+  in amber over every other mark (public/style.css). `isIdle` no longer marks the dark (the server's `dark`, sim/directors.mjs `darkAt`,
+  the children's `WAKING_HOURS`), the sick, or a child under ten.
+- **Tips**: none while a card or dialog is open (`TIP_WAITS_FOR` in public/app.js, looked at every 0.7 s), fifteen seconds clear after
+  one is put away or retired (`TIP_GAP_MS`), waiting rather than retired; the arrival's tip only for the drive in. Every tip one or two
+  sentences, every quoted button name a real control (the house tip names *Fell trees* and *Work on the house*; the first tip names
+  *More*). The tip over the house plans' dim, whose *Got it* closed the plans, cannot happen: the tip waits for the plans.
+- **Small defects**: *Set the house here* held to the site card's foot (sticky; 528 ≤ 529 px at 1366x768 and 1024x768, where it stood
+  33 and 151 px below); a small child's portrait only chooses her (`portraitSetsMain`), no "too young to be sent"; the call's "!" and
+  beckon only on who can go (`answersRequest`), or with nobody able on the one who says nobody goes; an empty last name says "Type a last
+  name for your family first." (the form is `novalidate`); a family already made goes straight to the game on a new tab
+  (`creationStep`, and the title card waits for the family's book); the journal's roster in sentences (public/roster-line.js).
+- **Evidence.** tests/short-bar.test.mjs (9) and tests/simple-ui.test.mjs (7), and three new checks in tests/tips.test.mjs; **21
+  injections, 21 caught**, each by its own test (one, the field's order reversed, also fails the owner's-list test, which reads the
+  same rule). `npm run test:simple-ui` (15 checks; docs/evidence/simple-ui-browser.json and five pictures). Browser proofs run, all passing on the final code (a few only on a rerun, failing first on the machine's load: auto, camp, volunteer-life, family-commands): panels, family-panel, tips, overlap, keyboard-farm, lesson (skips), errand, house-plot, creation-screen, creation, family-commands, settlement-call, story-cards, acting, furniture, going, field-click, means, farm, land-paths, mixed-field, custom-work, children, auto, trade-animation, hunt, biome-game, travel, camp, volunteer-life, winter, road, disease, owner-scrape, panel-press, panel-silence, shops, neighbours, family-twenty, hunger, shelter, watching, lone-parent, art, browser, navigation, solo-game, scrape-pursuit, alamo-siege, battle-south, battle-san-jacinto, commerce-ui, travel-sight. The new proof's own regressions, put back one at a time: 6 of 6 caught (the sticky button, the tip held by a card, the short bar, the child's portrait, the idle mark's stacking and its ring), two of them only after the proof was made stronger (it waited past the tip gap; it asserts the ring and the stacking): docs/evidence/simple-ui-injections.json, with the unit ones. The other proofs' evidence files these runs rewrote were put back, to keep the merge small; only the simple-ui evidence is new.
+  `npm test`: 2345 tests, 2309 pass, 0 fail, 36 skipped (the guided start's, switched off).
+- **Proofs updated, as the brief allowed**: a proof that presses a work now behind "More" opens it first (scripts/support/short-bar.mjs:
+  `openMore`, `openMoreEverywhere`, and `keepMoreOpen` for the proofs written before it; used by family-panel, family-commands, hunt,
+  neighbours, panel-press, the panels' instrument and eleven others); keyboard-farm opens it from the keyboard (Tab to More, Enter);
+  family-panel now expects a small child's portrait to say nothing and send nothing; creation expects a new tab to go straight to the
+  world; family-commands and settlement-call expect the call's "!" and beacon only on who can go; tips waits up to two minutes for a
+  tip, putting others away on the way, since each leaves its fifteen seconds.
+- **Not done, or doubtful.** Same computer, headless Chrome; no Chromebook, no touch screen. The house card's own words ("assign Build
+  house") and the house button's presence are the house builder's (branch `house-logs`); `tests/simple-ui.test.mjs` will fail at the
+  merge if the house's work is renamed and the tip is not. `ceiling:` ten tiles is the target at the start, not a cap (active, glowing
+  and named works are added); the arrival tip's "drive in" reads the land's site chooser or the tent; a family with neither could meet
+  it twice. The call's change was proved by unit test only: no browser run reached a call to arms here (`test:settlement-call` was run).
+
 ## Astra's 2026-10-05 art wired in: the flag painted seated, the eighteen watching the far bank, the battle notice's portrait — 2026-10-06 (released in v2026.10.06.1)
 
 - **The flag painted seated.** A `flag-paint` beat, 6 to noon on October 1 (sim/town-scenes.mjs), sits blue-girl and indigo at her `<figure>-seated-paint` drawings; each drawing has its own stool, table, pot and cloth, so the beat sets no table or cloth. They are drawn at the share of a standing woman's height that matches the head (`seated` in public/town-scenes.js `sceneClip`: .77, the girl .95, measured from the head's width in the frames; a `ceiling:`). Anybody else seated at the flag paints standing. The sewing beat (`flag-cloth`) now ends at 6 that morning.

@@ -162,6 +162,7 @@
     "test:acting-injections": "node scripts/acting-injections.mjs",
     "study:disease": "node scripts/disease-study.mjs",
     "test:tips": "node scripts/tips-browser-proof.mjs",
+    "test:simple-ui": "node scripts/simple-ui-browser-proof.mjs",
     "test:lone-parent": "node scripts/lone-parent-browser-proof.mjs",
     "test:late-join": "node scripts/late-join-browser-proof.mjs",
     "test:code-address": "node scripts/code-address-browser-proof.mjs",

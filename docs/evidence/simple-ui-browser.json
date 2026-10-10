@@ -1,0 +1,345 @@
+{
+  "when": "2026-10-10T05:01:58.368Z",
+  "pass": [
+    "an empty last name says what is needed (\"Type a last name for your family first.\") and the card stays, with the keyboard in the box",
+    "on arrival the house-site card is open and no tip stands over it; \"order\" waits for it to close",
+    "\"Set the house here\" stands inside the site card without scrolling at 1366x768 (528 <= 529) and 1024x768 (528 <= 529), and a press reaches it",
+    "the house chooser (#house-plot) holds the tip; once it closes \"child\" stands, its \"Got it\" is the one pressed, and nothing else changes",
+    "after a tip is put away the screen stays clear (4 s later: none standing, \"order\" waiting)",
+    "every grown person's bar is ten tiles or fewer with \"More\", beside what they are at or what glows (Wiley 10 [work], Charity 4 [work], Ruth 10 [rest, keep-house:cue], Winnie 9 [rest], Lavinia 5); the 6-year-old's keeps her works and one play",
+    "\"More\" is reached with the keyboard and opens the full bar in place: 9 works, then 21, the focus kept on it (\"Fewer\")",
+    "\"More\" is per person (closed on Charity), remembered for Wiley across choosing another and a reload, and closes again",
+    "a work behind \"More\" (fish-the-water) that the person is set to stands on the short bar, glowing",
+    "a work behind \"More\" that the refusal line names (visit) is drawn on the short bar",
+    "a resting person with work open carries the ringed idle mark, 21px, with nothing over it",
+    "a small child's portrait chooses her and shows her bar, with no \"too young to be sent\" and the main person unchanged",
+    "the journal's roster reads in sentences (\"Wiley Hill is resting at home.\")",
+    "a second tab on the made family goes straight to the game, with no \"Make my family\" card",
+    "no page errors"
+  ],
+  "observed": {
+    "emptyName": {
+      "error": "Type a last name for your family first.",
+      "open": true,
+      "focus": "surname-input"
+    },
+    "roadIn": {
+      "tip": "arrive",
+      "waiting": null,
+      "open": [
+        "#site-choose"
+      ]
+    },
+    "onSite": {
+      "site": true,
+      "tip": false,
+      "standing": null,
+      "waiting": "order"
+    },
+    "fold1366": {
+      "button": {
+        "top": 484,
+        "bottom": 528
+      },
+      "card": {
+        "top": 176,
+        "bottom": 529
+      },
+      "reached": true,
+      "inView": true
+    },
+    "fold1024": {
+      "button": {
+        "top": 484,
+        "bottom": 528
+      },
+      "card": {
+        "top": 176,
+        "bottom": 529
+      },
+      "reached": true,
+      "inView": true
+    },
+    "houseChooser": {
+      "chooser": "#house-plot",
+      "tip": false,
+      "standing": null,
+      "waiting": "child"
+    },
+    "gap": {
+      "tip": false,
+      "standing": null,
+      "waiting": "order"
+    },
+    "bars": [
+      {
+        "id": "hh-1-parent-1",
+        "age": 37,
+        "name": "Wiley",
+        "tiles": 10,
+        "works": [
+          "plant-field",
+          "visit-shop",
+          "fell-trees",
+          "hunt-land",
+          "take-small-game",
+          "work-garden",
+          "travel-gonzales",
+          "work",
+          "rest"
+        ],
+        "active": [
+          "work"
+        ],
+        "why": [],
+        "more": {
+          "expanded": "false",
+          "label": "More works for Wiley: show 12 more on the bar.",
+          "word": "More"
+        },
+        "waiting": [
+          "survey-plot",
+          "cut-lane",
+          "fence-plot",
+          "make-furniture",
+          "buy-furniture",
+          "fish-the-water",
+          "cut-bee-tree",
+          "make-carreta",
+          "milk-cow",
+          "keep-house",
+          "wash-clothes",
+          "visit"
+        ]
+      },
+      {
+        "id": "hh-1-parent-2",
+        "age": 30,
+        "name": "Charity",
+        "tiles": 4,
+        "works": [
+          "travel-gonzales",
+          "visit",
+          "work",
+          "rest"
+        ],
+        "active": [
+          "work"
+        ],
+        "why": [],
+        "more": null,
+        "waiting": []
+      },
+      {
+        "id": "hh-1-child-1",
+        "age": 13,
+        "name": "Ruth",
+        "tiles": 10,
+        "works": [
+          "plant-field",
+          "visit-shop",
+          "fell-trees",
+          "hunt-land",
+          "take-small-game",
+          "keep-house",
+          "work-garden",
+          "travel-gonzales",
+          "rest"
+        ],
+        "active": [
+          "rest"
+        ],
+        "why": [
+          "keep-house:cue"
+        ],
+        "more": {
+          "expanded": "false",
+          "label": "More works for Ruth: show 12 more on the bar.",
+          "word": "More"
+        },
+        "waiting": [
+          "survey-plot",
+          "cut-lane",
+          "fence-plot",
+          "make-furniture",
+          "buy-furniture",
+          "fish-the-water",
+          "cut-bee-tree",
+          "make-carreta",
+          "milk-cow",
+          "wash-clothes",
+          "visit",
+          "work"
+        ]
+      },
+      {
+        "id": "hh-1-child-2",
+        "age": 10,
+        "name": "Winnie",
+        "tiles": 9,
+        "works": [
+          "plant-field",
+          "visit-shop",
+          "fell-trees",
+          "hunt-land",
+          "take-small-game",
+          "work-garden",
+          "travel-gonzales",
+          "rest"
+        ],
+        "active": [
+          "rest"
+        ],
+        "why": [],
+        "more": {
+          "expanded": "false",
+          "label": "More works for Winnie: show 14 more on the bar.",
+          "word": "More"
+        },
+        "waiting": [
+          "survey-plot",
+          "cut-lane",
+          "fence-plot",
+          "practise-shooting",
+          "make-furniture",
+          "buy-furniture",
+          "fish-the-water",
+          "cut-bee-tree",
+          "make-carreta",
+          "milk-cow",
+          "keep-house",
+          "wash-clothes",
+          "visit",
+          "work"
+        ]
+      },
+      {
+        "id": "hh-1-child-3",
+        "age": 6,
+        "name": "Lavinia",
+        "tiles": 5,
+        "works": [
+          "child-play",
+          "child-hens",
+          "child-kindling",
+          "child-eggs"
+        ],
+        "active": [],
+        "why": [],
+        "more": {
+          "expanded": "false",
+          "label": "More works for Lavinia: show 7 more on the bar.",
+          "word": "More"
+        },
+        "waiting": [
+          "child-stick-horse",
+          "child-doll",
+          "child-cart",
+          "child-tag",
+          "child-hide",
+          "child-hoop",
+          "child-marbles"
+        ]
+      }
+    ],
+    "more": {
+      "before": {
+        "id": "hh-1-parent-1",
+        "name": "Wiley",
+        "tiles": 10,
+        "works": [
+          "plant-field",
+          "visit-shop",
+          "fell-trees",
+          "hunt-land",
+          "take-small-game",
+          "work-garden",
+          "travel-gonzales",
+          "work",
+          "rest"
+        ],
+        "active": [
+          "work"
+        ],
+        "why": [],
+        "more": {
+          "expanded": "false",
+          "label": "More works for Wiley: show 12 more on the bar.",
+          "word": "More"
+        }
+      },
+      "full": {
+        "id": "hh-1-parent-1",
+        "name": "Wiley",
+        "tiles": 22,
+        "works": [
+          "survey-plot",
+          "cut-lane",
+          "plant-field",
+          "fence-plot",
+          "visit-shop",
+          "make-furniture",
+          "buy-furniture",
+          "fell-trees",
+          "hunt-land",
+          "take-small-game",
+          "fish-the-water",
+          "cut-bee-tree",
+          "make-carreta",
+          "milk-cow",
+          "keep-house",
+          "work-garden",
+          "wash-clothes",
+          "travel-gonzales",
+          "visit",
+          "work",
+          "rest"
+        ],
+        "active": [
+          "work"
+        ],
+        "why": [],
+        "more": {
+          "expanded": "true",
+          "label": "Show fewer works for Wiley: put the 12 less used ones back behind More.",
+          "word": "Fewer"
+        }
+      }
+    },
+    "activeShown": "fish-the-water",
+    "namedShown": {
+      "target": "visit"
+    },
+    "idle": {
+      "id": "hh-1-child-1",
+      "size": 21,
+      "onTop": true,
+      "on": "panel-idle-mark",
+      "drawn": "true",
+      "ring": "rgb(208, 138, 30)",
+      "ringWidth": 1,
+      "round": "50%",
+      "z": 4,
+      "above": 3
+    },
+    "childFace": {
+      "error": "",
+      "main": "hh-1-parent-1"
+    },
+    "roster": [
+      "Wiley Hill is resting at home.",
+      "Charity Hill is working about the place at home.",
+      "Ruth Hill is resting at home.",
+      "Winnie Hill is resting at home.",
+      "Lavinia Hill is resting at home."
+    ]
+  },
+  "shots": [
+    "docs/evidence/simple-ui-site-card-1024.png",
+    "docs/evidence/simple-ui-house-chooser-no-tip.png",
+    "docs/evidence/simple-ui-short-bar.png",
+    "docs/evidence/simple-ui-more-open.png",
+    "docs/evidence/simple-ui-idle-mark.png"
+  ],
+  "errors": []
+}

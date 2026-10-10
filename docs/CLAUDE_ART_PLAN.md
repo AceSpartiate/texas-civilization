@@ -13,8 +13,8 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | C — Soldiers, battles and famous people | 15 | 1 | 12 | 9 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 26 | 2 | 12 | 5 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 23 | 4 | 16 | 6 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 20 | 2 | 9 | 19 |
-| **Total** | **137** | **24** | **80** | **41** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 21 | 2 | 9 | 19 |
+| **Total** | **138** | **24** | **80** | **41** |
 
 ## How a builder works
 
@@ -689,7 +689,7 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 20 to make, 19 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 21 to make, 19 skipped.
 
 - [ ] **F1** (priority 1) — [Request 2026-09-15 — face portraits for the family panel](ART_REQUESTS.md#request-2026-09-15--face-portraits-for-the-family-panel) — **Claude stand-in in place** (`portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant`); Astra's replaces it
   - **Deliver:** `portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`
@@ -756,6 +756,11 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
   - **Stands in now:** the nearest icons the library has: the forage, the kindling, the powder, the tent glyph, the shop, the timber hunt, the work about the place, the house (Astra's library art reused)
+- [ ] **F40** (priority 2) — [Request 2026-10-09 — the More icon on a short bar](ART_REQUESTS.md#request-2026-10-09--the-more-icon-on-a-short-bar), item 1
+  - **Deliver:** `icon-more` (three or four small tiles of the bar fanned out with a hand reaching for them, or a row of the bar’s tiles running on behind a fold: more works than these; not "add", not a plus)
+  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%; at 32 CSS px in a tile of the bar beside the works
+  - **Plugs into:** `drawMoreIcon` in `public/short-bar.js`, `moreButton` in `public/app.js`
+  - **Stands in now:** three tiles fanned with three dots, drawn in canvas (`drawMoreIcon`) (drawn in code (canvas or CSS))
 - [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (cottonwood, marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`cottonwood-wind`, `marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
   - **Deliver:** a gale silhouette for each remaining ground mark the map scatters - the cottonwood, cordgrass, dune grass, thorn thickets, palmetto and yucca (every tree and the scrub, reeds and prickly pear are Astra's `<upright>-gale-1`, 2026-10-07/08)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite

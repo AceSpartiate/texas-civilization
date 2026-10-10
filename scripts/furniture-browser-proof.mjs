@@ -21,6 +21,7 @@ import { sendTheWay } from './support/going.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 
+import { keepMoreOpen } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
@@ -44,6 +45,8 @@ try {
   const page = await (await browser.newContext({ viewport: { width: 1440, height: 950 } })).newPage();
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(url);
+  // Works that wait behind "More" since 2026-10-09 (owner, "Short bar + More") are opened as a student opens them.
+  await keepMoreOpen(page);
   await page.locator('[name=name]').fill('Furniture reader');
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();

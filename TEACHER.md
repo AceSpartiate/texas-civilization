@@ -119,6 +119,15 @@ class address* and can type today's code on the spot, or open the address on the
 - **Gone for a while:** after two minutes with their page closed, a family goes on by itself, run by the computer, until the
   student comes back and plays it again.
 
+## What a student sees on the bar
+
+There is no guided start (the owner switched it off on 2026-09-28); a student learns from short **tips** the first time each thing
+appears. Since 2026-10-09 a tip waits while a card or popup is open and leaves a short gap after one is put away, so a new student
+meets them one at a time. Each person's **bar** along the bottom is short: the jobs that matter now (the field, the house and felling,
+food, the trip to town, travel and rest), and a **More** tile that shows the rest - butchering, the carreta, furniture, the range, the
+wash and the like. A student who cannot find a job should press **More**; it stays open for that person until it is pressed again. A
+face on the left with an amber-ringed mark in its corner has nothing to do: a quick look down the column shows who to set to work.
+
 ## Men's work and women's work
 
 In 1835 nearly every family on the frontier divided its work: the men cleared and fenced the land, raised the house, felled the

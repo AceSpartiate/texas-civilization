@@ -34,6 +34,7 @@ import { tradesAt } from '../sim/shops.mjs';
 import { settle, taught } from '../tests/support/settled.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
+import { keepMoreOpen } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
@@ -101,6 +102,8 @@ try {
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(url);
+  // Works that wait behind "More" since 2026-10-09 (owner, "Short bar + More") are opened as a student opens them.
+  await keepMoreOpen(page);
   await page.locator('[name=name]').fill('Field reader');
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();

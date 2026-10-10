@@ -68,14 +68,20 @@ const tipNow = page => page.evaluate(() => {
 });
 /** Put away every tip that is not the one this check is waiting for, until that one is on the screen. */
 async function waitForTip(page, id, message) {
-  const deadline = Date.now() + 45000;
+  // Two minutes: since 2026-10-09 each tip put away on the way leaves fifteen seconds clear before the next (public/tips.js `TIP_GAP_MS`).
+  const deadline = Date.now() + 120000;
+  const states = [];
+  const look = () => page.evaluate(() => ({ tip: window.__tip ?? null, waiting: window.__tipWaitingFor ?? null, arriving: Boolean(window.__snapshot?.world?.land?.arriving), open: ['#house-plan', '#house-plot', '#going', '#wagon-load', '#site-choose', '#survey-choose', '#house-placement', '#call-menu', '#encounter', '#selection', '#interior', '#town-scene', '#family-journal', '#hunt-aim', '#ending'].filter(selector => { const one = document.querySelector(selector); return one && !one.hidden && one.getBoundingClientRect().height > 1; }) }));
   while (Date.now() < deadline) {
-    const now = await page.evaluate(() => window.__tip ?? null);
+    const state = await look();
+    if (JSON.stringify(state) !== JSON.stringify(states.at(-1)?.state)) states.push({ at: Math.round((deadline - 120000 - Date.now()) / -1000), state });
+    const now = state.tip;
     if (now === id) return tipNow(page);
     if (now) { await page.locator('#tip:not([hidden]) .tip-close, #errand-tip:not([hidden]) .tip-close').first().click(); observed.putAwayOnTheWay = [...(observed.putAwayOnTheWay || []), now]; }
     await page.waitForTimeout(400);
   }
-  throw new assert.AssertionError({ message: `${message}: the tip on the screen is ${await page.evaluate(() => window.__tip ?? null)}` });
+  const why = await page.evaluate(() => ({ tip: window.__tip ?? null, waiting: window.__tipWaitingFor ?? null, open: ['#house-plan', '#house-plot', '#going', '#wagon-load', '#site-choose', '#survey-choose', '#house-placement', '#call-menu', '#encounter', '#selection', '#interior', '#town-scene', '#family-journal', '#hunt-aim', '#ending'].filter(selector => { const one = document.querySelector(selector); return one && !one.hidden && one.getBoundingClientRect().height > 1; }) }));
+  throw new assert.AssertionError({ message: `${message}: the tip on the screen is ${why.tip} (waiting: ${why.waiting}; open: ${why.open.join(', ') || 'nothing'}); seen on the way: ${JSON.stringify(states)}` });
 }
 const seenOnServer = (world, id) => world.households['hh-1'].tipsSeen || [];
 const command = (page, input) => page.evaluate(async body => {
@@ -291,7 +297,8 @@ async function firstPeriod() {
     observed.gate = { stored: world().households['hh-1'].lesson ?? null, nursed, fed, enlisted, well };
     assert.equal(observed.gate.stored, null, 'a lesson was stored for the family');
     ok(`in the first hour, nothing says "Not yet": nursing the sick goes through, food ${fed.status === 200 ? 'goes through' : `is refused only for its own reason ("${fed.error}")`}, enlisting ${enlisted.status === 200 ? 'goes through' : `only for its own reason ("${enlisted.error}")`}, the well ${well.status === 200 ? 'goes through' : `only for its own reason ("${well.error}")`}`);
-    await until(student, 'the sickness has no tip', () => window.__tip === 'sick' || (window.__tipsShown || []).includes('sick'));
+    // Any tip standing ahead of it is put away, as a student would, and each leaves its fifteen seconds clear (since 2026-10-09).
+    if (!(await student.evaluate(() => (window.__tipsShown || []).includes('sick')))) await waitForTip(student, 'sick', 'the sickness has no tip');
     observed.sick = await tipNow(student);
     await noSideways(student, 'the first period');
     await host.close();
