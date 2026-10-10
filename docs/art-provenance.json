@@ -5012,6 +5012,63 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/army-camp-pennants.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Plain ochre/rust identification pennants; artistic army markers not historical flag claims."
+    },
+    {
+      "sheet": "child-passenger-girl",
+      "promptId": "frontier-v1/child-passenger-girl",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-af956d1f-a9b7-4d90-bfc3-c9bafb0dd76b.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a9a5c9f1-3fd9-4998-9702-75e54a3956a1.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY. Preserve exactly TWOcolumns THREErows SIX seatedchild frames, identity clothing face colors poses and style. Shrink each entire figure THIRTYFIVEpercent and recenter inside its OWN equal cell. Every visiblepixelincludingfeet braid ONLYcentral55percentcellwidthheight minimum40px completelytransparent gutters ALLrowcolumnboundaries. Preserve two distinct gentle hand/torso poses per row, east row1 front/southrow2 rear/northrow3. True alpha0 outside silhouettes no glowgroundshadowgridlabelsbackground."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/child-passenger-girl.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Age-specific seated passenger with east/front/rear poses and gentle hand/torso movement; alpha gutters audited."
+    },
+    {
+      "sheet": "child-passenger-boy",
+      "promptId": "frontier-v1/child-passenger-boy",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c0d86612-ecbe-4024-b880-e036de118d3c.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f2e33752-2bc7-4cd5-8bdb-003fe5dda0b2.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY. Preserve exactly TWOcolumns THREErows SIX seatedchild frames, identity clothing face colors poses and style. Shrink each entire figure THIRTYFIVEpercent and recenter inside its OWN equal cell. Every visiblepixelincludingfeet braid ONLYcentral55percentcellwidthheight minimum40px completelytransparent gutters ALLrowcolumnboundaries. Preserve two distinct gentle hand/torso poses per row, east row1 front/southrow2 rear/northrow3. True alpha0 outside silhouettes no glowgroundshadowgridlabelsbackground."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/child-passenger-boy.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Age-specific seated passenger with east/front/rear poses and gentle hand/torso movement; alpha gutters audited."
+    },
+    {
+      "sheet": "child-passenger-smallchild",
+      "promptId": "frontier-v1/child-passenger-smallchild",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-279a5246-3a95-42cc-b5a1-e0f4b4c585f3.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3e599e37-8213-44ed-9360-6f135b8fdefd.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY. Preserve exactly TWOcolumns THREErows SIX seatedchild frames, identity clothing face colors poses and style. Shrink each entire figure THIRTYFIVEpercent and recenter inside its OWN equal cell. Every visiblepixelincludingfeet braid ONLYcentral55percentcellwidthheight minimum40px completelytransparent gutters ALLrowcolumnboundaries. Preserve two distinct gentle hand/torso poses per row, east row1 front/southrow2 rear/northrow3. True alpha0 outside silhouettes no glowgroundshadowgridlabelsbackground."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/child-passenger-smallchild.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Age-specific seated passenger with east/front/rear poses and gentle hand/torso movement; alpha gutters audited."
     }
   ],
   "rejectedAttempts": [

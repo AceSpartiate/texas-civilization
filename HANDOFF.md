@@ -1,3 +1,7 @@
+## Completed art group 2026-10-10: child wagon passengers
+
+Eighteen painted seated frames and nine authored loops cover girl, boy and smallchild passengers in three directions, with west mirrored. Complete bodies sit at the visible cart rim and retain inherited family colors. Pause/reduced motion and missing-art fallback remain. Eleven tests and browser rendering proof pass. Adult and infant passenger art remain separate. See `docs/ART_DELIVERY_2026-10-10-CHILD-PASSENGERS.md`.
+
 ## Completed art group 2026-10-10: army-map camps
 
 Twelve painted frames and five authored loops add wedge tents, cooking fire/pot and identification pennants. Close map camps use these plus the existing stacked-arms sprite. Pause/reduced motion, gale smoke, troop counts, distant markers and missing-art fallback are verified. Eight tests and browser proof of both assembled camps pass. See `docs/ART_DELIVERY_2026-10-10-ARMY-CAMPS.md`.

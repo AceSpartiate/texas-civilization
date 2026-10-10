@@ -3410,6 +3410,231 @@
         ]
       }
     },
+    "child-passenger-girl": {
+      "image": "atlases/child-passenger-girl.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1794084,
+      "sha256": "309fa5eb81e9b54b898ec75f0da560cafa7087a5c70147b23e063749bd5c3dd4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.751094,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              119,
+              525
+            ],
+            "columns": [
+              [
+                224,
+                445
+              ],
+              [
+                610,
+                832
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              567,
+              989
+            ],
+            "columns": [
+              [
+                211,
+                447
+              ],
+              [
+                599,
+                837
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1028,
+              1445
+            ],
+            "columns": [
+              [
+                212,
+                442
+              ],
+              [
+                597,
+                830
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "child-passenger-boy": {
+      "image": "atlases/child-passenger-boy.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1728330,
+      "sha256": "7c02ff6c05a354468a12d1d59e4f881ff8aa898dac9be804b2158cd7e2c19b62",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.790426,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              111,
+              504
+            ],
+            "columns": [
+              [
+                200,
+                382
+              ],
+              [
+                667,
+                849
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              583,
+              981
+            ],
+            "columns": [
+              [
+                201,
+                378
+              ],
+              [
+                670,
+                847
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1065,
+              1470
+            ],
+            "columns": [
+              [
+                195,
+                379
+              ],
+              [
+                668,
+                854
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "child-passenger-smallchild": {
+      "image": "atlases/child-passenger-smallchild.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1718795,
+      "sha256": "d8d2a2976459f2102b0d1ef8a4724471a114f1073ac005f5d23653fec39b3070",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.779956,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              118,
+              491
+            ],
+            "columns": [
+              [
+                205,
+                406
+              ],
+              [
+                644,
+                845
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              596,
+              977
+            ],
+            "columns": [
+              [
+                194,
+                396
+              ],
+              [
+                632,
+                834
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1069,
+              1446
+            ],
+            "columns": [
+              [
+                195,
+                397
+              ],
+              [
+                638,
+                852
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "children-dialogue": {
       "image": "atlases/children-dialogue.png",
       "width": 1448,
@@ -37462,6 +37687,438 @@
           461
         ],
         "visiblePixels": 109798,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-wagon-passenger-e-1": {
+      "sheet": "child-passenger-girl",
+      "x": 224,
+      "y": 119,
+      "w": 221,
+      "h": 406,
+      "anchorX": 0.7127,
+      "anchorY": 0.9286,
+      "label": "girl wagon passenger e 1",
+      "kind": "child-passenger-girl",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          226,
+          121,
+          217,
+          402
+        ],
+        "visiblePixels": 54630,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-wagon-passenger-e-2": {
+      "sheet": "child-passenger-girl",
+      "x": 610,
+      "y": 119,
+      "w": 222,
+      "h": 406,
+      "anchorX": 0.7117,
+      "anchorY": 0.9286,
+      "label": "girl wagon passenger e 2",
+      "kind": "child-passenger-girl",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          612,
+          121,
+          218,
+          402
+        ],
+        "visiblePixels": 55220,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-wagon-passenger-s-1": {
+      "sheet": "child-passenger-girl",
+      "x": 211,
+      "y": 567,
+      "w": 236,
+      "h": 422,
+      "anchorX": 0.4936,
+      "anchorY": 0.9408,
+      "label": "girl wagon passenger s 1",
+      "kind": "child-passenger-girl",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          213,
+          569,
+          232,
+          418
+        ],
+        "visiblePixels": 63373,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-wagon-passenger-s-2": {
+      "sheet": "child-passenger-girl",
+      "x": 599,
+      "y": 567,
+      "w": 238,
+      "h": 421,
+      "anchorX": 0.5126,
+      "anchorY": 0.9382,
+      "label": "girl wagon passenger s 2",
+      "kind": "child-passenger-girl",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          601,
+          569,
+          234,
+          417
+        ],
+        "visiblePixels": 63484,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-wagon-passenger-n-1": {
+      "sheet": "child-passenger-girl",
+      "x": 212,
+      "y": 1028,
+      "w": 230,
+      "h": 416,
+      "anchorX": 0.4913,
+      "anchorY": 0.9471,
+      "label": "girl wagon passenger n 1",
+      "kind": "child-passenger-girl",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          214,
+          1030,
+          226,
+          412
+        ],
+        "visiblePixels": 61375,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-wagon-passenger-n-2": {
+      "sheet": "child-passenger-girl",
+      "x": 597,
+      "y": 1029,
+      "w": 233,
+      "h": 416,
+      "anchorX": 0.4914,
+      "anchorY": 0.9423,
+      "label": "girl wagon passenger n 2",
+      "kind": "child-passenger-girl",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          599,
+          1031,
+          229,
+          412
+        ],
+        "visiblePixels": 62341,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-wagon-passenger-e-1": {
+      "sheet": "child-passenger-boy",
+      "x": 200,
+      "y": 112,
+      "w": 182,
+      "h": 392,
+      "anchorX": 0.6703,
+      "anchorY": 0.9337,
+      "label": "boy wagon passenger e 1",
+      "kind": "child-passenger-boy",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          202,
+          114,
+          178,
+          388
+        ],
+        "visiblePixels": 42940,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-wagon-passenger-e-2": {
+      "sheet": "child-passenger-boy",
+      "x": 667,
+      "y": 111,
+      "w": 182,
+      "h": 393,
+      "anchorX": 0.6676,
+      "anchorY": 0.9313,
+      "label": "boy wagon passenger e 2",
+      "kind": "child-passenger-boy",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          669,
+          113,
+          178,
+          389
+        ],
+        "visiblePixels": 43394,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-wagon-passenger-s-1": {
+      "sheet": "child-passenger-boy",
+      "x": 201,
+      "y": 583,
+      "w": 177,
+      "h": 398,
+      "anchorX": 0.4887,
+      "anchorY": 0.9548,
+      "label": "boy wagon passenger s 1",
+      "kind": "child-passenger-boy",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          203,
+          585,
+          173,
+          394
+        ],
+        "visiblePixels": 49594,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-wagon-passenger-s-2": {
+      "sheet": "child-passenger-boy",
+      "x": 670,
+      "y": 583,
+      "w": 177,
+      "h": 398,
+      "anchorX": 0.5056,
+      "anchorY": 0.9497,
+      "label": "boy wagon passenger s 2",
+      "kind": "child-passenger-boy",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          672,
+          585,
+          173,
+          394
+        ],
+        "visiblePixels": 49867,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-wagon-passenger-n-1": {
+      "sheet": "child-passenger-boy",
+      "x": 195,
+      "y": 1067,
+      "w": 184,
+      "h": 403,
+      "anchorX": 0.5,
+      "anchorY": 0.9529,
+      "label": "boy wagon passenger n 1",
+      "kind": "child-passenger-boy",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          197,
+          1069,
+          180,
+          399
+        ],
+        "visiblePixels": 51483,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-wagon-passenger-n-2": {
+      "sheet": "child-passenger-boy",
+      "x": 668,
+      "y": 1065,
+      "w": 186,
+      "h": 405,
+      "anchorX": 0.5054,
+      "anchorY": 0.9506,
+      "label": "boy wagon passenger n 2",
+      "kind": "child-passenger-boy",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          670,
+          1067,
+          182,
+          401
+        ],
+        "visiblePixels": 51668,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-wagon-passenger-e-1": {
+      "sheet": "child-passenger-smallchild",
+      "x": 205,
+      "y": 118,
+      "w": 201,
+      "h": 373,
+      "anchorX": 0.7488,
+      "anchorY": 0.9303,
+      "label": "smallchild wagon passenger e 1",
+      "kind": "child-passenger-smallchild",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          207,
+          120,
+          197,
+          369
+        ],
+        "visiblePixels": 43933,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-wagon-passenger-e-2": {
+      "sheet": "child-passenger-smallchild",
+      "x": 644,
+      "y": 118,
+      "w": 201,
+      "h": 373,
+      "anchorX": 0.7537,
+      "anchorY": 0.933,
+      "label": "smallchild wagon passenger e 2",
+      "kind": "child-passenger-smallchild",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          646,
+          120,
+          197,
+          369
+        ],
+        "visiblePixels": 44059,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-wagon-passenger-s-1": {
+      "sheet": "child-passenger-smallchild",
+      "x": 194,
+      "y": 596,
+      "w": 202,
+      "h": 381,
+      "anchorX": 0.5124,
+      "anchorY": 0.9449,
+      "label": "smallchild wagon passenger s 1",
+      "kind": "child-passenger-smallchild",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          196,
+          598,
+          198,
+          377
+        ],
+        "visiblePixels": 52436,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-wagon-passenger-s-2": {
+      "sheet": "child-passenger-smallchild",
+      "x": 632,
+      "y": 597,
+      "w": 202,
+      "h": 380,
+      "anchorX": 0.5149,
+      "anchorY": 0.9526,
+      "label": "smallchild wagon passenger s 2",
+      "kind": "child-passenger-smallchild",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          634,
+          599,
+          198,
+          376
+        ],
+        "visiblePixels": 52446,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-wagon-passenger-n-1": {
+      "sheet": "child-passenger-smallchild",
+      "x": 195,
+      "y": 1070,
+      "w": 202,
+      "h": 376,
+      "anchorX": 0.5025,
+      "anchorY": 0.9468,
+      "label": "smallchild wagon passenger n 1",
+      "kind": "child-passenger-smallchild",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          197,
+          1072,
+          198,
+          372
+        ],
+        "visiblePixels": 51405,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-wagon-passenger-n-2": {
+      "sheet": "child-passenger-smallchild",
+      "x": 638,
+      "y": 1069,
+      "w": 214,
+      "h": 377,
+      "anchorX": 0.5093,
+      "anchorY": 0.9523,
+      "label": "smallchild wagon passenger n 2",
+      "kind": "child-passenger-smallchild",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          640,
+          1071,
+          210,
+          373
+        ],
+        "visiblePixels": 53226,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

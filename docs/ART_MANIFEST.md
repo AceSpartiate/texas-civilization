@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3105 usable sprites, 329 PNG atlases, 1089 clips** (771 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3123 usable sprites, 332 PNG atlases, 1098 clips** (780 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -52,6 +52,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
 | dragoon-carbine-actions | 4 | 1278 × 1230 | 1451179 |
 | lancer-charge | 4 | 1536 × 1024 | 2066034 |
+| child-passenger-girl | 6 | 1024 × 1536 | 1794084 |
+| child-passenger-boy | 6 | 1024 × 1536 | 1728330 |
+| child-passenger-smallchild | 6 | 1024 × 1536 | 1718795 |
 | children-dialogue | 12 | 1448 × 1086 | 933507 |
 | icons-children | 6 | 1254 × 1254 | 874710 |
 | people-children-vertical | 12 | 1254 × 1254 | 1163980 |
@@ -700,6 +703,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | lancer-charge-2 | lancer-charge | lancer-charge |
 | lancer-charge-3 | lancer-charge | lancer-charge |
 | lancer-charge-4 | lancer-charge | lancer-charge |
+| girl-wagon-passenger-e-1 | child-passenger-girl | girl-wagon-passenger-e |
+| girl-wagon-passenger-e-2 | child-passenger-girl | girl-wagon-passenger-e |
+| girl-wagon-passenger-s-1 | child-passenger-girl | girl-wagon-passenger-s |
+| girl-wagon-passenger-s-2 | child-passenger-girl | girl-wagon-passenger-s |
+| girl-wagon-passenger-n-1 | child-passenger-girl | girl-wagon-passenger-n |
+| girl-wagon-passenger-n-2 | child-passenger-girl | girl-wagon-passenger-n |
+| boy-wagon-passenger-e-1 | child-passenger-boy | boy-wagon-passenger-e |
+| boy-wagon-passenger-e-2 | child-passenger-boy | boy-wagon-passenger-e |
+| boy-wagon-passenger-s-1 | child-passenger-boy | boy-wagon-passenger-s |
+| boy-wagon-passenger-s-2 | child-passenger-boy | boy-wagon-passenger-s |
+| boy-wagon-passenger-n-1 | child-passenger-boy | boy-wagon-passenger-n |
+| boy-wagon-passenger-n-2 | child-passenger-boy | boy-wagon-passenger-n |
+| smallchild-wagon-passenger-e-1 | child-passenger-smallchild | smallchild-wagon-passenger-e |
+| smallchild-wagon-passenger-e-2 | child-passenger-smallchild | smallchild-wagon-passenger-e |
+| smallchild-wagon-passenger-s-1 | child-passenger-smallchild | smallchild-wagon-passenger-s |
+| smallchild-wagon-passenger-s-2 | child-passenger-smallchild | smallchild-wagon-passenger-s |
+| smallchild-wagon-passenger-n-1 | child-passenger-smallchild | smallchild-wagon-passenger-n |
+| smallchild-wagon-passenger-n-2 | child-passenger-smallchild | smallchild-wagon-passenger-n |
 | girl-speak-1 | children-dialogue | girl-speak |
 | girl-speak-2 | children-dialogue | girl-speak |
 | girl-listen-s | children-dialogue | girl-listen-s |
@@ -3611,6 +3632,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-n | breathe | 1 | 2200 | yes | north |
 | dragoon-fire | Pose cycle | 4 | 1000 | one-shot | east; west by mirroring |
 | lancer-charge | Pose cycle | 4 | 640 | yes | east; west by mirroring |
+| girl-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| girl-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| girl-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| boy-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| boy-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| boy-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| smallchild-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| smallchild-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| smallchild-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
 | girl-speak | Pose cycle | 2 | 1000 | yes | undefined |
 | girl-listen-s | breathe | 1 | 2200 | yes | undefined |
 | girl-listen-n | breathe | 1 | 2200 | yes | undefined |

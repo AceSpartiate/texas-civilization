@@ -599,13 +599,27 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   // Whoever rides in this wagon behind its driver (sim/company.mjs; owner, 2026-09-25), sat in it after the wagon and before the
   // driver, so the driver is drawn in front of them. They are not drawn again beside it (public/motion.js `carriedWithRider`).
   const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0);
-  const riders = passengersOf(team, entities).map((rider, i) => ({ ...bedLayout(direction, i, SIZE, figureScale(rider)), rider }));
+  const riders = passengersOf(team, entities).map((rider, i) => {
+    const clip = seatedClip(rider, direction, 'passenger');
+    const seated = Boolean(clip.seated && clipReady(clip.id));
+    return { ...bedLayout(direction, i, SIZE, figureScale(rider), seated), rider, passengerClip: clip };
+  });
   // Going north they sit nearer the camera than the driver (`front`), so they are drawn after the driver instead.
   const driverAt = layout.findIndex(part => part.part === 'rider');
   if (riders.length) layout.splice(riders[0].front ? driverAt + 1 : driverAt, 0, ...riders.reverse());
   for (const part of layout) {
     const px = x + part.dx * size * along, py = y + part.dy * size, height = part.height * size;
     if (part.part === 'passenger') {
+      if (part.seated) {
+        const clip = part.passengerClip;
+        animated(ctx, clip.id, px, py, height, part.rider.id, {
+          flip: clip.upright ? false : flip, appearance: part.rider.appearance,
+          paused: world.status !== 'running' || reducedMotion.matches,
+        });
+        drawnAt.set(part.rider.id, { x: px, y: py - height * .45, size: height });
+        drawn.push({ part: 'passenger', id: part.rider.id, x: Math.round(px), y: Math.round(py), height: Math.round(height), seated: true });
+        continue;
+      }
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders in the wagon. Their own idle figure, cut below the waist.
       ctx.save();
       ctx.beginPath(); ctx.rect(px - height * 2, py - height * 1.5, height * 4, height * (.5 + part.shown)); ctx.clip();

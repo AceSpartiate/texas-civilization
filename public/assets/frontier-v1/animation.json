@@ -2536,6 +2536,141 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "girl-wagon-passenger-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "girl-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "girl-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ]
+    },
+    "girl-wagon-passenger-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "girl-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "girl-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ]
+    },
+    "girl-wagon-passenger-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "girl-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "girl-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ]
+    },
+    "boy-wagon-passenger-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "boy-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "boy-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ]
+    },
+    "boy-wagon-passenger-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "boy-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "boy-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ]
+    },
+    "boy-wagon-passenger-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "boy-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "boy-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ]
+    },
+    "smallchild-wagon-passenger-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "smallchild-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ]
+    },
+    "smallchild-wagon-passenger-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "smallchild-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ]
+    },
+    "smallchild-wagon-passenger-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "smallchild-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ]
+    },
     "girl-speak": {
       "loop": true,
       "authored": true,

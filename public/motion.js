@@ -261,6 +261,8 @@ export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'r
  * Child figures keep the standing composite until their age-specific seated layers land.
  */
 export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl']);
+/** Age-specific seated passengers; infants and grown passengers retain their separate transport fallbacks. */
+export const CHILD_PASSENGER_FIGURES = Object.freeze(['girl', 'boy', 'smallchild']);
 /**
  * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
  * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),
@@ -289,6 +291,10 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
   // Each heading is painted, west included, so a driver is never mirrored. Not frozen: the delivery registers one held
   // breathing frame for the original cast; second-cast layers use two authored rein-handling poses.
   if (seat === 'wagon' && DRIVING_FIGURES.includes(figure)) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
+  if (seat === 'passenger' && CHILD_PASSENGER_FIGURES.includes(figure)) return {
+    id: `${figure}-wagon-passenger-${facing === 'w' ? 'e' : facing}`, seated: true,
+    ...(facing === 'n' || facing === 's' ? { upright: true } : {}),
+  };
   // The infant's sheet has no back view.
   const pose = figure === 'infant' && facing === 'n' ? 'idle-s' : `idle-${facing}`;
   return { id: `${figure}-${pose}`, upright: true, frozen: true };
@@ -357,7 +363,7 @@ export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wago
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders in the wagon. Their own figure's idle pose cut off below the waist,
  * set on the front of the wagon's cover behind the driver: the covered wagon has no open bed to seat anybody in.
  */
-export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rider = 1) {
+export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rider = 1, seated = false) {
   const vertical = direction === 'n' || direction === 's';
   const box = vertical ? 0 : -0.55 * wagon;
   const row = Math.floor(index / 2), side = index % 2;
@@ -366,6 +372,12 @@ export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rid
   const dx = vertical ? (side ? 0.24 : -0.24) * wagon : box + (0.24 - 0.2 * row - 0.08 * side) * wagon;
   const back = vertical ? (direction === 'n' ? 1 : -1) * 0.13 * wagon * (row + 1) : 0;
   const seat = wagon * SEAT.wagonSeat * (1.02 - 0.04 * side);
+  if (seated) {
+    const height = rider * 0.65;
+    // Complete seated bodies sit at the visible box rim, rather than the old cropped figure's lower composite anchor.
+    const rim = wagon * 0.86 * (1.02 - 0.04 * side);
+    return { part: 'passenger', dx, dy: -rim + SEAT.driverHip * height + back, height, seated: true, ...(direction === 'n' && { front: true }) };
+  }
   return { part: 'passenger', dx, dy: -seat + SEAT.hip * rider + back, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, ...(direction === 'n' && { front: true }) };
 }
 export function carrierClip(entity) {
