@@ -129,8 +129,12 @@ test('each tip is due when its thing is on the family\'s own screen, and never o
   assert.ok(tipsPresent(seen, { errandOpen: true }).includes('store'));
   // The start of the game - the only guidance a new student has since the guided start was switched off (2026-09-28): on the
   // road in, and then how to give an order, before the star.
-  assert.ok(tipsPresent({ ...seen, land: { ...seen.land, arriving: true } }).includes('arrive'));
+  assert.ok(tipsPresent({ ...seen, land: { ...seen.land, arriving: true, tent: undefined } }).includes('arrive'));
+  assert.ok(tipsPresent({ ...seen, land: { ...seen.land, arriving: true, choosingSite: { can: false } } }).includes('arrive'), 'the drive in to land with a site to choose has no arrival tip');
   assert.ok(!tipsPresent({ ...seen, land: { ...seen.land, arriving: true } }).includes('order'), 'told how to give an order before anybody is there to be given one');
+  // The camp moved to the house site once it is chosen drives the wagon again (sim/homesite.mjs): that is not the arrival (owner,
+  // 2026-10-09: the play-through's proof met "Your family is on its way to its own land" after the site was set).
+  assert.ok(!tipsPresent({ ...seen, land: { ...seen.land, arriving: true, tent: { x: 1, y: 1 }, choosingSite: undefined } }).includes('arrive'), 'the camp moving to the house site was told it is on its way to its land');
   const start = tipsPresent({ ...seen, lesson: undefined });
   assert.ok(start.indexOf('order') >= 0 && start.indexOf('order') < start.indexOf('star'), `the order comes after the star: ${start.join(', ')}`);
   // The star waits until the farm is the student's: not during the guided start.
@@ -154,7 +158,7 @@ test('the house, the field and going to town each have a tip the first time the 
   // crops ripening by the calendar or by the minute).
   assert.match(TIPS.house, /Choose a house/);
   assert.match(TIPS.house, /Fell trees/);
-  assert.match(TIPS.house, /auto/);
+  assert.match(TIPS.house, /auto/i);
   assert.match(TIPS.house, /camps/, 'the house\'s tip does not say what waiting for it costs');
   assert.match(TIPS.field, /Plant the field/);
   assert.match(TIPS.field, /seed/, 'the field\'s tip does not say planting uses seed');
@@ -237,8 +241,10 @@ test('while the town errand is open only its own tip stands, and the one over th
   assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { showing: 'order', errandOpen: true }), { show: 'store', retire: null });
   // The store's put away, and something more urgent due: still nothing over the popup, and nothing retired or seen.
   assert.deepEqual(tipToShow(withThing(seen, call), { seen: ['store'], showing: 'call', errandOpen: true }), { show: null, retire: null });
-  // The popup closed: the store's is retired, and the order tip, still due and never put away, stands again.
-  assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { showing: 'store' }), { show: 'order', retire: 'store' });
+  // The popup closed: the store's is retired, and the order tip, still due and never put away, waits the gap after a tip is put away
+  // (owner, 2026-10-09) and then stands again.
+  assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { showing: 'store' }), { show: null, retire: 'store', waiting: 'order' });
+  assert.deepEqual(tipToShow({ ...seen, lesson: undefined }, { seen: ['store'], now: 20000, quietUntil: 15000 }), { show: 'order', retire: null });
 });
 
 // The tent's tip went with its button (owner, 2026-10-03, "Automatic on arrival"): a class saved having seen it still opens, and

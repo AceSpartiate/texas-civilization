@@ -24,6 +24,7 @@ import { meetFamily } from './support/meet-family.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
 
+import { keepMoreOpen } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const SHOTS = process.env.SHOTS || 'test-results';
@@ -51,6 +52,8 @@ async function classWith(seed, label, map = 'gonzales', prepare = null) {
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(`${label}: ${error.message}`));
   await page.goto(url);
+  // Works that wait behind "More" since 2026-10-09 (owner, "Short bar + More") are opened as a student opens them.
+  await keepMoreOpen(page);
   await page.locator('[name=name]').fill(`${label} reader`);
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();

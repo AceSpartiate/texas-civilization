@@ -1,6 +1,6 @@
 # The family panel: managing a family's people
 
-**Current action-bar rule (owner, 2026-09-22; amended 2026-09-30, §23):** Only actions the selected person can currently take are shown - except work refused for want of a thing the family could get (a tool, seed, powder, coin, food, a hide, logs), which stays greyed with what it wants and the ways to get it, as many as two rows leave room for (§23, §23a). Active work remains visible as status. The supported desktop bar uses a compact grid of at most two rows, with no horizontal scrolling. Earlier sections below that describe dimmed/refused icons or a single scrolling row record previous behavior; this rule supersedes them. `panelActions` still computes all candidates, while `public/app.js` filters presentation using server availability and lesson permissions.
+**Current action-bar rule (owner, 2026-09-22; amended 2026-09-30, §23; and 2026-10-09, *"Short bar + More"*: of what is drawn, the works that matter now stand on the bar and the rest wait behind one "More" - the amendment of 2026-10-09 at the end):** Only actions the selected person can currently take are shown - except work refused for want of a thing the family could get (a tool, seed, powder, coin, food, a hide, logs), which stays greyed with what it wants and the ways to get it, as many as two rows leave room for (§23, §23a). Active work remains visible as status. The supported desktop bar uses a compact grid of at most two rows, with no horizontal scrolling. Earlier sections below that describe dimmed/refused icons or a single scrolling row record previous behavior; this rule supersedes them. `panelActions` still computes all candidates, while `public/app.js` filters presentation using server availability and lesson permissions.
 
 **Status: decided by the owner 2026-09-15; built 2026-09-16** ([evidence](evidence/family-panel-browser.json)). It amends
 [SETTLING_IN.md](SETTLING_IN.md) in how a family's people are managed: the person panel's list of work and its travel, work
@@ -2226,3 +2226,106 @@ home** (`send-for`, with its confirming second press) and calling off - nothing 
 about the place (public/family-panel.js `panelActions`), whoever of the family it is. One of the camp's duties is changed for another at
 one press (sim/chores.mjs). The row's standing line says what he carries: "food N days, M rounds". The page's own House still ends the
 bar, as on every bar (§ amendment 2026-09-30). docs/MILITARY_EXPERIENCE.md, *Away at the war*, has the rest.
+
+## Amendment, 2026-10-09 — the short bar and "More"; a mark for nothing to do; a child's face only chooses; the call's "!" on who can go (owner-decided)
+
+A play-through as a new student (2026-10-09; the class of seed `playthrough-1`, eight families on the colonies map, the student's family
+rolled 5: a father, a mother and daughters of 13, 10 and 6) counted **18 to 26 icons on every grown person's bar** (the father 24 once
+the site was set, the mother 26 with 6 greyed) and a handful of small defects. The owner chose by multiple choice:
+
+> **"Short bar + More"** - "Each bar shows the few works that matter now (field, house, food, town); butchering, carreta, furniture,
+> range, wash and the like sit behind a 'More' button."
+
+and kept the guided start off (sim/lesson.mjs `LESSON_ENABLED`, owner 2026-09-28): **tips are the only guidance; fix their timing and
+wording.** This amends the action-bar rule at the head of this document, §4's "one icon per action the server offers", §11.1 and §11.6
+on idle, §11.2 on the call's "!", and the portrait amendment of 2026-09-29 for a small child.
+
+### The short bar (public/short-bar.js `shortBar`)
+
+The bar still draws only what `barIcons` always drew (what can be pressed, what is going on, and the goals of §23). Of those, a work
+**waits behind "More"** only if it is one of:
+
+- **the owner's list and the like** (`MORE_WORKS`): killing a beef or a hog, riding the range, the carreta, making and buying
+  furniture, the wash, milking, keeping house, fishing, oysters, a bee tree, practice at the mark, the lane, the well, the yard's
+  fence, a plot's fence, mending or buying a hoe; of the main person's orders, *Go to a neighbour's homestead* and *Work about the
+  place*; of a small child's, every kind of play but *Play as they please*;
+- **a field job that is not the field's job now** (`fieldJob`): of a ripe crop, bare ground, staked ground and new ground, the first
+  the person can be given stands (a goal greyed for seed counts); the others wait;
+- **a goal greyed for want of a thing** (§23) that is neither the house's work nor the field's job now (a carreta short of its hide, a
+  felling axe somebody else holds): the house's work stays greyed on the bar, as the house's card names it;
+- **the garden offered only to help** (the helping hands): it stands on the bar of the one whose work it is.
+
+Everything else stands on the bar - the field's job, the house and felling, hunting and small game, the garden if hers, the town
+errand, the journeys, rest, calling off, the camp's and the war's work, the road's and the children's own works, and any work the game
+adds later until somebody decides it can wait. **Never behind "More", whatever it is**: a work the person is doing or the server marks
+active (it glows, set by the student or by auto); a work that glows for another reason (the house's cue, a way to food while the food is
+low, the step a guided start points at); and **a work something on the screen names** - the tip standing, the refusal line, the house's
+card, the neighbours' card, the messages, the house plans (`namedKeys`, the icon's name as whole words; the house's work outright while
+the house's card stands). When only one work would wait, nothing waits.
+
+**"More"** is a tile of the bar's own, the last before *House* (which stays last, amendment 2026-09-30): one press, a button reached by
+Tab with Enter or Space, `aria-expanded`, its name saying how many works wait behind it. Pressed, it opens **the full bar in place**, in
+the bar's own order, and says *Fewer*; the focus stays on it. Its state is **remembered per person for the session** (`moreMemory`: the
+page's memory and the tab's session storage, so a reload keeps it and a new tab starts closed). A goal's way on (§23) that presses a work
+behind "More" opens "More" first. `stand-in:` its picture is three fanned tiles drawn in canvas until `icon-more` lands
+([ART_REQUESTS.md](ART_REQUESTS.md), request 2026-10-09).
+
+**Measured on the play-through's family** (tests/short-bar.test.mjs on the simulation; `npm run test:simple-ui` in the browser), each
+person's bar as their main person, tiles counted with "More" among them:
+
+| | Father | Mother | Ruth (13) | Winnie (10) | Lavinia (6) |
+| --- | --- | --- | --- | --- | --- |
+| Arrival, before | 15 | 16 | 15 | 16 | 11 |
+| Arrival, after | 8 | 9 | 7 | 7 | 5 |
+| Site set, before | 21 | 22 | 21 | 22 | 11 |
+| Site set, after | 10 | 11 | 9 | 9 | 5 |
+
+The play-through's own counts (18 to 26) were taken later in its game, with the stock in and the house placed; the rule that cuts these
+cuts those. The mother's 11 is ten with "More", and the house's cue glowing on *Keep house* beside her *Work about the place* in hand:
+both are kept by the rule above, never put behind "More". `ceiling:` ten is the target at the start, not a cap; a person at work on a
+"More" work, cued and asked for at once can stand at twelve. A cap would hide what must show.
+
+### A mark for nothing to do (§11.1 amended)
+
+The idle mark was there (the hat and hoe, `mark-idle`, in the portrait's foot) and the play-through could not see it: grey on a greyed
+face, half under the horn of a hand with stock. It is now **a token in the house style of the sick and hunger marks** - a cream disc
+ringed in amber, on top of every other mark on the face, 21 px - with no words. And **resting on purpose is not idle** (`isIdle`): not
+in the game's hours of dark (the server's `dark`, sent while the family sleeps, sim/directors.mjs `darkAt`, the children's
+`WAKING_HOURS`), not somebody sick and mending, and not a child under ten, whose own lines and "!" say when they want something to do.
+
+### A small child's face only chooses (amendment 2026-09-29 amended)
+
+A press on the portrait of somebody who cannot be the main person - a child under ten, the dead, the taken (`portraitSetsMain`) - chooses
+them (the camera, their bar) and sends nothing, so no *"Lavinia Hill is too young to be sent."* is said in red when the student only
+meant to choose her. That line belongs to sending: the star still sends `set-main` and is refused in it. Their portrait says *Choose …*.
+
+### The call's "!" stands on who can answer (§11.2 amended)
+
+*"The ! should appear on anyone that can answer"* (owner, 2026-09-16) is held to its words (`answersRequest`): the "!", and the call's
+beckon, stand on everybody the server would let **go** (a sending answer they may give). A mother who "does not go" carries none. When
+nobody of the family may go, the "!" stands on the one who gives the family's *Nobody goes*, the person the call's menu sends it for, so
+the call can still be answered. A request with no sending answer at all - the army's request for supplies, handed over by whoever is
+at home - stands on everybody it is put to, as before. The menu itself is unchanged: every answerer, the greyed ones with the server's
+reason.
+
+### Tips, spaced (docs/LESSON.md §9)
+
+At most one tip at a time, as before; **none while a card or dialog is open** - the house site (once a place can be chosen: through the drive in it only says the wagon has not reached the land), the stake, the house plans and
+placing the house, the wagon, how they go, the call's menu, a rider, the rooms, a town scene, the journal, the shot, the ending (not
+the card beside a person, which opens for the very matter a tip explains: the tip keeps clear of it) (`TIP_WAITS_FOR`, public/app.js) - and **fifteen seconds clear after one is put away** (`TIP_GAP_MS`). A tip waits rather
+than being retired. So the arrival no longer meets three tips in thirty seconds, and a tip never stands under the house plans' dim,
+where its *Got it* pressed the dim and closed the plans. The arrival's tip is the drive in only, not the camp moving to the house site.
+Every tip is one or two short sentences, and every button it names is named as the screen names it (tests/simple-ui.test.mjs holds each
+quoted name to a real control).
+
+### Also fixed from the play-through
+
+*Set the house here* is held to the foot of the site card while the card scrolls (it stood 33 px below the card's fold at 1366 wide and
+151 px at 1024); an empty last name says *"Type a last name for your family first."*; a family already made opens straight into the
+game on another tab, without *Make my family*; and the journal's roster reads in sentences (*"Charity Hill is resting at home."*, not
+*"Charity Hill: rest, Family 1 home, well"*; public/roster-line.js).
+
+No save field, action or saved state changed and no save version moved: `dark` is a projection field, absent while it is light.
+Evidence: tests/short-bar.test.mjs (9) and tests/simple-ui.test.mjs (7), every one seen failing under its injection;
+`npm run test:simple-ui` (docs/evidence/simple-ui-browser.json and its pictures); the regressions put back are
+docs/evidence/simple-ui-injections.json (21 unit, 6 in the browser, all caught). Same computer, headless Chrome: no Chromebook.

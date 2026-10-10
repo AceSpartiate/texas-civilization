@@ -485,3 +485,19 @@ injection first ([webp-tips-touch-injections.json](evidence/webp-tips-touch-inje
 1024x768 ([tips-browser.json](evidence/tips-browser.json); [keyboard](evidence/tips-list-keyboard.png),
 [touch](evidence/tips-list-touch.png)); `npm run test:overlap` walks the open list at every student size. Same computer,
 headless Chrome: no Chromebook or touch screen.
+
+### 9b. Spaced, and named as the screen names them — owner, 2026-10-09
+
+A play-through as a new student met three tips in the thirty seconds after arriving, a tip over the house-site card and over the house
+plans (where its *Got it* pressed the plans' dim and closed them), and the house's tip naming *Work on the house* while the house's card
+said *Build house*. The owner kept the guided start off and asked to **fix the tips' timing and wording**. As built
+(public/tips.js `tipToShow`, `TIP_GAP_MS`; `TIP_WAITS_FOR` in public/app.js):
+
+- **One at a time, as before; none while a card or dialog is open** (the house site once a place can be chosen, and the stake, the house plans and placing the
+  house, the wagon, how they go, the call's menu, a rider, the rooms, a town scene, the journal, the shot, the ending; not the card beside a person, which opens for the matter a tip explains),
+  looked at within the second, not only at the tick; **and fifteen seconds clear after one is put away or its thing goes.** A tip that
+  waits is neither retired nor seen. The town errand still holds its own tip inside it.
+- **The arrival's tip is the drive in only**: the wagon driven on to the house site once it is chosen is not "on its way to its land".
+- **Every tip is one or two short sentences, and every button it names is named exactly as the screen names it**
+  (tests/simple-ui.test.mjs reads each quoted name against the works' catalogue, the main person's orders and the page's buttons). The
+  first tip names *More*, the tile that holds the rest of a person's work (docs/FAMILY_PANEL.md, amendment 2026-10-09).

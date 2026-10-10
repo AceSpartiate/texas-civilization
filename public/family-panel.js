@@ -527,6 +527,25 @@ export function requestFor(world, entity) {
   return entity.id === asked ? request : null;
 }
 
+/**
+ * Whether the "!" for a call, march or rumour stands on this person (owner, 2026-10-09: the play-through found the call to arms' "!"
+ * on the mother, who "does not go"). On everybody the server would let go (a sending answer, `GO_ANSWERS`, they `can` give); when
+ * nobody may go, on the one who gives the family's "nobody goes" - the same person the call's menu sends it for (`callPlan`) - so
+ * the question can still be answered. A request with no sending answer (the army's request for supplies) stands on everybody it is put
+ * to. A class served by a server with no `answerers` keeps its one person (`requestFor`).
+ */
+export function answersRequest(request, entityId) {
+  const answerers = request?.answerers;
+  if (!answerers) return true;
+  // A request with no sending answer at all - the army's request for supplies, handed over by whoever is at home - is everybody's.
+  if (!Object.values(answerers).some(options => (options || []).some(option => GO_ANSWERS.includes(option.id)))) return Boolean(answerers[entityId]?.length);
+  const goes = options => (options || []).some(option => GO_ANSWERS.includes(option.id) && option.can !== false);
+  if (Object.values(answerers).some(goes)) return goes(answerers[entityId]);
+  const ids = Object.keys(answerers);
+  const keeper = ids.find(id => (answerers[id] || []).some(option => STAY_ANSWERS.includes(option.id) && option.can !== false)) || ids[0];
+  return keeper === entityId;
+}
+
 /** The rider standing with this person waiting to be spoken to; or null. A meeting belongs to the one the rider stopped for. */
 export function meetingFor(world, entity) {
   const encounter = world?.encounter;
@@ -593,7 +612,7 @@ export function needsOf(world, entityId) {
   // Inside the Alamo, asked whether they will carry Travis's letters out (sim/alamo.mjs).
   if (entity.service?.courier === 'open') needs.push({ kind: 'courier', text: `Travis is asking whether ${name} will ride out with his letters.`, ...ms(entity.decisionLeftMs) });
   const asked = requestFor(world, entity);
-  if (asked?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.`, ...ms(asked.leftMs) });
+  if (asked?.options?.length && answersRequest(world.request, entityId)) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.`, ...ms(asked.leftMs) });
   // Something sighted on a hunt (owner, 2026-10-02): the alert to take the shot, while it has not been taken up. Once the student is
   // aiming, nothing waits on them here: the field is open on their page.
   if (entity.chore?.ask?.id === 'shot' && entity.chore.ask.sight) { if (!entity.chore.ask.aim) needs.push({ kind: 'sighting', text: sightingWords(entity), ...ms(entity.chore.ask.leftMs) }); }
@@ -702,9 +721,13 @@ export function herdMarkOf(entity) {
  * something now. A child under ten, or somebody every order is refused to, is not "idle" - there is nothing to give them -
  * and a principal told to work about the place is working.
  */
-export function isIdle(entity, icons = [], { withArmy = false } = {}) {
+export function isIdle(entity, icons = [], { withArmy = false, dark = false } = {}) {
   // `task` is the server's: working about the place and helping where a call sent them are work; only resting is idle.
   if (gone(entity) || withArmy || entity.chore || entity.travel || (entity.task && entity.task !== 'rest')) return false;
+  // Resting on purpose is not idle (owner, 2026-10-09; docs/FAMILY_PANEL.md amendment 2026-10-09): asleep in the game's hours of
+  // dark (the server's `dark`), sick and mending, or a young child under ten at play - the little ones' own lines and their "!"
+  // say when one of them wants something to do.
+  if (dark || entity.sickness || entity.age < 10) return false;
   // Somebody serving is idle only when the camp's work is open to them (sim/camp.mjs): a garrison man with nothing but
   // "send for them" on his row is where the family put him, not idle.
   if (entity.service?.status === 'serving') return icons.some(icon => icon.can && icon.kind === 'chore');
@@ -1331,6 +1354,13 @@ export function lightLoad(flight, take) {
  * because the main person is who travels, rests, works about the place and - on auto - decides the family's flight and its
  * answers on the road (sim/auto.mjs, sim/pursuit.mjs).
  */
+/**
+ * Whether a press on this person's portrait asks the server to make them the main person (owner, 2026-09-29: a portrait is the star).
+ * Not for somebody the server would refuse - a child under ten (sim/family.mjs `tooYoung`, the same ten), the dead, the taken: for
+ * them a portrait press only chooses them, their bar and the camera, and says nothing (owner, 2026-10-09: the play-through found
+ * "Lavinia Hill is too young to be sent." in red when the student only meant to choose her). The star still sends, and is refused.
+ */
+export const portraitSetsMain = entity => Boolean(entity) && !gone(entity) && !(Number.isFinite(entity.age) && entity.age < 10);
 export function barPerson({ viewedId = null, mainId = null, entities = new Map() } = {}) {
   const viewed = viewedId ? entities.get(viewedId) : null;
   return viewed && !['dead', 'captured'].includes(viewed.health?.condition) ? viewedId : mainId;

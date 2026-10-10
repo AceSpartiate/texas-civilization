@@ -26,6 +26,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
 
+import { openMore } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
@@ -186,6 +187,9 @@ try {
   };
 
   // --------------------------------------------------------------------- the bar emptied and filled again under the press
+  // Work about the place waits behind "More" while he is not at it (owner, 2026-10-09, "Short bar + More"): opened once, as a student
+  // does, so the bar the presses land on is the whole of it.
+  await openMore(page, father);
   await settle();
   const pausedRuns = [];
   // Until that many presses had their icon taken off the bar under them: one whose person took it up on his own a moment before

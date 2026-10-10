@@ -4,9 +4,11 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward, roundCorners } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { herdMarkOf, actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands, keepList, pressHold } from '/family-panel.js';
+import { portraitSetsMain, herdMarkOf, actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands, keepList, pressHold } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
-import { TIPS, tipToShow, tipsToReread } from '/tips.js';
+import { TIPS, TIP_GAP_MS, tipToShow, tipsToReread } from '/tips.js';
+import { drawMoreIcon, moreLabel, moreMemory, namedKeys, shortBar } from '/short-bar.js';
+import { rosterLine } from '/roster-line.js';
 import { mountErrand } from '/errand.js';
 import { reconnector, reconnectWords } from '/reconnect.js';
 import { mountClassPanel } from '/class-panel.js';
@@ -5062,7 +5064,9 @@ function renderHousehold(world) {
     const meeting = meetingFor(world, entity);
     keepData(li, 'task', meeting ? 'meeting' : taskFor(world, entity) ? 'available' : null);
     const button = li.firstElementChild;
-    setText(button, `${entity.name}: ${entity.task || 'resting'}, ${entity.travel ? `${away(entity) ? 'away ' : ''}on the road to ${placeName(world, entity.travel.to)}` : placeName(world, entity.location?.siteId)}, ${entity.health?.condition || 'well'}${taskFor(world, entity) ? '. Someone is asking for help.' : ''}${meeting ? '. A rider has stopped to speak with them.' : ''}${entity.chore?.ask ? '. Waiting on your word.' : ''}`);
+    // In plain sentences (owner, 2026-10-09; public/roster-line.js): "Charity Hill is resting at home.", not "Charity Hill: rest, Family 1 home, well".
+    setText(button, rosterLine(entity, { place: id => placeName(world, id), home: homeOf(world), work: id => choreCache?.get?.(id)?.name || id.replace(/-/g, ' '),
+      also: [taskFor(world, entity) && 'Someone is asking for help.', meeting && 'A rider has stopped to speak with them.', entity.chore?.ask && 'Waiting on your word.'] }));
     setData(button, 'select', entity.id);
   } })) panelPress.wait();
   // Anyone standing with one of this family. This list is not decoration: selecting a
@@ -5750,6 +5754,8 @@ function populateWork(world, chosen, running) {
  * it says changes. Every rule here is the projection's; public/family-panel.js orders, words and draws it.
  */
 const panelRows = new Map();
+/** Whether "More" is open on each person's bar, for the session (owner, 2026-10-09, "Short bar + More"; public/short-bar.js). */
+const barMore = moreMemory((() => { try { return sessionStorage; } catch { return null; } })());
 let panelExpanded = null, panelTipFor = null, panelBarId = null, panelOrderIds = [], errandWanted = null;
 /**
  * The press the panel is held still for (triage 2.14, 2026-10-03; `pressHold`, public/family-panel.js). A browser sends no click
@@ -5884,7 +5890,7 @@ function renderFamilyPanel(world) {
     setData(row.herdMark, 'hand', herdShown ? String(herdShown.hand) : '');
     setData(row.herdMark, 'out', herdShown?.out ? 'true' : '');
     if (row.herdMark.title !== (herdShown?.words || '')) { row.herdMark.title = herdShown?.words || ''; row.herdMark.setAttribute('aria-label', herdShown?.words || ''); }
-    const portraitLabel = `${entity.name}, ${role}${age}${HUNGER_WORDS[hunger] ? `, ${HUNGER_WORDS[hunger]}` : ''}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. ${focused ? `Go back to ${entity.name}` : `Make ${entity.name} your main person`}, follow them and show their actions${need ? '; somebody is waiting on them' : ''}.`;
+    const portraitLabel = `${entity.name}, ${role}${age}${HUNGER_WORDS[hunger] ? `, ${HUNGER_WORDS[hunger]}` : ''}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. ${focused ? `Go back to ${entity.name}` : portraitSetsMain(entity) ? `Make ${entity.name} your main person` : `Choose ${entity.name}`}, follow them and show their actions${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
     // What only the card said of them (owner 2026-09-29: the card is gone): a lasting wound, and having had the measles.
     // And their role and age, the age no longer on the row (owner, 2026-09-30, "Move age off the row"): "Prudence · daughter, 20".
@@ -5997,7 +6003,7 @@ function renderFamilyPanel(world) {
     const noSwitch = Boolean((reason && /too young/.test(reason) && !(entity.age >= 2)) || entity.age < 2);
     if (row.auto.hidden !== noSwitch) row.auto.hidden = noSwitch;
     // Idle: nothing to do and something could be given them. Everybody else on the panel is visibly at something (a glow).
-    const idle = isIdle(entity, icons, { withArmy: army.has(id) });
+    const idle = isIdle(entity, icons, { withArmy: army.has(id), dark: Boolean(world.dark) });
     setData(row.item, 'idle', String(idle));
     seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), needRank: place?.rank ?? null, needLeftMs: need?.leftMs ?? null, idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null, life: life || null, word: shortWord || null, switchShown: !noSwitch, bar });
     // What can be pressed, as since 2026-09-22, and beside it the goals refused only for what the family has not got - a carreta
@@ -6016,8 +6022,21 @@ function renderFamilyPanel(world) {
     // "Move Idle and House off": it was a button on the main person's row). Pressed, it opens the rooms as tapping the house on
     // the map does (`[data-house]` below); it sends nothing, so nothing shuts it.
     const homeIcon = bar && house ? HOUSE_ICON : null;
+    // The short bar (owner, 2026-10-09, "Short bar + More"; public/short-bar.js): the works that matter now stand on the bar, the
+    // rest wait behind one "More" that opens the full bar in place, remembered per person for the session. Never behind it: what
+    // the person is doing, what glows, and what the tip, the house's card or the refusal line on the screen names.
+    const named = bar ? screenNamed(visibleIcons) : new Set();
+    const split = shortBar(visibleIcons, { named, glows: icon => feedsNow(icon.key, larderWas), pointed });
+    const moreOpen = barMore.isOpen(id);
+    const barShown = split.more.length && !moreOpen ? split.shown : visibleIcons;
+    // Every key the bar holds, behind "More" or not: a goal's way on may press one that waits there (`#panel-tip-ways`).
+    row.barKeys = visibleIcons.map(icon => icon.key);
+    row.moreKeys = split.more.map(icon => icon.key);
+    seen.at(-1).shown = barShown.map(icon => icon.key);
+    seen.at(-1).more = row.moreKeys;
+    seen.at(-1).moreOpen = Boolean(split.more.length && moreOpen);
     // The food gauge's level too: the ways to food glow on it (`feedsNow`), so a change of level redescribes the icons.
-    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, lesson.shut, pointed] : null, makeMain, Boolean(homeIcon), larderWas]);
+    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, lesson.shut, pointed] : null, makeMain, Boolean(homeIcon), larderWas, row.moreKeys, moreOpen]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
@@ -6025,8 +6044,8 @@ function renderFamilyPanel(world) {
       // it says changes around it, so keyboard focus and the popup survive every tick. Every icon the row has drawn is kept
       // (`row.made`) while it is off the bar, so one that comes back is the same button, not drawn again (triage 2.14: a dozen
       // icons in twenty quiet ticks were made afresh as rows went from work to a reason and back).
-      const shownIcons = homeIcon ? [...visibleIcons, homeIcon] : visibleIcons;
-      row.icons.style.setProperty('--action-columns', Math.max(makeMain ? 3 : 1, Math.ceil(shownIcons.length / 2)));
+      const shownIcons = homeIcon ? [...barShown, homeIcon] : barShown;
+      row.icons.style.setProperty('--action-columns', Math.max(makeMain ? 3 : 1, Math.ceil((shownIcons.length + (split.more.length ? 1 : 0)) / 2)));
       const wanted = shownIcons.length ? shownIcons.map(icon => {
         let button = row.made.get(icon.key);
         if (!button) { button = panelIcon(id, icon); row.made.set(icon.key, button); }
@@ -6041,6 +6060,16 @@ function renderFamilyPanel(world) {
         const word = row.travelWord ??= element('span', '', 'panel-reason panel-travelling');
         setText(word, travelling);
         wanted.push(word);
+      }
+      // "More" (or "Fewer", open) after the works and before the House, which stays the bar's last icon (amendment 2026-09-30).
+      if (split.more.length) {
+        const toggle = row.more ??= moreButton(id);
+        const words = moreLabel(moreOpen, split.more.length, entity.given || entity.name);
+        setText(toggle.querySelector('.panel-action-name'), words.word);
+        toggle.setAttribute('aria-expanded', String(moreOpen));
+        toggle.setAttribute('aria-label', words.label);
+        toggle.dataset.name = words.word; toggle.dataset.summary = words.label; toggle.dataset.note = '';
+        wanted.splice(barShown.length, 0, toggle);
       }
       if (makeMain) {
         setText(row.makeMain, makeMain);
@@ -6665,6 +6694,33 @@ function paintMark(node, mark) {
  */
 const HOUSE_ICON = Object.freeze({ key: 'go-inside', name: 'House', house: true, can: true, active: false,
   summary: 'Go inside the house to set out the furniture and the goods.', note: 'Opens the rooms inside the house.' });
+/**
+ * The works something on the screen names now, which "More" never hides (owner, 2026-10-09; public/short-bar.js `namedKeys`): the
+ * tip standing, the refusal line, the story cards at the head of the column and the messages, and the house plan's own words. The
+ * house's work is named outright while the house's card stands, whatever the card calls it (the play-through found it saying
+ * "assign Build house" with the button nowhere on the screen).
+ */
+function screenNamed(icons) {
+  const shown = selector => { const one = $(selector); return one && !one.hidden && getComputedStyle(one).display !== 'none' ? one.textContent : ''; };
+  const named = namedKeys(icons, [tipShowing ? TIPS[tipShowing] : '', shown('#error'), shown('#house-card'), shown('#ask-neighbours'), shown('#military-notice'), shown('#house-plot'), shown('#house-plan')]);
+  if (shown('#house-card') && icons.some(icon => icon.key === 'build-house')) named.add('build-house');
+  return named;
+}
+/** The "More" control at the end of a short bar (public/short-bar.js): a tile like the works', opening the full bar in place. */
+function moreButton(entityId) {
+  const button = element('button', '', 'panel-icon panel-more');
+  button.type = 'button';
+  button.dataset.key = 'more';
+  button.dataset.moreFor = entityId;
+  button.dataset.entityId = entityId;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 72;
+  canvas.setAttribute('aria-hidden', 'true');
+  // stand-in: docs/ART_REQUESTS.md, request 2026-10-09 "the More icon on a short bar" - three tiles fanned, drawn here, until `icon-more` lands.
+  drawMoreIcon(canvas, { drawSprite, spriteFrame });
+  button.append(canvas, element('span', '', 'panel-action-name'));
+  return button;
+}
 function panelIcon(entityId, icon) {
   const button = element('button', '', 'panel-icon');
   button.type = 'button';
@@ -6746,7 +6802,8 @@ function showPanelTip(button, { armed = false, pinned = false } = {}) {
   // What a goal wants, and the work that brings the first thing missing (docs/FAMILY_PANEL.md §23): a hide points at the hunt.
   let needs = null;
   try { needs = button.dataset.needs ? JSON.parse(button.dataset.needs) : null; } catch { needs = null; }
-  const onBar = [...(button.closest('.panel-icons')?.querySelectorAll('.panel-icon') || [])].map(one => one.dataset.key);
+  // Every key the bar holds, those behind "More" too (public/short-bar.js): pressing a way on to one opens "More" first.
+  const onBar = panelRows.get(button.dataset.entityId)?.barKeys || [...(button.closest('.panel-icons')?.querySelectorAll('.panel-icon') || [])].map(one => one.dataset.key);
   // Every way on for the first thing missing (owner, 2026-09-30): a hide by a hunt and from the tanner, a buy only where the
   // family's own town sells it (the server's `buy`).
   const ways = nextSteps(needs, onBar, window.__snapshot?.world?.household?.buy || []);
@@ -6829,12 +6886,25 @@ $('#panel-tip-send')?.addEventListener('click', () => {
 // hunt's place chooser for a hide, felling for logs, the town errand for an axe, a rifle or powder - exactly as pressing that icon.
 $('#panel-tip-ways')?.addEventListener('click', event => {
   const way = event.target.closest('.panel-tip-go');
-  const target = way && panelTipFor && panelRows.get(panelTipFor.entityId)?.icons.querySelector(`[data-key="${way.dataset.key}"]`);
+  const wayRow = way && panelTipFor && panelRows.get(panelTipFor.entityId);
+  const line = way?.dataset.line || null;
+  const press = () => {
+    const target = wayRow?.icons.querySelector(`[data-key="${way.dataset.key}"]`);
+    // A buy opens the town errand with its line on the list (`errandWanted`): the tanner's rawhide, the store's seed or powder.
+    errandWanted = line;
+    if (target) { target.focus(); target.click(); }
+    errandWanted = null;
+  };
   hidePanelTip();
-  // A buy opens the town errand with its line on the list (`errandWanted`): the tanner's rawhide, the store's seed or powder.
-  errandWanted = way?.dataset.line || null;
-  if (target) { target.focus(); target.click(); }
-  errandWanted = null;
+  // A way on to a work waiting behind "More" opens "More" first, so the icon pressed is the one on the screen (owner, 2026-10-09).
+  // The panel is held still under this press (`panelPress`) and drawn once its click has run: pressed after that drawing.
+  if (wayRow && !wayRow.icons.querySelector(`[data-key="${way.dataset.key}"]`) && wayRow.moreKeys?.includes(way.dataset.key)) {
+    barMore.set(wayRow.item.dataset.entityId, true);
+    if (window.__snapshot?.world) renderFamilyPanel(window.__snapshot.world);
+    setTimeout(() => { if (window.__snapshot?.world) renderFamilyPanel(window.__snapshot.world); press(); }, 0);
+    return;
+  }
+  press();
 });
 /**
  * Folding the panel down to a column of faces (owner, 2026-09-21: the interface covered too much of a Chromebook screen).
@@ -6888,6 +6958,7 @@ function repaintFamilyPanel() {
     delete row.cueMark.dataset.work;
     // Those off the bar too (`row.made`), so one coming back is drawn with the art.
     for (const icon of row.made.values()) drawIcon(icon.querySelector('canvas'), icon.dataset.key, { drawSprite, spriteFrame });
+    if (row.more) drawMoreIcon(row.more.querySelector('canvas'), { drawSprite, spriteFrame });
   }
   if (window.__snapshot) renderFamilyPanel(window.__snapshot.world);
 }
@@ -7146,6 +7217,8 @@ function positionSelection(world, chosen = selectedEntity(world)) {
  * box that does not close until it is answered. What the family is called before that is the game's (`householdName`).
  */
 let surnameSaving = false;
+/** What an empty last name is told (public/creation-words test reads it). */
+const SURNAME_EMPTY = 'Type a last name for your family first.';
 function renderSurname() {
   const box = $('#surname'), family = familyCache;
   // After the die has been seen: not while it tumbles or while 'Meet your family' is still on the screen.
@@ -7166,7 +7239,10 @@ $('#surname-input')?.addEventListener('input', () => { $('#surname-error').textC
 $('#surname-form')?.addEventListener('submit', async event => {
   event.preventDefault();
   const surname = $('#surname-input').value.trim();
-  if (!surname || surnameSaving) return;
+  // An empty name is said in words (owner, 2026-10-09: the play-through pressed "Name the family" with nothing typed and nothing
+  // happened). The form is `novalidate`, so this line, not the browser's own bubble, is what every screen shows.
+  if (!surname) { $('#surname-error').textContent = SURNAME_EMPTY; $('#surname-input').focus(); return; }
+  if (surnameSaving) return;
   surnameSaving = true; $('#surname-save').disabled = true;
   try {
     await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'rename', surname });
@@ -8502,6 +8578,8 @@ $('#military-go')?.addEventListener('click', async () => {
  * page (public/tips.js shows the Host nothing), so never on the projector.
  */
 let tipShowing = null, tipFamily = null, tipPutAway = new Set(), tipBottom = null;
+/** Until when the screen stays clear of tips after one is put away (public/tips.js `TIP_GAP_MS`, owner 2026-10-09). */
+let tipQuietUntil = 0;
 /**
  * Read aloud's buttons on the page's standing panels (owner, 2026-09-30, D15; public/read-aloud.js, docs/READ_ALOUD.md): the tip
  * over the map and the store's, the call's menu, the messages card, the questions on a person's card, and the journal's
@@ -8554,6 +8632,35 @@ function renderReadAloud() {
 }
 /** The popups a tip over the map is placed clear of, or waits behind (the errand is held in public/tips.js `tipToShow`). */
 const TIP_HELD_BY = ['#house-plan', '#house-plot', '#going', '#wagon-load', '#site-choose', '#survey-choose'];
+/**
+ * Every card and dialog a tip waits behind while it is open (owner, 2026-10-09: "none during an open card or dialog"; public/tips.js
+ * `tipToShow`'s `held`): the house site and the stake, the house plans and placing the house, the wagon, how they go, the call's menu,
+ * a rider, the rooms, a town's scene, the journal, the shot on a hunt and the ending. The play-through met tips over the site card,
+ * the house chooser (where "Got it" pressed the chooser's dim and closed it), the call's menu and the errand. Not here: the story
+ * cards at the head of the column, the family's messages, and the card beside a person, which opens for the very matter a tip is
+ * about (the call, the order to leave, the sick) - a tip keeps clear of it instead (`TIP_CLEAR_OF`).
+ */
+const TIP_WAITS_FOR = [...TIP_HELD_BY, '#house-placement', '#call-menu', '#encounter', '#interior', '#town-scene',
+  '#family-journal[data-open=true]', '#hunt-aim', '#ending'];
+function tipHeld() {
+  // The house-site card stands from the lobby through the drive in, saying the wagon has not reached the land: it asks nothing until
+  // the family is there (`choosingSite.can`), and the arrival's own tip is for that drive. It holds a tip once a place can be chosen.
+  const siteAsks = Boolean(window.__snapshot?.world?.land?.choosingSite?.can);
+  return TIP_WAITS_FOR.some(selector => {
+    if (selector === '#site-choose' && !siteAsks) return false;
+    const one = $(selector); if (!one || one.hidden) return false;
+    const style = getComputedStyle(one); return style.display !== 'none' && style.visibility !== 'hidden' && one.getBoundingClientRect().height > 1;
+  });
+}
+// A card opened or closed between snapshots, or the gap after a tip run out, is looked at within the second: the tip waits at once
+// and comes back when the screen is clear, not at the next tick (nine seconds at the Study pace).
+let tipHeldWas = false;
+setInterval(() => {
+  const world = window.__snapshot?.world;
+  if (!world || world.role === 'host') return;
+  const held = tipHeld();
+  if (held !== tipHeldWas || (window.__tipWaitingFor && Date.now() >= tipQuietUntil)) { tipHeldWas = held; renderTip(world); }
+}, 700);
 function renderTip(world, options = {}) {
   const panel = $('#tip');
   const was = panel?.hidden;
@@ -8574,8 +8681,10 @@ function placeTipFor(world, { hidden = false } = {}) {
   if (hidden || document.body.dataset.creating === 'true' || world?.watching) { panel.hidden = true; if (inline) inline.hidden = true; return; }
   const seen = [...(world?.household?.tipsSeen || []), ...tipPutAway];
   const errandOpen = document.body.dataset.errand === 'true';
-  const { show, retire } = tipToShow(world, { seen, showing: tipShowing, errandOpen });
+  const { show, retire, waiting } = tipToShow(world, { seen, showing: tipShowing, errandOpen, held: tipHeld(), now: Date.now(), quietUntil: tipQuietUntil });
   if (retire) putTipAway(retire);
+  // Presentation evidence for the proofs: the tip that would stand if no card were open and no gap running.
+  window.__tipWaitingFor = waiting || null;
   // Presentation evidence for scripts/tips-browser-proof.mjs, read by nothing in the page: the tip standing, and every tip
   // this page has put up, in order, once each time one is put up.
   if (show && show !== tipShowing) (window.__tipsShown ??= []).push(show);
@@ -8672,6 +8781,8 @@ addEventListener('resize', () => { if (tipShowing && window.__snapshot?.world) r
 function putTipAway(id) {
   if (!id || tipPutAway.has(id)) return;
   tipPutAway.add(id);
+  // And the next tip waits a short while (owner, 2026-10-09): one at a time, with a breath between.
+  tipQuietUntil = Date.now() + TIP_GAP_MS;
   // The page remembers it at once; the server keeps it for good. A refusal (the family's student has gone) changes nothing here.
   api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'seen-tip', tip: id }).catch(() => {});
 }
@@ -9812,7 +9923,15 @@ document.addEventListener('click', async event => {
   // design audit's B11 of 2026-09-28 (a portrait only chose): on auto the main person decides the family's leaving and its
   // answers on the road, and the owner has chosen that a press on a face hands that over, as the star does.
   const portrait = event.target.closest('[data-portrait]');
-  if (portrait) { if (!refusedUnseen(portrait.dataset.portrait)) pressStar(portrait.dataset.portrait); return; }
+  // Except for somebody who cannot be the main person - a child under ten, the dead, the taken (`portraitSetsMain`, owner 2026-10-09):
+  // their portrait only chooses them, with no refusal said; "too young to be sent" belongs to sending.
+  if (portrait) {
+    const id = portrait.dataset.portrait;
+    if (refusedUnseen(id)) return;
+    const person = entitiesOf(window.__snapshot?.world || {}).find(one => one.id === id);
+    if (person && !portraitSetsMain(person)) goToPerson(id); else pressStar(id);
+    return;
+  }
   // The "!" on a row: to the person, and open what is waiting on them (docs/FAMILY_PANEL.md §11).
   const attention = event.target.closest('[data-attention]');
   if (attention) { openNeed(attention.dataset.attention); return; }
@@ -9833,6 +9952,14 @@ document.addEventListener('click', async event => {
   }
   // An icon on the family panel. A refused one does nothing but say why; "Go to a neighbour's homestead" needs a choice of
   // which, so it opens the person's card at the list of homesteads, as a chore sent to a place starts choosing the place.
+  // "More" on a short bar (owner, 2026-10-09): open or close the full bar in place, for this person, for the session. It sends nothing.
+  const moreToggle = event.target.closest('[data-more-for]');
+  if (moreToggle) {
+    barMore.set(moreToggle.dataset.moreFor, moreToggle.getAttribute('aria-expanded') !== 'true');
+    hidePanelTip();
+    if (window.__snapshot?.world) renderFamilyPanel(window.__snapshot.world);
+    return;
+  }
   const panelButton = event.target.closest('.panel-icon');
   if (panelButton) {
     // Tap, then send (owner, 2026-09-29, triage D17; public/family-panel.js `iconPress`): on a touch screen the first tap shows

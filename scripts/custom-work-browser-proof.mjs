@@ -39,6 +39,7 @@ import { rollFamily } from '../sim/world.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { CUSTOM } from '../sim/custom.mjs';
 
+import { keepMoreOpen } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
@@ -87,6 +88,8 @@ try {
   const page = await (await browser.newContext({ viewport: { width: 1366, height: 768 } })).newPage();
   page.on('pageerror', error => errors.push(error.message + (process.env.STACKS ? error.stack : '')));
   await page.goto(url);
+  // Works that wait behind "More" since 2026-10-09 (owner, "Short bar + More") are opened as a student opens them.
+  await keepMoreOpen(page);
   await page.locator('[name=name]').fill('Custom reader');
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();

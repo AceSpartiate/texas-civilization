@@ -554,6 +554,8 @@ export function callAvailability(world, householdId, entity, action) {
   return { can: true, why: '' };
 }
 
+/** Before six in the morning or from nine at night (sim/childhood.mjs `WAKING_HOURS`, `awake`): the hours the family sleeps. */
+export const darkAt = world => { const hour = dateOf(world, world.minute).getUTCHours(); return hour < 6 || hour >= 21; };
 /**
  * What each answer to a call would cost, said before it is chosen.
  *
@@ -1917,7 +1919,11 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   // What the class view films (owner, 2026-09-30: "major historical events, and events that would matter to the players";
   // sim/battle-stage.mjs `filmedAs`): the Host's alone, and only for the fight it is being sent.
   if (role === 'host' && battle?.id) { const film = filmedAs(world, battle.id); if (film) host = { ...host, film }; }
-  return structuredClone({ request: shown, battle, ...(alertShown && { battleAlert: alertShown }), ...(accountShown && { battleAccount: accountShown }), host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10) });
+  return structuredClone({ request: shown, battle, ...(alertShown && { battleAlert: alertShown }), ...(accountShown && { battleAccount: accountShown }), host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10),
+    // The game's hours of dark, sent only while it is dark: nobody asleep is marked idle on the panel (owner, 2026-10-09,
+    // docs/FAMILY_PANEL.md amendment 2026-10-09). The hours are sim/childhood.mjs `WAKING_HOURS` - written out here, because that
+    // module cannot be imported from this one without a cycle; tests/short-bar.test.mjs holds the two to the same answer.
+    ...(darkAt(world) && { dark: true }) });
 }
 /** The alert card, while the fight is coming or being fought and this family's person is going or there. */
 function alertFor(world, householdId, state, watching) {

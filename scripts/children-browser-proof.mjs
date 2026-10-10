@@ -24,6 +24,7 @@ import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
 
+import { keepMoreOpen } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
@@ -44,6 +45,8 @@ async function classroom({ seed, tickMs, worldFactory, viewport }) {
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(`${seed}: ${error.message}`));
   await page.goto(url);
+  // Works that wait behind "More" since 2026-10-09 (owner, "Short bar + More") are opened as a student opens them.
+  await keepMoreOpen(page);
   await page.locator('[name=name]').fill('Child reader');
   await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();

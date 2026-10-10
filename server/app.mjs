@@ -149,6 +149,10 @@ const files = new Map([
   ['/lesson.js', ['../public/lesson.js', 'text/javascript']],
   // Tips at first meeting (owner, 2026-09-28; public/tips.js): the words, and when each thing has first appeared. Decides nothing.
   ['/tips.js', ['../public/tips.js', 'text/javascript']],
+  // The short bar and "More" (owner, 2026-10-09; public/short-bar.js): which of a person's works wait behind one press. Decides nothing.
+  ['/short-bar.js', ['../public/short-bar.js', 'text/javascript']],
+  // The journal's roster in plain sentences (owner, 2026-10-09; public/roster-line.js).
+  ['/roster-line.js', ['../public/roster-line.js', 'text/javascript']],
   // Read aloud (owner, 2026-09-30, D15; public/read-aloud.js): the button on the words, and the one <audio> that plays them.
   ['/read-aloud.js', ['../public/read-aloud.js', 'text/javascript']],
   // The errand to town, on the screen (docs/TOWNS.md §4b, public/errand.js): it draws the server's list and sends one order.

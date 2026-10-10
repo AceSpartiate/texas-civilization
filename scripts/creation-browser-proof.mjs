@@ -258,7 +258,8 @@ try {
 
   // ---------------------------------------------------------------- reopened, nothing is asked again
   // The same tab keeps how far it got in its own `sessionStorage` (public/creation.js, marked `ceiling:`), so a reload
-  // here goes straight back to the world. A new tab sees the title screen again and nothing behind it.
+  // here goes straight back to the world. A new tab on a family already made goes straight to the world too: until 2026-10-09 it
+  // showed the title screen and "Make my family" again first (owner, 2026-10-09: the play-through's 056).
   await page.reload();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await page.waitForTimeout(1500);
@@ -269,15 +270,18 @@ try {
   fresh.on('pageerror', error => errors.push(error.message));
   await fresh.goto(url);
   await fresh.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
-  await fresh.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 20000 });
-  observed.newTabCard = (await fresh.locator('#creation-begin').innerText()).replace(/\s+/g, ' ').trim();
-  await fresh.locator('#creation-begin-button').click();
-  await fresh.waitForTimeout(1500);
-  for (const selector of ['#family-roll', '#surname', '#names', '#looks', '#key-card']) {
+  let titleSeen = false;
+  for (let look = 0; look < 12; look++) {
+    titleSeen ||= await fresh.evaluate(() => { const card = document.querySelector('#creation-begin'); return Boolean(card && !card.hidden && card.getBoundingClientRect().height > 20); });
+    await fresh.waitForTimeout(250);
+  }
+  assert.equal(titleSeen, false, 'a new tab on a family already made showed "Make my family" again');
+  observed.newTabCard = null;
+  for (const selector of ['#creation', '#family-roll', '#surname', '#names', '#looks', '#key-card']) {
     assert.equal(await fresh.locator(selector).isHidden(), true, `${selector} is asked again in a new tab after the family is made`);
   }
   await fresh.close();
-  ok('reloaded, the world is there with nothing asked again; a new tab sees the title screen and then the world, and no step is asked twice - the key card included, which is shown once');
+  ok('reloaded, the world is there with nothing asked again; a new tab goes straight to the world with no title screen, and no step is asked twice - the key card included, which is shown once');
 
   // ---------------------------------------------------------------- the family's start (owner, 2026-09-29; sim/starts.mjs)
   // A class on the real land that deals starts: the card before the dice says who the family is and where it has come from, in the

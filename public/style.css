@@ -789,7 +789,9 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #site-choose h2{font-size:19px;margin:2px 0 0;color:#4b3e28}
 #site-choose p{margin:6px 0 0;font-size:14px;line-height:1.45}
 #site-note:empty{display:none}
-#site-build{margin-top:9px}
+/* "Set the house here" stays in sight (owner, 2026-10-09: the play-through found it below the card's fold, 33px at 1366 wide and 151px at
+   1024): held to the foot of the card while the card scrolls, over the paper's own colour, so it is never scrolled out of reach. */
+#site-build{margin-top:9px;position:sticky;bottom:-13px;z-index:1;box-shadow:0 -10px 10px -4px #f0e4c6,0 13px 0 0 #f0e4c6}
 /* While the family's land is off the screen - the student is watching Gonzales, say - the chooser folds to its title and a way
    back (public/app.js `foldSiteChooser`): at full size, with its suggested places, it stood 340 px tall over the middle of the
    map and took the clicks meant for the town (the gonzales-town proof, 2026-09-30). Its words and places come back with the land. */
@@ -1912,3 +1914,14 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
 #hunt-aim-words{margin:0 0 12px;font-size:16px;line-height:1.4}
 #hunt-aim-done{min-height:48px;padding:10px 18px;background:#4a551c;border-color:#3a4414;font-weight:700}
 @media(max-width:700px){#hunt-aim-help{display:none}#hunt-aim-title{font-size:17px}#hunt-aim-hand{font-size:13px}}
+/* The short bar and "More" (owner, 2026-10-09, "Short bar + More"; public/short-bar.js, docs/FAMILY_PANEL.md amendment 2026-10-09):
+   the "More" tile is the bar's own tile with a darker edge, so it reads as a control and not a work; open, it says "Fewer" and is
+   pressed in. stand-in: docs/ART_REQUESTS.md, request 2026-10-09 "the More icon on a short bar" - the three fanned tiles are drawn in the page. */
+.panel-icon.panel-more{border-color:#7a6440;background:#ece0c0}
+.panel-icon.panel-more:hover{background:#f7ecd0}
+.panel-icon.panel-more[aria-expanded=true]{background:#dccfab;box-shadow:inset 0 2px 5px #29251b55}
+/* Nothing to do (owner, 2026-10-09): the play-through found four of five resting and no mark it could see - the hat and hoe were
+   grey on a greyed face, under the horn of a hand with stock. The idle mark is now a token in the house style of the sick and hunger
+   marks: a cream disc ringed in amber, over the horn, in the portrait's foot. No words. */
+.panel-row[data-idle=true] .panel-idle-mark[data-drawn=true]{z-index:4;width:21px;height:21px;right:0;bottom:0;box-sizing:border-box;padding:1px;border-radius:50%;background:#fbf3dc;border:1.5px solid #d08a1e;box-shadow:0 0 0 1px #29251b99,0 0 6px 1px #f0b43aaa;filter:none}
+.panel-row[data-idle=true] .panel-idle-mark:not([data-drawn=true]){z-index:4;background:#d08a1e;color:#fff8e6}

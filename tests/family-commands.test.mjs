@@ -272,7 +272,10 @@ test('choosing somebody shows their bar and leaves the main person as it was; on
   const portrait = source.slice(source.indexOf("const portrait = event.target.closest('[data-portrait]');"), source.indexOf("const attention = event.target.closest('[data-attention]');"));
   assert.ok(portrait.length > 0, 'the portrait handler was not found');
   // Both behind the one guard for somebody out of sight on the road (owner 2026-09-29, docs/FAMILY_PANEL.md §20c), refused alike.
-  assert.match(portrait, /if \(portrait\) \{ if \(!refusedUnseen\(portrait\.dataset\.portrait\)\) pressStar\(portrait\.dataset\.portrait\); return; \}/, 'pressing a portrait does not do what the star does');
+  // Except for somebody who cannot be the main person (owner, 2026-10-09: a small child's portrait only chooses her, with no "too young
+  // to be sent"; public/family-panel.js `portraitSetsMain`, tests/simple-ui.test.mjs).
+  assert.match(portrait, /if \(refusedUnseen\(id\)\) return;/, 'a portrait of somebody out of sight is not refused as the star is');
+  assert.match(portrait, /if \(person && !portraitSetsMain\(person\)\) goToPerson\(id\); else pressStar\(id\);/, 'pressing a portrait does not do what the star does');
   const star = source.slice(source.indexOf("const star = event.target.closest('[data-focus]');"), source.indexOf("const indoors = event.target.closest('[data-house]');"));
   assert.match(star, /if \(star\) \{ if \(!refusedUnseen\(star\.dataset\.focus\)\) pressStar\(star\.dataset\.focus\); return; \}/, 'the star does not go through the one handler');
   const press = source.slice(source.indexOf('function pressStar(id) {'), source.indexOf('function goToPerson('));

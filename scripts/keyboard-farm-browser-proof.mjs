@@ -139,6 +139,17 @@ try {
   const principal = await page.evaluate(() => window.__snapshot.world.household.principalId);
   const surveyIcon = `.panel-row[data-entity-id="${principal}"] .panel-icon[data-chore="survey-plot"]`;
   // The family comes over to the site with the wagon first; survey is offered when the person is home again.
+  // Surveying new ground waits behind "More" while there is bare ground to plant (owner, 2026-10-09, "Short bar + More"): opened from
+  // the keyboard, Tab to "More" and Enter, as the student would.
+  const moreTile = `.panel-row[data-entity-id="${principal}"] .panel-more`;
+  await page.waitForFunction(([found, more]) => { const button = document.querySelector(found); return (button && button.getAttribute('aria-disabled') !== 'true') || document.querySelector(more)?.getAttribute('aria-expanded') === 'false'; }, [surveyIcon, moreTile], { timeout: 60000 });
+  if (!(await page.locator(surveyIcon).count())) {
+    await page.evaluate(() => document.querySelector('#world-map').focus());
+    const moreTabs = await tabTo(moreTile);
+    await page.keyboard.press('Enter');
+    await page.waitForFunction(more => document.querySelector(more)?.getAttribute('aria-expanded') === 'true', moreTile, { timeout: 10000 });
+    ok(`Tab to "More" (${moreTabs} presses) and Enter: the full bar opens with Survey on it`);
+  }
   await page.waitForFunction(found => { const button = document.querySelector(found); return button && !button.disabled && button.getAttribute('aria-disabled') !== 'true'; }, surveyIcon, { timeout: 60000 });
   await page.evaluate(() => document.querySelector('#world-map').focus());
   const surveyTabs = await tabTo(surveyIcon);

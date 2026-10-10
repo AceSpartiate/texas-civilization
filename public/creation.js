@@ -106,7 +106,10 @@ function stepOf(world, family) {
   if (!world.householdId) { showTitle(); return 'join'; }
   recall(world.householdId);
   if (!family) return 'begin';
-  if (!state.begun) return 'begin';
+  // A family already made - named, and every parent's looks chosen - goes straight to the world on a page that has not seen it made
+  // (another tab, another Chromebook, another day): the title card asked it to "Make my family" again and then dropped it into the
+  // running game (owner, 2026-10-09; the play-through's 056).
+  if (!state.begun) return madeAlready(family) ? null : 'begin';
   // The die while it is theirs to roll. A family that has not rolled and may not - the class has begun and Start will roll it -
   // waits in the world, as it always did, and is asked its name as soon as it has been rolled.
   if (family.canRoll) return 'roll';
@@ -118,12 +121,15 @@ function stepOf(world, family) {
   if (family.rolledAtJoin && !family.named && !state.met) return 'roll';
   if (!family.named) return 'surname';
   // The names and the looks are asked for while the family is being made. A page opened later - another tab, another day -
-  // sees the title screen and then the world: a family whose parents have been chosen for is already made.
+  // goes to the world: a family whose parents have been chosen for is already made (since 2026-10-09 without the title screen).
   const waiting = (family.people || []).filter(person => person.choices && !person.chosen);
   if (!state.named && waiting.length) return 'names';
   if (waiting.length) return 'looks';
   return null;
 }
+
+/** Named, and nobody's looks still to choose: the family is made, whatever this page has seen of it. */
+const madeAlready = family => Boolean(family?.named) && !(family.people || []).some(person => person.choices && !person.chosen);
 
 /** The die has been thrown and the family met on this page ("Meet your family"): the die is not offered again. */
 export function metFamily() { if (state.householdId) remember('met', true); }
@@ -153,7 +159,9 @@ export function renderCreation(world, family, { familyKey = null } = {}) {
   document.body.dataset.creating = step ? 'true' : 'false';
   // Every card of the flow is put away with the curtain: one left standing sits over the world (found by the family-panel
   // proof on a phone, 2026-09-17).
-  $('#creation-begin').hidden = step !== 'begin';
+  // The title card waits for the family's book: until it comes, a page cannot tell a family still to be made from one already made,
+  // and the card stood a moment over a family made long ago (owner, 2026-10-09).
+  $('#creation-begin').hidden = step !== 'begin' || !family;
   $('#names').hidden = step !== 'names';
   const keyCard = $('#key-card');
   if (keyCard) keyCard.hidden = step !== 'key';

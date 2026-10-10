@@ -38,6 +38,7 @@ import { sendTheWay } from './support/going.mjs';
 // rest. §11, which this proves, is about the farm a student already has the run of. See `housedClass` below.
 import { taught } from '../tests/support/settled.mjs';
 
+import { openMore, openMoreEverywhere } from './support/short-bar.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
@@ -243,6 +244,8 @@ try {
   // asked in town, and that icon opens the popup instead of taking an order - so it is on neither list.
   const errands = ['buy-furniture'];
   const preferred = ['make-furniture', 'cut-lane', 'dig-well', 'build-house', 'plant-field', 'mend-hoe', 'practise-shooting', ...errands, 'hunt-timber'];
+  // Furniture, the lane, the well, mending and practice wait behind "More" (owner, 2026-10-09): opened on every row first.
+  await openMoreEverywhere(page);
   const rowIds = await page.evaluate(() => [...document.querySelectorAll('.panel-row')].map(row => row.dataset.entityId));
   const plan = [];
   let presses = 0;
@@ -264,6 +267,7 @@ try {
       if (!key) break;
       tried.add(key);
       await asMain(page, id);
+      await openMore(page, id);
       await page.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click();
       // A journey asks how they go first (owner, 2026-09-24): sent on foot, as every order here went before the question, so the
       // trip to the carpenter is still under way when a stale order is pressed below (on the horse it is home already).
@@ -296,6 +300,7 @@ try {
   // whoever is main - and since §12 that is the only bar drawn. Ordering somebody else after the principal was set to work
   // takes the principal's *work* icon off the screen, and with it the glow that says what they are doing.
   await asMain(page, principalId);
+  await openMore(page, principalId);
   const orderable = plan.map(entry => entry.id);
   // A press that joined a job somebody was already at and was finishing (docs/FAMILY_PANEL.md §21.4) may be done, for both, before
   // the page is next told: the server's own story says it was taken and finished, which is the answer the glow stands for.
@@ -358,6 +363,7 @@ try {
     const again = plan.find(entry => entry.key === 'make-furniture' && !world().entities[entry.id].chore);
     if (again) {
       await asMain(page, again.id);
+      await openMore(page, again.id);
       await page.locator(`.panel-row[data-entity-id="${again.id}"] .panel-icon[data-key="make-furniture"]`).click();
       await sendTheWay(page, { way: 'foot' });
       await page.waitForFunction(id => Boolean(window.__snapshot?.world.entities.find(e => e.id === id)?.chore), again.id, { timeout: 15000 });
@@ -367,6 +373,7 @@ try {
   }
   assert.ok(busyId, 'nobody still at a chore to hold a stale order');
   await asMain(page, busyId);
+  await openMore(page, busyId);
   const busyBar = await page.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon`)]
     .map(icon => ({ key: icon.dataset.key, disabled: icon.getAttribute('aria-disabled') === 'true', active: icon.dataset.active === 'true' })), busyId);
   assert.deepEqual(busyBar.filter(icon => icon.disabled && !icon.active), [], `a refused order is drawn on ${busyId}'s bar: ${JSON.stringify(busyBar)}`);
@@ -414,6 +421,7 @@ try {
     toStop = await page.evaluate(ids => ids.find(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="stop-chore"]`)), finished);
     assert.ok(toStop, 'nobody at work to call off and nobody finished');
     await asMain(page, toStop);
+    await openMore(page, toStop);
     await page.locator(`.panel-row[data-entity-id="${toStop}"] .panel-icon[data-key="stop-chore"]`).click();
     await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.idle === 'true', toStop, { timeout: 15000 });
   }
@@ -453,6 +461,7 @@ try {
     const again = plan.find(entry => entry.id === asker).key;
     measured.askerSentAgain = (measured.askerSentAgain || 0) + 1;
     await asMain(page, asker);
+    await openMore(page, asker);
     await page.locator(`.panel-row[data-entity-id="${asker}"] .panel-icon[data-key="${again}"]`).click();
     await sendTheWay(page, { way: 'foot' });
     await page.waitForFunction(id => Boolean(window.__snapshot?.world.entities.find(e => e.id === id)?.chore), asker, { timeout: 15000 });
@@ -485,6 +494,7 @@ try {
   }
   if (world().entities[principalId].aside) measured.asideLeft = world().entities[principalId].aside;
   await asMain(page, principalId);
+  await openMore(page, principalId);
   await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="travel-gonzales"]`).click();
   await sendTheWay(page, { way: 'foot' });
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="travel-gonzales"]`)?.dataset.active === 'true'
@@ -521,6 +531,7 @@ try {
   // do it; that the household holds nobody until somebody chooses is asked at the top of this run instead. Back to the
   // principal, so what the star proves below is that choosing the mother *moves* the journeys, the yard and rest to her row.
   await asMain(page, principalId);
+  await openMore(page, principalId);
   // The journeys a main person's bar draws are the ones open to them where they stand (public/family-panel.js: not on the
   // road, and not to where they already are). Until 2026-09-22 the other one was drawn too, refused and dimmed, and this
   // asked for "Travel to Gonzales" on a principal who was standing in Gonzales from the offer above; since the owner's
@@ -711,7 +722,9 @@ try {
   const canGo = await page2.evaluate(() => Object.entries(window.__snapshot.world.request.answerers).filter(([, options]) => options.find(option => option.id === 'turn-out')?.can).map(([id]) => id));
   assert.ok(canGo.length >= 2, `only ${canGo.length} may turn out: ${JSON.stringify(await page2.evaluate(() => window.__snapshot.world.request.answerers))}`);
   const marked2 = (await page2.evaluate(() => window.__familyPanel)).filter(row => row.needs.includes('call')).map(row => row.id);
-  assert.deepEqual([...marked2].sort(), [...answerers2].sort(), 'the "!" is not on exactly the people the server lets answer the settlement’s call');
+  // On exactly the people who may go (owner, 2026-10-09: the play-through found the "!" on a mother who "does not go"); the menu below
+  // still lists every answerer, the ones who may not go greyed with the server's reason.
+  assert.deepEqual([...marked2].sort(), [...canGo].sort(), 'the "!" is not on exactly the people the server lets go to the settlement’s call');
   ok(`the settlement's call marks ${marked2.length} people (${marked2.join(', ')}), and ${canGo.length} of them may turn out`);
   // A rider standing with somebody is the more pressing need and their "!" opens the conversation instead; the riders are let
   // go (as the student would, from the conversation) until a row's first need is the call, and that "!" is the one pressed.

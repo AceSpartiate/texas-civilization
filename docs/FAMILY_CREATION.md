@@ -359,12 +359,14 @@ intro screen. Name it 'Family: Texas 1835/36'. the intro screen should be a prof
 **The map is not drawn at all while the curtain is up** (`public/app.js` skips `drawWorld`), which is also what a slow
 computer wants. Play Solo no longer rolls the family for the player: it deals the game running and leaves the die
 (`newSoloGame` in `server/app.mjs`), which `rollRefusal` now allows for a family somebody plays that has never rolled. A
-page opened later - another tab, another day - sees the title screen and then the world: a family whose parents have been
-chosen for is already made. A family that has not rolled and may not, because the class began without it, waits in the
+page opened later - another tab, another day - goes straight to the world: a family whose parents have been chosen for is
+already made (until 2026-10-09 it saw the title screen and *Make my family* first, which a play-through as a new student found
+asking a made family to be made again; owner, 2026-10-09, docs/FAMILY_PANEL.md amendment 2026-10-09). An empty last name is told
+*"Type a last name for your family first."* A family that has not rolled and may not, because the class began without it, waits in the
 world as it always did and is asked its last name as soon as Start has rolled it.
 
-`ceiling:` how far a page has got is kept in that tab's own `sessionStorage`, so the title screen shows again in a new tab;
-the steps behind it do not.
+`ceiling:` how far a page has got is kept in that tab's own `sessionStorage`; a new tab knows a family is made from the family's
+book, so neither the title screen (since 2026-10-09) nor the steps behind it show again.
 
 ## Amendment, 2026-09-18 — Play Solo holds its clock until the family is made
 
