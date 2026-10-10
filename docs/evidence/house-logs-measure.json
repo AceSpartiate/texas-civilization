@@ -1,0 +1,106 @@
+{
+  "seeds": [
+    "house-a",
+    "house-b",
+    "house-c"
+  ],
+  "count": 15,
+  "modes": {
+    "pair": {
+      "families": 42,
+      "unfinished": 31,
+      "hands": 2,
+      "logsTicks": {
+        "median": 27.5,
+        "p90": 64
+      },
+      "roofTicks": {
+        "median": 58,
+        "p90": 102,
+        "max": 102
+      },
+      "wholeTicks": {
+        "median": 67,
+        "p90": 106
+      },
+      "roofMinutes": {
+        "study": {
+          "median": 9.18,
+          "p90": 16.15
+        },
+        "brisk": {
+          "median": 3.87,
+          "p90": 6.8
+        },
+        "quick": {
+          "median": 0.97,
+          "p90": 1.7
+        }
+      }
+    },
+    "house": {
+      "families": 42,
+      "unfinished": 2,
+      "hands": 2,
+      "logsTicks": {
+        "median": 27,
+        "p90": 58
+      },
+      "roofTicks": {
+        "median": 38.5,
+        "p90": 69,
+        "max": 135
+      },
+      "wholeTicks": {
+        "median": 41.5,
+        "p90": 71
+      },
+      "roofMinutes": {
+        "study": {
+          "median": 6.1,
+          "p90": 10.93
+        },
+        "brisk": {
+          "median": 2.57,
+          "p90": 4.6
+        },
+        "quick": {
+          "median": 0.64,
+          "p90": 1.15
+        }
+      }
+    },
+    "family": {
+      "families": 45,
+      "unfinished": 9,
+      "hands": 6,
+      "logsTicks": {
+        "median": 23,
+        "p90": 46
+      },
+      "roofTicks": {
+        "median": 37,
+        "p90": 102,
+        "max": 167
+      },
+      "wholeTicks": {
+        "median": 39,
+        "p90": 106
+      },
+      "roofMinutes": {
+        "study": {
+          "median": 5.86,
+          "p90": 16.15
+        },
+        "brisk": {
+          "median": 2.47,
+          "p90": 6.8
+        },
+        "quick": {
+          "median": 0.62,
+          "p90": 1.7
+        }
+      }
+    }
+  }
+}

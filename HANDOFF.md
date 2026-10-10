@@ -8,6 +8,64 @@ Main at 53cc971d, packaged from the verify tree and published as the latest rele
 
 Main at 0d025f31, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.06.1>). Sets of changes: from v2026.10.05.3 (4.7 MB), v2026.10.05.2, v2026.10.05.1, v2026.10.04.1 and v2026.10.03.2. Evidence: `npm test` 2285 pass, 0 fail at 0d025f31; the browser proofs two at a time at 893b7ab4, the ones that failed then passing alone (end-sequence, volunteer-life, battle-alamo, famous-people, shelter) or fixed since and passing on the verify tree with the voices at 0d025f31 (overlap, tips, military-notice; with gonzales-town, panels and read-aloud at fb4a0e12). Found on the way and fixed: overheard talk reached an enlisted man in the Alamo (now volunteers only); an express rider's scene hid Travis's runner; the merged battle notice was taller than the 1024x600 layout allows.
 
+## Builders fell their own: Work on the house always on the bar, one name, one axe shared — owner, 2026-10-09 (not released)
+
+Branch `house-logs`. A play-through as a new student (2026-10-09) found *Work on the house* off the bar after the house was placed until
+logs were on the pile (the bar keeps refused work only when the server marks it short), the house card naming a button nobody had
+(*"assign Build house"*), and the tip's advice - one person on *Fell trees*, on auto - putting the family's one felling axe in his hands
+and greying the house for everybody else. The owner chose, by multiple choice, **"Builders fell their own"**: *"'Work on the house' is
+always on the bar once the house is placed; with no logs on the pile, the builders fell what they need themselves. One name
+everywhere."* Specified in docs/WOODS_AND_BUILDING.md §6.14 (amending §6.3, §6.7, docs/TOWNS.md §4b decision 1 and
+docs/FAMILY_PANEL.md §21); claims `FIC-GONZ-1235` to `-1238`.
+
+- **Always on the bar** (`sim/houses.mjs` `buildRefusal` asks the plot with `fells`; `sim/chores.mjs` `takenWhat` never refuses the house
+  for the axe). Refused only for the custom, age, very sick, away, called aside, a fifth hand, a missing broadaxe, the rain on the only
+  stage left, or nothing startable. The house card says *"Whoever works on the house fells the logs first."* when the pile is short.
+- **The builder fells what the house wants** (`sim/chores.mjs` `houseLogs`, `fellForHouse`): from the pile first; when the next stage's
+  logs are not on it, out to the nearest timber on the family's land, at felling's pace, until the pile holds every log the house still
+  wants and no more; then back to the walls. Where the land has no timber, a wagon load is fetched as *Fell trees* fetches it, and the
+  builder goes back to the house when it is home (`then`, `resumeAfter`). Nothing comes free.
+- **The axe** (`sim/keeping.mjs` `houseAndFelling`, `axesAway`): the house and its felling share the axe at home - the walls are not
+  refused for a feller's copy, nor *Fell trees* for the walls - while each feller holds a copy of their own and a trip off the land makes
+  it one person's. A builder with no axe free drags in the logs the one with it fells (*"dragging in the logs Wiley fells"*), holding no
+  axe; their hands fell the next tree on the spot from what the feller did past the tree in hand (`paidTrees`: a tree is at least a
+  tick, so the hands curve alone changed nothing). The walls wait only while every axe is off the land. Whether the play-through was a
+  bug: not against the code as written (the turn-taking was the 2026-09-28 builder's reading of "Each needs an axe"), but beyond the
+  owner's words in §4b/§4c; the doc sets out the reading.
+- **Auto** does the same; held only for a real refusal (the rain), never "Waiting for logs". **The families nobody plays** put their
+  grown people on the house, the first with the axe felling for it.
+- **One name** - *Work on the house* - on the bar, the house card (public/app.js, one line), the chooser's hint (public/house-plot.js,
+  one line), the custom's refusal (`sim/custom.mjs`: *"Work on the house is men's work, and … is at home."*, was *"Building is …"*), the
+  journal and the tip. **public/tips.js, `house` only**: *"Where it needs logs, put one on “Fell trees” and turn on auto. Until it
+  stands, the family camps."* became *"…, then set people to “Work on the house”: they fell the logs it needs and raise it. Until it
+  stands, the family camps."* (the sentence before it unchanged; no other tip, and no timing, touched). sim/tips.mjs not touched.
+- **Drawn**: a builder felling for the house chops (its words), the tree goes over and the axe sounds as for a feller (public/app.js
+  one condition, public/audio-cues.js one condition); a hauler is drawn carrying (public/work-art.js `HOUSE_PARTS`, one entry).
+- Evidence: `tests/house-logs.test.mjs`, seven tests, each proved by injection on a copy of the tree (12 injections, 12 caught;
+  `npm run test:house-logs-injections`, record docs/evidence/house-logs-injections.json):
+  the house hidden from the work list while the pile is short, and the old tip back (*on the bar* fails); a free log a tick of felling,
+  and felling past what the house wants (*nothing comes free* fails; the second also *auto*); the walls and a feller no longer sharing
+  the axe, a hauler holding the axe, and the house refused for an axe in somebody's hands (*locks no builder out* fails - the last was
+  first **missed**, because the sharing in `userOf` already covers a feller at home; the test was given the axe carried off the land,
+  where only `takenWhat`'s rule keeps the house open, and then caught it); haulers adding nothing (*fells faster* fails); auto holding
+  the house while the pile is short (*auto* and *old save* fail); the house made shared work, and a boy under sixteen never felling
+  (*the custom holds* fails); a builder saved "Waiting for logs" kept held (*old save* fails). `tests/house-plot.test.mjs` (the card's words, the house open with
+  an empty pile, the short pile felled rather than stopped) and `tests/auto-house.test.mjs` (the builder takes the house up at once and
+  drags in the feller's logs) brought up to the rule; `tests/tips.test.mjs` to the tip's new words; `tests/host-view.test.mjs` given the
+  rider scene's cast (the new timing put a rider's scene for hh-1 in San Felipe with the town's doctor in it, and the fog scan had no
+  allowance for a scene's own people - not a leak). Measured (`scripts/house-time-measure.mjs`, new mode `house`; record
+  docs/evidence/house-logs-measure.json), the round-log pen roofed, median ticks: two people pressing *Work on the house* once 38.5
+  (6.1 minutes at Study; before, refused with the pile empty); one felling and one building on auto 58, was 102; the family's grown
+  people 37, was 63.5. `npm test`: 2336 tests, 2298 pass, 36 skipped; two timing tests failed under the machine's load (battle-floor's floor, capacity's 30-second limit) and pass alone. Browser proofs, each alone, all passing: **new** `npm run test:house-logs` (5 checks: the card's words with the pile empty; *Work on the house* open on the father's bar; pressed once, *"felling a live oak for the house"* and the logs onto the pile; the walls raised from them, nothing more pressed; no page errors - and failing at the bar with the house hidden from the work list injected; record docs/evidence/house-logs-browser.json), house-plot, keyboard-farm, farm, whole-game (15), solo-game (16), work, auto (14), shelter (6), custom-work (18), tips (16; the house tip's new words seen). Their own evidence files were left as they were, to spare the merge.
+- **Old saves**: nothing new but fields on a builder's work (`forLogs`, `hauls`, felling's own, `then`); a builder on auto saved
+  "Waiting for logs" takes the house up the next tick. No save version moved.
+- Also: calling a builder off mid-felling says what came down, as for a feller (`sim/world.mjs` stop-chore). Docs: WOODS_AND_BUILDING
+  §6.14 (and notes in §6.3, §6.7), TOWNS §4b, FAMILY_PANEL §21, GAME.md, TEACHER.md (*The first house*), HOUSE_SELECTION_HANDOFF,
+  HISTORY.md `FIC-GONZ-1235` to `-1238` (1239 unused).
+- `ceiling:` the lane, a clearing, the carreta and furniture keep the 2026-09-28 turn-taking with a feller. `ceiling:` a hauler at quick
+  timber adds nearly a tree a tick. `ceiling:` a builder felling for the house is drawn a little off the tree, as the house's builders
+  stand round its front.
+
 ## Astra's 2026-10-05 art wired in: the flag painted seated, the eighteen watching the far bank, the battle notice's portrait — 2026-10-06 (released in v2026.10.06.1)
 
 - **The flag painted seated.** A `flag-paint` beat, 6 to noon on October 1 (sim/town-scenes.mjs), sits blue-girl and indigo at her `<figure>-seated-paint` drawings; each drawing has its own stool, table, pot and cloth, so the beat sets no table or cloth. They are drawn at the share of a standing woman's height that matches the head (`seated` in public/town-scenes.js `sceneClip`: .77, the girl .95, measured from the head's width in the frames; a `ceiling:`). Anybody else seated at the flag paints standing. The sewing beat (`flag-cloth`) now ends at 6 that morning.

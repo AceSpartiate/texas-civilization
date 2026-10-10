@@ -1201,7 +1201,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
     // Called home from a neighbour's raising: what they put in is still owed to both stories.
     if (entity.chore.hostHouseholdId && entity.chore.spells > 0) recordHelpDone(world, household, entity, world.households[entity.chore.hostHouseholdId], entity.chore.spells);
     // Called in from the felling: the trees already down are still said, and where their logs lie (sim/felling.mjs).
-    if (entity.chore.id === 'fell-trees') recordFelling(world, household, entity);
+    // A builder felling for the house the same (owner, 2026-10-09; sim/chores.mjs `houseLogs`).
+    if (entity.chore.id === 'fell-trees' || entity.chore.forLogs === 'fell') recordFelling(world, household, entity);
     entity.chore = null; entity.task = 'rest';
     record(world, 'assignment', { actorId: entity.id, householdId, text: `${entity.name} left off the work.` });
     return;

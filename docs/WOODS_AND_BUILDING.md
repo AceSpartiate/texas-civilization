@@ -334,7 +334,8 @@ Each piece goes up in stages a student sees and sends people to: a pen is **sill
 best), **walls, course by course** (ten courses of 4 logs, each course drawn), **door and window cut**, **roof**
 (rafters, then clapboards), **chinked**. A course above the sixth wants **two people on it at once** (skids and forks);
 one person alone raises it at a third of the pace — the reason a house-raising helps (`docs/SETTLING_IN.md` §6, still
-invented). Logs come off the pile as each course goes up; a course with no logs on the pile waits and says so. Called
+invented). Logs come off the pile as each course goes up; a course with no logs on the pile waits and says so (amended by the owner,
+2026-10-09, §6.14: the builders fell them). Called
 away, the work stays.
 
 The panel says **what the next stage wants** before it is begun, beside what the family has: *"Next: laying the sills on
@@ -758,7 +759,8 @@ works alongside the first). The panel and auto side is [FAMILY_PANEL.md §21](FA
   (`WOOD_MARGIN`, `pileFull`). A family that has not chosen its house yet is counted for a round-log cabin. Then they work about the
   place, and take the axe up again the tick the pile falls below it - after a carreta, a fence, a piece of furniture.
   `ceiling:` the margin is one number for every family; a margin that grew with the plots staked is the way out.
-- **Building on auto.** A builder on auto keeps raising the house from the pile. When the next stage wants logs the pile has not got,
+- **Building on auto.** (Amended by the owner, 2026-10-09, §6.14: the builder fells the logs instead of waiting for them.) A builder
+  on auto keeps raising the house from the pile. When the next stage wants logs the pile has not got,
   the row says so - *"Auto: work on the house. Waiting for logs. Laying the sills on the round-log pen wants 4 sill logs, and the log
   pile has not got them. Working about the place meanwhile."* - and they resume the tick the logs are there.
 - **The owner's acceptance test** (`tests/auto-house.test.mjs`): one person on felling on auto, one on the house on auto, two presses,
@@ -772,7 +774,9 @@ works alongside the first). The panel and auto side is [FAMILY_PANEL.md §21](FA
 
 **Decided by the owner, 2026-09-28: "Each needs an axe."** Each feller holds a felling axe of their own; a second feller needs a
 second axe (docs/TOWNS.md §4b, amended; FAMILY_PANEL.md §21.6). The house's builders share one copy with the lane and clearing, as
-before, so a family with one axe takes turns, and one feller and one builder on auto still raise the house.
+before, so a family with one axe takes turns, and one feller and one builder on auto still raise the house. **Amended by the owner,
+2026-10-09 (§6.14, "Builders fell their own"):** the house's builders share the axe at home with whoever fells on the family's land,
+so neither shuts the other out; each feller still holds a copy of their own.
 
 ### 6.8 Amended by the owner, 2026-09-29: every family work at half its length
 
@@ -984,6 +988,106 @@ on a families land."* The whole rule is docs/LAND_GRANTS.md §10; what it change
   drawn, and clipped to the figure** - so it is seen as nothing but the tree in front of them. In the fade band no tree is drawn again
   (`ceiling:` there a person walks over the faint trees in front of them, as before 2026-10-02).
   Tests `tests/trees-front.test.mjs`; browser `npm run test:trees-front`, which also shows the fade-band glitch on the code before.
+
+### 6.14 Builders fell their own — owner-decided 2026-10-09 (not released)
+
+> "'Work on the house' is always on the bar once the house is placed; with no logs on the pile, the builders fell what they need
+> themselves. One name everywhere."
+>
+> — the owner, 2026-10-09, by multiple choice ("Builders fell their own")
+
+**Why.** A play-through as a new student (2026-10-09, one student and seven families nobody plays, at commit 49aa2d76) found three
+things. *Work on the house* was **not on the bar** after the house was placed, until logs were on the pile: the bar keeps refused work
+only when the server marks it short of something the family could get (§6.9), and the house refused for an empty pile carried no
+such mark. The house card said *"assign Build house from your person's actions"*, a name no button had, and the tip said *"Work on
+the house"*. And the tip's own advice - one person on *Fell trees*, on auto - put the family's one felling axe in his hands, which
+**greyed the house for everybody else** (*"Wiley Hill has the felling axe, felling a post oak."*).
+
+**Status: built the same day** (sim/chores.mjs `houseLogs`, `fellForHouse`, `paidTrees`; sim/keeping.mjs `houseAndFelling`,
+`axesAway`; sim/houses.mjs `buildRefusal`, `handsOn`, `FELLS_WORDS`; tests/house-logs.test.mjs). Claims `FIC-GONZ-1235` to `-1238`.
+**This amends** §6.3 (*"a course with no logs on the pile waits and says so"*: it is felled for now), §6.7 (*building on auto*
+waiting for logs, and the closing decision that the house's builders take turns with the feller for one axe), docs/TOWNS.md §4b's
+decision 1 as amended 2026-09-28 (the same turn-taking) and docs/FAMILY_PANEL.md §21 (the house's row waiting on the pile).
+
+- **One name: *Work on the house*** (`FIC-GONZ-1235`). The bar's button, the house card (*"Choose a plan and where on your land it
+  stands, then set the family to “Work on the house”."*), the house chooser's hint (*"… Then close this panel and set people to “Work
+  on the house”."*, was *"assign Build house"*), the tip (below), the refusal by custom (*"Work on the house is men's work, and Wiley is
+  at home."*, was *"Building is …"*) and the journal (*"Wiley set out: work on the house."*).
+- **Always on the bar of anybody who may build** (`FIC-GONZ-1235`), from the moment the house is placed until it stands. The pile is no
+  longer a reason to refuse it (`buildRefusal`, asked with `fells`), nor is the axe in somebody else's hands (`takenWhat`). It is
+  refused only for what the owner called real reasons - **the custom** (docs/CUSTOMARY_WORK.md: off a woman's or girl's bar while a man,
+  or since §1f a boy of twelve to fifteen, is home; she may help him at it), **age** (under ten), **very sick**, **away** from home,
+  called aside by the little ones - and for the few the house always had: a fifth pair of hands (`MOST_HANDS`), a tool the plan wants
+  and the family has not got (the broadaxe of a hewn-log pen), the rain on the only stage left (`FIC-GONZ-290`), or nothing startable
+  until the pens are further up. The house card, short of logs, says *"Whoever works on the house fells the logs first."* where it said
+  *"… and the log pile has not got them."*
+- **From the pile first, then the builder fells what the house wants** (`FIC-GONZ-1236`). As each spell on the house would begin, the
+  builder raises it while the next stage's logs are on the pile. When they are not, the same job - set once - goes for them: out to the
+  nearest timber on the family's own land that gives a sound log (`fellingGround`, §6.7), felling the trees there one at a time, wall
+  timber first, each tree's logs onto the pile as it comes down (`fellTree`), at **felling's own pace** (`FELL_PACE`, §6.11: a tree is
+  a tree whoever fells it), on from one stand to the next, **until the pile holds every log the house still wants, and not a log more**
+  (`houseNeeds`, no margin: a fence's or a bench's logs are *Fell trees*' work, §6.7). Then back to the house and up with the walls. The
+  journal says the felling once, as *Fell trees* does: *"Wiley felled 35 trees beside the house. 65 logs went onto the pile at the
+  house."* **Nothing comes free** (the owner's rule of 2026-10-03, §6.12): every log is a tree felled on the family's land in its own
+  time; the poor logs a stand gives on the way stay on the pile for a fence or a fire.
+- **No timber on the family's land** (or only poor timber while the house wants sound logs): the builder fetches a wagon load from the
+  nearest timber off it with the ox and wagon, exactly as *Fell trees* begins `fetch-logs` (§6.7, docs/BIOME_GAMEPLAY.md §3.2), and
+  **goes back to the house** when the load is on the pile (`resumeAfter`), and out again while it is short. While the trip is out, the
+  row glows *Fell trees*, as fetching always has.
+- **The felling axe: the reading of docs/TOWNS.md §4c** (`FIC-GONZ-1237`). §4c says each person holds one copy and a thing is refused
+  only when every copy is out, and that *"the work at home shares one copy among all of it"*; §4b's decision 1 (2026-09-24) says that
+  at home *"all tools stay shared … so any number of the family work it together"*, and that only a trip **off the land** makes the axe
+  one person's. The owner's *"Each needs an axe"* (2026-09-28) answered a question about **fellers**: a second feller needs a second
+  axe. Carrying it on to the house - a feller's own copy leaving the builders nothing to share, so that the family "takes turns" - was the
+  builder's reading that day (*"checked and kept"*), not the owner's words, and it is what the play-through ran into. So it was not a bug
+  against the code as written, but it went beyond the rule. The reading kept now, faithful to both: **at home, whoever raises the walls
+  shares the felling axe with whoever fells on the family's land** - the house and its felling are one job now, by the owner's word -
+  while **each feller still holds a copy of their own** and **a trip off the land still makes it one person's**. In play:
+  - A builder fells for the house only with an axe free for felling: no other feller (on *Fell trees*, or another builder felling)
+    holds the family's last copy, and none is off the land. Felling, they hold that copy as their own (`with: ['axe']`, no `shares`).
+  - A builder **with no axe free is never locked out**: while the pile has the next stage's logs they raise the walls, sharing the axe
+    at home; while it has not, they **drag in the logs** whoever has the axe is felling, beside them (*"dragging in the logs Wiley
+    fells"*), using no axe. Their hands count by the one curve (sim/hands.mjs): a tree is at least the tick it is begun in, so what the
+    feller and the haulers did past the tree in hand fells the next one on the spot - one more a tick for each hauler at most, and only
+    a tree within a few steps (`paidTrees`). Alone, a feller fells exactly as before.
+  - *Fell trees* is open to somebody while others raise the walls (until now refused, *"There is no free felling axe: … working on
+    the house"*), and the house is open while somebody is on *Fell trees* (until now greyed). Two fellers still want two axes.
+  - The walls wait only while **every** felling axe the family owns is off the land (`axesAway`): *"waiting for the felling axe: Rosa
+    has the felling axe, on the road to the timber on the Guadalupe River"*.
+  - A builder dragging logs in or waiting for them holds no axe, so the axe can go off the land for a wagon load while they wait (found
+    measuring the families nobody plays: every builder waiting at the house held it, and nobody could take it to the timber).
+  - `ceiling:` the lane, a clearing through timber, the carreta and furniture from the pile keep the turn-taking of 2026-09-28 with a
+    feller: only the house is one job with its felling. Worth widening if a class finds the lane greyed by a feller the same way.
+- **Auto does the same** (`FIC-GONZ-1238`): somebody on auto at the house takes it up with the pile empty and fells for it; the row says
+  *"Auto: work on the house, over and over."*. It is held about the place only for a real refusal - the rain on the roof is one - never
+  for the pile: *"Waiting for logs. … the log pile has not got them."* is gone from the row.
+- **The families nobody plays** follow from the one gate: the director's plan puts the house before felling, so with an empty pile its
+  grown people go on the house, and the first with the axe fells for it while the rest drag in and raise.
+- **Old saves** (`FIC-GONZ-1238`). Nothing new is stored but on a builder's work - `forLogs` (`fell`, `haul`, `wait`), `hauls`, and
+  felling's own `ground`, `felling`, `trees`, `logs` - and on a wagon load fetched for the house, `then: 'build-house'`. A builder saved
+  without them raises the house; the tick its pile is short, they go for the logs. A class saved with somebody on auto held *"Waiting for
+  logs"* takes the house up the next tick they are home and free. **No save version moved.**
+- `ceiling:` a builder felling for the house is drawn at the house's work stroke (*chop* by its words) a little off the tree, as the
+  house's builders stand round its front; the tree going over and the axe's sound are drawn for them as for a feller.
+
+**Measured** (`scripts/house-time-measure.mjs`, its three classes of fifteen rolled families, `--modes pair,house,family`;
+[record](evidence/house-logs-measure.json); the code before, the same script and families). Ticks from the first order to the
+round-log pen roofed, median (p90):
+
+| Who was set to it | before | **after** |
+| --- | --- | --- |
+| Two grown people each pressed *Work on the house* once, on auto (`house`) | refused with the pile empty | **38.5 (69)**: 6.1 real minutes at Study |
+| One on *Fell trees*, one on *Work on the house*, both on auto (`pair`) | 102 (161) | **58 (102)** |
+| The family's grown people, felling and building in turn (`family`) | 63.5 (124) | **37 (102)** |
+
+The pair is quicker because its builder no longer waits for the feller's axe. In `house` two families of 42 never began: neither of
+the measure's two hands had any work at the end and no log was felled - the orders were refused at the start (not looked into
+further). `pair` leaves 31 of 42 unfinished before and after alike: its second hand's order to build is often refused at the start
+(the mother, by the custom, with her husband home), so the feller stops at a full pile and nobody builds - a fault of the measure's
+crew, kept as it was.
+
+Evidence: `tests/house-logs.test.mjs` (seven tests, each proved by injection, HANDOFF.md); `tests/house-plot.test.mjs`,
+`tests/auto-house.test.mjs` and `tests/tips.test.mjs` brought up to the rule.
 
 ## 7. Old saves
 

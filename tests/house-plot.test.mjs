@@ -98,7 +98,8 @@ test('a family on the real land plans on the plot, places and takes away pieces;
   assert.deepEqual(land.house.pieces, [['pen-round', 3, 2, 0, 0], ['chimney', 5, 2, 0, 0]]);
   assert.deepEqual(land.planned.logs, { wall: 46, sill: 4, any: 0 });
   assert.deepEqual(land.choices.map(choice => choice.id), PLAN_IDS);
-  assert.match(land.house.why, /log pile has not got them/);
+  // Short of logs, the card says the builders fell them (owner, 2026-10-09, "Builders fell their own"): until then it said the pile had not got them.
+  assert.equal(land.house.why, 'Whoever works on the house fells the logs first.');
   // The invented map, and a real-land class saved before, choose one of the four houses whole.
   const settled = createSettledWorld('plot-invented', 5);
   settled.status = 'running';
@@ -117,9 +118,10 @@ test('the house goes up stage by stage, each taking its logs; the family moves i
   const { world, household } = onTheLand('plot-raise');
   applyAction(world, 'hh-1', { action: 'plan-house', layout: 'round-log' });
   // The family's men and boys: building is the men's work while a man is at home (owner, 2026-10-03, "Custom, necessity opens"; sim/custom.mjs).
-  const people = personsOf(world, household).filter(person => choreAvailability(world, household, person, 'build-house').why !== undefined && sexOf(person) !== 'female');
-  // No logs: the house cannot be worked on, and says why.
-  assert.match(choreAvailability(world, household, people[0], 'build-house').why, /Laying the sills on the round-log pen wants 4 sill logs, and the log pile has not got them\./);
+  const people = personsOf(world, household).filter(person => choreAvailability(world, household, person, 'build-house').can && sexOf(person) !== 'female');
+  // No logs: the house can still be worked on, and its builders fell them (owner, 2026-10-09, "Builders fell their own"; until then it was
+  // refused, "Laying the sills on the round-log pen wants 4 sill logs, and the log pile has not got them.").
+  assert.ok(people.length, 'nobody may work on the house with the pile empty');
   // Sills from sill logs first; walls from wall logs first, then sound sill logs; poor logs never.
   household.logs = { wall: 44, sill: 6, poor: 20 };
   for (const person of people) applyAction(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'build-house' });
@@ -143,16 +145,18 @@ test('the house goes up stage by stage, each taking its logs; the family moves i
   assert.ok(story.includes('The round-log pen is finished. The family sleeps under its own roof tonight.'));
   assert.ok(story.includes('The house is built: a round-log pen and a stick-and-mud chimney.'));
   assert.deepEqual(landView(household), { shelter: 'house', layout: 'round-log' });
-  // Short of logs, the work stops and says so.
+  // Short of logs, the work no longer stops (owner, 2026-10-09, "Builders fell their own"): the builder goes and fells them and comes back to
+  // the walls. Until then: "Work on the house stopped: raising the walls, course 2 of 10 ... and the log pile has not got them."
   const { world: short, household: shortHousehold } = onTheLand('plot-short');
   applyAction(short, 'hh-1', { action: 'plan-house', layout: 'round-log' });
   shortHousehold.logs = { wall: 6, sill: 4, poor: 0 };
   const worker = personsOf(short, shortHousehold)[0];
   applyAction(short, 'hh-1', { action: 'chore', entityId: worker.id, chore: 'build-house' });
-  for (let tick = 0; tick < 100 && worker.chore; tick++) stepWorld(short);
-  assert.equal(worker.chore, null);
-  assert.ok(storyOf(short, 'hh-1').some(text => text === 'Work on the house stopped: raising the walls, course 2 of 10 on the round-log pen wants 4 sound logs, and the log pile has not got them.'));
-  assert.equal(shelterOf(short, shortHousehold).kind, 'camp');
+  let felled = false;
+  for (let tick = 0; tick < 300 && worker.chore; tick++) { stepWorld(short); felled ||= worker.chore?.forLogs === 'fell'; }
+  assert.ok(felled, 'the builder never went to fell the logs the walls wanted');
+  assert.ok(houseBuilt(shortHousehold), 'the builder left off the house when the pile ran short');
+  assert.ok(!storyOf(short, 'hh-1').some(text => /^Work on the house stopped/.test(text)), 'the house still stops for want of logs');
 });
 
 test('the panel says what the next stage wants, not only what the whole plan wants', () => {
@@ -267,7 +271,10 @@ test('families nobody plays on the real land fell, haul and raise houses of piec
   // Four hundred ticks, three hundred until 2026-09-28. Measured on this class: with the felling axe shared at home the five houses
   // stood at ticks 90, 104, 105, 262 and 298 - the slowest two ticks inside the old budget. Since the owner's "Each needs an axe"
   // (docs/TOWNS.md §4b, amended) a family with one axe fells with one person at a time where two used to share it, and the two
-  // families with little timber of their own finish at 326 and 337; the others at 84, 119 and 130.
+  // families with little timber of their own finish at 326 and 337; the others at 84, 119 and 130. Since the owner's "Builders fell
+  // their own" (2026-10-09, docs/WOODS_AND_BUILDING.md §6.14) the director's people go on the house and fell for it: all five stand in the
+  // budget - once a builder waiting for logs stopped holding the axe, so it could go off the land for the wagon load (found here: the two
+  // families with little timber never fetched, every builder at the house holding the one axe).
   for (let tick = 0; tick < 400; tick++) stepWorld(world);
   validateWorld(world);
   const households = Object.values(world.households);

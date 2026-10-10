@@ -1,0 +1,108 @@
+{
+  "run": "2026-10-09, on a copy of the house-logs tree (scripts/house-logs-injections.mjs)",
+  "results": [
+    {
+      "id": "I1 the house hidden from the work list while the pile is short",
+      "guards": "Work on the house is on the bar",
+      "caught": true,
+      "failed": [
+        "Work on the house is on the bar, pressable, once the house is placed and with nothing on the pile"
+      ]
+    },
+    {
+      "id": "I1b the old tip back",
+      "guards": "Work on the house is on the bar",
+      "caught": true,
+      "failed": [
+        "Work on the house is on the bar, pressable, once the house is placed and with nothing on the pile"
+      ]
+    },
+    {
+      "id": "I2 a free log for every tick of felling for the house",
+      "guards": "nothing comes free",
+      "caught": true,
+      "failed": [
+        "one press: the builder fells what the house wants, onto the pile, then raises it from them, and nothing comes free"
+      ]
+    },
+    {
+      "id": "I2b the felling for the house never ends at what the house wants",
+      "guards": "nothing comes free",
+      "caught": true,
+      "failed": [
+        "one press: the builder fells what the house wants, onto the pile, then raises it from them, and nothing comes free",
+        "auto does the same: somebody on auto at the house with the pile empty fells for it, and raises it"
+      ]
+    },
+    {
+      "id": "I3 the walls and a feller no longer share the axe at home",
+      "guards": "one felling axe locks no builder out",
+      "caught": true,
+      "failed": [
+        "one felling axe locks no builder out: one fells, the other drags the logs in and raises the walls; and Fell trees and the house share it"
+      ]
+    },
+    {
+      "id": "I3b the house refused for the axe in a feller's hands",
+      "guards": "one felling axe locks no builder out",
+      "caught": true,
+      "failed": [
+        "one felling axe locks no builder out: one fells, the other drags the logs in and raises the walls; and Fell trees and the house share it"
+      ],
+      "firstRun": {
+        "caught": false,
+        "failed": [],
+        "note": "missed: the sharing in userOf already keeps the house open for a feller at home; the test was given the axe carried off the land, and the injection run again"
+      }
+    },
+    {
+      "id": "I3c a hauler holds the axe while dragging logs in",
+      "guards": "one felling axe locks no builder out",
+      "caught": true,
+      "failed": [
+        "one felling axe locks no builder out: one fells, the other drags the logs in and raises the walls; and Fell trees and the house share it"
+      ]
+    },
+    {
+      "id": "I4 haulers add nothing to the felling",
+      "guards": "fells faster",
+      "caught": true,
+      "failed": [
+        "a feller with a builder dragging in the logs fells faster, by the hands curve"
+      ]
+    },
+    {
+      "id": "I5 auto holds the house while the pile is short",
+      "guards": "auto does the same",
+      "caught": true,
+      "failed": [
+        "auto does the same: somebody on auto at the house with the pile empty fells for it, and raises it",
+        "an old save opens: a builder on auto saved waiting for logs takes the house up and fells, and a builder saved felling goes on"
+      ]
+    },
+    {
+      "id": "I6 the house shared work, no custom",
+      "guards": "the custom holds",
+      "caught": true,
+      "failed": [
+        "the custom holds: a girl is refused the house with her father home, and a boy of fourteen leads it, felling, with no man home"
+      ]
+    },
+    {
+      "id": "I6b a boy under sixteen never fells for the house",
+      "guards": "the custom holds",
+      "caught": true,
+      "failed": [
+        "the custom holds: a girl is refused the house with her father home, and a boy of fourteen leads it, felling, with no man home"
+      ]
+    },
+    {
+      "id": "I7 a builder saved waiting for logs stays held",
+      "guards": "an old save opens",
+      "caught": true,
+      "failed": [
+        "an old save opens: a builder on auto saved waiting for logs takes the house up and fells, and a builder saved felling goes on"
+      ]
+    }
+  ]
+}

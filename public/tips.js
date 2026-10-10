@@ -45,7 +45,7 @@ export const TIPS = Object.freeze({
   order: 'Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means nothing to do.',
   // The farm's first works, until the tutorial is rebuilt (owner, 2026-09-28: "Yes, add them"). Worded to stay true whichever
   // way the work goes - one wood pile or none, auto or by hand, crops ripening by the calendar or by the minute.
-  house: 'Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.',
+  house: 'Press “Choose a house”, then set people to “Work on the house”: they fell the logs it needs and raise it. Until it stands, the family camps.',
   // Since 2026-09-30 a plot is tapped on the map to choose its crop (owner: "let me click on the fields").
   field: 'To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.',
   town: '“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.',

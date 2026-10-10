@@ -121,6 +121,10 @@ export function userOf(world, household, item, asker = null, { work = null, shar
     // Everybody at one shared work loads the one wagon: a second harvester holds no second copy (a family with two wagons since
     // 2026-09-25 has the other free for the road).
     if (SHARED[person.chore.id]) { if (sharedWork.has(person.chore.id)) continue; sharedWork.add(person.chore.id); }
+    // The house and the felling for it are one job at home (owner, 2026-10-09, "Builders fell their own"; docs/WOODS_AND_BUILDING.md
+    // §6.14): whoever raises the walls shares the axe with whoever is felling on the family's own land, so neither shuts the other out.
+    // Two fellers still want two axes ("Each needs an axe").
+    if (item === 'axe' && !away(world, household, person) && houseAndFelling(work, shares, person.chore)) continue;
     // Work at home that shares it with other work at home: the felling axe among everybody felling and building.
     if (person.chore.shares?.includes(item)) { if (!shares.includes(item)) home.push(person); continue; }
     holders.push(person);
@@ -134,6 +138,32 @@ export function userOf(world, household, item, asker = null, { work = null, shar
   if (!used || used < copies) return null;
   const all = [...new Set([...holders, ...home])];
   return all.length === 1 ? all[0] : { kind: 'group', name: listed(all.map(one => one.name)), many: all, copies, householdId: household.id };
+}
+/**
+ * Whether an asker and somebody already holding the felling axe at home are the house and its felling (owner, 2026-10-09, "Builders
+ * fell their own"): somebody raising the walls (the house's work, sharing the axe) and somebody felling on the family's land (holding
+ * a copy of their own: *Fell trees*, or a builder felling for the house), either way round. Read against the axe only.
+ */
+const FELLS = Object.freeze(['fell-trees', 'build-house']);
+const raisingHouse = (work, shares) => work === 'build-house' && shares.includes('axe');
+const fellingOwn = (work, shares) => FELLS.includes(work) && !shares.includes('axe');
+function houseAndFelling(work, shares, held) {
+  if (!work || !held) return false;
+  const heldShares = held.shares || [];
+  return (raisingHouse(work, shares) && fellingOwn(held.id, heldShares)) || (fellingOwn(work, shares) && raisingHouse(held.id, heldShares));
+}
+/**
+ * Who has every felling axe the family owns off its own land (docs/TOWNS.md §4b, decision 1: "Nobody fells, builds ... with it
+ * meanwhile"), or null while one is on the land - at home, or felling or building there. Asked by the house's builders, who share
+ * the axe at home with everybody felling and building and wait only while none is home (owner, 2026-10-09).
+ */
+export function axesAway(world, household, asker = null) {
+  const copies = toolCount(household, 'axe');
+  if (!copies) return null;
+  const out = (household.members || []).map(id => world.entities[id]).filter(person => person && person !== asker && !GONE.includes(person.health?.condition)
+    && away(world, household, person) && (person.chore?.with?.includes('axe') || person.carries?.items?.includes('axe')));
+  if (out.length < copies) return null;
+  return out.length === 1 ? out[0] : { kind: 'group', name: listed(out.map(one => one.name)), many: out, copies, householdId: household.id };
 }
 /** The things a family can own more than one of, held a copy at a time: the rifle and the felling axe (the beasts count themselves). */
 const COUNTED = Object.freeze(['rifle', 'axe']);

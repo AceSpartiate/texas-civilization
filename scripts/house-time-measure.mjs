@@ -8,7 +8,10 @@
 // own roof (`houseSettled`) - and to the tick the whole plan (the chimney) stands. Families whose land has no timber fetch their
 // logs with the wagon, as *Fell trees* sends them. Families with one grown person are counted alone.
 //
-//   node scripts/house-time-measure.mjs [--seeds a,b,c] [--count 15] [--json out.json]
+// `house` (owner, 2026-10-09, "Builders fell their own"; docs/WOODS_AND_BUILDING.md §6.14): the first two grown people both pressed
+// *Work on the house* once, on auto, and nothing else - they fell for it themselves.
+//
+//   node scripts/house-time-measure.mjs [--seeds a,b,c] [--count 15] [--modes stocked,pair,family,house] [--json out.json]
 import { writeFileSync } from 'node:fs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, rollFamily, stepWorld } from '../sim/world.mjs';
@@ -23,6 +26,7 @@ const arg = (name, fallback) => { const at = process.argv.indexOf(`--${name}`); 
 const seeds = arg('seeds', 'house-a,house-b,house-c').split(',');
 const count = Number(arg('count', 15));
 const out = arg('json', null);
+const modes = arg('modes', 'stocked,pair,family,house').split(',');
 const LIMIT = 900;
 
 const grid = (bounds, side = 7) => {
@@ -56,7 +60,7 @@ function run(seed, mode) {
     if (mode === 'stocked') household.logs = { wall: 60, sill: 0, poor: 0 };
     crew.forEach((person, i) => {
       applyAction(world, household.id, { action: 'set-auto', entityId: person.id, auto: true });
-      const chore = mode === 'stocked' ? 'build-house' : i % 2 === 0 ? 'fell-trees' : 'build-house';
+      const chore = mode === 'stocked' || mode === 'house' ? 'build-house' : i % 2 === 0 ? 'fell-trees' : 'build-house';
       try { applyAction(world, household.id, { action: 'chore', entityId: person.id, chore }); } catch { /* waits for logs, remembered */ }
     });
     // A lone grown person fells first, then builds: auto remembers one task, so they are sent to the felling and the house in turn.
@@ -99,8 +103,8 @@ const pct = (list, p) => { const s = [...list].sort((a, b) => a - b); return s.l
 const minutes = (ticks, pace) => ticks === null ? null : Math.round(ticks * PACES[pace] / 600) / 100;
 
 const result = { seeds, count, modes: {} };
-for (const mode of ['stocked', 'pair', 'family']) {
-  const all = seeds.flatMap(seed => Object.entries(run(seed, mode)).map(([id, row]) => ({ ...row, id: `${seed}:${id}` })).filter(row => row.hands >= (mode === "pair" ? 2 : 1)));
+for (const mode of modes) {
+  const all = seeds.flatMap(seed => Object.entries(run(seed, mode)).map(([id, row]) => ({ ...row, id: `${seed}:${id}` })).filter(row => row.hands >= (mode === "pair" || mode === 'house' ? 2 : 1)));
   if (process.env.SHOW_ROWS === mode) for (const row of [...all].sort((a, b) => (b.pen ?? 999) - (a.pen ?? 999)).slice(0, 8)) console.log(JSON.stringify(row));
   const roofs = all.map(row => row.pen).filter(n => n !== null), wholes = all.map(row => row.whole).filter(n => n !== null);
   const logsIn = all.map(row => row.logs).filter(n => n !== null);

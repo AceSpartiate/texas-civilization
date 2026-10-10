@@ -480,7 +480,7 @@ function drawGarden(ctx, x, y, half, season) {
 function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   let stroke = binding.work;
   // The felling's words moving on from the felling: the tree goes over (`treesFalling`).
-  const felling = entity.chore && (entity.chore.id === 'fell-trees' || entity.chore.id === 'fetch-logs') ? entity.chore.doing : null;
+  const felling = entity.chore && (entity.chore.id === 'fell-trees' || entity.chore.id === 'fetch-logs' || entity.chore.forLogs === 'fell') ? entity.chore.doing : null;
   if (entity.id && felling !== undefined) {
     const was = fellingWords.get(entity.id);
     if (was && felling !== was && /fell/i.test(was) && entity.location) treesFalling.set(entity.id, { at: animationTime, where: entity.location, flip: Boolean(entity.flip) });
@@ -7679,7 +7679,7 @@ function renderHousePlan(world) {
     const available = !familyCache?.canRoll && !['rolling', 'rolled'].includes(rollState) && !wagonOpen;
     const has = Boolean(world.land.house);
     houseCard({ shown: available && !housePlanOpen, quiet: has, title: has ? 'Your house' : 'Choose your house', label: has ? 'Your house' : 'Choose a house',
-      note: 'Choose a plan and where on your land it stands, then set the family to building it. Until it stands, the family camps.' });
+      note: 'Choose a plan and where on your land it stands, then set the family to “Work on the house”. Until it stands, the family camps.' });
     renderHousePlot(world, plotCatalogue, { open: available && housePlanOpen, drawSprite, spriteFrame, place: beginHousePlacement, send: command => api('/api/command', { ...command, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }), rerender: () => window.__snapshot && render(window.__snapshot) });
     return;
   }
