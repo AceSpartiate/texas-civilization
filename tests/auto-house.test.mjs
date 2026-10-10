@@ -65,18 +65,18 @@ test('one person felling on auto and one building on auto, left alone, raise the
   const [feller, builder] = grown(world, household);
   applyAction(world, 'hh-1', { action: 'set-auto', entityId: feller.id, auto: true });
   applyAction(world, 'hh-1', { action: 'set-auto', entityId: builder.id, auto: true });
-  // One press each: felling needs no place chosen, and the house with no logs yet is taken as her task to wait for.
+  // One press each: felling needs no place chosen, and the house with no logs yet is taken up at once (owner, 2026-10-09, "Builders fell
+  // their own"; until then it was her task to wait for, "Waiting for logs ... Working about the place meanwhile.").
   applyAction(world, 'hh-1', { action: 'chore', entityId: feller.id, chore: 'fell-trees' });
   applyAction(world, 'hh-1', { action: 'chore', entityId: builder.id, chore: 'build-house' });
   assert.equal(feller.chore?.id, 'fell-trees');
-  assert.equal(builder.chore, null);
+  assert.equal(builder.chore?.id, 'build-house');
   assert.equal(builder.order.chore, 'build-house');
-  // The row says she is waiting for logs, in plain words, and she works about the place meanwhile.
+  // The family's one felling axe is the feller's: the builder drags in what he fells, beside him, and says so.
   stepWorld(world);
-  assert.match(said(world, builder.id), /^Auto: work on the house\. Waiting for logs\. .* the log pile has not got them\. Working about the place meanwhile\.$/);
-  assert.equal(builder.task, 'work');
-  // That first tick is her wait for logs (the match above); since felling went at half again (2026-10-02, sim/work-pace.mjs
-  // `FELL_PACE`) the pile may never run dry under her after it, so the loop no longer looks for a second one.
+  assert.equal(builder.chore?.forLogs, 'haul');
+  assert.match(builder.chore.doing, new RegExp(`^dragging in the logs ${feller.given || feller.name} fells$`));
+  assert.equal(said(world, builder.id), 'Auto: work on the house, over and over.');
   let enough = false, most = 0;
   for (let tick = 0; tick < 1500 && !houseBuilt(household); tick++) {
     stepWorld(world);

@@ -30,6 +30,8 @@
     "simulate": "node scripts/simulate.mjs",
     "test:travel": "node scripts/travel-browser-proof.mjs",
     "test:farm": "node scripts/farm-browser-proof.mjs",
+    "test:house-logs": "node scripts/house-logs-browser-proof.mjs",
+    "test:house-logs-injections": "node scripts/house-logs-injections.mjs",
     "test:mixed-field": "node scripts/mixed-field-browser-proof.mjs",
     "test:field-click": "node scripts/field-click-browser-proof.mjs",
     "test:hunt": "node scripts/hunt-browser-proof.mjs",

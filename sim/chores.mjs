@@ -41,7 +41,7 @@ import {
 } from './improvements.mjs';
 import { PLOT_SIDE, barePlots, cropOf, cropState, fenceWords, fenceWork, groundAt, plotsOf, ripePlots, sownPlots } from './fields.mjs';
 import { MOST_HANDS, crewPace, crowdedWhy, handShare } from './hands.mjs';
-import { FURNITURE_LOGS, fenceBy, furnitureFromPile, pileFull, shortOfSound, takeSpare } from './woodpile.mjs';
+import { FURNITURE_LOGS, fenceBy, furnitureFromPile, houseNeeds, pileFull, shortOfSound, takeSpare } from './woodpile.mjs';
 import { CROPS, growCrop, inWinter, keepCrops, minutesNow, reapPlot, seedFor, seedKept, settleField, soonestCrop, sowPlot } from './crops.mjs';
 import { marketRefusal, marketSale, marketWords, recordSale, spareFood } from './market.mjs';
 import { landAround, onRealLand } from './ground.mjs';
@@ -60,11 +60,11 @@ import { KINDS, countsTrees, woodsRule } from './woods.mjs';
 import { STORE_BALE_COIN, TRADES, counterOptions, counterRefusal, rifleTrue, spendRifleShot, takeCounter, tradesAt } from './shops.mjs';
 import { carryOutErrand, herdDrivenIn, planErrand } from './errands.mjs';
 import { quickestWay } from './going.mjs';
-import { ROLES as BEASTS, hasWords, holderOf, letGo, takeToWar, teamFor, userOf, vehicleCarry, warRifleWords } from './keeping.mjs';
+import { ROLES as BEASTS, axesAway, hasWords, holderOf, letGo, takeToWar, teamFor, userOf, vehicleCarry, warRifleWords } from './keeping.mjs';
 import { beastsOf, kept, roleOf, wagonWith } from './beasts.mjs';
 import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
-import { plotNeeds } from './houseplot.mjs';
+import { logsShort, plotNeeds } from './houseplot.mjs';
 import { FELL_PACE, WORK_PACE, hoursSaid, workHours, workPaceOf } from './work-pace.mjs';
 import { hungerPace } from './hunger.mjs';
 import { houseFront } from './house-placement.mjs';
@@ -74,7 +74,7 @@ import { YARD_SHARE, doorOf, raiseYard, stepTo, walkBeside, treesInBox, yardBox,
 import { CATTLE, CUSTOM, customRefusal, customWhy, helpsWhom, noteNecessity } from './custom.mjs';
 import { gardenPoint } from './housework.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
-import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
+import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, houseWaitsForLogs, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
 
 const round = value => Math.round(value * 10000) / 10000;
@@ -1562,9 +1562,13 @@ function leadOf(world, household, entity, choreId, plotId) {
 function handsPace(world, household, entity, chore, state) {
   if (chore.crew === 'join') return crewPace(1 + household.members.filter(id => world.entities[id]?.chore?.alongside === entity.id).length);
   if (chore.crew !== 'into') return 1;
+  // A builder felling for the house (`houseLogs`): at felling's pace with the builders dragging their logs in beside them, not the walls'.
+  if (chore.house && state.forLogs === 'fell') return crewPace(1 + haulersOf(world, household, entity));
   if (chore.house) return handShare(handsOn(world, household));
   if (chore.helps) { const host = world.households[state.hostHouseholdId]; return host ? handShare(handsOn(world, host)) : 1; }
-  return handShare(atWork(world, household, state.id, chore.plotWork ? state.plotId : undefined).length);
+  // A feller with builders dragging in their logs (`houseLogs`, owner 2026-10-09): each a pair of hands on the felling, by the one curve.
+  const haulers = chore.fells ? haulersOf(world, household, entity) : 0;
+  return round(handShare(atWork(world, household, state.id, chore.plotWork ? state.plotId : undefined).length) * (haulers ? crewPace(1 + haulers) : 1));
 }
 
 /**
@@ -1602,6 +1606,196 @@ function standBeside(world, household, entity, lead) {
   if (lead.travel || lead.location?.siteId !== household.homeSiteId || entity.location?.siteId !== household.homeSiteId) return;
   // Walked over to them, or along the way they walked, not slid there in a line (owner, 2026-10-05; sim/land-paths.mjs `walkBeside`).
   walkBeside(world, household, entity, lead, { x: 0.004, y: 0.003 });
+}
+
+// ---- Work on the house fells what it needs (owner, 2026-10-09, "Builders fell their own"; docs/WOODS_AND_BUILDING.md §6.14) -------
+//
+// The owner, by multiple choice: *"'Work on the house' is always on the bar once the house is placed; with no logs on the pile, the
+// builders fell what they need themselves. One name everywhere."* A play-through as a new student found the house's work hidden from
+// the bar until logs were on the pile, and the one felling axe in a feller's hands greying it for everybody else (`FIC-GONZ-1235`).
+//
+// Asked as each spell on the house would begin (`advanceChore`, the `houseWork` step). The house takes from the pile first: while
+// the next stage's logs are on it, the builder raises it. When they are not, the builder goes for them, as one job set once:
+//   - **fells** them on the family's own land, holding a felling axe of their own while felling (docs/TOWNS.md §4b, "Each needs an
+//     axe"), at felling's own pace, until the pile holds every log the house still wants - and not a log more, so nothing comes free
+//     (`FIC-GONZ-1236`);
+//   - with no axe free - somebody else of the family is felling on the land with it - **drags in** the logs that one fells, beside
+//     them, so the felling goes at the hands' pace (sim/hands.mjs; `FIC-GONZ-1237`);
+//   - with no timber on the family's land to fell (or only poor timber while the house wants sound logs), **fetches** a wagon load from
+//     the nearest timber off it as *Fell trees* does, and goes back to the house when it is home (`resumeAfter`);
+//   - and with none of those, **waits** at the house, saying why, and raises the walls the tick the logs are there.
+// A builder away at the logs is `forLogs` ('fell', 'haul' or 'wait') on their work, and is not counted among the hands at the walls
+// (sim/houses.mjs `handsOn`). Nothing is stored that an old save lacks: a builder saved before this has no `forLogs` and raises the
+// house; the tick its pile runs short they go for the logs.
+
+/** Work that, once finished, gives way to the work it was begun from: a wagon load fetched for the house goes back to the house. */
+const resumeAfter = new WeakMap();
+
+/** Somebody of the family felling on its own land now - at *Fell trees*, or a builder felling for the house - whom a builder could drag logs in for. */
+function fellerHere(world, household, entity) {
+  return household.members.map(id => world.entities[id]).find(person => person && person !== entity && !person.travel
+    && person.location?.siteId === household.homeSiteId && !['dead', 'captured'].includes(person.health?.condition)
+    && (person.chore?.id === 'fell-trees' || (person.chore?.id === 'build-house' && person.chore.forLogs === 'fell'))) || null;
+}
+/** How many builders are dragging in the logs this feller fells, beside them (`houseLogs`): each a pair of hands on the felling. */
+function haulersOf(world, household, feller) {
+  return household.members.filter(id => {
+    const person = world.entities[id];
+    return person && person !== feller && person.chore?.id === 'build-house' && person.chore.forLogs === 'haul' && person.chore.hauls === feller.id
+      && Math.hypot((person.location?.x ?? 0) - (feller.location?.x ?? 0), (person.location?.y ?? 0) - (feller.location?.y ?? 0)) <= FELL_BESIDE;
+  }).length;
+}
+/** Within this of the feller, in miles (about 80 feet), a hauler is beside them and at it. */
+const FELL_BESIDE = 0.015;
+/**
+ * The felling axe as this builder holds it now (sim/keeping.mjs): 'shared' at the walls, as the house's work at home holds it (`axeFor`);
+ * 'own', a copy of their own while felling; 'none' while dragging logs in or waiting for them, using no axe - so a wagon load can be
+ * fetched with the family's one axe while the builders wait for it (found measuring the families nobody plays: every builder waiting
+ * at the house held it, and nobody could carry it off to the timber).
+ */
+function holdAxe(household, state, how) {
+  const wants = how === 'own' || (how === 'shared' && houseWantsAxe(household));
+  const shares = (state.shares || []).filter(item => item !== 'axe');
+  state.with = [...(state.with || []).filter(item => item !== 'axe'), ...(wants ? ['axe'] : [])];
+  if (wants && how === 'shared') shares.push('axe');
+  if (shares.length) state.shares = shares; else delete state.shares;
+  if (!state.with.length) delete state.with;
+}
+/** Back from the logs to the walls: the felling said once (`recordFelling`), and the axe held as the house holds it again. */
+function leaveLogs(world, household, entity, state) {
+  if (state.forLogs === 'fell') recordFelling(world, household, entity);
+  if (state.forLogs) holdAxe(household, state, 'shared');
+  for (const key of ['forLogs', 'hauls', 'ground', 'trees', 'logs', 'felling']) delete state[key];
+}
+/**
+ * The next tree a builder fells for the house: walked to, or begun. False when nothing stands to fell in reach of the timber they were
+ * at, nor at the next nearest timber on the family's land that gives what the house wants.
+ */
+function fellForHouse(world, household, entity, state, skill) {
+  let tree = nextTree(world, household, entity);
+  if (!tree) {
+    const next = fellingGround(world, household);
+    // Not on to poor timber while the house wants sound logs and a wagon load could be fetched: `houseLogs` fetches it instead.
+    const fetchInstead = next && !next.sound && shortOfSound(world, household) && fetchLogsFacts(world, household).can;
+    if (next && !fetchInstead && (next.x !== state.ground?.x || next.y !== state.ground?.y)) {
+      const was = state.ground;
+      state.ground = { x: round(next.x), y: round(next.y) };
+      tree = nextTree(world, household, entity);
+      if (!tree) state.ground = was;
+    }
+  }
+  if (!tree) return false;
+  state.doing = `felling ${/^[aeiou]/.test(KINDS[tree.kind].name) ? 'an' : 'a'} ${KINDS[tree.kind].name} for the house`;
+  if (!stroll(world, household, entity, { x: tree.x, y: tree.y })) return true;
+  tree = paidTrees(world, household, entity, state, skill, tree);
+  // Felled on the spot, and none left in reach: `houseLogs` asks again next tick, with the pile as it is now.
+  if (!tree) return true;
+  state.doing = `felling ${/^[aeiou]/.test(KINDS[tree.kind].name) ? 'an' : 'a'} ${KINDS[tree.kind].name} for the house`;
+  state.felling = tree.id;
+  workFor(state, treeWork(world, household, entity, skill, tree));
+  return true;
+}
+/** A tree's work for this feller, at felling's own pace (sim/work-pace.mjs `FELL_PACE`), whoever fells it and for whatever. */
+function treeWork(world, household, entity, skill, tree) {
+  return paceFor(fellAndCarryTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household)) * workPaceOf(CHORES['fell-trees']) * hungerPace(entity);
+}
+/**
+ * Trees a feller's haulers have already paid for (owner, 2026-10-09; `houseLogs`). A tree is at least the tick it is begun in, so the
+ * hands' pace (sim/hands.mjs) alone could not quicken a felling that is already a tree a tick: what the hands did past the tree in hand
+ * (`over`) fells the next one on the spot, as many more a tick as there are builders dragging the logs in, and never a tree out of the
+ * feller's reach. Alone, nothing changes: a feller fells as they always did. Returns the tree still to be begun, or null.
+ * ceiling: a hauler at a stand of quick trees adds nearly a tree a tick (the hands curve's 1.8, rounded by the tick); a hauler at slow
+ * timber adds the curve exactly. Per-tree drag work shared between them is the way out if a class finds the first too quick.
+ */
+function paidTrees(world, household, entity, state, skill, tree) {
+  const haulers = haulersOf(world, household, entity);
+  for (let extra = 0; tree && extra < haulers && (state.over || 0) >= treeWork(world, household, entity, skill, tree); extra++) {
+    state.over = round(state.over - treeWork(world, household, entity, skill, tree));
+    fellTree(world, household, entity, tree.id);
+    tree = nextTree(world, household, entity);
+    // Only one within a few steps of where the feller stands: anything further is walked to next tick, as every tree is.
+    if (tree && !paidReach(entity, tree)) return null;
+  }
+  return tree;
+}
+/** How near the feller the next tree must stand to come down on the spot, in miles (about 100 feet). */
+const PAID_REACH = 0.02;
+const paidReach = (entity, tree) => Math.hypot(tree.x - entity.location.x, tree.y - entity.location.y) <= PAID_REACH;
+/**
+ * A tick of the house's work given to its logs, or not. Returns 'raise' to raise the house now, 'walk' to walk back to it from the
+ * timber first, 'spent' when the tick went on the logs, 'gone' when the work ended or became fetching logs.
+ */
+function houseLogs(world, household, entity, chore, state, skill, deps) {
+  // A tree whose work is paid for comes down first, its logs onto the pile.
+  if (state.felling) { fellTree(world, household, entity, state.felling); delete state.felling; }
+  // Helping across the custom (owner, 2026-10-04): the tree in hand down, and no more once nobody of the custom is at the house.
+  if (state.helping && helpHeld(world, household, entity, chore, state)) return 'gone';
+  const back = () => { const was = state.forLogs; leaveLogs(world, household, entity, state); return was ? 'walk' : 'raise'; };
+  // A house chosen whole takes no logs from a pile (sim/houses.mjs).
+  if (!pieced(household) || !countsTrees(woodsRule(world))) return back();
+  const short = houseWaitsForLogs(household, world);
+  if (state.forLogs === 'fell') {
+    // On until the pile holds every log the house still wants: one walk out to the timber, not one a course.
+    if (logsShort(household.logs, houseNeeds(world, household)) && fellForHouse(world, household, entity, state, skill)) return 'spent';
+    if (!short) return back();
+    leaveLogs(world, household, entity, state);
+  }
+  if (!short) {
+    // Raising wants the axe somewhere on the land (docs/TOWNS.md §4b, decision 1): with every copy carried off it, the walls wait.
+    const away = houseWantsAxe(household) ? axesAway(world, household, entity) : null;
+    if (!away) return back();
+    if (state.forLogs !== 'wait') { state.forLogs = 'wait'; holdAxe(household, state, 'none'); }
+    state.doing = `waiting for the felling axe: ${hasWords(away, ['axe'], world, entity).replace(/\.$/, '')}`;
+    state.wait = 1;
+    return 'spent';
+  }
+  // Fell them, with an axe of their own while felling: free when no other feller holds the family's last copy and none is off the land.
+  const axeFree = household.tools?.axe !== undefined && !userOf(world, household, 'axe', entity, { work: 'build-house', shares: [] });
+  const ground = fellingGround(world, household);
+  const facts = !ground || (!ground.sound && shortOfSound(world, household)) ? fetchLogsFacts(world, household) : null;
+  const fetchInstead = Boolean(facts?.can);
+  let fetchWhy = facts && !facts.can ? facts.why : null;
+  if (axeFree && ground && !fetchInstead) {
+    const was = state.forLogs;
+    if (was) leaveLogs(world, household, entity, state);
+    state.ground = { x: round(ground.x), y: round(ground.y) };
+    if (fellForHouse(world, household, entity, state, skill)) {
+      state.forLogs = 'fell';
+      holdAxe(household, state, 'own');
+      return 'spent';
+    }
+    delete state.ground;
+  }
+  // No timber on the land: a wagon load from the nearest timber off it, and back to the house once it is home.
+  if (fetchInstead) {
+    const house = entity.chore;
+    entity.chore = null;
+    try {
+      beginChore(world, household, entity, 'fetch-logs', deps);
+      entity.chore.then = 'build-house';
+      return 'gone';
+    } catch (error) { entity.chore = house; fetchWhy = error.message; }
+  }
+  // Somebody else has the axe at the felling: beside them, dragging in what they fell.
+  const feller = fellerHere(world, household, entity);
+  if (feller) {
+    if (state.hauls !== feller.id) { leaveLogs(world, household, entity, state); state.forLogs = 'haul'; state.hauls = feller.id; holdAxe(household, state, 'none'); }
+    standBeside(world, household, entity, feller);
+    state.doing = `dragging in the logs ${feller.given || feller.name} fells`;
+    state.wait = 1;
+    return 'spent';
+  }
+  // Nothing to be done for the logs now: waiting at the house, in words, and at the walls the tick the logs are there.
+  if (state.forLogs !== 'wait') { const from = state.forLogs; leaveLogs(world, household, entity, state); state.forLogs = 'wait'; holdAxe(household, state, 'none'); if (from) { const front = houseFront(world, household); if (front) stepTo(world, household, entity, front); } }
+  const holder = household.tools?.axe === undefined ? null : axesAway(world, household, entity) || userOf(world, household, 'axe', entity, { work: 'build-house', shares: [] });
+  // Lowered only where it opens on a common word: a sentence that opens on somebody's name keeps it.
+  const lower = text => (/^(The|There|Fetching|Felling|No)\b/.test(text) ? `${text.charAt(0).toLowerCase()}${text.slice(1)}` : text).replace(/\.$/, '');
+  state.doing = holder ? `waiting for logs: ${hasWords(holder, ['axe'], world, entity).replace(/\.$/, '')}`
+    : household.tools?.axe === undefined ? 'waiting for logs: there is no felling axe in the house'
+    : !ground && fetchWhy ? `waiting for logs: no timber stands on the family's land, and ${lower(fetchWhy)}`
+    : 'waiting for logs: no timber stands on the family\'s land to fell';
+  state.wait = 1;
+  return 'spent';
 }
 /**
  * A tick of somebody working alongside the lead of a job: beside them, doing what they are doing. When the lead has left off -
@@ -2019,7 +2213,9 @@ function takenWhy(world, household, entity, choreId, extra = {}) { return takenW
  */
 function takenWhat(world, household, entity, choreId, extra = {}) {
   const chore = CHORES[choreId];
-  const axe = axeFor(world, household, choreId, extra);
+  // The house is never refused for the axe in somebody's hands (owner, 2026-10-09, "Builders fell their own"; docs/WOODS_AND_BUILDING.md
+  // §6.14): its builders share the axe at home with whoever fells, and fell, drag logs in or wait for them as the axe allows (`houseLogs`).
+  const axe = choreId === 'build-house' ? null : axeFor(world, household, choreId, extra);
   const own = [...(typeof chore.takes === 'function' ? chore.takes(world, household, entity) : chore.takes || []), ...(axe ? ['axe'] : [])];
   const shares = axe === 'home' ? ['axe'] : [];
   for (const item of own) {
@@ -2876,6 +3072,14 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       state.wait = 1;
       return;
     }
+    // Work on the house fells what it needs (owner, 2026-10-09, "Builders fell their own"; `houseLogs`): from the pile first, and for the
+    // logs when the pile is short - felled, dragged in beside whoever has the axe, fetched, or waited for at the house.
+    if (step.houseWork && chore.house) {
+      const turn = houseLogs(world, household, entity, chore, state, skill, { beginTravel, modeAvailability });
+      if (turn === 'gone') return;
+      if (turn === 'spent') { state.step--; return; }
+      if (turn === 'walk') { state.step = chore.steps.findIndex(candidate => candidate.walk) - 1; continue; }
+    }
     // Said in the words of whatever part of the house the family has got to.
     if (step.houseWork) state.doing = chore.helps ? `helping raise the walls` : stageOf(household, world);
     if (step.clearWork) {
@@ -3052,6 +3256,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       continue;
     }
     if (step.build) {
+      // The next stage's logs gone from the pile meanwhile (a carreta takes any three, poorest first): back to the logs, and the house is
+      // not stopped for it (owner, 2026-10-09, "Builders fell their own").
+      if (pieced(household) && houseWaitsForLogs(household, world)) { state.step = chore.steps.findIndex(candidate => candidate.houseWork) - 1; continue; }
       // Another spell, unless that was the last one. Then everybody on the house stops at once, this
       // person and whoever was working beside them - not a tick later, still thatching a finished roof.
       if (!buildSpell(world, household, entity)) { state.step = chore.steps.findIndex(candidate => candidate.houseWork) - 1; continue; }
@@ -3117,9 +3324,13 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       }
       if (!tree) continue;
       if (!stroll(world, household, entity, { x: tree.x, y: tree.y })) { state.step--; return; }
+      // With builders dragging the logs in, what the hands did past the tree in hand fells the next on the spot (`paidTrees`).
+      tree = paidTrees(world, household, entity, state, skill, tree);
+      // Felled on the spot to the last in reach, or the next further off: the step is asked again next tick, as it was.
+      if (!tree) { state.step--; return; }
       state.felling = tree.id;
       state.doing = `felling ${/^[aeiou]/.test(KINDS[tree.kind].name) ? 'an' : 'a'} ${KINDS[tree.kind].name}`;
-      workFor(state, paceFor(fellAndCarryTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household)) * workPaceOf(chore) * hungerPace(entity));
+      workFor(state, treeWork(world, household, entity, skill, tree));
       state.step--;
       return;
     }
@@ -3366,6 +3577,8 @@ function finishHelping(world, household, entity, chore) {
 }
 function finishChore(world, household, entity, chore) {
   const onAuto = Boolean(entity.chore?.onAuto);
+  // A wagon load fetched for the house: back to the house once it is home (`houseLogs`, taken up by `advanceChores`).
+  if (entity.chore?.then) resumeAfter.set(entity, entity.chore.then);
   entity.chore = null;
   entity.task = 'rest';
   // Not for a child's play: its own line, once a day for each kind (sim/children.mjs `playedToday`), is how it ended, and a bare
@@ -3413,6 +3626,13 @@ export function advanceChores(world, { beginTravel, modeAvailability, realMs = n
       // plots (docs/LAND_GRANTS.md §5) - is left off in a class saved in the middle of it, and said so.
       if (!CHORES[entity.chore.id]) { abandonChore(world, household, entity, RETIRED[entity.chore.id] || null); continue; }
       advanceChore(world, household, entity, { beginTravel, modeAvailability });
+      // Finished work that gives way to the work it was begun from (`resumeAfter`): the house, after a wagon load fetched for it. Refused
+      // now - called away, the house built meanwhile - and it is simply not taken up.
+      const then = resumeAfter.get(entity);
+      if (then) {
+        resumeAfter.delete(entity);
+        if (!entity.chore) { try { beginChore(world, household, entity, then, { beginTravel, modeAvailability }); } catch { /* not now */ } }
+      }
     }
   }
 }

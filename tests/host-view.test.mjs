@@ -117,7 +117,12 @@ test('a student is sent exactly what it was before: its own people, who it can s
     // And the rider the family last spoke with, named in its own record of the meeting, which stays re-readable after he has
     // ridden away out of sight (sim/encounters.mjs `encounterProjection`; riders leave since 2026-09-27).
     const metWith = view.encounter?.status === 'closed' ? view.encounter.carrierId : null;
-    const hidden = [...everyone].filter(id => !view.others.some(other => other.id === id) && !view.entities.some(own => own.id === id) && !dealtWith.has(id) && id !== metWith);
+    // And whoever stands in a rider's scene with the family's person (sim/rider-scene.mjs, `FIC-GONZ-1195`: the scene holds whoever is
+    // within about a third of a mile - a town's keepers among them), named in the scene and its talk. Found 2026-10-09: the house's
+    // builders felling for it (docs/WOODS_AND_BUILDING.md §6.14) moved this class's timing so that a rider's scene for hh-1 in San
+    // Felipe held the town's doctor, and the scan had no allowance for the scene's own cast.
+    const inScene = new Set(Object.keys(view.encounter?.scene?.cast || {}));
+    const hidden = [...everyone].filter(id => !view.others.some(other => other.id === id) && !view.entities.some(own => own.id === id) && !dealtWith.has(id) && id !== metWith && !inScene.has(id));
     assert.ok(hidden.length > everyone.size / 2, `${householdId} could see most of the class`);
     for (const id of hidden) assert.ok(!wire.includes(`"${id}"`), `${householdId} was sent ${id}, whom it cannot see`);
     // Whoever it is, they keep a shop: a keeper is known by their counter, not by the shape of their id. Marta Ibarra's is

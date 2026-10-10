@@ -221,6 +221,13 @@ Built the same day on v2026.09.24.4 ([tests](../tests/war-rifle.test.mjs), [inje
    post oak."*) until the pile holds the house's logs and the feller stops, and then builds it (tests/auto-house.test.mjs; about 370
    ticks on the test's land, where before this about 270). A class saved with two fellers sharing one axe keeps them at it until
    they stop; no save version moved.
+   **Amended by the owner, 2026-10-09: "Builders fell their own"** (docs/WOODS_AND_BUILDING.md §6.14, where the reading is set out).
+   The turn-taking above was the reading of 2026-09-28, not the owner's words, and a play-through found the house greyed for everybody
+   while one person felled. Now **the house and the felling for it share the axe at home**: whoever raises the walls is not refused for
+   a feller's copy, and *Fell trees* is not refused for the walls; each feller - on *Fell trees*, or a builder felling for the house -
+   still holds a copy of their own, so two fellers still want two axes; a builder with no axe free drags in the logs the one with it
+   fells; and the walls wait only while every felling axe is off the land. The lane, a clearing, the carreta and furniture keep the
+   rule above.
 2. **"The rifle and the war: he takes the rifle."** A man who turns out for his settlement's call (sim/calls.mjs), goes
    upriver with the march (sim/directors.mjs `handleMarch`), or leaves to enlist or to join the garrison, the relief, the
    Matamoros men or Houston (the winter's chores, `war`) carries the family's rifle for as long as he is away

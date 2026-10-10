@@ -1790,7 +1790,9 @@ children's own works.
 - **Felling** stops when the pile has **enough** - every kind the house still wants and ten logs more (WOODS §6.7) - and the row says
   *"Auto: fell trees. The log pile has enough: 62 logs at the house, and the house still wants 50. Working about the place
   meanwhile."* It takes the axe up again the tick the pile falls below.
-- **The house**, waiting on the pile, says **"Waiting for logs."** in the row's own line (the reason mechanism of §16, `order.held`):
+- ~~**The house**, waiting on the pile, says **"Waiting for logs."**~~ **Amended by the owner, 2026-10-09** (docs/WOODS_AND_BUILDING.md
+  §6.14, "Builders fell their own"): the house no longer waits on the pile - whoever is on it fells the logs, drags them in for whoever
+  has the axe, or fetches them - and the row says *"Auto: work on the house, over and over."* Until then it said so in the row's own line (the reason mechanism of §16, `order.held`):
   *"Auto: work on the house. Waiting for logs. Laying the sills on the round-log pen wants 4 sill logs, and the log pile has not got
   them. Working about the place meanwhile."* The carreta says the same when the pile is short of its three logs.
 
@@ -1837,7 +1839,9 @@ the place). The rifle, the ox and the wagon are held as before.
    with no free axe is refused, *"There is no free felling axe: … has it. Buy another in town."*, and on auto works about the place until
    one is free (tests/axe-per-feller.test.mjs; `scripts/axe-per-feller-injections.mjs`, 3 of 3 caught). The house builders were checked:
    by the rule as it stood (§21.5) a pen that wants the felling axe holds one copy shared among the builders, the lane and clearing, so a
-   family with only its starting axe takes turns - and one feller and one builder on auto still get a house.
+   family with only its starting axe takes turns - and one feller and one builder on auto still get a house. **Amended by the owner,
+   2026-10-09** (docs/WOODS_AND_BUILDING.md §6.14): the house's builders share the axe at home with whoever fells, and no longer take
+   turns with the feller.
 2. **Clearing and fencing on auto.** (a) The plot given, then the nearest to the house with that work in it; never survey - *built,
    recommended*; (b) the plot given, then the plot touching it, else stop; (c) survey and clear new ground next to the last plot when
    none is staked.

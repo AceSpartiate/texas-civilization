@@ -80,7 +80,7 @@ export function renderHousePlot(world, catalogue, { open, send, rerender, drawSp
   // The presets are the complete player-facing choice; construction details stay in the simulation.
   panel.querySelector('#plot-grid').hidden = true;
   panel.querySelector('#plot-palette').hidden = true;
-  panel.querySelector('#plot-hint').textContent = 'Choose a finished house below. Then close this panel and assign Build house from your person’s actions.';
+  panel.querySelector('#plot-hint').textContent = 'Choose a finished house below. Then close this panel and set people to “Work on the house”.';
   // Wire the controls once; they read `selected` and send through `send`.
   if (!panel.dataset.wired) {
     panel.dataset.wired = 'true';

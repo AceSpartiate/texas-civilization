@@ -1,0 +1,41 @@
+{
+  "record": "Builders fell their own, in a browser (owner, 2026-10-09; docs/WOODS_AND_BUILDING.md §6.14)",
+  "date": "2026-10-10",
+  "verdict": "PASS",
+  "note": "Same computer only, headless Chrome at 1366x768. One real class through the join flow on the colonies map. No LAN or district claim.",
+  "checks": [
+    "the house card, the pile empty, says \"Whoever works on the house fells the logs first.\" (Next: laying the sills on the round-log pen. It wants 4 sill logs and about half an hour’s work; 0 sound at the house.)",
+    "\"Work on the house\" is on Asa's bar with nothing on the pile, open to press (Work on the house. Put work into the house the family has chosen until it stands)",
+    "pressed once, Asa is \"felling a live oak for the house\" and the logs come onto the pile ({\"wall\":0,\"sill\":1,\"poor\":0,\"lying\":0})",
+    "the logs in, Asa raises the walls from them: \"raising the walls, course 1 of 10 on the round-log pen\"; the story says \"Asa felled 31 trees a quarter mile east of the house. 51 logs went onto the pile at the house.\"",
+    "no page errors"
+  ],
+  "observed": {
+    "card": [
+      "Next: laying the sills on the round-log pen. It wants 4 sill logs and about half an hour’s work; 0 sound at the house.",
+      "Whoever works on the house fells the logs first."
+    ],
+    "hint": "Choose a finished house below. Then close this panel and set people to “Work on the house”.",
+    "icon": {
+      "disabled": false,
+      "label": "Work on the house. Put work into the house the family has chosen until it stands."
+    },
+    "felling": "felling a live oak for the house",
+    "pile": {
+      "wall": 0,
+      "sill": 1,
+      "poor": 0,
+      "lying": 0
+    },
+    "raising": "raising the walls, course 1 of 10 on the round-log pen",
+    "story": [
+      "Asa felled 31 trees a quarter mile east of the house. 51 logs went onto the pile at the house."
+    ]
+  },
+  "screenshots": [
+    "docs/evidence/house-logs-card.png",
+    "docs/evidence/house-logs-bar.png",
+    "docs/evidence/house-logs-felling.png",
+    "docs/evidence/house-logs-raising.png"
+  ]
+}

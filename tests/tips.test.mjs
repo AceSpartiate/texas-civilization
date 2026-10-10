@@ -153,8 +153,10 @@ test('the house, the field and going to town each have a tip the first time the 
   // Words first: what to do and what it costs, true whichever way the work goes (one wood pile or none, auto or by hand,
   // crops ripening by the calendar or by the minute).
   assert.match(TIPS.house, /Choose a house/);
-  assert.match(TIPS.house, /Fell trees/);
-  assert.match(TIPS.house, /auto/);
+  // One name, and the builders fell their own (owner, 2026-10-09, "Builders fell their own"; docs/WOODS_AND_BUILDING.md §6.14): until
+  // then the tip sent one person to "Fell trees" on auto, which put the family's one axe in his hands and greyed the house.
+  assert.match(TIPS.house, /“Work on the house”: they fell the logs it needs/);
+  assert.doesNotMatch(TIPS.house, /Fell trees/);
   assert.match(TIPS.house, /camps/, 'the house\'s tip does not say what waiting for it costs');
   assert.match(TIPS.field, /Plant the field/);
   assert.match(TIPS.field, /seed/, 'the field\'s tip does not say planting uses seed');

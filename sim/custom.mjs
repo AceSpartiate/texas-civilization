@@ -59,7 +59,8 @@ export const CUSTOM = Object.freeze({
   'fence-plot': ['men', 'Splitting rails', 'split the rails {self}'],
   'dig-well': ['men', 'Digging the well', 'took up the spade'],
   'clear-plot': ['men', 'Clearing ground', 'set to clearing the ground {self}'],
-  'build-house': ['men', 'Building', 'went to work on the house {self}'],
+  // The house's one name, the button's, in its refusal too (owner, 2026-10-09: "One name everywhere").
+  'build-house': ['men', 'Work on the house', 'went to work on the house {self}'],
   'help-raise': ['men', 'Raising walls', 'went to the raising {self}'],
   'fell-trees': ['men', 'Felling', 'took up the axe'],
   'haul-logs': ['men', 'Hauling logs', 'hauled the logs {self}'],

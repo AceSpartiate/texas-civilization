@@ -124,7 +124,8 @@ export function drawnStroke(stroke) {
  * the one person alone stands that far to its west, facing it. An activity whose work *is* walking (`walk`) is drawn walking
  * whether or not the ground is moving under them.
  */
-const HOUSE_PARTS = Object.freeze([[/waiting/, 'wait'], [/felling|hewing|cutting and setting/, 'chop']]);
+// Work on the house fells its own logs and drags them in (owner, 2026-10-09, "Builders fell their own"; sim/chores.mjs `houseLogs`).
+const HOUSE_PARTS = Object.freeze([[/waiting/, 'wait'], [/felling|hewing|cutting and setting/, 'chop'], [/dragging/, 'carry']]);
 export const WORK = Object.freeze({
   // At home: the land, the field, the house and the well (docs/LAND_GRANTS.md, docs/WOODS_AND_BUILDING.md).
   'survey-plot': { stroke: 'pace', spread: 0.6 },

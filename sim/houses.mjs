@@ -349,11 +349,19 @@ export function houseWaitsForLogs(household, world = null) {
   return Boolean(next && next.piece.progress === 0 && logsShort(household.logs, next.stage.logs));
 }
 
-/** Why nobody in this family can work on the house right now, or null. Read by `choreAvailability`. */
+/** What the house card says while the pile is short of the next stage's logs: whoever works on the house fells them (owner, 2026-10-09). */
+export const FELLS_WORDS = 'Whoever works on the house fells the logs first.';
+/**
+ * Why nobody in this family can work on the house right now, or null. Read by `choreAvailability`.
+ *
+ * **Never for want of logs** (owner, 2026-10-09, "Builders fell their own": *"'Work on the house' is always on the bar once the house
+ * is placed; with no logs on the pile, the builders fell what they need themselves."*; docs/WOODS_AND_BUILDING.md §6.14): a house of
+ * pieces short of logs is worked by felling them (sim/chores.mjs `houseLogs`), so the pile is no reason to refuse it.
+ */
 export function buildRefusal(household, world = null) {
   const plan = houseOf(household);
   if (!plan) return 'Choose a house to build first.';
-  if (pieced(household)) return plotBuildRefusal(household, skyAtHome(world, household));
+  if (pieced(household)) return plotBuildRefusal(household, skyAtHome(world, household), { fells: true });
   if (houseBuilt(household)) return 'The house is built.';
   const missing = HOUSES[plan.layout].needs.filter(tool => household.tools?.[tool] === undefined);
   if (missing.length) return `The ${HOUSES[plan.layout].name.toLowerCase()} wants ${missing.map(tool => tool === 'axe' ? 'a felling axe' : `a ${tool}`).join(' and ')}.`;
@@ -380,7 +388,8 @@ export function buildSpell(world, household, entity) {
 }
 
 /** How many people are at work on this family's house now: its own, and neighbours helping raise it. */
-export const handsOn = (world, household) => Object.values(world.entities).filter(person => person.chore && ((person.householdId === household.id && person.chore.id === 'build-house') || person.chore.hostHouseholdId === household.id)).length;
+/** Not a builder away at the logs - felling, dragging them in or waiting for them (`forLogs`, owner 2026-10-09): only hands at the walls. */
+export const handsOn = (world, household) => Object.values(world.entities).filter(person => person.chore && ((person.householdId === household.id && person.chore.id === 'build-house' && !person.chore.forLogs) || person.chore.hostHouseholdId === household.id)).length;
 
 /** How many of this family are alive and would be sleeping at home, for crowding. */
 const sleepers = (world, household) => household.members.filter(id => {
@@ -443,7 +452,7 @@ export function houseProjection(world, household) {
       completedHouses: (household.completedHouses || []).map(house => ({ ...house, pieces: house.pieces?.map(p => [p.type, p.x, p.y, p.stage, p.progress]) })),
       canAddHouse: houseBuilt(household),
       ...(houseBuilt(household) && { additionalChoices: PLAN_IDS.map(id => { const why = planRefusal(world, { ...household, house: undefined, improvements: { ...household.improvements, cabin: 'none' } }, id); return { id, can: !why, ...(why && { why }) }; }) }),
-      ...(plan && { house: { placement: plan.placement, plan: plan.plan, pieces: pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]), stage: stageOf(household, world), phase: phaseOf(household), ...(!houseBuilt(household) && { wants: stageWants(pieces, skyAtHome(world, household)), why: buildRefusal(household, world) }) } }),
+      ...(plan && { house: { placement: plan.placement, plan: plan.plan, pieces: pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]), stage: stageOf(household, world), phase: phaseOf(household), ...(!houseBuilt(household) && { wants: stageWants(pieces, skyAtHome(world, household)), why: buildRefusal(household, world) || (houseWaitsForLogs(household, world) ? FELLS_WORDS : null) }) } }),
       ...(shelter.layout && { home: { restShare: shelter.restShare, spoilagePerDay: shelter.spoilagePerDay, ...(shelter.crowded && { crowded: true }) } }),
       // What the whole plan would do and still wants, so the plot says it while it is being laid out and built.
       ...(pieces.length && { planned: { ...(planned || {}), ...plotNeeds(pieces) } }),

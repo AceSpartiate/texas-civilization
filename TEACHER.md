@@ -139,6 +139,15 @@ or the wash wants doing and she is free to do it. The washing, and the townspeop
 invention to make the women's work matter; say so if a student asks. Nothing in the game says that men or women are better at
 anything, and the custom is never applied to enslaved people, whose labour ignored it.
 
+## The first house
+
+Once a family has chosen its house and placed it, **Work on the house** is on the bar of everybody who may build, until it stands.
+A student need press it only once for each person: with no logs on the pile, whoever is on it fells the trees the house needs on the
+family's own land, then raises the walls with them. The family's one felling axe is enough: a second person on the house drags in the
+logs the first fells and raises the walls as they come. **Fell trees** is still there for wood beyond the house - a fence, furniture,
+a carreta. A person on the house whose row says *waiting for logs* says why: usually the felling axe has gone off the land with
+somebody, or the family's land has no timber and the ox and wagon are away.
+
 ## Riders, as scenes
 
 Since 2026-10-05 a rider who brings a family news plays as a short scene over the student's whole screen: the place where their

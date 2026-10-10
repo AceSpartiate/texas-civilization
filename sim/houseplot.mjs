@@ -383,7 +383,7 @@ function takeLogs(pile, logs = {}) {
  * not go on with the logs at the door either. Nothing here refuses felling or hauling, so the wet day is still the day to
  * bring the logs in.
  */
-export function plotBuildRefusal(household, here = null) {
+export function plotBuildRefusal(household, here = null, { fells = false } = {}) {
   const pieces = household.house?.pieces || [];
   if (!pensOf(pieces).length) return 'Place a pen on the house plot first.';
   if (pieces.every(pieceDone)) return 'The house is built.';
@@ -395,7 +395,9 @@ export function plotBuildRefusal(household, here = null) {
   }
   const missing = PIECES[next.piece.type].needs.filter(tool => household.tools?.[tool] === undefined);
   if (missing.length) return `${pieceWords(pieces, next.piece)} wants ${missing.map(tool => tool === 'axe' ? 'a felling axe' : `a ${tool}`).join(' and ')}.`.replace(/^t/, 'T');
-  if (next.piece.progress === 0) {
+  // A builder fells what the house wants (owner, 2026-10-09, "Builders fell their own"; sim/chores.mjs `houseLogs`), so the house's
+  // own gate asks with `fells` and is not refused for an empty pile. Without it, the words for the pile short, as before.
+  if (next.piece.progress === 0 && !fells) {
     const short = logsShort(household.logs, next.stage.logs);
     if (short) return `${next.stage.doing.charAt(0).toUpperCase()}${next.stage.doing.slice(1)} on ${pieceWords(pieces, next.piece)} wants ${short}, and the log pile has not got them.`;
   }

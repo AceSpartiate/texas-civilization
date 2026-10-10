@@ -116,7 +116,7 @@ export function snapshotCues(state, snapshot) {
       const key = `${person.id}:${world.tick ?? world.minute}`;
       if (!state.shots.has(key)) { state.shots.add(key); add({ id: 'musket', entity: person.id }); }
     }
-    if (chore.id === 'fell-trees' || chore.id === 'fetch-logs') {
+    if (chore.id === 'fell-trees' || chore.id === 'fetch-logs' || chore.forLogs === 'fell') {
       const was = state.felling.get(person.id);
       if (was && was !== chore.doing && /fell/i.test(was)) add({ id: 'tree-fall', entity: person.id });
       state.felling.set(person.id, chore.doing);
