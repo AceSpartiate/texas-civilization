@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## The short bar and More, the idle mark, spaced tips and the play-through's small defects — owner, 2026-10-09 (not released)
+## Released as v2026.10.10.1 — 2026-10-10
+
+Main at fc9b6c05, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.10.1>). Set of changes from v2026.10.06.2: 13.3 MB (Astra's art). Evidence: `npm test` 2365 pass, 0 fail at a45aed7c; the browser proofs two at a time there, all passing but four: reconnect and battle-cinema passed alone; solo and read-aloud failed alone on the simpler start (no title screen for a made family; tips only after the site is chosen) and pass at fc9b6c05 after their proofs were brought to it, read-aloud with the voice package rebuilt for the reworded tips.
+
+## The short bar and More, the idle mark, spaced tips and the play-through's small defects — owner, 2026-10-09 (released in v2026.10.10.1)
 
 Branch `simple-ui`. A play-through as a new student (2026-10-09, seed `playthrough-1`, eight families on the colonies map; the
 student's family rolled 5) counted 18 to 26 icons on every grown person's bar and found a handful of small defects. The owner chose by
@@ -50,7 +54,7 @@ version moved (`dark` is a projection field, absent in daylight). No historical 
   and named works are added); the arrival tip's "drive in" reads the land's site chooser or the tent; a family with neither could meet
   it twice. The call's change was proved by unit test only: no browser run reached a call to arms here (`test:settlement-call` was run).
 
-## Builders fell their own: Work on the house always on the bar, one name, one axe shared — owner, 2026-10-09 (not released)
+## Builders fell their own: Work on the house always on the bar, one name, one axe shared — owner, 2026-10-09 (released in v2026.10.10.1)
 
 Branch `house-logs`. A play-through as a new student (2026-10-09) found *Work on the house* off the bar after the house was placed until
 logs were on the pile (the bar keeps refused work only when the server marks it short), the house card naming a button nobody had
@@ -108,7 +112,7 @@ docs/FAMILY_PANEL.md §21); claims `FIC-GONZ-1235` to `-1238`.
   timber adds nearly a tree a tick. `ceiling:` a builder felling for the house is drawn a little off the tree, as the house's builders
   stand round its front.
 
-## Astra's 2026-10-06 to 10-09 art merged and wired in, and her Read Aloud program — 2026-10-09 (not released)
+## Astra's 2026-10-06 to 10-09 art merged and wired in, and her Read Aloud program — 2026-10-09 (released in v2026.10.10.1)
 
 Branch `astra-merge-1009`: her 27 commits (79ae5739..e1eccc71) merged onto main 49aa2d76. Her local main never takes our
 merges, so every code change was read against its own parent and re-checked on top of the current code.
