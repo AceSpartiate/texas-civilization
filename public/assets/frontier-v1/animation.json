@@ -10769,6 +10769,29 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "creek-ford": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "creek-ford-1",
+          "duration": 350
+        },
+        {
+          "sprite": "creek-ford-2",
+          "duration": 350
+        },
+        {
+          "sprite": "creek-ford-3",
+          "duration": 350
+        },
+        {
+          "sprite": "creek-ford-4",
+          "duration": 350
+        }
+      ]
+    },
     "mule-packed-grass-walk-e": {
       "frames": [
         {

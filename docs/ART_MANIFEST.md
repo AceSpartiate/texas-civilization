@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3069 usable sprites, 325 PNG atlases, 1080 clips** (762 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3077 usable sprites, 326 PNG atlases, 1081 clips** (763 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -218,6 +218,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-gonzales-seated-paint | 12 | 1254 × 1254 | 1247274 |
 | people-gonzales-smiths | 16 | 1254 × 1254 | 1257016 |
 | gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
+| grass-creek-terrain | 8 | 1774 × 887 | 1416265 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | ground-fog-banks | 4 | 1774 × 887 | 1018893 |
 | mesquite-liveoak-gale | 12 | 1536 × 1024 | 2225195 |
@@ -2185,6 +2186,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-forge-lit | gonzales-smith-props | State artwork; no motion required |
 | gonzales-anvil-stump | gonzales-smith-props | State artwork; no motion required |
 | gonzales-chain-tools | gonzales-smith-props | State artwork; no motion required |
+| creek-bed-dry | grass-creek-terrain | State artwork; no motion required |
+| creek-bed-curve | grass-creek-terrain | State artwork; no motion required |
+| creek-ditch-dry | grass-creek-terrain | State artwork; no motion required |
+| creek-bed-end | grass-creek-terrain | State artwork; no motion required |
+| creek-ford-1 | grass-creek-terrain | creek-ford |
+| creek-ford-2 | grass-creek-terrain | creek-ford |
+| creek-ford-3 | grass-creek-terrain | creek-ford |
+| creek-ford-4 | grass-creek-terrain | creek-ford |
 | mule-packed-grass-walk-e-1 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-2 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-3 | mule-packed-grass | mule-packed-grass-walk-e |
@@ -4084,6 +4093,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elder-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | ochre-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | ochre-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
+| creek-ford | Pose cycle | 4 | 1400 | yes | undefined |
 | mule-packed-grass-walk-e | Pose cycle | 4 | 1120 | yes | east |
 | mule-packed-grass-walk-s | Pose cycle | 4 | 1120 | yes | south |
 | mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |

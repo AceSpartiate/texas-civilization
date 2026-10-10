@@ -4953,6 +4953,25 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/regular-crowbar-vertical.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "South/front and north/back leverage cycles; set, press, pull and recovery with consistent uniform and complete bar."
+    },
+    {
+      "sheet": "grass-creek-terrain",
+      "promptId": "frontier-v1/grass-creek-terrain",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-ground-bexar.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4541c9c4-9d98-4f37-85a7-dac52c1c38c7.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0f476859-8112-4403-bee3-062acc0df5d9.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve exact4columns2rows8 terrain patches and their original content/style. Shrink every entire patch by40percent center in own equalcell. Every visiblepixel mustfit central55percent cellwidthheight with minimum40px completelytransparentgutters everyboundary. Row1 dry straight/curve/ditch/end fourdistinct, row2 SAMEcreek fourrippleposes. Preserve waterbankfootprint coherence and changingwaterhighlights. No background no grid labels shadows glow. Truealpha0outside eachpatch. No newfeatures."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/grass-creek-terrain.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Recessed gravel beds, brush ditch and coherent moving water crossing."
     }
   ],
   "rejectedAttempts": [

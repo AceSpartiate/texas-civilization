@@ -1,3 +1,7 @@
+## Completed art group 2026-10-10: Grass Fight creek terrain
+
+Four painted dry creek/ditch modules and a four-frame flowing-water loop replace the engagement's low-bank stand-ins and detail its existing crossing. Locations, paths and historical staging remain; pause/reduced motion and missing-art fallbacks are covered. Seventeen art/battle tests and the production browser fixture pass. See `docs/ART_DELIVERY_2026-10-10-GRASS-CREEKS.md`.
+
 ## Completed art group 2026-10-10: Mexican regular crowbar directions
 
 Eight painted north/south frames and two authored loops complete both sides' generic directional crowbar art alongside existing east/mirrored west. Existing breach-facing selection uses the new clips; pause, reduced motion, fallback and named Karnes behavior pass regression checks. Seventeen tests and production browser proof pass. No new historical event staged. See `docs/ART_DELIVERY_2026-10-10-REGULAR-CROWBAR.md`.

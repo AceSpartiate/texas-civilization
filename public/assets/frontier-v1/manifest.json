@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 325,
-    "sprites": 3069,
-    "clips": 1080,
-    "poseCycles": 762,
+    "sheets": 326,
+    "sprites": 3077,
+    "clips": 1081,
+    "poseCycles": 763,
     "rigs": 4
   },
   "entrypoints": {
@@ -17556,6 +17556,80 @@
               [
                 678,
                 1227
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "grass-creek-terrain": {
+      "image": "atlases/grass-creek-terrain.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1416265,
+      "sha256": "0e723c1842e71ff79f907d8d55326e5740e9fcb424b23fdf8693b789cc859c88",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.689447,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              118,
+              392
+            ],
+            "columns": [
+              [
+                78,
+                410
+              ],
+              [
+                519,
+                832
+              ],
+              [
+                963,
+                1247
+              ],
+              [
+                1380,
+                1713
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              494,
+              784
+            ],
+            "columns": [
+              [
+                84,
+                415
+              ],
+              [
+                519,
+                852
+              ],
+              [
+                961,
+                1283
+              ],
+              [
+                1389,
+                1719
               ]
             ]
           }
@@ -91680,6 +91754,270 @@
       "locationKits": [],
       "promptId": "frontier-v1/gonzales-smith-props"
     },
+    "creek-bed-dry": {
+      "sheet": "grass-creek-terrain",
+      "x": 78,
+      "y": 142,
+      "w": 332,
+      "h": 247,
+      "anchorX": 0.6566,
+      "anchorY": 0.9271,
+      "label": "creek bed dry",
+      "kind": "grass-creek-terrain",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          144,
+          328,
+          243
+        ],
+        "visiblePixels": 50964,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/grass-creek-terrain.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/grass-creek-terrain"
+    },
+    "creek-bed-curve": {
+      "sheet": "grass-creek-terrain",
+      "x": 519,
+      "y": 142,
+      "w": 313,
+      "h": 250,
+      "anchorX": 0.4968,
+      "anchorY": 0.928,
+      "label": "creek bed curve",
+      "kind": "grass-creek-terrain",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          521,
+          144,
+          309,
+          246
+        ],
+        "visiblePixels": 53533,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/grass-creek-terrain.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/grass-creek-terrain"
+    },
+    "creek-ditch-dry": {
+      "sheet": "grass-creek-terrain",
+      "x": 963,
+      "y": 118,
+      "w": 284,
+      "h": 265,
+      "anchorX": 0.5739,
+      "anchorY": 0.9283,
+      "label": "creek ditch dry",
+      "kind": "grass-creek-terrain",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          965,
+          120,
+          280,
+          261
+        ],
+        "visiblePixels": 45970,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/grass-creek-terrain.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/grass-creek-terrain"
+    },
+    "creek-bed-end": {
+      "sheet": "grass-creek-terrain",
+      "x": 1380,
+      "y": 144,
+      "w": 333,
+      "h": 248,
+      "anchorX": 0.4625,
+      "anchorY": 0.9274,
+      "label": "creek bed end",
+      "kind": "grass-creek-terrain",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1382,
+          146,
+          329,
+          244
+        ],
+        "visiblePixels": 57418,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/grass-creek-terrain.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/grass-creek-terrain"
+    },
+    "creek-ford-1": {
+      "sheet": "grass-creek-terrain",
+      "x": 84,
+      "y": 498,
+      "w": 331,
+      "h": 281,
+      "anchorX": 0.6163,
+      "anchorY": 0.9288,
+      "label": "creek ford 1",
+      "kind": "grass-creek-terrain",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          86,
+          500,
+          327,
+          277
+        ],
+        "visiblePixels": 57693,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/grass-creek-terrain.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "creek-ford"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/grass-creek-terrain"
+    },
+    "creek-ford-2": {
+      "sheet": "grass-creek-terrain",
+      "x": 519,
+      "y": 494,
+      "w": 333,
+      "h": 290,
+      "anchorX": 0.6261,
+      "anchorY": 0.9276,
+      "label": "creek ford 2",
+      "kind": "grass-creek-terrain",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          521,
+          496,
+          329,
+          286
+        ],
+        "visiblePixels": 62555,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/grass-creek-terrain.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "creek-ford"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/grass-creek-terrain"
+    },
+    "creek-ford-3": {
+      "sheet": "grass-creek-terrain",
+      "x": 961,
+      "y": 496,
+      "w": 322,
+      "h": 285,
+      "anchorX": 0.6196,
+      "anchorY": 0.9298,
+      "label": "creek ford 3",
+      "kind": "grass-creek-terrain",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          963,
+          498,
+          318,
+          281
+        ],
+        "visiblePixels": 55887,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/grass-creek-terrain.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "creek-ford"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/grass-creek-terrain"
+    },
+    "creek-ford-4": {
+      "sheet": "grass-creek-terrain",
+      "x": 1389,
+      "y": 495,
+      "w": 330,
+      "h": 288,
+      "anchorX": 0.6136,
+      "anchorY": 0.9271,
+      "label": "creek ford 4",
+      "kind": "grass-creek-terrain",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1391,
+          497,
+          326,
+          284
+        ],
+        "visiblePixels": 60855,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/grass-creek-terrain.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "creek-ford"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/grass-creek-terrain"
+    },
     "mule-packed-grass-walk-e-1": {
       "sheet": "mule-packed-grass",
       "x": 20,
@@ -144376,6 +144714,29 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "creek-ford": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "creek-ford-1",
+          "duration": 350
+        },
+        {
+          "sprite": "creek-ford-2",
+          "duration": 350
+        },
+        {
+          "sprite": "creek-ford-3",
+          "duration": 350
+        },
+        {
+          "sprite": "creek-ford-4",
+          "duration": 350
+        }
+      ]
+    },
     "mule-packed-grass-walk-e": {
       "frames": [
         {
@@ -157097,7 +157458,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 325,
+    "sourceCount": 326,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

@@ -462,7 +462,7 @@ export function createBattleView(art) {
     const figures = [];
     let civilians = 0, surrendering = 0;
     // The houses, the fire and the groves the fight is among, behind everybody, and the herd (§6.13).
-    const sceneryDrawn = drawScenery(ctx, battle, camera, figurePx, time);
+    const sceneryDrawn = drawScenery(ctx, battle, camera, figurePx, time, still);
     const herdDrawn = drawHerd(ctx, camera, figurePx, time, now, still);
     const poses = { asleep: 0, hidden: 0, surrender: 0, rider: 0 };
     const offScreen = point => bounds && (point.x < -90 || point.y < -90 || point.x > bounds.width + 90 || point.y > bounds.height + 140);
@@ -871,7 +871,7 @@ export function createBattleView(art) {
     return bySide;
   }
   /** The houses, the fire and the groves, where the engagement's data puts them (§6.13). */
-  function drawScenery(ctx, battle, camera, figurePx, time) {
+  function drawScenery(ctx, battle, camera, figurePx, time, paused = false) {
     let count = 0;
     for (const item of battle.scenery || []) {
       const p = camera.toScreen(item);
@@ -883,7 +883,10 @@ export function createBattleView(art) {
         ctx.strokeStyle = 'rgba(86,122,138,.78)'; ctx.lineWidth = Math.max(3, Math.hypot(b.x - a.x, b.y - a.y));
         ctx.beginPath(); points.forEach((q, k) => (k ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y))); ctx.stroke();
         ctx.strokeStyle = 'rgba(190,214,220,.35)'; ctx.lineWidth = Math.max(1, ctx.lineWidth * 0.25); ctx.stroke();
-        ctx.restore(); count++;
+        ctx.restore();
+        if (item.crossingClip) art.animated(ctx, item.crossingClip, p.x, p.y,
+          figurePx * (item.size || 1.5), `crossing:${item.x}:${item.y}`, { timeMs: time, paused });
+        count++;
         continue;
       }
       // A tree in the wind, or any clip, at its own size in figure heights (Concepción's pecans, the Grass Fight's mesquite).
@@ -909,7 +912,8 @@ export function createBattleView(art) {
         NIGHT_BUILDING_CLIPS[item.sprite] &&
         art.animated(ctx, NIGHT_BUILDING_CLIPS[item.sprite], p.x, p.y, figurePx * (item.size || 2.4), item.id, { timeMs: time, flip: item.flip })) {
         // Only projected lamplight gets a night-lit replacement; actors remain in front.
-      } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })) {
+      } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip }) &&
+        !(item.fallbackSprite && art.drawSprite(ctx, item.fallbackSprite, p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip }))) {
         ctx.fillStyle = '#8a7658'; ctx.fillRect(p.x - figurePx, p.y - figurePx * 1.2, figurePx * 2, figurePx * 1.2);
       }
       count++;

@@ -1,0 +1,21 @@
+{
+  "verdict": "PASS",
+  "widths": [
+    147.85425101214574,
+    137.72,
+    117.88679245283019,
+    147.7016129032258,
+    129.5729537366548,
+    126.3103448275862,
+    124.28070175438596,
+    126.04166666666666
+  ],
+  "sheets": [
+    "grass-creek-terrain",
+    "grass-creek-terrain",
+    "grass-creek-terrain",
+    "grass-creek-terrain"
+  ],
+  "distinctFrames": 8,
+  "errors": []
+}
