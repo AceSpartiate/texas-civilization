@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3093 usable sprites, 327 PNG atlases, 1084 clips** (766 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3105 usable sprites, 329 PNG atlases, 1089 clips** (771 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -22,6 +22,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | smoke-column-far | 4 | 1254 × 1254 | 572269 |
 | alamo-scaling-ladders | 4 | 1254 × 1254 | 995871 |
 | regular-ladder-climb | 4 | 1254 × 1254 | 636351 |
+| army-camp-props | 8 | 1774 × 887 | 1426807 |
+| army-camp-pennants | 4 | 1254 × 1254 | 853822 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
 | volunteer-bank-actions | 6 | 1536 × 1024 | 1560397 |
 | white-flag-regular | 4 | 1262 × 1246 | 786638 |
@@ -382,6 +384,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-climb-2 | regular-ladder-climb | regular-climb |
 | regular-climb-3 | regular-ladder-climb | regular-climb |
 | regular-climb-4 | regular-ladder-climb | regular-climb |
+| camp-wedge-cream-1 | army-camp-props | camp-wedge-cream |
+| camp-wedge-cream-2 | army-camp-props | camp-wedge-cream |
+| camp-wedge-gray-1 | army-camp-props | camp-wedge-gray |
+| camp-wedge-gray-2 | army-camp-props | camp-wedge-gray |
+| camp-cookfire-1 | army-camp-props | camp-cookfire |
+| camp-cookfire-2 | army-camp-props | camp-cookfire |
+| camp-cookfire-3 | army-camp-props | camp-cookfire |
+| camp-cookfire-4 | army-camp-props | camp-cookfire |
+| camp-pennant-ochre-1 | army-camp-pennants | camp-pennant-ochre |
+| camp-pennant-ochre-2 | army-camp-pennants | camp-pennant-ochre |
+| camp-pennant-rust-1 | army-camp-pennants | camp-pennant-rust |
+| camp-pennant-rust-2 | army-camp-pennants | camp-pennant-rust |
 | volunteer-rammer-carry-1 | artillery-service | volunteer-gun-ram |
 | volunteer-rammer-carry-2 | artillery-service | volunteer-gun-ram |
 | volunteer-ram-1 | artillery-service | volunteer-gun-ram |
@@ -3452,6 +3466,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | smoke-column-far-rise | Pose cycle | 4 | 1760 | yes | not applicable |
 | ladder-carried-e | Pose cycle | 2 | 660 | yes | east; mirror for west |
 | regular-climb | Pose cycle | 4 | 880 | yes | north/up |
+| camp-wedge-cream | Pose cycle | 2 | 1400 | yes | undefined |
+| camp-wedge-gray | Pose cycle | 2 | 1400 | yes | undefined |
+| camp-cookfire | Pose cycle | 4 | 1000 | yes | undefined |
+| camp-pennant-ochre | Pose cycle | 2 | 900 | yes | undefined |
+| camp-pennant-rust | Pose cycle | 2 | 900 | yes | undefined |
 | volunteer-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | volunteer-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | volunteer-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |

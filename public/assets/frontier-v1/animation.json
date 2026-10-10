@@ -210,6 +210,89 @@
       "motion": "none",
       "direction": "north/up"
     },
+    "camp-wedge-cream": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "camp-wedge-cream-1",
+          "duration": 700
+        },
+        {
+          "sprite": "camp-wedge-cream-2",
+          "duration": 700
+        }
+      ]
+    },
+    "camp-wedge-gray": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "camp-wedge-gray-1",
+          "duration": 700
+        },
+        {
+          "sprite": "camp-wedge-gray-2",
+          "duration": 700
+        }
+      ]
+    },
+    "camp-cookfire": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "camp-cookfire-1",
+          "duration": 250
+        },
+        {
+          "sprite": "camp-cookfire-2",
+          "duration": 250
+        },
+        {
+          "sprite": "camp-cookfire-3",
+          "duration": 250
+        },
+        {
+          "sprite": "camp-cookfire-4",
+          "duration": 250
+        }
+      ]
+    },
+    "camp-pennant-ochre": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "camp-pennant-ochre-1",
+          "duration": 450
+        },
+        {
+          "sprite": "camp-pennant-ochre-2",
+          "duration": 450
+        }
+      ]
+    },
+    "camp-pennant-rust": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "camp-pennant-rust-1",
+          "duration": 450
+        },
+        {
+          "sprite": "camp-pennant-rust-2",
+          "duration": 450
+        }
+      ]
+    },
     "volunteer-gun-ram": {
       "frames": [
         {

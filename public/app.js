@@ -3136,6 +3136,8 @@ export function drawWorld(world) {
     const campMix = weather ? weatherMix(weather, army.x, world.minute) : null;
     const how = drawArmy(ctx, army, at, {
       scale: camera.scale, figure: camera.figure, time: animationTime,
+      paused: world.status !== 'running', reducedMotion: reducedMotion.matches,
+      sprite: (id, x, y, size) => drawSprite(ctx, id, x, y, size),
       draw: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options), mini: miniPerson,
       smoke: campMix && inGale(campMix) ? (x, y, size) => drawSprite(ctx, GALE_SMOKE, x, y, size) : null,
     });

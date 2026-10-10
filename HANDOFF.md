@@ -1,3 +1,7 @@
+## Completed art group 2026-10-10: army-map camps
+
+Twelve painted frames and five authored loops add wedge tents, cooking fire/pot and identification pennants. Close map camps use these plus the existing stacked-arms sprite. Pause/reduced motion, gale smoke, troop counts, distant markers and missing-art fallback are verified. Eight tests and browser proof of both assembled camps pass. See `docs/ART_DELIVERY_2026-10-10-ARMY-CAMPS.md`.
+
 ## Completed art group 2026-10-10: Goliad prisoner variety
 
 Sixteen painted poses and three walking loops add a second unarmed identity. Sampled prisoner slots keep their appearance through marching and non-graphic down states; named/family figures retain their own art. Corrected seated/lying scale for both identities. Eleven tests and production browser proof pass. See `docs/ART_DELIVERY_2026-10-10-GOLIAD-PRISONER-VARIETY.md`.

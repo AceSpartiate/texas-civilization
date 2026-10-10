@@ -5,8 +5,7 @@
 // many men the simulation holds in it and how many are this family's. Close up it is a camp - tents, a fire and a body of men
 // - and far off a marker with its name, so a family can see where the armies are without the map filling with figures.
 //
-// stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the camp: the tents and the fire are drawn
-// here in canvas; the men are the militia and regular figures the battles already use (public/art.js), or `miniPerson`.
+// Dedicated painted camp props are preferred; canvas tents/fire remain a missing-art fallback.
 
 /** A camp is drawn from this many pixels a mile up; below it the army is a marker. */
 export const CAMP_SCALE = 120;
@@ -59,6 +58,10 @@ function fire(ctx, x, y, size, time, smoke = null) {
   ctx.quadraticCurveTo(x, y - size * (0.75 * flicker), x + size * 0.2, y - size * 0.05);
   ctx.closePath();
   ctx.fill();
+  campSmoke(ctx, x, y, size, time, smoke);
+}
+
+function campSmoke(ctx, x, y, size, time, smoke) {
   // The smoke of the day it is. In a norther it is laid over the fire and streams off it; otherwise it goes up in puffs.
   if (smoke && smoke(x + size * 0.45, y - size * 0.55, size * 1.1)) return;
   ctx.fillStyle = 'rgba(226,222,210,0.35)';
@@ -75,21 +78,31 @@ function fire(ctx, x, y, size, time, smoke = null) {
  * the page's own person drawing: `draw(clip, x, y, size, key, options)` returns false when the art has not arrived, so the
  * camp falls back to the plain figures the map already uses for anybody.
  */
-export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, mini = null, smoke = null }) {
+export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, sprite = null, mini = null, smoke = null, paused = false, reducedMotion = false }) {
   const colours = army.side === 'mexican' ? MEXICAN : TEXIAN;
   if (scale < CAMP_SCALE) { drawArmyMark(ctx, army, at, colours, Math.max(11, Math.min(20, figure))); return 'mark'; }
   const size = Math.max(10, Math.min(46, figure * 1.1));
+  const held = paused || reducedMotion;
+  const propOptions = { timeMs: held ? 0 : time, paused: held };
   // The tents behind, the fire in the middle, the men in front of it: a camp read at a glance.
   const tents = army.side === 'mexican' ? 2 : 3;
-  for (let i = 0; i < tents; i++) tent(ctx, at.x + (i - (tents - 1) / 2) * size * 1.5, at.y - size * 0.55, size, colours);
-  fire(ctx, at.x, at.y, size * 0.7, time, smoke);
+  for (let i = 0; i < tents; i++) {
+    const x = at.x + (i - (tents - 1) / 2) * size * 1.5, y = at.y - size * 0.55;
+    if (!(draw && draw(`camp-wedge-${i % 2 ? 'gray' : 'cream'}`, x, y, size * 1.2, `${army.id}:tent:${i}`, propOptions))) tent(ctx, x, y, size, colours);
+  }
+  if (draw && draw('camp-cookfire', at.x, at.y, size * 0.95, `${army.id}:cookfire`, propOptions)) campSmoke(ctx, at.x, at.y, size * 0.7, held ? 0 : time, smoke);
+  else fire(ctx, at.x, at.y, size * 0.7, held ? 0 : time, smoke);
+  if (draw) {
+    draw(`camp-pennant-${army.side === 'mexican' ? 'rust' : 'ochre'}`, at.x - size * 2.2, at.y - size * 0.35, size * 1.6, `${army.id}:pennant`, propOptions);
+  }
+  if (sprite) sprite('musket-stack-small', at.x + size * 2.15, at.y - size * 0.15, size * 0.85);
   const men = menDrawn(army.strength ?? CAMP_MEN);
   const role = army.side === 'mexican' ? 'regular' : 'volunteer';
   for (let index = 0; index < men; index++) {
     const column = index % 6, row = Math.floor(index / 6);
     const x = at.x + (column - 2.5) * size * 0.95, y = at.y + size * (0.5 + row * 0.55);
     const flip = army.side === 'mexican';
-    const drawn = draw && draw(`${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip });
+    const drawn = draw && draw(`${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip, ...propOptions });
     if (!drawn && mini) mini(ctx, x, y, size, { side: army.side, flip });
   }
   drawArmyLabel(ctx, army, { x: at.x, y: at.y - size * 1.5 }, colours);

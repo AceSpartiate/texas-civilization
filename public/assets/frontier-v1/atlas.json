@@ -573,6 +573,138 @@
         ]
       }
     },
+    "army-camp-props": {
+      "image": "atlases/army-camp-props.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1426807,
+      "sha256": "e3c945bdd6f507439faba1443c850bacd836333f639123412b94e742f9a90c9e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.656048,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              123,
+              413
+            ],
+            "columns": [
+              [
+                20,
+                433
+              ],
+              [
+                463,
+                874
+              ],
+              [
+                901,
+                1313
+              ],
+              [
+                1343,
+                1755
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              490,
+              842
+            ],
+            "columns": [
+              [
+                63,
+                387
+              ],
+              [
+                507,
+                830
+              ],
+              [
+                948,
+                1271
+              ],
+              [
+                1392,
+                1715
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "army-camp-pennants": {
+      "image": "atlases/army-camp-pennants.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 853822,
+      "sha256": "81c553b442e6d3328b489ab9845163d7e442370ee6f40b14cb19d17c8d0d797d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.80666,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              104,
+              589
+            ],
+            "columns": [
+              [
+                132,
+                569
+              ],
+              [
+                732,
+                1197
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              663,
+              1147
+            ],
+            "columns": [
+              [
+                132,
+                570
+              ],
+              [
+                725,
+                1200
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "artillery-service": {
       "image": "atlases/artillery-service.png",
       "width": 1254,
@@ -29600,6 +29732,294 @@
           565
         ],
         "visiblePixels": 57797,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-wedge-cream-1": {
+      "sheet": "army-camp-props",
+      "x": 20,
+      "y": 123,
+      "w": 413,
+      "h": 288,
+      "anchorX": 0.4092,
+      "anchorY": 0.9271,
+      "label": "camp wedge cream 1",
+      "kind": "army-camp-props",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          125,
+          409,
+          284
+        ],
+        "visiblePixels": 58497,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-wedge-cream-2": {
+      "sheet": "army-camp-props",
+      "x": 463,
+      "y": 123,
+      "w": 411,
+      "h": 288,
+      "anchorX": 0.4112,
+      "anchorY": 0.9271,
+      "label": "camp wedge cream 2",
+      "kind": "army-camp-props",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          465,
+          125,
+          407,
+          284
+        ],
+        "visiblePixels": 58515,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-wedge-gray-1": {
+      "sheet": "army-camp-props",
+      "x": 901,
+      "y": 125,
+      "w": 412,
+      "h": 288,
+      "anchorX": 0.5947,
+      "anchorY": 0.9271,
+      "label": "camp wedge gray 1",
+      "kind": "army-camp-props",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          903,
+          127,
+          408,
+          284
+        ],
+        "visiblePixels": 58656,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-wedge-gray-2": {
+      "sheet": "army-camp-props",
+      "x": 1343,
+      "y": 126,
+      "w": 412,
+      "h": 287,
+      "anchorX": 0.5959,
+      "anchorY": 0.9268,
+      "label": "camp wedge gray 2",
+      "kind": "army-camp-props",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1345,
+          128,
+          408,
+          283
+        ],
+        "visiblePixels": 58715,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-cookfire-1": {
+      "sheet": "army-camp-props",
+      "x": 63,
+      "y": 491,
+      "w": 324,
+      "h": 351,
+      "anchorX": 0.5046,
+      "anchorY": 0.9288,
+      "label": "camp cookfire 1",
+      "kind": "army-camp-props",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          65,
+          493,
+          320,
+          347
+        ],
+        "visiblePixels": 46076,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-cookfire-2": {
+      "sheet": "army-camp-props",
+      "x": 507,
+      "y": 491,
+      "w": 323,
+      "h": 351,
+      "anchorX": 0.5046,
+      "anchorY": 0.9288,
+      "label": "camp cookfire 2",
+      "kind": "army-camp-props",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          509,
+          493,
+          319,
+          347
+        ],
+        "visiblePixels": 46035,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-cookfire-3": {
+      "sheet": "army-camp-props",
+      "x": 948,
+      "y": 491,
+      "w": 323,
+      "h": 351,
+      "anchorX": 0.5046,
+      "anchorY": 0.9288,
+      "label": "camp cookfire 3",
+      "kind": "army-camp-props",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          950,
+          493,
+          319,
+          347
+        ],
+        "visiblePixels": 45869,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-cookfire-4": {
+      "sheet": "army-camp-props",
+      "x": 1392,
+      "y": 490,
+      "w": 323,
+      "h": 352,
+      "anchorX": 0.5046,
+      "anchorY": 0.929,
+      "label": "camp cookfire 4",
+      "kind": "army-camp-props",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1394,
+          492,
+          319,
+          348
+        ],
+        "visiblePixels": 45206,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-pennant-ochre-1": {
+      "sheet": "army-camp-pennants",
+      "x": 132,
+      "y": 104,
+      "w": 437,
+      "h": 483,
+      "anchorX": 0.0789,
+      "anchorY": 0.9296,
+      "label": "camp pennant ochre 1",
+      "kind": "army-camp-pennants",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          134,
+          106,
+          433,
+          479
+        ],
+        "visiblePixels": 68369,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-pennant-ochre-2": {
+      "sheet": "army-camp-pennants",
+      "x": 732,
+      "y": 104,
+      "w": 465,
+      "h": 485,
+      "anchorX": 0.071,
+      "anchorY": 0.9361,
+      "label": "camp pennant ochre 2",
+      "kind": "army-camp-pennants",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          734,
+          106,
+          461,
+          481
+        ],
+        "visiblePixels": 65699,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-pennant-rust-1": {
+      "sheet": "army-camp-pennants",
+      "x": 132,
+      "y": 666,
+      "w": 438,
+      "h": 480,
+      "anchorX": 0.0799,
+      "anchorY": 0.9479,
+      "label": "camp pennant rust 1",
+      "kind": "army-camp-pennants",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          134,
+          668,
+          434,
+          476
+        ],
+        "visiblePixels": 70501,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-pennant-rust-2": {
+      "sheet": "army-camp-pennants",
+      "x": 725,
+      "y": 663,
+      "w": 475,
+      "h": 484,
+      "anchorX": 0.0726,
+      "anchorY": 0.9504,
+      "label": "camp pennant rust 2",
+      "kind": "army-camp-pennants",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          727,
+          665,
+          471,
+          480
+        ],
+        "visiblePixels": 69314,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

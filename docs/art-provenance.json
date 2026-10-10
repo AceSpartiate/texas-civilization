@@ -4985,6 +4985,33 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/goliad-prisoner-second.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Distinct clean-shaven olive-coated unarmed identity; directional walks, free-handed idle and non-graphic down poses."
+    },
+    {
+      "sheet": "army-camp-props",
+      "promptId": "frontier-v1/army-camp-props",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/field-cover-camp-props.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-camp-life.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-729d43e1-a7cf-43f9-9a1e-e49fdcb33995.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/army-camp-props.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Wedge tents with moving flaps and cooking tripod with moving flame/steam."
+    },
+    {
+      "sheet": "army-camp-pennants",
+      "promptId": "frontier-v1/army-camp-pennants",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/field-cover-camp-props.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-081f61b2-6e02-4e33-9917-7fe1ab61468b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/army-camp-pennants.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Plain ochre/rust identification pennants; artistic army markers not historical flag claims."
     }
   ],
   "rejectedAttempts": [
