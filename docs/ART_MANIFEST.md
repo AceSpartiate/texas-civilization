@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3041 usable sprites, 322 PNG atlases, 1067 clips** (755 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3053 usable sprites, 323 PNG atlases, 1076 clips** (758 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -50,6 +50,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
 | dragoon-carbine-actions | 4 | 1278 × 1230 | 1451179 |
 | lancer-charge | 4 | 1536 × 1024 | 2066034 |
+| children-dialogue | 12 | 1448 × 1086 | 933507 |
 | icons-children | 6 | 1254 × 1254 | 874710 |
 | people-children-vertical | 12 | 1254 × 1254 | 1163980 |
 | people-children-idle | 16 | 1254 × 1254 | 1351105 |
@@ -681,6 +682,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | lancer-charge-2 | lancer-charge | lancer-charge |
 | lancer-charge-3 | lancer-charge | lancer-charge |
 | lancer-charge-4 | lancer-charge | lancer-charge |
+| girl-speak-1 | children-dialogue | girl-speak |
+| girl-speak-2 | children-dialogue | girl-speak |
+| girl-listen-s | children-dialogue | girl-listen-s |
+| girl-listen-n | children-dialogue | girl-listen-n |
+| boy-speak-1 | children-dialogue | boy-speak |
+| boy-speak-2 | children-dialogue | boy-speak |
+| boy-listen-s | children-dialogue | boy-listen-s |
+| boy-listen-n | children-dialogue | boy-listen-n |
+| smallchild-speak-1 | children-dialogue | smallchild-speak |
+| smallchild-speak-2 | children-dialogue | smallchild-speak |
+| smallchild-listen-s | children-dialogue | smallchild-listen-s |
+| smallchild-listen-n | children-dialogue | smallchild-listen-n |
 | icon-child-play | icons-children | State artwork; no motion required |
 | icon-child-kindling | icons-children | State artwork; no motion required |
 | icon-child-birds | icons-children | State artwork; no motion required |
@@ -3535,6 +3548,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-n | breathe | 1 | 2200 | yes | north |
 | dragoon-fire | Pose cycle | 4 | 1000 | one-shot | east; west by mirroring |
 | lancer-charge | Pose cycle | 4 | 640 | yes | east; west by mirroring |
+| girl-speak | Pose cycle | 2 | 1000 | yes | undefined |
+| girl-listen-s | breathe | 1 | 2200 | yes | undefined |
+| girl-listen-n | breathe | 1 | 2200 | yes | undefined |
+| boy-speak | Pose cycle | 2 | 1000 | yes | undefined |
+| boy-listen-s | breathe | 1 | 2200 | yes | undefined |
+| boy-listen-n | breathe | 1 | 2200 | yes | undefined |
+| smallchild-speak | Pose cycle | 2 | 1000 | yes | undefined |
+| smallchild-listen-s | breathe | 1 | 2200 | yes | undefined |
+| smallchild-listen-n | breathe | 1 | 2200 | yes | undefined |
 | girl-walk-s | Pose cycle | 2 | 460 | yes | south |
 | girl-walk-n | Pose cycle | 2 | 460 | yes | north |
 | boy-walk-s | Pose cycle | 2 | 460 | yes | south |

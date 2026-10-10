@@ -2453,6 +2453,117 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "girl-speak": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "girl-speak-1",
+          "duration": 500
+        },
+        {
+          "sprite": "girl-speak-2",
+          "duration": 500
+        }
+      ]
+    },
+    "girl-listen-s": {
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "frames": [
+        {
+          "sprite": "girl-listen-s",
+          "duration": 2200
+        }
+      ]
+    },
+    "girl-listen-n": {
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "frames": [
+        {
+          "sprite": "girl-listen-n",
+          "duration": 2200
+        }
+      ]
+    },
+    "boy-speak": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "boy-speak-1",
+          "duration": 500
+        },
+        {
+          "sprite": "boy-speak-2",
+          "duration": 500
+        }
+      ]
+    },
+    "boy-listen-s": {
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "frames": [
+        {
+          "sprite": "boy-listen-s",
+          "duration": 2200
+        }
+      ]
+    },
+    "boy-listen-n": {
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "frames": [
+        {
+          "sprite": "boy-listen-n",
+          "duration": 2200
+        }
+      ]
+    },
+    "smallchild-speak": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "smallchild-speak-1",
+          "duration": 500
+        },
+        {
+          "sprite": "smallchild-speak-2",
+          "duration": 500
+        }
+      ]
+    },
+    "smallchild-listen-s": {
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "frames": [
+        {
+          "sprite": "smallchild-listen-s",
+          "duration": 2200
+        }
+      ]
+    },
+    "smallchild-listen-n": {
+      "loop": true,
+      "authored": false,
+      "motion": "breathe",
+      "frames": [
+        {
+          "sprite": "smallchild-listen-n",
+          "duration": 2200
+        }
+      ]
+    },
     "girl-walk-s": {
       "frames": [
         {

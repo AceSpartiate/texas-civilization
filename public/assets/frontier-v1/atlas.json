@@ -3278,6 +3278,105 @@
         ]
       }
     },
+    "children-dialogue": {
+      "image": "atlases/children-dialogue.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 933507,
+      "sha256": "ad01737155dc3908a2079ecb0db92585d38c6cf8eb1161142fb3a366a8187eaf",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.763063,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              70,
+              372
+            ],
+            "columns": [
+              [
+                149,
+                312
+              ],
+              [
+                498,
+                631
+              ],
+              [
+                823,
+                970
+              ],
+              [
+                1170,
+                1321
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              430,
+              745
+            ],
+            "columns": [
+              [
+                149,
+                307
+              ],
+              [
+                500,
+                632
+              ],
+              [
+                826,
+                966
+              ],
+              [
+                1178,
+                1318
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              800,
+              1044
+            ],
+            "columns": [
+              [
+                150,
+                306
+              ],
+              [
+                497,
+                629
+              ],
+              [
+                831,
+                967
+              ],
+              [
+                1179,
+                1311
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "icons-children": {
       "image": "atlases/icons-children.png",
       "width": 1254,
@@ -36597,6 +36696,294 @@
           461
         ],
         "visiblePixels": 109798,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-speak-1": {
+      "sheet": "children-dialogue",
+      "x": 149,
+      "y": 73,
+      "w": 163,
+      "h": 298,
+      "anchorX": 0.3957,
+      "anchorY": 0.9295,
+      "label": "girl speak 1",
+      "kind": "children-dialogue",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          151,
+          75,
+          159,
+          294
+        ],
+        "visiblePixels": 29360,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-speak-2": {
+      "sheet": "children-dialogue",
+      "x": 498,
+      "y": 73,
+      "w": 133,
+      "h": 299,
+      "anchorX": 0.5188,
+      "anchorY": 0.9298,
+      "label": "girl speak 2",
+      "kind": "children-dialogue",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          500,
+          75,
+          129,
+          295
+        ],
+        "visiblePixels": 27856,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-listen-s": {
+      "sheet": "children-dialogue",
+      "x": 823,
+      "y": 71,
+      "w": 147,
+      "h": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.94,
+      "label": "girl listen s",
+      "kind": "children-dialogue",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          825,
+          73,
+          143,
+          296
+        ],
+        "visiblePixels": 32502,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-listen-n": {
+      "sheet": "children-dialogue",
+      "x": 1170,
+      "y": 70,
+      "w": 151,
+      "h": 301,
+      "anchorX": 0.4934,
+      "anchorY": 0.9336,
+      "label": "girl listen n",
+      "kind": "children-dialogue",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1172,
+          72,
+          147,
+          297
+        ],
+        "visiblePixels": 32478,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-speak-1": {
+      "sheet": "children-dialogue",
+      "x": 149,
+      "y": 430,
+      "w": 158,
+      "h": 313,
+      "anchorX": 0.3987,
+      "anchorY": 0.9297,
+      "label": "boy speak 1",
+      "kind": "children-dialogue",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          151,
+          432,
+          154,
+          309
+        ],
+        "visiblePixels": 25120,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-speak-2": {
+      "sheet": "children-dialogue",
+      "x": 500,
+      "y": 432,
+      "w": 132,
+      "h": 312,
+      "anchorX": 0.5379,
+      "anchorY": 0.9295,
+      "label": "boy speak 2",
+      "kind": "children-dialogue",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          502,
+          434,
+          128,
+          308
+        ],
+        "visiblePixels": 23129,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-listen-s": {
+      "sheet": "children-dialogue",
+      "x": 826,
+      "y": 432,
+      "w": 140,
+      "h": 312,
+      "anchorX": 0.4964,
+      "anchorY": 0.9519,
+      "label": "boy listen s",
+      "kind": "children-dialogue",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          828,
+          434,
+          136,
+          308
+        ],
+        "visiblePixels": 30421,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-listen-n": {
+      "sheet": "children-dialogue",
+      "x": 1178,
+      "y": 431,
+      "w": 140,
+      "h": 314,
+      "anchorX": 0.4929,
+      "anchorY": 0.9427,
+      "label": "boy listen n",
+      "kind": "children-dialogue",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1180,
+          433,
+          136,
+          310
+        ],
+        "visiblePixels": 30400,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-speak-1": {
+      "sheet": "children-dialogue",
+      "x": 150,
+      "y": 804,
+      "w": 156,
+      "h": 240,
+      "anchorX": 0.4423,
+      "anchorY": 0.9292,
+      "label": "smallchild speak 1",
+      "kind": "children-dialogue",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          152,
+          806,
+          152,
+          236
+        ],
+        "visiblePixels": 21190,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-speak-2": {
+      "sheet": "children-dialogue",
+      "x": 497,
+      "y": 803,
+      "w": 132,
+      "h": 239,
+      "anchorX": 0.5038,
+      "anchorY": 0.9289,
+      "label": "smallchild speak 2",
+      "kind": "children-dialogue",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          499,
+          805,
+          128,
+          235
+        ],
+        "visiblePixels": 20033,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-listen-s": {
+      "sheet": "children-dialogue",
+      "x": 831,
+      "y": 803,
+      "w": 136,
+      "h": 239,
+      "anchorX": 0.4853,
+      "anchorY": 0.9456,
+      "label": "smallchild listen s",
+      "kind": "children-dialogue",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          833,
+          805,
+          132,
+          235
+        ],
+        "visiblePixels": 22317,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-listen-n": {
+      "sheet": "children-dialogue",
+      "x": 1179,
+      "y": 800,
+      "w": 132,
+      "h": 242,
+      "anchorX": 0.4962,
+      "anchorY": 0.9463,
+      "label": "smallchild listen n",
+      "kind": "children-dialogue",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1181,
+          802,
+          128,
+          238
+        ],
+        "visiblePixels": 22829,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

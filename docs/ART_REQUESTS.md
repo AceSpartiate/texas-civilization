@@ -1,3 +1,7 @@
+## Delivered 2026-10-09: child conversation art
+
+Complete group: girl, boy and smallchild have paired speaking poses and front/back listening (12 frames), registered and selected through `CHILD_POSES`. Three speech loops and six breathing listen clips preserve age-specific bodies. Infant, task and transport art remain separate. See `ART_DELIVERY_2026-10-09-CHILDREN-DIALOGUE.md`.
+
 ## Delivered 2026-10-09: general felled timber props
 
 Complete library art: fallen trunk in two orientations, trimmed log and five-log stack. Four rigid held poses support position-based hauling animation. Live fallen-timber object placement remains separate gameplay work. See `ART_DELIVERY_2026-10-09-FELLED-TIMBER.md`.

@@ -1,0 +1,32 @@
+{
+  "verdict": "PASS",
+  "widths": [
+    98.45637583892618,
+    80.06688963210703,
+    88.2,
+    90.29900332225914,
+    90.86261980830672,
+    76.15384615384615,
+    80.76923076923076,
+    80.2547770700637,
+    84.5,
+    71.79916317991632,
+    73.97489539748953,
+    70.9090909090909
+  ],
+  "selected": [
+    "girl-speak",
+    "girl-speak",
+    "girl-listen-s",
+    "girl-listen-n",
+    "boy-speak",
+    "boy-speak",
+    "boy-listen-s",
+    "boy-listen-n",
+    "smallchild-speak",
+    "smallchild-speak",
+    "smallchild-listen-s",
+    "smallchild-listen-n"
+  ],
+  "errors": []
+}
