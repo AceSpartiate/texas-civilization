@@ -211,7 +211,7 @@ test('in the rout a share of the broken side gives itself up where it stands, an
 });
 
 test('a group of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground', () => {
-  // Claude's marsh edge drawn; the horsemen and the breastwork are Astra's (2026-10-03).
+  // The horsemen and the breastwork are Astra's (2026-10-03), and the marsh's shoreline (2026-10-08).
   const art = fakeArt({ claude: true }), view = createBattleView(art);
   const works = [
     { id: 'breastwork', kind: 'breastwork', x: 0.2, y: 0, width: 0.3, across: { x: 0, y: 1 } },
@@ -231,11 +231,10 @@ test('a group of horse is drawn apart from its side, as riders, with its own fal
   assert.ok(e.shotsBy.texian > 0, 'the horsemen did not fire');
   assert.ok(e.works > 20, `only ${e.works} pieces of works drawn`);
   for (const piece of ['breastwork-packs-left', 'breastwork-packs-right']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);
-  assert.ok(art.drawn.some(one => one.clip === 'reeds-wind') && art.drawn.some(one => one.clip === 'fire-flicker'));
-  // The marsh's edge under its reeds (Claude's `marsh-edge-*` tiles), all three kinds of tile, before the first reed.
-  const firstEdge = art.drawn.findIndex(one => /^marsh-edge-\d$/.test(one.sprite || '')), firstReed = art.drawn.findIndex(one => one.clip === 'reeds-wind');
-  assert.deepEqual([...new Set(art.drawn.filter(one => /^marsh-edge-\d$/.test(one.sprite || '')).map(one => one.sprite))].sort(), ['marsh-edge-1', 'marsh-edge-2', 'marsh-edge-3'], 'the marsh has no edge');
-  assert.ok(firstEdge >= 0 && firstEdge < firstReed, 'the marsh edge is drawn under its reeds');
+  assert.ok(art.drawn.some(one => one.clip === 'fire-flicker'));
+  // The marsh's shoreline is Astra's, both of her patches on their loops; the reeds' sway is only what draws while her sheet loads.
+  assert.deepEqual([...new Set(art.drawn.filter(one => /^marsh-edge-/.test(one.clip || '')).map(one => one.clip))].sort(), ['marsh-edge-dense', 'marsh-edge-sparse'], 'the marsh has no shoreline');
+  assert.ok(!art.drawn.some(one => one.clip === 'reeds-wind' || /^marsh-edge-\d$/.test(one.sprite || '')), "the reeds or Claude's old tiles are drawn over her shoreline");
   // The opening in the middle of the breastwork where the gun stood (`HIST-TEX-522`).
   const pieces = art.drawn.filter(one => ['breastwork-packs-left', 'breastwork-packs-right'].includes(one.sprite)).map(one => one.y);
   assert.ok(!pieces.some(y => Math.abs(y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');

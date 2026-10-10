@@ -6,14 +6,14 @@
     "claude-wagon-drivers": {
       "image": "/assets/claude-standins/claude-wagon-drivers.png",
       "width": 3200,
-      "height": 1600,
-      "bytes": 970280,
-      "sha256": "dc9f3b6595632e6dbb5b3372228910f06e5ce673afdba851842a89441dea4d5f",
+      "height": 800,
+      "bytes": 438210,
+      "sha256": "50ee0b821569046c6329f70e4f071d2b1ca7d1d5766390028fb4f67f45521924",
       "madeBy": "claude",
       "module": "transport-seated",
       "request": "Request 2026-09-16 — driving the ox wagon",
       "layout": {
-        "rows": 4,
+        "rows": 2,
         "columns": 8,
         "cell": {
           "w": 400,
@@ -43,282 +43,10 @@
     }
   },
   "frames": {
-    "rust-woman-wagon-driver-s-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 0,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "rust-woman-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-s-1.svg",
-      "label": "rust woman wagon driver s 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "rust-woman-wagon-driver-e-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 400,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "rust-woman-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-e-1.svg",
-      "label": "rust woman wagon driver e 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "rust-woman-wagon-driver-w-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 800,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "rust-woman-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-w-1.svg",
-      "label": "rust woman wagon driver w 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "rust-woman-wagon-driver-n-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 1200,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "rust-woman-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-n-1.svg",
-      "label": "rust woman wagon driver n 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "indigo-wagon-driver-s-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 1600,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "indigo-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-indigo-wagon-driver-s-1.svg",
-      "label": "indigo wagon driver s 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "indigo-wagon-driver-e-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2000,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "indigo-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-indigo-wagon-driver-e-1.svg",
-      "label": "indigo wagon driver e 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "indigo-wagon-driver-w-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2400,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "indigo-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-indigo-wagon-driver-w-1.svg",
-      "label": "indigo wagon driver w 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "indigo-wagon-driver-n-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2800,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "indigo-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-indigo-wagon-driver-n-1.svg",
-      "label": "indigo wagon driver n 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "ochre-wagon-driver-s-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 0,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "ochre-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-ochre-wagon-driver-s-1.svg",
-      "label": "ochre wagon driver s 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "ochre-wagon-driver-e-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 400,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "ochre-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-ochre-wagon-driver-e-1.svg",
-      "label": "ochre wagon driver e 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "ochre-wagon-driver-w-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 800,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "ochre-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-ochre-wagon-driver-w-1.svg",
-      "label": "ochre wagon driver w 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "ochre-wagon-driver-n-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 1200,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "ochre-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-ochre-wagon-driver-n-1.svg",
-      "label": "ochre wagon driver n 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "blue-girl-wagon-driver-s-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 1600,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "blue-girl-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-s-1.svg",
-      "label": "blue girl wagon driver s 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "blue-girl-wagon-driver-e-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2000,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "blue-girl-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-e-1.svg",
-      "label": "blue girl wagon driver e 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "blue-girl-wagon-driver-w-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2400,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "blue-girl-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-w-1.svg",
-      "label": "blue girl wagon driver w 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "blue-girl-wagon-driver-n-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2800,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "blue-girl-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-n-1.svg",
-      "label": "blue girl wagon driver n 1",
-      "kind": "claude-wagon-drivers"
-    },
     "girl-wagon-driver-s-1": {
       "sheet": "claude-wagon-drivers",
       "x": 0,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -335,7 +63,7 @@
     "girl-wagon-driver-e-1": {
       "sheet": "claude-wagon-drivers",
       "x": 400,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -352,7 +80,7 @@
     "girl-wagon-driver-w-1": {
       "sheet": "claude-wagon-drivers",
       "x": 800,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -369,7 +97,7 @@
     "girl-wagon-driver-n-1": {
       "sheet": "claude-wagon-drivers",
       "x": 1200,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -386,7 +114,7 @@
     "boy-wagon-driver-s-1": {
       "sheet": "claude-wagon-drivers",
       "x": 1600,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -403,7 +131,7 @@
     "boy-wagon-driver-e-1": {
       "sheet": "claude-wagon-drivers",
       "x": 2000,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -420,7 +148,7 @@
     "boy-wagon-driver-w-1": {
       "sheet": "claude-wagon-drivers",
       "x": 2400,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -437,7 +165,7 @@
     "boy-wagon-driver-n-1": {
       "sheet": "claude-wagon-drivers",
       "x": 2800,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -454,7 +182,7 @@
     "smallchild-wagon-driver-s-1": {
       "sheet": "claude-wagon-drivers",
       "x": 0,
-      "y": 1200,
+      "y": 400,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -471,7 +199,7 @@
     "smallchild-wagon-driver-e-1": {
       "sheet": "claude-wagon-drivers",
       "x": 400,
-      "y": 1200,
+      "y": 400,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -488,7 +216,7 @@
     "smallchild-wagon-driver-w-1": {
       "sheet": "claude-wagon-drivers",
       "x": 800,
-      "y": 1200,
+      "y": 400,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -505,7 +233,7 @@
     "smallchild-wagon-driver-n-1": {
       "sheet": "claude-wagon-drivers",
       "x": 1200,
-      "y": 1200,
+      "y": 400,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -1082,230 +810,6 @@
     }
   },
   "clips": {
-    "rust-woman-wagon-driver-s": {
-      "frames": [
-        {
-          "sprite": "rust-woman-wagon-driver-s-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "rust-woman-wagon-driver-e": {
-      "frames": [
-        {
-          "sprite": "rust-woman-wagon-driver-e-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "rust-woman-wagon-driver-w": {
-      "frames": [
-        {
-          "sprite": "rust-woman-wagon-driver-w-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "west",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "rust-woman-wagon-driver-n": {
-      "frames": [
-        {
-          "sprite": "rust-woman-wagon-driver-n-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "indigo-wagon-driver-s": {
-      "frames": [
-        {
-          "sprite": "indigo-wagon-driver-s-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "indigo-wagon-driver-e": {
-      "frames": [
-        {
-          "sprite": "indigo-wagon-driver-e-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "indigo-wagon-driver-w": {
-      "frames": [
-        {
-          "sprite": "indigo-wagon-driver-w-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "west",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "indigo-wagon-driver-n": {
-      "frames": [
-        {
-          "sprite": "indigo-wagon-driver-n-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "ochre-wagon-driver-s": {
-      "frames": [
-        {
-          "sprite": "ochre-wagon-driver-s-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "ochre-wagon-driver-e": {
-      "frames": [
-        {
-          "sprite": "ochre-wagon-driver-e-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "ochre-wagon-driver-w": {
-      "frames": [
-        {
-          "sprite": "ochre-wagon-driver-w-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "west",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "ochre-wagon-driver-n": {
-      "frames": [
-        {
-          "sprite": "ochre-wagon-driver-n-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "blue-girl-wagon-driver-s": {
-      "frames": [
-        {
-          "sprite": "blue-girl-wagon-driver-s-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "blue-girl-wagon-driver-e": {
-      "frames": [
-        {
-          "sprite": "blue-girl-wagon-driver-e-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "blue-girl-wagon-driver-w": {
-      "frames": [
-        {
-          "sprite": "blue-girl-wagon-driver-w-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "west",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "blue-girl-wagon-driver-n": {
-      "frames": [
-        {
-          "sprite": "blue-girl-wagon-driver-n-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
     "girl-wagon-driver-s": {
       "frames": [
         {
@@ -1938,230 +1442,6 @@
     }
   },
   "provenance": {
-    "rust-woman-wagon-driver-s-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the woman in her rust blouse, cream sunbonnet and apron sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-wagon-driver-s-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's rust-woman-wagon-driver-s-1"
-    },
-    "rust-woman-wagon-driver-e-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the woman in her rust blouse, cream sunbonnet and apron sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-wagon-driver-e-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's rust-woman-wagon-driver-e-1"
-    },
-    "rust-woman-wagon-driver-w-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the woman in her rust blouse, cream sunbonnet and apron sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-wagon-driver-w-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's rust-woman-wagon-driver-w-1"
-    },
-    "rust-woman-wagon-driver-n-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the woman in her rust blouse, cream sunbonnet and apron sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-wagon-driver-n-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's rust-woman-wagon-driver-n-1"
-    },
-    "indigo-wagon-driver-s-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the woman in her indigo dress and cream kerchief sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-wagon-driver-s-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's indigo-wagon-driver-s-1"
-    },
-    "indigo-wagon-driver-e-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the woman in her indigo dress and cream kerchief sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-wagon-driver-e-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's indigo-wagon-driver-e-1"
-    },
-    "indigo-wagon-driver-w-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the woman in her indigo dress and cream kerchief sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-wagon-driver-w-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's indigo-wagon-driver-w-1"
-    },
-    "indigo-wagon-driver-n-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the woman in her indigo dress and cream kerchief sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-wagon-driver-n-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's indigo-wagon-driver-n-1"
-    },
-    "ochre-wagon-driver-s-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the man in his ochre shirt and dark waistcoat sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-wagon-driver-s-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's ochre-wagon-driver-s-1"
-    },
-    "ochre-wagon-driver-e-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the man in his ochre shirt and dark waistcoat sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-wagon-driver-e-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's ochre-wagon-driver-e-1"
-    },
-    "ochre-wagon-driver-w-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the man in his ochre shirt and dark waistcoat sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-wagon-driver-w-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's ochre-wagon-driver-w-1"
-    },
-    "ochre-wagon-driver-n-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the man in his ochre shirt and dark waistcoat sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-wagon-driver-n-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's ochre-wagon-driver-n-1"
-    },
-    "blue-girl-wagon-driver-s-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the girl of about fourteen in her blue dress, apron and braid sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-wagon-driver-s-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's blue-girl-wagon-driver-s-1"
-    },
-    "blue-girl-wagon-driver-e-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the girl of about fourteen in her blue dress, apron and braid sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-wagon-driver-e-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's blue-girl-wagon-driver-e-1"
-    },
-    "blue-girl-wagon-driver-w-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the girl of about fourteen in her blue dress, apron and braid sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-wagon-driver-w-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's blue-girl-wagon-driver-w-1"
-    },
-    "blue-girl-wagon-driver-n-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "sheet": "claude-wagon-drivers",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "the girl of about fourteen in her blue dress, apron and braid sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-wagon-driver-n-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's blue-girl-wagon-driver-n-1"
-    },
     "girl-wagon-driver-s-1": {
       "kind": "frame",
       "madeBy": "claude",
@@ -2791,214 +2071,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's smallchild-ride-wagon-n-1"
-    },
-    "rust-woman-wagon-driver-s": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "rust-woman driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "rust-woman-wagon-driver-s-1"
-      ],
-      "status": "temporary: replace with Astra's rust-woman-wagon-driver-s"
-    },
-    "rust-woman-wagon-driver-e": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "rust-woman driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "rust-woman-wagon-driver-e-1"
-      ],
-      "status": "temporary: replace with Astra's rust-woman-wagon-driver-e"
-    },
-    "rust-woman-wagon-driver-w": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "rust-woman driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "rust-woman-wagon-driver-w-1"
-      ],
-      "status": "temporary: replace with Astra's rust-woman-wagon-driver-w"
-    },
-    "rust-woman-wagon-driver-n": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "rust-woman driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "rust-woman-wagon-driver-n-1"
-      ],
-      "status": "temporary: replace with Astra's rust-woman-wagon-driver-n"
-    },
-    "indigo-wagon-driver-s": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "indigo driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "indigo-wagon-driver-s-1"
-      ],
-      "status": "temporary: replace with Astra's indigo-wagon-driver-s"
-    },
-    "indigo-wagon-driver-e": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "indigo driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "indigo-wagon-driver-e-1"
-      ],
-      "status": "temporary: replace with Astra's indigo-wagon-driver-e"
-    },
-    "indigo-wagon-driver-w": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "indigo driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "indigo-wagon-driver-w-1"
-      ],
-      "status": "temporary: replace with Astra's indigo-wagon-driver-w"
-    },
-    "indigo-wagon-driver-n": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "indigo driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "indigo-wagon-driver-n-1"
-      ],
-      "status": "temporary: replace with Astra's indigo-wagon-driver-n"
-    },
-    "ochre-wagon-driver-s": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "ochre driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "ochre-wagon-driver-s-1"
-      ],
-      "status": "temporary: replace with Astra's ochre-wagon-driver-s"
-    },
-    "ochre-wagon-driver-e": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "ochre driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "ochre-wagon-driver-e-1"
-      ],
-      "status": "temporary: replace with Astra's ochre-wagon-driver-e"
-    },
-    "ochre-wagon-driver-w": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "ochre driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "ochre-wagon-driver-w-1"
-      ],
-      "status": "temporary: replace with Astra's ochre-wagon-driver-w"
-    },
-    "ochre-wagon-driver-n": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "ochre driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "ochre-wagon-driver-n-1"
-      ],
-      "status": "temporary: replace with Astra's ochre-wagon-driver-n"
-    },
-    "blue-girl-wagon-driver-s": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "blue-girl driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "blue-girl-wagon-driver-s-1"
-      ],
-      "status": "temporary: replace with Astra's blue-girl-wagon-driver-s"
-    },
-    "blue-girl-wagon-driver-e": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "blue-girl driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "blue-girl-wagon-driver-e-1"
-      ],
-      "status": "temporary: replace with Astra's blue-girl-wagon-driver-e"
-    },
-    "blue-girl-wagon-driver-w": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "blue-girl driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "blue-girl-wagon-driver-w-1"
-      ],
-      "status": "temporary: replace with Astra's blue-girl-wagon-driver-w"
-    },
-    "blue-girl-wagon-driver-n": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-seated",
-      "area": "transport",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "prompt": "blue-girl driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
-      "frames": [
-        "blue-girl-wagon-driver-n-1"
-      ],
-      "status": "temporary: replace with Astra's blue-girl-wagon-driver-n"
     },
     "girl-wagon-driver-s": {
       "kind": "clip",

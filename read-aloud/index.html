@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read Aloud</title>
+<style>
+  :root {
+    --bg: #f6f1e7; --panel: #fffdf8; --ink: #2b2118; --muted: #6d5f50; --line: #d9ccb6;
+    --accent: #8a3b12; --accent-ink: #fff;
+    --c0: #e5efe0; --c1: #f4e2d6; --c2: #dfe8f3; --c3: #f6ecc8; --c4: #ebe0f0; --c5: #f0d6d6; --c6: #fbe7b5; --c7: #d9ecea;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 16px/1.3 "Segoe UI", system-ui, sans-serif;
+    display: grid; grid-template-rows: auto 1fr auto; }
+  header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 12px 16px;
+    border-bottom: 1px solid var(--line); background: var(--panel); }
+  h1 { font-size: 22px; margin: 0; letter-spacing: .02em; }
+  .voices { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .label { color: var(--muted); font-size: 14px; }
+  button, select, input, textarea { font: inherit; color: inherit; }
+  .toggle { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+  .toggle small { color: var(--muted); }
+  .toggle[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .toggle[aria-pressed="true"] small { color: #f3d9c7; }
+  select { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; background: var(--panel); }
+  .speed { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  #status { font-size: 14px; color: var(--muted); min-width: 10ch; }
+  #status.err { color: #b3261e; }
+  main { overflow: auto; padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 10px; }
+  .preset { min-height: 78px; padding: 10px; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); cursor: pointer;
+    font-size: 17px; font-weight: 600; text-align: center; box-shadow: 0 1px 0 rgba(0,0,0,.06);
+    transition: transform .06s, box-shadow .06s; }
+  .preset:hover { box-shadow: 0 2px 6px rgba(0,0,0,.12); }
+  .preset:active { transform: scale(.97); }
+  .preset.playing { outline: 3px solid var(--accent); outline-offset: 1px; }
+  .preset.r0 { background: var(--c0); } .preset.r1 { background: var(--c1); } .preset.r2 { background: var(--c2); }
+  .preset.r3 { background: var(--c3); } .preset.r4 { background: var(--c4); } .preset.r5 { background: var(--c5); } .preset.r6 { background: var(--c6); } .preset.r7 { background: var(--c7); }
+  footer { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--panel); align-items: stretch; }
+  textarea { flex: 1; resize: none; height: 64px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px;
+    background: #fff; font-size: 18px; }
+  textarea:focus { outline: 2px solid var(--accent); }
+  .btn { border: 1px solid var(--line); border-radius: 10px; padding: 0 18px; background: var(--bg); cursor: pointer; font-weight: 600; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-size: 18px; padding: 0 26px; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  #story { display: none; width: 100%; height: 100%; min-height: 300px; resize: none; padding: 18px 22px;
+    font-size: 22px; line-height: 1.55; }
+  #story::selection { background: #f3c9a8; color: var(--ink); }
+  body.story main { display: flex; flex-direction: column; }
+  body.story #grid, body.story #text, body.story #again { display: none; }
+  body.story #story { display: block; flex: 1; }
+  body.story footer { justify-content: flex-end; }
+  .missing { margin: 16px; padding: 14px; border: 1px solid #b3261e; border-radius: 10px; background: #fdecea; display: none; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    footer { flex-wrap: wrap; } textarea { flex-basis: 100%; } .btn { min-height: 44px; flex: 1; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Read Aloud</h1>
+  <div class="voices" role="group" aria-label="Voice">
+    <span class="label">Voice:</span>
+    <span id="cast" class="voices"></span>
+    <select id="more" aria-label="More voices"></select>
+    <button id="auto" class="toggle" aria-pressed="false"
+      title="Reads each sentence in a woman's or a man's voice when the words say who is speaking: a quotation's speaker (&quot;said Mom&quot;), a label (&quot;Dad: ...&quot;), or a reader who says who they are (&quot;I am a mother&quot;). Anything else is read in the chosen voice.">Auto voice <small id="autoState">off</small></button>
+  </div>
+  <label class="speed"><span class="label">Speed</span>
+    <input id="speed" type="range" min="0.6" max="1.5" step="0.05" value="1">
+    <span id="speedOut">1.00×</span>
+  </label>
+  <button id="storyMode" class="toggle" aria-pressed="false"
+    title="Hides the presets and makes room to paste a long story. Speak reads it from the start, or from the sentence the cursor is in.">Story mode <small id="storyState">off</small></button>
+  <span id="status" aria-live="polite"></span>
+</header>
+<main>
+  <div id="missing" class="missing"></div>
+  <div id="grid" class="grid"></div>
+  <textarea id="story" placeholder="Paste or type a story here, then press Read story. Click in a sentence first to start from there." aria-label="Story to read aloud"></textarea>
+</main>
+<footer>
+  <textarea id="text" placeholder="Type anything here, then press Speak (or Enter). Shift+Enter makes a new line." aria-label="Text to read aloud"></textarea>
+  <button id="speak" class="btn primary">Speak</button>
+  <button id="pause" class="btn" disabled>Pause</button>
+  <button id="stop" class="btn" disabled>Stop</button>
+  <button id="again" class="btn" disabled>Repeat</button>
+  <button id="clear" class="btn">Clear</button>
+</footer>
+<script type="module">
+import { assignSpeakers } from '/gender.mjs';
+const $ = id => document.getElementById(id);
+const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+let voices = [], voice = store.get('ra.voice') || 'af_heart', speed = Number(store.get('ra.speed')) || 1;
+let auto = store.get('ra.auto') === '1';
+let story = store.get('ra.storyMode') === '1';
+let run = 0, last = '', playingEl = null;
+
+// Auto voice: a woman's line in the chosen voice if it is a woman's, else Kore (the game's woman); a man's line in
+// the chosen voice if it is a man's, else Puck (the game's man). A line with no speaker keeps the chosen voice.
+const isWoman = id => id[1] === 'f';
+function voiceFor(gender) {
+  if (!auto || !gender) return voice;
+  if (gender === 'female') return isWoman(voice) ? voice : 'af_kore';
+  return isWoman(voice) ? 'am_puck' : voice;
+}
+function setAuto(on) {
+  auto = on; store.set('ra.auto', on ? '1' : '0');
+  $('auto').setAttribute('aria-pressed', String(on)); $('autoState').textContent = on ? 'on' : 'off';
+  if (voices.length) warm();
+}
+const nameOf = id => voices.find(v => v.id === id)?.name || id;
+
+function status(msg, err) { $('status').textContent = msg || ''; $('status').className = err ? 'err' : ''; }
+
+function setVoice(id) {
+  voice = id; store.set('ra.voice', id);
+  for (const b of $('cast').children) b.setAttribute('aria-pressed', String(b.dataset.id === id));
+  $('more').value = voices.some(v => v.id === id && !v.game) ? id : '';
+  warm();
+}
+// Every preset made ahead in the voice and speed chosen now, piece by piece as reading will ask for it.
+let presets = [];
+function warm() {
+  const pieces = presets.flatMap(p => piecesOf(partsOf(p.text), p.text)).map(({ text, voice }) => ({ text, voice }));
+  fetch('/warm', { method: 'POST', body: JSON.stringify({ pieces, speed }) }).catch(() => {});
+}
+
+// Pieces go to the voice as soon as reading starts, a few ahead of what is playing, and play back to back with no
+// gap of their own (Web Audio, each piece scheduled to start as the last one ends). The first piece is short - a
+// sentence, or its opening clause if the sentence is long - so the first sound comes quickly; the pieces after it
+// grow (PIECES letters at most), sentences in the same voice and paragraph together, each made while the one before
+// it plays.
+const PIECES = [60, 90, 160, 260, 360], AHEAD = 3, BETWEEN = 0.22;
+let ctx = null, sources = [], aborter = null;
+const audioCtx = () => (ctx ||= new AudioContext());
+async function fetchBuffer({ text, voice }, signal) {
+  const r = await fetch('/speak', { method: 'POST', body: JSON.stringify({ text, voice, speed }), signal });
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || `HTTP ${r.status}`);
+  return audioCtx().decodeAudioData(await r.arrayBuffer());
+}
+// The voice leaves a little silence at each end of a piece; play from just before the first sound to just after the last.
+function audible(buf) {
+  const d = buf.getChannelData(0), sr = buf.sampleRate;
+  let a = 0, b = d.length - 1;
+  while (a < b && Math.abs(d[a]) < 0.01) a++;
+  while (b > a && Math.abs(d[b]) < 0.01) b--;
+  const offset = Math.max(0, a / sr - 0.03);
+  return { offset, duration: Math.min(buf.duration - offset, (b - a) / sr + 0.09) };
+}
+// Waits on the audio clock, which stands still while paused.
+const until = (t, mine) => new Promise(done => {
+  const tick = () => (mine !== run || ctx.currentTime >= t) ? done() : setTimeout(tick, Math.min(100, Math.max(10, (t - ctx.currentTime) * 1000)));
+  tick();
+});
+// Each sentence with where it sits in the text, so story mode can start at the cursor and select what is being read.
+function partsOf(text) {
+  let at = 0;
+  return assignSpeakers(text).map((p, i) => {
+    const start = Math.max(at, text.indexOf(p.text, at));
+    at = start + p.text.length;
+    return { ...p, voice: voiceFor(p.gender), start, end: at, index: i };
+  });
+}
+function piecesOf(parts, text) {
+  const pieces = [];
+  // A long first sentence goes clause by clause ("In 1836," is heard while the rest is made), the clauses then
+  // joining into pieces like sentences do; every other sentence is whole.
+  const units = parts.flatMap((p, i) => {
+    if (i > 0 || p.text.length <= PIECES[0]) return [p];
+    const clauses = [];
+    for (const m of p.text.matchAll(/[^,;:]+(?:[,;:]+(?=\s)|$)/g)) {
+      const prev = clauses[clauses.length - 1];
+      if (prev && (m[0].trim().length < 12 || prev.text.length < 10)) { prev.text = p.text.slice(prev.at, m.index + m[0].length); continue; }
+      clauses.push({ at: m.index, text: m[0] });
+    }
+    return clauses.map(c => {
+      const text = c.text.trim(), start = p.start + c.at + (c.text.length - c.text.trimStart().length);
+      return { ...p, text, start, end: start + text.length };
+    });
+  });
+  units.forEach(p => {
+    const last = pieces[pieces.length - 1];
+    const sameParagraph = last && !/\n/.test(text.slice(last.end, p.start));
+    // The first piece stays one sentence (or clause), to start quickly; each after it may be bigger than the last.
+    const cap = PIECES[Math.min(pieces.length - 1, PIECES.length - 1)];
+    if (pieces.length > 1 && sameParagraph && last.voice === p.voice && last.text.length + p.text.length < cap) {
+      last.text += ' ' + p.text; last.end = p.end; last.parts.push(p);
+    } else pieces.push({ text: p.text, voice: p.voice, start: p.start, end: p.end, parts: [p] });
+  });
+  // Punctuation on its own ("...", a stray quote) has nothing to say.
+  return pieces.filter(p => /[A-Za-z0-9]/.test(p.text));
+}
+// While typing or after pasting, the first pieces are made ahead, so Speak usually plays at once: they are the same
+// pieces reading will ask for, so they are already kept by then. A change of text drops what was not started.
+let ahead = null, aheadTimer = 0;
+function makeAhead(text) {
+  clearTimeout(aheadTimer);
+  aheadTimer = setTimeout(() => {
+    ahead?.abort(); ahead = new AbortController();
+    for (const p of piecesOf(partsOf(text), text).slice(0, 2)) {
+      fetch('/speak', { method: 'POST', body: JSON.stringify({ text: p.text, voice: p.voice, speed }), signal: ahead.signal }).catch(() => {});
+    }
+  }, 500);
+}
+async function read(text, el, { box = null, from = 0 } = {}) {
+  if (!text.trim()) return;
+  stop();
+  const mine = ++run;
+  const ac = audioCtx();
+  if (ac.state === 'suspended') ac.resume();
+  last = text; $('again').disabled = false; $('stop').disabled = false; $('pause').disabled = false;
+  if (el) { playingEl = el; el.classList.add('playing'); }
+  const all = partsOf(text);
+  // A cursor in the middle of the story starts at its sentence; one at the very end (just pasted) starts at the top.
+  const first = from > 0 && from < text.trimEnd().length ? Math.max(0, all.findIndex(p => p.end >= from)) : 0;
+  const pieces = piecesOf(all.slice(first), text);
+  if (!pieces.length) return finish();
+  const signal = (aborter = new AbortController()).signal;
+  clearTimeout(aheadTimer);
+  const fetches = [];
+  const want = i => { if (i < pieces.length && !fetches[i]) (fetches[i] = fetchBuffer(pieces[i], signal)).catch(() => {}); };
+  for (let i = 0; i < AHEAD; i++) want(i);
+  let t = 0;
+  try {
+    for (let i = 0; i < pieces.length && mine === run; i++) {
+      const p = pieces[i];
+      const buf = await fetches[i];
+      if (mine !== run) break;
+      want(i + AHEAD);
+      const { offset, duration } = audible(buf);
+      const at = Math.max(t ? t + BETWEEN : 0, ac.currentTime + 0.03);
+      const src = ac.createBufferSource();
+      src.buffer = buf; src.connect(ac.destination); src.start(at, offset, duration);
+      sources.push(src);
+      t = at + duration;
+      await until(at, mine);
+      if (mine !== run) break;
+      const a = p.parts[0].index + 1, b = p.parts[p.parts.length - 1].index + 1;
+      const where = box ? `Sentence ${a === b ? a : `${a}–${b}`} of ${all.length}` : '';
+      const g = p.parts[0];
+      const who = auto ? (g.gender ? `${nameOf(p.voice)}, ${g.gender === 'female' ? 'a woman' : 'a man'} (${g.why})`
+        : `${nameOf(p.voice)}, no speaker named`) : '';
+      status([where, who && 'Auto: ' + who].filter(Boolean).join(' · ') || 'Reading…');
+      if (box) { box.focus(); box.setSelectionRange(p.start, p.end); scrollToSelection(box, p.start); }
+    }
+    await until(t, mine);
+    if (mine === run) status('');
+  } catch (e) { if (mine === run) status(e.message, true); }
+  if (mine === run) finish();
+}
+// Keep the sentence being read in view: measure its line with a hidden copy of the box.
+function scrollToSelection(box, at) {
+  const mirror = document.createElement('div');
+  const cs = getComputedStyle(box);
+  Object.assign(mirror.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'pre-wrap', wordWrap: 'break-word',
+    width: box.clientWidth + 'px', font: cs.font, lineHeight: cs.lineHeight, padding: cs.padding, boxSizing: 'border-box' });
+  mirror.textContent = box.value.slice(0, at);
+  document.body.append(mirror);
+  const y = mirror.scrollHeight;
+  mirror.remove();
+  box.scrollTop = Math.max(0, y - box.clientHeight / 3);
+}
+function setStory(on) {
+  stop();
+  story = on; store.set('ra.storyMode', on ? '1' : '0');
+  document.body.classList.toggle('story', on);
+  $('storyMode').setAttribute('aria-pressed', String(on)); $('storyState').textContent = on ? 'on' : 'off';
+  $('speak').textContent = on ? 'Read story' : 'Speak';
+  $('clear').textContent = on ? 'Clear story' : 'Clear';
+  (on ? $('story') : $('text')).focus();
+}
+function finish() {
+  playingEl?.classList.remove('playing'); playingEl = null;
+  $('stop').disabled = true; $('pause').disabled = true; $('pause').textContent = 'Pause';
+}
+function stop() {
+  run++;
+  aborter?.abort(); aborter = null;
+  for (const s of sources) { try { s.stop(); } catch {} }
+  sources = [];
+  if (ctx?.state === 'suspended') ctx.resume();
+  finish(); status('');
+}
+
+$('speak').onclick = () => story
+  ? read($('story').value, null, { box: $('story'), from: $('story').selectionStart })
+  : read($('text').value);
+$('stop').onclick = stop;
+$('again').onclick = () => read(last);
+$('clear').onclick = () => {
+  if (story) {
+    if ($('story').value.length > 300 && !confirm('Clear the whole story?')) return;
+    stop(); $('story').value = ''; store.set('ra.story', ''); $('story').focus();
+  } else { $('text').value = ''; $('text').focus(); }
+};
+$('storyMode').onclick = () => setStory(!story);
+// The story is kept in this browser, so a long one pasted in survives closing the page.
+$('story').value = store.get('ra.story') || '';
+$('story').addEventListener('input', () => { store.set('ra.story', $('story').value); makeAhead($('story').value); });
+$('text').addEventListener('input', () => makeAhead($('text').value));
+$('story').addEventListener('keydown', e => { if (e.key === 'Escape') stop(); });
+$('pause').onclick = () => {
+  if (!ctx) return;
+  if (ctx.state === 'suspended') { ctx.resume(); $('pause').textContent = 'Pause'; }
+  else { ctx.suspend(); $('pause').textContent = 'Resume'; }
+};
+$('text').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); read($('text').value); }
+  if (e.key === 'Escape') stop();
+});
+$('speed').value = speed; $('speedOut').textContent = speed.toFixed(2) + '×';
+$('speed').oninput = () => { $('speedOut').textContent = Number($('speed').value).toFixed(2) + '×'; };
+$('speed').onchange = () => { speed = Number($('speed').value); store.set('ra.speed', speed); warm(); };
+$('auto').onclick = () => setAuto(!auto);
+$('more').onchange =() => { if ($('more').value) setVoice($('more').value); };
+
+fetch('/config').then(r => r.json()).then(cfg => {
+  voices = cfg.voices;
+  for (const v of voices.filter(v => v.game)) {
+    const b = document.createElement('button');
+    b.className = 'toggle'; b.dataset.id = v.id; b.title = `${v.who}: ${v.game}`;
+    b.innerHTML = `${v.name} <small>${v.who.split(' ')[1]}</small>`;
+    b.onclick = () => setVoice(v.id);
+    $('cast').append(b);
+  }
+  $('more').innerHTML = '<option value="">More voices…</option>' +
+    voices.filter(v => !v.game).map(v => `<option value="${v.id}">${v.name} (${v.who})</option>`).join('');
+  presets = cfg.presets.map(p => Array.isArray(p) ? { label: p[0], text: p[1] } : { label: p, text: p });
+  presets.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.className = `preset r${Math.floor(i / 10) % 8}`; b.textContent = p.label;
+    if (p.label !== p.text) b.title = p.text;
+    b.onclick = () => read(p.text, b);
+    $('grid').append(b);
+  });
+  if (!cfg.ready) {
+    $('missing').style.display = 'block';
+    $('missing').textContent = `The voices were not found at ${cfg.runtime}. Copy the game's runtime\\voice folder there, or set READ_ALOUD_VOICE_DIR.`;
+  }
+  setVoice(voices.some(v => v.id === voice) ? voice : 'af_heart');
+  setAuto(auto);
+  setStory(story);
+  $('text').focus();
+}).catch(e => status('Could not reach the Read Aloud program: ' + e.message, true));
+</script>
+</body>
+</html>

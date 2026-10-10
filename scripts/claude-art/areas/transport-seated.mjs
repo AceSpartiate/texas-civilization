@@ -1,6 +1,6 @@
 // Area D (docs/CLAUDE_ART_PLAN.md): people sitting in a vehicle, drawn by Claude on 2026-09-28 - temporary, each frame to be
 // replaced by Astra's of the same name.
-//   D4   seated wagon drivers for the second cast and the children (`<figure>-wagon-driver-<dir>`, the name the game already
+//   D4   seated wagon drivers for the children (`<figure>-wagon-driver-<dir>`, the name the game already
 //        asks for, public/motion.js `seatedClip`), four headings as her delivered sixteen: the lines in one hand, a goad in the other
 //   D5   riders sitting in the bed of a wagon or a cart (`<figure>-ride-wagon-<dir>`), both casts and the children, east, south
 //        and north, hands in the lap
@@ -15,7 +15,8 @@ import { add, capsule, curve } from '../kit/svg.mjs';
 export const AREA = 'transport';
 export const DATE = '2026-09-28';
 
-const DRIVERS = ['rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy', 'smallchild'];
+// The second cast's drivers are Astra's since 2026-10-08 (cast2-wagon-drivers-2026-10-08); only the children's remain Claude's.
+const DRIVERS = ['girl', 'boy', 'smallchild'];
 const RIDERS = ['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy', 'smallchild'];
 const LOGICAL = Math.round(PEOPLE.logicalHeight * 0.92);
 const WHO = {

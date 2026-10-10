@@ -51,9 +51,8 @@ const RULES = [
   // Soldiers and what they carry, dig and lie behind.
   [/^(volunteer|regular|dragoon)-/, '$1', ['$1']],
   [/^skirmisher-/, 'regular', ['regular']],
-  [/^figure-wading-(regular|volunteer)/, '$1', ['$1']],
   // (The wounded carried, the breastwork of packs, the street barricade, the sandbags and the stacked muskets are Astra's since
-  // 2026-10-03; Claude's and their rules were deleted at the merge of 2026-10-04.)
+  // 2026-10-03; Claude's and their rules were deleted at the merge of 2026-10-04; the wading men, `figure-wading-*`, at the merge of 2026-10-09.)
   [/^(settler-gun|sentry-bell)/, 'volunteer', ['volunteer']],
   [/^(lancer|forager)-/, 'dragoon', ['dragoon']],
   [/^cannon-/, 'cannon', ['cannon']],

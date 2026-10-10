@@ -509,25 +509,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-wading": {
-      "image": "/assets/claude-standins/claude-wading.png",
-      "width": 1920,
-      "height": 800,
-      "bytes": 135095,
-      "sha256": "080cf9a1a8c2ed0036c85308d29e7789d54ab8e005b45899770825862b2fe804",
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "layout": {
-        "rows": 2,
-        "columns": 4,
-        "cell": {
-          "w": 480,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-march-column": {
       "image": "/assets/claude-standins/claude-march-column.png",
       "width": 3400,
@@ -581,44 +562,6 @@
         "cell": {
           "w": 800,
           "h": 420
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-flag-no-star": {
-      "image": "/assets/claude-standins/claude-flag-no-star.png",
-      "width": 1760,
-      "height": 570,
-      "bytes": 329056,
-      "sha256": "dace81826643e5267fa827cd44efb9f4739f9e1a4b673767090b51dae9dfbaab",
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Gonzales before the fight",
-      "layout": {
-        "rows": 1,
-        "columns": 4,
-        "cell": {
-          "w": 440,
-          "h": 570
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-flag-work": {
-      "image": "/assets/claude-standins/claude-flag-work.png",
-      "width": 1735,
-      "height": 1160,
-      "bytes": 1850276,
-      "sha256": "bf60228a92b8bbbd57ff4dd74a36695cca7637636888bad446c6a4d1ebd1a445",
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Gonzales before the fight",
-      "layout": {
-        "rows": 2,
-        "columns": 1,
-        "cell": {
-          "w": 1735,
-          "h": 580
         },
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
@@ -1556,25 +1499,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-home-tools": {
-      "image": "/assets/claude-standins/claude-home-tools.png",
-      "width": 480,
-      "height": 320,
-      "bytes": 62591,
-      "sha256": "0013030986c4ad9d6e9233100e6cd842ec8abb23d0cb0b6dfd7d6c38d8e8c981",
-      "madeBy": "claude",
-      "module": "home-tools",
-      "request": "Request 2026-09-12 (second) — interiors and furnishings: the wagon’s tools",
-      "layout": {
-        "rows": 2,
-        "columns": 3,
-        "cell": {
-          "w": 160,
-          "h": 160
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-homecoming-marker": {
       "image": "/assets/claude-standins/claude-homecoming-marker.png",
       "width": 300,
@@ -1689,25 +1613,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-interior-saddlebag": {
-      "image": "/assets/claude-standins/claude-interior-saddlebag.png",
-      "width": 750,
-      "height": 331,
-      "bytes": 391032,
-      "sha256": "307cb49ce4d902003f6bbb5638270d9ddda115381eb4b12ee48cf7429ff87719",
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 750,
-          "h": 331
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-window-lit": {
       "image": "/assets/claude-standins/claude-window-lit.png",
       "width": 1200,
@@ -1732,7 +1637,7 @@
       "width": 808,
       "height": 760,
       "bytes": 307039,
-      "sha256": "5dcb9f7e3d56fbd5814b91efadd6e5e0503e6e4cfd3a8d7a71b613fe5f18cc44",
+      "sha256": "8a672a297591cae044250af3e3962cd26ddb3331759c16b4137fb587536a0c24",
       "madeBy": "claude",
       "module": "house-pieces",
       "request": "Request 2026-09-23 — the house from its other sides",
@@ -1765,93 +1670,17 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-gale-pole": {
-      "image": "/assets/claude-standins/claude-gale-pole.png",
-      "width": 1855,
-      "height": 620,
-      "bytes": 558534,
-      "sha256": "4e692e3ecf4a4458134020a896afe22a37c3648501b8fcec280b440cf3e89a3c",
+    "claude-gale-ground": {
+      "image": "/assets/claude-standins/claude-gale-ground.png",
+      "width": 2280,
+      "height": 864,
+      "bytes": 1085407,
+      "sha256": "48ace1b57fec663aa066aa0a7d4bde95967eacaaf8068b2354bcaf34e4548387",
       "madeBy": "claude",
       "module": "land-gale",
       "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
       "layout": {
         "rows": 2,
-        "columns": 5,
-        "cell": {
-          "w": 371,
-          "h": 310
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-gale-log": {
-      "image": "/assets/claude-standins/claude-gale-log.png",
-      "width": 1996,
-      "height": 1044,
-      "bytes": 1077514,
-      "sha256": "d632c1859b5d2ba1bab2fe7e1ed59d1770f0459aba095ad85291d55746cc234b",
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "layout": {
-        "rows": 3,
-        "columns": 4,
-        "cell": {
-          "w": 499,
-          "h": 348
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-gale-large": {
-      "image": "/assets/claude-standins/claude-gale-large.png",
-      "width": 2292,
-      "height": 1044,
-      "bytes": 1652900,
-      "sha256": "7923e2590bc56a99d115c841c80e950d2064619ef7f5fee49735e5fa6fa35522",
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "layout": {
-        "rows": 3,
-        "columns": 4,
-        "cell": {
-          "w": 573,
-          "h": 348
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-gale-biome": {
-      "image": "/assets/claude-standins/claude-gale-biome.png",
-      "width": 2012,
-      "height": 1520,
-      "bytes": 1486320,
-      "sha256": "7ee147a6917f7c8051f8f6299f9e8646c82299adfa5cec02fb855894e454926c",
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "layout": {
-        "rows": 4,
-        "columns": 4,
-        "cell": {
-          "w": 503,
-          "h": 380
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-gale-ground": {
-      "image": "/assets/claude-standins/claude-gale-ground.png",
-      "width": 2280,
-      "height": 1296,
-      "bytes": 1412386,
-      "sha256": "113cbf4c5dc8d3ed62cd65e789e957d4fa1f0808d2b37dad013a9c17002a516f",
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "layout": {
-        "rows": 3,
         "columns": 4,
         "cell": {
           "w": 570,
@@ -1875,25 +1704,6 @@
         "cell": {
           "w": 420,
           "h": 260
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-marsh-edge": {
-      "image": "/assets/claude-standins/claude-marsh-edge.png",
-      "width": 1020,
-      "height": 220,
-      "bytes": 130638,
-      "sha256": "64ab70ae13f83f22db3c32c1a45a8cfb328f879707023295e852e8a0076f5bf9",
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "layout": {
-        "rows": 1,
-        "columns": 3,
-        "cell": {
-          "w": 340,
-          "h": 220
         },
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
@@ -1959,8 +1769,8 @@
       "image": "/assets/claude-standins/claude-trees-1836.png",
       "width": 2280,
       "height": 1020,
-      "bytes": 1374124,
-      "sha256": "294960295c1cfb3b35be302325939b22dd8681b23f60a65ccc8e16b55af79c4c",
+      "bytes": 1258150,
+      "sha256": "648c89fa65c54ad2a0d0122e40cdfa65e43ef636402a4c1e5fd47941087e3fb9",
       "madeBy": "claude",
       "module": "land-trees",
       "request": "Request 2026-09-19 — the country of 1836: trees and ground cover",
@@ -1989,25 +1799,6 @@
         "cell": {
           "w": 240,
           "h": 150
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-marks": {
-      "image": "/assets/claude-standins/claude-marks.png",
-      "width": 288,
-      "height": 192,
-      "bytes": 61047,
-      "sha256": "6a3d9cf7dc2b60f5809ef6542101055120f9d4802fe7fee9fefea81cc8b9cd0d",
-      "madeBy": "claude",
-      "module": "marks",
-      "request": "Request 2026-09-16 — the family panel’s marks",
-      "layout": {
-        "rows": 2,
-        "columns": 3,
-        "cell": {
-          "w": 96,
-          "h": 96
         },
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
@@ -2281,14 +2072,14 @@
     "claude-wagon-drivers": {
       "image": "/assets/claude-standins/claude-wagon-drivers.png",
       "width": 3200,
-      "height": 1600,
-      "bytes": 970280,
-      "sha256": "dc9f3b6595632e6dbb5b3372228910f06e5ce673afdba851842a89441dea4d5f",
+      "height": 800,
+      "bytes": 438210,
+      "sha256": "50ee0b821569046c6329f70e4f071d2b1ca7d1d5766390028fb4f67f45521924",
       "madeBy": "claude",
       "module": "transport-seated",
       "request": "Request 2026-09-16 — driving the ox wagon",
       "layout": {
-        "rows": 4,
+        "rows": 2,
         "columns": 8,
         "cell": {
           "w": 400,
@@ -2312,25 +2103,6 @@
         "cell": {
           "w": 400,
           "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-cart": {
-      "image": "/assets/claude-standins/claude-cart.png",
-      "width": 1600,
-      "height": 1680,
-      "bytes": 304553,
-      "sha256": "d4a5d03d519791e2250212db35fa97c383fdead92fe810b191a946df2c5ed013",
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "layout": {
-        "rows": 6,
-        "columns": 5,
-        "cell": {
-          "w": 320,
-          "h": 280
         },
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
@@ -8802,142 +8574,6 @@
       "label": "skirmisher kneel fire 4",
       "kind": "claude-skirmisher"
     },
-    "figure-wading-regular-1": {
-      "sheet": "claude-wading",
-      "x": 0,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "figure-wading-regular-1: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
-      "source": "svg/battle-soldiers/claude-figure-wading-regular-1.svg",
-      "label": "figure wading regular 1",
-      "kind": "claude-wading"
-    },
-    "figure-wading-regular-2": {
-      "sheet": "claude-wading",
-      "x": 480,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "figure-wading-regular-2: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
-      "source": "svg/battle-soldiers/claude-figure-wading-regular-2.svg",
-      "label": "figure wading regular 2",
-      "kind": "claude-wading"
-    },
-    "figure-wading-regular-3": {
-      "sheet": "claude-wading",
-      "x": 960,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "figure-wading-regular-3: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
-      "source": "svg/battle-soldiers/claude-figure-wading-regular-3.svg",
-      "label": "figure wading regular 3",
-      "kind": "claude-wading"
-    },
-    "figure-wading-regular-4": {
-      "sheet": "claude-wading",
-      "x": 1440,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "figure-wading-regular-4: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
-      "source": "svg/battle-soldiers/claude-figure-wading-regular-4.svg",
-      "label": "figure wading regular 4",
-      "kind": "claude-wading"
-    },
-    "figure-wading-volunteer-1": {
-      "sheet": "claude-wading",
-      "x": 0,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "figure-wading-volunteer-1: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
-      "source": "svg/battle-soldiers/claude-figure-wading-volunteer-1.svg",
-      "label": "figure wading volunteer 1",
-      "kind": "claude-wading"
-    },
-    "figure-wading-volunteer-2": {
-      "sheet": "claude-wading",
-      "x": 480,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "figure-wading-volunteer-2: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
-      "source": "svg/battle-soldiers/claude-figure-wading-volunteer-2.svg",
-      "label": "figure wading volunteer 2",
-      "kind": "claude-wading"
-    },
-    "figure-wading-volunteer-3": {
-      "sheet": "claude-wading",
-      "x": 960,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "figure-wading-volunteer-3: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
-      "source": "svg/battle-soldiers/claude-figure-wading-volunteer-3.svg",
-      "label": "figure wading volunteer 3",
-      "kind": "claude-wading"
-    },
-    "figure-wading-volunteer-4": {
-      "sheet": "claude-wading",
-      "x": 1440,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "figure-wading-volunteer-4: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
-      "source": "svg/battle-soldiers/claude-figure-wading-volunteer-4.svg",
-      "label": "figure wading volunteer 4",
-      "kind": "claude-wading"
-    },
     "regular-march-column-1": {
       "sheet": "claude-march-column",
       "x": 0,
@@ -9090,102 +8726,6 @@
       "source": "svg/battle-works/claude-padre-carts-4.svg",
       "label": "padre carts 4",
       "kind": "claude-padre-carts"
-    },
-    "flag-come-and-take-it-no-star": {
-      "sheet": "claude-flag-no-star",
-      "x": 0,
-      "y": 0,
-      "w": 440,
-      "h": 570,
-      "anchorX": 0.06363636363636363,
-      "anchorY": 0.9719298245614035,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Gonzales before the fight",
-      "replaceWith": "flag-come-and-take-it-no-star: item 5: the flag without the star (still and a wind loop), as `flag-come-and-take-it`'s size and anchor",
-      "source": "svg/battle-works/claude-flag-come-and-take-it-no-star.svg",
-      "label": "flag come and take it no star",
-      "kind": "claude-flag-no-star"
-    },
-    "flag-come-and-take-it-no-star-wind-1": {
-      "sheet": "claude-flag-no-star",
-      "x": 440,
-      "y": 0,
-      "w": 440,
-      "h": 570,
-      "anchorX": 0.06363636363636363,
-      "anchorY": 0.9719298245614035,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Gonzales before the fight",
-      "replaceWith": "flag-come-and-take-it-no-star-wind-1: item 5: the flag without the star (still and a wind loop), as `flag-come-and-take-it`'s size and anchor",
-      "source": "svg/battle-works/claude-flag-come-and-take-it-no-star-wind-1.svg",
-      "label": "flag come and take it no star wind 1",
-      "kind": "claude-flag-no-star"
-    },
-    "flag-come-and-take-it-no-star-wind-2": {
-      "sheet": "claude-flag-no-star",
-      "x": 880,
-      "y": 0,
-      "w": 440,
-      "h": 570,
-      "anchorX": 0.06363636363636363,
-      "anchorY": 0.9719298245614035,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Gonzales before the fight",
-      "replaceWith": "flag-come-and-take-it-no-star-wind-2: item 5: the flag without the star (still and a wind loop), as `flag-come-and-take-it`'s size and anchor",
-      "source": "svg/battle-works/claude-flag-come-and-take-it-no-star-wind-2.svg",
-      "label": "flag come and take it no star wind 2",
-      "kind": "claude-flag-no-star"
-    },
-    "flag-come-and-take-it-no-star-wind-3": {
-      "sheet": "claude-flag-no-star",
-      "x": 1320,
-      "y": 0,
-      "w": 440,
-      "h": 570,
-      "anchorX": 0.06363636363636363,
-      "anchorY": 0.9719298245614035,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Gonzales before the fight",
-      "replaceWith": "flag-come-and-take-it-no-star-wind-3: item 5: the flag without the star (still and a wind loop), as `flag-come-and-take-it`'s size and anchor",
-      "source": "svg/battle-works/claude-flag-come-and-take-it-no-star-wind-3.svg",
-      "label": "flag come and take it no star wind 3",
-      "kind": "claude-flag-no-star"
-    },
-    "gonzales-flag-work-half": {
-      "sheet": "claude-flag-work",
-      "x": 0,
-      "y": 0,
-      "w": 1735,
-      "h": 580,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Gonzales before the fight",
-      "replaceWith": "gonzales-flag-work-half: item 5: the flag flat on the table half-painted and finished (without the star), as more states of `gonzales-flag-work-*`",
-      "source": "svg/battle-works/claude-gonzales-flag-work-half.svg",
-      "label": "gonzales flag work half",
-      "kind": "claude-flag-work"
-    },
-    "gonzales-flag-work-no-star": {
-      "sheet": "claude-flag-work",
-      "x": 0,
-      "y": 580,
-      "w": 1735,
-      "h": 580,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Gonzales before the fight",
-      "replaceWith": "gonzales-flag-work-no-star: item 5: the flag flat on the table half-painted and finished (without the star), as more states of `gonzales-flag-work-*`",
-      "source": "svg/battle-works/claude-gonzales-flag-work-no-star.svg",
-      "label": "gonzales flag work no star",
-      "kind": "claude-flag-work"
     },
     "army-camp-mexican": {
       "sheet": "claude-army-camp",
@@ -16346,86 +15886,6 @@
       "label": "tavern house",
       "kind": "claude-advance-places"
     },
-    "home-hoe": {
-      "sheet": "claude-home-tools",
-      "x": 0,
-      "y": 0,
-      "w": 160,
-      "h": 160,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "home-tools",
-      "request": "Request 2026-09-12 (second) — interiors and furnishings: the wagon’s tools",
-      "replaceWith": "home-hoe: in the home-furnishings style and scale, standing or leaning as in a cabin",
-      "source": "svg/home-tools/claude-home-hoe.svg",
-      "label": "home hoe",
-      "kind": "claude-home-tools"
-    },
-    "home-felling-axe": {
-      "sheet": "claude-home-tools",
-      "x": 160,
-      "y": 0,
-      "w": 160,
-      "h": 160,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "home-tools",
-      "request": "Request 2026-09-12 (second) — interiors and furnishings: the wagon’s tools",
-      "replaceWith": "home-felling-axe: in the home-furnishings style and scale, standing or leaning as in a cabin",
-      "source": "svg/home-tools/claude-home-felling-axe.svg",
-      "label": "home felling axe",
-      "kind": "claude-home-tools"
-    },
-    "home-broadaxe": {
-      "sheet": "claude-home-tools",
-      "x": 320,
-      "y": 0,
-      "w": 160,
-      "h": 160,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "home-tools",
-      "request": "Request 2026-09-12 (second) — interiors and furnishings: the wagon’s tools",
-      "replaceWith": "home-broadaxe: in the home-furnishings style and scale, standing or leaning as in a cabin",
-      "source": "svg/home-tools/claude-home-broadaxe.svg",
-      "label": "home broadaxe",
-      "kind": "claude-home-tools"
-    },
-    "home-froe": {
-      "sheet": "claude-home-tools",
-      "x": 0,
-      "y": 160,
-      "w": 160,
-      "h": 160,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "home-tools",
-      "request": "Request 2026-09-12 (second) — interiors and furnishings: the wagon’s tools",
-      "replaceWith": "home-froe: in the home-furnishings style and scale, standing or leaning as in a cabin",
-      "source": "svg/home-tools/claude-home-froe.svg",
-      "label": "home froe",
-      "kind": "claude-home-tools"
-    },
-    "home-auger": {
-      "sheet": "claude-home-tools",
-      "x": 160,
-      "y": 160,
-      "w": 160,
-      "h": 160,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "home-tools",
-      "request": "Request 2026-09-12 (second) — interiors and furnishings: the wagon’s tools",
-      "replaceWith": "home-auger: in the home-furnishings style and scale, standing or leaning as in a cabin",
-      "source": "svg/home-tools/claude-home-auger.svg",
-      "label": "home auger",
-      "kind": "claude-home-tools"
-    },
     "grave-marker": {
       "sheet": "claude-homecoming-marker",
       "x": 0,
@@ -16900,22 +16360,6 @@
       "label": "house loft",
       "kind": "claude-house-plot"
     },
-    "interior-saddlebag": {
-      "sheet": "claude-interior-saddlebag",
-      "x": 0,
-      "y": 0,
-      "w": 750,
-      "h": 331,
-      "anchorX": 0.5,
-      "anchorY": 0.985,
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen",
-      "replaceWith": "interior-saddlebag: a saddlebag interior in the home-interiors style, camera and scale exactly as interior-dog-run: two round-log pens wall to wall round one central stone chimney, a fireplace into each, no passage",
-      "source": "svg/house-pieces/claude-interior-saddlebag.svg",
-      "label": "interior saddlebag",
-      "kind": "claude-interior-saddlebag"
-    },
     "window-lit-adobe-flat": {
       "sheet": "claude-window-lit",
       "x": 0,
@@ -17336,737 +16780,6 @@
       "label": "town smoke rise 8",
       "kind": "claude-smoke-rise"
     },
-    "pine-loblolly-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 0,
-      "y": 0,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.1644,
-      "anchorY": 0.9516,
-      "logicalHeight": 209,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "pine-loblolly-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-pine-loblolly-pole-wind.svg",
-      "label": "pine loblolly pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "cedar-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 371,
-      "y": 0,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.1725,
-      "anchorY": 0.9516,
-      "logicalHeight": 213,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "cedar-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-cedar-pole-wind.svg",
-      "label": "cedar pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "mesquite-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 742,
-      "y": 0,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.2493,
-      "anchorY": 0.9484,
-      "logicalHeight": 213,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "mesquite-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-mesquite-pole-wind.svg",
-      "label": "mesquite pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "live-oak-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 1113,
-      "y": 0,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.19,
-      "anchorY": 0.9452,
-      "logicalHeight": 177,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "live-oak-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-live-oak-pole-wind.svg",
-      "label": "live oak pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "elm-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 1484,
-      "y": 0,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.186,
-      "anchorY": 0.9516,
-      "logicalHeight": 244,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "elm-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-elm-pole-wind.svg",
-      "label": "elm pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "post-oak-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 0,
-      "y": 310,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.1981,
-      "anchorY": 0.9419,
-      "logicalHeight": 243,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "post-oak-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-post-oak-pole-wind.svg",
-      "label": "post oak pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "blackjack-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 371,
-      "y": 310,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.2237,
-      "anchorY": 0.9419,
-      "logicalHeight": 222,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "blackjack-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-blackjack-pole-wind.svg",
-      "label": "blackjack pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "pecan-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 742,
-      "y": 310,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.1806,
-      "anchorY": 0.9419,
-      "logicalHeight": 273,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "pecan-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-pecan-pole-wind.svg",
-      "label": "pecan pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "hackberry-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 1113,
-      "y": 310,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.2049,
-      "anchorY": 0.9452,
-      "logicalHeight": 246,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "hackberry-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-hackberry-pole-wind.svg",
-      "label": "hackberry pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "sweetgum-pole-wind": {
-      "sheet": "claude-gale-pole",
-      "x": 1484,
-      "y": 310,
-      "w": 371,
-      "h": 310,
-      "anchorX": 0.186,
-      "anchorY": 0.9419,
-      "logicalHeight": 272,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "sweetgum-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-sweetgum-pole-wind.svg",
-      "label": "sweetgum pole wind",
-      "kind": "claude-gale-pole"
-    },
-    "pine-loblolly-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 0,
-      "y": 0,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.1884,
-      "anchorY": 0.9569,
-      "logicalHeight": 308,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "pine-loblolly-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-pine-loblolly-log-wind.svg",
-      "label": "pine loblolly log wind",
-      "kind": "claude-gale-log"
-    },
-    "cedar-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 499,
-      "y": 0,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.1994,
-      "anchorY": 0.954,
-      "logicalHeight": 273,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "cedar-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-cedar-log-wind.svg",
-      "label": "cedar log wind",
-      "kind": "claude-gale-log"
-    },
-    "mesquite-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 998,
-      "y": 0,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.2595,
-      "anchorY": 0.9512,
-      "logicalHeight": 214,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "mesquite-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-mesquite-log-wind.svg",
-      "label": "mesquite log wind",
-      "kind": "claude-gale-log"
-    },
-    "live-oak-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 1497,
-      "y": 0,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.3166,
-      "anchorY": 0.9483,
-      "logicalHeight": 213,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "live-oak-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-live-oak-log-wind.svg",
-      "label": "live oak log wind",
-      "kind": "claude-gale-log"
-    },
-    "elm-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 0,
-      "y": 348,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.1914,
-      "anchorY": 0.954,
-      "logicalHeight": 278,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "elm-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-elm-log-wind.svg",
-      "label": "elm log wind",
-      "kind": "claude-gale-log"
-    },
-    "post-oak-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 499,
-      "y": 348,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.2926,
-      "anchorY": 0.9425,
-      "logicalHeight": 294,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "post-oak-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-post-oak-log-wind.svg",
-      "label": "post oak log wind",
-      "kind": "claude-gale-log"
-    },
-    "blackjack-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 998,
-      "y": 348,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.2164,
-      "anchorY": 0.9454,
-      "logicalHeight": 220,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "blackjack-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-blackjack-log-wind.svg",
-      "label": "blackjack log wind",
-      "kind": "claude-gale-log"
-    },
-    "pecan-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 1497,
-      "y": 348,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.2605,
-      "anchorY": 0.9483,
-      "logicalHeight": 291,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "pecan-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-pecan-log-wind.svg",
-      "label": "pecan log wind",
-      "kind": "claude-gale-log"
-    },
-    "hackberry-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 0,
-      "y": 696,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.2946,
-      "anchorY": 0.9483,
-      "logicalHeight": 245,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "hackberry-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-hackberry-log-wind.svg",
-      "label": "hackberry log wind",
-      "kind": "claude-gale-log"
-    },
-    "sweetgum-log-wind": {
-      "sheet": "claude-gale-log",
-      "x": 499,
-      "y": 696,
-      "w": 499,
-      "h": 348,
-      "anchorX": 0.2315,
-      "anchorY": 0.9454,
-      "logicalHeight": 296,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "sweetgum-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-sweetgum-log-wind.svg",
-      "label": "sweetgum log wind",
-      "kind": "claude-gale-log"
-    },
-    "pine-loblolly-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 0,
-      "y": 0,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.2609,
-      "anchorY": 0.9511,
-      "logicalHeight": 309,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "pine-loblolly-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-pine-loblolly-large-wind.svg",
-      "label": "pine loblolly large wind",
-      "kind": "claude-gale-large"
-    },
-    "cedar-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 573,
-      "y": 0,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.2635,
-      "anchorY": 0.9483,
-      "logicalHeight": 297,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "cedar-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-cedar-large-wind.svg",
-      "label": "cedar large wind",
-      "kind": "claude-gale-large"
-    },
-    "mesquite-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 1146,
-      "y": 0,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.3159,
-      "anchorY": 0.9483,
-      "logicalHeight": 261,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "mesquite-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-mesquite-large-wind.svg",
-      "label": "mesquite large wind",
-      "kind": "claude-gale-large"
-    },
-    "live-oak-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 1719,
-      "y": 0,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.3333,
-      "anchorY": 0.9368,
-      "logicalHeight": 247,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "live-oak-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-live-oak-large-wind.svg",
-      "label": "live oak large wind",
-      "kind": "claude-gale-large"
-    },
-    "elm-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 0,
-      "y": 348,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.2801,
-      "anchorY": 0.954,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "elm-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-elm-large-wind.svg",
-      "label": "elm large wind",
-      "kind": "claude-gale-large"
-    },
-    "post-oak-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 573,
-      "y": 348,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.2993,
-      "anchorY": 0.9368,
-      "logicalHeight": 305,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "post-oak-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-post-oak-large-wind.svg",
-      "label": "post oak large wind",
-      "kind": "claude-gale-large"
-    },
-    "blackjack-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 1146,
-      "y": 348,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.2705,
-      "anchorY": 0.9425,
-      "logicalHeight": 262,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "blackjack-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-blackjack-large-wind.svg",
-      "label": "blackjack large wind",
-      "kind": "claude-gale-large"
-    },
-    "pecan-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 1719,
-      "y": 348,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.2862,
-      "anchorY": 0.9482,
-      "logicalHeight": 295,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "pecan-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-pecan-large-wind.svg",
-      "label": "pecan large wind",
-      "kind": "claude-gale-large"
-    },
-    "hackberry-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 0,
-      "y": 696,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.2941,
-      "anchorY": 0.9426,
-      "logicalHeight": 285,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "hackberry-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-hackberry-large-wind.svg",
-      "label": "hackberry large wind",
-      "kind": "claude-gale-large"
-    },
-    "sweetgum-large-wind": {
-      "sheet": "claude-gale-large",
-      "x": 573,
-      "y": 696,
-      "w": 573,
-      "h": 348,
-      "anchorX": 0.2443,
-      "anchorY": 0.9397,
-      "logicalHeight": 305,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "sweetgum-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-sweetgum-large-wind.svg",
-      "label": "sweetgum large wind",
-      "kind": "claude-gale-large"
-    },
-    "pine-longleaf-pole-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 0,
-      "y": 0,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.1441,
-      "anchorY": 0.9447,
-      "logicalHeight": 245,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "pine-longleaf-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-pine-longleaf-pole-wind.svg",
-      "label": "pine longleaf pole wind",
-      "kind": "claude-gale-biome"
-    },
-    "pine-longleaf-log-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 503,
-      "y": 0,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.1859,
-      "anchorY": 0.9395,
-      "logicalHeight": 286,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "pine-longleaf-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-pine-longleaf-log-wind.svg",
-      "label": "pine longleaf log wind",
-      "kind": "claude-gale-biome"
-    },
-    "pine-longleaf-large-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 1006,
-      "y": 0,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.2604,
-      "anchorY": 0.9448,
-      "logicalHeight": 339,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "pine-longleaf-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-pine-longleaf-large-wind.svg",
-      "label": "pine longleaf large wind",
-      "kind": "claude-gale-biome"
-    },
-    "palm-sabal-pole-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 1509,
-      "y": 0,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.2465,
-      "anchorY": 0.9527,
-      "logicalHeight": 193,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "palm-sabal-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-palm-sabal-pole-wind.svg",
-      "label": "palm sabal pole wind",
-      "kind": "claude-gale-biome"
-    },
-    "palm-sabal-log-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 0,
-      "y": 380,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.2147,
-      "anchorY": 0.9553,
-      "logicalHeight": 249,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "palm-sabal-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-palm-sabal-log-wind.svg",
-      "label": "palm sabal log wind",
-      "kind": "claude-gale-biome"
-    },
-    "palm-sabal-large-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 503,
-      "y": 380,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.2277,
-      "anchorY": 0.9342,
-      "logicalHeight": 301,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "palm-sabal-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-palm-sabal-large-wind.svg",
-      "label": "palm sabal large wind",
-      "kind": "claude-gale-biome"
-    },
-    "cypress-bald-pole-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 1006,
-      "y": 380,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.2117,
-      "anchorY": 0.9421,
-      "logicalHeight": 244,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "cypress-bald-pole-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-cypress-bald-pole-wind.svg",
-      "label": "cypress bald pole wind",
-      "kind": "claude-gale-biome"
-    },
-    "cypress-bald-log-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 1509,
-      "y": 380,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.2465,
-      "anchorY": 0.9342,
-      "logicalHeight": 289,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "cypress-bald-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-cypress-bald-log-wind.svg",
-      "label": "cypress bald log wind",
-      "kind": "claude-gale-biome"
-    },
-    "cypress-bald-large-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 0,
-      "y": 760,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.2734,
-      "anchorY": 0.9342,
-      "logicalHeight": 290,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "cypress-bald-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-cypress-bald-large-wind.svg",
-      "label": "cypress bald large wind",
-      "kind": "claude-gale-biome"
-    },
-    "magnolia-log-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 503,
-      "y": 760,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.2426,
-      "anchorY": 0.95,
-      "logicalHeight": 244,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "magnolia-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-magnolia-log-wind.svg",
-      "label": "magnolia log wind",
-      "kind": "claude-gale-biome"
-    },
-    "magnolia-large-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 1006,
-      "y": 760,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.3101,
-      "anchorY": 0.9447,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "magnolia-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-magnolia-large-wind.svg",
-      "label": "magnolia large wind",
-      "kind": "claude-gale-biome"
-    },
-    "beech-log-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 1509,
-      "y": 760,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.2495,
-      "anchorY": 0.9395,
-      "logicalHeight": 266,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "beech-log-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-beech-log-wind.svg",
-      "label": "beech log wind",
-      "kind": "claude-gale-biome"
-    },
-    "beech-large-wind": {
-      "sheet": "claude-gale-biome",
-      "x": 0,
-      "y": 1140,
-      "w": 503,
-      "h": 380,
-      "anchorX": 0.3091,
-      "anchorY": 0.9342,
-      "logicalHeight": 288,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "beech-large-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-beech-large-wind.svg",
-      "label": "beech large wind",
-      "kind": "claude-gale-biome"
-    },
     "cottonwood-wind": {
       "sheet": "claude-gale-ground",
       "x": 0,
@@ -18084,61 +16797,10 @@
       "label": "cottonwood wind",
       "kind": "claude-gale-ground"
     },
-    "scrub-wind": {
+    "marsh-cordgrass-wind": {
       "sheet": "claude-gale-ground",
       "x": 570,
       "y": 0,
-      "w": 570,
-      "h": 432,
-      "anchorX": 0.2386,
-      "anchorY": 0.956,
-      "logicalHeight": 201,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "scrub-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-scrub-wind.svg",
-      "label": "scrub wind",
-      "kind": "claude-gale-ground"
-    },
-    "reeds-wind": {
-      "sheet": "claude-gale-ground",
-      "x": 1140,
-      "y": 0,
-      "w": 570,
-      "h": 432,
-      "anchorX": 0.2447,
-      "anchorY": 0.9468,
-      "logicalHeight": 265,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "reeds-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-reeds-wind.svg",
-      "label": "reeds wind",
-      "kind": "claude-gale-ground"
-    },
-    "prickly-pear-wind": {
-      "sheet": "claude-gale-ground",
-      "x": 1710,
-      "y": 0,
-      "w": 570,
-      "h": 432,
-      "anchorX": 0.2298,
-      "anchorY": 0.956,
-      "logicalHeight": 207,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "prickly-pear-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-prickly-pear-wind.svg",
-      "label": "prickly pear wind",
-      "kind": "claude-gale-ground"
-    },
-    "marsh-cordgrass-wind": {
-      "sheet": "claude-gale-ground",
-      "x": 0,
-      "y": 432,
       "w": 570,
       "h": 432,
       "anchorX": 0.2447,
@@ -18154,8 +16816,8 @@
     },
     "dune-grass-wind": {
       "sheet": "claude-gale-ground",
-      "x": 570,
-      "y": 432,
+      "x": 1140,
+      "y": 0,
       "w": 570,
       "h": 432,
       "anchorX": 0.2474,
@@ -18171,8 +16833,8 @@
     },
     "thicket-thorn-1-wind": {
       "sheet": "claude-gale-ground",
-      "x": 1140,
-      "y": 432,
+      "x": 1710,
+      "y": 0,
       "w": 570,
       "h": 432,
       "anchorX": 0.2711,
@@ -18188,7 +16850,7 @@
     },
     "thicket-thorn-2-wind": {
       "sheet": "claude-gale-ground",
-      "x": 1710,
+      "x": 0,
       "y": 432,
       "w": 570,
       "h": 432,
@@ -18205,8 +16867,8 @@
     },
     "palmetto-wind": {
       "sheet": "claude-gale-ground",
-      "x": 0,
-      "y": 864,
+      "x": 570,
+      "y": 432,
       "w": 570,
       "h": 432,
       "anchorX": 0.2552,
@@ -18222,8 +16884,8 @@
     },
     "yucca-wind": {
       "sheet": "claude-gale-ground",
-      "x": 570,
-      "y": 864,
+      "x": 1140,
+      "y": 432,
       "w": 570,
       "h": 432,
       "anchorX": 0.2561,
@@ -18321,57 +16983,6 @@
       "source": "svg/land-ground/claude-creek-ford.svg",
       "label": "creek ford",
       "kind": "claude-banks-creeks"
-    },
-    "marsh-edge-1": {
-      "sheet": "claude-marsh-edge",
-      "x": 0,
-      "y": 0,
-      "w": 340,
-      "h": 220,
-      "anchorX": 0.5,
-      "anchorY": 0.9455,
-      "logicalHeight": 220,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "marsh-edge-1: item 4: tiles of cordgrass and open water to scatter along the marsh",
-      "source": "svg/land-ground/claude-marsh-edge-1.svg",
-      "label": "marsh edge 1",
-      "kind": "claude-marsh-edge"
-    },
-    "marsh-edge-2": {
-      "sheet": "claude-marsh-edge",
-      "x": 340,
-      "y": 0,
-      "w": 340,
-      "h": 220,
-      "anchorX": 0.5,
-      "anchorY": 0.9455,
-      "logicalHeight": 220,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "marsh-edge-2: item 4: tiles of cordgrass and open water to scatter along the marsh",
-      "source": "svg/land-ground/claude-marsh-edge-2.svg",
-      "label": "marsh edge 2",
-      "kind": "claude-marsh-edge"
-    },
-    "marsh-edge-3": {
-      "sheet": "claude-marsh-edge",
-      "x": 680,
-      "y": 0,
-      "w": 340,
-      "h": 220,
-      "anchorX": 0.5,
-      "anchorY": 0.9455,
-      "logicalHeight": 220,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "marsh-edge-3: item 4: tiles of cordgrass and open water to scatter along the marsh",
-      "source": "svg/land-ground/claude-marsh-edge-3.svg",
-      "label": "marsh edge 3",
-      "kind": "claude-marsh-edge"
     },
     "night-grade": {
       "sheet": "claude-grades",
@@ -18764,57 +17375,6 @@
       "label": "willow large",
       "kind": "claude-trees-1836"
     },
-    "pine-shortleaf-pole": {
-      "sheet": "claude-trees-1836",
-      "x": 1140,
-      "y": 680,
-      "w": 380,
-      "h": 340,
-      "anchorX": 0.5,
-      "anchorY": 0.9471,
-      "logicalHeight": 239,
-      "madeBy": "claude",
-      "module": "land-trees",
-      "request": "Request 2026-09-19 — the country of 1836: trees and ground cover",
-      "replaceWith": "pine-shortleaf-pole: at -pole, -log and -large in the style and scale of pine-loblolly-* and live-oak-*, transparent, anchored at the foot of the trunk",
-      "source": "svg/land-trees/claude-pine-shortleaf-pole.svg",
-      "label": "pine shortleaf pole",
-      "kind": "claude-trees-1836"
-    },
-    "pine-shortleaf-log": {
-      "sheet": "claude-trees-1836",
-      "x": 1520,
-      "y": 680,
-      "w": 380,
-      "h": 340,
-      "anchorX": 0.5,
-      "anchorY": 0.9471,
-      "logicalHeight": 289,
-      "madeBy": "claude",
-      "module": "land-trees",
-      "request": "Request 2026-09-19 — the country of 1836: trees and ground cover",
-      "replaceWith": "pine-shortleaf-log: at -pole, -log and -large in the style and scale of pine-loblolly-* and live-oak-*, transparent, anchored at the foot of the trunk",
-      "source": "svg/land-trees/claude-pine-shortleaf-log.svg",
-      "label": "pine shortleaf log",
-      "kind": "claude-trees-1836"
-    },
-    "pine-shortleaf-large": {
-      "sheet": "claude-trees-1836",
-      "x": 1900,
-      "y": 680,
-      "w": 380,
-      "h": 340,
-      "anchorX": 0.5,
-      "anchorY": 0.9471,
-      "logicalHeight": 319,
-      "madeBy": "claude",
-      "module": "land-trees",
-      "request": "Request 2026-09-19 — the country of 1836: trees and ground cover",
-      "replaceWith": "pine-shortleaf-large: at -pole, -log and -large in the style and scale of pine-loblolly-* and live-oak-*, transparent, anchored at the foot of the trunk",
-      "source": "svg/land-trees/claude-pine-shortleaf-large.svg",
-      "label": "pine shortleaf large",
-      "kind": "claude-trees-1836"
-    },
     "stump-hickory": {
       "sheet": "claude-stumps-1836",
       "x": 0,
@@ -18899,102 +17459,6 @@
       "source": "svg/land-trees/claude-stump-oak-live.svg",
       "label": "stump oak live",
       "kind": "claude-stumps-1836"
-    },
-    "mark-need": {
-      "sheet": "claude-marks",
-      "x": 0,
-      "y": 0,
-      "w": 96,
-      "h": 96,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "marks",
-      "request": "Request 2026-09-16 — the family panel’s marks",
-      "replaceWith": "mark-need: 96 by 96, transparent, no text",
-      "source": "svg/marks/claude-mark-need.svg",
-      "label": "mark need",
-      "kind": "claude-marks"
-    },
-    "mark-need-rider": {
-      "sheet": "claude-marks",
-      "x": 96,
-      "y": 0,
-      "w": 96,
-      "h": 96,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "marks",
-      "request": "Request 2026-09-16 — the family panel’s marks",
-      "replaceWith": "mark-need-rider: 96 by 96, transparent, no text",
-      "source": "svg/marks/claude-mark-need-rider.svg",
-      "label": "mark need rider",
-      "kind": "claude-marks"
-    },
-    "mark-main": {
-      "sheet": "claude-marks",
-      "x": 192,
-      "y": 0,
-      "w": 96,
-      "h": 96,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "marks",
-      "request": "Request 2026-09-16 — the family panel’s marks",
-      "replaceWith": "mark-main: 96 by 96, transparent, no text",
-      "source": "svg/marks/claude-mark-main.svg",
-      "label": "mark main",
-      "kind": "claude-marks"
-    },
-    "mark-idle": {
-      "sheet": "claude-marks",
-      "x": 0,
-      "y": 96,
-      "w": 96,
-      "h": 96,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "marks",
-      "request": "Request 2026-09-16 — the family panel’s marks",
-      "replaceWith": "mark-idle: 96 by 96, transparent, no text",
-      "source": "svg/marks/claude-mark-idle.svg",
-      "label": "mark idle",
-      "kind": "claude-marks"
-    },
-    "mark-auto-off": {
-      "sheet": "claude-marks",
-      "x": 96,
-      "y": 96,
-      "w": 96,
-      "h": 96,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "marks",
-      "request": "Request 2026-09-16 — the family panel’s marks",
-      "replaceWith": "mark-auto-off: 96 by 96, transparent, no text",
-      "source": "svg/marks/claude-mark-auto-off.svg",
-      "label": "mark auto off",
-      "kind": "claude-marks"
-    },
-    "mark-auto-on": {
-      "sheet": "claude-marks",
-      "x": 192,
-      "y": 96,
-      "w": 96,
-      "h": 96,
-      "anchorX": 0.5,
-      "anchorY": 1,
-      "madeBy": "claude",
-      "module": "marks",
-      "request": "Request 2026-09-16 — the family panel’s marks",
-      "replaceWith": "mark-auto-on: 96 by 96, transparent, no text",
-      "source": "svg/marks/claude-mark-auto-on.svg",
-      "label": "mark auto on",
-      "kind": "claude-marks"
     },
     "portrait-rust": {
       "sheet": "claude-portraits",
@@ -21802,282 +20266,10 @@
       "label": "sutherland ride n 4",
       "kind": "claude-ride-famous"
     },
-    "rust-woman-wagon-driver-s-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 0,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "rust-woman-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-s-1.svg",
-      "label": "rust woman wagon driver s 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "rust-woman-wagon-driver-e-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 400,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "rust-woman-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-e-1.svg",
-      "label": "rust woman wagon driver e 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "rust-woman-wagon-driver-w-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 800,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "rust-woman-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-w-1.svg",
-      "label": "rust woman wagon driver w 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "rust-woman-wagon-driver-n-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 1200,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "rust-woman-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-n-1.svg",
-      "label": "rust woman wagon driver n 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "indigo-wagon-driver-s-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 1600,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "indigo-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-indigo-wagon-driver-s-1.svg",
-      "label": "indigo wagon driver s 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "indigo-wagon-driver-e-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2000,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "indigo-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-indigo-wagon-driver-e-1.svg",
-      "label": "indigo wagon driver e 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "indigo-wagon-driver-w-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2400,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "indigo-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-indigo-wagon-driver-w-1.svg",
-      "label": "indigo wagon driver w 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "indigo-wagon-driver-n-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2800,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "indigo-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-indigo-wagon-driver-n-1.svg",
-      "label": "indigo wagon driver n 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "ochre-wagon-driver-s-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 0,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "ochre-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-ochre-wagon-driver-s-1.svg",
-      "label": "ochre wagon driver s 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "ochre-wagon-driver-e-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 400,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "ochre-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-ochre-wagon-driver-e-1.svg",
-      "label": "ochre wagon driver e 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "ochre-wagon-driver-w-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 800,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "ochre-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-ochre-wagon-driver-w-1.svg",
-      "label": "ochre wagon driver w 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "ochre-wagon-driver-n-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 1200,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "ochre-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-ochre-wagon-driver-n-1.svg",
-      "label": "ochre wagon driver n 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "blue-girl-wagon-driver-s-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 1600,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "blue-girl-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-s-1.svg",
-      "label": "blue girl wagon driver s 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "blue-girl-wagon-driver-e-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2000,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "blue-girl-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-e-1.svg",
-      "label": "blue girl wagon driver e 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "blue-girl-wagon-driver-w-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2400,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "blue-girl-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-w-1.svg",
-      "label": "blue girl wagon driver w 1",
-      "kind": "claude-wagon-drivers"
-    },
-    "blue-girl-wagon-driver-n-1": {
-      "sheet": "claude-wagon-drivers",
-      "x": 2800,
-      "y": 400,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 276,
-      "madeBy": "claude",
-      "module": "transport-seated",
-      "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "blue-girl-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
-      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-n-1.svg",
-      "label": "blue girl wagon driver n 1",
-      "kind": "claude-wagon-drivers"
-    },
     "girl-wagon-driver-s-1": {
       "sheet": "claude-wagon-drivers",
       "x": 0,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22094,7 +20286,7 @@
     "girl-wagon-driver-e-1": {
       "sheet": "claude-wagon-drivers",
       "x": 400,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22111,7 +20303,7 @@
     "girl-wagon-driver-w-1": {
       "sheet": "claude-wagon-drivers",
       "x": 800,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22128,7 +20320,7 @@
     "girl-wagon-driver-n-1": {
       "sheet": "claude-wagon-drivers",
       "x": 1200,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22145,7 +20337,7 @@
     "boy-wagon-driver-s-1": {
       "sheet": "claude-wagon-drivers",
       "x": 1600,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22162,7 +20354,7 @@
     "boy-wagon-driver-e-1": {
       "sheet": "claude-wagon-drivers",
       "x": 2000,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22179,7 +20371,7 @@
     "boy-wagon-driver-w-1": {
       "sheet": "claude-wagon-drivers",
       "x": 2400,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22196,7 +20388,7 @@
     "boy-wagon-driver-n-1": {
       "sheet": "claude-wagon-drivers",
       "x": 2800,
-      "y": 800,
+      "y": 0,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22213,7 +20405,7 @@
     "smallchild-wagon-driver-s-1": {
       "sheet": "claude-wagon-drivers",
       "x": 0,
-      "y": 1200,
+      "y": 400,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22230,7 +20422,7 @@
     "smallchild-wagon-driver-e-1": {
       "sheet": "claude-wagon-drivers",
       "x": 400,
-      "y": 1200,
+      "y": 400,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22247,7 +20439,7 @@
     "smallchild-wagon-driver-w-1": {
       "sheet": "claude-wagon-drivers",
       "x": 800,
-      "y": 1200,
+      "y": 400,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22264,7 +20456,7 @@
     "smallchild-wagon-driver-n-1": {
       "sheet": "claude-wagon-drivers",
       "x": 1200,
-      "y": 1200,
+      "y": 400,
       "w": 400,
       "h": 400,
       "anchorX": 0.5,
@@ -22838,516 +21030,6 @@
       "source": "svg/transport-seated/claude-smallchild-ride-wagon-n-1.svg",
       "label": "smallchild ride wagon n 1",
       "kind": "claude-wagon-riders"
-    },
-    "cart-travel-e-1": {
-      "sheet": "claude-cart",
-      "x": 0,
-      "y": 0,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-e-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-e-1.svg",
-      "label": "cart travel e 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-e-2": {
-      "sheet": "claude-cart",
-      "x": 320,
-      "y": 0,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-e-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-e-2.svg",
-      "label": "cart travel e 2",
-      "kind": "claude-cart"
-    },
-    "cart-travel-e-3": {
-      "sheet": "claude-cart",
-      "x": 640,
-      "y": 0,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-e-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-e-3.svg",
-      "label": "cart travel e 3",
-      "kind": "claude-cart"
-    },
-    "cart-travel-e-4": {
-      "sheet": "claude-cart",
-      "x": 960,
-      "y": 0,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-e-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-e-4.svg",
-      "label": "cart travel e 4",
-      "kind": "claude-cart"
-    },
-    "cart-idle-e-1": {
-      "sheet": "claude-cart",
-      "x": 1280,
-      "y": 0,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-e-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-e-1.svg",
-      "label": "cart idle e 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-s-1": {
-      "sheet": "claude-cart",
-      "x": 0,
-      "y": 280,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-s-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-s-1.svg",
-      "label": "cart travel s 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-s-2": {
-      "sheet": "claude-cart",
-      "x": 320,
-      "y": 280,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-s-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-s-2.svg",
-      "label": "cart travel s 2",
-      "kind": "claude-cart"
-    },
-    "cart-travel-s-3": {
-      "sheet": "claude-cart",
-      "x": 640,
-      "y": 280,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-s-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-s-3.svg",
-      "label": "cart travel s 3",
-      "kind": "claude-cart"
-    },
-    "cart-travel-s-4": {
-      "sheet": "claude-cart",
-      "x": 960,
-      "y": 280,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-s-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-s-4.svg",
-      "label": "cart travel s 4",
-      "kind": "claude-cart"
-    },
-    "cart-idle-s-1": {
-      "sheet": "claude-cart",
-      "x": 1280,
-      "y": 280,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-s-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-s-1.svg",
-      "label": "cart idle s 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-n-1": {
-      "sheet": "claude-cart",
-      "x": 0,
-      "y": 560,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-n-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-n-1.svg",
-      "label": "cart travel n 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-n-2": {
-      "sheet": "claude-cart",
-      "x": 320,
-      "y": 560,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-n-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-n-2.svg",
-      "label": "cart travel n 2",
-      "kind": "claude-cart"
-    },
-    "cart-travel-n-3": {
-      "sheet": "claude-cart",
-      "x": 640,
-      "y": 560,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-n-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-n-3.svg",
-      "label": "cart travel n 3",
-      "kind": "claude-cart"
-    },
-    "cart-travel-n-4": {
-      "sheet": "claude-cart",
-      "x": 960,
-      "y": 560,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-n-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-n-4.svg",
-      "label": "cart travel n 4",
-      "kind": "claude-cart"
-    },
-    "cart-idle-n-1": {
-      "sheet": "claude-cart",
-      "x": 1280,
-      "y": 560,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-n-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-n-1.svg",
-      "label": "cart idle n 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-e-1": {
-      "sheet": "claude-cart",
-      "x": 0,
-      "y": 840,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-e-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-e-1.svg",
-      "label": "cart travel loaded e 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-e-2": {
-      "sheet": "claude-cart",
-      "x": 320,
-      "y": 840,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-e-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-e-2.svg",
-      "label": "cart travel loaded e 2",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-e-3": {
-      "sheet": "claude-cart",
-      "x": 640,
-      "y": 840,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-e-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-e-3.svg",
-      "label": "cart travel loaded e 3",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-e-4": {
-      "sheet": "claude-cart",
-      "x": 960,
-      "y": 840,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-e-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-e-4.svg",
-      "label": "cart travel loaded e 4",
-      "kind": "claude-cart"
-    },
-    "cart-idle-loaded-e-1": {
-      "sheet": "claude-cart",
-      "x": 1280,
-      "y": 840,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.3906,
-      "anchorY": 0.9464,
-      "logicalHeight": 142,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-loaded-e-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-loaded-e-1.svg",
-      "label": "cart idle loaded e 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-s-1": {
-      "sheet": "claude-cart",
-      "x": 0,
-      "y": 1120,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-s-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-s-1.svg",
-      "label": "cart travel loaded s 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-s-2": {
-      "sheet": "claude-cart",
-      "x": 320,
-      "y": 1120,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-s-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-s-2.svg",
-      "label": "cart travel loaded s 2",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-s-3": {
-      "sheet": "claude-cart",
-      "x": 640,
-      "y": 1120,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-s-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-s-3.svg",
-      "label": "cart travel loaded s 3",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-s-4": {
-      "sheet": "claude-cart",
-      "x": 960,
-      "y": 1120,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-s-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-s-4.svg",
-      "label": "cart travel loaded s 4",
-      "kind": "claude-cart"
-    },
-    "cart-idle-loaded-s-1": {
-      "sheet": "claude-cart",
-      "x": 1280,
-      "y": 1120,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 215,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-loaded-s-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-loaded-s-1.svg",
-      "label": "cart idle loaded s 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-n-1": {
-      "sheet": "claude-cart",
-      "x": 0,
-      "y": 1400,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-n-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-n-1.svg",
-      "label": "cart travel loaded n 1",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-n-2": {
-      "sheet": "claude-cart",
-      "x": 320,
-      "y": 1400,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-n-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-n-2.svg",
-      "label": "cart travel loaded n 2",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-n-3": {
-      "sheet": "claude-cart",
-      "x": 640,
-      "y": 1400,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-n-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-n-3.svg",
-      "label": "cart travel loaded n 3",
-      "kind": "claude-cart"
-    },
-    "cart-travel-loaded-n-4": {
-      "sheet": "claude-cart",
-      "x": 960,
-      "y": 1400,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-travel-loaded-n-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-travel-loaded-n-4.svg",
-      "label": "cart travel loaded n 4",
-      "kind": "claude-cart"
-    },
-    "cart-idle-loaded-n-1": {
-      "sheet": "claude-cart",
-      "x": 1280,
-      "y": 1400,
-      "w": 320,
-      "h": 280,
-      "anchorX": 0.5,
-      "anchorY": 0.9464,
-      "logicalHeight": 221,
-      "madeBy": "claude",
-      "module": "transport-vehicles",
-      "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-loaded-n-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-loaded-n-1.svg",
-      "label": "cart idle loaded n 1",
-      "kind": "claude-cart"
     },
     "carreta-loaded-travel-e-1": {
       "sheet": "claude-carreta-loaded",
@@ -34368,84 +32050,6 @@
       "madeBy": "claude",
       "module": "battle-soldiers"
     },
-    "figure-wading-regular": {
-      "frames": [
-        {
-          "sprite": "figure-wading-regular-1",
-          "duration": 210
-        },
-        {
-          "sprite": "figure-wading-regular-2",
-          "duration": 210
-        },
-        {
-          "sprite": "figure-wading-regular-3",
-          "duration": 210
-        },
-        {
-          "sprite": "figure-wading-regular-4",
-          "duration": 210
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "figure-wading-volunteer": {
-      "frames": [
-        {
-          "sprite": "figure-wading-volunteer-1",
-          "duration": 210
-        },
-        {
-          "sprite": "figure-wading-volunteer-2",
-          "duration": 210
-        },
-        {
-          "sprite": "figure-wading-volunteer-3",
-          "duration": 210
-        },
-        {
-          "sprite": "figure-wading-volunteer-4",
-          "duration": 210
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "figure-wading": {
-      "frames": [
-        {
-          "sprite": "figure-wading-regular-1",
-          "duration": 210
-        },
-        {
-          "sprite": "figure-wading-regular-2",
-          "duration": 210
-        },
-        {
-          "sprite": "figure-wading-regular-3",
-          "duration": 210
-        },
-        {
-          "sprite": "figure-wading-regular-4",
-          "duration": 210
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
     "regular-march-column": {
       "frames": [
         {
@@ -34494,28 +32098,6 @@
       "loop": true,
       "motion": "none",
       "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-works"
-    },
-    "flag-come-and-take-it-no-star-wind": {
-      "frames": [
-        {
-          "sprite": "flag-come-and-take-it-no-star-wind-1",
-          "duration": 380
-        },
-        {
-          "sprite": "flag-come-and-take-it-no-star-wind-2",
-          "duration": 380
-        },
-        {
-          "sprite": "flag-come-and-take-it-no-star-wind-3",
-          "duration": 380
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "as drawn",
       "authored": true,
       "madeBy": "claude",
       "module": "battle-works"
@@ -39144,230 +36726,6 @@
       "madeBy": "claude",
       "module": "transport-riders"
     },
-    "rust-woman-wagon-driver-s": {
-      "frames": [
-        {
-          "sprite": "rust-woman-wagon-driver-s-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "rust-woman-wagon-driver-e": {
-      "frames": [
-        {
-          "sprite": "rust-woman-wagon-driver-e-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "rust-woman-wagon-driver-w": {
-      "frames": [
-        {
-          "sprite": "rust-woman-wagon-driver-w-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "west",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "rust-woman-wagon-driver-n": {
-      "frames": [
-        {
-          "sprite": "rust-woman-wagon-driver-n-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "indigo-wagon-driver-s": {
-      "frames": [
-        {
-          "sprite": "indigo-wagon-driver-s-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "indigo-wagon-driver-e": {
-      "frames": [
-        {
-          "sprite": "indigo-wagon-driver-e-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "indigo-wagon-driver-w": {
-      "frames": [
-        {
-          "sprite": "indigo-wagon-driver-w-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "west",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "indigo-wagon-driver-n": {
-      "frames": [
-        {
-          "sprite": "indigo-wagon-driver-n-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "ochre-wagon-driver-s": {
-      "frames": [
-        {
-          "sprite": "ochre-wagon-driver-s-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "ochre-wagon-driver-e": {
-      "frames": [
-        {
-          "sprite": "ochre-wagon-driver-e-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "ochre-wagon-driver-w": {
-      "frames": [
-        {
-          "sprite": "ochre-wagon-driver-w-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "west",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "ochre-wagon-driver-n": {
-      "frames": [
-        {
-          "sprite": "ochre-wagon-driver-n-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "blue-girl-wagon-driver-s": {
-      "frames": [
-        {
-          "sprite": "blue-girl-wagon-driver-s-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "blue-girl-wagon-driver-e": {
-      "frames": [
-        {
-          "sprite": "blue-girl-wagon-driver-e-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "blue-girl-wagon-driver-w": {
-      "frames": [
-        {
-          "sprite": "blue-girl-wagon-driver-w-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "west",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
-    "blue-girl-wagon-driver-n": {
-      "frames": [
-        {
-          "sprite": "blue-girl-wagon-driver-n-1",
-          "duration": 2200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-seated"
-    },
     "girl-wagon-driver-s": {
       "frames": [
         {
@@ -39997,246 +37355,6 @@
       "authored": false,
       "madeBy": "claude",
       "module": "transport-seated"
-    },
-    "cart-travel-e": {
-      "frames": [
-        {
-          "sprite": "cart-travel-e-1",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-e-2",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-e-3",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-e-4",
-          "duration": 240
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-travel-s": {
-      "frames": [
-        {
-          "sprite": "cart-travel-s-1",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-s-2",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-s-3",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-s-4",
-          "duration": 240
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "south",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-travel-n": {
-      "frames": [
-        {
-          "sprite": "cart-travel-n-1",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-n-2",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-n-3",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-n-4",
-          "duration": 240
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "north",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-travel-loaded-e": {
-      "frames": [
-        {
-          "sprite": "cart-travel-loaded-e-1",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-loaded-e-2",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-loaded-e-3",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-loaded-e-4",
-          "duration": 240
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-travel-loaded-s": {
-      "frames": [
-        {
-          "sprite": "cart-travel-loaded-s-1",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-loaded-s-2",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-loaded-s-3",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-loaded-s-4",
-          "duration": 240
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "south",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-travel-loaded-n": {
-      "frames": [
-        {
-          "sprite": "cart-travel-loaded-n-1",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-loaded-n-2",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-loaded-n-3",
-          "duration": 240
-        },
-        {
-          "sprite": "cart-travel-loaded-n-4",
-          "duration": 240
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "north",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-idle-e": {
-      "frames": [
-        {
-          "sprite": "cart-idle-e-1",
-          "duration": 2000
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-idle-s": {
-      "frames": [
-        {
-          "sprite": "cart-idle-s-1",
-          "duration": 2000
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-idle-n": {
-      "frames": [
-        {
-          "sprite": "cart-idle-n-1",
-          "duration": 2000
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-idle-loaded-e": {
-      "frames": [
-        {
-          "sprite": "cart-idle-loaded-e-1",
-          "duration": 2000
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-idle-loaded-s": {
-      "frames": [
-        {
-          "sprite": "cart-idle-loaded-s-1",
-          "duration": 2000
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "south",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
-    },
-    "cart-idle-loaded-n": {
-      "frames": [
-        {
-          "sprite": "cart-idle-loaded-n-1",
-          "duration": 2000
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "north",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "transport-vehicles"
     },
     "carreta-loaded-travel-e": {
       "frames": [

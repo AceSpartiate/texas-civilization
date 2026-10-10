@@ -1,7 +1,7 @@
 // The armies fighting (docs/CLAUDE_ART_PLAN.md area C: C5, C6, C8, C10, C11): the Texian volunteer and the Mexican line
 // infantryman in the poses the battle engine stands in for today - a regular firing through a loophole, firing over a parapet,
-// a skirmisher running and kneeling to fire, wading through the marsh. (The wounded
-// carried, rest and sleep in camp, the volunteer at a loophole, the crowbar and the trench are Astra's since 2026-10-03; the climb under a cut bank, `volunteer-bank-climb`, since 2026-10-04.)
+// a skirmisher running and kneeling to fire. (The wounded
+// carried, rest and sleep in camp, the volunteer at a loophole, the crowbar and the trench are Astra's since 2026-10-03; the climb under a cut bank, `volunteer-bank-climb`, since 2026-10-04; wading in the marsh, her `volunteer-wade` and `regular-wade`, since 2026-10-08.)
 // Every figure faces east (mirrored for west) unless its name says -s or -n.
 //
 // Drawn from the person rig with the battle kit (scripts/claude-art/battle-kit/): the volunteer after Astra's `volunteer-*`
@@ -128,25 +128,8 @@ function sheet(id, request, replaceWith, rows, cell = WIDE, columns = 4) {
   clips['skirmisher-kneel-fire'] = clip([[`skirmisher-kneel-fire-1`, 700], [`skirmisher-kneel-fire-2`, 120], [`skirmisher-kneel-fire-3`, 750], [`skirmisher-kneel-fire-4`, 900]], { loop: false, prompt: `${WHO.regular}, kneeling to fire and load, on the fire-reload clip's timing.` });
 }
 
-// ---------------------------------------------------------------------------------------------------- C11: into the marsh
-{
-  const rows = [];
-  for (const side of ['regular', 'volunteer']) {
-    const spec = side === 'regular' ? { ...REGULAR } : VOLUNTEER, F = frameOf(spec), g = PO.g(F);
-    const water = F.ankle + F.B.shin + F.B.thigh * 0.35;
-    const runs = PO.run(F, { kind: KIND[side] }).map(p => ({ ...p, lean: 10, tool: null, hands: { near: PO.at(F, 12, -10), far: PO.at(F, -10, -18) }, elbows: { near: -1, far: -1 } }));
-    runs.forEach((p, i) => {
-      const name = `figure-wading-${side}-${i + 1}`;
-      rows.push([name, `${WHO[side]}, his piece gone; wading hard through the marsh at San Jacinto, the water up to his thighs, the arms working (frame ${i + 1} of 4). No blood, nobody shot close (VISION.md §16; docs/BATTLES.md §2b.2). ${STYLE}`,
-        // The water's surface is the ground the page stands him on: the anchor is at the waterline, his legs below it unseen.
-        () => personFrame(name, ink => { group(ink, [0, -water], 1, sub => drawPerson(sub, spec, { ...p, feet: { near: [p.feet.near[0] * 0.55, F.ankle], far: [p.feet.far[0] * 0.55, F.ankle + 4] } }), { clip: [-200, water, 400, 300] }); waterLine(ink, 0, { from: -30, to: 30, splash: i % 2 ? 6 : 2 }); }, { note: name, ...AT }),
-        [[`${side}-march-1`, 1], ['water-ripple', 0.8]]]);
-    });
-    clips[`figure-wading-${side}`] = clip([1, 2, 3, 4].map(i => [`figure-wading-${side}-${i}`, 210]), { prompt: `${WHO[side]}: wading through the marsh, four frames.` });
-  }
-  sheet('claude-wading', R.sanjac, 'item 4: `figure-wading` (a man up to the thighs in water, running, in either side\'s clothes); no blood, nobody shot close', rows);
-  clips['figure-wading'] = clip([1, 2, 3, 4].map(i => [`figure-wading-regular-${i}`, 210]), { prompt: 'The rout into the marsh at San Jacinto: a Mexican infantryman wading, four frames (the clip the page asks for; `figure-wading-volunteer` is a Texian).' });
-}
+// C11, into the marsh (`figure-wading-*`): Astra delivered `volunteer-wade` and `regular-wade` on 2026-10-08
+// (marsh-wading-2026-10-08), so Claude's wading men were deleted when it was merged (2026-10-09).
 
 // C12, the Gonzales gun's crew (`settler-gun-ram`, `-carry`, `-fire`): Astra delivered her civilian cannon crew on 2026-10-03
 // (survivor-travel-gonzales-crew-2026-10-03), so Claude's three settlers of the same names were deleted when it was merged.

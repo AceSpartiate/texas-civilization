@@ -59,7 +59,7 @@ test('each tile is the woods themselves: the trees in it, its patches and its sh
   // `trees-colonies-2` (2026-09-21) added the second five; the other oaks took the post oak's art and hickory, walnut and
   // ash the pecan's, which they were already drawn with unsized.
   assert.deepEqual(Object.fromEntries(['loblolly','shortleaf','longleaf','cedar','mesquite','live-oak','elm','post-oak','blackjack','pecan','hackberry','sweetgum','bald-cypress','palm'].map(id => [id,KINDS[id].picture])), {
-    loblolly:'pine-loblolly', shortleaf:'pine-loblolly', longleaf:'pine-longleaf', cedar:'cedar', mesquite:'mesquite', 'live-oak':'live-oak', elm:'elm',
+    loblolly:'pine-loblolly', shortleaf:'pine-shortleaf', longleaf:'pine-longleaf', cedar:'cedar', mesquite:'mesquite', 'live-oak':'live-oak', elm:'elm',
     'post-oak':'post-oak', blackjack:'blackjack', pecan:'pecan', hackberry:'hackberry', sweetgum:'sweetgum',
     'bald-cypress':'cypress-bald', palm:'palm-sabal',
   }, 'delivered tree kinds stay bound to their species-specific art');
@@ -73,12 +73,13 @@ test('each tile is the woods themselves: the trees in it, its patches and its sh
 });
 
 test('a kind with its own art names frames that exist, and is sent them, with the picture it borrowed to fall back on', () => {
-  // `own` / `ownStump` (2026-09-28): anacua, ebony, tupelo, cedar elm, willow, shortleaf, and the hardwood stumps have art of
-  // their own - Claude-drawn stand-ins today (public/assets/claude-standins/), Astra's when she delivers the same names.
+  // `own` / `ownStump` (2026-09-28): anacua, ebony, tupelo, cedar elm, willow and the hardwood stumps have art of their own -
+  // Claude-drawn stand-ins today (public/assets/claude-standins/), Astra's when she delivers the same names. Shortleaf's came
+  // (2026-10-08) and it is drawn as its own `picture` now, `own` gone.
   const astra = new Set(Object.keys(JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8')).frames));
   const claude = new Set(Object.keys(JSON.parse(readFileSync(new URL('../public/assets/claude-standins/atlas.json', import.meta.url), 'utf8')).frames));
   const own = Object.entries(KINDS).filter(([, kind]) => kind.own || kind.ownStump);
-  assert.deepEqual(own.filter(([, kind]) => kind.own).map(([id]) => id).sort(), ['anacua', 'cedar-elm', 'ebony', 'shortleaf', 'tupelo', 'willow']);
+  assert.deepEqual(own.filter(([, kind]) => kind.own).map(([id]) => id).sort(), ['anacua', 'cedar-elm', 'ebony', 'tupelo', 'willow']);
   const sent = Object.fromEntries(woodsCatalogue().kinds.map(kind => [kind.id, kind]));
   for (const [id, kind] of own) {
     for (const name of kind.own ? ['pole', 'log', 'large'].map(size => `${kind.own}-${size}`) : []) assert.ok(astra.has(name) || claude.has(name), `${id}: ${name} is in neither library`);

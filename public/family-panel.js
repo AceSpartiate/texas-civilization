@@ -1257,8 +1257,8 @@ export const lifeWord = entity => (entity?.lifeWord ? String(entity.lifeWord) : 
  * or `mark-auto-on`, fitted to the square. True when it drew; false when the frame is not there, and the page shows the
  * type it had instead (docs/ART_REQUESTS.md, request 2026-09-16 - the family panel's marks).
  *
- * stand-in: the marks drawn today are Claude-drawn, from public/assets/claude-standins/; Astra's frames of the same names
- * replace them when registered.
+ * The six are Astra's painted marks (2026-10-07, docs/ART_DELIVERY_2026-10-07-FAMILY-PANEL-MARKS.md); Claude's stand-ins of the
+ * same names were deleted when they were merged.
  */
 export function drawMark(canvas, name, { drawSprite, spriteFrame }) {
   const ctx = canvas.getContext('2d'), size = canvas.width;

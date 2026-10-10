@@ -4534,6 +4534,560 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-north.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Rear north-facing watch/point; point connected, watch catalog-ready. Other cast east/west gestures remain outstanding."
+    },
+    {
+      "sheet": "people-gonzales-river-cast-east",
+      "prompt": "Original frontierstorybook game spriteatlas exactly FOURcolumns TWOrows EIGHTisolated fullbody east/right facing adults truezeroalpha. Match references warmbrownthinoutlines mutedpaintedcolors expressiveexistingfaces slight elevated3/4camera, no3Dpixelart. Row1 INDIGO adultwoman brownhairbun indigoblue dress creamneckkerchief SAMEidentity reference row2. Row2 BLUE adultyoungman brownhair blueshirt tantrousers suspenders SAMEidentity referencebottomrow. Everyrow cols1/2 WATCH pair handshadingeyes onequiethead/handshift otherarmwaist; cols3/4 BOTH POINT pair rightarmextended east/right indexfingerpointing smallanglechange otherhandshadingeyes. Pointing armMUSTremainextendedBOTHcol3AND4. UPRIGHTSTANDINGbothfeetgrounded kneesstraight samebodyheightfootbaseline throughoutrow. EverycompletefigureINCLUDINGhands fits ONLYcentral60percent widthheightowncell min45pxcompletelyEMPTYtransparentguttersALLsides. Do notmake spritesfillcells. Fullboots hairhandcontained no neighborfragments. EXACT4columns2rows only. Truezeroalpha nofloor shadow weapons textlabelsgridglow. Eastfacingnotfront/back; mirrorwestingame. Do notredesignidentitiesorintroducechildren.",
+      "promptId": "frontier-v1/people-gonzales-river-cast-east",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-gonzales-river-south.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-river-gestures.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-61747b21-e39c-41da-a931-7314813a862f.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9716a05d-1648-4f4b-8843-07565fa71350.png",
+      "refinements": [
+        {
+          "prompt": "Edit this exact 4 columns 2 rows eight sprite atlas. Top row INDIGO woman must have uninterrupted plain indigo blue dress, cream neck kerchief ONLY. REMOVE the cream apron and waist bow from ALL FOUR top-row figures. Preserve brown bun, face and existing identity. Bottom row blue man unchanged identity clothing. SHRINK every whole figure including extended hands by 25 percent centered in its own cell, minimum35px empty transparent gutters on every side. Same body height and boot baseline within each row. Preserve east facing upright poses: cols1/2 watch shading eyes, cols3/4 pointing arm extended right in BOTH frames with small variation. True transparent zero alpha no shadows floor labels grid. Preserve warm brown outlined handpainted frontierstorybook style.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9716a05d-1648-4f4b-8843-07565fa71350.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-cast-east.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Indigo apron corrected to existing plain dress. East/west point integrated; watch catalog-ready."
+    },
+    {
+      "sheet": "people-gonzales-river-final-east",
+      "prompt": "Original transparent game sprite atlas EXACT FOUR columns TWO rows EIGHT isolated fullbody figures. Match supplied painted warm brown outlined frontierstorybook style, not pixels not 3D. Identity reference firstimage row3 OCHRE man brown tousledhair ochreshirt darkbrownvest grey-browntrousers boots. Row1 in NEWatlas ONLY this ochre man. Identity firstimage row4 BLUE-GIRL younger woman long darkbrown braid over shoulder blue dress cream apron boots; SAME age and proportions as reference, NOT child or indigo woman. Row2 newatlas ONLY this braided woman. BOTHrows allfigures east/right facing slight elevated3/4 view. Columns1/2 watch with onehand shadingeyes atbrow, subtle hand/headvariation; columns3/4 BOTHpoint with armextended right indexfingerout, otherhand shadingeyes, subtle armanglechange. Uprightfeetgrounded samebodyheight andbootbaseline eachrow. EveryWHOLEfigure includingfinger fits central60percent owncellwidthheight, minimum45px emptytransparentgutter allfour sides. NOneighborfragments. Exact4x2 only, nofloor/shadow scenery text grid. TRUEzeroalpha. Preserve existingfaces clothes braid manvest. Completebootsandhands contained.",
+      "promptId": "frontier-v1/people-gonzales-river-final-east",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-gonzales-river-cast-east.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-10c51d0b-3d00-4555-bbc7-809f5d6e33ed.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c283606e-c542-43db-9fa0-42e27ab6a620.png",
+      "refinements": [
+        {
+          "prompt": "Edit spacing ONLY in this exact four columns two rows sprite atlas. Shrink each entire figure INCLUDING outstretched finger by25percent and center in its own equal cell. At least35px fullyemptytransparentmargin ALLsides eachcell includingbottomboots andrightpointingfingers. Keep samebodyheight andbootbaseline withinrow. Preserve all eight east facing watch/point poses, same brownhaired ochre-shirt darkvest man top row and blue-dress cream-apron longbraided woman bottomrow. Pointarmout BOTH cols3/4, otherhandatbrow. No redesign, no new elements, truezeroalpha nofloorsshadowlabelsgrid.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c283606e-c542-43db-9fa0-42e27ab6a620.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-final-east.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Ochre vest and blue-girl braid/apron retained. East/west pointing integrated; north/south remain fallback. Watch catalog-ready."
+    },
+    {
+      "sheet": "people-gonzales-river-final-ns",
+      "prompt": "Original game sprite atlas EXACT FOUR columns FOUR rows SIXTEEN fullbody figures transparent zeroalpha. Match first reference cast2 warmbrown outlined handpainted frontierstorybook identities and second rear gesture reference camera. Row1 OCHRE MAN SOUTH frontview browntousledhair ochreshirt darkbrownvest grey-browntrousers boots. Row2 BLUE-GIRL SOUTH frontview youngwoman longdarkbrown braid blue dress creamapron boots sameageproportions firstreference bottomrow. Row3 SAME OCHRE MAN NORTH rearview backofhead/backvest visible NOfaceeyesnose. Row4 SAME BLUE-GIRL NORTH rearview longbraid downback blue dress apronrear ties visible NOfaceeyesnose. Eachrow columns1/2 WATCH with left hand shadingeyesatforehead rightarmdown smallhead/elbowshift. Eachrow cols3/4 BOTH POINT with lefthandatbrow RIGHTarm extendeddiagonallytoIMAGEUPPERRIGHT fingerpointing BOTHposes smallarmanglechange. North pointing foreshortenedforward but handvisiblepastshoulder, nothandonback. Uprightstandingbothbootsgrounded samebodyheightbootbaseline throughoutrow. Preserve identities nohat/newclothes. WHOLEfigure includingfinger ONLYcentral60percent owncellwidthheight minimum40px completelyemptytransparentmargin ALLsides EACHcell. EXACT4x4 grid nofloor/shadows textlabelsgrid scenery weapons. Rearrows realbackviews notmirroredfront. Slight elevated3/4gamecamera, nopixelart no3D. Keep braid andvest clearlyvisible.",
+      "promptId": "frontier-v1/people-gonzales-river-final-ns",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-gonzales-river-north.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-408ff78b-52a5-4a4a-be57-9f88df5fe292.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e05c81a5-80ac-4d49-8171-00762b86f01a.png",
+      "refinements": [
+        {
+          "prompt": "Edit ONLY spacing andscale this exact16sprite4columns4rowsatlas. Shrink everywholefigureINCLUDING extendedarms by25percent centeredowncell. Minimum35px fullyemptytransparentgutters ALLsides eachcell, especiallyrightfinger andbottomboots. Samebodyheightbootbaseline throughoutownrow. Preservefrontsouthrows1/2 rearNORTHrows3/4, samefacesbrownvestochre andbluebraidedwomancreamapron identities. Watchfirstpair andpointlastpair BOTH extendedarms intact. Northrear noface. Truezeroalpha nofloors shadowslabelsgrid. No redesign.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e05c81a5-80ac-4d49-8171-00762b86f01a.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-gonzales-river-final-ns.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Dedicated south/front and north/rear. Pointing integrated; watch catalog-ready. Completes six adult town identities cardinal pointing."
+    },
+    {
+      "sheet": "gonzales-flag-variants",
+      "prompt": "Production game transparent atlas EXACT FOUR columns TWO rows EIGHT isolated flag sprites. Match reference warmpainted brownoutlined parchment cotton frontierstorybook cloth. Row1 four complete NO-STAR pole flags wind poses: rest slightlift billow settle. Same straightwoodenpole lengthbaseposition eachcell clothright, EXACT black cannonprofile and uppercase lettering 'COME AND TAKE IT' undercannon. NO STAR anywhere row1. Row2 four flatcottoncloth cutouts no poles no table: col1 HALFPAINTED WITHSTAR blackstar complete cannonhalfpainted words incomplete only 'COME'; col2 FINISHED WITHSTAR cannonstar exact 'COME AND TAKE IT'; col3 HALFPAINTED NOSTAR cannonhalfpainted incomplete 'COME'; col4 FINISHED NOSTAR cannon exact 'COME AND TAKE IT'. Allflatclothsameoutlinefoldsstitching about2:1lengthwidth, slightelevatedtopview. Paintingprogress staticstates NOT windanimation. Row1 flagclothshape subtlychanges eachpose whilepainteddesignconsistent. Eachentireobject ONLYcentral60percentofowncell widthheight min45px completelyemptytransparentguttersallsides. Fullycontainedpolebase cloth handsewnedges. Truezeroalpha nofloor castshadows people labelsgrid extraobjects. EXACT4x2. Textspellingcorrect, absolutelyNOstar inrow1androw2cols3/4.",
+      "promptId": "frontier-v1/gonzales-flag-variants",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/flag-come-and-take-it.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/gonzales-flag-work-painted.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a935402f-833d-4787-8218-fe03cf671688.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f35126ce-89d2-4036-909e-9f239c883cae.png",
+      "refinements": [
+        {
+          "prompt": "Edit spacing/scale ONLY exact4columns2rows8flags. Shrink everywholeobject by25percent centerowncell minimum35px emptytransparentgutters all sides, noedgeorneighborcontact. Allfourtoprowwoodenpoles identicalheightbasebaseline. Preserve allcorrectlettering COME AND TAKE IT, blackcannon, no-star TOPROW, row2withstarhalfCOME/finishedfullwords, nostarhalfCOME/finishedfullwords. Preserve windpose variationtoprow, flatclothbottomrow. Noaddedstars nochangedwords truezeroalpha nofloor shadowslabelsgrid.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f3862cec-749f-4e90-bd6b-58785bccf39a.png"
+        },
+        {
+          "prompt": "Edit ONLY edge cleanup this exact8sprite4x2atlas. REMOVE ALL RED, YELLOW, GREEN coloredfringes/glows/artifacts around clothandpoles. Cloth/polesedges should endcleanly brown outline into truezeroalpha. Preserve exact shapes positions sizes clothfolds words blackcannons starpresence unchanged. Do not add shadowsbackground or change spacing. Everyredpixel/fringeoutsidesilhouette becomes fullytransparent, no red anywhere in artwork. Keep warmcreamcloth darkbrownoutline woodenpoles blackink. EXACT current4x2layout.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f35126ce-89d2-4036-909e-9f239c883cae.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/gonzales-flag-variants.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "No-star pole four-pose wind; flat half/finished variants with/without star. Historical default unchanged."
+    },
+    {
+      "sheet": "cart-open-complete",
+      "prompt": "Production transparent sprite atlas EXACT FOUR columns FIVE rows TWENTY isolated uncovered two-wheel ox carts WITHOUTox WITHOUTpeople. Match reference same simplebrownplankbed curvedwoodshaft bigironrimmedspokewheels warmbrownoutlined paintedfrontierstyle. Row1 EAST emptycart4travelposes wheelspokesrotate noticeably0/25/50/75degrees BODY remainsidentical stationary nojump. Row2 SOUTH frontviewshafttowardviewer4rollingwheelposes subtlewheelrotation treadchanges samebody. Row3 NORTH rearviewshaftaway4rollingwheelposes samebody. Row4 parked EMPTY east/south/north then LOADED east. Row5 LOADED south/north/east alternate/north alternate. Loads modestcreamclothbundles crate rolledblanket belowrailheight, nopeople noox no weapons. Eachentirecart fits central60percentofequalcell widthheight with min40px completelyemptytransparentgutters ALLsides INCLUDINGshaft wheels. EXACT4x5layout. Samebodydimensions andgroundbaseline eachrowtravel, no changesbedshaftwheelsize. Truezeroalpha nofloor shadowsgridlabels text. Cardinalnorthsouth NOTsideturn mirror. Wholecarttwowheels only.",
+      "promptId": "frontier-v1/cart-open-complete",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cart-open.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec3d4d79-8c12-474c-84eb-e097d43f7191.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ffb0d2d6-f0b3-43ee-aa81-b3e37a645fbf.png",
+      "refinements": [
+        {
+          "prompt": "Edit exact4columns5rows20cartatlas. CRITICAL first3rows wheelanimation currently too similar. Keepbodyshaftsgroundposition identicalwithinrow, ROTATE wheelspokes and ironrim rivets in EACH successivecolumn by22.5degrees. Eastfrontvisible wheel add ONE subtle darkwood knot/rimscuff at12oclockcol1,3oclockcol2,6oclockcol3,9oclockcol4 makingrotationobvious. Southnorth wheel tread/rim smallscuff moves up/front/down/back across4poses, bodyunchanged. Shrink everywholecart INCLUDINGshafts25percent centeredowncell min30px emptytransparentguttersALLsides. Preserve original rowlayout emptyE/S/Ntravel, parkedstatesrow4 andloadedrow5. NOpeopleox backgroundshadowslabelsgrid. Truezeroalpha preservewarmbrownoutlinedwoodgameart. Allfullobjectscontained.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ffb0d2d6-f0b3-43ee-aa81-b3e37a645fbf.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/cart-open-complete.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Cart-only subgroup: cardinal empty/loaded travel and parked views; separate ox. Broader passenger/infant request remains open."
+    },
+    {
+      "sheet": "cart-open-loaded-travel",
+      "prompt": "Transparent gameatlas EXACT FOURcolumns THREErows TWELVE LOADED openwooden two-wheel carts withoutox withoutpeople, same identity as reference loadedparkedcart. Row1 EAST, row2 SOUTHfront shafttowardviewer,row3 NORTHrear shaftaway. EACHROW four rollingwheelposes: SAMEbodycargoorientationthroughoutrow, wheels rotate visibly acrosscolumns. East wheel distinctive darkrimscuff at12/3/6/9oclock successivecols and spokes rotate22.5degrees. Southnorth wheelironrimscuff shiftsfront/down/back/up, no bobbingbody. Modestcargo creamclothbundle woodcrate rolledblanket remainssecureidentical eachframe. Warmbrownoutlinedpaintedfrontierstyle. Everywholecartincludingcurvedshaft ONLYcentral55percent owncellwidthheight min45px emptytransparentgutterallsides. EXACT4x3 nofloor shadowslabelsgrid text ox people. Samebodyheightbaseline row allcompletepartscontained truezeroalpha. NOTcoveredwagon, two wheels.",
+      "promptId": "frontier-v1/cart-open-loaded-travel",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ffb0d2d6-f0b3-43ee-aa81-b3e37a645fbf.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-15a04300-99e4-4651-b3b5-f4e5cbc7a384.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c9ed54a0-05bd-492b-aed9-02413458adaa.png",
+      "refinements": [
+        {
+          "prompt": "Edit exact12sprite4x3 loadedcartatlas. Bottomrow NORTH must realREARview: curvedshaft behindbed extends UPWARD towardTOPofimage, never down towardviewer. Rearboardclosestviewer cargo crateleft bundlecenter blanketleft ascurrent preserve. TOProw east MIDrow south unchangedorientation. SHRINK EVERY completecartincludingSHAFT25percent centeredowncell min35px emptytransparentguttersALLsides. Preserve visiblewhitewheelscuffrotation top12/3/6/9 and verticaltreadscuffsvariation, keepbodycargoaligned throughoutrow. Truezeroalpha nofloor shadow labelsgridpeopleox. Samepaintedwoodstyle. Northcurvedshaftup clearly visible abovebed.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c9ed54a0-05bd-492b-aed9-02413458adaa.png"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/cart-open-loaded-travel.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Cart-only subgroup: cardinal empty/loaded travel and parked views; separate ox. Broader passenger/infant request remains open."
+    },
+    {
+      "sheet": "lesson-marks",
+      "prompt": "Production transparent game UI atlas EXACT TWOcolumns TWOrows FOUR icons. Match supplied warm handpainted thin darkbrown outlines frontierstorybook style readabletiny. Row1col1 downwardpointing carved wooden hand/signpostfinger painted rustorange #c2582c, points STRAIGHTDOWN atbuttonbelow, simpleboldsilhouette. Row1col2 SQUARE rusttooledrope borderframe around HUGEcleartransparentcenter: roundedcorners, outershape square72x72 ratio, border only~8percentwidth, central80percenttransparent NOdiagonalrails nofill. Row2col1 unfilled simple horizontalwoodentally lozenge outline centered, mutedcreamwood border darkbrown, hollowcenter. Row2col2 SAME horizontalwoodentallylozenge fullyfilledrustorange withcream smallcheckmark completedstate. Nolettersnumbers labelsfloor castshadows. Everywholeicon fits central60percentofits equalcell widthheight generouscleartransparentgutters40pxallsides. Exact2x2 isolated nooverlap. TRUEzeroalpha includinghollowframecenter andunfilledpip. NOTscenery props. Pointmarkervertical, ringSQUARE, pipswidehorizontal.",
+      "promptId": "frontier-v1/lesson-marks",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/icons-children.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-117df682-6e6d-4c53-b75d-56c48db988be.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/lesson-marks.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Downward carved hand, hollow rust rope square, hollow/complete tally markers. CSS bob only marker; reduced-motion supported."
+    },
+    {
+      "sheet": "family-panel-marks",
+      "prompt": "Create NEW transparent production2Dgameiconatlas EXACT2columns3rows SIXcutouts onzeroalpha EMPTYtransparentbackground. NO brownbackground, NO vignette, NO glow, NO castshadow. Reference only paintedoutline style NOTbackground. Row1 rustorange woodenroundtoken cream! and slatebluewoodenroundtoken cream!. Row2 simplegoldfivepointstarbadge andstrawhatonwoodpeg. Row3 brownroundmedallionbrasswindingkey horizontalOFF andgreenroundmedallion samekeyrotated45degrees creamcheckmarkON. Everycompleteiconfitscentral55percent equalcell withminimum50px absolutelyEMPTYtransparentgutters allsides. Warmhandpaintedthinbrownoutlines matchinggame simple shapes readable24px. Noletterwordslabelsgridextras. TRUE RGBA allpixelsbetweenicons alphaZERO.",
+      "promptId": "frontier-v1/family-panel-marks",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lesson-marks.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-540e3a4f-5404-4a16-abd7-673e1216b7e7.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-787b68de-17e0-428a-a240-2c2ede02a60b.png",
+      "refinements": [
+        {
+          "prompt": "Edit ONLY top TWO roundtokens in this transparent2x3 sixiconatlas: ADD a LARGE creamraised EXCLAMATION pictogram ! centered on BOTH orangeandblue tokens. Uprightthickverticalstrokeandseparaterounddot boldreads24px. Change blue tokenfieldfrompurple to mutedSLATEBLUE #41556b. Preserve ALL otherfouricons exactly andallpositionssizes truezeroalpha transparentbackground. No floor vignette glow labels words or extras. ! marks REQUIRED attentionandwaitingrider. Keeptransparentgutters.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-787b68de-17e0-428a-a240-2c2ede02a60b.png"
+        }
+      ],
+      "discardedAttempts": [
+        {
+          "prompt": "Production game UI transparent atlas EXACT TWOcolumns THREErows SIX isolated icons. Match suppliedwarm handpainted brownoutlinedfrontierstorybook marks; clearbold shapesread24px. Row1col1 round RUSTORANGE tokencream raisedEXCLAMATION symbolic ! sameasattention; row1col2 SAMEroundtoken SLATEBLUE creamraised! forwaitingrider. Row2col1 small BRASSGOLD fivepointstar badge thinbrownoutline; row2col2 resting strawhat hungonsinglewoodpeg simplewholehat noface orbody. Row3col1 clockworkwindingkey OFF dimbrownbrasskey horizontalposition onsmallrounddarkwoodmedallion; row3col2 SAME windingkey ON brightmutedgreenmedallion keyrotated45degrees, smallcreamcheck symbol lowercorner distinguishesONnotcoloronly. Noletterswordsnumbers. ! and check and star areallowed pictograms. Wholeiconfitcentral60percent equalcellwidthheight min45px emptytransparentmarginALLsides. Truezeroalpha nofloor shadows scenes labelsgrid. Exact2x3 rowmajorONLY sixobjects. Allroundtokenssamecirclegeometry. Noextratokenstext. Samepaperwood brasspalette rust#c2582c slate#41556b green#4f7a3a.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c279f82-b814-4a45-9a6c-1e22789d69eb.png",
+          "reason": "Opaque background"
+        },
+        {
+          "prompt": "Remove entirebrownbackground andglow around allsixicons, replacewith TRUEzeroalpha transparency. Preserve exact2columns3rows sixiconidentities and designs. SHRINK eachwholeicon25percent centeredowncell minimum35px emptytransparentgutterALLsides; noframescontactadjacentcells. ! tokenrust slate, goldstarbadge, hatpeg, brownkeyoff greenkeyon checkpreserved. NOshadows glow vignette floor scene opaquebackground. Onlyactualiconobjects opaque, allspacebetween fullytransparent. Preservepaintedstyle.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f47d3125-99d4-4835-ada8-f15011b48bae.png",
+          "reason": "Background removal failed"
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/family-panel-marks.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "All six requested family marks replace existing stand-in IDs."
+    },
+    {
+      "sheet": "interior-saddlebag",
+      "prompt": "Single production game sprite transparent cutaway SADDLEBAG LOG HOUSE INTERIOR. Match reference warmhandpaintedbrown outlines elevatedthreequarterfrontview. ONEwholeconnectedbuilding two side-by-sideequalrooms sharingONE centralSTONEdoublechimney withTWO hearthopenings facinginto left/rightrooms. Chimney andcentralpartition atxcenter, back-to-backfireplaces visible obliqueoneonleftoneonright sideofcentralblock. NOouterendchimneys. NOopenbreezeway no grassgap no dogrunpassage. Connectedpackedearthfloors separatedcentralshortlogpartition behindchimney, twoouterlogsidewalls, continuousbacklogwall windowsoneeachroom, cutawayfrontwalllowthreshold openingforeachroom. RoofREMOVED showroomfloorsclear, nopolesacrosscenter. Emptyrooms NO furniture people flames scenery labels. Outline overall~2.2:1widerthantall. Generousfullytransparentgutter45pxall sides wholehousefitscentral80percentcanvas. Truezeroalpha floorONLYinsidewalls noexteriorgroundshadow. Sameperiodplainlogtexture stonehearthscoherentseparateartlayersnotpaintedfurniture. Frontdooropenings left/right permit walkingthrough each room. Inwardhearthscentralmostimportant.",
+      "promptId": "frontier-v1/interior-saddlebag",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/home-interiors.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9db18cb7-b09c-4a06-8ee5-d67a1bbf8cf5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/interior-saddlebag.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Roofless two-room cutaway, central shared chimney, inward hearths; separate furnishings and stable spot IDs."
+    },
+    {
+      "sheet": "home-tools",
+      "prompt": "Production transparent sprite atlas, SIX equal cells in TWO columns THREE rows, no grid lines text or backdrop. Match reference home-furnishings warm painted frontier storybook brown outlines, worn honey wood, forged dark iron, elevated three-quarter view. Each object fully contained within central 75 percent of own cell, generous transparent gutters. Row1 left broad-bladed GRUBBING HOE with long wooden handle and right-angle iron blade resting on cabin floor, right FELLING AXE narrow wedge forged head long slightly curved handle leaning upright. Row2 left BROADAXE very broad asymmetric hewing iron head short offset wooden handle, right FROE L-shaped straight long iron riving blade perpendicular to upright wooden handle, with separate stout wooden striking CLUB beside it included in SAME cell. Row3 left T-HANDLED AUGER horizontal wooden crossbar at top long vertical iron shaft spiral screw bit clearly visible lower end, right WOODEN FROE CLUB alone short grip stout cylindrical rounded head. Tools individually distinct readable at small game sizes. No modern steel tubular handles, no shovel, no chainsaw, no people, no scene. Bases near cell bottom. Real alpha transparent outside tools, no solid background. Static inventory/floor props intended for separate character animation. CORRECTION: Absolutely NO glow, NO gradients behind objects, NO brown background. Empty pixels must be fully transparent alpha=0. Shrink every object to 65 percent of its cell; no object may cross 2-column 3-row cell boundaries. Tool row one must fit between y0 and y1/3. All other rows similarly. Black/brown reference backdrop is NOT desired. Background removal essential.",
+      "promptId": "frontier-v1/home-tools",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-74ea9a41-24d8-40af-8551-aaca65337534.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/home-tools.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Five distinct period tools plus reusable club; production alpha checked; floor props kept independent from actors."
+    },
+    {
+      "sheet": "norther-ground",
+      "prompt": "Production GAME SPRITE ATLAS on genuine transparent alpha. EXACT TWO COLUMNS THREE ROWS six equal cells. Warm muted hand-painted frontier storybook look matching provided nature reference, brown ink outlines olive green ochre highlights elevated threequarter view no photo no 3D. Row1 two poses SAME low woody SCRUB BUSH: knotted rooted base stays identical, pliant twigs bent toward screen RIGHT under hard wind, leaves streaming right, second pose slightly more compressed crown. Row2 two poses SAME REEDS cattail clump: rooted base fixed, olive blades strongly bowed right with brown cattail heads, second pose tips shift a little farther right. Row3 two poses SAME PRICKLY PEAR cactus: fleshy rounded green pads and small red fruits, anchored stem remains firmly upright, outermost pads only slight change in angle, attached low grasses stream RIGHT; cactus must NOT bend like grass. Six wind-stressed poses for one shared wind direction, bases identical within each pair, no detached airborne leaves crossing cells. Each entire plant confined to central 65 percent own cell width and height, plenty of EMPTY TRANSPARENT gutter, all roots grounded near same lower baseline within respective row. NO exterior shadow, no background, no glow, no ground slab, no rain, no person, no labels or grids. Canvas alpha=0 around subjects. Preserve recognizable silhouette of each reference ground mark. Not tree-sized.",
+      "promptId": "frontier-v1/norther-ground",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b7ea27cf-3eaf-4243-a802-20e3326598db.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY. Preserve all six plants and differences, exact TWO columns THREE rows. Shrink each entire plant by 25 percent toward center of own cell, make at least40pixels fully transparent gutter INSIDE every cell boundary. Remove any glow or stray colored fringe outside plants, truezero alpha outside silhouettes. Same anchored base within each pair. Preserve rust brown outlines muted olive foliage and plant details. No background ground scenery text. Rightward wind scrub and reeds; cactus anchored upright with slight grass and outer pad variation.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d92303be-42ca-4f91-aa74-1cc7894463b5.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d92303be-42ca-4f91-aa74-1cc7894463b5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/norther-ground.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Three ground covers, two distinct gale poses each. Cached ground uses pose one; authored clips available for close views."
+    },
+    {
+      "sheet": "conifer-gale",
+      "prompt": "Transparent production game sprite atlas EXACT FOUR COLUMNS THREE ROWS twelve equal cells. Match provided trees-colonies-1 reference muted olive foliage brown painted outlines warm frontier storybook slightly elevated threequarter view. NO text grids background glow ground shadow. ROW1: col1 loblolly pine POLE young narrow small trunk wind pose1, col2 SAME pine pole pose2 slightly stronger gust; col3 cedar POLE young narrow conical small tree windpose1,col4 SAME cedar pole pose2. ROW2 col1 loblolly pine LOG middle aged taller trunk tiered needle crown pose1,col2 SAME pine log pose2;col3 cedar LOG medium cone bushy evergreen pose1,col4 SAME cedar log pose2. ROW3 col1 loblolly pine LARGE mature thicker rugged trunk wide tiered green crown pose1,col2 SAME pine large pose2;col3 cedar LARGE mature broad dense conical crown pose1,col4 SAME cedar large pose2. All rooted trunks stay near upright fixed base, upper branches and foliage stream toward SCREEN RIGHT under a hard cold norther. Distinct slightly compressed/splayed tips between each pair, NEVER bent as grass, no uprooted trees. Size increases POLE to LOG to LARGE, consistent species identity in all ages. Every entire tree limited to central SIXTY PERCENT of own cell width/height, fully transparent gutters on allfour sides, bases same within each pair. No branch leaf grass or roots cross cell boundaries. True transparent alpha=0 outside silhouettes. Sparse little rootedgrass attached okay no terrain slab. Keep entire twelve trees visible. Twelve individual sprites not a forest.",
+      "promptId": "frontier-v1/conifer-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-1.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7a5836d3-2b8a-4356-80ee-66b399bb49b2.png",
+      "refinements": [
+        {
+          "prompt": "Edit spacing and edge cleanup only this exact FOUR columns THREE rows twelve conifer sprites. Shrink every whole tree by twenty percent toward its own cell center to leave at least30px fully transparent gutter allfour sides within every cell. Maintain base alignment and root silhouette within each pair. Preserve identities, ages, proportions, rightward branch streaming and distinct two poses. Remove all colored RED YELLOW GREEN fringe/glow pixels outside outlines; clean brown/olive edges into true transparent alpha=0. No new foliage beyond boundary, backdrop, shadows, ground slabs or text. Three rows pinepolepair cedarpolepair / pinelogpair cedarlogpair / pinelargepair cedarlargepair, exact unchanged order.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-89968c83-b455-404a-8166-da77a1a33c4d.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-89968c83-b455-404a-8166-da77a1a33c4d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/conifer-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Six pine/cedar size identities, two distinct gust poses each; cached-map first-pose integration and close-view clips."
+    },
+    {
+      "sheet": "mesquite-liveoak-gale",
+      "prompt": "Production transparent sprite atlas for Texas frontier game. Match reference warm muted olive painted foliage, dark brown outlines, slightly elevated threequarter view. Each rooted lower trunk stays firm while upper branches and foliage stream SCREEN RIGHT in a hard norther. Two subtle gust variants per size, same root footprint within each pair. No uprooted/broken trees. Every plant confined central SIXTY PERCENT own cell width and height with at least35px EMPTY TRANSPARENT gutters all sides. NO detached leaves crossing cells, no labels grid backdrop glow terrain slab castshadow or rain. Truealpha=0 outside silhouettes. EXACT FOUR COLUMNS THREE ROWS twelve sprites. ROW1 col1 MESQUITE POLE small branching narrow young tree pose1,col2 SAME mesquite pole pose2,col3 LIVE OAK POLE young dark dense rounded green tree pose1,col4 SAME liveoak pole pose2. ROW2 col1 MESQUITE LOG medium spreading airy twiggy tree pose1,col2 SAME mesquite log pose2,col3 LIVE OAK LOG medium dense rounded crown pose1,col4 SAME liveoak log pose2. ROW3 col1 MESQUITE LARGE mature broad airy irregular canopy, twisted trunk small compound leaf masses pose1,col2 SAME mesquite large pose2,col3 LIVE OAK LARGE mature wide low heavy dark evergreen crown stout gnarled trunk pose1,col4 SAME liveoak large pose2. Preserve differences mesquite open airy versus liveoak dark dense. Age/size increase down rows; same original species style as reference.",
+      "promptId": "frontier-v1/mesquite-liveoak-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing/edge edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-1.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a1ca31b6-938a-4a2e-926e-1f72e462d605.png",
+      "refinements": [
+        {
+          "prompt": "Spacing and edge cleanup ONLY. Preserve exact FOUR columns THREE rows twelve sprites, mesquite pair then liveoak pair each row. Shrink each entire tree by THIRTY percent toward its own cell center, at least40px fullytransparent gutter INSIDE EVERY cell boundary on allfour sides. Preserve proportions identities and two different rightward gust poses and matchingrootfootprints. Remove allredgreenyellowfringe/glowoutside outlines; brown/olive painted edges into actualzeroalpha, no backdrop shadows addedleaves text grid. Do not make species identical. Leave clearseams between everycell and generouscanvasborder.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec7742a5-b450-4479-8c8e-6ea14533ce46.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ec7742a5-b450-4479-8c8e-6ea14533ce46.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/mesquite-liveoak-gale.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Two gale poses for each size, production alpha and retained-frame tests; first pose used by cached ground."
+    },
+    {
+      "sheet": "elm-gale",
+      "prompt": "Production transparent sprite atlas for Texas frontier game. Match reference warm muted olive painted foliage, dark brown outlines, slightly elevated threequarter view. Each rooted lower trunk stays firm while upper branches and foliage stream SCREEN RIGHT in a hard norther. Two subtle gust variants per size, same root footprint within each pair. No uprooted/broken trees. Every plant confined central SIXTY PERCENT own cell width and height with at least35px EMPTY TRANSPARENT gutters all sides. NO detached leaves crossing cells, no labels grid backdrop glow terrain slab castshadow or rain. Truealpha=0 outside silhouettes. EXACT TWO COLUMNS THREE ROWS six sprites. ROW1 ELM POLE young slender narrow trunk small open crown, windpose1 LEFT windpose2 RIGHT. ROW2 ELM LOG medium spreading leafy crown long upright trunk, pose1LEFT pose2RIGHT. ROW3 ELM LARGE mature broad arching spreading crown stout forked trunk, pose1LEFT pose2RIGHT. Elm olive foliage lighter than liveoak, original elm reference identity. Age/size increase downrows. Root positions identical within each pair, gentle differentiated swaying canopy no drastic distortion.",
+      "promptId": "frontier-v1/elm-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing/edge edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-1.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-dae5f16c-8a88-475d-b507-8e53295bac96.png",
+      "refinements": [
+        {
+          "prompt": "Spacing and edge cleanup ONLY. Preserve exact TWO columns THREE rows six sprites, elm pole/log/large pairs by row. Shrink each entire tree by THIRTY percent toward its own cell center, at least40px fullytransparent gutter INSIDE EVERY cell boundary on allfour sides. Preserve proportions identities and two different rightward gust poses and matchingrootfootprints. Remove allredgreenyellowfringe/glowoutside outlines; brown/olive painted edges into actualzeroalpha, no backdrop shadows addedleaves text grid. Do not make species identical. Leave clearseams between everycell and generouscanvasborder.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b03212ff-8703-4f3b-8cab-3e95ae466038.png"
+        },
+        {
+          "prompt": "Edit ONLY colored artifact cleanup. Preserve exact six elm trees positions sizes species and wind poses TWOcolumns THREErows. There are bright RED vertical strips beside trunks at middle and bottom rows, and YELLOW/GREEN fringe pixels outside foliage. REMOVE those artifact pixels into fully transparent alpha=0. No red exists on real elms here; trunks darkbrown foliagemutedolive, no red paint or glow anywhere. Do not replace artifact with background fill; clear it. Keep genuine foliage leaf color, roots, all silhouettes and transparent gutters unchanged. No resizing new art or background.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c8c00bb-e341-46cc-9012-052a0f9e7fb7.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9c8c00bb-e341-46cc-9012-052a0f9e7fb7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/elm-gale.png",
+      "postProcessing": "None; selected generated PNG copied unchanged.",
+      "review": "Two gale poses for each size, production alpha and retained-frame tests; first pose used by cached ground."
+    },
+    {
+      "sheet": "oak-gale",
+      "prompt": "Transparent game atlas EXACT FOUR COLUMNS THREE ROWS twelve tree sprites matching reference trees-colonies-2 warm muted olive foliage brown painted outlines frontier storybook elevatedthreequarterview. ROW1 POST OAK POLE young slender narrow crown two windposes col1/2; BLACKJACK POLE young narrow darker roughleaf crown two windposes col3/4. ROW2 POST OAK LOG medium spreading lobedleaf crown two windposes col1/2; BLACKJACK LOG medium dense irregular darker crown two windposes col3/4. ROW3 POST OAK LARGE stout rugged trunk broad spreading olivegreen lobedleaf canopy two windposes col1/2; BLACKJACK LARGE stout crooked trunk broad dark dense crown two windposes col3/4. Rooted lower trunk upright and fixed withinpairs, upperbranches/leaves yielding SCREEN RIGHT hardnorther, secondpose slightly stronger gust. NO uprooting brokenwood airborneleaves. ALL trees ONLY central SIXTY PERCENT owncell widthheight, generous FULLYTRANSPARENT gutters at least40pxinside everyboundary. Same rootfeet and proportions withinpairs. NO background glow groundslab shadowslabelsgrid. Truezeroalpha outsideactualbrown/olive silhouettes. Preserve exact reference speciesdifference post oak lighter/lobed versus blackjack darker dense. No 3Dphotography pixelart.",
+      "promptId": "frontier-v1/oak-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-2.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-db753a9b-409c-4757-8bc1-16ec95fbfbbd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/oak-gale.png",
+      "postProcessing": "None; PNG copied unchanged.",
+      "review": "Two crown poses per oak size, same grounded trunks, static map selector and close-view loops."
+    },
+    {
+      "sheet": "pecan-hackberry-gale",
+      "prompt": "Transparent game sprite atlas matching trees-colonies-2 reference: muted olive painted foliage warm brown outlines slightly elevated threequarter frontier storybook. Two gust poses per tree size, rooted lower trunks firm fixed base withinpairs; upperbranches and foliage visibly yielding SCREEN RIGHT under hard norther. Second pose stronger gust different crownshape but sameidentityproportions. No brokenuprooted trees, no airborne leaves. Entire tree ONLY central55percent owncell widthheight; minimum40px fullytransparentgutter insideeverycell boundary; no overlap, no background glow shadowgroundslab textgrid. Truealpha=0 outside silhouettes. EXACT FOUR COLUMNS THREE ROWS twelve sprites. Row1 PECAN POLE young slim upright lighter feathery compoundleaf crown poses1/2 col1/2; HACKBERRY POLE young slender rounded olive leafy crown poses1/2 col3/4. Row2 PECAN LOG medium longtrunk spreading compoundleaf branches poses1/2 col1/2; HACKBERRY LOG medium broad rounded irregular olive crown poses1/2 col3/4. Row3 PECAN LARGE tallstout forked trunk broad open spreading compoundleaf canopy poses1/2 col1/2; HACKBERRY LARGE stout branchy rugged trunk broad irregular rounded crown poses1/2 col3/4. Preserve referencepecan airy feathery versus hackberry rounded denser. Same age/size across pair. All12trees framed separately.",
+      "promptId": "frontier-v1/pecan-hackberry-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-2.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-af5dd662-3b3e-4fac-9e8a-18449f8cc44f.png",
+      "refinements": [
+        {
+          "prompt": "Spacing ONLY exact FOUR columns THREE rows twelve trees. SHRINK EACH WHOLE TREE BY THIRTY PERCENT toward its own cell center. Every tree central55percentcell, minimum40px EMPTY TRANSPARENT gutters inside EACH boundary. Especially bottomrow canopies must not touch/cross neighboringcells orcanvasedge. Preserve allidentities needlelikepecanleaves versus roundedhackberry leaves windposes rootfootprints proportions colors, no new branches or background. Truezeroalpha outside plants. No labelsglow terrainshadows.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e60b5319-805e-4e1e-aea0-0250af456bbe.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e60b5319-805e-4e1e-aea0-0250af456bbe.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/pecan-hackberry-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Two gale poses at every size; cached-map pose one and close-view loops."
+    },
+    {
+      "sheet": "sweetgum-gale",
+      "prompt": "Transparent game sprite atlas matching trees-colonies-2 reference: muted olive painted foliage warm brown outlines slightly elevated threequarter frontier storybook. Two gust poses per tree size, rooted lower trunks firm fixed base withinpairs; upperbranches and foliage visibly yielding SCREEN RIGHT under hard norther. Second pose stronger gust different crownshape but sameidentityproportions. No brokenuprooted trees, no airborne leaves. Entire tree ONLY central55percent owncell widthheight; minimum40px fullytransparentgutter insideeverycell boundary; no overlap, no background glow shadowgroundslab textgrid. Truealpha=0 outside silhouettes. EXACT TWO COLUMNS THREE ROWS six sprites. SWEETGUM tree with visibly star-shaped leaves, straight rooted lowertrunk and conical youngcrown spreading maturecrown, warmolivecolor. Row1 POLE young slender upright trunk narrowcrown gust1left gust2right. Row2 LOG medium branched broad oval crown gust1left gust2right. Row3 LARGE mature stoutforkedtrunk broad irregular spreading canopy gust1left gust2right. Eachpairedtree sameage/proportions but different wind-stressed canopy. Preserve exact reference sweetgum starleaf identity. Entire six trees within owncells with empty gutters.",
+      "promptId": "frontier-v1/sweetgum-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-2.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2ecba871-e9a1-41c9-acbb-a4bb379b2a43.png",
+      "refinements": [
+        {
+          "prompt": "Spacing ONLY exact TWO columns THREE rows six sweetgum trees. SHRINK EACH WHOLE TREE by THIRTY PERCENT toward CENTER OF ITS OWN CELL, strictly fit eachtree central55percentcell and at least40px EMPTY TRANSPARENT gutters inside EVERY boundary. Middle row trees must fit y=one-third to two-thirds canvas, bottomrow must start BELOW two-thirds plusgutter. No canopy crosses itsrow seam orneighbor cell. Preserve star leaves proportions speciesidentity rootedfeet distinctgustposesandallcolors. Alpha0outsideplants, no newbackgroundshadowglowlabels.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e9bc87d2-cf72-4a08-bf2f-701f13412ae5.png"
+        },
+        {
+          "prompt": "Precise atlas layout correction. SIX sweetgum sprites TWOcolumns THREErows. Preserve identities and everywindpose. In output canvas, eachrow MUST contain WHOLE trees: top objects staybetween y=0% and33.33%, middle objectsbetween33.33%and66.66%, bottom objectsbetween66.66%and100%. Bottomrow crowns currentlycross ABOVE66.66%line. SHRINK bottomrowwhole trees20percent and moveDOWNwithinrow so allbottomrowpixels between70%and96%canvasheight. Keep bottomrowpair samefootbaseline. Maintain middle andtoprows unchanged. Truealpha transparent gutters; no extra background text or labels. Bottomrow no pixelsabove70percentcanvasheight.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-decbdc95-0420-45a0-b226-901cf3da1a51.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-decbdc95-0420-45a0-b226-901cf3da1a51.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/sweetgum-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Two gale poses at every size; cached-map pose one and close-view loops."
+    },
+    {
+      "sheet": "biome-pine-palm-gale",
+      "prompt": "Transparent production game atlas, muted olive handpainted frontierstorybook warmbrown outlines slightly elevated threequarterview matching biome-trees-fields reference. TWO gust poses per identity, rooted trunk fixed samefoot withinpairs upperfoliage swept SCREEN RIGHT; gust2 slightly stronger than gust1 sameproportions. No broken/uprooted trees. Entire sprite ONLYcentral55percent OWN equalcell width/height at least40px fullytransparentgutters EVERYside no pixelsacross row orcolumnboundaries. No glowbackdrop groundslab castshadow labelsgrid rain or strayleaves. Truealpha0 outsideplants. EXACT FOUR COLUMNS THREE ROWS12sprites: ROW1 LONGLEAF PINE POLE young slendertrunk tuftedlongneedlecrown gust1col1 gust2col2; SABAL PALM POLE young lowgroundfanpalm gust1col3 gust2col4. ROW2 LONGLEAF PINE LOG mediumstraighttrunk tierslongneedles gust1col1 gust2col2; SABAL PALM LOG mediumtexturedstraighttrunk largefanfronds strawskirt gust1col3 gust2col4. ROW3 LONGLEAF PINE LARGE stouttalltrunk broad tierslongneedles gust1col1 gust2col2; SABAL PALM LARGE maturetexturedstraighttrunk wide fanfronds strawskirt gust1col3 gust2col4. Palms fanblades bendright separately stemfirm, youngpalmgroundfan NOTadulttrunk. Pines needleclusters individual branches yieldright. Preserve originalspeciesidentities.",
+      "promptId": "frontier-v1/biome-pine-palm-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-trees-fields.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3186aeaa-9432-4225-94af-a9682691dbec.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve FOUR columns THREE rows twelve trees and exact species/age/pose order. Shrink EVERY whole tree THIRTY PERCENT and CENTER it within its own equally divided cell. EVERY objectincluding roots moss flowersfronds ONLY central55percent owncell widthheight, at least40px emptytransparentgutter insideeveryboundary. Row1pixelsstay in row1, row2pixelsstay inrow2, row3pixelsstay inrow3. No tree crosses seams orcanvasboundaries. Preserve species shapes colors flowers moss fronds and pairedgust differences. Actualzeroalpha outside silhouettes no glowgroundshadow backdrop labels. Keeprootbaseline matched within eachpair.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ea628043-5e0c-41fd-8639-e62b7d5d3226.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ea628043-5e0c-41fd-8639-e62b7d5d3226.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-pine-palm-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Distinct paired gust poses, retained species features; measured registration and cached-map pose selection."
+    },
+    {
+      "sheet": "biome-cypress-gale",
+      "prompt": "Transparent production game atlas, muted olive handpainted frontierstorybook warmbrown outlines slightly elevated threequarterview matching biome-trees-fields reference. TWO gust poses per identity, rooted trunk fixed samefoot withinpairs upperfoliage swept SCREEN RIGHT; gust2 slightly stronger than gust1 sameproportions. No broken/uprooted trees. Entire sprite ONLYcentral55percent OWN equalcell width/height at least40px fullytransparentgutters EVERYside no pixelsacross row orcolumnboundaries. No glowbackdrop groundslab castshadow labelsgrid rain or strayleaves. Truealpha0 outsideplants. EXACT TWO COLUMNS THREE ROWS6sprites BALD CYPRESS. ROW1 POLE young taperinggreenfeatherycrown slender rootedflaredtrunk gust1LEFTgust2RIGHT. ROW2 LOG medium broadconicalfeatherycrown buttressedrustbrowntrunk littlecypressknees gust1LEFTgust2RIGHT. ROW3 LARGE maturewidecrown massivebuttressedtrunk smallrootknees gracefulSPANISH MOSS strands streamingright alongwith twigs gust1LEFTgust2RIGHT. Groundedkneeswithinowncell, NOwaterorlandslab. Moss is attached notfloating scenery. Allsix treesfitownrowwithclear seams.",
+      "promptId": "frontier-v1/biome-cypress-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-trees-fields.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-114cb930-74bc-4188-9181-8566fc4ddbd8.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve TWO columns THREE rows six trees and exact species/age/pose order. Shrink EVERY whole tree THIRTY PERCENT and CENTER it within its own equally divided cell. EVERY objectincluding roots moss flowersfronds ONLY central55percent owncell widthheight, at least40px emptytransparentgutter insideeveryboundary. Row1pixelsstay in row1, row2pixelsstay inrow2, row3pixelsstay inrow3. No tree crosses seams orcanvasboundaries. Preserve species shapes colors flowers moss fronds and pairedgust differences. Actualzeroalpha outside silhouettes no glowgroundshadow backdrop labels. Keeprootbaseline matched within eachpair.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-63a405da-eda9-4503-86cf-353b5e7e7fc3.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-63a405da-eda9-4503-86cf-353b5e7e7fc3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-cypress-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Distinct paired gust poses, retained species features; measured registration and cached-map pose selection."
+    },
+    {
+      "sheet": "biome-broadleaf-gale",
+      "prompt": "Transparent production game atlas, muted olive handpainted frontierstorybook warmbrown outlines slightly elevated threequarterview matching biome-trees-fields reference. TWO gust poses per identity, rooted trunk fixed samefoot withinpairs upperfoliage swept SCREEN RIGHT; gust2 slightly stronger than gust1 sameproportions. No broken/uprooted trees. Entire sprite ONLYcentral55percent OWN equalcell width/height at least40px fullytransparentgutters EVERYside no pixelsacross row orcolumnboundaries. No glowbackdrop groundslab castshadow labelsgrid rain or strayleaves. Truealpha0 outsideplants. EXACT FOUR COLUMNS TWO ROWS8sprites. ROW1 MAGNOLIA LOG medium darkglossy broadovalgreenleaves fewcreamywhiteflowers gust1col1gust2col2; BEECH LOG medium palelightgraytrunk roundedoliveleafcrown gust1col3gust2col4. ROW2 MAGNOLIA LARGE mature broadrounded glossy darkgreenleafcrown fewwhiteflowers stoutbrowntrunk gust1col1gust2col2; BEECH LARGE mature palegraystoutforkedtrunk broadroundedolive crown gust1col3gust2col4. Keep flowerstighttocrown notfloating. Leaves branches streamedright uppercrown treeholdsground. All8treesfullwithinowncells.",
+      "promptId": "frontier-v1/biome-broadleaf-gale",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-trees-fields.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e835b09a-9fb3-4d6d-a843-3509115a01a4.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve FOUR columns TWO rows eight trees and exact species/age/pose order. Shrink EVERY whole tree THIRTY PERCENT and CENTER it within its own equally divided cell. EVERY objectincluding roots moss flowersfronds ONLY central55percent owncell widthheight, at least40px emptytransparentgutter insideeveryboundary. Row1pixelsstay in row1, row2pixelsstay inrow2, row3pixelsstay inrow3. No tree crosses seams orcanvasboundaries. Preserve species shapes colors flowers moss fronds and pairedgust differences. Actualzeroalpha outside silhouettes no glowgroundshadow backdrop labels. Keeprootbaseline matched within eachpair.",
+          "sourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f75b7b7f-3fef-4ec0-a8d2-029cc873348a.png"
+        }
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f75b7b7f-3fef-4ec0-a8d2-029cc873348a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-broadleaf-gale.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Distinct paired gust poses, retained species features; measured registration and cached-map pose selection."
+    },
+    {
+      "sheet": "marsh-edge",
+      "prompt": "Production transparent game atlas EXACT FOUR COLUMNS TWO ROWS eight sprites. Match reference warm handpainted frontier storybook brown outlines muted olive cordgrass and bluegraygreen shallowwater, elevated threequarter view. ROW1 four consecutive loop poses SAME dense marsh edge small irregular flat shallowwater puddle with muddybank at back LEFT clustered cordgrass thinblades leaning slightly, four frames subtle ripple highlights advance aroundstems and grass tips sway, bankplants rootedbase identical withinrow. ROW2 four consecutive loop poses SAME sparse marsh edge irregular shallow bluegraywater oval with narrow muddybank backRIGHT sparse olivecordgrassandtwo brownseedheads, ripplepositionsandgrass tips subtle cyclechanges. All8patches SAME viewpoint scale basefootprint withinrow. Plants risebehind water foreground clear ripples, looks like wet marshshore NOT farmplot/island raised dirtblock. Edge irregular organic withtransparentcutout outsidepatch. Each entirepatchONLYcentral60percentowncell widthheight minimum40px FULLYTRANSPARENT gutters inside boundaries. NO other scenery people fish waterglow textlabelsgrid background. No gore. Realalpha0outside patch, wateritself opaque withpaintedhighlights. Keepfourframe loopcoherent slightvariations nohugechange in shoreline. About1.5widthtoheight includinggrass.",
+      "promptId": "frontier-v1/marsh-edge",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-ground-bexar.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5504c352-3f47-4372-9db8-aada977ae091.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-210c778b-1e2f-4d62-822a-350750791684.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit only. Preserve exact FOUR columns TWO rows eight marsh patches, dense four loop poses row1 and sparse four poses row2. Shrink each entire patch by THIRTY PERCENT and center it inside its own equal cell. Every opaque pixel fits central60percent cell widthheight, minimum40px fullytransparent gutters on all sides everycell. Preserve warm outlined painted style ripples plants bank shapes and pose variations. No labels grid background glow shadows. True zeroalpha outside patches."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/marsh-edge.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Dense and sparse animated shoreline patches, production battle binding and retained-pixel audit."
+    },
+    {
+      "sheet": "marsh-wading",
+      "prompt": "Transparent production sprite atlas EXACT FOUR COLUMNS TWO ROWS 8 sprites. Style references for costume and warm painted brownoutlined frontier storybook elevatedthreequarter art ONLY. Row1 SAME Texian volunteer brown brimhat browncoat creamtrousers satchel, ROW2 SAME Mexican regular black shako redpom navycoat redcuffs creamcrossbelts creamtrousers satchel. Each row four consecutive WADING RUN LOOP frames, all facing SCREEN RIGHT. Water thighdeep, lowerlegs submerged invisible, small opaque muted bluegraygreen shallowwater oval intersects thighs, distinct advancing ripples and little splashes fourposes. Arms alternating forwardback for effort, torso slightlyleaning, each frame has recognizable distinct shoulderarm movement without changingidentity costume orwaterline. No gun, no blood no wounds no death. Full hatheadtorsoarms upperthigh visible above water. No floating legs below puddle. WholepersonANDwater central55percent OWNcell widthheight with at least40px fullytransparentgutters ALLsides. Row1 staysrow1 row2staysrow2, no shared background ground islands reeds props textlabelgrid shadowsglow. Actualalpha0 outside figurewater silhouettes. Same baseline scaleviewpoint withinrows. Fourloop phases contacting pushing recovery alternatecontact.",
+      "promptId": "frontier-v1/marsh-wading",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-bank-actions.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/regular-engineer-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-723c53ab-44e0-4145-b90f-1c05130d95eb.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a2ed5c33-648e-4830-acb3-faac56dacdb7.png",
+      "refinements": [
+        {
+          "prompt": "Spacing correction ONLY preserve exact FOUR columns TWO rows eight wading figures, row1volunteer row2regular fourloopposes each facingright. Shrink every entire figure ANDwater patch by thirtypercent and center within own equally dividedcell. Every opaque pixel central60percentcellwidthheight minimum40px emptytransparentgutters ALLsides everycell and canvas. Allhatandwaterandsplash within owncell no crossboundary. Preserve poses faces outfits and warmoutlined painted style. Realalpha0 outside silhouettes no backdropglowshadow labelsgrid."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/marsh-wading.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Two faction costumes with authored arm and ripple poses. Retained pixel audit and battle-renderer selection tests."
+    },
+    {
+      "sheet": "volunteer-crowbar-vertical",
+      "prompt": "Production transparent frontier game sprite atlas EXACT FOUR columns TWO rows eight fullbody figures. Reference is costume/style ONLY, same generic brownbrimhat browncoat creamtrousers leatherboots satchel worker, warm painted storybook thin brownoutline slightly elevated gameview. ROW1 FOUR consecutive crowbar levering poses worker FACING SOUTH towardviewer, body frontal slightthreequarter, bothhands gripping singlelongdarkiron crowbar whose hookedtip is planted just in frontfeet, feetstable, phases setbar bendforward pullback return. ROW2 same FOUR poses worker FACING NORTH awayfromviewer showing backhat coat satchel, bothhands gripping crowbar pointingaway aheadfeet, phases setbar bendforward pullback return. Each rowidentityscalefootbaseline identical, arms torsobend and ironbarangle visiblydifferentthrough fourpose loop. No rifle shovel door wall ground base scene extra tools labelsgrid gore glowshadow. Entire figureINCLUDINGbar ONLYcentral55percent own equalcell widthheight with40px fullytransparentgutters ALLsides, nothing crossesrowcolumn boundaries. Truealpha0 outside silhouettes. Not eastprofile: row1frontview row2backview.",
+      "promptId": "frontier-v1/volunteer-crowbar-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-engineer-actions.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c6e79d47-3483-46b2-bb1d-bbd99ea6d3a0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/volunteer-crowbar-vertical.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Four keyframes each south/north with set, brace, leverage and reset poses."
+    },
+    {
+      "sheet": "cast2-drivers-women",
+      "prompt": "Transparent production characterlayer atlas EXACT FOUR columns FOUR rows16sprites. Warmpainted brownoutlined frontierstorybook sameidentityscale as reference. Each figure SEATED on INVISIBLE bench with bentkneesboots, handsattachedthin brownreinsandshortwoodgoad. NO wagon bench chair ox wheel ground scenery shadowsglow labelsgrid. COL1 identityA pose1 COL2 identityA pose2 COL3 identityB pose1 COL4 identityB pose2; sameidentityclothes throughout. Pairedposes subtle visible reins handmovement slightlylean samehipanchorfootbaseline notstanding. ROW1 SOUTH facingviewer reinsdown; ROW2 EAST rightsidelook reinsright; ROW3 WEST leftsidelook reinsleft; ROW4 NORTH fullback reinsup. North backonly noface. Reinsgoad entirely owncell. Wholefigureandtools ONLYcentral55percent owncellwidthheight min40px truealpha0gutters allboundaries nooverlap. Reference1identities only reference2seatedgeometry only. IDENTITY A reference1row1 rust-woman: darkhairedadultwoman creamtiedbonnet rustblouse creamapron ochreskirt. IDENTITY B reference1row2 indigo: adultwoman darkpinnedbun indigo/blue longdress creamneckscarf noapron. Exactclothinghairbonnet match.",
+      "promptId": "frontier-v1/cast2-drivers-women",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + seated spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-wagon-drivers.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-90540d15-e52f-4778-a4ca-90b31955448b.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8dc51921-32c6-4e67-966d-b40ce700bf09.png",
+      "refinements": [
+        {
+          "prompt": "Preserve EXACT4columns4rows16figures orderidentities directionposepairs. Shrink EACH wholefigure ANDreinsgoad byTHIRTYPERCENT center own equallydividedcell, allopaque pixels onlycentral55percentcellwidthheight minimum40px actualtransparentgutters eachboundary. No crossrow/column pixels. All16 clearlySEATED invisiblebench hipskneesbent; especially NORTH/back row4 musthave compactseatedhips bentkneesbootstuckedbelow, notuprightstanding. North reinshands faceforwardaway NOTsideways. Women backview aprononlywaisttiebow NOT creamapronpanelonback; preserve bonnethair and braid. Preservepaired handmotions nofloortoolduplicates chairwagonbackground glowshadowlabelgrid. Truealpha0 outside."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/cast2-drivers-women.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Four directions and paired seated rein-handling poses preserving cast costumes."
+    },
+    {
+      "sheet": "cast2-drivers-youth",
+      "prompt": "Transparent production characterlayer atlas EXACT FOUR columns FOUR rows16sprites. Warmpainted brownoutlined frontierstorybook sameidentityscale as reference. Each figure SEATED on INVISIBLE bench with bentkneesboots, handsattachedthin brownreinsandshortwoodgoad. NO wagon bench chair ox wheel ground scenery shadowsglow labelsgrid. COL1 identityA pose1 COL2 identityA pose2 COL3 identityB pose1 COL4 identityB pose2; sameidentityclothes throughout. Pairedposes subtle visible reins handmovement slightlylean samehipanchorfootbaseline notstanding. ROW1 SOUTH facingviewer reinsdown; ROW2 EAST rightsidelook reinsright; ROW3 WEST leftsidelook reinsleft; ROW4 NORTH fullback reinsup. North backonly noface. Reinsgoad entirely owncell. Wholefigureandtools ONLYcentral55percent owncellwidthheight min40px truealpha0gutters allboundaries nooverlap. Reference1identities only reference2seatedgeometry only. IDENTITY A reference1row3 ochre: youngman tousleddarkhair ochreshirt darkbrownwaistcoat graybrowntrousers boots. IDENTITY B reference1row4 blue-girl: youngwoman longdarkbraid blueblouse/skirt creamapron. Samegrown/adolescent proportionsreference, not toddler. Exactclothinghair match.",
+      "promptId": "frontier-v1/cast2-drivers-youth",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + seated spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-wagon-drivers.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a61a022e-3744-43e7-9647-43668e40fc15.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9af6bdce-89d0-48ed-a730-4cd9b406455c.png",
+      "refinements": [
+        {
+          "prompt": "Preserve EXACT4columns4rows16figures orderidentities directionposepairs. Shrink EACH wholefigure ANDreinsgoad byTHIRTYPERCENT center own equallydividedcell, allopaque pixels onlycentral55percentcellwidthheight minimum40px actualtransparentgutters eachboundary. No crossrow/column pixels. All16 clearlySEATED invisiblebench hipskneesbent; especially NORTH/back row4 musthave compactseatedhips bentkneesbootstuckedbelow, notuprightstanding. North reinshands faceforwardaway NOTsideways. Women backview aprononlywaisttiebow NOT creamapronpanelonback; preserve bonnethair and braid. Preservepaired handmotions nofloortoolduplicates chairwagonbackground glowshadowlabelgrid. Truealpha0 outside."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/cast2-drivers-youth.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Four directions and paired seated rein-handling poses preserving cast costumes."
+    },
+    {
+      "sheet": "trees-shortleaf",
+      "prompt": "Transparent game atlas EXACT4columns3rows12sprites. Warm mutedolive painted frontierstorybook brownoutlines slightly elevated3/4 matches suppliedforeststyle. SHORTLEAF PINE Pinusechinata distinct shorter compact darkbluishgreen needleclusters and reddishbrown flakybark, slenderstraighttrunk with visibleindividualbranches opencrown, NOT floppy longleafneedle tufts nor broadleafoak. Everywholeobjectcentral55percent OWNcellwidthheight min40px actualfullytransparentgutters allboundaries. ROW1 POLEyoungslender tree: COL1fairweatherupright COL2gustfoliagesweptSCREENRIGHT COL3strongergust sweptSCREENRIGHT COL4freshcutSMALLstump withpalegrowthringsredbrownbark. ROW2 LOGmediumtree: COL1upright COL2rightgust COL3strongerrightgust COL4mediumstump. ROW3 LARGEmaturetallpine longclearstraightbole broadopenneedle crown: COL1upright COL2rightgust COL3strongerrightgust COL4largestump. Gusttreepairs rootedbase fixed SAME scalefootprintwithrow1upright trunk, onlyupperbranches yield right. No broken/uprootedtrees floatingleaves groundslabs shadowsglow plants flowers fruits textlabelsgridbackground. Truealpha0 outside tree/stumps. Stump isolatednotstandingtree eachlastcolumn, noaxes. Originalillustrativeinterpretation notbotanicaldiagram.",
+      "promptId": "frontier-v1/trees-shortleaf",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-1.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0122083c-3d14-406e-886c-b343f93f3833.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ea55c354-fc2c-4898-a472-0a4ecfb0c188.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve exact4columns3rows12sprites ordertreesstumpsandgusts. Shrink EACHWHOLEobjectbyTHIRTYPERCENT center own equalcell; every opaque pixel onlycentral55percent owncellwidthheight minimum40px actualtransparentgutters ALLsides boundaries. No crossrow/column roots branches needlebits. Keeptreeidentity color branchshape sizecategory and leftto right poses distinct. Preserve rootedbaseline withinrow. Stumpsonlylastcolumn. Nootherplants backgroundglow shadow labelsgrid. Truealpha0."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/trees-shortleaf.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Species-specific illustrative three-size trees, paired gust poses and cut stumps. Botanical design reference https://research.fs.usda.gov/feis/species-reviews/pinech"
+    },
+    {
+      "sheet": "timber-felled",
+      "prompt": "Production transparent sprite atlas EXACT TWO columns TWO rows FOUR isolated timberprops, warm muted frontierstorybook handpainted darkbrown outlines elevatedthreequarter viewpoint matches supplied treebarkstumps reference. TOPLEFT freshfelled long reddishbrown barktrunk withpale growthring CUTEND atLEFT and fewsmall prunedbranchstubs alongside, lies EASTWEST horizontal; TOPRIGHT same freshfelledtrunk lying NORTHSOUTH inperspective endfaces viewer foregroundbottom trunk recedesup, samecutendbarkdiameter. BOTTOMLEFT trimmedconstructionlog EASTWEST horizontal pale cutends bark mostlyretained but noprotrudingbranches, modestaxefacetsalongcutends; BOTTOMRIGHT tidy lowstackofFIVE similar trimmedlogs, threebottomtwotop, pale growthring ends facingbottomleft notfirewoodshortchunks. Each propwholecentral55percent own equalcellwidthheight min50px fullytransparentgutters allboundaries, zeroalpha outsideobject. No standingtrees foliage grass groundslab shadowsglow flames smoke axes people labelsgridbackground. Fullentiretrunkendinsidecell. Theseare independent rigidprops notanimationframes, no motionblur. Originalinterpretive timberobjects for1835frontiergame.",
+      "promptId": "frontier-v1/timber-felled",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-shortleaf.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7a32ee90-9d45-4a9a-a48c-ea1f869f2c6c.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e0d4e54b-928b-46c1-bc86-94510b60ecfa.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY exactTWOcolumnsTWOrows4timberprops. Shrink EACH entireobject40percent center insideown equalquadrantcell. Allopaque pixels onlycentral55percent owncellwidthheight at least50px truealpha0gutter allfour sides everycell. TopLEFThorizontalbranchstubslog topRIGHTverticalperspectivelog bottomLEFTtrimmedhorizontallog bottomRIGHTfive-logstack. NOparts acrosscenterseams orcanvasedges. Preservebarkrings orientationcountshapes nootherprops backgroundlabelsgrid shadowglow."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/timber-felled.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Four rigid timber states, transparent backgrounds, production drawing and hauling translation proof."
     }
   ]
 }

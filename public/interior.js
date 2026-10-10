@@ -31,9 +31,9 @@ export function renderInterior(root, interior, { title, readOnly = false, send, 
   const stage = el('div', null, 'interior-stage');
   const canvas = el('canvas', null, 'interior-canvas');
   const width = Math.min(640, Math.max(280, (root.clientWidth || 640) - 36));
-  // The two-pen pictures are wide. A room whose picture has not loaded is drawn as its `fallback` (the saddlebag as the
-  // dog-run while Claude's stand-in has not loaded; sim/interior-data.mjs).
-  const sprite = !spriteFrame(room.sprite) && room.fallback && spriteFrame(room.fallback) ? room.fallback : room.sprite;
+  // The two-pen pictures are wide, each drawn as its own (the saddlebag's is Astra's cutaway of 2026-10-07, the hearths
+  // back to back at the centre; sim/interior-data.mjs).
+  const sprite = room.sprite;
   const wide = sprite === 'interior-dog-run' || sprite === 'interior-saddlebag';
   // The picture fills the stage's width. It is drawn from its anchor (its feet, off centre), so the anchor is placed where
   // the picture's own box puts it; the spots are fractions of that same box (sim/interior-data.mjs).

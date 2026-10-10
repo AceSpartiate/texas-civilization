@@ -1,0 +1,166 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "cart-open-travel-e-1",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-e-2",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-e-3",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-e-4",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-s-1",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-s-2",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-s-3",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-s-4",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-n-1",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-n-2",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-n-3",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-travel-n-4",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-idle-e",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-idle-s",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-idle-n",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-e",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-s",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-n",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-e-alt",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-n-alt",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-e-1",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-e-2",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-e-3",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-e-4",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-s-1",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-s-2",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-s-3",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-s-4",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-n-1",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-n-2",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-n-3",
+      "drawn": true
+    },
+    {
+      "id": "cart-open-loaded-travel-n-4",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "cart-open-travel-e",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "cart-open-travel-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "cart-open-travel-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "cart-open-loaded-travel-e",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "cart-open-loaded-travel-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "cart-open-loaded-travel-n",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

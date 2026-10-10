@@ -344,7 +344,7 @@ export const KINDS = Object.freeze({
   sycamore: kind('sycamore', [1, 2, 3], 'poor', 1, 'cottonwood', { stump: 'stump-cottonwood' }),
   cedar: kind('cedar', [1, 1, 2], 'sill', 0.8, 'cedar', SIZED),
   loblolly: kind('loblolly pine', [2, 3, 4], 'wall', 0.8, 'pine-loblolly', { sized: true, stump: 'stump-pine-loblolly' }),
-  shortleaf: kind('shortleaf pine', [2, 3, 3], 'wall', 0.8, 'pine-loblolly', { sized: true, stump: 'stump-pine-loblolly', own: 'pine-shortleaf' }),
+  shortleaf: kind('shortleaf pine', [2, 3, 3], 'wall', 0.8, 'pine-shortleaf', { sized: true, stump: 'stump-pine-shortleaf' }),
   mesquite: kind('mesquite', [0, 0, 0], 'none', 0.6, 'mesquite', SIZED),
   // The biomes of 1836 (docs/BIOMES.md §7.1, 2026-09-19). stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of
   // The principal indicator species now have their own art. Beech and magnolia have log and large frames; their rare pole-size

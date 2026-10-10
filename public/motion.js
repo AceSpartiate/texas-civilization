@@ -288,20 +288,21 @@ export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'r
  * docs/ART_DELIVERY_2026-09-21-WAGON-DRIVERS.md): a seated figure with connected reins and a short ox goad and no bench,
  * wagon, team or ground, composited over the wagon the renderer already draws.
  *
- * **The second cast's driver layers are not delivered and are not invented**: `rust-woman`, `indigo`, `ochre` and
- * `blue-girl` - and every child's figure - keep the standing pose cut at the hip until their own layers land.
+ * The second cast - `rust-woman`, `indigo`, `ochre` and `blue-girl` - followed (`people-cast2-wagon-drivers`, 2026-10-08,
+ * docs/ART_DELIVERY_2026-10-08-CAST2-WAGON-DRIVERS.md), each heading two authored rein-handling poses. The children's
+ * figures are Claude's stand-ins (below) until their own age-sized seated layers land.
  */
-export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue']);
+export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl']);
 /**
  * The figures Claude drew on the horse and on the wagon's box (2026-09-28), temporary until Astra paints them: the children
- * riding (`<child>-ride-*`) and the second cast and the children driving (`<figure>-wagon-driver-*`), in
+ * riding (`<child>-ride-*`) and the children driving (`<child>-wagon-driver-*`), in
  * public/assets/claude-standins/. Asked for by the same names hers would have; a sheet not yet loaded, or not there, falls
  * back to the composite exactly as before (public/app.js `drawSeated` asks `clipReady`).
  * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - requests 2026-09-14 (family members on
  * horseback) and 2026-09-16 (driving the ox wagon). The baby rides only in somebody's arms (sim/company.mjs), so has neither.
  */
 export const CLAUDE_RIDING_FIGURES = Object.freeze(['girl', 'boy', 'smallchild']);
-export const CLAUDE_DRIVING_FIGURES = Object.freeze(['rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy', 'smallchild']);
+export const CLAUDE_DRIVING_FIGURES = Object.freeze(['girl', 'boy', 'smallchild']);
 /**
  * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
  * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),
@@ -327,8 +328,8 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
   if (seat === 'horse' && (RIDING_FIGURES.includes(figure) || CLAUDE_RIDING_FIGURES.includes(figure))) {
     return { id: `${figure}-ride-${facing === 'w' ? 'e' : facing}`, whole: true, ...(facing === 'n' || facing === 's' ? { upright: true } : {}) };
   }
-  // Each heading is painted, west included, so a driver is never mirrored. Not frozen: the delivery registers one held
-  // breathing frame and the renderer's own breath is what keeps it alive.
+  // Each heading is painted, west included, so a driver is never mirrored. Not frozen: the first cast's delivery registers
+  // one held breathing frame and the renderer's own breath keeps it alive; the second cast's has two rein-handling poses.
   if (seat === 'wagon' && (DRIVING_FIGURES.includes(figure) || CLAUDE_DRIVING_FIGURES.includes(figure))) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
   // The infant's sheet has no back view.
   const pose = figure === 'infant' && facing === 'n' ? 'idle-s' : `idle-${facing}`;

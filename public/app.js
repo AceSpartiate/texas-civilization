@@ -722,12 +722,13 @@ function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
     if (entity.travel && animated(ctx, `carreta-travel-${heading || 'e'}`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
     if (drawSprite(ctx, entity.laden ? 'carreta-loaded-e' : `carreta-idle-${heading || 'e'}`, x, y, size, { flip: heading ? false : flip })) return;
   }
-  // The cart rolling with its wheels turning, and standing, loaded or empty: Claude's `cart-travel-*` and `cart-idle-*` (request
-  // 2026-09-25 "riders, walkers and the cart", item 1) where they are loaded, the delivered static `cart-open` views otherwise.
+  // The cart rolling with its wheels turning, and standing, loaded or empty: Astra's open cart (2026-10-07,
+  // docs/ART_DELIVERY_2026-10-07-OPEN-CART.md), west the east mirrored; the old static `cart-open` views while it loads.
   if (entity.cart && (!entity.condition || entity.condition === 'sound')) {
-    const cart = `cart-${entity.travel ? 'travel' : 'idle'}-${entity.laden ? 'loaded-' : ''}${heading || 'e'}`;
-    if (clipReady(cart) && animated(ctx, cart, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.travel ? entity.gait : undefined })) return;
-    if (drawSprite(ctx, `cart-open-${heading || 'e'}`, x, y, size, { flip: heading ? false : flip })) return;
+    const direction = heading || 'e', options = { flip: heading ? false : flip, gait: entity.travel ? entity.gait : undefined };
+    if (entity.travel && animated(ctx, `cart-open-${entity.laden ? 'loaded-' : ''}travel-${direction}`, x, y, size, entity.id, options)) return;
+    if (drawSprite(ctx, `cart-open-${entity.laden ? 'loaded' : 'idle'}-${direction}`, x, y, size, options)) return;
+    if (drawSprite(ctx, `cart-open-${direction}`, x, y, size, options)) return;
   }
   const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
   if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip, gait: entity.gait })) return;
@@ -3135,8 +3136,8 @@ function drawGroundDetail(ctx, world, camera, kept = null) {
   // One mark of the ground, from its class's table entry, or the entry's shape while the art has not loaded.
   const plain = (share, point, ground, lean = 0, gale = false) => {
     const mark = markFor(ground, share);
-    // The painted gale pose where the wind is a hard norther and the library has one for this mark - the grass tuft, so
-    // far - drawn straight, because the pose is already flattened (public/weather-art.js `GALE_POSES`).
+    // Delivered ground-cover gale poses are drawn straight in the kept ground: the artwork
+    // already contains the wind deformation (public/weather-art.js `GALE_POSES`).
     if (gale && GALE_POSES[mark.sprite] && drawSprite(ctx, GALE_POSES[mark.sprite], point.x, point.y, figure * mark.size)) { galeDrawn++; return; }
     if (mark.sprite && drawSprite(ctx, mark.sprite, point.x, point.y, figure * mark.size, { lean })) return;
     if (mark.fallback === 'rock') {
@@ -6658,6 +6659,8 @@ function paintSickMark(node) {
 function paintMark(node, mark) {
   node.dataset.mark = mark;
   setData(node, 'drawn', String(drawMark(node.querySelector('canvas'), mark, { drawSprite, spriteFrame })));
+  const button = node.closest('.panel-icon');
+  if (button) setData(button, 'lessonArt', String([...button.querySelectorAll('.lesson-ring-art,.lesson-point-art')].every(piece => piece.dataset.drawn === 'true')));
 }
 /**
  * The house's rooms on the bar (owner, 2026-09-30, "Move Idle and House off"): made here, not sent by the server, because it is
@@ -6680,7 +6683,7 @@ function panelIcon(entityId, icon) {
   canvas.width = canvas.height = 72;
   canvas.setAttribute('aria-hidden', 'true');
   drawIcon(canvas, icon.key, { drawSprite, spriteFrame });
-  button.append(canvas, element('span', '', 'panel-action-name'));
+  button.append(canvas, element('span', '', 'panel-action-name'), panelMark('span', '', 'lesson-ring-art', 'lesson-ring'), panelMark('span', '', 'lesson-point-art', 'lesson-point'));
   return button;
 }
 /**
@@ -6703,6 +6706,7 @@ function describeIcon(button, icon, lesson = null) {
   if (icon.can && !shut) button.removeAttribute('aria-disabled'); else button.setAttribute('aria-disabled', 'true');
   setData(button, 'shut', shut ? 'true' : '');
   setData(button, 'pointed', lesson?.pointed ? 'true' : '');
+  setData(button, 'lessonArt', String([...button.querySelectorAll('.lesson-ring-art,.lesson-point-art')].every(node => node.dataset.drawn === 'true')));
   // Work somebody on auto is given to wait for (sim/auto.mjs `waitingWork`): sent as it is, the way chosen when it goes.
   setData(button, 'waits', icon.waits ? 'true' : '');
   // Help, not lead (owner, 2026-10-04): the helping-hands badge on work open only to join somebody of its custom at it.
@@ -6889,6 +6893,7 @@ function repaintFamilyPanel() {
     // Those off the bar too (`row.made`), so one coming back is drawn with the art.
     for (const icon of row.made.values()) drawIcon(icon.querySelector('canvas'), icon.dataset.key, { drawSprite, spriteFrame });
   }
+  for (const node of document.querySelectorAll('.lesson-ring-art,.lesson-point-art,.lesson-pip[data-mark]')) paintMark(node, node.dataset.mark);
   if (window.__snapshot) renderFamilyPanel(window.__snapshot.world);
 }
 function renderSelection(world) {
@@ -8205,9 +8210,9 @@ function renderLesson(world) {
   $('#lesson-did').hidden = !words.did;
   // One pip a step, filled up to where the world says the student is. Type only: it repeats the numbers already said.
   const pips = $('#lesson-pips');
-  if (words.of && pips.children.length !== words.of) pips.replaceChildren(...Array.from({ length: words.of }, () => element('span', '', 'lesson-pip')));
+  if (words.of && pips.children.length !== words.of) pips.replaceChildren(...Array.from({ length: words.of }, () => panelMark('span', '', 'lesson-pip', 'lesson-pip')));
   if (!words.of) pips.replaceChildren();
-  [...pips.children].forEach((pip, at) => setData(pip, 'done', String(at < words.done)));
+  [...pips.children].forEach((pip, at) => { setData(pip, 'done', String(at < words.done)); paintMark(pip, at < words.done ? 'lesson-pip-done' : 'lesson-pip'); });
   // Said once, as a status, for somebody who cannot see the ring round the icon.
   $('#lesson-read').textContent = lessonAnnouncement(words);
   lessonRoom();

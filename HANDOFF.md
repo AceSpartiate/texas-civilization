@@ -1,5 +1,141 @@
 # Claude handoff — Astra foundation
 
+## Astra's 2026-10-06 to 10-09 art merged and wired in, and her Read Aloud program — 2026-10-09 (not released)
+
+Branch `astra-merge-1009`: her 27 commits (79ae5739..e1eccc71) merged onto main 49aa2d76. Her local main never takes our
+merges, so every code change was read against its own parent and re-checked on top of the current code.
+
+- **Ported by hand.** *River gestures*: her `point` change for ochre and blue-girl is now `GROWN.has(figure)` for both `point`
+  and the newer `watch` pose (public/town-scenes.js), since she drew watching too, in every heading, for all six grown figures.
+  *Saddlebag interior*: her picture and spots (sim/interior-data.mjs); the `fallback` to the dog-run while Claude's stand-in
+  loaded is gone (public/interior.js). *Second-cast drivers*: `DRIVING_FIGURES` is eight; `CLAUDE_DRIVING_FIGURES` keeps only the
+  children (public/motion.js). *Open cart*: her rolling and parked cart replaces Claude's `cart-travel-*`/`cart-idle-*` in
+  `miniWagon`. *Gale*: her `-gale-1` poses for every tree and the scrub, reeds and prickly pear, Claude's `<upright>-wind` kept
+  only for the seven marks she has not done (`CLAUDE_GALE`, public/weather-art.js). *Shortleaf*: `KINDS.shortleaf` is drawn as
+  her `pine-shortleaf` and its own stump, `own` gone (sim/woods.mjs). *Crowbar*: her directional generic crowbar replaces
+  Claude's in `drawBreaches`. *Marsh*: her `marshWadingClip` (public/wading-art.js) added beside the current fallback chain; the
+  older water branch now asks for her `<kind>-wade` too, and her shoreline loops replace Claude's `marsh-edge-1..3` tiles (both
+  retired). Paused or reduced motion now holds the battle figures (`paused: still`), as she intended. *Lesson marks*: her ring,
+  hand and pips are wired as she wrote them; their canvases are kept at their own size against the bar's
+  `.panel-icons .panel-icon canvas` rule (32px), which would have shrunk the ring into the button. Dormant: the guided start is
+  off (docs/LESSON.md). *Style*: her lesson rules added, main's `.panel-reason` 12px kept.
+- **Stand-ins retired** (frames deleted from their area modules, `npm run build:standins -- --only <module>`, stale sheets and
+  SVGs removed): `home-tools` and `marks` modules entirely; `interior-saddlebag`; `pine-shortleaf-*`; the second cast's
+  `*-wagon-driver-*`; `cart-travel-*`/`cart-idle-*`; the flag without its star and half-painted; `figure-wading-*`;
+  `marsh-edge-1..3`; 46 gale poses. Their rows left *Stand-ins in use* and the Claude table; `scripts/claude-art/plan.mjs`
+  marks C11, C17, E5, E15, F2, F9 and F14 delivered and narrows A12, D4, D5, F5 and F6 (`npm run art:plan`).
+- **Left, and why.** The flag's no-star and half-painted states are catalog-ready in `drawFlag` (`star: false`,
+  `stage: 'half'`) but no scene asks for them: the star is a disputed historical choice (`FIC-GONZ-419`) and the painting beat
+  already draws her seated painters with their own cloth. Felled timber props are library art: logs no longer lie out
+  (hauling was removed), so there is no timber object to show them on. The crowbar's `breach.facing` is not set by any battle
+  (no invented directions). Close-view gale loops are not played: the map keeps its cached ground.
+- **Read Aloud** (`read-aloud/`, `Read Aloud.vbs`, `scripts/package-read-aloud.mjs`, `tests/read-aloud-gender.test.mjs`): a
+  separate teacher program that reads typed text in the game's Kokoro voices. Merged as she wrote it. It is not in the game's
+  release: scripts/package.ps1 ships an explicit list (server, sim, public, runtime, ...), so nothing there changed. Its own
+  package is `node scripts/package-read-aloud.mjs` (needs `npm install` in read-aloud/voice-worker and the voice in
+  runtime/voice); its zip goes to `dist/read-aloud/`, now ignored with its cache.
+- **Found by the merge and fixed.** Her lesson marks set `setData(button, 'lesson-art', ...)`, a dataset key the browser
+  refuses ("not a valid property name"): every action icon threw, and the family panel, panels, furniture, overlap and tips proofs
+  all failed. Now `lessonArt` (`data-lesson-art`, as her CSS and fixture already read it); her fixture never ran the real bar.
+  `public/wading-art.js` was not served (server/app.mjs `files`; tests/served-imports.test.mjs), so the battle view would
+  have failed to load. Her crowbar's front and back views and the norther ground's second poses drew one figure at two sizes
+  (tests/art-measure.test.mjs C2): `FIGURE_HEIGHTS` now gives each its tallest frame (scripts/build-atlas-manifest.mjs), which
+  leaves every first gale pose the map draws exactly as it was. Her `reeds` gale binding is left out: reeds are not scattered
+  (tests/art-library.test.mjs); scripts/norther-ground-art-proof.mjs draws that pose by name.
+- **Tests adjusted to the merged state** (not new tests): weather-art (her poses plus Claude's seven, counted), river gestures
+  (ochre watches), cast2 drivers (children are Claude's, not hers), woods-view (shortleaf no longer `own`), San Jacinto (her
+  shoreline drawn, not the reeds or Claude's tiles), astra-art-wins (lists of deleted Claude frames).
+- **Evidence.** `npm test` on the final tree: 2378 tests, 2342 pass, 0 fail, 36 skipped (the guided start's skips). Proofs: her 24 art proofs green on the merged tree (norther-ground after the reeds change); family-panel, panels, furniture,
+  overlap (177 screens, 0 faults, 1024x600 included, voice package present), tips, riding, battle-san-jacinto (red once in a run, green
+  alone), battle-bexar, storming, gonzales-town, art, trees-front, family-commands and travel-drawn (each red once under the run, green
+  alone), panel-press, house-plot, interior; lesson skips itself (guided start off). `weather-browser-proof` times out waiting for a
+  running world, alone, on this branch and on origin/main 49aa2d76 alike: pre-existing.
+- Not proved: Chromebook, LAN, classroom.
+
+## Completed art group 2026-10-09: felled timber library
+
+Four transparent rigid props cover horizontal/perspective fallen trunks, trimmed construction timber and a five-log stack. Registered sprites and non-looping held clips; hauling moves the prop by position rather than morphing wood. Library delivery only: persistent timber-object placement and hauling behavior remain gameplay work. See `docs/ART_DELIVERY_2026-10-09-FELLED-TIMBER.md`.
+
+## Completed art group 2026-10-08: shortleaf pine
+
+Twelve species-specific frames include three sizes, paired gusts and three stumps. `KINDS.shortleaf` replaces its loblolly picture/stump fallback; forestry yields are unchanged. `GALE_POSES` selects authored first gust poses for cached maps, with three two-frame loops available for close views. Twenty-seven tests and production browser proof pass. See `docs/ART_DELIVERY_2026-10-08-SHORTLEAF.md`.
+
+## Completed art group 2026-10-08: second-cast wagon drivers
+
+Thirty-two frames and sixteen two-pose loops cover rust-woman, indigo, ochre and blue-girl in all four headings. `DRIVING_FIGURES` now selects complete seated layers for all eight adult/adolescent identities. Eight transport/art tests and production browser rendering proof pass. Age-specific child drivers remain separate. See `docs/ART_DELIVERY_2026-10-08-CAST2-WAGON-DRIVERS.md`.
+
+## Completed art group 2026-10-08: generic volunteer crowbar directions
+
+Eight painted south/north frames and two loops complete the generic volunteer crowbar directions alongside existing east/mirrored west. Generic breach workers now use crowbar art rather than gun ramming; optional `breach.facing` selects north/south. Named Karnes retains his identity-specific animation. Twelve tests and browser rendering proof pass. See `docs/ART_DELIVERY_2026-10-08-VOLUNTEER-CROWBAR.md`.
+
+## Completed art group 2026-10-08: San Jacinto marsh wading
+
+Eight painted frames and two four-frame loops complete the generic volunteer/regular wading request. San Jacinto moving non-firing foot soldiers inside marsh/water works now use them; surrender, injury, mounted and firing poses keep priority. Final battle figure animation honors pause and reduced motion. Sixteen tests and the production-art browser fixture pass. See `docs/ART_DELIVERY_2026-10-08-MARSH-WADING.md`.
+
+## Completed art group 2026-10-08: San Jacinto marsh edges
+
+Eight painted frames, two four-frame ripple/grass loops now render in battle marsh works. Stable placement and open-water ripples are preserved, with legacy reeds fallback. Pause/reduced-motion holds works still. Wading figures remain a separate outstanding request. Twelve tests and a production-art browser fixture pass. See `docs/ART_DELIVERY_2026-10-08-MARSH-EDGE.md`.
+
+## Completed art group 2026-10-08: biome-tree gale poses
+
+Twenty-six frames, thirteen authored loops cover every tree size in biome-trees-fields. Existing `GALE_POSES` callers select pose one in hard northers. Close-view loops remain available without per-frame map-cache invalidation. All existing colony/biome tree frames now have gale coverage; generic nature marks such as sapling/cottonwood remain separate. See `docs/ART_DELIVERY_2026-10-08-BIOME-TREE-GALE.md`.
+
+## Completed art group 2026-10-07: final colony hardwood gale poses
+
+Eighteen frames and nine authored clips cover pecan, hackberry and sweetgum at all sizes. Both colony sheets now have gale coverage for every standing tree. Cached-map bindings use pose one; loops are ready for close views. Biome-tree gale art remains separate. See `docs/ART_DELIVERY_2026-10-07-REMAINING-HARDWOOD-GALE.md`.
+
+## Completed art group 2026-10-07: oak gale poses
+
+Post oak and blackjack at all three sizes: twelve frames, six authored two-frame loops. `GALE_POSES` integrates their first pose into cached-ground weather rendering. Animation loops are available for close views; no per-frame ground-cache invalidation. Remaining sized pecan, hackberry, sweetgum and biome-tree gale art stays open. See `docs/ART_DELIVERY_2026-10-07-OAK-GALE.md`.
+
+## Completed art group 2026-10-07: first-sheet hardwood gale poses
+
+Eighteen frames, nine two-frame loops: mesquite, live oak and elm at pole/log/large sizes. All standing trees from `trees-colonies-1` now have gale art. Existing cached-ground rendering selects pose one; loops await animated close-view use. Weather, forestry, saves and visibility unchanged. Trees-colonies-2 and biome trees remain separate open gale groups. See `docs/ART_DELIVERY_2026-10-07-HARDWOOD-GALE.md`.
+
+## Completed art subgroup 2026-10-07: conifer gale poses
+
+Twelve frames and six two-frame loops supply loblolly pine and cedar at all three existing sizes. `GALE_POSES` selects pose one in the cached map ground. Animation clips remain available for close views, without per-frame map-cache invalidation. Shortleaf retains its existing loblolly stand-in and therefore inherits its weather artwork; no species or simulation distribution changed. See `docs/ART_DELIVERY_2026-10-07-CONIFER-GALE.md`.
+
+## Completed art subgroup 2026-10-07: norther ground cover
+
+Six frames and three authored two-frame clips for scrub, reeds and prickly pear. `GALE_POSES` now selects their first pose for hard northers in the existing cached-ground path. Close-view animation clips are available; ordinary map ground is deliberately not redrawn per animation frame. Remaining tree gale art stays open. See `docs/ART_DELIVERY_2026-10-07-NORTHER-GROUND.md`.
+
+## Completed request group 2026-10-07: household tools
+
+All five wagon tools now use dedicated painted production frames through the existing interior bindings. A separate froe club is also registered. Inventory names, placement controls and relative sizes are unchanged. Loose props are static; use independent actor action clips for work. See `docs/ART_DELIVERY_2026-10-07-HOME-TOOLS.md`.
+
+## Completed request group 2026-10-07: saddlebag interior
+
+Dedicated roofless two-room cutaway replaces the dog-run stand-in. One central double chimney, no breezeway, ten preserved furnishing IDs with re-measured positions. Wide rendering supports the new sprite. Seven tests and an actual-renderer browser placement check pass. See `docs/ART_DELIVERY_2026-10-07-SADDLEBAG-INTERIOR.md`.
+
+## Completed request group 2026-10-07: family-panel marks
+
+All six requested marks are production artwork: rust attention, slate waiting rider, brass selected-person badge, idle hat/peg and automation off/on. Existing panel bindings select these frames ahead of stand-ins. See `docs/ART_DELIVERY_2026-10-07-FAMILY-PANEL-MARKS.md`.
+
+## Completed request group 2026-10-07: guided-start marks
+
+All four requested lesson marks are painted, registered and integrated: downward pointer, transparent-center ring, pending pip and completed pip. Pointer bobs with reduced-motion support. See `docs/ART_DELIVERY_2026-10-07-LESSON-MARKS.md`.
+
+## Completed vehicle group 2026-10-07: open carts
+
+The open-cart vehicle portion of the September 25 travel request is complete: 32 frames, six cardinal empty/loaded rolling cycles and parked states. Live carts select direction, cargo and motion while preserving the separate ox. Seated passengers and infant-carrying remain separate open portions of the broader travel request. See `docs/ART_DELIVERY_2026-10-07-OPEN-CART.md`.
+
+## Art delivery 2026-10-07: Gonzales flag variants
+
+Eight frames supply a four-pose no-star pole flag and half-painted/finished flat cloth with and without the star. `drawFlag` supports explicit `star:false` and flat `stage:'half'`; default scenes preserve their existing choice. See `docs/ART_DELIVERY_2026-10-07-GONZALES-FLAG-VARIANTS.md`.
+
+## Art delivery 2026-10-06: complete cardinal river cast
+
+Sixteen frames and eight north/south watch/point clips for ochre and blue-girl. All six adult town figures now have dedicated pointing in every cardinal direction. Watch cycles remain catalog-ready for explicit scene actions. See `docs/ART_DELIVERY_2026-10-06-GONZALES-RIVER-FINAL-NS.md`.
+
+## Art delivery 2026-10-06: remaining east-west river cast
+
+Eight frames and four authored watch/point clips for ochre and blue-girl. All six adult town figures now have dedicated east/west pointing. These two still need north/south gestures; watch clips remain catalog-ready. See `docs/ART_DELIVERY_2026-10-06-GONZALES-RIVER-FINAL-EAST.md`.
+
+## Art delivery 2026-10-06: indigo/blue east-west river gestures
+
+Eight frames and four authored watch/point cycles. Indigo and blue east/west pointing now selects dedicated art. Teal, indigo, elder and blue have complete cardinal pointing coverage; watch cycles remain catalog-ready for explicit scene actions. See `docs/ART_DELIVERY_2026-10-06-GONZALES-RIVER-CAST-EAST.md`.
+
 ## Released as v2026.10.06.2 — 2026-10-06
 
 Main at 53cc971d, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.06.2>). Set of changes from v2026.10.06.1: 1.1 MB. Evidence: `npm test` 2293 pass, 0 fail; the browser proofs two at a time, all passing but battle-grass and famous-people, which passed alone.

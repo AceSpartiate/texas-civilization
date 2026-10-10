@@ -51,9 +51,9 @@ const GROUPS = {
   ],
   'd-transport': [
     ['the milk cow', 'milk-cow-walk-e', 'cow-walk'], ['the horse herd', 'herd-drove', 'mustang-gallop'], ['a lancer', 'lancer-march', 'dragoon-march'],
-    ['a dragoon at the gallop', 'dragoon-gallop-e', 'dragoon-march'], ['the girl riding', 'girl-ride-e', ['horse-walk', 'girl-idle-e']], ['indigo driving the wagon', 'indigo-wagon-driver-e', 'indigo-idle-e'],
+    ['a dragoon at the gallop', 'dragoon-gallop-e', 'dragoon-march'], ['the girl riding', 'girl-ride-e', ['horse-walk', 'girl-idle-e']], ['the girl driving the wagon', 'girl-wagon-driver-e', 'girl-idle-e'],
     ['the wagon and its ox', 'wagon-ox-e', ['ox-walk', 'wagon-travel']], ['the wagon, its tail open', 'wagon-ox-open-e', ['ox-walk', 'wagon-travel']],
-    ['the cart', 'cart-travel-e', 'cart-open-e'], ['the carreta laden', 'carreta-loaded-travel-e', 'carreta-travel-e'], ['Seguín riding', 'seguin-ride-e', 'seguin-mounted-e'],
+    ['the carreta laden', 'carreta-loaded-travel-e', 'carreta-travel-e'], ['Seguín riding', 'seguin-ride-e', 'seguin-mounted-e'],
     ['a Tejano rider (Astra has not drawn one)', 'tejano-rider-ride-e', 'rust-ride-e'], ['a pack mule (Astra has not drawn one)', 'mule-packed-grass-walk-e', 'horse-walk'],
   ],
   'e-places': [

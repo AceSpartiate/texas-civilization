@@ -22,25 +22,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-marsh-edge": {
-      "image": "/assets/claude-standins/claude-marsh-edge.png",
-      "width": 1020,
-      "height": 220,
-      "bytes": 130638,
-      "sha256": "64ab70ae13f83f22db3c32c1a45a8cfb328f879707023295e852e8a0076f5bf9",
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "layout": {
-        "rows": 1,
-        "columns": 3,
-        "cell": {
-          "w": 340,
-          "h": 220
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-grades": {
       "image": "/assets/claude-standins/claude-grades.png",
       "width": 768,
@@ -146,57 +127,6 @@
       "source": "svg/land-ground/claude-creek-ford.svg",
       "label": "creek ford",
       "kind": "claude-banks-creeks"
-    },
-    "marsh-edge-1": {
-      "sheet": "claude-marsh-edge",
-      "x": 0,
-      "y": 0,
-      "w": 340,
-      "h": 220,
-      "anchorX": 0.5,
-      "anchorY": 0.9455,
-      "logicalHeight": 220,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "marsh-edge-1: item 4: tiles of cordgrass and open water to scatter along the marsh",
-      "source": "svg/land-ground/claude-marsh-edge-1.svg",
-      "label": "marsh edge 1",
-      "kind": "claude-marsh-edge"
-    },
-    "marsh-edge-2": {
-      "sheet": "claude-marsh-edge",
-      "x": 340,
-      "y": 0,
-      "w": 340,
-      "h": 220,
-      "anchorX": 0.5,
-      "anchorY": 0.9455,
-      "logicalHeight": 220,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "marsh-edge-2: item 4: tiles of cordgrass and open water to scatter along the marsh",
-      "source": "svg/land-ground/claude-marsh-edge-2.svg",
-      "label": "marsh edge 2",
-      "kind": "claude-marsh-edge"
-    },
-    "marsh-edge-3": {
-      "sheet": "claude-marsh-edge",
-      "x": 680,
-      "y": 0,
-      "w": 340,
-      "h": 220,
-      "anchorX": 0.5,
-      "anchorY": 0.9455,
-      "logicalHeight": 220,
-      "madeBy": "claude",
-      "module": "land-ground",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "replaceWith": "marsh-edge-3: item 4: tiles of cordgrass and open water to scatter along the marsh",
-      "source": "svg/land-ground/claude-marsh-edge-3.svg",
-      "label": "marsh edge 3",
-      "kind": "claude-marsh-edge"
     },
     "night-grade": {
       "sheet": "claude-grades",
@@ -321,48 +251,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's creek-ford"
-    },
-    "marsh-edge-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "sheet": "claude-marsh-edge",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "prompt": "The edge of the marsh behind the Mexican camp at San Jacinto: an irregular pool of open water ringed with dark mud and clumps of cordgrass, a few clumps standing in the water, one or two with a seed head; tile 1 of 3, to scatter; outlined blades, teal water with pale ripples, transparent ground.",
-      "source": "public/assets/claude-standins/svg/land-ground/claude-marsh-edge-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's marsh-edge-1"
-    },
-    "marsh-edge-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "sheet": "claude-marsh-edge",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "prompt": "The edge of the marsh behind the Mexican camp at San Jacinto: an irregular pool of open water ringed with dark mud and clumps of cordgrass, a few clumps standing in the water, one or two with a seed head; tile 2 of 3, to scatter; outlined blades, teal water with pale ripples, transparent ground.",
-      "source": "public/assets/claude-standins/svg/land-ground/claude-marsh-edge-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's marsh-edge-2"
-    },
-    "marsh-edge-3": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-ground",
-      "area": "land",
-      "sheet": "claude-marsh-edge",
-      "request": "Request 2026-09-25 — San Jacinto",
-      "prompt": "The edge of the marsh behind the Mexican camp at San Jacinto: an irregular pool of open water ringed with dark mud and clumps of cordgrass, a few clumps standing in the water, one or two with a seed head; tile 3 of 3, to scatter; outlined blades, teal water with pale ripples, transparent ground.",
-      "source": "public/assets/claude-standins/svg/land-ground/claude-marsh-edge-3.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's marsh-edge-3"
     },
     "night-grade": {
       "kind": "frame",

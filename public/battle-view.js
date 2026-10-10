@@ -19,6 +19,8 @@
 // Relative, so the same module loads in the page (as /speech.js) and under node for tests/battle-view.test.mjs.
 import { drawSpeech, speechAlpha } from './speech.js';
 import { CLAUDE_PERSON_ART } from './claude-person-art.js';
+// Astra's marsh-wading infantry at San Jacinto (2026-10-08): presentation only.
+import { marshWadingClip } from './wading-art.js';
 // San Fernando's place in the town the map draws, for the red flag on its tower (`drawFlag`).
 import { BEXAR_LAYOUT, bexarToSite } from './bexar-layout.js';
 const NIGHT_BUILDING_CLIPS = Object.freeze({ 'adobe-flat': 'adobe-night-lit', 'house-jacal': 'jacal-night-lit', 'jacal-poor': 'jacal-night-lit', 'cabin-small': 'cabin-night-lit' });
@@ -606,7 +608,7 @@ export function createBattleView(art) {
     const memberPoints = [...view.memberSpots.entries()].filter(([id]) => view.members.has(id)).map(([, spot]) => spot);
 
     // What stands on the ground, under the men: the breastwork, the camps' fires, the marsh and the lake.
-    const worksDrawn = drawWorks(ctx, battle, camera, figurePx, time, bounds);
+    const worksDrawn = drawWorks(ctx, battle, camera, figurePx, still ? 0 : time, bounds);
     const figures = [];
     let civilians = 0, surrendering = 0;
     // The houses, the fire and the groves the fight is among, behind everybody, and the herd (§6.13).
@@ -830,6 +832,8 @@ export function createBattleView(art) {
         if (hands) {
           // Surrendering, hands raised (`*-surrender`): drawn, never counted (docs/battle-research/staging.md §8.5).
           clip = `${kind === 'volunteer' ? 'volunteer' : 'regular'}-surrender`; flip = !right; surrendering++;
+        } else if ((kind === 'regular' || kind === 'volunteer') && marshWadingClip(battle, side, ground)) {
+          clip = marshWadingClip(battle, side, ground); flip = !right;
         } else if (kind === 'dragoon' || kind === 'rider') {
           // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 7 - lancers (Ramírez y Sesma's, outside the
           // Alamo's walls) walking or standing are drawn as the library's dragoons, without lances, until a lancer's walk and idle
@@ -915,9 +919,10 @@ export function createBattleView(art) {
           fallback = side.side === 'mexican' ? { clip: 'regular-idle-s' } : { clip: slot.index % 2 ? 'rust-work' : 'teal-work' };
         } else if (moving) {
           clip = `${kind}-march`; flip = !right;
-          // Into the marsh (San Jacinto's rout, Peggy's Lake): wading to the thighs. stand-in: docs/ART_REQUESTS.md, request
-          // 2026-09-25 "San Jacinto", item 4 - Claude's `figure-wading-*`; marching over the water while it loads.
-          if ((kind === 'volunteer' || kind === 'regular') && inWater(battle, ground)) { clip = `figure-wading-${kind}`; fallback = { clip: `${kind}-march` }; }
+          // Into the marsh or the water anywhere else a fight is given them: wading to the thighs in Astra's `volunteer-wade` and
+          // `regular-wade` (2026-10-08; San Jacinto's rout and killing take them above, `marshWadingClip`), marching over the water
+          // while her sheet loads.
+          if ((kind === 'volunteer' || kind === 'regular') && inWater(battle, ground)) { clip = `${kind}-wade`; fallback = { clip: `${kind}-march` }; }
         }
         else if (side.style === 'camp') {
           // At rest in camp: standing about, or sitting at ease - Astra's healthy `*-rest-sit` (2026-10-03), distinct from injury
@@ -975,16 +980,17 @@ export function createBattleView(art) {
         continue;
       }
       let ok = 0;
-      // A Claude-drawn figure with a `fallback` is drawn as that fallback until its clip can be drawn (`clipReady`).
+      // A Claude-drawn figure with a `fallback` is drawn as that fallback until its clip can be drawn (`clipReady`). Held
+      // still (less motion asked for, or the class paused) no cycle moves (Astra, 2026-10-08).
       const own = !(f.fallback && f.clip && art.clipReady && !art.clipReady(f.clip));
       if (!own) ok = 0;
-      else if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
+      else if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: still });
       else if (f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
       // A Claude-drawn figure whose sheet has not loaded: the library's own figure it stood in for.
       // A fallback may stand lower than its figure (`dy`: the old loading figure under a bank) and keep its own clock (`timeMs`).
       if (!ok && f.fallback) {
         const fb = f.fallback, at = { x: f.point.x, y: f.point.y + (fb.dy || 0) }, flip = fb.flip ?? f.flip;
-        ok = fb.clip ? art.animated(ctx, fb.clip, at.x, at.y, fb.size || f.size, f.seed, { timeMs: fb.timeMs ?? f.timeMs, flip, paused: reducedMotion })
+        ok = fb.clip ? art.animated(ctx, fb.clip, at.x, at.y, fb.size || f.size, f.seed, { timeMs: fb.timeMs ?? f.timeMs, flip, paused: still })
           : art.drawSprite(ctx, fb.sprite, at.x, at.y, fb.size || f.size, { flip });
       }
       if (!ok) art.miniPerson(ctx, f.point.x, f.point.y, f.size, { side: f.side, flip: f.flip });
@@ -1359,8 +1365,8 @@ export function createBattleView(art) {
   /**
    * What stands on the ground (sim/battles/<id>.mjs `works`), laid across the line between the two camps: a breastwork with the
    * opening its gun stood in, a camp's fires, a marsh, open water. Stable: every piece is placed by its work's id.
-   * The baggage breastwork uses authored pack/saddle sections. The marsh still uses cordgrass, reeds and ripples;
-   * marsh-edge tiles and wading poses remain requested in docs/ART_REQUESTS.md.
+   * The baggage breastwork uses authored pack/saddle sections. The marsh uses authored shoreline ripple loops and open-water ripples;
+   * moving non-firing infantry use authored wading poses within the wet works.
    * ceiling: the pieces are drawn over the map's own ground, whatever the map has there.
    */
   function drawWorks(ctx, battle, camera, figurePx, time, bounds) {
@@ -1394,18 +1400,20 @@ export function createBattleView(art) {
         }
       } else {
         const marsh = work.kind === 'marsh', n = marsh ? 36 : 22;
-        // Under the marsh's reeds, its edge: Claude's `marsh-edge-1`..`-3` tiles of open water ringed with cordgrass (*Claude-drawn
-        // stand-ins*, area F), scattered over the marsh; without that sheet, the reeds and ripples alone.
-        if (marsh) for (let i = 0; i < 7; i++) {
-          const a = hash(`${work.id}:edge:${i}:a`), r = 0.15 + Math.sqrt(hash(`${work.id}:edge:${i}:r`)) * 0.3;
-          put(at(Math.cos(a * Math.PI * 2) * r * work.width, Math.sin(a * Math.PI * 2) * r * work.width * 0.55), p => art.drawSprite(ctx, `marsh-edge-${1 + (i % 3)}`, p.x, p.y, figurePx * 1.6, { flip: i % 2 === 1 }));
-        }
+        // The marsh is Astra's shoreline (2026-10-08): her dense and sparse `marsh-edge-*` patches of cordgrass and ripple where
+        // the reeds stood, each on its own loop; the reeds' sway and the plain clumps only while her sheet loads. (Claude's
+        // `marsh-edge-1`..`-3` tiles, drawn under the reeds until then, were retired with her delivery.)
         for (let i = 0; i < n; i++) {
           const a = hash(`${work.id}:${i}:a`), b = hash(`${work.id}:${i}:b`), r = Math.sqrt(hash(`${work.id}:${i}:r`)) * 0.5;
           const point = at(Math.cos(a * Math.PI * 2) * r * work.width, Math.sin(a * Math.PI * 2) * r * work.width * 0.55);
           const size = figurePx * (0.6 + 0.5 * b);
           put(point, p => {
-            if (marsh && b < 0.7) { if (!art.animated(ctx, 'reeds-wind', p.x, p.y, size, `${work.id}:${i}`, { timeMs: time })) art.drawSprite(ctx, b < 0.35 ? 'marsh-cordgrass' : 'reeds', p.x, p.y, size); }
+            if (marsh && b < 0.7) {
+              const clip = b < 0.35 ? 'marsh-edge-dense' : 'marsh-edge-sparse';
+              if (!art.animated(ctx, clip, p.x, p.y, size, `${work.id}:${i}`, { timeMs: time }) &&
+                  !art.animated(ctx, 'reeds-wind', p.x, p.y, size, `${work.id}:${i}`, { timeMs: time }))
+                art.drawSprite(ctx, b < 0.35 ? 'marsh-cordgrass' : 'reeds', p.x, p.y, size);
+            }
             else if (!art.animated(ctx, 'water-motion', p.x, p.y, size, `${work.id}:${i}`, { timeMs: time })) art.drawSprite(ctx, 'water-ripple', p.x, p.y, size);
           });
         }
@@ -1480,8 +1488,8 @@ export function createBattleView(art) {
 
   /**
    * A wall or a door broken in (Karnes's crowbar, `HIST-TEX-038`): a man at it with the bar until the minute it gives, then the
-   * hole. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a crowbar at a door" - the gun crew's ramming stroke for the bar,
-   * the library's tools beside him, and its `wall-breach` for the hole.
+   * hole. Generic workers use authored crowbar cycles; optional breach.facing selects north/south views.
+   * Named Karnes retains his own action; the gun-ram cycle remains a missing-library fallback.
    */
   function drawBreaches(ctx, camera, figurePx, time, now, reducedMotion, battle) {
     let shown = 0;
@@ -1493,11 +1501,13 @@ export function createBattleView(art) {
         view.breachesSeen.add(id); shown++;
       } else if (!(battle.id === 'bexar-storming' && battle.phase === 'karnes' && (battle.people || []).some(person => person.id === 'karnes' && person.pose === 'work'))) {
         const who = breach.side === 'mexican' ? 'regular' : 'volunteer';
-        // Claude's `volunteer-crowbar` at the door; the ramming stroke and the library's tools while it loads.
-        if (!(who === 'volunteer' && art.animated(ctx, 'volunteer-crowbar', p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, { timeMs: time, paused: reducedMotion }))) {
-          art.drawSprite(ctx, 'tools', p.x + figurePx * 0.5, p.y, figurePx * 0.6);
-          art.animated(ctx, `${who}-gun-ram`, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, { timeMs: time, paused: reducedMotion });
-        }
+        art.drawSprite(ctx, 'tools', p.x + figurePx * 0.5, p.y, figurePx * 0.6);
+        const direction = ['n', 's'].includes(breach.facing) ? breach.facing : 'e';
+        const clip = `${who}-crowbar${direction === 'e' ? '' : `-${direction}`}`;
+        const options = { timeMs: time, paused: reducedMotion };
+        if (!art.animated(ctx, clip, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, options) &&
+            !(direction !== 'e' && art.animated(ctx, `${who}-crowbar`, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, options)))
+          art.animated(ctx, `${who}-gun-ram`, p.x - figurePx * 0.35, p.y, figurePx, `bar:${id}`, options);
       }
     }
     return shown;

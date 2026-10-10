@@ -1,7 +1,6 @@
 // The battles' works and props (docs/CLAUDE_ART_PLAN.md area C: C9, C15, C16, C17, C18, C19; C4 and C5's are Astra's since
 // 2026-10-03): a Mexican column on the march,
-// Castrillón's ammunition crate, the Grass Fight's slit bundle, a padre with a cart after Concepción, the Come and Take It flag
-// without its disputed star and half-painted on the table, the armies' camps on the map, and the Alamo's north-wall and church
+// Castrillón's ammunition crate, the Grass Fight's slit bundle, a padre with a cart after Concepción, the armies' camps on the map, and the Alamo's north-wall and church
 // guns. Claude's temporary art: interpretive silhouettes, never an exact portrait of a surviving gun or a documented object.
 //
 // People-scale props are drawn in the person rig's units (a person 100 tall, the frame's logical height 300 = one person), so
@@ -107,60 +106,8 @@ sheet('claude-ammunition-crate', R.famous, 'Castrillón and the rest: a scale-ma
   clips['padre-carts'] = clip([1, 2, 3, 4].map(n => [`padre-carts-${n}`, 260]), { prompt: `A padre walking beside a covered cart after Concepción: four frames at a slow walk. ${NO_GORE}` });
 }
 
-// ---------------------------------------------------------------------------------------------------- C17: the flag
-{
-  /** A pixel-unit frame (y down), for pieces matched to an Astra frame's own size and anchor. */
-  const pixelFrame = (name, cell, anchor, draw, logicalHeight) => {
-    const ink = new Ink(name, 1, { yUp: false });
-    draw(ink);
-    return { svg: frameSvg({ name, w: cell.w, h: cell.h, body: `${ink}`, defs: ink.defs, note: name }), anchorX: anchor[0], anchorY: anchor[1], ...(logicalHeight && { logicalHeight }) };
-  };
-  const words = (x, y, size, rotate = 0) => `<text x="${f2(x)}" y="${f2(y)}" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="${f2(size)}" text-anchor="middle" fill="#1e1b17" transform="rotate(${rotate} ${f2(x)} ${f2(y)})">COME AND TAKE IT</text>`;
-  const cannon = (ink, cx, cy, s, tilt = 0) => {
-    ink.shape(poly([[cx - 50 * s, cy - 11 * s + tilt], [cx + 48 * s, cy - 14 * s - tilt], [cx + 48 * s, cy + 10 * s - tilt], [cx - 50 * s, cy + 11 * s + tilt]]), '#1e1b17', { shade: false, outline: 0 });
-    ink.shape(ellipse([cx - 58 * s, cy + tilt], 9 * s, 9 * s), '#1e1b17', { shade: false, outline: 0 });
-    ink.shape(ellipse([cx + 47 * s, cy - 2 * s - tilt], 4 * s, 9 * s), '#e8dfc8', { shade: false, outline: 0 });
-  };
-  // On its pole (as Astra's flag-come-and-take-it: 440 by 570, the pole at the left, the foot at the bottom).
-  const W = 440, H = 570, poleX = 28, footY = 554;
-  const waves = [0, 14, -10, 8];
-  const flagFrames = waves.map((w, i) => ({ name: i === 0 ? 'flag-come-and-take-it-no-star' : `flag-come-and-take-it-no-star-wind-${i}`, compare: [[i === 0 ? 'flag-come-and-take-it' : `flag-come-and-take-it-wind-${i}`, 1]],
-    prompt: `The Come and Take It flag of Gonzales, October 1835, WITHOUT the lone star (the star rests on Smithwick's late memoir alone and is disputed, FIC-GONZ-419): "a breadth of white cotton cloth about six feet long" with a black cannon painted on it and COME AND TAKE IT beneath, tied to a rough pole ${i === 0 ? 'hanging still' : `stirring in the wind, pose ${i} of 3`}; matched to Astra's flag-come-and-take-it frames in size and anchor. ${STYLE.replace('no text', 'no text but the flag\'s own painted words')}`,
-    draw: () => pixelFrame(i === 0 ? 'flag-come-and-take-it-no-star' : `flag-come-and-take-it-no-star-wind-${i}`, { w: W, h: H }, [poleX / W, footY / H], ink => {
-      ink.shape(capsule([poleX, 40], [poleX, footY], 8, 9), '#7a5030', { off: 2 });
-      const top = 70 + w * 0.3, bottom = 300 - w * 0.2, right = 400 - Math.abs(w) * 1.5;
-      ink.shape(blob([[poleX + 6, 64], [poleX + 140, top - w], [right, 68 + w * 0.8], [right + 6, 190], [right - 4, bottom + w], [poleX + 150, bottom + 8 - w], [poleX + 6, 300]], 0.5), '#f1e9d6', { off: 3, lift: true });
-      cannon(ink, 215, 170 + w * 0.2, 1.55, w * 0.15);
-      ink.raw(words(212, 252 + w * 0.2, 27, w * 0.15));
-      for (const y of [80, 280]) ink.shape(capsule([poleX - 8, y], [poleX + 10, y + 4], 3, 3), '#c8a050', { shade: false, outline: 1.6 });
-    }) }));
-  // Flat on the table, half painted and finished without the star (as Astra's gonzales-flag-work-*: 1735 by 580).
-  const TW = 1735, TH = 580;
-  const table = (name, half) => pixelFrame(name, { w: TW, h: TH }, [0.5, 0.93], ink => {
-    ink.shape(poly([[240, 130], [1560, 150], [1640, 520], [140, 500]]), '#efe6d0', { off: 3, lift: true });
-    ink.line(curve([[300, 200], [860, 250], [1500, 230]]), { colour: '#d8c8a8', width: 3, opacity: 0.7 });
-    if (half) {
-      // The cannon drawn in outline and half filled, the words not yet begun; a brush and a pot of black laid by.
-      ink.line(poly([[520, 300], [1180, 290], [1180, 390], [520, 400]]), { width: 6 });
-      ink.shape(poly([[520, 300], [850, 295], [850, 395], [520, 400]]), '#1e1b17', { shade: false, outline: 0 });
-      ink.line(ellipse([470, 350], 50, 50), { width: 6 });
-      ink.shape(ellipse([1420, 440], 48, 34), '#2a2622', { off: 2 });
-      ink.shape(capsule([1320, 470], [1470, 420], 6, 5), '#b89a5e', { shade: false, outline: 3 });
-    } else {
-      ink.shape(poly([[520, 300], [1180, 290], [1180, 390], [520, 400]]), '#1e1b17', { shade: false, outline: 0 });
-      ink.shape(ellipse([470, 350], 50, 50), '#1e1b17', { shade: false, outline: 0 });
-      ink.shape(ellipse([1175, 340], 22, 48), '#e8dfc8', { shade: false, outline: 0 });
-      ink.raw(words(880, 480, 92, 1));
-    }
-  });
-  const tableFrames = [
-    { name: 'gonzales-flag-work-half', compare: [['gonzales-flag-work-cloth', 0.22], ['gonzales-flag-work-painted', 0.22]], prompt: `The Come and Take It flag flat on the table at Gonzales, October 1, 1835, half painted: the cannon drawn in outline and half filled in black, the words not yet begun, a brush and a pot of black laid by; matched to Astra's gonzales-flag-work-* in size and anchor. ${STYLE}`, draw: () => table('gonzales-flag-work-half', true) },
-    { name: 'gonzales-flag-work-no-star', compare: [['gonzales-flag-work-painted', 0.22]], prompt: `The Come and Take It flag flat on the table at Gonzales, finished, WITHOUT the disputed star (FIC-GONZ-419): the black cannon and COME AND TAKE IT beneath it; matched to Astra's gonzales-flag-work-painted. ${STYLE.replace('no text', 'no text but the flag\'s own painted words')}`, draw: () => table('gonzales-flag-work-no-star', false) },
-  ];
-  sheet('claude-flag-no-star', R.gonzales, 'item 5: the flag without the star (still and a wind loop), as `flag-come-and-take-it`\'s size and anchor', { w: W, h: H }, flagFrames, 4);
-  sheet('claude-flag-work', R.gonzales, 'item 5: the flag flat on the table half-painted and finished (without the star), as more states of `gonzales-flag-work-*`', { w: TW, h: TH }, tableFrames, 1);
-  clips['flag-come-and-take-it-no-star-wind'] = clip([1, 2, 3].map(n => [`flag-come-and-take-it-no-star-wind-${n}`, 380]), { direction: 'as drawn', prompt: 'The Come and Take It flag without the disputed star, stirring in the wind: three poses looping, as Astra\'s wind loop.' });
-}
+// C17, the Come and Take It flag without its disputed star and half-painted on the table: Astra's no-star wind loop and flat
+// half and finished states, with and without the star, since 2026-10-07 (gonzales-flag-variants-2026-10-07), merged 2026-10-09.
 
 // ---------------------------------------------------------------------------------------------------- C18: the armies' camps
 {

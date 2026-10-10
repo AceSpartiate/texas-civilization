@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **2788 usable sprites, 295 PNG atlases, 969 clips** (661 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3041 usable sprites, 322 PNG atlases, 1067 clips** (755 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -28,6 +28,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
 | regular-bugler | 4 | 1262 × 1246 | 691857 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
+| biome-pine-palm-gale | 12 | 1445 × 1089 | 873328 |
+| biome-cypress-gale | 6 | 1024 × 1536 | 2205619 |
+| biome-broadleaf-gale | 8 | 1774 × 887 | 1022515 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
 | canister-burst | 4 | 1254 × 1254 | 822977 |
 | cannon-cartwheels | 4 | 1254 × 1254 | 1420895 |
@@ -40,6 +43,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-cast2-search-trade | 16 | 1254 × 1254 | 1289372 |
 | people-cast2-tasks | 16 | 1254 × 1254 | 1471967 |
 | people-cast2-vertical | 16 | 1254 × 1254 | 816027 |
+| cast2-drivers-women | 16 | 1254 × 1254 | 1167338 |
+| cast2-drivers-youth | 16 | 1254 × 1254 | 1067911 |
 | people-cast2-walk | 16 | 1254 × 1254 | 1288383 |
 | people-cast2-work | 16 | 1254 × 1254 | 1279315 |
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
@@ -53,6 +58,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | land-clearing | 16 | 1254 × 1254 | 904975 |
 | coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
 | regular-prone-actions | 4 | 1536 × 1024 | 1506423 |
+| conifer-gale | 12 | 1448 × 1086 | 1381008 |
 | fallen-transport | 8 | 1536 × 1024 | 1987719 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
@@ -68,6 +74,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-family-youth-boy | 16 | 1254 × 1254 | 1278306 |
 | people-family-youth-girl | 16 | 1254 × 1254 | 1537178 |
 | people-family-father-hat | 16 | 1254 × 1254 | 1292458 |
+| family-panel-marks | 6 | 1286 × 1223 | 985678 |
 | famous-bonham | 16 | 1254 × 1254 | 1241019 |
 | famous-almeron-dickinson | 16 | 1254 × 1254 | 905031 |
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
@@ -186,6 +193,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-urrea | 16 | 1254 × 1254 | 955697 |
 | famous-urrea-mounted | 4 | 1226 × 1283 | 1293956 |
 | famous-wp-smith | 16 | 1254 × 1254 | 1120598 |
+| timber-felled | 4 | 1448 × 1086 | 641371 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
 | goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
@@ -194,11 +202,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-gonzales-bundle-ns | 16 | 1254 × 1254 | 667017 |
 | people-gonzales-bundle-walk | 16 | 1254 × 1254 | 936355 |
 | people-gonzales-digging | 12 | 1448 × 1086 | 774818 |
+| gonzales-flag-variants | 8 | 1774 × 887 | 1089563 |
 | gonzales-ploughed-earth | 1 | 2172 × 724 | 1766959 |
 | gonzales-flag-work-cloth | 1 | 1774 × 887 | 1835338 |
 | gonzales-flag-work-painted | 1 | 1774 × 887 | 1777190 |
 | people-gonzales-letter-reading | 12 | 1254 × 1254 | 984871 |
 | people-gonzales-paint | 6 | 1024 × 1536 | 1715507 |
+| people-gonzales-river-cast-east | 8 | 1774 × 887 | 738523 |
+| people-gonzales-river-final-east | 8 | 1774 × 887 | 615222 |
+| people-gonzales-river-final-ns | 16 | 1267 × 1241 | 771406 |
 | people-river-gestures | 8 | 1774 × 887 | 1213332 |
 | people-gonzales-river-north | 16 | 1267 × 1241 | 696900 |
 | people-gonzales-river-south | 16 | 1267 × 1241 | 903349 |
@@ -207,9 +219,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | ground-fog-banks | 4 | 1774 × 887 | 1018893 |
+| mesquite-liveoak-gale | 12 | 1536 × 1024 | 2225195 |
+| elm-gale | 6 | 1243 × 1265 | 1228004 |
+| home-tools | 6 | 1024 × 1536 | 1685412 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
+| lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
+| marsh-edge | 8 | 2172 × 724 | 1222516 |
+| marsh-wading | 8 | 1774 × 887 | 1112271 |
 | military-camp-life | 16 | 1254 × 1254 | 1457813 |
 | volunteer-engineer-actions | 16 | 1254 × 1254 | 1490159 |
 | volunteer-bearers | 4 | 1254 × 1254 | 1164328 |
@@ -229,17 +247,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
 | night-settlement-lights | 16 | 1254 × 1254 | 1713707 |
+| norther-ground | 6 | 1024 × 1536 | 2216491 |
+| oak-gale | 12 | 1448 × 1086 | 1964372 |
+| cart-open-complete | 20 | 1402 × 1122 | 1382518 |
+| cart-open-loaded-travel | 12 | 1448 × 1086 | 1151276 |
 | town-mexican-river | 1 | 1426 × 1103 | 1719481 |
 | presidio-spanish | 1 | 1536 × 1024 | 2103476 |
 | village-irish-colony | 1 | 1536 × 1024 | 2454172 |
 | ferry-landing | 1 | 1536 × 1024 | 2091884 |
 | ox-packed | 16 | 1254 × 1254 | 1531260 |
 | regular-engineer-actions | 16 | 1254 × 1254 | 1448705 |
+| pecan-hackberry-gale | 12 | 1448 × 1086 | 1526598 |
+| sweetgum-gale | 6 | 1254 × 1254 | 1081732 |
 | courier-dismount | 16 | 1254 × 1254 | 1219584 |
 | courier-encounters-vertical | 16 | 1254 × 1254 | 1034014 |
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
 | ferry-flatboat | 3 | 1254 × 1254 | 203701 |
 | steamboat-moored | 4 | 1254 × 1254 | 799173 |
+| interior-saddlebag | 1 | 1860 × 846 | 1858682 |
 | famous-seguin-ashes | 4 | 1230 × 1278 | 646296 |
 | alamo-ash-sites-1837 | 4 | 1536 × 1024 | 2505356 |
 | seguin-funeral-props | 4 | 1536 × 1024 | 2000785 |
@@ -258,6 +283,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-gunsmith | 1 | 1536 × 1024 | 2035238 |
 | shop-doctor | 1 | 1536 × 1024 | 2118390 |
 | shop-stockman | 1 | 1536 × 1024 | 1863839 |
+| trees-shortleaf | 12 | 1448 × 1086 | 870477 |
 | famous-susanna-child-travel | 4 | 1254 × 1254 | 1207824 |
 | famous-susanna-child-cardinal | 4 | 1254 × 1254 | 1204335 |
 | gonzales-settler-rammer | 4 | 1254 × 1254 | 892360 |
@@ -270,6 +296,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | twin-sisters-crew | 4 | 1254 × 1254 | 792510 |
 | regular-drummer | 4 | 1262 × 1246 | 833370 |
 | twin-sisters-painted | 4 | 1254 × 1254 | 1249122 |
+| volunteer-crowbar-vertical | 8 | 1774 × 887 | 994951 |
 | people-wagon-drivers | 16 | 1254 × 1254 | 1460212 |
 | weather-norther | 5 | 1536 × 1024 | 1669037 |
 | wildlife-bear-javelina | 16 | 1254 × 1254 | 1249275 |
@@ -400,6 +427,32 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | acequia-bend | biome-ground-bexar | State artwork; no motion required |
 | acequia-crossing | biome-ground-bexar | State artwork; no motion required |
 | fence-brush | biome-ground-bexar | State artwork; no motion required |
+| pine-longleaf-pole-gale-1 | biome-pine-palm-gale | pine-longleaf-pole-gale |
+| pine-longleaf-pole-gale-2 | biome-pine-palm-gale | pine-longleaf-pole-gale |
+| palm-sabal-pole-gale-1 | biome-pine-palm-gale | palm-sabal-pole-gale |
+| palm-sabal-pole-gale-2 | biome-pine-palm-gale | palm-sabal-pole-gale |
+| pine-longleaf-log-gale-1 | biome-pine-palm-gale | pine-longleaf-log-gale |
+| pine-longleaf-log-gale-2 | biome-pine-palm-gale | pine-longleaf-log-gale |
+| palm-sabal-log-gale-1 | biome-pine-palm-gale | palm-sabal-log-gale |
+| palm-sabal-log-gale-2 | biome-pine-palm-gale | palm-sabal-log-gale |
+| pine-longleaf-large-gale-1 | biome-pine-palm-gale | pine-longleaf-large-gale |
+| pine-longleaf-large-gale-2 | biome-pine-palm-gale | pine-longleaf-large-gale |
+| palm-sabal-large-gale-1 | biome-pine-palm-gale | palm-sabal-large-gale |
+| palm-sabal-large-gale-2 | biome-pine-palm-gale | palm-sabal-large-gale |
+| cypress-bald-pole-gale-1 | biome-cypress-gale | cypress-bald-pole-gale |
+| cypress-bald-pole-gale-2 | biome-cypress-gale | cypress-bald-pole-gale |
+| cypress-bald-log-gale-1 | biome-cypress-gale | cypress-bald-log-gale |
+| cypress-bald-log-gale-2 | biome-cypress-gale | cypress-bald-log-gale |
+| cypress-bald-large-gale-1 | biome-cypress-gale | cypress-bald-large-gale |
+| cypress-bald-large-gale-2 | biome-cypress-gale | cypress-bald-large-gale |
+| magnolia-log-gale-1 | biome-broadleaf-gale | magnolia-log-gale |
+| magnolia-log-gale-2 | biome-broadleaf-gale | magnolia-log-gale |
+| beech-log-gale-1 | biome-broadleaf-gale | beech-log-gale |
+| beech-log-gale-2 | biome-broadleaf-gale | beech-log-gale |
+| magnolia-large-gale-1 | biome-broadleaf-gale | magnolia-large-gale |
+| magnolia-large-gale-2 | biome-broadleaf-gale | magnolia-large-gale |
+| beech-large-gale-1 | biome-broadleaf-gale | beech-large-gale |
+| beech-large-gale-2 | biome-broadleaf-gale | beech-large-gale |
 | pine-longleaf-pole | biome-trees-fields | pine-longleaf-pole-wind |
 | pine-longleaf-log | biome-trees-fields | pine-longleaf-log-wind |
 | pine-longleaf-large | biome-trees-fields | pine-longleaf-large-wind |
@@ -540,6 +593,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-walk-s-2 | people-cast2-vertical | blue-girl-walk-s |
 | blue-girl-walk-n-1 | people-cast2-vertical | blue-girl-walk-n |
 | blue-girl-walk-n-2 | people-cast2-vertical | blue-girl-walk-n |
+| rust-woman-wagon-driver-s-1 | cast2-drivers-women | rust-woman-wagon-driver-s |
+| rust-woman-wagon-driver-s-2 | cast2-drivers-women | rust-woman-wagon-driver-s |
+| indigo-wagon-driver-s-1 | cast2-drivers-women | indigo-wagon-driver-s |
+| indigo-wagon-driver-s-2 | cast2-drivers-women | indigo-wagon-driver-s |
+| rust-woman-wagon-driver-e-1 | cast2-drivers-women | rust-woman-wagon-driver-e |
+| rust-woman-wagon-driver-e-2 | cast2-drivers-women | rust-woman-wagon-driver-e |
+| indigo-wagon-driver-e-1 | cast2-drivers-women | indigo-wagon-driver-e |
+| indigo-wagon-driver-e-2 | cast2-drivers-women | indigo-wagon-driver-e |
+| rust-woman-wagon-driver-w-1 | cast2-drivers-women | rust-woman-wagon-driver-w |
+| rust-woman-wagon-driver-w-2 | cast2-drivers-women | rust-woman-wagon-driver-w |
+| indigo-wagon-driver-w-1 | cast2-drivers-women | indigo-wagon-driver-w |
+| indigo-wagon-driver-w-2 | cast2-drivers-women | indigo-wagon-driver-w |
+| rust-woman-wagon-driver-n-1 | cast2-drivers-women | rust-woman-wagon-driver-n |
+| rust-woman-wagon-driver-n-2 | cast2-drivers-women | rust-woman-wagon-driver-n |
+| indigo-wagon-driver-n-1 | cast2-drivers-women | indigo-wagon-driver-n |
+| indigo-wagon-driver-n-2 | cast2-drivers-women | indigo-wagon-driver-n |
+| ochre-wagon-driver-s-1 | cast2-drivers-youth | ochre-wagon-driver-s |
+| ochre-wagon-driver-s-2 | cast2-drivers-youth | ochre-wagon-driver-s |
+| blue-girl-wagon-driver-s-1 | cast2-drivers-youth | blue-girl-wagon-driver-s |
+| blue-girl-wagon-driver-s-2 | cast2-drivers-youth | blue-girl-wagon-driver-s |
+| ochre-wagon-driver-e-1 | cast2-drivers-youth | ochre-wagon-driver-e |
+| ochre-wagon-driver-e-2 | cast2-drivers-youth | ochre-wagon-driver-e |
+| blue-girl-wagon-driver-e-1 | cast2-drivers-youth | blue-girl-wagon-driver-e |
+| blue-girl-wagon-driver-e-2 | cast2-drivers-youth | blue-girl-wagon-driver-e |
+| ochre-wagon-driver-w-1 | cast2-drivers-youth | ochre-wagon-driver-w |
+| ochre-wagon-driver-w-2 | cast2-drivers-youth | ochre-wagon-driver-w |
+| blue-girl-wagon-driver-w-1 | cast2-drivers-youth | blue-girl-wagon-driver-w |
+| blue-girl-wagon-driver-w-2 | cast2-drivers-youth | blue-girl-wagon-driver-w |
+| ochre-wagon-driver-n-1 | cast2-drivers-youth | ochre-wagon-driver-n |
+| ochre-wagon-driver-n-2 | cast2-drivers-youth | ochre-wagon-driver-n |
+| blue-girl-wagon-driver-n-1 | cast2-drivers-youth | blue-girl-wagon-driver-n |
+| blue-girl-wagon-driver-n-2 | cast2-drivers-youth | blue-girl-wagon-driver-n |
 | rust-woman-walk-1 | people-cast2-walk | rust-woman-walk |
 | rust-woman-walk-2 | people-cast2-walk | rust-woman-walk |
 | rust-woman-walk-3 | people-cast2-walk | rust-woman-walk |
@@ -678,6 +763,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-prone-aim | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-fire | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-lock | regular-prone-actions | regular-prone-fire-reload |
+| pine-loblolly-pole-gale-1 | conifer-gale | pine-loblolly-pole-gale |
+| pine-loblolly-pole-gale-2 | conifer-gale | pine-loblolly-pole-gale |
+| cedar-pole-gale-1 | conifer-gale | cedar-pole-gale |
+| cedar-pole-gale-2 | conifer-gale | cedar-pole-gale |
+| pine-loblolly-log-gale-1 | conifer-gale | pine-loblolly-log-gale |
+| pine-loblolly-log-gale-2 | conifer-gale | pine-loblolly-log-gale |
+| cedar-log-gale-1 | conifer-gale | cedar-log-gale |
+| cedar-log-gale-2 | conifer-gale | cedar-log-gale |
+| pine-loblolly-large-gale-1 | conifer-gale | pine-loblolly-large-gale |
+| pine-loblolly-large-gale-2 | conifer-gale | pine-loblolly-large-gale |
+| cedar-large-gale-1 | conifer-gale | cedar-large-gale |
+| cedar-large-gale-2 | conifer-gale | cedar-large-gale |
 | volunteer-fallen-carry-1 | fallen-transport | volunteer-fallen-carry |
 | volunteer-fallen-carry-2 | fallen-transport | volunteer-fallen-carry |
 | volunteer-fallen-carry-3 | fallen-transport | volunteer-fallen-carry |
@@ -899,6 +996,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | father-hat-rest | people-family-father-hat | father-hat-rest |
 | father-hat-injured-rest | people-family-father-hat | father-hat-injured-rest |
 | father-hat-quiet | people-family-father-hat | State artwork; no motion required |
+| mark-need | family-panel-marks | State artwork; no motion required |
+| mark-need-rider | family-panel-marks | State artwork; no motion required |
+| mark-main | family-panel-marks | State artwork; no motion required |
+| mark-idle | family-panel-marks | State artwork; no motion required |
+| mark-auto-off | family-panel-marks | State artwork; no motion required |
+| mark-auto-on | family-panel-marks | State artwork; no motion required |
 | bonham-walk-e-1 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-2 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-3 | famous-bonham | bonham-walk-e |
@@ -1863,6 +1966,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wp-smith-read | famous-wp-smith | State artwork; no motion required |
 | wp-smith-point | famous-wp-smith | State artwork; no motion required |
 | wp-smith-rest | famous-wp-smith | State artwork; no motion required |
+| timber-felled-e | timber-felled | timber-felled-e |
+| timber-felled-n | timber-felled | timber-felled-n |
+| timber-trimmed-e | timber-felled | timber-trimmed-e |
+| timber-stack | timber-felled | timber-stack |
 | flag-come-and-take-it | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
@@ -1930,6 +2037,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-dig-2 | people-gonzales-digging | blue-dig |
 | blue-dig-3 | people-gonzales-digging | blue-dig |
 | blue-dig-4 | people-gonzales-digging | blue-dig |
+| flag-come-and-take-it-no-star-wind-1 | gonzales-flag-variants | flag-come-and-take-it-no-star-wind |
+| flag-come-and-take-it-no-star-wind-2 | gonzales-flag-variants | flag-come-and-take-it-no-star-wind |
+| flag-come-and-take-it-no-star-wind-3 | gonzales-flag-variants | flag-come-and-take-it-no-star-wind |
+| flag-come-and-take-it-no-star-wind-4 | gonzales-flag-variants | flag-come-and-take-it-no-star-wind |
+| gonzales-flag-work-half-star | gonzales-flag-variants | State artwork; no motion required |
+| gonzales-flag-work-done-star | gonzales-flag-variants | State artwork; no motion required |
+| gonzales-flag-work-half-no-star | gonzales-flag-variants | State artwork; no motion required |
+| gonzales-flag-work-done-no-star | gonzales-flag-variants | State artwork; no motion required |
 | gonzales-ploughed-earth | gonzales-ploughed-earth | State artwork; no motion required |
 | gonzales-flag-work-cloth | gonzales-flag-work-cloth | State artwork; no motion required |
 | gonzales-flag-work-painted | gonzales-flag-work-painted | State artwork; no motion required |
@@ -1951,6 +2066,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | indigo-paint-2 | people-gonzales-paint | indigo-paint |
 | blue-girl-paint-1 | people-gonzales-paint | blue-girl-paint |
 | blue-girl-paint-2 | people-gonzales-paint | blue-girl-paint |
+| indigo-river-watch-1 | people-gonzales-river-cast-east | indigo-river-watch |
+| indigo-river-watch-2 | people-gonzales-river-cast-east | indigo-river-watch |
+| indigo-river-point-1 | people-gonzales-river-cast-east | indigo-river-point |
+| indigo-river-point-2 | people-gonzales-river-cast-east | indigo-river-point |
+| blue-river-watch-1 | people-gonzales-river-cast-east | blue-river-watch |
+| blue-river-watch-2 | people-gonzales-river-cast-east | blue-river-watch |
+| blue-river-point-1 | people-gonzales-river-cast-east | blue-river-point |
+| blue-river-point-2 | people-gonzales-river-cast-east | blue-river-point |
+| ochre-river-watch-1 | people-gonzales-river-final-east | ochre-river-watch |
+| ochre-river-watch-2 | people-gonzales-river-final-east | ochre-river-watch |
+| ochre-river-point-1 | people-gonzales-river-final-east | ochre-river-point |
+| ochre-river-point-2 | people-gonzales-river-final-east | ochre-river-point |
+| blue-girl-river-watch-1 | people-gonzales-river-final-east | blue-girl-river-watch |
+| blue-girl-river-watch-2 | people-gonzales-river-final-east | blue-girl-river-watch |
+| blue-girl-river-point-1 | people-gonzales-river-final-east | blue-girl-river-point |
+| blue-girl-river-point-2 | people-gonzales-river-final-east | blue-girl-river-point |
+| ochre-river-watch-s-1 | people-gonzales-river-final-ns | ochre-river-watch-s |
+| ochre-river-watch-s-2 | people-gonzales-river-final-ns | ochre-river-watch-s |
+| ochre-river-point-s-1 | people-gonzales-river-final-ns | ochre-river-point-s |
+| ochre-river-point-s-2 | people-gonzales-river-final-ns | ochre-river-point-s |
+| blue-girl-river-watch-s-1 | people-gonzales-river-final-ns | blue-girl-river-watch-s |
+| blue-girl-river-watch-s-2 | people-gonzales-river-final-ns | blue-girl-river-watch-s |
+| blue-girl-river-point-s-1 | people-gonzales-river-final-ns | blue-girl-river-point-s |
+| blue-girl-river-point-s-2 | people-gonzales-river-final-ns | blue-girl-river-point-s |
+| ochre-river-watch-n-1 | people-gonzales-river-final-ns | ochre-river-watch-n |
+| ochre-river-watch-n-2 | people-gonzales-river-final-ns | ochre-river-watch-n |
+| ochre-river-point-n-1 | people-gonzales-river-final-ns | ochre-river-point-n |
+| ochre-river-point-n-2 | people-gonzales-river-final-ns | ochre-river-point-n |
+| blue-girl-river-watch-n-1 | people-gonzales-river-final-ns | blue-girl-river-watch-n |
+| blue-girl-river-watch-n-2 | people-gonzales-river-final-ns | blue-girl-river-watch-n |
+| blue-girl-river-point-n-1 | people-gonzales-river-final-ns | blue-girl-river-point-n |
+| blue-girl-river-point-n-2 | people-gonzales-river-final-ns | blue-girl-river-point-n |
 | teal-river-watch-1 | people-river-gestures | teal-river-watch |
 | teal-river-watch-2 | people-river-gestures | teal-river-watch |
 | teal-river-point-1 | people-river-gestures | teal-river-point |
@@ -2043,6 +2190,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fog-bank-dense-2 | ground-fog-banks | fog-bank-dense |
 | fog-bank-thin-1 | ground-fog-banks | fog-bank-thin |
 | fog-bank-thin-2 | ground-fog-banks | fog-bank-thin |
+| mesquite-pole-gale-1 | mesquite-liveoak-gale | mesquite-pole-gale |
+| mesquite-pole-gale-2 | mesquite-liveoak-gale | mesquite-pole-gale |
+| live-oak-pole-gale-1 | mesquite-liveoak-gale | live-oak-pole-gale |
+| live-oak-pole-gale-2 | mesquite-liveoak-gale | live-oak-pole-gale |
+| mesquite-log-gale-1 | mesquite-liveoak-gale | mesquite-log-gale |
+| mesquite-log-gale-2 | mesquite-liveoak-gale | mesquite-log-gale |
+| live-oak-log-gale-1 | mesquite-liveoak-gale | live-oak-log-gale |
+| live-oak-log-gale-2 | mesquite-liveoak-gale | live-oak-log-gale |
+| mesquite-large-gale-1 | mesquite-liveoak-gale | mesquite-large-gale |
+| mesquite-large-gale-2 | mesquite-liveoak-gale | mesquite-large-gale |
+| live-oak-large-gale-1 | mesquite-liveoak-gale | live-oak-large-gale |
+| live-oak-large-gale-2 | mesquite-liveoak-gale | live-oak-large-gale |
+| elm-pole-gale-1 | elm-gale | elm-pole-gale |
+| elm-pole-gale-2 | elm-gale | elm-pole-gale |
+| elm-log-gale-1 | elm-gale | elm-log-gale |
+| elm-log-gale-2 | elm-gale | elm-log-gale |
+| elm-large-gale-1 | elm-gale | elm-large-gale |
+| elm-large-gale-2 | elm-gale | elm-large-gale |
+| home-hoe | home-tools | State artwork; no motion required |
+| home-felling-axe | home-tools | State artwork; no motion required |
+| home-broadaxe | home-tools | State artwork; no motion required |
+| home-froe | home-tools | State artwork; no motion required |
+| home-auger | home-tools | State artwork; no motion required |
+| home-froe-club | home-tools | State artwork; no motion required |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -2067,10 +2238,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-hog-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-look-to-stock-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-make-carreta | icons-gather-stock-carreta | State artwork; no motion required |
+| lesson-point | lesson-marks | State artwork; no motion required |
+| lesson-ring | lesson-marks | State artwork; no motion required |
+| lesson-pip | lesson-marks | State artwork; no motion required |
+| lesson-pip-done | lesson-marks | State artwork; no motion required |
 | live-oak-mott-dense-1 | live-oak-mott | live-oak-mott-dense-wind |
 | live-oak-mott-dense-2 | live-oak-mott | live-oak-mott-dense-wind |
 | live-oak-mott-open-1 | live-oak-mott | live-oak-mott-open-wind |
 | live-oak-mott-open-2 | live-oak-mott | live-oak-mott-open-wind |
+| marsh-edge-dense-1 | marsh-edge | marsh-edge-dense |
+| marsh-edge-dense-2 | marsh-edge | marsh-edge-dense |
+| marsh-edge-dense-3 | marsh-edge | marsh-edge-dense |
+| marsh-edge-dense-4 | marsh-edge | marsh-edge-dense |
+| marsh-edge-sparse-1 | marsh-edge | marsh-edge-sparse |
+| marsh-edge-sparse-2 | marsh-edge | marsh-edge-sparse |
+| marsh-edge-sparse-3 | marsh-edge | marsh-edge-sparse |
+| marsh-edge-sparse-4 | marsh-edge | marsh-edge-sparse |
+| volunteer-wade-1 | marsh-wading | volunteer-wade |
+| volunteer-wade-2 | marsh-wading | volunteer-wade |
+| volunteer-wade-3 | marsh-wading | volunteer-wade |
+| volunteer-wade-4 | marsh-wading | volunteer-wade |
+| regular-wade-1 | marsh-wading | regular-wade |
+| regular-wade-2 | marsh-wading | regular-wade |
+| regular-wade-3 | marsh-wading | regular-wade |
+| regular-wade-4 | marsh-wading | regular-wade |
 | volunteer-rest-sit-1 | military-camp-life | volunteer-rest-sit |
 | volunteer-rest-sit-2 | military-camp-life | volunteer-rest-sit |
 | volunteer-sleep-1 | military-camp-life | volunteer-sleep |
@@ -2291,6 +2482,56 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | cabin-night-lit-2 | night-settlement-lights | cabin-night-lit |
 | cabin-night-lit-3 | night-settlement-lights | cabin-night-lit |
 | cabin-night-lit-4 | night-settlement-lights | cabin-night-lit |
+| scrub-gale-1 | norther-ground | scrub-gale |
+| scrub-gale-2 | norther-ground | scrub-gale |
+| reeds-gale-1 | norther-ground | reeds-gale |
+| reeds-gale-2 | norther-ground | reeds-gale |
+| prickly-pear-gale-1 | norther-ground | prickly-pear-gale |
+| prickly-pear-gale-2 | norther-ground | prickly-pear-gale |
+| post-oak-pole-gale-1 | oak-gale | post-oak-pole-gale |
+| post-oak-pole-gale-2 | oak-gale | post-oak-pole-gale |
+| blackjack-pole-gale-1 | oak-gale | blackjack-pole-gale |
+| blackjack-pole-gale-2 | oak-gale | blackjack-pole-gale |
+| post-oak-log-gale-1 | oak-gale | post-oak-log-gale |
+| post-oak-log-gale-2 | oak-gale | post-oak-log-gale |
+| blackjack-log-gale-1 | oak-gale | blackjack-log-gale |
+| blackjack-log-gale-2 | oak-gale | blackjack-log-gale |
+| post-oak-large-gale-1 | oak-gale | post-oak-large-gale |
+| post-oak-large-gale-2 | oak-gale | post-oak-large-gale |
+| blackjack-large-gale-1 | oak-gale | blackjack-large-gale |
+| blackjack-large-gale-2 | oak-gale | blackjack-large-gale |
+| cart-open-travel-e-1 | cart-open-complete | cart-open-travel-e |
+| cart-open-travel-e-2 | cart-open-complete | cart-open-travel-e |
+| cart-open-travel-e-3 | cart-open-complete | cart-open-travel-e |
+| cart-open-travel-e-4 | cart-open-complete | cart-open-travel-e |
+| cart-open-travel-s-1 | cart-open-complete | cart-open-travel-s |
+| cart-open-travel-s-2 | cart-open-complete | cart-open-travel-s |
+| cart-open-travel-s-3 | cart-open-complete | cart-open-travel-s |
+| cart-open-travel-s-4 | cart-open-complete | cart-open-travel-s |
+| cart-open-travel-n-1 | cart-open-complete | cart-open-travel-n |
+| cart-open-travel-n-2 | cart-open-complete | cart-open-travel-n |
+| cart-open-travel-n-3 | cart-open-complete | cart-open-travel-n |
+| cart-open-travel-n-4 | cart-open-complete | cart-open-travel-n |
+| cart-open-idle-e | cart-open-complete | State artwork; no motion required |
+| cart-open-idle-s | cart-open-complete | State artwork; no motion required |
+| cart-open-idle-n | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-e | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-s | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-n | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-e-alt | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-n-alt | cart-open-complete | State artwork; no motion required |
+| cart-open-loaded-travel-e-1 | cart-open-loaded-travel | cart-open-loaded-travel-e |
+| cart-open-loaded-travel-e-2 | cart-open-loaded-travel | cart-open-loaded-travel-e |
+| cart-open-loaded-travel-e-3 | cart-open-loaded-travel | cart-open-loaded-travel-e |
+| cart-open-loaded-travel-e-4 | cart-open-loaded-travel | cart-open-loaded-travel-e |
+| cart-open-loaded-travel-s-1 | cart-open-loaded-travel | cart-open-loaded-travel-s |
+| cart-open-loaded-travel-s-2 | cart-open-loaded-travel | cart-open-loaded-travel-s |
+| cart-open-loaded-travel-s-3 | cart-open-loaded-travel | cart-open-loaded-travel-s |
+| cart-open-loaded-travel-s-4 | cart-open-loaded-travel | cart-open-loaded-travel-s |
+| cart-open-loaded-travel-n-1 | cart-open-loaded-travel | cart-open-loaded-travel-n |
+| cart-open-loaded-travel-n-2 | cart-open-loaded-travel | cart-open-loaded-travel-n |
+| cart-open-loaded-travel-n-3 | cart-open-loaded-travel | cart-open-loaded-travel-n |
+| cart-open-loaded-travel-n-4 | cart-open-loaded-travel | cart-open-loaded-travel-n |
 | town-mexican-river | town-mexican-river | State artwork; no motion required |
 | presidio-spanish | presidio-spanish | State artwork; no motion required |
 | village-irish-colony | village-irish-colony | State artwork; no motion required |
@@ -2327,6 +2568,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-sandbag-fill-2 | regular-engineer-actions | regular-sandbag-fill |
 | regular-sandbag-fill-3 | regular-engineer-actions | regular-sandbag-fill |
 | regular-sandbag-fill-4 | regular-engineer-actions | regular-sandbag-fill |
+| pecan-pole-gale-1 | pecan-hackberry-gale | pecan-pole-gale |
+| pecan-pole-gale-2 | pecan-hackberry-gale | pecan-pole-gale |
+| hackberry-pole-gale-1 | pecan-hackberry-gale | hackberry-pole-gale |
+| hackberry-pole-gale-2 | pecan-hackberry-gale | hackberry-pole-gale |
+| pecan-log-gale-1 | pecan-hackberry-gale | pecan-log-gale |
+| pecan-log-gale-2 | pecan-hackberry-gale | pecan-log-gale |
+| hackberry-log-gale-1 | pecan-hackberry-gale | hackberry-log-gale |
+| hackberry-log-gale-2 | pecan-hackberry-gale | hackberry-log-gale |
+| pecan-large-gale-1 | pecan-hackberry-gale | pecan-large-gale |
+| pecan-large-gale-2 | pecan-hackberry-gale | pecan-large-gale |
+| hackberry-large-gale-1 | pecan-hackberry-gale | hackberry-large-gale |
+| hackberry-large-gale-2 | pecan-hackberry-gale | hackberry-large-gale |
+| sweetgum-pole-gale-1 | sweetgum-gale | sweetgum-pole-gale |
+| sweetgum-pole-gale-2 | sweetgum-gale | sweetgum-pole-gale |
+| sweetgum-log-gale-1 | sweetgum-gale | sweetgum-log-gale |
+| sweetgum-log-gale-2 | sweetgum-gale | sweetgum-log-gale |
+| sweetgum-large-gale-1 | sweetgum-gale | sweetgum-large-gale |
+| sweetgum-large-gale-2 | sweetgum-gale | sweetgum-large-gale |
 | courier-dismount-1 | courier-dismount | courier-dismount |
 | courier-dismount-2 | courier-dismount | courier-dismount |
 | courier-dismount-3 | courier-dismount | courier-dismount |
@@ -2382,6 +2641,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored-2 | steamboat-moored | steamboat-moored |
 | steamboat-moored-3 | steamboat-moored | steamboat-gangplank |
 | steamboat-moored-4 | steamboat-moored | steamboat-cotton-moored |
+| interior-saddlebag | interior-saddlebag | State artwork; no motion required |
 | seguin-ashes-stand | famous-seguin-ashes | seguin-ashes-collect |
 | seguin-ashes-kneel | famous-seguin-ashes | seguin-ashes-collect |
 | seguin-ashes-gather | famous-seguin-ashes | seguin-ashes-collect |
@@ -2460,6 +2720,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-gunsmith | shop-gunsmith | State artwork; no motion required |
 | shop-doctor | shop-doctor | State artwork; no motion required |
 | shop-stockman | shop-stockman | State artwork; no motion required |
+| pine-shortleaf-pole | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-pole-gale-1 | trees-shortleaf | pine-shortleaf-pole-gale |
+| pine-shortleaf-pole-gale-2 | trees-shortleaf | pine-shortleaf-pole-gale |
+| stump-pine-shortleaf-pole | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-log | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-log-gale-1 | trees-shortleaf | pine-shortleaf-log-gale |
+| pine-shortleaf-log-gale-2 | trees-shortleaf | pine-shortleaf-log-gale |
+| stump-pine-shortleaf-log | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-large | trees-shortleaf | State artwork; no motion required |
+| pine-shortleaf-large-gale-1 | trees-shortleaf | pine-shortleaf-large-gale |
+| pine-shortleaf-large-gale-2 | trees-shortleaf | pine-shortleaf-large-gale |
+| stump-pine-shortleaf | trees-shortleaf | State artwork; no motion required |
 | susanna-child-walk-e-1 | famous-susanna-child-travel | susanna-child-walk-e |
 | susanna-child-walk-e-2 | famous-susanna-child-travel | susanna-child-walk-e |
 | susanna-child-hold-1 | famous-susanna-child-travel | susanna-child-hold |
@@ -2556,6 +2828,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | twin-sister-painted-recoil-e | twin-sisters-painted | twin-sister-painted-e-recoil |
 | twin-sister-painted-w | twin-sisters-painted | twin-sister-painted-w-recoil |
 | twin-sister-painted-recoil-w | twin-sisters-painted | twin-sister-painted-w-recoil |
+| volunteer-crowbar-s-1 | volunteer-crowbar-vertical | volunteer-crowbar-s |
+| volunteer-crowbar-s-2 | volunteer-crowbar-vertical | volunteer-crowbar-s |
+| volunteer-crowbar-s-3 | volunteer-crowbar-vertical | volunteer-crowbar-s |
+| volunteer-crowbar-s-4 | volunteer-crowbar-vertical | volunteer-crowbar-s |
+| volunteer-crowbar-n-1 | volunteer-crowbar-vertical | volunteer-crowbar-n |
+| volunteer-crowbar-n-2 | volunteer-crowbar-vertical | volunteer-crowbar-n |
+| volunteer-crowbar-n-3 | volunteer-crowbar-vertical | volunteer-crowbar-n |
+| volunteer-crowbar-n-4 | volunteer-crowbar-vertical | volunteer-crowbar-n |
 | rust-wagon-driver-s | people-wagon-drivers | rust-wagon-driver-s |
 | rust-wagon-driver-e | people-wagon-drivers | rust-wagon-driver-e |
 | rust-wagon-driver-w | people-wagon-drivers | rust-wagon-driver-w |
@@ -3127,6 +3407,19 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | white-flag-volunteer-walk-e | Pose cycle | 2 | 560 | yes | east |
 | cane-wind | Still state | 1 | 900 | yes | not applicable |
 | grass-tall-wind | Still state | 1 | 900 | yes | not applicable |
+| pine-longleaf-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| palm-sabal-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-longleaf-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| palm-sabal-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-longleaf-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| palm-sabal-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cypress-bald-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cypress-bald-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cypress-bald-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| magnolia-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| beech-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| magnolia-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| beech-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-longleaf-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-longleaf-log-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-longleaf-large-wind | sway | 1 | 3800 | yes | not applicable |
@@ -3200,6 +3493,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ochre-walk-n | Pose cycle | 2 | 440 | yes | north |
 | blue-girl-walk-s | Pose cycle | 2 | 440 | yes | south |
 | blue-girl-walk-n | Pose cycle | 2 | 440 | yes | north |
+| rust-woman-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| rust-woman-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| rust-woman-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| rust-woman-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
+| indigo-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| indigo-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| indigo-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| indigo-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
+| ochre-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| ochre-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| ochre-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| ochre-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
+| blue-girl-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| blue-girl-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| blue-girl-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| blue-girl-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
 | rust-woman-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
 | indigo-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
 | ochre-walk | Pose cycle | 4 | 720 | yes | east; west by mirroring |
@@ -3272,6 +3581,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
 | regular-prone-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
+| pine-loblolly-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cedar-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-loblolly-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cedar-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-loblolly-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cedar-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | volunteer-fallen-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | regular-fallen-carry | Pose cycle | 4 | 1600 | yes | east; west by mirroring |
 | mother-scarf-walk | Pose cycle | 4 | 800 | yes | east; mirror for west |
@@ -3656,6 +3971,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wp-smith-walk-s | Pose cycle | 2 | 560 | yes | south |
 | wp-smith-walk-n | Pose cycle | 2 | 560 | yes | north |
 | wp-smith-address | Pose cycle | 2 | 1850 | yes | east; mirror for west |
+| timber-felled-e | Still state | 1 | 1000 | one-shot | undefined |
+| timber-felled-n | Still state | 1 | 1000 | one-shot | undefined |
+| timber-trimmed-e | Still state | 1 | 1000 | one-shot | undefined |
+| timber-stack | Still state | 1 | 1000 | one-shot | undefined |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
@@ -3675,12 +3994,29 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elder-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | ochre-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
 | blue-dig | Pose cycle | 4 | 1900 | yes | east; west by mirroring |
+| flag-come-and-take-it-no-star-wind | Pose cycle | 4 | 2700 | yes | not applicable |
 | elder-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
 | ochre-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
 | blue-read-letter | Pose cycle | 4 | 2200 | yes | east; west by mirroring |
 | teal-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | indigo-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
 | blue-girl-paint | Pose cycle | 2 | 1520 | yes | east; west by mirroring |
+| indigo-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| indigo-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| blue-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| blue-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| ochre-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| ochre-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| blue-girl-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| blue-girl-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
+| ochre-river-watch-s | Pose cycle | 2 | 1300 | yes | south |
+| ochre-river-point-s | Pose cycle | 2 | 1300 | yes | south |
+| blue-girl-river-watch-s | Pose cycle | 2 | 1300 | yes | south |
+| blue-girl-river-point-s | Pose cycle | 2 | 1300 | yes | south |
+| ochre-river-watch-n | Pose cycle | 2 | 1300 | yes | north |
+| ochre-river-point-n | Pose cycle | 2 | 1300 | yes | north |
+| blue-girl-river-watch-n | Pose cycle | 2 | 1300 | yes | north |
+| blue-girl-river-point-n | Pose cycle | 2 | 1300 | yes | north |
 | teal-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | teal-river-point | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
 | elder-river-watch | Pose cycle | 2 | 1300 | yes | east; west by mirroring |
@@ -3713,8 +4049,21 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |
 | fog-bank-dense | Pose cycle | 2 | 12000 | yes | scenery |
 | fog-bank-thin | Pose cycle | 2 | 12000 | yes | scenery |
+| mesquite-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| live-oak-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| mesquite-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| live-oak-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| mesquite-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| live-oak-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| elm-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| elm-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| elm-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
+| marsh-edge-dense | Pose cycle | 4 | 1400 | yes | undefined |
+| marsh-edge-sparse | Pose cycle | 4 | 1400 | yes | undefined |
+| volunteer-wade | Pose cycle | 4 | 960 | yes | undefined |
+| regular-wade | Pose cycle | 4 | 960 | yes | undefined |
 | volunteer-rest-sit | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
 | volunteer-sleep | Pose cycle | 2 | 4800 | yes | east; west by mirroring |
 | volunteer-camp-drink | Pose cycle | 2 | 1800 | yes | east; west by mirroring |
@@ -3768,6 +4117,21 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | adobe-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | jacal-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | cabin-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
+| scrub-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| reeds-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| prickly-pear-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| post-oak-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| blackjack-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| post-oak-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| blackjack-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| post-oak-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| blackjack-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| cart-open-travel-e | Pose cycle | 4 | 980 | yes | east; west by mirroring |
+| cart-open-travel-s | Pose cycle | 4 | 980 | yes | south |
+| cart-open-travel-n | Pose cycle | 4 | 980 | yes | north |
+| cart-open-loaded-travel-e | Pose cycle | 4 | 980 | yes | east; west by mirroring |
+| cart-open-loaded-travel-s | Pose cycle | 4 | 980 | yes | south |
+| cart-open-loaded-travel-n | Pose cycle | 4 | 980 | yes | north |
 | ox-packed-walk-e | Pose cycle | 4 | 960 | yes | east |
 | ox-packed-idle-e | breathe | 1 | 2700 | yes | east |
 | ox-packed-walk-s | Pose cycle | 4 | 960 | yes | south |
@@ -3778,6 +4142,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-crowbar | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
 | regular-sandbag-carry | Pose cycle | 4 | 1280 | yes | east; west by mirroring |
 | regular-sandbag-fill | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
+| pecan-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| hackberry-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pecan-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| hackberry-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pecan-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| hackberry-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| sweetgum-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| sweetgum-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| sweetgum-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | courier-dismount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-remount | Pose cycle | 4 | 2050 | one-shot | east; west by mirroring |
 | courier-onfoot-listen | Pose cycle | 3 | 2050 | yes | east; west by mirroring |
@@ -3820,6 +4193,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | hog-root | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
 | home-chest-opening | Pose cycle | 2 | 1000 | one-shot | east; west by mirroring |
 | home-cradle-rock | rock | 1 | 2000 | yes | east; west by mirroring |
+| pine-shortleaf-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-shortleaf-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| pine-shortleaf-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | susanna-child-walk-e | Pose cycle | 2 | 560 | yes | east |
 | susanna-child-hold | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | susanna-child-walk-s | Pose cycle | 2 | 560 | yes | south |
@@ -3868,6 +4244,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-drummer-beat | Pose cycle | 2 | 480 | yes | east; mirror for west |
 | twin-sister-painted-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
 | twin-sister-painted-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
+| volunteer-crowbar-s | Pose cycle | 4 | 1200 | yes | undefined |
+| volunteer-crowbar-n | Pose cycle | 4 | 1200 | yes | undefined |
 | rust-wagon-driver-s | breathe | 1 | 2200 | yes | south |
 | rust-wagon-driver-e | breathe | 1 | 2200 | yes | east |
 | rust-wagon-driver-w | breathe | 1 | 2200 | yes | west |

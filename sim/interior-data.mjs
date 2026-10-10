@@ -5,7 +5,7 @@
 /**
  * The spots in each interior, as fractions of the interior picture (sim is art-free, so these are the picture's own box: x
  * left to right, y top to bottom, at the item's feet). Read off the delivered `home-interiors` sheet. A saddlebag house has
- * its own spots, two pens and no passage, on a stand-in picture (below). ceiling: every spot takes any item; a bedstead under
+ * its own spots, two pens and no passage, on its dedicated cutaway. ceiling: every spot takes any item; a bedstead under
  * the window and a pot in the passage are the student's own choice.
  */
 export const INTERIORS = Object.freeze({
@@ -51,24 +51,18 @@ export const INTERIORS = Object.freeze({
     ['east-middle', 'In the east pen', 0.77, 0.76],
     ['east-front', 'At the front of the east pen', 0.66, 0.78],
   ] },
-  // stand-in: Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen
-  // (a saddlebag interior). A saddlebag house (two pens round one central chimney, sim/houseplot.mjs) is drawn as Claude's
-  // `interior-saddlebag` (docs/ART_REQUESTS.md, "Claude-drawn stand-ins"): Astra's dog-run rooms cut at the passage and laid
-  // the other way round, so the two hearths stand back to back in the middle wall. Its spots are measured on that picture
-  // (the ids kept, so a pot already set by a hearth stays by it). While the Claude sheet has not loaded the page draws the
-  // dog-run's picture (`fallback`), whose hearths are at the outer ends. When Astra's `interior-saddlebag` is delivered,
-  // re-measure the spots on hers.
-  saddlebag: { sprite: 'interior-saddlebag', fallback: 'interior-dog-run', spots: [
-    ['west-hearth', 'By the west hearth', 0.333, 0.66],
-    ['west-window', "Under the west pen's window", 0.263, 0.53],
-    ['west-back', "Against the west pen's back wall", 0.2, 0.56],
-    ['west-middle', 'In the west pen', 0.26, 0.7],
-    ['west-door', "By the west pen's door", 0.17, 0.79],
-    ['east-hearth', 'By the east hearth', 0.657, 0.66],
-    ['east-window', "Under the east pen's window", 0.747, 0.53],
-    ['east-back', "Against the east pen's back wall", 0.8, 0.56],
-    ['east-middle', 'In the east pen', 0.74, 0.7],
-    ['east-door', "By the east pen's door", 0.83, 0.79],
+  // Dedicated two-room saddlebag cutaway. Stable IDs preserve existing saved furnishings.
+  saddlebag: { sprite: 'interior-saddlebag', spots: [
+    ['west-hearth', 'By the west hearth', 0.42, 0.70],
+    ['west-window', "Under the west pen's window", 0.27, 0.59],
+    ['west-back', "Against the west pen's back wall", 0.17, 0.58],
+    ['west-middle', 'In the west pen', 0.26, 0.77],
+    ['west-door', "By the west pen's door", 0.26, 0.90],
+    ['east-hearth', 'By the east hearth', 0.58, 0.70],
+    ['east-window', "Under the east pen's window", 0.73, 0.59],
+    ['east-back', "Against the east pen's back wall", 0.83, 0.58],
+    ['east-middle', 'In the east pen', 0.74, 0.77],
+    ['east-door', "By the east pen's door", 0.74, 0.90],
   ] },
 });
 
@@ -82,10 +76,8 @@ export const INTERIOR_ART = Object.freeze({
   'good:bedding': ['home-bedding', 0.08, 'Bedding'], 'good:pot': ['home-iron-pot', 0.08, 'Iron pot'], 'good:chest': ['home-chest', 0.12, 'Chest'], 'good:spinning-wheel': ['home-spinning-wheel', 0.2, 'Spinning wheel'],
   'good:books': ['home-books', 0.06, 'A few books'], 'good:mosquito-bars': ['home-mosquito-bars', 0.22, 'Mosquito bars'], 'good:tinware': ['home-tinware', 0.07, 'Tinware'], 'good:chairs': ['home-chair', 0.14, 'Chairs'],
   'stores:provisions': ['barrel', 0.13, 'Barrels of meal and salt meat'], 'stores:seed': ['sacks', 0.11, 'Sacks of seed'],
-  // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". The wagon's five tools are Claude-drawn
-  // frames from public/assets/claude-standins/ (request 2026-09-12 (second), the wagon's tools); Astra's home-hoe, home-felling-axe,
-  // home-broadaxe, home-froe and home-auger of the same names replace them when registered. The long-handled tools are still
-  // drawn larger, the rule the earlier one-picture stand-in set.
+  // Dedicated painted household tools (2026-10-07). Stable item/frame names preserve saved inventories.
+  // Long-handled tools retain their existing relative sizes; loose props stay separate from actors.
   'tool:hoe': ['home-hoe', 0.13, 'Hoe'], 'tool:axe': ['home-felling-axe', 0.13, 'Felling axe'], 'tool:broadaxe': ['home-broadaxe', 0.1, 'Broadaxe'],
   'tool:froe': ['home-froe', 0.08, 'Froe'], 'tool:auger': ['home-auger', 0.08, 'Auger'],
 });

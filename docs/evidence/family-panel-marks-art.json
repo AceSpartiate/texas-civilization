@@ -1,0 +1,36 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "mark-need",
+      "drawn": true,
+      "sheet": "family-panel-marks"
+    },
+    {
+      "id": "mark-need-rider",
+      "drawn": true,
+      "sheet": "family-panel-marks"
+    },
+    {
+      "id": "mark-main",
+      "drawn": true,
+      "sheet": "family-panel-marks"
+    },
+    {
+      "id": "mark-idle",
+      "drawn": true,
+      "sheet": "family-panel-marks"
+    },
+    {
+      "id": "mark-auto-off",
+      "drawn": true,
+      "sheet": "family-panel-marks"
+    },
+    {
+      "id": "mark-auto-on",
+      "drawn": true,
+      "sheet": "family-panel-marks"
+    }
+  ],
+  "errors": []
+}

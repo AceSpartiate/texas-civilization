@@ -1,0 +1,60 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "ochre-river-watch-1",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-watch-2",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-point-1",
+      "drawn": true
+    },
+    {
+      "id": "ochre-river-point-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-watch-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-watch-2",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-point-1",
+      "drawn": true
+    },
+    {
+      "id": "blue-girl-river-point-2",
+      "drawn": true
+    }
+  ],
+  "animations": [
+    {
+      "id": "ochre-river-watch",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "ochre-river-point",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-girl-river-watch",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "id": "blue-girl-river-point",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

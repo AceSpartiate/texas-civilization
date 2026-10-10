@@ -206,21 +206,19 @@ export function galeForce(mix) {
 export function inGale(mix) { return galeForce(mix) >= GALE; }
 /**
  * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request 2026-09-20 - the country in a
- * norther, remaining trees. Every other tree and ground mark the map scatters has a gale pose Claude made on 2026-09-28 by
- * bending Astra's own upright painting (scripts/claude-art/areas/land-gale.mjs): `<upright>-wind` in the Claude library. A
+ * norther, remaining marks. Astra painted gale poses for every standing tree of both colony sheets and every biome-tree size,
+ * and the scrub and prickly pear (2026-10-07/08, `<upright>-gale-1`; docs/ART_DELIVERY_2026-10-07-CONIFER-GALE.md and
+ * the deliveries after it). The few marks the map scatters that she has not yet done keep the pose Claude made on 2026-09-28
+ * by bending her own upright painting (scripts/claude-art/areas/land-gale.mjs): `<upright>-wind` in the Claude library. A
  * sheet that has not loaded draws nothing, `drawSprite` returns 0, and every caller falls back to the sheared upright as
- * before; Astra's frame of the same name wins the moment it is registered. (`reeds-wind` is drawn too, but reeds are not in the
- * scatter: only a battle's marsh draws them, with their sway clip.)
+ * before.
  */
-const CLAUDE_GALE = Object.fromEntries([
-  ...['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum', 'pine-longleaf', 'palm-sabal', 'cypress-bald']
-    .flatMap(tree => ['pole', 'log', 'large'].map(size => `${tree}-${size}`)),
-  'magnolia-log', 'magnolia-large', 'beech-log', 'beech-large',
-  'cottonwood', 'scrub', 'prickly-pear', 'marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca',
-].map(upright => [upright, `${upright}-wind`]));
+const CLAUDE_GALE = Object.fromEntries(['cottonwood', 'marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca']
+  .map(upright => [upright, `${upright}-wind`]));
 /**
- * The authored pose for an upright sprite: the seven Astra painted, and, behind them, Claude's for everything else the map
- * scatters (below). A sprite with neither keeps the shear at every strength of wind.
+ * The authored pose for an upright sprite: Astra's where she has painted one (the kept ground uses her first gale pose; her
+ * clips are there for close animated views), and, behind them, Claude's for the rest the map scatters (above). A sprite with
+ * neither keeps the shear at every strength of wind.
  *
  * The names collide with four one-frame `*-wind` CLIPS that predate the delivery and hold the upright sprite swaying
  * (public/assets/frontier-v1/animation.json). Frames and clips are separate tables in public/art.js, so `drawSprite`
@@ -237,6 +235,63 @@ export const GALE_POSES = Object.freeze({
   'grass-tall': 'grass-tall-wind',
   'cane-1': 'cane-wind',
   'cane-2': 'cane-wind',
+  // Conifer gale poses at all three delivered sizes, 2026-10-07.
+  'pine-loblolly-pole': 'pine-loblolly-pole-gale-1',
+  'cedar-pole': 'cedar-pole-gale-1',
+  'pine-loblolly-log': 'pine-loblolly-log-gale-1',
+  'cedar-log': 'cedar-log-gale-1',
+  'pine-loblolly-large': 'pine-loblolly-large-gale-1',
+  'cedar-large': 'cedar-large-gale-1',
+  // Remaining trees-colonies-1 hardwoods, all sizes, 2026-10-07.
+  'mesquite-pole': 'mesquite-pole-gale-1',
+  'live-oak-pole': 'live-oak-pole-gale-1',
+  'elm-pole': 'elm-pole-gale-1',
+  'mesquite-log': 'mesquite-log-gale-1',
+  'live-oak-log': 'live-oak-log-gale-1',
+  'elm-log': 'elm-log-gale-1',
+  'mesquite-large': 'mesquite-large-gale-1',
+  'live-oak-large': 'live-oak-large-gale-1',
+  'elm-large': 'elm-large-gale-1',
+  // Post oak and blackjack gale poses at all sizes, 2026-10-07.
+  'post-oak-pole': 'post-oak-pole-gale-1',
+  'blackjack-pole': 'blackjack-pole-gale-1',
+  'post-oak-log': 'post-oak-log-gale-1',
+  'blackjack-log': 'blackjack-log-gale-1',
+  'post-oak-large': 'post-oak-large-gale-1',
+  'blackjack-large': 'blackjack-large-gale-1',
+  // Final second-sheet hardwood gale poses, 2026-10-07.
+  'pecan-pole': 'pecan-pole-gale-1',
+  'hackberry-pole': 'hackberry-pole-gale-1',
+  'sweetgum-pole': 'sweetgum-pole-gale-1',
+  'pecan-log': 'pecan-log-gale-1',
+  'hackberry-log': 'hackberry-log-gale-1',
+  'sweetgum-log': 'sweetgum-log-gale-1',
+  'pecan-large': 'pecan-large-gale-1',
+  'hackberry-large': 'hackberry-large-gale-1',
+  'sweetgum-large': 'sweetgum-large-gale-1',
+  // All thirteen delivered biome-tree sizes, 2026-10-08.
+  'pine-shortleaf-pole': 'pine-shortleaf-pole-gale-1',
+  'pine-shortleaf-log': 'pine-shortleaf-log-gale-1',
+  'pine-shortleaf-large': 'pine-shortleaf-large-gale-1',
+  'pine-longleaf-pole': 'pine-longleaf-pole-gale-1',
+  'palm-sabal-pole': 'palm-sabal-pole-gale-1',
+  'cypress-bald-pole': 'cypress-bald-pole-gale-1',
+  'pine-longleaf-log': 'pine-longleaf-log-gale-1',
+  'palm-sabal-log': 'palm-sabal-log-gale-1',
+  'cypress-bald-log': 'cypress-bald-log-gale-1',
+  'pine-longleaf-large': 'pine-longleaf-large-gale-1',
+  'palm-sabal-large': 'palm-sabal-large-gale-1',
+  'cypress-bald-large': 'cypress-bald-large-gale-1',
+  'magnolia-log': 'magnolia-log-gale-1',
+  'beech-log': 'beech-log-gale-1',
+  'magnolia-large': 'magnolia-large-gale-1',
+  'beech-large': 'beech-large-gale-1',
+  // Basic ground-cover gale poses. The kept ground uses pose one; clips are
+  // available for animated close views. Her `reeds-gale-1` is not bound: reeds are not in the scatter (only a battle's marsh
+  // draws them, with their sway clip), and a pose for a sprite nothing scatters is a dead entry (tests/art-library.test.mjs).
+  scrub: 'scrub-gale-1',
+  'prickly-pear': 'prickly-pear-gale-1',
+  // Claude's stand-ins for the marks Astra has not painted a gale pose for yet.
   ...CLAUDE_GALE,
 });
 /** The gale pose to draw this sprite as, or null to draw it upright and sheared by `windLean`. */

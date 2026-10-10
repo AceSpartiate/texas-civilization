@@ -30,3 +30,8 @@ public/assets/webp/
 # The read-aloud sentences spoken at package time (scripts/build-voice.mjs, docs/READ_ALOUD.md), shipped by
 # scripts/package.ps1. Made, not kept: the game's own text is the source of them.
 public/voice/
+
+# Read Aloud keeps every sentence it has spoken here.
+read-aloud/cache/
+# ...and node scripts/package-read-aloud.mjs builds its zip here (with the voices, hundreds of megabytes).
+dist/read-aloud/

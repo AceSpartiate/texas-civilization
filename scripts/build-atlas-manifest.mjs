@@ -348,11 +348,16 @@ export const FIGURE_HEIGHTS = {
   'ox-packed': [['', 'tallest']],
   'volunteer-engineer-actions': [['', 'tallest']],
   'regular-engineer-actions': [['', 'tallest']],
+  // Astra's crowbar seen from the front and the back (2026-10-08): each view one man at one size, his tallest frame.
+  'volunteer-crowbar-vertical': [['volunteer-crowbar-s-', 'tallest'], ['volunteer-crowbar-n-', 'tallest']],
   'volunteer-bearers': [['', 'tallest']],
   'regular-bearers': [['', 'tallest']],
   'dragoon-wounded-led': [['', 'tallest']],
   'volunteer-mounted': [['', 'tallest']],
   'carreta-solid-wheels': [['', 'tallest']],
+  // Her norther ground cover (2026-10-07): each plant's two gale poses one plant at one size; the kept ground draws pose one,
+  // the tallest of each pair, so it is drawn exactly as before and only the clips' second pose is held to it.
+  'norther-ground': [['scrub-', 'tallest'], ['reeds-', 'tallest'], ['prickly-pear-', 'tallest']],
   'wildlife-deer': [['', 'tallest']],
   'wildlife-mustang': [['', 'tallest']],
   'wildlife-turkey': [['', 'tallest']],

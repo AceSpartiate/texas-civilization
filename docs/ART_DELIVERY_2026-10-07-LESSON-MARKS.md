@@ -1,0 +1,9 @@
+# Guided-start marks group complete: 2026-10-07
+
+All requested pieces delivered in `lesson-marks.png`: downward carved rust hand, rust rope square ring with transparent center, hollow tally pip and filled/check tally pip. Built-in imagegen references existing illustrated icons; selected PNG copied unchanged. Exact prompt and source provenance are in `scripts/art-deliveries/lesson-marks-2026-10-07.mjs` and master prompt/provenance records. All four frames appear in generated manifests.
+
+Action buttons draw the ring and hand using existing `panelMark`/`drawMark`; CSS exposes them only for the server-selected pointed action. Once both load, the triangle and pulsing ring shadow give way to the painted pieces. The hand bobs while the button remains still, with reduced-motion override. Pending/complete pips select their artwork from the server-provided count. Art arrival repaints markers. Existing accessible names, tutorial permissions, active gold glow and server progress remain intact. CSS stand-ins remain load fallbacks.
+
+The complete September 21 guided-start marks request is closed. No additional gameplay or tutorial step has been invented. Sprite audit checks all four silhouettes; lesson-screen regressions cover rules. Browser art proof checks drawing and supplies contact evidence. UI proof checks transparent ring center, pointer-events, reduced-motion and readable icons over representative grass/road/wood background colors at 1366x768 and 1024x768.
+
+Validation result: 13 focused tests and dedicated browser art/UI checks passed. The older full `lesson-browser-proof.mjs` timed out at line 129 waiting for its joined-game snapshot before lesson staging; it did not verify the whole tutorial in this run. Dedicated visual fixtures use actual stylesheet and drawing helpers, not a completed tutorial playthrough.

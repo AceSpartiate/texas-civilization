@@ -1,0 +1,27 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "id": "lesson-point",
+      "drawn": true
+    },
+    {
+      "id": "lesson-ring",
+      "drawn": true
+    },
+    {
+      "id": "lesson-pip",
+      "drawn": true
+    },
+    {
+      "id": "lesson-pip-done",
+      "drawn": true
+    }
+  ],
+  "animations": [],
+  "ui": {
+    "centerClear": true,
+    "nonBlocking": true
+  },
+  "errors": []
+}

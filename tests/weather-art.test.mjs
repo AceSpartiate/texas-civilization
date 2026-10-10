@@ -152,16 +152,23 @@ test('a hard norther is drawn in the painted gale pose, and every lesser wind is
 
 test('only the things a gale pose was made for take one; everything else keeps the shear', () => {
   const hard = weatherMix(weatherOf({ west: 'norther', centre: 'norther', east: 'norther' }), 200, 600);
-  // Astra's seven, painted.
+  // Astra's seven of `weather-norther`, painted.
   for (const [upright, pose] of Object.entries({ 'oak-broad': 'oak-broad-wind', 'oak-spreading': 'oak-spreading-wind', pecan: 'pecan-wind', 'grass-tuft': 'grass-tuft-wind', 'grass-tall': 'grass-tall-wind', 'cane-1': 'cane-wind', 'cane-2': 'cane-wind' })) {
     assert.equal(galePose(upright, hard), pose, `${upright} takes Astra's ${pose}`);
   }
-  // Claude's (2026-09-28, stand-ins bent from her uprights): every other tree and mark the scatter draws, named <upright>-wind.
-  for (const upright of ['pine-loblolly-large', 'cedar-pole', 'mesquite-pole', 'live-oak-log', 'post-oak-large', 'palm-sabal-log', 'prickly-pear', 'scrub', 'cottonwood']) {
+  // Astra's gale deliveries of 2026-10-07/08: every standing tree of both colony sheets and every biome-tree size, and the
+  // scrub and prickly pear, each drawn in its first gale pose (her reeds' pose is not bound: reeds are not scattered).
+  const painted = [...['pine-loblolly', 'pine-shortleaf', 'pine-longleaf', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum', 'palm-sabal', 'cypress-bald']
+    .flatMap(tree => ['pole', 'log', 'large'].map(size => `${tree}-${size}`)), 'magnolia-log', 'magnolia-large', 'beech-log', 'beech-large', 'scrub', 'prickly-pear'];
+  for (const upright of painted) assert.equal(galePose(upright, hard), `${upright}-gale-1`, `${upright} takes Astra's gale pose`);
+  // Claude's (2026-09-28, stand-ins bent from her uprights): only the marks the scatter draws that she has not painted yet.
+  const claude = ['cottonwood', 'marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca'];
+  for (const upright of claude) {
     assert.equal(galePose(upright, hard), `${upright}-wind`, `${upright} takes Claude's gale pose`);
   }
-  // Rocks do not bend, and nothing that is not scattered has a pose.
-  for (const upright of ['rocks', 'reeds', 'cabin-small']) assert.equal(galePose(upright, hard), null, `${upright} has no gale pose`);
+  assert.equal(Object.keys(GALE_POSES).length, 7 + painted.length + claude.length, 'a gale pose nobody here accounts for');
+  // Rocks and saplings do not take one, and nothing that is not scattered has a pose.
+  for (const upright of ['rocks', 'sapling', 'reeds', 'cabin-small']) assert.equal(galePose(upright, hard), null, `${upright} has no gale pose`);
   assert.ok(Math.abs(windLean(hard)) > 0.1, 'and the shear they fall back on is still a real bend');
 });
 

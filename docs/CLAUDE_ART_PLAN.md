@@ -10,11 +10,11 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 33 | 8 | 18 | 0 |
 | B — Children, babies and sickness | 20 | 7 | 13 | 2 |
-| C — Soldiers, battles and famous people | 17 | 1 | 14 | 7 |
+| C — Soldiers, battles and famous people | 15 | 1 | 12 | 9 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 26 | 2 | 12 | 5 |
-| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 25 | 4 | 18 | 4 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 22 | 2 | 11 | 17 |
-| **Total** | **143** | **24** | **86** | **35** |
+| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 23 | 4 | 16 | 6 |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 20 | 2 | 9 | 19 |
+| **Total** | **137** | **24** | **80** | **41** |
 
 ## How a builder works
 
@@ -106,7 +106,7 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Plugs into:** `propItem` in `public/ambient.js`
   - **Stands in now:** the plain `bucket`, the Alamo's `alamo-firewood`, `chicken-idle` (Astra's library art reused)
 - [ ] **A12** (priority 2) — [Request 2026-09-25 — Gonzales before the fight](ART_REQUESTS.md#request-2026-09-25--gonzales-before-the-fight), items 1-4
-  - **Deliver:** what remains of items 1-4: `-point` east and west (arm out across the river, the other shading the eyes, 2 frames) for `indigo`, `blue` and the cast figures not yet drawn pointing (`ochre`, `blue-girl`, `volunteer`). Delivered by Astra 2026-10-04/05 and used: the seated flag painters (`<figure>-seated-paint`, the flag-paint beat), the spade, the smiths, and pointing and watching north and south for teal, indigo, elder and blue, east and west for teal and elder
+  - **Deliver:** what remains of items 1-4: `-point` east and west (arm out across the river, the other shading the eyes, 2 frames) for the `volunteer`. Delivered by Astra 2026-10-04/06 and used: watching and pointing in every heading for all six grown town figures (teal, indigo, elder, blue, ochre, blue-girl; 2026-10-06), the seated flag painters (`<figure>-seated-paint`, the flag-paint beat), the spade, the smiths, and pointing and watching north and south for teal, indigo, elder and blue, east and west for teal and elder
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `sceneClip` in `public/town-scenes.js`
   - **Stands in now:** the delivered `search` pose (Astra's library art reused)
@@ -314,7 +314,7 @@ Skipped:
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 17 to make, 7 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 15 to make, 9 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
@@ -347,11 +347,6 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** 4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `drawArmy` (`moving`) in `public/army-view.js`
   - **Stands in now:** `regular-march` men in files of three with a `dragoon-march` at the head (Astra's library art reused)
-- [ ] **C11** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 4 — **Claude stand-in held back: Astra has drawn the subject** (regular, volunteer), so the page draws hers (`figure-wading-regular`, `figure-wading-volunteer`, `figure-wading`)
-  - **Deliver:** `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close
-  - **Frames:** 2-4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
-  - **Plugs into:** `drawWorks` in `public/battle-view.js`
-  - **Stands in now:** nobody drawn wading (nothing)
 - [ ] **C14** (priority 2) — [Request 2026-09-26 — the Esparza family](ART_REQUESTS.md#request-2026-09-26--the-esparza-family), items 1-6 — **Claude stand-in in place** (`ana-esparza-walk-e`, `ana-esparza-walk-s`, `ana-esparza-walk-n`, `maria-de-jesus-walk-e`, `maria-de-jesus-walk-s`, `maria-de-jesus-walk-n`, `enrique-esparza-walk-e`, `enrique-esparza-walk-s`, `enrique-esparza-walk-n`, `francisco-esparza-walk-e`, `francisco-esparza-walk-s`, `francisco-esparza-walk-n`, `ana-esparza-carry-toddler`, `burial-party-walk-e`, `ana-esparza-idle`, `ana-esparza-seated`, `ana-esparza-shelter-with-children`, `ana-esparza-hold-blanket`, `maria-de-jesus-idle`, `maria-de-jesus-seated-huddled`, `enrique-esparza-idle`, `enrique-esparza-seated-huddled`, `enrique-esparza-look`, `francisco-esparza-idle`, `francisco-esparza-kneel-at-grave`); Astra's replaces it; **Claude stand-in held back: Astra has drawn the subject** (esparza), so the page draws hers (`esparza-seated`)
   - **Deliver:** `ana-esparza-*` (walk, idle, `shelter-with-children`, `carry-toddler`, `hold-blanket`), `maria-de-jesus-*` (walk, idle, seated huddled), `enrique-esparza-*` (walk, idle, seated huddled, `look`), `burial-party-walk-e` (4; two men carrying a body wholly wrapped on a litter, never a body shown), `francisco-esparza-*` (walk, idle, `kneel-at-grave`), `esparza-seated`
   - **Frames:** the famous-sheet contract. **Size:** Famous sheets: `volunteer-*` height for grown people, the children's for the children
@@ -390,12 +385,6 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Plugs into:** `draw` in `public/battle-view.js`
   - **Stands in now:** nothing (words) (told in words, not drawn)
   - **Research first:** the padre and carts are in the record only in outline (Smithwick); keep them general
-- [ ] **C17** (priority 3) — [Request 2026-09-25 — Gonzales before the fight](ART_REQUESTS.md#request-2026-09-25--gonzales-before-the-fight), item 5 — **Claude stand-in held back: Astra has drawn the subject** (the Come and Take It flag), so the page draws hers (`flag-come-and-take-it-no-star-wind`, `flag-come-and-take-it-no-star`, `gonzales-flag-work-half`, `gonzales-flag-work-no-star`)
-  - **Deliver:** the Come and Take It flag without the star (the star is disputed), and flat on the table half-painted and finished, as more states of `gonzales-flag-work-*`
-  - **Frames:** still and a four-frame wave for the flag; one each on the table. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
-  - **Plugs into:** `drawFlag`, `drawProp` in `public/town-scenes.js`
-  - **Stands in now:** canvas for the unfinished cloth (drawn in code (canvas or CSS))
-  - **Research first:** Smithwick's description; the star is disputed (FIC-GONZ-419)
 - [ ] **C18** (priority 3) — [Claude-drawn stand-ins (replace with Astra's)](ART_REQUESTS.md#claude-drawn-stand-ins-replace-with-astras), the armies on the map — **Claude stand-in in place** (`army-camp-mexican-pitched`, `army-camp-texian-pitched`); Astra's replaces it
   - **Deliver:** a camp: three or four wedge tents, a cook fire with a pot, stacked arms and a colour on a pole, `army-camp`, 192×192
   - **Frames:** 1. **Size:** 192×192, in the map art's own light
@@ -413,8 +402,10 @@ Skipped:
 - ~~C4~~ [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto) — skipped: delivered 2026-10-03 (Astra's `*-rest-sit`, `*-sleep`, `musket-stack-small`/`-large`, `breastwork-packs-left`/`-right`); Claude's deleted
 - ~~C7~~ [Request 2026-09-25 — Coleto and Goliad](ART_REQUESTS.md#request-2026-09-25--coleto-and-goliad) — skipped: delivered 2026-10-03 (Astra's prone marksman, `regular-prone-lie` and `regular-prone-fire-reload`); Claude's deleted
 - ~~C10~~ [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight) — skipped: delivered 2026-10-04 (Astra's `volunteer-bank-climb-1`..`-6` and its clip, drawn on the firing clock by `bankClip` in public/battle-view.js); Claude's deleted
+- ~~C11~~ [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto) — skipped: delivered 2026-10-08 (Astra's `volunteer-wade` and `regular-wade`, drawn in the marsh and the water; Claude's `figure-wading-*` deleted)
 - ~~C12~~ [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for) — skipped: delivered 2026-10-03 (Astra's civilian cannon crew, survivor-travel-gonzales-crew-2026-10-03); Claude's settlers deleted
 - ~~C13~~ [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses) — skipped: delivered 2026-10-03 (Astra's Kimbell, Martin, J. W. Smith, Horton, W. P. Smith, Smither, Sánchez Navarro, Barragán); Claude's sheets deleted
+- ~~C17~~ [Request 2026-09-25 — Gonzales before the fight](ART_REQUESTS.md#request-2026-09-25--gonzales-before-the-fight) — skipped: delivered 2026-10-07 (Astra's `flag-come-and-take-it-no-star-wind` and the flat `gonzales-flag-work-half-star`, `-half-no-star`, `-done-no-star`; `drawFlag` takes `star: false` and `stage: half`, and no scene asks for them yet)
 - ~~CS2~~ [Request 2026-09-27 — Seguín, the ashes, and the later church claim](ART_REQUESTS.md#request-2026-09-27--seguín-the-ashes-and-the-later-church-claim) — skipped: art and storyboard delivered; the trigger is code
 
 ## D — Riders, horses, wagons, carreta, ferry, steamboat
@@ -436,16 +427,16 @@ Scope: everything on a horse, a mule or in a vehicle: mounted cast and children,
   - **Frames:** 4 frames a heading. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js`
   - **Stands in now:** the child's idle cut below the waist over the walking horse (Astra's library art reused)
-- [ ] **D4** (priority 2) — [Request 2026-09-16 — driving the ox wagon](ART_REQUESTS.md#request-2026-09-16--driving-the-ox-wagon), second cast and children — **Claude stand-in held back: Astra has drawn the subject** (rust-woman, indigo, ochre, blue-girl, girl, boy, smallchild), so the page draws hers (`rust-woman-wagon-driver-s`, `rust-woman-wagon-driver-e`, `rust-woman-wagon-driver-w`, `rust-woman-wagon-driver-n`, `indigo-wagon-driver-s`, `indigo-wagon-driver-e`, `indigo-wagon-driver-w`, `indigo-wagon-driver-n`, `ochre-wagon-driver-s`, `ochre-wagon-driver-e`, `ochre-wagon-driver-w`, `ochre-wagon-driver-n`, `blue-girl-wagon-driver-s`, `blue-girl-wagon-driver-e`, `blue-girl-wagon-driver-w`, `blue-girl-wagon-driver-n`, `girl-wagon-driver-s`, `girl-wagon-driver-e`, `girl-wagon-driver-w`, `girl-wagon-driver-n`, `boy-wagon-driver-s`, `boy-wagon-driver-e`, `boy-wagon-driver-w`, `boy-wagon-driver-n`, `smallchild-wagon-driver-s`, `smallchild-wagon-driver-e`, `smallchild-wagon-driver-w`, `smallchild-wagon-driver-n`)
-  - **Deliver:** seated driver layers `rust-woman-drive-<dir>`, `indigo-drive-<dir>`, `ochre-drive-<dir>`, `blue-girl-drive-<dir>` and the four children, on the four headings as the delivered sixteen
+- [ ] **D4** (priority 2) — [Request 2026-09-16 — driving the ox wagon](ART_REQUESTS.md#request-2026-09-16--driving-the-ox-wagon), the children — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-wagon-driver-s`, `girl-wagon-driver-e`, `girl-wagon-driver-w`, `girl-wagon-driver-n`, `boy-wagon-driver-s`, `boy-wagon-driver-e`, `boy-wagon-driver-w`, `boy-wagon-driver-n`, `smallchild-wagon-driver-s`, `smallchild-wagon-driver-e`, `smallchild-wagon-driver-w`, `smallchild-wagon-driver-n`)
+  - **Deliver:** seated driver layers for the four children, on the four headings as the delivered thirty-two (the second cast's are Astra's since 2026-10-08)
   - **Frames:** 4 headings each. **Size:** As `people-wagon-drivers`: anchored at the rig's seat point
   - **Plugs into:** `wagonDriverId`, `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`
-  - **Stands in now:** the figure's idle cut below the waist at the front of the wagon (Astra's library art reused)
-- [ ] **D5** (priority 2) — [Request 2026-09-25 — riders, walkers and the cart](ART_REQUESTS.md#request-2026-09-25--riders-walkers-and-the-cart), items 1-2 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl, girl, boy, smallchild, cart, wagon), so the page draws hers (`rust-ride-wagon-e`, `rust-ride-wagon-s`, `rust-ride-wagon-n`, `teal-ride-wagon-e`, `teal-ride-wagon-s`, `teal-ride-wagon-n`, `elder-ride-wagon-e`, `elder-ride-wagon-s`, `elder-ride-wagon-n`, `blue-ride-wagon-e`, `blue-ride-wagon-s`, `blue-ride-wagon-n`, `rust-woman-ride-wagon-e`, `rust-woman-ride-wagon-s`, `rust-woman-ride-wagon-n`, `indigo-ride-wagon-e`, `indigo-ride-wagon-s`, `indigo-ride-wagon-n`, `ochre-ride-wagon-e`, `ochre-ride-wagon-s`, `ochre-ride-wagon-n`, `blue-girl-ride-wagon-e`, `blue-girl-ride-wagon-s`, `blue-girl-ride-wagon-n`, `girl-ride-wagon-e`, `girl-ride-wagon-s`, `girl-ride-wagon-n`, `boy-ride-wagon-e`, `boy-ride-wagon-s`, `boy-ride-wagon-n`, `smallchild-ride-wagon-e`, `smallchild-ride-wagon-s`, `smallchild-ride-wagon-n`, `cart-travel-e`, `cart-travel-s`, `cart-travel-n`, `cart-travel-loaded-e`, `cart-travel-loaded-s`, `cart-travel-loaded-n`, `cart-idle-e`, `cart-idle-s`, `cart-idle-n`, `cart-idle-loaded-e`, `cart-idle-loaded-s`, `cart-idle-loaded-n`, `wagon-ox-open-e`, `wagon-ox-open-s`, `wagon-ox-open-n`)
-  - **Deliver:** `cart-travel-e`, `-n`, `-s` (4 frames, the wheels turning) and `cart-idle` loaded and empty; seated riders for the bed of an open wagon and a cart, both casts and the children, east/north/south, anchored at the hip (`<figure>-ride-wagon-<dir>`), and the wagon's tail with its cover drawn back
+  - **Stands in now:** Claude's `<child>-wagon-driver-*`; without that sheet, the figure's idle cut below the waist at the front of the wagon (Astra's library art reused)
+- [ ] **D5** (priority 2) — [Request 2026-09-25 — riders, walkers and the cart](ART_REQUESTS.md#request-2026-09-25--riders-walkers-and-the-cart), items 1-2 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl, girl, boy, smallchild, wagon), so the page draws hers (`rust-ride-wagon-e`, `rust-ride-wagon-s`, `rust-ride-wagon-n`, `teal-ride-wagon-e`, `teal-ride-wagon-s`, `teal-ride-wagon-n`, `elder-ride-wagon-e`, `elder-ride-wagon-s`, `elder-ride-wagon-n`, `blue-ride-wagon-e`, `blue-ride-wagon-s`, `blue-ride-wagon-n`, `rust-woman-ride-wagon-e`, `rust-woman-ride-wagon-s`, `rust-woman-ride-wagon-n`, `indigo-ride-wagon-e`, `indigo-ride-wagon-s`, `indigo-ride-wagon-n`, `ochre-ride-wagon-e`, `ochre-ride-wagon-s`, `ochre-ride-wagon-n`, `blue-girl-ride-wagon-e`, `blue-girl-ride-wagon-s`, `blue-girl-ride-wagon-n`, `girl-ride-wagon-e`, `girl-ride-wagon-s`, `girl-ride-wagon-n`, `boy-ride-wagon-e`, `boy-ride-wagon-s`, `boy-ride-wagon-n`, `smallchild-ride-wagon-e`, `smallchild-ride-wagon-s`, `smallchild-ride-wagon-n`, `wagon-ox-open-e`, `wagon-ox-open-s`, `wagon-ox-open-n`)
+  - **Deliver:** seated riders for the bed of an open wagon and a cart, both casts and the children, east/north/south, anchored at the hip (`<figure>-ride-wagon-<dir>`), and the wagon's tail with its cover drawn back
   - **Frames:** 4 frames a heading. **Size:** The scale of `wagon-covered` and `ox-walk`
   - **Plugs into:** `miniWagon` and `drawSeated` in `public/app.js`; `bedLayout` and `wagonRigClip` in `public/motion.js` (the tail: the rig `wagon-ox-open-*`)
-  - **Stands in now:** the delivered static `cart-open` views; riders as their idle cut at the waist on the cover (Astra's library art reused)
+  - **Stands in now:** riders as their idle cut at the waist on the cover (the cart itself is Astra's open cart, rolling and standing, since 2026-10-07) (Astra's library art reused)
 - [ ] **D6** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 3 — **Claude stand-in in place** (`tejano-rider-ride-e`, `tejano-rider-ride-s`, `tejano-rider-ride-n`); Astra's replaces it
   - **Deliver:** `tejano-rider-ride-e`, `-n`, `-s` (4): a Tejano horseman in a short jacket and wide hat with a lance or escopeta
   - **Frames:** 4 frames a heading. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
@@ -563,7 +554,7 @@ Skipped:
 
 ## E — Buildings, houses, towns, Béxar, the Alamo, interiors
 
-Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 25 to make, 4 skipped.
+Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 23 to make, 6 skipped.
 
 - [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2 — **Claude stand-in in place** (`bexar-man-walk`, `bexar-man-walk-s`, `bexar-man-walk-n`, `bexar-man-idle-s`, `bexar-man-idle-e`, `bexar-man-idle-w`, `bexar-man-idle-n`, `bexar-man-listen-s`, `bexar-man-listen-n`, `bexar-man-speak`, `bexar-man-carry`, `bexar-woman-walk`, `bexar-woman-walk-s`, `bexar-woman-walk-n`, `bexar-woman-idle-s`, `bexar-woman-idle-e`, `bexar-woman-idle-w`, `bexar-woman-idle-n`, `bexar-woman-listen-s`, `bexar-woman-listen-n`, `bexar-woman-speak`, `bexar-woman-carry`, `bexar-girl-walk`, `bexar-girl-walk-s`, `bexar-girl-walk-n`, `bexar-girl-idle-s`, `bexar-girl-idle-e`, `bexar-girl-idle-w`, `bexar-girl-idle-n`, `bexar-girl-listen-s`, `bexar-girl-listen-n`, `bexar-girl-speak`, `bexar-girl-carry`, `bexar-boy-walk`, `bexar-boy-walk-s`, `bexar-boy-walk-n`, `bexar-boy-idle-s`, `bexar-boy-idle-e`, `bexar-boy-idle-w`, `bexar-boy-idle-n`, `bexar-boy-listen-s`, `bexar-boy-listen-n`, `bexar-boy-speak`, `bexar-boy-carry`); Astra's replaces it
   - **Deliver:** Tejano townspeople of Béxar - a man, a woman in a rebozo, a girl and a boy - each `walk`, `idle-s`, `carry` (loading a cart), `speak`, `listen`, in 1830s Béxar dress (`bexar-man-*`, `bexar-woman-*`, `bexar-girl-*`, `bexar-boy-*`); also the storming's townspeople of 1835 walking out of a house (request 2026-09-25 the storming of Béxar, item 6)
@@ -601,11 +592,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Frames:** a frame a stage. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
   - **Plugs into:** `drawHousePlot`, `standChimneys` in `public/house-plot.js`
   - **Stands in now:** whole jacal stage sprites; `lean-to`; the single stick chimney drawn double (Astra's library art reused)
-- [ ] **E5** (priority 2) — [Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen](ART_REQUESTS.md#request-2026-09-12-second--settling-in-houses-interiors-furnishings-and-people-whose-looks-can-be-chosen), a saddlebag interior — **Claude stand-in held back: Astra has drawn the subject** (interior), so the page draws hers (`interior-saddlebag`)
-  - **Deliver:** `interior-saddlebag` (two round-log pens wall to wall round one central stone chimney, a fireplace into each, no passage)
-  - **Frames:** 1. **Size:** The `home-interiors` style, camera and scale exactly as `interior-dog-run`
-  - **Plugs into:** `INTERIORS.saddlebag` in `sim/interior-data.mjs`, `public/interior.js`
-  - **Stands in now:** the dog-run's picture, drawn wide (Astra's library art reused)
 - [ ] **E6** (priority 2) — [Request 2026-09-14 — Béxar civic architecture](ART_REQUESTS.md#request-2026-09-14--béxar-civic-architecture) — **Claude stand-in in place** (`bexar-san-fernando-1836`, `bexar-governors-palace-1836`); Astra's replaces it
   - **Deliver:** `bexar-san-fernando-1836` and `bexar-governors-palace-1836`
   - **Frames:** 1 each. **Size:** Matched to `chapel`/`adobe-flat` scale and ground anchors, three-quarter
@@ -687,11 +673,6 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Plugs into:** `drawFlag` in `public/battle-view.js`
   - **Stands in now:** the flag at the town point (nothing)
   - **Research first:** with E6
-- [ ] **E15** (priority 3) — [Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen](ART_REQUESTS.md#request-2026-09-12-second--settling-in-houses-interiors-furnishings-and-people-whose-looks-can-be-chosen), the wagon's tools — **Claude stand-in in place** (`home-hoe`, `home-felling-axe`, `home-broadaxe`, `home-froe`, `home-auger`); Astra's replaces it
-  - **Deliver:** `home-hoe`, `home-felling-axe`, `home-broadaxe`, `home-froe`, `home-auger`
-  - **Frames:** 1 each. **Size:** The `home-furnishings` style and scale, standing or leaning as in a cabin
-  - **Plugs into:** `INTERIOR_ART` `tool:*` in `sim/interior-data.mjs`
-  - **Stands in now:** Claude's `claude-home-tools.png` (Claude-drawn)
 - [ ] **E21** (priority 3) — [Request 2026-10-03 — men's work, women's work and the wash](ART_REQUESTS.md#request-2026-10-03--mens-work-womens-work-and-the-wash), item 10
   - **Deliver:** `wash-kettle` (an iron wash kettle on three stones over a fire, steam) and `wash-line` (a rail fence with wet shirts and a sheet hung over it)
   - **Frames:** 1 each (the kettle 2, steaming). **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
@@ -699,14 +680,16 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Stands in now:** nothing: the washer is drawn bent to the work with no tub (nothing)
 
 Skipped:
+- ~~E5~~ [Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen](ART_REQUESTS.md#request-2026-09-12-second--settling-in-houses-interiors-furnishings-and-people-whose-looks-can-be-chosen) — skipped: delivered 2026-10-07 (Astra's dedicated saddlebag cutaway, the spots measured on it; Claude's deleted)
 - ~~E7~~ [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar) — skipped: delivered 2026-10-03 (Astra's generic `house-loopholed`, closed, open, breached and cut away; actors inside it need occlusion masks and rooms, which is code); Claude's deleted
+- ~~E15~~ [Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen](ART_REQUESTS.md#request-2026-09-12-second--settling-in-houses-interiors-furnishings-and-people-whose-looks-can-be-chosen) — skipped: delivered 2026-10-07 (Astra's `home-tools`; Claude's deleted)
 - ~~E16~~ [Request 2026-09-16 — the shops of the towns](ART_REQUESTS.md#request-2026-09-16--the-shops-of-the-towns) — skipped: delivered 2026-09-26 (the `stand-in:` comment in sim/shops.mjs is stale)
 - ~~ES6~~ [Request 2026-09-19 — the places past the box](ART_REQUESTS.md#request-2026-09-19--the-places-past-the-box) — skipped: delivered 2026-09-26
 - ~~ES7~~ [Request 2026-09-18 — the Alamo's faces seen from the south](ART_REQUESTS.md#request-2026-09-18--the-alamos-faces-seen-from-the-south) — skipped: delivered 2026-09-21
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 22 to make, 17 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 20 to make, 19 skipped.
 
 - [ ] **F1** (priority 1) — [Request 2026-09-15 — face portraits for the family panel](ART_REQUESTS.md#request-2026-09-15--face-portraits-for-the-family-panel) — **Claude stand-in in place** (`portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant`); Astra's replaces it
   - **Deliver:** `portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`
@@ -718,11 +701,6 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** the special button (`#ask-neighbours` in `public/app.js`)
   - **Stands in now:** Claude's `icon-ask-neighbours`; without it a stroked glyph on the special button (Claude-drawn)
-- [ ] **F2** (priority 2) — [Request 2026-09-16 — the family panel's marks](ART_REQUESTS.md#request-2026-09-16--the-family-panels-marks) — **Claude stand-in in place** (`mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`, `mark-auto-on`); Astra's replaces it
-  - **Deliver:** `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`, `mark-auto-on`
-  - **Frames:** 6. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
-  - **Plugs into:** `panelMark`/`paintMark` in `public/app.js`, `drawMark` in `public/family-panel.js`
-  - **Stands in now:** Claude's `claude-marks.png` (Claude-drawn)
 - [ ] **F3** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 15 — **Claude stand-in in place** (`tree-fall`, `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple`); Astra's replaces it
   - **Deliver:** `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple` (3 frames each, played from the strike) and `tree-fall` (4 frames: a hardwood leaning, going over, down, a bounce)
   - **Frames:** 3 each; 4. **Size:** Effect: 3 frames on the ground anchor of the work, one played from the strike
@@ -778,16 +756,16 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
   - **Stands in now:** the nearest icons the library has: the forage, the kindling, the powder, the tent glyph, the shop, the timber hunt, the work about the place, the house (Astra's library art reused)
-- [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (pine-loblolly-pole, cedar-pole, mesquite-pole, live-oak-pole, elm-pole, post-oak-pole, blackjack-pole, pecan-pole, hackberry-pole, sweetgum-pole, pine-loblolly-log, cedar-log, mesquite-log, live-oak-log, elm-log, post-oak-log, blackjack-log, pecan-log, hackberry-log, sweetgum-log, pine-loblolly-large, cedar-large, mesquite-large, live-oak-large, elm-large, post-oak-large, blackjack-large, pecan-large, hackberry-large, sweetgum-large, pine-longleaf-pole, pine-longleaf-log, pine-longleaf-large, palm-sabal-pole, palm-sabal-log, palm-sabal-large, cypress-bald-pole, cypress-bald-log, cypress-bald-large, magnolia-log, magnolia-large, beech-log, beech-large, cottonwood, scrub, reeds, prickly-pear, marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`pine-loblolly-pole-wind`, `cedar-pole-wind`, `mesquite-pole-wind`, `live-oak-pole-wind`, `elm-pole-wind`, `post-oak-pole-wind`, `blackjack-pole-wind`, `pecan-pole-wind`, `hackberry-pole-wind`, `sweetgum-pole-wind`, `pine-loblolly-log-wind`, `cedar-log-wind`, `mesquite-log-wind`, `live-oak-log-wind`, `elm-log-wind`, `post-oak-log-wind`, `blackjack-log-wind`, `pecan-log-wind`, `hackberry-log-wind`, `sweetgum-log-wind`, `pine-loblolly-large-wind`, `cedar-large-wind`, `mesquite-large-wind`, `live-oak-large-wind`, `elm-large-wind`, `post-oak-large-wind`, `blackjack-large-wind`, `pecan-large-wind`, `hackberry-large-wind`, `sweetgum-large-wind`, `pine-longleaf-pole-wind`, `pine-longleaf-log-wind`, `pine-longleaf-large-wind`, `palm-sabal-pole-wind`, `palm-sabal-log-wind`, `palm-sabal-large-wind`, `cypress-bald-pole-wind`, `cypress-bald-log-wind`, `cypress-bald-large-wind`, `magnolia-log-wind`, `magnolia-large-wind`, `beech-log-wind`, `beech-large-wind`, `cottonwood-wind`, `scrub-wind`, `reeds-wind`, `prickly-pear-wind`, `marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
-  - **Deliver:** a gale silhouette for each remaining tree kind and ground mark - pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` (`<tree>-wind`)
+- [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (cottonwood, marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`cottonwood-wind`, `marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
+  - **Deliver:** a gale silhouette for each remaining ground mark the map scatters - the cottonwood, cordgrass, dune grass, thorn thickets, palmetto and yucca (every tree and the scrub, reeds and prickly pear are Astra's `<upright>-gale-1`, 2026-10-07/08)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite
   - **Plugs into:** `GALE_POSES` and `windLean` in `public/weather-art.js`
-  - **Stands in now:** the upright sprite sheared about its foot (Astra's library art reused)
-- [ ] **F6** (priority 3) — [Request 2026-09-19 — the country of 1836: trees and ground cover](ART_REQUESTS.md#request-2026-09-19--the-country-of-1836-trees-and-ground-cover), remaining species — **Claude stand-in in place** (`anacua-pole`, `anacua-log`, `anacua-large`, `ebony-pole`, `ebony-log`, `ebony-large`, `tupelo-pole`, `tupelo-log`, `tupelo-large`, `willow-pole`, `willow-log`, `willow-large`); Astra's replaces it; **Claude stand-in held back: Astra has drawn the subject** (elm, pine, stump), so the page draws hers (`cedar-elm-pole`, `cedar-elm-log`, `cedar-elm-large`, `pine-shortleaf-pole`, `pine-shortleaf-log`, `pine-shortleaf-large`, `stump-hickory`, `stump-walnut`, `stump-ash`, `stump-oak`, `stump-oak-live`)
-  - **Deliver:** anacua, Texas ebony, tupelo, cedar elm, willow, shortleaf pine at `-pole`/`-log`/`-large`, and hardwood stumps (hickory, walnut, ash, the oaks)
+  - **Stands in now:** Claude's `<upright>-wind`, her upright bent; without that sheet, the upright sheared about its foot (Astra's library art reused)
+- [ ] **F6** (priority 3) — [Request 2026-09-19 — the country of 1836: trees and ground cover](ART_REQUESTS.md#request-2026-09-19--the-country-of-1836-trees-and-ground-cover), remaining species — **Claude stand-in in place** (`anacua-pole`, `anacua-log`, `anacua-large`, `ebony-pole`, `ebony-log`, `ebony-large`, `tupelo-pole`, `tupelo-log`, `tupelo-large`, `willow-pole`, `willow-log`, `willow-large`); Astra's replaces it; **Claude stand-in held back: Astra has drawn the subject** (elm, stump), so the page draws hers (`cedar-elm-pole`, `cedar-elm-log`, `cedar-elm-large`, `stump-hickory`, `stump-walnut`, `stump-ash`, `stump-oak`, `stump-oak-live`)
+  - **Deliver:** anacua, Texas ebony, tupelo, cedar elm, willow (shortleaf pine Astra's since 2026-10-08) at `-pole`/`-log`/`-large`, and hardwood stumps (hickory, walnut, ash, the oaks)
   - **Frames:** 3 sizes each. **Size:** The style and scale of `pine-loblolly-*` and `live-oak-*`
   - **Plugs into:** `KINDS` in `sim/woods.mjs`, `drawGroundDetail` in `public/app.js`
-  - **Stands in now:** `oak-spreading`, `elm`, `cottonwood`; the loblolly for shortleaf; the post-oak or cottonwood stump (Astra's library art reused)
+  - **Stands in now:** `oak-spreading`, `elm`, `cottonwood`; the post-oak or cottonwood stump (Astra's library art reused)
   - **Research first:** which trees grew where in 1836 (docs/BIOMES.md)
 - [ ] **F7** (priority 3) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 4 — **Claude stand-in in place** (`night-grade`, `moonlight-grade`, `dawn-grade`); Astra's replaces it
   - **Deliver:** a night grade and a dawn grade for ground and figures (the Alamo assault), a moonlit night for Béxar's storming, and a moonless rain night for San Patricio under which lit windows and fires read (`night-grade`, `dawn-grade`, `moonlight-grade`)
@@ -800,11 +778,6 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 1 each (fog 2-4 drifting). **Size:** Ground piece: seen from above at the map's scale, transparent, tiles or scatters
   - **Plugs into:** `concepcionScenery`, `grassScenery`, `drawFog` in `public/battle-view.js`
   - **Stands in now:** `earth-rampart` along the bank with trees and a drawn ribbon of water; a pale radial veil for fog (Astra's library art reused)
-- [ ] **F9** (priority 3) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 4 — **Claude stand-in held back: Astra has drawn the subject** (marsh), so the page draws hers (`marsh-edge-1`, `marsh-edge-2`, `marsh-edge-3`)
-  - **Deliver:** `marsh-edge` (tiles of cordgrass and open water, to scatter)
-  - **Frames:** a few tiles. **Size:** Ground piece: seen from above at the map's scale, transparent, tiles or scatters
-  - **Plugs into:** `drawWorks` in `public/battle-view.js`
-  - **Stands in now:** the library's cordgrass, reeds and water ripples scattered (Astra's library art reused)
 - [ ] **F10** (priority 3) — [Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek](ART_REQUESTS.md#request-2026-09-25--the-souths-fights-san-patricio-by-night-and-agua-dulce-creek), items 2 and 5 — **Claude stand-in held back: Astra has drawn the subject** (live-oak), so the page draws hers (`live-oak-mott`)
   - **Deliver:** a live-oak mott as one sprite with shade under it (`live-oak-mott`) wherever a grove stands (Astra's `live-oak-mott-*-wind` draws the Agua Dulce groves, and her `campfire-night` the fire at night, 2026-10-03)
   - **Frames:** 2-4; 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
@@ -822,10 +795,12 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Stands in now:** one longhorn or hog with its count beside it for a group; a horned head drawn in the style sheet as a mask for the mark (drawn in code (canvas or CSS))
 
 Skipped:
+- ~~F2~~ [Request 2026-09-16 — the family panel's marks](ART_REQUESTS.md#request-2026-09-16--the-family-panels-marks) — skipped: delivered 2026-10-07 (Astra's six panel marks; Claude's deleted)
+- ~~F9~~ [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto) — skipped: delivered 2026-10-08 (Astra's `marsh-edge-dense` and `-sparse`; Claude's `marsh-edge-1`..`-3` deleted)
 - ~~F11~~ [Request 2026-09-19 — the country of 1836: trees and ground cover](ART_REQUESTS.md#request-2026-09-19--the-country-of-1836-trees-and-ground-cover) — skipped: delivered 2026-09-22 (the `stand-in:` comment in public/ground-classes.js is stale)
 - ~~F12~~ [Request 2026-09-19 — the game of 1836](ART_REQUESTS.md#request-2026-09-19--the-game-of-1836) — skipped: delivered 2026-09-21; the remaining work is code
 - ~~F13~~ [Request 2026-09-19 — Béxar's fields and acequias](ART_REQUESTS.md#request-2026-09-19--béxars-fields-and-acequias) — skipped: delivered 2026-09-21; the layout is research and code
-- ~~F14~~ [Request 2026-09-21 — the guided start's marks](ART_REQUESTS.md#request-2026-09-21--the-guided-starts-marks) — skipped: on hold 2026-09-28 - the tutorial is removed for now; do not draw until it returns
+- ~~F14~~ [Request 2026-09-21 — the guided start's marks](ART_REQUESTS.md#request-2026-09-21--the-guided-starts-marks) — skipped: delivered 2026-10-07 (Astra's four lesson marks, wired into the bar and the pips; dormant while the guided start is off, 2026-09-28)
 - ~~F15~~ [Request 2026-09-28 — the garden — WITHDRAWN 2026-09-28](ART_REQUESTS.md#request-2026-09-28--the-garden--withdrawn-2026-09-28) — skipped: withdrawn 2026-09-28 (crops no longer follow the seasons)
 - ~~FS8~~ [Request 2026-09-20 — the launcher's remaining plates — Delivered 2026-09-20](ART_REQUESTS.md#request-2026-09-20--the-launchers-remaining-plates--delivered-2026-09-20) — skipped: delivered 2026-09-20
 - ~~FS9~~ [Request 2026-09-19 — the logs fetched from the timber](ART_REQUESTS.md#request-2026-09-19--the-logs-fetched-from-the-timber) — skipped: delivered (`icons-family-service.png`)

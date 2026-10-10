@@ -1146,12 +1146,25 @@ body[data-finale-controls="open"] #hud-right{z-index:61;pointer-events:auto;back
 .panel-icon[data-shut=true]{opacity:.28;filter:grayscale(.85)}
 /* The ring pulses and the caret over it bobs; the button itself never moves. A control a student has to hit with a
    Chromebook touchpad must hold still, and the "!" on a row taught that the other way round.
-   stand-in: docs/ART_REQUESTS.md, request 2026-09-21 - the guided start's marks. The caret, the ring and the pips below
-   are CSS; Astra's `lesson-point`, `lesson-ring`, `lesson-pip` and `lesson-pip-done` replace them. */
+   The caret, the ring and the pips below are CSS while Astra's `lesson-point`, `lesson-ring`, `lesson-pip` and `lesson-pip-done`
+   (delivered 2026-10-07) have not loaded; once both of a button's pieces are drawn (`data-lesson-art`) hers take their place. */
 .panel-icon[data-pointed=true]{opacity:1;filter:none;background:#fff3c4;border-color:#c2582c;box-shadow:0 0 0 3px #c2582c,0 0 16px 4px #f0b43a99;animation:panel-point 1.3s ease-in-out infinite}
 .panel-icon[data-pointed=true]::after{content:'';position:absolute;left:50%;top:-14px;margin-left:-7px;border:7px solid transparent;border-top:9px solid #c2582c;animation:panel-caret 1.3s ease-in-out infinite}
 @keyframes panel-point{50%{box-shadow:0 0 0 4px #c2582c,0 0 22px 7px #f0b43acc}}
 @keyframes panel-caret{50%{transform:translateY(-4px)}}
+.lesson-ring-art,.lesson-point-art{display:none;position:absolute;pointer-events:none;z-index:2}
+.lesson-ring-art{width:72px;height:72px;left:50%;top:50%;transform:translate(-50%,-50%)}
+.lesson-point-art{width:22px;height:22px;left:50%;top:-25px;margin-left:-11px;animation:panel-caret 1.3s ease-in-out infinite}
+/* Astra's lesson marks (2026-10-07) are canvases inside the icon: they keep their own box, not the icon's 32px picture
+   (`.panel-icons .panel-icon canvas`, below), which would shrink the ring into the middle of the button. */
+.lesson-ring-art canvas,.lesson-point-art canvas,.panel-icons .panel-icon .lesson-ring-art canvas,.panel-icons .panel-icon .lesson-point-art canvas{width:100%;height:100%;display:block}
+.panel-icon[data-pointed=true][data-lesson-art=true]{box-shadow:none;animation:none}
+.panel-icon[data-pointed=true][data-lesson-art=true]::after{display:none}
+.panel-icon[data-pointed=true] .lesson-ring-art[data-drawn=true],.panel-icon[data-pointed=true] .lesson-point-art[data-drawn=true]{display:block}
+.lesson-pip canvas{display:none}
+.lesson-pip[data-drawn=true]{position:relative;flex:0 0 20px;height:10px;background:transparent}
+.lesson-pip[data-drawn=true] canvas{display:block;position:absolute;width:20px;height:20px;top:-5px;left:0}
+@media(prefers-reduced-motion:reduce){.lesson-point-art{animation:none}}
 .panel-reason{font-size:12px;color:#f7eed5;background:var(--shade);border:1px solid #8f825b;border-radius:8px;padding:5px 9px;white-space:normal;max-width:24rem}
 /* Travelling (owner, 2026-09-22): the same line as a reason, beside the icons rather than in place of them, so the bar
    reads "axe, call it off, Travelling" for somebody walking out to the timber. Quieter than a refusal, and never a button. */

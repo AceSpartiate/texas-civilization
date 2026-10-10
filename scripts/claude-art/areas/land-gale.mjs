@@ -1,3 +1,7 @@
+// Astra painted gale poses for every standing tree of both colony sheets, every biome-tree size and the scrub, reeds and
+// prickly pear on 2026-10-07/08 (`<upright>-gale-1`, public/weather-art.js `GALE_POSES`); Claude's of those were deleted at
+// the merge of 2026-10-09, and what is left here is the cottonwood, cordgrass, dune grass, thorn thickets, palmetto and yucca.
+//
 // The country in a norther, the remaining trees (request 2026-09-20 — the country in a norther: trees and grass bent by the
 // wind; plan item F5): a gale pose `<tree>-wind` for every tree and ground mark the map scatters that Astra's
 // `weather-norther` delivery did not paint - loblolly pine, cedar, mesquite, live oak, elm, post oak, blackjack, pecan,
@@ -28,45 +32,8 @@ const REPLACE = 'a gale silhouette in the weather-norther style, bent hard to th
 
 // kind: the loose leaves - 'broad' leaves, 'needle' tufts, 'feather' (mesquite's leaflets), 'grass' blades, or none.
 const KINDS = {
-  'pine-loblolly': { lean: 0.12, power: 1.9, stream: 0.22, press: 0.12, crownFrom: 0.5, squash: 0.03, ripple: 0.03, erode: 0.45, flip: 0, leaves: 4, kind: 'needle',
-    what: 'a loblolly pine: the tall straight bole barely bowed, the high crown of long needles streaming off it to leeward, a few needle tufts torn away' },
-  cedar: { lean: 0.08, power: 1.6, stream: 0.16, press: 0.12, crownFrom: 0.22, squash: 0.04, ripple: 0.025, erode: 0.35, flip: 0, leaves: 0, kind: null,
-    what: 'an Ashe juniper (cedar): the dense dark cone leaning a little and combed out to leeward, its windward face flattened; scale leaves do not fly' },
-  mesquite: { lean: 0.15, power: 1.5, stream: 0.3, press: 0.2, crownFrom: 0.35, squash: 0.06, ripple: 0.05, erode: 0.5, flip: 0.3, leaves: 6, kind: 'feather',
-    what: 'a mesquite: the crooked open crown of feathery leaves thrown to leeward, the windward branches bare, leaflets blown off' },
-  'live-oak': { lean: 0.06, power: 1.6, stream: 0.16, press: 0.12, crownFrom: 0.35, squash: 0.06, ripple: 0.03, erode: 0.45, flip: 0.28, leaves: 6, kind: 'broad',
-    what: 'a live oak: the massive low trunk unmoved, the wide dark evergreen crown pressed down and pulled to leeward, small leathery leaves torn off' },
-  elm: { lean: 0.17, power: 1.6, stream: 0.3, press: 0.18, crownFrom: 0.32, squash: 0.04, ripple: 0.05, erode: 0.5, flip: 0.38, leaves: 8, kind: 'broad',
-    what: 'an elm: the vase of limbs bowed to leeward, the crown streaming and thinned on the windward side, leaves leaving it' },
-  'post-oak': { lean: 0.12, power: 1.7, stream: 0.24, press: 0.15, crownFrom: 0.35, squash: 0.05, ripple: 0.04, erode: 0.45, flip: 0.32, leaves: 7, kind: 'broad',
-    what: 'a post oak: the stout crooked limbs holding, the rounded crown of lobed leaves pulled to leeward, the windward edge torn' },
-  blackjack: { lean: 0.11, power: 1.7, stream: 0.22, press: 0.15, crownFrom: 0.33, squash: 0.05, ripple: 0.04, erode: 0.42, flip: 0.28, leaves: 6, kind: 'broad',
-    what: 'a blackjack oak: smaller and darker than the post oak, its rough crown pulled to leeward, a few broad leaves blown off' },
-  pecan: { lean: 0.15, power: 1.7, stream: 0.3, press: 0.18, crownFrom: 0.38, squash: 0.04, ripple: 0.05, erode: 0.5, flip: 0.36, leaves: 8, kind: 'broad',
-    what: 'a pecan: the tall crown of long compound leaves streaming to leeward, the windward side thinned, leaflets flying' },
-  hackberry: { lean: 0.14, power: 1.7, stream: 0.27, press: 0.17, crownFrom: 0.35, squash: 0.05, ripple: 0.05, erode: 0.48, flip: 0.34, leaves: 7, kind: 'broad',
-    what: 'a hackberry: the rounded crown bowed and streaming to leeward, its thin leaves turned pale side up on the windward side' },
-  sweetgum: { lean: 0.13, power: 1.8, stream: 0.26, press: 0.16, crownFrom: 0.3, squash: 0.04, ripple: 0.045, erode: 0.46, flip: 0.34, leaves: 7, kind: 'broad',
-    what: 'a sweetgum: the upright pyramidal crown of star-shaped leaves bowed and pulled to leeward, leaves torn off' },
   cottonwood: { lean: 0.16, power: 1.6, stream: 0.3, press: 0.18, crownFrom: 0.35, squash: 0.04, ripple: 0.05, erode: 0.5, flip: 0.45, leaves: 9, kind: 'broad',
     what: 'a cottonwood: the tall open crown streaming to leeward, its fluttering leaves flashing pale, many blown off' },
-  scrub: { lean: 0.1, power: 1.4, stream: 0.26, press: 0.16, crownFrom: 0.12, squash: 0.08, ripple: 0.05, erode: 0.4, flip: 0.3, leaves: 4, kind: 'broad',
-    what: 'a low brush clump: the whole bush combed flat to leeward, a few leaves torn off' },
-  reeds: { lean: 0.34, power: 1.25, stream: 0.08, press: 0.04, crownFrom: 0.05, squash: 0.14, ripple: 0.03, erode: 0, flip: 0, leaves: 3, kind: 'grass',
-    what: 'a clump of reeds: the stems laid over hard to leeward from their roots, the heads streaming, a torn blade or two blown off' },
-  'prickly-pear': { lean: 0.012, power: 1, stream: 0, press: 0, crownFrom: 0.9, squash: 0, ripple: 0, erode: 0, flip: 0, leaves: 4, kind: 'grass',
-    what: 'a prickly pear: the pads do not bend in any wind, so it stands as it is, with dry grass blades blown past it to leeward' },
-  // The biomes of 1836 (`biome-trees-fields`, `biome-ground-bexar`, 2026-09-22), which had no gale pose either.
-  'pine-longleaf': { lean: 0.11, power: 2, stream: 0.24, press: 0.12, crownFrom: 0.6, squash: 0.03, ripple: 0.03, erode: 0.4, flip: 0, leaves: 3, kind: 'needle',
-    what: 'a longleaf pine: the very tall straight bole hardly bowed, the sparse high tufts of long needles combed out to leeward' },
-  'palm-sabal': { lean: 0.05, power: 2.2, stream: 0.36, press: 0.26, crownFrom: 0.62, squash: 0.05, ripple: 0.04, erode: 0.3, flip: 0, leaves: 0, kind: null,
-    what: 'a Texas (sabal) palm: the grey trunk stiff, the round head of fan leaves blown inside out and streaming to leeward' },
-  'cypress-bald': { lean: 0.09, power: 1.8, stream: 0.24, press: 0.14, crownFrom: 0.35, squash: 0.04, ripple: 0.04, erode: 0.4, flip: 0.1, leaves: 4, kind: 'needle',
-    what: 'a bald cypress: the buttressed foot unmoved, the flat feathery crown pulled to leeward, sprays of needles torn off' },
-  magnolia: { lean: 0.09, power: 1.7, stream: 0.2, press: 0.14, crownFrom: 0.3, squash: 0.04, ripple: 0.035, erode: 0.38, flip: 0.12, leaves: 4, kind: 'broad',
-    what: 'a southern magnolia: the dense crown of big stiff evergreen leaves pressed to leeward, a few torn off (their undersides rusty, so little turns pale)' },
-  beech: { lean: 0.13, power: 1.7, stream: 0.27, press: 0.16, crownFrom: 0.3, squash: 0.04, ripple: 0.045, erode: 0.46, flip: 0.34, leaves: 7, kind: 'broad',
-    what: 'an American beech: the smooth grey trunk bowed a little, the broad crown streaming to leeward, thin leaves turned and flying' },
   'marsh-cordgrass': { lean: 0.3, power: 1.25, stream: 0.08, press: 0.04, crownFrom: 0.05, squash: 0.13, ripple: 0.03, erode: 0, flip: 0, leaves: 2, kind: 'grass',
     what: 'a clump of marsh cordgrass: the blades laid over to leeward from the roots' },
   'dune-grass': { lean: 0.3, power: 1.25, stream: 0.08, press: 0.04, crownFrom: 0.05, squash: 0.13, ripple: 0.03, erode: 0, flip: 0, leaves: 2, kind: 'grass',
@@ -80,7 +47,6 @@ const KINDS = {
   yucca: { lean: 0.02, power: 1, stream: 0.05, press: 0.03, crownFrom: 0.5, squash: 0, ripple: 0.01, erode: 0, flip: 0, leaves: 3, kind: 'grass',
     what: 'a Spanish dagger (yucca): its stiff blades hardly move, dry grass blown past it' },
 };
-const SIZED = ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum'];
 const AGE = { pole: { lean: 1.25, stream: 1.1, note: 'a sapling, more pliant' }, log: { lean: 1, stream: 1, note: 'a mature tree' }, large: { lean: 0.85, stream: 0.95, note: 'an old tree, stiffer' } };
 // How tall the map draws each (public/app.js: SIZE.timberTree 1.95 × TREE_SIZES), for the play-size comparison.
 const DRAWN = { pole: 1.95 * 0.55, log: 1.95 * 0.7, large: 1.95 * 0.85 };
@@ -139,10 +105,7 @@ function galeFrame(name, upright, p, cell) {
 }
 
 const frames = [];
-for (const tree of SIZED) for (const size of ['pole', 'log', 'large']) frames.push({ name: `${tree}-${size}-wind`, upright: `${tree}-${size}`, tree, size, p: paramsOf(KINDS[tree], size), height: DRAWN[size] });
-for (const tree of ['pine-longleaf', 'palm-sabal', 'cypress-bald']) for (const size of ['pole', 'log', 'large']) frames.push({ name: `${tree}-${size}-wind`, upright: `${tree}-${size}`, tree, size, sheet: 'biome', p: paramsOf(KINDS[tree], size), height: DRAWN[size] });
-for (const tree of ['magnolia', 'beech']) for (const size of ['log', 'large']) frames.push({ name: `${tree}-${size}-wind`, upright: `${tree}-${size}`, tree, size, sheet: 'biome', p: paramsOf(KINDS[tree], size), height: DRAWN[size] });
-for (const tree of ['cottonwood', 'scrub', 'reeds', 'prickly-pear', 'marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca']) frames.push({ name: `${tree}-wind`, upright: tree, tree, size: null, p: paramsOf(KINDS[tree], 'log'), height: tree === 'cottonwood' ? 1.95 * 1.12 : 1 });
+for (const tree of ['cottonwood', 'marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca']) frames.push({ name: `${tree}-wind`, upright: tree, tree, size: null, p: paramsOf(KINDS[tree], 'log'), height: tree === 'cottonwood' ? 1.95 * 1.12 : 1 });
 
 function sheet(list, columns) {
   const cell = { w: 0, h: 0 };
@@ -157,13 +120,8 @@ function sheet(list, columns) {
     draw: () => galeFrame(f.name, f.upright, f.p, cell),
   })) };
 }
-const bySize = size => frames.filter(f => f.size === size && !f.sheet);
 export const SHEETS = {
-  'claude-gale-pole': sheet(bySize('pole'), 5),
-  'claude-gale-log': sheet(bySize('log'), 4),
-  'claude-gale-large': sheet(bySize('large'), 4),
-  'claude-gale-biome': sheet(frames.filter(f => f.sheet === 'biome'), 4),
-  'claude-gale-ground': sheet(frames.filter(f => !f.size), 4),
+  'claude-gale-ground': sheet(frames, 4),
 };
 /** Every gale frame and the upright it bends, for GALE_POSES in public/weather-art.js and the proofs. */
 export const GALE = Object.fromEntries(frames.map(f => [f.upright, f.name]));

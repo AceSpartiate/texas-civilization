@@ -129,31 +129,7 @@ function fog(kind, frame) {
   return doc(`fog-bank-${kind}-${frame + 1}`, W, H, `a ${dense ? 'dense' : 'thin'} bank of fog lying on the ground, drifting, frame ${frame + 1} of 3`, out.join(''), gy, null, 0.5);
 }
 
-// ---- the marsh edge ---------------------------------------------------------------------------------------------------------
-function marshEdge(v) {
-  const W = 340, H = 220, gy = 208, R = rng(300 + v), out = [];
-  // Mud round the water, the water in an irregular pool, then clumps of cordgrass round its edge and a few in it.
-  const pool = [];
-  for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2, rx = 120 + R() * 30, ry = 50 + R() * 16; pool.push([170 + Math.cos(a) * rx, 118 + Math.sin(a) * ry]); }
-  out.push(`<path d="${smoothPath(pool.map(([x, y]) => [170 + (x - 170) * 1.12, 118 + (y - 118) * 1.2]))}" fill="#6f6a45" stroke="${INK}" stroke-width="1.4"/>`);
-  out.push(`<path d="${smoothPath(pool)}" fill="${WATER}" stroke="${INK}" stroke-width="1.7"/>`);
-  out.push(ripples(R, 90, 250, 96, 140, 6));
-  const clump = (x, y, s) => {
-    const parts = [];
-    for (let k = 0; k < 9; k++) {
-      const a = -Math.PI / 2 + (k / 8 - 0.5) * 1.4, l = s * (0.7 + R() * 0.5), bend = (R() - 0.5) * s * 0.3;
-      parts.push(`<path d="M ${f1(x - 1.8)} ${f1(y)} Q ${f1(x + Math.cos(a) * l * 0.5 + bend)} ${f1(y + Math.sin(a) * l * 0.6)} ${f1(x + Math.cos(a) * l)} ${f1(y + Math.sin(a) * l)} Q ${f1(x + Math.cos(a) * l * 0.5 + bend + 2)} ${f1(y + Math.sin(a) * l * 0.6)} ${f1(x + 1.8)} ${f1(y)} Z" fill="${k % 3 ? GRASS : '#a8a24e'}" stroke="${INK}" stroke-width="0.6"/>`);
-    }
-    if (R() < 0.6) parts.push(`<path d="M ${f1(x)} ${f1(y - s * 0.6)} l ${f1(s * 0.1)} ${f1(-s * 0.5)}" stroke="#b58a3c" stroke-width="3" stroke-linecap="round"/>`);
-    return parts.join('');
-  };
-  const spots = [];
-  for (let i = 0; i < 14; i++) { const p = pool[i % pool.length], q = pool[(i + 1) % pool.length], t = R(); spots.push([p[0] + (q[0] - p[0]) * t + (R() - 0.5) * 14, p[1] + (q[1] - p[1]) * t + (R() - 0.5) * 10]); }
-  for (let i = 0; i < 3; i++) spots.push([130 + R() * 90, 104 + R() * 30]);
-  spots.sort((a, b) => a[1] - b[1]);
-  for (const [x, y] of spots) out.push(clump(x, y, 26 + R() * 18));
-  return doc(`marsh-edge-${v}`, W, H, `the edge of a marsh: open water ringed with mud and clumps of cordgrass, tile ${v} of 3`, out.join(''), gy, null, 0.5);
-}
+// The marsh edge (`marsh-edge-1`..`-3`): Astra's `marsh-edge-dense` and `-sparse` (2026-10-08) since the merge of 2026-10-09.
 
 // ---- the light of a night fight --------------------------------------------------------------------------------------------
 // Not a sprite but a layer: the renderer stretches the grade over the whole view and multiplies it into what is drawn, at the
@@ -178,10 +154,6 @@ export const SHEETS = {
       { name: 'creek-bed-dry', height: 2, draw: () => pad(creekBedDry(), 420, 260), compare: [['earth-rampart', 1]], prompt: 'A dry creek bed of the Grass Fight: a low cut bank, a bed of sand and grey cobbles with the marks of old water, dry grass along both lips; seen from the three-quarter view, transparent ground.' },
       { name: 'creek-ford', height: 2, draw: () => pad(creekFord(), 420, 260), compare: [['water-ripple', 1]], prompt: 'A creek forded on foot: teal water between a grassy far bank and a sandy near one, a shallow gravel bar across it where the water runs pale and stones break the surface; transparent ground.' },
     ] },
-  'claude-marsh-edge': { cell: { w: 340, h: 220 }, columns: 3, request: SANJAC, replaceWith: 'item 4: tiles of cordgrass and open water to scatter along the marsh',
-    frames: [1, 2, 3].map(v => ({ name: `marsh-edge-${v}`, height: 1.6, compare: [['marsh-cordgrass', 1], ['water-ripple', 0.6]],
-      prompt: `The edge of the marsh behind the Mexican camp at San Jacinto: an irregular pool of open water ringed with dark mud and clumps of cordgrass, a few clumps standing in the water, one or two with a seed head; tile ${v} of 3, to scatter; outlined blades, teal water with pale ripples, transparent ground.`,
-      draw: () => marshEdge(v) })) },
   'claude-grades': { cell: GRADE, columns: 3, request: ALAMO, replaceWith: 'item 4: a light layer the renderer lays over the ground and figures, not a sprite; must not snap when the pace changes',
     frames: [
       { name: 'night-grade', height: 1, prompt: 'A moonless night (San Patricio in the rain; the Alamo before the assault): a deep blue-violet laid over the ground and the figures by multiplying, darkest at the top and the edges, so that lit windows and fires drawn over it read. A layer, not a picture; white would be no change.', draw: () => grade('night-grade', [[0, '#1f2744'], [0.6, '#2c3658'], [1, '#34405f']], { x: 0.5, y: 0.7, r: 0.6, colour: '#46527a', alpha: 0.6, vignette: 0.35 }, 'the light of a moonless night, multiplied over the view') },

@@ -434,6 +434,201 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "pine-longleaf-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-longleaf-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-longleaf-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "palm-sabal-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "palm-sabal-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "palm-sabal-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-longleaf-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-longleaf-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-longleaf-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "palm-sabal-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "palm-sabal-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "palm-sabal-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-longleaf-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-longleaf-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-longleaf-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "palm-sabal-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "palm-sabal-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "palm-sabal-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cypress-bald-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cypress-bald-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cypress-bald-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cypress-bald-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cypress-bald-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cypress-bald-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cypress-bald-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cypress-bald-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cypress-bald-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "magnolia-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "magnolia-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "magnolia-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "beech-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "beech-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "beech-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "magnolia-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "magnolia-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "magnolia-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "beech-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "beech-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "beech-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "pine-longleaf-pole-wind": {
       "frames": [
         {
@@ -1570,6 +1765,262 @@
       "motion": "none",
       "direction": "north"
     },
+    "rust-woman-wagon-driver-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "rust-woman-wagon-driver-s-2",
+          "duration": 600
+        }
+      ]
+    },
+    "rust-woman-wagon-driver-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "rust-woman-wagon-driver-e-2",
+          "duration": 600
+        }
+      ]
+    },
+    "rust-woman-wagon-driver-w": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "rust-woman-wagon-driver-w-2",
+          "duration": 600
+        }
+      ]
+    },
+    "rust-woman-wagon-driver-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "rust-woman-wagon-driver-n-2",
+          "duration": 600
+        }
+      ]
+    },
+    "indigo-wagon-driver-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-wagon-driver-s-2",
+          "duration": 600
+        }
+      ]
+    },
+    "indigo-wagon-driver-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-wagon-driver-e-2",
+          "duration": 600
+        }
+      ]
+    },
+    "indigo-wagon-driver-w": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-wagon-driver-w-2",
+          "duration": 600
+        }
+      ]
+    },
+    "indigo-wagon-driver-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "indigo-wagon-driver-n-2",
+          "duration": 600
+        }
+      ]
+    },
+    "ochre-wagon-driver-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "ochre-wagon-driver-s-2",
+          "duration": 600
+        }
+      ]
+    },
+    "ochre-wagon-driver-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "ochre-wagon-driver-e-2",
+          "duration": 600
+        }
+      ]
+    },
+    "ochre-wagon-driver-w": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "ochre-wagon-driver-w-2",
+          "duration": 600
+        }
+      ]
+    },
+    "ochre-wagon-driver-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "ochre-wagon-driver-n-2",
+          "duration": 600
+        }
+      ]
+    },
+    "blue-girl-wagon-driver-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-wagon-driver-s-2",
+          "duration": 600
+        }
+      ]
+    },
+    "blue-girl-wagon-driver-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-wagon-driver-e-2",
+          "duration": 600
+        }
+      ]
+    },
+    "blue-girl-wagon-driver-w": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-wagon-driver-w-2",
+          "duration": 600
+        }
+      ]
+    },
+    "blue-girl-wagon-driver-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "blue-girl-wagon-driver-n-2",
+          "duration": 600
+        }
+      ]
+    },
     "rust-woman-walk": {
       "frames": [
         {
@@ -2649,6 +3100,96 @@
       "authored": true,
       "motion": "none",
       "direction": "east; west by mirroring"
+    },
+    "pine-loblolly-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-loblolly-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-loblolly-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cedar-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cedar-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cedar-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-loblolly-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-loblolly-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-loblolly-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cedar-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cedar-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cedar-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-loblolly-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-loblolly-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-loblolly-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cedar-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cedar-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "cedar-large-gale-2",
+          "duration": 500
+        }
+      ]
     },
     "volunteer-fallen-carry": {
       "frames": [
@@ -8809,6 +9350,50 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "timber-felled-e": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-felled-e",
+          "duration": 1000
+        }
+      ]
+    },
+    "timber-felled-n": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-felled-n",
+          "duration": 1000
+        }
+      ]
+    },
+    "timber-trimmed-e": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-trimmed-e",
+          "duration": 1000
+        }
+      ]
+    },
+    "timber-stack": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "timber-stack",
+          "duration": 1000
+        }
+      ]
+    },
     "flag-come-and-take-it-wind": {
       "frames": [
         {
@@ -9185,6 +9770,30 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "flag-come-and-take-it-no-star-wind": {
+      "frames": [
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-1",
+          "duration": 850
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-2",
+          "duration": 600
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-3",
+          "duration": 650
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-4",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
     "elder-read-letter": {
       "frames": [
         {
@@ -9304,6 +9913,262 @@
       "authored": true,
       "motion": "none",
       "direction": "east; west by mirroring"
+    },
+    "indigo-river-watch": {
+      "frames": [
+        {
+          "sprite": "indigo-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "indigo-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "indigo-river-point": {
+      "frames": [
+        {
+          "sprite": "indigo-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "indigo-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-river-watch": {
+      "frames": [
+        {
+          "sprite": "blue-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-river-point": {
+      "frames": [
+        {
+          "sprite": "blue-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-river-watch": {
+      "frames": [
+        {
+          "sprite": "ochre-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-river-point": {
+      "frames": [
+        {
+          "sprite": "ochre-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-river-watch": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-watch-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-watch-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "blue-girl-river-point": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-point-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-point-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ochre-river-watch-s": {
+      "frames": [
+        {
+          "sprite": "ochre-river-watch-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-watch-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ochre-river-point-s": {
+      "frames": [
+        {
+          "sprite": "ochre-river-point-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-point-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-girl-river-watch-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-watch-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-watch-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-girl-river-point-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-point-s-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-point-s-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ochre-river-watch-n": {
+      "frames": [
+        {
+          "sprite": "ochre-river-watch-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-watch-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ochre-river-point-n": {
+      "frames": [
+        {
+          "sprite": "ochre-river-point-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "ochre-river-point-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-girl-river-watch-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-watch-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-watch-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-girl-river-point-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-river-point-n-1",
+          "duration": 650
+        },
+        {
+          "sprite": "blue-girl-river-point-n-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
     },
     "teal-river-watch": {
       "frames": [
@@ -9897,6 +10762,141 @@
       "motion": "none",
       "direction": "scenery"
     },
+    "mesquite-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "mesquite-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "mesquite-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "live-oak-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "live-oak-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "live-oak-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "mesquite-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "mesquite-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "mesquite-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "live-oak-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "live-oak-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "live-oak-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "mesquite-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "mesquite-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "mesquite-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "live-oak-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "live-oak-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "live-oak-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "elm-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "elm-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "elm-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "elm-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "elm-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "elm-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "elm-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "elm-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "elm-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "live-oak-mott-dense-wind": {
       "frames": [
         {
@@ -9928,6 +10928,98 @@
       "authored": true,
       "motion": "none",
       "direction": "not applicable"
+    },
+    "marsh-edge-dense": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "marsh-edge-dense-1",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-dense-2",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-dense-3",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-dense-4",
+          "duration": 350
+        }
+      ]
+    },
+    "marsh-edge-sparse": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "marsh-edge-sparse-1",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-sparse-2",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-sparse-3",
+          "duration": 350
+        },
+        {
+          "sprite": "marsh-edge-sparse-4",
+          "duration": 350
+        }
+      ]
+    },
+    "volunteer-wade": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "volunteer-wade-1",
+          "duration": 240
+        },
+        {
+          "sprite": "volunteer-wade-2",
+          "duration": 240
+        },
+        {
+          "sprite": "volunteer-wade-3",
+          "duration": 240
+        },
+        {
+          "sprite": "volunteer-wade-4",
+          "duration": 240
+        }
+      ]
+    },
+    "regular-wade": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "regular-wade-1",
+          "duration": 240
+        },
+        {
+          "sprite": "regular-wade-2",
+          "duration": 240
+        },
+        {
+          "sprite": "regular-wade-3",
+          "duration": 240
+        },
+        {
+          "sprite": "regular-wade-4",
+          "duration": 240
+        }
+      ]
     },
     "volunteer-rest-sit": {
       "frames": [
@@ -11149,6 +12241,285 @@
       "motion": "none",
       "direction": "scenery"
     },
+    "scrub-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "scrub-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "scrub-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "reeds-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "reeds-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "reeds-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "prickly-pear-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "prickly-pear-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "prickly-pear-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "post-oak-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "post-oak-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "post-oak-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "blackjack-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "blackjack-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blackjack-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "post-oak-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "post-oak-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "post-oak-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "blackjack-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "blackjack-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blackjack-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "post-oak-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "post-oak-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "post-oak-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "blackjack-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "blackjack-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "blackjack-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "cart-open-travel-e": {
+      "frames": [
+        {
+          "sprite": "cart-open-travel-e-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-e-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-e-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-e-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cart-open-travel-s": {
+      "frames": [
+        {
+          "sprite": "cart-open-travel-s-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-s-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-s-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-s-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cart-open-travel-n": {
+      "frames": [
+        {
+          "sprite": "cart-open-travel-n-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-n-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-n-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-travel-n-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cart-open-loaded-travel-e": {
+      "frames": [
+        {
+          "sprite": "cart-open-loaded-travel-e-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-e-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-e-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-e-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "cart-open-loaded-travel-s": {
+      "frames": [
+        {
+          "sprite": "cart-open-loaded-travel-s-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-s-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-s-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-s-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cart-open-loaded-travel-n": {
+      "frames": [
+        {
+          "sprite": "cart-open-loaded-travel-n-1",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-n-2",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-n-3",
+          "duration": 245
+        },
+        {
+          "sprite": "cart-open-loaded-travel-n-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "ox-packed-walk-e": {
       "frames": [
         {
@@ -11352,6 +12723,141 @@
       "authored": true,
       "motion": "none",
       "direction": "east; west by mirroring"
+    },
+    "pecan-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pecan-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pecan-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "hackberry-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "hackberry-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "hackberry-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pecan-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pecan-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pecan-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "hackberry-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "hackberry-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "hackberry-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pecan-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pecan-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pecan-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "hackberry-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "hackberry-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "hackberry-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "sweetgum-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "sweetgum-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "sweetgum-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "sweetgum-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "sweetgum-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "sweetgum-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "sweetgum-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "sweetgum-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "sweetgum-large-gale-2",
+          "duration": 500
+        }
+      ]
     },
     "courier-dismount": {
       "frames": [
@@ -12085,6 +13591,51 @@
       "motion": "rock",
       "direction": "east; west by mirroring"
     },
+    "pine-shortleaf-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-shortleaf-pole-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-shortleaf-pole-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-shortleaf-log-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-shortleaf-log-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-shortleaf-log-gale-2",
+          "duration": 500
+        }
+      ]
+    },
+    "pine-shortleaf-large-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "pine-shortleaf-large-gale-1",
+          "duration": 500
+        },
+        {
+          "sprite": "pine-shortleaf-large-gale-2",
+          "duration": 500
+        }
+      ]
+    },
     "susanna-child-walk-e": {
       "frames": [
         {
@@ -12744,6 +14295,52 @@
       "authored": true,
       "motion": "none",
       "direction": "west"
+    },
+    "volunteer-crowbar-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "volunteer-crowbar-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-s-2",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-s-3",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-s-4",
+          "duration": 300
+        }
+      ]
+    },
+    "volunteer-crowbar-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "volunteer-crowbar-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-n-2",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-n-3",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-crowbar-n-4",
+          "duration": 300
+        }
+      ]
     },
     "rust-wagon-driver-s": {
       "frames": [

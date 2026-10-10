@@ -1,5 +1,5 @@
 // The country of 1836, the remaining species (request 2026-09-19 — the country of 1836: trees and ground cover; plan item
-// F6): anacua, Texas ebony, tupelo, cedar elm, willow and shortleaf pine at `-pole`, `-log` and `-large`, and the hardwood
+// F6): anacua, Texas ebony, tupelo, cedar elm and willow at `-pole`, `-log` and `-large`, and the hardwood
 // stumps the woods still borrow (hickory, walnut, ash, the oaks, the live oak). Drawn by scripts/claude-art/land/tree.mjs to
 // sit beside Astra's `trees-colonies-1` and `-2`: the same foot of grass, outline, light and leaf masses, at the heights her
 // pole, log and large trees are cropped to (about 225, 275 and 300 source pixels), so the map's own sizes (`TREE_SIZES`,
@@ -17,8 +17,6 @@
 //     rough leaves, the twigs drooping a little.
 //   - willow (black willow, Salix nigra): along the water, leaning, often two or three stems, an open irregular crown of
 //     narrow light yellow-green leaves with hanging twigs.
-//   - shortleaf pine (Pinus echinata): straight, the young tree a narrow pyramid, the old one a small oval crown high on a
-//     clear bole with scaly red-brown plates; shorter needles and smaller tufts than the loblolly beside it.
 //   - stumps: hickory's shaggy grey strips, walnut's dark ridged bark and chocolate heartwood, ash's grey diamond furrows and
 //     pale wood, a red or black oak's brown ridges and rayed tan wood, a live oak's wide low dark stump.
 import { drawTree, shade } from '../land/tree.mjs';
@@ -68,20 +66,14 @@ const S = {
     large: { trunk: { width: 0.078, top: 0.035, fork: 0.34, lean: 0.14, bow: 0.06, stems: 3, spread: 0.2 }, masses: [[0.14, 0.6, 0.44, 0.3], [-0.18, 0.52, 0.18, 0.16], [0.42, 0.48, 0.18, 0.16]], clump: 0.071, limbs: 3 },
     what: 'a black willow by the water: leaning, two or three stems at the older sizes, an open irregular crown of narrow light yellow-green leaves with hanging twigs, dark furrowed bark',
   },
-  'pine-shortleaf': {
-    colours: ['#26341b', '#3c4f27', '#5d7236', '#869a52'], leaf: 'needle', back: 0.3, style: 'pine', plates: true, bark: ['#6c4631', '#936549', '#3f271a'],
-    pole: { trunk: { width: 0.055, top: 0.015, fork: 0.95 }, masses: [[0, 0.38, 0.19, 0.08], [0, 0.52, 0.16, 0.08], [0, 0.66, 0.12, 0.07], [0, 0.79, 0.08, 0.06], [0, 0.9, 0.05, 0.05]], clump: 0.07, limbs: 0 },
-    log: { trunk: { width: 0.062, top: 0.016, fork: 0.95 }, masses: [[0, 0.52, 0.19, 0.07], [0, 0.65, 0.2, 0.07], [0, 0.78, 0.15, 0.07], [0, 0.9, 0.08, 0.05]], clump: 0.064, limbs: 0 },
-    large: { trunk: { width: 0.07, top: 0.02, fork: 0.93 }, masses: [[0, 0.58, 0.25, 0.07], [-0.03, 0.7, 0.24, 0.07], [0.02, 0.82, 0.18, 0.07], [0, 0.92, 0.09, 0.05]], clump: 0.062, limbs: 0 },
-    what: 'a shortleaf pine: a straight bole of scaly red-brown plates, the crown of short-needled tufts smaller and more open than the loblolly\'s - a narrow pyramid young, a small oval high on the bole when old',
-  },
+// Shortleaf pine (`pine-shortleaf-*`): Astra's since 2026-10-08 (shortleaf-2026-10-08), merged 2026-10-09.
 };
 const NOTE = { pole: 'young and straight', log: 'mature', large: 'old and wide' };
-const SEED = { anacua: 11, ebony: 23, tupelo: 37, 'cedar-elm': 41, willow: 53, 'pine-shortleaf': 67 };
+const SEED = { anacua: 11, ebony: 23, tupelo: 37, 'cedar-elm': 41, willow: 53 };
 
 function treeFrame(kind, size) {
   const s = S[kind], z = s[size];
-  const spec = { height: HEIGHT[size], limbs: z.limbs, twig: kind === 'pine-shortleaf' ? 0 : 2, offset: -(z.trunk.lean || 0) * 0.5,
+  const spec = { height: HEIGHT[size], limbs: z.limbs, twig: 2, offset: -(z.trunk.lean || 0) * 0.5,
     trunk: { flare: 0.6, bark: s.bark[0], barkLight: s.bark[1], barkDark: s.bark[2], plates: s.plates, ...z.trunk },
     crown: { masses: z.masses, clump: z.clump, colours: s.style === 'pine' ? s.colours : s.colours.map((c, i) => shade(c, [0.06, 0.16, 0.2, 0.26][i])), leaf: s.leaf, droop: s.droop, spacing: s.spacing, gaps: s.gaps, back: s.back, style: s.style } };
   const { body } = drawTree(spec, { w: W, h: H, gy: GY, seed: SEED[kind] * 10 + HEIGHT[size] });
@@ -130,7 +122,7 @@ export const SHEETS = {
   'claude-trees-1836': { cell: { w: W, h: H }, columns: 6, request: REQUEST, replaceWith: REPLACE,
     frames: KINDS_DRAWN.flatMap(kind => ['pole', 'log', 'large'].map(size => ({
       name: `${kind}-${size}`, height: DRAWN[size],
-      compare: [[kind === 'pine-shortleaf' ? `pine-loblolly-${size}` : kind === 'willow' ? 'cottonwood' : kind === 'tupelo' || kind === 'cedar-elm' ? `elm-${size}` : `live-oak-${size}`, DRAWN[size]], [`hackberry-${size}`, DRAWN[size]]],
+      compare: [[kind === 'willow' ? 'cottonwood' : kind === 'tupelo' || kind === 'cedar-elm' ? `elm-${size}` : `live-oak-${size}`, DRAWN[size]], [`hackberry-${size}`, DRAWN[size]]],
       prompt: `${S[kind].what}; ${NOTE[size]}, at the ${size} size. In the style of Astra's trees-colonies sheets: a small mound of grass at the foot, a tapered trunk flaring at the foot and lit down its left side with dark bark lines, limbs showing through the crown, the crown built of many overlapping leaf masses each thinly outlined in dark olive, lit upper left with small leaf dabs and dark lower right, the masses at the back darker; three-quarter north-up view, transparent ground, no shadow, no text. A reading of the species at play size from general botanical descriptions, not a field guide.`,
       draw: () => treeFrame(kind, size),
     }))) },

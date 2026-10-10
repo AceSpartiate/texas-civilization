@@ -102,12 +102,13 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   if (pose === 'dig') return { id: child ? `${figure}-idle-${face}` : `${figure}-work`, flip: !child && face === 'w' };
   if (pose === 'forge' && ['elder','ochre'].includes(figure)) return { id: `${figure}-smith-${person.id === 'gz-smith-2' ? 'chain' : 'hammer'}`, flip: face === 'w' };
   if (pose === 'forge') return { id: child ? `${figure}-idle-${face}` : `${figure}-repair`, flip: !child && face === 'w' };
-  // Watching the far bank, a hand shading the eyes (Astra, 2026-10-05): her watch drawings where she has them, standing otherwise.
-  if (pose === 'watch' && ['teal','indigo','elder','blue'].includes(figure) && ['n','s'].includes(face)) return { id: `${figure}-river-watch-${face}`, flip: false };
-  if (pose === 'watch' && ['teal', 'elder'].includes(figure) && ['e','w'].includes(face)) return { id: `${figure}-river-watch`, flip: face === 'w' };
+  // Watching the far bank, a hand shading the eyes, and pointing across it (Astra, 2026-10-05; the whole adult town cast in
+  // every heading, 2026-10-06): her drawings for every grown figure, standing otherwise.
+  if (pose === 'watch' && GROWN.has(figure) && ['n','s'].includes(face)) return { id: `${figure}-river-watch-${face}`, flip: false };
+  if (pose === 'watch' && GROWN.has(figure) && ['e','w'].includes(face)) return { id: `${figure}-river-watch`, flip: face === 'w' };
   if (pose === 'watch') return sceneClip({ ...person, pose: 'idle' });
-  if (pose === 'point' && ['teal','indigo','elder','blue'].includes(figure) && ['n','s'].includes(face)) return { id: `${figure}-river-point-${face}`, flip: false };
-  if (pose === 'point' && ['teal', 'elder'].includes(figure) && ['e','w'].includes(face)) return { id: `${figure}-river-point`, flip: face === 'w' };
+  if (pose === 'point' && GROWN.has(figure) && ['n','s'].includes(face)) return { id: `${figure}-river-point-${face}`, flip: false };
+  if (pose === 'point' && GROWN.has(figure) && ['e','w'].includes(face)) return { id: `${figure}-river-point`, flip: face === 'w' };
   if (pose === 'point') return { id: child ? `${figure}-idle-${face}` : `${figure}-search`, flip: !child && face === 'w' };
   if (pose === 'idle' || (child && !CHILD_POSES.has(pose))) return { id: `${figure}-idle-${face}`, flip: false };
   if (pose === 'listen') return { id: `${figure}-listen-${face === 'n' ? 'n' : 's'}`, flip: false };
@@ -138,9 +139,10 @@ function fallbackPerson(ctx, x, y, size, tone) {
  * under it.
  * The raised flag and both table-top work states use delivered cloth art. Canvas is a load fallback.
  */
-export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = true, flat = false } = {}) {
-  if (stage === 'done' && pole && !flat && drawClip(ctx, 'flag-come-and-take-it-wind', x, y, height, { timeMs: time })) return;
-  if (flat && drawSprite(ctx, stage === 'done' ? 'gonzales-flag-work-painted' : 'gonzales-flag-work-cloth', x, y, height * .22, { anchor: [.5, 1] })) return;
+export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = true, flat = false, star = true } = {}) {
+  if (stage === 'done' && pole && !flat && drawClip(ctx, star ? 'flag-come-and-take-it-wind' : 'flag-come-and-take-it-no-star-wind', x, y, height, { timeMs: time })) return;
+  const flatFrame = stage === 'half' ? `gonzales-flag-work-half${star ? '-star' : '-no-star'}` : stage === 'done' ? (star ? 'gonzales-flag-work-painted' : 'gonzales-flag-work-done-no-star') : 'gonzales-flag-work-cloth';
+  if (flat && drawSprite(ctx, flatFrame, x, y, height * .22, { anchor: [.5, 1] })) return;
   const w = height * .62, h = height * .38;
   ctx.save();
   if (pole && !flat) {
@@ -160,8 +162,8 @@ export function drawFlag(ctx, x, y, height, { time = 0, stage = 'done', pole = t
   const cx = left + w * .5, cy = top + h * .5;
   ctx.fillStyle = '#1e1b17';
   // The star, over the cannon.
-  const star = (sx, sy, r) => { ctx.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .45 : r; ctx.lineTo(sx + Math.cos(a) * rr, sy + Math.sin(a) * rr); } ctx.closePath(); ctx.fill(); };
-  star(cx, top + h * .2, h * .1);
+  const drawStar = (sx, sy, r) => { ctx.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .45 : r; ctx.lineTo(sx + Math.cos(a) * rr, sy + Math.sin(a) * rr); } ctx.closePath(); ctx.fill(); };
+  if (star) drawStar(cx, top + h * .2, h * .1);
   // The cannon: a barrel on a carriage wheel.
   ctx.fillRect(cx - w * .2, cy - h * .06, w * .36, h * .1);
   ctx.beginPath(); ctx.arc(cx - w * .08, cy + h * .08, h * .09, 0, Math.PI * 2); ctx.fill();

@@ -18,7 +18,7 @@ test('town river pointing preserves identity, direction and walking',()=>{
   assert.equal(ctx.pick({figure,pose:'point',face:'w'}).flip,true);
   assert.equal(ctx.pick({figure,pose:'point',face:'e'},{moving:true,dir:'e'}).id,`${figure}-walk`);
  }
- assert.equal(ctx.pick({figure:'ochre',pose:'point',face:'w'}).id,'ochre-search');
+ assert.equal(ctx.pick({figure:'ochre',pose:'point',face:'n'}).id,'ochre-river-point-n');
  assert.equal(ctx.pick({figure:'girl',pose:'point',face:'s'}).id,'girl-idle-s');
  assert.equal(ctx.pick({figure:'volunteer',pose:'point',face:'e'}).id,'volunteer-idle-e');
 });
@@ -35,6 +35,9 @@ test('at the crossing on September 29 and 30 two of the eighteen watch the far b
   for(const person of watchers) assert.equal(ctx.pick(person).id,`${person.figure}-river-watch-${riverward(w)}`,`${person.id} is not drawn watching`);
  }
  assert.equal(ctx.pick({figure:'teal',pose:'watch',face:'w'}).id,'teal-river-watch');assert.equal(ctx.pick({figure:'teal',pose:'watch',face:'w'}).flip,true);
- assert.equal(ctx.pick({figure:'ochre',pose:'watch',face:'s'}).id,'ochre-idle-s','a figure with no watch drawing does not stand');
+ // The whole grown cast was drawn watching in every heading (2026-10-06); a Béxar townsman has no watch drawing and stands.
+ assert.equal(ctx.pick({figure:'ochre',pose:'watch',face:'s'}).id,'ochre-river-watch-s');
+ assert.equal(ctx.pick({figure:'blue-girl',pose:'watch',face:'w'}).id,'blue-girl-river-watch');
+ assert.equal(ctx.pick({figure:'bexar-man',pose:'watch',face:'s'}).id,'bexar-man-idle-s','a figure with no watch drawing does not stand');
  assert.equal(ctx.pick({figure:'elder',pose:'watch',face:'s'},{moving:true,dir:'e'}).id,'elder-walk','a watcher walking is not drawn walking');
 });

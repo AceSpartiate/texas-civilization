@@ -1,0 +1,9 @@
+# Gonzales flag variants: 2026-10-07
+
+Eight transparent sprites: four no-star pole wind poses and four flat cloth states, half-painted and finished with/without star. `flag-come-and-take-it-no-star-wind` loops four authored poses. The flat stages are static progress states, not a wind cycle; pair them with existing sewing/painting character animation. Half-painted cloth has an unfinished cannon and only COME; completed cloth reads COME AND TAKE IT.
+
+`drawFlag` accepts `star:false` for the no-star pole/flat variants and `stage:'half',flat:true` for work in progress. Defaults preserve existing scenes. Existing starred finished flat cloth stays selected by default; the new corresponding finished frame is catalog-ready. No automatic historical variant switch or painting-progress timing is introduced. The star dispute is recorded in the original art request; these assets provide both choices rather than resolve it. Remaining cinematic staging belongs to Claude.
+
+Generated with built-in imagegen using current flag/cloth references. Selected PNG copied unchanged, with exact prompts, refinements and source paths in `scripts/art-deliveries/gonzales-flag-variants-2026-10-07.mjs`, `docs/art-prompts.json`, and provenance. Frame/clip inventory is in the generated master manifests. Atlas layout: four wind poses top row; half-star, done-star, half-no-star, done-no-star bottom row. Pole base is the ground anchor; flat cloth uses explicit center-bottom anchor.
+
+Tests verify alpha/full retention, clip timing, default and variant renderer selection; town/river regressions protect existing behavior. Browser proof renders eight frames and verifies changing wind keyframes. Reproduce with `scripts/gonzales-flag-variants-art-proof.mjs`; evidence `docs/evidence/gonzales-flag-variants-art.png` and `.json`. Lettering and star absence are also visually inspected.

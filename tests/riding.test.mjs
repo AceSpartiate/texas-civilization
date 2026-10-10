@@ -72,7 +72,7 @@ test('the rider is drawn as themselves, sitting up, facing the way they go, in a
  * a choice the drawing code makes - which clip, at what height, with what under it - and not about the library's contents.
  * The photograph that it reaches the screen is scripts/riding-browser-proof.mjs.
  */
-test("the eight riders and the four drivers Astra painted are what is drawn, and nobody else's layer is invented", async () => {
+test("the eight riders and the eight drivers Astra painted are what is drawn, and nobody else's layer is invented", async () => {
   const { RIDING_FIGURES, DRIVING_FIGURES, MOUNTED_HEIGHT, SEAT, seatFigure } = await import('../public/motion.js');
   const SIZES = { horse: 1.5, ox: 1.45, wagon: 1.55 };
   // Every figure a rolled family can actually produce, so a figure added to the cast and forgotten here is caught.

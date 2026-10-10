@@ -1,6 +1,6 @@
 // Area D (docs/CLAUDE_ART_PLAN.md): the family's vehicles, drawn by Claude on 2026-09-28 - temporary, each frame to be replaced
 // by Astra's of the same name.
-//   D5   the cart (`cart-travel-*`, `cart-idle-*`), empty and loaded, east, south and north, the wheels turning
+//   D5   the cart: Astra's open cart, empty and loaded, rolling and standing, since 2026-10-07 (open-cart-complete-2026-10-07)
 //   D14  the covered wagon with its ox yoked to the tongue as one rolling rig (`wagon-ox-*`), covered, loaded (bows bare over the
 //        load) and empty, east, south and north
 //   D5   (2026-09-29) the same rig with the wagon's tail open, its cover drawn back (`wagon-ox-open-*`), for riders in the bed
@@ -17,7 +17,7 @@
 // wheels follow the library's `cart-open`.
 import { groupFrame, placed } from '../kit/horse.mjs';
 import { COATS, quadPose, drawQuadSide, drawQuadFrontal } from '../kit/quadruped.mjs';
-import { drawCart, drawCarreta, drawWagon, projector } from '../kit/vehicles.mjs';
+import { drawCarreta, drawWagon, projector } from '../kit/vehicles.mjs';
 import { UNIT } from '../kit/style.mjs';
 
 export const AREA = 'transport';
@@ -28,27 +28,9 @@ const STYLE = 'Warm hand-drawn storybook style, weathered brown wood, thin dark 
 const HEADINGS = { e: 'east (west is the game\'s mirror)', s: 'toward the camera (south)', n: 'away from the camera (north)' };
 const DIRS = ['e', 's', 'n'];
 
-// ------------------------------------------------------------------------------------------------------------ D5 the cart
-// One unit of the cart's own height (stake top, 100 units) is its logical height in every heading, so it does not change size
-// when it turns; the page draws the cart at 0.8 of a wagon, as it draws the delivered `cart-open` views.
-const CART = { w: 640, h: 560 };
-// Side-on its logical height is the cart's own (stake top, 100 units). End-on it is the whole drawing's height, the bed rising into
-// the distance included, as Astra's `cart-open-s`/`-n` and `carreta-travel-s`/`-n` are cropped and drawn - so a Claude cart or
-// carreta turning south is the same size as hers.
-const VERTICAL = { cart: { s: 152, n: 156 }, carreta: { s: 162, n: 162 } };
-const cartFrame = (name, h, o) => groupFrame(name, { cell: CART, originX: h === 'e' ? 250 : CART.w / 2, groundY: CART.h - 30, logical: (h === 'e' ? 100 : VERTICAL.cart[h]) * UNIT, res: RES, note: o.note }, ink => drawCart(ink, h, o));
-const CART_WHO = loaded => `The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring${loaded ? ', loaded with sacks, a barrel and a rolled blanket' : ', empty'}`;
-const cartSets = [];
-for (const loaded of [false, true]) for (const h of DIRS) {
-  const tag = `${loaded ? 'loaded-' : ''}${h}`;
-  const travel = [0, 1, 2, 3].map(i => ({ name: `cart-travel-${tag}-${i + 1}`, height: 1.24, compare: [[`cart-open-${h}`, 1.24], ['ox-walk-1', 1.45]],
-    prompt: `${CART_WHO(loaded)}, rolling ${HEADINGS[h]}, frame ${i + 1} of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. ${STYLE}`,
-    draw: () => cartFrame(`cart-travel-${tag}-${i + 1}`, h, { frame: i, loaded, note: `the cart rolling ${h}${loaded ? ', loaded' : ''}, frame ${i + 1} of 4` }) }));
-  const idle = { name: `cart-idle-${tag}-1`, height: 1.24, compare: [[`cart-open-${h}`, 1.24]],
-    prompt: `${CART_WHO(loaded)}, standing still, facing ${HEADINGS[h]}. ${STYLE}`,
-    draw: () => cartFrame(`cart-idle-${tag}-1`, h, { frame: 0, loaded, rolling: false, note: `the cart standing${loaded ? ', loaded' : ''}, ${h}` }) };
-  cartSets.push({ tag, h, loaded, travel, idle });
-}
+// End-on a carreta's logical height is the whole drawing's height, the bed rising into the distance included, as Astra's
+// `carreta-travel-s`/`-n` are cropped and drawn - so a Claude carreta turning south is the same size as hers.
+const VERTICAL = { carreta: { s: 162, n: 162 } };
 
 // ------------------------------------------------------------------------------------------------------------ D15 the carreta laden
 const CARRETA = { w: 660, h: 580 };
@@ -104,8 +86,6 @@ for (const cover of ['on', 'loaded', 'empty', 'open']) for (const h of DIRS) {
 const loop = (frames, ms, direction, prompt) => ({ frames: frames.map(f => ({ sprite: f.name, duration: ms })), loop: true, motion: 'none', direction, prompt });
 const dirWord = h => h === 'e' ? 'east; west by mirroring' : h === 's' ? 'south' : 'north';
 export const SHEETS = {
-  'claude-cart': { cell: half(CART), columns: 5, request: 'Request 2026-09-25 — riders, walkers and the cart', replaceWith: 'item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open',
-    frames: cartSets.flatMap(set => [...set.travel, set.idle]) },
   'claude-carreta-loaded': { cell: half(CARRETA), columns: 4, request: 'Request 2026-09-25 — the carreta', replaceWith: 'a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale',
     frames: carretaLoaded.flat() },
   'claude-wagon-ox': { cell: half(RIG), columns: 4, request: 'Request 2026-09-16 — driving the ox wagon', replaceWith: 'item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back',
@@ -114,8 +94,6 @@ export const SHEETS = {
     frames: wagonSets.filter(set => set.h !== 'e').flatMap(set => set.frames) },
 };
 export const CLIPS = Object.fromEntries([
-  ...cartSets.map(set => [`cart-travel-${set.tag}`, loop(set.travel, 240, dirWord(set.h), `The cart rolling ${set.h}${set.loaded ? ', loaded' : ''}: a four-frame loop, the wheels turning.`)]),
-  ...cartSets.map(set => [`cart-idle-${set.tag}`, { frames: [{ sprite: set.idle.name, duration: 2000 }], loop: true, motion: 'none', direction: dirWord(set.h), prompt: `The family's cart standing still without its ox${set.loaded ? ', loaded' : ', empty'}, facing ${set.h}: one held frame.` }]),
   ...DIRS.map((h, k) => [`carreta-loaded-travel-${h}`, loop(carretaLoaded[k], 245, dirWord(h), `The carreta laden and rolling ${h}: a four-frame loop at the delivered carreta's 245 ms.`)]),
   ...wagonSets.map(set => [`wagon-ox-${set.tag}`, loop(set.frames, 260, dirWord(set.h), `The wagon and its ox going ${set.h} (${set.cover === 'on' ? 'covered' : set.cover === 'open' ? 'the tail open, its cover drawn back' : set.cover}): a four-frame loop, the ox's plod and the wheels turning together.`)]),
 ]);

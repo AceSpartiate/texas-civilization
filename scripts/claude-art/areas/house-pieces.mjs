@@ -602,40 +602,8 @@ function passageRoofEnd() {
     svg: drawn.svg.replace('one roof section with no gable end and no end pole, to lie between two pens', 'twelve feet of it on four posts: the passage roof seen end-on') };
 }
 
-// ---------------------------------------------------------------------------------------------------------------- E5: the saddlebag's rooms
-// Two round-log pens wall to wall round one central chimney, a fire-box into each, no passage (sim/houseplot.mjs
-// `saddlebag`; HIST-TEX-017), in her `interior-dog-run`'s own camera, scale and cutaway: her dog-run's two pens cut apart
-// at the passage and laid the other way round, so each pen's hearth wall - the dog-run's outer ends - meets the other's in
-// the middle, the two fire-boxes back to back and their two stacks side by side over the middle as one double chimney.
-// The passage and its posts are gone; each pen's passage side becomes the house's end wall. Each pen is seen from its own
-// middle (the dog-run's single vanishing point now lies at the outer ends), a storybook cutaway that opens the middle wall
-// so both hearths show; a camera at the house's middle would see neither fire-box. Stated, not hidden: the way out is her
-// drawing. The spots (sim/interior-data.mjs) are measured on this picture.
-const SADDLEBAG = { passage: [300, 458] };
-
-function saddlebagInterior() {
-  const f = her('interior-dog-run'), c = new Canvas('interior-saddlebag', f.w, f.h);
-  const [cut, back] = SADDLEBAG.passage, lap = 12, west = f.w - back, width = west + cut - lap, ox = Math.round((f.w - width) / 2);
-  // The dog-run's east pen, its hearth on its right, becomes the west pen; its west pen, hearth on its left, the east. Each is
-  // cut along its passage-side posts (the passage's floor and grass left out) and the two hearth walls overlap a little, so
-  // their corner logs stand together as the middle wall and the two stacks as one double chimney.
-  const piece = (xs, at) => {
-    const clip = c.clip(xs.map(([x, y]) => [at + x, y]));
-    c.raw(`<g clip-path="url(#${clip})">${c.image(f, at, 0)}</g>`);
-  };
-  // Behind both, the one chimney's mass between the two stacks, laid in the stone of her east stack's shaft.
-  const x0 = ox - back + 710, x1 = ox + west - lap + 50, top = 24, shaft = [680, 14, 28, 66];
-  for (let x = x0; x < x1; x += shaft[2] - 1) for (let y = top; y < 205; y += shaft[3] - 1) {
-    const clip = c.clipRect(x, y, Math.min(shaft[2], x1 - x), shaft[3]);
-    c.raw(`<g clip-path="url(#${clip})">${c.image(f, x - shaft[0], y - shaft[1])}</g>`);
-  }
-  c.raw(`<rect x="${x0}" y="${top}" width="${x1 - x0}" height="${205 - top}" fill="none" stroke="${INK}" stroke-width="${LINE.inner}"/>`);
-  piece([[back - 2, 0], [f.w, 0], [f.w, f.h], [back + 12, f.h], [back + 8, 170], [back + 2, 60]], ox - back);
-  piece([[0, 0], [cut, 0], [cut - 2, 60], [cut - 6, 170], [cut - 10, f.h], [0, f.h]], ox + west - lap);
-  return { svg: c.svg('Astra\'s dog-run rooms cut at the passage and laid the other way round: a saddlebag\'s two pens round one central double chimney'),
-    // Anchored at the foot of its front logs (the page lays the picture by its own box, public/interior.js, so this moves nothing).
-    anchorX: f.anchorX, anchorY: 0.985 };
-}
+// E5, the saddlebag's rooms (`interior-saddlebag`): Astra's dedicated cutaway since 2026-10-07 (saddlebag-interior-2026-10-07),
+// so Claude's (her dog-run's rooms cut at the passage and laid the other way round) was deleted at the merge of 2026-10-09.
 
 // E7, the loopholed house: Astra's `house-loopholed` since 2026-10-03; Claude's (her adobe-flat with a raised, loopholed parapet)
 // was deleted at the merge of 2026-10-04.
@@ -708,10 +676,6 @@ export const SHEETS = {
   'claude-house-plot': { cell: { w: 330, h: 345 }, columns: 2, request: request.plot,
     replaceWith: 'the remaining house-plot pieces in the house-modules style: the double chimney two-sided with its foot marked, the shed frame, separate floor and loft overlays',
     frames: plotFrames() },
-  'claude-interior-saddlebag': { cell: { w: 750, h: 331 }, request: 'Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen',
-    replaceWith: 'a saddlebag interior in the home-interiors style, camera and scale exactly as interior-dog-run: two round-log pens wall to wall round one central stone chimney, a fireplace into each, no passage',
-    frames: [{ name: 'interior-saddlebag', draw: saddlebagInterior, compare: [['interior-dog-run', 3]], height: 3,
-      prompt: 'The rooms of a saddlebag house, cut away as Astra\'s interior-dog-run is and in exactly its camera and scale: two round-log pens wall to wall, a stone fireplace in the middle wall of each, their two stacks side by side over the middle as one double chimney, a window in each back wall, earth floors, no passage. Made from her own dog-run rooms cut at the passage and laid the other way round (each pen seen from its own middle, a cutaway convention that opens the middle wall so both hearths show). Saddlebag houses had one central chimney serving both pens (HIST-TEX-017). Transparent background.' }] },
   // `house-loopholed` (the storming of Béxar, item 1) is Astra's since 2026-10-03 (closed, open, breached and cut-away states):
   // Claude's was deleted at the merge of 2026-10-04.
   'claude-window-lit': { cell: { w: 300, h: 250 }, columns: 4, request: 'Request 2026-09-25 — the south\'s fights: San Patricio by night and Agua Dulce Creek',

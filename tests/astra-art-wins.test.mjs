@@ -59,10 +59,10 @@ test('the wedding: its farmsteads and table are Astra\'s cabin, jacal and table;
 
 test('the subjects the owner saw replaced are Astra\'s again: work, ease, children, the baby, the wagon, riders, soldiers, trees', () => {
   for (const name of ['rust-chop-1', 'teal-split-1', 'rust-whittle-1', 'indigo-hold-baby-1', 'girl-play-run-1', 'girl-play-run-s-1', 'boy-carry-water-n-1',
-    'infant-crawl-1', 'rust-sick-rest-e-1', 'girl-ride-e-1', 'indigo-wagon-driver-e-1', 'rust-ride-wagon-e-1', 'wagon-ox-e-1', 'wagon-ox-open-e-1', 'cart-travel-e-1',
+    'infant-crawl-1', 'rust-sick-rest-e-1', 'girl-ride-e-1', 'girl-wagon-driver-e-1', 'rust-ride-wagon-e-1', 'wagon-ox-e-1', 'wagon-ox-open-e-1',
     'carreta-loaded-travel-e-1', 'milk-cow-walk-e-1', 'herd-drove-1', 'seguin-ride-e-1', 'rust-fire-reload-1',
-    'regular-loophole-fire-1', 'esparza-seated', 'house-round-back-full-walls', 'house-jacal-wattle', 'pine-loblolly-large-wind',
-    'pine-shortleaf-large', 'cedar-elm-large', 'stump-oak', 'live-oak-mott', 'wood-pile-3', 'hens-pecking-1']) {
+    'regular-loophole-fire-1', 'esparza-seated', 'house-round-back-full-walls', 'house-jacal-wattle', 'cottonwood-wind',
+    'cedar-elm-large', 'stump-oak', 'live-oak-mott', 'wood-pile-3', 'hens-pecking-1']) {
     assert.ok(claude.frames[name], `${name} is a Claude frame (the list is current)`);
     assert.ok(!drawable.has(name), `${name}: Claude's drawing of a subject Astra has drawn is drawable`);
     assert.ok(art.withheldStandins().has(name), `${name} is recorded as held back`);
@@ -76,7 +76,7 @@ test('the subjects the owner saw replaced are Astra\'s again: work, ease, childr
 test('Claude\'s art still fills what Astra has not drawn: people, places, icons and effects she has nothing of', () => {
   for (const name of ['ana-esparza-idle', 'burial-party-walk-e-1', 'bexar-man-walk-1', 'sutherland-ride-e-1', 'mule-packed-grass-walk-e-1', 'mule-idle-1',
     'mule-walk-e-1', 'mule-saddled-walk-e-1',
-    'mission-concepcion', 'portrait-rust', 'mark-need', 'icon-child-doll', 'fx-dust-1', 'night-grade', 'anacua-large', 'army-camp-texian'])
+    'mission-concepcion', 'portrait-rust', 'icon-child-doll', 'fx-dust-1', 'night-grade', 'anacua-large', 'army-camp-texian'])
     assert.ok(drawable.has(name), `${name}: Claude's stand-in for a subject Astra has not drawn is not drawable`);
 });
 
