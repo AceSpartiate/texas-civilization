@@ -1,3 +1,7 @@
+## Completed art group 2026-10-10: Mexican regular crowbar directions
+
+Eight painted north/south frames and two authored loops complete both sides' generic directional crowbar art alongside existing east/mirrored west. Existing breach-facing selection uses the new clips; pause, reduced motion, fallback and named Karnes behavior pass regression checks. Seventeen tests and production browser proof pass. No new historical event staged. See `docs/ART_DELIVERY_2026-10-10-REGULAR-CROWBAR.md`.
+
 ## Delivered 2026-10-10: driven herd and scattering art
 
 Complete: `herd-drove` and `herd-scatter`, eight frames/two authored loops, integrated in `drawHerd`. Seven compact or six scattering painted horses illustrate the larger projected herd; simulation counts are unchanged. Individual grazing/small-herd fallback remains. See `ART_DELIVERY_2026-10-10-HORSE-HERDS.md`.

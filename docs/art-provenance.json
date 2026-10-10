@@ -4939,6 +4939,20 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/horse-herds.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Compact and scatter loops with seven illustrative horses each, matching mustang library. Frame spacing and retained-pixel audits."
+    },
+    {
+      "sheet": "regular-crowbar-vertical",
+      "promptId": "frontier-v1/regular-crowbar-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/regular-engineer-actions.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-crowbar-vertical.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f2ba5bcb-8d72-44ac-ba97-6ed4637250c3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-crowbar-vertical.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "South/front and north/back leverage cycles; set, press, pull and recovery with consistent uniform and complete bar."
     }
   ],
   "rejectedAttempts": [

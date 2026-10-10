@@ -21101,6 +21101,80 @@
         ]
       }
     },
+    "regular-crowbar-vertical": {
+      "image": "atlases/regular-crowbar-vertical.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1004859,
+      "sha256": "22b7702321e33f5549cb06105e5b7e348481a08a21e895d92d92a901d2153eaf",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.740565,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              50,
+              455
+            ],
+            "columns": [
+              [
+                116,
+                357
+              ],
+              [
+                538,
+                831
+              ],
+              [
+                957,
+                1271
+              ],
+              [
+                1427,
+                1668
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              464,
+              855
+            ],
+            "columns": [
+              [
+                109,
+                365
+              ],
+              [
+                535,
+                849
+              ],
+              [
+                948,
+                1283
+              ],
+              [
+                1431,
+                1688
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "regular-engineer-actions": {
       "image": "atlases/regular-engineer-actions.png",
       "width": 1254,
@@ -83636,6 +83710,198 @@
           224
         ],
         "visiblePixels": 42748,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-s-1": {
+      "sheet": "regular-crowbar-vertical",
+      "x": 116,
+      "y": 50,
+      "w": 241,
+      "h": 403,
+      "anchorX": 0.4979,
+      "anchorY": 0.9653,
+      "label": "regular crowbar s 1",
+      "kind": "regular-crowbar-vertical",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          118,
+          52,
+          237,
+          399
+        ],
+        "visiblePixels": 48565,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-s-2": {
+      "sheet": "regular-crowbar-vertical",
+      "x": 538,
+      "y": 118,
+      "w": 293,
+      "h": 337,
+      "anchorX": 0.4983,
+      "anchorY": 0.9288,
+      "label": "regular crowbar s 2",
+      "kind": "regular-crowbar-vertical",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          540,
+          120,
+          289,
+          333
+        ],
+        "visiblePixels": 44819,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-s-3": {
+      "sheet": "regular-crowbar-vertical",
+      "x": 957,
+      "y": 92,
+      "w": 314,
+      "h": 363,
+      "anchorX": 0.5,
+      "anchorY": 0.9284,
+      "label": "regular crowbar s 3",
+      "kind": "regular-crowbar-vertical",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          959,
+          94,
+          310,
+          359
+        ],
+        "visiblePixels": 50657,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-s-4": {
+      "sheet": "regular-crowbar-vertical",
+      "x": 1427,
+      "y": 51,
+      "w": 241,
+      "h": 403,
+      "anchorX": 0.4979,
+      "anchorY": 0.9628,
+      "label": "regular crowbar s 4",
+      "kind": "regular-crowbar-vertical",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1429,
+          53,
+          237,
+          399
+        ],
+        "visiblePixels": 48825,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-n-1": {
+      "sheet": "regular-crowbar-vertical",
+      "x": 109,
+      "y": 464,
+      "w": 256,
+      "h": 390,
+      "anchorX": 0.498,
+      "anchorY": 0.9564,
+      "label": "regular crowbar n 1",
+      "kind": "regular-crowbar-vertical",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          111,
+          466,
+          252,
+          386
+        ],
+        "visiblePixels": 43565,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-n-2": {
+      "sheet": "regular-crowbar-vertical",
+      "x": 535,
+      "y": 521,
+      "w": 314,
+      "h": 331,
+      "anchorX": 0.4968,
+      "anchorY": 0.9275,
+      "label": "regular crowbar n 2",
+      "kind": "regular-crowbar-vertical",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          537,
+          523,
+          310,
+          327
+        ],
+        "visiblePixels": 42855,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-n-3": {
+      "sheet": "regular-crowbar-vertical",
+      "x": 948,
+      "y": 501,
+      "w": 335,
+      "h": 354,
+      "anchorX": 0.497,
+      "anchorY": 0.9294,
+      "label": "regular crowbar n 3",
+      "kind": "regular-crowbar-vertical",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          950,
+          503,
+          331,
+          350
+        ],
+        "visiblePixels": 46330,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-crowbar-n-4": {
+      "sheet": "regular-crowbar-vertical",
+      "x": 1431,
+      "y": 464,
+      "w": 257,
+      "h": 390,
+      "anchorX": 0.4981,
+      "anchorY": 0.959,
+      "label": "regular crowbar n 4",
+      "kind": "regular-crowbar-vertical",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1433,
+          466,
+          253,
+          386
+        ],
+        "visiblePixels": 43525,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

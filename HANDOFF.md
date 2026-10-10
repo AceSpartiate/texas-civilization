@@ -1,3 +1,7 @@
+## Completed art group 2026-10-10: Mexican regular crowbar directions
+
+Eight painted north/south frames and two authored loops complete both sides' generic directional crowbar art alongside existing east/mirrored west. Existing breach-facing selection uses the new clips; pause, reduced motion, fallback and named Karnes behavior pass regression checks. Seventeen tests and production browser proof pass. No new historical event staged. See `docs/ART_DELIVERY_2026-10-10-REGULAR-CROWBAR.md`.
+
 ## Completed art group 2026-10-10: driven and scattering horse herds
 
 Eight painted frames and two four-frame loops now bind to moving/scattering battle herds. Smaller or grazing herds and missing assets use the prior individual horses. Pause/reduced motion holds both paths; historical simulation counts are unchanged. Eleven tests and production browser proof pass. See `docs/ART_DELIVERY_2026-10-10-HORSE-HERDS.md`.
