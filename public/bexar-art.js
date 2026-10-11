@@ -131,7 +131,7 @@ function alamoDrawables(ctx,convert,ppf){
 export function bexarDrawables(ctx,project,pixelsPerFoot,{alamo=true,bankTrees=true,alamoProject=null}={}){
   const items=[];
   // Bank trees line the illustrated river; without that river (the live game keeps its own) they would ring bare grass.
-  for(const b of [...town.buildings,...town.props.filter(p=>bankTrees||!p.id.startsWith('bank-tree-'))]){const p=project(b);items.push({y:p.y,draw:()=>drawSprite(ctx,b.sprite,p.x,p.y,b.heightFeet*pixelsPerFoot)});}
+  for(const b of [...town.buildings,...town.props.filter(p=>bankTrees||!p.id.startsWith('bank-tree-'))]){const p=project(b);items.push({y:p.y,draw:()=>drawSprite(ctx,b.sprite,p.x,p.y,b.heightFeet*pixelsPerFoot)||(b.fallbackSprite&&drawSprite(ctx,b.fallbackSprite,p.x,p.y,b.heightFeet*pixelsPerFoot))});}
   // `alamoProject` lays the compound by its own plan (the live map keeps it north-up, public/bexar-layout.js `alamoOnMap`).
   if(alamo)items.push(...alamoDrawables(ctx,alamoProject||(p=>project(alamoToBexar(p))),pixelsPerFoot));
   return items;

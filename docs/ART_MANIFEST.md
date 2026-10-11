@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3148 usable sprites, 336 PNG atlases, 1106 clips** (785 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3150 usable sprites, 338 PNG atlases, 1106 clips** (785 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -29,6 +29,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | white-flag-regular | 4 | 1262 × 1246 | 786638 |
 | white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
 | regular-bugler | 4 | 1262 × 1246 | 691857 |
+| bexar-san-fernando | 1 | 1536 × 1024 | 2150927 |
+| bexar-governors-palace | 1 | 1774 × 887 | 1812505 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | biome-pine-palm-gale | 12 | 1445 × 1089 | 873328 |
 | biome-cypress-gale | 6 | 1024 × 1536 | 2205619 |
@@ -437,6 +439,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-bugler-raise | regular-bugler | regular-bugler-call |
 | regular-bugler-sound | regular-bugler | regular-bugler-call |
 | regular-bugler-lower | regular-bugler | regular-bugler-call |
+| bexar-san-fernando-1836 | bexar-san-fernando | State artwork; no motion required |
+| bexar-governors-palace-1836 | bexar-governors-palace | State artwork; no motion required |
 | palmetto | biome-ground-bexar | State artwork; no motion required |
 | cypress-knees | biome-ground-bexar | State artwork; no motion required |
 | cane-1 | biome-ground-bexar | State artwork; no motion required |

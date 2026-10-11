@@ -1,0 +1,31 @@
+{
+  "verdict": "PASS",
+  "draws": 4,
+  "placements": [
+    {
+      "id": "san-fernando",
+      "sprite": "bexar-san-fernando-1836",
+      "x": 1150,
+      "y": 2020,
+      "heightFeet": 105
+    },
+    {
+      "id": "governors-palace",
+      "sprite": "bexar-governors-palace-1836",
+      "x": 650,
+      "y": 1980,
+      "heightFeet": 80
+    }
+  ],
+  "fallback": [
+    {
+      "width": 126.0843373493976,
+      "samePixels": true
+    },
+    {
+      "width": 127.292817679558,
+      "samePixels": true
+    }
+  ],
+  "errors": []
+}

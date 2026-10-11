@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 336,
-    "sprites": 3148,
+    "sheets": 338,
+    "sprites": 3150,
     "clips": 1106,
     "poseCycles": 785,
     "rigs": 4
@@ -1088,6 +1088,80 @@
               [
                 850,
                 1065
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "bexar-san-fernando": {
+      "image": "atlases/bexar-san-fernando.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2150927,
+      "sha256": "03d7cde46220a741666cbb343de2966134bfda5d09acc03f4ac1e4e5284be7ad",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.576015,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              84,
+              969
+            ],
+            "columns": [
+              [
+                184,
+                1464
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "bexar-governors-palace": {
+      "image": "atlases/bexar-governors-palace.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1812505,
+      "sha256": "da16653d9a32672b6c8eb250e14c69548cd12842bd29dcce44f406b550087e95",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.526409,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              208,
+              793
+            ],
+            "columns": [
+              [
+                74,
+                1712
               ]
             ]
           }
@@ -32208,6 +32282,70 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/regular-bugler"
+    },
+    "bexar-san-fernando-1836": {
+      "sheet": "bexar-san-fernando",
+      "x": 184,
+      "y": 84,
+      "w": 1280,
+      "h": 885,
+      "anchorX": 0.3844,
+      "anchorY": 0.9299,
+      "label": "bexar san fernando 1836",
+      "kind": "bexar-san-fernando",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          186,
+          86,
+          1276,
+          881
+        ],
+        "visiblePixels": 656435,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/bexar-san-fernando.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/bexar-san-fernando"
+    },
+    "bexar-governors-palace-1836": {
+      "sheet": "bexar-governors-palace",
+      "x": 74,
+      "y": 208,
+      "w": 1638,
+      "h": 585,
+      "anchorX": 0.7882,
+      "anchorY": 0.9299,
+      "label": "bexar governors palace 1836",
+      "kind": "bexar-governors-palace",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          76,
+          210,
+          1634,
+          581
+        ],
+        "visiblePixels": 726654,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/bexar-governors-palace.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/bexar-governors-palace"
     },
     "palmetto": {
       "sheet": "biome-ground-bexar",
@@ -156097,7 +156235,7 @@
       "buildings": [
         {
           "id": "san-fernando",
-          "sprite": "chapel",
+          "sprite": "bexar-san-fernando-1836",
           "x": 1150,
           "y": 2020,
           "heightFeet": 105,
@@ -156106,7 +156244,7 @@
         },
         {
           "id": "governors-palace",
-          "sprite": "adobe-flat",
+          "sprite": "bexar-governors-palace-1836",
           "x": 650,
           "y": 1980,
           "heightFeet": 80,
@@ -161031,7 +161169,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 336,
+    "sourceCount": 338,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

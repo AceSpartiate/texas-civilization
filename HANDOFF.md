@@ -1,3 +1,7 @@
+## Completed art group 2026-10-11: Béxar civic architecture
+
+Both San Fernando and Governor’s Palace façades are delivered and integrated at their existing town placements. Static exterior contract complete; historical evidence and uncertainty are explicit. Prior generic sprites remain loading fallbacks. Ten tests including full art-library audit pass; browser proof shows character-scale/town composition and pixel-matched blocked-image fallbacks. Read `docs/ART_DELIVERY_2026-10-11-BEXAR-CIVIC.md` and `docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md` before scene reuse. Broad unfinished backlog: **16 dated parent groups**. No deployment performed.
+
 ## Completed art group 2026-10-11: final generic norther trees
 
 Cottonwood/sapling gust pairs and two authored loops close the remaining September 20 norther group. Both match the runtime upright identities; kept ground uses pose one, clips support paused animated close views. Legacy invented woods now sample each tree’s weather and retain identity-preserving fallback. Library source audit now includes sized catalogue trees and bank reeds, fixing its stale gale false failures. Full inventory, prompts and proof: `docs/ART_DELIVERY_2026-10-11-NATURE-GALES.md`. Broad remaining backlog: **17 dated parent groups**. No deployment performed.

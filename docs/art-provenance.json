@@ -5153,6 +5153,48 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/nature-gales.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Two rooted cottonwood gusts and two rooted young sapling gusts. Same original nature-sheet identities, downwind crowns, true alpha."
+    },
+    {
+      "sheet": "bexar-san-fernando",
+      "sprite": "bexar-san-fernando-1836",
+      "refinements": [
+        {
+          "prompt": "Edit image1 church sprite only: preserve EXACT existing building architectural geometry one front-right octagonal bellcupola plain singlearched entrance longnave three side buttresses lowrearcrossingdome, perspective and scale. Make outside silhouette genuinely alpha0: REMOVE all beige/brown aura, halo, blur, glow and ground shadows around building and under it. Every pixel outside tight building silhouette transparent; no contactshadow or groundslab. Match image2 establishedgamebuilding style: slightly bolder thin darkbrown drawn outlines, flatter softly painted earthycreamstucco/tanstone, simplified small-scale texture, no photoreal/3Drender studio lighting. Keep roof and wall shadedplanes but no dramaticambientlight spill. Do NOT add/remove buildingparts or change octagonal tower into twins. One wholebuilding central70percent with80px clean clear margins all sides, no textbackgroundlabels. This is preciseobject/alpha cleanup and style matching."
+        }
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d92d1366-21dc-495c-bde4-5874a7b3adfc.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-03d4cdfe-e56b-421a-93a5-edeb5a00778b.png",
+      "historicalSources": [
+        "https://tile.loc.gov/storage-services/master/pnp/habshaer/tx/tx0000/tx0012/data/tx0012data.pdf",
+        "https://www.tshaonline.org/handbook/entries/san-fernando-cathedral"
+      ],
+      "promptId": "frontier-v1/bexar-san-fernando",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + style/alpha edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/bexar-san-fernando.png",
+      "postProcessing": "None; selected PNG copied unchanged. Measured alpha crop, no raster editing.",
+      "review": "Research-based illustrative 1836 exterior; uncertainty recorded in docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md. Modern additions omitted. Static exterior only."
+    },
+    {
+      "sheet": "bexar-governors-palace",
+      "sprite": "bexar-governors-palace-1836",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8868e8c0-18dc-40a1-a363-0404b86287ea.png",
+      "historicalSources": [
+        "https://www.sanantonio.gov/governorspalace/History-Culture",
+        "https://www.tshaonline.org/handbook/entries/spanish-governors-palace-comandancia"
+      ],
+      "promptId": "frontier-v1/bexar-governors-palace",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/bexar-governors-palace.png",
+      "postProcessing": "None; selected PNG copied unchanged. Measured alpha crop, no raster editing.",
+      "review": "Research-based illustrative 1836 exterior; uncertainty recorded in docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md. Modern additions omitted. Static exterior only."
     }
   ],
   "rejectedAttempts": [
