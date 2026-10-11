@@ -1,0 +1,22 @@
+{
+  "verdict": "PASS",
+  "draws": 3,
+  "towns": [
+    {
+      "town": "velasco",
+      "drawables": 52
+    },
+    {
+      "town": "harrisburg",
+      "drawables": 24
+    },
+    {
+      "town": "nacogdoches",
+      "drawables": 50
+    }
+  ],
+  "distinctSmokeFrames": 4,
+  "inactive": 0,
+  "offUnchanged": true,
+  "errors": []
+}

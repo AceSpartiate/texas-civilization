@@ -374,12 +374,12 @@ const VELASCO = {
   streets: [],
   squares: [],
   walls: [
-    { name: 'Fort Velasco', points: ring({ x: -420, y: -180 }, 45, 20), sprite: 'palisade', breach: 'alamo-palisade-broken', breachEvery: 3, spacing: 14, height: 8 },
     { name: 'The enclosures', points: [{ x: -900, y: -560 }, { x: -500, y: -560 }, { x: -500, y: -230 }, { x: -900, y: -230 }, { x: -900, y: -560 }], sprite: 'fence-rail', spacing: 40, height: 5 },
     { name: '', points: [{ x: -700, y: -560 }, { x: -700, y: -230 }], sprite: 'fence-rail', spacing: 40, height: 5 },
   ],
   buildings: [
-    { id: 'vel-fort-gun', sprite: 'cannon-iron-e', x: -420, y: -180, height: 7, label: 'Fort Velasco' },
+    { id: 'vel-fort-stockade', sprite: 'town-fort-velasco-1835', x: -420, y: -180, height: 8, drawWidthFeet: 90, anchor: [.5, .52], sortOffsetFeet: -1, label: 'Fort Velasco' },
+    { id: 'vel-fort-gun', sprite: 'cannon-iron-e', x: -420, y: -180, height: 7, drawWidthFeet: 12, anchor: [.5, 1] },
     { id: 'vel-brown-hoskins', sprite: 'frame-hall', x: -760, y: -430, height: 28, label: 'Brown & Hoskins’ tavern' },
     { id: 'vel-custom-house', sprite: 'trading-house', x: -620, y: -300, height: 18, label: 'The custom house' },
     { id: 'vel-pilot-house', sprite: 'cabin-wide', x: -560, y: -520, height: 16, label: 'The pilot’s house' },
@@ -402,9 +402,7 @@ const HARRISBURG = {
   squares: [],
   buildings: [
     // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The steam sawmill.
-    { id: 'hbg-mill', sprite: 'timber-hall', x: 620, y: -500, height: 24, label: 'Harrisburg Steam Mills' },
-    { id: 'hbg-mill-boiler', sprite: 'storehouse', x: 700, y: -470, height: 14 },
-    { id: 'hbg-mill-logs', sprite: 'pine-loblolly-log', x: 560, y: -560, height: 6 },
+    { id: 'hbg-mill', sprite: 'town-harrisburg-steam-mill-1835', x: 620, y: -500, height: 24, label: 'Harrisburg Steam Mills' },
     { id: 'hbg-harris-house', sprite: 'house-dog-run', x: 220, y: -600, height: 20, label: 'The Harris house' },
     { id: 'hbg-dch-store', sprite: 'trading-house', x: 300, y: -1000, height: 18, label: 'D. C. Harris’s store' },
     { id: 'hbg-warehouse', sprite: 'storehouse', x: 560, y: -980, height: 18 },
@@ -472,7 +470,7 @@ const NACOGDOCHES = {
   ],
   buildings: [
     // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The two-storey Stone House.
-    { id: 'nac-stone-house', sprite: 'stone-tile-house', x: -60, y: -60, height: 20, label: 'The Stone House' },
+    { id: 'nac-stone-house', sprite: 'town-nacogdoches-stone-house-1835', x: -60, y: -60, height: 20, label: 'The Stone House' },
     { id: 'nac-red-house', sprite: 'adobe-flat', x: -470, y: -60, height: 16, label: 'The Red House' },
     { id: 'nac-church-ruin', sprite: 'roofless-church-shell', x: -560, y: -380, height: 18, label: 'The old church' },
     { id: 'nac-sterne', sprite: 'timber-hall', x: 1186, y: 872, height: 22, label: 'Sterne’s house' },

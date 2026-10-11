@@ -5195,6 +5195,64 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/bexar-governors-palace.png",
       "postProcessing": "None; selected PNG copied unchanged. Measured alpha crop, no raster editing.",
       "review": "Research-based illustrative 1836 exterior; uncertainty recorded in docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md. Modern additions omitted. Static exterior only."
+    },
+    {
+      "sheet": "town-fort-velasco",
+      "promptId": "frontier-v1/town-fort-velasco",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + remove baked cannon",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-96817b70-72ed-4d4f-98fb-92630b1572ff.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-fort-velasco.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document.",
+      "refinements": [
+        {
+          "prompt": "Edit image1 Fort Velasco sprite only. REMOVE the cannon and its entire timber carriage from the central mound, leaving that mound bare sand with existing little timber stair. Preserve the circular double timber-and-sand stockade, broken gaps, perspective and original style exactly. No replacement objects. All pixels outside fort silhouette must be transparent alpha0: no aura glow background contact shadow. Whole fort centered with generous clear outer margins. Separate cannon will be animated by game renderer, do not include any weapon."
+        }
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-838f9f98-8f69-4dc8-8ca1-e110182b519b.png"
+    },
+    {
+      "sheet": "town-harrisburg-steam-mill",
+      "promptId": "frontier-v1/town-harrisburg-steam-mill",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5cfd6793-429b-4715-9090-67a2822891c3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-harrisburg-steam-mill.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
+    },
+    {
+      "sheet": "town-nacogdoches-stone-house",
+      "promptId": "frontier-v1/town-nacogdoches-stone-house",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2f2aad95-a4d5-4b4c-bba5-8bceb3ab798f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-nacogdoches-stone-house.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
+    },
+    {
+      "sheet": "town-mill-smoke",
+      "promptId": "frontier-v1/town-mill-smoke",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2e6368bb-0fc4-4c9a-b811-d17afb94ca76.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-mill-smoke.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
     }
   ],
   "rejectedAttempts": [

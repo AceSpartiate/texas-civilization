@@ -5398,6 +5398,68 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/bexar-governors-palace.png",
       "postProcessing": "None; selected PNG copied unchanged. Measured alpha crop, no raster editing.",
       "review": "Research-based illustrative 1836 exterior; uncertainty recorded in docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md. Modern additions omitted. Static exterior only."
+    },
+    {
+      "sheet": "town-fort-velasco",
+      "prompt": "ONE isolated transparent game building sprite: Fort Velasco circa October 1835. Circular derelict stockade ninety feet across, two concentric rows of rough timber posts with sand packed between, low broad circular sand earthwork visible inside, irregular broken gaps and leaning posts, central raised sand mound supporting one small iron cannon on timber carriage. Elevated front threequarter view looking inside whole ring, open interior visible. No buildings people flags vegetation ocean landscape. Whole fort centered generous transparent margins. Warm earthy hand-painted frontier storybook, brown outlines cream sand weathered timber, same style as reference. No photoreal rendering. Canonical fort footprint circular, not square.",
+      "promptId": "frontier-v1/town-fort-velasco",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + remove baked cannon",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-96817b70-72ed-4d4f-98fb-92630b1572ff.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-fort-velasco.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document.",
+      "refinements": [
+        {
+          "prompt": "Edit image1 Fort Velasco sprite only. REMOVE the cannon and its entire timber carriage from the central mound, leaving that mound bare sand with existing little timber stair. Preserve the circular double timber-and-sand stockade, broken gaps, perspective and original style exactly. No replacement objects. All pixels outside fort silhouette must be transparent alpha0: no aura glow background contact shadow. Whole fort centered with generous clear outer margins. Separate cannon will be animated by game renderer, do not include any weapon."
+        }
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-838f9f98-8f69-4dc8-8ca1-e110182b519b.png"
+    },
+    {
+      "sheet": "town-harrisburg-steam-mill",
+      "prompt": "ONE isolated transparent game building sprite: Harrisburg steam sawmill 1835, conservative illustrative period reconstruction. Long low weathered plank shed, broad shingle gable roof, open working bay with simple upright saw frame and log carriage, attached small boiler house on visible right side with tall plain iron smokestack, NO smoke baked in. Low timber log deck and modest sawn pine stacks at left front. No waterwheel windmill gears outside modern machinery people landscape boats text. Elevated front threequarter angle, whole structure centered generous transparent margins. Warm brown outlines hand-painted frontier storybook textured timber same style as reference, miniature game readable not photoreal.",
+      "promptId": "frontier-v1/town-harrisburg-steam-mill",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5cfd6793-429b-4715-9090-67a2822891c3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-harrisburg-steam-mill.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
+    },
+    {
+      "sheet": "town-nacogdoches-stone-house",
+      "prompt": "ONE isolated transparent game building sprite: original Nacogdoches Stone House circa1835, not fortress, NOT modern museum replica. Long narrow rectangular two storey native dark tan-brown ironstone rubble building, footprint proportion70 by23feet, two storeys total20feet excluding roof. Steep weathered wooden shingle gable roof, clapboard gable ends, TWO modest masonry chimneys, simple rectangular doors windows with dark walnut frames. Two storey wooden gallery along visible long front wall with square timber posts and upper railing, exterior straight wooden stair at visible right gable leading upper gallery. Small plain rear lean-to partly visible. Period gallery form inferred, understated. No battlements flags people landscaping text. Elevated front threequarter view, generous transparent margins. Warm outlined hand-painted frontier storybook same reference style, readable textured stone, no photoreal.",
+      "promptId": "frontier-v1/town-nacogdoches-stone-house",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2f2aad95-a4d5-4b4c-bba5-8bceb3ab798f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-nacogdoches-stone-house.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
+    },
+    {
+      "sheet": "town-mill-smoke",
+      "prompt": "Transparent production animation sprite sheet, exactly FOUR distinct authored smoke poses arranged two columns two rows equal cells. Each cell one narrow rising curl of soft gray-brown wood-fired boiler smoke, identical bottom origin at cell bottom-center. Wind drifting gently left, thin stem expands into dissipating rounded curls above, changing plume shapes across four phases suitable looping. No chimney fire building particles text background. Warm softly painted brown-outlined storybook game matching reference. Each plume fully isolated within central60percent cell, very generous transparent gutters between cells and all edges. Genuine alpha transparency, no haze outside plume. Pose 1 compact curls,2 rising wider curls,3 drifting breaking curls,4 dissipating replenished narrow curls.",
+      "promptId": "frontier-v1/town-mill-smoke",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2e6368bb-0fc4-4c9a-b811-d17afb94ca76.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-mill-smoke.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
     }
   ]
 }

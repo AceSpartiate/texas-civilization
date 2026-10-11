@@ -1,3 +1,7 @@
+## Completed art group 2026-10-11: researched town landmarks
+
+Fort Velasco, Harrisburg Steam Mills and the original Nacogdoches Stone House close the entire September 16 researched-building request. Seven new frames and one authored smoke loop; all three town placements use delivered art. Fort cannon remains separate and correctly sized; mill smoke requires authoritative operating state (not enabled by existing callers). Read docs/ART_DELIVERY_2026-10-11-TOWN-LANDMARKS.md for the full manifest, historical uncertainty, render contract and proof. Fixed an existing missing /wading-art.js public route that blocked Host startup, with a serving regression test. Broad remaining backlog: **15 dated parent groups**. No deployment performed.
+
 ## Completed art group 2026-10-11: Béxar civic architecture
 
 Both San Fernando and Governor’s Palace façades are delivered and integrated at their existing town placements. Static exterior contract complete; historical evidence and uncertainty are explicit. Prior generic sprites remain loading fallbacks. Ten tests including full art-library audit pass; browser proof shows character-scale/town composition and pixel-matched blocked-image fallbacks. Read `docs/ART_DELIVERY_2026-10-11-BEXAR-CIVIC.md` and `docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md` before scene reuse. Broad unfinished backlog: **16 dated parent groups**. No deployment performed.

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3150 usable sprites, 338 PNG atlases, 1106 clips** (785 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3157 usable sprites, 342 PNG atlases, 1107 clips** (786 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -306,6 +306,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-settler-charge | 4 | 1254 × 1254 | 892184 |
 | gonzales-settler-igniter | 4 | 1254 × 1254 | 1022312 |
 | town-buildings-researched | 16 | 1254 × 1254 | 2122682 |
+| town-fort-velasco | 1 | 1536 × 1024 | 2512585 |
+| town-harrisburg-steam-mill | 1 | 1536 × 1024 | 2368526 |
+| town-nacogdoches-stone-house | 1 | 1536 × 1024 | 2816554 |
+| town-mill-smoke | 4 | 1254 × 1254 | 726832 |
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
 | trees-colonies-2 | 16 | 1254 × 1254 | 1902468 |
@@ -2893,6 +2897,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | liberty-court-room-side | town-buildings-researched | State artwork; no motion required |
 | building-frame-shop | town-buildings-researched | State artwork; no motion required |
 | building-frame-residence | town-buildings-researched | State artwork; no motion required |
+| town-fort-velasco-1835 | town-fort-velasco | State artwork; no motion required |
+| town-harrisburg-steam-mill-1835 | town-harrisburg-steam-mill | State artwork; no motion required |
+| town-nacogdoches-stone-house-1835 | town-nacogdoches-stone-house | State artwork; no motion required |
+| town-mill-smoke-1 | town-mill-smoke | town-mill-smoke |
+| town-mill-smoke-2 | town-mill-smoke | town-mill-smoke |
+| town-mill-smoke-3 | town-mill-smoke | town-mill-smoke |
+| town-mill-smoke-4 | town-mill-smoke | town-mill-smoke |
 | marker-pin-rust | travel-markers | State artwork; no motion required |
 | marker-pin-ink | travel-markers | State artwork; no motion required |
 | marker-pin-grey | travel-markers | State artwork; no motion required |
@@ -4370,6 +4381,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | settler-gun-charge-wait | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | settler-gun-fire | Pose cycle | 2 | 900 | one-shot | east; mirror for west |
 | settler-gun-ready | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| town-mill-smoke | Pose cycle | 4 | 1400 | yes | not applicable |
 | pine-loblolly-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-loblolly-log-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-loblolly-large-wind | sway | 1 | 3800 | yes | not applicable |

@@ -14404,6 +14404,30 @@
       "motion": "none",
       "direction": "east; mirror for west"
     },
+    "town-mill-smoke": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "town-mill-smoke-1",
+          "duration": 350
+        },
+        {
+          "sprite": "town-mill-smoke-2",
+          "duration": 350
+        },
+        {
+          "sprite": "town-mill-smoke-3",
+          "duration": 350
+        },
+        {
+          "sprite": "town-mill-smoke-4",
+          "duration": 350
+        }
+      ],
+      "direction": "not applicable"
+    },
     "pine-loblolly-pole-wind": {
       "frames": [
         {

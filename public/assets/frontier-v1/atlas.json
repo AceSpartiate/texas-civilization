@@ -24450,6 +24450,175 @@
         ]
       }
     },
+    "town-fort-velasco": {
+      "image": "atlases/town-fort-velasco.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2512585,
+      "sha256": "b2b1981296ac62dee6f9976f69e87dd6b2be6a9c37eddc5fe0944915f280d06a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.419697,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              107,
+              887
+            ],
+            "columns": [
+              [
+                17,
+                1523
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "town-harrisburg-steam-mill": {
+      "image": "atlases/town-harrisburg-steam-mill.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2368526,
+      "sha256": "3b86075c0b6e8e8922d5e1315742f66efba9ae793594ac4201e4dbf5e75dc4fb",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.53492,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              101,
+              872
+            ],
+            "columns": [
+              [
+                30,
+                1514
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "town-nacogdoches-stone-house": {
+      "image": "atlases/town-nacogdoches-stone-house.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2816554,
+      "sha256": "8c31d6a3aeb3f29227c447cae81886851224286d39b4b7c495f7914573d1e1b3",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.383335,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              37,
+              947
+            ],
+            "columns": [
+              [
+                38,
+                1491
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "town-mill-smoke": {
+      "image": "atlases/town-mill-smoke.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 726832,
+      "sha256": "f771f223f0bb87e30bd561b08ffa30816de602075d082d8b3de8fd973aca3f9d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.791737,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          1
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              55,
+              613
+            ],
+            "columns": [
+              [
+                195,
+                507
+              ],
+              [
+                708,
+                1106
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              659,
+              1200
+            ],
+            "columns": [
+              [
+                168,
+                533
+              ],
+              [
+                821,
+                1069
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "travel-markers": {
       "image": "atlases/travel-markers.png",
       "width": 1254,
@@ -92087,6 +92256,174 @@
           224
         ],
         "visiblePixels": 49156,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "town-fort-velasco-1835": {
+      "sheet": "town-fort-velasco",
+      "x": 17,
+      "y": 107,
+      "w": 1506,
+      "h": 780,
+      "anchorX": 0.5043,
+      "anchorY": 0.9295,
+      "label": "town fort velasco 1835",
+      "kind": "town-fort-velasco",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          19,
+          109,
+          1502,
+          776
+        ],
+        "visiblePixels": 899710,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "town-harrisburg-steam-mill-1835": {
+      "sheet": "town-harrisburg-steam-mill",
+      "x": 30,
+      "y": 101,
+      "w": 1484,
+      "h": 771,
+      "anchorX": 0.4724,
+      "anchorY": 0.93,
+      "label": "town harrisburg steam mill 1835",
+      "kind": "town-harrisburg-steam-mill",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          103,
+          1480,
+          767
+        ],
+        "visiblePixels": 715397,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "town-nacogdoches-stone-house-1835": {
+      "sheet": "town-nacogdoches-stone-house",
+      "x": 38,
+      "y": 37,
+      "w": 1453,
+      "h": 910,
+      "anchorX": 0.4587,
+      "anchorY": 0.9297,
+      "label": "town nacogdoches stone house 1835",
+      "kind": "town-nacogdoches-stone-house",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          40,
+          39,
+          1449,
+          906
+        ],
+        "visiblePixels": 950673,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "town-mill-smoke-1": {
+      "sheet": "town-mill-smoke",
+      "x": 195,
+      "y": 117,
+      "w": 312,
+      "h": 496,
+      "anchorX": 0.6506,
+      "anchorY": 0.9294,
+      "label": "town mill smoke 1",
+      "kind": "town-mill-smoke",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          197,
+          119,
+          308,
+          492
+        ],
+        "visiblePixels": 50596,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "town-mill-smoke-2": {
+      "sheet": "town-mill-smoke",
+      "x": 708,
+      "y": 55,
+      "w": 398,
+      "h": 558,
+      "anchorX": 0.6445,
+      "anchorY": 0.9283,
+      "label": "town mill smoke 2",
+      "kind": "town-mill-smoke",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          710,
+          57,
+          394,
+          554
+        ],
+        "visiblePixels": 85640,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "town-mill-smoke-3": {
+      "sheet": "town-mill-smoke",
+      "x": 168,
+      "y": 659,
+      "w": 365,
+      "h": 541,
+      "anchorX": 0.6397,
+      "anchorY": 0.9298,
+      "label": "town mill smoke 3",
+      "kind": "town-mill-smoke",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          170,
+          661,
+          361,
+          537
+        ],
+        "visiblePixels": 51346,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "town-mill-smoke-4": {
+      "sheet": "town-mill-smoke",
+      "x": 821,
+      "y": 690,
+      "w": 248,
+      "h": 510,
+      "anchorX": 0.5504,
+      "anchorY": 0.9294,
+      "label": "town mill smoke 4",
+      "kind": "town-mill-smoke",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          823,
+          692,
+          244,
+          506
+        ],
+        "visiblePixels": 41223,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

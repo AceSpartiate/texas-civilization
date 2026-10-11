@@ -1169,7 +1169,7 @@ Delivered in `wildlife-deer`: four-frame idle, alert, bound and drinking cycles.
 
 ## Request 2026-09-16 — the buildings the towns' research found
 
-**Status: delivered 2026-09-21.** `town-buildings-researched.png` supplies five frame-building variants, Whiteside Hotel, two Round Top House views, four jacales/ramada, open and closed Mina stockades, and two Liberty court-room views. The six towns drawn from `docs/town-research/` (docs/TOWNS.md
+**Status: complete 2026-10-11.** Final Fort Velasco, Harrisburg Steam Mills and Nacogdoches Stone House exteriors replace their town placeholders. Cannon remains separate; four-phase mill smoke is authored and operation-gated. Full manifest, historical uncertainty and Claude integration: [delivery](ART_DELIVERY_2026-10-11-TOWN-LANDMARKS.md). Earlier items delivered 2026-09-21. `town-buildings-researched.png` supplies five frame-building variants, Whiteside Hotel, two Round Top House views, four jacales/ramada, open and closed Mina stockades, and two Liberty court-room views. The six towns drawn from `docs/town-research/` (docs/TOWNS.md
 §9) name buildings the library cannot draw. In the frontier-v1 style and the scale of `house-hewn-log` and `trading-house`,
 south-facing like the other buildings, with a ground-contact shadow and no painted transparency:
 
