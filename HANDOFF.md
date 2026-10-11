@@ -1,3 +1,7 @@
+## Completed request group 2026-10-10: two-pen roof joins
+
+All three required roof states (finished, partial, chimney aperture) and ridge coordinates are delivered and integrated. The production renderer fits/overlaps the joins at all four rotations, retains construction-state selection and missing-art fallback, and keeps the saddlebag roof on its row seat. Fifty-three house/art tests and the reviewed twelve-house browser montage pass. See `docs/ART_DELIVERY_2026-10-10-ROOF-JOINS.md`. Broad unfinished backlog: **19 dated groups**.
+
 ## Completed art group 2026-10-10: infant wagon passengers
 
 Six painted basket poses and three authored loops add side/front/rear infant passengers, west mirrored. Basket-specific placement retains infant scale, inherited colors and existing passenger fallback/pause handling. Seventeen tests and browser rendering proof pass. See `docs/ART_DELIVERY_2026-10-10-INFANT-PASSENGERS.md`. The audited broad backlog contains **20 dated groups** with remaining art/breadth/refinements; details and exclusions: `docs/ART_REMAINING_AUDIT_2026-10-10.md`.

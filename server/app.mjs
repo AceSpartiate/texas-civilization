@@ -85,6 +85,7 @@ const files = new Map([
   ['/weather-art.js', ['../public/weather-art.js', 'text/javascript']],
   ['/woods-view.js', ['../public/woods-view.js', 'text/javascript']],
   ['/house-plot.js', ['../public/house-plot.js', 'text/javascript']],
+  ['/house-roof-art.js', ['../public/house-roof-art.js', 'text/javascript']],
   // A house on the ground, as drawn and as checked (sim/house-footprint.mjs): the page draws the footprint the server refuses.
   // At its own path, so public/house-plot.js reaches it as `../sim/house-footprint.mjs` from the page and from node alike.
   ['/sim/house-footprint.mjs', ['../sim/house-footprint.mjs', 'text/javascript']],

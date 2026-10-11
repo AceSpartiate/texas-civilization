@@ -161,7 +161,7 @@ for (const plan of PLANS) {
   test(`the ${plan} house's chimneys stand against their gable walls, centred, and drawn in front of or behind them, at every turn`, () => {
     const chimneys = catalogue.plans.find(each => each.id === plan).pieces.filter(([type]) => /^chimney/.test(type));
     for (const penStage of [12, undefined]) for (const { where, rotation, ctx } of draws(plan, penStage)) {
-      const isChimney = each => /chimney/.test(each.name || '') || each.name === 'filled';
+      const isChimney = each => /^house-chimney-/.test(each.name || '') || each.name === 'filled';
       // The jacal has none, and draws none.
       if (!chimneys.length) { assert.equal(ctx.drawn.filter(isChimney).length, 0, `${plan}, ${where}: a chimney drawn`); continue; }
       const { pens, along } = matched(plan, rotation, ctx);
@@ -262,7 +262,7 @@ for (const plan of PLANS.filter(id => catalogue.plans.find(each => each.id === i
       const [ex, ey] = turned(1, 0, rotation), along = p => p.x * ex + p.y * ey;
       const doors = ctx.drawn.map((each, index) => ({ ...each, index })).filter(each => DOOR[each.name]).map(walls => ({ index: walls.index, ...doorOn(walls) }));
       assert.ok(doors.length, `${plan}, ${where}: no pen drawn`);
-      const drawnChimneys = ctx.drawn.map((each, index) => ({ ...each, index })).filter(each => /chimney/.test(each.name || '') || each.name === 'filled').sort((a, b) => along(a.foot) - along(b.foot));
+      const drawnChimneys = ctx.drawn.map((each, index) => ({ ...each, index })).filter(each => /^house-chimney-/.test(each.name || '') || each.name === 'filled').sort((a, b) => along(a.foot) - along(b.foot));
       assert.equal(drawnChimneys.length, chimneys.length, `${plan}, ${where}: ${drawnChimneys.length} chimneys drawn`);
       chimneys.forEach((piece, i) => {
         const chimney = drawnChimneys[i], after = doors.filter(door => chimney.index > door.index), what = `${plan}, ${where}: the ${piece[0]} at ${piece[1]},${piece[2]}`;
@@ -283,7 +283,7 @@ test('a chimney stands where it will stand from the day the sills are down: the 
     const feet = [1, 5, 12, 13].map(penStage => {
       const ctx = recorder();
       drawPlacedHouse(ctx, camera(2600), { placement: { x: 0.1, y: -0.05, rotation }, pieces: at(plan, penStage) });
-      return ctx.drawn.filter(each => /chimney/.test(each.name || '') || each.name === 'filled').map(each => [each.foot.x, each.foot.y]);
+      return ctx.drawn.filter(each => /^house-chimney-/.test(each.name || '') || each.name === 'filled').map(each => [each.foot.x, each.foot.y]);
     });
     for (const each of feet.slice(1)) assert.deepEqual(each.flat().map(n => +n.toFixed(6)), feet[0].flat().map(n => +n.toFixed(6)), `${plan} at ${rotation}: the chimney moves as the pen goes up`);
   }

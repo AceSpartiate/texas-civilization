@@ -5,6 +5,7 @@
 // once, the family's land line on the tick); the page only lays them out and sends what the student chooses. The server
 // decides where a piece may go.
 import { CELL_SHARE, houseFootprint, turned } from '../sim/house-footprint.mjs';
+import { ROOF_RIDGES, fitRoofJoin, roofJoinClip } from './house-roof-art.js';
 // A house's cells turned on the ground, and the footprint they make, are the server's own (sim/house-footprint.mjs): the
 // house drawn here is the house sim/house-placement.mjs checks.
 export { houseFootprint, turned };
@@ -295,10 +296,10 @@ function housePicture(order, rotation, flip) {
  * fitted to a line, half the log's thickness above it. The sheet draws the roof's ridge steeper than the ground of the
  * walls it sits on (slope 0.88 against 0.72): drawn along the walls' ground, two pens' ridges came out a sixth of a cell
  * apart. The partial roof (`house-round-roof-partial`) has its ridge within a degree of this one (read by its log ends).
- * ceiling: read by eye; a ridge line drawn with the roof (docs/ART_REQUESTS.md, request 2026-09-24 - one roof over a
- * two-pen house) replaces it.
+ * Artist-reviewed ridge axes now ship with the frames (docs/ART_REQUESTS.md, request 2026-09-24 - one roof over a
+ * two-pen house).
  */
-export const RIDGE = Object.freeze([[110, 96], [205, 12]]);
+export const RIDGE = ROOF_RIDGES['house-hewn-roof-finished'];
 
 /**
  * The pens of a house in one row - a dog-run or a saddlebag - stood one behind the other along their roof's ridge, so
@@ -332,7 +333,7 @@ function alongRidge(order, rotation, cell, spriteFrame, flip, catalogue, x, y) {
   if (!walls?.ground) return null;
   const scale = cell * 2.2 / (walls.logicalHeight || walls.h), { left: l, front: f, right: r } = walls.ground, side = flip ? -1 : 1;
   const depth = Math.hypot((r[0] - f[0]) * walls.w, (r[1] - f[1]) * walls.h);
-  const [[ax, ay], [bx, by]] = RIDGE, ridge = Math.hypot(bx - ax, by - ay);
+  const [[ax, ay], [bx, by]] = spriteFrame('house-hewn-roof-finished')?.ridge || RIDGE, ridge = Math.hypot(bx - ax, by - ay);
   const along = { x: side * (bx - ax) / ridge * depth / 2 * scale, y: (by - ay) / ridge * depth / 2 * scale };
   // Which way the plan's east runs along the ridge: up it where the east gable is the back one in this picture.
   const [ex, ey] = turned(1, 0, rotation), up = doorGable(ex, ey, flip) ? -1 : 1;
@@ -457,12 +458,21 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
     const width = drawSprite(c, name, sx, sy, height, mirror ? { ...options, flip: true } : options && { ...options, flip: false });
     const frame = width && drawn && spriteFrame?.(name);
     if (frame) {
-      const scale = height / (frame.logicalHeight || frame.h), w = frame.w * scale, h = frame.h * scale;
+      const scale = height / (frame.logicalHeight || frame.h), w = frame.w * scale * (options?.widthScale || 1), h = frame.h * scale;
       const ax = options?.anchor?.[0] ?? frame.anchorX, ay = options?.anchor?.[1] ?? frame.anchorY;
       const left = mirror ? sx - w * (1 - ax) : sx - w * ax, top = sy - h * ay;
       drawn.push({ left, top, right: left + w, bottom: top + h });
     }
     return width;
+  };
+  const joinSprite = (name, seat, mirror, fraction) => {
+    ctx.save();
+    const polygon=roofJoinClip(spriteFrame(name),seat,mirror,fraction);
+    if(ctx.beginPath && ctx.clip){ctx.beginPath();ctx.moveTo(...polygon[0]);for(const point of polygon.slice(1))ctx.lineTo(...point);ctx.closePath();ctx.clip();}
+    const drawnFrom=drawn?.length;
+    const width=sprite(ctx,name,seat.x,seat.y,seat.height,{...seat,flip:mirror});
+    if(drawn && drawn.length>drawnFrom){const box=drawn.at(-1);box.left=Math.max(box.left,Math.min(...polygon.map(p=>p[0])));box.right=Math.min(box.right,Math.max(...polygon.map(p=>p[0])));box.top=Math.max(box.top,Math.min(...polygon.map(p=>p[1])));box.bottom=Math.min(box.bottom,Math.max(...polygon.map(p=>p[1])));}
+    ctx.restore();return width;
   };
   // Each piece's foot - the middle of its front edge on the ground - in its turned cells, round the plot's middle one cell
   // above (x, y). Unturned, this is where the pieces have always stood.
@@ -474,8 +484,10 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
   // Back to front by the turned front edge, so a piece nearer the viewer is drawn over one further off.
   const order = placed.sort((a, b) => a.front - b.front);
   const row = alongRidge(order, rotation, cell, spriteFrame, housePicture(order, rotation, flip), catalogue, x, y);
+  // Gable placement subsequently moves chimney feet; the roof still belongs at the row's virtual pen seat.
+  for(const each of order){each.roofFootX=each.footX;each.roofFootY=each.footY;}
   standChimneys(order, rotation, cell, spriteFrame);
-  for (const { p, w, h, footX, footY, flip: penFlip } of order) {
+  for (const { p, w, h, footX, footY, roofFootX, roofFootY, flip: penFlip } of order) {
     if (p.kind.pen) {
       // The modular pen drawn the way `housePicture` chose; its whole picture, where the pieces cannot be drawn, as the house is.
       const penSprite = (c, name, sx, sy, height, options) => sprite(c, name, sx, sy, height, { ...options, flip: penFlip });
@@ -493,8 +505,8 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       // Between two pens along their ridge (`alongRidge`): the floor with its back edge on the far pen's front wall, and
       // the passage roofed with the pens' own roof, seated as on a pen standing at the middle of the passage, so that it
       // runs on from the far pen's roof to the near one's along the one ridge.
-      // stand-in: docs/ART_REQUESTS.md, request 2026-09-24 - one roof over a two-pen house. The sheet's passage roof
-      // (`house-passage-roof`) is drawn flatter than the pens' and nearly square, on four posts, and meets neither roof.
+      // Delivered 2026-10-10: ridge-fitted join states replace the old duplicate pen roof. The standalone passage roof
+      // remains available for a passage outside a row; unavailable join art keeps the prior roof fallback.
       // The floor from the far pen's front wall back to the near pen's back wall, the far piece first (`PASSAGE_FLOOR_DEEP`).
       const half = p.kind.w / 2, floors = [half - PASSAGE_FLOOR_DEEP, ...(p.kind.w > PASSAGE_FLOOR_DEEP ? [-half] : [])];
       for (const t of floors) {
@@ -506,7 +518,10 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       }
       const walls = spriteFrame(row.walls), roofName = penRoof(row.pens), roof = spriteFrame(roofName);
       const seat = p.stage >= p.kind.stageCount ? roofSeat(walls, roof, footX, footY, cell * 2.2, row.flip) : null;
-      if (seat) sprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor, flip: row.flip });
+      const joinName = roofName.endsWith('finished') ? 'house-roof-join' : 'house-roof-join-partial';
+      const joinSeat = fitRoofJoin(roof, spriteFrame(joinName), seat, row.flip);
+      if (seat && !(joinSeat && joinSprite(joinName,joinSeat,row.flip,.9)))
+        sprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor, flip: row.flip });
     } else if (p.type === 'passage') {
       const floor = sprite(ctx, 'house-passage-floor', footX, footY, cell * .72);
       if (!floor) {
@@ -528,6 +543,11 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       // pen's front gable and the near pen's back gable, taller than a single chimney so it hides the far pen's door,
       // its foot behind the near pen's roof.
       const complete = p.stage >= p.kind.stageCount, high = cell * DOUBLE_RISE;
+      if (row && complete && row.pens.every(pen=>pen.stage>=12)) {
+        const roof=spriteFrame(penRoof(row.pens));
+        const seat=fitRoofJoin(roof,spriteFrame('house-roof-join-chimney'),roofSeat(spriteFrame(row.walls),roof,roofFootX,roofFootY,cell*2.2,row.flip),row.flip);
+        if(seat) joinSprite('house-roof-join-chimney',seat,row.flip,.65);
+      }
       if (!sprite(ctx, complete ? 'house-chimney-stick' : 'house-chimney-stick-building', footX, footY, high)) {
         ctx.fillStyle = '#9a6b43';
         const wide = cell * 0.6, tall = high * Math.min(1, (p.stage + 0.3) / p.kind.stageCount);

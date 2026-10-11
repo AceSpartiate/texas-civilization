@@ -5088,6 +5088,28 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/infant-wagon-passenger.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Six wrapped infant-in-basket poses, side/front/rear; gentle blink and settling pairs, securely reclining, no driving."
+    },
+    {
+      "sheet": "house-roof-joins",
+      "promptId": "frontier-v1/house-roof-joins",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + join-edge edit + pitched geometry correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-modules.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ffc242a-c3c4-4d59-aecc-f68c8f7bf883.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-46b7c1da-0fba-4cec-86f5-e19b7115fcc7.png",
+      "refinements": [
+        {
+          "prompt": "Edit THREE roof modules only preserve2x2layout bottomrightEMPTY. Remove every protruding end pole, circular cut log end face and gable-end framing at BOTH short join ends of ALL THREE roofs. Ridge log and weight poles must terminate flush at roof boundary, no rounded/circular caps visible, plain open thin clapboard edge not thick triangularfascia. The join ends are lower-left shortedge andupper-rightshortedge along ridge, NOT long eaves. Keep partial opening topRIGHT and middle ridgechimneyaperture bottomLEFT. SAME woodpitch perspective. Shrink eachentire roof30percent centerinside ownquadrant leaving60pxalpha0gutters allseams. Truealpha0 background no glowshadow labels otherobjects."
+        },
+        {
+          "prompt": "CORRECT roofgeometry to match original house-modules reference rightmost top2row roofs. New3sprite atlas2x2 bottomrightempty: finished passagejoin topLEFT, partial join topRIGHT, chimney aperturejoin bottomLEFT. Each must be TRUE PITCHED GABLE ROOF with TWO DISTINCT SLOPING PLANES meeting ONE raised ridge: narrow BACK/LEFT slope falling to left/backeave, broad FRONT/RIGHT slope falling to right/fronteave. NOT ONE FLAT rectangular plane with3poles! Roof overall silhouette same as original reference pitchedroof widthheight shape, ridge runs from nearLEFT-midheight up to UPPER-middle peak then eaves downright. Match original ridge endpoint coordinates relative silhouette approximately [0.04width,0.72height] to[0.58width,0.05height], outlines/hue/pitch exact. Openjoinend edges no triangularverticalgable no round log endcaps/protrusions. Weight poles parallelridge oneoneach slope. Finishedcompleteweatheredcedarclapboards. Partial same twoplaneroof missingfewboards atfronteave. Chimney same twoplaneroof smallplainunframed aperture CENTER of ridge equally acrossbothslopes; NO raised wooden curb chimney orskylight. Three completewholemodules max55percent eachquadrant dimensions huge gutters60px. Truealpha0 background no labelsgroundglowshadowpeopleposts. Rigid architectural layers samewarmbrownoutlined handpaintedfrontierstyle as ORIGINAL reference, not supplied previousincorrectflat roof. Roofs are middle portions joining adjacent penroofsamepitch no enclosedgableends."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-roof-joins.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Three rigid roof join states, finished/partial/chimney aperture, no posts or enclosed gables. Ridge registration supplied separately."
     }
   ],
   "rejectedAttempts": [

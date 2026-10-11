@@ -14,6 +14,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inflateSync } from 'node:zlib';
 import { writeRegistry } from './art-registry.mjs';
+import { ROOF_RIDGES } from '../public/house-roof-art.js';
 import { SHEETS as DELIVERED_SHEETS, ANIMATION_CLIPS as DELIVERED_CLIPS } from './art-deliveries/index.mjs';
 
 export const root = fileURLToPath(new URL('../public/assets/frontier-v1/', import.meta.url));
@@ -353,6 +354,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       sheet, x: frame.minX, y: frame.minY,
       w: frame.maxX - frame.minX + 1, h: frame.maxY - frame.minY + 1,
       ...anchorOf(image, frame),
+      ...(ROOF_RIDGES[names[index]] ? {ridge:ROOF_RIDGES[names[index]]} : {}),
       ...(sheet === 'house-modules' && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
       ...(sheet === 'house-modules' && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
       ...(/^(people-|animal-|military-|courier-)/.test(sheet) ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),

@@ -3,9 +3,9 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 333,
-    "sprites": 3129,
-    "clips": 1101,
+    "sheets": 334,
+    "sprites": 3132,
+    "clips": 1104,
     "poseCycles": 783,
     "rigs": 4
   },
@@ -22593,6 +22593,60 @@
               [
                 695,
                 1196
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "house-roof-joins": {
+      "image": "atlases/house-roof-joins.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1332934,
+      "sha256": "e04df443a48a4c2d24830db9a9d42ac736ddf3e85998b8548ebbf5d7f05e64f8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.717231,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              49,
+              510
+            ],
+            "columns": [
+              [
+                24,
+                716
+              ],
+              [
+                748,
+                1438
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              583,
+              1041
+            ],
+            "columns": [
+              [
+                24,
+                716
               ]
             ]
           }
@@ -95990,6 +96044,16 @@
       "h": 241,
       "anchorX": 0.6648,
       "anchorY": 0.9295,
+      "ridge": [
+        [
+          107,
+          98
+        ],
+        [
+          207,
+          12
+        ]
+      ],
       "seatX": 0.4986,
       "seatY": 0.5726,
       "label": "house round roof partial",
@@ -96136,6 +96200,16 @@
       "h": 251,
       "anchorX": 0.6742,
       "anchorY": 0.9283,
+      "ridge": [
+        [
+          105,
+          102
+        ],
+        [
+          208,
+          11
+        ]
+      ],
       "seatX": 0.4986,
       "seatY": 0.5817,
       "label": "house hewn roof finished",
@@ -110941,6 +111015,138 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/steamboat-moored"
+    },
+    "house-roof-join": {
+      "sheet": "house-roof-joins",
+      "x": 24,
+      "y": 49,
+      "w": 692,
+      "h": 461,
+      "anchorX": 0.6741,
+      "anchorY": 0.9284,
+      "ridge": [
+        [
+          230,
+          204
+        ],
+        [
+          403,
+          14
+        ]
+      ],
+      "label": "house roof join",
+      "kind": "house-roof-joins",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          26,
+          51,
+          688,
+          457
+        ],
+        "visiblePixels": 142132,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-roof-joins.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [
+        "house-roof-join"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-roof-joins"
+    },
+    "house-roof-join-partial": {
+      "sheet": "house-roof-joins",
+      "x": 748,
+      "y": 49,
+      "w": 690,
+      "h": 461,
+      "anchorX": 0.6739,
+      "anchorY": 0.9284,
+      "ridge": [
+        [
+          230,
+          204
+        ],
+        [
+          403,
+          14
+        ]
+      ],
+      "label": "house roof join partial",
+      "kind": "house-roof-joins",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          750,
+          51,
+          686,
+          457
+        ],
+        "visiblePixels": 140699,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-roof-joins.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [
+        "house-roof-join-partial"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-roof-joins"
+    },
+    "house-roof-join-chimney": {
+      "sheet": "house-roof-joins",
+      "x": 24,
+      "y": 583,
+      "w": 692,
+      "h": 458,
+      "anchorX": 0.6741,
+      "anchorY": 0.9279,
+      "ridge": [
+        [
+          230,
+          204
+        ],
+        [
+          403,
+          14
+        ]
+      ],
+      "label": "house roof join chimney",
+      "kind": "house-roof-joins",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          26,
+          585,
+          688,
+          454
+        ],
+        "visiblePixels": 141795,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-roof-joins.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [
+        "house-roof-join-chimney"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-roof-joins"
     },
     "interior-saddlebag": {
       "sheet": "interior-saddlebag",
@@ -150161,6 +150367,39 @@
       "motion": "drift",
       "direction": "east; west by mirroring"
     },
+    "house-roof-join": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "house-roof-join",
+          "duration": 1000
+        }
+      ]
+    },
+    "house-roof-join-partial": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "house-roof-join-partial",
+          "duration": 1000
+        }
+      ]
+    },
+    "house-roof-join-chimney": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "house-roof-join-chimney",
+          "duration": 1000
+        }
+      ]
+    },
     "seguin-ashes-collect": {
       "frames": [
         {
@@ -160085,7 +160324,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 333,
+    "sourceCount": 334,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

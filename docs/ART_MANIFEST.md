@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3129 usable sprites, 333 PNG atlases, 1101 clips** (783 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3132 usable sprites, 334 PNG atlases, 1104 clips** (783 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -275,6 +275,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
 | ferry-flatboat | 3 | 1254 × 1254 | 203701 |
 | steamboat-moored | 4 | 1254 × 1254 | 799173 |
+| house-roof-joins | 3 | 1448 × 1086 | 1332934 |
 | interior-saddlebag | 1 | 1860 × 846 | 1858682 |
 | famous-seguin-ashes | 4 | 1230 × 1278 | 646296 |
 | alamo-ash-sites-1837 | 4 | 1536 × 1024 | 2505356 |
@@ -2740,6 +2741,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored-2 | steamboat-moored | steamboat-moored |
 | steamboat-moored-3 | steamboat-moored | steamboat-gangplank |
 | steamboat-moored-4 | steamboat-moored | steamboat-cotton-moored |
+| house-roof-join | house-roof-joins | house-roof-join |
+| house-roof-join-partial | house-roof-joins | house-roof-join-partial |
+| house-roof-join-chimney | house-roof-joins | house-roof-join-chimney |
 | interior-saddlebag | interior-saddlebag | State artwork; no motion required |
 | seguin-ashes-stand | famous-seguin-ashes | seguin-ashes-collect |
 | seguin-ashes-kneel | famous-seguin-ashes | seguin-ashes-collect |
@@ -4315,6 +4319,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored | Pose cycle | 2 | 2200 | yes | east; west by mirroring |
 | steamboat-gangplank | Still state | 1 | 1600 | yes | east; west by mirroring |
 | steamboat-cotton-moored | drift | 1 | 1600 | yes | east; west by mirroring |
+| house-roof-join | Still state | 1 | 1000 | one-shot | undefined |
+| house-roof-join-partial | Still state | 1 | 1000 | one-shot | undefined |
+| house-roof-join-chimney | Still state | 1 | 1000 | one-shot | undefined |
 | seguin-ashes-collect | Pose cycle | 4 | 3850 | one-shot | east; mirror for west |
 | cattle-longhorn-red-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
 | cattle-longhorn-red-graze | Pose cycle | 6 | 5100 | yes | east; west by mirroring |

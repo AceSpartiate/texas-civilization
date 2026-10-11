@@ -13908,6 +13908,39 @@
       "motion": "drift",
       "direction": "east; west by mirroring"
     },
+    "house-roof-join": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "house-roof-join",
+          "duration": 1000
+        }
+      ]
+    },
+    "house-roof-join-partial": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "house-roof-join-partial",
+          "duration": 1000
+        }
+      ]
+    },
+    "house-roof-join-chimney": {
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "house-roof-join-chimney",
+          "duration": 1000
+        }
+      ]
+    },
     "seguin-ashes-collect": {
       "frames": [
         {
