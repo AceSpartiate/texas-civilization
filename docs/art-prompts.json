@@ -5460,6 +5460,45 @@
       ],
       "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
       "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
+    },
+    {
+      "sheet": "biome-species",
+      "promptId": "frontier-v1/biome-species",
+      "prompt": "Use case: stylized-concept. Production transparent game sprite atlas EXACT TWO columns THREE rows SIX complete isolated native Texas trees. Match reference warm hand-painted frontier farming storybook, brown outlines, restrained olive leafy clusters detailed bark, slightly elevated game view, no photographic rendering. Row1 left ANACUA (Ehretia anacua): medium stout often multi-trunk tree, rounded dense asymmetrical olive crown, oval broad rough-textured leaves, gray-brown irregular trunks, NO flowers or fruits seasonal accents. Row1 right TEXAS EBONY (Ebenopsis ebano): compact broad rounded dark evergreen canopy, fine dense small paired leaflets (not huge oak lobes), short twisted dark trunk, thorny zigzag branches visible in gaps, distinguishable from anacua. Row2 left WATER TUPELO (Nyssa aquatica): tall long clear tapering trunk with distinctive swollen flaring base, high spreading flattened crown of broad pointed oval leaves, gray-brown ridged bark, NO cypress knees or water baked in. Row2 right CEDAR ELM (Ulmus crassifolia): tall upright trunk and interlacing limbs, narrow oval-round oblong crown of tiny oval serrated leaves, gray-brown furrowed bark, deciduous broadleaf NOT conifer. Row3 left BLACK WILLOW (Salix nigra): irregular airy upright branching multi-stem tree, slim long narrow lanceolate leaves in loose clusters with some fine trailing twigs, not ornamental curtain-like weeping willow, green olive foliage gray-brown deeply fissured bark. Row3 right YOUNG BLACK WILLOW same identity but slender shorter branched sapling about60percent mature willow height within own cell. Each entire tree all roots canopy centered in central60percent of OWN equal cell, minimum70px transparent gutters along all outeredges and seams. No overlap, no detached leaves, no landscape water people flowers signs text labels grid borders shadows halo or background. True alpha0 beyond silhouette. Tiny grass at root base only. Every species has clearly distinct botanical silhouette. Neutral leafy-season art; game supplies seasonal/weather state. All six rooted upright.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-trees-fields.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4843030d-3cc1-4edb-8006-3da28591bb40.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-species.png",
+      "postProcessing": "None; original generated PNG copied unchanged. Read-only alpha crop audit.",
+      "review": "Five distinctive regional tree species plus young black willow. Each wind pair preserves its upright identity. See species research and integration limits in delivery documentation."
+    },
+    {
+      "sheet": "biome-species-gales",
+      "promptId": "frontier-v1/biome-species-gales",
+      "prompt": "Use case: stylized-concept. Derive production transparent sprite atlas EXACT FOUR columns THREE rows TWELVE complete trees from image1 species atlas. SIX identities, TWO distinct authored rooted gust poses EACH, branches and canopy swept SCREEN RIGHT, first firm gust second stronger gust, trunks rooted fixed lower third no bending belowground. Maintain same six species, same foliage colors bark branchpatterns and base as image1. Reading order row1 columns1,2 paired ANACUA (original top-left); cols3,4 paired TEXAS EBONY(originaltopright). Row2 cols1,2 paired WATER TUPELO(originalmiddleleft); cols3,4 paired CEDAR ELM(originalmiddleright). Row3 cols1,2 paired BLACK WILLOW(originalbottomleft); cols3,4 paired YOUNG BLACK WILLOW(originalbottomright). DO NOT swap identities: tupelo swollen base tallclear trunk; cedar elm small-leaf upright oval crown; willow open narrow leaves upright branches, not ornamental weeping curtain; ebony tiny dark pairedleaflets compact twisting trunk; anacua oval broad leaf dense rounded multistem. Wind canopies swept right clearly but trees upright intact, no broken limbs or uprooting. Preserve warm brown outline painterly frontier art and subtle leaf clusters. Every whole tree centered in central55percent of OWN equal cell, ample genuine transparent gutters minimum50px at all row/column seams and outeredges, no overlap or cropped branches. Fixed grounded bases, equal scale within each pair, youngwillow60percent maturewillow. No detached leaves, shadowglow landscape water stones people text labels checkerboard or background. Exactly twelve fully isolated sprites, alpha0 outside each silhouette. These must be actual different gust drawings, no artificial code shear.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive authored wind poses + palette correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4843030d-3cc1-4edb-8006-3da28591bb40.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-99bf899e-bc96-4b29-ad08-08b2a04c1ddf.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-species-gales.png",
+      "postProcessing": "None; original generated PNG copied unchanged. Read-only alpha crop audit.",
+      "review": "Five distinctive regional tree species plus young black willow. Each wind pair preserves its upright identity. See species research and integration limits in delivery documentation.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4c3b10fd-bcb9-4f7c-a8f6-04b5db575090.png",
+      "refinements": [
+        {
+          "prompt": "Color/style correction only. Edit image1 twelve-tree wind atlas, preserve EXACT FOUR columns THREE rows layout, all twelve full tree species identities, two distinct gust poses per identity, silhouettes, trunks roots, spacing and positions. Use image2 upright six-species atlas as exact COLOR reference. Wind must NOT change season or make foliage glow. Remove bright yellow/gold highlights throughout image1, recolor foliage to same muted olive green and dark green colors as corresponding upright species in image2. Keep fine brown outlined painted leaf details, but lower highlight saturation and brightness to match image2. Do NOT add yellow flowers, shiny leaves, glow, sunlight aura, golden autumn leaves, background halo, shadow or text. Preserve complete root bases and equal scale per pair. Entire background outside sprites true alpha0 including all outeredges and gutters. Color correction only, no reshaping, no rearranging, no added or removed sprites.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4c3b10fd-bcb9-4f7c-a8f6-04b5db575090.png",
+            "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4843030d-3cc1-4edb-8006-3da28591bb40.png"
+          ]
+        }
+      ]
     }
   ]
 }

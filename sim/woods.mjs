@@ -350,11 +350,12 @@ export const KINDS = Object.freeze({
   'white-oak': kind('white oak', [1, 2, 3], 'sill', 1.1, 'post-oak', SIZED),
   sweetgum: kind('sweetgum', [1, 2, 3], 'poor', 0.9, 'sweetgum', SIZED),
   'bald-cypress': kind('bald cypress', [2, 3, 4], 'sill', 1, 'cypress-bald', { sized: true }),
-  tupelo: kind('tupelo', [1, 2, 2], 'poor', 0.9, 'elm', SIZED),
-  'cedar-elm': kind('cedar elm', [1, 1, 2], 'poor', 1, 'elm', SIZED),
-  anacua: kind('anacua', [0, 1, 1], 'poor', 1, 'oak-spreading'),
-  ebony: kind('Texas ebony', [0, 1, 1], 'poor', 1.3, 'oak-spreading'),
-  willow: kind('willow', [1, 2, 2], 'poor', 0.6, 'cottonwood', { stump: 'stump-cottonwood' }),
+  // Final regional silhouettes, 2026-10-11. Mature identities scale for pole/log/large; willow has a juvenile silhouette.
+  tupelo: kind('tupelo', [1, 2, 2], 'poor', 0.9, 'tree-water-tupelo'),
+  'cedar-elm': kind('cedar elm', [1, 1, 2], 'poor', 1, 'tree-cedar-elm'),
+  anacua: kind('anacua', [0, 1, 1], 'poor', 1, 'tree-anacua'),
+  ebony: kind('Texas ebony', [0, 1, 1], 'poor', 1.3, 'tree-texas-ebony'),
+  willow: kind('willow', [1, 2, 2], 'poor', 0.6, 'tree-black-willow', { pictures: ['tree-black-willow-pole', 'tree-black-willow', 'tree-black-willow'], stump: 'stump-cottonwood' }),
   palm: kind('Texas palm', [0, 1, 1], 'poor', 0.8, 'palm-sabal', { sized: true }),
   'texas-oak': kind('Texas oak', [1, 1, 2], 'poor', 1, 'post-oak', SIZED),
 });

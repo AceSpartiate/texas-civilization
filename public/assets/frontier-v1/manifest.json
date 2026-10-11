@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 342,
-    "sprites": 3157,
-    "clips": 1107,
-    "poseCycles": 786,
+    "sheets": 344,
+    "sprites": 3175,
+    "clips": 1113,
+    "poseCycles": 792,
     "rigs": 4
   },
   "entrypoints": {
@@ -1286,6 +1286,180 @@
               [
                 951,
                 1235
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "biome-species": {
+      "image": "atlases/biome-species.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2927386,
+      "sha256": "fd192e3fc3f89bd0240938c25304e63f295f177dc870cb5ac8ff8b399a081317",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.463389,
+        "cornerAlpha": [
+          0,
+          0,
+          2,
+          1
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              46,
+              476
+            ],
+            "columns": [
+              [
+                44,
+                511
+              ],
+              [
+                536,
+                1003
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              493,
+              1009
+            ],
+            "columns": [
+              [
+                47,
+                544
+              ],
+              [
+                584,
+                976
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1023,
+              1490
+            ],
+            "columns": [
+              [
+                39,
+                576
+              ],
+              [
+                632,
+                929
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "biome-species-gales": {
+      "image": "atlases/biome-species-gales.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3061669,
+      "sha256": "7e6719129cf01141008ba9c8da07a1f8cc45f0c981c0434f3e0712d5f2ce907e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.408127,
+        "cornerAlpha": [
+          1,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              9,
+              326
+            ],
+            "columns": [
+              [
+                34,
+                361
+              ],
+              [
+                393,
+                768
+              ],
+              [
+                794,
+                1131
+              ],
+              [
+                1176,
+                1526
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              327,
+              674
+            ],
+            "columns": [
+              [
+                36,
+                384
+              ],
+              [
+                403,
+                786
+              ],
+              [
+                806,
+                1111
+              ],
+              [
+                1178,
+                1521
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              673,
+              986
+            ],
+            "columns": [
+              [
+                30,
+                406
+              ],
+              [
+                417,
+                825
+              ],
+              [
+                846,
+                1130
+              ],
+              [
+                1194,
+                1495
               ]
             ]
           }
@@ -33031,6 +33205,618 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/biome-ground-bexar"
+    },
+    "tree-anacua": {
+      "sheet": "biome-species",
+      "x": 44,
+      "y": 46,
+      "w": 467,
+      "h": 430,
+      "anchorX": 0.4807,
+      "anchorY": 0.9279,
+      "label": "tree anacua",
+      "kind": "biome-species",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          46,
+          48,
+          463,
+          426
+        ],
+        "visiblePixels": 123000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species"
+    },
+    "tree-texas-ebony": {
+      "sheet": "biome-species",
+      "x": 536,
+      "y": 95,
+      "w": 467,
+      "h": 381,
+      "anchorX": 0.5214,
+      "anchorY": 0.937,
+      "label": "tree texas ebony",
+      "kind": "biome-species",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          538,
+          97,
+          463,
+          377
+        ],
+        "visiblePixels": 116222,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species"
+    },
+    "tree-water-tupelo": {
+      "sheet": "biome-species",
+      "x": 47,
+      "y": 501,
+      "w": 497,
+      "h": 506,
+      "anchorX": 0.4557,
+      "anchorY": 0.9447,
+      "label": "tree water tupelo",
+      "kind": "biome-species",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          49,
+          503,
+          493,
+          502
+        ],
+        "visiblePixels": 116859,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species"
+    },
+    "tree-cedar-elm": {
+      "sheet": "biome-species",
+      "x": 584,
+      "y": 493,
+      "w": 392,
+      "h": 516,
+      "anchorX": 0.5077,
+      "anchorY": 0.9554,
+      "label": "tree cedar elm",
+      "kind": "biome-species",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          586,
+          495,
+          388,
+          512
+        ],
+        "visiblePixels": 116463,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species"
+    },
+    "tree-black-willow": {
+      "sheet": "biome-species",
+      "x": 39,
+      "y": 1023,
+      "w": 537,
+      "h": 467,
+      "anchorX": 0.487,
+      "anchorY": 0.9636,
+      "label": "tree black willow",
+      "kind": "biome-species",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          1025,
+          533,
+          463
+        ],
+        "visiblePixels": 134491,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species"
+    },
+    "tree-black-willow-pole": {
+      "sheet": "biome-species",
+      "x": 632,
+      "y": 1098,
+      "w": 297,
+      "h": 391,
+      "anchorX": 0.5034,
+      "anchorY": 0.9361,
+      "label": "tree black willow pole",
+      "kind": "biome-species",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          634,
+          1100,
+          293,
+          387
+        ],
+        "visiblePixels": 55077,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species"
+    },
+    "tree-anacua-gale-1": {
+      "sheet": "biome-species-gales",
+      "x": 34,
+      "y": 9,
+      "w": 327,
+      "h": 317,
+      "anchorX": 0.4511,
+      "anchorY": 0.9401,
+      "logicalHeight": 317,
+      "label": "tree anacua gale 1",
+      "kind": "biome-species-gales",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          36,
+          11,
+          323,
+          313
+        ],
+        "visiblePixels": 64611,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-anacua-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-anacua-gale-2": {
+      "sheet": "biome-species-gales",
+      "x": 393,
+      "y": 17,
+      "w": 375,
+      "h": 309,
+      "anchorX": 0.4107,
+      "anchorY": 0.9353,
+      "logicalHeight": 317,
+      "label": "tree anacua gale 2",
+      "kind": "biome-species-gales",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          395,
+          19,
+          371,
+          305
+        ],
+        "visiblePixels": 67429,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-anacua-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-texas-ebony-gale-1": {
+      "sheet": "biome-species-gales",
+      "x": 794,
+      "y": 40,
+      "w": 337,
+      "h": 286,
+      "anchorX": 0.4407,
+      "anchorY": 0.9371,
+      "logicalHeight": 286,
+      "label": "tree texas ebony gale 1",
+      "kind": "biome-species-gales",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          796,
+          42,
+          333,
+          282
+        ],
+        "visiblePixels": 61496,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-texas-ebony-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-texas-ebony-gale-2": {
+      "sheet": "biome-species-gales",
+      "x": 1176,
+      "y": 51,
+      "w": 350,
+      "h": 275,
+      "anchorX": 0.46,
+      "anchorY": 0.9345,
+      "logicalHeight": 286,
+      "label": "tree texas ebony gale 2",
+      "kind": "biome-species-gales",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1178,
+          53,
+          346,
+          271
+        ],
+        "visiblePixels": 61340,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-texas-ebony-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-water-tupelo-gale-1": {
+      "sheet": "biome-species-gales",
+      "x": 36,
+      "y": 327,
+      "w": 348,
+      "h": 345,
+      "anchorX": 0.4511,
+      "anchorY": 0.9333,
+      "logicalHeight": 345,
+      "label": "tree water tupelo gale 1",
+      "kind": "biome-species-gales",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          38,
+          329,
+          344,
+          341
+        ],
+        "visiblePixels": 57690,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-water-tupelo-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-water-tupelo-gale-2": {
+      "sheet": "biome-species-gales",
+      "x": 403,
+      "y": 336,
+      "w": 383,
+      "h": 335,
+      "anchorX": 0.3512,
+      "anchorY": 0.9343,
+      "logicalHeight": 345,
+      "label": "tree water tupelo gale 2",
+      "kind": "biome-species-gales",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          338,
+          379,
+          331
+        ],
+        "visiblePixels": 63529,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-water-tupelo-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-cedar-elm-gale-1": {
+      "sheet": "biome-species-gales",
+      "x": 806,
+      "y": 342,
+      "w": 305,
+      "h": 331,
+      "anchorX": 0.4393,
+      "anchorY": 0.9607,
+      "logicalHeight": 332,
+      "label": "tree cedar elm gale 1",
+      "kind": "biome-species-gales",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          808,
+          344,
+          301,
+          327
+        ],
+        "visiblePixels": 57570,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-cedar-elm-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-cedar-elm-gale-2": {
+      "sheet": "biome-species-gales",
+      "x": 1178,
+      "y": 342,
+      "w": 343,
+      "h": 332,
+      "anchorX": 0.4067,
+      "anchorY": 0.9367,
+      "logicalHeight": 332,
+      "label": "tree cedar elm gale 2",
+      "kind": "biome-species-gales",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1180,
+          344,
+          339,
+          328
+        ],
+        "visiblePixels": 64587,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-cedar-elm-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-black-willow-gale-1": {
+      "sheet": "biome-species-gales",
+      "x": 30,
+      "y": 674,
+      "w": 376,
+      "h": 312,
+      "anchorX": 0.4707,
+      "anchorY": 0.9295,
+      "logicalHeight": 312,
+      "label": "tree black willow gale 1",
+      "kind": "biome-species-gales",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          32,
+          676,
+          372,
+          308
+        ],
+        "visiblePixels": 68501,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-black-willow-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-black-willow-gale-2": {
+      "sheet": "biome-species-gales",
+      "x": 417,
+      "y": 673,
+      "w": 408,
+      "h": 312,
+      "anchorX": 0.4093,
+      "anchorY": 0.9295,
+      "logicalHeight": 312,
+      "label": "tree black willow gale 2",
+      "kind": "biome-species-gales",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          419,
+          675,
+          404,
+          308
+        ],
+        "visiblePixels": 72602,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-black-willow-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-black-willow-pole-gale-1": {
+      "sheet": "biome-species-gales",
+      "x": 846,
+      "y": 714,
+      "w": 284,
+      "h": 270,
+      "anchorX": 0.412,
+      "anchorY": 0.9519,
+      "logicalHeight": 270,
+      "label": "tree black willow pole gale 1",
+      "kind": "biome-species-gales",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          848,
+          716,
+          280,
+          266
+        ],
+        "visiblePixels": 39437,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-black-willow-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
+    },
+    "tree-black-willow-pole-gale-2": {
+      "sheet": "biome-species-gales",
+      "x": 1194,
+      "y": 722,
+      "w": 301,
+      "h": 262,
+      "anchorX": 0.4169,
+      "anchorY": 0.9504,
+      "logicalHeight": 270,
+      "label": "tree black willow pole gale 2",
+      "kind": "biome-species-gales",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1196,
+          724,
+          297,
+          258
+        ],
+        "visiblePixels": 40732,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/biome-species-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "tree-black-willow-pole-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/biome-species-gales"
     },
     "pine-longleaf-pole-gale-1": {
       "sheet": "biome-pine-palm-gale",
@@ -138192,6 +138978,97 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "tree-anacua-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-anacua-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-anacua-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-texas-ebony-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-texas-ebony-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-texas-ebony-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-water-tupelo-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-water-tupelo-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-water-tupelo-gale-2",
+          "duration": 600
+        }
+      ],
+      "direction": "not applicable"
+    },
+    "tree-cedar-elm-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-cedar-elm-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-cedar-elm-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-black-willow-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-black-willow-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-black-willow-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-black-willow-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-black-willow-pole-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-black-willow-pole-gale-2",
+          "duration": 600
+        }
+      ]
+    },
     "pine-longleaf-pole-gale": {
       "loop": true,
       "authored": true,
@@ -161596,7 +162473,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 342,
+    "sourceCount": 344,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

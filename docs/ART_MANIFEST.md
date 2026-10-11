@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3157 usable sprites, 342 PNG atlases, 1107 clips** (786 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3175 usable sprites, 344 PNG atlases, 1113 clips** (792 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -32,6 +32,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | bexar-san-fernando | 1 | 1536 × 1024 | 2150927 |
 | bexar-governors-palace | 1 | 1774 × 887 | 1812505 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
+| biome-species | 6 | 1024 × 1536 | 2927386 |
+| biome-species-gales | 12 | 1536 × 1024 | 3061669 |
 | biome-pine-palm-gale | 12 | 1445 × 1089 | 873328 |
 | biome-cypress-gale | 6 | 1024 × 1536 | 2205619 |
 | biome-broadleaf-gale | 8 | 1774 × 887 | 1022515 |
@@ -461,6 +463,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | acequia-bend | biome-ground-bexar | State artwork; no motion required |
 | acequia-crossing | biome-ground-bexar | State artwork; no motion required |
 | fence-brush | biome-ground-bexar | State artwork; no motion required |
+| tree-anacua | biome-species | State artwork; no motion required |
+| tree-texas-ebony | biome-species | State artwork; no motion required |
+| tree-water-tupelo | biome-species | State artwork; no motion required |
+| tree-cedar-elm | biome-species | State artwork; no motion required |
+| tree-black-willow | biome-species | State artwork; no motion required |
+| tree-black-willow-pole | biome-species | State artwork; no motion required |
+| tree-anacua-gale-1 | biome-species-gales | tree-anacua-gale |
+| tree-anacua-gale-2 | biome-species-gales | tree-anacua-gale |
+| tree-texas-ebony-gale-1 | biome-species-gales | tree-texas-ebony-gale |
+| tree-texas-ebony-gale-2 | biome-species-gales | tree-texas-ebony-gale |
+| tree-water-tupelo-gale-1 | biome-species-gales | tree-water-tupelo-gale |
+| tree-water-tupelo-gale-2 | biome-species-gales | tree-water-tupelo-gale |
+| tree-cedar-elm-gale-1 | biome-species-gales | tree-cedar-elm-gale |
+| tree-cedar-elm-gale-2 | biome-species-gales | tree-cedar-elm-gale |
+| tree-black-willow-gale-1 | biome-species-gales | tree-black-willow-gale |
+| tree-black-willow-gale-2 | biome-species-gales | tree-black-willow-gale |
+| tree-black-willow-pole-gale-1 | biome-species-gales | tree-black-willow-pole-gale |
+| tree-black-willow-pole-gale-2 | biome-species-gales | tree-black-willow-pole-gale |
 | pine-longleaf-pole-gale-1 | biome-pine-palm-gale | pine-longleaf-pole-gale |
 | pine-longleaf-pole-gale-2 | biome-pine-palm-gale | pine-longleaf-pole-gale |
 | palm-sabal-pole-gale-1 | biome-pine-palm-gale | palm-sabal-pole-gale |
@@ -3548,6 +3568,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | white-flag-volunteer-walk-e | Pose cycle | 2 | 560 | yes | east |
 | cane-wind | Still state | 1 | 900 | yes | not applicable |
 | grass-tall-wind | Still state | 1 | 900 | yes | not applicable |
+| tree-anacua-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-texas-ebony-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-water-tupelo-gale | Pose cycle | 2 | 1200 | yes | not applicable |
+| tree-cedar-elm-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-black-willow-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-black-willow-pole-gale | Pose cycle | 2 | 1200 | yes | undefined |
 | pine-longleaf-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | palm-sabal-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-longleaf-log-gale | Pose cycle | 2 | 1000 | yes | undefined |

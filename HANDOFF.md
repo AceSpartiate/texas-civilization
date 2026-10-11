@@ -1,3 +1,7 @@
+## Completed art group 2026-10-11: regional tree species
+
+The September 19 country artwork group is complete. Anacua, Texas ebony, water tupelo, cedar elm and black willow now use their own sprites; young willow adds a distinct pole silhouette. Eighteen new frames, six authored wind loops, matching olive palettes. Catalogue and weather selection integrated; ground-cache policy and wood economics retained. Read docs/ART_DELIVERY_2026-10-11-BIOME-SPECIES.md for the full manifest, botanical sources, animation contract and limits. Broad remaining backlog: **14 dated parent groups**. No deployment performed.
+
 ## Completed art group 2026-10-11: researched town landmarks
 
 Fort Velasco, Harrisburg Steam Mills and the original Nacogdoches Stone House close the entire September 16 researched-building request. Seven new frames and one authored smoke loop; all three town placements use delivered art. Fort cannon remains separate and correctly sized; mill smoke requires authoritative operating state (not enabled by existing callers). Read docs/ART_DELIVERY_2026-10-11-TOWN-LANDMARKS.md for the full manifest, historical uncertainty, render contract and proof. Fixed an existing missing /wading-art.js public route that blocked Host startup, with a serving regression test. Broad remaining backlog: **15 dated parent groups**. No deployment performed.

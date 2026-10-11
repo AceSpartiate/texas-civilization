@@ -517,6 +517,97 @@
       "motion": "none",
       "direction": "not applicable"
     },
+    "tree-anacua-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-anacua-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-anacua-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-texas-ebony-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-texas-ebony-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-texas-ebony-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-water-tupelo-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-water-tupelo-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-water-tupelo-gale-2",
+          "duration": 600
+        }
+      ],
+      "direction": "not applicable"
+    },
+    "tree-cedar-elm-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-cedar-elm-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-cedar-elm-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-black-willow-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-black-willow-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-black-willow-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-black-willow-pole-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-black-willow-pole-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-black-willow-pole-gale-2",
+          "duration": 600
+        }
+      ]
+    },
     "pine-longleaf-pole-gale": {
       "loop": true,
       "authored": true,
