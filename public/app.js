@@ -19,7 +19,7 @@ import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
-import { GALE_POSES, GALE_SMOKE, drawFogShape, drawHighWater, floodCurrentMarks, drawFloodCurrent, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, inGale, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
+import { GALE_POSES, GALE_SMOKE, drawWeatherTree, drawFogShape, drawHighWater, floodCurrentMarks, drawFloodCurrent, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, inGale, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
 /** The weather with the day fully up, for everything drawn into the kept ground (public/weather-art.js `weatherMix`). */
 const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
@@ -2417,9 +2417,11 @@ function drawTerrain(ctx, world, camera) {
       const stand = scatterInside(points, seedOf(feature.id), count).sort((a, b) => a.y - b.y);
       ctx.save(); ctx.globalAlpha *= inventedWoods(camera.scale);
       for (const spot of stand) {
-        if (spot.tint % 5 === 3) { if (drawSprite(ctx, 'cottonwood', spot.x, spot.y, figure * SIZE.timberTree * 1.12)) continue; }
-        else if (spot.tint % 7 === 5) { if (drawSprite(ctx, 'sapling', spot.x, spot.y, figure * SIZE.sapling)) continue; }
-        postOak(ctx, spot.x, spot.y, figure * SIZE.timberTree, spot.tint);
+        const location = camera.toWorld(spot);
+        const mix = world.weather && weatherShown(world.weather) ? weatherMix(world.weather, location.x, world.minute, STEADY) : null;
+        if (spot.tint % 5 === 3) { if (drawWeatherTree(ctx, 'cottonwood', spot.x, spot.y, figure * SIZE.timberTree * 1.12, mix, drawSprite)) continue; }
+        else if (spot.tint % 7 === 5) { if (drawWeatherTree(ctx, 'sapling', spot.x, spot.y, figure * SIZE.sapling, mix, drawSprite)) continue; }
+        postOak(ctx, spot.x, spot.y, figure * SIZE.timberTree, spot.tint, mix ? windLean(mix) : 0, mix ? inGale(mix) : false);
       }
       ctx.restore();
     }

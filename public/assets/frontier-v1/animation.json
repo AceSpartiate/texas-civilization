@@ -12644,6 +12644,36 @@
       "motion": "rock",
       "direction": "east; west by mirroring"
     },
+    "cottonwood-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cottonwood-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "cottonwood-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "sapling-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "sapling-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "sapling-gale-2",
+          "duration": 600
+        }
+      ]
+    },
     "campfire-night": {
       "frames": [
         {

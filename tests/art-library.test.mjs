@@ -76,7 +76,7 @@ test('every sprite the simulation names is a frame the library actually has', ()
   const missing = [];
   // The trees of the woods: each kind's picture, at its three sizes where its art is `sized`, and its stump.
   for (const [id, kind] of Object.entries(KINDS)) {
-    for (const want of kind.sized ? SIZES.map(size => `${kind.picture}-${size}`) : [kind.picture]) if (!names.has(want)) missing.push(`tree ${id} -> ${want}`);
+    for (const want of kind.pictures || (kind.sized ? SIZES.map(size => `${kind.picture}-${size}`) : [kind.picture])) if (!names.has(want)) missing.push(`tree ${id} -> ${want}`);
     if (kind.stump && !names.has(kind.stump)) missing.push(`tree ${id} stump -> ${kind.stump}`);
   }
   // The scattered marks of every class of ground.
@@ -102,7 +102,9 @@ test('every sprite the simulation names is a frame the library actually has', ()
   // all, silently, with a flat wash standing in its place.
   for (const sprite of Object.values(ALAMO_FACES)) if (!names.has(sprite)) missing.push(`alamo face -> ${sprite}`);
   // The norther's painted gale poses stand for sprites the ground really scatters, and are frames themselves.
-  const scattered = new Set([...Object.values(GROUND_CLASSES).flatMap(klass => klass.marks.map(mark => mark.sprite)), 'oak-broad', 'oak-spreading', 'pecan']);
+  // Include the app's sized catalogue trees, legacy woods and riverbank reeds.
+  const woodPictures = Object.values(KINDS).flatMap(kind => kind.pictures || (kind.sized ? SIZES.map(size => `${kind.picture}-${size}`) : [kind.picture]));
+  const scattered = new Set([...Object.values(GROUND_CLASSES).flatMap(klass => klass.marks.map(mark => mark.sprite)), ...woodPictures, 'oak-broad', 'oak-spreading', 'pecan', 'cottonwood', 'sapling', 'reeds']);
   for (const [upright, pose] of Object.entries(GALE_POSES)) {
     if (!names.has(pose)) missing.push(`gale ${upright} -> ${pose}`);
     if (!scattered.has(upright)) missing.push(`gale pose for ${upright}, which nothing draws`);

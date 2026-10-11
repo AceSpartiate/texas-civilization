@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 335,
-    "sprites": 3144,
-    "clips": 1104,
-    "poseCycles": 783,
+    "sheets": 336,
+    "sprites": 3148,
+    "clips": 1106,
+    "poseCycles": 785,
     "rigs": 4
   },
   "entrypoints": {
@@ -21022,6 +21022,64 @@
               [
                 656,
                 1247
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "nature-gales": {
+      "image": "atlases/nature-gales.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1030716,
+      "sha256": "45681d5c729c5c90ce57ab57de5a6f779cde290b3b196191b0d970e8755e808d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.764841,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              53,
+              571
+            ],
+            "columns": [
+              [
+                373,
+                822
+              ],
+              [
+                1058,
+                1539
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              602,
+              839
+            ],
+            "columns": [
+              [
+                447,
+                698
+              ],
+              [
+                1109,
+                1399
               ]
             ]
           }
@@ -105247,6 +105305,142 @@
       "locationKits": [],
       "promptId": "frontier-v1/steamboat-laden"
     },
+    "cottonwood-gale-1": {
+      "sheet": "nature-gales",
+      "x": 373,
+      "y": 53,
+      "w": 449,
+      "h": 517,
+      "anchorX": 0.3976,
+      "anchorY": 0.9574,
+      "label": "cottonwood gale 1",
+      "kind": "nature-gales",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          375,
+          55,
+          445,
+          513
+        ],
+        "visiblePixels": 134887,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/nature-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cottonwood-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/nature-gales"
+    },
+    "cottonwood-gale-2": {
+      "sheet": "nature-gales",
+      "x": 1058,
+      "y": 75,
+      "w": 481,
+      "h": 496,
+      "anchorX": 0.3139,
+      "anchorY": 0.9556,
+      "label": "cottonwood gale 2",
+      "kind": "nature-gales",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1060,
+          77,
+          477,
+          492
+        ],
+        "visiblePixels": 123925,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/nature-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cottonwood-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/nature-gales"
+    },
+    "sapling-gale-1": {
+      "sheet": "nature-gales",
+      "x": 447,
+      "y": 602,
+      "w": 251,
+      "h": 235,
+      "anchorX": 0.3904,
+      "anchorY": 0.9277,
+      "label": "sapling gale 1",
+      "kind": "nature-gales",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          449,
+          604,
+          247,
+          231
+        ],
+        "visiblePixels": 34472,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/nature-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sapling-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/nature-gales"
+    },
+    "sapling-gale-2": {
+      "sheet": "nature-gales",
+      "x": 1109,
+      "y": 610,
+      "w": 290,
+      "h": 229,
+      "anchorX": 0.3,
+      "anchorY": 0.9258,
+      "label": "sapling gale 2",
+      "kind": "nature-gales",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          1111,
+          612,
+          286,
+          225
+        ],
+        "visiblePixels": 36502,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/nature-gales.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "sapling-gale"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/nature-gales"
+    },
     "campfire-night-1": {
       "sheet": "night-settlement-lights",
       "x": 75,
@@ -149586,6 +149780,36 @@
       "motion": "rock",
       "direction": "east; west by mirroring"
     },
+    "cottonwood-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "cottonwood-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "cottonwood-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "sapling-gale": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "sapling-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "sapling-gale-2",
+          "duration": 600
+        }
+      ]
+    },
     "campfire-night": {
       "frames": [
         {
@@ -160807,7 +161031,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 335,
+    "sourceCount": 336,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

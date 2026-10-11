@@ -5131,6 +5131,28 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/family-portraits.png",
       "postProcessing": "None; PNG copied unchanged. Atlas uses measured alpha crops.",
       "review": "All twelve established cast identities, neutral front-facing busts, distinct infant/toddler/children and youths."
+    },
+    {
+      "sheet": "nature-gales",
+      "promptId": "frontier-v1/nature-gales",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "refinements": [
+        {
+          "prompt": "Spacing-only edit. Preserve exact TWO columns TWO rows FOUR trees, cottonwood paired gusts top row and sapling paired gusts bottom row, same identities details colors and distinct poses. Shrink EACH entire tree by30percent and center each in its own equal cell, every full canopy branch root entirely central60percent of own cell widthheight. Minimum60px fully transparent gutters at EVERY seam and all outeredges; no canopy may be clipped or leave its cell. Preserve rooted bases per pair, no detached leaves, no newly added things. Actual alpha0 background no glow shadow backdrop text grid. Four complete distinct trees only."
+        },
+        {
+          "prompt": "Identity correction edit. Image1 target is four gale trees 2columns2rows. Image2 nature reference: the GAME'S cottonwood draws the tall slender tree in TOP ROW THIRD slot (NOT broad round fourth). Replace ONLY target TOP ROW two cottonwood gust drawings to match that tall slender upright identity: long forked gray-brown trunk, tall narrow oval crown with many small olive leaf clusters and thin visible upright forks, crown mass much taller than wide. Gust1 upper crown bends/streams right about one sixth treeheight, Gust2 upper crown a little farther right, rooted lower trunk remains same. Do NOT replace with broad heavy oak or spreading crown. Match original same thin trunk rootflare leaves color, no brokenfallingtree. Keep two distinct gusts no movement of rooted feet. Keep BOTTOM ROW sapling gusts completely unchanged. Exact2columns2rows, each whole tree central60percent its own equal cell, minimum60px clear gutters allseams/exterior. Real alpha0 no backdrop labels text grid glow shadow detachedleaves. Warm outlined frontierstorybook textures retained."
+        }
+      ],
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c10b29a8-27b3-488d-ae4a-5137137e5ed1.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-db8e1f99-117b-43d3-853e-016ba6160177.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/nature-gales.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Two rooted cottonwood gusts and two rooted young sapling gusts. Same original nature-sheet identities, downwind crowns, true alpha."
     }
   ],
   "rejectedAttempts": [

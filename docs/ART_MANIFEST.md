@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3144 usable sprites, 335 PNG atlases, 1104 clips** (783 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3148 usable sprites, 336 PNG atlases, 1106 clips** (785 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -257,6 +257,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wildlife-mustang | 16 | 1254 × 1254 | 1311610 |
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
+| nature-gales | 4 | 1774 × 887 | 1030716 |
 | night-settlement-lights | 16 | 1254 × 1254 | 1713707 |
 | norther-ground | 6 | 1024 × 1536 | 2216491 |
 | oak-gale | 12 | 1448 × 1086 | 1964372 |
@@ -2571,6 +2572,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-laden-2 | steamboat-laden | steamboat-laden |
 | steamboat-laden-3 | steamboat-laden | steamboat-laden |
 | steamboat-laden-4 | steamboat-laden | steamboat-laden |
+| cottonwood-gale-1 | nature-gales | cottonwood-gale |
+| cottonwood-gale-2 | nature-gales | cottonwood-gale |
+| sapling-gale-1 | nature-gales | sapling-gale |
+| sapling-gale-2 | nature-gales | sapling-gale |
 | campfire-night-1 | night-settlement-lights | campfire-night |
 | campfire-night-2 | night-settlement-lights | campfire-night |
 | campfire-night-3 | night-settlement-lights | campfire-night |
@@ -4261,6 +4266,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mustang-gallop | Pose cycle | 8 | 1080 | yes | east; west by mirroring |
 | steamboat-steam | Pose cycle | 4 | 1320 | yes | east; west by mirroring |
 | steamboat-laden | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
+| cottonwood-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| sapling-gale | Pose cycle | 2 | 1200 | yes | undefined |
 | campfire-night | Pose cycle | 4 | 720 | yes | scenery |
 | adobe-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | jacal-night-lit | Pose cycle | 4 | 2800 | yes | scenery |

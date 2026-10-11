@@ -1,0 +1,11 @@
+{
+  "verdict": "PASS",
+  "rendered": 8,
+  "distinctFrames": 4,
+  "regionSelection": [
+    null,
+    "cottonwood-gale-1",
+    null
+  ],
+  "errors": []
+}

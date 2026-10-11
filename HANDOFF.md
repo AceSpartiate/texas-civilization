@@ -1,3 +1,7 @@
+## Completed art group 2026-10-11: final generic norther trees
+
+Cottonwood/sapling gust pairs and two authored loops close the remaining September 20 norther group. Both match the runtime upright identities; kept ground uses pose one, clips support paused animated close views. Legacy invented woods now sample each tree’s weather and retain identity-preserving fallback. Library source audit now includes sized catalogue trees and bank reeds, fixing its stale gale false failures. Full inventory, prompts and proof: `docs/ART_DELIVERY_2026-10-11-NATURE-GALES.md`. Broad remaining backlog: **17 dated parent groups**. No deployment performed.
+
 ## Completed art group 2026-10-11: all twelve family portraits
 
 The entire September 15 standard portrait request is delivered and registered. Neutral painted busts match adult, youth, child, toddler and infant world identities, readable at 44/56/192 pixels. Customized appearance rendering remains matched to its own world figure. Retired portrait sources and stale marks/tools; 18 focused tests and 48 production browser draws pass. Full prompts, manifest and reviewed evidence: `docs/ART_DELIVERY_2026-10-11-FAMILY-PORTRAITS.md`. Broad remaining backlog: **18 dated parent groups**, detailed in `docs/ART_REMAINING_AUDIT_2026-10-10.md`. This commit is ready for the next release; no deployment performed.

@@ -208,13 +208,16 @@ export function inGale(mix) { return galeForce(mix) >= GALE; }
  * Authored gale poses replace upright shear for delivered trees and ground cover. Basic scrub,
  * reeds, prickly pear and every sized tree from trees-colonies-1 now have dedicated poses.
  * All standing trees from both colony sheets and all delivered biome-tree sizes have gale poses.
- * Remaining generic nature marks retain upright shear when no pose is registered.
+ * Cottonwood and sapling now complete the generic nature tree gale poses.
  *
  * The names collide with four one-frame `*-wind` CLIPS that predate the delivery and hold the upright sprite swaying
  * (public/assets/frontier-v1/animation.json). Frames and clips are separate tables in public/art.js, so `drawSprite`
  * takes the painted gale and `drawClip` the old sway; every caller here means the frame.
  */
 export const GALE_POSES = Object.freeze({
+  // Final generic nature trees, 2026-10-11.
+  cottonwood: 'cottonwood-gale-1',
+  sapling: 'sapling-gale-1',
   // `weather-norther`, 2026-09-21.
   'oak-broad': 'oak-broad-wind',
   'oak-spreading': 'oak-spreading-wind',
@@ -285,6 +288,12 @@ export const GALE_POSES = Object.freeze({
 /** The gale pose to draw this sprite as, or null to draw it upright and sheared by `windLean`. */
 export function galePose(sprite, mix) {
   return inGale(mix) ? (GALE_POSES[sprite] || null) : null;
+}
+/** Draw an authored gale without double shear; unloaded art keeps the same upright identity and its wind lean. */
+export function drawWeatherTree(ctx, sprite, x, y, height, mix, drawSprite) {
+  const pose = galePose(sprite, mix);
+  if (pose && drawSprite(ctx, pose, x, y, height)) return true;
+  return Boolean(drawSprite(ctx, sprite, x, y, height, { lean: mix ? windLean(mix) : 0 }));
 }
 /** The smoke of a fire in a hard norther: lying flat and streaming, rather than rising. */
 export const GALE_SMOKE = 'smoke-streaming';
