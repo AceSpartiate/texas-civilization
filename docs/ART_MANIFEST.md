@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3132 usable sprites, 334 PNG atlases, 1104 clips** (783 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3144 usable sprites, 335 PNG atlases, 1104 clips** (783 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -81,6 +81,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-family-youth-girl | 16 | 1254 × 1254 | 1537178 |
 | people-family-father-hat | 16 | 1254 × 1254 | 1292458 |
 | family-panel-marks | 6 | 1286 × 1223 | 985678 |
+| family-portraits | 12 | 1448 × 1086 | 1237816 |
 | famous-bonham | 16 | 1254 × 1254 | 1241019 |
 | famous-almeron-dickinson | 16 | 1254 × 1254 | 905031 |
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
@@ -1056,6 +1057,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mark-idle | family-panel-marks | State artwork; no motion required |
 | mark-auto-off | family-panel-marks | State artwork; no motion required |
 | mark-auto-on | family-panel-marks | State artwork; no motion required |
+| portrait-rust | family-portraits | State artwork; no motion required |
+| portrait-teal | family-portraits | State artwork; no motion required |
+| portrait-elder | family-portraits | State artwork; no motion required |
+| portrait-blue | family-portraits | State artwork; no motion required |
+| portrait-rust-woman | family-portraits | State artwork; no motion required |
+| portrait-indigo | family-portraits | State artwork; no motion required |
+| portrait-ochre | family-portraits | State artwork; no motion required |
+| portrait-blue-girl | family-portraits | State artwork; no motion required |
+| portrait-girl | family-portraits | State artwork; no motion required |
+| portrait-boy | family-portraits | State artwork; no motion required |
+| portrait-smallchild | family-portraits | State artwork; no motion required |
+| portrait-infant | family-portraits | State artwork; no motion required |
 | bonham-walk-e-1 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-2 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-3 | famous-bonham | bonham-walk-e |

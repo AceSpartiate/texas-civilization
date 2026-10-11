@@ -21,9 +21,6 @@ import { fileURLToPath } from 'node:url';
 export const root = fileURLToPath(new URL('../public/assets/claude-standins/', import.meta.url));
 export const WEB_ROOT = '/assets/claude-standins/';
 
-const MARKS = 'Request 2026-09-16 — the family panel’s marks';
-const PORTRAITS = 'Request 2026-09-15 — face portraits for the family panel';
-const TOOLS = 'Request 2026-09-12 (second) — interiors and furnishings: the wagon’s tools';
 
 /**
  * Every Claude-drawn frame: the name the code draws (the name Astra's delivery will carry, so hers replaces it), the
@@ -31,21 +28,13 @@ const TOOLS = 'Request 2026-09-12 (second) — interiors and furnishings: the wa
  * svg/claude-<name>.svg and the cell is the request's delivered size.
  */
 export const SHEETS = {
-  'claude-marks': { cell: 96, request: MARKS, replaceWith: '96 by 96, transparent, no text', frames: [
-    'mark-need', 'mark-need-rider', 'mark-main', 'mark-idle', 'mark-auto-off', 'mark-auto-on',
-  ] },
+  // Retired: painted panel marks and home tools delivered 2026-10-07; duplicates cleaned 2026-10-11.
   // **Retired 2026-09-21.** `claude-icons-winter` (the winter's eight) and `claude-icons-actions` (twenty-nine of the
   // family panel's) are gone: Astra delivered all 53 action icons that day
   // (docs/ART_DELIVERY_2026-09-21-FAMILY-ACTION-ICONS.md), her frames win in the loader, and the rule for a stand-in is
   // that it is deleted the moment the real art lands. The rules they proved are kept in the request itself: one
   // silhouette, a thin dark outline, and readable dimmed to 40 per cent at 34-38 CSS pixels.
-  'claude-portraits': { cell: 192, request: PORTRAITS, replaceWith: '192 by 192, head and shoulders facing the viewer, matching the sheet figure', frames: [
-    'portrait-rust', 'portrait-teal', 'portrait-elder', 'portrait-blue', 'portrait-rust-woman', 'portrait-indigo', 'portrait-ochre',
-    'portrait-blue-girl', 'portrait-girl', 'portrait-boy', 'portrait-smallchild', 'portrait-infant',
-  ] },
-  'claude-home-tools': { cell: 160, request: TOOLS, replaceWith: 'in the home-furnishings style and scale, standing or leaning as in a cabin', frames: [
-    'home-hoe', 'home-felling-axe', 'home-broadaxe', 'home-froe', 'home-auger',
-  ] },
+  // Retired 2026-10-11: all twelve painted family portraits are in frontier-v1.
 };
 
 export const sourceOf = name => `svg/claude-${name}.svg`;

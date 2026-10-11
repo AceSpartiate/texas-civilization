@@ -1,3 +1,7 @@
+## Completed art group 2026-10-11: all twelve family portraits
+
+The entire September 15 standard portrait request is delivered and registered. Neutral painted busts match adult, youth, child, toddler and infant world identities, readable at 44/56/192 pixels. Customized appearance rendering remains matched to its own world figure. Retired portrait sources and stale marks/tools; 18 focused tests and 48 production browser draws pass. Full prompts, manifest and reviewed evidence: `docs/ART_DELIVERY_2026-10-11-FAMILY-PORTRAITS.md`. Broad remaining backlog: **18 dated parent groups**, detailed in `docs/ART_REMAINING_AUDIT_2026-10-10.md`. This commit is ready for the next release; no deployment performed.
+
 ## Completed request group 2026-10-10: two-pen roof joins
 
 All three required roof states (finished, partial, chimney aperture) and ridge coordinates are delivered and integrated. The production renderer fits/overlaps the joins at all four rotations, retains construction-state selection and missing-art fallback, and keeps the saddlebag roof on its row seat. Fifty-three house/art tests and the reviewed twelve-house browser montage pass. See `docs/ART_DELIVERY_2026-10-10-ROOF-JOINS.md`. Broad unfinished backlog: **19 dated groups**.

@@ -6,7 +6,7 @@
 //
 // Run: node scripts/draw-claude-portraits.mjs   (then npm run build:standins)
 import { writeFileSync } from 'node:fs';
-import { root, sourceOf } from './build-claude-standins.mjs';
+import { root, sourceOf, SHEETS } from './build-claude-standins.mjs';
 
 const OUT = '#1a0e08';
 
@@ -140,5 +140,7 @@ function wrap(name, defs, parts, what) {
 `;
 }
 
-for (const [name, spec] of Object.entries(CAST)) writeFileSync(root + sourceOf(`portrait-${name}`), portrait(name, spec));
-console.log(`wrote ${Object.keys(CAST).length} portrait SVGs to ${root}svg/`);
+if (SHEETS['claude-portraits']) {
+  for (const [name, spec] of Object.entries(CAST)) writeFileSync(root + sourceOf(`portrait-${name}`), portrait(name, spec));
+  console.log(`wrote ${Object.keys(CAST).length} portrait SVGs to ${root}svg/`);
+} else console.log('Portrait stand-ins retired: frontier-v1 supplies all twelve painted portraits.');

@@ -6421,6 +6421,105 @@
         ]
       }
     },
+    "family-portraits": {
+      "image": "atlases/family-portraits.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1237816,
+      "sha256": "141e2cd8efc5a951e0ffc761031f344953bee4358150a462a61aa8282cc596d9",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.656477,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              75,
+              343
+            ],
+            "columns": [
+              [
+                86,
+                333
+              ],
+              [
+                437,
+                676
+              ],
+              [
+                771,
+                1029
+              ],
+              [
+                1138,
+                1354
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              406,
+              681
+            ],
+            "columns": [
+              [
+                83,
+                322
+              ],
+              [
+                435,
+                679
+              ],
+              [
+                772,
+                1025
+              ],
+              [
+                1127,
+                1360
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              736,
+              1009
+            ],
+            "columns": [
+              [
+                88,
+                323
+              ],
+              [
+                443,
+                671
+              ],
+              [
+                791,
+                1006
+              ],
+              [
+                1149,
+                1357
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-bonham": {
       "image": "atlases/famous-bonham.png",
       "width": 1254,
@@ -46456,6 +46555,294 @@
           329
         ],
         "visiblePixels": 87373,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-rust": {
+      "sheet": "family-portraits",
+      "x": 86,
+      "y": 76,
+      "w": 247,
+      "h": 263,
+      "anchorX": 0.496,
+      "anchorY": 0.9354,
+      "label": "portrait rust",
+      "kind": "family-portraits",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          78,
+          243,
+          259
+        ],
+        "visiblePixels": 42551,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-teal": {
+      "sheet": "family-portraits",
+      "x": 437,
+      "y": 89,
+      "w": 239,
+      "h": 253,
+      "anchorX": 0.4979,
+      "anchorY": 0.9289,
+      "label": "portrait teal",
+      "kind": "family-portraits",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          439,
+          91,
+          235,
+          249
+        ],
+        "visiblePixels": 39498,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-elder": {
+      "sheet": "family-portraits",
+      "x": 771,
+      "y": 75,
+      "w": 258,
+      "h": 268,
+      "anchorX": 0.4981,
+      "anchorY": 0.9291,
+      "label": "portrait elder",
+      "kind": "family-portraits",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          773,
+          77,
+          254,
+          264
+        ],
+        "visiblePixels": 45427,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-blue": {
+      "sheet": "family-portraits",
+      "x": 1138,
+      "y": 88,
+      "w": 216,
+      "h": 255,
+      "anchorX": 0.4977,
+      "anchorY": 0.9294,
+      "label": "portrait blue",
+      "kind": "family-portraits",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1140,
+          90,
+          212,
+          251
+        ],
+        "visiblePixels": 36158,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-rust-woman": {
+      "sheet": "family-portraits",
+      "x": 83,
+      "y": 406,
+      "w": 239,
+      "h": 273,
+      "anchorX": 0.4979,
+      "anchorY": 0.9267,
+      "label": "portrait rust woman",
+      "kind": "family-portraits",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          85,
+          408,
+          235,
+          269
+        ],
+        "visiblePixels": 45821,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-indigo": {
+      "sheet": "family-portraits",
+      "x": 435,
+      "y": 412,
+      "w": 244,
+      "h": 266,
+      "anchorX": 0.4959,
+      "anchorY": 0.9286,
+      "label": "portrait indigo",
+      "kind": "family-portraits",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          437,
+          414,
+          240,
+          262
+        ],
+        "visiblePixels": 43093,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-ochre": {
+      "sheet": "family-portraits",
+      "x": 772,
+      "y": 409,
+      "w": 253,
+      "h": 270,
+      "anchorX": 0.498,
+      "anchorY": 0.9296,
+      "label": "portrait ochre",
+      "kind": "family-portraits",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          774,
+          411,
+          249,
+          266
+        ],
+        "visiblePixels": 41902,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-blue-girl": {
+      "sheet": "family-portraits",
+      "x": 1127,
+      "y": 416,
+      "w": 233,
+      "h": 265,
+      "anchorX": 0.4957,
+      "anchorY": 0.9283,
+      "label": "portrait blue girl",
+      "kind": "family-portraits",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1129,
+          418,
+          229,
+          261
+        ],
+        "visiblePixels": 41944,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-girl": {
+      "sheet": "family-portraits",
+      "x": 88,
+      "y": 743,
+      "w": 235,
+      "h": 266,
+      "anchorX": 0.4979,
+      "anchorY": 0.9286,
+      "label": "portrait girl",
+      "kind": "family-portraits",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          90,
+          745,
+          231,
+          262
+        ],
+        "visiblePixels": 43072,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-boy": {
+      "sheet": "family-portraits",
+      "x": 443,
+      "y": 736,
+      "w": 228,
+      "h": 273,
+      "anchorX": 0.4978,
+      "anchorY": 0.9267,
+      "label": "portrait boy",
+      "kind": "family-portraits",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          445,
+          738,
+          224,
+          269
+        ],
+        "visiblePixels": 41735,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-smallchild": {
+      "sheet": "family-portraits",
+      "x": 791,
+      "y": 746,
+      "w": 215,
+      "h": 263,
+      "anchorX": 0.4977,
+      "anchorY": 0.9278,
+      "label": "portrait smallchild",
+      "kind": "family-portraits",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          793,
+          748,
+          211,
+          259
+        ],
+        "visiblePixels": 41475,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "portrait-infant": {
+      "sheet": "family-portraits",
+      "x": 1149,
+      "y": 767,
+      "w": 208,
+      "h": 238,
+      "anchorX": 0.4976,
+      "anchorY": 0.9286,
+      "label": "portrait infant",
+      "kind": "family-portraits",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1151,
+          769,
+          204,
+          234
+        ],
+        "visiblePixels": 39423,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

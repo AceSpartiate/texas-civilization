@@ -5309,6 +5309,28 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/house-roof-joins.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Three rigid roof join states, finished/partial/chimney aperture, no posts or enclosed gables. Ridge registration supplied separately."
+    },
+    {
+      "sheet": "family-portraits",
+      "promptId": "frontier-v1/family-portraits",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "prompt": "Use case: stylized-concept. Production game portrait atlas, exactly FOUR columns THREE rows TWELVE distinct front-facing head-and-shoulders busts on transparent alpha ground. Match reference images' warm hand-painted frontier storybook style, fine dark brown outlines, rounded readable shapes, soft paperlike cloth detail, earthy colors, same facial identities clothing hair and age. Reference1 civilians rows define row1 portraits left to right: rust adult man tan broad brim hat dark brown beard charcoal neckerchief rust shirt suspenders; teal adult woman brown gathered hair with loose curls teal blouse; elder older dark-skinned man gray beard tan hat cream shirt olive vest; blue adolescent boy dark tousled hair blue shirt tan suspenders. Reference2 cast2 rows define atlas row2 left to right: rust-woman adult woman cream bonnet brown hair rust blouse cream neck bow; indigo adult woman brown gathered hair blue dress cream collar and neck tie; ochre adult clean-shaven man dark tousled hair ochre shirt brown vest; blue-girl adolescent girl dark braid blue blouse. Reference3 children rows define atlas row3 left to right: girl aged5–9 dark braid salmon patterned dress cream apron; boy aged5–9 blond tousled hair cream shirt brown suspenders; smallchild aged2–4 round toddler face dark bowl-tousled hair cream smock; infant under2 round baby face tiny dark tuft wrapped in cream blanket hood. EACH is a bust only showing whole head and broad shoulders to chest, neutral gentle expression, facing viewer. Infants/toddlers unmistakably their ages, no adult bodies. No basket necessary. Equal visual size and centered within own cell, every entire silhouette fits central65percent cell width/height; generous completely transparent gutters at every seam and exterior edge. Do not make profile views, no extra figures no words no labels no border no background scene no glow/shadow/checkerboard. Exact12 portraits in specified row-major order, original art suitable readable downscale44px. Preserve reference identities, not photorealism or anime.",
+      "refinements": [
+        {
+          "prompt": "Precise spacing edit only. Preserve all twelve portraits exactly their identities, expressions clothes ages and painterly style, exact FOUR columns THREE rows row-major positions. Shrink each entire bust uniformly by 28 percent and center it inside its own equal cell leaving at least45px completely transparent gutters at ALL row and column boundaries. Include all hat edges, whole shoulder edges. No portraits may touch any neighbor or seam. Background genuinely alpha0, no shadows glow text grids scene. Do not change identities or colors. Keep twelve entire isolated head-and-shoulders portraits."
+        }
+      ],
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/civilians.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9f59025f-6f58-424c-89f5-b58709d56642.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0974aaf4-a948-47f4-81af-550b504daadb.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/family-portraits.png",
+      "postProcessing": "None; PNG copied unchanged. Atlas uses measured alpha crops.",
+      "review": "All twelve established cast identities, neutral front-facing busts, distinct infant/toddler/children and youths."
     }
   ]
 }
