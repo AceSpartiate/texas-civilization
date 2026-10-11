@@ -4729,6 +4729,229 @@
         ]
       }
     },
+    "colony-hardwoods": {
+      "image": "atlases/colony-hardwoods.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2641448,
+      "sha256": "ed1bdd3a22d1bb25a4b7176a77da96340e10e1e4432fce9c167716a6a7130e23",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.425053,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              27,
+              431
+            ],
+            "columns": [
+              [
+                25,
+                412
+              ],
+              [
+                425,
+                900
+              ],
+              [
+                913,
+                1394
+              ],
+              [
+                1411,
+                1747
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              431,
+              870
+            ],
+            "columns": [
+              [
+                73,
+                351
+              ],
+              [
+                445,
+                898
+              ],
+              [
+                942,
+                1346
+              ],
+              [
+                1391,
+                1741
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "colony-oak-gales": {
+      "image": "atlases/colony-oak-gales.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2716648,
+      "sha256": "bf134946025820fd84f6516af1cfb179a3bc932dbc0518233136b856b3942d92",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.379123,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              14,
+              439
+            ],
+            "columns": [
+              [
+                21,
+                427
+              ],
+              [
+                440,
+                887
+              ],
+              [
+                901,
+                1353
+              ],
+              [
+                1358,
+                1766
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              438,
+              872
+            ],
+            "columns": [
+              [
+                21,
+                449
+              ],
+              [
+                457,
+                918
+              ],
+              [
+                953,
+                1325
+              ],
+              [
+                1377,
+                1758
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "colony-compound-gales": {
+      "image": "atlases/colony-compound-gales.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 3090731,
+      "sha256": "080bcfd3bff295fc129dae1ccea6513fa728b5b4bebead773a27dd939d18141d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.423315,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              34,
+              518
+            ],
+            "columns": [
+              [
+                55,
+                510
+              ],
+              [
+                551,
+                1015
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              528,
+              998
+            ],
+            "columns": [
+              [
+                26,
+                530
+              ],
+              [
+                546,
+                1022
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1012,
+              1516
+            ],
+            "columns": [
+              [
+                32,
+                525
+              ],
+              [
+                543,
+                1015
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "conifer-gale": {
       "image": "atlases/conifer-gale.png",
       "width": 1448,
@@ -41626,6 +41849,548 @@
           240
         ],
         "visiblePixels": 62784,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-water-oak": {
+      "sheet": "colony-hardwoods",
+      "x": 25,
+      "y": 27,
+      "w": 387,
+      "h": 401,
+      "anchorX": 0.4884,
+      "anchorY": 0.9551,
+      "label": "tree water oak",
+      "kind": "colony-hardwoods",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          27,
+          29,
+          383,
+          397
+        ],
+        "visiblePixels": 94768,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-bur-oak": {
+      "sheet": "colony-hardwoods",
+      "x": 425,
+      "y": 27,
+      "w": 475,
+      "h": 403,
+      "anchorX": 0.5116,
+      "anchorY": 0.9454,
+      "label": "tree bur oak",
+      "kind": "colony-hardwoods",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          29,
+          471,
+          399
+        ],
+        "visiblePixels": 127527,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-white-oak": {
+      "sheet": "colony-hardwoods",
+      "x": 913,
+      "y": 27,
+      "w": 481,
+      "h": 404,
+      "anchorX": 0.4948,
+      "anchorY": 0.953,
+      "label": "tree white oak",
+      "kind": "colony-hardwoods",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          915,
+          29,
+          477,
+          400
+        ],
+        "visiblePixels": 118412,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-texas-oak": {
+      "sheet": "colony-hardwoods",
+      "x": 1411,
+      "y": 32,
+      "w": 336,
+      "h": 399,
+      "anchorX": 0.5089,
+      "anchorY": 0.9549,
+      "label": "tree texas oak",
+      "kind": "colony-hardwoods",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1413,
+          34,
+          332,
+          395
+        ],
+        "visiblePixels": 70340,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-hickory": {
+      "sheet": "colony-hardwoods",
+      "x": 73,
+      "y": 432,
+      "w": 278,
+      "h": 437,
+      "anchorX": 0.5036,
+      "anchorY": 0.9542,
+      "label": "tree hickory",
+      "kind": "colony-hardwoods",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          434,
+          274,
+          433
+        ],
+        "visiblePixels": 68601,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-walnut": {
+      "sheet": "colony-hardwoods",
+      "x": 445,
+      "y": 432,
+      "w": 453,
+      "h": 438,
+      "anchorX": 0.5022,
+      "anchorY": 0.9498,
+      "label": "tree walnut",
+      "kind": "colony-hardwoods",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          447,
+          434,
+          449,
+          434
+        ],
+        "visiblePixels": 119031,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-ash": {
+      "sheet": "colony-hardwoods",
+      "x": 942,
+      "y": 431,
+      "w": 404,
+      "h": 438,
+      "anchorX": 0.4913,
+      "anchorY": 0.9543,
+      "label": "tree ash",
+      "kind": "colony-hardwoods",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          944,
+          433,
+          400,
+          434
+        ],
+        "visiblePixels": 96003,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "stump-pecan": {
+      "sheet": "colony-hardwoods",
+      "x": 1391,
+      "y": 660,
+      "w": 350,
+      "h": 208,
+      "anchorX": 0.49,
+      "anchorY": 0.9279,
+      "label": "stump pecan",
+      "kind": "colony-hardwoods",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1393,
+          662,
+          346,
+          204
+        ],
+        "visiblePixels": 44372,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-water-oak-gale-1": {
+      "sheet": "colony-oak-gales",
+      "x": 21,
+      "y": 23,
+      "w": 406,
+      "h": 412,
+      "anchorX": 0.4766,
+      "anchorY": 0.9539,
+      "logicalHeight": 412,
+      "label": "tree water oak gale 1",
+      "kind": "colony-oak-gales",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          23,
+          25,
+          402,
+          408
+        ],
+        "visiblePixels": 101299,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-water-oak-gale-2": {
+      "sheet": "colony-oak-gales",
+      "x": 440,
+      "y": 43,
+      "w": 447,
+      "h": 396,
+      "anchorX": 0.4072,
+      "anchorY": 0.9571,
+      "logicalHeight": 412,
+      "label": "tree water oak gale 2",
+      "kind": "colony-oak-gales",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          442,
+          45,
+          443,
+          392
+        ],
+        "visiblePixels": 103890,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-bur-oak-gale-1": {
+      "sheet": "colony-oak-gales",
+      "x": 901,
+      "y": 14,
+      "w": 452,
+      "h": 420,
+      "anchorX": 0.5011,
+      "anchorY": 0.95,
+      "logicalHeight": 420,
+      "label": "tree bur oak gale 1",
+      "kind": "colony-oak-gales",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          903,
+          16,
+          448,
+          416
+        ],
+        "visiblePixels": 127878,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-bur-oak-gale-2": {
+      "sheet": "colony-oak-gales",
+      "x": 1358,
+      "y": 27,
+      "w": 408,
+      "h": 408,
+      "anchorX": 0.489,
+      "anchorY": 0.9461,
+      "logicalHeight": 420,
+      "label": "tree bur oak gale 2",
+      "kind": "colony-oak-gales",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1360,
+          29,
+          404,
+          404
+        ],
+        "visiblePixels": 107553,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-white-oak-gale-1": {
+      "sheet": "colony-oak-gales",
+      "x": 21,
+      "y": 442,
+      "w": 428,
+      "h": 427,
+      "anchorX": 0.4766,
+      "anchorY": 0.9485,
+      "logicalHeight": 427,
+      "label": "tree white oak gale 1",
+      "kind": "colony-oak-gales",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          23,
+          444,
+          424,
+          423
+        ],
+        "visiblePixels": 107139,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-white-oak-gale-2": {
+      "sheet": "colony-oak-gales",
+      "x": 457,
+      "y": 443,
+      "w": 461,
+      "h": 426,
+      "anchorX": 0.4458,
+      "anchorY": 0.9507,
+      "logicalHeight": 427,
+      "label": "tree white oak gale 2",
+      "kind": "colony-oak-gales",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          459,
+          445,
+          457,
+          422
+        ],
+        "visiblePixels": 115962,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-texas-oak-gale-1": {
+      "sheet": "colony-oak-gales",
+      "x": 953,
+      "y": 439,
+      "w": 372,
+      "h": 433,
+      "anchorX": 0.4664,
+      "anchorY": 0.9561,
+      "logicalHeight": 434,
+      "label": "tree texas oak gale 1",
+      "kind": "colony-oak-gales",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          955,
+          441,
+          368,
+          429
+        ],
+        "visiblePixels": 85831,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-texas-oak-gale-2": {
+      "sheet": "colony-oak-gales",
+      "x": 1377,
+      "y": 438,
+      "w": 381,
+      "h": 434,
+      "anchorX": 0.4278,
+      "anchorY": 0.9539,
+      "logicalHeight": 434,
+      "label": "tree texas oak gale 2",
+      "kind": "colony-oak-gales",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1379,
+          440,
+          377,
+          430
+        ],
+        "visiblePixels": 88905,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-hickory-gale-1": {
+      "sheet": "colony-compound-gales",
+      "x": 55,
+      "y": 34,
+      "w": 455,
+      "h": 484,
+      "anchorX": 0.3681,
+      "anchorY": 0.9545,
+      "logicalHeight": 484,
+      "label": "tree hickory gale 1",
+      "kind": "colony-compound-gales",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          57,
+          36,
+          451,
+          480
+        ],
+        "visiblePixels": 125065,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-hickory-gale-2": {
+      "sheet": "colony-compound-gales",
+      "x": 551,
+      "y": 54,
+      "w": 464,
+      "h": 464,
+      "anchorX": 0.3481,
+      "anchorY": 0.9526,
+      "logicalHeight": 484,
+      "label": "tree hickory gale 2",
+      "kind": "colony-compound-gales",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          553,
+          56,
+          460,
+          460
+        ],
+        "visiblePixels": 118457,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-walnut-gale-1": {
+      "sheet": "colony-compound-gales",
+      "x": 26,
+      "y": 528,
+      "w": 504,
+      "h": 470,
+      "anchorX": 0.4236,
+      "anchorY": 0.9489,
+      "logicalHeight": 470,
+      "label": "tree walnut gale 1",
+      "kind": "colony-compound-gales",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          28,
+          530,
+          500,
+          466
+        ],
+        "visiblePixels": 145308,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-walnut-gale-2": {
+      "sheet": "colony-compound-gales",
+      "x": 546,
+      "y": 547,
+      "w": 476,
+      "h": 451,
+      "anchorX": 0.4118,
+      "anchorY": 0.949,
+      "logicalHeight": 470,
+      "label": "tree walnut gale 2",
+      "kind": "colony-compound-gales",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          548,
+          549,
+          472,
+          447
+        ],
+        "visiblePixels": 124208,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-ash-gale-1": {
+      "sheet": "colony-compound-gales",
+      "x": 32,
+      "y": 1012,
+      "w": 493,
+      "h": 504,
+      "anchorX": 0.4432,
+      "anchorY": 0.9524,
+      "logicalHeight": 504,
+      "label": "tree ash gale 1",
+      "kind": "colony-compound-gales",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          34,
+          1014,
+          489,
+          500
+        ],
+        "visiblePixels": 137836,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "tree-ash-gale-2": {
+      "sheet": "colony-compound-gales",
+      "x": 543,
+      "y": 1026,
+      "w": 472,
+      "h": 490,
+      "anchorX": 0.3591,
+      "anchorY": 0.951,
+      "logicalHeight": 504,
+      "label": "tree ash gale 2",
+      "kind": "colony-compound-gales",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          545,
+          1028,
+          468,
+          486
+        ],
+        "visiblePixels": 126298,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

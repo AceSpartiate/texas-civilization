@@ -5499,6 +5499,46 @@
           ]
         }
       ]
+    },
+    {
+      "sheet": "colony-hardwoods",
+      "promptId": "frontier-v1/colony-hardwoods",
+      "prompt": "Use case: stylized-concept. Production transparent game sprite atlas EXACT FOUR columns TWO rows EIGHT isolated subjects. Established warm hand-painted frontier storybook miniature tree style from reference, thin dark brown outlines, muted earthy olive greens and gray-brown bark, readable clustered leaves, slightly elevated 3quarter game view. Precise order: row1 left to right WATER OAK, BUR OAK, WHITE OAK, TEXAS RED OAK. Row2 left to right HICKORY, BLACK WALNUT, GREEN ASH, PECAN STUMP. Water oak: rounded high dense small-leaf crown, straight dark ridged trunk, small spatula-shaped leaves broader at ends with subtle shallow lobes, not generic huge maple leaves. Bur oak: oldest broadest squat massive crooked stout trunk and spreading heavy limbs, pale rough deeply ridged bark, deeply lobed round-tipped large leaves, wide irregular crown. White oak: lighter pale gray scaly bark, open broad round crown spread on muscular curving limbs, deeply rounded leaf lobes, clearly different from squat bur oak. Texas red oak Quercus buckleyi: smaller irregular multistem forked dark fissured trunk and crown of sharply pointed bristle-tipped oak leaf lobes, olive green not red season color. Hickory: tall straight dark gray ridged bole, upright narrow oval crown, clusters of five to seven pointed pinnate leaflets with larger terminal leaflet, NO exaggerated peeling shagbark strips. Black walnut: stout dark deeply furrowed straight trunk, broad high irregular airy crown, long pinnate leaves with many small pointed leaflets, not same hickory canopy. Green ash: straight light gray trunk with diamond-patterned bark ridges, opposite ascending branching forming an open rounded crown, paired pointed pinnate leaflets. Pecan stump: ONLY a low cut trunk stump with rough gray-brown ridged pecan bark, pale cream cut face with growth rings and subtle darker heartwood, flared rooted base, no standing tree no log no axes. All seven trees are mature leafy neutral-season forms, no flowers nuts berries moss leaf piles autumn colors. Tiny grass at roots only. Every complete subject centered in central55percent OWN equal cell, minimum60px true alpha0 gutters at every seam and outeredge, zero overlap/cropping, no outside glow shadow backdrop landscape rocks water people text labels grid/checkerboard. Whole roots crowns intact; stump occupies lower-middle owncell. Distinct botanical silhouettes, same art style and palette.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3940c36f-5085-4154-8dc9-67e730e04fa2.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-2.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-species.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/colony-hardwoods.png",
+      "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
+    },
+    {
+      "sheet": "colony-oak-gales",
+      "promptId": "frontier-v1/colony-oak-gales",
+      "prompt": "Use case: stylized-concept. Derive transparent authored tree gust sprite atlas from reference. EXACT FOUR columns TWO rows EIGHT whole trees. Image1 first TOP row four oaks only: row1 columns1/2 WATER OAK same original top-left in two distinct gust poses; columns3/4 BUR OAK same original topsecond. Row2 columns1/2 WHITE OAK originaltopthird; columns3/4 TEXAS RED OAK originaltopfourth. Do not include hickory walnut ash or stump. Each pair first firm gust and second slightly stronger gust: upper branches and crown swept visibly SCREEN RIGHT, trunk lower third rooted fixed unchanged, not falling uprooted or broken. Preserve exact species identities, leaf forms, bark, roots, neutral leafy-season colors and warm brown outlined painted frontier style of original. Match muted olive green exactly; NO yellow/golden highlight shift or autumn color or glow. Each pair same visual scale and rooted baseline; small natural branching/leaf-cluster movement, actual distinct drawings not copied images or code shear. Every whole subject entirely central55percent OWN equal cell with minimum60px genuine alpha0 gutters all seams and outeredges, no overlap clipping detached leaves landscape people water text labels grids shadows aura. No additional subjects. Keep crowns botanically distinct and complete.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive authored gusts",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2221ef57-3b24-4fa3-b9d6-cf605cc97f55.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3940c36f-5085-4154-8dc9-67e730e04fa2.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/colony-oak-gales.png",
+      "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
+    },
+    {
+      "sheet": "colony-compound-gales",
+      "promptId": "frontier-v1/colony-compound-gales",
+      "prompt": "Use case: stylized-concept. Derive transparent authored tree gust sprite atlas from reference. EXACT TWO columns THREE rows SIX whole trees. Image1 BOTTOM row first three trees only: row1 HICKORY originalbottomleft in two distinct gust poses; row2 BLACK WALNUT originalbottomsecond in two distinct gust poses; row3 GREEN ASH originalbottomthird in two distinct gust poses. Do not include any oak or the stump. Each pair first firm gust and second slightly stronger gust: upper branches and crown swept visibly SCREEN RIGHT, trunk lower third rooted fixed unchanged, not falling uprooted or broken. Preserve exact species identities, leaf forms, bark, roots, neutral leafy-season colors and warm brown outlined painted frontier style of original. Match muted olive green exactly; NO yellow/golden highlight shift or autumn color or glow. Each pair same visual scale and rooted baseline; small natural branching/leaf-cluster movement, actual distinct drawings not copied images or code shear. Every whole subject entirely central55percent OWN equal cell with minimum60px genuine alpha0 gutters all seams and outeredges, no overlap clipping detached leaves landscape people water text labels grids shadows aura. No additional subjects. Keep crowns botanically distinct and complete.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive authored gusts",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-54021c1a-18a5-4489-9ff5-fc772e623f60.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3940c36f-5085-4154-8dc9-67e730e04fa2.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/colony-compound-gales.png",
+      "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
     }
   ]
 }

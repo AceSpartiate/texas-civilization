@@ -3521,6 +3521,112 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "tree-water-oak-gale": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-water-oak-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-water-oak-gale-2",
+          "duration": 600
+        }
+      ],
+      "direction": "not applicable"
+    },
+    "tree-bur-oak-gale": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-bur-oak-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-bur-oak-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-white-oak-gale": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-white-oak-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-white-oak-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-texas-oak-gale": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-texas-oak-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-texas-oak-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-hickory-gale": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-hickory-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-hickory-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-walnut-gale": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-walnut-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-walnut-gale-2",
+          "duration": 600
+        }
+      ]
+    },
+    "tree-ash-gale": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "tree-ash-gale-1",
+          "duration": 600
+        },
+        {
+          "sprite": "tree-ash-gale-2",
+          "duration": 600
+        }
+      ]
+    },
     "pine-loblolly-pole-gale": {
       "loop": true,
       "authored": true,

@@ -322,17 +322,16 @@ const kind = (name, logs, use, fell, picture, look = {}) => Object.freeze({ name
 const SIZED = { sized: true };
 export const KINDS = Object.freeze({
   // `trees-colonies-2`, 2026-09-21: post oak, blackjack, pecan, hackberry and sweetgum now have their own pole, log and
-  // large art (docs/ART_DELIVERY_2026-09-21-TREES-COLONIES-2.md). The other oaks take the post oak's - they are oaks, and
-  // it is nearer than the generic broadleaf they had - and the hickory, walnut and ash the pecan's, as they always did.
+  // large art. Additional hardwood identities and pecan stump delivered 2026-10-11; mature silhouettes scale by size.
   'post-oak': kind('post oak', [1, 2, 2], 'sill', 1, 'post-oak', SIZED),
   blackjack: kind('blackjack oak', [1, 1, 2], 'poor', 1, 'blackjack', SIZED),
-  hickory: kind('hickory', [1, 2, 2], 'wall', 1.2, 'pecan', SIZED),
+  hickory: kind('hickory', [1, 2, 2], 'wall', 1.2, 'tree-hickory'),
   'live-oak': kind('live oak', [0, 1, 1], 'sill', 1.5, 'live-oak', SIZED),
-  'water-oak': kind('water oak', [1, 2, 3], 'wall', 1, 'post-oak', SIZED),
-  pecan: kind('pecan', [1, 2, 2], 'wall', 1.2, 'pecan', SIZED),
-  walnut: kind('walnut', [1, 2, 2], 'wall', 1.2, 'pecan', SIZED),
+  'water-oak': kind('water oak', [1, 2, 3], 'wall', 1, 'tree-water-oak'),
+  pecan: kind('pecan', [1, 2, 2], 'wall', 1.2, 'pecan', { ...SIZED, stump: 'stump-pecan' }),
+  walnut: kind('walnut', [1, 2, 2], 'wall', 1.2, 'tree-walnut'),
   elm: kind('elm', [1, 2, 2], 'poor', 1, 'elm', SIZED),
-  ash: kind('ash', [1, 2, 3], 'wall', 1, 'pecan', SIZED),
+  ash: kind('ash', [1, 2, 3], 'wall', 1, 'tree-ash'),
   hackberry: kind('hackberry', [1, 1, 2], 'poor', 0.8, 'hackberry', SIZED),
   cottonwood: kind('cottonwood', [2, 3, 3], 'poor', 0.6, 'cottonwood', { stump: 'stump-cottonwood' }),
   sycamore: kind('sycamore', [1, 2, 3], 'poor', 1, 'cottonwood', { stump: 'stump-cottonwood' }),
@@ -343,11 +342,11 @@ export const KINDS = Object.freeze({
   // The biomes of 1836 (docs/BIOMES.md §7.1, 2026-09-19). stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of
   // The principal indicator species now have their own art. Beech and magnolia have log and large frames; their rare pole-size
   // juveniles use the log frame at reduced scale until a botanically useful juvenile silhouette is requested.
-  'bur-oak': kind('bur oak', [1, 2, 2], 'sill', 1.1, 'post-oak', SIZED),
+  'bur-oak': kind('bur oak', [1, 2, 2], 'sill', 1.1, 'tree-bur-oak'),
   longleaf: kind('longleaf pine', [2, 3, 4], 'wall', 0.8, 'pine-longleaf', { sized: true, stump: 'stump-pine-loblolly' }),
   beech: kind('beech', [1, 2, 3], 'poor', 1.1, 'beech-log', { pictures: ['beech-log', 'beech-log', 'beech-large'] }),
   magnolia: kind('magnolia', [1, 2, 2], 'poor', 1, 'magnolia-log', { pictures: ['magnolia-log', 'magnolia-log', 'magnolia-large'] }),
-  'white-oak': kind('white oak', [1, 2, 3], 'sill', 1.1, 'post-oak', SIZED),
+  'white-oak': kind('white oak', [1, 2, 3], 'sill', 1.1, 'tree-white-oak'),
   sweetgum: kind('sweetgum', [1, 2, 3], 'poor', 0.9, 'sweetgum', SIZED),
   'bald-cypress': kind('bald cypress', [2, 3, 4], 'sill', 1, 'cypress-bald', { sized: true }),
   // Final regional silhouettes, 2026-10-11. Mature identities scale for pole/log/large; willow has a juvenile silhouette.
@@ -357,7 +356,7 @@ export const KINDS = Object.freeze({
   ebony: kind('Texas ebony', [0, 1, 1], 'poor', 1.3, 'tree-texas-ebony'),
   willow: kind('willow', [1, 2, 2], 'poor', 0.6, 'tree-black-willow', { pictures: ['tree-black-willow-pole', 'tree-black-willow', 'tree-black-willow'], stump: 'stump-cottonwood' }),
   palm: kind('Texas palm', [0, 1, 1], 'poor', 0.8, 'palm-sabal', { sized: true }),
-  'texas-oak': kind('Texas oak', [1, 1, 2], 'poor', 1, 'post-oak', SIZED),
+  'texas-oak': kind('Texas oak', [1, 1, 2], 'poor', 1, 'tree-texas-oak'),
 });
 export const SIZES = Object.freeze(['pole', 'log', 'large']);
 

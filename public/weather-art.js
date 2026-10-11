@@ -215,6 +215,13 @@ export function inGale(mix) { return galeForce(mix) >= GALE; }
  * takes the painted gale and `drawClip` the old sway; every caller here means the frame.
  */
 export const GALE_POSES = Object.freeze({
+  'tree-water-oak': 'tree-water-oak-gale-1',
+  'tree-bur-oak': 'tree-bur-oak-gale-1',
+  'tree-white-oak': 'tree-white-oak-gale-1',
+  'tree-texas-oak': 'tree-texas-oak-gale-1',
+  'tree-hickory': 'tree-hickory-gale-1',
+  'tree-walnut': 'tree-walnut-gale-1',
+  'tree-ash': 'tree-ash-gale-1',
   // Distinct regional species, 2026-10-11.
   'tree-anacua': 'tree-anacua-gale-1',
   'tree-texas-ebony': 'tree-texas-ebony-gale-1',

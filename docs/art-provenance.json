@@ -5290,6 +5290,43 @@
           ]
         }
       ]
+    },
+    {
+      "sheet": "colony-hardwoods",
+      "promptId": "frontier-v1/colony-hardwoods",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3940c36f-5085-4154-8dc9-67e730e04fa2.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-2.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-species.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/colony-hardwoods.png",
+      "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
+    },
+    {
+      "sheet": "colony-oak-gales",
+      "promptId": "frontier-v1/colony-oak-gales",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive authored gusts",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2221ef57-3b24-4fa3-b9d6-cf605cc97f55.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3940c36f-5085-4154-8dc9-67e730e04fa2.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/colony-oak-gales.png",
+      "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
+    },
+    {
+      "sheet": "colony-compound-gales",
+      "promptId": "frontier-v1/colony-compound-gales",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive authored gusts",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-54021c1a-18a5-4489-9ff5-fc772e623f60.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3940c36f-5085-4154-8dc9-67e730e04fa2.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/colony-compound-gales.png",
+      "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
     }
   ],
   "rejectedAttempts": [

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3175 usable sprites, 344 PNG atlases, 1113 clips** (792 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3197 usable sprites, 347 PNG atlases, 1120 clips** (799 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -68,6 +68,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | land-clearing | 16 | 1254 × 1254 | 904975 |
 | coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
 | regular-prone-actions | 4 | 1536 × 1024 | 1506423 |
+| colony-hardwoods | 8 | 1774 × 887 | 2641448 |
+| colony-oak-gales | 8 | 1774 × 887 | 2716648 |
+| colony-compound-gales | 6 | 1024 × 1536 | 3090731 |
 | conifer-gale | 12 | 1448 × 1086 | 1381008 |
 | fallen-transport | 8 | 1536 × 1024 | 1987719 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
@@ -847,6 +850,28 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-prone-aim | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-fire | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-lock | regular-prone-actions | regular-prone-fire-reload |
+| tree-water-oak | colony-hardwoods | State artwork; no motion required |
+| tree-bur-oak | colony-hardwoods | State artwork; no motion required |
+| tree-white-oak | colony-hardwoods | State artwork; no motion required |
+| tree-texas-oak | colony-hardwoods | State artwork; no motion required |
+| tree-hickory | colony-hardwoods | State artwork; no motion required |
+| tree-walnut | colony-hardwoods | State artwork; no motion required |
+| tree-ash | colony-hardwoods | State artwork; no motion required |
+| stump-pecan | colony-hardwoods | State artwork; no motion required |
+| tree-water-oak-gale-1 | colony-oak-gales | tree-water-oak-gale |
+| tree-water-oak-gale-2 | colony-oak-gales | tree-water-oak-gale |
+| tree-bur-oak-gale-1 | colony-oak-gales | tree-bur-oak-gale |
+| tree-bur-oak-gale-2 | colony-oak-gales | tree-bur-oak-gale |
+| tree-white-oak-gale-1 | colony-oak-gales | tree-white-oak-gale |
+| tree-white-oak-gale-2 | colony-oak-gales | tree-white-oak-gale |
+| tree-texas-oak-gale-1 | colony-oak-gales | tree-texas-oak-gale |
+| tree-texas-oak-gale-2 | colony-oak-gales | tree-texas-oak-gale |
+| tree-hickory-gale-1 | colony-compound-gales | tree-hickory-gale |
+| tree-hickory-gale-2 | colony-compound-gales | tree-hickory-gale |
+| tree-walnut-gale-1 | colony-compound-gales | tree-walnut-gale |
+| tree-walnut-gale-2 | colony-compound-gales | tree-walnut-gale |
+| tree-ash-gale-1 | colony-compound-gales | tree-ash-gale |
+| tree-ash-gale-2 | colony-compound-gales | tree-ash-gale |
 | pine-loblolly-pole-gale-1 | conifer-gale | pine-loblolly-pole-gale |
 | pine-loblolly-pole-gale-2 | conifer-gale | pine-loblolly-pole-gale |
 | cedar-pole-gale-1 | conifer-gale | cedar-pole-gale |
@@ -3766,6 +3791,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
 | regular-prone-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
+| tree-water-oak-gale | Pose cycle | 2 | 1200 | yes | not applicable |
+| tree-bur-oak-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-white-oak-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-texas-oak-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-hickory-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-walnut-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-ash-gale | Pose cycle | 2 | 1200 | yes | undefined |
 | pine-loblolly-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | cedar-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-loblolly-log-gale | Pose cycle | 2 | 1000 | yes | undefined |

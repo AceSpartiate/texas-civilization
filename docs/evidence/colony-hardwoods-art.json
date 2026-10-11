@@ -1,0 +1,55 @@
+{
+  "verdict": "PASS",
+  "checks": [
+    {
+      "name": "tree-water-oak",
+      "upright": 139.93765586034914,
+      "second": 157.31796116504856,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-bur-oak",
+      "upright": 170.9057071960298,
+      "second": 140.85714285714286,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-white-oak",
+      "upright": 172.6361386138614,
+      "second": 156.54566744730678,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-texas-oak",
+      "upright": 122.10526315789473,
+      "second": 127.29262672811059,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-hickory",
+      "upright": 92.24256292906178,
+      "second": 139.0082644628099,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-walnut",
+      "upright": 149.96575342465755,
+      "second": 146.85106382978722,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-ash",
+      "upright": 133.74429223744292,
+      "second": 135.79365079365078,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    }
+  ],
+  "errors": []
+}
