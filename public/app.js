@@ -602,7 +602,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const riders = passengersOf(team, entities).map((rider, i) => {
     const clip = seatedClip(rider, direction, 'passenger');
     const seated = Boolean(clip.seated && clipReady(clip.id));
-    return { ...bedLayout(direction, i, SIZE, figureScale(rider), seated), rider, passengerClip: clip };
+    return { ...bedLayout(direction, i, SIZE, figureScale(rider), seated && clip.basket ? 'basket' : seated), rider, passengerClip: clip };
   });
   // Going north they sit nearer the camera than the driver (`front`), so they are drawn after the driver instead.
   const driverAt = layout.findIndex(part => part.part === 'rider');

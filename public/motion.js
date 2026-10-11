@@ -262,7 +262,7 @@ export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'r
  */
 export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl']);
 /** Age-specific seated passengers; infants and grown passengers retain their separate transport fallbacks. */
-export const CHILD_PASSENGER_FIGURES = Object.freeze(['girl', 'boy', 'smallchild']);
+export const CHILD_PASSENGER_FIGURES = Object.freeze(['girl', 'boy', 'smallchild', 'infant']);
 /**
  * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
  * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),
@@ -293,6 +293,7 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
   if (seat === 'wagon' && DRIVING_FIGURES.includes(figure)) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
   if (seat === 'passenger' && CHILD_PASSENGER_FIGURES.includes(figure)) return {
     id: `${figure}-wagon-passenger-${facing === 'w' ? 'e' : facing}`, seated: true,
+    ...(figure === 'infant' && { basket: true }),
     ...(facing === 'n' || facing === 's' ? { upright: true } : {}),
   };
   // The infant's sheet has no back view.
@@ -376,7 +377,9 @@ export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rid
     const height = rider * 0.65;
     // Complete seated bodies sit at the visible box rim, rather than the old cropped figure's lower composite anchor.
     const rim = wagon * 0.86 * (1.02 - 0.04 * side);
-    return { part: 'passenger', dx, dy: -rim + SEAT.driverHip * height + back, height, seated: true, ...(direction === 'n' && { front: true }) };
+    // A carry basket rests in the bed; it has no dangling legs/hip to align with the rail.
+    const rise = seated === 'basket' ? wagon * .14 : SEAT.driverHip * height;
+    return { part: 'passenger', dx, dy: -rim + rise + back, height, seated: true, ...(direction === 'n' && { front: true }) };
   }
   return { part: 'passenger', dx, dy: -seat + SEAT.hip * rider + back, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, ...(direction === 'n' && { front: true }) };
 }

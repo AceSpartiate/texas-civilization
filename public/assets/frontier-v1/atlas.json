@@ -18804,6 +18804,81 @@
         ]
       }
     },
+    "infant-wagon-passenger": {
+      "image": "atlases/infant-wagon-passenger.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2003734,
+      "sha256": "a83e95027cc4b568042068c3b42fe56bcd9a2eb0a5fb4163d333001fed434b25",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.673851,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              169,
+              413
+            ],
+            "columns": [
+              [
+                79,
+                482
+              ],
+              [
+                544,
+                945
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              581,
+              946
+            ],
+            "columns": [
+              [
+                105,
+                464
+              ],
+              [
+                574,
+                925
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              1074,
+              1407
+            ],
+            "columns": [
+              [
+                102,
+                468
+              ],
+              [
+                562,
+                924
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "lesson-marks": {
       "image": "atlases/lesson-marks.png",
       "width": 1254,
@@ -77913,6 +77988,150 @@
           385
         ],
         "visiblePixels": 116129,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-wagon-passenger-e-1": {
+      "sheet": "infant-wagon-passenger",
+      "x": 79,
+      "y": 169,
+      "w": 403,
+      "h": 244,
+      "anchorX": 0.4913,
+      "anchorY": 0.9262,
+      "label": "infant wagon passenger e 1",
+      "kind": "infant-wagon-passenger",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          171,
+          399,
+          240
+        ],
+        "visiblePixels": 68257,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-wagon-passenger-e-2": {
+      "sheet": "infant-wagon-passenger",
+      "x": 544,
+      "y": 169,
+      "w": 401,
+      "h": 244,
+      "anchorX": 0.495,
+      "anchorY": 0.9262,
+      "label": "infant wagon passenger e 2",
+      "kind": "infant-wagon-passenger",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          546,
+          171,
+          397,
+          240
+        ],
+        "visiblePixels": 68352,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-wagon-passenger-s-1": {
+      "sheet": "infant-wagon-passenger",
+      "x": 105,
+      "y": 581,
+      "w": 359,
+      "h": 365,
+      "anchorX": 0.4986,
+      "anchorY": 0.9288,
+      "label": "infant wagon passenger s 1",
+      "kind": "infant-wagon-passenger",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          107,
+          583,
+          355,
+          361
+        ],
+        "visiblePixels": 94001,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-wagon-passenger-s-2": {
+      "sheet": "infant-wagon-passenger",
+      "x": 574,
+      "y": 582,
+      "w": 351,
+      "h": 364,
+      "anchorX": 0.4972,
+      "anchorY": 0.9286,
+      "label": "infant wagon passenger s 2",
+      "kind": "infant-wagon-passenger",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          576,
+          584,
+          347,
+          360
+        ],
+        "visiblePixels": 92155,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-wagon-passenger-n-1": {
+      "sheet": "infant-wagon-passenger",
+      "x": 102,
+      "y": 1075,
+      "w": 366,
+      "h": 332,
+      "anchorX": 0.4959,
+      "anchorY": 0.9277,
+      "label": "infant wagon passenger n 1",
+      "kind": "infant-wagon-passenger",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          1077,
+          362,
+          328
+        ],
+        "visiblePixels": 85636,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-wagon-passenger-n-2": {
+      "sheet": "infant-wagon-passenger",
+      "x": 562,
+      "y": 1074,
+      "w": 362,
+      "h": 333,
+      "anchorX": 0.4945,
+      "anchorY": 0.9279,
+      "label": "infant wagon passenger n 2",
+      "kind": "infant-wagon-passenger",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          564,
+          1076,
+          358,
+          329
+        ],
+        "visiblePixels": 84944,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

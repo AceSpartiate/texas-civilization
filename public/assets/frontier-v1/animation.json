@@ -11351,6 +11351,51 @@
         }
       ]
     },
+    "infant-wagon-passenger-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "infant-wagon-passenger-e-1",
+          "duration": 900
+        },
+        {
+          "sprite": "infant-wagon-passenger-e-2",
+          "duration": 900
+        }
+      ]
+    },
+    "infant-wagon-passenger-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "infant-wagon-passenger-s-1",
+          "duration": 900
+        },
+        {
+          "sprite": "infant-wagon-passenger-s-2",
+          "duration": 900
+        }
+      ]
+    },
+    "infant-wagon-passenger-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "infant-wagon-passenger-n-1",
+          "duration": 900
+        },
+        {
+          "sprite": "infant-wagon-passenger-n-2",
+          "duration": 900
+        }
+      ]
+    },
     "live-oak-mott-dense-wind": {
       "frames": [
         {

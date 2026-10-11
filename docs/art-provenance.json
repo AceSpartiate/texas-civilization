@@ -5069,6 +5069,25 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/child-passenger-smallchild.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Age-specific seated passenger with east/front/rear poses and gentle hand/torso movement; alpha gutters audited."
+    },
+    {
+      "sheet": "infant-wagon-passenger",
+      "promptId": "frontier-v1/infant-wagon-passenger",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-102b305b-d874-470f-b410-8355b404e752.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1cbbf0c3-ce75-4300-a9ae-9b1c2aaca7c3.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit only: preserve exactly 2columns 3rows six infant-in-basket poses and their same identity costumes perspective woven detail. Shrink every WHOLE basket and baby together 35percent and center in its own equal cell, leaving at least50px genuinely transparent alpha0 gutters at every row/column boundary and outside edge. Preserve distinct two gentle poses per row. Row1 right sideview, row2 frontview, row3 rearview. No glow or backdrop, no change objects, no new text grid shadow."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/infant-wagon-passenger.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Six wrapped infant-in-basket poses, side/front/rear; gentle blink and settling pairs, securely reclining, no driving."
     }
   ],
   "rejectedAttempts": [

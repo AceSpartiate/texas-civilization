@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3123 usable sprites, 332 PNG atlases, 1098 clips** (780 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3129 usable sprites, 333 PNG atlases, 1101 clips** (783 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -233,6 +233,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | horse-herds | 8 | 1774 × 887 | 1516208 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
+| infant-wagon-passenger | 6 | 1024 × 1536 | 2003734 |
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
 | marsh-edge | 8 | 2172 × 724 | 1222516 |
@@ -2322,6 +2323,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-hog-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-look-to-stock-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-make-carreta | icons-gather-stock-carreta | State artwork; no motion required |
+| infant-wagon-passenger-e-1 | infant-wagon-passenger | infant-wagon-passenger-e |
+| infant-wagon-passenger-e-2 | infant-wagon-passenger | infant-wagon-passenger-e |
+| infant-wagon-passenger-s-1 | infant-wagon-passenger | infant-wagon-passenger-s |
+| infant-wagon-passenger-s-2 | infant-wagon-passenger | infant-wagon-passenger-s |
+| infant-wagon-passenger-n-1 | infant-wagon-passenger | infant-wagon-passenger-n |
+| infant-wagon-passenger-n-2 | infant-wagon-passenger | infant-wagon-passenger-n |
 | lesson-point | lesson-marks | State artwork; no motion required |
 | lesson-ring | lesson-marks | State artwork; no motion required |
 | lesson-pip | lesson-marks | State artwork; no motion required |
@@ -4179,6 +4186,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elm-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | herd-drove | Pose cycle | 4 | 1000 | yes | undefined |
 | herd-scatter | Pose cycle | 4 | 1000 | yes | undefined |
+| infant-wagon-passenger-e | Pose cycle | 2 | 1800 | yes | undefined |
+| infant-wagon-passenger-s | Pose cycle | 2 | 1800 | yes | undefined |
+| infant-wagon-passenger-n | Pose cycle | 2 | 1800 | yes | undefined |
 | live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | marsh-edge-dense | Pose cycle | 4 | 1400 | yes | undefined |
