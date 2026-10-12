@@ -184,7 +184,7 @@ test('a night fight is dark but for the lit windows, the fire and the flashes', 
   const evidence = run(view, minute => night(minute, [part('square', 8, 0, { pose: 'stand', fire: 'scattered' })]), { seconds: 4, art, ctx });
   assert.equal(evidence.night, true);
   assert.equal(evidence.lit, 2, 'the lantern and the fire are not lit');
-  assert.ok(ctx.calls.some(call => call[0] === 'set:fillStyle' && /rgba\(8,12,30/.test(call[1])), 'no dark was laid over the field');
+  assert.ok(ctx.calls.some(call => call[0] === 'set:fillStyle' && /rgba\(7,15,29/.test(call[1])), 'no moonless dark was laid over the field');
   assert.ok(ctx.calls.some(call => call[0] === 'set:globalCompositeOperation' && call[1] === 'lighter'), 'nothing glows through the dark');
   // By day, none of it.
   const day = createBattleView(fakeArt()).draw(fakeContext(), { ...night(1, [part('square', 8, 0)]), light: undefined }, { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
@@ -220,8 +220,9 @@ test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s
     lines: [], fallen: [], members: [], commands: null, formations: [],
   });
   const evidence = run(view, battle, { seconds: 6, art });
-  assert.ok(evidence.herd >= 20, `the herd is ${evidence.herd} horses`);
-  assert.ok(art.drawn.some(one => one.clip === 'mustang-gallop'), 'the herd is not galloping');
+  assert.ok(evidence.herd > 0, 'the herd illustration was not drawn');
+  assert.ok(art.drawn.some(one => one.clip === 'herd-drove'), 'the driven herd is not moving');
+  assert.ok(art.drawn.some(one => one.clip === 'herd-scatter'), 'the herd never scatters');
   assert.ok(art.drawn.some(one => one.clip === 'live-oak-mott-dense-wind'), 'the east grove is not drawn');
   assert.equal(evidence.poses.rider, 20, 'Grant\'s men are not drawn riding');
   assert.ok(art.drawn.some(one => one.clip?.startsWith('volunteer-ride-')));

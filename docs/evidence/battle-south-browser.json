@@ -1,7 +1,7 @@
 {
   "record": "battle-south-browser",
-  "date": "2026-09-26",
-  "browser": "153.0.8010.53",
+  "date": "2026-10-12",
+  "browser": "154.0.8037.93",
   "seed": "battle-south-33",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768. Not physical LAN or district acceptance.",
   "checks": [
@@ -10,17 +10,17 @@
     "at Grant's ride the men were split as the record's shares have it: hh-1-parent-1 with Johnson, hh-2-parent-1 with Grant",
     "hh-1-parent-1 was in the force at San Patricio from minute 218580, before the first shot",
     "the alert \"San Patricio, in the night\" came through the man's side (\"At Ramón Proofwright's side in San Patricio, in the dark: \"Soldiers in the square! They're at the doors!\"\") in the surprise, and Watch put the camera 0.12 miles from the square",
-    "at San Patricio it is night at every sampled moment, with fire and smoke on the screen at each of 5 moments of the fighting (shots 13 -> 37, Texian 13, from the houses 11)",
+    "at San Patricio it is night at every sampled moment, with fire and smoke on the screen at each of 5 moments of the fighting (shots 15 -> 35, Texian 11, from the houses 10)",
     "words drawn over the speakers at San Patricio: sp-silencio, sp-cold, sp-quien, sp-square, sp-rindanse, sp-back, sp-fuego, sp-arriba, sp-done, sp-cuantos",
     "hh-1-parent-1 was drawn in the force (volunteer-idle-w, volunteer-surrender, volunteer-injured, volunteer-reclining), and his fate - killed - was drawn from its moment at minute 218711 and not before",
     "on the drive north he was drawn with the party (drive); the alert \"At Agua Dulce Creek\" came through him (\"At Elias Proofwright's side on the road to Agua Dulce Creek, one of the riders: \"Horsemen in the trees ahead!\"\"), and Watch put the camera 0.20 miles from the creek",
-    "at Agua Dulce, by day at 1024x768: the herd (24 horses), Grant's men riding, the two groves, fire and smoke at 8 moments; words ad-keep, ad-sp, ad-callado, ad-water, ad-trees, ad-carga, ad-ride, ad-rindanse; hh-2-parent-1's fate - captured - drawn from its moment",
+    "at Agua Dulce, by day at 1024x768: the herd (6 illustrated marks), Grant's men riding, the two groves, fire and smoke at 7 moments; words ad-keep, ad-sp, ad-callado, ad-water, ad-trees, ad-carga, ad-ride, ad-rindanse; hh-2-parent-1's fate - captured - drawn from its moment",
     "the Host saw both fights live (San Patricio, then Agua Dulce, focus battle) and its spotlight lit both fields",
     "the family that sent nobody was sent nothing of either fight - no battle, no alert, no name - before and after a reload",
     "the prisoner hh-2-parent-1 was drawn marched away down the road south, then gone from the map at its end, not left standing there",
     "when the word came the family was told \"What happened at San Patricio\" in plain words - what happened, what their man did, why it ended so, and where the accounts disagree - and the journal keeps it",
     "when the word came the family was told \"What happened at Agua Dulce Creek\" in plain words - what happened, what their man did, why it ended so, and where the accounts disagree - and the journal keeps it",
-    "watched at 1366x768 and 1024x768; the battle's own drawing at its slowest 95th percentile 1.4 ms"
+    "watched at 1366x768 and 1024x768; the battle's own drawing at its slowest 95th percentile 6.8 ms"
   ],
   "joinedAt": {
     "hh-1-parent-1": 180660,
@@ -47,13 +47,13 @@
           "texian": 4,
           "mexican": 48
         },
-        "shotsTotal": 13,
+        "shotsTotal": 15,
         "shotsBy": {
-          "texian": 5,
-          "houses": 4,
-          "mexican": 8
+          "mexican": 11,
+          "texian": 4,
+          "houses": 3
         },
-        "smokeInView": 13,
+        "smokeInView": 15,
         "night": true,
         "lit": 3,
         "poses": {
@@ -77,9 +77,9 @@
         ],
         "memberFates": {},
         "frameMs": {
-          "last": 1,
-          "median": 0.6,
-          "p95": 1.3
+          "last": 6.3,
+          "median": 1.2,
+          "p95": 6.8
         }
       }
     },
@@ -94,13 +94,13 @@
           "texian": 15,
           "mexican": 48
         },
-        "shotsTotal": 25,
+        "shotsTotal": 24,
         "shotsBy": {
-          "texian": 8,
-          "houses": 6,
-          "mexican": 17
+          "mexican": 17,
+          "texian": 7,
+          "houses": 6
         },
-        "smokeInView": 25,
+        "smokeInView": 24,
         "night": true,
         "lit": 3,
         "poses": {
@@ -123,9 +123,9 @@
         ],
         "memberFates": {},
         "frameMs": {
-          "last": 0.7,
-          "median": 0.6,
-          "p95": 1.3
+          "last": 1.4,
+          "median": 1.2,
+          "p95": 6.3
         }
       }
     },
@@ -140,13 +140,13 @@
           "texian": 19,
           "mexican": 47
         },
-        "shotsTotal": 31,
+        "shotsTotal": 29,
         "shotsBy": {
-          "texian": 11,
-          "houses": 9,
-          "mexican": 20
+          "mexican": 20,
+          "texian": 9,
+          "houses": 8
         },
-        "smokeInView": 31,
+        "smokeInView": 29,
         "night": true,
         "lit": 3,
         "poses": {
@@ -158,7 +158,6 @@
         "herd": 0,
         "scenery": 6,
         "bubbles": [
-          "¡Ríndanse!",
           "Out the back!",
           "¡Fuego a la puerta!"
         ],
@@ -170,36 +169,36 @@
         ],
         "memberFates": {},
         "frameMs": {
-          "last": 0.7,
-          "median": 0.6,
-          "p95": 1.2
+          "last": 1.1,
+          "median": 1.2,
+          "p95": 6.3
         }
       }
     },
     {
       "label": "1366 San Patricio 3",
       "phase": "yield",
-      "minute": 218710,
+      "minute": 218711,
       "size": "1366x768",
       "camera": "battle",
       "view": {
         "figures": {
-          "texian": 21,
+          "texian": 20,
           "mexican": 47
         },
-        "shotsTotal": 34,
+        "shotsTotal": 32,
         "shotsBy": {
-          "texian": 13,
-          "houses": 11,
-          "mexican": 21
+          "mexican": 21,
+          "texian": 11,
+          "houses": 10
         },
-        "smokeInView": 34,
+        "smokeInView": 32,
         "night": true,
         "lit": 3,
         "poses": {
           "asleep": 0,
           "hidden": 0,
-          "surrender": 21,
+          "surrender": 20,
           "rider": 0
         },
         "herd": 0,
@@ -217,9 +216,9 @@
         ],
         "memberFates": {},
         "frameMs": {
-          "last": 0.5,
-          "median": 0.6,
-          "p95": 1.1
+          "last": 1.1,
+          "median": 1.2,
+          "p95": 5.3
         }
       }
     },
@@ -234,13 +233,13 @@
           "texian": 21,
           "mexican": 47
         },
-        "shotsTotal": 37,
+        "shotsTotal": 35,
         "shotsBy": {
-          "texian": 13,
-          "houses": 11,
-          "mexican": 24
+          "mexican": 24,
+          "texian": 11,
+          "houses": 10
         },
-        "smokeInView": 37,
+        "smokeInView": 35,
         "night": true,
         "lit": 3,
         "poses": {
@@ -267,16 +266,16 @@
           "hh-1-parent-1": "killed"
         },
         "frameMs": {
-          "last": 0.6,
-          "median": 0.6,
-          "p95": 1.1
+          "last": 1,
+          "median": 1.2,
+          "p95": 4.5
         }
       }
     },
     {
       "label": "1366 San Patricio 5",
       "phase": "gathered",
-      "minute": 218715,
+      "minute": 218717,
       "size": "1366x768",
       "camera": "battle",
       "view": {
@@ -284,13 +283,13 @@
           "texian": 21,
           "mexican": 47
         },
-        "shotsTotal": 44,
+        "shotsTotal": 41,
         "shotsBy": {
-          "texian": 13,
-          "houses": 11,
-          "mexican": 31
+          "mexican": 30,
+          "texian": 11,
+          "houses": 10
         },
-        "smokeInView": 44,
+        "smokeInView": 41,
         "night": true,
         "lit": 3,
         "poses": {
@@ -318,9 +317,9 @@
           "hh-1-parent-1": "killed"
         },
         "frameMs": {
-          "last": 1,
-          "median": 0.6,
-          "p95": 1.1
+          "last": 1.3,
+          "median": 1.1,
+          "p95": 4.1
         }
       }
     },
@@ -335,13 +334,13 @@
           "texian": 21,
           "mexican": 47
         },
-        "shotsTotal": 44,
+        "shotsTotal": 41,
         "shotsBy": {
-          "texian": 13,
-          "houses": 11,
-          "mexican": 31
+          "mexican": 30,
+          "texian": 11,
+          "houses": 10
         },
-        "smokeInView": 44,
+        "smokeInView": 41,
         "night": true,
         "lit": 3,
         "poses": {
@@ -368,16 +367,16 @@
           "hh-1-parent-1": "killed"
         },
         "frameMs": {
-          "last": 0.7,
-          "median": 0.6,
-          "p95": 1
+          "last": 1.4,
+          "median": 1.2,
+          "p95": 2.9
         }
       }
     },
     {
       "label": "1366 San Patricio 7",
       "phase": "gathered",
-      "minute": 218725,
+      "minute": 218727,
       "size": "1366x768",
       "camera": "battle",
       "view": {
@@ -385,13 +384,13 @@
           "texian": 21,
           "mexican": 47
         },
-        "shotsTotal": 44,
+        "shotsTotal": 41,
         "shotsBy": {
-          "texian": 13,
-          "houses": 11,
-          "mexican": 31
+          "mexican": 30,
+          "texian": 11,
+          "houses": 10
         },
-        "smokeInView": 44,
+        "smokeInView": 41,
         "night": true,
         "lit": 3,
         "poses": {
@@ -418,9 +417,9 @@
           "hh-1-parent-1": "killed"
         },
         "frameMs": {
-          "last": 0.8,
-          "median": 0.6,
-          "p95": 1
+          "last": 0.7,
+          "median": 1.1,
+          "p95": 2.5
         }
       }
     },
@@ -435,13 +434,13 @@
           "texian": 21,
           "mexican": 47
         },
-        "shotsTotal": 44,
+        "shotsTotal": 41,
         "shotsBy": {
-          "texian": 13,
-          "houses": 11,
-          "mexican": 31
+          "mexican": 30,
+          "texian": 11,
+          "houses": 10
         },
-        "smokeInView": 44,
+        "smokeInView": 41,
         "night": true,
         "lit": 3,
         "poses": {
@@ -466,38 +465,38 @@
           "hh-1-parent-1": "killed"
         },
         "frameMs": {
-          "last": 0.8,
-          "median": 0.6,
-          "p95": 1
+          "last": 1,
+          "median": 1.1,
+          "p95": 1.9
         }
       }
     },
     {
       "label": "1024 Agua Dulce 0",
       "phase": "ambush",
-      "minute": 224912,
+      "minute": 224913,
       "size": "1024x768",
       "camera": "battle",
       "view": {
         "figures": {
-          "texian": 26,
-          "mexican": 48
+          "texian": 25,
+          "mexican": 47
         },
-        "shotsTotal": 18,
+        "shotsTotal": 16,
         "shotsBy": {
           "mexican": 13,
-          "texian": 5
+          "texian": 3
         },
-        "smokeInView": 16,
+        "smokeInView": 15,
         "night": false,
         "lit": 0,
         "poses": {
           "asleep": 0,
           "hidden": 0,
           "surrender": 0,
-          "rider": 26
+          "rider": 25
         },
-        "herd": 24,
+        "herd": 6,
         "scenery": 2,
         "bubbles": [
           "Water them at the creek.",
@@ -508,13 +507,13 @@
           "hh-2-parent-1"
         ],
         "memberClips": [
-          "mounted-courier-e"
+          "volunteer-ride-e"
         ],
         "memberFates": {},
         "frameMs": {
-          "last": 1.1,
-          "median": 0.6,
-          "p95": 1.3
+          "last": 1.7,
+          "median": 1,
+          "p95": 2.4
         }
       }
     },
@@ -527,14 +526,14 @@
       "view": {
         "figures": {
           "texian": 16,
-          "mexican": 47
+          "mexican": 48
         },
-        "shotsTotal": 28,
+        "shotsTotal": 25,
         "shotsBy": {
-          "mexican": 22,
-          "texian": 6
+          "mexican": 20,
+          "texian": 5
         },
-        "smokeInView": 27,
+        "smokeInView": 24,
         "night": false,
         "lit": 0,
         "poses": {
@@ -543,10 +542,9 @@
           "surrender": 0,
           "rider": 16
         },
-        "herd": 24,
+        "herd": 6,
         "scenery": 2,
         "bubbles": [
-          "Horsemen in the trees!",
           "¡A la carga!",
           "Leave the horses - ride!"
         ],
@@ -554,42 +552,42 @@
           "hh-2-parent-1"
         ],
         "memberClips": [
-          "mounted-courier-e"
+          "volunteer-ride-e"
         ],
         "memberFates": {},
         "frameMs": {
-          "last": 1.2,
-          "median": 0.6,
-          "p95": 1.4
+          "last": 1.6,
+          "median": 1,
+          "p95": 2.9
         }
       }
     },
     {
       "label": "1024 Agua Dulce 2",
       "phase": "ambush",
-      "minute": 224917,
+      "minute": 224918,
       "size": "1024x768",
       "camera": "battle",
       "view": {
         "figures": {
-          "texian": 17,
+          "texian": 13,
           "mexican": 48
         },
-        "shotsTotal": 38,
+        "shotsTotal": 36,
         "shotsBy": {
           "mexican": 30,
-          "texian": 7
+          "texian": 5
         },
-        "smokeInView": 38,
+        "smokeInView": 36,
         "night": false,
         "lit": 0,
         "poses": {
           "asleep": 0,
           "hidden": 0,
           "surrender": 0,
-          "rider": 17
+          "rider": 13
         },
-        "herd": 24,
+        "herd": 6,
         "scenery": 2,
         "bubbles": [
           "Leave the horses - ride!"
@@ -598,13 +596,13 @@
           "hh-2-parent-1"
         ],
         "memberClips": [
-          "mounted-courier-e"
+          "volunteer-ride-e"
         ],
         "memberFates": {},
         "frameMs": {
-          "last": 0.9,
-          "median": 0.7,
-          "p95": 1.4
+          "last": 1.5,
+          "median": 1.1,
+          "p95": 2.9
         }
       }
     },
@@ -619,12 +617,12 @@
           "texian": 13,
           "mexican": 48
         },
-        "shotsTotal": 49,
+        "shotsTotal": 50,
         "shotsBy": {
-          "mexican": 40,
-          "texian": 8
+          "mexican": 42,
+          "texian": 7
         },
-        "smokeInView": 49,
+        "smokeInView": 50,
         "night": false,
         "lit": 0,
         "poses": {
@@ -633,20 +631,20 @@
           "surrender": 0,
           "rider": 13
         },
-        "herd": 24,
+        "herd": 6,
         "scenery": 2,
         "bubbles": [],
         "members": [
           "hh-2-parent-1"
         ],
         "memberClips": [
-          "mounted-courier-e"
+          "volunteer-ride-e"
         ],
         "memberFates": {},
         "frameMs": {
-          "last": 0.8,
-          "median": 0.7,
-          "p95": 1.4
+          "last": 1.1,
+          "median": 1.2,
+          "p95": 2.9
         }
       }
     },
@@ -663,8 +661,8 @@
         },
         "shotsTotal": 53,
         "shotsBy": {
-          "mexican": 44,
-          "texian": 8
+          "mexican": 45,
+          "texian": 7
         },
         "smokeInView": 53,
         "night": false,
@@ -675,7 +673,7 @@
           "surrender": 0,
           "rider": 9
         },
-        "herd": 24,
+        "herd": 6,
         "scenery": 2,
         "bubbles": [
           "¡Ríndanse y se les perdona la vida!"
@@ -684,23 +682,23 @@
           "hh-2-parent-1"
         ],
         "memberClips": [
-          "mounted-courier-e",
+          "volunteer-ride-e",
           "volunteer-surrender"
         ],
         "memberFates": {
           "hh-2-parent-1": "captured"
         },
         "frameMs": {
-          "last": 0.8,
-          "median": 0.8,
-          "p95": 1.4
+          "last": 1.2,
+          "median": 1.4,
+          "p95": 3
         }
       }
     },
     {
       "label": "1024 Agua Dulce 5",
       "phase": "ambush",
-      "minute": 224924,
+      "minute": 224925,
       "size": "1024x768",
       "camera": "battle",
       "view": {
@@ -708,12 +706,12 @@
           "texian": 9,
           "mexican": 48
         },
-        "shotsTotal": 67,
+        "shotsTotal": 62,
         "shotsBy": {
-          "mexican": 57,
-          "texian": 9
+          "mexican": 53,
+          "texian": 8
         },
-        "smokeInView": 67,
+        "smokeInView": 62,
         "night": false,
         "lit": 0,
         "poses": {
@@ -722,7 +720,7 @@
           "surrender": 0,
           "rider": 9
         },
-        "herd": 24,
+        "herd": 6,
         "scenery": 2,
         "bubbles": [
           "¡Ríndanse y se les perdona la vida!"
@@ -731,16 +729,16 @@
           "hh-2-parent-1"
         ],
         "memberClips": [
-          "mounted-courier-e",
+          "volunteer-ride-e",
           "volunteer-surrender"
         ],
         "memberFates": {
           "hh-2-parent-1": "captured"
         },
         "frameMs": {
-          "last": 0.7,
-          "median": 0.8,
-          "p95": 1.4
+          "last": 1.3,
+          "median": 1.5,
+          "p95": 3
         }
       }
     },
@@ -755,12 +753,12 @@
           "texian": 6,
           "mexican": 48
         },
-        "shotsTotal": 73,
+        "shotsTotal": 72,
         "shotsBy": {
           "mexican": 63,
-          "texian": 9
+          "texian": 8
         },
-        "smokeInView": 73,
+        "smokeInView": 72,
         "night": false,
         "lit": 0,
         "poses": {
@@ -769,50 +767,50 @@
           "surrender": 0,
           "rider": 6
         },
-        "herd": 24,
+        "herd": 6,
         "scenery": 2,
         "bubbles": [],
         "members": [
           "hh-2-parent-1"
         ],
         "memberClips": [
-          "mounted-courier-e",
+          "volunteer-ride-e",
           "volunteer-surrender"
         ],
         "memberFates": {
           "hh-2-parent-1": "captured"
         },
         "frameMs": {
-          "last": 0.9,
-          "median": 0.8,
-          "p95": 1.4
+          "last": 2.2,
+          "median": 1.5,
+          "p95": 3
         }
       }
     },
     {
       "label": "1024 Agua Dulce 7",
-      "phase": "ambush",
-      "minute": 224929,
+      "phase": "after",
+      "minute": 224930,
       "size": "1024x768",
       "camera": "battle",
       "view": {
         "figures": {
-          "texian": 6,
+          "texian": 4,
           "mexican": 48
         },
-        "shotsTotal": 83,
+        "shotsTotal": 79,
         "shotsBy": {
-          "mexican": 73,
-          "texian": 9
+          "mexican": 70,
+          "texian": 8
         },
-        "smokeInView": 83,
+        "smokeInView": 76,
         "night": false,
         "lit": 0,
         "poses": {
           "asleep": 0,
           "hidden": 0,
-          "surrender": 0,
-          "rider": 6
+          "surrender": 4,
+          "rider": 0
         },
         "herd": 24,
         "scenery": 2,
@@ -821,16 +819,16 @@
           "hh-2-parent-1"
         ],
         "memberClips": [
-          "mounted-courier-e",
+          "volunteer-ride-e",
           "volunteer-surrender"
         ],
         "memberFates": {
           "hh-2-parent-1": "captured"
         },
         "frameMs": {
-          "last": 1,
-          "median": 0.8,
-          "p95": 1.4
+          "last": 1.6,
+          "median": 1.5,
+          "p95": 3
         }
       }
     }
@@ -870,5 +868,5 @@
   },
   "san-patricioAccount": "What happened at San Patricio",
   "agua-dulceAccount": "What happened at Agua Dulce Creek",
-  "frameMsP95Max": 1.4
+  "frameMsP95Max": 6.8
 }

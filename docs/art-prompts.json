@@ -5710,6 +5710,57 @@
           "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cdfb40cf-5ce5-4dda-aa39-40c9afc2eb84.png"
         }
       ]
+    },
+    {
+      "sheet": "southern-volunteer-mounted-actions",
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions",
+      "prompt": "Transparent production sprite atlas EXACT FOUR columns TWO rows EIGHT mountedVOLUNTEER action poses. SAME anonymous brownhat browncoat tantrousers rifleman on SAME chestnuthorse whiteblaze whitesocks saddle asreference. Warm paintedbrownoutlines readable frontierstyle no photo. Row1 FOUR SOUTH-facing(camera) rifle service poses:1 AIM rifle shouldered diagonallytowardcamera,2 FIRE slightrecoil no flashsmoke,3 LOWER rifledownlap,4 REST lowrifle reinssteady. Row2 SAMEfour NORTH-facingaway poses in sameorder, riderback andhorsehaunchesvisible, rifle aimedaway. Horse STANDS allfour samefoot/contact silhouette withinheading, nowalkinggait interleaved, riderhands/weaponanimate. No ramrod fullreload claim. Allphysicalidentity/colorshorsemarks identical. Entirecomposite in CENTRAL50percent each equalcell minimum80px genuinealpha0guttersseamsouteredges, no cropoverlap text landscape castshadows bakedflash. Exactlyeightwhole independent horseandrider sprites. Preserve actualhorsebodyunderrider andlegsstraddlesaddle. No bayonet modernrifle detachedweaponorbackground.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-73ce5e58-d13a-4a9f-b5cf-4b4fb62d6a0d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/southern-volunteer-mounted-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "southern-dragoon-mounted-actions",
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions",
+      "prompt": "Transparentproduction gameatlas EXACT FOUR columns TWOrows EIGHT mountedMEXICANDRAGOON carbineactionposes matchingreference samebrasshelmet blackhorsehaircrest,navycoat redcuffs/collar whitecrossbelts whitetrousers blackboots chestnuthorsewhiteblazesocks navysaddleclothredtrim. ROW1 FOUR SOUTHcamera carbineposes AIM, FIRErecoil(no bakedflash), LOWERtolap, REST reinscarbine low. ROW2 samefour NORTHawayposes, riderbacks/horsehaunches, aimsaway. Horse stands SAMEgroundedfootpositions withinheading, riderweaponhandsmove only, no strideorfullreloadramrod sequence claimed. Maintainsameface uniform horse saddlebody proportions allframes. Warmpaintedbrownoutline gameart no photo. Allwholehorseandrider includingheldweapon center CENTRAL50percent own equalcell huge80pxalpha0gutters allseamsouteredges. Exactlyeightcomplete separatecomposites, no clippedhelmcrest reins barrel orhooves, no textlabel backgroundshadows landscape gore or bakedfiringeffects.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + orientation correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/dragoon-carbine-actions.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bb2d15b1-f885-4f6b-b535-77ea32410320.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5b35d6ed-acad-423e-9f61-609ecb84e333.png",
+      "refinements": [
+        {
+          "prompt": "Correct NORTH/SOUTH camera heading of Mexican dragoon. IMAGE1 is EXACT desiredfront/back horseandrider CAMERA GEOMETRY (volunteer). IMAGE2 is dragoon IDENTITY/COSTUME ONLY. Make EXACT4columns2rows8poses withsamefront/back geometryasIMAGE1, butEVERYrider must be Mexican DRAGOON ofIMAGE2 navy/red/whiteuniform brasshelmetblackcrest chestnuthorse. Row1 SOUTH means headonfrontview HORSE FACE pointsDIRECTLY DOWN theimage towardviewer; symmetricalhorsebreast betweenforelegs, riderfrontchest, twoeyesofhorsevisible. NOT sideprofile. Row2 NORTH means DIRECTLY AWAY; HORSE TAIL/HAUNCHES towardviewer andriderBACK whitecrossbelts, horseheadhiddenforwardbeyondrider. NOT sideprofile. Perrowcols AIM,FIRE recoil(noflash),LOWER,REST. Rifle maypointdiagonallysidebecausehandposition butHORSE alwaysDIRECTfront/back notsideways. Keepstanding horsegroundpositions samewithinrow. Uniformpaletteboots/helmetsameidentity. Everycomposite central50percentowncell withhuge80pxgenuinealpha0gutters allseams/outeredges. No referencevolunteerhatbrowncoat survive no clippedweapons/shadow/text/background. Exactly8newwholefront/backhorseanddragoons."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/southern-dragoon-mounted-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "southern-lancer-charge",
+      "promptId": "frontier-v1/southern-lancer-charge",
+      "prompt": "Transparentproduction spriteatlas EXACT FOUR columns TWOrows EIGHT same mountedMexicanLANCER chargegait poses derivedreference. SAME chestnuthorse whiteblaze socks navysaddleclothredtrim,navycoatredcuffs whitecrossbelts whitetrousers brasshelmetblackhorsehaircrest. Row1 FOUR SOUTHtowardcamera gallopcycle extension/gather/suspension/landing, lancerholdswoodenlanceLEVEL pointing forward towardcamera foreshortened stablegrip twohands; visible metalpoint beforehorsehead, keep clearreadableforeground butno stabbing contact. Row2 FOUR NORTHawayfromcamera gallopcycle samephysicalidentity, lancelevel pointedawayoverhorsehead andvisiblebeyondrider, NEVERuprightparadelance. Authoredalternateextendedandgathered horselegs withsameoverallscale, rider followsseatedgait minorbounce no horsebodymorphing. Entirecomposite eachcell central50percentwidthheight huge80pxalpha0gutters allseamsouteredges, no cropoverlap backgrounds shadows labels trails dustblood weaponsimpactpeople. Warmgamepaintedbrownoutlines sameasreference no photo. Exacteighthorseandridercomposites. No strikebodyorvictim.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + orientation correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lancer-charge.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-77fbac94-bcb6-49ce-bbe0-494fa27b25f3.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-96ae0cb7-1bc6-4be6-acd9-75ed4bdfa6a5.png",
+      "refinements": [
+        {
+          "prompt": "Editexact8NORTH/SOUTH mountedlancerframes 4columns2rows. Keepall horseanduniform identities, eachgallop legposeand cameraorientation. CORRECT LANCE DIRECTION: row1 SOUTHhorseheadon towardviewer, lancepointsFORWARD towardviewer withstrongforeshortening, heldonrider'sRIGHTSIDE (viewerleft), shaftdiagonaldown towardbottomleft, metalpoint infrontofhorse shoulder BELOW horsehead, NOT a horizontalcrossbaracrossbody. Row2 NORTHhorsehaunches towardviewer away, lancepointsAWAY forwardalonghorseheading, onrider'sRIGHTSIDE(viewerright), shaftdiagonalup towardtoprighttipabovehorsehead, foreshortened NOTcrosswise. Lance heldnearhorizontal in3D, notuprightverticalparade. Tipsshownwithclearshaftgripandnot touchinghorse/human. NOcontactviolence. ALSO shrinkEVERYwholecomposite to70percentpresent size centerown equalcell, wide80pxgenuinealpha0gutters allseamsedges no overlapcrop. Exactly8wholegame painted sprites no shadowstextbackground, preserve eachdifferentgallopphase."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/southern-lancer-charge.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
     }
   ]
 }

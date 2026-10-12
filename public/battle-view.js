@@ -1,5 +1,6 @@
 import { marshWadingClip } from './wading-art.js';
 import { BEXAR_TOWNSFOLK, bexarCivilianHeight, createMoonlightGrade, drawBexarMoonlight } from './bexar-battle-art.js';
+import {createSouthernNightGrade,drawSouthernNight,mountedHeading,mountedActionClip} from './southern-battle-art.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
 //
 // Owner, 2026-09-25: "when i try to watch a battle ... i see npc's just standing around ... the battle itself never actually
@@ -228,6 +229,7 @@ export function regularity(points) {
  */
 export function createBattleView(art) {
   let moonlight=createMoonlightGrade();
+  let southernNight=createSouthernNightGrade();
   const view = {
     key: null, minute: null, tickAt: 0, tickMs: 1000, sides: new Map(), layouts: new Map(),
     smoke: [], flashes: [], shotsSeen: new Set(), linesSeen: new Map(), commandsAt: 0, fallenAt: new Map(),
@@ -259,6 +261,7 @@ export function createBattleView(art) {
     const key = `${battle.id}`;
     if (view.key !== key) {
       moonlight=createMoonlightGrade();
+      southernNight=createSouthernNightGrade();
       view.key = key; view.sides.clear(); view.smoke = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
       view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.fallenSide.clear(); view.fallenFigure.clear(); view.herd = null; view.pins.clear();
       view.cartTipStartedAt = null;
@@ -663,8 +666,9 @@ export function createBattleView(art) {
           if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 6 === 0))) {
             const wait = 9000 + hash(`${seed}:dw`) * 16000, shifted = time + hash(`${seed}:dp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:d${Math.floor(shifted / wait)}`;
-            if (kind === 'dragoon' && (t < 640 || t >= wait - 360)) {
-              clip = 'dragoon-fire'; timeMs = t >= wait - 360 ? t - (wait - 360) : t + 360; flip = !right;
+            const heading=mountedHeading(side.facing),actionClip=mountedActionClip(kind,heading);
+            if (actionClip && (t < 640 || t >= wait - 360)) {
+              clip = actionClip; timeMs = t >= wait - 360 ? t - (wait - 360) : t + 360; flip = ['n','s'].includes(heading)?false:!right;
             }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
@@ -964,12 +968,12 @@ export function createBattleView(art) {
     ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.restore();
   }
   /**
-   * The dark of a night fight over the whole view, with the lit windows and the fire through it. stand-in: docs/ART_REQUESTS.md,
-   * request 2026-09-25 "the south's fights" item 1 - a wash and a drawn glow, until a night layer exists.
+   * The dark of a night fight over the whole view, with lit windows/fire drawn above the field grade.
    */
   function drawNight(ctx, battle, camera, figurePx, now, bounds) {
     const width = bounds?.width ?? ctx.canvas?.width ?? 0, height = bounds?.height ?? ctx.canvas?.height ?? 0;
-    ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();
+    if(battle.id==='san-patricio')drawSouthernNight(ctx,southernNight.update(battle.light==='dawn'?.4:1,now),{width,height});
+    else {ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();}
     let lit = 0;
     for (const item of battle.scenery || []) {
       if (!item.lit) continue;

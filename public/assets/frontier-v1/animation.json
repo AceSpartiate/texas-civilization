@@ -14728,6 +14728,150 @@
         }
       ]
     },
+    "volunteer-mounted-fire-s": {
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-action-s-1",
+          "duration": 360
+        },
+        {
+          "sprite": "volunteer-mounted-action-s-2",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-mounted-action-s-3",
+          "duration": 220
+        },
+        {
+          "sprite": "volunteer-mounted-action-s-4",
+          "duration": 300
+        }
+      ]
+    },
+    "volunteer-mounted-fire-n": {
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-action-n-1",
+          "duration": 360
+        },
+        {
+          "sprite": "volunteer-mounted-action-n-2",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-mounted-action-n-3",
+          "duration": 220
+        },
+        {
+          "sprite": "volunteer-mounted-action-n-4",
+          "duration": 300
+        }
+      ]
+    },
+    "dragoon-mounted-fire-s": {
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-action-s-1",
+          "duration": 360
+        },
+        {
+          "sprite": "dragoon-mounted-action-s-2",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-mounted-action-s-3",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-mounted-action-s-4",
+          "duration": 300
+        }
+      ]
+    },
+    "dragoon-mounted-fire-n": {
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-action-n-1",
+          "duration": 360
+        },
+        {
+          "sprite": "dragoon-mounted-action-n-2",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-mounted-action-n-3",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-mounted-action-n-4",
+          "duration": 300
+        }
+      ]
+    },
+    "lancer-charge-s": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "lancer-charge-s-1",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-s-2",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-s-3",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-s-4",
+          "duration": 160
+        }
+      ]
+    },
+    "lancer-charge-n": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "lancer-charge-n-1",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-n-2",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-n-3",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-n-4",
+          "duration": 160
+        }
+      ]
+    },
     "susanna-child-walk-e": {
       "frames": [
         {

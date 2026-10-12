@@ -48,6 +48,7 @@ const files = new Map([
   ['/bexar-layout.js', ['../public/bexar-layout.js', 'text/javascript']],
   ['/bexar-art.js', ['../public/bexar-art.js', 'text/javascript']],
   ['/bexar-battle-art.js', ['../public/bexar-battle-art.js', 'text/javascript']],
+  ['/southern-battle-art.js', ['../public/southern-battle-art.js', 'text/javascript']],
   // The towns' layouts are the server's own data (sim/town-layouts.mjs): the page draws exactly the buildings the keepers stand in.
   ['/town-layouts.js', ['../sim/town-layouts.mjs', 'text/javascript']],
   ['/town-art.js', ['../public/town-art.js', 'text/javascript']],

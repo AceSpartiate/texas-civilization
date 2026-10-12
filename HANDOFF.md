@@ -1,3 +1,7 @@
+## Completed art group 2026-10-12: southern fights
+
+24 frames and six authored clips finish north/south volunteer/dragoon service and lancer charge refinements. Generic mounted firing binds the existing shot clock; San Patricio has a moonless field grade with independent 1.8-second easing and bright projected lights. New lancer cycles are library-ready for explicit charge selection. These are aim/recoil/lower/rest, not full reloads; separate full-reload/family appearance requests remain open. Read docs/ART_DELIVERY_2026-10-12-SOUTHERN-FIGHTS-COMPLETE.md. **8 dated parent artwork groups remain.** No deployment performed.
+
 ## Completed art group 2026-10-12: Concepcion and Grass Fight
 
 31 new frames, seven authored loops complete the remaining art subset: opposing cut banks, flowing bend vignette, researched Mission Concepcion church, three headings of harnessed crowded mule riders, unnamed padre and separate wounded/covered casualty carts. Mission and cut-bank placeholders are replaced with fallbacks. Bend/transport remain library-ready: register geography and scene motion/visibility before staging, preserve reported counts and family fates. Read docs/ART_DELIVERY_2026-10-12-CONCEPCION-COMPLETE.md for complete manifest, source limits and Claude integration. **9 dated parent artwork groups remain.** No deployment performed.

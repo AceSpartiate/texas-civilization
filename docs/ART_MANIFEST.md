@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3266 usable sprites, 356 PNG atlases, 1132 clips** (811 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3290 usable sprites, 359 PNG atlases, 1138 clips** (817 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -314,6 +314,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-doctor | 1 | 1536 × 1024 | 2118390 |
 | shop-stockman | 1 | 1536 × 1024 | 1863839 |
 | trees-shortleaf | 12 | 1448 × 1086 | 870477 |
+| southern-volunteer-mounted-actions | 8 | 1774 × 887 | 1152242 |
+| southern-dragoon-mounted-actions | 8 | 1774 × 887 | 1092208 |
+| southern-lancer-charge | 8 | 1774 × 887 | 967185 |
 | famous-susanna-child-travel | 4 | 1254 × 1254 | 1207824 |
 | famous-susanna-child-cardinal | 4 | 1254 × 1254 | 1204335 |
 | gonzales-settler-rammer | 4 | 1254 × 1254 | 892360 |
@@ -2984,6 +2987,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | pine-shortleaf-large-gale-1 | trees-shortleaf | pine-shortleaf-large-gale |
 | pine-shortleaf-large-gale-2 | trees-shortleaf | pine-shortleaf-large-gale |
 | stump-pine-shortleaf | trees-shortleaf | State artwork; no motion required |
+| volunteer-mounted-action-s-1 | southern-volunteer-mounted-actions | volunteer-mounted-fire-s |
+| volunteer-mounted-action-s-2 | southern-volunteer-mounted-actions | volunteer-mounted-fire-s |
+| volunteer-mounted-action-s-3 | southern-volunteer-mounted-actions | volunteer-mounted-fire-s |
+| volunteer-mounted-action-s-4 | southern-volunteer-mounted-actions | volunteer-mounted-fire-s |
+| volunteer-mounted-action-n-1 | southern-volunteer-mounted-actions | volunteer-mounted-fire-n |
+| volunteer-mounted-action-n-2 | southern-volunteer-mounted-actions | volunteer-mounted-fire-n |
+| volunteer-mounted-action-n-3 | southern-volunteer-mounted-actions | volunteer-mounted-fire-n |
+| volunteer-mounted-action-n-4 | southern-volunteer-mounted-actions | volunteer-mounted-fire-n |
+| dragoon-mounted-action-s-1 | southern-dragoon-mounted-actions | dragoon-mounted-fire-s |
+| dragoon-mounted-action-s-2 | southern-dragoon-mounted-actions | dragoon-mounted-fire-s |
+| dragoon-mounted-action-s-3 | southern-dragoon-mounted-actions | dragoon-mounted-fire-s |
+| dragoon-mounted-action-s-4 | southern-dragoon-mounted-actions | dragoon-mounted-fire-s |
+| dragoon-mounted-action-n-1 | southern-dragoon-mounted-actions | dragoon-mounted-fire-n |
+| dragoon-mounted-action-n-2 | southern-dragoon-mounted-actions | dragoon-mounted-fire-n |
+| dragoon-mounted-action-n-3 | southern-dragoon-mounted-actions | dragoon-mounted-fire-n |
+| dragoon-mounted-action-n-4 | southern-dragoon-mounted-actions | dragoon-mounted-fire-n |
+| lancer-charge-s-1 | southern-lancer-charge | lancer-charge-s |
+| lancer-charge-s-2 | southern-lancer-charge | lancer-charge-s |
+| lancer-charge-s-3 | southern-lancer-charge | lancer-charge-s |
+| lancer-charge-s-4 | southern-lancer-charge | lancer-charge-s |
+| lancer-charge-n-1 | southern-lancer-charge | lancer-charge-n |
+| lancer-charge-n-2 | southern-lancer-charge | lancer-charge-n |
+| lancer-charge-n-3 | southern-lancer-charge | lancer-charge-n |
+| lancer-charge-n-4 | southern-lancer-charge | lancer-charge-n |
 | susanna-child-walk-e-1 | famous-susanna-child-travel | susanna-child-walk-e |
 | susanna-child-walk-e-2 | famous-susanna-child-travel | susanna-child-walk-e |
 | susanna-child-hold-1 | famous-susanna-child-travel | susanna-child-hold |
@@ -4519,6 +4546,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | pine-shortleaf-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-shortleaf-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-shortleaf-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| volunteer-mounted-fire-s | Pose cycle | 4 | 1000 | one-shot | south |
+| volunteer-mounted-fire-n | Pose cycle | 4 | 1000 | one-shot | north |
+| dragoon-mounted-fire-s | Pose cycle | 4 | 1000 | one-shot | south |
+| dragoon-mounted-fire-n | Pose cycle | 4 | 1000 | one-shot | north |
+| lancer-charge-s | Pose cycle | 4 | 640 | yes | south |
+| lancer-charge-n | Pose cycle | 4 | 640 | yes | north |
 | susanna-child-walk-e | Pose cycle | 2 | 560 | yes | east |
 | susanna-child-hold | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | susanna-child-walk-s | Pose cycle | 2 | 560 | yes | south |

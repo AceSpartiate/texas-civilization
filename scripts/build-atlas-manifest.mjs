@@ -361,6 +361,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       ...(MODULE_METADATA[names[index]] || {}),
       ...(/^(people-|animal-|military-|courier-)/.test(sheet) || sheet==='bexar-townsfolk' ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
       ...(sheet==='regular-loophole-actions' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
+      ...(sheet.startsWith('southern-') ? {logicalHeight:Math.max(...placed.filter(p=>p.row===frame.row).map(p=>p.maxY-p.minY+1))} : {}),
       ...(['concepcion-limber-riders','concepcion-aftercare'].includes(sheet) ? {logicalHeight:Math.max(...placed.filter(p=>p.row===frame.row).map(p=>p.maxY-p.minY+1))} : {}),
       ...(sheet==='concepcion-bank-terrain' && frame.row>0 ? {logicalHeight:Math.max(...placed.filter(p=>p.row>0).map(p=>p.maxY-p.minY+1))} : {}),
       // Family sheets keep seated figures at their own standing scale.

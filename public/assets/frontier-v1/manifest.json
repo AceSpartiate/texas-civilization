@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 356,
-    "sprites": 3266,
-    "clips": 1132,
-    "poseCycles": 811,
+    "sheets": 359,
+    "sprites": 3290,
+    "clips": 1138,
+    "poseCycles": 817,
     "rigs": 4
   },
   "entrypoints": {
@@ -25142,6 +25142,228 @@
               [
                 1177,
                 1377
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "southern-volunteer-mounted-actions": {
+      "image": "atlases/southern-volunteer-mounted-actions.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1152242,
+      "sha256": "850555e915247c22bd1af47902710088f280f3bc39021faae818297b6df40ea7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.705116,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              440
+            ],
+            "columns": [
+              [
+                173,
+                438
+              ],
+              [
+                581,
+                845
+              ],
+              [
+                988,
+                1219
+              ],
+              [
+                1396,
+                1616
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              446,
+              868
+            ],
+            "columns": [
+              [
+                120,
+                380
+              ],
+              [
+                532,
+                787
+              ],
+              [
+                963,
+                1196
+              ],
+              [
+                1367,
+                1596
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "southern-dragoon-mounted-actions": {
+      "image": "atlases/southern-dragoon-mounted-actions.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1092208,
+      "sha256": "0d03e64ac01a8592f1df69b0150dbb37a58d4bbe9f831c3d2a1e88e9d169df85",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.724303,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              3,
+              440
+            ],
+            "columns": [
+              [
+                176,
+                439
+              ],
+              [
+                610,
+                868
+              ],
+              [
+                1027,
+                1257
+              ],
+              [
+                1462,
+                1688
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              440,
+              869
+            ],
+            "columns": [
+              [
+                121,
+                379
+              ],
+              [
+                556,
+                815
+              ],
+              [
+                1003,
+                1228
+              ],
+              [
+                1442,
+                1665
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "southern-lancer-charge": {
+      "image": "atlases/southern-lancer-charge.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 967185,
+      "sha256": "ed601b3e392b4585e76aef432fd6b93725230e4dc3df87b393ae451d550db760",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.771957,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              63,
+              432
+            ],
+            "columns": [
+              [
+                66,
+                314
+              ],
+              [
+                516,
+                762
+              ],
+              [
+                958,
+                1207
+              ],
+              [
+                1407,
+                1655
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              485,
+              861
+            ],
+            "columns": [
+              [
+                110,
+                358
+              ],
+              [
+                558,
+                801
+              ],
+              [
+                999,
+                1244
+              ],
+              [
+                1447,
+                1689
               ]
             ]
           }
@@ -120077,6 +120299,846 @@
       "locationKits": [],
       "promptId": "frontier-v1/trees-shortleaf"
     },
+    "volunteer-mounted-action-s-1": {
+      "sheet": "southern-volunteer-mounted-actions",
+      "x": 173,
+      "y": 11,
+      "w": 265,
+      "h": 429,
+      "anchorX": 0.3792,
+      "anchorY": 0.9301,
+      "logicalHeight": 430,
+      "label": "volunteer mounted action s 1",
+      "kind": "southern-volunteer-mounted-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          175,
+          13,
+          261,
+          425
+        ],
+        "visiblePixels": 52085,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-volunteer-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions"
+    },
+    "volunteer-mounted-action-s-2": {
+      "sheet": "southern-volunteer-mounted-actions",
+      "x": 581,
+      "y": 11,
+      "w": 264,
+      "h": 428,
+      "anchorX": 0.375,
+      "anchorY": 0.9322,
+      "logicalHeight": 430,
+      "label": "volunteer mounted action s 2",
+      "kind": "southern-volunteer-mounted-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          583,
+          13,
+          260,
+          424
+        ],
+        "visiblePixels": 52747,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-volunteer-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions"
+    },
+    "volunteer-mounted-action-s-3": {
+      "sheet": "southern-volunteer-mounted-actions",
+      "x": 988,
+      "y": 11,
+      "w": 231,
+      "h": 428,
+      "anchorX": 0.4221,
+      "anchorY": 0.9322,
+      "logicalHeight": 430,
+      "label": "volunteer mounted action s 3",
+      "kind": "southern-volunteer-mounted-actions",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          990,
+          13,
+          227,
+          424
+        ],
+        "visiblePixels": 50872,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-volunteer-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions"
+    },
+    "volunteer-mounted-action-s-4": {
+      "sheet": "southern-volunteer-mounted-actions",
+      "x": 1396,
+      "y": 10,
+      "w": 220,
+      "h": 430,
+      "anchorX": 0.4477,
+      "anchorY": 0.9302,
+      "logicalHeight": 430,
+      "label": "volunteer mounted action s 4",
+      "kind": "southern-volunteer-mounted-actions",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1398,
+          12,
+          216,
+          426
+        ],
+        "visiblePixels": 50617,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-volunteer-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions"
+    },
+    "volunteer-mounted-action-n-1": {
+      "sheet": "southern-volunteer-mounted-actions",
+      "x": 120,
+      "y": 446,
+      "w": 260,
+      "h": 422,
+      "anchorX": 0.6135,
+      "anchorY": 0.9289,
+      "logicalHeight": 422,
+      "label": "volunteer mounted action n 1",
+      "kind": "southern-volunteer-mounted-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          122,
+          448,
+          256,
+          418
+        ],
+        "visiblePixels": 49201,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-volunteer-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions"
+    },
+    "volunteer-mounted-action-n-2": {
+      "sheet": "southern-volunteer-mounted-actions",
+      "x": 532,
+      "y": 446,
+      "w": 255,
+      "h": 421,
+      "anchorX": 0.6078,
+      "anchorY": 0.9287,
+      "logicalHeight": 422,
+      "label": "volunteer mounted action n 2",
+      "kind": "southern-volunteer-mounted-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          534,
+          448,
+          251,
+          417
+        ],
+        "visiblePixels": 49542,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-volunteer-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions"
+    },
+    "volunteer-mounted-action-n-3": {
+      "sheet": "southern-volunteer-mounted-actions",
+      "x": 963,
+      "y": 446,
+      "w": 233,
+      "h": 421,
+      "anchorX": 0.5579,
+      "anchorY": 0.9287,
+      "logicalHeight": 422,
+      "label": "volunteer mounted action n 3",
+      "kind": "southern-volunteer-mounted-actions",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          965,
+          448,
+          229,
+          417
+        ],
+        "visiblePixels": 48710,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-volunteer-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions"
+    },
+    "volunteer-mounted-action-n-4": {
+      "sheet": "southern-volunteer-mounted-actions",
+      "x": 1367,
+      "y": 446,
+      "w": 229,
+      "h": 421,
+      "anchorX": 0.5568,
+      "anchorY": 0.9287,
+      "logicalHeight": 422,
+      "label": "volunteer mounted action n 4",
+      "kind": "southern-volunteer-mounted-actions",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1369,
+          448,
+          225,
+          417
+        ],
+        "visiblePixels": 48257,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-volunteer-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions"
+    },
+    "dragoon-mounted-action-s-1": {
+      "sheet": "southern-dragoon-mounted-actions",
+      "x": 176,
+      "y": 4,
+      "w": 263,
+      "h": 436,
+      "anchorX": 0.3745,
+      "anchorY": 0.9312,
+      "logicalHeight": 437,
+      "label": "dragoon mounted action s 1",
+      "kind": "southern-dragoon-mounted-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          178,
+          6,
+          259,
+          434
+        ],
+        "visiblePixels": 49667,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-dragoon-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions"
+    },
+    "dragoon-mounted-action-s-2": {
+      "sheet": "southern-dragoon-mounted-actions",
+      "x": 610,
+      "y": 4,
+      "w": 258,
+      "h": 436,
+      "anchorX": 0.3818,
+      "anchorY": 0.9312,
+      "logicalHeight": 437,
+      "label": "dragoon mounted action s 2",
+      "kind": "southern-dragoon-mounted-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          612,
+          6,
+          254,
+          434
+        ],
+        "visiblePixels": 49553,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-dragoon-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions"
+    },
+    "dragoon-mounted-action-s-3": {
+      "sheet": "southern-dragoon-mounted-actions",
+      "x": 1027,
+      "y": 5,
+      "w": 230,
+      "h": 435,
+      "anchorX": 0.4261,
+      "anchorY": 0.931,
+      "logicalHeight": 437,
+      "label": "dragoon mounted action s 3",
+      "kind": "southern-dragoon-mounted-actions",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1029,
+          7,
+          226,
+          433
+        ],
+        "visiblePixels": 48776,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-dragoon-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions"
+    },
+    "dragoon-mounted-action-s-4": {
+      "sheet": "southern-dragoon-mounted-actions",
+      "x": 1462,
+      "y": 3,
+      "w": 226,
+      "h": 437,
+      "anchorX": 0.4336,
+      "anchorY": 0.9314,
+      "logicalHeight": 437,
+      "label": "dragoon mounted action s 4",
+      "kind": "southern-dragoon-mounted-actions",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1464,
+          5,
+          222,
+          435
+        ],
+        "visiblePixels": 49032,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-dragoon-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions"
+    },
+    "dragoon-mounted-action-n-1": {
+      "sheet": "southern-dragoon-mounted-actions",
+      "x": 121,
+      "y": 440,
+      "w": 258,
+      "h": 429,
+      "anchorX": 0.6085,
+      "anchorY": 0.9277,
+      "logicalHeight": 429,
+      "label": "dragoon mounted action n 1",
+      "kind": "southern-dragoon-mounted-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          123,
+          440,
+          254,
+          427
+        ],
+        "visiblePixels": 46567,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-dragoon-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions"
+    },
+    "dragoon-mounted-action-n-2": {
+      "sheet": "southern-dragoon-mounted-actions",
+      "x": 556,
+      "y": 440,
+      "w": 259,
+      "h": 429,
+      "anchorX": 0.61,
+      "anchorY": 0.9277,
+      "logicalHeight": 429,
+      "label": "dragoon mounted action n 2",
+      "kind": "southern-dragoon-mounted-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          558,
+          440,
+          255,
+          427
+        ],
+        "visiblePixels": 47090,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-dragoon-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions"
+    },
+    "dragoon-mounted-action-n-3": {
+      "sheet": "southern-dragoon-mounted-actions",
+      "x": 1003,
+      "y": 440,
+      "w": 225,
+      "h": 429,
+      "anchorX": 0.5511,
+      "anchorY": 0.9277,
+      "logicalHeight": 429,
+      "label": "dragoon mounted action n 3",
+      "kind": "southern-dragoon-mounted-actions",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1005,
+          441,
+          221,
+          426
+        ],
+        "visiblePixels": 45970,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-dragoon-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions"
+    },
+    "dragoon-mounted-action-n-4": {
+      "sheet": "southern-dragoon-mounted-actions",
+      "x": 1442,
+      "y": 440,
+      "w": 223,
+      "h": 429,
+      "anchorX": 0.5448,
+      "anchorY": 0.9277,
+      "logicalHeight": 429,
+      "label": "dragoon mounted action n 4",
+      "kind": "southern-dragoon-mounted-actions",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1444,
+          441,
+          219,
+          426
+        ],
+        "visiblePixels": 45680,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-dragoon-mounted-actions.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions"
+    },
+    "lancer-charge-s-1": {
+      "sheet": "southern-lancer-charge",
+      "x": 66,
+      "y": 64,
+      "w": 248,
+      "h": 368,
+      "anchorX": 0.5806,
+      "anchorY": 0.9674,
+      "logicalHeight": 369,
+      "label": "lancer charge s 1",
+      "kind": "southern-lancer-charge",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          68,
+          66,
+          244,
+          364
+        ],
+        "visiblePixels": 40425,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-lancer-charge"
+    },
+    "lancer-charge-s-2": {
+      "sheet": "southern-lancer-charge",
+      "x": 516,
+      "y": 63,
+      "w": 246,
+      "h": 369,
+      "anchorX": 0.6382,
+      "anchorY": 0.9702,
+      "logicalHeight": 369,
+      "label": "lancer charge s 2",
+      "kind": "southern-lancer-charge",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          518,
+          65,
+          242,
+          365
+        ],
+        "visiblePixels": 41387,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-lancer-charge"
+    },
+    "lancer-charge-s-3": {
+      "sheet": "southern-lancer-charge",
+      "x": 958,
+      "y": 63,
+      "w": 249,
+      "h": 326,
+      "anchorX": 0.5783,
+      "anchorY": 0.9294,
+      "logicalHeight": 369,
+      "label": "lancer charge s 3",
+      "kind": "southern-lancer-charge",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          960,
+          65,
+          245,
+          322
+        ],
+        "visiblePixels": 38752,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-lancer-charge"
+    },
+    "lancer-charge-s-4": {
+      "sheet": "southern-lancer-charge",
+      "x": 1407,
+      "y": 63,
+      "w": 248,
+      "h": 369,
+      "anchorX": 0.619,
+      "anchorY": 0.9675,
+      "logicalHeight": 369,
+      "label": "lancer charge s 4",
+      "kind": "southern-lancer-charge",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1409,
+          65,
+          244,
+          365
+        ],
+        "visiblePixels": 40851,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-lancer-charge"
+    },
+    "lancer-charge-n-1": {
+      "sheet": "southern-lancer-charge",
+      "x": 110,
+      "y": 486,
+      "w": 248,
+      "h": 369,
+      "anchorX": 0.369,
+      "anchorY": 0.9295,
+      "logicalHeight": 376,
+      "label": "lancer charge n 1",
+      "kind": "southern-lancer-charge",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          112,
+          488,
+          244,
+          365
+        ],
+        "visiblePixels": 38471,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-lancer-charge"
+    },
+    "lancer-charge-n-2": {
+      "sheet": "southern-lancer-charge",
+      "x": 558,
+      "y": 486,
+      "w": 243,
+      "h": 374,
+      "anchorX": 0.3807,
+      "anchorY": 0.9599,
+      "logicalHeight": 376,
+      "label": "lancer charge n 2",
+      "kind": "southern-lancer-charge",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          560,
+          488,
+          239,
+          370
+        ],
+        "visiblePixels": 39022,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-lancer-charge"
+    },
+    "lancer-charge-n-3": {
+      "sheet": "southern-lancer-charge",
+      "x": 999,
+      "y": 486,
+      "w": 245,
+      "h": 317,
+      "anchorX": 0.3673,
+      "anchorY": 0.9274,
+      "logicalHeight": 376,
+      "label": "lancer charge n 3",
+      "kind": "southern-lancer-charge",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1001,
+          488,
+          241,
+          313
+        ],
+        "visiblePixels": 34378,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-lancer-charge"
+    },
+    "lancer-charge-n-4": {
+      "sheet": "southern-lancer-charge",
+      "x": 1447,
+      "y": 485,
+      "w": 242,
+      "h": 376,
+      "anchorX": 0.4008,
+      "anchorY": 0.9282,
+      "logicalHeight": 376,
+      "label": "lancer charge n 4",
+      "kind": "southern-lancer-charge",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1449,
+          487,
+          238,
+          372
+        ],
+        "visiblePixels": 38565,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/southern-lancer-charge.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-charge-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/southern-lancer-charge"
+    },
     "susanna-child-walk-e-1": {
       "sheet": "famous-susanna-child-travel",
       "x": 157,
@@ -157334,6 +158396,150 @@
         }
       ]
     },
+    "volunteer-mounted-fire-s": {
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-action-s-1",
+          "duration": 360
+        },
+        {
+          "sprite": "volunteer-mounted-action-s-2",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-mounted-action-s-3",
+          "duration": 220
+        },
+        {
+          "sprite": "volunteer-mounted-action-s-4",
+          "duration": 300
+        }
+      ]
+    },
+    "volunteer-mounted-fire-n": {
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-action-n-1",
+          "duration": 360
+        },
+        {
+          "sprite": "volunteer-mounted-action-n-2",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-mounted-action-n-3",
+          "duration": 220
+        },
+        {
+          "sprite": "volunteer-mounted-action-n-4",
+          "duration": 300
+        }
+      ]
+    },
+    "dragoon-mounted-fire-s": {
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-action-s-1",
+          "duration": 360
+        },
+        {
+          "sprite": "dragoon-mounted-action-s-2",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-mounted-action-s-3",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-mounted-action-s-4",
+          "duration": 300
+        }
+      ]
+    },
+    "dragoon-mounted-fire-n": {
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-action-n-1",
+          "duration": 360
+        },
+        {
+          "sprite": "dragoon-mounted-action-n-2",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-mounted-action-n-3",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-mounted-action-n-4",
+          "duration": 300
+        }
+      ]
+    },
+    "lancer-charge-s": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "lancer-charge-s-1",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-s-2",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-s-3",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-s-4",
+          "duration": 160
+        }
+      ]
+    },
+    "lancer-charge-n": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "lancer-charge-n-1",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-n-2",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-n-3",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-n-4",
+          "duration": 160
+        }
+      ]
+    },
     "susanna-child-walk-e": {
       "frames": [
         {
@@ -167011,7 +168217,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 356,
+    "sourceCount": 359,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
