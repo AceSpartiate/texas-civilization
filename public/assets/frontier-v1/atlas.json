@@ -21198,6 +21198,378 @@
         ]
       }
     },
+    "people-mounted-children-e": {
+      "image": "atlases/people-mounted-children-e.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1147224,
+      "sha256": "0bc15503def756dca706a084203c1fd9c7b29cb33f85622591861fb43ec0ad0a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.710432,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              93,
+              286
+            ],
+            "columns": [
+              [
+                62,
+                286
+              ],
+              [
+                366,
+                586
+              ],
+              [
+                665,
+                889
+              ],
+              [
+                963,
+                1183
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              388,
+              593
+            ],
+            "columns": [
+              [
+                57,
+                289
+              ],
+              [
+                363,
+                595
+              ],
+              [
+                662,
+                894
+              ],
+              [
+                965,
+                1196
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              673,
+              890
+            ],
+            "columns": [
+              [
+                60,
+                289
+              ],
+              [
+                367,
+                601
+              ],
+              [
+                662,
+                896
+              ],
+              [
+                967,
+                1197
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              958,
+              1169
+            ],
+            "columns": [
+              [
+                60,
+                290
+              ],
+              [
+                367,
+                601
+              ],
+              [
+                663,
+                897
+              ],
+              [
+                967,
+                1196
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-mounted-children-s": {
+      "image": "atlases/people-mounted-children-s.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1191765,
+      "sha256": "08410e6b353a402b6da46cd3d558a1c53a3fcbe197613972eaf4df309641d399",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.680728,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              11,
+              309
+            ],
+            "columns": [
+              [
+                100,
+                242
+              ],
+              [
+                403,
+                542
+              ],
+              [
+                707,
+                844
+              ],
+              [
+                1011,
+                1142
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              321,
+              621
+            ],
+            "columns": [
+              [
+                103,
+                239
+              ],
+              [
+                410,
+                541
+              ],
+              [
+                708,
+                842
+              ],
+              [
+                1013,
+                1143
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              629,
+              937
+            ],
+            "columns": [
+              [
+                102,
+                243
+              ],
+              [
+                407,
+                543
+              ],
+              [
+                700,
+                843
+              ],
+              [
+                1009,
+                1148
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              940,
+              1242
+            ],
+            "columns": [
+              [
+                96,
+                244
+              ],
+              [
+                408,
+                550
+              ],
+              [
+                700,
+                846
+              ],
+              [
+                1010,
+                1150
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-mounted-children-n": {
+      "image": "atlases/people-mounted-children-n.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1104874,
+      "sha256": "722919b57954e88a419284a07781e0b5881d9369ee7e9e8a8a179c3ca8001675",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.707833,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              18,
+              309
+            ],
+            "columns": [
+              [
+                112,
+                244
+              ],
+              [
+                422,
+                552
+              ],
+              [
+                704,
+                832
+              ],
+              [
+                998,
+                1128
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              321,
+              619
+            ],
+            "columns": [
+              [
+                112,
+                243
+              ],
+              [
+                424,
+                553
+              ],
+              [
+                704,
+                833
+              ],
+              [
+                1011,
+                1140
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              631,
+              931
+            ],
+            "columns": [
+              [
+                103,
+                242
+              ],
+              [
+                418,
+                552
+              ],
+              [
+                703,
+                835
+              ],
+              [
+                1006,
+                1144
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              942,
+              1241
+            ],
+            "columns": [
+              [
+                109,
+                242
+              ],
+              [
+                418,
+                551
+              ],
+              [
+                703,
+                834
+              ],
+              [
+                1007,
+                1140
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-mounted-cast1-e": {
       "image": "atlases/people-mounted-cast1-e.png",
       "width": 1254,
@@ -85683,6 +86055,1206 @@
           509
         ],
         "visiblePixels": 99562,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-e-1": {
+      "sheet": "people-mounted-children-e",
+      "x": 62,
+      "y": 94,
+      "w": 224,
+      "h": 192,
+      "anchorX": 0.5045,
+      "anchorY": 0.9271,
+      "logicalHeight": 193,
+      "label": "girl ride e 1",
+      "kind": "people-mounted-children-e",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          64,
+          96,
+          220,
+          188
+        ],
+        "visiblePixels": 19708,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-e-2": {
+      "sheet": "people-mounted-children-e",
+      "x": 366,
+      "y": 93,
+      "w": 220,
+      "h": 192,
+      "anchorX": 0.4886,
+      "anchorY": 0.9271,
+      "logicalHeight": 193,
+      "label": "girl ride e 2",
+      "kind": "people-mounted-children-e",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          368,
+          95,
+          216,
+          188
+        ],
+        "visiblePixels": 19414,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-e-3": {
+      "sheet": "people-mounted-children-e",
+      "x": 665,
+      "y": 93,
+      "w": 224,
+      "h": 193,
+      "anchorX": 0.4955,
+      "anchorY": 0.9275,
+      "logicalHeight": 193,
+      "label": "girl ride e 3",
+      "kind": "people-mounted-children-e",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          667,
+          95,
+          220,
+          189
+        ],
+        "visiblePixels": 19913,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-e-4": {
+      "sheet": "people-mounted-children-e",
+      "x": 963,
+      "y": 93,
+      "w": 220,
+      "h": 193,
+      "anchorX": 0.5068,
+      "anchorY": 0.9275,
+      "logicalHeight": 193,
+      "label": "girl ride e 4",
+      "kind": "people-mounted-children-e",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          965,
+          95,
+          216,
+          189
+        ],
+        "visiblePixels": 19485,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-e-1": {
+      "sheet": "people-mounted-children-e",
+      "x": 57,
+      "y": 388,
+      "w": 232,
+      "h": 202,
+      "anchorX": 0.5065,
+      "anchorY": 0.9257,
+      "logicalHeight": 203,
+      "label": "boy ride e 1",
+      "kind": "people-mounted-children-e",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          59,
+          390,
+          228,
+          198
+        ],
+        "visiblePixels": 21193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-e-2": {
+      "sheet": "people-mounted-children-e",
+      "x": 363,
+      "y": 390,
+      "w": 232,
+      "h": 201,
+      "anchorX": 0.4914,
+      "anchorY": 0.9254,
+      "logicalHeight": 203,
+      "label": "boy ride e 2",
+      "kind": "people-mounted-children-e",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          365,
+          392,
+          228,
+          197
+        ],
+        "visiblePixels": 20891,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-e-3": {
+      "sheet": "people-mounted-children-e",
+      "x": 662,
+      "y": 390,
+      "w": 232,
+      "h": 203,
+      "anchorX": 0.3836,
+      "anchorY": 0.9458,
+      "logicalHeight": 203,
+      "label": "boy ride e 3",
+      "kind": "people-mounted-children-e",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          664,
+          392,
+          228,
+          199
+        ],
+        "visiblePixels": 20933,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-e-4": {
+      "sheet": "people-mounted-children-e",
+      "x": 965,
+      "y": 390,
+      "w": 231,
+      "h": 202,
+      "anchorX": 0.5108,
+      "anchorY": 0.9257,
+      "logicalHeight": 203,
+      "label": "boy ride e 4",
+      "kind": "people-mounted-children-e",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          967,
+          392,
+          227,
+          198
+        ],
+        "visiblePixels": 20911,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-e-1": {
+      "sheet": "people-mounted-children-e",
+      "x": 60,
+      "y": 674,
+      "w": 229,
+      "h": 212,
+      "anchorX": 0.5066,
+      "anchorY": 0.9292,
+      "logicalHeight": 216,
+      "label": "smallchild with caregiver ride e 1",
+      "kind": "people-mounted-children-e",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          676,
+          225,
+          208
+        ],
+        "visiblePixels": 21995,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-e-2": {
+      "sheet": "people-mounted-children-e",
+      "x": 367,
+      "y": 673,
+      "w": 234,
+      "h": 214,
+      "anchorX": 0.5064,
+      "anchorY": 0.9346,
+      "logicalHeight": 216,
+      "label": "smallchild with caregiver ride e 2",
+      "kind": "people-mounted-children-e",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          369,
+          675,
+          230,
+          210
+        ],
+        "visiblePixels": 22213,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-e-3": {
+      "sheet": "people-mounted-children-e",
+      "x": 662,
+      "y": 674,
+      "w": 234,
+      "h": 216,
+      "anchorX": 0.3739,
+      "anchorY": 0.9444,
+      "logicalHeight": 216,
+      "label": "smallchild with caregiver ride e 3",
+      "kind": "people-mounted-children-e",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          664,
+          676,
+          230,
+          212
+        ],
+        "visiblePixels": 22770,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-e-4": {
+      "sheet": "people-mounted-children-e",
+      "x": 967,
+      "y": 675,
+      "w": 230,
+      "h": 213,
+      "anchorX": 0.5152,
+      "anchorY": 0.9296,
+      "logicalHeight": 216,
+      "label": "smallchild with caregiver ride e 4",
+      "kind": "people-mounted-children-e",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          969,
+          677,
+          226,
+          209
+        ],
+        "visiblePixels": 22288,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-e-1": {
+      "sheet": "people-mounted-children-e",
+      "x": 60,
+      "y": 959,
+      "w": 230,
+      "h": 209,
+      "anchorX": 0.5109,
+      "anchorY": 0.9282,
+      "logicalHeight": 210,
+      "label": "infant with caregiver ride e 1",
+      "kind": "people-mounted-children-e",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          961,
+          226,
+          205
+        ],
+        "visiblePixels": 21645,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-e-2": {
+      "sheet": "people-mounted-children-e",
+      "x": 367,
+      "y": 958,
+      "w": 234,
+      "h": 210,
+      "anchorX": 0.5,
+      "anchorY": 0.9286,
+      "logicalHeight": 210,
+      "label": "infant with caregiver ride e 2",
+      "kind": "people-mounted-children-e",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          369,
+          960,
+          230,
+          206
+        ],
+        "visiblePixels": 21779,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-e-3": {
+      "sheet": "people-mounted-children-e",
+      "x": 663,
+      "y": 960,
+      "w": 234,
+      "h": 209,
+      "anchorX": 0.3697,
+      "anchorY": 0.9474,
+      "logicalHeight": 210,
+      "label": "infant with caregiver ride e 3",
+      "kind": "people-mounted-children-e",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          665,
+          962,
+          230,
+          205
+        ],
+        "visiblePixels": 21941,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-e-4": {
+      "sheet": "people-mounted-children-e",
+      "x": 967,
+      "y": 960,
+      "w": 229,
+      "h": 208,
+      "anchorX": 0.5109,
+      "anchorY": 0.9279,
+      "logicalHeight": 210,
+      "label": "infant with caregiver ride e 4",
+      "kind": "people-mounted-children-e",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          969,
+          962,
+          225,
+          204
+        ],
+        "visiblePixels": 21460,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-s-1": {
+      "sheet": "people-mounted-children-s",
+      "x": 100,
+      "y": 11,
+      "w": 142,
+      "h": 297,
+      "anchorX": 0.4331,
+      "anchorY": 0.9663,
+      "logicalHeight": 298,
+      "label": "girl ride s 1",
+      "kind": "people-mounted-children-s",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          102,
+          13,
+          138,
+          293
+        ],
+        "visiblePixels": 23090,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-s-2": {
+      "sheet": "people-mounted-children-s",
+      "x": 403,
+      "y": 11,
+      "w": 139,
+      "h": 298,
+      "anchorX": 0.4496,
+      "anchorY": 0.9564,
+      "logicalHeight": 298,
+      "label": "girl ride s 2",
+      "kind": "people-mounted-children-s",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          13,
+          135,
+          294
+        ],
+        "visiblePixels": 22700,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-s-3": {
+      "sheet": "people-mounted-children-s",
+      "x": 707,
+      "y": 11,
+      "w": 137,
+      "h": 297,
+      "anchorX": 0.5109,
+      "anchorY": 0.9293,
+      "logicalHeight": 298,
+      "label": "girl ride s 3",
+      "kind": "people-mounted-children-s",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          709,
+          13,
+          133,
+          293
+        ],
+        "visiblePixels": 22369,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-s-4": {
+      "sheet": "people-mounted-children-s",
+      "x": 1011,
+      "y": 11,
+      "w": 131,
+      "h": 297,
+      "anchorX": 0.4924,
+      "anchorY": 0.9293,
+      "logicalHeight": 298,
+      "label": "girl ride s 4",
+      "kind": "people-mounted-children-s",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          13,
+          127,
+          293
+        ],
+        "visiblePixels": 22033,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-s-1": {
+      "sheet": "people-mounted-children-s",
+      "x": 103,
+      "y": 321,
+      "w": 136,
+      "h": 298,
+      "anchorX": 0.4449,
+      "anchorY": 0.953,
+      "logicalHeight": 299,
+      "label": "boy ride s 1",
+      "kind": "people-mounted-children-s",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          105,
+          323,
+          132,
+          294
+        ],
+        "visiblePixels": 21410,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-s-2": {
+      "sheet": "people-mounted-children-s",
+      "x": 410,
+      "y": 322,
+      "w": 131,
+      "h": 299,
+      "anchorX": 0.4084,
+      "anchorY": 0.9599,
+      "logicalHeight": 299,
+      "label": "boy ride s 2",
+      "kind": "people-mounted-children-s",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          412,
+          324,
+          127,
+          295
+        ],
+        "visiblePixels": 20625,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-s-3": {
+      "sheet": "people-mounted-children-s",
+      "x": 708,
+      "y": 322,
+      "w": 134,
+      "h": 298,
+      "anchorX": 0.5485,
+      "anchorY": 0.9597,
+      "logicalHeight": 299,
+      "label": "boy ride s 3",
+      "kind": "people-mounted-children-s",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          710,
+          324,
+          130,
+          294
+        ],
+        "visiblePixels": 21160,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-s-4": {
+      "sheet": "people-mounted-children-s",
+      "x": 1013,
+      "y": 321,
+      "w": 130,
+      "h": 293,
+      "anchorX": 0.4154,
+      "anchorY": 0.959,
+      "logicalHeight": 299,
+      "label": "boy ride s 4",
+      "kind": "people-mounted-children-s",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1015,
+          323,
+          126,
+          289
+        ],
+        "visiblePixels": 19790,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-s-1": {
+      "sheet": "people-mounted-children-s",
+      "x": 102,
+      "y": 629,
+      "w": 141,
+      "h": 304,
+      "anchorX": 0.4716,
+      "anchorY": 0.9276,
+      "logicalHeight": 308,
+      "label": "smallchild with caregiver ride s 1",
+      "kind": "people-mounted-children-s",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          631,
+          137,
+          300
+        ],
+        "visiblePixels": 23966,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-s-2": {
+      "sheet": "people-mounted-children-s",
+      "x": 407,
+      "y": 629,
+      "w": 136,
+      "h": 305,
+      "anchorX": 0.4265,
+      "anchorY": 0.9574,
+      "logicalHeight": 308,
+      "label": "smallchild with caregiver ride s 2",
+      "kind": "people-mounted-children-s",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          409,
+          631,
+          132,
+          301
+        ],
+        "visiblePixels": 22957,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-s-3": {
+      "sheet": "people-mounted-children-s",
+      "x": 700,
+      "y": 629,
+      "w": 143,
+      "h": 308,
+      "anchorX": 0.521,
+      "anchorY": 0.9286,
+      "logicalHeight": 308,
+      "label": "smallchild with caregiver ride s 3",
+      "kind": "people-mounted-children-s",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          702,
+          631,
+          139,
+          304
+        ],
+        "visiblePixels": 23423,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-s-4": {
+      "sheet": "people-mounted-children-s",
+      "x": 1009,
+      "y": 629,
+      "w": 139,
+      "h": 306,
+      "anchorX": 0.4928,
+      "anchorY": 0.9281,
+      "logicalHeight": 308,
+      "label": "smallchild with caregiver ride s 4",
+      "kind": "people-mounted-children-s",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1011,
+          631,
+          135,
+          302
+        ],
+        "visiblePixels": 22879,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-s-1": {
+      "sheet": "people-mounted-children-s",
+      "x": 96,
+      "y": 941,
+      "w": 148,
+      "h": 300,
+      "anchorX": 0.4493,
+      "anchorY": 0.9633,
+      "logicalHeight": 301,
+      "label": "infant with caregiver ride s 1",
+      "kind": "people-mounted-children-s",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          98,
+          943,
+          144,
+          296
+        ],
+        "visiblePixels": 23631,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-s-2": {
+      "sheet": "people-mounted-children-s",
+      "x": 408,
+      "y": 942,
+      "w": 142,
+      "h": 300,
+      "anchorX": 0.3979,
+      "anchorY": 0.9567,
+      "logicalHeight": 301,
+      "label": "infant with caregiver ride s 2",
+      "kind": "people-mounted-children-s",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          410,
+          944,
+          138,
+          296
+        ],
+        "visiblePixels": 22579,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-s-3": {
+      "sheet": "people-mounted-children-s",
+      "x": 700,
+      "y": 941,
+      "w": 146,
+      "h": 301,
+      "anchorX": 0.5582,
+      "anchorY": 0.9601,
+      "logicalHeight": 301,
+      "label": "infant with caregiver ride s 3",
+      "kind": "people-mounted-children-s",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          702,
+          943,
+          142,
+          297
+        ],
+        "visiblePixels": 23316,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-s-4": {
+      "sheet": "people-mounted-children-s",
+      "x": 1010,
+      "y": 940,
+      "w": 140,
+      "h": 297,
+      "anchorX": 0.4071,
+      "anchorY": 0.9596,
+      "logicalHeight": 301,
+      "label": "infant with caregiver ride s 4",
+      "kind": "people-mounted-children-s",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1012,
+          942,
+          136,
+          293
+        ],
+        "visiblePixels": 22392,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-n-1": {
+      "sheet": "people-mounted-children-n",
+      "x": 112,
+      "y": 19,
+      "w": 132,
+      "h": 290,
+      "anchorX": 0.4545,
+      "anchorY": 0.9414,
+      "logicalHeight": 291,
+      "label": "girl ride n 1",
+      "kind": "people-mounted-children-n",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          114,
+          21,
+          128,
+          286
+        ],
+        "visiblePixels": 21487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-n-2": {
+      "sheet": "people-mounted-children-n",
+      "x": 422,
+      "y": 20,
+      "w": 130,
+      "h": 289,
+      "anchorX": 0.5231,
+      "anchorY": 0.9273,
+      "logicalHeight": 291,
+      "label": "girl ride n 2",
+      "kind": "people-mounted-children-n",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          424,
+          22,
+          126,
+          285
+        ],
+        "visiblePixels": 20301,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-n-3": {
+      "sheet": "people-mounted-children-n",
+      "x": 704,
+      "y": 18,
+      "w": 128,
+      "h": 291,
+      "anchorX": 0.4883,
+      "anchorY": 0.9381,
+      "logicalHeight": 291,
+      "label": "girl ride n 3",
+      "kind": "people-mounted-children-n",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          20,
+          124,
+          287
+        ],
+        "visiblePixels": 20845,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "girl-ride-n-4": {
+      "sheet": "people-mounted-children-n",
+      "x": 998,
+      "y": 18,
+      "w": 130,
+      "h": 290,
+      "anchorX": 0.5077,
+      "anchorY": 0.9414,
+      "logicalHeight": 291,
+      "label": "girl ride n 4",
+      "kind": "people-mounted-children-n",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1000,
+          20,
+          126,
+          286
+        ],
+        "visiblePixels": 21030,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-n-1": {
+      "sheet": "people-mounted-children-n",
+      "x": 112,
+      "y": 321,
+      "w": 131,
+      "h": 298,
+      "anchorX": 0.4542,
+      "anchorY": 0.9295,
+      "logicalHeight": 298,
+      "label": "boy ride n 1",
+      "kind": "people-mounted-children-n",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          114,
+          323,
+          127,
+          294
+        ],
+        "visiblePixels": 22191,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-n-2": {
+      "sheet": "people-mounted-children-n",
+      "x": 424,
+      "y": 322,
+      "w": 129,
+      "h": 297,
+      "anchorX": 0.6085,
+      "anchorY": 0.9562,
+      "logicalHeight": 298,
+      "label": "boy ride n 2",
+      "kind": "people-mounted-children-n",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          324,
+          125,
+          293
+        ],
+        "visiblePixels": 21063,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-n-3": {
+      "sheet": "people-mounted-children-n",
+      "x": 704,
+      "y": 322,
+      "w": 129,
+      "h": 297,
+      "anchorX": 0.5155,
+      "anchorY": 0.9293,
+      "logicalHeight": 298,
+      "label": "boy ride n 3",
+      "kind": "people-mounted-children-n",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          324,
+          125,
+          293
+        ],
+        "visiblePixels": 21593,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "boy-ride-n-4": {
+      "sheet": "people-mounted-children-n",
+      "x": 1011,
+      "y": 322,
+      "w": 129,
+      "h": 297,
+      "anchorX": 0.5116,
+      "anchorY": 0.9293,
+      "logicalHeight": 298,
+      "label": "boy ride n 4",
+      "kind": "people-mounted-children-n",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          324,
+          125,
+          293
+        ],
+        "visiblePixels": 21536,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-n-1": {
+      "sheet": "people-mounted-children-n",
+      "x": 103,
+      "y": 631,
+      "w": 139,
+      "h": 299,
+      "anchorX": 0.5072,
+      "anchorY": 0.9398,
+      "logicalHeight": 300,
+      "label": "smallchild with caregiver ride n 1",
+      "kind": "people-mounted-children-n",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          105,
+          633,
+          135,
+          295
+        ],
+        "visiblePixels": 23361,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-n-2": {
+      "sheet": "people-mounted-children-n",
+      "x": 418,
+      "y": 631,
+      "w": 134,
+      "h": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "label": "smallchild with caregiver ride n 2",
+      "kind": "people-mounted-children-n",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          420,
+          633,
+          130,
+          296
+        ],
+        "visiblePixels": 22809,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-n-3": {
+      "sheet": "people-mounted-children-n",
+      "x": 703,
+      "y": 631,
+      "w": 132,
+      "h": 300,
+      "anchorX": 0.4773,
+      "anchorY": 0.95,
+      "logicalHeight": 300,
+      "label": "smallchild with caregiver ride n 3",
+      "kind": "people-mounted-children-n",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          705,
+          633,
+          128,
+          296
+        ],
+        "visiblePixels": 22568,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "smallchild-with-caregiver-ride-n-4": {
+      "sheet": "people-mounted-children-n",
+      "x": 1006,
+      "y": 631,
+      "w": 138,
+      "h": 300,
+      "anchorX": 0.5145,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "label": "smallchild with caregiver ride n 4",
+      "kind": "people-mounted-children-n",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1008,
+          633,
+          134,
+          296
+        ],
+        "visiblePixels": 23092,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-n-1": {
+      "sheet": "people-mounted-children-n",
+      "x": 109,
+      "y": 943,
+      "w": 133,
+      "h": 297,
+      "anchorX": 0.4699,
+      "anchorY": 0.9293,
+      "logicalHeight": 299,
+      "label": "infant with caregiver ride n 1",
+      "kind": "people-mounted-children-n",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          111,
+          945,
+          129,
+          293
+        ],
+        "visiblePixels": 22752,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-n-2": {
+      "sheet": "people-mounted-children-n",
+      "x": 418,
+      "y": 943,
+      "w": 133,
+      "h": 298,
+      "anchorX": 0.609,
+      "anchorY": 0.9564,
+      "logicalHeight": 299,
+      "label": "infant with caregiver ride n 2",
+      "kind": "people-mounted-children-n",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          420,
+          945,
+          129,
+          294
+        ],
+        "visiblePixels": 22193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-n-3": {
+      "sheet": "people-mounted-children-n",
+      "x": 703,
+      "y": 942,
+      "w": 131,
+      "h": 299,
+      "anchorX": 0.4771,
+      "anchorY": 0.9298,
+      "logicalHeight": 299,
+      "label": "infant with caregiver ride n 3",
+      "kind": "people-mounted-children-n",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          705,
+          944,
+          127,
+          295
+        ],
+        "visiblePixels": 22608,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "infant-with-caregiver-ride-n-4": {
+      "sheet": "people-mounted-children-n",
+      "x": 1007,
+      "y": 943,
+      "w": 133,
+      "h": 297,
+      "anchorX": 0.5263,
+      "anchorY": 0.9293,
+      "logicalHeight": 299,
+      "label": "infant with caregiver ride n 4",
+      "kind": "people-mounted-children-n",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1009,
+          945,
+          129,
+          293
+        ],
+        "visiblePixels": 23118,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

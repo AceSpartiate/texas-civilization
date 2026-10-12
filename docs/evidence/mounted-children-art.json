@@ -1,0 +1,266 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "name": "girl-ride-e-1",
+      "width": 150.88082901554404
+    },
+    {
+      "name": "girl-ride-e-2",
+      "width": 148.1865284974093
+    },
+    {
+      "name": "girl-ride-e-3",
+      "width": 150.88082901554404
+    },
+    {
+      "name": "girl-ride-e-4",
+      "width": 148.1865284974093
+    },
+    {
+      "name": "boy-ride-e-1",
+      "width": 148.57142857142858
+    },
+    {
+      "name": "boy-ride-e-2",
+      "width": 148.57142857142858
+    },
+    {
+      "name": "boy-ride-e-3",
+      "width": 148.57142857142858
+    },
+    {
+      "name": "boy-ride-e-4",
+      "width": 147.93103448275863
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-e-1",
+      "width": 137.82407407407408
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-e-2",
+      "width": 140.83333333333334
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-e-3",
+      "width": 140.83333333333334
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-e-4",
+      "width": 138.42592592592592
+    },
+    {
+      "name": "infant-with-caregiver-ride-e-1",
+      "width": 142.38095238095238
+    },
+    {
+      "name": "infant-with-caregiver-ride-e-2",
+      "width": 144.85714285714286
+    },
+    {
+      "name": "infant-with-caregiver-ride-e-3",
+      "width": 144.85714285714286
+    },
+    {
+      "name": "infant-with-caregiver-ride-e-4",
+      "width": 141.76190476190476
+    },
+    {
+      "name": "girl-ride-s-1",
+      "width": 61.946308724832214
+    },
+    {
+      "name": "girl-ride-s-2",
+      "width": 60.63758389261745
+    },
+    {
+      "name": "girl-ride-s-3",
+      "width": 59.765100671140935
+    },
+    {
+      "name": "girl-ride-s-4",
+      "width": 57.147651006711406
+    },
+    {
+      "name": "boy-ride-s-1",
+      "width": 59.130434782608695
+    },
+    {
+      "name": "boy-ride-s-2",
+      "width": 56.95652173913043
+    },
+    {
+      "name": "boy-ride-s-3",
+      "width": 58.26086956521739
+    },
+    {
+      "name": "boy-ride-s-4",
+      "width": 56.52173913043478
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-s-1",
+      "width": 59.51298701298701
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-s-2",
+      "width": 57.4025974025974
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-s-3",
+      "width": 60.357142857142854
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-s-4",
+      "width": 58.66883116883117
+    },
+    {
+      "name": "infant-with-caregiver-ride-s-1",
+      "width": 63.920265780730894
+    },
+    {
+      "name": "infant-with-caregiver-ride-s-2",
+      "width": 61.328903654485046
+    },
+    {
+      "name": "infant-with-caregiver-ride-s-3",
+      "width": 63.056478405315616
+    },
+    {
+      "name": "infant-with-caregiver-ride-s-4",
+      "width": 60.46511627906977
+    },
+    {
+      "name": "girl-ride-n-1",
+      "width": 58.96907216494846
+    },
+    {
+      "name": "girl-ride-n-2",
+      "width": 58.07560137457045
+    },
+    {
+      "name": "girl-ride-n-3",
+      "width": 57.18213058419244
+    },
+    {
+      "name": "girl-ride-n-4",
+      "width": 58.07560137457045
+    },
+    {
+      "name": "boy-ride-n-1",
+      "width": 57.147651006711406
+    },
+    {
+      "name": "boy-ride-n-2",
+      "width": 56.2751677852349
+    },
+    {
+      "name": "boy-ride-n-3",
+      "width": 56.2751677852349
+    },
+    {
+      "name": "boy-ride-n-4",
+      "width": 56.2751677852349
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-n-1",
+      "width": 60.233333333333334
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-n-2",
+      "width": 58.06666666666667
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-n-3",
+      "width": 57.2
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-n-4",
+      "width": 59.800000000000004
+    },
+    {
+      "name": "infant-with-caregiver-ride-n-1",
+      "width": 57.826086956521735
+    },
+    {
+      "name": "infant-with-caregiver-ride-n-2",
+      "width": 57.826086956521735
+    },
+    {
+      "name": "infant-with-caregiver-ride-n-3",
+      "width": 56.95652173913043
+    },
+    {
+      "name": "infant-with-caregiver-ride-n-4",
+      "width": 57.826086956521735
+    }
+  ],
+  "clips": [
+    {
+      "name": "girl-ride-e",
+      "distinct": 4
+    },
+    {
+      "name": "boy-ride-e",
+      "distinct": 4
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-e",
+      "distinct": 4
+    },
+    {
+      "name": "infant-with-caregiver-ride-e",
+      "distinct": 4
+    },
+    {
+      "name": "girl-ride-s",
+      "distinct": 4
+    },
+    {
+      "name": "boy-ride-s",
+      "distinct": 4
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-s",
+      "distinct": 4
+    },
+    {
+      "name": "infant-with-caregiver-ride-s",
+      "distinct": 4
+    },
+    {
+      "name": "girl-ride-n",
+      "distinct": 4
+    },
+    {
+      "name": "boy-ride-n",
+      "distinct": 4
+    },
+    {
+      "name": "smallchild-with-caregiver-ride-n",
+      "distinct": 4
+    },
+    {
+      "name": "infant-with-caregiver-ride-n",
+      "distinct": 4
+    }
+  ],
+  "bindings": [
+    {
+      "sex": "female",
+      "choice": {
+        "id": "girl-ride-e",
+        "whole": true
+      },
+      "width": 142.48704663212433
+    },
+    {
+      "sex": "male",
+      "choice": {
+        "id": "boy-ride-e",
+        "whole": true
+      },
+      "width": 142.85714285714286
+    }
+  ],
+  "errors": []
+}

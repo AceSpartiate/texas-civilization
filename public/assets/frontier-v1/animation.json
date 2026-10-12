@@ -12416,6 +12416,294 @@
       "motion": "none",
       "direction": "east; west by mirroring"
     },
+    "girl-ride-e": {
+      "frames": [
+        {
+          "sprite": "girl-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "east; west by mirroring"
+    },
+    "boy-ride-e": {
+      "frames": [
+        {
+          "sprite": "boy-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "east; west by mirroring"
+    },
+    "smallchild-with-caregiver-ride-e": {
+      "frames": [
+        {
+          "sprite": "smallchild-with-caregiver-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-with-caregiver-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-with-caregiver-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-with-caregiver-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "east; west by mirroring"
+    },
+    "infant-with-caregiver-ride-e": {
+      "frames": [
+        {
+          "sprite": "infant-with-caregiver-ride-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "infant-with-caregiver-ride-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "infant-with-caregiver-ride-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "infant-with-caregiver-ride-e-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "east; west by mirroring"
+    },
+    "girl-ride-s": {
+      "frames": [
+        {
+          "sprite": "girl-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "south"
+    },
+    "boy-ride-s": {
+      "frames": [
+        {
+          "sprite": "boy-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "south"
+    },
+    "smallchild-with-caregiver-ride-s": {
+      "frames": [
+        {
+          "sprite": "smallchild-with-caregiver-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-with-caregiver-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-with-caregiver-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-with-caregiver-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "south"
+    },
+    "infant-with-caregiver-ride-s": {
+      "frames": [
+        {
+          "sprite": "infant-with-caregiver-ride-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "infant-with-caregiver-ride-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "infant-with-caregiver-ride-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "infant-with-caregiver-ride-s-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "south"
+    },
+    "girl-ride-n": {
+      "frames": [
+        {
+          "sprite": "girl-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "girl-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "north"
+    },
+    "boy-ride-n": {
+      "frames": [
+        {
+          "sprite": "boy-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "boy-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "north"
+    },
+    "smallchild-with-caregiver-ride-n": {
+      "frames": [
+        {
+          "sprite": "smallchild-with-caregiver-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-with-caregiver-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-with-caregiver-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "smallchild-with-caregiver-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "north"
+    },
+    "infant-with-caregiver-ride-n": {
+      "frames": [
+        {
+          "sprite": "infant-with-caregiver-ride-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "infant-with-caregiver-ride-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "infant-with-caregiver-ride-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "infant-with-caregiver-ride-n-4",
+          "duration": 230
+        }
+      ],
+      "authored": true,
+      "motion": "none",
+      "loop": true,
+      "direction": "north"
+    },
     "rust-ride-e": {
       "frames": [
         {

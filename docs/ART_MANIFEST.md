@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3290 usable sprites, 359 PNG atlases, 1138 clips** (817 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3338 usable sprites, 362 PNG atlases, 1150 clips** (829 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -264,6 +264,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | field-cover-camp-props | 16 | 1254 × 1254 | 1651891 |
 | house-loopholed | 4 | 1536 × 1024 | 2777417 |
 | volunteer-loophole-actions | 4 | 1254 × 1254 | 989282 |
+| people-mounted-children-e | 16 | 1254 × 1254 | 1147224 |
+| people-mounted-children-s | 16 | 1254 × 1254 | 1191765 |
+| people-mounted-children-n | 16 | 1254 × 1254 | 1104874 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
 | people-mounted-cast1-s | 16 | 1254 × 1254 | 1213409 |
 | people-mounted-cast1-n | 16 | 1254 × 1254 | 1283689 |
@@ -2586,6 +2589,54 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | volunteer-loophole-fire | volunteer-loophole-actions | volunteer-loophole-fire-reload |
 | volunteer-loophole-load | volunteer-loophole-actions | volunteer-loophole-fire-reload |
 | volunteer-loophole-ramrod | volunteer-loophole-actions | volunteer-loophole-fire-reload |
+| girl-ride-e-1 | people-mounted-children-e | girl-ride-e |
+| girl-ride-e-2 | people-mounted-children-e | girl-ride-e |
+| girl-ride-e-3 | people-mounted-children-e | girl-ride-e |
+| girl-ride-e-4 | people-mounted-children-e | girl-ride-e |
+| boy-ride-e-1 | people-mounted-children-e | boy-ride-e |
+| boy-ride-e-2 | people-mounted-children-e | boy-ride-e |
+| boy-ride-e-3 | people-mounted-children-e | boy-ride-e |
+| boy-ride-e-4 | people-mounted-children-e | boy-ride-e |
+| smallchild-with-caregiver-ride-e-1 | people-mounted-children-e | smallchild-with-caregiver-ride-e |
+| smallchild-with-caregiver-ride-e-2 | people-mounted-children-e | smallchild-with-caregiver-ride-e |
+| smallchild-with-caregiver-ride-e-3 | people-mounted-children-e | smallchild-with-caregiver-ride-e |
+| smallchild-with-caregiver-ride-e-4 | people-mounted-children-e | smallchild-with-caregiver-ride-e |
+| infant-with-caregiver-ride-e-1 | people-mounted-children-e | infant-with-caregiver-ride-e |
+| infant-with-caregiver-ride-e-2 | people-mounted-children-e | infant-with-caregiver-ride-e |
+| infant-with-caregiver-ride-e-3 | people-mounted-children-e | infant-with-caregiver-ride-e |
+| infant-with-caregiver-ride-e-4 | people-mounted-children-e | infant-with-caregiver-ride-e |
+| girl-ride-s-1 | people-mounted-children-s | girl-ride-s |
+| girl-ride-s-2 | people-mounted-children-s | girl-ride-s |
+| girl-ride-s-3 | people-mounted-children-s | girl-ride-s |
+| girl-ride-s-4 | people-mounted-children-s | girl-ride-s |
+| boy-ride-s-1 | people-mounted-children-s | boy-ride-s |
+| boy-ride-s-2 | people-mounted-children-s | boy-ride-s |
+| boy-ride-s-3 | people-mounted-children-s | boy-ride-s |
+| boy-ride-s-4 | people-mounted-children-s | boy-ride-s |
+| smallchild-with-caregiver-ride-s-1 | people-mounted-children-s | smallchild-with-caregiver-ride-s |
+| smallchild-with-caregiver-ride-s-2 | people-mounted-children-s | smallchild-with-caregiver-ride-s |
+| smallchild-with-caregiver-ride-s-3 | people-mounted-children-s | smallchild-with-caregiver-ride-s |
+| smallchild-with-caregiver-ride-s-4 | people-mounted-children-s | smallchild-with-caregiver-ride-s |
+| infant-with-caregiver-ride-s-1 | people-mounted-children-s | infant-with-caregiver-ride-s |
+| infant-with-caregiver-ride-s-2 | people-mounted-children-s | infant-with-caregiver-ride-s |
+| infant-with-caregiver-ride-s-3 | people-mounted-children-s | infant-with-caregiver-ride-s |
+| infant-with-caregiver-ride-s-4 | people-mounted-children-s | infant-with-caregiver-ride-s |
+| girl-ride-n-1 | people-mounted-children-n | girl-ride-n |
+| girl-ride-n-2 | people-mounted-children-n | girl-ride-n |
+| girl-ride-n-3 | people-mounted-children-n | girl-ride-n |
+| girl-ride-n-4 | people-mounted-children-n | girl-ride-n |
+| boy-ride-n-1 | people-mounted-children-n | boy-ride-n |
+| boy-ride-n-2 | people-mounted-children-n | boy-ride-n |
+| boy-ride-n-3 | people-mounted-children-n | boy-ride-n |
+| boy-ride-n-4 | people-mounted-children-n | boy-ride-n |
+| smallchild-with-caregiver-ride-n-1 | people-mounted-children-n | smallchild-with-caregiver-ride-n |
+| smallchild-with-caregiver-ride-n-2 | people-mounted-children-n | smallchild-with-caregiver-ride-n |
+| smallchild-with-caregiver-ride-n-3 | people-mounted-children-n | smallchild-with-caregiver-ride-n |
+| smallchild-with-caregiver-ride-n-4 | people-mounted-children-n | smallchild-with-caregiver-ride-n |
+| infant-with-caregiver-ride-n-1 | people-mounted-children-n | infant-with-caregiver-ride-n |
+| infant-with-caregiver-ride-n-2 | people-mounted-children-n | infant-with-caregiver-ride-n |
+| infant-with-caregiver-ride-n-3 | people-mounted-children-n | infant-with-caregiver-ride-n |
+| infant-with-caregiver-ride-n-4 | people-mounted-children-n | infant-with-caregiver-ride-n |
 | rust-ride-e-1 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-2 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-3 | people-mounted-cast1-e | rust-ride-e |
@@ -4427,6 +4478,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | volunteer-ride-n | Pose cycle | 4 | 1200 | yes | north |
 | volunteer-mounted-fire-cycle | Pose cycle | 3 | 1000 | one-shot | east; west by mirroring |
 | volunteer-loophole-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
+| girl-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| boy-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| smallchild-with-caregiver-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| infant-with-caregiver-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| girl-ride-s | Pose cycle | 4 | 920 | yes | south |
+| boy-ride-s | Pose cycle | 4 | 920 | yes | south |
+| smallchild-with-caregiver-ride-s | Pose cycle | 4 | 920 | yes | south |
+| infant-with-caregiver-ride-s | Pose cycle | 4 | 920 | yes | south |
+| girl-ride-n | Pose cycle | 4 | 920 | yes | north |
+| boy-ride-n | Pose cycle | 4 | 920 | yes | north |
+| smallchild-with-caregiver-ride-n | Pose cycle | 4 | 920 | yes | north |
+| infant-with-caregiver-ride-n | Pose cycle | 4 | 920 | yes | north |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |

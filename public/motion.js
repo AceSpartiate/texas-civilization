@@ -248,10 +248,10 @@ export function carriedWithRider(entity, entities = []) {
  * boots, stirrups and reins, in place of the cropped person laid over a separate horse. Four walk frames each, east (west
  * mirrored), south and north.
  *
- * The children's figures - `girl`, `boy`, `smallchild`, `infant` - are **not** in this delivery, so a child sent on the
- * horse keeps the composite (`seatLayout` without `whole`). That is a real case: a girl of twelve may be sent on it.
+ * School-age girl/boy riding cycles were added October 12. Toddler/infant cycles include an authored caregiver and
+ * require explicit paired scene selection; automatically choosing them would substitute a parent identity.
  */
-export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl']);
+export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy']);
 /**
  * The four original-cast identities Astra painted driving (`people-wagon-drivers`, 2026-09-21,
  * docs/ART_DELIVERY_2026-09-21-WAGON-DRIVERS.md): a seated figure with connected reins and a short ox goad and no bench,

@@ -1,3 +1,7 @@
+## Completed art group 2026-10-12: child and infant horseback
+
+48 frames and twelve authored directional walk cycles close the September 14 younger-rider extension. Girl/boy use whole riders in production; toddler/infant are supported by an indigo caregiver in explicit paired scene composites. Do not automatically assign those to unpaired children or substitute a different parent appearance. Full manifest, prompts, tests and integration contract: docs/ART_DELIVERY_2026-10-12-MOUNTED-CHILDREN-COMPLETE.md. **7 dated parent artwork groups remain.** No deployment performed.
+
 ## Completed art group 2026-10-12: southern fights
 
 24 frames and six authored clips finish north/south volunteer/dragoon service and lancer charge refinements. Generic mounted firing binds the existing shot clock; San Patricio has a moonless field grade with independent 1.8-second easing and bright projected lights. New lancer cycles are library-ready for explicit charge selection. These are aim/recoil/lower/rest, not full reloads; separate full-reload/family appearance requests remain open. Read docs/ART_DELIVERY_2026-10-12-SOUTHERN-FIGHTS-COMPLETE.md. **8 dated parent artwork groups remain.** No deployment performed.
