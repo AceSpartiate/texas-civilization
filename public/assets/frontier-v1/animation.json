@@ -3747,6 +3747,173 @@
         }
       ]
     },
+    "river-bend": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "frames": [
+        {
+          "sprite": "river-bend-1",
+          "duration": 350
+        },
+        {
+          "sprite": "river-bend-2",
+          "duration": 350
+        },
+        {
+          "sprite": "river-bend-3",
+          "duration": 350
+        },
+        {
+          "sprite": "river-bend-4",
+          "duration": 350
+        }
+      ]
+    },
+    "limber-mules-walk-e": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "limber-mules-e-1",
+          "duration": 220
+        },
+        {
+          "sprite": "limber-mules-e-2",
+          "duration": 220
+        },
+        {
+          "sprite": "limber-mules-e-3",
+          "duration": 220
+        },
+        {
+          "sprite": "limber-mules-e-4",
+          "duration": 220
+        }
+      ]
+    },
+    "limber-mules-walk-s": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south",
+      "frames": [
+        {
+          "sprite": "limber-mules-s-1",
+          "duration": 220
+        },
+        {
+          "sprite": "limber-mules-s-2",
+          "duration": 220
+        },
+        {
+          "sprite": "limber-mules-s-3",
+          "duration": 220
+        },
+        {
+          "sprite": "limber-mules-s-4",
+          "duration": 220
+        }
+      ]
+    },
+    "limber-mules-walk-n": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north",
+      "frames": [
+        {
+          "sprite": "limber-mules-n-1",
+          "duration": 220
+        },
+        {
+          "sprite": "limber-mules-n-2",
+          "duration": 220
+        },
+        {
+          "sprite": "limber-mules-n-3",
+          "duration": 220
+        },
+        {
+          "sprite": "limber-mules-n-4",
+          "duration": 220
+        }
+      ]
+    },
+    "padre-walk": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "padre-walk-1",
+          "duration": 240
+        },
+        {
+          "sprite": "padre-walk-2",
+          "duration": 240
+        },
+        {
+          "sprite": "padre-walk-3",
+          "duration": 240
+        },
+        {
+          "sprite": "padre-walk-4",
+          "duration": 240
+        }
+      ]
+    },
+    "casualty-cart-wounded": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "casualty-cart-wounded-1",
+          "duration": 240
+        },
+        {
+          "sprite": "casualty-cart-wounded-2",
+          "duration": 240
+        },
+        {
+          "sprite": "casualty-cart-wounded-3",
+          "duration": 240
+        },
+        {
+          "sprite": "casualty-cart-wounded-4",
+          "duration": 240
+        }
+      ]
+    },
+    "casualty-cart-covered": {
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "casualty-cart-covered-1",
+          "duration": 240
+        },
+        {
+          "sprite": "casualty-cart-covered-2",
+          "duration": 240
+        },
+        {
+          "sprite": "casualty-cart-covered-3",
+          "duration": 240
+        },
+        {
+          "sprite": "casualty-cart-covered-4",
+          "duration": 240
+        }
+      ]
+    },
     "pine-loblolly-pole-gale": {
       "loop": true,
       "authored": true,

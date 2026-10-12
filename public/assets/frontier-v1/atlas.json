@@ -5134,6 +5134,316 @@
         ]
       }
     },
+    "concepcion-mission": {
+      "image": "atlases/concepcion-mission.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1786319,
+      "sha256": "b4803feaeec9989da0adaa7cfc05598e8e1b96d989500b714ec99dc0742d994d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.58815,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              298,
+              1127
+            ],
+            "columns": [
+              [
+                102,
+                1221
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "concepcion-bank-terrain": {
+      "image": "atlases/concepcion-bank-terrain.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 2158290,
+      "sha256": "ad03c12dacd1c87cd4bd1d015e5f6cdadcfedeb4782d6310b0e03d7487ca0fb8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.49273,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              27,
+              301
+            ],
+            "columns": [
+              [
+                153,
+                600
+              ],
+              [
+                850,
+                1285
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              330,
+              672
+            ],
+            "columns": [
+              [
+                116,
+                703
+              ],
+              [
+                756,
+                1342
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              692,
+              1035
+            ],
+            "columns": [
+              [
+                116,
+                702
+              ],
+              [
+                756,
+                1342
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "concepcion-limber-riders": {
+      "image": "atlases/concepcion-limber-riders.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1475077,
+      "sha256": "7041571a91af4f8fd5fb263cee6716a4375c0997ce7d9edc4294e845dc79cb2a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.654987,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          1
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              16,
+              352
+            ],
+            "columns": [
+              [
+                59,
+                363
+              ],
+              [
+                418,
+                731
+              ],
+              [
+                753,
+                1067
+              ],
+              [
+                1097,
+                1398
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              357,
+              698
+            ],
+            "columns": [
+              [
+                115,
+                287
+              ],
+              [
+                468,
+                637
+              ],
+              [
+                807,
+                979
+              ],
+              [
+                1156,
+                1326
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              710,
+              1055
+            ],
+            "columns": [
+              [
+                118,
+                298
+              ],
+              [
+                465,
+                649
+              ],
+              [
+                803,
+                992
+              ],
+              [
+                1154,
+                1345
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "concepcion-aftercare": {
+      "image": "atlases/concepcion-aftercare.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 881095,
+      "sha256": "659fc456c9c6e9d87925b47226beccc1511a08c985a6606f7d265dcace3229e4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.791967,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              120,
+              345
+            ],
+            "columns": [
+              [
+                123,
+                261
+              ],
+              [
+                503,
+                595
+              ],
+              [
+                846,
+                990
+              ],
+              [
+                1229,
+                1312
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              486,
+              660
+            ],
+            "columns": [
+              [
+                54,
+                324
+              ],
+              [
+                417,
+                687
+              ],
+              [
+                779,
+                1051
+              ],
+              [
+                1141,
+                1413
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              823,
+              992
+            ],
+            "columns": [
+              [
+                54,
+                326
+              ],
+              [
+                416,
+                687
+              ],
+              [
+                779,
+                1051
+              ],
+              [
+                1139,
+                1413
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "conifer-gale": {
       "image": "atlases/conifer-gale.png",
       "width": 1448,
@@ -43280,6 +43590,778 @@
           486
         ],
         "visiblePixels": 126298,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mission-concepcion": {
+      "sheet": "concepcion-mission",
+      "x": 102,
+      "y": 298,
+      "w": 1119,
+      "h": 829,
+      "anchorX": 0.5112,
+      "anchorY": 0.9288,
+      "label": "mission concepcion",
+      "kind": "concepcion-mission",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          300,
+          1115,
+          825
+        ],
+        "visiblePixels": 633771,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "riverbank-cut-e": {
+      "sheet": "concepcion-bank-terrain",
+      "x": 153,
+      "y": 27,
+      "w": 447,
+      "h": 274,
+      "anchorX": 0.7036,
+      "anchorY": 0.927,
+      "label": "riverbank cut e",
+      "kind": "concepcion-bank-terrain",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          155,
+          29,
+          443,
+          270
+        ],
+        "visiblePixels": 71130,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "riverbank-cut-w": {
+      "sheet": "concepcion-bank-terrain",
+      "x": 850,
+      "y": 32,
+      "w": 435,
+      "h": 269,
+      "anchorX": 0.2977,
+      "anchorY": 0.9294,
+      "label": "riverbank cut w",
+      "kind": "concepcion-bank-terrain",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          852,
+          34,
+          431,
+          265
+        ],
+        "visiblePixels": 71961,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "river-bend-1": {
+      "sheet": "concepcion-bank-terrain",
+      "x": 116,
+      "y": 330,
+      "w": 587,
+      "h": 342,
+      "anchorX": 0.4651,
+      "anchorY": 0.9298,
+      "logicalHeight": 343,
+      "label": "river bend 1",
+      "kind": "concepcion-bank-terrain",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          118,
+          332,
+          583,
+          338
+        ],
+        "visiblePixels": 144916,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "river-bend-2": {
+      "sheet": "concepcion-bank-terrain",
+      "x": 756,
+      "y": 330,
+      "w": 586,
+      "h": 342,
+      "anchorX": 0.4701,
+      "anchorY": 0.9298,
+      "logicalHeight": 343,
+      "label": "river bend 2",
+      "kind": "concepcion-bank-terrain",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          758,
+          332,
+          582,
+          338
+        ],
+        "visiblePixels": 144980,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "river-bend-3": {
+      "sheet": "concepcion-bank-terrain",
+      "x": 116,
+      "y": 692,
+      "w": 586,
+      "h": 343,
+      "anchorX": 0.4676,
+      "anchorY": 0.9271,
+      "logicalHeight": 343,
+      "label": "river bend 3",
+      "kind": "concepcion-bank-terrain",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          118,
+          694,
+          582,
+          339
+        ],
+        "visiblePixels": 145142,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "river-bend-4": {
+      "sheet": "concepcion-bank-terrain",
+      "x": 756,
+      "y": 692,
+      "w": 586,
+      "h": 343,
+      "anchorX": 0.4693,
+      "anchorY": 0.9271,
+      "logicalHeight": 343,
+      "label": "river bend 4",
+      "kind": "concepcion-bank-terrain",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          758,
+          694,
+          582,
+          339
+        ],
+        "visiblePixels": 145204,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-e-1": {
+      "sheet": "concepcion-limber-riders",
+      "x": 59,
+      "y": 20,
+      "w": 304,
+      "h": 332,
+      "anchorX": 0.4556,
+      "anchorY": 0.9277,
+      "logicalHeight": 334,
+      "label": "limber mules e 1",
+      "kind": "concepcion-limber-riders",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          22,
+          300,
+          328
+        ],
+        "visiblePixels": 47392,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-e-2": {
+      "sheet": "concepcion-limber-riders",
+      "x": 418,
+      "y": 16,
+      "w": 313,
+      "h": 334,
+      "anchorX": 0.4872,
+      "anchorY": 0.9491,
+      "logicalHeight": 334,
+      "label": "limber mules e 2",
+      "kind": "concepcion-limber-riders",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          420,
+          18,
+          309,
+          330
+        ],
+        "visiblePixels": 48717,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-e-3": {
+      "sheet": "concepcion-limber-riders",
+      "x": 753,
+      "y": 19,
+      "w": 314,
+      "h": 333,
+      "anchorX": 0.4363,
+      "anchorY": 0.9279,
+      "logicalHeight": 334,
+      "label": "limber mules e 3",
+      "kind": "concepcion-limber-riders",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          755,
+          21,
+          310,
+          329
+        ],
+        "visiblePixels": 47960,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-e-4": {
+      "sheet": "concepcion-limber-riders",
+      "x": 1097,
+      "y": 18,
+      "w": 301,
+      "h": 332,
+      "anchorX": 0.4967,
+      "anchorY": 0.9398,
+      "logicalHeight": 334,
+      "label": "limber mules e 4",
+      "kind": "concepcion-limber-riders",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1099,
+          20,
+          297,
+          328
+        ],
+        "visiblePixels": 46744,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-s-1": {
+      "sheet": "concepcion-limber-riders",
+      "x": 115,
+      "y": 357,
+      "w": 172,
+      "h": 340,
+      "anchorX": 0.5494,
+      "anchorY": 0.9588,
+      "logicalHeight": 341,
+      "label": "limber mules s 1",
+      "kind": "concepcion-limber-riders",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          117,
+          359,
+          168,
+          336
+        ],
+        "visiblePixels": 31170,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-s-2": {
+      "sheet": "concepcion-limber-riders",
+      "x": 468,
+      "y": 358,
+      "w": 169,
+      "h": 340,
+      "anchorX": 0.3876,
+      "anchorY": 0.9647,
+      "logicalHeight": 341,
+      "label": "limber mules s 2",
+      "kind": "concepcion-limber-riders",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          470,
+          360,
+          165,
+          336
+        ],
+        "visiblePixels": 30218,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-s-3": {
+      "sheet": "concepcion-limber-riders",
+      "x": 807,
+      "y": 357,
+      "w": 172,
+      "h": 341,
+      "anchorX": 0.5029,
+      "anchorY": 0.9296,
+      "logicalHeight": 341,
+      "label": "limber mules s 3",
+      "kind": "concepcion-limber-riders",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          809,
+          359,
+          168,
+          337
+        ],
+        "visiblePixels": 30844,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-s-4": {
+      "sheet": "concepcion-limber-riders",
+      "x": 1156,
+      "y": 358,
+      "w": 170,
+      "h": 339,
+      "anchorX": 0.3824,
+      "anchorY": 0.9676,
+      "logicalHeight": 341,
+      "label": "limber mules s 4",
+      "kind": "concepcion-limber-riders",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1158,
+          360,
+          166,
+          335
+        ],
+        "visiblePixels": 30467,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-n-1": {
+      "sheet": "concepcion-limber-riders",
+      "x": 118,
+      "y": 714,
+      "w": 180,
+      "h": 335,
+      "anchorX": 0.5028,
+      "anchorY": 0.9284,
+      "logicalHeight": 345,
+      "label": "limber mules n 1",
+      "kind": "concepcion-limber-riders",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          120,
+          716,
+          176,
+          331
+        ],
+        "visiblePixels": 32443,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-n-2": {
+      "sheet": "concepcion-limber-riders",
+      "x": 465,
+      "y": 711,
+      "w": 184,
+      "h": 340,
+      "anchorX": 0.4348,
+      "anchorY": 0.9529,
+      "logicalHeight": 345,
+      "label": "limber mules n 2",
+      "kind": "concepcion-limber-riders",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          467,
+          713,
+          180,
+          336
+        ],
+        "visiblePixels": 33864,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-n-3": {
+      "sheet": "concepcion-limber-riders",
+      "x": 803,
+      "y": 710,
+      "w": 189,
+      "h": 345,
+      "anchorX": 0.4735,
+      "anchorY": 0.9275,
+      "logicalHeight": 345,
+      "label": "limber mules n 3",
+      "kind": "concepcion-limber-riders",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          805,
+          712,
+          185,
+          341
+        ],
+        "visiblePixels": 33702,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "limber-mules-n-4": {
+      "sheet": "concepcion-limber-riders",
+      "x": 1154,
+      "y": 712,
+      "w": 191,
+      "h": 343,
+      "anchorX": 0.5157,
+      "anchorY": 0.9271,
+      "logicalHeight": 345,
+      "label": "limber mules n 4",
+      "kind": "concepcion-limber-riders",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1156,
+          714,
+          187,
+          339
+        ],
+        "visiblePixels": 34429,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "padre-walk-1": {
+      "sheet": "concepcion-aftercare",
+      "x": 123,
+      "y": 121,
+      "w": 138,
+      "h": 223,
+      "anchorX": 0.5072,
+      "anchorY": 0.9283,
+      "logicalHeight": 225,
+      "label": "padre walk 1",
+      "kind": "concepcion-aftercare",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          125,
+          123,
+          134,
+          219
+        ],
+        "visiblePixels": 14724,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "padre-walk-2": {
+      "sheet": "concepcion-aftercare",
+      "x": 503,
+      "y": 120,
+      "w": 92,
+      "h": 225,
+      "anchorX": 0.4783,
+      "anchorY": 0.9289,
+      "logicalHeight": 225,
+      "label": "padre walk 2",
+      "kind": "concepcion-aftercare",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          505,
+          122,
+          88,
+          221
+        ],
+        "visiblePixels": 12476,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "padre-walk-3": {
+      "sheet": "concepcion-aftercare",
+      "x": 846,
+      "y": 120,
+      "w": 144,
+      "h": 225,
+      "anchorX": 0.5174,
+      "anchorY": 0.9289,
+      "logicalHeight": 225,
+      "label": "padre walk 3",
+      "kind": "concepcion-aftercare",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          848,
+          122,
+          140,
+          221
+        ],
+        "visiblePixels": 14915,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "padre-walk-4": {
+      "sheet": "concepcion-aftercare",
+      "x": 1229,
+      "y": 120,
+      "w": 83,
+      "h": 224,
+      "anchorX": 0.4759,
+      "anchorY": 0.9375,
+      "logicalHeight": 225,
+      "label": "padre walk 4",
+      "kind": "concepcion-aftercare",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1231,
+          122,
+          79,
+          220
+        ],
+        "visiblePixels": 12455,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "casualty-cart-wounded-1": {
+      "sheet": "concepcion-aftercare",
+      "x": 54,
+      "y": 487,
+      "w": 270,
+      "h": 173,
+      "anchorX": 0.5093,
+      "anchorY": 0.9249,
+      "logicalHeight": 174,
+      "label": "casualty cart wounded 1",
+      "kind": "concepcion-aftercare",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          56,
+          489,
+          266,
+          169
+        ],
+        "visiblePixels": 25624,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "casualty-cart-wounded-2": {
+      "sheet": "concepcion-aftercare",
+      "x": 417,
+      "y": 487,
+      "w": 270,
+      "h": 173,
+      "anchorX": 0.4852,
+      "anchorY": 0.9249,
+      "logicalHeight": 174,
+      "label": "casualty cart wounded 2",
+      "kind": "concepcion-aftercare",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          419,
+          489,
+          266,
+          169
+        ],
+        "visiblePixels": 26060,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "casualty-cart-wounded-3": {
+      "sheet": "concepcion-aftercare",
+      "x": 779,
+      "y": 487,
+      "w": 272,
+      "h": 173,
+      "anchorX": 0.5055,
+      "anchorY": 0.9249,
+      "logicalHeight": 174,
+      "label": "casualty cart wounded 3",
+      "kind": "concepcion-aftercare",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          781,
+          489,
+          268,
+          169
+        ],
+        "visiblePixels": 26008,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "casualty-cart-wounded-4": {
+      "sheet": "concepcion-aftercare",
+      "x": 1141,
+      "y": 486,
+      "w": 272,
+      "h": 174,
+      "anchorX": 0.5239,
+      "anchorY": 0.9253,
+      "logicalHeight": 174,
+      "label": "casualty cart wounded 4",
+      "kind": "concepcion-aftercare",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1143,
+          488,
+          268,
+          170
+        ],
+        "visiblePixels": 26688,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "casualty-cart-covered-1": {
+      "sheet": "concepcion-aftercare",
+      "x": 54,
+      "y": 824,
+      "w": 272,
+      "h": 168,
+      "anchorX": 0.5055,
+      "anchorY": 0.9286,
+      "logicalHeight": 169,
+      "label": "casualty cart covered 1",
+      "kind": "concepcion-aftercare",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          56,
+          826,
+          268,
+          164
+        ],
+        "visiblePixels": 27195,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "casualty-cart-covered-2": {
+      "sheet": "concepcion-aftercare",
+      "x": 416,
+      "y": 823,
+      "w": 271,
+      "h": 169,
+      "anchorX": 0.4889,
+      "anchorY": 0.929,
+      "logicalHeight": 169,
+      "label": "casualty cart covered 2",
+      "kind": "concepcion-aftercare",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          418,
+          825,
+          267,
+          165
+        ],
+        "visiblePixels": 27349,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "casualty-cart-covered-3": {
+      "sheet": "concepcion-aftercare",
+      "x": 779,
+      "y": 823,
+      "w": 272,
+      "h": 169,
+      "anchorX": 0.5055,
+      "anchorY": 0.929,
+      "logicalHeight": 169,
+      "label": "casualty cart covered 3",
+      "kind": "concepcion-aftercare",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          781,
+          825,
+          268,
+          165
+        ],
+        "visiblePixels": 27488,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "casualty-cart-covered-4": {
+      "sheet": "concepcion-aftercare",
+      "x": 1139,
+      "y": 823,
+      "w": 274,
+      "h": 169,
+      "anchorX": 0.5274,
+      "anchorY": 0.929,
+      "logicalHeight": 169,
+      "label": "casualty cart covered 4",
+      "kind": "concepcion-aftercare",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1141,
+          825,
+          270,
+          165
+        ],
+        "visiblePixels": 28308,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

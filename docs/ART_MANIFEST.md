@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3235 usable sprites, 352 PNG atlases, 1125 clips** (804 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3266 usable sprites, 356 PNG atlases, 1132 clips** (811 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -73,6 +73,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | colony-hardwoods | 8 | 1774 × 887 | 2641448 |
 | colony-oak-gales | 8 | 1774 × 887 | 2716648 |
 | colony-compound-gales | 6 | 1024 × 1536 | 3090731 |
+| concepcion-mission | 1 | 1254 × 1254 | 1786319 |
+| concepcion-bank-terrain | 6 | 1448 × 1086 | 2158290 |
+| concepcion-limber-riders | 12 | 1448 × 1086 | 1475077 |
+| concepcion-aftercare | 12 | 1448 × 1086 | 881095 |
 | conifer-gale | 12 | 1448 × 1086 | 1381008 |
 | fallen-transport | 8 | 1536 × 1024 | 1987719 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
@@ -897,6 +901,37 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | tree-walnut-gale-2 | colony-compound-gales | tree-walnut-gale |
 | tree-ash-gale-1 | colony-compound-gales | tree-ash-gale |
 | tree-ash-gale-2 | colony-compound-gales | tree-ash-gale |
+| mission-concepcion | concepcion-mission | State artwork; no motion required |
+| riverbank-cut-e | concepcion-bank-terrain | State artwork; no motion required |
+| riverbank-cut-w | concepcion-bank-terrain | State artwork; no motion required |
+| river-bend-1 | concepcion-bank-terrain | river-bend |
+| river-bend-2 | concepcion-bank-terrain | river-bend |
+| river-bend-3 | concepcion-bank-terrain | river-bend |
+| river-bend-4 | concepcion-bank-terrain | river-bend |
+| limber-mules-e-1 | concepcion-limber-riders | limber-mules-walk-e |
+| limber-mules-e-2 | concepcion-limber-riders | limber-mules-walk-e |
+| limber-mules-e-3 | concepcion-limber-riders | limber-mules-walk-e |
+| limber-mules-e-4 | concepcion-limber-riders | limber-mules-walk-e |
+| limber-mules-s-1 | concepcion-limber-riders | limber-mules-walk-s |
+| limber-mules-s-2 | concepcion-limber-riders | limber-mules-walk-s |
+| limber-mules-s-3 | concepcion-limber-riders | limber-mules-walk-s |
+| limber-mules-s-4 | concepcion-limber-riders | limber-mules-walk-s |
+| limber-mules-n-1 | concepcion-limber-riders | limber-mules-walk-n |
+| limber-mules-n-2 | concepcion-limber-riders | limber-mules-walk-n |
+| limber-mules-n-3 | concepcion-limber-riders | limber-mules-walk-n |
+| limber-mules-n-4 | concepcion-limber-riders | limber-mules-walk-n |
+| padre-walk-1 | concepcion-aftercare | padre-walk |
+| padre-walk-2 | concepcion-aftercare | padre-walk |
+| padre-walk-3 | concepcion-aftercare | padre-walk |
+| padre-walk-4 | concepcion-aftercare | padre-walk |
+| casualty-cart-wounded-1 | concepcion-aftercare | casualty-cart-wounded |
+| casualty-cart-wounded-2 | concepcion-aftercare | casualty-cart-wounded |
+| casualty-cart-wounded-3 | concepcion-aftercare | casualty-cart-wounded |
+| casualty-cart-wounded-4 | concepcion-aftercare | casualty-cart-wounded |
+| casualty-cart-covered-1 | concepcion-aftercare | casualty-cart-covered |
+| casualty-cart-covered-2 | concepcion-aftercare | casualty-cart-covered |
+| casualty-cart-covered-3 | concepcion-aftercare | casualty-cart-covered |
+| casualty-cart-covered-4 | concepcion-aftercare | casualty-cart-covered |
 | pine-loblolly-pole-gale-1 | conifer-gale | pine-loblolly-pole-gale |
 | pine-loblolly-pole-gale-2 | conifer-gale | pine-loblolly-pole-gale |
 | cedar-pole-gale-1 | conifer-gale | cedar-pole-gale |
@@ -3846,6 +3881,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | tree-hickory-gale | Pose cycle | 2 | 1200 | yes | undefined |
 | tree-walnut-gale | Pose cycle | 2 | 1200 | yes | undefined |
 | tree-ash-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| river-bend | Pose cycle | 4 | 1400 | yes | undefined |
+| limber-mules-walk-e | Pose cycle | 4 | 880 | yes | east |
+| limber-mules-walk-s | Pose cycle | 4 | 880 | yes | south |
+| limber-mules-walk-n | Pose cycle | 4 | 880 | yes | north |
+| padre-walk | Pose cycle | 4 | 960 | yes | east |
+| casualty-cart-wounded | Pose cycle | 4 | 960 | yes | east |
+| casualty-cart-covered | Pose cycle | 4 | 960 | yes | east |
 | pine-loblolly-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | cedar-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-loblolly-log-gale | Pose cycle | 2 | 1000 | yes | undefined |

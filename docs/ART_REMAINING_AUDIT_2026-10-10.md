@@ -1,6 +1,6 @@
 # Remaining artwork audit — 2026-10-10
 
-**10 dated parent request groups remain on the broad art backlog.** This counts explicit remaining artwork and explicitly recorded breadth/action refinements in `ART_REQUESTS.md`; it does not count sheets, delivery batches, renderer work, or gameplay integration. Several groups below are refinement/breadth rather than missing original core assets. This is therefore a broad backlog count, not a claim that all ten remaining contracts are undelivered.
+**9 dated parent request groups remain on the broad art backlog.** This counts explicit remaining artwork and explicitly recorded breadth/action refinements in `ART_REQUESTS.md`; it does not count sheets, delivery batches, renderer work, or gameplay integration. Several groups below are refinement/breadth rather than missing original core assets. This is therefore a broad backlog count, not a claim that all nine remaining contracts are undelivered.
 
 The completed infant passenger delivery does not close the September 25 travel parent: adult seated layers and generic infant-carrying walks remain. Child passenger art is delivered (18 frames); adult passengers and carried infants must not be inferred from that delivery.
 
@@ -15,7 +15,6 @@ The completed infant passenger delivery does not close the September 25 travel p
 | 7 | September 12 second — settling in | Semantic appearance masks/aligned layers, task/combat/seated refinements across offered head silhouettes. | Explicit layered-people contract. `family-appearance-2026-10-02.mjs` delivers painted complete figures with simple work/rest, not explicit skin/hair/clothes semantic layers or complete task/combat/seated sets. Houses/interiors/furnishings/tools completed. |
 | 8 | September 25 — battle pieces | Family identity firing, wounded/fallen and identity-specific transport; generic mounted directional/full-reload refinement. | Request item 1 and transport stand-in row; `public/battle-view.js` `memberPose` uses volunteer combat art. `military-life-2026-10-03.mjs`, `fallen-transport-2026-10-04.mjs` complete generic living/dead transport, not identity-specific composites. Cannon/settler crew/flag completed. |
 | 9 | September 25 — south's fights | Requested night lighting layer; directional mounted action refinements. | Request item 1 and mounted refinement row. `night-lights-2026-10-03.mjs` delivers building/fire variants, not a field night layer. `horse-herds-2026-10-10.mjs`, `live-oak-mott-2026-10-03.mjs`, cavalry charge and mounted walking close their portions. Exact window-only overlays are recorded future refinement, not grounds to regenerate lit houses. |
-| 10 | September 25 — Concepción and Grass Fight | Cut riverbank/bend terrain; Mission Concepción; limber mules carrying riders; padre and casualty carts. | Request items 1, 4, 8. Bank action frames in `bank-actions-2026-10-04.mjs` do not provide matching terrain. `grass-creek-2026-10-10.mjs` completes creek item 7; grass mules, fog, bugler/drummer delivered. Bank shot-clock/ground registration remains implementation. |
 
 ## Delivered artwork excluded from the count
 
@@ -23,7 +22,7 @@ Updated October 11: both researched Béxar civic façades are integrated, with h
 
 Updated October 11: cottonwood/sapling gust pairs close the generic norther refinement; all recorded gale artwork is delivered. See `ART_DELIVERY_2026-10-11-NATURE-GALES.md`.
 
-Updated October 11: all ten standard family portraits delivered, alpha-reviewed and stand-ins retired. See `ART_DELIVERY_2026-10-11-FAMILY-PORTRAITS.md`. Customized appearance layers remain under their separate parent request.
+Updated October 11: all nine standard family portraits delivered, alpha-reviewed and stand-ins retired. See `ART_DELIVERY_2026-10-11-FAMILY-PORTRAITS.md`. Customized appearance layers remain under their separate parent request.
 
 The September 24 two-pen roof request is complete as of this delivery: three join states, ridge registration and production composition. See `ART_DELIVERY_2026-10-10-ROOF-JOINS.md`.
 
@@ -43,8 +42,10 @@ Updated October 11: five regional tree silhouettes and matching authored wind pa
 
 Updated October 11: the remaining colony hardwood identities and pecan stump close the September 15 colony-tree parent. See ART_DELIVERY_2026-10-11-COLONY-HARDWOODS.md. Mature breadth sprites scale at existing sizes.
 
-Updated October 11: all ten other-side house drawings delivered and measured. Full-house selection/chimney migration remains compositor work, not missing art. See ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md.
+Updated October 11: all nine other-side house drawings delivered and measured. Full-house selection/chimney migration remains compositor work, not missing art. See ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md.
 
 Updated October 11: all remaining house plot artwork is delivered. Jacal stages and shed frame are integrated; double chimney/floor/loft remain library-ready for compositor adoption. See ART_DELIVERY_2026-10-11-HOUSE-CONSTRUCTION-COMPLETE.md.
 
 Updated October 11: regular loophole service, four townsfolk walk cycles and eased calendar-driven moonlit grade close the remaining Béxar battle artwork. See ART_DELIVERY_2026-10-11-BEXAR-BATTLE-COMPLETE.md.
+
+Updated October 12: remaining Concepcion/Grass Fight artwork delivered: 31 frames, seven authored loops. Mission and cut-bank bindings are live; bend and transport kit are library-ready pending geographic/scene registration. See ART_DELIVERY_2026-10-12-CONCEPCION-COMPLETE.md.

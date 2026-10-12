@@ -5637,6 +5637,79 @@
         }
       ],
       "postProcessing": "None; selected generated PNG copied unchanged, read-only alpha audit."
+    },
+    {
+      "sheet": "concepcion-mission",
+      "promptId": "frontier-v1/concepcion-mission",
+      "prompt": "Use case historical-scene. ONE isolated transparent production game sprite of Mission Nuestra Senora de la Purisima Concepcion de Acuna at San Antonio, its eighteenth-century stone CHURCH ONLY, recognizable twin square bell towers and dome over crossing. Warm hand-painted brown outlines muted buff limestone ochre weathering, elevated three-quarter frontier-game view front facade visible leftfront and nave receding upperright. Real architectural silhouette: TWO matching stout square front bell towers with open arched belfry bays and low pyramidal stone caps; rectangular frontispiece between them with central carved arched entry and small window above, restrained stone relief; cross-plan barrel-vaulted church with short projecting transept and rounded crossing dome behind facade on octagonal drum, small crown finial. Compact weathered colonial limestone masonry, no modern landscaping paved paths visitor signs electricity ironfences or vehicles. No later neoGothic towers or Alamo rounded facade. Conservative faded buff finish; no invented bright restored fresco pattern. Keep church fullgroundfootprint, no walledmissioncompound claimed. Visiblebelldetails small toread at500yardgameview. Originalcolormassingconsistent supplied reference colonialbuildings. Center whole building central65percent of image, huge genuine alpha0 gutters minimum100px all edges no cropped corners, no people animals trees shadows sky ground vignette text labels. A rigid exterior, game supplies lookouts separately.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + architecture correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2ce6b18a-5ed5-4066-bf12-28689b1b31be.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed19f255-2271-43bf-8bd1-193b1fe73593.png",
+      "refinements": [
+        {
+          "prompt": "Edit church sprite toward actual MissionConcepcion's restrained colonial architecture, retain original game's paintedstyle perspective and twinfronttowers. REQUIRED: centralfacade between towers should be a PLAIN FLAT RECTANGULAR upperwall, no steppedscallopedBaroque gable. Carved entry surrounds centralarchedwooddoor with a SMALL TRIANGULAR classicalpediment, not broadcurlyfan; aboveentry CENTRALCIRCULAR OCULUS, TWOsmall rectangular insetwindows flanking belowoculus, notsinglelargecentralwindow. REMOVE decorativeurnfinials fromcorners of towers, cornices,transepts. Keep two squarebell towers with modestarchedopenings andlowpyramidalstonecaps; they must be dominanttallestmasses. REDUCE crossingdome height/scale by35percent; dome sits behindtowerswithcrown BELOW towercaps, simple smallstonefinial NO enormousmultistageoctagonal cupola. Retaincrossplan lowbarrelvaultnave/transeptroof and buffweatheredlimestone, conservativefadedplaster no inventedfrescopattern. Sameelevatedfrontthreequarter, no modernsigns/fences/landscape/people. Entirechurch fitscentral65percentimagehugealpha0margins, no shadow/background/text. Onecompletebuilding only.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed19f255-2271-43bf-8bd1-193b1fe73593.png"
+          ]
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/concepcion-mission.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "concepcion-bank-terrain",
+      "promptId": "frontier-v1/concepcion-bank-terrain",
+      "prompt": "Production transparent terrain game atlas EXACT TWO columns THREE rows SIX isolated natural terrain modules, warm painted mutedolive grass ochre exposedsoil brownoutlines slateblue water, elevated topdown gameview matching reference. Row1 left riverbank-cut-e: natural5to6foot high exposedearth bank strip grasslip with2roughfootsteps cutinto face, FACE exposed toward SCREENRIGHT, aboutfourperson widths long, no soldier rampart palisade retainingwall or detachedfloatingcuboid. Row1 right riverbank-cut-w same naturalgrasslip/steps but exposedface toward SCREENLEFT. Wholebankpatch softly irregularfeatheredgroundedge, soilcut readsheight not cartoonisland. Row2 cols1,2 and row3 cols1,2: FOUR LOOP FRAMES EXACT SAME river-bend patch, crescent SanAntonioRiver bend around grassy bottomlandabout80yardsdeep, pecanandcottonwood few SMALL trees dotted backinnerlip, grass, soilbanks, river runs broadC-shapedaroundleftback of patch, open grassy interior forcharacters, no people buildings animals. EXACT SAME watercourse banks trees silhouettes and rootedpositions in allfour, only slateblue water highlights/ripples progress subtly downstream acrossframes. Naturalriverbendnot moat completecircle nottropical palmsconifers notstrictsquaretile. Each complete object fits CENTRAL55percent of own equalcell with80pxalpha0gutters atallseams andedges, no crop overlap labels text grid background shadowglow. Genuinealpha0outside terrain. Bankgeometryfromgameauthoritative this isreusable reconstruction illustration, notsurveyedbattlefield. Ground pieces separated entirely.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/grass-creek-terrain.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2c68d36c-cabc-417d-a6d1-c808ff6268d8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/concepcion-bank-terrain.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "concepcion-limber-riders",
+      "promptId": "frontier-v1/concepcion-limber-riders",
+      "prompt": "Production transparent game atlas EXACT FOUR columns THREE rows TWELVE complete isolated sameharnessed graybrown MULE carrying TWO Mexican regular infantrymen, emergency retreat, matching reference long-eared mule proportions and military uniform. No grasspanniers now, simpleleathercaisson harness breaststrapandtraces ends securedalong flank, no attached gun wagon or floating rope. TWO adult regulars ride onebehindother astride, seated realistically compressedalonglongmuleback: frontman holds reins, rearman clutches frontman's shoulder, navyblue coats redcuffs whitecrossbelts whitetrousers blackshakos redpompoms. Same mule and twopeople EVERY frame. No thirdperson, guns heldaloft flags extraanimal. Row1 FOUR authored walk phases EAST sideprofile (westmirrored by game): foreleft+hindrightforward,feetpassing,foreright+hindleftforward,secondpassing. Row2 same four phases SOUTH facingcamera, alignedridersfrontback rearpartlyoccludedbutclearlytwomen, longmuleearsfront visible alternatehooves. Row3 samefour phases NORTH awayfromcamera,ridersbacks horsehaunches earsabove, clearharness alternatehooves. Samephysicalscale and coherentbase/anchorwithin eachrow, no detachfeet wavinggoads or bobbinghorsebodyscaling. Warmpaintedbrownoutlines mutedgraybrowncoats restrainednavy, clearreadable gameproportionsNOTphoto. Eachwholecomposite occupies CENTRAL50percent cellwidthheight with70pxalpha0gutters atallseams/edges, no overlaps cropped ears/feet shadow text scenery background. Exactly12 smallcomplete figures in4x3strictgrid truealpha. Harnessvehicle remains separate from these ridercomposites.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/mule-packed-grass.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-359c10f9-cb84-4188-a83b-c61fcdf56a06.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/concepcion-limber-riders.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "concepcion-aftercare",
+      "promptId": "frontier-v1/concepcion-aftercare",
+      "prompt": "Production transparentgame atlas EXACT FOUR columns THREErows TWELVE isolated figures/composites, warm restrainedhandpaintedbrownoutlines matchingreferences frontiercart andpeople. ROW1 fourauthored EASTwalkphases same UNNAMED CATHOLIC PADRE ordinarymiddleagedman plainblack anklelengthcassock simplecordbelt plainshoes no fancyvestments hood mitre staff paradecross. Hands heldquietlyfront, slightconcernbutcalm. Column1 leftstepforward,2passingfeetclose,3rightstepforward,4secondpassing; blackhem andfeetmovecoherently. ROW2 fourauthored EAST rolling phases SAME simplewoodenTWOwheel casualtycart withsame graybrown long-eared DRAFT MULE harnessedproperlybetweenshaftsinfront pulling screenright. In cartONEalert livingadultMexicansoldier reclining withcleancreamblanket upwaist, bandagedforearm no blood, navytunic no exposedwound; clearly aliveface openeyes. Draftmule alternatinglegs across4frames,wheelspokesadvance, vehicle bedbody/harnessgeometrysame. ROW3 fourauthored EAST phases samecart/mule with TWO softlyshapedbody forms FULLY COVERED by plaincreamcanvascloth headtotoe, no bodypartsvisible no wounds gore dramaticfire. Respectfultransport afterbattle, no crosses medicalRedCrosstext flags equipment or extra people. KEEPcartandmulefullyinsideeachcell; entirecomposite central50percent widthheight huge70pxalpha0gutters acrossseamsouteredges. Samephysicalrigheightwithinrows, padreabout60percentcart/mulefullheight withinowncell. No scenicground sky shadowlabels background. EXACT12wholeisolatedsprites. Periodcart reconstruction notspecificsurveyedvehicle.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/household.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cdfb40cf-5ce5-4dda-aa39-40c9afc2eb84.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/concepcion-aftercare.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e32801f6-c214-4840-b368-238ccdd61480.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY this exact4columns3rows12sprite atlas. Keep exacteveryfigureidentityposevehiclepassengercloth andmulelegs/cartswheelphase unchanged. SHRINK EACH COMPLETE subject by35percent to65percent present widthheight centered in its OWN equalcell. ALL sprites must fitcentral55percent ofcell withhuge transparent70pxgutters everyrow/column seam andouteredge. Row1 samefourblackcassockpadrewalkposes;row2 samefourgraymule/woodcart/alertblanketedwoundedman;row3 samefourgraymule/woodcart/twocanvascoveredforms. No bodypartsadded no gore no extrapeople animals shadows text backgrounds. Genuinealpha0alloutsides; no detachedpixels or overlap. Preservewholemuleearsmuzzle carttails wheels andshaftends eachcell.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/concepcion-aftercare.png"
+          ],
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cdfb40cf-5ce5-4dda-aa39-40c9afc2eb84.png"
+        }
+      ]
     }
   ]
 }
