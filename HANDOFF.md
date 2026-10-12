@@ -1,3 +1,7 @@
+## Completed art group 2026-10-12: driving the ox wagon
+
+40 frames and fourteen authored clips close September 16 wagon artwork: connected yoked rigs, loaded/empty, east/south/north; complete school-age seated driver layers in all four headings. Girl/boy bindings are active. Whole rigs are library-ready: read the seat/roof occlusion and deduplication contract before compositor migration. Toddlers/infants remain passengers; eligibility unchanged. Full manifest, prompts and verification: docs/ART_DELIVERY_2026-10-12-OX-WAGON-COMPLETE.md. **6 dated parent artwork groups remain.** No deployment performed.
+
 ## Completed art group 2026-10-12: child and infant horseback
 
 48 frames and twelve authored directional walk cycles close the September 14 younger-rider extension. Girl/boy use whole riders in production; toddler/infant are supported by an indigo caregiver in explicit paired scene composites. Do not automatically assign those to unpaired children or substitute a different parent appearance. Full manifest, prompts, tests and integration contract: docs/ART_DELIVERY_2026-10-12-MOUNTED-CHILDREN-COMPLETE.md. **7 dated parent artwork groups remain.** No deployment performed.

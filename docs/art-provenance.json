@@ -5582,6 +5582,68 @@
       "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-72cdf8d4-865e-4094-9540-3190088b2c3e.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-children-s.png",
       "postProcessing": "None. Selected PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "ox-wagon-composite-e",
+      "promptId": "frontier-v1/ox-wagon-composite-e",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wagon-rig.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/animal-stock.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed32a027-6d8f-45cb-951b-2ebab06f1cbf.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ox-wagon-composite-e.png",
+      "postProcessing": "None; selected PNG copied unchanged; read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-351b6de5-3e34-4119-8104-b7e9db02034d.png",
+      "refinements": [
+        {
+          "prompt": "Correct ONLY size and transparent separation of eight complete east-facing ox-and-wagon rigs. Keep FOUR columns TWO rows, empty row1 loaded row2 and every unique leg/wheel pose exactly. Each complete rig including all horns tail wheels canvas tongue must be uniformly reduced to 62% current size and centered independently in its equal cell. At least 65px clear alpha-zero gutter on EVERY vertical seam and outside edges; no touching neighboring frame. Preserve wood neck yoke-to-tongue connection, loaded cargo and painted style. No added shadow text background or cropped horn/wheel."
+        }
+      ]
+    },
+    {
+      "sheet": "ox-wagon-composite-n",
+      "promptId": "frontier-v1/ox-wagon-composite-n",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-351b6de5-3e34-4119-8104-b7e9db02034d.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f7d12166-b87e-4d53-aa48-6c9e35a7edf0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ox-wagon-composite-n.png",
+      "postProcessing": "None; selected PNG copied unchanged; read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a3ea3caa-b598-4218-b10d-f6563c6e13dd.png",
+      "refinements": [
+        {
+          "prompt": "Correct mechanical occlusion in this exact eight-frame NORTH-facing ox-wagon atlas. Ox is AHEAD of wagon, beyond far/front axle, so its legs CANNOT appear below the REAR tailgate nearest viewer. REMOVE the brown ox hoof/leg currently dangling underneath every rear tailgate; retain rearwagon axle/wheels. Show ox walk hoof changes only at far TOP beyond wagon, subtly left/right of ox body where actually visible; legs behind canvas are OCCLUDED, never below wagonrear. Keep ox ahead pointingaway, continuous tongue/yoke as shown, emptyrow1 loadedrow2 reararchgoods unchanged. Four walk phases tail/visiblefarleg changes and wheelspoke rotations remain distinct. Also shrink each complete rig to76percent current size independently centered own originalcell, fourcolumns tworows largealpha0outerandseamgutters. No newbackgroundshadowslabels or people. Exact 8 whole mechanicallycorrect rigs."
+        }
+      ]
+    },
+    {
+      "sheet": "ox-wagon-composite-s",
+      "promptId": "frontier-v1/ox-wagon-composite-s",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-351b6de5-3e34-4119-8104-b7e9db02034d.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c517d041-459c-4b3e-9a90-c55f286f81e0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ox-wagon-composite-s.png",
+      "postProcessing": "None; selected PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "people-child-wagon-drivers",
+      "promptId": "frontier-v1/people-child-wagon-drivers",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cast2-drivers-youth.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4830f605-fc31-409e-a656-72c39e6f4d2a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-child-wagon-drivers.png",
+      "postProcessing": "None; PNG copied unchanged; read-only alpha audit."
     }
   ],
   "rejectedAttempts": [

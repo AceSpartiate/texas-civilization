@@ -13929,6 +13929,278 @@
       "motion": "breathe",
       "direction": "north"
     },
+    "ox-wagon-empty-e": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-empty-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-e-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-e-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-e-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ox-wagon-loaded-e": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-loaded-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-e-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-e-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-e-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ox-wagon-empty-s": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-empty-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-s-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-s-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-s-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ox-wagon-loaded-s": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-loaded-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-s-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-s-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-s-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ox-wagon-empty-n": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-empty-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-n-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-n-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-n-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ox-wagon-loaded-n": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-loaded-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-n-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-n-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-n-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "girl-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "girl-wagon-driver-s-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "boy-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "boy-wagon-driver-s-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "girl-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "girl-wagon-driver-e-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "boy-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "boy-wagon-driver-e-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "girl-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "girl-wagon-driver-w-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "west"
+    },
+    "boy-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "boy-wagon-driver-w-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "west"
+    },
+    "girl-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "girl-wagon-driver-n-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "boy-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "boy-wagon-driver-n-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "regular-crowbar-s": {
       "loop": true,
       "authored": true,

@@ -258,9 +258,9 @@ export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'r
  * wagon, team or ground, composited over the wagon the renderer already draws.
  *
  * Second-cast layers have authored rein-handling poses in all four headings (2026-10-08).
- * Child figures keep the standing composite until their age-specific seated layers land.
+ * School-age girl/boy layers were delivered October 12. Toddlers and infants are passengers, not drivers.
  */
-export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl']);
+export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy']);
 /** Age-specific seated passengers; infants and grown passengers retain their separate transport fallbacks. */
 export const CHILD_PASSENGER_FIGURES = Object.freeze(['girl', 'boy', 'smallchild', 'infant']);
 /**

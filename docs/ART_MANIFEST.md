@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3338 usable sprites, 362 PNG atlases, 1150 clips** (829 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3378 usable sprites, 366 PNG atlases, 1164 clips** (843 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -287,6 +287,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | village-irish-colony | 1 | 1536 × 1024 | 2454172 |
 | ferry-landing | 1 | 1536 × 1024 | 2091884 |
 | ox-packed | 16 | 1254 × 1254 | 1531260 |
+| ox-wagon-composite-e | 8 | 1774 × 887 | 1057460 |
+| ox-wagon-composite-s | 8 | 1774 × 887 | 1416731 |
+| ox-wagon-composite-n | 8 | 1774 × 887 | 1020000 |
+| people-child-wagon-drivers | 16 | 1254 × 1254 | 1745715 |
 | regular-crowbar-vertical | 8 | 1774 × 887 | 1004859 |
 | regular-engineer-actions | 16 | 1254 × 1254 | 1448705 |
 | pecan-hackberry-gale | 12 | 1448 × 1086 | 1526598 |
@@ -2847,6 +2851,46 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ox-packed-idle-s | ox-packed | ox-packed-idle-s |
 | ox-packed-idle-n | ox-packed | ox-packed-idle-n |
 | ox-packed-rest-e | ox-packed | State artwork; no motion required |
+| ox-wagon-empty-e-1 | ox-wagon-composite-e | ox-wagon-empty-e |
+| ox-wagon-empty-e-2 | ox-wagon-composite-e | ox-wagon-empty-e |
+| ox-wagon-empty-e-3 | ox-wagon-composite-e | ox-wagon-empty-e |
+| ox-wagon-empty-e-4 | ox-wagon-composite-e | ox-wagon-empty-e |
+| ox-wagon-loaded-e-1 | ox-wagon-composite-e | ox-wagon-loaded-e |
+| ox-wagon-loaded-e-2 | ox-wagon-composite-e | ox-wagon-loaded-e |
+| ox-wagon-loaded-e-3 | ox-wagon-composite-e | ox-wagon-loaded-e |
+| ox-wagon-loaded-e-4 | ox-wagon-composite-e | ox-wagon-loaded-e |
+| ox-wagon-empty-s-1 | ox-wagon-composite-s | ox-wagon-empty-s |
+| ox-wagon-empty-s-2 | ox-wagon-composite-s | ox-wagon-empty-s |
+| ox-wagon-empty-s-3 | ox-wagon-composite-s | ox-wagon-empty-s |
+| ox-wagon-empty-s-4 | ox-wagon-composite-s | ox-wagon-empty-s |
+| ox-wagon-loaded-s-1 | ox-wagon-composite-s | ox-wagon-loaded-s |
+| ox-wagon-loaded-s-2 | ox-wagon-composite-s | ox-wagon-loaded-s |
+| ox-wagon-loaded-s-3 | ox-wagon-composite-s | ox-wagon-loaded-s |
+| ox-wagon-loaded-s-4 | ox-wagon-composite-s | ox-wagon-loaded-s |
+| ox-wagon-empty-n-1 | ox-wagon-composite-n | ox-wagon-empty-n |
+| ox-wagon-empty-n-2 | ox-wagon-composite-n | ox-wagon-empty-n |
+| ox-wagon-empty-n-3 | ox-wagon-composite-n | ox-wagon-empty-n |
+| ox-wagon-empty-n-4 | ox-wagon-composite-n | ox-wagon-empty-n |
+| ox-wagon-loaded-n-1 | ox-wagon-composite-n | ox-wagon-loaded-n |
+| ox-wagon-loaded-n-2 | ox-wagon-composite-n | ox-wagon-loaded-n |
+| ox-wagon-loaded-n-3 | ox-wagon-composite-n | ox-wagon-loaded-n |
+| ox-wagon-loaded-n-4 | ox-wagon-composite-n | ox-wagon-loaded-n |
+| girl-wagon-driver-s-1 | people-child-wagon-drivers | girl-wagon-driver-s |
+| girl-wagon-driver-s-2 | people-child-wagon-drivers | girl-wagon-driver-s |
+| boy-wagon-driver-s-1 | people-child-wagon-drivers | boy-wagon-driver-s |
+| boy-wagon-driver-s-2 | people-child-wagon-drivers | boy-wagon-driver-s |
+| girl-wagon-driver-e-1 | people-child-wagon-drivers | girl-wagon-driver-e |
+| girl-wagon-driver-e-2 | people-child-wagon-drivers | girl-wagon-driver-e |
+| boy-wagon-driver-e-1 | people-child-wagon-drivers | boy-wagon-driver-e |
+| boy-wagon-driver-e-2 | people-child-wagon-drivers | boy-wagon-driver-e |
+| girl-wagon-driver-w-1 | people-child-wagon-drivers | girl-wagon-driver-w |
+| girl-wagon-driver-w-2 | people-child-wagon-drivers | girl-wagon-driver-w |
+| boy-wagon-driver-w-1 | people-child-wagon-drivers | boy-wagon-driver-w |
+| boy-wagon-driver-w-2 | people-child-wagon-drivers | boy-wagon-driver-w |
+| girl-wagon-driver-n-1 | people-child-wagon-drivers | girl-wagon-driver-n |
+| girl-wagon-driver-n-2 | people-child-wagon-drivers | girl-wagon-driver-n |
+| boy-wagon-driver-n-1 | people-child-wagon-drivers | boy-wagon-driver-n |
+| boy-wagon-driver-n-2 | people-child-wagon-drivers | boy-wagon-driver-n |
 | regular-crowbar-s-1 | regular-crowbar-vertical | regular-crowbar-s |
 | regular-crowbar-s-2 | regular-crowbar-vertical | regular-crowbar-s |
 | regular-crowbar-s-3 | regular-crowbar-vertical | regular-crowbar-s |
@@ -4546,6 +4590,20 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ox-packed-idle-s | breathe | 1 | 2700 | yes | south |
 | ox-packed-walk-n | Pose cycle | 4 | 960 | yes | north |
 | ox-packed-idle-n | breathe | 1 | 2700 | yes | north |
+| ox-wagon-empty-e | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
+| ox-wagon-loaded-e | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
+| ox-wagon-empty-s | Pose cycle | 4 | 1200 | yes | south |
+| ox-wagon-loaded-s | Pose cycle | 4 | 1200 | yes | south |
+| ox-wagon-empty-n | Pose cycle | 4 | 1200 | yes | north |
+| ox-wagon-loaded-n | Pose cycle | 4 | 1200 | yes | north |
+| girl-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| boy-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| girl-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| boy-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| girl-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| boy-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| girl-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
+| boy-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
 | regular-crowbar-s | Pose cycle | 4 | 1200 | yes | undefined |
 | regular-crowbar-n | Pose cycle | 4 | 1200 | yes | undefined |
 | regular-dig | Pose cycle | 4 | 1800 | yes | east; west by mirroring |

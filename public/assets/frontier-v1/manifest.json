@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 362,
-    "sprites": 3338,
-    "clips": 1150,
-    "poseCycles": 829,
+    "sheets": 366,
+    "sprites": 3378,
+    "clips": 1164,
+    "poseCycles": 843,
     "rigs": 4
   },
   "entrypoints": {
@@ -23440,6 +23440,352 @@
               [
                 925,
                 1243
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "ox-wagon-composite-e": {
+      "image": "atlases/ox-wagon-composite-e.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1057460,
+      "sha256": "d29d5d4eb30ef31817b28834c3945105b1925ab3a3b50021f15056ecdaf83dce",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.723074,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              175,
+              388
+            ],
+            "columns": [
+              [
+                46,
+                442
+              ],
+              [
+                487,
+                889
+              ],
+              [
+                934,
+                1329
+              ],
+              [
+                1379,
+                1765
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              550,
+              762
+            ],
+            "columns": [
+              [
+                43,
+                442
+              ],
+              [
+                486,
+                889
+              ],
+              [
+                932,
+                1329
+              ],
+              [
+                1378,
+                1764
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "ox-wagon-composite-s": {
+      "image": "atlases/ox-wagon-composite-s.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1416731,
+      "sha256": "aabc2757f491af6215ce78a41d847f660133972c7ed78001c1a26571f52c0d71",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.600648,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              50,
+              443
+            ],
+            "columns": [
+              [
+                141,
+                415
+              ],
+              [
+                548,
+                822
+              ],
+              [
+                952,
+                1228
+              ],
+              [
+                1360,
+                1634
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              456,
+              850
+            ],
+            "columns": [
+              [
+                141,
+                415
+              ],
+              [
+                548,
+                822
+              ],
+              [
+                952,
+                1228
+              ],
+              [
+                1360,
+                1634
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "ox-wagon-composite-n": {
+      "image": "atlases/ox-wagon-composite-n.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1020000,
+      "sha256": "e52b4f2cd95185c34bd96cc078276b3cebd2ae9e29cdd97c5e3b18b2ca3e6a50",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.715495,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              66,
+              422
+            ],
+            "columns": [
+              [
+                144,
+                383
+              ],
+              [
+                547,
+                787
+              ],
+              [
+                987,
+                1226
+              ],
+              [
+                1391,
+                1630
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              473,
+              827
+            ],
+            "columns": [
+              [
+                144,
+                383
+              ],
+              [
+                547,
+                787
+              ],
+              [
+                986,
+                1226
+              ],
+              [
+                1391,
+                1630
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-child-wagon-drivers": {
+      "image": "atlases/people-child-wagon-drivers.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1745715,
+      "sha256": "03c85f7f8e07f8f62eb18a239f3c76369b238bad7bfc6220729d3c4b2f8d64e0",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.570013,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              16,
+              328
+            ],
+            "columns": [
+              [
+                92,
+                321
+              ],
+              [
+                377,
+                606
+              ],
+              [
+                686,
+                907
+              ],
+              [
+                994,
+                1220
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              337,
+              628
+            ],
+            "columns": [
+              [
+                75,
+                322
+              ],
+              [
+                384,
+                627
+              ],
+              [
+                714,
+                928
+              ],
+              [
+                1021,
+                1235
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              640,
+              936
+            ],
+            "columns": [
+              [
+                46,
+                288
+              ],
+              [
+                356,
+                593
+              ],
+              [
+                656,
+                865
+              ],
+              [
+                947,
+                1164
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              937,
+              1230
+            ],
+            "columns": [
+              [
+                42,
+                293
+              ],
+              [
+                340,
+                577
+              ],
+              [
+                638,
+                903
+              ],
+              [
+                953,
+                1206
               ]
             ]
           }
@@ -115851,6 +116197,1406 @@
       "locationKits": [],
       "promptId": "frontier-v1/ox-packed"
     },
+    "ox-wagon-empty-e-1": {
+      "sheet": "ox-wagon-composite-e",
+      "x": 46,
+      "y": 176,
+      "w": 396,
+      "h": 212,
+      "anchorX": 0.5278,
+      "anchorY": 0.9292,
+      "logicalHeight": 212,
+      "label": "ox wagon empty e 1",
+      "kind": "ox-wagon-composite-e",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          178,
+          392,
+          208
+        ],
+        "visiblePixels": 46594,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-e"
+    },
+    "ox-wagon-empty-e-2": {
+      "sheet": "ox-wagon-composite-e",
+      "x": 487,
+      "y": 175,
+      "w": 402,
+      "h": 212,
+      "anchorX": 0.5224,
+      "anchorY": 0.9292,
+      "logicalHeight": 212,
+      "label": "ox wagon empty e 2",
+      "kind": "ox-wagon-composite-e",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          489,
+          177,
+          398,
+          208
+        ],
+        "visiblePixels": 47175,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-e"
+    },
+    "ox-wagon-empty-e-3": {
+      "sheet": "ox-wagon-composite-e",
+      "x": 934,
+      "y": 175,
+      "w": 395,
+      "h": 212,
+      "anchorX": 0.5177,
+      "anchorY": 0.9292,
+      "logicalHeight": 212,
+      "label": "ox wagon empty e 3",
+      "kind": "ox-wagon-composite-e",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          936,
+          177,
+          391,
+          208
+        ],
+        "visiblePixels": 46785,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-e"
+    },
+    "ox-wagon-empty-e-4": {
+      "sheet": "ox-wagon-composite-e",
+      "x": 1379,
+      "y": 175,
+      "w": 386,
+      "h": 212,
+      "anchorX": 0.5142,
+      "anchorY": 0.9292,
+      "logicalHeight": 212,
+      "label": "ox wagon empty e 4",
+      "kind": "ox-wagon-composite-e",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1381,
+          177,
+          382,
+          208
+        ],
+        "visiblePixels": 46293,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-e"
+    },
+    "ox-wagon-loaded-e-1": {
+      "sheet": "ox-wagon-composite-e",
+      "x": 43,
+      "y": 550,
+      "w": 399,
+      "h": 212,
+      "anchorX": 0.5301,
+      "anchorY": 0.9292,
+      "logicalHeight": 212,
+      "label": "ox wagon loaded e 1",
+      "kind": "ox-wagon-composite-e",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          45,
+          552,
+          395,
+          208
+        ],
+        "visiblePixels": 46751,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-e"
+    },
+    "ox-wagon-loaded-e-2": {
+      "sheet": "ox-wagon-composite-e",
+      "x": 486,
+      "y": 550,
+      "w": 403,
+      "h": 211,
+      "anchorX": 0.5248,
+      "anchorY": 0.9289,
+      "logicalHeight": 212,
+      "label": "ox wagon loaded e 2",
+      "kind": "ox-wagon-composite-e",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          488,
+          552,
+          399,
+          207
+        ],
+        "visiblePixels": 47141,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-e"
+    },
+    "ox-wagon-loaded-e-3": {
+      "sheet": "ox-wagon-composite-e",
+      "x": 932,
+      "y": 551,
+      "w": 397,
+      "h": 210,
+      "anchorX": 0.5227,
+      "anchorY": 0.9286,
+      "logicalHeight": 212,
+      "label": "ox wagon loaded e 3",
+      "kind": "ox-wagon-composite-e",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          934,
+          553,
+          393,
+          206
+        ],
+        "visiblePixels": 46417,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-e"
+    },
+    "ox-wagon-loaded-e-4": {
+      "sheet": "ox-wagon-composite-e",
+      "x": 1378,
+      "y": 551,
+      "w": 386,
+      "h": 210,
+      "anchorX": 0.5142,
+      "anchorY": 0.9286,
+      "logicalHeight": 212,
+      "label": "ox wagon loaded e 4",
+      "kind": "ox-wagon-composite-e",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1380,
+          553,
+          382,
+          206
+        ],
+        "visiblePixels": 45796,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-e"
+    },
+    "ox-wagon-empty-s-1": {
+      "sheet": "ox-wagon-composite-s",
+      "x": 141,
+      "y": 50,
+      "w": 274,
+      "h": 393,
+      "anchorX": 0.4799,
+      "anchorY": 0.9313,
+      "logicalHeight": 394,
+      "label": "ox wagon empty s 1",
+      "kind": "ox-wagon-composite-s",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          52,
+          270,
+          389
+        ],
+        "visiblePixels": 72392,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-s"
+    },
+    "ox-wagon-empty-s-2": {
+      "sheet": "ox-wagon-composite-s",
+      "x": 548,
+      "y": 50,
+      "w": 274,
+      "h": 393,
+      "anchorX": 0.4945,
+      "anchorY": 0.9288,
+      "logicalHeight": 394,
+      "label": "ox wagon empty s 2",
+      "kind": "ox-wagon-composite-s",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          550,
+          52,
+          270,
+          389
+        ],
+        "visiblePixels": 71931,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-s"
+    },
+    "ox-wagon-empty-s-3": {
+      "sheet": "ox-wagon-composite-s",
+      "x": 952,
+      "y": 50,
+      "w": 276,
+      "h": 393,
+      "anchorX": 0.5,
+      "anchorY": 0.9695,
+      "logicalHeight": 394,
+      "label": "ox wagon empty s 3",
+      "kind": "ox-wagon-composite-s",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          954,
+          52,
+          272,
+          389
+        ],
+        "visiblePixels": 72942,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-s"
+    },
+    "ox-wagon-empty-s-4": {
+      "sheet": "ox-wagon-composite-s",
+      "x": 1360,
+      "y": 50,
+      "w": 274,
+      "h": 393,
+      "anchorX": 0.4836,
+      "anchorY": 0.9288,
+      "logicalHeight": 394,
+      "label": "ox wagon empty s 4",
+      "kind": "ox-wagon-composite-s",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1362,
+          52,
+          270,
+          389
+        ],
+        "visiblePixels": 72616,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-s"
+    },
+    "ox-wagon-loaded-s-1": {
+      "sheet": "ox-wagon-composite-s",
+      "x": 141,
+      "y": 456,
+      "w": 274,
+      "h": 394,
+      "anchorX": 0.4781,
+      "anchorY": 0.9289,
+      "logicalHeight": 394,
+      "label": "ox wagon loaded s 1",
+      "kind": "ox-wagon-composite-s",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          458,
+          270,
+          390
+        ],
+        "visiblePixels": 72645,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-s"
+    },
+    "ox-wagon-loaded-s-2": {
+      "sheet": "ox-wagon-composite-s",
+      "x": 548,
+      "y": 456,
+      "w": 274,
+      "h": 394,
+      "anchorX": 0.4945,
+      "anchorY": 0.9289,
+      "logicalHeight": 394,
+      "label": "ox wagon loaded s 2",
+      "kind": "ox-wagon-composite-s",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          550,
+          458,
+          270,
+          390
+        ],
+        "visiblePixels": 72221,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-s"
+    },
+    "ox-wagon-loaded-s-3": {
+      "sheet": "ox-wagon-composite-s",
+      "x": 952,
+      "y": 456,
+      "w": 276,
+      "h": 394,
+      "anchorX": 0.5,
+      "anchorY": 0.967,
+      "logicalHeight": 394,
+      "label": "ox wagon loaded s 3",
+      "kind": "ox-wagon-composite-s",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          954,
+          458,
+          272,
+          390
+        ],
+        "visiblePixels": 73162,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-s"
+    },
+    "ox-wagon-loaded-s-4": {
+      "sheet": "ox-wagon-composite-s",
+      "x": 1360,
+      "y": 456,
+      "w": 274,
+      "h": 394,
+      "anchorX": 0.4197,
+      "anchorY": 0.9746,
+      "logicalHeight": 394,
+      "label": "ox wagon loaded s 4",
+      "kind": "ox-wagon-composite-s",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1362,
+          458,
+          270,
+          390
+        ],
+        "visiblePixels": 72499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-s"
+    },
+    "ox-wagon-empty-n-1": {
+      "sheet": "ox-wagon-composite-n",
+      "x": 144,
+      "y": 66,
+      "w": 239,
+      "h": 356,
+      "anchorX": 0.4979,
+      "anchorY": 0.9298,
+      "logicalHeight": 356,
+      "label": "ox wagon empty n 1",
+      "kind": "ox-wagon-composite-n",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          146,
+          68,
+          235,
+          352
+        ],
+        "visiblePixels": 49879,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-n"
+    },
+    "ox-wagon-empty-n-2": {
+      "sheet": "ox-wagon-composite-n",
+      "x": 547,
+      "y": 66,
+      "w": 240,
+      "h": 356,
+      "anchorX": 0.4979,
+      "anchorY": 0.9298,
+      "logicalHeight": 356,
+      "label": "ox wagon empty n 2",
+      "kind": "ox-wagon-composite-n",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          549,
+          68,
+          236,
+          352
+        ],
+        "visiblePixels": 49997,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-n"
+    },
+    "ox-wagon-empty-n-3": {
+      "sheet": "ox-wagon-composite-n",
+      "x": 987,
+      "y": 66,
+      "w": 239,
+      "h": 356,
+      "anchorX": 0.4958,
+      "anchorY": 0.9298,
+      "logicalHeight": 356,
+      "label": "ox wagon empty n 3",
+      "kind": "ox-wagon-composite-n",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          989,
+          68,
+          235,
+          352
+        ],
+        "visiblePixels": 49820,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-n"
+    },
+    "ox-wagon-empty-n-4": {
+      "sheet": "ox-wagon-composite-n",
+      "x": 1391,
+      "y": 66,
+      "w": 239,
+      "h": 356,
+      "anchorX": 0.4979,
+      "anchorY": 0.9298,
+      "logicalHeight": 356,
+      "label": "ox wagon empty n 4",
+      "kind": "ox-wagon-composite-n",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1393,
+          68,
+          235,
+          352
+        ],
+        "visiblePixels": 49778,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-empty-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-n"
+    },
+    "ox-wagon-loaded-n-1": {
+      "sheet": "ox-wagon-composite-n",
+      "x": 144,
+      "y": 473,
+      "w": 239,
+      "h": 354,
+      "anchorX": 0.4979,
+      "anchorY": 0.9294,
+      "logicalHeight": 356,
+      "label": "ox wagon loaded n 1",
+      "kind": "ox-wagon-composite-n",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          146,
+          475,
+          235,
+          350
+        ],
+        "visiblePixels": 49976,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-n"
+    },
+    "ox-wagon-loaded-n-2": {
+      "sheet": "ox-wagon-composite-n",
+      "x": 547,
+      "y": 473,
+      "w": 240,
+      "h": 354,
+      "anchorX": 0.4979,
+      "anchorY": 0.9294,
+      "logicalHeight": 356,
+      "label": "ox wagon loaded n 2",
+      "kind": "ox-wagon-composite-n",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          549,
+          475,
+          236,
+          350
+        ],
+        "visiblePixels": 50011,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-n"
+    },
+    "ox-wagon-loaded-n-3": {
+      "sheet": "ox-wagon-composite-n",
+      "x": 986,
+      "y": 473,
+      "w": 240,
+      "h": 354,
+      "anchorX": 0.4979,
+      "anchorY": 0.9294,
+      "logicalHeight": 356,
+      "label": "ox wagon loaded n 3",
+      "kind": "ox-wagon-composite-n",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          988,
+          475,
+          236,
+          350
+        ],
+        "visiblePixels": 49987,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-n"
+    },
+    "ox-wagon-loaded-n-4": {
+      "sheet": "ox-wagon-composite-n",
+      "x": 1391,
+      "y": 473,
+      "w": 239,
+      "h": 354,
+      "anchorX": 0.4958,
+      "anchorY": 0.9294,
+      "logicalHeight": 356,
+      "label": "ox wagon loaded n 4",
+      "kind": "ox-wagon-composite-n",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1393,
+          475,
+          235,
+          350
+        ],
+        "visiblePixels": 49923,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/ox-wagon-composite-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ox-wagon-loaded-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/ox-wagon-composite-n"
+    },
+    "girl-wagon-driver-s-1": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 92,
+      "y": 20,
+      "w": 229,
+      "h": 305,
+      "anchorX": 0.5699,
+      "anchorY": 0.9279,
+      "logicalHeight": 309,
+      "label": "girl wagon driver s 1",
+      "kind": "people-child-wagon-drivers",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          94,
+          22,
+          225,
+          301
+        ],
+        "visiblePixels": 40956,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-wagon-driver-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "girl-wagon-driver-s-2": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 377,
+      "y": 19,
+      "w": 229,
+      "h": 309,
+      "anchorX": 0.4541,
+      "anchorY": 0.9385,
+      "logicalHeight": 309,
+      "label": "girl wagon driver s 2",
+      "kind": "people-child-wagon-drivers",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          379,
+          21,
+          225,
+          305
+        ],
+        "visiblePixels": 40585,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-wagon-driver-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "boy-wagon-driver-s-1": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 686,
+      "y": 17,
+      "w": 221,
+      "h": 308,
+      "anchorX": 0.5543,
+      "anchorY": 0.9286,
+      "logicalHeight": 309,
+      "label": "boy wagon driver s 1",
+      "kind": "people-child-wagon-drivers",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          688,
+          19,
+          217,
+          304
+        ],
+        "visiblePixels": 37164,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-wagon-driver-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "boy-wagon-driver-s-2": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 994,
+      "y": 16,
+      "w": 226,
+      "h": 307,
+      "anchorX": 0.5575,
+      "anchorY": 0.9283,
+      "logicalHeight": 309,
+      "label": "boy wagon driver s 2",
+      "kind": "people-child-wagon-drivers",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          18,
+          222,
+          303
+        ],
+        "visiblePixels": 36479,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-wagon-driver-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "girl-wagon-driver-e-1": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 75,
+      "y": 343,
+      "w": 247,
+      "h": 285,
+      "anchorX": 0.4332,
+      "anchorY": 0.9298,
+      "logicalHeight": 291,
+      "label": "girl wagon driver e 1",
+      "kind": "people-child-wagon-drivers",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          77,
+          345,
+          243,
+          281
+        ],
+        "visiblePixels": 39158,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-wagon-driver-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "girl-wagon-driver-e-2": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 384,
+      "y": 346,
+      "w": 243,
+      "h": 281,
+      "anchorX": 0.4156,
+      "anchorY": 0.9288,
+      "logicalHeight": 291,
+      "label": "girl wagon driver e 2",
+      "kind": "people-child-wagon-drivers",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          386,
+          348,
+          239,
+          277
+        ],
+        "visiblePixels": 38263,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-wagon-driver-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "boy-wagon-driver-e-1": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 714,
+      "y": 337,
+      "w": 214,
+      "h": 291,
+      "anchorX": 0.4883,
+      "anchorY": 0.9278,
+      "logicalHeight": 291,
+      "label": "boy wagon driver e 1",
+      "kind": "people-child-wagon-drivers",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          716,
+          339,
+          210,
+          287
+        ],
+        "visiblePixels": 32842,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-wagon-driver-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "boy-wagon-driver-e-2": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 1021,
+      "y": 337,
+      "w": 214,
+      "h": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.9276,
+      "logicalHeight": 291,
+      "label": "boy wagon driver e 2",
+      "kind": "people-child-wagon-drivers",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1023,
+          339,
+          210,
+          286
+        ],
+        "visiblePixels": 32980,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-wagon-driver-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "girl-wagon-driver-w-1": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 46,
+      "y": 643,
+      "w": 242,
+      "h": 289,
+      "anchorX": 0.4525,
+      "anchorY": 0.9273,
+      "logicalHeight": 296,
+      "label": "girl wagon driver w 1",
+      "kind": "people-child-wagon-drivers",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          645,
+          238,
+          285
+        ],
+        "visiblePixels": 38542,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-wagon-driver-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "girl-wagon-driver-w-2": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 356,
+      "y": 643,
+      "w": 237,
+      "h": 288,
+      "anchorX": 0.4409,
+      "anchorY": 0.9271,
+      "logicalHeight": 296,
+      "label": "girl wagon driver w 2",
+      "kind": "people-child-wagon-drivers",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          358,
+          645,
+          233,
+          284
+        ],
+        "visiblePixels": 38071,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-wagon-driver-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "boy-wagon-driver-w-1": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 656,
+      "y": 640,
+      "w": 209,
+      "h": 296,
+      "anchorX": 0.555,
+      "anchorY": 0.9291,
+      "logicalHeight": 296,
+      "label": "boy wagon driver w 1",
+      "kind": "people-child-wagon-drivers",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          658,
+          642,
+          205,
+          292
+        ],
+        "visiblePixels": 33236,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-wagon-driver-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "boy-wagon-driver-w-2": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 947,
+      "y": 640,
+      "w": 217,
+      "h": 296,
+      "anchorX": 0.5691,
+      "anchorY": 0.9291,
+      "logicalHeight": 296,
+      "label": "boy wagon driver w 2",
+      "kind": "people-child-wagon-drivers",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          949,
+          642,
+          213,
+          292
+        ],
+        "visiblePixels": 34171,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-wagon-driver-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "girl-wagon-driver-n-1": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 42,
+      "y": 942,
+      "w": 251,
+      "h": 288,
+      "anchorX": 0.5817,
+      "anchorY": 0.9514,
+      "logicalHeight": 289,
+      "label": "girl wagon driver n 1",
+      "kind": "people-child-wagon-drivers",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          44,
+          944,
+          247,
+          284
+        ],
+        "visiblePixels": 39578,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-wagon-driver-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "girl-wagon-driver-n-2": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 340,
+      "y": 940,
+      "w": 237,
+      "h": 289,
+      "anchorX": 0.5781,
+      "anchorY": 0.9412,
+      "logicalHeight": 289,
+      "label": "girl wagon driver n 2",
+      "kind": "people-child-wagon-drivers",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          342,
+          942,
+          233,
+          285
+        ],
+        "visiblePixels": 38819,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-wagon-driver-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "boy-wagon-driver-n-1": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 638,
+      "y": 937,
+      "w": 265,
+      "h": 288,
+      "anchorX": 0.5434,
+      "anchorY": 0.9583,
+      "logicalHeight": 289,
+      "label": "boy wagon driver n 1",
+      "kind": "people-child-wagon-drivers",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          640,
+          939,
+          261,
+          284
+        ],
+        "visiblePixels": 35522,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-wagon-driver-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
+    "boy-wagon-driver-n-2": {
+      "sheet": "people-child-wagon-drivers",
+      "x": 953,
+      "y": 940,
+      "w": 253,
+      "h": 285,
+      "anchorX": 0.5553,
+      "anchorY": 0.9509,
+      "logicalHeight": 289,
+      "label": "boy wagon driver n 2",
+      "kind": "people-child-wagon-drivers",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          955,
+          942,
+          249,
+          281
+        ],
+        "visiblePixels": 34826,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-child-wagon-drivers.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-wagon-driver-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-child-wagon-drivers"
+    },
     "regular-crowbar-s-1": {
       "sheet": "regular-crowbar-vertical",
       "x": 116,
@@ -159649,6 +161395,278 @@
       "motion": "breathe",
       "direction": "north"
     },
+    "ox-wagon-empty-e": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-empty-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-e-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-e-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-e-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ox-wagon-loaded-e": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-loaded-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-e-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-e-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-e-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "ox-wagon-empty-s": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-empty-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-s-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-s-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-s-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ox-wagon-loaded-s": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-loaded-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-s-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-s-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-s-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ox-wagon-empty-n": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-empty-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-n-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-n-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-empty-n-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ox-wagon-loaded-n": {
+      "frames": [
+        {
+          "sprite": "ox-wagon-loaded-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-n-2",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-n-3",
+          "duration": 300
+        },
+        {
+          "sprite": "ox-wagon-loaded-n-4",
+          "duration": 300
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "girl-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "girl-wagon-driver-s-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "boy-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "boy-wagon-driver-s-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "girl-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "girl-wagon-driver-e-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "boy-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "boy-wagon-driver-e-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "girl-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "girl-wagon-driver-w-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "west"
+    },
+    "boy-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-w-1",
+          "duration": 600
+        },
+        {
+          "sprite": "boy-wagon-driver-w-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "west"
+    },
+    "girl-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "girl-wagon-driver-n-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "boy-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "boy-wagon-driver-n-2",
+          "duration": 600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "regular-crowbar-s": {
       "loop": true,
       "authored": true,
@@ -170557,7 +172575,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 362,
+    "sourceCount": 366,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
