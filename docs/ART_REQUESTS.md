@@ -603,7 +603,7 @@ its chimney.
 
 ## Request 2026-09-23 — the house from its other sides
 
-**Status: open; the front view, mirrored at a quarter turn - and, since 2026-09-24, for a pen's chimney - in use (see
+**Status: artwork completed 2026-10-11; all ten rear/end drawings are registered with seats and ground metadata. Full-house automatic selection and chimney registration remain integration work. See ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md. The front-view fallback remains in use (see
 *Stand-ins in use* above).** A student places a house
 on the family's land and turns it a quarter at a time (HANDOFF.md *House placement preview*). Until 2026-09-23 the page turned
 the pictures with it, so a house at 90 degrees lay on its side and one at 180 stood on its roof, chimney pointing at the

@@ -1,3 +1,7 @@
+## Completed art group 2026-10-11: house other sides
+
+All ten rear/end-view house assets delivered, alpha-audited and registered. New rear walls have roof seats, ground corners and source-scale normalization; roofSeat supports the metadata. Browser proof covers ten pieces and four roof assemblies. Gameplay selection still uses existing front views: migrate selected-frame geometry, side-door/chimney checks and end-view choices together. Read docs/ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md for the complete manifest and integration checklist. **12 dated parent artwork groups remain.** No deployment performed.
+
 ## Completed art group 2026-10-11: colony hardwoods
 
 Seven hardwood identities plus pecan stump, 22 new frames and seven authored two-pose wind loops. Woods catalogue and weather selection integrated, economics preserved. Read docs/ART_DELIVERY_2026-10-11-COLONY-HARDWOODS.md for the manifest, species limits, animation contract and browser proof. Additional breadth silhouettes scale at existing sizes. **13 dated parent groups remain**. No deployment performed.

@@ -19300,6 +19300,139 @@
         ]
       }
     },
+    "house-back-views": {
+      "image": "atlases/house-back-views.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 819294,
+      "sha256": "0fea9ea7bd17697fb5dbda1c7a2be568490b765d12d7f64fc09bf13f7bbdca56",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.82518,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              98,
+              319
+            ],
+            "columns": [
+              [
+                248,
+                599
+              ],
+              [
+                884,
+                1198
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              425,
+              673
+            ],
+            "columns": [
+              [
+                265,
+                584
+              ],
+              [
+                882,
+                1205
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              757,
+              1010
+            ],
+            "columns": [
+              [
+                260,
+                581
+              ],
+              [
+                879,
+                1207
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "house-end-views": {
+      "image": "atlases/house-end-views.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2128992,
+      "sha256": "29cdd39b6f06f72d7b636a098e8d120e2d14649a23ea4646b5378933872d8d32",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.697406,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              33,
+              461
+            ],
+            "columns": [
+              [
+                182,
+                701
+              ],
+              [
+                871,
+                1370
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              505,
+              974
+            ],
+            "columns": [
+              [
+                141,
+                726
+              ],
+              [
+                841,
+                1456
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "icons-gather-stock-carreta": {
       "image": "atlases/icons-gather-stock-carreta.png",
       "width": 1774,
@@ -79989,6 +80122,280 @@
           272
         ],
         "visiblePixels": 40653,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-round-back-sill": {
+      "sheet": "house-back-views",
+      "x": 248,
+      "y": 110,
+      "w": 351,
+      "h": 209,
+      "anchorX": 0.5541,
+      "anchorY": 0.9282,
+      "label": "house round back sill",
+      "kind": "house-back-views",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          250,
+          112,
+          347,
+          205
+        ],
+        "visiblePixels": 27366,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-round-back-low-walls": {
+      "sheet": "house-back-views",
+      "x": 884,
+      "y": 98,
+      "w": 314,
+      "h": 219,
+      "anchorX": 0.543,
+      "anchorY": 0.9269,
+      "label": "house round back low walls",
+      "kind": "house-back-views",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          886,
+          100,
+          310,
+          215
+        ],
+        "visiblePixels": 39577,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-round-back-full-walls": {
+      "sheet": "house-back-views",
+      "x": 265,
+      "y": 425,
+      "w": 319,
+      "h": 248,
+      "anchorX": 0.5455,
+      "anchorY": 0.9274,
+      "seatX": 0.4984,
+      "seatY": 0.2681,
+      "ground": {
+        "left": [
+          0.011,
+          0.7016
+        ],
+        "front": [
+          0.5517,
+          0.9879
+        ],
+        "right": [
+          0.9859,
+          0.6815
+        ]
+      },
+      "label": "house round back full walls",
+      "kind": "house-back-views",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          267,
+          427,
+          315,
+          244
+        ],
+        "visiblePixels": 52165,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "roofScale": 1.0562913907284768
+    },
+    "house-hewn-back-sill": {
+      "sheet": "house-back-views",
+      "x": 882,
+      "y": 450,
+      "w": 323,
+      "h": 213,
+      "anchorX": 0.5402,
+      "anchorY": 0.9296,
+      "label": "house hewn back sill",
+      "kind": "house-back-views",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          884,
+          452,
+          319,
+          209
+        ],
+        "visiblePixels": 26356,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-hewn-back-low-walls": {
+      "sheet": "house-back-views",
+      "x": 260,
+      "y": 768,
+      "w": 321,
+      "h": 227,
+      "anchorX": 0.5498,
+      "anchorY": 0.9295,
+      "label": "house hewn back low walls",
+      "kind": "house-back-views",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          262,
+          770,
+          317,
+          223
+        ],
+        "visiblePixels": 43928,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-hewn-back-full-walls": {
+      "sheet": "house-back-views",
+      "x": 879,
+      "y": 757,
+      "w": 328,
+      "h": 253,
+      "anchorX": 0.5396,
+      "anchorY": 0.9289,
+      "seatX": 0.497,
+      "seatY": 0.249,
+      "ground": {
+        "left": [
+          0.0107,
+          0.6719
+        ],
+        "front": [
+          0.5518,
+          0.9881
+        ],
+        "right": [
+          0.9832,
+          0.664
+        ]
+      },
+      "label": "house hewn back full walls",
+      "kind": "house-back-views",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          881,
+          759,
+          324,
+          249
+        ],
+        "visiblePixels": 54583,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "roofScale": 1.0933333333333333
+    },
+    "house-passage-floor-end": {
+      "sheet": "house-end-views",
+      "x": 182,
+      "y": 119,
+      "w": 519,
+      "h": 334,
+      "anchorX": 0.3507,
+      "anchorY": 0.9281,
+      "label": "house passage floor end",
+      "kind": "house-end-views",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          184,
+          121,
+          515,
+          330
+        ],
+        "visiblePixels": 69361,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-passage-roof-end": {
+      "sheet": "house-end-views",
+      "x": 871,
+      "y": 33,
+      "w": 499,
+      "h": 428,
+      "anchorX": 0.481,
+      "anchorY": 0.9393,
+      "label": "house passage roof end",
+      "kind": "house-end-views",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          873,
+          35,
+          495,
+          424
+        ],
+        "visiblePixels": 78420,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-porch-end": {
+      "sheet": "house-end-views",
+      "x": 141,
+      "y": 505,
+      "w": 585,
+      "h": 469,
+      "anchorX": 0.3957,
+      "anchorY": 0.9296,
+      "label": "house porch end",
+      "kind": "house-end-views",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          507,
+          581,
+          465
+        ],
+        "visiblePixels": 132452,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-shed-room-end": {
+      "sheet": "house-end-views",
+      "x": 841,
+      "y": 511,
+      "w": 615,
+      "h": 443,
+      "anchorX": 0.3415,
+      "anchorY": 0.9278,
+      "label": "house shed room end",
+      "kind": "house-end-views",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          843,
+          513,
+          611,
+          439
+        ],
+        "visiblePixels": 160296,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

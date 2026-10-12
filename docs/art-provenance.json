@@ -5327,6 +5327,40 @@
       ],
       "runtimeFile": "public/assets/frontier-v1/atlases/colony-compound-gales.png",
       "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
+    },
+    {
+      "sheet": "house-back-views",
+      "promptId": "frontier-v1/house-back-views",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive architecture variants",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-modules.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-39fd4c98-b246-4425-b994-6133a24a2ef5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-back-views.png",
+      "postProcessing": "None; original generated PNG copied unchanged, read-only alpha measurement.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cfbf3fcb-cfb9-41b0-8bfd-0af57bcaa0cc.png",
+      "refinements": [
+        {
+          "prompt": "Edit this exact six-module atlas ONLY improve gutters: keep identical six modules in identical 2 columns x3rows order and preserve each object's wood, doorway, shape. Shrink EACH complete module uniformly to 70 percent of present size about its own cell center. Ensure generous alpha0 margins on every cell boundary, especially between upper and middle rows. No detached pixels or shadows. Preserve true transparent background. Do not add remove change objects. All six complete architecture sprites must remain intact, no overlap or clipping.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-back-views.png"
+          ],
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-39fd4c98-b246-4425-b994-6133a24a2ef5.png"
+        }
+      ]
+    },
+    {
+      "sheet": "house-end-views",
+      "promptId": "frontier-v1/house-end-views",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive architecture variants",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-modules.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a2dfe1a8-6ffe-4e5b-916b-fde69f612812.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-end-views.png",
+      "postProcessing": "None; original generated PNG copied unchanged, read-only alpha measurement."
     }
   ],
   "rejectedAttempts": [

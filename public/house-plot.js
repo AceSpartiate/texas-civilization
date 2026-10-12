@@ -127,7 +127,7 @@ export function roofSeat(walls, roof, x, y, height, flip = false) {
     // Mirrored (a pen at a quarter turn, `drawHousePlot`), the walls' seat is as far the other side of their anchor.
     x: x + (flip ? -1 : 1) * (walls.seatX - walls.anchorX) * walls.w * scale,
     y: y + (walls.seatY - walls.anchorY) * walls.h * scale,
-    height: (roof.logicalHeight || roof.h) * scale,
+    height: (roof.logicalHeight || roof.h) * scale * (walls.roofScale || 1),
     anchor: [roof.seatX, roof.seatY],
   };
 }

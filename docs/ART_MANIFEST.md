@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3197 usable sprites, 347 PNG atlases, 1120 clips** (799 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3207 usable sprites, 349 PNG atlases, 1120 clips** (799 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -240,6 +240,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | home-tools | 6 | 1024 × 1536 | 1685412 |
 | horse-herds | 8 | 1774 × 887 | 1516208 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
+| house-back-views | 6 | 1448 × 1086 | 819294 |
+| house-end-views | 4 | 1536 × 1024 | 2128992 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
 | infant-wagon-passenger | 6 | 1024 × 1536 | 2003734 |
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
@@ -2383,6 +2385,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | house-chimney-stick | house-modules | State artwork; no motion required |
 | house-chimney-stone | house-modules | State artwork; no motion required |
 | house-floor-loft | house-modules | State artwork; no motion required |
+| house-round-back-sill | house-back-views | State artwork; no motion required |
+| house-round-back-low-walls | house-back-views | State artwork; no motion required |
+| house-round-back-full-walls | house-back-views | State artwork; no motion required |
+| house-hewn-back-sill | house-back-views | State artwork; no motion required |
+| house-hewn-back-low-walls | house-back-views | State artwork; no motion required |
+| house-hewn-back-full-walls | house-back-views | State artwork; no motion required |
+| house-passage-floor-end | house-end-views | State artwork; no motion required |
+| house-passage-roof-end | house-end-views | State artwork; no motion required |
+| house-porch-end | house-end-views | State artwork; no motion required |
+| house-shed-room-end | house-end-views | State artwork; no motion required |
 | icon-take-small-game-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-fish-the-water-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-gather-oysters-alt | icons-gather-stock-carreta | State artwork; no motion required |

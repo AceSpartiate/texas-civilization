@@ -254,7 +254,7 @@ function anchorOf(image, frame) {
 // 3% of its frame's width of the middle read by eye on a ten-pixel grid, and a roof within 6% of the walls' width of
 // where the eye puts it (tests/house-roof.test.mjs holds it to that; drawn at the walls' ground anchor it was 33%).
 // A seat point drawn with the art (docs/ART_REQUESTS.md, 2026-09-15 house plot's pieces) would replace the measure.
-const SEATED = /^house-(round|hewn)-(full-walls|roof-partial|roof-finished)$/;
+const SEATED = /^house-(round|hewn)-(back-)?(full-walls|roof-partial|roof-finished)$/;
 function seatOf(image, frame) {
   const { width, data } = image, w = frame.maxX - frame.minX + 1, h = frame.maxY - frame.minY + 1;
   const band = Math.max(2, Math.round(w * 0.01)), seen = (x, y) => data[(y * width + x) * 4 + 3] > 40;
@@ -275,7 +275,7 @@ function seatOf(image, frame) {
 // ceiling: read off a silhouette, so the log ends standing past a corner move it: each lands within about 3% of the
 // frame's width of the post foot read by eye on a ten-pixel grid (tests/house-chimney.test.mjs holds the chimney to those).
 // A ground outline drawn with the art (docs/ART_REQUESTS.md, 2026-09-15 house plot's pieces) would replace the measure.
-const GROUNDED = /^house-(round|hewn)-full-walls$/;
+const GROUNDED = /^house-(round|hewn)-(back-)?full-walls$/;
 function groundOf(image, frame) {
   const { width, data } = image, w = frame.maxX - frame.minX + 1, h = frame.maxY - frame.minY + 1;
   const band = Math.max(2, Math.round(w * 0.01)), seen = (x, y) => data[(y * width + x) * 4 + 3] > 40;
@@ -355,8 +355,8 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       w: frame.maxX - frame.minX + 1, h: frame.maxY - frame.minY + 1,
       ...anchorOf(image, frame),
       ...(ROOF_RIDGES[names[index]] ? {ridge:ROOF_RIDGES[names[index]]} : {}),
-      ...(sheet === 'house-modules' && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
-      ...(sheet === 'house-modules' && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
+      ...(['house-modules','house-back-views'].includes(sheet) && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
+      ...(['house-modules','house-back-views'].includes(sheet) && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
       ...(/^(people-|animal-|military-|courier-)/.test(sheet) ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
       // Family sheets keep seated figures at their own standing scale.
       ...(sheet.startsWith('people-family-') ? { logicalHeight: Math.max(...placed.filter(p => p.row < 3).map(p => p.maxY - p.minY + 1)) } : {}),
@@ -378,6 +378,12 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
   });
 }
 
+// Rear-view sheets have larger source cells than the original modular roofs.
+// Normalize roof pixel scale to the same sixteen-foot pen width, independent of atlas resolution.
+for (const material of ['round','hewn']) {
+  const rear=frames[`house-${material}-back-full-walls`], front=frames[`house-${material}-full-walls`];
+  if(rear && front)rear.roofScale=rear.w/front.w;
+}
 return {
   library: 'frontier-v1',
   excludedFrames: [{ sheet: 'fortifications', row: 1, column: 1, reason: 'Generated later rounded facade. Never use for the 1836 Alamo; use roofless-church-shell instead.' }],
