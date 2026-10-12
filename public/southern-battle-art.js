@@ -7,6 +7,11 @@ export function mountedActionClip(kind,heading){
  return ['n','s'].includes(heading)?`${kind==='rider'?'volunteer':'dragoon'}-mounted-fire-${heading}`:kind==='dragoon'?'dragoon-fire':null;
 }
 export function lancerChargeClip(heading){return ['n','s'].includes(heading)?`lancer-charge-${heading}`:'lancer-charge';}
+/** Full eight-phase reload, distinct from the existing discharge/lower transition. */
+export function mountedReloadClip(kind,heading){
+ if(!['rider','dragoon'].includes(kind))return null;
+ return `${kind==='rider'?'volunteer':'dragoon'}-mounted-reload-${heading==='w'?'e':['e','n','s'].includes(heading)?heading:'e'}`;
+}
 // Moonless tonal layer. Weather, firelight and shot effects are separate projected systems.
 export function drawSouthernNight(ctx,darkness,bounds){
  if(darkness<=0)return;

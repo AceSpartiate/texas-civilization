@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 366,
-    "sprites": 3378,
-    "clips": 1164,
-    "poseCycles": 843,
+    "sheets": 376,
+    "sprites": 3514,
+    "clips": 1214,
+    "poseCycles": 893,
     "rigs": 4
   },
   "entrypoints": {
@@ -24729,6 +24729,1130 @@
               [
                 78,
                 1782
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-sj-camp-cast1": {
+      "image": "atlases/people-sj-camp-cast1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 821534,
+      "sha256": "f4db27eca942eba6c6c448cdda74b2482d1c68743d2844a0f9afb2f37c592aaa",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.786056,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              131,
+              300
+            ],
+            "columns": [
+              [
+                102,
+                268
+              ],
+              [
+                403,
+                555
+              ],
+              [
+                669,
+                885
+              ],
+              [
+                999,
+                1208
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              418,
+              603
+            ],
+            "columns": [
+              [
+                81,
+                263
+              ],
+              [
+                387,
+                561
+              ],
+              [
+                664,
+                897
+              ],
+              [
+                999,
+                1209
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              687,
+              880
+            ],
+            "columns": [
+              [
+                104,
+                282
+              ],
+              [
+                406,
+                552
+              ],
+              [
+                660,
+                902
+              ],
+              [
+                994,
+                1212
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              979,
+              1139
+            ],
+            "columns": [
+              [
+                111,
+                243
+              ],
+              [
+                411,
+                533
+              ],
+              [
+                666,
+                893
+              ],
+              [
+                1000,
+                1211
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-sj-camp-cast2": {
+      "image": "atlases/people-sj-camp-cast2.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1561543,
+      "sha256": "f25bc07bfe74c737ac56858392ecfdcfa757b661f510bb8238efb4360a0dddf2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.559876,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              62,
+              343
+            ],
+            "columns": [
+              [
+                43,
+                308
+              ],
+              [
+                342,
+                577
+              ],
+              [
+                590,
+                926
+              ],
+              [
+                930,
+                1244
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              371,
+              660
+            ],
+            "columns": [
+              [
+                23,
+                312
+              ],
+              [
+                332,
+                595
+              ],
+              [
+                595,
+                936
+              ],
+              [
+                936,
+                1249
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              665,
+              937
+            ],
+            "columns": [
+              [
+                86,
+                306
+              ],
+              [
+                384,
+                588
+              ],
+              [
+                600,
+                936
+              ],
+              [
+                936,
+                1250
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              952,
+              1223
+            ],
+            "columns": [
+              [
+                27,
+                312
+              ],
+              [
+                334,
+                585
+              ],
+              [
+                591,
+                928
+              ],
+              [
+                931,
+                1249
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-sj-camp-children": {
+      "image": "atlases/people-sj-camp-children.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1507110,
+      "sha256": "eb65906dbf4988918a1b46a91cb081588ce4d08d1439bc827b138242c37cc1d4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.594255,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              43,
+              294
+            ],
+            "columns": [
+              [
+                92,
+                288
+              ],
+              [
+                425,
+                634
+              ],
+              [
+                724,
+                1041
+              ],
+              [
+                1100,
+                1413
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              328,
+              584
+            ],
+            "columns": [
+              [
+                103,
+                282
+              ],
+              [
+                447,
+                626
+              ],
+              [
+                724,
+                1048
+              ],
+              [
+                1103,
+                1416
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              607,
+              838
+            ],
+            "columns": [
+              [
+                101,
+                274
+              ],
+              [
+                447,
+                609
+              ],
+              [
+                724,
+                1048
+              ],
+              [
+                1103,
+                1416
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              845,
+              1049
+            ],
+            "columns": [
+              [
+                64,
+                311
+              ],
+              [
+                414,
+                664
+              ],
+              [
+                747,
+                1039
+              ],
+              [
+                1119,
+                1404
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-sj-camp-heads1": {
+      "image": "atlases/people-sj-camp-heads1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1301389,
+      "sha256": "a1824383a01a6938956af3169f81fe1aabe2cfc0421cd0ef2db4baa902d417c2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.629599,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              73,
+              319
+            ],
+            "columns": [
+              [
+                50,
+                280
+              ],
+              [
+                355,
+                580
+              ],
+              [
+                652,
+                934
+              ],
+              [
+                979,
+                1243
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              350,
+              621
+            ],
+            "columns": [
+              [
+                77,
+                294
+              ],
+              [
+                377,
+                580
+              ],
+              [
+                630,
+                943
+              ],
+              [
+                946,
+                1236
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              650,
+              922
+            ],
+            "columns": [
+              [
+                72,
+                294
+              ],
+              [
+                374,
+                586
+              ],
+              [
+                650,
+                944
+              ],
+              [
+                970,
+                1245
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              940,
+              1207
+            ],
+            "columns": [
+              [
+                72,
+                299
+              ],
+              [
+                384,
+                588
+              ],
+              [
+                651,
+                948
+              ],
+              [
+                969,
+                1245
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-sj-camp-heads2": {
+      "image": "atlases/people-sj-camp-heads2.png",
+      "width": 1402,
+      "height": 1122,
+      "bytes": 1254182,
+      "sha256": "1828a470539dccffc8dbef6f5890243b33137c58ceaecf35efd0f0a068b24c10",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.650712,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              71,
+              310
+            ],
+            "columns": [
+              [
+                73,
+                306
+              ],
+              [
+                403,
+                622
+              ],
+              [
+                716,
+                1005
+              ],
+              [
+                1067,
+                1358
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              336,
+              577
+            ],
+            "columns": [
+              [
+                69,
+                305
+              ],
+              [
+                401,
+                623
+              ],
+              [
+                711,
+                1014
+              ],
+              [
+                1067,
+                1367
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              591,
+              845
+            ],
+            "columns": [
+              [
+                60,
+                307
+              ],
+              [
+                398,
+                623
+              ],
+              [
+                709,
+                1006
+              ],
+              [
+                1068,
+                1367
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              855,
+              1077
+            ],
+            "columns": [
+              [
+                66,
+                302
+              ],
+              [
+                420,
+                606
+              ],
+              [
+                706,
+                1015
+              ],
+              [
+                1065,
+                1366
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-sj-camp-heads3": {
+      "image": "atlases/people-sj-camp-heads3.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1343922,
+      "sha256": "e2ba9bd65653590db65f925206742dac851d5ed08ff48c6525c33395f36ce823",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.614382,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              121,
+              452
+            ],
+            "columns": [
+              [
+                78,
+                385
+              ],
+              [
+                501,
+                816
+              ],
+              [
+                882,
+                1309
+              ],
+              [
+                1346,
+                1746
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              482,
+              869
+            ],
+            "columns": [
+              [
+                107,
+                433
+              ],
+              [
+                499,
+                792
+              ],
+              [
+                859,
+                1318
+              ],
+              [
+                1331,
+                1756
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-sj-camp-infant": {
+      "image": "atlases/people-sj-camp-infant.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2014675,
+      "sha256": "5a74f08ebf716c3174031463e5c5fe9fba4ae7c078908118cbd59cf660f5f4e4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.4243,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              35,
+              610
+            ],
+            "columns": [
+              [
+                46,
+                581
+              ],
+              [
+                673,
+                1208
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              662,
+              1237
+            ],
+            "columns": [
+              [
+                46,
+                581
+              ],
+              [
+                673,
+                1208
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "sj-mounted-reload-e": {
+      "image": "atlases/sj-mounted-reload-e.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1729165,
+      "sha256": "67924d1613d68e0dd00c860cdf3f6b27e192e4cd35098bbe72096a60915ae798",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.838776,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              69,
+              221
+            ],
+            "columns": [
+              [
+                102,
+                277
+              ],
+              [
+                485,
+                662
+              ],
+              [
+                869,
+                1045
+              ],
+              [
+                1252,
+                1429
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              309,
+              466
+            ],
+            "columns": [
+              [
+                104,
+                280
+              ],
+              [
+                485,
+                662
+              ],
+              [
+                869,
+                1046
+              ],
+              [
+                1253,
+                1430
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              565,
+              720
+            ],
+            "columns": [
+              [
+                101,
+                282
+              ],
+              [
+                485,
+                665
+              ],
+              [
+                869,
+                1049
+              ],
+              [
+                1254,
+                1434
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              816,
+              961
+            ],
+            "columns": [
+              [
+                104,
+                284
+              ],
+              [
+                485,
+                665
+              ],
+              [
+                869,
+                1050
+              ],
+              [
+                1254,
+                1434
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "sj-mounted-reload-s": {
+      "image": "atlases/sj-mounted-reload-s.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1583212,
+      "sha256": "590ebc09148e0e3ea9b0fd6f9f10edeef906169cb9cc52230d26d1946e936bfb",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.870385,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              76,
+              243
+            ],
+            "columns": [
+              [
+                142,
+                265
+              ],
+              [
+                525,
+                646
+              ],
+              [
+                909,
+                1028
+              ],
+              [
+                1290,
+                1392
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              316,
+              486
+            ],
+            "columns": [
+              [
+                141,
+                248
+              ],
+              [
+                524,
+                626
+              ],
+              [
+                909,
+                1011
+              ],
+              [
+                1290,
+                1422
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              558,
+              729
+            ],
+            "columns": [
+              [
+                141,
+                270
+              ],
+              [
+                523,
+                651
+              ],
+              [
+                908,
+                1031
+              ],
+              [
+                1290,
+                1394
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              798,
+              972
+            ],
+            "columns": [
+              [
+                141,
+                253
+              ],
+              [
+                524,
+                627
+              ],
+              [
+                908,
+                1011
+              ],
+              [
+                1289,
+                1424
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "sj-mounted-reload-n": {
+      "image": "atlases/sj-mounted-reload-n.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1580452,
+      "sha256": "ebb41c3eb0fd0fca892b8e05fb61cbe6906bea6a28a731e524aabb9c34a2233a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.86815,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              62,
+              238
+            ],
+            "columns": [
+              [
+                162,
+                276
+              ],
+              [
+                530,
+                650
+              ],
+              [
+                907,
+                1027
+              ],
+              [
+                1271,
+                1372
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              300,
+              482
+            ],
+            "columns": [
+              [
+                166,
+                279
+              ],
+              [
+                528,
+                631
+              ],
+              [
+                905,
+                1019
+              ],
+              [
+                1258,
+                1392
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              542,
+              722
+            ],
+            "columns": [
+              [
+                160,
+                273
+              ],
+              [
+                526,
+                652
+              ],
+              [
+                903,
+                1028
+              ],
+              [
+                1266,
+                1373
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              777,
+              965
+            ],
+            "columns": [
+              [
+                165,
+                280
+              ],
+              [
+                525,
+                633
+              ],
+              [
+                902,
+                1017
+              ],
+              [
+                1253,
+                1392
               ]
             ]
           }
@@ -121115,6 +122239,4766 @@
       "locationKits": [],
       "promptId": "frontier-v1/interior-saddlebag"
     },
+    "rust-camp-rest-1": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 102,
+      "y": 131,
+      "w": 166,
+      "h": 169,
+      "anchorX": 0.5482,
+      "anchorY": 0.929,
+      "logicalHeight": 169,
+      "label": "rust camp rest 1",
+      "kind": "people-sj-camp-cast1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          133,
+          162,
+          165
+        ],
+        "visiblePixels": 15743,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "rust-camp-rest-2": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 403,
+      "y": 132,
+      "w": 152,
+      "h": 168,
+      "anchorX": 0.5987,
+      "anchorY": 0.9286,
+      "logicalHeight": 169,
+      "label": "rust camp rest 2",
+      "kind": "people-sj-camp-cast1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          134,
+          148,
+          164
+        ],
+        "visiblePixels": 15012,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "rust-camp-sleep-1": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 669,
+      "y": 207,
+      "w": 216,
+      "h": 82,
+      "anchorX": 0.6574,
+      "anchorY": 0.9268,
+      "logicalHeight": 169,
+      "label": "rust camp sleep 1",
+      "kind": "people-sj-camp-cast1",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          671,
+          209,
+          212,
+          78
+        ],
+        "visiblePixels": 11920,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "rust-camp-sleep-2": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 999,
+      "y": 207,
+      "w": 209,
+      "h": 81,
+      "anchorX": 0.5837,
+      "anchorY": 0.9259,
+      "logicalHeight": 169,
+      "label": "rust camp sleep 2",
+      "kind": "people-sj-camp-cast1",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1001,
+          209,
+          205,
+          77
+        ],
+        "visiblePixels": 11285,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "teal-camp-rest-1": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 81,
+      "y": 418,
+      "w": 182,
+      "h": 185,
+      "anchorX": 0.5165,
+      "anchorY": 0.9297,
+      "logicalHeight": 185,
+      "label": "teal camp rest 1",
+      "kind": "people-sj-camp-cast1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          420,
+          178,
+          181
+        ],
+        "visiblePixels": 18092,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "teal-camp-rest-2": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 387,
+      "y": 422,
+      "w": 174,
+      "h": 178,
+      "anchorX": 0.5144,
+      "anchorY": 0.927,
+      "logicalHeight": 185,
+      "label": "teal camp rest 2",
+      "kind": "people-sj-camp-cast1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          389,
+          424,
+          170,
+          174
+        ],
+        "visiblePixels": 18110,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "teal-camp-sleep-1": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 664,
+      "y": 500,
+      "w": 233,
+      "h": 92,
+      "anchorX": 0.6137,
+      "anchorY": 0.9239,
+      "logicalHeight": 185,
+      "label": "teal camp sleep 1",
+      "kind": "people-sj-camp-cast1",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          666,
+          502,
+          229,
+          88
+        ],
+        "visiblePixels": 14190,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "teal-camp-sleep-2": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 999,
+      "y": 500,
+      "w": 210,
+      "h": 94,
+      "anchorX": 0.6238,
+      "anchorY": 0.9255,
+      "logicalHeight": 185,
+      "label": "teal camp sleep 2",
+      "kind": "people-sj-camp-cast1",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1001,
+          502,
+          206,
+          90
+        ],
+        "visiblePixels": 12445,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "elder-camp-rest-1": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 104,
+      "y": 691,
+      "w": 178,
+      "h": 189,
+      "anchorX": 0.7079,
+      "anchorY": 0.9259,
+      "logicalHeight": 189,
+      "label": "elder camp rest 1",
+      "kind": "people-sj-camp-cast1",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          106,
+          693,
+          174,
+          185
+        ],
+        "visiblePixels": 19128,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "elder-camp-rest-2": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 406,
+      "y": 687,
+      "w": 146,
+      "h": 187,
+      "anchorX": 0.5548,
+      "anchorY": 0.9251,
+      "logicalHeight": 189,
+      "label": "elder camp rest 2",
+      "kind": "people-sj-camp-cast1",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          408,
+          689,
+          142,
+          183
+        ],
+        "visiblePixels": 18560,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "elder-camp-sleep-1": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 660,
+      "y": 772,
+      "w": 242,
+      "h": 97,
+      "anchorX": 0.6136,
+      "anchorY": 0.9278,
+      "logicalHeight": 189,
+      "label": "elder camp sleep 1",
+      "kind": "people-sj-camp-cast1",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          662,
+          774,
+          238,
+          93
+        ],
+        "visiblePixels": 15913,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "elder-camp-sleep-2": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 994,
+      "y": 766,
+      "w": 218,
+      "h": 103,
+      "anchorX": 0.6376,
+      "anchorY": 0.9223,
+      "logicalHeight": 189,
+      "label": "elder camp sleep 2",
+      "kind": "people-sj-camp-cast1",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          768,
+          214,
+          99
+        ],
+        "visiblePixels": 14802,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "blue-camp-rest-1": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 111,
+      "y": 979,
+      "w": 132,
+      "h": 160,
+      "anchorX": 0.5076,
+      "anchorY": 0.925,
+      "logicalHeight": 160,
+      "label": "blue camp rest 1",
+      "kind": "people-sj-camp-cast1",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          113,
+          981,
+          128,
+          156
+        ],
+        "visiblePixels": 13379,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "blue-camp-rest-2": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 411,
+      "y": 981,
+      "w": 122,
+      "h": 157,
+      "anchorX": 0.4877,
+      "anchorY": 0.9299,
+      "logicalHeight": 160,
+      "label": "blue camp rest 2",
+      "kind": "people-sj-camp-cast1",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          413,
+          983,
+          118,
+          153
+        ],
+        "visiblePixels": 12873,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "blue-camp-sleep-1": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 666,
+      "y": 1041,
+      "w": 227,
+      "h": 91,
+      "anchorX": 0.5969,
+      "anchorY": 0.9231,
+      "logicalHeight": 160,
+      "label": "blue camp sleep 1",
+      "kind": "people-sj-camp-cast1",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          668,
+          1043,
+          223,
+          87
+        ],
+        "visiblePixels": 13126,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "blue-camp-sleep-2": {
+      "sheet": "people-sj-camp-cast1",
+      "x": 1000,
+      "y": 1045,
+      "w": 211,
+      "h": 88,
+      "anchorX": 0.5948,
+      "anchorY": 0.9205,
+      "logicalHeight": 160,
+      "label": "blue camp sleep 2",
+      "kind": "people-sj-camp-cast1",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1002,
+          1047,
+          207,
+          84
+        ],
+        "visiblePixels": 11651,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast1"
+    },
+    "rust-woman-camp-rest-1": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 43,
+      "y": 62,
+      "w": 265,
+      "h": 280,
+      "anchorX": 0.4698,
+      "anchorY": 0.9286,
+      "logicalHeight": 281,
+      "label": "rust woman camp rest 1",
+      "kind": "people-sj-camp-cast2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          45,
+          64,
+          261,
+          276
+        ],
+        "visiblePixels": 39334,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "rust-woman-camp-rest-2": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 342,
+      "y": 62,
+      "w": 235,
+      "h": 281,
+      "anchorX": 0.517,
+      "anchorY": 0.9288,
+      "logicalHeight": 281,
+      "label": "rust woman camp rest 2",
+      "kind": "people-sj-camp-cast2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          344,
+          64,
+          231,
+          277
+        ],
+        "visiblePixels": 36885,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "rust-woman-camp-sleep-1": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 590,
+      "y": 142,
+      "w": 336,
+      "h": 191,
+      "anchorX": 0.6042,
+      "anchorY": 0.9267,
+      "logicalHeight": 281,
+      "label": "rust woman camp sleep 1",
+      "kind": "people-sj-camp-cast2",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          592,
+          144,
+          332,
+          187
+        ],
+        "visiblePixels": 40660,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "rust-woman-camp-sleep-2": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 930,
+      "y": 142,
+      "w": 314,
+      "h": 197,
+      "anchorX": 0.6051,
+      "anchorY": 0.9289,
+      "logicalHeight": 281,
+      "label": "rust woman camp sleep 2",
+      "kind": "people-sj-camp-cast2",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          932,
+          144,
+          310,
+          193
+        ],
+        "visiblePixels": 38010,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "indigo-camp-rest-1": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 23,
+      "y": 372,
+      "w": 289,
+      "h": 281,
+      "anchorX": 0.4585,
+      "anchorY": 0.9288,
+      "logicalHeight": 289,
+      "label": "indigo camp rest 1",
+      "kind": "people-sj-camp-cast2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          25,
+          374,
+          285,
+          277
+        ],
+        "visiblePixels": 41263,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "indigo-camp-rest-2": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 332,
+      "y": 371,
+      "w": 263,
+      "h": 289,
+      "anchorX": 0.4791,
+      "anchorY": 0.9273,
+      "logicalHeight": 289,
+      "label": "indigo camp rest 2",
+      "kind": "people-sj-camp-cast2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          334,
+          373,
+          261,
+          285
+        ],
+        "visiblePixels": 39544,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "indigo-camp-sleep-1": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 595,
+      "y": 456,
+      "w": 341,
+      "h": 188,
+      "anchorX": 0.5792,
+      "anchorY": 0.9255,
+      "logicalHeight": 289,
+      "label": "indigo camp sleep 1",
+      "kind": "people-sj-camp-cast2",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          595,
+          458,
+          340,
+          184
+        ],
+        "visiblePixels": 40687,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "indigo-camp-sleep-2": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 936,
+      "y": 460,
+      "w": 313,
+      "h": 189,
+      "anchorX": 0.5942,
+      "anchorY": 0.9259,
+      "logicalHeight": 289,
+      "label": "indigo camp sleep 2",
+      "kind": "people-sj-camp-cast2",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          938,
+          462,
+          309,
+          185
+        ],
+        "visiblePixels": 37181,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "ochre-camp-rest-1": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 86,
+      "y": 665,
+      "w": 220,
+      "h": 271,
+      "anchorX": 0.5455,
+      "anchorY": 0.9299,
+      "logicalHeight": 271,
+      "label": "ochre camp rest 1",
+      "kind": "people-sj-camp-cast2",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          667,
+          216,
+          267
+        ],
+        "visiblePixels": 34086,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "ochre-camp-rest-2": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 384,
+      "y": 668,
+      "w": 204,
+      "h": 268,
+      "anchorX": 0.6176,
+      "anchorY": 0.9291,
+      "logicalHeight": 271,
+      "label": "ochre camp rest 2",
+      "kind": "people-sj-camp-cast2",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          386,
+          670,
+          200,
+          264
+        ],
+        "visiblePixels": 31647,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "ochre-camp-sleep-1": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 600,
+      "y": 761,
+      "w": 336,
+      "h": 176,
+      "anchorX": 0.5833,
+      "anchorY": 0.9261,
+      "logicalHeight": 271,
+      "label": "ochre camp sleep 1",
+      "kind": "people-sj-camp-cast2",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          602,
+          763,
+          334,
+          172
+        ],
+        "visiblePixels": 38850,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "ochre-camp-sleep-2": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 936,
+      "y": 761,
+      "w": 314,
+      "h": 175,
+      "anchorX": 0.586,
+      "anchorY": 0.9257,
+      "logicalHeight": 271,
+      "label": "ochre camp sleep 2",
+      "kind": "people-sj-camp-cast2",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          937,
+          763,
+          311,
+          171
+        ],
+        "visiblePixels": 35782,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "blue-girl-camp-rest-1": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 27,
+      "y": 952,
+      "w": 285,
+      "h": 265,
+      "anchorX": 0.4684,
+      "anchorY": 0.9283,
+      "logicalHeight": 267,
+      "label": "blue girl camp rest 1",
+      "kind": "people-sj-camp-cast2",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          954,
+          281,
+          261
+        ],
+        "visiblePixels": 39165,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "blue-girl-camp-rest-2": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 334,
+      "y": 952,
+      "w": 251,
+      "h": 267,
+      "anchorX": 0.5359,
+      "anchorY": 0.9288,
+      "logicalHeight": 267,
+      "label": "blue girl camp rest 2",
+      "kind": "people-sj-camp-cast2",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          336,
+          954,
+          247,
+          263
+        ],
+        "visiblePixels": 35972,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "blue-girl-camp-sleep-1": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 591,
+      "y": 1034,
+      "w": 337,
+      "h": 182,
+      "anchorX": 0.6261,
+      "anchorY": 0.9286,
+      "logicalHeight": 267,
+      "label": "blue girl camp sleep 1",
+      "kind": "people-sj-camp-cast2",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          593,
+          1036,
+          333,
+          178
+        ],
+        "visiblePixels": 38000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "blue-girl-camp-sleep-2": {
+      "sheet": "people-sj-camp-cast2",
+      "x": 931,
+      "y": 1035,
+      "w": 318,
+      "h": 188,
+      "anchorX": 0.6038,
+      "anchorY": 0.9255,
+      "logicalHeight": 267,
+      "label": "blue girl camp sleep 2",
+      "kind": "people-sj-camp-cast2",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          933,
+          1037,
+          314,
+          184
+        ],
+        "visiblePixels": 36708,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-cast2"
+    },
+    "girl-camp-rest-1": {
+      "sheet": "people-sj-camp-children",
+      "x": 92,
+      "y": 44,
+      "w": 196,
+      "h": 250,
+      "anchorX": 0.4719,
+      "anchorY": 0.928,
+      "logicalHeight": 251,
+      "label": "girl camp rest 1",
+      "kind": "people-sj-camp-children",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          94,
+          46,
+          192,
+          246
+        ],
+        "visiblePixels": 32262,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "girl-camp-rest-2": {
+      "sheet": "people-sj-camp-children",
+      "x": 425,
+      "y": 43,
+      "w": 209,
+      "h": 251,
+      "anchorX": 0.4833,
+      "anchorY": 0.9283,
+      "logicalHeight": 251,
+      "label": "girl camp rest 2",
+      "kind": "people-sj-camp-children",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          45,
+          205,
+          247
+        ],
+        "visiblePixels": 34145,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "girl-camp-sleep-1": {
+      "sheet": "people-sj-camp-children",
+      "x": 724,
+      "y": 114,
+      "w": 317,
+      "h": 171,
+      "anchorX": 0.6562,
+      "anchorY": 0.9298,
+      "logicalHeight": 251,
+      "label": "girl camp sleep 1",
+      "kind": "people-sj-camp-children",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          726,
+          116,
+          313,
+          167
+        ],
+        "visiblePixels": 34038,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "girl-camp-sleep-2": {
+      "sheet": "people-sj-camp-children",
+      "x": 1100,
+      "y": 116,
+      "w": 313,
+      "h": 172,
+      "anchorX": 0.6438,
+      "anchorY": 0.9244,
+      "logicalHeight": 251,
+      "label": "girl camp sleep 2",
+      "kind": "people-sj-camp-children",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1102,
+          118,
+          309,
+          168
+        ],
+        "visiblePixels": 34136,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "girl-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "boy-camp-rest-1": {
+      "sheet": "people-sj-camp-children",
+      "x": 103,
+      "y": 331,
+      "w": 179,
+      "h": 249,
+      "anchorX": 0.4637,
+      "anchorY": 0.9277,
+      "logicalHeight": 249,
+      "label": "boy camp rest 1",
+      "kind": "people-sj-camp-children",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          105,
+          333,
+          175,
+          245
+        ],
+        "visiblePixels": 29776,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "boy-camp-rest-2": {
+      "sheet": "people-sj-camp-children",
+      "x": 447,
+      "y": 328,
+      "w": 179,
+      "h": 249,
+      "anchorX": 0.419,
+      "anchorY": 0.9277,
+      "logicalHeight": 249,
+      "label": "boy camp rest 2",
+      "kind": "people-sj-camp-children",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          449,
+          330,
+          175,
+          245
+        ],
+        "visiblePixels": 29680,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "boy-camp-sleep-1": {
+      "sheet": "people-sj-camp-children",
+      "x": 724,
+      "y": 389,
+      "w": 324,
+      "h": 190,
+      "anchorX": 0.6281,
+      "anchorY": 0.9263,
+      "logicalHeight": 249,
+      "label": "boy camp sleep 1",
+      "kind": "people-sj-camp-children",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          726,
+          391,
+          320,
+          186
+        ],
+        "visiblePixels": 36565,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "boy-camp-sleep-2": {
+      "sheet": "people-sj-camp-children",
+      "x": 1103,
+      "y": 391,
+      "w": 313,
+      "h": 193,
+      "anchorX": 0.6837,
+      "anchorY": 0.9275,
+      "logicalHeight": 249,
+      "label": "boy camp sleep 2",
+      "kind": "people-sj-camp-children",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1105,
+          393,
+          309,
+          189
+        ],
+        "visiblePixels": 34979,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "boy-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "smallchild-camp-rest-1": {
+      "sheet": "people-sj-camp-children",
+      "x": 101,
+      "y": 608,
+      "w": 173,
+      "h": 222,
+      "anchorX": 0.5116,
+      "anchorY": 0.9279,
+      "logicalHeight": 222,
+      "label": "smallchild camp rest 1",
+      "kind": "people-sj-camp-children",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          103,
+          610,
+          169,
+          218
+        ],
+        "visiblePixels": 27293,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "smallchild-camp-rest-2": {
+      "sheet": "people-sj-camp-children",
+      "x": 447,
+      "y": 607,
+      "w": 162,
+      "h": 219,
+      "anchorX": 0.5123,
+      "anchorY": 0.9315,
+      "logicalHeight": 222,
+      "label": "smallchild camp rest 2",
+      "kind": "people-sj-camp-children",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          449,
+          609,
+          158,
+          215
+        ],
+        "visiblePixels": 25697,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "smallchild-camp-sleep-1": {
+      "sheet": "people-sj-camp-children",
+      "x": 724,
+      "y": 653,
+      "w": 324,
+      "h": 182,
+      "anchorX": 0.6636,
+      "anchorY": 0.9286,
+      "logicalHeight": 222,
+      "label": "smallchild camp sleep 1",
+      "kind": "people-sj-camp-children",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          726,
+          655,
+          320,
+          178
+        ],
+        "visiblePixels": 35241,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "smallchild-camp-sleep-2": {
+      "sheet": "people-sj-camp-children",
+      "x": 1103,
+      "y": 654,
+      "w": 313,
+      "h": 184,
+      "anchorX": 0.6645,
+      "anchorY": 0.9293,
+      "logicalHeight": 222,
+      "label": "smallchild camp sleep 2",
+      "kind": "people-sj-camp-children",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1105,
+          656,
+          309,
+          180
+        ],
+        "visiblePixels": 34223,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-children.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smallchild-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-children"
+    },
+    "mother-scarf-camp-rest-1": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 50,
+      "y": 73,
+      "w": 230,
+      "h": 246,
+      "anchorX": 0.5174,
+      "anchorY": 0.9268,
+      "logicalHeight": 246,
+      "label": "mother scarf camp rest 1",
+      "kind": "people-sj-camp-heads1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          52,
+          75,
+          226,
+          242
+        ],
+        "visiblePixels": 31427,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-scarf-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "mother-scarf-camp-rest-2": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 355,
+      "y": 75,
+      "w": 225,
+      "h": 242,
+      "anchorX": 0.54,
+      "anchorY": 0.9298,
+      "logicalHeight": 246,
+      "label": "mother scarf camp rest 2",
+      "kind": "people-sj-camp-heads1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          357,
+          77,
+          221,
+          238
+        ],
+        "visiblePixels": 32114,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-scarf-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "mother-scarf-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 652,
+      "y": 142,
+      "w": 282,
+      "h": 174,
+      "anchorX": 0.617,
+      "anchorY": 0.9253,
+      "logicalHeight": 246,
+      "label": "mother scarf camp sleep 1",
+      "kind": "people-sj-camp-heads1",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          654,
+          144,
+          278,
+          170
+        ],
+        "visiblePixels": 32467,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-scarf-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "mother-scarf-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 979,
+      "y": 142,
+      "w": 264,
+      "h": 176,
+      "anchorX": 0.6591,
+      "anchorY": 0.9261,
+      "logicalHeight": 246,
+      "label": "mother scarf camp sleep 2",
+      "kind": "people-sj-camp-heads1",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          981,
+          144,
+          260,
+          172
+        ],
+        "visiblePixels": 30574,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-scarf-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-straw-camp-rest-1": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 77,
+      "y": 352,
+      "w": 217,
+      "h": 267,
+      "anchorX": 0.6866,
+      "anchorY": 0.9288,
+      "logicalHeight": 271,
+      "label": "father straw camp rest 1",
+      "kind": "people-sj-camp-heads1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          79,
+          354,
+          213,
+          263
+        ],
+        "visiblePixels": 34872,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-straw-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-straw-camp-rest-2": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 377,
+      "y": 350,
+      "w": 203,
+      "h": 271,
+      "anchorX": 0.6946,
+      "anchorY": 0.9299,
+      "logicalHeight": 271,
+      "label": "father straw camp rest 2",
+      "kind": "people-sj-camp-heads1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          379,
+          352,
+          199,
+          267
+        ],
+        "visiblePixels": 35372,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-straw-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-straw-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 630,
+      "y": 440,
+      "w": 313,
+      "h": 169,
+      "anchorX": 0.6677,
+      "anchorY": 0.929,
+      "logicalHeight": 271,
+      "label": "father straw camp sleep 1",
+      "kind": "people-sj-camp-heads1",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          632,
+          442,
+          309,
+          165
+        ],
+        "visiblePixels": 35270,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-straw-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-straw-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 946,
+      "y": 444,
+      "w": 290,
+      "h": 169,
+      "anchorX": 0.7034,
+      "anchorY": 0.929,
+      "logicalHeight": 271,
+      "label": "father straw camp sleep 2",
+      "kind": "people-sj-camp-heads1",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          948,
+          446,
+          286,
+          165
+        ],
+        "visiblePixels": 32592,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-straw-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-beard-camp-rest-1": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 72,
+      "y": 652,
+      "w": 222,
+      "h": 270,
+      "anchorX": 0.6937,
+      "anchorY": 0.9296,
+      "logicalHeight": 272,
+      "label": "father beard camp rest 1",
+      "kind": "people-sj-camp-heads1",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          74,
+          654,
+          218,
+          266
+        ],
+        "visiblePixels": 35363,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-beard-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-beard-camp-rest-2": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 374,
+      "y": 650,
+      "w": 212,
+      "h": 272,
+      "anchorX": 0.6745,
+      "anchorY": 0.9265,
+      "logicalHeight": 272,
+      "label": "father beard camp rest 2",
+      "kind": "people-sj-camp-heads1",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          376,
+          652,
+          208,
+          268
+        ],
+        "visiblePixels": 35933,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-beard-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-beard-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 650,
+      "y": 741,
+      "w": 294,
+      "h": 177,
+      "anchorX": 0.6514,
+      "anchorY": 0.9266,
+      "logicalHeight": 272,
+      "label": "father beard camp sleep 1",
+      "kind": "people-sj-camp-heads1",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          652,
+          743,
+          290,
+          173
+        ],
+        "visiblePixels": 36132,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-beard-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-beard-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 970,
+      "y": 750,
+      "w": 275,
+      "h": 172,
+      "anchorX": 0.6382,
+      "anchorY": 0.9244,
+      "logicalHeight": 272,
+      "label": "father beard camp sleep 2",
+      "kind": "people-sj-camp-heads1",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          972,
+          752,
+          271,
+          168
+        ],
+        "visiblePixels": 34191,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-beard-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-moustache-camp-rest-1": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 72,
+      "y": 940,
+      "w": 227,
+      "h": 266,
+      "anchorX": 0.674,
+      "anchorY": 0.9286,
+      "logicalHeight": 266,
+      "label": "father moustache camp rest 1",
+      "kind": "people-sj-camp-heads1",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          74,
+          942,
+          223,
+          262
+        ],
+        "visiblePixels": 34744,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-moustache-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-moustache-camp-rest-2": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 384,
+      "y": 943,
+      "w": 204,
+      "h": 262,
+      "anchorX": 0.6789,
+      "anchorY": 0.9275,
+      "logicalHeight": 266,
+      "label": "father moustache camp rest 2",
+      "kind": "people-sj-camp-heads1",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          386,
+          945,
+          200,
+          258
+        ],
+        "visiblePixels": 33896,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-moustache-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-moustache-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 651,
+      "y": 1029,
+      "w": 297,
+      "h": 171,
+      "anchorX": 0.564,
+      "anchorY": 0.9298,
+      "logicalHeight": 266,
+      "label": "father moustache camp sleep 1",
+      "kind": "people-sj-camp-heads1",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          653,
+          1031,
+          293,
+          167
+        ],
+        "visiblePixels": 35731,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-moustache-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "father-moustache-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads1",
+      "x": 969,
+      "y": 1030,
+      "w": 276,
+      "h": 177,
+      "anchorX": 0.6522,
+      "anchorY": 0.9266,
+      "logicalHeight": 266,
+      "label": "father moustache camp sleep 2",
+      "kind": "people-sj-camp-heads1",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          971,
+          1032,
+          272,
+          173
+        ],
+        "visiblePixels": 34890,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-moustache-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads1"
+    },
+    "mother-braid-camp-rest-1": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 73,
+      "y": 74,
+      "w": 233,
+      "h": 231,
+      "anchorX": 0.5,
+      "anchorY": 0.9264,
+      "logicalHeight": 239,
+      "label": "mother braid camp rest 1",
+      "kind": "people-sj-camp-heads2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          75,
+          76,
+          229,
+          227
+        ],
+        "visiblePixels": 30741,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-braid-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-braid-camp-rest-2": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 403,
+      "y": 71,
+      "w": 219,
+      "h": 239,
+      "anchorX": 0.4772,
+      "anchorY": 0.9289,
+      "logicalHeight": 239,
+      "label": "mother braid camp rest 2",
+      "kind": "people-sj-camp-heads2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          73,
+          215,
+          235
+        ],
+        "visiblePixels": 27756,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-braid-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-braid-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 716,
+      "y": 150,
+      "w": 289,
+      "h": 154,
+      "anchorX": 0.519,
+      "anchorY": 0.9286,
+      "logicalHeight": 239,
+      "label": "mother braid camp sleep 1",
+      "kind": "people-sj-camp-heads2",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          718,
+          152,
+          285,
+          150
+        ],
+        "visiblePixels": 30013,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-braid-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-braid-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 1067,
+      "y": 155,
+      "w": 291,
+      "h": 153,
+      "anchorX": 0.445,
+      "anchorY": 0.9281,
+      "logicalHeight": 239,
+      "label": "mother braid camp sleep 2",
+      "kind": "people-sj-camp-heads2",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1069,
+          157,
+          287,
+          149
+        ],
+        "visiblePixels": 29509,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-braid-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-loose-camp-rest-1": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 69,
+      "y": 337,
+      "w": 236,
+      "h": 231,
+      "anchorX": 0.5064,
+      "anchorY": 0.9264,
+      "logicalHeight": 241,
+      "label": "mother loose camp rest 1",
+      "kind": "people-sj-camp-heads2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          71,
+          339,
+          232,
+          227
+        ],
+        "visiblePixels": 32776,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-loose-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-loose-camp-rest-2": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 401,
+      "y": 336,
+      "w": 222,
+      "h": 241,
+      "anchorX": 0.5045,
+      "anchorY": 0.9295,
+      "logicalHeight": 241,
+      "label": "mother loose camp rest 2",
+      "kind": "people-sj-camp-heads2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          403,
+          338,
+          218,
+          237
+        ],
+        "visiblePixels": 33176,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-loose-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-loose-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 711,
+      "y": 405,
+      "w": 303,
+      "h": 163,
+      "anchorX": 0.5446,
+      "anchorY": 0.9264,
+      "logicalHeight": 241,
+      "label": "mother loose camp sleep 1",
+      "kind": "people-sj-camp-heads2",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          407,
+          299,
+          159
+        ],
+        "visiblePixels": 32651,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-loose-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-loose-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 1067,
+      "y": 409,
+      "w": 300,
+      "h": 163,
+      "anchorX": 0.5167,
+      "anchorY": 0.9264,
+      "logicalHeight": 241,
+      "label": "mother loose camp sleep 2",
+      "kind": "people-sj-camp-heads2",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1069,
+          411,
+          296,
+          159
+        ],
+        "visiblePixels": 32977,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-loose-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-straw-camp-rest-1": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 60,
+      "y": 591,
+      "w": 247,
+      "h": 244,
+      "anchorX": 0.502,
+      "anchorY": 0.9262,
+      "logicalHeight": 251,
+      "label": "mother straw camp rest 1",
+      "kind": "people-sj-camp-heads2",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          62,
+          593,
+          243,
+          240
+        ],
+        "visiblePixels": 33755,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-straw-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-straw-camp-rest-2": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 398,
+      "y": 591,
+      "w": 225,
+      "h": 251,
+      "anchorX": 0.5133,
+      "anchorY": 0.9283,
+      "logicalHeight": 251,
+      "label": "mother straw camp rest 2",
+      "kind": "people-sj-camp-heads2",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          593,
+          221,
+          247
+        ],
+        "visiblePixels": 32363,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-straw-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-straw-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 709,
+      "y": 673,
+      "w": 297,
+      "h": 166,
+      "anchorX": 0.5286,
+      "anchorY": 0.9277,
+      "logicalHeight": 251,
+      "label": "mother straw camp sleep 1",
+      "kind": "people-sj-camp-heads2",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          675,
+          293,
+          162
+        ],
+        "visiblePixels": 32981,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-straw-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "mother-straw-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 1068,
+      "y": 673,
+      "w": 299,
+      "h": 172,
+      "anchorX": 0.4866,
+      "anchorY": 0.9244,
+      "logicalHeight": 251,
+      "label": "mother straw camp sleep 2",
+      "kind": "people-sj-camp-heads2",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1070,
+          675,
+          295,
+          168
+        ],
+        "visiblePixels": 33211,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "mother-straw-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "youth-boy-camp-rest-1": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 66,
+      "y": 857,
+      "w": 236,
+      "h": 214,
+      "anchorX": 0.4894,
+      "anchorY": 0.9299,
+      "logicalHeight": 222,
+      "label": "youth boy camp rest 1",
+      "kind": "people-sj-camp-heads2",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          68,
+          859,
+          232,
+          210
+        ],
+        "visiblePixels": 26044,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "youth-boy-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "youth-boy-camp-rest-2": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 420,
+      "y": 855,
+      "w": 186,
+      "h": 222,
+      "anchorX": 0.4919,
+      "anchorY": 0.9279,
+      "logicalHeight": 222,
+      "label": "youth boy camp rest 2",
+      "kind": "people-sj-camp-heads2",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          422,
+          857,
+          182,
+          218
+        ],
+        "visiblePixels": 24200,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "youth-boy-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "youth-boy-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 706,
+      "y": 901,
+      "w": 309,
+      "h": 167,
+      "anchorX": 0.5146,
+      "anchorY": 0.9281,
+      "logicalHeight": 222,
+      "label": "youth boy camp sleep 1",
+      "kind": "people-sj-camp-heads2",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          903,
+          305,
+          163
+        ],
+        "visiblePixels": 31715,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "youth-boy-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "youth-boy-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads2",
+      "x": 1065,
+      "y": 910,
+      "w": 301,
+      "h": 161,
+      "anchorX": 0.5033,
+      "anchorY": 0.9255,
+      "logicalHeight": 222,
+      "label": "youth boy camp sleep 2",
+      "kind": "people-sj-camp-heads2",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1067,
+          912,
+          297,
+          157
+        ],
+        "visiblePixels": 31104,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "youth-boy-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads2"
+    },
+    "youth-girl-camp-rest-1": {
+      "sheet": "people-sj-camp-heads3",
+      "x": 78,
+      "y": 121,
+      "w": 307,
+      "h": 331,
+      "anchorX": 0.487,
+      "anchorY": 0.9275,
+      "logicalHeight": 331,
+      "label": "youth girl camp rest 1",
+      "kind": "people-sj-camp-heads3",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          123,
+          303,
+          327
+        ],
+        "visiblePixels": 59576,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "youth-girl-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads3"
+    },
+    "youth-girl-camp-rest-2": {
+      "sheet": "people-sj-camp-heads3",
+      "x": 501,
+      "y": 121,
+      "w": 315,
+      "h": 331,
+      "anchorX": 0.5333,
+      "anchorY": 0.9275,
+      "logicalHeight": 331,
+      "label": "youth girl camp rest 2",
+      "kind": "people-sj-camp-heads3",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          503,
+          123,
+          311,
+          327
+        ],
+        "visiblePixels": 60895,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "youth-girl-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads3"
+    },
+    "youth-girl-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads3",
+      "x": 882,
+      "y": 211,
+      "w": 427,
+      "h": 239,
+      "anchorX": 0.4906,
+      "anchorY": 0.9289,
+      "logicalHeight": 331,
+      "label": "youth girl camp sleep 1",
+      "kind": "people-sj-camp-heads3",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          884,
+          213,
+          423,
+          235
+        ],
+        "visiblePixels": 65810,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "youth-girl-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads3"
+    },
+    "youth-girl-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads3",
+      "x": 1346,
+      "y": 187,
+      "w": 400,
+      "h": 261,
+      "anchorX": 0.5625,
+      "anchorY": 0.9272,
+      "logicalHeight": 331,
+      "label": "youth girl camp sleep 2",
+      "kind": "people-sj-camp-heads3",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1348,
+          189,
+          396,
+          257
+        ],
+        "visiblePixels": 66116,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "youth-girl-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads3"
+    },
+    "father-hat-camp-rest-1": {
+      "sheet": "people-sj-camp-heads3",
+      "x": 107,
+      "y": 482,
+      "w": 326,
+      "h": 387,
+      "anchorX": 0.6748,
+      "anchorY": 0.9276,
+      "logicalHeight": 387,
+      "label": "father hat camp rest 1",
+      "kind": "people-sj-camp-heads3",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          109,
+          484,
+          322,
+          383
+        ],
+        "visiblePixels": 73032,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-hat-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads3"
+    },
+    "father-hat-camp-rest-2": {
+      "sheet": "people-sj-camp-heads3",
+      "x": 499,
+      "y": 486,
+      "w": 293,
+      "h": 382,
+      "anchorX": 0.7218,
+      "anchorY": 0.9293,
+      "logicalHeight": 387,
+      "label": "father hat camp rest 2",
+      "kind": "people-sj-camp-heads3",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          501,
+          488,
+          289,
+          378
+        ],
+        "visiblePixels": 72123,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-hat-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads3"
+    },
+    "father-hat-camp-sleep-1": {
+      "sheet": "people-sj-camp-heads3",
+      "x": 859,
+      "y": 610,
+      "w": 459,
+      "h": 247,
+      "anchorX": 0.5784,
+      "anchorY": 0.9271,
+      "logicalHeight": 387,
+      "label": "father hat camp sleep 1",
+      "kind": "people-sj-camp-heads3",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          861,
+          612,
+          455,
+          243
+        ],
+        "visiblePixels": 75316,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-hat-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads3"
+    },
+    "father-hat-camp-sleep-2": {
+      "sheet": "people-sj-camp-heads3",
+      "x": 1331,
+      "y": 618,
+      "w": 425,
+      "h": 242,
+      "anchorX": 0.5682,
+      "anchorY": 0.9298,
+      "logicalHeight": 387,
+      "label": "father hat camp sleep 2",
+      "kind": "people-sj-camp-heads3",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1333,
+          620,
+          421,
+          238
+        ],
+        "visiblePixels": 67055,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-heads3.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "father-hat-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-heads3"
+    },
+    "infant-camp-rest-1": {
+      "sheet": "people-sj-camp-infant",
+      "x": 46,
+      "y": 35,
+      "w": 535,
+      "h": 575,
+      "anchorX": 0.5,
+      "anchorY": 0.9287,
+      "logicalHeight": 575,
+      "label": "infant camp rest 1",
+      "kind": "people-sj-camp-infant",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          37,
+          531,
+          571
+        ],
+        "visiblePixels": 220518,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-infant.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "infant-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-infant"
+    },
+    "infant-camp-rest-2": {
+      "sheet": "people-sj-camp-infant",
+      "x": 673,
+      "y": 35,
+      "w": 535,
+      "h": 575,
+      "anchorX": 0.4991,
+      "anchorY": 0.9287,
+      "logicalHeight": 575,
+      "label": "infant camp rest 2",
+      "kind": "people-sj-camp-infant",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          675,
+          37,
+          531,
+          571
+        ],
+        "visiblePixels": 220475,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-infant.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "infant-camp-rest"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-infant"
+    },
+    "infant-camp-sleep-1": {
+      "sheet": "people-sj-camp-infant",
+      "x": 46,
+      "y": 662,
+      "w": 535,
+      "h": 575,
+      "anchorX": 0.4991,
+      "anchorY": 0.9287,
+      "logicalHeight": 575,
+      "label": "infant camp sleep 1",
+      "kind": "people-sj-camp-infant",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          48,
+          664,
+          531,
+          571
+        ],
+        "visiblePixels": 220387,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-infant.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "infant-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-infant"
+    },
+    "infant-camp-sleep-2": {
+      "sheet": "people-sj-camp-infant",
+      "x": 673,
+      "y": 662,
+      "w": 535,
+      "h": 575,
+      "anchorX": 0.4991,
+      "anchorY": 0.9287,
+      "logicalHeight": 575,
+      "label": "infant camp sleep 2",
+      "kind": "people-sj-camp-infant",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          675,
+          664,
+          531,
+          571
+        ],
+        "visiblePixels": 220338,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-sj-camp-infant.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "infant-camp-sleep"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-sj-camp-infant"
+    },
+    "volunteer-mounted-reload-e-1": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 102,
+      "y": 71,
+      "w": 175,
+      "h": 150,
+      "anchorX": 0.4686,
+      "anchorY": 0.9467,
+      "logicalHeight": 157,
+      "label": "volunteer mounted reload e 1",
+      "kind": "sj-mounted-reload-e",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          73,
+          171,
+          146
+        ],
+        "visiblePixels": 11392,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "volunteer-mounted-reload-e-2": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 485,
+      "y": 71,
+      "w": 177,
+      "h": 149,
+      "anchorX": 0.4718,
+      "anchorY": 0.9597,
+      "logicalHeight": 157,
+      "label": "volunteer mounted reload e 2",
+      "kind": "sj-mounted-reload-e",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          487,
+          73,
+          173,
+          145
+        ],
+        "visiblePixels": 11669,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "volunteer-mounted-reload-e-3": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 869,
+      "y": 71,
+      "w": 176,
+      "h": 149,
+      "anchorX": 0.4744,
+      "anchorY": 0.953,
+      "logicalHeight": 157,
+      "label": "volunteer mounted reload e 3",
+      "kind": "sj-mounted-reload-e",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          871,
+          73,
+          172,
+          145
+        ],
+        "visiblePixels": 11626,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "volunteer-mounted-reload-e-4": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 1252,
+      "y": 69,
+      "w": 177,
+      "h": 151,
+      "anchorX": 0.4718,
+      "anchorY": 0.947,
+      "logicalHeight": 157,
+      "label": "volunteer mounted reload e 4",
+      "kind": "sj-mounted-reload-e",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1254,
+          71,
+          173,
+          147
+        ],
+        "visiblePixels": 11940,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "volunteer-mounted-reload-e-5": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 104,
+      "y": 313,
+      "w": 176,
+      "h": 153,
+      "anchorX": 0.4688,
+      "anchorY": 0.9477,
+      "logicalHeight": 157,
+      "label": "volunteer mounted reload e 5",
+      "kind": "sj-mounted-reload-e",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          106,
+          315,
+          172,
+          149
+        ],
+        "visiblePixels": 12032,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "volunteer-mounted-reload-e-6": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 485,
+      "y": 313,
+      "w": 177,
+      "h": 153,
+      "anchorX": 0.4774,
+      "anchorY": 0.9477,
+      "logicalHeight": 157,
+      "label": "volunteer mounted reload e 6",
+      "kind": "sj-mounted-reload-e",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          487,
+          315,
+          173,
+          149
+        ],
+        "visiblePixels": 11972,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "volunteer-mounted-reload-e-7": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 869,
+      "y": 309,
+      "w": 177,
+      "h": 157,
+      "anchorX": 0.4831,
+      "anchorY": 0.949,
+      "logicalHeight": 157,
+      "label": "volunteer mounted reload e 7",
+      "kind": "sj-mounted-reload-e",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          871,
+          311,
+          173,
+          153
+        ],
+        "visiblePixels": 11981,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "volunteer-mounted-reload-e-8": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 1253,
+      "y": 314,
+      "w": 177,
+      "h": 152,
+      "anchorX": 0.4746,
+      "anchorY": 0.9474,
+      "logicalHeight": 157,
+      "label": "volunteer mounted reload e 8",
+      "kind": "sj-mounted-reload-e",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1255,
+          316,
+          173,
+          148
+        ],
+        "visiblePixels": 11632,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "dragoon-mounted-reload-e-1": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 101,
+      "y": 567,
+      "w": 181,
+      "h": 153,
+      "anchorX": 0.4641,
+      "anchorY": 0.9542,
+      "logicalHeight": 155,
+      "label": "dragoon mounted reload e 1",
+      "kind": "sj-mounted-reload-e",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          103,
+          569,
+          177,
+          149
+        ],
+        "visiblePixels": 12015,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "dragoon-mounted-reload-e-2": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 485,
+      "y": 565,
+      "w": 180,
+      "h": 155,
+      "anchorX": 0.4639,
+      "anchorY": 0.9484,
+      "logicalHeight": 155,
+      "label": "dragoon mounted reload e 2",
+      "kind": "sj-mounted-reload-e",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          487,
+          567,
+          176,
+          151
+        ],
+        "visiblePixels": 12364,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "dragoon-mounted-reload-e-3": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 869,
+      "y": 565,
+      "w": 180,
+      "h": 155,
+      "anchorX": 0.4694,
+      "anchorY": 0.9484,
+      "logicalHeight": 155,
+      "label": "dragoon mounted reload e 3",
+      "kind": "sj-mounted-reload-e",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          871,
+          567,
+          176,
+          151
+        ],
+        "visiblePixels": 12087,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "dragoon-mounted-reload-e-4": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 1254,
+      "y": 566,
+      "w": 180,
+      "h": 154,
+      "anchorX": 0.4694,
+      "anchorY": 0.9545,
+      "logicalHeight": 155,
+      "label": "dragoon mounted reload e 4",
+      "kind": "sj-mounted-reload-e",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1256,
+          568,
+          176,
+          150
+        ],
+        "visiblePixels": 12442,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "dragoon-mounted-reload-e-5": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 104,
+      "y": 817,
+      "w": 180,
+      "h": 144,
+      "anchorX": 0.4722,
+      "anchorY": 0.9375,
+      "logicalHeight": 155,
+      "label": "dragoon mounted reload e 5",
+      "kind": "sj-mounted-reload-e",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          106,
+          819,
+          176,
+          140
+        ],
+        "visiblePixels": 11781,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "dragoon-mounted-reload-e-6": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 485,
+      "y": 817,
+      "w": 180,
+      "h": 144,
+      "anchorX": 0.475,
+      "anchorY": 0.9444,
+      "logicalHeight": 155,
+      "label": "dragoon mounted reload e 6",
+      "kind": "sj-mounted-reload-e",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          487,
+          819,
+          176,
+          140
+        ],
+        "visiblePixels": 11696,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "dragoon-mounted-reload-e-7": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 869,
+      "y": 816,
+      "w": 181,
+      "h": 145,
+      "anchorX": 0.4751,
+      "anchorY": 0.9379,
+      "logicalHeight": 155,
+      "label": "dragoon mounted reload e 7",
+      "kind": "sj-mounted-reload-e",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          871,
+          818,
+          177,
+          141
+        ],
+        "visiblePixels": 11885,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "dragoon-mounted-reload-e-8": {
+      "sheet": "sj-mounted-reload-e",
+      "x": 1254,
+      "y": 817,
+      "w": 180,
+      "h": 144,
+      "anchorX": 0.4806,
+      "anchorY": 0.9444,
+      "logicalHeight": 155,
+      "label": "dragoon mounted reload e 8",
+      "kind": "sj-mounted-reload-e",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1256,
+          819,
+          176,
+          140
+        ],
+        "visiblePixels": 11417,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-e"
+    },
+    "volunteer-mounted-reload-s-1": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 142,
+      "y": 76,
+      "w": 123,
+      "h": 166,
+      "anchorX": 0.4065,
+      "anchorY": 0.9639,
+      "logicalHeight": 170,
+      "label": "volunteer mounted reload s 1",
+      "kind": "sj-mounted-reload-s",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          144,
+          78,
+          119,
+          162
+        ],
+        "visiblePixels": 9438,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "volunteer-mounted-reload-s-2": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 525,
+      "y": 76,
+      "w": 121,
+      "h": 167,
+      "anchorX": 0.405,
+      "anchorY": 0.9521,
+      "logicalHeight": 170,
+      "label": "volunteer mounted reload s 2",
+      "kind": "sj-mounted-reload-s",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          527,
+          78,
+          117,
+          163
+        ],
+        "visiblePixels": 9571,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "volunteer-mounted-reload-s-3": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 909,
+      "y": 76,
+      "w": 119,
+      "h": 166,
+      "anchorX": 0.4118,
+      "anchorY": 0.9578,
+      "logicalHeight": 170,
+      "label": "volunteer mounted reload s 3",
+      "kind": "sj-mounted-reload-s",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          911,
+          78,
+          115,
+          162
+        ],
+        "visiblePixels": 9503,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "volunteer-mounted-reload-s-4": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 1290,
+      "y": 76,
+      "w": 102,
+      "h": 166,
+      "anchorX": 0.4902,
+      "anchorY": 0.9518,
+      "logicalHeight": 170,
+      "label": "volunteer mounted reload s 4",
+      "kind": "sj-mounted-reload-s",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1292,
+          78,
+          98,
+          162
+        ],
+        "visiblePixels": 9701,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "volunteer-mounted-reload-s-5": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 141,
+      "y": 316,
+      "w": 107,
+      "h": 169,
+      "anchorX": 0.472,
+      "anchorY": 0.9645,
+      "logicalHeight": 170,
+      "label": "volunteer mounted reload s 5",
+      "kind": "sj-mounted-reload-s",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          318,
+          103,
+          165
+        ],
+        "visiblePixels": 9697,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "volunteer-mounted-reload-s-6": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 524,
+      "y": 317,
+      "w": 102,
+      "h": 168,
+      "anchorX": 0.4902,
+      "anchorY": 0.9405,
+      "logicalHeight": 170,
+      "label": "volunteer mounted reload s 6",
+      "kind": "sj-mounted-reload-s",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          526,
+          319,
+          98,
+          164
+        ],
+        "visiblePixels": 9592,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "volunteer-mounted-reload-s-7": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 909,
+      "y": 316,
+      "w": 102,
+      "h": 169,
+      "anchorX": 0.4804,
+      "anchorY": 0.9349,
+      "logicalHeight": 170,
+      "label": "volunteer mounted reload s 7",
+      "kind": "sj-mounted-reload-s",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          911,
+          318,
+          98,
+          165
+        ],
+        "visiblePixels": 9709,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "volunteer-mounted-reload-s-8": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 1290,
+      "y": 316,
+      "w": 132,
+      "h": 170,
+      "anchorX": 0.3788,
+      "anchorY": 0.9588,
+      "logicalHeight": 170,
+      "label": "volunteer mounted reload s 8",
+      "kind": "sj-mounted-reload-s",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1292,
+          318,
+          128,
+          166
+        ],
+        "visiblePixels": 9929,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "dragoon-mounted-reload-s-1": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 141,
+      "y": 558,
+      "w": 129,
+      "h": 171,
+      "anchorX": 0.3876,
+      "anchorY": 0.9649,
+      "logicalHeight": 174,
+      "label": "dragoon mounted reload s 1",
+      "kind": "sj-mounted-reload-s",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          560,
+          125,
+          167
+        ],
+        "visiblePixels": 9895,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "dragoon-mounted-reload-s-2": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 523,
+      "y": 558,
+      "w": 128,
+      "h": 171,
+      "anchorX": 0.3945,
+      "anchorY": 0.9591,
+      "logicalHeight": 174,
+      "label": "dragoon mounted reload s 2",
+      "kind": "sj-mounted-reload-s",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          525,
+          560,
+          124,
+          167
+        ],
+        "visiblePixels": 10066,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "dragoon-mounted-reload-s-3": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 908,
+      "y": 558,
+      "w": 123,
+      "h": 171,
+      "anchorX": 0.4065,
+      "anchorY": 0.9649,
+      "logicalHeight": 174,
+      "label": "dragoon mounted reload s 3",
+      "kind": "sj-mounted-reload-s",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          910,
+          560,
+          119,
+          167
+        ],
+        "visiblePixels": 10161,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "dragoon-mounted-reload-s-4": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 1290,
+      "y": 558,
+      "w": 104,
+      "h": 171,
+      "anchorX": 0.4808,
+      "anchorY": 0.9591,
+      "logicalHeight": 174,
+      "label": "dragoon mounted reload s 4",
+      "kind": "sj-mounted-reload-s",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1292,
+          560,
+          100,
+          167
+        ],
+        "visiblePixels": 10242,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "dragoon-mounted-reload-s-5": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 141,
+      "y": 800,
+      "w": 112,
+      "h": 172,
+      "anchorX": 0.4464,
+      "anchorY": 0.9302,
+      "logicalHeight": 174,
+      "label": "dragoon mounted reload s 5",
+      "kind": "sj-mounted-reload-s",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          143,
+          802,
+          108,
+          168
+        ],
+        "visiblePixels": 9904,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "dragoon-mounted-reload-s-6": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 524,
+      "y": 798,
+      "w": 103,
+      "h": 174,
+      "anchorX": 0.4903,
+      "anchorY": 0.954,
+      "logicalHeight": 174,
+      "label": "dragoon mounted reload s 6",
+      "kind": "sj-mounted-reload-s",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          526,
+          800,
+          99,
+          170
+        ],
+        "visiblePixels": 9963,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "dragoon-mounted-reload-s-7": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 908,
+      "y": 798,
+      "w": 103,
+      "h": 174,
+      "anchorX": 0.4903,
+      "anchorY": 0.954,
+      "logicalHeight": 174,
+      "label": "dragoon mounted reload s 7",
+      "kind": "sj-mounted-reload-s",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          910,
+          800,
+          99,
+          170
+        ],
+        "visiblePixels": 10202,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "dragoon-mounted-reload-s-8": {
+      "sheet": "sj-mounted-reload-s",
+      "x": 1289,
+      "y": 798,
+      "w": 135,
+      "h": 174,
+      "anchorX": 0.3778,
+      "anchorY": 0.9598,
+      "logicalHeight": 174,
+      "label": "dragoon mounted reload s 8",
+      "kind": "sj-mounted-reload-s",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1291,
+          800,
+          131,
+          170
+        ],
+        "visiblePixels": 10376,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-s"
+    },
+    "volunteer-mounted-reload-n-1": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 162,
+      "y": 65,
+      "w": 114,
+      "h": 173,
+      "anchorX": 0.5482,
+      "anchorY": 0.9422,
+      "logicalHeight": 182,
+      "label": "volunteer mounted reload n 1",
+      "kind": "sj-mounted-reload-n",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          164,
+          67,
+          110,
+          169
+        ],
+        "visiblePixels": 9510,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "volunteer-mounted-reload-n-2": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 530,
+      "y": 64,
+      "w": 120,
+      "h": 174,
+      "anchorX": 0.3958,
+      "anchorY": 0.9483,
+      "logicalHeight": 182,
+      "label": "volunteer mounted reload n 2",
+      "kind": "sj-mounted-reload-n",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          532,
+          66,
+          116,
+          170
+        ],
+        "visiblePixels": 9414,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "volunteer-mounted-reload-n-3": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 907,
+      "y": 65,
+      "w": 120,
+      "h": 173,
+      "anchorX": 0.3958,
+      "anchorY": 0.948,
+      "logicalHeight": 182,
+      "label": "volunteer mounted reload n 3",
+      "kind": "sj-mounted-reload-n",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          909,
+          67,
+          116,
+          169
+        ],
+        "visiblePixels": 9487,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "volunteer-mounted-reload-n-4": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 1271,
+      "y": 62,
+      "w": 101,
+      "h": 176,
+      "anchorX": 0.4653,
+      "anchorY": 0.9602,
+      "logicalHeight": 182,
+      "label": "volunteer mounted reload n 4",
+      "kind": "sj-mounted-reload-n",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1273,
+          64,
+          97,
+          172
+        ],
+        "visiblePixels": 9698,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "volunteer-mounted-reload-n-5": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 166,
+      "y": 305,
+      "w": 113,
+      "h": 177,
+      "anchorX": 0.4469,
+      "anchorY": 0.9435,
+      "logicalHeight": 182,
+      "label": "volunteer mounted reload n 5",
+      "kind": "sj-mounted-reload-n",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          168,
+          307,
+          109,
+          173
+        ],
+        "visiblePixels": 10021,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "volunteer-mounted-reload-n-6": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 528,
+      "y": 300,
+      "w": 103,
+      "h": 182,
+      "anchorX": 0.4903,
+      "anchorY": 0.9615,
+      "logicalHeight": 182,
+      "label": "volunteer mounted reload n 6",
+      "kind": "sj-mounted-reload-n",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          530,
+          302,
+          99,
+          178
+        ],
+        "visiblePixels": 9786,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "volunteer-mounted-reload-n-7": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 905,
+      "y": 305,
+      "w": 114,
+      "h": 177,
+      "anchorX": 0.4342,
+      "anchorY": 0.9548,
+      "logicalHeight": 182,
+      "label": "volunteer mounted reload n 7",
+      "kind": "sj-mounted-reload-n",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          907,
+          307,
+          110,
+          173
+        ],
+        "visiblePixels": 9814,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "volunteer-mounted-reload-n-8": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 1258,
+      "y": 306,
+      "w": 134,
+      "h": 176,
+      "anchorX": 0.4291,
+      "anchorY": 0.9489,
+      "logicalHeight": 182,
+      "label": "volunteer mounted reload n 8",
+      "kind": "sj-mounted-reload-n",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1260,
+          308,
+          130,
+          172
+        ],
+        "visiblePixels": 10082,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "dragoon-mounted-reload-n-1": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 160,
+      "y": 542,
+      "w": 113,
+      "h": 180,
+      "anchorX": 0.531,
+      "anchorY": 0.9556,
+      "logicalHeight": 188,
+      "label": "dragoon mounted reload n 1",
+      "kind": "sj-mounted-reload-n",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          162,
+          544,
+          109,
+          176
+        ],
+        "visiblePixels": 10262,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "dragoon-mounted-reload-n-2": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 526,
+      "y": 542,
+      "w": 126,
+      "h": 180,
+      "anchorX": 0.4048,
+      "anchorY": 0.95,
+      "logicalHeight": 188,
+      "label": "dragoon mounted reload n 2",
+      "kind": "sj-mounted-reload-n",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          528,
+          544,
+          122,
+          176
+        ],
+        "visiblePixels": 10124,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "dragoon-mounted-reload-n-3": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 903,
+      "y": 543,
+      "w": 125,
+      "h": 179,
+      "anchorX": 0.404,
+      "anchorY": 0.9553,
+      "logicalHeight": 188,
+      "label": "dragoon mounted reload n 3",
+      "kind": "sj-mounted-reload-n",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          905,
+          545,
+          121,
+          175
+        ],
+        "visiblePixels": 10142,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "dragoon-mounted-reload-n-4": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 1266,
+      "y": 542,
+      "w": 107,
+      "h": 180,
+      "anchorX": 0.4626,
+      "anchorY": 0.95,
+      "logicalHeight": 188,
+      "label": "dragoon mounted reload n 4",
+      "kind": "sj-mounted-reload-n",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1268,
+          544,
+          103,
+          176
+        ],
+        "visiblePixels": 10535,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "dragoon-mounted-reload-n-5": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 165,
+      "y": 780,
+      "w": 115,
+      "h": 184,
+      "anchorX": 0.4522,
+      "anchorY": 0.9674,
+      "logicalHeight": 188,
+      "label": "dragoon mounted reload n 5",
+      "kind": "sj-mounted-reload-n",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          167,
+          782,
+          111,
+          180
+        ],
+        "visiblePixels": 10581,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "dragoon-mounted-reload-n-6": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 525,
+      "y": 779,
+      "w": 108,
+      "h": 185,
+      "anchorX": 0.4815,
+      "anchorY": 0.9568,
+      "logicalHeight": 188,
+      "label": "dragoon mounted reload n 6",
+      "kind": "sj-mounted-reload-n",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          527,
+          781,
+          104,
+          181
+        ],
+        "visiblePixels": 10707,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "dragoon-mounted-reload-n-7": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 902,
+      "y": 777,
+      "w": 115,
+      "h": 188,
+      "anchorX": 0.4565,
+      "anchorY": 0.9521,
+      "logicalHeight": 188,
+      "label": "dragoon mounted reload n 7",
+      "kind": "sj-mounted-reload-n",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          904,
+          779,
+          111,
+          184
+        ],
+        "visiblePixels": 10776,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
+    "dragoon-mounted-reload-n-8": {
+      "sheet": "sj-mounted-reload-n",
+      "x": 1253,
+      "y": 782,
+      "w": 139,
+      "h": 183,
+      "anchorX": 0.446,
+      "anchorY": 0.9508,
+      "logicalHeight": 188,
+      "label": "dragoon mounted reload n 8",
+      "kind": "sj-mounted-reload-n",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1255,
+          784,
+          135,
+          179
+        ],
+        "visiblePixels": 10740,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/sj-mounted-reload-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "dragoon-mounted-reload-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/sj-mounted-reload-n"
+    },
     "seguin-ashes-stand": {
       "sheet": "famous-seguin-ashes",
       "x": 219,
@@ -162481,6 +168365,906 @@
         }
       ]
     },
+    "rust-camp-rest": {
+      "frames": [
+        {
+          "sprite": "rust-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "rust-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "rust-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "rust-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "rust-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "teal-camp-rest": {
+      "frames": [
+        {
+          "sprite": "teal-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "teal-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "teal-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "teal-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "teal-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "elder-camp-rest": {
+      "frames": [
+        {
+          "sprite": "elder-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "elder-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "elder-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "elder-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "elder-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "blue-camp-rest": {
+      "frames": [
+        {
+          "sprite": "blue-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "blue-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "blue-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "blue-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "blue-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "rust-woman-camp-rest": {
+      "frames": [
+        {
+          "sprite": "rust-woman-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "rust-woman-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "rust-woman-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "rust-woman-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "rust-woman-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "indigo-camp-rest": {
+      "frames": [
+        {
+          "sprite": "indigo-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "indigo-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "indigo-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "indigo-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "indigo-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "ochre-camp-rest": {
+      "frames": [
+        {
+          "sprite": "ochre-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "ochre-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "ochre-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "ochre-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "ochre-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "blue-girl-camp-rest": {
+      "frames": [
+        {
+          "sprite": "blue-girl-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "blue-girl-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "blue-girl-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "blue-girl-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "blue-girl-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "girl-camp-rest": {
+      "frames": [
+        {
+          "sprite": "girl-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "girl-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "girl-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "girl-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "girl-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "boy-camp-rest": {
+      "frames": [
+        {
+          "sprite": "boy-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "boy-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "boy-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "boy-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "boy-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "smallchild-camp-rest": {
+      "frames": [
+        {
+          "sprite": "smallchild-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "smallchild-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "smallchild-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "smallchild-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "smallchild-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-scarf-camp-rest": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "mother-scarf-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-scarf-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "mother-scarf-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-straw-camp-rest": {
+      "frames": [
+        {
+          "sprite": "father-straw-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "father-straw-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-straw-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "father-straw-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "father-straw-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-beard-camp-rest": {
+      "frames": [
+        {
+          "sprite": "father-beard-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "father-beard-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-beard-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "father-beard-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "father-beard-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-moustache-camp-rest": {
+      "frames": [
+        {
+          "sprite": "father-moustache-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "father-moustache-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-moustache-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "father-moustache-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "father-moustache-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-braid-camp-rest": {
+      "frames": [
+        {
+          "sprite": "mother-braid-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "mother-braid-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-braid-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "mother-braid-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "mother-braid-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-loose-camp-rest": {
+      "frames": [
+        {
+          "sprite": "mother-loose-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "mother-loose-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-loose-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "mother-loose-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "mother-loose-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-straw-camp-rest": {
+      "frames": [
+        {
+          "sprite": "mother-straw-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "mother-straw-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-straw-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "mother-straw-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "mother-straw-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "youth-boy-camp-rest": {
+      "frames": [
+        {
+          "sprite": "youth-boy-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "youth-boy-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "youth-boy-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "youth-boy-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "youth-boy-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "youth-girl-camp-rest": {
+      "frames": [
+        {
+          "sprite": "youth-girl-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "youth-girl-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "youth-girl-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "youth-girl-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "youth-girl-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-hat-camp-rest": {
+      "frames": [
+        {
+          "sprite": "father-hat-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "father-hat-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-hat-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "father-hat-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "father-hat-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "infant-camp-rest": {
+      "frames": [
+        {
+          "sprite": "infant-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "infant-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "infant-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "infant-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "infant-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "volunteer-mounted-reload-e": {
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-reload-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-2",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-3",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-5",
+          "duration": 800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "dragoon-mounted-reload-e": {
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-reload-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-2",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-3",
+          "duration": 400
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-5",
+          "duration": 800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-mounted-reload-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-reload-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-2",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-3",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-5",
+          "duration": 800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "south"
+    },
+    "dragoon-mounted-reload-s": {
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-reload-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-2",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-3",
+          "duration": 400
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-5",
+          "duration": 800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "south"
+    },
+    "volunteer-mounted-reload-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-reload-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-2",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-3",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-5",
+          "duration": 800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "north"
+    },
+    "dragoon-mounted-reload-n": {
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-reload-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-2",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-3",
+          "duration": 400
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-5",
+          "duration": 800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "north"
+    },
     "seguin-ashes-collect": {
       "frames": [
         {
@@ -172575,7 +179359,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 366,
+    "sourceCount": 376,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

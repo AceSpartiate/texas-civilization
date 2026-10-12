@@ -10,6 +10,14 @@ export const PARENT_VARIANTS = Object.freeze({
   female: { bonnet: 'rust-woman', 'pinned hair': 'teal', braid: 'mother-braid', 'loose hair': 'mother-loose', headscarf: 'mother-scarf', 'straw hat': 'mother-straw' },
 });
 
+const CAMP_IDENTITIES = new Set(['rust','teal','elder','blue','rust-woman','indigo','ochre','blue-girl','girl','boy','smallchild','infant','mother-scarf','father-straw','father-beard','father-moustache','mother-braid','mother-loose','mother-straw','youth-boy','youth-girl','father-hat']);
+/** Healthy rest is distinct from injury/death; caller supplies the projected pose and clock. */
+export function familyCampBinding(entity, {sleep = false, baseline = 'volunteer', timeMs = 0} = {}) {
+  const variant = entity.appearance ? avatarVariant(entity.appearance, entity.sex, entity) : baseline;
+  const clip = CAMP_IDENTITIES.has(variant) ? `${variant}-${sleep ? 'camp-sleep' : 'camp-rest'}` : `volunteer-${sleep ? 'sleep' : 'rest-sit'}`;
+  return {clip, timeMs, camp: true, scale: sleep ? .7 : .8};
+}
+
 export function avatarVariant(appearance, sex = 'male', person = {}) {
   const band = typeof person === 'string' ? person : avatarBand(person);
   if (band === 'infant') return 'infant';

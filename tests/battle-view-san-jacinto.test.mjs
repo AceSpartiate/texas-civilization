@@ -7,6 +7,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView, layoutSide, regularity } from '../public/battle-view.js';
 
+test('moving mounted formations retain their gait instead of sliding through stationary reload poses',()=>{
+  const art=fakeArt(),view=createBattleView(art);
+  const groups=[{id:'moving-horse',side:'texian',drawn:6,style:'mounted',mounted:true,fire:'scattered',moving:true,action:'advance',x:0,y:-.1,facing:{x:0,y:1}}];
+  run(view,minute=>battle(minute,{groups}),{seconds:3});
+  assert.ok(art.drawn.some(one=>one.clip==='volunteer-ride-s'));
+  assert.ok(!art.drawn.some(one=>/^volunteer-mounted-reload-/.test(one.clip||'')));
+});
+
 function fakeContext() {
   const ctx = new Proxy({ measureText: text => ({ width: String(text).length * 6 }), createRadialGradient: () => ({ addColorStop() {} }) }, {
     get(target, key) { return key in target ? target[key] : () => {}; },
@@ -220,10 +228,11 @@ test('a group of horse is drawn apart from its side, as riders, with its own fal
   assert.equal(e.fallenBy.texian, undefined);
   assert.ok(art.drawn.some(one => /^volunteer-mounted-idle-/.test(one.sprite || '')), 'the stationary Texian horsemen are not drawn mounted');
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-mounted-fire-cycle'), 'the mounted firing pose is missing');
+  assert.ok(art.drawn.some(one => one.clip === 'volunteer-mounted-reload-e'),'stationary horsemen never perform the delivered full reload');
   assert.ok(e.shotsBy.texian > 0, 'the horsemen did not fire');
   assert.ok(e.works > 20, `only ${e.works} pieces of works drawn`);
   for (const piece of ['breastwork-packs-left', 'breastwork-packs-right']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);
-  assert.ok(art.drawn.some(one => one.clip === 'reeds-wind') && art.drawn.some(one => one.clip === 'fire-flicker'));
+  assert.ok(art.drawn.some(one => /^marsh-edge-(dense|sparse)$/.test(one.clip||'')) && art.drawn.some(one => one.clip === 'fire-flicker'));
   // The opening in the middle of the breastwork where the gun stood (`HIST-TEX-522`).
   const pieces = art.drawn.filter(one => ['breastwork-packs-left', 'breastwork-packs-right'].includes(one.sprite)).map(one => one.y);
   assert.ok(!pieces.some(y => Math.abs(y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');

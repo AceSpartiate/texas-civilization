@@ -847,7 +847,7 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     const drawnSize = size * (pose.scale || 1);
     let done;
     if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
-    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip, person: entity });
+    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : pose.camp ? pose.timeMs / 165 : performance.now() / 165, working: true, flip: pose.flip, person: entity, ...(pose.camp && {clip:pose.clip}) });
     else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
     if (marks.ground) battleView.memberDrawn(entity.id, marks.ground, size);

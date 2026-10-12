@@ -234,7 +234,8 @@ test('a family\'s man is drawn in his part - asleep, in the house, giving up - a
   // `a` in the house that fires, `b` asleep on the square: what each is drawn doing is his part's, until his fate comes.
   const draw = (minute, fates = {}, now = minute * 1000) => view.draw(fakeContext(), night(minute, texParts, { members: ['a', 'b'], memberUnits: { a: 'house-b', b: 'square' }, memberFates: fates }), { camera, time: now, now, tickMs: 1000, bounds: { width: 1366, height: 768 } });
   draw(1);
-  assert.equal(view.memberPose({ id: 'b' }, 1000).sprite, 'volunteer-reclining', 'a man asleep on the square is not drawn asleep');
+  assert.equal(view.memberPose({ id: 'b',kind:'person',principal:true }, 1000).clip, 'rust-camp-sleep', 'healthy sleep must use family identity, not the fallen-body sprite');
+  assert.equal(view.memberPose({ id: 'b',kind:'person',sex:'female',band:'adult',appearance:{head:'loose hair'} },1000).clip,'mother-loose-camp-sleep');
   const inHouse = view.memberPose({ id: 'a' }, 1000);
   assert.ok(inHouse.clip === 'volunteer-fire-reload' || /^volunteer-(e|w|load)$/.test(inHouse.sprite), 'a man in the house that fires is not firing');
   // His fate, once the server sends it: hit, then lying still; the other taken, hands up.

@@ -1,6 +1,8 @@
 import { marshWadingClip } from './wading-art.js';
 import { BEXAR_TOWNSFOLK, bexarCivilianHeight, createMoonlightGrade, drawBexarMoonlight } from './bexar-battle-art.js';
-import {createSouthernNightGrade,drawSouthernNight,mountedHeading,mountedActionClip} from './southern-battle-art.js';
+import {createSouthernNightGrade,drawSouthernNight,mountedHeading,mountedActionClip,mountedReloadClip} from './southern-battle-art.js';
+import {familyCampBinding} from './avatar-identity.js';
+import {figureOf as familyFigureOf} from './motion.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
 //
 // Owner, 2026-09-25: "when i try to watch a battle ... i see npc's just standing around ... the battle itself never actually
@@ -355,11 +357,11 @@ export function createBattleView(art) {
   function memberPose(entity, time) {
     const member = view.members.get(entity.id);
     if (!member) return null;
-    const pose = poseOf(member, time);
+    const pose = poseOf(member, time, entity);
     view.memberClips.add(pose.clip || pose.sprite);
     return pose;
   }
-  function poseOf(member, time) {
+  function poseOf(member, time, entity) {
     const side = view.sides.get(member.unit || 'texian') || view.sides.get('texian');
     // In a square each man faces out of his own face of it (`member.right`); elsewhere the way his body of men faces.
     const right = member.right ?? ((side?.facing?.x ?? 1) >= 0);
@@ -375,7 +377,7 @@ export function createBattleView(art) {
       if (fell.grade !== 'slight' || since < 20000) return { sprite: 'volunteer-injured', flip: !right, still: true, fallen: true };
     }
     // His part's own pose (§6.13): asleep by the fire, hands up, or riding with Grant's party.
-    if (member.pose === 'asleep') return { sprite: 'volunteer-reclining', still: true };
+    if (member.pose === 'asleep') return familyCampBinding(entity, {sleep:true,baseline:familyFigureOf(entity),timeMs:time});
     if (member.pose === 'surrender') return { clip: 'volunteer-surrender', timeMs: time };
     if (member.mounted) return { clip: 'volunteer-ride-e', flip: !right, timeMs: time, scale: 1.35 };
     if (!member.firing) return { clip: member.moving ? 'volunteer-march' : right ? 'volunteer-idle-e' : 'volunteer-idle-w', flip: member.moving ? !right : false, timeMs: time };
@@ -589,6 +591,9 @@ export function createBattleView(art) {
             const wait = 7000 + hash(`${seed}:rw`) * 12000, shifted = time + hash(`${seed}:rp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:r${Math.floor(shifted / wait)}`;
             if (volunteer && t < 400) { rider.clip = 'volunteer-mounted-fire-cycle'; rider.sprite = null; rider.timeMs = t + 300; rider.flip = !right; }
+            if (volunteer && !moving && wait >= 8640 && t >= 640 && t < wait - 360) {
+              rider.clip = mountedReloadClip('rider',dir);rider.sprite = null;rider.timeMs = Math.min(t-640,7999);rider.flip = dir==='e'&&!right;
+            }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
@@ -669,6 +674,10 @@ export function createBattleView(art) {
             const heading=mountedHeading(side.facing),actionClip=mountedActionClip(kind,heading);
             if (actionClip && (t < 640 || t >= wait - 360)) {
               clip = actionClip; timeMs = t >= wait - 360 ? t - (wait - 360) : t + 360; flip = ['n','s'].includes(heading)?false:!right;
+            }
+            // Stationary reload runs once at its authored pace, then holds ready. Travel keeps its gait.
+            if (!moving && t >= 640 && t < wait - 360) {
+              clip = mountedReloadClip(kind,heading);timeMs = Math.min(t-640,7999);flip = ['n','s'].includes(heading)?false:!right;
             }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3378 usable sprites, 366 PNG atlases, 1164 clips** (843 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3514 usable sprites, 376 PNG atlases, 1214 clips** (893 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -302,6 +302,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored | 4 | 1254 × 1254 | 799173 |
 | house-roof-joins | 3 | 1448 × 1086 | 1332934 |
 | interior-saddlebag | 1 | 1860 × 846 | 1858682 |
+| people-sj-camp-cast1 | 16 | 1254 × 1254 | 821534 |
+| people-sj-camp-cast2 | 16 | 1254 × 1254 | 1561543 |
+| people-sj-camp-children | 12 | 1448 × 1086 | 1507110 |
+| people-sj-camp-heads1 | 16 | 1254 × 1254 | 1301389 |
+| people-sj-camp-heads2 | 16 | 1402 × 1122 | 1254182 |
+| people-sj-camp-heads3 | 8 | 1774 × 887 | 1343922 |
+| people-sj-camp-infant | 4 | 1254 × 1254 | 2014675 |
+| sj-mounted-reload-e | 16 | 1536 × 1024 | 1729165 |
+| sj-mounted-reload-s | 16 | 1536 × 1024 | 1583212 |
+| sj-mounted-reload-n | 16 | 1536 × 1024 | 1580452 |
 | famous-seguin-ashes | 4 | 1230 × 1278 | 646296 |
 | alamo-ash-sites-1837 | 4 | 1536 × 1024 | 2505356 |
 | seguin-funeral-props | 4 | 1536 × 1024 | 2000785 |
@@ -2992,6 +3002,142 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | house-roof-join-partial | house-roof-joins | house-roof-join-partial |
 | house-roof-join-chimney | house-roof-joins | house-roof-join-chimney |
 | interior-saddlebag | interior-saddlebag | State artwork; no motion required |
+| rust-camp-rest-1 | people-sj-camp-cast1 | rust-camp-rest |
+| rust-camp-rest-2 | people-sj-camp-cast1 | rust-camp-rest |
+| rust-camp-sleep-1 | people-sj-camp-cast1 | rust-camp-sleep |
+| rust-camp-sleep-2 | people-sj-camp-cast1 | rust-camp-sleep |
+| teal-camp-rest-1 | people-sj-camp-cast1 | teal-camp-rest |
+| teal-camp-rest-2 | people-sj-camp-cast1 | teal-camp-rest |
+| teal-camp-sleep-1 | people-sj-camp-cast1 | teal-camp-sleep |
+| teal-camp-sleep-2 | people-sj-camp-cast1 | teal-camp-sleep |
+| elder-camp-rest-1 | people-sj-camp-cast1 | elder-camp-rest |
+| elder-camp-rest-2 | people-sj-camp-cast1 | elder-camp-rest |
+| elder-camp-sleep-1 | people-sj-camp-cast1 | elder-camp-sleep |
+| elder-camp-sleep-2 | people-sj-camp-cast1 | elder-camp-sleep |
+| blue-camp-rest-1 | people-sj-camp-cast1 | blue-camp-rest |
+| blue-camp-rest-2 | people-sj-camp-cast1 | blue-camp-rest |
+| blue-camp-sleep-1 | people-sj-camp-cast1 | blue-camp-sleep |
+| blue-camp-sleep-2 | people-sj-camp-cast1 | blue-camp-sleep |
+| rust-woman-camp-rest-1 | people-sj-camp-cast2 | rust-woman-camp-rest |
+| rust-woman-camp-rest-2 | people-sj-camp-cast2 | rust-woman-camp-rest |
+| rust-woman-camp-sleep-1 | people-sj-camp-cast2 | rust-woman-camp-sleep |
+| rust-woman-camp-sleep-2 | people-sj-camp-cast2 | rust-woman-camp-sleep |
+| indigo-camp-rest-1 | people-sj-camp-cast2 | indigo-camp-rest |
+| indigo-camp-rest-2 | people-sj-camp-cast2 | indigo-camp-rest |
+| indigo-camp-sleep-1 | people-sj-camp-cast2 | indigo-camp-sleep |
+| indigo-camp-sleep-2 | people-sj-camp-cast2 | indigo-camp-sleep |
+| ochre-camp-rest-1 | people-sj-camp-cast2 | ochre-camp-rest |
+| ochre-camp-rest-2 | people-sj-camp-cast2 | ochre-camp-rest |
+| ochre-camp-sleep-1 | people-sj-camp-cast2 | ochre-camp-sleep |
+| ochre-camp-sleep-2 | people-sj-camp-cast2 | ochre-camp-sleep |
+| blue-girl-camp-rest-1 | people-sj-camp-cast2 | blue-girl-camp-rest |
+| blue-girl-camp-rest-2 | people-sj-camp-cast2 | blue-girl-camp-rest |
+| blue-girl-camp-sleep-1 | people-sj-camp-cast2 | blue-girl-camp-sleep |
+| blue-girl-camp-sleep-2 | people-sj-camp-cast2 | blue-girl-camp-sleep |
+| girl-camp-rest-1 | people-sj-camp-children | girl-camp-rest |
+| girl-camp-rest-2 | people-sj-camp-children | girl-camp-rest |
+| girl-camp-sleep-1 | people-sj-camp-children | girl-camp-sleep |
+| girl-camp-sleep-2 | people-sj-camp-children | girl-camp-sleep |
+| boy-camp-rest-1 | people-sj-camp-children | boy-camp-rest |
+| boy-camp-rest-2 | people-sj-camp-children | boy-camp-rest |
+| boy-camp-sleep-1 | people-sj-camp-children | boy-camp-sleep |
+| boy-camp-sleep-2 | people-sj-camp-children | boy-camp-sleep |
+| smallchild-camp-rest-1 | people-sj-camp-children | smallchild-camp-rest |
+| smallchild-camp-rest-2 | people-sj-camp-children | smallchild-camp-rest |
+| smallchild-camp-sleep-1 | people-sj-camp-children | smallchild-camp-sleep |
+| smallchild-camp-sleep-2 | people-sj-camp-children | smallchild-camp-sleep |
+| mother-scarf-camp-rest-1 | people-sj-camp-heads1 | mother-scarf-camp-rest |
+| mother-scarf-camp-rest-2 | people-sj-camp-heads1 | mother-scarf-camp-rest |
+| mother-scarf-camp-sleep-1 | people-sj-camp-heads1 | mother-scarf-camp-sleep |
+| mother-scarf-camp-sleep-2 | people-sj-camp-heads1 | mother-scarf-camp-sleep |
+| father-straw-camp-rest-1 | people-sj-camp-heads1 | father-straw-camp-rest |
+| father-straw-camp-rest-2 | people-sj-camp-heads1 | father-straw-camp-rest |
+| father-straw-camp-sleep-1 | people-sj-camp-heads1 | father-straw-camp-sleep |
+| father-straw-camp-sleep-2 | people-sj-camp-heads1 | father-straw-camp-sleep |
+| father-beard-camp-rest-1 | people-sj-camp-heads1 | father-beard-camp-rest |
+| father-beard-camp-rest-2 | people-sj-camp-heads1 | father-beard-camp-rest |
+| father-beard-camp-sleep-1 | people-sj-camp-heads1 | father-beard-camp-sleep |
+| father-beard-camp-sleep-2 | people-sj-camp-heads1 | father-beard-camp-sleep |
+| father-moustache-camp-rest-1 | people-sj-camp-heads1 | father-moustache-camp-rest |
+| father-moustache-camp-rest-2 | people-sj-camp-heads1 | father-moustache-camp-rest |
+| father-moustache-camp-sleep-1 | people-sj-camp-heads1 | father-moustache-camp-sleep |
+| father-moustache-camp-sleep-2 | people-sj-camp-heads1 | father-moustache-camp-sleep |
+| mother-braid-camp-rest-1 | people-sj-camp-heads2 | mother-braid-camp-rest |
+| mother-braid-camp-rest-2 | people-sj-camp-heads2 | mother-braid-camp-rest |
+| mother-braid-camp-sleep-1 | people-sj-camp-heads2 | mother-braid-camp-sleep |
+| mother-braid-camp-sleep-2 | people-sj-camp-heads2 | mother-braid-camp-sleep |
+| mother-loose-camp-rest-1 | people-sj-camp-heads2 | mother-loose-camp-rest |
+| mother-loose-camp-rest-2 | people-sj-camp-heads2 | mother-loose-camp-rest |
+| mother-loose-camp-sleep-1 | people-sj-camp-heads2 | mother-loose-camp-sleep |
+| mother-loose-camp-sleep-2 | people-sj-camp-heads2 | mother-loose-camp-sleep |
+| mother-straw-camp-rest-1 | people-sj-camp-heads2 | mother-straw-camp-rest |
+| mother-straw-camp-rest-2 | people-sj-camp-heads2 | mother-straw-camp-rest |
+| mother-straw-camp-sleep-1 | people-sj-camp-heads2 | mother-straw-camp-sleep |
+| mother-straw-camp-sleep-2 | people-sj-camp-heads2 | mother-straw-camp-sleep |
+| youth-boy-camp-rest-1 | people-sj-camp-heads2 | youth-boy-camp-rest |
+| youth-boy-camp-rest-2 | people-sj-camp-heads2 | youth-boy-camp-rest |
+| youth-boy-camp-sleep-1 | people-sj-camp-heads2 | youth-boy-camp-sleep |
+| youth-boy-camp-sleep-2 | people-sj-camp-heads2 | youth-boy-camp-sleep |
+| youth-girl-camp-rest-1 | people-sj-camp-heads3 | youth-girl-camp-rest |
+| youth-girl-camp-rest-2 | people-sj-camp-heads3 | youth-girl-camp-rest |
+| youth-girl-camp-sleep-1 | people-sj-camp-heads3 | youth-girl-camp-sleep |
+| youth-girl-camp-sleep-2 | people-sj-camp-heads3 | youth-girl-camp-sleep |
+| father-hat-camp-rest-1 | people-sj-camp-heads3 | father-hat-camp-rest |
+| father-hat-camp-rest-2 | people-sj-camp-heads3 | father-hat-camp-rest |
+| father-hat-camp-sleep-1 | people-sj-camp-heads3 | father-hat-camp-sleep |
+| father-hat-camp-sleep-2 | people-sj-camp-heads3 | father-hat-camp-sleep |
+| infant-camp-rest-1 | people-sj-camp-infant | infant-camp-rest |
+| infant-camp-rest-2 | people-sj-camp-infant | infant-camp-rest |
+| infant-camp-sleep-1 | people-sj-camp-infant | infant-camp-sleep |
+| infant-camp-sleep-2 | people-sj-camp-infant | infant-camp-sleep |
+| volunteer-mounted-reload-e-1 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-2 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-3 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-4 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-5 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-6 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-7 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-8 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| dragoon-mounted-reload-e-1 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-2 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-3 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-4 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-5 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-6 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-7 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-8 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| volunteer-mounted-reload-s-1 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-2 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-3 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-4 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-5 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-6 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-7 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-8 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| dragoon-mounted-reload-s-1 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-2 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-3 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-4 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-5 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-6 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-7 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-8 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| volunteer-mounted-reload-n-1 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-2 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-3 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-4 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-5 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-6 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-7 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-8 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| dragoon-mounted-reload-n-1 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-2 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-3 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-4 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-5 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-6 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-7 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-8 | sj-mounted-reload-n | dragoon-mounted-reload-n |
 | seguin-ashes-stand | famous-seguin-ashes | seguin-ashes-collect |
 | seguin-ashes-kneel | famous-seguin-ashes | seguin-ashes-collect |
 | seguin-ashes-gather | famous-seguin-ashes | seguin-ashes-collect |
@@ -4653,6 +4799,56 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | house-roof-join | Still state | 1 | 1000 | one-shot | undefined |
 | house-roof-join-partial | Still state | 1 | 1000 | one-shot | undefined |
 | house-roof-join-chimney | Still state | 1 | 1000 | one-shot | undefined |
+| rust-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| rust-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| teal-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| teal-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| elder-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| elder-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| blue-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| blue-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| rust-woman-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| rust-woman-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| indigo-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| indigo-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| ochre-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| ochre-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| blue-girl-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| blue-girl-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| girl-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| girl-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| boy-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| boy-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| smallchild-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| smallchild-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| mother-scarf-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| mother-scarf-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| father-straw-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| father-straw-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| father-beard-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| father-beard-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| father-moustache-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| father-moustache-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| mother-braid-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| mother-braid-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| mother-loose-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| mother-loose-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| mother-straw-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| mother-straw-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| youth-boy-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| youth-boy-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| youth-girl-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| youth-girl-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| father-hat-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| father-hat-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| infant-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| infant-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| volunteer-mounted-reload-e | Pose cycle | 8 | 8000 | one-shot | east; west by mirroring |
+| dragoon-mounted-reload-e | Pose cycle | 8 | 8000 | one-shot | east; west by mirroring |
+| volunteer-mounted-reload-s | Pose cycle | 8 | 8000 | one-shot | south |
+| dragoon-mounted-reload-s | Pose cycle | 8 | 8000 | one-shot | south |
+| volunteer-mounted-reload-n | Pose cycle | 8 | 8000 | one-shot | north |
+| dragoon-mounted-reload-n | Pose cycle | 8 | 8000 | one-shot | north |
 | seguin-ashes-collect | Pose cycle | 4 | 3850 | one-shot | east; mirror for west |
 | cattle-longhorn-red-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
 | cattle-longhorn-red-graze | Pose cycle | 6 | 5100 | yes | east; west by mirroring |

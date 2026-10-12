@@ -15015,6 +15015,906 @@
         }
       ]
     },
+    "rust-camp-rest": {
+      "frames": [
+        {
+          "sprite": "rust-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "rust-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "rust-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "rust-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "rust-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "teal-camp-rest": {
+      "frames": [
+        {
+          "sprite": "teal-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "teal-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "teal-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "teal-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "teal-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "elder-camp-rest": {
+      "frames": [
+        {
+          "sprite": "elder-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "elder-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "elder-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "elder-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "elder-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "blue-camp-rest": {
+      "frames": [
+        {
+          "sprite": "blue-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "blue-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "blue-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "blue-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "blue-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "rust-woman-camp-rest": {
+      "frames": [
+        {
+          "sprite": "rust-woman-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "rust-woman-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "rust-woman-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "rust-woman-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "rust-woman-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "indigo-camp-rest": {
+      "frames": [
+        {
+          "sprite": "indigo-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "indigo-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "indigo-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "indigo-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "indigo-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "ochre-camp-rest": {
+      "frames": [
+        {
+          "sprite": "ochre-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "ochre-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "ochre-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "ochre-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "ochre-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "blue-girl-camp-rest": {
+      "frames": [
+        {
+          "sprite": "blue-girl-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "blue-girl-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "blue-girl-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "blue-girl-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "blue-girl-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "girl-camp-rest": {
+      "frames": [
+        {
+          "sprite": "girl-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "girl-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "girl-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "girl-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "girl-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "boy-camp-rest": {
+      "frames": [
+        {
+          "sprite": "boy-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "boy-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "boy-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "boy-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "boy-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "smallchild-camp-rest": {
+      "frames": [
+        {
+          "sprite": "smallchild-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "smallchild-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "smallchild-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "smallchild-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "smallchild-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-scarf-camp-rest": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "mother-scarf-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-scarf-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "mother-scarf-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "mother-scarf-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-straw-camp-rest": {
+      "frames": [
+        {
+          "sprite": "father-straw-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "father-straw-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-straw-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "father-straw-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "father-straw-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-beard-camp-rest": {
+      "frames": [
+        {
+          "sprite": "father-beard-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "father-beard-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-beard-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "father-beard-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "father-beard-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-moustache-camp-rest": {
+      "frames": [
+        {
+          "sprite": "father-moustache-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "father-moustache-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-moustache-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "father-moustache-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "father-moustache-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-braid-camp-rest": {
+      "frames": [
+        {
+          "sprite": "mother-braid-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "mother-braid-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-braid-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "mother-braid-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "mother-braid-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-loose-camp-rest": {
+      "frames": [
+        {
+          "sprite": "mother-loose-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "mother-loose-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-loose-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "mother-loose-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "mother-loose-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-straw-camp-rest": {
+      "frames": [
+        {
+          "sprite": "mother-straw-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "mother-straw-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "mother-straw-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "mother-straw-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "mother-straw-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "youth-boy-camp-rest": {
+      "frames": [
+        {
+          "sprite": "youth-boy-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "youth-boy-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "youth-boy-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "youth-boy-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "youth-boy-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "youth-girl-camp-rest": {
+      "frames": [
+        {
+          "sprite": "youth-girl-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "youth-girl-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "youth-girl-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "youth-girl-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "youth-girl-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-hat-camp-rest": {
+      "frames": [
+        {
+          "sprite": "father-hat-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "father-hat-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "father-hat-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "father-hat-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "father-hat-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "infant-camp-rest": {
+      "frames": [
+        {
+          "sprite": "infant-camp-rest-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "infant-camp-rest-2",
+          "duration": 1100
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "infant-camp-sleep": {
+      "frames": [
+        {
+          "sprite": "infant-camp-sleep-1",
+          "duration": 1600
+        },
+        {
+          "sprite": "infant-camp-sleep-2",
+          "duration": 1600
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none"
+    },
+    "volunteer-mounted-reload-e": {
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-reload-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-2",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-3",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-5",
+          "duration": 800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-e-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "dragoon-mounted-reload-e": {
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-reload-e-1",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-2",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-3",
+          "duration": 400
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-5",
+          "duration": 800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-e-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-mounted-reload-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-reload-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-2",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-3",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-5",
+          "duration": 800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-s-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "south"
+    },
+    "dragoon-mounted-reload-s": {
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-reload-s-1",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-2",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-3",
+          "duration": 400
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-5",
+          "duration": 800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-s-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "south"
+    },
+    "volunteer-mounted-reload-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-mounted-reload-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-2",
+          "duration": 600
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-3",
+          "duration": 400
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-5",
+          "duration": 800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "volunteer-mounted-reload-n-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "north"
+    },
+    "dragoon-mounted-reload-n": {
+      "frames": [
+        {
+          "sprite": "dragoon-mounted-reload-n-1",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-2",
+          "duration": 600
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-3",
+          "duration": 400
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-4",
+          "duration": 1000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-5",
+          "duration": 800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-6",
+          "duration": 2000
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-7",
+          "duration": 1800
+        },
+        {
+          "sprite": "dragoon-mounted-reload-n-8",
+          "duration": 800
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "north"
+    },
     "seguin-ashes-collect": {
       "frames": [
         {

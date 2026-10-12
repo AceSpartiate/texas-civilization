@@ -362,6 +362,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       ...(/^(people-|animal-|military-|courier-)/.test(sheet) || sheet==='bexar-townsfolk' ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
       ...(sheet==='regular-loophole-actions' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
       ...(sheet.startsWith('ox-wagon-composite-') ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
+      ...(sheet.startsWith('sj-mounted-reload-') ? {logicalHeight:Math.max(...placed.filter(p=>Math.floor(p.row/2)===Math.floor(frame.row/2)).map(p=>p.maxY-p.minY+1))} : {}),
       ...(sheet.startsWith('southern-') ? {logicalHeight:Math.max(...placed.filter(p=>p.row===frame.row).map(p=>p.maxY-p.minY+1))} : {}),
       ...(['concepcion-limber-riders','concepcion-aftercare'].includes(sheet) ? {logicalHeight:Math.max(...placed.filter(p=>p.row===frame.row).map(p=>p.maxY-p.minY+1))} : {}),
       ...(sheet==='concepcion-bank-terrain' && frame.row>0 ? {logicalHeight:Math.max(...placed.filter(p=>p.row>0).map(p=>p.maxY-p.minY+1))} : {}),

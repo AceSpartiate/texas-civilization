@@ -1,3 +1,7 @@
+## Completed art group 2026-10-12: San Jacinto refinements
+
+136 usable frames and 50 authored animations close full generic mounted reload and healthy camp rest/sleep for 22 family/headwear/age identities. Stationary reload plays once then holds ready inside existing fire intervals; moving riders keep their gait. Sleeping family members now retain their identity instead of using the fallen-body sprite; customized people receive the explicit sleep clip. Fate precedence and battle authority preserved. Seated rest is library-ready for future projected camp/night staging. 41 tests, 50 animation phase checks and 16 live San Jacinto checks pass (p95 6.8 ms). Full manifest, historical limits and Claude integration: docs/ART_DELIVERY_2026-10-12-SAN-JACINTO-COMPLETE.md. **5 broad dated art groups remain.** No deployment performed.
+
 ## Completed art group 2026-10-12: driving the ox wagon
 
 40 frames and fourteen authored clips close September 16 wagon artwork: connected yoked rigs, loaded/empty, east/south/north; complete school-age seated driver layers in all four headings. Girl/boy bindings are active. Whole rigs are library-ready: read the seat/roof occlusion and deduplication contract before compositor migration. Toddlers/infants remain passengers; eligibility unchanged. Full manifest, prompts and verification: docs/ART_DELIVERY_2026-10-12-OX-WAGON-COMPLETE.md. **6 dated parent artwork groups remain.** No deployment performed.
