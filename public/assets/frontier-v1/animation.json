@@ -6148,6 +6148,786 @@
       "authored": false,
       "motion": "breathe"
     },
+    "rust-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "teal-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "teal-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "teal-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "teal-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "teal-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "teal-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "elder-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "elder-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "elder-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "elder-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "elder-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "elder-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-woman-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-woman-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-woman-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-woman-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-woman-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-woman-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "indigo-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "indigo-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "indigo-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "indigo-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "indigo-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "indigo-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "ochre-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "ochre-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "ochre-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "ochre-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "ochre-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "ochre-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-girl-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-girl-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-girl-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-girl-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-girl-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-girl-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-woman-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "rust-woman-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "rust-woman-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "indigo-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "indigo-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "indigo-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "indigo-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "indigo-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "indigo-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ochre-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "ochre-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "ochre-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "ochre-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ochre-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "ochre-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-girl-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "blue-girl-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-girl-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "rust-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "rust-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "rust-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "rust-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "rust-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "rust-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "wagon-open-cover-e": {
+      "frames": [
+        {
+          "sprite": "wagon-open-cover-e-1",
+          "duration": 400
+        },
+        {
+          "sprite": "wagon-open-cover-e-2",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "wagon-open-cover-w": {
+      "frames": [
+        {
+          "sprite": "wagon-open-cover-w-1",
+          "duration": 400
+        },
+        {
+          "sprite": "wagon-open-cover-w-2",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "wagon-open-cover-s": {
+      "frames": [
+        {
+          "sprite": "wagon-open-cover-s-1",
+          "duration": 400
+        },
+        {
+          "sprite": "wagon-open-cover-s-2",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "wagon-open-cover-n": {
+      "frames": [
+        {
+          "sprite": "wagon-open-cover-n-1",
+          "duration": 400
+        },
+        {
+          "sprite": "wagon-open-cover-n-2",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
     "bonham-walk-e": {
       "frames": [
         {

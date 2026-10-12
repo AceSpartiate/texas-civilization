@@ -5,7 +5,7 @@ import {seatedClip,bedLayout,figureScale} from '../public/motion.js';
 const read=n=>JSON.parse(readFileSync(new URL(`../public/assets/frontier-v1/${n}.json`,import.meta.url)));
 const children=[['girl',{band:'child',sex:'female'}],['boy',{band:'child',sex:'male'}],['smallchild',{band:'small',sex:'male'}]];
 test('child passengers choose seated age-specific directions without changing drivers or infant fallback',()=>{
- for(const [who,traits] of children){const p={id:'child',kind:'person',...traits};for(const d of ['e','w','s','n']){const c=seatedClip(p,d,'passenger');assert.equal(c.id,`${who}-wagon-passenger-${d==='w'?'e':d}`);assert.equal(c.seated,true);assert.equal(Boolean(c.upright),d==='n'||d==='s');}assert.equal(figureScale(p),traits.band==='small'?.55:.7);assert.ok(!seatedClip(p,'e','wagon').seated);assert.ok(!seatedClip(p,'e','horse').seated);}
+ for(const [who,traits] of children){const p={id:'child',kind:'person',...traits};for(const d of ['e','w','s','n']){const c=seatedClip(p,d,'passenger');assert.equal(c.id,`${who}-wagon-passenger-${d==='w'?'e':d}`);assert.equal(c.seated,true);assert.equal(Boolean(c.upright),d==='n'||d==='s');}assert.equal(figureScale(p),traits.band==='small'?.55:.7);assert.equal(Boolean(seatedClip(p,'e','wagon').seated),who!=='smallchild');assert.ok(!seatedClip(p,'e','horse').seated);}
  assert.equal(seatedClip({id:'baby',kind:'person',band:'infant'},'n','horse').id,'infant-idle-s');
 });
 test('delivered seats preserve passenger ordering and set hips at the visible wagon rim',()=>{

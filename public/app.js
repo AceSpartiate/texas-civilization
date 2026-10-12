@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carryingInfantClip, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, gaitMilesASecond, landRuns, travelMilesATick, travelSight, routeIndexAfter, sameJourney } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, storyView, spotlightBanner } from '/live-page.js';
 import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, standing, travellingLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -692,6 +692,12 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   if (entity.service?.offMap) return;
   // The horse is under its rider, and the ox and wagon under their driver, drawn with them (public/motion.js `seatOf`).
   if (!marks.observed && carriedWithRider(entity, marks.entities || [])) return;
+  if (!marks.observed && entity.travel?.carried) {
+    const caregiver=(marks.entities||[]).find(p=>p.id===entity.travel.carried);
+    const carrying=caregiver && carryingInfantClip(caregiver,marks.entities||[]);
+    // Hide only the real baby represented by an available composite in this projection.
+    if (carrying?.babyId===entity.id && clipReady(carrying.id)) return;
+  }
   const seat = marks.observed ? null : seatOf(entity, marks.entities || []);
   // Cosmetic separation only. Overlapping drawings must never imply different true positions.
   const spread = size / 26;
@@ -875,7 +881,11 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     ? { id: entity.id, at: marks.ground, bodyMiles: height * (onFoot ? figureScale(entity) : 1) / marks.scale, stride: onFoot ? STRIDE.foot : STRIDE.hoof }
     : null;
   if (seat) drawSeated(ctx, x, y, size, entity, seat, marks.entities || [], flip, gait);
-  else if (entity.kind === 'person') miniPerson(ctx, x, y, mounted(entity) ? height : size, { ...entity, observed: marks.observed, flip, gait });
+  else if (entity.kind === 'person') {
+    const carrying=!marks.observed && carryingInfantClip(entity,marks.entities||[]);
+    if (!carrying || !animated(ctx,carrying.id,x,y,size*figureScale(entity),entity.id,{paused:carrying.frozen,flip:carrying.upright?false:flip,gait,appearance:entity.appearance}))
+      miniPerson(ctx,x,y,mounted(entity)?height:size,{...entity,observed:marks.observed,flip,gait});
+  }
   else if (entity.kind === 'animal') miniAnimal(ctx, x, y, height, { ...entity, gait }, flip);
   else if (entity.kind === 'wagon') miniWagon(ctx, x, y, height, { ...entity, gait }, flip);
   // The one moment of a hunt that can be shown. `musket-smoke` runs once - small, growing,

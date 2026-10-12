@@ -1,3 +1,4 @@
+import {avatarVariant} from './avatar-identity.js';
 // Display-only state. Holds only the currently permitted projection; never predicts
 // travel, resolves work, or keeps an actor after visibility is withdrawn.
 // The one person a student directs wears a colour nobody else can wear, and the choice
@@ -261,8 +262,9 @@ export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'r
  * School-age girl/boy layers were delivered October 12. Toddlers and infants are passengers, not drivers.
  */
 export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy']);
-/** Age-specific seated passengers; infants and grown passengers retain their separate transport fallbacks. */
+/** Complete passenger layers; infants use their separate basket silhouette. */
 export const CHILD_PASSENGER_FIGURES = Object.freeze(['girl', 'boy', 'smallchild', 'infant']);
+export const ADULT_PASSENGER_FIGURES = Object.freeze(['rust','teal','elder','blue','rust-woman','indigo','ochre','blue-girl']);
 /**
  * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
  * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),
@@ -281,7 +283,7 @@ export const seatFigure = entity => figureOf(entity);
  * standing on its own base rather than a standing figure to be cut off at the hip.
  */
 export function seatedClip(entity, direction = 'e', seat = 'horse') {
-  const figure = seatFigure(entity);
+  const figure = seat === 'passenger' && entity.appearance ? avatarVariant(entity.appearance, entity.sex, entity) : seatFigure(entity);
   const facing = ['n', 's', 'e', 'w'].includes(direction) ? direction : 'e';
   // No west sheet: west is the east cycle mirrored, which the caller's `flip` does. North and south are painted and are
   // never mirrored, which is what `upright` means everywhere else in this file.
@@ -291,7 +293,7 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
   // Each heading is painted, west included, so a driver is never mirrored. Not frozen: the delivery registers one held
   // breathing frame for the original cast; second-cast layers use two authored rein-handling poses.
   if (seat === 'wagon' && DRIVING_FIGURES.includes(figure)) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
-  if (seat === 'passenger' && CHILD_PASSENGER_FIGURES.includes(figure)) return {
+  if (seat === 'passenger' && [...CHILD_PASSENGER_FIGURES, ...ADULT_PASSENGER_FIGURES].includes(figure)) return {
     id: `${figure}-wagon-passenger-${facing === 'w' ? 'e' : facing}`, seated: true,
     ...(figure === 'infant' && { basket: true }),
     ...(facing === 'n' || facing === 's' ? { upright: true } : {}),
@@ -299,6 +301,18 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
   // The infant's sheet has no back view.
   const pose = figure === 'infant' && facing === 'n' ? 'idle-s' : `idle-${facing}`;
   return { id: `${figure}-${pose}`, upright: true, frozen: true };
+}
+/** A composite depicts exactly one actual infant, never an invented or hidden second baby. */
+export function carryingInfantClip(entity, entities = []) {
+  if (entity.kind !== 'person' || entity.carrier || !entity.travel?.afoot || entity.travel.carried || entity.travel.saddle || entity.travel.rides || entity.fallen || entity.service?.down) return null;
+  const condition=entity.health?.condition || entity.condition;
+  if (HURT_CONDITIONS.includes(condition) || STILL_CONDITIONS.includes(condition)) return null;
+  const babies=entities.filter(p=>p.kind==='person' && p.householdId===entity.householdId && p.travel?.carried===entity.id && (p.band==='infant' || Number.isFinite(p.age)&&p.age<2));
+  if (babies.length!==1 || babies[0].fallen || babies[0].service?.down || STILL_CONDITIONS.includes(babies[0].health?.condition || babies[0].condition)) return null;
+  const figure=entity.appearance ? avatarVariant(entity.appearance,entity.sex,entity) : figureOf(entity);
+  if (!['rust-woman','indigo','ochre','blue-girl','rust'].includes(figure)) return null;
+  const direction=travelDirection(entity)||'e';
+  return {id:`${figure}-infant-walk-${direction==='w'?'e':direction}`,babyId:babies[0].id,upright:direction==='n'||direction==='s',frozen:Boolean(entity.travel.halted||entity.facing)};
 }
 /**
  * Where the parts of a seat are drawn, in a person's heights from the point the server gives them.

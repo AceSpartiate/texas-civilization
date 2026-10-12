@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3590 usable sprites, 383 PNG atlases, 1235 clips** (914 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3706 usable sprites, 391 PNG atlases, 1278 clips** (957 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -102,6 +102,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-family-father-hat | 16 | 1254 × 1254 | 1292458 |
 | family-panel-marks | 6 | 1286 × 1223 | 985678 |
 | family-portraits | 12 | 1448 × 1086 | 1237816 |
+| adult-passengers-cast1 | 24 | 1215 × 1295 | 813456 |
+| adult-passengers-cast2 | 24 | 1263 × 1246 | 858586 |
+| family-infant-walk-rust-woman | 12 | 1448 × 1086 | 977086 |
+| family-infant-walk-indigo | 12 | 1536 × 1024 | 1904698 |
+| family-infant-walk-ochre | 12 | 1536 × 1024 | 1813025 |
+| family-infant-walk-blue-girl | 12 | 1536 × 1024 | 1903942 |
+| family-infant-walk-rust | 12 | 1536 × 1024 | 1866164 |
+| wagon-cover-drawn-back | 8 | 1774 × 887 | 840373 |
 | famous-bonham | 16 | 1254 × 1254 | 1241019 |
 | famous-almeron-dickinson | 16 | 1254 × 1254 | 905031 |
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
@@ -1286,6 +1294,122 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | portrait-boy | family-portraits | State artwork; no motion required |
 | portrait-smallchild | family-portraits | State artwork; no motion required |
 | portrait-infant | family-portraits | State artwork; no motion required |
+| rust-wagon-passenger-e-1 | adult-passengers-cast1 | rust-wagon-passenger-e |
+| teal-wagon-passenger-e-1 | adult-passengers-cast1 | teal-wagon-passenger-e |
+| elder-wagon-passenger-e-1 | adult-passengers-cast1 | elder-wagon-passenger-e |
+| blue-wagon-passenger-e-1 | adult-passengers-cast1 | blue-wagon-passenger-e |
+| rust-wagon-passenger-e-2 | adult-passengers-cast1 | rust-wagon-passenger-e |
+| teal-wagon-passenger-e-2 | adult-passengers-cast1 | teal-wagon-passenger-e |
+| elder-wagon-passenger-e-2 | adult-passengers-cast1 | elder-wagon-passenger-e |
+| blue-wagon-passenger-e-2 | adult-passengers-cast1 | blue-wagon-passenger-e |
+| rust-wagon-passenger-s-1 | adult-passengers-cast1 | rust-wagon-passenger-s |
+| teal-wagon-passenger-s-1 | adult-passengers-cast1 | teal-wagon-passenger-s |
+| elder-wagon-passenger-s-1 | adult-passengers-cast1 | elder-wagon-passenger-s |
+| blue-wagon-passenger-s-1 | adult-passengers-cast1 | blue-wagon-passenger-s |
+| rust-wagon-passenger-s-2 | adult-passengers-cast1 | rust-wagon-passenger-s |
+| teal-wagon-passenger-s-2 | adult-passengers-cast1 | teal-wagon-passenger-s |
+| elder-wagon-passenger-s-2 | adult-passengers-cast1 | elder-wagon-passenger-s |
+| blue-wagon-passenger-s-2 | adult-passengers-cast1 | blue-wagon-passenger-s |
+| rust-wagon-passenger-n-1 | adult-passengers-cast1 | rust-wagon-passenger-n |
+| teal-wagon-passenger-n-1 | adult-passengers-cast1 | teal-wagon-passenger-n |
+| elder-wagon-passenger-n-1 | adult-passengers-cast1 | elder-wagon-passenger-n |
+| blue-wagon-passenger-n-1 | adult-passengers-cast1 | blue-wagon-passenger-n |
+| rust-wagon-passenger-n-2 | adult-passengers-cast1 | rust-wagon-passenger-n |
+| teal-wagon-passenger-n-2 | adult-passengers-cast1 | teal-wagon-passenger-n |
+| elder-wagon-passenger-n-2 | adult-passengers-cast1 | elder-wagon-passenger-n |
+| blue-wagon-passenger-n-2 | adult-passengers-cast1 | blue-wagon-passenger-n |
+| rust-woman-wagon-passenger-e-1 | adult-passengers-cast2 | rust-woman-wagon-passenger-e |
+| indigo-wagon-passenger-e-1 | adult-passengers-cast2 | indigo-wagon-passenger-e |
+| ochre-wagon-passenger-e-1 | adult-passengers-cast2 | ochre-wagon-passenger-e |
+| blue-girl-wagon-passenger-e-1 | adult-passengers-cast2 | blue-girl-wagon-passenger-e |
+| rust-woman-wagon-passenger-e-2 | adult-passengers-cast2 | rust-woman-wagon-passenger-e |
+| indigo-wagon-passenger-e-2 | adult-passengers-cast2 | indigo-wagon-passenger-e |
+| ochre-wagon-passenger-e-2 | adult-passengers-cast2 | ochre-wagon-passenger-e |
+| blue-girl-wagon-passenger-e-2 | adult-passengers-cast2 | blue-girl-wagon-passenger-e |
+| rust-woman-wagon-passenger-s-1 | adult-passengers-cast2 | rust-woman-wagon-passenger-s |
+| indigo-wagon-passenger-s-1 | adult-passengers-cast2 | indigo-wagon-passenger-s |
+| ochre-wagon-passenger-s-1 | adult-passengers-cast2 | ochre-wagon-passenger-s |
+| blue-girl-wagon-passenger-s-1 | adult-passengers-cast2 | blue-girl-wagon-passenger-s |
+| rust-woman-wagon-passenger-s-2 | adult-passengers-cast2 | rust-woman-wagon-passenger-s |
+| indigo-wagon-passenger-s-2 | adult-passengers-cast2 | indigo-wagon-passenger-s |
+| ochre-wagon-passenger-s-2 | adult-passengers-cast2 | ochre-wagon-passenger-s |
+| blue-girl-wagon-passenger-s-2 | adult-passengers-cast2 | blue-girl-wagon-passenger-s |
+| rust-woman-wagon-passenger-n-1 | adult-passengers-cast2 | rust-woman-wagon-passenger-n |
+| indigo-wagon-passenger-n-1 | adult-passengers-cast2 | indigo-wagon-passenger-n |
+| ochre-wagon-passenger-n-1 | adult-passengers-cast2 | ochre-wagon-passenger-n |
+| blue-girl-wagon-passenger-n-1 | adult-passengers-cast2 | blue-girl-wagon-passenger-n |
+| rust-woman-wagon-passenger-n-2 | adult-passengers-cast2 | rust-woman-wagon-passenger-n |
+| indigo-wagon-passenger-n-2 | adult-passengers-cast2 | indigo-wagon-passenger-n |
+| ochre-wagon-passenger-n-2 | adult-passengers-cast2 | ochre-wagon-passenger-n |
+| blue-girl-wagon-passenger-n-2 | adult-passengers-cast2 | blue-girl-wagon-passenger-n |
+| rust-woman-infant-walk-e-1 | family-infant-walk-rust-woman | rust-woman-infant-walk-e |
+| rust-woman-infant-walk-e-2 | family-infant-walk-rust-woman | rust-woman-infant-walk-e |
+| rust-woman-infant-walk-e-3 | family-infant-walk-rust-woman | rust-woman-infant-walk-e |
+| rust-woman-infant-walk-e-4 | family-infant-walk-rust-woman | rust-woman-infant-walk-e |
+| rust-woman-infant-walk-s-1 | family-infant-walk-rust-woman | rust-woman-infant-walk-s |
+| rust-woman-infant-walk-s-2 | family-infant-walk-rust-woman | rust-woman-infant-walk-s |
+| rust-woman-infant-walk-s-3 | family-infant-walk-rust-woman | rust-woman-infant-walk-s |
+| rust-woman-infant-walk-s-4 | family-infant-walk-rust-woman | rust-woman-infant-walk-s |
+| rust-woman-infant-walk-n-1 | family-infant-walk-rust-woman | rust-woman-infant-walk-n |
+| rust-woman-infant-walk-n-2 | family-infant-walk-rust-woman | rust-woman-infant-walk-n |
+| rust-woman-infant-walk-n-3 | family-infant-walk-rust-woman | rust-woman-infant-walk-n |
+| rust-woman-infant-walk-n-4 | family-infant-walk-rust-woman | rust-woman-infant-walk-n |
+| indigo-infant-walk-e-1 | family-infant-walk-indigo | indigo-infant-walk-e |
+| indigo-infant-walk-e-2 | family-infant-walk-indigo | indigo-infant-walk-e |
+| indigo-infant-walk-e-3 | family-infant-walk-indigo | indigo-infant-walk-e |
+| indigo-infant-walk-e-4 | family-infant-walk-indigo | indigo-infant-walk-e |
+| indigo-infant-walk-s-1 | family-infant-walk-indigo | indigo-infant-walk-s |
+| indigo-infant-walk-s-2 | family-infant-walk-indigo | indigo-infant-walk-s |
+| indigo-infant-walk-s-3 | family-infant-walk-indigo | indigo-infant-walk-s |
+| indigo-infant-walk-s-4 | family-infant-walk-indigo | indigo-infant-walk-s |
+| indigo-infant-walk-n-1 | family-infant-walk-indigo | indigo-infant-walk-n |
+| indigo-infant-walk-n-2 | family-infant-walk-indigo | indigo-infant-walk-n |
+| indigo-infant-walk-n-3 | family-infant-walk-indigo | indigo-infant-walk-n |
+| indigo-infant-walk-n-4 | family-infant-walk-indigo | indigo-infant-walk-n |
+| ochre-infant-walk-e-1 | family-infant-walk-ochre | ochre-infant-walk-e |
+| ochre-infant-walk-e-2 | family-infant-walk-ochre | ochre-infant-walk-e |
+| ochre-infant-walk-e-3 | family-infant-walk-ochre | ochre-infant-walk-e |
+| ochre-infant-walk-e-4 | family-infant-walk-ochre | ochre-infant-walk-e |
+| ochre-infant-walk-s-1 | family-infant-walk-ochre | ochre-infant-walk-s |
+| ochre-infant-walk-s-2 | family-infant-walk-ochre | ochre-infant-walk-s |
+| ochre-infant-walk-s-3 | family-infant-walk-ochre | ochre-infant-walk-s |
+| ochre-infant-walk-s-4 | family-infant-walk-ochre | ochre-infant-walk-s |
+| ochre-infant-walk-n-1 | family-infant-walk-ochre | ochre-infant-walk-n |
+| ochre-infant-walk-n-2 | family-infant-walk-ochre | ochre-infant-walk-n |
+| ochre-infant-walk-n-3 | family-infant-walk-ochre | ochre-infant-walk-n |
+| ochre-infant-walk-n-4 | family-infant-walk-ochre | ochre-infant-walk-n |
+| blue-girl-infant-walk-e-1 | family-infant-walk-blue-girl | blue-girl-infant-walk-e |
+| blue-girl-infant-walk-e-2 | family-infant-walk-blue-girl | blue-girl-infant-walk-e |
+| blue-girl-infant-walk-e-3 | family-infant-walk-blue-girl | blue-girl-infant-walk-e |
+| blue-girl-infant-walk-e-4 | family-infant-walk-blue-girl | blue-girl-infant-walk-e |
+| blue-girl-infant-walk-s-1 | family-infant-walk-blue-girl | blue-girl-infant-walk-s |
+| blue-girl-infant-walk-s-2 | family-infant-walk-blue-girl | blue-girl-infant-walk-s |
+| blue-girl-infant-walk-s-3 | family-infant-walk-blue-girl | blue-girl-infant-walk-s |
+| blue-girl-infant-walk-s-4 | family-infant-walk-blue-girl | blue-girl-infant-walk-s |
+| blue-girl-infant-walk-n-1 | family-infant-walk-blue-girl | blue-girl-infant-walk-n |
+| blue-girl-infant-walk-n-2 | family-infant-walk-blue-girl | blue-girl-infant-walk-n |
+| blue-girl-infant-walk-n-3 | family-infant-walk-blue-girl | blue-girl-infant-walk-n |
+| blue-girl-infant-walk-n-4 | family-infant-walk-blue-girl | blue-girl-infant-walk-n |
+| rust-infant-walk-e-1 | family-infant-walk-rust | rust-infant-walk-e |
+| rust-infant-walk-e-2 | family-infant-walk-rust | rust-infant-walk-e |
+| rust-infant-walk-e-3 | family-infant-walk-rust | rust-infant-walk-e |
+| rust-infant-walk-e-4 | family-infant-walk-rust | rust-infant-walk-e |
+| rust-infant-walk-s-1 | family-infant-walk-rust | rust-infant-walk-s |
+| rust-infant-walk-s-2 | family-infant-walk-rust | rust-infant-walk-s |
+| rust-infant-walk-s-3 | family-infant-walk-rust | rust-infant-walk-s |
+| rust-infant-walk-s-4 | family-infant-walk-rust | rust-infant-walk-s |
+| rust-infant-walk-n-1 | family-infant-walk-rust | rust-infant-walk-n |
+| rust-infant-walk-n-2 | family-infant-walk-rust | rust-infant-walk-n |
+| rust-infant-walk-n-3 | family-infant-walk-rust | rust-infant-walk-n |
+| rust-infant-walk-n-4 | family-infant-walk-rust | rust-infant-walk-n |
+| wagon-open-cover-e-1 | wagon-cover-drawn-back | wagon-open-cover-e |
+| wagon-open-cover-w-1 | wagon-cover-drawn-back | wagon-open-cover-w |
+| wagon-open-cover-s-1 | wagon-cover-drawn-back | wagon-open-cover-s |
+| wagon-open-cover-n-1 | wagon-cover-drawn-back | wagon-open-cover-n |
+| wagon-open-cover-e-2 | wagon-cover-drawn-back | wagon-open-cover-e |
+| wagon-open-cover-w-2 | wagon-cover-drawn-back | wagon-open-cover-w |
+| wagon-open-cover-s-2 | wagon-cover-drawn-back | wagon-open-cover-s |
+| wagon-open-cover-n-2 | wagon-cover-drawn-back | wagon-open-cover-n |
 | bonham-walk-e-1 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-2 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-3 | famous-bonham | bonham-walk-e |
@@ -4388,6 +4512,49 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | father-hat-listen-s | breathe | 1 | 1500 | yes | undefined |
 | father-hat-listen-n | breathe | 1 | 1500 | yes | undefined |
 | father-hat-speak | breathe | 1 | 1500 | yes | undefined |
+| rust-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| teal-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| teal-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| teal-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| elder-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| elder-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| elder-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| indigo-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| indigo-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| indigo-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| ochre-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| ochre-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| ochre-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-girl-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-girl-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-girl-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| rust-woman-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| rust-woman-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| indigo-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| indigo-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| indigo-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| ochre-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| ochre-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| ochre-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| blue-girl-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| blue-girl-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| blue-girl-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| rust-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| rust-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| rust-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| wagon-open-cover-e | Pose cycle | 2 | 800 | yes | undefined |
+| wagon-open-cover-w | Pose cycle | 2 | 800 | yes | undefined |
+| wagon-open-cover-s | Pose cycle | 2 | 800 | yes | undefined |
+| wagon-open-cover-n | Pose cycle | 2 | 800 | yes | undefined |
 | bonham-walk-e | Pose cycle | 4 | 760 | yes | east |
 | bonham-walk-s | Pose cycle | 2 | 580 | yes | south |
 | bonham-walk-n | Pose cycle | 2 | 580 | yes | north |

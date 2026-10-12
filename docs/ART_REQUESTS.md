@@ -532,6 +532,8 @@ the smaller; the wheels turn as it goes.
 
 ## Request 2026-09-25 — riders, walkers and the cart
 
+**Artwork complete 2026-10-12:** open-cart vehicle and child/infant passengers were already delivered; the remaining eight adult passenger identities, five required single-infant carrying walks and drawn-back wagon-cover views now add 116 frames and 43 authored clips. Adult passenger and actual single-infant foot-carrier bindings are integrated. Complete cover vehicles await seat/rail registration in the compositor. Read `ART_DELIVERY_2026-10-12-FAMILY-TRAVEL-COMPLETE.md`. The partial-delivery paragraphs below describe earlier states, not current missing artwork.
+
 **Partial delivery 2026-09-26:** the previously registered `cart-open` east/south/north views now draw for `cart: true`. Its wheels remain static, and seated passengers and the carried-infant walk remain requested. The dedicated carreta and packed ox are tracked under their separate request above.
 
 **Art delivery, 2026-09-25:** `cart-open.png` is now in the library as four isolated views:

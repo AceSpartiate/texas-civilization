@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 383,
-    "sprites": 3590,
-    "clips": 1235,
-    "poseCycles": 914,
+    "sheets": 391,
+    "sprites": 3706,
+    "clips": 1278,
+    "poseCycles": 957,
     "rigs": 4
   },
   "entrypoints": {
@@ -8136,6 +8136,923 @@
               [
                 1149,
                 1357
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "adult-passengers-cast1": {
+      "image": "atlases/adult-passengers-cast1.png",
+      "width": 1215,
+      "height": 1295,
+      "bytes": 813456,
+      "sha256": "a3134e8da144f4e49f153e2fc4a2692f470829a677717d5156dd632f6ec649ef",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.790287,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 6,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              56,
+              227
+            ],
+            "columns": [
+              [
+                189,
+                307
+              ],
+              [
+                438,
+                548
+              ],
+              [
+                712,
+                825
+              ],
+              [
+                995,
+                1099
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              269,
+              441
+            ],
+            "columns": [
+              [
+                187,
+                309
+              ],
+              [
+                436,
+                549
+              ],
+              [
+                709,
+                825
+              ],
+              [
+                994,
+                1101
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              484,
+              655
+            ],
+            "columns": [
+              [
+                181,
+                279
+              ],
+              [
+                430,
+                539
+              ],
+              [
+                710,
+                808
+              ],
+              [
+                994,
+                1079
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              696,
+              871
+            ],
+            "columns": [
+              [
+                183,
+                281
+              ],
+              [
+                424,
+                543
+              ],
+              [
+                709,
+                811
+              ],
+              [
+                995,
+                1079
+              ]
+            ]
+          },
+          {
+            "row": 5,
+            "yRange": [
+              914,
+              1062
+            ],
+            "columns": [
+              [
+                182,
+                280
+              ],
+              [
+                431,
+                536
+              ],
+              [
+                704,
+                809
+              ],
+              [
+                993,
+                1084
+              ]
+            ]
+          },
+          {
+            "row": 6,
+            "yRange": [
+              1103,
+              1245
+            ],
+            "columns": [
+              [
+                185,
+                284
+              ],
+              [
+                428,
+                543
+              ],
+              [
+                706,
+                813
+              ],
+              [
+                994,
+                1088
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "adult-passengers-cast2": {
+      "image": "atlases/adult-passengers-cast2.png",
+      "width": 1263,
+      "height": 1246,
+      "bytes": 858586,
+      "sha256": "bcce26551387f6688aa3b28586acb92338b210ec8eb382dc43dc3c52f5b8da1e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.788674,
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 6,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              99,
+              275
+            ],
+            "columns": [
+              [
+                231,
+                345
+              ],
+              [
+                474,
+                587
+              ],
+              [
+                707,
+                808
+              ],
+              [
+                923,
+                1034
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              287,
+              459
+            ],
+            "columns": [
+              [
+                231,
+                346
+              ],
+              [
+                472,
+                590
+              ],
+              [
+                707,
+                808
+              ],
+              [
+                920,
+                1035
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              472,
+              650
+            ],
+            "columns": [
+              [
+                221,
+                347
+              ],
+              [
+                462,
+                590
+              ],
+              [
+                699,
+                800
+              ],
+              [
+                915,
+                1035
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              665,
+              845
+            ],
+            "columns": [
+              [
+                220,
+                352
+              ],
+              [
+                460,
+                591
+              ],
+              [
+                699,
+                800
+              ],
+              [
+                911,
+                1039
+              ]
+            ]
+          },
+          {
+            "row": 5,
+            "yRange": [
+              859,
+              1021
+            ],
+            "columns": [
+              [
+                221,
+                350
+              ],
+              [
+                460,
+                588
+              ],
+              [
+                696,
+                799
+              ],
+              [
+                915,
+                1036
+              ]
+            ]
+          },
+          {
+            "row": 6,
+            "yRange": [
+              1035,
+              1194
+            ],
+            "columns": [
+              [
+                216,
+                352
+              ],
+              [
+                460,
+                589
+              ],
+              [
+                697,
+                799
+              ],
+              [
+                912,
+                1039
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "family-infant-walk-rust-woman": {
+      "image": "atlases/family-infant-walk-rust-woman.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 977086,
+      "sha256": "ea0bb8953e7285a6ea64e5932a6a40957af8ba98684485a664c8add1a34d54b4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.725673,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              74,
+              381
+            ],
+            "columns": [
+              [
+                182,
+                378
+              ],
+              [
+                501,
+                672
+              ],
+              [
+                794,
+                983
+              ],
+              [
+                1106,
+                1292
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              419,
+              732
+            ],
+            "columns": [
+              [
+                189,
+                372
+              ],
+              [
+                500,
+                675
+              ],
+              [
+                799,
+                984
+              ],
+              [
+                1110,
+                1288
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              759,
+              1064
+            ],
+            "columns": [
+              [
+                189,
+                382
+              ],
+              [
+                502,
+                674
+              ],
+              [
+                801,
+                995
+              ],
+              [
+                1111,
+                1288
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "family-infant-walk-indigo": {
+      "image": "atlases/family-infant-walk-indigo.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1904698,
+      "sha256": "cc8f47d4a37b6b27e691da467090c2d390ace84a9886a2c66ed03abc7fc1746d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.681342,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              337
+            ],
+            "columns": [
+              [
+                165,
+                380
+              ],
+              [
+                531,
+                710
+              ],
+              [
+                859,
+                1057
+              ],
+              [
+                1195,
+                1367
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              343,
+              683
+            ],
+            "columns": [
+              [
+                168,
+                366
+              ],
+              [
+                516,
+                705
+              ],
+              [
+                859,
+                1055
+              ],
+              [
+                1196,
+                1381
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              683,
+              1015
+            ],
+            "columns": [
+              [
+                176,
+                382
+              ],
+              [
+                529,
+                712
+              ],
+              [
+                860,
+                1054
+              ],
+              [
+                1192,
+                1379
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "family-infant-walk-ochre": {
+      "image": "atlases/family-infant-walk-ochre.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1813025,
+      "sha256": "20e0298ae155d4943992db3228893ae4f87e1a5dce996ce59c25d30a7fc9ace6",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.746795,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              7,
+              330
+            ],
+            "columns": [
+              [
+                179,
+                366
+              ],
+              [
+                536,
+                671
+              ],
+              [
+                840,
+                1033
+              ],
+              [
+                1209,
+                1344
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              343,
+              671
+            ],
+            "columns": [
+              [
+                197,
+                337
+              ],
+              [
+                532,
+                669
+              ],
+              [
+                871,
+                1010
+              ],
+              [
+                1208,
+                1344
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              679,
+              1007
+            ],
+            "columns": [
+              [
+                188,
+                331
+              ],
+              [
+                522,
+                664
+              ],
+              [
+                865,
+                1007
+              ],
+              [
+                1197,
+                1342
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "family-infant-walk-blue-girl": {
+      "image": "atlases/family-infant-walk-blue-girl.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1903942,
+      "sha256": "2698da461b7556aedff4a3936ee849eb0306f1a9e389f81d20bc0c9cfb17ed3e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.702324,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              14,
+              338
+            ],
+            "columns": [
+              [
+                181,
+                388
+              ],
+              [
+                524,
+                702
+              ],
+              [
+                823,
+                1032
+              ],
+              [
+                1164,
+                1337
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              348,
+              675
+            ],
+            "columns": [
+              [
+                179,
+                379
+              ],
+              [
+                511,
+                693
+              ],
+              [
+                829,
+                1019
+              ],
+              [
+                1159,
+                1344
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              676,
+              1000
+            ],
+            "columns": [
+              [
+                187,
+                388
+              ],
+              [
+                520,
+                696
+              ],
+              [
+                835,
+                1036
+              ],
+              [
+                1164,
+                1342
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "family-infant-walk-rust": {
+      "image": "atlases/family-infant-walk-rust.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1866164,
+      "sha256": "05961756174cf2f00c09b87078b6d5c7520c50713641eef00c25eb15ff1b3784",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.768634,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              8,
+              344
+            ],
+            "columns": [
+              [
+                120,
+                338
+              ],
+              [
+                530,
+                664
+              ],
+              [
+                854,
+                1073
+              ],
+              [
+                1240,
+                1401
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              343,
+              671
+            ],
+            "columns": [
+              [
+                158,
+                295
+              ],
+              [
+                527,
+                665
+              ],
+              [
+                894,
+                1032
+              ],
+              [
+                1272,
+                1407
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              672,
+              1003
+            ],
+            "columns": [
+              [
+                157,
+                296
+              ],
+              [
+                526,
+                667
+              ],
+              [
+                890,
+                1032
+              ],
+              [
+                1265,
+                1406
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "wagon-cover-drawn-back": {
+      "image": "atlases/wagon-cover-drawn-back.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 840373,
+      "sha256": "e6b142f8fcc4bb87d0226ec31ae269fdfa78ce4f54b551b4b57028cf90778dbc",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.770877,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              136,
+              382
+            ],
+            "columns": [
+              [
+                107,
+                495
+              ],
+              [
+                553,
+                936
+              ],
+              [
+                1069,
+                1316
+              ],
+              [
+                1418,
+                1672
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              523,
+              769
+            ],
+            "columns": [
+              [
+                107,
+                495
+              ],
+              [
+                552,
+                936
+              ],
+              [
+                1069,
+                1316
+              ],
+              [
+                1418,
+                1672
               ]
             ]
           }
@@ -63776,6 +64693,4066 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/family-portraits"
+    },
+    "rust-wagon-passenger-e-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 189,
+      "y": 56,
+      "w": 118,
+      "h": 171,
+      "anchorX": 0.7585,
+      "anchorY": 0.9298,
+      "logicalHeight": 171,
+      "label": "rust wagon passenger e 1",
+      "kind": "adult-passengers-cast1",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          191,
+          58,
+          114,
+          167
+        ],
+        "visiblePixels": 9140,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "teal-wagon-passenger-e-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 438,
+      "y": 61,
+      "w": 110,
+      "h": 166,
+      "anchorX": 0.7818,
+      "anchorY": 0.9277,
+      "logicalHeight": 166,
+      "label": "teal wagon passenger e 1",
+      "kind": "adult-passengers-cast1",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          440,
+          63,
+          106,
+          162
+        ],
+        "visiblePixels": 9404,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "elder-wagon-passenger-e-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 712,
+      "y": 56,
+      "w": 113,
+      "h": 171,
+      "anchorX": 0.7478,
+      "anchorY": 0.9298,
+      "logicalHeight": 171,
+      "label": "elder wagon passenger e 1",
+      "kind": "adult-passengers-cast1",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          714,
+          58,
+          109,
+          167
+        ],
+        "visiblePixels": 9464,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "blue-wagon-passenger-e-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 995,
+      "y": 64,
+      "w": 104,
+      "h": 163,
+      "anchorX": 0.75,
+      "anchorY": 0.9264,
+      "logicalHeight": 163,
+      "label": "blue wagon passenger e 1",
+      "kind": "adult-passengers-cast1",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          997,
+          66,
+          100,
+          159
+        ],
+        "visiblePixels": 7582,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "rust-wagon-passenger-e-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 187,
+      "y": 270,
+      "w": 122,
+      "h": 170,
+      "anchorX": 0.7459,
+      "anchorY": 0.9294,
+      "logicalHeight": 171,
+      "label": "rust wagon passenger e 2",
+      "kind": "adult-passengers-cast1",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          189,
+          272,
+          118,
+          166
+        ],
+        "visiblePixels": 9450,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "teal-wagon-passenger-e-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 436,
+      "y": 275,
+      "w": 113,
+      "h": 165,
+      "anchorX": 0.7788,
+      "anchorY": 0.9273,
+      "logicalHeight": 166,
+      "label": "teal wagon passenger e 2",
+      "kind": "adult-passengers-cast1",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          438,
+          277,
+          109,
+          161
+        ],
+        "visiblePixels": 9822,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "elder-wagon-passenger-e-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 709,
+      "y": 269,
+      "w": 116,
+      "h": 171,
+      "anchorX": 0.7543,
+      "anchorY": 0.9298,
+      "logicalHeight": 171,
+      "label": "elder wagon passenger e 2",
+      "kind": "adult-passengers-cast1",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          271,
+          112,
+          167
+        ],
+        "visiblePixels": 9947,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "blue-wagon-passenger-e-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 994,
+      "y": 278,
+      "w": 107,
+      "h": 163,
+      "anchorX": 0.743,
+      "anchorY": 0.9264,
+      "logicalHeight": 163,
+      "label": "blue wagon passenger e 2",
+      "kind": "adult-passengers-cast1",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          280,
+          103,
+          159
+        ],
+        "visiblePixels": 8107,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "rust-wagon-passenger-s-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 181,
+      "y": 484,
+      "w": 98,
+      "h": 171,
+      "anchorX": 0.4949,
+      "anchorY": 0.9357,
+      "logicalHeight": 175,
+      "label": "rust wagon passenger s 1",
+      "kind": "adult-passengers-cast1",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          183,
+          486,
+          94,
+          167
+        ],
+        "visiblePixels": 10637,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "teal-wagon-passenger-s-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 430,
+      "y": 486,
+      "w": 109,
+      "h": 168,
+      "anchorX": 0.4771,
+      "anchorY": 0.9345,
+      "logicalHeight": 171,
+      "label": "teal wagon passenger s 1",
+      "kind": "adult-passengers-cast1",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          432,
+          488,
+          105,
+          164
+        ],
+        "visiblePixels": 10602,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "elder-wagon-passenger-s-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 710,
+      "y": 485,
+      "w": 98,
+      "h": 169,
+      "anchorX": 0.4796,
+      "anchorY": 0.9408,
+      "logicalHeight": 169,
+      "label": "elder wagon passenger s 1",
+      "kind": "adult-passengers-cast1",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          712,
+          487,
+          94,
+          165
+        ],
+        "visiblePixels": 10383,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "blue-wagon-passenger-s-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 994,
+      "y": 487,
+      "w": 85,
+      "h": 167,
+      "anchorX": 0.4941,
+      "anchorY": 0.9461,
+      "logicalHeight": 169,
+      "label": "blue wagon passenger s 1",
+      "kind": "adult-passengers-cast1",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          489,
+          81,
+          163
+        ],
+        "visiblePixels": 9369,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "rust-wagon-passenger-s-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 183,
+      "y": 696,
+      "w": 98,
+      "h": 175,
+      "anchorX": 0.4745,
+      "anchorY": 0.9314,
+      "logicalHeight": 175,
+      "label": "rust wagon passenger s 2",
+      "kind": "adult-passengers-cast1",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          185,
+          698,
+          94,
+          171
+        ],
+        "visiblePixels": 11391,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "teal-wagon-passenger-s-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 424,
+      "y": 699,
+      "w": 119,
+      "h": 171,
+      "anchorX": 0.4958,
+      "anchorY": 0.9298,
+      "logicalHeight": 171,
+      "label": "teal wagon passenger s 2",
+      "kind": "adult-passengers-cast1",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          701,
+          115,
+          167
+        ],
+        "visiblePixels": 11897,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "elder-wagon-passenger-s-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 709,
+      "y": 701,
+      "w": 102,
+      "h": 169,
+      "anchorX": 0.4951,
+      "anchorY": 0.9349,
+      "logicalHeight": 169,
+      "label": "elder wagon passenger s 2",
+      "kind": "adult-passengers-cast1",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          703,
+          98,
+          165
+        ],
+        "visiblePixels": 11058,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "blue-wagon-passenger-s-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 995,
+      "y": 701,
+      "w": 84,
+      "h": 169,
+      "anchorX": 0.5,
+      "anchorY": 0.929,
+      "logicalHeight": 169,
+      "label": "blue wagon passenger s 2",
+      "kind": "adult-passengers-cast1",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          997,
+          703,
+          80,
+          165
+        ],
+        "visiblePixels": 9729,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "rust-wagon-passenger-n-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 182,
+      "y": 914,
+      "w": 98,
+      "h": 146,
+      "anchorX": 0.5,
+      "anchorY": 0.9247,
+      "logicalHeight": 146,
+      "label": "rust wagon passenger n 1",
+      "kind": "adult-passengers-cast1",
+      "row": 5,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          184,
+          916,
+          94,
+          142
+        ],
+        "visiblePixels": 9322,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "teal-wagon-passenger-n-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 431,
+      "y": 919,
+      "w": 105,
+      "h": 140,
+      "anchorX": 0.481,
+      "anchorY": 0.9286,
+      "logicalHeight": 142,
+      "label": "teal wagon passenger n 1",
+      "kind": "adult-passengers-cast1",
+      "row": 5,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          433,
+          921,
+          101,
+          136
+        ],
+        "visiblePixels": 8924,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "elder-wagon-passenger-n-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 704,
+      "y": 916,
+      "w": 105,
+      "h": 144,
+      "anchorX": 0.5,
+      "anchorY": 0.9236,
+      "logicalHeight": 144,
+      "label": "elder wagon passenger n 1",
+      "kind": "adult-passengers-cast1",
+      "row": 5,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          918,
+          101,
+          140
+        ],
+        "visiblePixels": 9212,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "blue-wagon-passenger-n-1": {
+      "sheet": "adult-passengers-cast1",
+      "x": 993,
+      "y": 921,
+      "w": 91,
+      "h": 141,
+      "anchorX": 0.522,
+      "anchorY": 0.9291,
+      "logicalHeight": 141,
+      "label": "blue wagon passenger n 1",
+      "kind": "adult-passengers-cast1",
+      "row": 5,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          995,
+          923,
+          87,
+          137
+        ],
+        "visiblePixels": 8342,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "rust-wagon-passenger-n-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 185,
+      "y": 1103,
+      "w": 99,
+      "h": 138,
+      "anchorX": 0.4848,
+      "anchorY": 0.9275,
+      "logicalHeight": 146,
+      "label": "rust wagon passenger n 2",
+      "kind": "adult-passengers-cast1",
+      "row": 6,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          187,
+          1105,
+          95,
+          134
+        ],
+        "visiblePixels": 8889,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "teal-wagon-passenger-n-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 428,
+      "y": 1103,
+      "w": 115,
+      "h": 142,
+      "anchorX": 0.4783,
+      "anchorY": 0.9296,
+      "logicalHeight": 142,
+      "label": "teal wagon passenger n 2",
+      "kind": "adult-passengers-cast1",
+      "row": 6,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          430,
+          1105,
+          111,
+          138
+        ],
+        "visiblePixels": 9646,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "teal-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "elder-wagon-passenger-n-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 706,
+      "y": 1103,
+      "w": 107,
+      "h": 139,
+      "anchorX": 0.4907,
+      "anchorY": 0.9281,
+      "logicalHeight": 144,
+      "label": "elder wagon passenger n 2",
+      "kind": "adult-passengers-cast1",
+      "row": 6,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          1105,
+          103,
+          135
+        ],
+        "visiblePixels": 9113,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "elder-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "blue-wagon-passenger-n-2": {
+      "sheet": "adult-passengers-cast1",
+      "x": 994,
+      "y": 1104,
+      "w": 94,
+      "h": 138,
+      "anchorX": 0.5,
+      "anchorY": 0.9275,
+      "logicalHeight": 141,
+      "label": "blue wagon passenger n 2",
+      "kind": "adult-passengers-cast1",
+      "row": 6,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          996,
+          1106,
+          90,
+          134
+        ],
+        "visiblePixels": 8471,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast1.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast1"
+    },
+    "rust-woman-wagon-passenger-e-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 231,
+      "y": 99,
+      "w": 114,
+      "h": 174,
+      "anchorX": 0.5921,
+      "anchorY": 0.9253,
+      "logicalHeight": 174,
+      "label": "rust woman wagon passenger e 1",
+      "kind": "adult-passengers-cast2",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          233,
+          101,
+          110,
+          170
+        ],
+        "visiblePixels": 12152,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "indigo-wagon-passenger-e-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 474,
+      "y": 101,
+      "w": 113,
+      "h": 174,
+      "anchorX": 0.7389,
+      "anchorY": 0.9253,
+      "logicalHeight": 174,
+      "label": "indigo wagon passenger e 1",
+      "kind": "adult-passengers-cast2",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          476,
+          103,
+          109,
+          170
+        ],
+        "visiblePixels": 12055,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "ochre-wagon-passenger-e-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 707,
+      "y": 99,
+      "w": 101,
+      "h": 174,
+      "anchorX": 0.7178,
+      "anchorY": 0.9253,
+      "logicalHeight": 174,
+      "label": "ochre wagon passenger e 1",
+      "kind": "adult-passengers-cast2",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          709,
+          101,
+          97,
+          170
+        ],
+        "visiblePixels": 10604,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "blue-girl-wagon-passenger-e-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 923,
+      "y": 100,
+      "w": 111,
+      "h": 173,
+      "anchorX": 0.5631,
+      "anchorY": 0.9249,
+      "logicalHeight": 173,
+      "label": "blue girl wagon passenger e 1",
+      "kind": "adult-passengers-cast2",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          925,
+          102,
+          107,
+          169
+        ],
+        "visiblePixels": 11442,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "rust-woman-wagon-passenger-e-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 231,
+      "y": 287,
+      "w": 115,
+      "h": 170,
+      "anchorX": 0.5783,
+      "anchorY": 0.9294,
+      "logicalHeight": 174,
+      "label": "rust woman wagon passenger e 2",
+      "kind": "adult-passengers-cast2",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          233,
+          289,
+          111,
+          166
+        ],
+        "visiblePixels": 12203,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "indigo-wagon-passenger-e-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 472,
+      "y": 287,
+      "w": 118,
+      "h": 172,
+      "anchorX": 0.5424,
+      "anchorY": 0.9244,
+      "logicalHeight": 174,
+      "label": "indigo wagon passenger e 2",
+      "kind": "adult-passengers-cast2",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          474,
+          289,
+          114,
+          168
+        ],
+        "visiblePixels": 12406,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "ochre-wagon-passenger-e-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 707,
+      "y": 287,
+      "w": 101,
+      "h": 171,
+      "anchorX": 0.7129,
+      "anchorY": 0.9298,
+      "logicalHeight": 174,
+      "label": "ochre wagon passenger e 2",
+      "kind": "adult-passengers-cast2",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          709,
+          289,
+          97,
+          167
+        ],
+        "visiblePixels": 10503,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "blue-girl-wagon-passenger-e-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 920,
+      "y": 287,
+      "w": 115,
+      "h": 171,
+      "anchorX": 0.5565,
+      "anchorY": 0.9298,
+      "logicalHeight": 173,
+      "label": "blue girl wagon passenger e 2",
+      "kind": "adult-passengers-cast2",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          922,
+          289,
+          111,
+          167
+        ],
+        "visiblePixels": 11771,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-wagon-passenger-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "rust-woman-wagon-passenger-s-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 221,
+      "y": 473,
+      "w": 126,
+      "h": 177,
+      "anchorX": 0.5119,
+      "anchorY": 0.9266,
+      "logicalHeight": 179,
+      "label": "rust woman wagon passenger s 1",
+      "kind": "adult-passengers-cast2",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          223,
+          475,
+          122,
+          173
+        ],
+        "visiblePixels": 13621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "indigo-wagon-passenger-s-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 462,
+      "y": 474,
+      "w": 128,
+      "h": 174,
+      "anchorX": 0.5234,
+      "anchorY": 0.9253,
+      "logicalHeight": 176,
+      "label": "indigo wagon passenger s 1",
+      "kind": "adult-passengers-cast2",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          464,
+          476,
+          124,
+          170
+        ],
+        "visiblePixels": 13362,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "ochre-wagon-passenger-s-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 699,
+      "y": 472,
+      "w": 101,
+      "h": 178,
+      "anchorX": 0.505,
+      "anchorY": 0.927,
+      "logicalHeight": 179,
+      "label": "ochre wagon passenger s 1",
+      "kind": "adult-passengers-cast2",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          701,
+          474,
+          97,
+          174
+        ],
+        "visiblePixels": 11915,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "blue-girl-wagon-passenger-s-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 915,
+      "y": 474,
+      "w": 120,
+      "h": 176,
+      "anchorX": 0.4958,
+      "anchorY": 0.9318,
+      "logicalHeight": 177,
+      "label": "blue girl wagon passenger s 1",
+      "kind": "adult-passengers-cast2",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          917,
+          476,
+          116,
+          172
+        ],
+        "visiblePixels": 12765,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "rust-woman-wagon-passenger-s-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 220,
+      "y": 665,
+      "w": 132,
+      "h": 179,
+      "anchorX": 0.5114,
+      "anchorY": 0.9274,
+      "logicalHeight": 179,
+      "label": "rust woman wagon passenger s 2",
+      "kind": "adult-passengers-cast2",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          222,
+          667,
+          128,
+          175
+        ],
+        "visiblePixels": 14078,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "indigo-wagon-passenger-s-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 460,
+      "y": 668,
+      "w": 131,
+      "h": 176,
+      "anchorX": 0.5153,
+      "anchorY": 0.9261,
+      "logicalHeight": 176,
+      "label": "indigo wagon passenger s 2",
+      "kind": "adult-passengers-cast2",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          462,
+          670,
+          127,
+          172
+        ],
+        "visiblePixels": 13850,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "ochre-wagon-passenger-s-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 699,
+      "y": 665,
+      "w": 101,
+      "h": 179,
+      "anchorX": 0.505,
+      "anchorY": 0.9274,
+      "logicalHeight": 179,
+      "label": "ochre wagon passenger s 2",
+      "kind": "adult-passengers-cast2",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          701,
+          667,
+          97,
+          175
+        ],
+        "visiblePixels": 11981,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "blue-girl-wagon-passenger-s-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 911,
+      "y": 668,
+      "w": 128,
+      "h": 177,
+      "anchorX": 0.4961,
+      "anchorY": 0.9266,
+      "logicalHeight": 177,
+      "label": "blue girl wagon passenger s 2",
+      "kind": "adult-passengers-cast2",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          913,
+          670,
+          124,
+          173
+        ],
+        "visiblePixels": 13427,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-wagon-passenger-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "rust-woman-wagon-passenger-n-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 221,
+      "y": 861,
+      "w": 129,
+      "h": 160,
+      "anchorX": 0.4884,
+      "anchorY": 0.925,
+      "logicalHeight": 160,
+      "label": "rust woman wagon passenger n 1",
+      "kind": "adult-passengers-cast2",
+      "row": 5,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          223,
+          863,
+          125,
+          156
+        ],
+        "visiblePixels": 12078,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "indigo-wagon-passenger-n-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 460,
+      "y": 863,
+      "w": 128,
+      "h": 158,
+      "anchorX": 0.4961,
+      "anchorY": 0.9241,
+      "logicalHeight": 158,
+      "label": "indigo wagon passenger n 1",
+      "kind": "adult-passengers-cast2",
+      "row": 5,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          462,
+          865,
+          124,
+          154
+        ],
+        "visiblePixels": 11884,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "ochre-wagon-passenger-n-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 696,
+      "y": 859,
+      "w": 103,
+      "h": 161,
+      "anchorX": 0.5097,
+      "anchorY": 0.9255,
+      "logicalHeight": 161,
+      "label": "ochre wagon passenger n 1",
+      "kind": "adult-passengers-cast2",
+      "row": 5,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          698,
+          861,
+          99,
+          157
+        ],
+        "visiblePixels": 10531,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "blue-girl-wagon-passenger-n-1": {
+      "sheet": "adult-passengers-cast2",
+      "x": 915,
+      "y": 861,
+      "w": 121,
+      "h": 160,
+      "anchorX": 0.4959,
+      "anchorY": 0.925,
+      "logicalHeight": 160,
+      "label": "blue girl wagon passenger n 1",
+      "kind": "adult-passengers-cast2",
+      "row": 5,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          917,
+          863,
+          117,
+          156
+        ],
+        "visiblePixels": 11600,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "rust-woman-wagon-passenger-n-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 216,
+      "y": 1037,
+      "w": 136,
+      "h": 156,
+      "anchorX": 0.5,
+      "anchorY": 0.9295,
+      "logicalHeight": 160,
+      "label": "rust woman wagon passenger n 2",
+      "kind": "adult-passengers-cast2",
+      "row": 6,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          218,
+          1039,
+          132,
+          152
+        ],
+        "visiblePixels": 12143,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "indigo-wagon-passenger-n-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 460,
+      "y": 1038,
+      "w": 129,
+      "h": 156,
+      "anchorX": 0.4884,
+      "anchorY": 0.9295,
+      "logicalHeight": 158,
+      "label": "indigo wagon passenger n 2",
+      "kind": "adult-passengers-cast2",
+      "row": 6,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          462,
+          1040,
+          125,
+          152
+        ],
+        "visiblePixels": 11760,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "ochre-wagon-passenger-n-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 697,
+      "y": 1035,
+      "w": 102,
+      "h": 159,
+      "anchorX": 0.5098,
+      "anchorY": 0.9245,
+      "logicalHeight": 161,
+      "label": "ochre wagon passenger n 2",
+      "kind": "adult-passengers-cast2",
+      "row": 6,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          1037,
+          98,
+          155
+        ],
+        "visiblePixels": 10417,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "blue-girl-wagon-passenger-n-2": {
+      "sheet": "adult-passengers-cast2",
+      "x": 912,
+      "y": 1036,
+      "w": 127,
+      "h": 157,
+      "anchorX": 0.5,
+      "anchorY": 0.9299,
+      "logicalHeight": 160,
+      "label": "blue girl wagon passenger n 2",
+      "kind": "adult-passengers-cast2",
+      "row": 6,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          914,
+          1038,
+          123,
+          153
+        ],
+        "visiblePixels": 11946,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/adult-passengers-cast2.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-wagon-passenger-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/adult-passengers-cast2"
+    },
+    "rust-woman-infant-walk-e-1": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 182,
+      "y": 74,
+      "w": 196,
+      "h": 301,
+      "anchorX": 0.5663,
+      "anchorY": 0.9269,
+      "logicalHeight": 306,
+      "label": "rust woman infant walk e 1",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          184,
+          76,
+          192,
+          297
+        ],
+        "visiblePixels": 32962,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-e-2": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 501,
+      "y": 75,
+      "w": 171,
+      "h": 300,
+      "anchorX": 0.5322,
+      "anchorY": 0.9433,
+      "logicalHeight": 306,
+      "label": "rust woman infant walk e 2",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          503,
+          77,
+          167,
+          296
+        ],
+        "visiblePixels": 30509,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-e-3": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 794,
+      "y": 74,
+      "w": 189,
+      "h": 300,
+      "anchorX": 0.5741,
+      "anchorY": 0.93,
+      "logicalHeight": 306,
+      "label": "rust woman infant walk e 3",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          796,
+          76,
+          185,
+          296
+        ],
+        "visiblePixels": 31783,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-e-4": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 1106,
+      "y": 75,
+      "w": 186,
+      "h": 306,
+      "anchorX": 0.5753,
+      "anchorY": 0.9281,
+      "logicalHeight": 306,
+      "label": "rust woman infant walk e 4",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1108,
+          77,
+          182,
+          302
+        ],
+        "visiblePixels": 32607,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-s-1": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 189,
+      "y": 420,
+      "w": 183,
+      "h": 311,
+      "anchorX": 0.459,
+      "anchorY": 0.9453,
+      "logicalHeight": 313,
+      "label": "rust woman infant walk s 1",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          191,
+          422,
+          179,
+          307
+        ],
+        "visiblePixels": 32005,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-s-2": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 500,
+      "y": 420,
+      "w": 175,
+      "h": 311,
+      "anchorX": 0.5086,
+      "anchorY": 0.9293,
+      "logicalHeight": 313,
+      "label": "rust woman infant walk s 2",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          502,
+          422,
+          171,
+          307
+        ],
+        "visiblePixels": 31560,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-s-3": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 799,
+      "y": 421,
+      "w": 185,
+      "h": 308,
+      "anchorX": 0.4622,
+      "anchorY": 0.9286,
+      "logicalHeight": 313,
+      "label": "rust woman infant walk s 3",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          801,
+          423,
+          181,
+          304
+        ],
+        "visiblePixels": 32853,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-s-4": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 1110,
+      "y": 419,
+      "w": 178,
+      "h": 313,
+      "anchorX": 0.514,
+      "anchorY": 0.9297,
+      "logicalHeight": 313,
+      "label": "rust woman infant walk s 4",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1112,
+          421,
+          174,
+          309
+        ],
+        "visiblePixels": 31646,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-n-1": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 189,
+      "y": 759,
+      "w": 193,
+      "h": 303,
+      "anchorX": 0.4663,
+      "anchorY": 0.9274,
+      "logicalHeight": 304,
+      "label": "rust woman infant walk n 1",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          191,
+          761,
+          189,
+          299
+        ],
+        "visiblePixels": 31090,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-n-2": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 502,
+      "y": 760,
+      "w": 172,
+      "h": 301,
+      "anchorX": 0.5029,
+      "anchorY": 0.9269,
+      "logicalHeight": 304,
+      "label": "rust woman infant walk n 2",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          504,
+          762,
+          168,
+          297
+        ],
+        "visiblePixels": 29404,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-n-3": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 801,
+      "y": 760,
+      "w": 194,
+      "h": 304,
+      "anchorX": 0.5,
+      "anchorY": 0.9276,
+      "logicalHeight": 304,
+      "label": "rust woman infant walk n 3",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          803,
+          762,
+          190,
+          300
+        ],
+        "visiblePixels": 30586,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "rust-woman-infant-walk-n-4": {
+      "sheet": "family-infant-walk-rust-woman",
+      "x": 1111,
+      "y": 760,
+      "w": 177,
+      "h": 299,
+      "anchorX": 0.5141,
+      "anchorY": 0.9298,
+      "logicalHeight": 304,
+      "label": "rust woman infant walk n 4",
+      "kind": "family-infant-walk-rust-woman",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1113,
+          762,
+          173,
+          295
+        ],
+        "visiblePixels": 29681,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust-woman.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-woman-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust-woman"
+    },
+    "indigo-infant-walk-e-1": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 165,
+      "y": 6,
+      "w": 215,
+      "h": 328,
+      "anchorX": 0.5488,
+      "anchorY": 0.9299,
+      "logicalHeight": 331,
+      "label": "indigo infant walk e 1",
+      "kind": "family-infant-walk-indigo",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          167,
+          8,
+          211,
+          324
+        ],
+        "visiblePixels": 37669,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-e-2": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 531,
+      "y": 6,
+      "w": 179,
+      "h": 331,
+      "anchorX": 0.5,
+      "anchorY": 0.9426,
+      "logicalHeight": 331,
+      "label": "indigo infant walk e 2",
+      "kind": "family-infant-walk-indigo",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          533,
+          8,
+          175,
+          327
+        ],
+        "visiblePixels": 35248,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-e-3": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 859,
+      "y": 6,
+      "w": 198,
+      "h": 331,
+      "anchorX": 0.5404,
+      "anchorY": 0.9275,
+      "logicalHeight": 331,
+      "label": "indigo infant walk e 3",
+      "kind": "family-infant-walk-indigo",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          861,
+          8,
+          194,
+          327
+        ],
+        "visiblePixels": 36457,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-e-4": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 1195,
+      "y": 6,
+      "w": 172,
+      "h": 331,
+      "anchorX": 0.4942,
+      "anchorY": 0.9275,
+      "logicalHeight": 331,
+      "label": "indigo infant walk e 4",
+      "kind": "family-infant-walk-indigo",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1197,
+          8,
+          168,
+          327
+        ],
+        "visiblePixels": 35116,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-s-1": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 168,
+      "y": 343,
+      "w": 198,
+      "h": 340,
+      "anchorX": 0.4848,
+      "anchorY": 0.9441,
+      "logicalHeight": 340,
+      "label": "indigo infant walk s 1",
+      "kind": "family-infant-walk-indigo",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          170,
+          345,
+          194,
+          336
+        ],
+        "visiblePixels": 38662,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-s-2": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 516,
+      "y": 345,
+      "w": 189,
+      "h": 338,
+      "anchorX": 0.5053,
+      "anchorY": 0.929,
+      "logicalHeight": 340,
+      "label": "indigo infant walk s 2",
+      "kind": "family-infant-walk-indigo",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          518,
+          347,
+          185,
+          334
+        ],
+        "visiblePixels": 37983,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-s-3": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 859,
+      "y": 343,
+      "w": 196,
+      "h": 340,
+      "anchorX": 0.4056,
+      "anchorY": 0.9324,
+      "logicalHeight": 340,
+      "label": "indigo infant walk s 3",
+      "kind": "family-infant-walk-indigo",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          861,
+          345,
+          192,
+          336
+        ],
+        "visiblePixels": 39025,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-s-4": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 1196,
+      "y": 344,
+      "w": 185,
+      "h": 339,
+      "anchorX": 0.4784,
+      "anchorY": 0.9351,
+      "logicalHeight": 340,
+      "label": "indigo infant walk s 4",
+      "kind": "family-infant-walk-indigo",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1198,
+          346,
+          181,
+          335
+        ],
+        "visiblePixels": 37448,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-n-1": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 176,
+      "y": 683,
+      "w": 206,
+      "h": 331,
+      "anchorX": 0.4806,
+      "anchorY": 0.9275,
+      "logicalHeight": 332,
+      "label": "indigo infant walk n 1",
+      "kind": "family-infant-walk-indigo",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          178,
+          685,
+          202,
+          327
+        ],
+        "visiblePixels": 38286,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-n-2": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 529,
+      "y": 683,
+      "w": 183,
+      "h": 330,
+      "anchorX": 0.4536,
+      "anchorY": 0.9273,
+      "logicalHeight": 332,
+      "label": "indigo infant walk n 2",
+      "kind": "family-infant-walk-indigo",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          531,
+          685,
+          179,
+          326
+        ],
+        "visiblePixels": 36697,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-n-3": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 860,
+      "y": 683,
+      "w": 194,
+      "h": 332,
+      "anchorX": 0.4665,
+      "anchorY": 0.9277,
+      "logicalHeight": 332,
+      "label": "indigo infant walk n 3",
+      "kind": "family-infant-walk-indigo",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          862,
+          685,
+          190,
+          328
+        ],
+        "visiblePixels": 37553,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "indigo-infant-walk-n-4": {
+      "sheet": "family-infant-walk-indigo",
+      "x": 1192,
+      "y": 683,
+      "w": 187,
+      "h": 329,
+      "anchorX": 0.4813,
+      "anchorY": 0.9271,
+      "logicalHeight": 332,
+      "label": "indigo infant walk n 4",
+      "kind": "family-infant-walk-indigo",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1194,
+          685,
+          183,
+          325
+        ],
+        "visiblePixels": 37325,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-indigo.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "indigo-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-indigo"
+    },
+    "ochre-infant-walk-e-1": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 179,
+      "y": 8,
+      "w": 187,
+      "h": 322,
+      "anchorX": 0.5027,
+      "anchorY": 0.9286,
+      "logicalHeight": 323,
+      "label": "ochre infant walk e 1",
+      "kind": "family-infant-walk-ochre",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          181,
+          10,
+          183,
+          318
+        ],
+        "visiblePixels": 30512,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-e-2": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 536,
+      "y": 7,
+      "w": 135,
+      "h": 323,
+      "anchorX": 0.4778,
+      "anchorY": 0.9381,
+      "logicalHeight": 323,
+      "label": "ochre infant walk e 2",
+      "kind": "family-infant-walk-ochre",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          538,
+          9,
+          131,
+          319
+        ],
+        "visiblePixels": 26073,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-e-3": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 840,
+      "y": 8,
+      "w": 193,
+      "h": 322,
+      "anchorX": 0.5,
+      "anchorY": 0.9286,
+      "logicalHeight": 323,
+      "label": "ochre infant walk e 3",
+      "kind": "family-infant-walk-ochre",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          842,
+          10,
+          189,
+          318
+        ],
+        "visiblePixels": 30638,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-e-4": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 1209,
+      "y": 7,
+      "w": 135,
+      "h": 323,
+      "anchorX": 0.437,
+      "anchorY": 0.9381,
+      "logicalHeight": 323,
+      "label": "ochre infant walk e 4",
+      "kind": "family-infant-walk-ochre",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1211,
+          9,
+          131,
+          319
+        ],
+        "visiblePixels": 26280,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-s-1": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 197,
+      "y": 343,
+      "w": 140,
+      "h": 328,
+      "anchorX": 0.6393,
+      "anchorY": 0.9604,
+      "logicalHeight": 328,
+      "label": "ochre infant walk s 1",
+      "kind": "family-infant-walk-ochre",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          199,
+          345,
+          136,
+          324
+        ],
+        "visiblePixels": 28951,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-s-2": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 532,
+      "y": 345,
+      "w": 137,
+      "h": 325,
+      "anchorX": 0.3759,
+      "anchorY": 0.9538,
+      "logicalHeight": 328,
+      "label": "ochre infant walk s 2",
+      "kind": "family-infant-walk-ochre",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          534,
+          347,
+          133,
+          321
+        ],
+        "visiblePixels": 27414,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-s-3": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 871,
+      "y": 345,
+      "w": 139,
+      "h": 324,
+      "anchorX": 0.3633,
+      "anchorY": 0.9599,
+      "logicalHeight": 328,
+      "label": "ochre infant walk s 3",
+      "kind": "family-infant-walk-ochre",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          873,
+          347,
+          135,
+          320
+        ],
+        "visiblePixels": 28338,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-s-4": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 1208,
+      "y": 345,
+      "w": 136,
+      "h": 325,
+      "anchorX": 0.3713,
+      "anchorY": 0.9538,
+      "logicalHeight": 328,
+      "label": "ochre infant walk s 4",
+      "kind": "family-infant-walk-ochre",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1210,
+          347,
+          132,
+          321
+        ],
+        "visiblePixels": 27399,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-n-1": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 188,
+      "y": 679,
+      "w": 143,
+      "h": 328,
+      "anchorX": 0.6538,
+      "anchorY": 0.9421,
+      "logicalHeight": 328,
+      "label": "ochre infant walk n 1",
+      "kind": "family-infant-walk-ochre",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          190,
+          681,
+          139,
+          324
+        ],
+        "visiblePixels": 29244,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-n-2": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 522,
+      "y": 680,
+      "w": 142,
+      "h": 327,
+      "anchorX": 0.581,
+      "anchorY": 0.948,
+      "logicalHeight": 328,
+      "label": "ochre infant walk n 2",
+      "kind": "family-infant-walk-ochre",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          524,
+          682,
+          138,
+          323
+        ],
+        "visiblePixels": 28387,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-n-3": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 865,
+      "y": 679,
+      "w": 142,
+      "h": 328,
+      "anchorX": 0.6268,
+      "anchorY": 0.9451,
+      "logicalHeight": 328,
+      "label": "ochre infant walk n 3",
+      "kind": "family-infant-walk-ochre",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          867,
+          681,
+          138,
+          324
+        ],
+        "visiblePixels": 28768,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "ochre-infant-walk-n-4": {
+      "sheet": "family-infant-walk-ochre",
+      "x": 1197,
+      "y": 680,
+      "w": 145,
+      "h": 327,
+      "anchorX": 0.6103,
+      "anchorY": 0.948,
+      "logicalHeight": 328,
+      "label": "ochre infant walk n 4",
+      "kind": "family-infant-walk-ochre",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1199,
+          682,
+          141,
+          323
+        ],
+        "visiblePixels": 28436,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-ochre.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ochre-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-ochre"
+    },
+    "blue-girl-infant-walk-e-1": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 181,
+      "y": 16,
+      "w": 207,
+      "h": 321,
+      "anchorX": 0.5531,
+      "anchorY": 0.9283,
+      "logicalHeight": 323,
+      "label": "blue girl infant walk e 1",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          183,
+          18,
+          203,
+          317
+        ],
+        "visiblePixels": 37599,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-e-2": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 524,
+      "y": 15,
+      "w": 178,
+      "h": 323,
+      "anchorX": 0.4888,
+      "anchorY": 0.9505,
+      "logicalHeight": 323,
+      "label": "blue girl infant walk e 2",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          526,
+          17,
+          174,
+          319
+        ],
+        "visiblePixels": 34309,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-e-3": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 823,
+      "y": 14,
+      "w": 209,
+      "h": 320,
+      "anchorX": 0.5287,
+      "anchorY": 0.9281,
+      "logicalHeight": 323,
+      "label": "blue girl infant walk e 3",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          825,
+          16,
+          205,
+          316
+        ],
+        "visiblePixels": 38001,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-e-4": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 1164,
+      "y": 15,
+      "w": 173,
+      "h": 323,
+      "anchorX": 0.5029,
+      "anchorY": 0.9474,
+      "logicalHeight": 323,
+      "label": "blue girl infant walk e 4",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1166,
+          17,
+          169,
+          319
+        ],
+        "visiblePixels": 34149,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-s-1": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 179,
+      "y": 350,
+      "w": 200,
+      "h": 325,
+      "anchorX": 0.52,
+      "anchorY": 0.9292,
+      "logicalHeight": 327,
+      "label": "blue girl infant walk s 1",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          181,
+          352,
+          196,
+          321
+        ],
+        "visiblePixels": 35994,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-s-2": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 511,
+      "y": 350,
+      "w": 182,
+      "h": 325,
+      "anchorX": 0.5467,
+      "anchorY": 0.9292,
+      "logicalHeight": 327,
+      "label": "blue girl infant walk s 2",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          513,
+          352,
+          178,
+          321
+        ],
+        "visiblePixels": 34393,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-s-3": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 829,
+      "y": 349,
+      "w": 190,
+      "h": 326,
+      "anchorX": 0.5316,
+      "anchorY": 0.9294,
+      "logicalHeight": 327,
+      "label": "blue girl infant walk s 3",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          831,
+          351,
+          186,
+          322
+        ],
+        "visiblePixels": 35442,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-s-4": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 1159,
+      "y": 348,
+      "w": 185,
+      "h": 327,
+      "anchorX": 0.5459,
+      "anchorY": 0.9541,
+      "logicalHeight": 327,
+      "label": "blue girl infant walk s 4",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1161,
+          350,
+          181,
+          323
+        ],
+        "visiblePixels": 34593,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-n-1": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 187,
+      "y": 676,
+      "w": 201,
+      "h": 324,
+      "anchorX": 0.4204,
+      "anchorY": 0.9599,
+      "logicalHeight": 324,
+      "label": "blue girl infant walk n 1",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          189,
+          678,
+          197,
+          320
+        ],
+        "visiblePixels": 34752,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-n-2": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 520,
+      "y": 677,
+      "w": 176,
+      "h": 318,
+      "anchorX": 0.4489,
+      "anchorY": 0.9497,
+      "logicalHeight": 324,
+      "label": "blue girl infant walk n 2",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          522,
+          679,
+          172,
+          314
+        ],
+        "visiblePixels": 32301,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-n-3": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 835,
+      "y": 679,
+      "w": 201,
+      "h": 317,
+      "anchorX": 0.4478,
+      "anchorY": 0.9464,
+      "logicalHeight": 324,
+      "label": "blue girl infant walk n 3",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          837,
+          681,
+          197,
+          313
+        ],
+        "visiblePixels": 34172,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "blue-girl-infant-walk-n-4": {
+      "sheet": "family-infant-walk-blue-girl",
+      "x": 1164,
+      "y": 679,
+      "w": 178,
+      "h": 317,
+      "anchorX": 0.4831,
+      "anchorY": 0.9432,
+      "logicalHeight": 324,
+      "label": "blue girl infant walk n 4",
+      "kind": "family-infant-walk-blue-girl",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1166,
+          681,
+          174,
+          313
+        ],
+        "visiblePixels": 32189,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-blue-girl.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "blue-girl-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-blue-girl"
+    },
+    "rust-infant-walk-e-1": {
+      "sheet": "family-infant-walk-rust",
+      "x": 120,
+      "y": 8,
+      "w": 218,
+      "h": 335,
+      "anchorX": 0.4908,
+      "anchorY": 0.9284,
+      "logicalHeight": 335,
+      "label": "rust infant walk e 1",
+      "kind": "family-infant-walk-rust",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          122,
+          10,
+          214,
+          332
+        ],
+        "visiblePixels": 29824,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-e-2": {
+      "sheet": "family-infant-walk-rust",
+      "x": 530,
+      "y": 9,
+      "w": 134,
+      "h": 335,
+      "anchorX": 0.4701,
+      "anchorY": 0.9701,
+      "logicalHeight": 335,
+      "label": "rust infant walk e 2",
+      "kind": "family-infant-walk-rust",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          532,
+          11,
+          130,
+          331
+        ],
+        "visiblePixels": 24814,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-e-3": {
+      "sheet": "family-infant-walk-rust",
+      "x": 854,
+      "y": 11,
+      "w": 219,
+      "h": 333,
+      "anchorX": 0.4954,
+      "anchorY": 0.9279,
+      "logicalHeight": 335,
+      "label": "rust infant walk e 3",
+      "kind": "family-infant-walk-rust",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          856,
+          13,
+          215,
+          330
+        ],
+        "visiblePixels": 28959,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-e-4": {
+      "sheet": "family-infant-walk-rust",
+      "x": 1240,
+      "y": 12,
+      "w": 161,
+      "h": 332,
+      "anchorX": 0.4255,
+      "anchorY": 0.9277,
+      "logicalHeight": 335,
+      "label": "rust infant walk e 4",
+      "kind": "family-infant-walk-rust",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1242,
+          14,
+          157,
+          328
+        ],
+        "visiblePixels": 26521,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-s-1": {
+      "sheet": "family-infant-walk-rust",
+      "x": 158,
+      "y": 343,
+      "w": 137,
+      "h": 327,
+      "anchorX": 0.4161,
+      "anchorY": 0.9572,
+      "logicalHeight": 327,
+      "label": "rust infant walk s 1",
+      "kind": "family-infant-walk-rust",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          160,
+          345,
+          133,
+          323
+        ],
+        "visiblePixels": 24699,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-s-2": {
+      "sheet": "family-infant-walk-rust",
+      "x": 527,
+      "y": 345,
+      "w": 138,
+      "h": 322,
+      "anchorX": 0.4855,
+      "anchorY": 0.9441,
+      "logicalHeight": 327,
+      "label": "rust infant walk s 2",
+      "kind": "family-infant-walk-rust",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          529,
+          347,
+          134,
+          318
+        ],
+        "visiblePixels": 24461,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-s-3": {
+      "sheet": "family-infant-walk-rust",
+      "x": 894,
+      "y": 344,
+      "w": 138,
+      "h": 327,
+      "anchorX": 0.5072,
+      "anchorY": 0.9297,
+      "logicalHeight": 327,
+      "label": "rust infant walk s 3",
+      "kind": "family-infant-walk-rust",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          896,
+          345,
+          134,
+          324
+        ],
+        "visiblePixels": 25351,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-s-4": {
+      "sheet": "family-infant-walk-rust",
+      "x": 1272,
+      "y": 346,
+      "w": 135,
+      "h": 322,
+      "anchorX": 0.5556,
+      "anchorY": 0.9596,
+      "logicalHeight": 327,
+      "label": "rust infant walk s 4",
+      "kind": "family-infant-walk-rust",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1274,
+          348,
+          131,
+          318
+        ],
+        "visiblePixels": 25016,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-n-1": {
+      "sheet": "family-infant-walk-rust",
+      "x": 157,
+      "y": 672,
+      "w": 139,
+      "h": 328,
+      "anchorX": 0.5504,
+      "anchorY": 0.9604,
+      "logicalHeight": 330,
+      "label": "rust infant walk n 1",
+      "kind": "family-infant-walk-rust",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          159,
+          674,
+          135,
+          324
+        ],
+        "visiblePixels": 25164,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-n-2": {
+      "sheet": "family-infant-walk-rust",
+      "x": 526,
+      "y": 672,
+      "w": 141,
+      "h": 325,
+      "anchorX": 0.4362,
+      "anchorY": 0.9415,
+      "logicalHeight": 330,
+      "label": "rust infant walk n 2",
+      "kind": "family-infant-walk-rust",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          528,
+          674,
+          137,
+          321
+        ],
+        "visiblePixels": 25375,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-n-3": {
+      "sheet": "family-infant-walk-rust",
+      "x": 890,
+      "y": 673,
+      "w": 142,
+      "h": 330,
+      "anchorX": 0.5704,
+      "anchorY": 0.9273,
+      "logicalHeight": 330,
+      "label": "rust infant walk n 3",
+      "kind": "family-infant-walk-rust",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          892,
+          675,
+          138,
+          326
+        ],
+        "visiblePixels": 26929,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "rust-infant-walk-n-4": {
+      "sheet": "family-infant-walk-rust",
+      "x": 1265,
+      "y": 673,
+      "w": 141,
+      "h": 329,
+      "anchorX": 0.4326,
+      "anchorY": 0.9453,
+      "logicalHeight": 330,
+      "label": "rust infant walk n 4",
+      "kind": "family-infant-walk-rust",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1267,
+          675,
+          137,
+          325
+        ],
+        "visiblePixels": 26339,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/family-infant-walk-rust.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "rust-infant-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/family-infant-walk-rust"
+    },
+    "wagon-open-cover-e-1": {
+      "sheet": "wagon-cover-drawn-back",
+      "x": 107,
+      "y": 142,
+      "w": 388,
+      "h": 238,
+      "anchorX": 0.3943,
+      "anchorY": 0.9286,
+      "logicalHeight": 238,
+      "label": "wagon open cover e 1",
+      "kind": "wagon-cover-drawn-back",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          109,
+          144,
+          384,
+          234
+        ],
+        "visiblePixels": 44314,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wagon-cover-drawn-back.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wagon-open-cover-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wagon-cover-drawn-back"
+    },
+    "wagon-open-cover-w-1": {
+      "sheet": "wagon-cover-drawn-back",
+      "x": 553,
+      "y": 139,
+      "w": 383,
+      "h": 242,
+      "anchorX": 0.6031,
+      "anchorY": 0.9298,
+      "logicalHeight": 242,
+      "label": "wagon open cover w 1",
+      "kind": "wagon-cover-drawn-back",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          555,
+          141,
+          379,
+          238
+        ],
+        "visiblePixels": 44630,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wagon-cover-drawn-back.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wagon-open-cover-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wagon-cover-drawn-back"
+    },
+    "wagon-open-cover-s-1": {
+      "sheet": "wagon-cover-drawn-back",
+      "x": 1069,
+      "y": 136,
+      "w": 247,
+      "h": 246,
+      "anchorX": 0.496,
+      "anchorY": 0.9268,
+      "logicalHeight": 246,
+      "label": "wagon open cover s 1",
+      "kind": "wagon-cover-drawn-back",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1071,
+          138,
+          243,
+          242
+        ],
+        "visiblePixels": 34910,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wagon-cover-drawn-back.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wagon-open-cover-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wagon-cover-drawn-back"
+    },
+    "wagon-open-cover-n-1": {
+      "sheet": "wagon-cover-drawn-back",
+      "x": 1418,
+      "y": 176,
+      "w": 254,
+      "h": 195,
+      "anchorX": 0.498,
+      "anchorY": 0.9282,
+      "logicalHeight": 195,
+      "label": "wagon open cover n 1",
+      "kind": "wagon-cover-drawn-back",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1420,
+          178,
+          250,
+          191
+        ],
+        "visiblePixels": 32742,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wagon-cover-drawn-back.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wagon-open-cover-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wagon-cover-drawn-back"
+    },
+    "wagon-open-cover-e-2": {
+      "sheet": "wagon-cover-drawn-back",
+      "x": 107,
+      "y": 529,
+      "w": 388,
+      "h": 238,
+      "anchorX": 0.3943,
+      "anchorY": 0.9286,
+      "logicalHeight": 238,
+      "label": "wagon open cover e 2",
+      "kind": "wagon-cover-drawn-back",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          109,
+          531,
+          384,
+          234
+        ],
+        "visiblePixels": 44569,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wagon-cover-drawn-back.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wagon-open-cover-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wagon-cover-drawn-back"
+    },
+    "wagon-open-cover-w-2": {
+      "sheet": "wagon-cover-drawn-back",
+      "x": 552,
+      "y": 527,
+      "w": 384,
+      "h": 242,
+      "anchorX": 0.6029,
+      "anchorY": 0.9298,
+      "logicalHeight": 242,
+      "label": "wagon open cover w 2",
+      "kind": "wagon-cover-drawn-back",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          554,
+          529,
+          380,
+          238
+        ],
+        "visiblePixels": 44747,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wagon-cover-drawn-back.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wagon-open-cover-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wagon-cover-drawn-back"
+    },
+    "wagon-open-cover-s-2": {
+      "sheet": "wagon-cover-drawn-back",
+      "x": 1069,
+      "y": 523,
+      "w": 247,
+      "h": 246,
+      "anchorX": 0.498,
+      "anchorY": 0.9268,
+      "logicalHeight": 246,
+      "label": "wagon open cover s 2",
+      "kind": "wagon-cover-drawn-back",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1071,
+          525,
+          243,
+          242
+        ],
+        "visiblePixels": 34807,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wagon-cover-drawn-back.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wagon-open-cover-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wagon-cover-drawn-back"
+    },
+    "wagon-open-cover-n-2": {
+      "sheet": "wagon-cover-drawn-back",
+      "x": 1418,
+      "y": 564,
+      "w": 254,
+      "h": 194,
+      "anchorX": 0.4961,
+      "anchorY": 0.9278,
+      "logicalHeight": 195,
+      "label": "wagon open cover n 2",
+      "kind": "wagon-cover-drawn-back",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1420,
+          566,
+          250,
+          190
+        ],
+        "visiblePixels": 32887,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/wagon-cover-drawn-back.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "wagon-open-cover-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/wagon-cover-drawn-back"
     },
     "bonham-walk-e-1": {
       "sheet": "famous-bonham",
@@ -162801,6 +167778,786 @@
       "authored": false,
       "motion": "breathe"
     },
+    "rust-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "rust-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "teal-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "teal-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "teal-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "teal-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "teal-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "teal-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "teal-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "elder-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "elder-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "elder-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "elder-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "elder-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "elder-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "elder-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "blue-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-woman-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-woman-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-woman-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-woman-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-woman-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-woman-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "indigo-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "indigo-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "indigo-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "indigo-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "indigo-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "indigo-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "ochre-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "ochre-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "ochre-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "ochre-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "ochre-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "ochre-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-girl-wagon-passenger-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-passenger-e-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-girl-wagon-passenger-e-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-girl-wagon-passenger-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-passenger-s-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-girl-wagon-passenger-s-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "blue-girl-wagon-passenger-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-passenger-n-1",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-girl-wagon-passenger-n-2",
+          "duration": 750
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "rust-woman-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "rust-woman-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "rust-woman-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-woman-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "indigo-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "indigo-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "indigo-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "indigo-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "indigo-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "indigo-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "indigo-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ochre-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "ochre-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "ochre-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "ochre-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ochre-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "ochre-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "ochre-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "blue-girl-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "blue-girl-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "blue-girl-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "blue-girl-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "rust-infant-walk-e": {
+      "frames": [
+        {
+          "sprite": "rust-infant-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "rust-infant-walk-s": {
+      "frames": [
+        {
+          "sprite": "rust-infant-walk-s-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-s-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-s-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-s-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "rust-infant-walk-n": {
+      "frames": [
+        {
+          "sprite": "rust-infant-walk-n-1",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-n-2",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-n-3",
+          "duration": 230
+        },
+        {
+          "sprite": "rust-infant-walk-n-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "wagon-open-cover-e": {
+      "frames": [
+        {
+          "sprite": "wagon-open-cover-e-1",
+          "duration": 400
+        },
+        {
+          "sprite": "wagon-open-cover-e-2",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "wagon-open-cover-w": {
+      "frames": [
+        {
+          "sprite": "wagon-open-cover-w-1",
+          "duration": 400
+        },
+        {
+          "sprite": "wagon-open-cover-w-2",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "wagon-open-cover-s": {
+      "frames": [
+        {
+          "sprite": "wagon-open-cover-s-1",
+          "duration": 400
+        },
+        {
+          "sprite": "wagon-open-cover-s-2",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "wagon-open-cover-n": {
+      "frames": [
+        {
+          "sprite": "wagon-open-cover-n-1",
+          "duration": 400
+        },
+        {
+          "sprite": "wagon-open-cover-n-2",
+          "duration": 400
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
     "bonham-walk-e": {
       "frames": [
         {
@@ -183138,7 +188895,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 383,
+    "sourceCount": 391,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
