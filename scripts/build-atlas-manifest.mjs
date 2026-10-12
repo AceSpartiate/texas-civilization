@@ -359,7 +359,8 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       ...(['house-modules','house-back-views','house-construction-complete'].includes(sheet) && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
       ...(['house-modules','house-back-views','house-construction-complete'].includes(sheet) && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
       ...(MODULE_METADATA[names[index]] || {}),
-      ...(/^(people-|animal-|military-|courier-)/.test(sheet) ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
+      ...(/^(people-|animal-|military-|courier-)/.test(sheet) || sheet==='bexar-townsfolk' ? { logicalHeight: Math.max(...placed.filter(p => p.row === frame.row).map(p => p.maxY - p.minY + 1)) } : {}),
+      ...(sheet==='regular-loophole-actions' ? {logicalHeight:Math.max(...placed.map(p=>p.maxY-p.minY+1))} : {}),
       // Family sheets keep seated figures at their own standing scale.
       ...(sheet.startsWith('people-family-') ? { logicalHeight: Math.max(...placed.filter(p => p.row < 3).map(p => p.maxY - p.minY + 1)) } : {}),
       ...(sheet==='wagon-rig' && names[index]!=='wagon-wheel' ? {logicalHeight:placed[0].maxY-placed[0].minY+1} : {}),

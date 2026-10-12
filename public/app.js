@@ -4111,7 +4111,10 @@ function renderHostLive(snapshot, host) {
 }
 $('#host-spotlight-back')?.addEventListener('click', () => applyMapView('follow'));
 /** A data- attribute written only when it changes: the panel is redrawn every tick on a slow computer. */
-function setData(element, key, value) { if (element.dataset[key] !== value) element.dataset[key] = value; }
+function setData(element, key, value) {
+  const property=key.replace(/-([a-z])/g,(_match,letter)=>letter.toUpperCase());
+  if (element.dataset[property] !== value) element.dataset[property] = value;
+}
 /**
  * Choose the student's main person: `set-main`, which the server keeps on the household and refuses in words for anybody
  * too young or gone. The star fills on the next snapshot, which is what says the server took it; nothing is remembered here.

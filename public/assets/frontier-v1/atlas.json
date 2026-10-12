@@ -1078,6 +1078,188 @@
         ]
       }
     },
+    "regular-loophole-actions": {
+      "image": "atlases/regular-loophole-actions.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1487360,
+      "sha256": "368b0e0ba8d0fffb3f73957b42c00f2ee9461aff8d11d095455cf18c3cd89761",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.839032,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              119,
+              455
+            ],
+            "columns": [
+              [
+                267,
+                685
+              ],
+              [
+                912,
+                1300
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              588,
+              932
+            ],
+            "columns": [
+              [
+                266,
+                689
+              ],
+              [
+                930,
+                1273
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "bexar-townsfolk": {
+      "image": "atlases/bexar-townsfolk.png",
+      "width": 1264,
+      "height": 1244,
+      "bytes": 1190200,
+      "sha256": "39cb2c93cf5980ee2fab4a5f414182413f63c507d855d433bb24863c7bef46f6",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.701503,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              53,
+              344
+            ],
+            "columns": [
+              [
+                83,
+                282
+              ],
+              [
+                425,
+                561
+              ],
+              [
+                720,
+                913
+              ],
+              [
+                1039,
+                1178
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              378,
+              690
+            ],
+            "columns": [
+              [
+                80,
+                286
+              ],
+              [
+                428,
+                574
+              ],
+              [
+                716,
+                918
+              ],
+              [
+                1033,
+                1194
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              724,
+              948
+            ],
+            "columns": [
+              [
+                90,
+                262
+              ],
+              [
+                444,
+                547
+              ],
+              [
+                734,
+                900
+              ],
+              [
+                1046,
+                1192
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              961,
+              1215
+            ],
+            "columns": [
+              [
+                78,
+                287
+              ],
+              [
+                421,
+                558
+              ],
+              [
+                721,
+                914
+              ],
+              [
+                1050,
+                1189
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "bexar-san-fernando": {
       "image": "atlases/bexar-san-fernando.png",
       "width": 1536,
@@ -32200,6 +32382,506 @@
           540
         ],
         "visiblePixels": 63566,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-loophole-aim": {
+      "sheet": "regular-loophole-actions",
+      "x": 267,
+      "y": 119,
+      "w": 418,
+      "h": 336,
+      "anchorX": 0.3469,
+      "anchorY": 0.9286,
+      "logicalHeight": 344,
+      "label": "regular loophole aim",
+      "kind": "regular-loophole-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          269,
+          121,
+          414,
+          332
+        ],
+        "visiblePixels": 56207,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-loophole-fire": {
+      "sheet": "regular-loophole-actions",
+      "x": 912,
+      "y": 119,
+      "w": 388,
+      "h": 336,
+      "anchorX": 0.366,
+      "anchorY": 0.9286,
+      "logicalHeight": 344,
+      "label": "regular loophole fire",
+      "kind": "regular-loophole-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          914,
+          121,
+          384,
+          332
+        ],
+        "visiblePixels": 54440,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-loophole-load": {
+      "sheet": "regular-loophole-actions",
+      "x": 266,
+      "y": 592,
+      "w": 423,
+      "h": 338,
+      "anchorX": 0.3499,
+      "anchorY": 0.929,
+      "logicalHeight": 344,
+      "label": "regular loophole load",
+      "kind": "regular-loophole-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          268,
+          594,
+          419,
+          334
+        ],
+        "visiblePixels": 59992,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-loophole-ram": {
+      "sheet": "regular-loophole-actions",
+      "x": 930,
+      "y": 588,
+      "w": 343,
+      "h": 344,
+      "anchorX": 0.4388,
+      "anchorY": 0.9273,
+      "logicalHeight": 344,
+      "label": "regular loophole ram",
+      "kind": "regular-loophole-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          932,
+          590,
+          339,
+          340
+        ],
+        "visiblePixels": 60196,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-woman-walk-1": {
+      "sheet": "bexar-townsfolk",
+      "x": 83,
+      "y": 54,
+      "w": 199,
+      "h": 289,
+      "anchorX": 0.5226,
+      "anchorY": 0.9273,
+      "logicalHeight": 291,
+      "label": "bexar woman walk 1",
+      "kind": "bexar-townsfolk",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          85,
+          56,
+          195,
+          285
+        ],
+        "visiblePixels": 28783,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-woman-walk-2": {
+      "sheet": "bexar-townsfolk",
+      "x": 425,
+      "y": 53,
+      "w": 136,
+      "h": 291,
+      "anchorX": 0.5074,
+      "anchorY": 0.9416,
+      "logicalHeight": 291,
+      "label": "bexar woman walk 2",
+      "kind": "bexar-townsfolk",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          427,
+          55,
+          132,
+          287
+        ],
+        "visiblePixels": 25410,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-woman-walk-3": {
+      "sheet": "bexar-townsfolk",
+      "x": 720,
+      "y": 54,
+      "w": 193,
+      "h": 290,
+      "anchorX": 0.5181,
+      "anchorY": 0.9276,
+      "logicalHeight": 291,
+      "label": "bexar woman walk 3",
+      "kind": "bexar-townsfolk",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          722,
+          56,
+          189,
+          286
+        ],
+        "visiblePixels": 28571,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-woman-walk-4": {
+      "sheet": "bexar-townsfolk",
+      "x": 1039,
+      "y": 54,
+      "w": 139,
+      "h": 290,
+      "anchorX": 0.5144,
+      "anchorY": 0.9517,
+      "logicalHeight": 291,
+      "label": "bexar woman walk 4",
+      "kind": "bexar-townsfolk",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1041,
+          56,
+          135,
+          286
+        ],
+        "visiblePixels": 25132,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-elder-walk-1": {
+      "sheet": "bexar-townsfolk",
+      "x": 80,
+      "y": 378,
+      "w": 206,
+      "h": 311,
+      "anchorX": 0.4879,
+      "anchorY": 0.9293,
+      "logicalHeight": 311,
+      "label": "bexar elder walk 1",
+      "kind": "bexar-townsfolk",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          82,
+          380,
+          202,
+          307
+        ],
+        "visiblePixels": 29549,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-elder-walk-2": {
+      "sheet": "bexar-townsfolk",
+      "x": 428,
+      "y": 379,
+      "w": 146,
+      "h": 311,
+      "anchorX": 0.4486,
+      "anchorY": 0.9389,
+      "logicalHeight": 311,
+      "label": "bexar elder walk 2",
+      "kind": "bexar-townsfolk",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          430,
+          381,
+          142,
+          307
+        ],
+        "visiblePixels": 23895,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-elder-walk-3": {
+      "sheet": "bexar-townsfolk",
+      "x": 716,
+      "y": 381,
+      "w": 202,
+      "h": 309,
+      "anchorX": 0.5198,
+      "anchorY": 0.9288,
+      "logicalHeight": 311,
+      "label": "bexar elder walk 3",
+      "kind": "bexar-townsfolk",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          718,
+          383,
+          198,
+          305
+        ],
+        "visiblePixels": 28518,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-elder-walk-4": {
+      "sheet": "bexar-townsfolk",
+      "x": 1033,
+      "y": 379,
+      "w": 161,
+      "h": 311,
+      "anchorX": 0.5528,
+      "anchorY": 0.9293,
+      "logicalHeight": 311,
+      "label": "bexar elder walk 4",
+      "kind": "bexar-townsfolk",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1035,
+          381,
+          157,
+          307
+        ],
+        "visiblePixels": 26908,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-child-walk-1": {
+      "sheet": "bexar-townsfolk",
+      "x": 90,
+      "y": 725,
+      "w": 172,
+      "h": 223,
+      "anchorX": 0.5116,
+      "anchorY": 0.9283,
+      "logicalHeight": 223,
+      "label": "bexar child walk 1",
+      "kind": "bexar-townsfolk",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          92,
+          727,
+          168,
+          219
+        ],
+        "visiblePixels": 16569,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-child-walk-2": {
+      "sheet": "bexar-townsfolk",
+      "x": 444,
+      "y": 725,
+      "w": 103,
+      "h": 222,
+      "anchorX": 0.5388,
+      "anchorY": 0.9324,
+      "logicalHeight": 223,
+      "label": "bexar child walk 2",
+      "kind": "bexar-townsfolk",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          446,
+          727,
+          99,
+          218
+        ],
+        "visiblePixels": 13865,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-child-walk-3": {
+      "sheet": "bexar-townsfolk",
+      "x": 734,
+      "y": 725,
+      "w": 166,
+      "h": 223,
+      "anchorX": 0.5181,
+      "anchorY": 0.9283,
+      "logicalHeight": 223,
+      "label": "bexar child walk 3",
+      "kind": "bexar-townsfolk",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          736,
+          727,
+          162,
+          219
+        ],
+        "visiblePixels": 16754,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-child-walk-4": {
+      "sheet": "bexar-townsfolk",
+      "x": 1046,
+      "y": 724,
+      "w": 146,
+      "h": 223,
+      "anchorX": 0.524,
+      "anchorY": 0.9283,
+      "logicalHeight": 223,
+      "label": "bexar child walk 4",
+      "kind": "bexar-townsfolk",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1048,
+          726,
+          142,
+          219
+        ],
+        "visiblePixels": 14630,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-older-woman-walk-1": {
+      "sheet": "bexar-townsfolk",
+      "x": 78,
+      "y": 962,
+      "w": 209,
+      "h": 252,
+      "anchorX": 0.488,
+      "anchorY": 0.9286,
+      "logicalHeight": 254,
+      "label": "bexar older woman walk 1",
+      "kind": "bexar-townsfolk",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          964,
+          205,
+          248
+        ],
+        "visiblePixels": 27508,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-older-woman-walk-2": {
+      "sheet": "bexar-townsfolk",
+      "x": 421,
+      "y": 962,
+      "w": 137,
+      "h": 253,
+      "anchorX": 0.5146,
+      "anchorY": 0.9526,
+      "logicalHeight": 254,
+      "label": "bexar older woman walk 2",
+      "kind": "bexar-townsfolk",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          423,
+          964,
+          133,
+          249
+        ],
+        "visiblePixels": 22910,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-older-woman-walk-3": {
+      "sheet": "bexar-townsfolk",
+      "x": 721,
+      "y": 963,
+      "w": 193,
+      "h": 251,
+      "anchorX": 0.513,
+      "anchorY": 0.9283,
+      "logicalHeight": 254,
+      "label": "bexar older woman walk 3",
+      "kind": "bexar-townsfolk",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          723,
+          965,
+          189,
+          247
+        ],
+        "visiblePixels": 26448,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bexar-older-woman-walk-4": {
+      "sheet": "bexar-townsfolk",
+      "x": 1050,
+      "y": 961,
+      "w": 139,
+      "h": 254,
+      "anchorX": 0.4353,
+      "anchorY": 0.9291,
+      "logicalHeight": 254,
+      "label": "bexar older woman walk 4",
+      "kind": "bexar-townsfolk",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1052,
+          963,
+          135,
+          250
+        ],
+        "visiblePixels": 23433,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

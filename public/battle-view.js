@@ -1,4 +1,5 @@
 import { marshWadingClip } from './wading-art.js';
+import { BEXAR_TOWNSFOLK, bexarCivilianHeight, createMoonlightGrade, drawBexarMoonlight } from './bexar-battle-art.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
 //
 // Owner, 2026-09-25: "when i try to watch a battle ... i see npc's just standing around ... the battle itself never actually
@@ -199,7 +200,7 @@ const bodiesOf = battle => [
   ...(battle.groups || []).map(group => ({ ...group, key: `g:${group.id}` })),
 ];
 /** Who the townspeople are drawn as, in turn: the library's own women, children and old men (never soldiers). */
-const TOWNSFOLK = ['rust-woman', 'smallchild', 'elder', 'indigo'];
+const TOWNSFOLK = BEXAR_TOWNSFOLK;
 /** A figure's place on the ground from its slot: the side's centre, turned to face the way the side faces. */
 const onGround = (centre, facing, slot) => ({
   x: centre.x + facing.x * slot.along - facing.y * slot.across,
@@ -226,6 +227,7 @@ export function regularity(points) {
  * clip is not loaded), `drawSprite`, `hasSprite` and `miniPerson` for the fallback figure.
  */
 export function createBattleView(art) {
+  let moonlight=createMoonlightGrade();
   const view = {
     key: null, minute: null, tickAt: 0, tickMs: 1000, sides: new Map(), layouts: new Map(),
     smoke: [], flashes: [], shotsSeen: new Set(), linesSeen: new Map(), commandsAt: 0, fallenAt: new Map(),
@@ -256,6 +258,7 @@ export function createBattleView(art) {
   function accept(battle, now, tickMs) {
     const key = `${battle.id}`;
     if (view.key !== key) {
+      moonlight=createMoonlightGrade();
       view.key = key; view.sides.clear(); view.smoke = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
       view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.fallenSide.clear(); view.fallenFigure.clear(); view.herd = null; view.pins.clear();
       view.cartTipStartedAt = null;
@@ -625,7 +628,7 @@ export function createBattleView(art) {
         }
         if (side.civilians) {
           const who = TOWNSFOLK[slot.index % TOWNSFOLK.length];
-          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * (who === 'smallchild' ? 0.62 : 0.95), clip: moving ? `${who}-walk` : `${who}-idle-s`, timeMs: time, flip: !right, seed });
+          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * bexarCivilianHeight(who), clip: moving ? `${who}-walk` : null, sprite: moving ? null : `${who}-walk-1`, timeMs: time, flip: !right, seed });
           drawnBy[side.key].push(point); civilians++;
           continue;
         }
@@ -675,7 +678,7 @@ export function createBattleView(art) {
           if (t < wait) {
             sprite = slot.kneel ? `${kind}-load` : `${kind}-${right ? 'e' : 'w'}`; still = true; flip = slot.kneel ? !right : false;
             if (prone) { sprite = 'regular-prone-lie'; flip = !right; }
-            if (side.cover === 'loophole' && kind === 'volunteer') { sprite = 'volunteer-loophole-load'; size = figurePx * 0.65; flip = !right; }
+            if (side.cover === 'loophole' && ['volunteer','regular'].includes(kind)) { sprite = `${kind}-loophole-load`; size = figurePx * 0.65; flip = !right; }
             // Under a bank (Concepción's riverbank, the Grass Fight's creek beds): dropped below the lip to load, up on the cut step
             // to fire. stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 2 - the loading figure
             // drawn lower, kneeling, until a climbing pose exists.
@@ -684,7 +687,7 @@ export function createBattleView(art) {
           else {
             clip = `${kind}-fire-reload`; timeMs = t - wait;
             if (prone) clip = 'regular-prone-fire-reload';
-            if (side.cover === 'loophole' && kind === 'volunteer') { clip = 'volunteer-loophole-fire-reload'; size = figurePx * 0.65; }
+            if (side.cover === 'loophole' && ['volunteer','regular'].includes(kind)) { clip = `${kind}-loophole-fire-reload`; size = figurePx * 0.65; }
             const shotKey = `${seed}:${Math.floor((time + (slot.phase ?? 0) * 20000) / cycle)}`;
             if (timeMs >= AIM_MS && timeMs < AIM_MS + 400 && !view.shotsSeen.has(shotKey) && !still) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
@@ -781,7 +784,9 @@ export function createBattleView(art) {
     const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now, bounds);
     for (const plume of battle.plumes || []) drawPlume(ctx, plume, camera, figurePx, time, reducedMotion);
     // Night (§6.13): the field dark but for lit windows, the fire and the flashes, which are drawn over it.
-    const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : null;
+    const moon=battle.id==='bexar-storming' && Number.isFinite(battle.bexarDarkness) ? moonlight.update(battle.bexarDarkness,now) : 0;
+    if(moon>0)drawBexarMoonlight(ctx,moon,bounds);
+    const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : moon>0 ? {lit:0} : null;
     // A darkness given as a number (the Alamo's nights, and the dawn coming up through the assault, 0 to 1), over the ground and
     // the men but under the flashes and the words. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 - a
     // darkening wash until night art exists.

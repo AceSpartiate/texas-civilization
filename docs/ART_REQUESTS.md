@@ -291,8 +291,6 @@ does not have:
 | **Karnes's crowbar** is now his own `karnes-crowbar-work` cycle at the door; he idles once it gives and `wall-breach` remains the opened-door marker | `drawBreaches` in `public/battle-view.js` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 3 | Karnes delivered; generic volunteer crowbar east/west/south/north delivered through 2026-10-08 |
 | **Digging the trench across the street at night** is the settlers' `rust-work`/`teal-work` | `draw` in `public/battle-view.js`, `action: 'work'` (`stand-in:`) | Request 2026-09-25 — the storming of Béxar, item 4 | `volunteer-dig` |
 | ~~The white flag of truce as a regular beside canvas cloth; the bugle only a caption~~ | `drawWhiteFlag` uses a Mexican regular at Béxar and a Texian volunteer at Coleto, each with walking and idle art; `drawLines` shows a regular bugler at documented calls | Request 2026-09-25 — the storming of Béxar, item 5 | Delivered in `battle-signals.mjs`; a drummer remains requested separately |
-| **The townspeople let out of a broken house** walk away as the library's `rust-woman`, `indigo`, `elder` and `smallchild` | `draw` in `public/battle-view.js`, `civilians` (a library figure, not a stand-in figure: no marker) | Request 2026-09-25 — the storming of Béxar, item 6 | Béxar townspeople of 1835 in their own dress, walking |
-| **Night at Béxar** (the entry before daylight, the Priest's House by moonlight) is not drawn: the day's own light stands | `public/app.js` (no layer) | Request 2026-09-25 — the storming of Béxar, item 7 | a darkening, moonlit layer that does not snap when the pace changes |
 | **The Twin Sisters** at San Jacinto use their special red-and-blue `twin-sister-painted-e`/`-w` and authored recoil clips, two distinct guns. Their service figures use `twin-crew-gun-ram`, `-shot-carry`, `-ready` and `-fire` from `twin-sisters-crew`; the unpainted `cannon-sixpounder-*` stays available for other light iron guns. The Mexican gun in the breastwork remains bronze with `regular-gun-*` | `drawGun` in `public/battle-view.js` | Request 2026-09-25 — San Jacinto, item 1; owner 2026-09-27 color direction | Dedicated service art delivered; crew transport remains unverified |
 | **Healthy camp rest and sleep delivered**: distinct volunteer/regular seated and blanket-sleep loops; drinking, cleaning and musket props available | `draw` in `public/battle-view.js` | Request 2026-09-25 — San Jacinto, item 2 | Chore actions and prop placement remain to integrate |
 | **Baggage breastwork delivered**: dedicated packs/saddles sections with the existing central gun opening | `drawWorks` in `public/battle-view.js` | Request 2026-09-25 — San Jacinto, item 2 | Disturbed/open variants await explicit state |
@@ -402,6 +400,8 @@ Castrillón is an incremental two-sheet 2×2 delivery: east idle, two-frame east
 taken reads as a man with empty hands; the fallen read as lying still, not hurt; nobody's face is claimed as a likeness.
 
 ## Request 2026-09-25 — the storming of Béxar
+
+**Status: completed 2026-10-11.** Regular loophole service, four civilian walk identities and smooth moonlit grade complete the remaining pieces. Earlier structures, engineers, crowbars and signals remain delivered. See ART_DELIVERY_2026-10-11-BEXAR-BATTLE-COMPLETE.md.
 
 **Why.** The owner, 2026-09-25: *"go ahead, build it for every conflict. ... it's okay to make battles last longer to show the full
 experience as long as it appears correct to the player."* The storming of Béxar (December 5–9, 1835) is now staged on the engine

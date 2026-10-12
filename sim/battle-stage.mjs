@@ -18,6 +18,8 @@
 // Nothing in a formation is a person (`FIC-GONZ-006`): a side is a count and a style, drawn as a sample. A family's own people
 // are real entities at their own positions, in the force (`members`), and the renderer draws them doing what it does.
 import { GONZALES } from './battles/gonzales.mjs';
+import { dateOf } from './clock.mjs';
+import { bexarDarknessAtHour } from '../public/bexar-battle-art.js';
 import { BEXAR_STORMING } from './battles/bexar-storming.mjs';
 import { SAN_JACINTO_BATTLE } from './battles/san-jacinto.mjs';
 import { ALAMO } from './battles/alamo.mjs';
@@ -668,6 +670,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
     };
   });
   const view = {
+    ...(id==='bexar-storming' ? {bexarDarkness:bexarDarknessAtHour(dateOf(world,world.minute).getUTCHours()+dateOf(world,world.minute).getUTCMinutes()/60)} : {}),
     id, name: def.name, phase: phase.id, title: phase.title || null, legacyPhase, caption: phase.caption, claimId: phase.claimId,
     minute: world.minute, phaseMinute: into, live: state.live, over: state.over, contact: state.live && world.minute >= state.contact,
     step: phase.step || null, sides,

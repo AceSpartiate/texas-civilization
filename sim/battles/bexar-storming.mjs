@@ -63,14 +63,18 @@ export const BEXAR_OFFSETS = Object.freeze({
   // The Navarro house, "close to the square", taken at ten on the night of the 7th.
   navarro: { x: 0.028, y: -0.058 },
   // Zambrano Row, "leading to the square", taken room by room on the 8th, and the plaza's edge in front of it.
-  row: { x: 0.0149, y: -0.044 },
+  // Reconstructed encounter attached to plaza-islas-north-13 in the current illustrated assembly.
+  // Its former marker stood about seventy feet from the nearest house.
+  row: { x: 0.019710124850295687, y: -0.05634097188470257 },
   rowFront: { x: 0.012, y: -0.03 },
   // The line of loopholes Cooke's men passed "within a few feet of ... for seventy or seventy five yards", and its end.
   loopholes: { x: 0.03, y: -0.076 },
   loopholesEnd: { x: 0.0, y: -0.063 },
   // The Priest's House on the plaza, and the gun by the cemetery "two or three yards" from its door.
-  priests: { x: -0.0116, y: -0.0542 },
-  cemeteryGun: { x: -0.02, y: -0.047 },
+  priests: { x: -0.006794236934519339, y: -0.06656815393356766 },
+  // Reconstructed gun position about eight feet from the illustrated house anchor,
+  // following the reported two-to-three-yard separation; not a surveyed door position.
+  cemeteryGun: { x: -0.008094236934519339, y: -0.06576815393356766 },
   // The palisade and gun across the street's entrance to the plaza, the plaza itself, the roofs round it and the church.
   barricade: { x: 0.004, y: -0.024 },
   plaza: { x: 0.0, y: 0.004 },

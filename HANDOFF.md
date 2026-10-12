@@ -1,3 +1,7 @@
+## Completed art group 2026-10-11: Béxar battle
+
+Twenty frames and five authored clips complete regular loophole service and four townsfolk identities. Both bind the battle renderer. A calendar-derived Béxar darkness value feeds a 1.8-second eased screen-time moonlit grade, with flashes/smoke above it. Row encounter reattached to the current illustrated house anchor. Read docs/ART_DELIVERY_2026-10-11-BEXAR-BATTLE-COMPLETE.md for the manifest, clothing sources, lighting limits and proof. **10 dated parent artwork groups remain.** No deployment performed.
+
 ## Completed art group 2026-10-11: house construction pieces
 
 Eight new sprites close the remaining house-plot artwork: jacal posts/wattle/daub/thatch, shed frame, opposing-hearth double chimney, separate floor and half loft. Jacal stages and shed frame now use the new art; double chimney/floor/loft are library-ready pending compositor adoption. Measured seats, grounded corners, nominal occupied footprints and alpha occlusion contract supplied. Browser proof covers eight pieces and sixteen live jacal stage/turn assemblies. Read docs/ART_DELIVERY_2026-10-11-HOUSE-CONSTRUCTION-COMPLETE.md. **11 dated parent artwork groups remain.** No deployment performed.

@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3215 usable sprites, 350 PNG atlases, 1120 clips** (799 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3235 usable sprites, 352 PNG atlases, 1125 clips** (804 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -29,6 +29,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | white-flag-regular | 4 | 1262 × 1246 | 786638 |
 | white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
 | regular-bugler | 4 | 1262 × 1246 | 691857 |
+| regular-loophole-actions | 4 | 1536 × 1024 | 1487360 |
+| bexar-townsfolk | 16 | 1264 × 1244 | 1190200 |
 | bexar-san-fernando | 1 | 1536 × 1024 | 2150927 |
 | bexar-governors-palace | 1 | 1774 × 887 | 1812505 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
@@ -451,6 +453,26 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-bugler-raise | regular-bugler | regular-bugler-call |
 | regular-bugler-sound | regular-bugler | regular-bugler-call |
 | regular-bugler-lower | regular-bugler | regular-bugler-call |
+| regular-loophole-aim | regular-loophole-actions | regular-loophole-fire-reload |
+| regular-loophole-fire | regular-loophole-actions | regular-loophole-fire-reload |
+| regular-loophole-load | regular-loophole-actions | regular-loophole-fire-reload |
+| regular-loophole-ram | regular-loophole-actions | regular-loophole-fire-reload |
+| bexar-woman-walk-1 | bexar-townsfolk | bexar-woman-walk |
+| bexar-woman-walk-2 | bexar-townsfolk | bexar-woman-walk |
+| bexar-woman-walk-3 | bexar-townsfolk | bexar-woman-walk |
+| bexar-woman-walk-4 | bexar-townsfolk | bexar-woman-walk |
+| bexar-elder-walk-1 | bexar-townsfolk | bexar-elder-walk |
+| bexar-elder-walk-2 | bexar-townsfolk | bexar-elder-walk |
+| bexar-elder-walk-3 | bexar-townsfolk | bexar-elder-walk |
+| bexar-elder-walk-4 | bexar-townsfolk | bexar-elder-walk |
+| bexar-child-walk-1 | bexar-townsfolk | bexar-child-walk |
+| bexar-child-walk-2 | bexar-townsfolk | bexar-child-walk |
+| bexar-child-walk-3 | bexar-townsfolk | bexar-child-walk |
+| bexar-child-walk-4 | bexar-townsfolk | bexar-child-walk |
+| bexar-older-woman-walk-1 | bexar-townsfolk | bexar-older-woman-walk |
+| bexar-older-woman-walk-2 | bexar-townsfolk | bexar-older-woman-walk |
+| bexar-older-woman-walk-3 | bexar-townsfolk | bexar-older-woman-walk |
+| bexar-older-woman-walk-4 | bexar-townsfolk | bexar-older-woman-walk |
 | bexar-san-fernando-1836 | bexar-san-fernando | State artwork; no motion required |
 | bexar-governors-palace-1836 | bexar-governors-palace | State artwork; no motion required |
 | palmetto | biome-ground-bexar | State artwork; no motion required |
@@ -3612,6 +3634,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-bugler-call | Pose cycle | 4 | 1340 | one-shot | east; mirror for west |
 | white-flag-regular-walk-e | Pose cycle | 2 | 560 | yes | east |
 | white-flag-volunteer-walk-e | Pose cycle | 2 | 560 | yes | east |
+| bexar-woman-walk | Pose cycle | 4 | 720 | yes | east |
+| bexar-elder-walk | Pose cycle | 4 | 720 | yes | east |
+| bexar-child-walk | Pose cycle | 4 | 720 | yes | east |
+| bexar-older-woman-walk | Pose cycle | 4 | 720 | yes | east |
+| regular-loophole-fire-reload | Pose cycle | 4 | 2470 | one-shot | east |
 | cane-wind | Still state | 1 | 900 | yes | not applicable |
 | grass-tall-wind | Still state | 1 | 900 | yes | not applicable |
 | tree-anacua-gale | Pose cycle | 2 | 1200 | yes | undefined |

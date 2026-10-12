@@ -493,6 +493,126 @@
       "motion": "none",
       "direction": "east"
     },
+    "bexar-woman-walk": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "bexar-woman-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-woman-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-woman-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-woman-walk-4",
+          "duration": 180
+        }
+      ]
+    },
+    "bexar-elder-walk": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "bexar-elder-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-elder-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-elder-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-elder-walk-4",
+          "duration": 180
+        }
+      ]
+    },
+    "bexar-child-walk": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "bexar-child-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-child-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-child-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-child-walk-4",
+          "duration": 180
+        }
+      ]
+    },
+    "bexar-older-woman-walk": {
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "bexar-older-woman-walk-1",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-older-woman-walk-2",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-older-woman-walk-3",
+          "duration": 180
+        },
+        {
+          "sprite": "bexar-older-woman-walk-4",
+          "duration": 180
+        }
+      ]
+    },
+    "regular-loophole-fire-reload": {
+      "authored": true,
+      "loop": false,
+      "motion": "none",
+      "direction": "east",
+      "frames": [
+        {
+          "sprite": "regular-loophole-aim",
+          "duration": 700
+        },
+        {
+          "sprite": "regular-loophole-fire",
+          "duration": 170
+        },
+        {
+          "sprite": "regular-loophole-load",
+          "duration": 800
+        },
+        {
+          "sprite": "regular-loophole-ram",
+          "duration": 800
+        }
+      ]
+    },
     "cane-wind": {
       "frames": [
         {
