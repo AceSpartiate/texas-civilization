@@ -1,0 +1,232 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "name": "house-jacal-posts",
+      "width": 174.09926470588235
+    },
+    {
+      "name": "house-jacal-wattle",
+      "width": 179.1078066914498
+    },
+    {
+      "name": "house-jacal-daub-walls",
+      "width": 174.6
+    },
+    {
+      "name": "house-jacal-thatch-roof",
+      "width": 200.22471910112358
+    },
+    {
+      "name": "house-shed-frame",
+      "width": 188.31521739130434
+    },
+    {
+      "name": "house-chimney-double",
+      "width": 137.22222222222223
+    },
+    {
+      "name": "house-puncheon-floor",
+      "width": 254.50471698113208
+    },
+    {
+      "name": "house-half-loft",
+      "width": 199.32000000000002
+    }
+  ],
+  "stages": [
+    {
+      "stage": 1,
+      "progress": 0,
+      "rotation": 0,
+      "calls": [
+        {
+          "name": "house-jacal-posts",
+          "width": 118.81800000000001
+        }
+      ]
+    },
+    {
+      "stage": 1,
+      "progress": 0,
+      "rotation": 90,
+      "calls": [
+        {
+          "name": "house-jacal-posts",
+          "width": 118.81800000000001
+        }
+      ]
+    },
+    {
+      "stage": 1,
+      "progress": 0,
+      "rotation": 180,
+      "calls": [
+        {
+          "name": "house-jacal-posts",
+          "width": 118.81800000000001
+        }
+      ]
+    },
+    {
+      "stage": 1,
+      "progress": 0,
+      "rotation": 270,
+      "calls": [
+        {
+          "name": "house-jacal-posts",
+          "width": 118.81800000000001
+        }
+      ]
+    },
+    {
+      "stage": 1,
+      "progress": 0.5,
+      "rotation": 0,
+      "calls": [
+        {
+          "name": "house-jacal-wattle",
+          "width": 120.88799999999999
+        }
+      ]
+    },
+    {
+      "stage": 1,
+      "progress": 0.5,
+      "rotation": 90,
+      "calls": [
+        {
+          "name": "house-jacal-wattle",
+          "width": 120.88799999999999
+        }
+      ]
+    },
+    {
+      "stage": 1,
+      "progress": 0.5,
+      "rotation": 180,
+      "calls": [
+        {
+          "name": "house-jacal-wattle",
+          "width": 120.88799999999999
+        }
+      ]
+    },
+    {
+      "stage": 1,
+      "progress": 0.5,
+      "rotation": 270,
+      "calls": [
+        {
+          "name": "house-jacal-wattle",
+          "width": 120.88799999999999
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "progress": 0,
+      "rotation": 0,
+      "calls": [
+        {
+          "name": "house-jacal-daub-walls",
+          "width": 120.474
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "progress": 0,
+      "rotation": 90,
+      "calls": [
+        {
+          "name": "house-jacal-daub-walls",
+          "width": 120.474
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "progress": 0,
+      "rotation": 180,
+      "calls": [
+        {
+          "name": "house-jacal-daub-walls",
+          "width": 120.474
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "progress": 0,
+      "rotation": 270,
+      "calls": [
+        {
+          "name": "house-jacal-daub-walls",
+          "width": 120.474
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "progress": 0,
+      "rotation": 0,
+      "calls": [
+        {
+          "name": "house-jacal-daub-walls",
+          "width": 120.474
+        },
+        {
+          "name": "house-jacal-thatch-roof",
+          "width": 127.70244000000002
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "progress": 0,
+      "rotation": 90,
+      "calls": [
+        {
+          "name": "house-jacal-daub-walls",
+          "width": 120.474
+        },
+        {
+          "name": "house-jacal-thatch-roof",
+          "width": 127.70244000000002
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "progress": 0,
+      "rotation": 180,
+      "calls": [
+        {
+          "name": "house-jacal-daub-walls",
+          "width": 120.474
+        },
+        {
+          "name": "house-jacal-thatch-roof",
+          "width": 127.70244000000002
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "progress": 0,
+      "rotation": 270,
+      "calls": [
+        {
+          "name": "house-jacal-daub-walls",
+          "width": 120.474
+        },
+        {
+          "name": "house-jacal-thatch-roof",
+          "width": 127.70244000000002
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

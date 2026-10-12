@@ -1,3 +1,7 @@
+## Completed art group 2026-10-11: house construction pieces
+
+Eight new sprites close the remaining house-plot artwork: jacal posts/wattle/daub/thatch, shed frame, opposing-hearth double chimney, separate floor and half loft. Jacal stages and shed frame now use the new art; double chimney/floor/loft are library-ready pending compositor adoption. Measured seats, grounded corners, nominal occupied footprints and alpha occlusion contract supplied. Browser proof covers eight pieces and sixteen live jacal stage/turn assemblies. Read docs/ART_DELIVERY_2026-10-11-HOUSE-CONSTRUCTION-COMPLETE.md. **11 dated parent artwork groups remain.** No deployment performed.
+
 ## Completed art group 2026-10-11: house other sides
 
 All ten rear/end-view house assets delivered, alpha-audited and registered. New rear walls have roof seats, ground corners and source-scale normalization; roofSeat supports the metadata. Browser proof covers ten pieces and four roof assemblies. Gameplay selection still uses existing front views: migrate selected-frame geometry, side-door/chimney checks and end-view choices together. Read docs/ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md for the complete manifest and integration checklist. **12 dated parent artwork groups remain.** No deployment performed.

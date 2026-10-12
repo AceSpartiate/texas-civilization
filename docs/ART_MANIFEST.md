@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3207 usable sprites, 349 PNG atlases, 1120 clips** (799 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3215 usable sprites, 350 PNG atlases, 1120 clips** (799 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -239,6 +239,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elm-gale | 6 | 1243 × 1265 | 1228004 |
 | home-tools | 6 | 1024 × 1536 | 1685412 |
 | horse-herds | 8 | 1774 × 887 | 1516208 |
+| house-construction-complete | 8 | 1774 × 887 | 1134794 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
 | house-back-views | 6 | 1448 × 1086 | 819294 |
 | house-end-views | 4 | 1536 × 1024 | 2128992 |
@@ -2369,6 +2370,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | herd-scatter-2 | horse-herds | herd-scatter |
 | herd-scatter-3 | horse-herds | herd-scatter |
 | herd-scatter-4 | horse-herds | herd-scatter |
+| house-jacal-posts | house-construction-complete | State artwork; no motion required |
+| house-jacal-wattle | house-construction-complete | State artwork; no motion required |
+| house-jacal-daub-walls | house-construction-complete | State artwork; no motion required |
+| house-jacal-thatch-roof | house-construction-complete | State artwork; no motion required |
+| house-shed-frame | house-construction-complete | State artwork; no motion required |
+| house-chimney-double | house-construction-complete | State artwork; no motion required |
+| house-puncheon-floor | house-construction-complete | State artwork; no motion required |
+| house-half-loft | house-construction-complete | State artwork; no motion required |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |

@@ -3,8 +3,8 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 349,
-    "sprites": 3207,
+    "sheets": 350,
+    "sprites": 3215,
     "clips": 1120,
     "poseCycles": 799,
     "rigs": 4
@@ -19186,6 +19186,80 @@
               [
                 1355,
                 1745
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "house-construction-complete": {
+      "image": "atlases/house-construction-complete.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1134794,
+      "sha256": "82b5408e894ac54c5da6be22cc1c5b724ad26d8870d3c8817c0a4fe624e90b07",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.761382,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              98,
+              378
+            ],
+            "columns": [
+              [
+                81,
+                368
+              ],
+              [
+                524,
+                816
+              ],
+              [
+                979,
+                1270
+              ],
+              [
+                1387,
+                1711
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              511,
+              808
+            ],
+            "columns": [
+              [
+                72,
+                387
+              ],
+              [
+                540,
+                787
+              ],
+              [
+                946,
+                1273
+              ],
+              [
+                1401,
+                1703
               ]
             ]
           }
@@ -98660,6 +98734,353 @@
       "locationKits": [],
       "promptId": "frontier-v1/horse-herds"
     },
+    "house-jacal-posts": {
+      "sheet": "house-construction-complete",
+      "x": 81,
+      "y": 99,
+      "w": 287,
+      "h": 272,
+      "anchorX": 0.5401,
+      "anchorY": 0.9265,
+      "footprintFeet": {
+        "width": 16,
+        "depth": 16
+      },
+      "occlusion": {
+        "source": "sprite-alpha",
+        "threshold": 40
+      },
+      "rigid": true,
+      "label": "house jacal posts",
+      "kind": "house-construction-complete",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          101,
+          283,
+          268
+        ],
+        "visiblePixels": 25329,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-construction-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-construction-complete"
+    },
+    "house-jacal-wattle": {
+      "sheet": "house-construction-complete",
+      "x": 524,
+      "y": 98,
+      "w": 292,
+      "h": 269,
+      "anchorX": 0.5462,
+      "anchorY": 0.9294,
+      "footprintFeet": {
+        "width": 16,
+        "depth": 16
+      },
+      "occlusion": {
+        "source": "sprite-alpha",
+        "threshold": 40
+      },
+      "rigid": true,
+      "label": "house jacal wattle",
+      "kind": "house-construction-complete",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          526,
+          100,
+          288,
+          265
+        ],
+        "visiblePixels": 47357,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-construction-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-construction-complete"
+    },
+    "house-jacal-daub-walls": {
+      "sheet": "house-construction-complete",
+      "x": 979,
+      "y": 98,
+      "w": 291,
+      "h": 275,
+      "anchorX": 0.5412,
+      "anchorY": 0.9273,
+      "seatX": 0.4966,
+      "seatY": 0.2691,
+      "ground": {
+        "left": [
+          0.012,
+          0.7018
+        ],
+        "front": [
+          0.5498,
+          0.9855
+        ],
+        "right": [
+          0.9811,
+          0.6582
+        ]
+      },
+      "footprintFeet": {
+        "width": 16,
+        "depth": 16
+      },
+      "occlusion": {
+        "source": "sprite-alpha",
+        "threshold": 40
+      },
+      "rigid": true,
+      "label": "house jacal daub walls",
+      "kind": "house-construction-complete",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          981,
+          100,
+          287,
+          271
+        ],
+        "visiblePixels": 49394,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "roofScale": 0.9520370370370371,
+      "source": "atlases/house-construction-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-construction-complete"
+    },
+    "house-jacal-thatch-roof": {
+      "sheet": "house-construction-complete",
+      "x": 1387,
+      "y": 111,
+      "w": 324,
+      "h": 267,
+      "anchorX": 0.5988,
+      "anchorY": 0.9288,
+      "seatX": 0.4985,
+      "seatY": 0.5431,
+      "footprintFeet": {
+        "width": 16,
+        "depth": 16
+      },
+      "occlusion": {
+        "source": "sprite-alpha",
+        "threshold": 40
+      },
+      "rigid": true,
+      "label": "house jacal thatch roof",
+      "kind": "house-construction-complete",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1389,
+          113,
+          320,
+          263
+        ],
+        "visiblePixels": 43229,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-construction-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-construction-complete"
+    },
+    "house-shed-frame": {
+      "sheet": "house-construction-complete",
+      "x": 72,
+      "y": 522,
+      "w": 315,
+      "h": 276,
+      "anchorX": 0.6492,
+      "anchorY": 0.9275,
+      "footprintFeet": {
+        "width": 16,
+        "depth": 8
+      },
+      "occlusion": {
+        "source": "sprite-alpha",
+        "threshold": 40
+      },
+      "rigid": true,
+      "label": "house shed frame",
+      "kind": "house-construction-complete",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          74,
+          524,
+          311,
+          272
+        ],
+        "visiblePixels": 44406,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-construction-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-construction-complete"
+    },
+    "house-chimney-double": {
+      "sheet": "house-construction-complete",
+      "x": 540,
+      "y": 511,
+      "w": 247,
+      "h": 297,
+      "anchorX": 0.5364,
+      "anchorY": 0.9293,
+      "footprintFeet": {
+        "width": 8,
+        "depth": 16
+      },
+      "occlusion": {
+        "source": "sprite-alpha",
+        "threshold": 40
+      },
+      "rigid": true,
+      "label": "house chimney double",
+      "kind": "house-construction-complete",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          542,
+          513,
+          243,
+          293
+        ],
+        "visiblePixels": 44916,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-construction-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-construction-complete"
+    },
+    "house-puncheon-floor": {
+      "sheet": "house-construction-complete",
+      "x": 946,
+      "y": 584,
+      "w": 327,
+      "h": 212,
+      "anchorX": 0.5382,
+      "anchorY": 0.9292,
+      "footprintFeet": {
+        "width": 16,
+        "depth": 16
+      },
+      "occlusion": {
+        "source": "sprite-alpha",
+        "threshold": 40
+      },
+      "rigid": true,
+      "label": "house puncheon floor",
+      "kind": "house-construction-complete",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          948,
+          586,
+          323,
+          208
+        ],
+        "visiblePixels": 36131,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-construction-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-construction-complete"
+    },
+    "house-half-loft": {
+      "sheet": "house-construction-complete",
+      "x": 1401,
+      "y": 532,
+      "w": 302,
+      "h": 250,
+      "anchorX": 0.5861,
+      "anchorY": 0.928,
+      "footprintFeet": {
+        "width": 16,
+        "depth": 8
+      },
+      "occlusion": {
+        "source": "sprite-alpha",
+        "threshold": 40
+      },
+      "rigid": true,
+      "label": "house half loft",
+      "kind": "house-construction-complete",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1403,
+          534,
+          298,
+          246
+        ],
+        "visiblePixels": 33295,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/house-construction-complete.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/house-construction-complete"
+    },
     "house-round-sill": {
       "sheet": "house-modules",
       "x": 29,
@@ -164035,7 +164456,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 349,
+    "sourceCount": 350,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

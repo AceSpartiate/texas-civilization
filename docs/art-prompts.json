@@ -5575,6 +5575,28 @@
       "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a2dfe1a8-6ffe-4e5b-916b-fde69f612812.png",
       "runtimeFile": "public/assets/frontier-v1/atlases/house-end-views.png",
       "postProcessing": "None; original generated PNG copied unchanged, read-only alpha measurement."
+    },
+    {
+      "sheet": "house-construction-complete",
+      "promptId": "frontier-v1/house-construction-complete",
+      "prompt": "Use case historical-scene. Transparent production architectural game atlas EXACT FOUR columns TWO rows EIGHT isolated reusable building modules, matching reference house-modules.png's warm brown outlined hand-painted weathered timber, ochre mud and straw, elevated three-quarter isometric view. EVERY object centered central55percent of its own equalcell, minimum70px true transparent gutters all seams and outeredges no overlap. Same frontmost ground corner bottom with left face extending upperleft and rightface upperright; 16foot square jacal footprint repeated accurately. Reading order row1 col1 JACAL POSTS: roofless square post framework vertical rough poles linked by horizontal wallplate, doorway gap nearleftface, NO walls roof foundation logs. row1 col2 JACAL WATTLE WALLS: same square framework filled with thin woven sticks, doorway gap nearleftface, OPEN TOP no roof. row1 col3 JACAL DAUBED WALLS: same post framework coated muted warm earthen mud, doorway nearleftface and small unglazed window rightface, OPEN TOP no roof. row1 col4 JACAL THATCH ROOF ONLY: separate thick straw gabled roof shell on same square pen footprint, low ridge on upperleft-to-lowerright diagonal corresponding reference clapboard roof orientation, no walls posts chimney underneath. Row2 col1 SHED FRAME: 16by8foot narrow lean-to timber posts floor joists and unfinished sloping rafters, OPEN skeleton no walls or completed roof. row2 col2 DOUBLE CHIMNEY: broad substantial rectangular stick-and-mud chimney stack with twin dark flues on top, two hearth openings on opposing exterior end faces, one visible dark hearth nearbase and opposite implied/partially visible rear, square footprint wide enough two fireplaces back-to-back, no cabin attached no smoke fire. row2 col3 PUNCHEON FLOOR ONLY: full square sixteenfoot deck of split rough planks on low joists, no walls loft ladder posts. row2 col4 HALF LOFT ONLY: raised eightby16foot partial timber platform on posts with simple ladder, transparent EMPTY SPACE below, no full ground-floor deck baked in, separate independently compositable mezzanine. Exact eight pieces, stylized rustic modest 1835 construction consistent reference no ornate modern details no people foliage landscape shadows labels border grid. True alpha0 background.",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + gutter and hearth correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-modules.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9be54e82-d51c-4c88-8388-df3d73acb3f5.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4b5362c0-1d38-4aa6-97c5-4ced4d8a0436.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-construction-complete.png",
+      "refinements": [
+        {
+          "prompt": "Edit this EXACT 4columns x2rows eight module atlas, preserving every architectural identity and order. TWO REQUIRED CORRECTIONS: (1) SHRINK EACH complete sprite uniformly to70percent of current dimensions centered in its OWN equal cell, producing huge genuine alpha0 gutters at all seams/outeredges. Preserve all geometry and detail, no clipped ends or crossing boundaries. (2) ONLY row2 column2 double chimney: hearths must be BACK TO BACK on OPPOSITE ends of stack, NOT adjacent faces like image1. Leave ONE visible arched hearth at nearleft lower face; REMOVE the arched opening on nearRIGHT face, replace with solid mud/stone wall. The opposite fireplace is hidden on rear far end; represent two flues on top divided along the opposite hearth axis. Keep broad rectangular mass and stone base. All other seven modules unchanged except uniform smaller cell placement. Warm brown painted outlines, transparent empty interiors and alpha0 background. Do not add object, text, shadow, matte or landscape. Exactly eight isolated construction modules.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9be54e82-d51c-4c88-8388-df3d73acb3f5.png"
+          ]
+        }
+      ],
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha measurement."
     }
   ]
 }

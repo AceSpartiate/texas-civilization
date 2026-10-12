@@ -143,7 +143,18 @@ export function roofSeat(walls, roof, x, y, height, flip = false) {
  * says the `drawSprite` given mirrors every picture about its foot, so the roof's seat is mirrored with the walls.
  */
 function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false) {
-  if (p.type === 'pen-jacal' || !spriteFrame) return 0;
+  if (!spriteFrame) return 0;
+  if (p.type === 'pen-jacal') {
+    const walls=spriteFrame('house-jacal-daub-walls');
+    const base=p.stage<2 ? p.stage===1 && p.progress>0 ? 'house-jacal-wattle' : 'house-jacal-posts' : 'house-jacal-daub-walls';
+    const frame=spriteFrame(base),roof=spriteFrame('house-jacal-thatch-roof');
+    const seat=p.stage>=p.kind.stageCount ? roofSeat(walls,roof,x,y,height,flip) : null;
+    if(!walls || !frame || (p.stage>=p.kind.stageCount && !seat))return 0;
+    const drawn=drawSprite(ctx,base,x,y,height*(frame.logicalHeight||frame.h)/(walls.logicalHeight||walls.h));
+    if(!drawn)return 0;
+    if(seat)drawSprite(ctx,'house-jacal-thatch-roof',seat.x,seat.y,seat.height,{anchor:seat.anchor});
+    return drawn;
+  }
   const material = p.type === 'pen-hewn' ? 'hewn' : 'round';
   const course = Math.max(0, p.stage - 1);
   const base = course === 0 ? `house-${material}-sill` : course <= 4 ? `house-${material}-low-walls` : `house-${material}-full-walls`;
@@ -495,8 +506,8 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       continue;
     }
     if (p.type === 'shed') {
-      const name = p.stage >= p.kind.stageCount ? 'house-shed-room' : 'lean-to';
-      if (!sprite(ctx, name, footX, footY, cell * 1.1) && name !== 'lean-to') sprite(ctx, 'lean-to', footX, footY, cell * 1.1);
+      const name = p.stage >= p.kind.stageCount ? 'house-shed-room' : 'house-shed-frame';
+      if (!sprite(ctx, name, footX, footY, cell * 1.1)) sprite(ctx, 'lean-to', footX, footY, cell * 1.1);
       continue;
     }
     if (p.type === 'porch') { if (!sprite(ctx, 'house-porch', footX, footY, cell * 0.9)) sprite(ctx, 'shed-open', footX, footY, cell * 0.9); continue; }
