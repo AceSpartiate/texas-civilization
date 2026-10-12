@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3514 usable sprites, 376 PNG atlases, 1214 clips** (893 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3590 usable sprites, 383 PNG atlases, 1235 clips** (914 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -12,6 +12,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
+| alamo-parapet-service | 16 | 1445 × 1088 | 875186 |
+| people-alamo-travis-service | 16 | 1536 × 1024 | 1708385 |
+| alamo-volunteer-trot | 12 | 1448 × 1086 | 1426623 |
+| alamo-upright-lancer-e | 8 | 1536 × 1024 | 2200872 |
+| alamo-upright-lancer-s | 8 | 1536 × 1024 | 1961648 |
+| alamo-upright-lancer-n | 8 | 1536 × 1024 | 1819250 |
+| alamo-battery-guns | 8 | 1774 × 887 | 1370425 |
 | alamo-face-strips | 5 | 1659 × 948 | 928904 |
 | alamo-funeral-pyre | 4 | 1254 × 1254 | 1841976 |
 | cannon-18pdr | 4 | 1254 × 1254 | 1234709 |
@@ -393,6 +400,82 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Sprite ID | Atlas | Animation clips |
 | --- | --- | --- |
+| volunteer-parapet-e-aim | alamo-parapet-service | volunteer-parapet-fire-e |
+| volunteer-parapet-e-fire | alamo-parapet-service | volunteer-parapet-fire-e |
+| volunteer-parapet-e-load | alamo-parapet-service | volunteer-parapet-fire-e |
+| volunteer-parapet-e-ramrod | alamo-parapet-service | volunteer-parapet-fire-e |
+| volunteer-parapet-w-aim | alamo-parapet-service | volunteer-parapet-fire-w |
+| volunteer-parapet-w-fire | alamo-parapet-service | volunteer-parapet-fire-w |
+| volunteer-parapet-w-load | alamo-parapet-service | volunteer-parapet-fire-w |
+| volunteer-parapet-w-ramrod | alamo-parapet-service | volunteer-parapet-fire-w |
+| volunteer-parapet-n-aim | alamo-parapet-service | volunteer-parapet-fire-n |
+| volunteer-parapet-n-fire | alamo-parapet-service | volunteer-parapet-fire-n |
+| volunteer-parapet-n-load | alamo-parapet-service | volunteer-parapet-fire-n |
+| volunteer-parapet-n-ramrod | alamo-parapet-service | volunteer-parapet-fire-n |
+| volunteer-parapet-s-aim | alamo-parapet-service | volunteer-parapet-fire-s |
+| volunteer-parapet-s-fire | alamo-parapet-service | volunteer-parapet-fire-s |
+| volunteer-parapet-s-load | alamo-parapet-service | volunteer-parapet-fire-s |
+| volunteer-parapet-s-ramrod | alamo-parapet-service | volunteer-parapet-fire-s |
+| travis-battery-e-aim | people-alamo-travis-service | travis-battery-fire-e |
+| travis-battery-e-fire | people-alamo-travis-service | travis-battery-fire-e |
+| travis-battery-e-load | people-alamo-travis-service | travis-battery-fire-e |
+| travis-battery-e-ramrod | people-alamo-travis-service | travis-battery-fire-e |
+| travis-battery-w-aim | people-alamo-travis-service | travis-battery-fire-w |
+| travis-battery-w-fire | people-alamo-travis-service | travis-battery-fire-w |
+| travis-battery-w-load | people-alamo-travis-service | travis-battery-fire-w |
+| travis-battery-w-ramrod | people-alamo-travis-service | travis-battery-fire-w |
+| travis-battery-n-aim | people-alamo-travis-service | travis-battery-fire-n |
+| travis-battery-n-fire | people-alamo-travis-service | travis-battery-fire-n |
+| travis-battery-n-load | people-alamo-travis-service | travis-battery-fire-n |
+| travis-battery-n-ramrod | people-alamo-travis-service | travis-battery-fire-n |
+| travis-battery-s-aim | people-alamo-travis-service | travis-battery-fire-s |
+| travis-battery-s-fire | people-alamo-travis-service | travis-battery-fire-s |
+| travis-battery-s-load | people-alamo-travis-service | travis-battery-fire-s |
+| travis-battery-s-ramrod | people-alamo-travis-service | travis-battery-fire-s |
+| volunteer-trot-e-1 | alamo-volunteer-trot | volunteer-trot-e |
+| volunteer-trot-e-2 | alamo-volunteer-trot | volunteer-trot-e |
+| volunteer-trot-e-3 | alamo-volunteer-trot | volunteer-trot-e |
+| volunteer-trot-e-4 | alamo-volunteer-trot | volunteer-trot-e |
+| volunteer-trot-s-1 | alamo-volunteer-trot | volunteer-trot-s |
+| volunteer-trot-s-2 | alamo-volunteer-trot | volunteer-trot-s |
+| volunteer-trot-s-3 | alamo-volunteer-trot | volunteer-trot-s |
+| volunteer-trot-s-4 | alamo-volunteer-trot | volunteer-trot-s |
+| volunteer-trot-n-1 | alamo-volunteer-trot | volunteer-trot-n |
+| volunteer-trot-n-2 | alamo-volunteer-trot | volunteer-trot-n |
+| volunteer-trot-n-3 | alamo-volunteer-trot | volunteer-trot-n |
+| volunteer-trot-n-4 | alamo-volunteer-trot | volunteer-trot-n |
+| lancer-upright-march-e-1 | alamo-upright-lancer-e | lancer-upright-march-e |
+| lancer-upright-march-e-2 | alamo-upright-lancer-e | lancer-upright-march-e |
+| lancer-upright-march-e-3 | alamo-upright-lancer-e | lancer-upright-march-e |
+| lancer-upright-march-e-4 | alamo-upright-lancer-e | lancer-upright-march-e |
+| lancer-upright-idle-e-1 | alamo-upright-lancer-e | lancer-upright-idle-e |
+| lancer-upright-idle-e-2 | alamo-upright-lancer-e | lancer-upright-idle-e |
+| lancer-upright-idle-e-3 | alamo-upright-lancer-e | lancer-upright-idle-e |
+| lancer-upright-idle-e-4 | alamo-upright-lancer-e | lancer-upright-idle-e |
+| lancer-upright-march-s-1 | alamo-upright-lancer-s | lancer-upright-march-s |
+| lancer-upright-march-s-2 | alamo-upright-lancer-s | lancer-upright-march-s |
+| lancer-upright-march-s-3 | alamo-upright-lancer-s | lancer-upright-march-s |
+| lancer-upright-march-s-4 | alamo-upright-lancer-s | lancer-upright-march-s |
+| lancer-upright-idle-s-1 | alamo-upright-lancer-s | lancer-upright-idle-s |
+| lancer-upright-idle-s-2 | alamo-upright-lancer-s | lancer-upright-idle-s |
+| lancer-upright-idle-s-3 | alamo-upright-lancer-s | lancer-upright-idle-s |
+| lancer-upright-idle-s-4 | alamo-upright-lancer-s | lancer-upright-idle-s |
+| lancer-upright-march-n-1 | alamo-upright-lancer-n | lancer-upright-march-n |
+| lancer-upright-march-n-2 | alamo-upright-lancer-n | lancer-upright-march-n |
+| lancer-upright-march-n-3 | alamo-upright-lancer-n | lancer-upright-march-n |
+| lancer-upright-march-n-4 | alamo-upright-lancer-n | lancer-upright-march-n |
+| lancer-upright-idle-n-1 | alamo-upright-lancer-n | lancer-upright-idle-n |
+| lancer-upright-idle-n-2 | alamo-upright-lancer-n | lancer-upright-idle-n |
+| lancer-upright-idle-n-3 | alamo-upright-lancer-n | lancer-upright-idle-n |
+| lancer-upright-idle-n-4 | alamo-upright-lancer-n | lancer-upright-idle-n |
+| cannon-alamo-north-e | alamo-battery-guns | cannon-alamo-north-e-recoil |
+| cannon-alamo-north-e-kick | alamo-battery-guns | cannon-alamo-north-e-recoil |
+| cannon-alamo-north-w | alamo-battery-guns | cannon-alamo-north-w-recoil |
+| cannon-alamo-north-w-kick | alamo-battery-guns | cannon-alamo-north-w-recoil |
+| cannon-alamo-church-e | alamo-battery-guns | cannon-alamo-church-e-recoil |
+| cannon-alamo-church-e-kick | alamo-battery-guns | cannon-alamo-church-e-recoil |
+| cannon-alamo-church-w | alamo-battery-guns | cannon-alamo-church-w-recoil |
+| cannon-alamo-church-w-kick | alamo-battery-guns | cannon-alamo-church-w-recoil |
 | alamo-face-limestone | alamo-face-strips | State artwork; no motion required |
 | alamo-face-rooms | alamo-face-strips | State artwork; no motion required |
 | alamo-face-gate | alamo-face-strips | State artwork; no motion required |
@@ -3912,6 +3995,27 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
+| volunteer-parapet-fire-e | Pose cycle | 4 | 3600 | yes | east |
+| volunteer-parapet-fire-w | Pose cycle | 4 | 3600 | yes | west |
+| volunteer-parapet-fire-n | Pose cycle | 4 | 3600 | yes | north |
+| volunteer-parapet-fire-s | Pose cycle | 4 | 3600 | yes | south |
+| travis-battery-fire-e | Pose cycle | 4 | 3600 | yes | east |
+| travis-battery-fire-w | Pose cycle | 4 | 3600 | yes | west |
+| travis-battery-fire-n | Pose cycle | 4 | 3600 | yes | north |
+| travis-battery-fire-s | Pose cycle | 4 | 3600 | yes | south |
+| volunteer-trot-e | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| volunteer-trot-s | Pose cycle | 4 | 720 | yes | south |
+| volunteer-trot-n | Pose cycle | 4 | 720 | yes | north |
+| lancer-upright-march-e | Pose cycle | 4 | 1040 | yes | east |
+| lancer-upright-idle-e | Pose cycle | 4 | 3400 | yes | east |
+| lancer-upright-march-s | Pose cycle | 4 | 1040 | yes | south |
+| lancer-upright-idle-s | Pose cycle | 4 | 3400 | yes | south |
+| lancer-upright-march-n | Pose cycle | 4 | 1040 | yes | north |
+| lancer-upright-idle-n | Pose cycle | 4 | 3400 | yes | north |
+| cannon-alamo-north-e-recoil | Pose cycle | 2 | 900 | one-shot | east |
+| cannon-alamo-north-w-recoil | Pose cycle | 2 | 900 | one-shot | west |
+| cannon-alamo-church-e-recoil | Pose cycle | 2 | 900 | one-shot | east |
+| cannon-alamo-church-w-recoil | Pose cycle | 2 | 900 | one-shot | west |
 | alamo-pyre-burning | Pose cycle | 3 | 1080 | yes | elevation; orient with structure geometry |
 | cannon-18pdr-e-recoil | Pose cycle | 3 | 770 | one-shot | east |
 | cannon-18pdr-w-recoil | Pose cycle | 3 | 770 | one-shot | west |

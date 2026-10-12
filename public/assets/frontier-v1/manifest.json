@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 376,
-    "sprites": 3514,
-    "clips": 1214,
-    "poseCycles": 893,
+    "sheets": 383,
+    "sprites": 3590,
+    "clips": 1235,
+    "poseCycles": 914,
     "rigs": 4
   },
   "entrypoints": {
@@ -26,6 +26,649 @@
     "authority": "Rendering never changes world state. No frame callbacks cause outcomes. Purge concealed actors; snap across time jumps. Buildings stay still."
   },
   "sheets": {
+    "alamo-parapet-service": {
+      "image": "atlases/alamo-parapet-service.png",
+      "width": 1445,
+      "height": 1088,
+      "bytes": 875186,
+      "sha256": "3cc56510e513d2f60bc073a951191c7411c37284fc653dfe9ae3980cdd9be564",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.788911,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              93,
+              279
+            ],
+            "columns": [
+              [
+                67,
+                316
+              ],
+              [
+                436,
+                695
+              ],
+              [
+                806,
+                1011
+              ],
+              [
+                1167,
+                1369
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              344,
+              530
+            ],
+            "columns": [
+              [
+                53,
+                302
+              ],
+              [
+                419,
+                679
+              ],
+              [
+                817,
+                1019
+              ],
+              [
+                1171,
+                1389
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              595,
+              790
+            ],
+            "columns": [
+              [
+                93,
+                254
+              ],
+              [
+                474,
+                635
+              ],
+              [
+                817,
+                994
+              ],
+              [
+                1187,
+                1363
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              860,
+              1039
+            ],
+            "columns": [
+              [
+                89,
+                264
+              ],
+              [
+                458,
+                623
+              ],
+              [
+                819,
+                1012
+              ],
+              [
+                1190,
+                1385
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "people-alamo-travis-service": {
+      "image": "atlases/people-alamo-travis-service.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1708385,
+      "sha256": "23774419649fcaffc62ac0f6b765e2ff9ea6e56c697a957067c717040f46e689",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.817606,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              61,
+              254
+            ],
+            "columns": [
+              [
+                108,
+                315
+              ],
+              [
+                505,
+                711
+              ],
+              [
+                891,
+                1043
+              ],
+              [
+                1259,
+                1430
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              313,
+              501
+            ],
+            "columns": [
+              [
+                77,
+                278
+              ],
+              [
+                467,
+                661
+              ],
+              [
+                894,
+                1042
+              ],
+              [
+                1264,
+                1424
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              540,
+              756
+            ],
+            "columns": [
+              [
+                137,
+                268
+              ],
+              [
+                501,
+                650
+              ],
+              [
+                898,
+                1051
+              ],
+              [
+                1277,
+                1417
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              792,
+              992
+            ],
+            "columns": [
+              [
+                117,
+                254
+              ],
+              [
+                510,
+                647
+              ],
+              [
+                897,
+                1048
+              ],
+              [
+                1267,
+                1409
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "alamo-volunteer-trot": {
+      "image": "atlases/alamo-volunteer-trot.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1426623,
+      "sha256": "29feb2aad5337c226c388e8006abb1a23f677bcc3b38232ac2ccebbef06d6e7e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.657914,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              330
+            ],
+            "columns": [
+              [
+                20,
+                362
+              ],
+              [
+                377,
+                714
+              ],
+              [
+                729,
+                1068
+              ],
+              [
+                1087,
+                1427
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              344,
+              703
+            ],
+            "columns": [
+              [
+                106,
+                290
+              ],
+              [
+                472,
+                656
+              ],
+              [
+                822,
+                1005
+              ],
+              [
+                1188,
+                1370
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              712,
+              1062
+            ],
+            "columns": [
+              [
+                93,
+                269
+              ],
+              [
+                455,
+                632
+              ],
+              [
+                805,
+                987
+              ],
+              [
+                1174,
+                1353
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "alamo-upright-lancer-e": {
+      "image": "atlases/alamo-upright-lancer-e.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2200872,
+      "sha256": "19c884b89644f1360266223114c98a677c3c6de953d3e78e102cae70a5dbffec",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.621289,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              7,
+              503
+            ],
+            "columns": [
+              [
+                10,
+                388
+              ],
+              [
+                398,
+                772
+              ],
+              [
+                790,
+                1155
+              ],
+              [
+                1171,
+                1532
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              512,
+              1000
+            ],
+            "columns": [
+              [
+                33,
+                393
+              ],
+              [
+                421,
+                766
+              ],
+              [
+                766,
+                1162
+              ],
+              [
+                1184,
+                1532
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "alamo-upright-lancer-s": {
+      "image": "atlases/alamo-upright-lancer-s.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1961648,
+      "sha256": "73beeecdd727962bb865d09648f2d7b32c7412c0c844c8e1115869ddb9882d30",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.718559,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              505
+            ],
+            "columns": [
+              [
+                153,
+                328
+              ],
+              [
+                496,
+                677
+              ],
+              [
+                865,
+                1050
+              ],
+              [
+                1266,
+                1448
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              510,
+              998
+            ],
+            "columns": [
+              [
+                131,
+                316
+              ],
+              [
+                490,
+                674
+              ],
+              [
+                852,
+                1081
+              ],
+              [
+                1269,
+                1450
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "alamo-upright-lancer-n": {
+      "image": "atlases/alamo-upright-lancer-n.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1819250,
+      "sha256": "9d0b15bb09e9bbc9d2f7dc050eb4566ebeffbfa87144dc708c404cac1508a5f4",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.760422,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              17,
+              499
+            ],
+            "columns": [
+              [
+                160,
+                347
+              ],
+              [
+                542,
+                725
+              ],
+              [
+                884,
+                1067
+              ],
+              [
+                1243,
+                1425
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              524,
+              998
+            ],
+            "columns": [
+              [
+                172,
+                350
+              ],
+              [
+                538,
+                725
+              ],
+              [
+                883,
+                1079
+              ],
+              [
+                1236,
+                1418
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "alamo-battery-guns": {
+      "image": "atlases/alamo-battery-guns.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1370425,
+      "sha256": "6a061b202dbb957b8c39cd4c0e4bcb6155d167134620e6d90306ff583b677283",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.680337,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              134,
+              425
+            ],
+            "columns": [
+              [
+                18,
+                438
+              ],
+              [
+                461,
+                858
+              ],
+              [
+                924,
+                1314
+              ],
+              [
+                1360,
+                1755
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              566,
+              814
+            ],
+            "columns": [
+              [
+                20,
+                421
+              ],
+              [
+                464,
+                859
+              ],
+              [
+                916,
+                1310
+              ],
+              [
+                1365,
+                1754
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "alamo-face-strips": {
       "image": "atlases/alamo-face-strips.png",
       "width": 1659,
@@ -32745,6 +33388,2666 @@
     }
   },
   "assets": {
+    "volunteer-parapet-e-aim": {
+      "sheet": "alamo-parapet-service",
+      "x": 67,
+      "y": 119,
+      "w": 249,
+      "h": 150,
+      "anchorX": 0.2169,
+      "anchorY": 0.9267,
+      "logicalHeight": 150,
+      "label": "volunteer parapet e aim",
+      "kind": "alamo-parapet-service",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          69,
+          121,
+          245,
+          146
+        ],
+        "visiblePixels": 17352,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-e-fire": {
+      "sheet": "alamo-parapet-service",
+      "x": 436,
+      "y": 117,
+      "w": 259,
+      "h": 153,
+      "anchorX": 0.2259,
+      "anchorY": 0.9542,
+      "logicalHeight": 150,
+      "label": "volunteer parapet e fire",
+      "kind": "alamo-parapet-service",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          438,
+          119,
+          255,
+          149
+        ],
+        "visiblePixels": 18167,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-e-load": {
+      "sheet": "alamo-parapet-service",
+      "x": 806,
+      "y": 93,
+      "w": 205,
+      "h": 186,
+      "anchorX": 0.3122,
+      "anchorY": 0.9247,
+      "logicalHeight": 150,
+      "label": "volunteer parapet e load",
+      "kind": "alamo-parapet-service",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          808,
+          95,
+          201,
+          182
+        ],
+        "visiblePixels": 14777,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-e-ramrod": {
+      "sheet": "alamo-parapet-service",
+      "x": 1167,
+      "y": 113,
+      "w": 202,
+      "h": 166,
+      "anchorX": 0.349,
+      "anchorY": 0.9277,
+      "logicalHeight": 150,
+      "label": "volunteer parapet e ramrod",
+      "kind": "alamo-parapet-service",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1169,
+          115,
+          198,
+          162
+        ],
+        "visiblePixels": 14686,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-w-aim": {
+      "sheet": "alamo-parapet-service",
+      "x": 53,
+      "y": 380,
+      "w": 249,
+      "h": 148,
+      "anchorX": 0.7751,
+      "anchorY": 0.9324,
+      "logicalHeight": 150,
+      "label": "volunteer parapet w aim",
+      "kind": "alamo-parapet-service",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          382,
+          245,
+          144
+        ],
+        "visiblePixels": 16816,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-w-fire": {
+      "sheet": "alamo-parapet-service",
+      "x": 419,
+      "y": 380,
+      "w": 260,
+      "h": 148,
+      "anchorX": 0.7712,
+      "anchorY": 0.9257,
+      "logicalHeight": 150,
+      "label": "volunteer parapet w fire",
+      "kind": "alamo-parapet-service",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          421,
+          382,
+          256,
+          144
+        ],
+        "visiblePixels": 17092,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-w-load": {
+      "sheet": "alamo-parapet-service",
+      "x": 817,
+      "y": 344,
+      "w": 202,
+      "h": 186,
+      "anchorX": 0.6337,
+      "anchorY": 0.9247,
+      "logicalHeight": 150,
+      "label": "volunteer parapet w load",
+      "kind": "alamo-parapet-service",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          819,
+          346,
+          198,
+          182
+        ],
+        "visiblePixels": 14104,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-w-ramrod": {
+      "sheet": "alamo-parapet-service",
+      "x": 1171,
+      "y": 355,
+      "w": 218,
+      "h": 173,
+      "anchorX": 0.6193,
+      "anchorY": 0.9249,
+      "logicalHeight": 150,
+      "label": "volunteer parapet w ramrod",
+      "kind": "alamo-parapet-service",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1173,
+          357,
+          214,
+          169
+        ],
+        "visiblePixels": 16240,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-n-aim": {
+      "sheet": "alamo-parapet-service",
+      "x": 93,
+      "y": 595,
+      "w": 161,
+      "h": 194,
+      "anchorX": 0.5528,
+      "anchorY": 0.9433,
+      "logicalHeight": 150,
+      "label": "volunteer parapet n aim",
+      "kind": "alamo-parapet-service",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          597,
+          157,
+          190
+        ],
+        "visiblePixels": 17055,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-n-fire": {
+      "sheet": "alamo-parapet-service",
+      "x": 474,
+      "y": 595,
+      "w": 161,
+      "h": 194,
+      "anchorX": 0.5932,
+      "anchorY": 0.9381,
+      "logicalHeight": 150,
+      "label": "volunteer parapet n fire",
+      "kind": "alamo-parapet-service",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          476,
+          597,
+          157,
+          190
+        ],
+        "visiblePixels": 17462,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-n-load": {
+      "sheet": "alamo-parapet-service",
+      "x": 817,
+      "y": 600,
+      "w": 177,
+      "h": 188,
+      "anchorX": 0.4944,
+      "anchorY": 0.9255,
+      "logicalHeight": 150,
+      "label": "volunteer parapet n load",
+      "kind": "alamo-parapet-service",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          819,
+          602,
+          173,
+          184
+        ],
+        "visiblePixels": 16766,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-n-ramrod": {
+      "sheet": "alamo-parapet-service",
+      "x": 1187,
+      "y": 597,
+      "w": 176,
+      "h": 193,
+      "anchorX": 0.392,
+      "anchorY": 0.9275,
+      "logicalHeight": 150,
+      "label": "volunteer parapet n ramrod",
+      "kind": "alamo-parapet-service",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1189,
+          599,
+          172,
+          189
+        ],
+        "visiblePixels": 17956,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-s-aim": {
+      "sheet": "alamo-parapet-service",
+      "x": 89,
+      "y": 860,
+      "w": 175,
+      "h": 172,
+      "anchorX": 0.58,
+      "anchorY": 0.9244,
+      "logicalHeight": 150,
+      "label": "volunteer parapet s aim",
+      "kind": "alamo-parapet-service",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          862,
+          171,
+          168
+        ],
+        "visiblePixels": 20240,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-s-fire": {
+      "sheet": "alamo-parapet-service",
+      "x": 458,
+      "y": 862,
+      "w": 165,
+      "h": 172,
+      "anchorX": 0.597,
+      "anchorY": 0.9244,
+      "logicalHeight": 150,
+      "label": "volunteer parapet s fire",
+      "kind": "alamo-parapet-service",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          460,
+          864,
+          161,
+          168
+        ],
+        "visiblePixels": 19192,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-s-load": {
+      "sheet": "alamo-parapet-service",
+      "x": 819,
+      "y": 865,
+      "w": 193,
+      "h": 173,
+      "anchorX": 0.443,
+      "anchorY": 0.9249,
+      "logicalHeight": 150,
+      "label": "volunteer parapet s load",
+      "kind": "alamo-parapet-service",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          821,
+          867,
+          189,
+          169
+        ],
+        "visiblePixels": 16287,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "volunteer-parapet-s-ramrod": {
+      "sheet": "alamo-parapet-service",
+      "x": 1190,
+      "y": 865,
+      "w": 195,
+      "h": 174,
+      "anchorX": 0.5205,
+      "anchorY": 0.9253,
+      "logicalHeight": 150,
+      "label": "volunteer parapet s ramrod",
+      "kind": "alamo-parapet-service",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1192,
+          867,
+          191,
+          170
+        ],
+        "visiblePixels": 21482,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-parapet-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-parapet-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-parapet-service"
+    },
+    "travis-battery-e-aim": {
+      "sheet": "people-alamo-travis-service",
+      "x": 108,
+      "y": 61,
+      "w": 207,
+      "h": 193,
+      "anchorX": 0.3382,
+      "anchorY": 0.943,
+      "logicalHeight": 216,
+      "label": "travis battery e aim",
+      "kind": "people-alamo-travis-service",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          110,
+          63,
+          203,
+          189
+        ],
+        "visiblePixels": 13635,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-e-fire": {
+      "sheet": "people-alamo-travis-service",
+      "x": 505,
+      "y": 61,
+      "w": 206,
+      "h": 193,
+      "anchorX": 0.3544,
+      "anchorY": 0.9378,
+      "logicalHeight": 216,
+      "label": "travis battery e fire",
+      "kind": "people-alamo-travis-service",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          507,
+          63,
+          202,
+          189
+        ],
+        "visiblePixels": 14168,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-e-load": {
+      "sheet": "people-alamo-travis-service",
+      "x": 891,
+      "y": 98,
+      "w": 152,
+      "h": 156,
+      "anchorX": 0.4375,
+      "anchorY": 0.9359,
+      "logicalHeight": 216,
+      "label": "travis battery e load",
+      "kind": "people-alamo-travis-service",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          893,
+          100,
+          148,
+          152
+        ],
+        "visiblePixels": 12332,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-e-ramrod": {
+      "sheet": "people-alamo-travis-service",
+      "x": 1259,
+      "y": 71,
+      "w": 171,
+      "h": 181,
+      "anchorX": 0.3567,
+      "anchorY": 0.9448,
+      "logicalHeight": 216,
+      "label": "travis battery e ramrod",
+      "kind": "people-alamo-travis-service",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1261,
+          73,
+          167,
+          177
+        ],
+        "visiblePixels": 12610,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-w-aim": {
+      "sheet": "people-alamo-travis-service",
+      "x": 77,
+      "y": 314,
+      "w": 201,
+      "h": 186,
+      "anchorX": 0.6393,
+      "anchorY": 0.9409,
+      "logicalHeight": 216,
+      "label": "travis battery w aim",
+      "kind": "people-alamo-travis-service",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          79,
+          316,
+          197,
+          182
+        ],
+        "visiblePixels": 13649,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-w-fire": {
+      "sheet": "people-alamo-travis-service",
+      "x": 467,
+      "y": 313,
+      "w": 194,
+      "h": 188,
+      "anchorX": 0.6134,
+      "anchorY": 0.9415,
+      "logicalHeight": 216,
+      "label": "travis battery w fire",
+      "kind": "people-alamo-travis-service",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          469,
+          315,
+          190,
+          184
+        ],
+        "visiblePixels": 13831,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-w-load": {
+      "sheet": "people-alamo-travis-service",
+      "x": 894,
+      "y": 337,
+      "w": 148,
+      "h": 162,
+      "anchorX": 0.5304,
+      "anchorY": 0.9259,
+      "logicalHeight": 216,
+      "label": "travis battery w load",
+      "kind": "people-alamo-travis-service",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          896,
+          339,
+          144,
+          158
+        ],
+        "visiblePixels": 13297,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-w-ramrod": {
+      "sheet": "people-alamo-travis-service",
+      "x": 1264,
+      "y": 313,
+      "w": 160,
+      "h": 186,
+      "anchorX": 0.5938,
+      "anchorY": 0.9247,
+      "logicalHeight": 216,
+      "label": "travis battery w ramrod",
+      "kind": "people-alamo-travis-service",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1266,
+          315,
+          156,
+          182
+        ],
+        "visiblePixels": 13428,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-n-aim": {
+      "sheet": "people-alamo-travis-service",
+      "x": 137,
+      "y": 540,
+      "w": 131,
+      "h": 216,
+      "anchorX": 0.4962,
+      "anchorY": 0.9537,
+      "logicalHeight": 216,
+      "label": "travis battery n aim",
+      "kind": "people-alamo-travis-service",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          139,
+          542,
+          127,
+          212
+        ],
+        "visiblePixels": 13020,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-n-fire": {
+      "sheet": "people-alamo-travis-service",
+      "x": 501,
+      "y": 541,
+      "w": 149,
+      "h": 215,
+      "anchorX": 0.5705,
+      "anchorY": 0.9535,
+      "logicalHeight": 216,
+      "label": "travis battery n fire",
+      "kind": "people-alamo-travis-service",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          503,
+          543,
+          145,
+          211
+        ],
+        "visiblePixels": 13434,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-n-load": {
+      "sheet": "people-alamo-travis-service",
+      "x": 898,
+      "y": 579,
+      "w": 153,
+      "h": 174,
+      "anchorX": 0.4281,
+      "anchorY": 0.9253,
+      "logicalHeight": 216,
+      "label": "travis battery n load",
+      "kind": "people-alamo-travis-service",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          900,
+          581,
+          149,
+          170
+        ],
+        "visiblePixels": 14056,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-n-ramrod": {
+      "sheet": "people-alamo-travis-service",
+      "x": 1277,
+      "y": 560,
+      "w": 140,
+      "h": 194,
+      "anchorX": 0.4679,
+      "anchorY": 0.9278,
+      "logicalHeight": 216,
+      "label": "travis battery n ramrod",
+      "kind": "people-alamo-travis-service",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1279,
+          562,
+          136,
+          190
+        ],
+        "visiblePixels": 13731,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-s-aim": {
+      "sheet": "people-alamo-travis-service",
+      "x": 117,
+      "y": 792,
+      "w": 137,
+      "h": 200,
+      "anchorX": 0.4927,
+      "anchorY": 0.955,
+      "logicalHeight": 216,
+      "label": "travis battery s aim",
+      "kind": "people-alamo-travis-service",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          119,
+          794,
+          133,
+          196
+        ],
+        "visiblePixels": 14299,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-s-fire": {
+      "sheet": "people-alamo-travis-service",
+      "x": 510,
+      "y": 793,
+      "w": 137,
+      "h": 196,
+      "anchorX": 0.4964,
+      "anchorY": 0.9541,
+      "logicalHeight": 216,
+      "label": "travis battery s fire",
+      "kind": "people-alamo-travis-service",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          512,
+          795,
+          133,
+          192
+        ],
+        "visiblePixels": 13732,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-s-load": {
+      "sheet": "people-alamo-travis-service",
+      "x": 897,
+      "y": 821,
+      "w": 151,
+      "h": 171,
+      "anchorX": 0.5265,
+      "anchorY": 0.9298,
+      "logicalHeight": 216,
+      "label": "travis battery s load",
+      "kind": "people-alamo-travis-service",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          899,
+          823,
+          147,
+          167
+        ],
+        "visiblePixels": 15311,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "travis-battery-s-ramrod": {
+      "sheet": "people-alamo-travis-service",
+      "x": 1267,
+      "y": 803,
+      "w": 142,
+      "h": 188,
+      "anchorX": 0.4718,
+      "anchorY": 0.9309,
+      "logicalHeight": 216,
+      "label": "travis battery s ramrod",
+      "kind": "people-alamo-travis-service",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1269,
+          805,
+          138,
+          184
+        ],
+        "visiblePixels": 16163,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/people-alamo-travis-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "travis-battery-fire-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/people-alamo-travis-service"
+    },
+    "volunteer-trot-e-1": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 20,
+      "y": 11,
+      "w": 342,
+      "h": 315,
+      "anchorX": 0.4985,
+      "anchorY": 0.927,
+      "logicalHeight": 320,
+      "label": "volunteer trot e 1",
+      "kind": "alamo-volunteer-trot",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          13,
+          338,
+          311
+        ],
+        "visiblePixels": 45412,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-e-2": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 377,
+      "y": 12,
+      "w": 337,
+      "h": 318,
+      "anchorX": 0.4332,
+      "anchorY": 0.934,
+      "logicalHeight": 320,
+      "label": "volunteer trot e 2",
+      "kind": "alamo-volunteer-trot",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          379,
+          14,
+          333,
+          314
+        ],
+        "visiblePixels": 43817,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-e-3": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 729,
+      "y": 11,
+      "w": 339,
+      "h": 318,
+      "anchorX": 0.4189,
+      "anchorY": 0.9277,
+      "logicalHeight": 320,
+      "label": "volunteer trot e 3",
+      "kind": "alamo-volunteer-trot",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          731,
+          13,
+          335,
+          314
+        ],
+        "visiblePixels": 45297,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-e-4": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 1087,
+      "y": 10,
+      "w": 340,
+      "h": 320,
+      "anchorX": 0.4838,
+      "anchorY": 0.9281,
+      "logicalHeight": 320,
+      "label": "volunteer trot e 4",
+      "kind": "alamo-volunteer-trot",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1089,
+          12,
+          336,
+          316
+        ],
+        "visiblePixels": 44627,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-s-1": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 106,
+      "y": 344,
+      "w": 184,
+      "h": 359,
+      "anchorX": 0.5027,
+      "anchorY": 0.9387,
+      "logicalHeight": 359,
+      "label": "volunteer trot s 1",
+      "kind": "alamo-volunteer-trot",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          108,
+          346,
+          180,
+          355
+        ],
+        "visiblePixels": 32021,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-s-2": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 472,
+      "y": 347,
+      "w": 184,
+      "h": 355,
+      "anchorX": 0.4647,
+      "anchorY": 0.9296,
+      "logicalHeight": 359,
+      "label": "volunteer trot s 2",
+      "kind": "alamo-volunteer-trot",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          474,
+          349,
+          180,
+          351
+        ],
+        "visiblePixels": 31738,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-s-3": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 822,
+      "y": 346,
+      "w": 183,
+      "h": 356,
+      "anchorX": 0.4973,
+      "anchorY": 0.9298,
+      "logicalHeight": 359,
+      "label": "volunteer trot s 3",
+      "kind": "alamo-volunteer-trot",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          824,
+          348,
+          179,
+          352
+        ],
+        "visiblePixels": 33390,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-s-4": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 1188,
+      "y": 344,
+      "w": 182,
+      "h": 359,
+      "anchorX": 0.4313,
+      "anchorY": 0.9276,
+      "logicalHeight": 359,
+      "label": "volunteer trot s 4",
+      "kind": "alamo-volunteer-trot",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1190,
+          346,
+          178,
+          355
+        ],
+        "visiblePixels": 33314,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-n-1": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 93,
+      "y": 713,
+      "w": 176,
+      "h": 346,
+      "anchorX": 0.5,
+      "anchorY": 0.9566,
+      "logicalHeight": 347,
+      "label": "volunteer trot n 1",
+      "kind": "alamo-volunteer-trot",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          715,
+          172,
+          342
+        ],
+        "visiblePixels": 30716,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-n-2": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 455,
+      "y": 713,
+      "w": 177,
+      "h": 346,
+      "anchorX": 0.5254,
+      "anchorY": 0.9277,
+      "logicalHeight": 347,
+      "label": "volunteer trot n 2",
+      "kind": "alamo-volunteer-trot",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          457,
+          715,
+          173,
+          342
+        ],
+        "visiblePixels": 30849,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-n-3": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 805,
+      "y": 712,
+      "w": 182,
+      "h": 347,
+      "anchorX": 0.4753,
+      "anchorY": 0.951,
+      "logicalHeight": 347,
+      "label": "volunteer trot n 3",
+      "kind": "alamo-volunteer-trot",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          807,
+          714,
+          178,
+          343
+        ],
+        "visiblePixels": 31433,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "volunteer-trot-n-4": {
+      "sheet": "alamo-volunteer-trot",
+      "x": 1174,
+      "y": 715,
+      "w": 179,
+      "h": 347,
+      "anchorX": 0.5978,
+      "anchorY": 0.9597,
+      "logicalHeight": 347,
+      "label": "volunteer trot n 4",
+      "kind": "alamo-volunteer-trot",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1176,
+          717,
+          175,
+          343
+        ],
+        "visiblePixels": 30903,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-volunteer-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "volunteer-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-volunteer-trot"
+    },
+    "lancer-upright-march-e-1": {
+      "sheet": "alamo-upright-lancer-e",
+      "x": 10,
+      "y": 8,
+      "w": 378,
+      "h": 495,
+      "anchorX": 0.5053,
+      "anchorY": 0.9394,
+      "logicalHeight": 496,
+      "label": "lancer upright march e 1",
+      "kind": "alamo-upright-lancer-e",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          12,
+          10,
+          374,
+          491
+        ],
+        "visiblePixels": 60266,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-e"
+    },
+    "lancer-upright-march-e-2": {
+      "sheet": "alamo-upright-lancer-e",
+      "x": 398,
+      "y": 9,
+      "w": 374,
+      "h": 493,
+      "anchorX": 0.508,
+      "anchorY": 0.9777,
+      "logicalHeight": 496,
+      "label": "lancer upright march e 2",
+      "kind": "alamo-upright-lancer-e",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          400,
+          11,
+          370,
+          489
+        ],
+        "visiblePixels": 59774,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-e"
+    },
+    "lancer-upright-march-e-3": {
+      "sheet": "alamo-upright-lancer-e",
+      "x": 790,
+      "y": 9,
+      "w": 365,
+      "h": 493,
+      "anchorX": 0.5082,
+      "anchorY": 0.9533,
+      "logicalHeight": 496,
+      "label": "lancer upright march e 3",
+      "kind": "alamo-upright-lancer-e",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          792,
+          11,
+          361,
+          489
+        ],
+        "visiblePixels": 59213,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-e"
+    },
+    "lancer-upright-march-e-4": {
+      "sheet": "alamo-upright-lancer-e",
+      "x": 1171,
+      "y": 7,
+      "w": 361,
+      "h": 496,
+      "anchorX": 0.4335,
+      "anchorY": 0.9294,
+      "logicalHeight": 496,
+      "label": "lancer upright march e 4",
+      "kind": "alamo-upright-lancer-e",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1173,
+          9,
+          357,
+          492
+        ],
+        "visiblePixels": 58773,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-e"
+    },
+    "lancer-upright-idle-e-1": {
+      "sheet": "alamo-upright-lancer-e",
+      "x": 33,
+      "y": 512,
+      "w": 360,
+      "h": 487,
+      "anchorX": 0.4403,
+      "anchorY": 0.9692,
+      "logicalHeight": 496,
+      "label": "lancer upright idle e 1",
+      "kind": "alamo-upright-lancer-e",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          35,
+          514,
+          356,
+          483
+        ],
+        "visiblePixels": 58320,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-e"
+    },
+    "lancer-upright-idle-e-2": {
+      "sheet": "alamo-upright-lancer-e",
+      "x": 421,
+      "y": 512,
+      "w": 345,
+      "h": 487,
+      "anchorX": 0.4696,
+      "anchorY": 0.9713,
+      "logicalHeight": 496,
+      "label": "lancer upright idle e 2",
+      "kind": "alamo-upright-lancer-e",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          423,
+          514,
+          342,
+          483
+        ],
+        "visiblePixels": 58860,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-e"
+    },
+    "lancer-upright-idle-e-3": {
+      "sheet": "alamo-upright-lancer-e",
+      "x": 766,
+      "y": 512,
+      "w": 396,
+      "h": 488,
+      "anchorX": 0.4962,
+      "anchorY": 0.9693,
+      "logicalHeight": 496,
+      "label": "lancer upright idle e 3",
+      "kind": "alamo-upright-lancer-e",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          767,
+          514,
+          393,
+          484
+        ],
+        "visiblePixels": 59277,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-e"
+    },
+    "lancer-upright-idle-e-4": {
+      "sheet": "alamo-upright-lancer-e",
+      "x": 1184,
+      "y": 513,
+      "w": 348,
+      "h": 487,
+      "anchorX": 0.4526,
+      "anchorY": 0.9507,
+      "logicalHeight": 496,
+      "label": "lancer upright idle e 4",
+      "kind": "alamo-upright-lancer-e",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1186,
+          515,
+          344,
+          483
+        ],
+        "visiblePixels": 58725,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-e.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-e"
+    },
+    "lancer-upright-march-s-1": {
+      "sheet": "alamo-upright-lancer-s",
+      "x": 153,
+      "y": 10,
+      "w": 175,
+      "h": 493,
+      "anchorX": 0.5057,
+      "anchorY": 0.9391,
+      "logicalHeight": 495,
+      "label": "lancer upright march s 1",
+      "kind": "alamo-upright-lancer-s",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          155,
+          12,
+          171,
+          489
+        ],
+        "visiblePixels": 40037,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-s"
+    },
+    "lancer-upright-march-s-2": {
+      "sheet": "alamo-upright-lancer-s",
+      "x": 496,
+      "y": 10,
+      "w": 181,
+      "h": 493,
+      "anchorX": 0.4696,
+      "anchorY": 0.929,
+      "logicalHeight": 495,
+      "label": "lancer upright march s 2",
+      "kind": "alamo-upright-lancer-s",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          498,
+          12,
+          177,
+          489
+        ],
+        "visiblePixels": 39114,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-s"
+    },
+    "lancer-upright-march-s-3": {
+      "sheet": "alamo-upright-lancer-s",
+      "x": 865,
+      "y": 10,
+      "w": 185,
+      "h": 492,
+      "anchorX": 0.4919,
+      "anchorY": 0.937,
+      "logicalHeight": 495,
+      "label": "lancer upright march s 3",
+      "kind": "alamo-upright-lancer-s",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          867,
+          12,
+          181,
+          488
+        ],
+        "visiblePixels": 39740,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-s"
+    },
+    "lancer-upright-march-s-4": {
+      "sheet": "alamo-upright-lancer-s",
+      "x": 1266,
+      "y": 10,
+      "w": 182,
+      "h": 495,
+      "anchorX": 0.4341,
+      "anchorY": 0.9818,
+      "logicalHeight": 495,
+      "label": "lancer upright march s 4",
+      "kind": "alamo-upright-lancer-s",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1268,
+          12,
+          178,
+          491
+        ],
+        "visiblePixels": 40097,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-s"
+    },
+    "lancer-upright-idle-s-1": {
+      "sheet": "alamo-upright-lancer-s",
+      "x": 131,
+      "y": 511,
+      "w": 185,
+      "h": 487,
+      "anchorX": 0.4892,
+      "anchorY": 0.9446,
+      "logicalHeight": 495,
+      "label": "lancer upright idle s 1",
+      "kind": "alamo-upright-lancer-s",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          133,
+          513,
+          181,
+          483
+        ],
+        "visiblePixels": 41688,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-s"
+    },
+    "lancer-upright-idle-s-2": {
+      "sheet": "alamo-upright-lancer-s",
+      "x": 490,
+      "y": 511,
+      "w": 184,
+      "h": 484,
+      "anchorX": 0.4973,
+      "anchorY": 0.9442,
+      "logicalHeight": 495,
+      "label": "lancer upright idle s 2",
+      "kind": "alamo-upright-lancer-s",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          492,
+          513,
+          180,
+          480
+        ],
+        "visiblePixels": 42031,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-s"
+    },
+    "lancer-upright-idle-s-3": {
+      "sheet": "alamo-upright-lancer-s",
+      "x": 852,
+      "y": 510,
+      "w": 229,
+      "h": 488,
+      "anchorX": 0.4039,
+      "anchorY": 0.9344,
+      "logicalHeight": 495,
+      "label": "lancer upright idle s 3",
+      "kind": "alamo-upright-lancer-s",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          854,
+          512,
+          225,
+          484
+        ],
+        "visiblePixels": 45544,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-s"
+    },
+    "lancer-upright-idle-s-4": {
+      "sheet": "alamo-upright-lancer-s",
+      "x": 1269,
+      "y": 511,
+      "w": 181,
+      "h": 484,
+      "anchorX": 0.4834,
+      "anchorY": 0.938,
+      "logicalHeight": 495,
+      "label": "lancer upright idle s 4",
+      "kind": "alamo-upright-lancer-s",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1271,
+          513,
+          177,
+          480
+        ],
+        "visiblePixels": 41849,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-s.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-s"
+    },
+    "lancer-upright-march-n-1": {
+      "sheet": "alamo-upright-lancer-n",
+      "x": 160,
+      "y": 19,
+      "w": 187,
+      "h": 480,
+      "anchorX": 0.4572,
+      "anchorY": 0.9292,
+      "logicalHeight": 482,
+      "label": "lancer upright march n 1",
+      "kind": "alamo-upright-lancer-n",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          162,
+          21,
+          183,
+          476
+        ],
+        "visiblePixels": 39131,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-n"
+    },
+    "lancer-upright-march-n-2": {
+      "sheet": "alamo-upright-lancer-n",
+      "x": 542,
+      "y": 19,
+      "w": 183,
+      "h": 478,
+      "anchorX": 0.4945,
+      "anchorY": 0.954,
+      "logicalHeight": 482,
+      "label": "lancer upright march n 2",
+      "kind": "alamo-upright-lancer-n",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          544,
+          21,
+          179,
+          474
+        ],
+        "visiblePixels": 38499,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-n"
+    },
+    "lancer-upright-march-n-3": {
+      "sheet": "alamo-upright-lancer-n",
+      "x": 884,
+      "y": 17,
+      "w": 183,
+      "h": 482,
+      "anchorX": 0.4891,
+      "anchorY": 0.9295,
+      "logicalHeight": 482,
+      "label": "lancer upright march n 3",
+      "kind": "alamo-upright-lancer-n",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          886,
+          19,
+          179,
+          478
+        ],
+        "visiblePixels": 38891,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-n"
+    },
+    "lancer-upright-march-n-4": {
+      "sheet": "alamo-upright-lancer-n",
+      "x": 1243,
+      "y": 18,
+      "w": 182,
+      "h": 479,
+      "anchorX": 0.4835,
+      "anchorY": 0.929,
+      "logicalHeight": 482,
+      "label": "lancer upright march n 4",
+      "kind": "alamo-upright-lancer-n",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1245,
+          20,
+          178,
+          475
+        ],
+        "visiblePixels": 39551,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-march-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-n"
+    },
+    "lancer-upright-idle-n-1": {
+      "sheet": "alamo-upright-lancer-n",
+      "x": 172,
+      "y": 524,
+      "w": 178,
+      "h": 474,
+      "anchorX": 0.4775,
+      "anchorY": 0.9726,
+      "logicalHeight": 482,
+      "label": "lancer upright idle n 1",
+      "kind": "alamo-upright-lancer-n",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          174,
+          526,
+          174,
+          470
+        ],
+        "visiblePixels": 37294,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-n"
+    },
+    "lancer-upright-idle-n-2": {
+      "sheet": "alamo-upright-lancer-n",
+      "x": 538,
+      "y": 524,
+      "w": 187,
+      "h": 471,
+      "anchorX": 0.4733,
+      "anchorY": 0.9745,
+      "logicalHeight": 482,
+      "label": "lancer upright idle n 2",
+      "kind": "alamo-upright-lancer-n",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          540,
+          526,
+          183,
+          467
+        ],
+        "visiblePixels": 41171,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-n"
+    },
+    "lancer-upright-idle-n-3": {
+      "sheet": "alamo-upright-lancer-n",
+      "x": 883,
+      "y": 525,
+      "w": 196,
+      "h": 472,
+      "anchorX": 0.449,
+      "anchorY": 0.9703,
+      "logicalHeight": 482,
+      "label": "lancer upright idle n 3",
+      "kind": "alamo-upright-lancer-n",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          885,
+          527,
+          192,
+          468
+        ],
+        "visiblePixels": 38414,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-n"
+    },
+    "lancer-upright-idle-n-4": {
+      "sheet": "alamo-upright-lancer-n",
+      "x": 1236,
+      "y": 525,
+      "w": 182,
+      "h": 472,
+      "anchorX": 0.4973,
+      "anchorY": 0.9682,
+      "logicalHeight": 482,
+      "label": "lancer upright idle n 4",
+      "kind": "alamo-upright-lancer-n",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1238,
+          527,
+          178,
+          468
+        ],
+        "visiblePixels": 37605,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-upright-lancer-n.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "lancer-upright-idle-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-upright-lancer-n"
+    },
+    "cannon-alamo-north-e": {
+      "sheet": "alamo-battery-guns",
+      "x": 18,
+      "y": 134,
+      "w": 420,
+      "h": 291,
+      "anchorX": 0.5929,
+      "anchorY": 0.9278,
+      "logicalHeight": 291,
+      "label": "cannon alamo north e",
+      "kind": "alamo-battery-guns",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          20,
+          136,
+          416,
+          287
+        ],
+        "visiblePixels": 61812,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-battery-guns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-alamo-north-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-battery-guns"
+    },
+    "cannon-alamo-north-e-kick": {
+      "sheet": "alamo-battery-guns",
+      "x": 461,
+      "y": 136,
+      "w": 397,
+      "h": 287,
+      "anchorX": 0.6259,
+      "anchorY": 0.9268,
+      "logicalHeight": 291,
+      "label": "cannon alamo north e kick",
+      "kind": "alamo-battery-guns",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          463,
+          138,
+          393,
+          283
+        ],
+        "visiblePixels": 58475,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-battery-guns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-alamo-north-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-battery-guns"
+    },
+    "cannon-alamo-north-w": {
+      "sheet": "alamo-battery-guns",
+      "x": 924,
+      "y": 143,
+      "w": 390,
+      "h": 280,
+      "anchorX": 0.4141,
+      "anchorY": 0.9286,
+      "logicalHeight": 291,
+      "label": "cannon alamo north w",
+      "kind": "alamo-battery-guns",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          926,
+          145,
+          386,
+          276
+        ],
+        "visiblePixels": 57334,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-battery-guns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-alamo-north-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-battery-guns"
+    },
+    "cannon-alamo-north-w-kick": {
+      "sheet": "alamo-battery-guns",
+      "x": 1360,
+      "y": 136,
+      "w": 395,
+      "h": 287,
+      "anchorX": 0.3924,
+      "anchorY": 0.9268,
+      "logicalHeight": 291,
+      "label": "cannon alamo north w kick",
+      "kind": "alamo-battery-guns",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1362,
+          138,
+          391,
+          283
+        ],
+        "visiblePixels": 56778,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-battery-guns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-alamo-north-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-battery-guns"
+    },
+    "cannon-alamo-church-e": {
+      "sheet": "alamo-battery-guns",
+      "x": 20,
+      "y": 570,
+      "w": 401,
+      "h": 243,
+      "anchorX": 0.6072,
+      "anchorY": 0.9259,
+      "logicalHeight": 248,
+      "label": "cannon alamo church e",
+      "kind": "alamo-battery-guns",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          572,
+          397,
+          239
+        ],
+        "visiblePixels": 53523,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-battery-guns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-alamo-church-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-battery-guns"
+    },
+    "cannon-alamo-church-e-kick": {
+      "sheet": "alamo-battery-guns",
+      "x": 464,
+      "y": 569,
+      "w": 395,
+      "h": 242,
+      "anchorX": 0.4797,
+      "anchorY": 0.9298,
+      "logicalHeight": 248,
+      "label": "cannon alamo church e kick",
+      "kind": "alamo-battery-guns",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          466,
+          571,
+          391,
+          238
+        ],
+        "visiblePixels": 52620,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-battery-guns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-alamo-church-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-battery-guns"
+    },
+    "cannon-alamo-church-w": {
+      "sheet": "alamo-battery-guns",
+      "x": 916,
+      "y": 566,
+      "w": 394,
+      "h": 245,
+      "anchorX": 0.5266,
+      "anchorY": 0.9265,
+      "logicalHeight": 248,
+      "label": "cannon alamo church w",
+      "kind": "alamo-battery-guns",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          918,
+          568,
+          390,
+          241
+        ],
+        "visiblePixels": 52255,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-battery-guns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-alamo-church-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-battery-guns"
+    },
+    "cannon-alamo-church-w-kick": {
+      "sheet": "alamo-battery-guns",
+      "x": 1365,
+      "y": 566,
+      "w": 389,
+      "h": 248,
+      "anchorX": 0.3972,
+      "anchorY": 0.9274,
+      "logicalHeight": 248,
+      "label": "cannon alamo church w kick",
+      "kind": "alamo-battery-guns",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1367,
+          568,
+          385,
+          244
+        ],
+        "visiblePixels": 53006,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-battery-guns.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-alamo-church-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-battery-guns"
+    },
     "alamo-face-limestone": {
       "sheet": "alamo-face-strips",
       "x": 33,
@@ -153352,6 +156655,482 @@
     }
   },
   "clips": {
+    "volunteer-parapet-fire-e": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-e-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "volunteer-parapet-e-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-parapet-e-load",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-parapet-e-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "volunteer-parapet-fire-w": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-w-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "volunteer-parapet-w-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-parapet-w-load",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-parapet-w-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "west"
+    },
+    "volunteer-parapet-fire-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-n-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "volunteer-parapet-n-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-parapet-n-load",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-parapet-n-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "volunteer-parapet-fire-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-s-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "volunteer-parapet-s-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-parapet-s-load",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-parapet-s-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "travis-battery-fire-e": {
+      "frames": [
+        {
+          "sprite": "travis-battery-e-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "travis-battery-e-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "travis-battery-e-load",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-battery-e-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "travis-battery-fire-w": {
+      "frames": [
+        {
+          "sprite": "travis-battery-w-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "travis-battery-w-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "travis-battery-w-load",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-battery-w-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "west"
+    },
+    "travis-battery-fire-n": {
+      "frames": [
+        {
+          "sprite": "travis-battery-n-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "travis-battery-n-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "travis-battery-n-load",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-battery-n-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "travis-battery-fire-s": {
+      "frames": [
+        {
+          "sprite": "travis-battery-s-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "travis-battery-s-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "travis-battery-s-load",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-battery-s-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "volunteer-trot-e": {
+      "frames": [
+        {
+          "sprite": "volunteer-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-trot-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "volunteer-trot-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "lancer-upright-march-e": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-march-e-1",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-e-2",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-e-3",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-e-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "lancer-upright-idle-e": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-idle-e-1",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-e-2",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-e-3",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-e-4",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "lancer-upright-march-s": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-march-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-s-2",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-s-3",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-s-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "lancer-upright-idle-s": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-idle-s-1",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-s-2",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-s-3",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-s-4",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "lancer-upright-march-n": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-march-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-n-2",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-n-3",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-n-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "lancer-upright-idle-n": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-idle-n-1",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-n-2",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-n-3",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-n-4",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cannon-alamo-north-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-north-e-kick",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-north-e",
+          "duration": 720
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "recoil",
+      "recoilSign": 1,
+      "direction": "east"
+    },
+    "cannon-alamo-north-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-north-w-kick",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-north-w",
+          "duration": 720
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "recoil",
+      "recoilSign": -1,
+      "direction": "west"
+    },
+    "cannon-alamo-church-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-church-e-kick",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-church-e",
+          "duration": 720
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "recoil",
+      "recoilSign": 1,
+      "direction": "east"
+    },
+    "cannon-alamo-church-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-church-w-kick",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-church-w",
+          "duration": 720
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "recoil",
+      "recoilSign": -1,
+      "direction": "west"
+    },
     "alamo-pyre-burning": {
       "frames": [
         {
@@ -179359,7 +183138,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 376,
+    "sourceCount": 383,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

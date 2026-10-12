@@ -101,7 +101,9 @@ try {
   assert.match(first.alert.text, /side/, 'the card did not come through the person');
   await inside.waitForFunction(() => !document.querySelector('#military-notice').hidden && document.querySelector('#military-go')?.textContent === 'Watch', null, { timeout: 20000 });
   await inside.locator('#military-go').click();
-  await inside.waitForTimeout(400);
+  await inside.waitForFunction(()=>window.__camera?.kind==='battle',null,{timeout:5000}).catch(async error=>{
+    console.log('Watch diagnostics',await inside.evaluate(()=>({camera:window.__camera,watched:window.__watchedField,phase:window.__snapshot?.world.battle?.phase,alert:window.__snapshot?.world.battleAlert,notice:document.querySelector('#military-notice')?.dataset,button:document.querySelector('#military-go')?.textContent})),errors);throw error;
+  });
   const framed = await inside.evaluate(() => ({ camera: window.__camera?.kind, battle: window.__snapshot.world.battle?.frame }));
   assert.equal(framed.camera, 'battle', 'Watch did not put the camera on the Alamo');
   ok(`on ${first.date} the card "${first.alert.title}" came through ${man.name} (${first.phase}), and Watch framed the compound`);

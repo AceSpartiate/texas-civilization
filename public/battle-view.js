@@ -3,6 +3,7 @@ import { BEXAR_TOWNSFOLK, bexarCivilianHeight, createMoonlightGrade, drawBexarMo
 import {createSouthernNightGrade,drawSouthernNight,mountedHeading,mountedActionClip,mountedReloadClip} from './southern-battle-art.js';
 import {familyCampBinding} from './avatar-identity.js';
 import {figureOf as familyFigureOf} from './motion.js';
+import {createAlamoGrade,drawAlamoGrade,alamoGunName,alamoLancerClip,travisFireClip} from './alamo-battle-art.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
 //
 // Owner, 2026-09-25: "when i try to watch a battle ... i see npc's just standing around ... the battle itself never actually
@@ -232,6 +233,7 @@ export function regularity(points) {
 export function createBattleView(art) {
   let moonlight=createMoonlightGrade();
   let southernNight=createSouthernNightGrade();
+  let alamoGrade=createAlamoGrade();
   const view = {
     key: null, minute: null, tickAt: 0, tickMs: 1000, sides: new Map(), layouts: new Map(),
     smoke: [], flashes: [], shotsSeen: new Set(), linesSeen: new Map(), commandsAt: 0, fallenAt: new Map(),
@@ -264,6 +266,7 @@ export function createBattleView(art) {
     if (view.key !== key) {
       moonlight=createMoonlightGrade();
       southernNight=createSouthernNightGrade();
+      alamoGrade=createAlamoGrade();
       view.key = key; view.sides.clear(); view.smoke = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
       view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.fallenSide.clear(); view.fallenFigure.clear(); view.herd = null; view.pins.clear();
       view.cartTipStartedAt = null;
@@ -587,6 +590,8 @@ export function createBattleView(art) {
             sprite: volunteer && !moving ? `volunteer-mounted-idle-${dir}` : null,
             timeMs: time, flip: volunteer ? dir === 'e' && !right : !right, still: false, seed };
           figures.push(rider);
+          const lancer=alamoLancerClip(battle,side,moving);
+          if(lancer){rider.clip=lancer;rider.sprite=null;rider.size=figurePx*2.05;rider.flip=!/-(n|s)$/.test(lancer)&&!right;}
           if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 4 === 0))) {
             const wait = 7000 + hash(`${seed}:rw`) * 12000, shifted = time + hash(`${seed}:rp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:r${Math.floor(shifted / wait)}`;
@@ -666,6 +671,8 @@ export function createBattleView(art) {
           // Alamo's walls) are drawn as the library's dragoons, without lances, until a lancer set exists.
           clip = kind === 'rider' ? (moving ? 'mounted-courier-e' : 'mounted-courier-listen') : moving ? 'dragoon-march' : right ? 'dragoon-idle-e' : 'dragoon-idle-w';
           flip = kind === 'rider' ? !right : moving ? !right : false;
+          const uprightLancer=alamoLancerClip(battle,side,moving);
+          if(uprightLancer){clip=uprightLancer;size=figurePx*2.05;flip=!/-(n|s)$/.test(uprightLancer)&&!right;}
           // Authored shoulder/recoil/lower poses share the existing shot clock. The
           // 360ms aim precedes discharge; smoke and flash remain engine effects.
           if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 6 === 0))) {
@@ -800,10 +807,9 @@ export function createBattleView(art) {
     const moon=battle.id==='bexar-storming' && Number.isFinite(battle.bexarDarkness) ? moonlight.update(battle.bexarDarkness,now) : 0;
     if(moon>0)drawBexarMoonlight(ctx,moon,bounds);
     const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : moon>0 ? {lit:0} : null;
-    // A darkness given as a number (the Alamo's nights, and the dawn coming up through the assault, 0 to 1), over the ground and
-    // the men but under the flashes and the words. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 - a
-    // darkening wash until night art exists.
-    if (typeof battle.light === 'number' && battle.light > 0) {
+    // Alamo numeric light is independently eased in screen time, including a return to projected daylight.
+    if(battle.id==='alamo')drawAlamoGrade(ctx,alamoGrade.update(typeof battle.light==='number'?battle.light:0,now),bounds);
+    else if (typeof battle.light === 'number' && battle.light > 0) {
       ctx.save(); ctx.fillStyle = `rgba(14,20,44,${(0.62 * battle.light).toFixed(3)})`; ctx.fillRect(0, 0, ctx.canvas?.width || bounds?.width || 0, ctx.canvas?.height || bounds?.height || 0); ctx.restore();
     }
     // Dusk and fog (Coleto, 2026-09-25): a lighter wash over the field, under the flashes. ceiling: the light is drawn only while a
@@ -1160,9 +1166,9 @@ export function createBattleView(art) {
     if (bounds && (p.x < -90 || p.y < -90 || p.x > bounds.width + 90 || p.y > bounds.height + 140)) return { id: gun.id, shots: fired.length, onScreen: false };
     const metal = gun.metal === 'bronze' ? 'bronze' : 'iron';
     const twin = gun.id === 'twin-sister-1' || gun.id === 'twin-sister-2';
-    const name = heavy ? `cannon-18pdr-${right ? 'e' : 'w'}`
+    const name = (view.key==='alamo'&&alamoGunName(gun.id,right)) || (heavy ? `cannon-18pdr-${right ? 'e' : 'w'}`
       : siegeBattery ? `cannon-siege-battery-${right ? 'e' : 'w'}`
-      : twin ? `twin-sister-painted-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`;
+      : twin ? `twin-sister-painted-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`);
     const firing = since < 900;
     if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since }) || art.animated(ctx, `cannon-${metal}-${right ? 'e' : 'w'}-recoil`, p.x, p.y, size, 0, { timeMs: since });
     else art.drawSprite(ctx, name, p.x, p.y, size) || art.drawSprite(ctx, `cannon-${metal}-${right ? 'e' : 'w'}`, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
@@ -1346,6 +1352,7 @@ export function createBattleView(art) {
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
     }
     if (pose === 'fire') {
+      if(person.art==='travis'){const painted=clip(travisFireClip(person.aimHeading,person.right),(time+hash(key)*4000)%3600,{flip:false});if(painted)return painted;}
       if (Array.isArray(named)) { const t = (time + hash(key) * 4000) % 3600; return sprite(named[t < 1500 ? 0 : t < 1800 ? 1 : 2]); }
       if (named) return clip(named, time % FIRE_CLIP_MS);
       return clip(`${kind}-fire-reload`, (time + hash(key) * FIRE_CLIP_MS) % FIRE_CLIP_MS);

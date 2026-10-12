@@ -1,0 +1,422 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "name": "volunteer-parapet-e-aim",
+      "width": 232.4
+    },
+    {
+      "name": "volunteer-parapet-e-fire",
+      "width": 241.73333333333335
+    },
+    {
+      "name": "volunteer-parapet-e-load",
+      "width": 191.33333333333334
+    },
+    {
+      "name": "volunteer-parapet-e-ramrod",
+      "width": 188.53333333333333
+    },
+    {
+      "name": "volunteer-parapet-w-aim",
+      "width": 232.4
+    },
+    {
+      "name": "volunteer-parapet-w-fire",
+      "width": 242.66666666666666
+    },
+    {
+      "name": "volunteer-parapet-w-load",
+      "width": 188.53333333333333
+    },
+    {
+      "name": "volunteer-parapet-w-ramrod",
+      "width": 203.46666666666667
+    },
+    {
+      "name": "volunteer-parapet-n-aim",
+      "width": 150.26666666666668
+    },
+    {
+      "name": "volunteer-parapet-n-fire",
+      "width": 150.26666666666668
+    },
+    {
+      "name": "volunteer-parapet-n-load",
+      "width": 165.2
+    },
+    {
+      "name": "volunteer-parapet-n-ramrod",
+      "width": 164.26666666666668
+    },
+    {
+      "name": "volunteer-parapet-s-aim",
+      "width": 163.33333333333334
+    },
+    {
+      "name": "volunteer-parapet-s-fire",
+      "width": 154
+    },
+    {
+      "name": "volunteer-parapet-s-load",
+      "width": 180.13333333333333
+    },
+    {
+      "name": "volunteer-parapet-s-ramrod",
+      "width": 182
+    },
+    {
+      "name": "travis-battery-e-aim",
+      "width": 134.16666666666666
+    },
+    {
+      "name": "travis-battery-e-fire",
+      "width": 133.5185185185185
+    },
+    {
+      "name": "travis-battery-e-load",
+      "width": 98.51851851851852
+    },
+    {
+      "name": "travis-battery-e-ramrod",
+      "width": 110.83333333333333
+    },
+    {
+      "name": "travis-battery-w-aim",
+      "width": 130.27777777777777
+    },
+    {
+      "name": "travis-battery-w-fire",
+      "width": 125.74074074074073
+    },
+    {
+      "name": "travis-battery-w-load",
+      "width": 95.92592592592592
+    },
+    {
+      "name": "travis-battery-w-ramrod",
+      "width": 103.7037037037037
+    },
+    {
+      "name": "travis-battery-n-aim",
+      "width": 84.9074074074074
+    },
+    {
+      "name": "travis-battery-n-fire",
+      "width": 96.57407407407408
+    },
+    {
+      "name": "travis-battery-n-load",
+      "width": 99.16666666666667
+    },
+    {
+      "name": "travis-battery-n-ramrod",
+      "width": 90.74074074074073
+    },
+    {
+      "name": "travis-battery-s-aim",
+      "width": 88.79629629629629
+    },
+    {
+      "name": "travis-battery-s-fire",
+      "width": 88.79629629629629
+    },
+    {
+      "name": "travis-battery-s-load",
+      "width": 97.87037037037037
+    },
+    {
+      "name": "travis-battery-s-ramrod",
+      "width": 92.03703703703704
+    },
+    {
+      "name": "volunteer-trot-e-1",
+      "width": 181.6875
+    },
+    {
+      "name": "volunteer-trot-e-2",
+      "width": 179.03125
+    },
+    {
+      "name": "volunteer-trot-e-3",
+      "width": 180.09375
+    },
+    {
+      "name": "volunteer-trot-e-4",
+      "width": 180.625
+    },
+    {
+      "name": "volunteer-trot-s-1",
+      "width": 87.13091922005572
+    },
+    {
+      "name": "volunteer-trot-s-2",
+      "width": 87.13091922005572
+    },
+    {
+      "name": "volunteer-trot-s-3",
+      "width": 86.6573816155989
+    },
+    {
+      "name": "volunteer-trot-s-4",
+      "width": 86.18384401114206
+    },
+    {
+      "name": "volunteer-trot-n-1",
+      "width": 86.22478386167147
+    },
+    {
+      "name": "volunteer-trot-n-2",
+      "width": 86.71469740634005
+    },
+    {
+      "name": "volunteer-trot-n-3",
+      "width": 89.16426512968299
+    },
+    {
+      "name": "volunteer-trot-n-4",
+      "width": 87.69452449567723
+    },
+    {
+      "name": "lancer-upright-march-e-1",
+      "width": 129.5564516129032
+    },
+    {
+      "name": "lancer-upright-march-e-2",
+      "width": 128.18548387096774
+    },
+    {
+      "name": "lancer-upright-march-e-3",
+      "width": 125.1008064516129
+    },
+    {
+      "name": "lancer-upright-march-e-4",
+      "width": 123.72983870967741
+    },
+    {
+      "name": "lancer-upright-idle-e-1",
+      "width": 123.38709677419354
+    },
+    {
+      "name": "lancer-upright-idle-e-2",
+      "width": 118.24596774193547
+    },
+    {
+      "name": "lancer-upright-idle-e-3",
+      "width": 135.7258064516129
+    },
+    {
+      "name": "lancer-upright-idle-e-4",
+      "width": 119.27419354838709
+    },
+    {
+      "name": "lancer-upright-march-s-1",
+      "width": 60.1010101010101
+    },
+    {
+      "name": "lancer-upright-march-s-2",
+      "width": 62.16161616161616
+    },
+    {
+      "name": "lancer-upright-march-s-3",
+      "width": 63.535353535353536
+    },
+    {
+      "name": "lancer-upright-march-s-4",
+      "width": 62.505050505050505
+    },
+    {
+      "name": "lancer-upright-idle-s-1",
+      "width": 63.535353535353536
+    },
+    {
+      "name": "lancer-upright-idle-s-2",
+      "width": 63.19191919191919
+    },
+    {
+      "name": "lancer-upright-idle-s-3",
+      "width": 78.64646464646465
+    },
+    {
+      "name": "lancer-upright-idle-s-4",
+      "width": 62.16161616161616
+    },
+    {
+      "name": "lancer-upright-march-n-1",
+      "width": 65.95435684647303
+    },
+    {
+      "name": "lancer-upright-march-n-2",
+      "width": 64.5435684647303
+    },
+    {
+      "name": "lancer-upright-march-n-3",
+      "width": 64.5435684647303
+    },
+    {
+      "name": "lancer-upright-march-n-4",
+      "width": 64.19087136929461
+    },
+    {
+      "name": "lancer-upright-idle-n-1",
+      "width": 62.78008298755187
+    },
+    {
+      "name": "lancer-upright-idle-n-2",
+      "width": 65.95435684647303
+    },
+    {
+      "name": "lancer-upright-idle-n-3",
+      "width": 69.1286307053942
+    },
+    {
+      "name": "lancer-upright-idle-n-4",
+      "width": 64.19087136929461
+    },
+    {
+      "name": "cannon-alamo-north-e",
+      "width": 209.27835051546393
+    },
+    {
+      "name": "cannon-alamo-north-e-kick",
+      "width": 197.81786941580756
+    },
+    {
+      "name": "cannon-alamo-north-w",
+      "width": 194.3298969072165
+    },
+    {
+      "name": "cannon-alamo-north-w-kick",
+      "width": 196.8213058419244
+    },
+    {
+      "name": "cannon-alamo-church-e",
+      "width": 234.45564516129033
+    },
+    {
+      "name": "cannon-alamo-church-e-kick",
+      "width": 230.9475806451613
+    },
+    {
+      "name": "cannon-alamo-church-w",
+      "width": 230.36290322580646
+    },
+    {
+      "name": "cannon-alamo-church-w-kick",
+      "width": 227.43951612903228
+    }
+  ],
+  "phases": [
+    {
+      "name": "volunteer-parapet-fire-e",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "volunteer-parapet-fire-w",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "volunteer-parapet-fire-n",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "volunteer-parapet-fire-s",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "travis-battery-fire-e",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "travis-battery-fire-w",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "travis-battery-fire-n",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "travis-battery-fire-s",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "volunteer-trot-e",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "volunteer-trot-s",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "volunteer-trot-n",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "lancer-upright-march-e",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "lancer-upright-idle-e",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "lancer-upright-march-s",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "lancer-upright-idle-s",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "lancer-upright-march-n",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "lancer-upright-idle-n",
+      "distinct": 4,
+      "expected": 4
+    },
+    {
+      "name": "cannon-alamo-north-e-recoil",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "cannon-alamo-north-w-recoil",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "cannon-alamo-church-e-recoil",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "cannon-alamo-church-w-recoil",
+      "distinct": 2,
+      "expected": 2
+    }
+  ],
+  "panels": [
+    "alamo-infantry-proof",
+    "alamo-cavalry-proof",
+    "alamo-guns-proof"
+  ],
+  "errors": []
+}

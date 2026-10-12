@@ -2,6 +2,482 @@
   "version": "frontier-v1",
   "note": "Presentation only: elapsed display time selects these frames; animation never advances simulation state. Authored identifies sequences of distinct source poses, not transforms of one sprite.",
   "clips": {
+    "volunteer-parapet-fire-e": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-e-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "volunteer-parapet-e-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-parapet-e-load",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-parapet-e-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "volunteer-parapet-fire-w": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-w-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "volunteer-parapet-w-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-parapet-w-load",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-parapet-w-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "west"
+    },
+    "volunteer-parapet-fire-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-n-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "volunteer-parapet-n-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-parapet-n-load",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-parapet-n-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "volunteer-parapet-fire-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-s-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "volunteer-parapet-s-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-parapet-s-load",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-parapet-s-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "travis-battery-fire-e": {
+      "frames": [
+        {
+          "sprite": "travis-battery-e-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "travis-battery-e-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "travis-battery-e-load",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-battery-e-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "travis-battery-fire-w": {
+      "frames": [
+        {
+          "sprite": "travis-battery-w-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "travis-battery-w-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "travis-battery-w-load",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-battery-w-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "west"
+    },
+    "travis-battery-fire-n": {
+      "frames": [
+        {
+          "sprite": "travis-battery-n-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "travis-battery-n-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "travis-battery-n-load",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-battery-n-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "travis-battery-fire-s": {
+      "frames": [
+        {
+          "sprite": "travis-battery-s-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "travis-battery-s-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "travis-battery-s-load",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-battery-s-ramrod",
+          "duration": 900
+        }
+      ],
+      "authored": true,
+      "loop": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "volunteer-trot-e": {
+      "frames": [
+        {
+          "sprite": "volunteer-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "volunteer-trot-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "volunteer-trot-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "volunteer-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "lancer-upright-march-e": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-march-e-1",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-e-2",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-e-3",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-e-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "lancer-upright-idle-e": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-idle-e-1",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-e-2",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-e-3",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-e-4",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "lancer-upright-march-s": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-march-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-s-2",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-s-3",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-s-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "lancer-upright-idle-s": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-idle-s-1",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-s-2",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-s-3",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-s-4",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "lancer-upright-march-n": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-march-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-n-2",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-n-3",
+          "duration": 260
+        },
+        {
+          "sprite": "lancer-upright-march-n-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "lancer-upright-idle-n": {
+      "frames": [
+        {
+          "sprite": "lancer-upright-idle-n-1",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-n-2",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-n-3",
+          "duration": 850
+        },
+        {
+          "sprite": "lancer-upright-idle-n-4",
+          "duration": 850
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cannon-alamo-north-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-north-e-kick",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-north-e",
+          "duration": 720
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "recoil",
+      "recoilSign": 1,
+      "direction": "east"
+    },
+    "cannon-alamo-north-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-north-w-kick",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-north-w",
+          "duration": 720
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "recoil",
+      "recoilSign": -1,
+      "direction": "west"
+    },
+    "cannon-alamo-church-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-church-e-kick",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-church-e",
+          "duration": 720
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "recoil",
+      "recoilSign": 1,
+      "direction": "east"
+    },
+    "cannon-alamo-church-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-church-w-kick",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-church-w",
+          "duration": 720
+        }
+      ],
+      "authored": true,
+      "loop": false,
+      "motion": "recoil",
+      "recoilSign": -1,
+      "direction": "west"
+    },
     "alamo-pyre-burning": {
       "frames": [
         {

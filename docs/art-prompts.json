@@ -6072,6 +6072,118 @@
           "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8aa1482e-314c-4442-b9ab-01a9a5e2affe.png"
         }
       ]
+    },
+    {
+      "sheet": "alamo-parapet-service",
+      "promptId": "frontier-v1/alamo-parapet-service",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + direction/spacing correction",
+      "prompt": "Production transparent game sprite atlas: exactly FOUR columns and FOUR rows, sixteen waist-up volunteer rifleman sprites for compositing ABOVE an Alamo parapet. Match the reference volunteer: brown brimmed hat, dark hair/beard, brown hunting coat, cream shirt. No wall or architecture baked in. Row 1 faces EAST (right profile), row 2 WEST (left profile independently painted), row 3 NORTH (back toward viewer, firing away), row 4 SOUTH (front chest toward viewer). Each row has four phases: column 1 aiming over the wall with rifle at shoulder; column 2 recoil/fire pose without baked muzzle flash or smoke; column 3 crouched LOWER to reload below the wall, head/shoulders lowered and rifle tilted up; column 4 ramrod/loading hand pose with body still crouched low, muzzle held clear of own face. Waist-up only: coat ends at waist, no legs or boots. Whole rifle, hands, rod and hat visible inside each cell. All four phases same physical body size; crouching must lower the head, not shrink the figure. Warm brown ink outlines, muted softly painted frontier game style. Every sprite fits central 50 percent of its cell, with huge genuine alpha-zero gutters at all seams and outer edges. Exactly sixteen independent sprites; no crop, overlap, text, grid, ground, shadows, background, gore or modern weapons.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-35881789-45c9-4d04-b9c2-979ea527f48c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-parapet-service.png",
+      "postProcessing": "None. Selected generated PNG copied unchanged; read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c5f6af45-4eab-42d2-a98e-730e298e2b2f.png",
+      "refinements": [
+        {
+          "prompt": "Edit this exact 4-column 4-row waist-up parapet rifleman atlas. Correct firing heading ONLY in rows 3 and 4: row 3 NORTH has the man's BACK toward viewer and the shouldered rifle points AWAY/up the image, strongly foreshortened, visible barrel beyond shoulder, NOT horizontally to the left. Row 4 SOUTH has man's chest toward viewer and rifle points toward CAMERA/down the image, strongly foreshortened muzzle visible in foreground, NOT horizontally to the right. Columns 1 aim and 2 recoil keep that heading. Columns 3/4 remain crouched loading with muzzle tilted up safely. Rows 1 EAST and 2 WEST stay unchanged in direction. Also reduce EACH whole waist-up sprite including rifle/rod to HALF its current width and height, independently centered in its original equal cell, huge true alpha-zero gutters all seams/edges. Preserve same face hat brown coat identities and sequence; exactly16 whole isolated sprites no wall, legs, shadows, background or text."
+        }
+      ]
+    },
+    {
+      "sheet": "alamo-volunteer-trot",
+      "promptId": "frontier-v1/alamo-volunteer-trot",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Create a transparent game sprite atlas, FOUR columns and THREE rows, twelve complete mounted VOLUNTEER composites matching the reference: same brown hat, bearded man, brown coat, cream trousers, chestnut horse with white blaze and socks, tan saddle cloth and brown tack. Row 1 EAST/right profile, row 2 SOUTH/head-on toward camera, row 3 NORTH/back away from camera. Four columns are a true controlled TROT cycle: diagonal pair left fore/right hind forward, gathered contact, opposite diagonal pair right fore/left hind forward, opposite contact. This is NOT a gallop: no stretched flying leap. Rider seated, subtle rise/follow, rifle safely low across lap and reins in hand. Preserve horse body, tack and rider identity in every frame. Warm brown ink outlines and softly painted muted frontier game style. Each whole horse-and-rider fits central 50 percent width and height of its cell with huge alpha-zero gutters at every seam and outer edge. Exactly twelve isolated full sprites, no crop, overlap, landscape, shadows, text, dust, gore or weapons firing.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d2f38a82-517d-46ca-b8ef-4b5ae31c35bd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-volunteer-trot.png",
+      "postProcessing": "None. Selected generated PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "alamo-battery-guns",
+      "promptId": "frontier-v1/alamo-battery-guns",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent production atlas FOUR columns TWO rows, eight compact period IRON CANNON sprites, original warm painted game interpretations consistent with reference. Row1 north battery variant: dark iron tube on sturdy rough wooden FIELD carriage with two large wooden spoked wheels and a short trail. Row2 church platform variant: dark iron tube on compact low wooden GARRISON carriage with four small solid wooden truck wheels, breeching rope. Both visibly smaller/light than the reference heavy18-pounder; do NOT copy exact18-pounder silhouette. Each row columns1 EAST ready pointingright,2 EAST recoil carriage a little rolledback tube same elevation,3 WEST ready pointingleft independently painted,4 WEST recoil. No smoke flash crew earthwork church floor or architecture baked into sprites. No asserted caliber, no labels, no brass tube, no red/blue Twin Sister paint. Whole gun including muzzle wheels trail and rope centered in central55percentwidth/height eachcell, huge clear alpha-zero gutters every seam and outer edge. Exactly8 complete isolated sprites no cropoverlap backgroundshadows textgrid moderngear.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-18pdr.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-85c43219-ca02-4585-b6ed-6db5615ecbf8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-battery-guns.png",
+      "postProcessing": "None. Selected generated PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "people-alamo-travis-service",
+      "promptId": "frontier-v1/people-alamo-travis-service",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + direction/spacing correction",
+      "prompt": "Transparent FOUR-column FOUR-row production game atlas, sixteen full-body William Barret Travis firing/loading poses preserving EXACT reference identity: young clean-shaven dark-haired man, dark brimmed hat, navy long coat brass buttons, cream shirt, brown trousers boots. Original visual interpretation, not exact historical portrait. Row1 EAST rightprofile, row2 WEST leftprofile independentlypainted, row3 NORTH awayback, row4 SOUTH camera front. Each row cols1 AIM rifle shouldered,2 FIRE slight recoil no bakedflash/smoke,3 LOAD crouched low rifle angledup bythigh,4 RAMROD handpose loading same crouch with slenderrod entering muzzle. Entire headhatcoatlegsboots rifle hands rod within owncell, muzzle away fromownface andbody. No wall baked in: compositor positions on north battery. Same physical body scale allphases, crouch lowers head notshrinksbody. Warmbrownink mutedsoftpaint samegame. Every fullfigure central50percentwidth55percentheight own equalcell, verywidegenuinealpha0seamoutergutters. Exactly16whole independentfigures no overlapcrop textgrid backgroundshadow gore victims or modernweapon.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-105c9d01-f123-46c2-a326-2381c62df9cf.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-alamo-travis-service.png",
+      "postProcessing": "None. Selected generated PNG copied unchanged; read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-871c3ebe-e1cd-402b-b998-1e35b37b98b1.png",
+      "refinements": [
+        {
+          "prompt": "Edit this 4-column 4-row Travis atlas. Preserve navy coat, brass buttons, dark hat, clean-shaven young face and all sixteen firing/loading poses. Correct rows 3 and 4 aiming: NORTH row3 shows back of man with rifle aimed AWAY/up image, strongly foreshortened, not horizontal across image. SOUTH row4 shows front chest with rifle aimed TOWARD camera/down image, visible foreshortened muzzle in foreground, not horizontal right. Columns1 aim and2 recoil use that heading; cols3/4 keep low kneeling reload/ramrod. Rows1east/row2west remain correct profiles. Also shrink EVERY entire figure including boots, rifle, hat and rod to HALF current width and height, independently centered in own equalcell, extremely wide alpha-zero gutters every seam and outeredge. Restore any clippedfeet. No background, shadow, text, grid, flash or smoke. Exactly16 whole isolated sprites."
+        }
+      ]
+    },
+    {
+      "sheet": "alamo-upright-lancer-e",
+      "promptId": "frontier-v1/alamo-upright-lancer-e",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "High-detail transparent game atlas FOUR columns TWO rows, EIGHT complete Mexican lancer and horse composites. All face EAST/right side profile; no alternate camera direction. Same reference brasshelmet blackcrest navycoatredcuffs whitecrossbelts white trousers blackboots chestnuthorse whiteblaze/socks navy saddle cloth redtrim. Held wooden lance UPRIGHT vertical, silver tip high abovehelmet; never lowered to strike. TOPROW four calm walking footfalls alternating fore/hind contact. BOTTOMROW four stationary idle poses: ears forward, small headturn, tail swish, settle; legs remain grounded, no step or trot. Entire upright lance, helmet, full horse legs hooves tail saddle reins visible within each cell. Crisp ink-brown outlines and softlypainted textures like reference, high-detail readable horse tack, not blurred or photographic. SAME horse and uniform every frame. Every entire composite occupies central50percentWIDTH and65percentHEIGHT own equalcell, large genuine alpha-zero gutters all seams/outeredges. Exactly8 independent full sprites, no crop overlap background shadow grid text dust gore extrapeople or striking.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lancer-charge.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed4c8f14-2afb-46b8-8902-e862f8a3fb2e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-upright-lancer-e.png",
+      "postProcessing": "None. Higher-detail heading sheet copied unchanged; crowded 24-frame draft superseded."
+    },
+    {
+      "sheet": "alamo-upright-lancer-s",
+      "promptId": "frontier-v1/alamo-upright-lancer-s",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "High-detail transparent game atlas FOUR columns TWO rows, EIGHT complete Mexican lancer and horse composites. All face SOUTH/head-on toward camera, both horse eyes visible, rider front chest; no alternate camera direction. Same reference brasshelmet blackcrest navycoatredcuffs whitecrossbelts white trousers blackboots chestnuthorse whiteblaze/socks navy saddle cloth redtrim. Held wooden lance UPRIGHT vertical, silver tip high abovehelmet; never lowered to strike. TOPROW four calm walking footfalls alternating fore/hind contact. BOTTOMROW four stationary idle poses: ears forward, small headturn, tail swish, settle; legs remain grounded, no step or trot. Entire upright lance, helmet, full horse legs hooves tail saddle reins visible within each cell. Crisp ink-brown outlines and softlypainted textures like reference, high-detail readable horse tack, not blurred or photographic. SAME horse and uniform every frame. Every entire composite occupies central50percentWIDTH and65percentHEIGHT own equalcell, large genuine alpha-zero gutters all seams/outeredges. Exactly8 independent full sprites, no crop overlap background shadow grid text dust gore extrapeople or striking.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lancer-charge.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c71c245c-6850-4c40-8208-e8abd2c88e96.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-upright-lancer-s.png",
+      "postProcessing": "None. Higher-detail heading sheet copied unchanged; crowded 24-frame draft superseded."
+    },
+    {
+      "sheet": "alamo-upright-lancer-n",
+      "promptId": "frontier-v1/alamo-upright-lancer-n",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing correction",
+      "prompt": "High-detail transparent game atlas FOUR columns TWO rows, EIGHT complete Mexican lancer and horse composites. All face NORTH directly away, horse tail/haunches toward viewer, rider back white crossbelts; no alternate camera direction. Same reference brasshelmet blackcrest navycoatredcuffs whitecrossbelts white trousers blackboots chestnuthorse whiteblaze/socks navy saddle cloth redtrim. Held wooden lance UPRIGHT vertical, silver tip high abovehelmet; never lowered to strike. TOPROW four calm walking footfalls alternating fore/hind contact. BOTTOMROW four stationary idle poses: ears forward, small headturn, tail swish, settle; legs remain grounded, no step or trot. Entire upright lance, helmet, full horse legs hooves tail saddle reins visible within each cell. Crisp ink-brown outlines and softlypainted textures like reference, high-detail readable horse tack, not blurred or photographic. SAME horse and uniform every frame. Every entire composite occupies central50percentWIDTH and65percentHEIGHT own equalcell, large genuine alpha-zero gutters all seams/outeredges. Exactly8 independent full sprites, no crop overlap background shadow grid text dust gore extrapeople or striking.",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lancer-charge.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-787bc017-0fdb-49e0-8a6e-9d3212679f8e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-upright-lancer-n.png",
+      "postProcessing": "None. Higher-detail heading sheet copied unchanged; crowded 24-frame draft superseded.",
+      "refinements": [
+        {
+          "prompt": "Spacing-only edit of this FOUR-column TWO-row NORTH-facing lancer sheet. Uniformly reduce each of eight WHOLE sprites including its upright lance, helmet, horse, tail and hooves to 70% of current width and height. Independently center each in its original cell. Keep exact identities, north camera, four walking poses on top and four idle poses below. Leave large fully transparent seams between rows; the tips of the lower row's lances must not touch upper row's hooves or tails. Preserve crisp paint detail. Exactly8 full isolated sprites, no crop, overlap, background, shadow or text.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-baf68090-53c1-478e-a284-61f1db68a8f4.png"
+        }
+      ]
     }
   ]
 }
