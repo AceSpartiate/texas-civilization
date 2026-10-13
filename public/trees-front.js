@@ -39,34 +39,38 @@ export function inFront(trunk, height, feet, figure) {
   return Math.abs(trunk.x - feet.x) < height * CROWN_HALF + figure * FIGURE_HALF;
 }
 
+/**
+ * How strongly a tree drawn again over somebody is laid over them: thinned, so the person is seen through the leaves in front
+ * of them, still behind the tree and among the woods, and never hidden (owner, 2026-10-13: "Thin the trees over family members
+ * instead of hiding them" - at the yard zoom in the timber, four of a family of five were names over bushes). The tree drawn
+ * again is the ground's own tree over itself, so off the person it is the same colour at any strength: only the person shows
+ * through, and no box.
+ */
+export const FRONT_STRENGTH = 0.45;
+
 /** The screen box a figure drawn with its feet at `feet`, `figure` tall, stands in: what a tree drawn again over it is kept to. */
 export const figureBox = (feet, figure) => ({ left: feet.x - figure * 0.5, top: feet.y - figure * 1.1, width: figure, height: figure * 1.1 + 2 });
 
 /**
- * Paints a tree drawn again over somebody (`paint`, given a context), kept to the figure's `box`, carrying the weather the ground
- * under it got before anybody was drawn (`weather`, given a context: public/app.js lays the wet earth and the fog and rain veil
- * with it). Without it the tree drawn again is the clear, sharp tree of a fair day, and on a day of fog or storm the figure's box
- * shows as a hard-edged square of clearer woods in the veiled ground round it (seen in the weather proof, 2026-10-13).
+ * Paints the trees drawn again over somebody (`paint`, given a context: they are painted back to front, at full strength), kept to
+ * the figure's `box`, and lays them over the person thinned (`FRONT_STRENGTH`), carrying the weather the ground under them got
+ * before anybody was drawn (`weather`, given a context, or null on a fair day: public/app.js lays the wet earth and the fog and
+ * rain veil with it).
  *
- * The weather is laid on the tree alone: the tree is painted into a layer of its own (`layers`, two canvases the size of the
- * page's), the weather over it there, and then the layer is cut back to the tree's own shape before it goes onto the page. So the
- * person under the tree is never veiled: a person is a fact and is drawn at full strength; the tree in front of them is scenery
- * (public/weather-art.js `drawWeatherVeil`). No weather, and the tree is painted straight onto the page, as before.
- * ceiling: the weather is laid over the tree's anti-aliased edge and that edge then cut by its own coverage, so a half-covered
+ * In a layer of its own (`layers`, two canvases the size of the page's): the trees together, so where crowns overlap they are
+ * thinned once and not laid back up to solid one over another; the weather over them there, or on a day of fog or storm the
+ * figure's box showed as a hard-edged square of clearer woods in the veiled ground round it (seen in the weather proof,
+ * 2026-10-13); and the layer then cut back to the trees' own shape before it goes onto the page. So the weather is on the trees
+ * alone, and the person under them is never veiled: a person is a fact and is drawn at full strength; the trees in front of them
+ * are scenery (public/weather-art.js `drawWeatherVeil`).
+ * ceiling: the weather is laid over the trees' anti-aliased edge and that edge then cut by its own coverage, so a half-covered
  * pixel at the rim of a crown comes out a shade fainter than the ground's; invisible at the sizes the trees are drawn, and laying
  * the weather on the layer premultiplied by hand is the way out if it is ever seen. Returns whether the weather was laid.
  */
 export function paintInFront(ctx, box, paint, weather, layers) {
   const x = Math.floor(box.left), y = Math.floor(box.top), w = Math.ceil(box.left + box.width) - x, h = Math.ceil(box.top + box.height) - y;
-  if (!weather) {
-    ctx.save();
-    ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
-    paint(ctx);
-    ctx.restore();
-    return false;
-  }
-  const [tree, shape] = layers(ctx.canvas.width, ctx.canvas.height);
-  const layer = tree.getContext('2d'), cut = shape.getContext('2d');
+  const [trees, shape] = layers(ctx.canvas.width, ctx.canvas.height);
+  const layer = trees.getContext('2d'), cut = shape.getContext('2d');
   for (const each of [layer, cut]) {
     each.setTransform(1, 0, 0, 1, 0, 0); each.globalAlpha = 1; each.globalCompositeOperation = 'source-over';
     each.clearRect(x, y, w, h);
@@ -74,15 +78,17 @@ export function paintInFront(ctx, box, paint, weather, layers) {
   layer.save();
   layer.beginPath(); layer.rect(x, y, w, h); layer.clip();
   paint(layer);
-  // The tree's own shape, before the weather spreads over the box round it.
-  cut.drawImage(tree, x, y, w, h, x, y, w, h);
-  weather(layer);
-  layer.globalCompositeOperation = 'destination-in';
-  layer.drawImage(shape, x, y, w, h, x, y, w, h);
+  if (weather) {
+    // The trees' own shape, before the weather spreads over the box round them.
+    cut.drawImage(trees, x, y, w, h, x, y, w, h);
+    weather(layer);
+    layer.globalCompositeOperation = 'destination-in';
+    layer.drawImage(shape, x, y, w, h, x, y, w, h);
+  }
   layer.restore();
   ctx.save();
-  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
-  ctx.drawImage(tree, x, y, w, h, x, y, w, h);
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = FRONT_STRENGTH; ctx.globalCompositeOperation = 'source-over';
+  ctx.drawImage(trees, x, y, w, h, x, y, w, h);
   ctx.restore();
-  return true;
+  return Boolean(weather);
 }
