@@ -3,7 +3,9 @@
 // They were drawn - Astra's rig `camp-rest` figures, every one - and then covered twice over:
 //
 //   1. by Juniper the ox, whose cosmetic separation (public/app.js `stableOffset`) carried him a figure and a half west of where
-//      the server has him, onto the tent, and in front of three of them (public/motion.js `standsApart`);
+//      the server has him, onto the tent, and in front of three of them. Not fixed: drawing a beast that stands alone on its own
+//      point (`standsApart`, 2026-10-13) stacked the parked wagons, the two horses and a bought mule on one another at the yard's
+//      rails and on a zoomed-out map (test:wagons, test:errand, test:shops), so it was taken out before release; see HANDOFF.md;
 //   2. by the trees drawn again over each of them (public/trees-front.js `paintInFront`), thinned once for each person - and the
 //      family sits close, so each person's trees were laid again over their neighbours, three and four layers deep.
 //
@@ -12,7 +14,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { FRONT_STRENGTH, clearLaid, paintInFront } from '../public/trees-front.js';
-import { standsApart } from '../public/motion.js';
 
 /**
  * A canvas that keeps one alpha a pixel, enough of a 2D context for `paintInFront`: clearing, a rectangular clip, and copying a
@@ -74,32 +75,4 @@ test('the page forgets what it laid at the start of each frame\'s trees, and kee
   const body = page.slice(from, page.indexOf('\n}\n', from));
   assert.ok(body.indexOf('clearLaid(frontLayers') > 0 && body.indexOf('clearLaid(frontLayers') < body.indexOf('standing.push('), 'cleared before any group is laid');
   assert.match(page, /function frontLayers\(width, height\) \{\n  for \(let i = 0; i < 3; i\+\+\)/);
-});
-
-test('a beast or the wagon standing alone at its point is drawn on it, not carried onto the family by the separation', () => {
-  // The Weatherbys' camp as the server had it in the weather proof (seed perf-render-1): everybody at the tent, the beasts and
-  // the wagon each at a point of their own, east of it.
-  const tent = { x: 77.7122, y: -21.4912, siteId: 'home-1' };
-  const family = ['parent-1', 'parent-2', 'child-1', 'child-2', 'child-3', 'child-4'].map(id => ({ id: `hh-1-${id}`, kind: 'person', location: { ...tent }, shelter: { at: 'tent', phase: 'in' } }));
-  const ox = { id: 'hh-1-animal', kind: 'animal', species: 'ox', location: { x: 77.765, y: -21.49, siteId: 'home-1' } };
-  const horse = { id: 'hh-1-horse', kind: 'animal', species: 'horse', location: { x: 77.74, y: -21.5, siteId: 'home-1' } };
-  const wagon = { id: 'hh-1-wagon', kind: 'wagon', location: { x: 77.755, y: -21.46, siteId: 'home-1' } };
-  const entities = [ox, horse, wagon, ...family];
-  for (const one of [ox, horse, wagon]) assert.equal(standsApart({ ...one }, entities), true, `${one.id} is drawn on its own point`);
-  // The people keep their separation: they share the tent's point.
-  for (const one of family) assert.equal(standsApart(one, entities), false);
-  // Two things at one point still are separated, so they are not drawn inside each other.
-  const together = { ...horse, location: { ...ox.location } };
-  assert.equal(standsApart(ox, [ox, together, wagon]), false);
-  assert.equal(standsApart(together, [ox, together, wagon]), false);
-  // Nor anything on the road, which is drawn by the road's own spacing.
-  assert.equal(standsApart({ ...ox, travel: { mode: 'foot' } }, entities), false);
-  assert.equal(standsApart({ ...ox, location: null }, entities), false);
-});
-
-test('drawEntity asks standsApart before it gives the separation, and only on the family\'s own page', () => {
-  const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
-  const from = page.indexOf('function drawEntity(');
-  const body = page.slice(from, page.indexOf('\n}\n', from));
-  assert.match(body, /: !marks\.observed && standsApart\(entity, marks\.entities\) \? \{ x: 0, y: 0 \}\n    : stableOffset\(entity\.id\);/);
 });
