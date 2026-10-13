@@ -1252,7 +1252,10 @@ happened to **them**, not a description of the sky.
 
 1. **The fog is drawn under the people, the houses, the markers and the names.** It is scenery, never knowledge: what a
    family may know is decided on the server (`VISION.md`), and a veil on the page that hid a person or a marker would be
-   the client deciding. `FOG_CEILING` caps it well below opaque as well, and a test holds both.
+   the client deciding. `FOG_CEILING` caps it well below opaque as well, and a test holds both. A tree drawn again in
+   front of somebody (`treesInFront`) is scenery and carries the ground's weather - the wet earth and the veil, the same
+   `groundWeather` pass - laid on the tree's own pixels and never on the person under it (`paintInFront`,
+   public/trees-front.js). Without it the figure's box showed as a square of clear woods in the fog (2026-10-13).
 2. **A river at or past `WATER_SHUT` must read at a glance**, because that is the level at which a family walks down to a
    crossing and is turned back. A river the page drew as ordinary while the simulation had shut its ford would be the
    worst failure this drawing can have; `tests/weather-art.test.mjs` holds the page's two water levels to
