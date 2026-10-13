@@ -7,7 +7,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  QUICK_FRAME, TAP_SLOP, frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, viewPlacing, wheelZoomFactor, worldAt, zoomAbout,
+  QUICK_FRAME, TAP_SLOP, drawPacing, frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, viewPlacing, wheelZoomFactor, worldAt, zoomAbout,
 } from '../public/map-camera.js';
 
 const size = { width: 1366, height: 768 };
@@ -134,4 +134,37 @@ test('the page takes its navigation from public/map-camera.js and the server ser
   const server = readFileSync(new URL('../server/app.mjs', import.meta.url), 'utf8');
   assert.match(app, /from '\/map-camera\.js'/);
   assert.match(server, /\['\/map-camera\.js', \['\.\.\/public\/map-camera\.js'/);
+});
+
+// The animation's pacing (public/map-camera.js `drawPacing`): found 2026-10-13 by scripts/perf-render-measure.mjs, where after one
+// slow draw the map stopped animating for good and moved only when a snapshot came.
+test('one slow draw holds the animation off only until a cheaper draw: a snapshot every tick does not starve it', () => {
+  const pacing = drawPacing();
+  assert.equal(pacing.due(0), true, 'nothing drawn yet: the animation may draw');
+  // The ground drawn afresh for a new view, 1.1 s with the CPU throttled six times; then a second a tick, each snapshot's draw
+  // 40 ms, and the animation drawing whenever it is due, 40 ms too. A frame every 16 ms for ten seconds.
+  pacing.drew(0, 1125);
+  assert.equal(pacing.due(2249), false, 'a slow draw still spaces the next by twice its cost');
+  let animated = 0;
+  for (let now = 1000; now < 11000; now += 16) {
+    if (now % 1000 < 16) { pacing.drew(now, 40); continue; }
+    if (pacing.due(now)) { pacing.drew(now, 40); animated++; }
+  }
+  // About ten a second (due after 83 ms, seen on a 16 ms frame: every sixth), a hundred in ten seconds. Starved, it was none.
+  assert.ok(animated >= 90, `the animation drew ${animated} times in ten seconds of snapshots`);
+  // And never more than half the page's time while a draw is dear: 100 ms a draw, at most one draw every 200 ms.
+  pacing.drew(20000, 100);
+  assert.equal(pacing.due(20199), false);
+  assert.equal(pacing.due(20200), true);
+});
+
+test('every whole draw tells the pacing, not only the animation’s own', () => {
+  const app = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
+  const body = name => { const start = app.indexOf(`function ${name}(`); return app.slice(start, app.indexOf('\n}', start)); };
+  const drawWorld = body('drawWorld'), animateMap = body('animateMap');
+  // drawWorld is the one door every whole draw goes through (the animation's, a snapshot's, a gesture's), on both of its paths.
+  assert.equal((drawWorld.match(/pacing\.drew\(/g) || []).length, 2, 'drawWorld does not tell the pacing of every draw it makes');
+  assert.doesNotMatch(animateMap, /pacing\.drew\(/, 'the animation tells the pacing of its own draws apart from the others');
+  assert.match(animateMap, /pacing\.due\(now, fps\)/, 'the animation does not ask the pacing when it may draw');
+  assert.equal((app.match(/drawWorldNow\(/g) || []).length, 3, 'a whole draw made around drawWorld would not reach the pacing');
 });

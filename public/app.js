@@ -47,7 +47,7 @@ import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, di
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
 import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-classes.js';
 import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
-import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
+import { drawPacing, frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
 import { EYEBROWS, ICONS, URGENT, callCue, militaryNotices } from '/military-attention.js';
 import { mountHuntAim } from '/hunt-aim.js';
@@ -126,7 +126,7 @@ const courtshipScenes = createCourtship({
 // A rider's visit as a scene over the whole screen (owner, 2026-10-05; public/rider-scene.js, sim/rider-scene.mjs): the meeting's
 // own panel holds it, and the map's ground at the spot is lent to it as it is to the flashback.
 const riderScene = createRiderScene({ root: $('#encounter'), hooks: { camera: (...args) => flashbackCamera(...args), ground: (...args) => flashbackGround(...args) } });
-let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0, drawingAnimation = false;
+let animationTime = 0, previousFrame = 0, paintedFrame = 0, drawingAnimation = false;
 // The end-of-game flashback's recorder (public/flashback.js): the video's own clock while it draws a frame, which the figures'
 // cycles are timed by instead of the page's, and how many pictures of the land are still being made. Up here, above the page's
 // first `connect`, for the TDZ guard.
@@ -2312,9 +2312,11 @@ function fitCanvas() {
  * again in the same frame. On a slow computer a draw is most of a frame's budget, so a touchpad swipe queued a draw per event
  * and the map fell further behind the hand the longer it moved (measured 2026-09-17, CPU throttled six times). Inputs now
  * only move the camera, which is arithmetic, and ask for this; the draw reads the camera as it is when the frame comes, and
- * counts as the animation's frame too (`lastMapDraw` in animateMap).
+ * counts as the animation's frame too (`pacing`, told of it in drawWorld).
  */
-let mapDrawWanted = false, lastMapDraw = 0;
+let mapDrawWanted = false;
+// Every whole draw, whoever asked for it, and when the animation may draw again (public/map-camera.js `drawPacing`).
+const pacing = drawPacing();
 function requestMapDraw() {
   if (mapDrawWanted) return;
   mapDrawWanted = true;
@@ -3938,12 +3940,15 @@ function drawCinema(ctx, world, camera, canvas, now) {
   window.__cinema = evidence;
 }
 export function drawWorld(world) {
-  const log = window.__mapDraws;
-  if (!Array.isArray(log)) { drawWorldNow(world); return; }
-  const sheets = sheetsFirstDrawn(), grounds = window.__groundDrawn || 0, began = performance.now();
+  const log = window.__mapDraws, began = performance.now();
+  // Every whole draw tells the animation's pacing when it began and what it cost, not only the animation's own: told of those
+  // alone, one slow draw held the animation off for good (public/map-camera.js `drawPacing`, 2026-10-13).
+  if (!Array.isArray(log)) { drawWorldNow(world); pacing.drew(began, performance.now() - began); return; }
+  const sheets = sheetsFirstDrawn(), grounds = window.__groundDrawn || 0;
   drawWorldNow(world);
+  pacing.drew(began, performance.now() - began);
   log.push({
-    at: began, ms: performance.now() - began, animation: drawingAnimation, ground: (window.__groundDrawn || 0) !== grounds,
+    at: began, ms: pacing.cost, animation: drawingAnimation, ground: (window.__groundDrawn || 0) !== grounds,
     firstSheets: sheetsFirstDrawn() - sheets, camera: window.__camera?.kind, famous: (window.__famousDrawn || []).map(one => [one.id, one.how]),
   });
   if (log.length > 4000) log.splice(0, log.length - 4000);
@@ -4019,7 +4024,7 @@ function drawWorldNow(world) {
   runCinema(world, canvas, frameNow);
   const camera = cameraFor(world, canvas, frameNow);
   drawnCamera = { cx: camera.cx, cy: camera.cy, scale: camera.scale, width: canvas.width, height: canvas.height };
-  mapDrawWanted = false; lastMapDraw = performance.now(); gesturePicture = null;
+  mapDrawWanted = false; gesturePicture = null;
   window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following, watching: camera.watching ?? null, figure: camera.figure, house: camera.house };
   foldSiteChooser(world, camera, canvas);
   // The ground is drawn again only when something it is drawn from changed (`groundInputs`, public/map-base.js): not for a
@@ -10217,19 +10222,15 @@ function animateMap(now) {
   if (active) animationTime += elapsed;
   // A draw a gesture asked for this frame is the animation's frame too: never two whole-map draws in one frame.
   // Nor while a hand is on the map: the gesture's moved picture stands for the frame until it stops (`handOnMap`).
-  // And never more than half the page's time: on a computer where a whole draw takes longer than a twelfth of a second, the
-  // animation drew frame after frame with no gap, and a touch or a click waited behind as many as five draws before the page
-  // heard it (measured 2026-09-17, CPU throttled six times: 840 ms from a finger landing to its pointerdown).
-  // ceiling: the animation runs slower than twelve frames a second wherever a draw costs more than 42 ms; cheaper drawing
-  // raises it again by itself.
+  // And never more than half the page's time (`pacing`, public/map-camera.js `drawPacing`, which keeps the ceiling).
   // While the film of a fight moves the camera, twice as often, so the glide is smooth (still never more than half the page's time).
   const fps = cinemaFor(world).driving ? 24 : 12;
-  if (active && now - lastMapDraw >= Math.max(1000 / fps, animationDrawMs * 2) && now >= handOnMapUntil) {
+  if (active && pacing.due(now, fps) && now >= handOnMapUntil) {
     paintedFrame = now;
     drawingAnimation = true;
     const began = performance.now(); drawWorld(world); positionSelection(world);
-    animationDrawMs = performance.now() - began; drawingAnimation = false;
-    window.__animation = { timeMs: animationTime, clips: [...window.__animationClips], drawMs: animationDrawMs };
+    drawingAnimation = false;
+    window.__animation = { timeMs: animationTime, clips: [...window.__animationClips], drawMs: performance.now() - began };
   }
   requestAnimationFrame(animateMap);
 }

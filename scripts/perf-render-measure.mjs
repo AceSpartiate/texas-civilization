@@ -36,11 +36,18 @@ const WEATHER = arg('weather', null);
 
 // Installed before any page script: counts what the page does without touching the game's own code.
 const INSTRUMENT = () => {
-  const perf = window.__perf = { raf: 0, rafMs: [], snapshots: 0, snapshotMs: [], longTasks: [], created: 0, inserted: 0 };
+  const perf = window.__perf = { raf: 0, rafMs: [], snapshots: 0, snapshotMs: [], longTasks: [], created: 0, inserted: 0, animationDraws: 0 };
   const rawRaf = window.requestAnimationFrame.bind(window);
+  // The animation's own draws, apart from the snapshots' and the gestures': `animateMap` sets `window.__animation` afresh each
+  // time it draws (public/app.js). Painted frames alone could not tell a map that animates from one that moves only when a
+  // snapshot comes, which is how a stalled animation went unseen (2026-10-13).
+  let animation = null;
   window.requestAnimationFrame = callback => rawRaf(now => {
     const began = performance.now();
-    try { callback(now); } finally { perf.raf++; perf.rafMs.push(performance.now() - began); }
+    try { callback(now); } finally {
+      perf.raf++; perf.rafMs.push(performance.now() - began);
+      if (window.__animation && window.__animation !== animation) { animation = window.__animation; perf.animationDraws++; }
+    }
   });
   // `render(snapshot)` runs inside the EventSource message handler, so timing the handler times it (JSON.parse included).
   const describe = Object.getOwnPropertyDescriptor(EventSource.prototype, 'onmessage');
@@ -86,11 +93,19 @@ try {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
   const loadStarted = Date.now();
   await page.goto(url + game.path);
-  await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__snapshot.world.map?.province, null, { timeout: 180000 });
-  result.loadToRunningMs = Date.now() - loadStarted;
+  // The world on the page: the map and the family, in the lobby or already running. A solo game opens in its own lobby
+  // (owner, 2026-09-21); a build from before that opened running, and this waited for `running` - which a lobby never
+  // reaches by itself, so from then to 2026-10-13 the measure timed out here. Records before that call this span
+  // `loadToRunningMs`; it is the same span, page load to a world it can draw, with nothing of the player's in it.
+  await page.waitForFunction(() => window.__snapshot?.world?.map?.province && (window.__snapshot.world.status === 'running' || window.__snapshot.world.householdId), null, { timeout: 180000 });
+  result.loadToWorldMs = Date.now() - loadStarted;
   // The last name and How We Look, where the build asks for them (a build before 2026-09-17 does not).
   await meetFamily(page, 'Measure', { timeout: 20000 });
-  for (const id of ['#journal-close', '#wagon-done', '#tutorial-skip']) if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
+  // The wagon, where the build asks for it: in a solo game *Done packing* is the Start. A build that opened running has none.
+  await page.waitForFunction(() => window.__snapshot.world.status === 'running' || !document.querySelector('#wagon-load')?.hidden, null, { timeout: 30000 });
+  if (await page.locator('#wagon-load').isVisible().catch(() => false)) await page.locator('#wagon-done').click();
+  await page.waitForFunction(() => window.__snapshot.world.status === 'running', null, { timeout: 60000 });
+  for (const id of ['#journal-close', '#tutorial-skip']) if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
   // The whole country in one weather, its rivers well up: the worst a day can cost. Carried on every snapshot
   // (scripts/support/weather-stub.mjs), so the kept ground sees one steady day rather than one flickering on and off.
   if (WEATHER) await holdWeather(page, stubWeather(WEATHER), WEATHER.includes('fog') ? 7 * 60 + 20 : null);
@@ -125,7 +140,7 @@ try {
       await page.locator(`.panel-portrait[data-portrait="${main}"]`).click();
     }
     await page.waitForTimeout(2000);
-    await page.evaluate(() => { const p = window.__perf; Object.assign(p, { raf: 0, rafMs: [], snapshots: 0, snapshotMs: [], longTasks: [], created: 0, inserted: 0, creators: {} }); p.groundBefore = window.__groundDrawn || 0; window.__groundWhy = {}; });
+    await page.evaluate(() => { const p = window.__perf; Object.assign(p, { raf: 0, rafMs: [], snapshots: 0, snapshotMs: [], longTasks: [], created: 0, inserted: 0, creators: {}, animationDraws: 0 }); p.groundBefore = window.__groundDrawn || 0; window.__groundWhy = {}; });
     const before = await metrics();
     await cdp.send('Profiler.enable');
     await cdp.send('Profiler.setSamplingInterval', { interval: 1000 });
@@ -136,7 +151,18 @@ try {
     const { profile } = await cdp.send('Profiler.stop');
     const after = await metrics();
     const seconds = (Date.now() - started) / 1000;
-    const perf = await page.evaluate(() => ({ ...window.__perf, camera: window.__camera, drawMs: window.__animation?.drawMs, groundDrawn: window.__groundDrawn === undefined ? null : window.__groundDrawn - window.__perf.groundBefore, groundWhy: window.__groundWhy || null }));
+    const perf = await page.evaluate(() => ({ ...window.__perf, camera: window.__camera, drawMs: window.__animation?.drawMs, groundDrawn: window.__groundDrawn === undefined ? null : window.__groundDrawn - window.__perf.groundBefore, groundWhy: window.__groundWhy || null,
+      // What was on the page while it was measured: the map animates only while the world runs and `#game` is shown
+      // (public/app.js `animateMap`), and a card over the map is drawn by the page, not the map.
+      page: (() => {
+        const map = document.querySelector('#world-map')?.getBoundingClientRect(), top = map && document.elementFromPoint(map.x + map.width / 2, map.y + map.height / 2);
+        return {
+          status: window.__snapshot?.world?.status, gameHidden: Boolean(document.querySelector('#game')?.hidden),
+          overMap: !top ? null : top.id === 'world-map' ? 'map' : `${top.tagName.toLowerCase()}${top.id ? '#' + top.id : ''} in #${top.closest('[id]')?.id}`,
+          open: [...document.querySelectorAll('dialog[open], [role=dialog], [aria-modal=true], #selection-call, #selection-flight, #selection-nurse, #selection-army, #selection-work, #selection-trade, #listen-rider')]
+            .filter(one => !one.hidden && one.getBoundingClientRect().height > 0 && (one.tagName !== 'DIV' || one.childElementCount)).map(one => one.id || one.className || one.tagName),
+        };
+      })() }));
     // Self time by function, from the sampled profile.
     const self = new Map(), byId = new Map(profile.nodes.map(n => [n.id, n]));
     const deltas = profile.timeDeltas; let total = 0;
@@ -153,8 +179,11 @@ try {
     const painted = perf.rafMs.filter(ms => ms > 1);
     result.views[view] = {
       scale: perf.camera && r(perf.camera.scale),
+      page: perf.page,
       rafPerSecond: r(perf.raf / seconds),
       paintedFramesPerSecond: r(painted.length / seconds),
+      // Of them, the animation's (the rest are snapshots' and gestures'): near nought, and the map moves only on snapshots.
+      animationDrawsPerSecond: r(perf.animationDraws / seconds),
       msPerPaintedFrame: { mean: r(avg(painted)), p95: r(pct(painted, .95)) },
       snapshots: perf.snapshots,
       // How many times the ground under the people was drawn (null for a build that drew it on every frame).
@@ -177,7 +206,7 @@ try {
       topElementCreators: Object.entries(perf.creators).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([at, count]) => ({ at, perMinute: Math.round(count / seconds * 60) })),
     };
     const v = result.views[view];
-    console.log(`${LABEL} ${view.padEnd(8)} scale ${String(v.scale).padStart(7)} | fps ${String(v.paintedFramesPerSecond).padStart(4)} | frame ${v.msPerPaintedFrame.mean}/${v.msPerPaintedFrame.p95} ms | snapshot ${v.msPerSnapshot.mean}/${v.msPerSnapshot.p95} ms (${v.snapshots}) | ground ${v.groundDrawnPerSecond ?? 'every frame'}/s | long ${v.longTasksPerMinute}/min | busy ${v.mainThreadBusyPercent}% | els ${v.elementsCreatedPerMinute}/min | heap ${heap[0]}->${heap.at(-1)} MB`);
+    console.log(`${LABEL} ${view.padEnd(8)} scale ${String(v.scale).padStart(7)} | fps ${String(v.paintedFramesPerSecond).padStart(4)} (animation ${String(v.animationDrawsPerSecond).padStart(4)}) | frame ${v.msPerPaintedFrame.mean}/${v.msPerPaintedFrame.p95} ms | snapshot ${v.msPerSnapshot.mean}/${v.msPerSnapshot.p95} ms (${v.snapshots}) | ground ${v.groundDrawnPerSecond ?? 'every frame'}/s | long ${v.longTasksPerMinute}/min | busy ${v.mainThreadBusyPercent}% | els ${v.elementsCreatedPerMinute}/min | heap ${heap[0]}->${heap.at(-1)} MB | ${v.page.status}${v.page.gameHidden ? ', #game hidden' : ''}, over the map: ${v.page.overMap}${v.page.open.length ? `, open: ${v.page.open.join(' ')}` : ''}`);
     for (const t of top.slice(0, 8)) console.log(`    ${String(t.perSecond).padStart(6)} ms/s  ${t.name}`);
     for (const c of v.topElementCreators.slice(0, 4)) console.log(`    ${String(c.perMinute).padStart(6)} els/min  ${c.at}`);
   }
