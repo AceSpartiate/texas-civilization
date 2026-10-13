@@ -1,5 +1,67 @@
 # Claude handoff — Astra foundation
 
+## Astra's 2026-10-09 to 10-12 art merged and wired in — 2026-10-13 (not yet released)
+
+Branch `astra-merge-1013`: her 26 commits (e1eccc71..729a114b) merged onto main 2e553d79. Her local main never takes our
+merges, so every conflict was read against her own diff (`git diff e1eccc71 729a114b`) and resolved keeping main's
+behaviour with hers added; every line of the merged result that differs from main and is not in her diff was read by eye
+(all are in files with a conflict, and each is a resolution below). No sneak-in was found outside a conflict this time.
+
+- **Conflicts and how they went.** *Evidence* (`docs/evidence/battle-*`): hers. *HANDOFF, ART_REQUESTS*: both sides; in the
+  stand-in tables her "delivered" rows replace ours where she finished the item, our removals of retired rows kept.
+  *public/app.js*: her seated passengers and the baby carried in arms added to our rig and Claude passenger paths
+  (`drawSeated`); her camp pose for a family member asleep in a fight added to our cast poses; her army props (`sprite`,
+  `paused`) beside our camp men; `setData` hers (kebab keys) with our `keepData`. *public/motion.js*: her girl and boy in
+  `RIDING_FIGURES`/`DRIVING_FIGURES`, her `-wagon-passenger-` seats; `bedLayout(..., place, rigSeated)` takes either our rig
+  part or her seated flag, and her seated passenger sits in the rig's tail too (`tailLayout`). *public/army-view.js*: our
+  marching column and camp men, her wedge tents, cook fire, pennants and stacked arms in place of Claude's camp.
+  *public/battle-view.js*: her imports, Béxar townspeople, moonlit Béxar grade, Alamo grade, San Patricio night, upright
+  lancers, mounted reloads and north/south fire, second prisoner, Milam/Travis firing and the four riders' refinements,
+  all on our clocks (`holding`, `musketClip`, `FALL`, `GUN.recoil`) and our `fallback` mechanism (her `fallbackSprite`
+  scenery and prisoner fallbacks read by it); her one-mass herd replaces Claude's masses. *public/house-plot.js*: her jacal
+  stages, her ridge-fitted roof joins (`fitRoofJoin`, clipped), her chimney join; our `late` ordering went with Claude's joins.
+  *public/town-art.js, sim/town-layouts.mjs*: her landmark sprites, `drawWidthFeet`/`anchor`/`sortOffsetFeet` and the mill
+  plume (only while `operating`, which no server sends yet); our `art`/`standInFor` mechanism kept, unused.
+  *public/bexar-*.js*: her civic exteriors as `sprite` with `fallbackSprite`. *sim/battles/*: her bank, mission, creek beds,
+  ditch and ford; Béxar's Row, Priest's House and cemetery gun at her reconstructed points. *sim/woods.mjs*: her `tree-*`
+  pictures and pecan stump; Claude's `own` trees gone, `ownStump` kept. *public/weather-art.js*: her cottonwood and sapling
+  gale poses; Claude's cottonwood gale out of `CLAUDE_GALE`. *scripts/build-atlas-manifest.mjs*: her ridges, module metadata
+  and house sheets on our measured `logicalOf` (her sheet rules ported to it). *Portrait stand-ins*: deleted (her twelve).
+- **Stand-ins retired** (`scripts/claude-art/kit/retire.mjs` applied in each area module, sheets rebuilt, orphan PNGs and
+  SVGs removed): portraits; the Alamo's north and church guns; the army camp; the padre's carts; the regular at a loophole;
+  the parapet firers; the woman of Béxar; the children speaking; San Fernando, the Governor's Palace, Mission Concepción;
+  the house's rear and end views, roof joins, jacal stages, shed frame and double chimney; the cut bank, creek bed and
+  ford; the herd; the children riding and driving (the small child's too: he neither rides alone nor drives); Fort
+  Velasco, the steam mill, the Stone House; the anacua, ebony, tupelo, cedar elm and willow; the cottonwood's gale pose.
+  Plan regenerated (`npm run art:plan`); the Claude table notes each retirement.
+- **Held off, and why.** *Rear views of a pen* (`REAR_VIEWS = false`, public/house-plot.js): her rear walls are at their own
+  source resolution (`roofScale`) and their chimney/door registration is the compositor work her delivery hands over; on main
+  Claude's rear stand-ins were never drawn (held back by subject), so the front picture with the chimney over its door is
+  what players saw. Turning it on wants the house roof, chimney and connected tests given her rear walls' measured points.
+  *Library-ready, not drawn*: her double chimney, puncheon floor and half loft; the whole ox-wagon rig and the drawn-back
+  wagon cover (a rig migration moves the driver and passenger anchors); the caregiver-with-toddler/infant riders (paired
+  staging); the volunteer trot and parapet overlays at the Alamo; the Concepción mule riders, padre and casualty carts
+  (no phase stages them); the four riders' trot and dispatch (no scene sets `gait`/`mountedAction` yet).
+- **Found by the merge and fixed.** `sim/battle-stage.mjs` imported `public/bexar-battle-art.js` (the simulation takes nothing
+  from public/, tests/movement.test.mjs): `bexarDarknessAtHour` is now `sim/bexar-light.mjs`. Her regular's crowbar
+  front/back views and the mill plume drew one figure at several sizes (tests/art-measure.test.mjs C2): held to their
+  tallest frame in `FIGURE_HEIGHTS`. Her regular at a loophole is drawn at her 0.65 (`REGULAR_LOOPHOLE`, a `ceiling:`), since
+  her sheet is held to its crouched height. `famousArt` now asks for the north/south mounted walk only when the person
+  heads that way, as `drawFamous` draws.
+- **Tests brought to the merged state** (not new tests): astra-art-wins (lists of Claude frames), battle-alamo-view (her
+  grade, not Claude's `night-grade`), battle-bexar-view (her townspeople), battle-view-south (her night and herd),
+  weather-art and art-library (her new gale poses), woods-view (no `own` tree), cast2-wagon-driver-art (her children
+  drive), work-art (the cast is the riders but the girl and boy), bexar-battle-art (darkness from sim/).
+- **Evidence.** `npm test` on the final tree: 2479 tests, 2443 pass, 0 fail, 36 skipped (the guided start's). The Alamo test's
+  new grade assertion was proved by turning her grade off (it fails, then passes). Voice package built and WebP rebuilt
+  before the proofs. Her 26 art proofs: all pass (bexar-civic after its fallback check was taught to block the WebP sheet
+  too). Browser proofs, two at a time: battle-alamo, battle-bexar, battle-san-jacinto, battle-south, battle-concepcion,
+  battle-coleto, storming, alamo-pyres, towns, gonzales-town, house-logs, house-plot, interior, family-panel, panels,
+  overlap, travel, tips, riding, travel-drawn, wagons, armies, children, military-notice, camp, art and trees-front pass;
+  battle-grass and famous-people failed once in the pair run and pass alone (both on the known-flaky list);
+  `weather-browser-proof` times out waiting for a running world here and on main's verify tree (fc9b6c05) alike: pre-existing.
+- Not proved: Chromebook, LAN, classroom.
+
 ## Released as v2026.10.10.1 — 2026-10-10
 
 Main at fc9b6c05, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.10.1>). Set of changes from v2026.10.06.2: 13.3 MB (Astra's art). Evidence: `npm test` 2365 pass, 0 fail at a45aed7c; the browser proofs two at a time there, all passing but four: reconnect and battle-cinema passed alone; solo and read-aloud failed alone on the simpler start (no title screen for a made family; tips only after the site is chosen) and pass at fc9b6c05 after their proofs were brought to it, read-aloud with the voice package rebuilt for the reworded tips.
