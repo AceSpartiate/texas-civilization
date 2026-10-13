@@ -1,5 +1,52 @@
 # Claude handoff — Astra foundation
 
+## The houses seen from behind — 2026-10-13 (not released)
+
+Branch `house-rear` (from main 3542cba7). Owner: *"align the rear house views and turn them on."* `REAR_VIEWS` is on
+(public/house-plot.js): wherever a pen's chimney stands on the gable the front walls draw with the door - the cabins at
+90 degrees, the dog-run and saddlebag at every turn - the pen is drawn with Astra's rear walls (2026-10-11), the near gable
+blank logs and the door on the long side, and the chimney stands against that blank gable instead of over the door. No
+server change, projection field, command or save version.
+
+- **What was misaligned.** Switched on as merged, her rear walls were drawn by their own frame at the front walls' place
+  and height: her sheet is finer (`roofScale` 1.056 round, 1.093 hewn), so the rear pen came out 6-9% wider than the
+  front one, and her rear anchor is not the same point of the footprint as the front's, so it stood a thirtieth of its
+  width to the side of its ground; the chimney was still placed on the *front* walls' gable (`standChimneys` read only
+  `house-*-full-walls`), so it stood off the wall it was drawn against; and her rear walls stand six courses to the front's
+  seven, so a dog-run with one rear and one front pen had its near roof stepped down from the passage roof. Nineteen house
+  tests failed (roof 7, chimney 7, connected 3, spacing 1, tap 1).
+- **How it is fixed.** `rearFit(front, rear)`: the rear drawn at the front walls' pixel scale (1/`roofScale`, which is also
+  what `roofSeat` takes) and placed by the middle of its measured footprint on the front's. `penWalls(...)` picks the
+  one frame a log pen is drawn with - front, or rear fitted - and every use takes it: the roof seat, every construction
+  stage, and the chimney's gable (`penAt`, set on each pen before `standChimneys`), as her checklist item 2 asks. The rear
+  is chosen only when its sheet has loaded (`drawSprite.ready`, public/art.js = `spriteReady`), so while it loads the pen
+  and its chimney are both the old front picture. A two-pen house is seen from behind whole when either pen is, its
+  passage roof and double-chimney roof seated on the rear walls too, so the roofs stay on one line. End views (porch, shed
+  room, lone passage) were already drawn at quarter turns since the merge; unchanged.
+- **Tests.** New `tests/house-rear.test.mjs` (3): a rear pen's footprint against the front walls' by the corner posts read by
+  eye on both sheets (width within 2%, middle within 2%, corners within 6%), round and hewn; and the loading fallback (a
+  `drawSprite` that cannot draw the rear yet: front walls, chimney on the front gable within 2%). Proved by injection, one
+  at a time, the file run after each: placing the rear by its own anchor (`dx = dy = 0`) fails both footprint tests and
+  only them (middle 4.1% / 2.5% off); not normalising the scale fails both (3.7% / 7.3% wider); ignoring readiness fails the
+  fallback test only. Existing tests given her measured points, not weakened: house-roof and house-chimney and
+  house-connected take the rear walls' wall-top and ground corners read by eye off a five-pixel grid, the roof's scale on
+  the rear is `roofScale` of their pixels; house-chimney's door test now measures her side door and holds every pen to be
+  seen from behind exactly where a chimney is on the gable toward the viewer (the old "the chimney hides the whole door"
+  rule dropped, as her checklist item 4 asks); house-tap reads either wall name; house-turn allows 0.15 of a cell (was 0.1)
+  for "about level", her rear gable being steeper (0.12 measured). Injections into the code under these: `REAR_VIEWS =
+  false` fails the four chimney door tests and the two footprint tests; dropping the whole-row rule fails the dog-run and
+  saddlebag ridge-line tests, the passage-roof test and the dog-run and saddlebag door tests. All house tests load
+  `house-back-views` so they no longer depend on test order.
+- **Evidence.** `npm test`: 2482 tests, 2445 pass, 0 fail, 36 skipped (the guided start's), 1 cancelled - capacity, a
+  32-second timeout while two other sessions' suites ran on this machine; it passes alone. WebP rebuilt (509) and the voice
+  package built before the proofs. Browser proofs, two at a time: house-plot (after it was taught the rear sheet's frame names, `house-back-views` in its cut map - it found no walls at 90 degrees without; at 90 now no chimney over a door, the pen from behind), house-logs, interior, Astra's house-other-sides-art, house-construction-complete-art, roof-join-art (now loading `house-back-views`, as the page does: its evidence shows the two-pen houses from behind at all four turns), overlap, panels and art pass; art timed out once in the pair run (its catalog page loads 507 sheets in more than its 30 seconds on this loaded machine, the same on the unchanged code) and passed alone. Pictures looked at (scratch, not
+  committed): every plan at 0/90/180/270, stages from sill to roof, with porch and shed, both materials.
+- **ceiling:** (`rearFit`) her rear walls are drawn as she drew them: lower than the front (a rear roof sits a twentieth of
+  a pen's width lower, a tenth on the hewn), and their near gable a little steeper (the front corner 5% of the width left of
+  the front walls'). So a dog-run and saddlebag never show their front walls. docs/ART_REQUESTS.md request 2026-10-13 (the
+  rear walls as high as the front) removes it; the stand-in row for request 2026-09-23 is deleted.
+- Not proved: Chromebook, LAN, classroom.
+
 ## Astra's 2026-10-09 to 10-12 art merged and wired in — 2026-10-13 (not yet released)
 
 Branch `astra-merge-1013`: her 26 commits (e1eccc71..729a114b) merged onto main 2e553d79. Her local main never takes our
@@ -38,6 +85,7 @@ behaviour with hers added; every line of the merged result that differs from mai
   source resolution (`roofScale`) and their chimney/door registration is the compositor work her delivery hands over; on main
   Claude's rear stand-ins were never drawn (held back by subject), so the front picture with the chimney over its door is
   what players saw. Turning it on wants the house roof, chimney and connected tests given her rear walls' measured points.
+  **Now on** (2026-10-13, branch `house-rear`: *The houses seen from behind*, above).
   *Library-ready, not drawn*: her double chimney, puncheon floor and half loft; the whole ox-wagon rig and the drawn-back
   wagon cover (a rig migration moves the driver and passenger anchors); the caregiver-with-toddler/infant riders (paired
   staging); the volunteer trot and parapet overlays at the Alamo; the Concepción mule riders, padre and casualty carts

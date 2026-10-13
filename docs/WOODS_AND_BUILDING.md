@@ -438,6 +438,18 @@ drawn (the sheet's door, read by eye as a four-cornered opening, through the tra
 if a chimney drawn after that pen overlaps it — and a chimney whose gable the plan puts toward the viewer (and only that one)
 must cover all four of its corners with its outline (read by eye off the chimney pictures).
 
+**The house seen from behind (2026-10-13).** Owner: *"align the rear house views and turn them on."* Astra's rear walls
+(2026-10-11, `house-round-back-*`, `house-hewn-back-*`: the near gable blank logs, the door on the long side) now stand in
+for the front walls wherever the stand-in above stood a chimney in front of a door: the **cabins at 90°**, and the
+**dog-run** and **saddlebag** at every turn, which are drawn from behind whole so that their two roofs meet on one line
+(her rear walls stand six courses to the front's seven, and a rear pen's roof sits lower). The chimney stands against the
+blank gable, centred, and covers nothing. Her sheet is finer than house-modules (`roofScale`); each rear frame is drawn at
+the front walls' pixel scale and placed by the middle of its footprint on the front walls' (`rearFit`), and the roof seat,
+the chimney's gable and every stage take the one fitted frame (`penWalls`). While her sheet loads, the front walls and the
+old stand-in are drawn, chimney and all. Test: `tests/house-rear.test.mjs` (footprint and the loading fallback);
+`tests/house-chimney.test.mjs` *no … chimney is drawn over a door* now holds every pen to be seen from behind exactly where a
+chimney stands on the gable toward the viewer, and no chimney over any door. Not a historical claim about where doors were.
+
 **One building: two pens along one ridge (2026-09-24).** Owner: *"the angle of the houses makes it so they don't seem to be
 connected single buildings. fix this."* They did not: the page stood a dog-run's or saddlebag's two pens where their cells
 are, side by side along the house's long side, and the sheet draws a pen corner-on with its ridge on a diagonal, so the two
