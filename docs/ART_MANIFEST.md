@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3806 usable sprites, 401 PNG atlases, 1310 clips** (989 pose cycles; 4 layered rigs).
+Generated from the shipped library: **6350 usable sprites, 446 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -102,6 +102,51 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-family-father-hat | 16 | 1254 × 1254 | 1292458 |
 | family-panel-marks | 6 | 1286 × 1223 | 985678 |
 | family-portraits | 12 | 1448 × 1086 | 1237816 |
+| rig-adult-male-locomotion | 96 | 1254 × 1254 | 1165962 |
+| rig-adult-male-work | 128 | 1254 × 1254 | 1059244 |
+| rig-adult-male-service | 128 | 1254 × 1254 | 1155951 |
+| rig-adult-male-saddle | 96 | 1254 × 1254 | 1258300 |
+| rig-adult-female-locomotion | 96 | 1254 × 1254 | 958938 |
+| rig-adult-female-work | 128 | 1254 × 1254 | 656543 |
+| rig-adult-female-service | 128 | 1254 × 1254 | 676105 |
+| rig-adult-female-saddle | 96 | 1254 × 1254 | 1249516 |
+| rig-youth-male-locomotion | 36 | 1254 × 1254 | 865420 |
+| rig-youth-male-work | 48 | 1254 × 1254 | 1164474 |
+| rig-youth-male-service | 48 | 1254 × 1254 | 1218231 |
+| rig-youth-male-saddle | 36 | 1536 × 1024 | 1849444 |
+| rig-youth-female-locomotion | 36 | 1254 × 1254 | 1086252 |
+| rig-youth-female-work | 48 | 1254 × 1254 | 1290503 |
+| rig-youth-female-service | 48 | 1254 × 1254 | 772752 |
+| rig-youth-female-saddle | 36 | 1254 × 1254 | 1444093 |
+| rig-child-male-locomotion | 24 | 1254 × 1254 | 904071 |
+| rig-child-male-work | 32 | 1254 × 1254 | 706233 |
+| rig-child-male-service | 32 | 1254 × 1254 | 1288694 |
+| rig-child-male-saddle | 24 | 1402 × 1122 | 1069566 |
+| rig-child-female-locomotion | 24 | 1254 × 1254 | 1102872 |
+| rig-child-female-work | 32 | 1254 × 1254 | 1117097 |
+| rig-child-female-service | 32 | 1254 × 1254 | 1254149 |
+| rig-child-female-saddle | 24 | 1254 × 1254 | 1487559 |
+| rig-smallchild-locomotion | 24 | 1448 × 1086 | 976296 |
+| rig-smallchild-work | 32 | 1254 × 1254 | 715296 |
+| rig-smallchild-service | 32 | 1254 × 1254 | 1223881 |
+| rig-infant-body | 24 | 1254 × 1254 | 1142277 |
+| rig-heads-cast1 | 16 | 1254 × 1254 | 1570747 |
+| rig-heads-cast2 | 16 | 1254 × 1254 | 1345830 |
+| rig-heads-fathers | 16 | 1254 × 1254 | 1427967 |
+| rig-heads-mothers | 16 | 1254 × 1254 | 853732 |
+| rig-heads-young | 16 | 1254 × 1254 | 1508461 |
+| rig-heads-little | 8 | 1774 × 887 | 1094619 |
+| rig-covered-patients | 60 | 1254 × 1254 | 1020502 |
+| family-transport-components | 264 | 1774 × 887 | 1241143 |
+| rig-camp-grown | 88 | 1254 × 1254 | 1271291 |
+| rig-camp-children | 32 | 1254 × 1254 | 1216730 |
+| rig-adult-male-mounted-service | 96 | 1254 × 1254 | 1058362 |
+| rig-adult-female-mounted-service | 96 | 1254 × 1254 | 628277 |
+| rig-youth-male-mounted-service | 36 | 1536 × 1024 | 1576577 |
+| rig-youth-female-mounted-service | 36 | 1254 × 1254 | 1080631 |
+| rig-capture-poses | 60 | 1254 × 1254 | 1014174 |
+| rig-sow-poses | 60 | 1254 × 1254 | 713981 |
+| rig-harvest-poses | 60 | 1254 × 1254 | 1305832 |
 | adult-passengers-cast1 | 24 | 1215 × 1295 | 813456 |
 | adult-passengers-cast2 | 24 | 1263 × 1246 | 858586 |
 | family-infant-walk-rust-woman | 12 | 1448 × 1086 | 977086 |
@@ -1304,6 +1349,638 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | portrait-boy | family-portraits | State artwork; no motion required |
 | portrait-smallchild | family-portraits | State artwork; no motion required |
 | portrait-infant | family-portraits | State artwork; no motion required |
+| rig-body-adult-male-idle-s | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-idle-e | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-idle-n | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-idle-w | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-walk-e-1 | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-walk-e-2 | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-walk-e-3 | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-walk-e-4 | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-walk-s-1 | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-walk-s-2 | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-walk-n-1 | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-walk-n-2 | rig-adult-male-locomotion | State artwork; no motion required |
+| rig-body-adult-male-dig-1 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-dig-2 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-hoe-1 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-hoe-2 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-chop-1 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-chop-2 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-hammer-1 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-hammer-2 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-carry-1 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-carry-2 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-trade-1 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-trade-2 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-care-1 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-care-2 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-search-1 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-search-2 | rig-adult-male-work | State artwork; no motion required |
+| rig-body-adult-male-aim | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-fire | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-load | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-ramrod | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-horse-e-1 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-horse-e-2 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-passenger-e-1 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-passenger-e-2 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-passenger-s-1 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-passenger-s-2 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-passenger-n-1 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-passenger-n-2 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-wounded-1 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-wounded-2 | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-fall | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-still | rig-adult-male-service | State artwork; no motion required |
+| rig-body-adult-male-saddle-e-1 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-e-2 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-wounded-e-1 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-wounded-e-2 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-s-1 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-s-2 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-wounded-s-1 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-wounded-s-2 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-n-1 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-n-2 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-wounded-n-1 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-male-saddle-wounded-n-2 | rig-adult-male-saddle | State artwork; no motion required |
+| rig-body-adult-female-idle-s | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-idle-e | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-idle-n | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-idle-w | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-walk-e-1 | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-walk-e-2 | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-walk-e-3 | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-walk-e-4 | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-walk-s-1 | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-walk-s-2 | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-walk-n-1 | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-walk-n-2 | rig-adult-female-locomotion | State artwork; no motion required |
+| rig-body-adult-female-dig-1 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-dig-2 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-hoe-1 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-hoe-2 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-chop-1 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-chop-2 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-hammer-1 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-hammer-2 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-carry-1 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-carry-2 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-trade-1 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-trade-2 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-care-1 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-care-2 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-search-1 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-search-2 | rig-adult-female-work | State artwork; no motion required |
+| rig-body-adult-female-aim | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-fire | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-load | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-ramrod | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-horse-e-1 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-horse-e-2 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-passenger-e-1 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-passenger-e-2 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-passenger-s-1 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-passenger-s-2 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-passenger-n-1 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-passenger-n-2 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-wounded-1 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-wounded-2 | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-fall | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-still | rig-adult-female-service | State artwork; no motion required |
+| rig-body-adult-female-saddle-e-1 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-e-2 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-wounded-e-1 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-wounded-e-2 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-s-1 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-s-2 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-wounded-s-1 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-wounded-s-2 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-n-1 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-n-2 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-wounded-n-1 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-adult-female-saddle-wounded-n-2 | rig-adult-female-saddle | State artwork; no motion required |
+| rig-body-youth-male-idle-s | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-idle-e | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-idle-n | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-idle-w | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-walk-e-1 | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-walk-e-2 | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-walk-e-3 | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-walk-e-4 | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-walk-s-1 | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-walk-s-2 | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-walk-n-1 | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-walk-n-2 | rig-youth-male-locomotion | State artwork; no motion required |
+| rig-body-youth-male-dig-1 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-dig-2 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-hoe-1 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-hoe-2 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-chop-1 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-chop-2 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-hammer-1 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-hammer-2 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-carry-1 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-carry-2 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-trade-1 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-trade-2 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-care-1 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-care-2 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-search-1 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-search-2 | rig-youth-male-work | State artwork; no motion required |
+| rig-body-youth-male-aim | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-fire | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-load | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-ramrod | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-horse-e-1 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-horse-e-2 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-passenger-e-1 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-passenger-e-2 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-passenger-s-1 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-passenger-s-2 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-passenger-n-1 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-passenger-n-2 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-wounded-1 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-wounded-2 | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-fall | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-still | rig-youth-male-service | State artwork; no motion required |
+| rig-body-youth-male-saddle-e-1 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-e-2 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-wounded-e-1 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-wounded-e-2 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-s-1 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-s-2 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-wounded-s-1 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-wounded-s-2 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-n-1 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-n-2 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-wounded-n-1 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-male-saddle-wounded-n-2 | rig-youth-male-saddle | State artwork; no motion required |
+| rig-body-youth-female-idle-s | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-idle-e | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-idle-n | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-idle-w | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-walk-e-1 | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-walk-e-2 | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-walk-e-3 | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-walk-e-4 | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-walk-s-1 | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-walk-s-2 | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-walk-n-1 | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-walk-n-2 | rig-youth-female-locomotion | State artwork; no motion required |
+| rig-body-youth-female-dig-1 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-dig-2 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-hoe-1 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-hoe-2 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-chop-1 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-chop-2 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-hammer-1 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-hammer-2 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-carry-1 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-carry-2 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-trade-1 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-trade-2 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-care-1 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-care-2 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-search-1 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-search-2 | rig-youth-female-work | State artwork; no motion required |
+| rig-body-youth-female-aim | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-fire | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-load | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-ramrod | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-horse-e-1 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-horse-e-2 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-passenger-e-1 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-passenger-e-2 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-passenger-s-1 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-passenger-s-2 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-passenger-n-1 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-passenger-n-2 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-wounded-1 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-wounded-2 | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-fall | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-still | rig-youth-female-service | State artwork; no motion required |
+| rig-body-youth-female-saddle-e-1 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-e-2 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-wounded-e-1 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-wounded-e-2 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-s-1 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-s-2 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-wounded-s-1 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-wounded-s-2 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-n-1 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-n-2 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-wounded-n-1 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-youth-female-saddle-wounded-n-2 | rig-youth-female-saddle | State artwork; no motion required |
+| rig-body-child-male-idle-s | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-idle-e | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-idle-n | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-idle-w | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-walk-e-1 | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-walk-e-2 | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-walk-e-3 | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-walk-e-4 | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-walk-s-1 | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-walk-s-2 | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-walk-n-1 | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-walk-n-2 | rig-child-male-locomotion | State artwork; no motion required |
+| rig-body-child-male-dig-1 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-dig-2 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-hoe-1 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-hoe-2 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-chop-1 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-chop-2 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-hammer-1 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-hammer-2 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-carry-1 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-carry-2 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-trade-1 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-trade-2 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-care-1 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-care-2 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-search-1 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-search-2 | rig-child-male-work | State artwork; no motion required |
+| rig-body-child-male-comfort-1 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-comfort-2 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-rest-1 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-rest-2 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-horse-e-1 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-horse-e-2 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-passenger-e-1 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-passenger-e-2 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-passenger-s-1 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-passenger-s-2 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-passenger-n-1 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-passenger-n-2 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-wounded-1 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-wounded-2 | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-fall | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-still | rig-child-male-service | State artwork; no motion required |
+| rig-body-child-male-saddle-e-1 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-e-2 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-wounded-e-1 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-wounded-e-2 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-s-1 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-s-2 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-wounded-s-1 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-wounded-s-2 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-n-1 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-n-2 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-wounded-n-1 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-male-saddle-wounded-n-2 | rig-child-male-saddle | State artwork; no motion required |
+| rig-body-child-female-idle-s | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-idle-e | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-idle-n | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-idle-w | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-walk-e-1 | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-walk-e-2 | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-walk-e-3 | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-walk-e-4 | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-walk-s-1 | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-walk-s-2 | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-walk-n-1 | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-walk-n-2 | rig-child-female-locomotion | State artwork; no motion required |
+| rig-body-child-female-dig-1 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-dig-2 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-hoe-1 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-hoe-2 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-chop-1 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-chop-2 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-hammer-1 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-hammer-2 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-carry-1 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-carry-2 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-trade-1 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-trade-2 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-care-1 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-care-2 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-search-1 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-search-2 | rig-child-female-work | State artwork; no motion required |
+| rig-body-child-female-comfort-1 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-comfort-2 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-rest-1 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-rest-2 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-horse-e-1 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-horse-e-2 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-passenger-e-1 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-passenger-e-2 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-passenger-s-1 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-passenger-s-2 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-passenger-n-1 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-passenger-n-2 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-wounded-1 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-wounded-2 | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-fall | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-still | rig-child-female-service | State artwork; no motion required |
+| rig-body-child-female-saddle-e-1 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-e-2 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-wounded-e-1 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-wounded-e-2 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-s-1 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-s-2 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-wounded-s-1 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-wounded-s-2 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-n-1 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-n-2 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-wounded-n-1 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-child-female-saddle-wounded-n-2 | rig-child-female-saddle | State artwork; no motion required |
+| rig-body-smallchild-idle-s | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-idle-e | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-idle-n | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-idle-w | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-walk-e-1 | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-walk-e-2 | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-walk-e-3 | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-walk-e-4 | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-walk-s-1 | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-walk-s-2 | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-walk-n-1 | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-walk-n-2 | rig-smallchild-locomotion | State artwork; no motion required |
+| rig-body-smallchild-dig-1 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-dig-2 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-hoe-1 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-hoe-2 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-chop-1 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-chop-2 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-hammer-1 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-hammer-2 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-carry-1 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-carry-2 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-trade-1 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-trade-2 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-care-1 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-care-2 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-search-1 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-search-2 | rig-smallchild-work | State artwork; no motion required |
+| rig-body-smallchild-comfort-1 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-comfort-2 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-rest-1 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-rest-2 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-horse-e-1 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-horse-e-2 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-passenger-e-1 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-passenger-e-2 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-passenger-s-1 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-passenger-s-2 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-passenger-n-1 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-passenger-n-2 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-wounded-1 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-wounded-2 | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-fall | rig-smallchild-service | State artwork; no motion required |
+| rig-body-smallchild-still | rig-smallchild-service | State artwork; no motion required |
+| rig-body-infant-idle-s | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-idle-e | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-idle-n | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-idle-w | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-rest-e-1 | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-rest-e-2 | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-rest-s-1 | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-rest-s-2 | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-care-1 | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-care-2 | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-wounded-1 | rig-infant-body | State artwork; no motion required |
+| rig-body-infant-wounded-2 | rig-infant-body | State artwork; no motion required |
+| rig-head-rust-e | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-teal-e | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-elder-e | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-blue-e | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-rust-s | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-teal-s | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-elder-s | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-blue-s | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-rust-n | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-teal-n | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-elder-n | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-blue-n | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-rust-closed | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-teal-closed | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-elder-closed | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-blue-closed | rig-heads-cast1 | State artwork; no motion required |
+| rig-head-rust-woman-e | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-indigo-e | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-ochre-e | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-blue-girl-e | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-rust-woman-s | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-indigo-s | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-ochre-s | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-blue-girl-s | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-rust-woman-n | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-indigo-n | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-ochre-n | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-blue-girl-n | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-rust-woman-closed | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-indigo-closed | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-ochre-closed | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-blue-girl-closed | rig-heads-cast2 | State artwork; no motion required |
+| rig-head-father-hat-e | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-beard-e | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-moustache-e | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-straw-e | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-hat-s | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-beard-s | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-moustache-s | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-straw-s | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-hat-n | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-beard-n | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-moustache-n | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-straw-n | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-hat-closed | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-beard-closed | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-moustache-closed | rig-heads-fathers | State artwork; no motion required |
+| rig-head-father-straw-closed | rig-heads-fathers | State artwork; no motion required |
+| rig-head-mother-braid-e | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-loose-e | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-scarf-e | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-straw-e | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-braid-s | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-loose-s | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-scarf-s | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-straw-s | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-braid-n | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-loose-n | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-scarf-n | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-straw-n | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-braid-closed | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-loose-closed | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-scarf-closed | rig-heads-mothers | State artwork; no motion required |
+| rig-head-mother-straw-closed | rig-heads-mothers | State artwork; no motion required |
+| rig-head-youth-boy-e | rig-heads-young | State artwork; no motion required |
+| rig-head-youth-girl-e | rig-heads-young | State artwork; no motion required |
+| rig-head-girl-e | rig-heads-young | State artwork; no motion required |
+| rig-head-boy-e | rig-heads-young | State artwork; no motion required |
+| rig-head-youth-boy-s | rig-heads-young | State artwork; no motion required |
+| rig-head-youth-girl-s | rig-heads-young | State artwork; no motion required |
+| rig-head-girl-s | rig-heads-young | State artwork; no motion required |
+| rig-head-boy-s | rig-heads-young | State artwork; no motion required |
+| rig-head-youth-boy-n | rig-heads-young | State artwork; no motion required |
+| rig-head-youth-girl-n | rig-heads-young | State artwork; no motion required |
+| rig-head-girl-n | rig-heads-young | State artwork; no motion required |
+| rig-head-boy-n | rig-heads-young | State artwork; no motion required |
+| rig-head-youth-boy-closed | rig-heads-young | State artwork; no motion required |
+| rig-head-youth-girl-closed | rig-heads-young | State artwork; no motion required |
+| rig-head-girl-closed | rig-heads-young | State artwork; no motion required |
+| rig-head-boy-closed | rig-heads-young | State artwork; no motion required |
+| rig-head-smallchild-e | rig-heads-little | State artwork; no motion required |
+| rig-head-infant-e | rig-heads-little | State artwork; no motion required |
+| rig-head-smallchild-s | rig-heads-little | State artwork; no motion required |
+| rig-head-infant-s | rig-heads-little | State artwork; no motion required |
+| rig-head-smallchild-n | rig-heads-little | State artwork; no motion required |
+| rig-head-infant-n | rig-heads-little | State artwork; no motion required |
+| rig-head-smallchild-closed | rig-heads-little | State artwork; no motion required |
+| rig-head-infant-closed | rig-heads-little | State artwork; no motion required |
+| rig-body-adult-male-covered-1 | rig-covered-patients | State artwork; no motion required |
+| rig-body-adult-male-covered-2 | rig-covered-patients | State artwork; no motion required |
+| rig-body-adult-female-covered-1 | rig-covered-patients | State artwork; no motion required |
+| rig-body-adult-female-covered-2 | rig-covered-patients | State artwork; no motion required |
+| rig-body-youth-male-covered-1 | rig-covered-patients | State artwork; no motion required |
+| rig-body-youth-male-covered-2 | rig-covered-patients | State artwork; no motion required |
+| rig-body-youth-female-covered-1 | rig-covered-patients | State artwork; no motion required |
+| rig-body-youth-female-covered-2 | rig-covered-patients | State artwork; no motion required |
+| rig-body-child-male-covered-1 | rig-covered-patients | State artwork; no motion required |
+| rig-body-child-male-covered-2 | rig-covered-patients | State artwork; no motion required |
+| rig-body-child-female-covered-1 | rig-covered-patients | State artwork; no motion required |
+| rig-body-child-female-covered-2 | rig-covered-patients | State artwork; no motion required |
+| rig-body-smallchild-covered-1 | rig-covered-patients | State artwork; no motion required |
+| rig-body-smallchild-covered-2 | rig-covered-patients | State artwork; no motion required |
+| rig-body-infant-covered-1 | rig-covered-patients | State artwork; no motion required |
+| rig-body-infant-covered-2 | rig-covered-patients | State artwork; no motion required |
+| rig-kit-horse-led-1 | family-transport-components | State artwork; no motion required |
+| rig-kit-horse-led-2 | family-transport-components | State artwork; no motion required |
+| rig-kit-horse-led-3 | family-transport-components | State artwork; no motion required |
+| rig-kit-horse-led-4 | family-transport-components | State artwork; no motion required |
+| rig-kit-blanket-bearers-1 | family-transport-components | State artwork; no motion required |
+| rig-kit-blanket-bearers-2 | family-transport-components | State artwork; no motion required |
+| rig-kit-blanket-bearers-3 | family-transport-components | State artwork; no motion required |
+| rig-kit-blanket-bearers-4 | family-transport-components | State artwork; no motion required |
+| rig-body-adult-male-camp-rest-1 | rig-camp-grown | State artwork; no motion required |
+| rig-body-adult-male-camp-rest-2 | rig-camp-grown | State artwork; no motion required |
+| rig-body-adult-male-camp-sleep-1 | rig-camp-grown | State artwork; no motion required |
+| rig-body-adult-male-camp-sleep-2 | rig-camp-grown | State artwork; no motion required |
+| rig-body-adult-female-camp-rest-1 | rig-camp-grown | State artwork; no motion required |
+| rig-body-adult-female-camp-rest-2 | rig-camp-grown | State artwork; no motion required |
+| rig-body-adult-female-camp-sleep-1 | rig-camp-grown | State artwork; no motion required |
+| rig-body-adult-female-camp-sleep-2 | rig-camp-grown | State artwork; no motion required |
+| rig-body-youth-male-camp-rest-1 | rig-camp-grown | State artwork; no motion required |
+| rig-body-youth-male-camp-rest-2 | rig-camp-grown | State artwork; no motion required |
+| rig-body-youth-male-camp-sleep-1 | rig-camp-grown | State artwork; no motion required |
+| rig-body-youth-male-camp-sleep-2 | rig-camp-grown | State artwork; no motion required |
+| rig-body-youth-female-camp-rest-1 | rig-camp-grown | State artwork; no motion required |
+| rig-body-youth-female-camp-rest-2 | rig-camp-grown | State artwork; no motion required |
+| rig-body-youth-female-camp-sleep-1 | rig-camp-grown | State artwork; no motion required |
+| rig-body-youth-female-camp-sleep-2 | rig-camp-grown | State artwork; no motion required |
+| rig-body-child-female-camp-rest-1 | rig-camp-children | State artwork; no motion required |
+| rig-body-child-female-camp-rest-2 | rig-camp-children | State artwork; no motion required |
+| rig-body-child-female-camp-sleep-1 | rig-camp-children | State artwork; no motion required |
+| rig-body-child-female-camp-sleep-2 | rig-camp-children | State artwork; no motion required |
+| rig-body-child-male-camp-rest-1 | rig-camp-children | State artwork; no motion required |
+| rig-body-child-male-camp-rest-2 | rig-camp-children | State artwork; no motion required |
+| rig-body-child-male-camp-sleep-1 | rig-camp-children | State artwork; no motion required |
+| rig-body-child-male-camp-sleep-2 | rig-camp-children | State artwork; no motion required |
+| rig-body-smallchild-camp-rest-1 | rig-camp-children | State artwork; no motion required |
+| rig-body-smallchild-camp-rest-2 | rig-camp-children | State artwork; no motion required |
+| rig-body-smallchild-camp-sleep-1 | rig-camp-children | State artwork; no motion required |
+| rig-body-smallchild-camp-sleep-2 | rig-camp-children | State artwork; no motion required |
+| rig-body-infant-camp-rest-1 | rig-camp-children | State artwork; no motion required |
+| rig-body-infant-camp-rest-2 | rig-camp-children | State artwork; no motion required |
+| rig-body-infant-camp-sleep-1 | rig-camp-children | State artwork; no motion required |
+| rig-body-infant-camp-sleep-2 | rig-camp-children | State artwork; no motion required |
+| rig-body-adult-male-mounted-e-aim | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-e-fire | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-e-load | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-e-ramrod | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-s-aim | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-s-fire | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-s-load | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-s-ramrod | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-n-aim | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-n-fire | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-n-load | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-mounted-n-ramrod | rig-adult-male-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-e-aim | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-e-fire | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-e-load | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-e-ramrod | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-s-aim | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-s-fire | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-s-load | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-s-ramrod | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-n-aim | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-n-fire | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-n-load | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-female-mounted-n-ramrod | rig-adult-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-e-aim | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-e-fire | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-e-load | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-e-ramrod | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-s-aim | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-s-fire | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-s-load | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-s-ramrod | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-n-aim | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-n-fire | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-n-load | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-male-mounted-n-ramrod | rig-youth-male-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-e-aim | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-e-fire | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-e-load | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-e-ramrod | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-s-aim | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-s-fire | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-s-load | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-s-ramrod | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-n-aim | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-n-fire | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-n-load | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-youth-female-mounted-n-ramrod | rig-youth-female-mounted-service | State artwork; no motion required |
+| rig-body-adult-male-surrender-1 | rig-capture-poses | State artwork; no motion required |
+| rig-body-adult-male-surrender-2 | rig-capture-poses | State artwork; no motion required |
+| rig-body-adult-female-surrender-1 | rig-capture-poses | State artwork; no motion required |
+| rig-body-adult-female-surrender-2 | rig-capture-poses | State artwork; no motion required |
+| rig-body-youth-male-surrender-1 | rig-capture-poses | State artwork; no motion required |
+| rig-body-youth-male-surrender-2 | rig-capture-poses | State artwork; no motion required |
+| rig-body-youth-female-surrender-1 | rig-capture-poses | State artwork; no motion required |
+| rig-body-youth-female-surrender-2 | rig-capture-poses | State artwork; no motion required |
+| rig-body-child-male-surrender-1 | rig-capture-poses | State artwork; no motion required |
+| rig-body-child-male-surrender-2 | rig-capture-poses | State artwork; no motion required |
+| rig-body-child-female-surrender-1 | rig-capture-poses | State artwork; no motion required |
+| rig-body-child-female-surrender-2 | rig-capture-poses | State artwork; no motion required |
+| rig-body-smallchild-surrender-1 | rig-capture-poses | State artwork; no motion required |
+| rig-body-smallchild-surrender-2 | rig-capture-poses | State artwork; no motion required |
+| rig-body-infant-surrender-1 | rig-capture-poses | State artwork; no motion required |
+| rig-body-infant-surrender-2 | rig-capture-poses | State artwork; no motion required |
+| rig-body-adult-male-sow-1 | rig-sow-poses | State artwork; no motion required |
+| rig-body-adult-male-sow-2 | rig-sow-poses | State artwork; no motion required |
+| rig-body-adult-female-sow-1 | rig-sow-poses | State artwork; no motion required |
+| rig-body-adult-female-sow-2 | rig-sow-poses | State artwork; no motion required |
+| rig-body-youth-male-sow-1 | rig-sow-poses | State artwork; no motion required |
+| rig-body-youth-male-sow-2 | rig-sow-poses | State artwork; no motion required |
+| rig-body-youth-female-sow-1 | rig-sow-poses | State artwork; no motion required |
+| rig-body-youth-female-sow-2 | rig-sow-poses | State artwork; no motion required |
+| rig-body-child-male-sow-1 | rig-sow-poses | State artwork; no motion required |
+| rig-body-child-male-sow-2 | rig-sow-poses | State artwork; no motion required |
+| rig-body-child-female-sow-1 | rig-sow-poses | State artwork; no motion required |
+| rig-body-child-female-sow-2 | rig-sow-poses | State artwork; no motion required |
+| rig-body-smallchild-sow-1 | rig-sow-poses | State artwork; no motion required |
+| rig-body-smallchild-sow-2 | rig-sow-poses | State artwork; no motion required |
+| rig-body-infant-sow-1 | rig-sow-poses | State artwork; no motion required |
+| rig-body-infant-sow-2 | rig-sow-poses | State artwork; no motion required |
+| rig-body-adult-male-harvest-1 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-adult-male-harvest-2 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-adult-female-harvest-1 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-adult-female-harvest-2 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-youth-male-harvest-1 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-youth-male-harvest-2 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-youth-female-harvest-1 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-youth-female-harvest-2 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-child-male-harvest-1 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-child-male-harvest-2 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-child-female-harvest-1 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-child-female-harvest-2 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-smallchild-harvest-1 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-smallchild-harvest-2 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-infant-harvest-1 | rig-harvest-poses | State artwork; no motion required |
+| rig-body-infant-harvest-2 | rig-harvest-poses | State artwork; no motion required |
 | rust-wagon-passenger-e-1 | adult-passengers-cast1 | rust-wagon-passenger-e |
 | teal-wagon-passenger-e-1 | adult-passengers-cast1 | teal-wagon-passenger-e |
 | elder-wagon-passenger-e-1 | adult-passengers-cast1 | elder-wagon-passenger-e |
@@ -4224,6 +4901,1918 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | corn-dry | effects | State artwork; no motion required |
 | cotton-dry | effects | State artwork; no motion required |
 | fence-broken | effects | State artwork; no motion required |
+| rust-rig-idle-s | rig-adult-male-locomotion | rust-rig-idle-s |
+| rust-rig-idle-e | rig-adult-male-locomotion | rust-rig-idle-e |
+| rust-rig-idle-n | rig-adult-male-locomotion | rust-rig-idle-n |
+| rust-rig-idle-w | rig-adult-male-locomotion | rust-rig-idle-w |
+| rust-rig-walk-e-1 | rig-adult-male-locomotion | rust-rig-walk-e |
+| rust-rig-walk-e-2 | rig-adult-male-locomotion | rust-rig-walk-e |
+| rust-rig-walk-e-3 | rig-adult-male-locomotion | rust-rig-walk-e |
+| rust-rig-walk-e-4 | rig-adult-male-locomotion | rust-rig-walk-e |
+| rust-rig-walk-s-1 | rig-adult-male-locomotion | rust-rig-walk-s |
+| rust-rig-walk-s-2 | rig-adult-male-locomotion | rust-rig-walk-s |
+| rust-rig-walk-n-1 | rig-adult-male-locomotion | rust-rig-walk-n |
+| rust-rig-walk-n-2 | rig-adult-male-locomotion | rust-rig-walk-n |
+| rust-rig-dig-1 | rig-adult-male-work | rust-rig-dig |
+| rust-rig-dig-2 | rig-adult-male-work | rust-rig-dig |
+| rust-rig-hoe-1 | rig-adult-male-work | rust-rig-hoe |
+| rust-rig-hoe-2 | rig-adult-male-work | rust-rig-hoe |
+| rust-rig-chop-1 | rig-adult-male-work | rust-rig-chop |
+| rust-rig-chop-2 | rig-adult-male-work | rust-rig-chop |
+| rust-rig-hammer-1 | rig-adult-male-work | rust-rig-hammer |
+| rust-rig-hammer-2 | rig-adult-male-work | rust-rig-hammer |
+| rust-rig-carry-1 | rig-adult-male-work | rust-rig-carry |
+| rust-rig-carry-2 | rig-adult-male-work | rust-rig-carry |
+| rust-rig-trade-1 | rig-adult-male-work | rust-rig-trade |
+| rust-rig-trade-2 | rig-adult-male-work | rust-rig-trade |
+| rust-rig-care-1 | rig-adult-male-work | rust-rig-care |
+| rust-rig-care-2 | rig-adult-male-work | rust-rig-care |
+| rust-rig-search-1 | rig-adult-male-work | rust-rig-search |
+| rust-rig-search-2 | rig-adult-male-work | rust-rig-search |
+| rust-rig-aim | rig-adult-male-service | rust-rig-fire-reload |
+| rust-rig-fire | rig-adult-male-service | rust-rig-fire-reload |
+| rust-rig-load | rig-adult-male-service | rust-rig-fire-reload |
+| rust-rig-ramrod | rig-adult-male-service | rust-rig-fire-reload |
+| rust-rig-horse-e-1 | rig-adult-male-service | State artwork; no motion required |
+| rust-rig-horse-e-2 | rig-adult-male-service | State artwork; no motion required |
+| rust-rig-passenger-e-1 | rig-adult-male-service | rust-rig-passenger-e |
+| rust-rig-passenger-e-2 | rig-adult-male-service | rust-rig-passenger-e |
+| rust-rig-passenger-s-1 | rig-adult-male-service | rust-rig-passenger-s |
+| rust-rig-passenger-s-2 | rig-adult-male-service | rust-rig-passenger-s |
+| rust-rig-passenger-n-1 | rig-adult-male-service | rust-rig-passenger-n |
+| rust-rig-passenger-n-2 | rig-adult-male-service | rust-rig-passenger-n |
+| rust-rig-wounded-1 | rig-adult-male-service | rust-rig-wounded |
+| rust-rig-wounded-2 | rig-adult-male-service | rust-rig-wounded |
+| rust-rig-fall | rig-adult-male-service | State artwork; no motion required |
+| rust-rig-still | rig-adult-male-service | State artwork; no motion required |
+| rust-rig-saddle-e-1 | rig-adult-male-saddle | rust-rig-saddle-e |
+| rust-rig-saddle-e-2 | rig-adult-male-saddle | rust-rig-saddle-e |
+| rust-rig-saddle-wounded-e-1 | rig-adult-male-saddle | rust-rig-saddle-wounded-e |
+| rust-rig-saddle-wounded-e-2 | rig-adult-male-saddle | rust-rig-saddle-wounded-e |
+| rust-rig-saddle-s-1 | rig-adult-male-saddle | rust-rig-saddle-s |
+| rust-rig-saddle-s-2 | rig-adult-male-saddle | rust-rig-saddle-s |
+| rust-rig-saddle-wounded-s-1 | rig-adult-male-saddle | rust-rig-saddle-wounded-s |
+| rust-rig-saddle-wounded-s-2 | rig-adult-male-saddle | rust-rig-saddle-wounded-s |
+| rust-rig-saddle-n-1 | rig-adult-male-saddle | rust-rig-saddle-n |
+| rust-rig-saddle-n-2 | rig-adult-male-saddle | rust-rig-saddle-n |
+| rust-rig-saddle-wounded-n-1 | rig-adult-male-saddle | rust-rig-saddle-wounded-n |
+| rust-rig-saddle-wounded-n-2 | rig-adult-male-saddle | rust-rig-saddle-wounded-n |
+| rust-rig-covered-1 | rig-covered-patients | rust-rig-covered |
+| rust-rig-covered-2 | rig-covered-patients | rust-rig-covered |
+| rust-rig-camp-rest-1 | rig-camp-grown | rust-rig-camp-rest |
+| rust-rig-camp-rest-2 | rig-camp-grown | rust-rig-camp-rest |
+| rust-rig-camp-sleep-1 | rig-camp-grown | rust-rig-camp-sleep |
+| rust-rig-camp-sleep-2 | rig-camp-grown | rust-rig-camp-sleep |
+| rust-rig-mounted-e-aim | rig-adult-male-mounted-service | rust-rig-mounted-fire-e |
+| rust-rig-mounted-e-fire | rig-adult-male-mounted-service | rust-rig-mounted-fire-e |
+| rust-rig-mounted-e-load | rig-adult-male-mounted-service | rust-rig-mounted-fire-e |
+| rust-rig-mounted-e-ramrod | rig-adult-male-mounted-service | rust-rig-mounted-fire-e |
+| rust-rig-mounted-s-aim | rig-adult-male-mounted-service | rust-rig-mounted-fire-s |
+| rust-rig-mounted-s-fire | rig-adult-male-mounted-service | rust-rig-mounted-fire-s |
+| rust-rig-mounted-s-load | rig-adult-male-mounted-service | rust-rig-mounted-fire-s |
+| rust-rig-mounted-s-ramrod | rig-adult-male-mounted-service | rust-rig-mounted-fire-s |
+| rust-rig-mounted-n-aim | rig-adult-male-mounted-service | rust-rig-mounted-fire-n |
+| rust-rig-mounted-n-fire | rig-adult-male-mounted-service | rust-rig-mounted-fire-n |
+| rust-rig-mounted-n-load | rig-adult-male-mounted-service | rust-rig-mounted-fire-n |
+| rust-rig-mounted-n-ramrod | rig-adult-male-mounted-service | rust-rig-mounted-fire-n |
+| rust-rig-surrender-1 | rig-capture-poses | rust-rig-surrender |
+| rust-rig-surrender-2 | rig-capture-poses | rust-rig-surrender |
+| rust-rig-sow-1 | rig-sow-poses | rust-rig-sow |
+| rust-rig-sow-2 | rig-sow-poses | rust-rig-sow |
+| rust-rig-harvest-1 | rig-harvest-poses | rust-rig-harvest |
+| rust-rig-harvest-2 | rig-harvest-poses | rust-rig-harvest |
+| elder-rig-idle-s | rig-adult-male-locomotion | elder-rig-idle-s |
+| elder-rig-idle-e | rig-adult-male-locomotion | elder-rig-idle-e |
+| elder-rig-idle-n | rig-adult-male-locomotion | elder-rig-idle-n |
+| elder-rig-idle-w | rig-adult-male-locomotion | elder-rig-idle-w |
+| elder-rig-walk-e-1 | rig-adult-male-locomotion | elder-rig-walk-e |
+| elder-rig-walk-e-2 | rig-adult-male-locomotion | elder-rig-walk-e |
+| elder-rig-walk-e-3 | rig-adult-male-locomotion | elder-rig-walk-e |
+| elder-rig-walk-e-4 | rig-adult-male-locomotion | elder-rig-walk-e |
+| elder-rig-walk-s-1 | rig-adult-male-locomotion | elder-rig-walk-s |
+| elder-rig-walk-s-2 | rig-adult-male-locomotion | elder-rig-walk-s |
+| elder-rig-walk-n-1 | rig-adult-male-locomotion | elder-rig-walk-n |
+| elder-rig-walk-n-2 | rig-adult-male-locomotion | elder-rig-walk-n |
+| elder-rig-dig-1 | rig-adult-male-work | elder-rig-dig |
+| elder-rig-dig-2 | rig-adult-male-work | elder-rig-dig |
+| elder-rig-hoe-1 | rig-adult-male-work | elder-rig-hoe |
+| elder-rig-hoe-2 | rig-adult-male-work | elder-rig-hoe |
+| elder-rig-chop-1 | rig-adult-male-work | elder-rig-chop |
+| elder-rig-chop-2 | rig-adult-male-work | elder-rig-chop |
+| elder-rig-hammer-1 | rig-adult-male-work | elder-rig-hammer |
+| elder-rig-hammer-2 | rig-adult-male-work | elder-rig-hammer |
+| elder-rig-carry-1 | rig-adult-male-work | elder-rig-carry |
+| elder-rig-carry-2 | rig-adult-male-work | elder-rig-carry |
+| elder-rig-trade-1 | rig-adult-male-work | elder-rig-trade |
+| elder-rig-trade-2 | rig-adult-male-work | elder-rig-trade |
+| elder-rig-care-1 | rig-adult-male-work | elder-rig-care |
+| elder-rig-care-2 | rig-adult-male-work | elder-rig-care |
+| elder-rig-search-1 | rig-adult-male-work | elder-rig-search |
+| elder-rig-search-2 | rig-adult-male-work | elder-rig-search |
+| elder-rig-aim | rig-adult-male-service | elder-rig-fire-reload |
+| elder-rig-fire | rig-adult-male-service | elder-rig-fire-reload |
+| elder-rig-load | rig-adult-male-service | elder-rig-fire-reload |
+| elder-rig-ramrod | rig-adult-male-service | elder-rig-fire-reload |
+| elder-rig-horse-e-1 | rig-adult-male-service | State artwork; no motion required |
+| elder-rig-horse-e-2 | rig-adult-male-service | State artwork; no motion required |
+| elder-rig-passenger-e-1 | rig-adult-male-service | elder-rig-passenger-e |
+| elder-rig-passenger-e-2 | rig-adult-male-service | elder-rig-passenger-e |
+| elder-rig-passenger-s-1 | rig-adult-male-service | elder-rig-passenger-s |
+| elder-rig-passenger-s-2 | rig-adult-male-service | elder-rig-passenger-s |
+| elder-rig-passenger-n-1 | rig-adult-male-service | elder-rig-passenger-n |
+| elder-rig-passenger-n-2 | rig-adult-male-service | elder-rig-passenger-n |
+| elder-rig-wounded-1 | rig-adult-male-service | elder-rig-wounded |
+| elder-rig-wounded-2 | rig-adult-male-service | elder-rig-wounded |
+| elder-rig-fall | rig-adult-male-service | State artwork; no motion required |
+| elder-rig-still | rig-adult-male-service | State artwork; no motion required |
+| elder-rig-saddle-e-1 | rig-adult-male-saddle | elder-rig-saddle-e |
+| elder-rig-saddle-e-2 | rig-adult-male-saddle | elder-rig-saddle-e |
+| elder-rig-saddle-wounded-e-1 | rig-adult-male-saddle | elder-rig-saddle-wounded-e |
+| elder-rig-saddle-wounded-e-2 | rig-adult-male-saddle | elder-rig-saddle-wounded-e |
+| elder-rig-saddle-s-1 | rig-adult-male-saddle | elder-rig-saddle-s |
+| elder-rig-saddle-s-2 | rig-adult-male-saddle | elder-rig-saddle-s |
+| elder-rig-saddle-wounded-s-1 | rig-adult-male-saddle | elder-rig-saddle-wounded-s |
+| elder-rig-saddle-wounded-s-2 | rig-adult-male-saddle | elder-rig-saddle-wounded-s |
+| elder-rig-saddle-n-1 | rig-adult-male-saddle | elder-rig-saddle-n |
+| elder-rig-saddle-n-2 | rig-adult-male-saddle | elder-rig-saddle-n |
+| elder-rig-saddle-wounded-n-1 | rig-adult-male-saddle | elder-rig-saddle-wounded-n |
+| elder-rig-saddle-wounded-n-2 | rig-adult-male-saddle | elder-rig-saddle-wounded-n |
+| elder-rig-covered-1 | rig-covered-patients | elder-rig-covered |
+| elder-rig-covered-2 | rig-covered-patients | elder-rig-covered |
+| elder-rig-camp-rest-1 | rig-camp-grown | elder-rig-camp-rest |
+| elder-rig-camp-rest-2 | rig-camp-grown | elder-rig-camp-rest |
+| elder-rig-camp-sleep-1 | rig-camp-grown | elder-rig-camp-sleep |
+| elder-rig-camp-sleep-2 | rig-camp-grown | elder-rig-camp-sleep |
+| elder-rig-mounted-e-aim | rig-adult-male-mounted-service | elder-rig-mounted-fire-e |
+| elder-rig-mounted-e-fire | rig-adult-male-mounted-service | elder-rig-mounted-fire-e |
+| elder-rig-mounted-e-load | rig-adult-male-mounted-service | elder-rig-mounted-fire-e |
+| elder-rig-mounted-e-ramrod | rig-adult-male-mounted-service | elder-rig-mounted-fire-e |
+| elder-rig-mounted-s-aim | rig-adult-male-mounted-service | elder-rig-mounted-fire-s |
+| elder-rig-mounted-s-fire | rig-adult-male-mounted-service | elder-rig-mounted-fire-s |
+| elder-rig-mounted-s-load | rig-adult-male-mounted-service | elder-rig-mounted-fire-s |
+| elder-rig-mounted-s-ramrod | rig-adult-male-mounted-service | elder-rig-mounted-fire-s |
+| elder-rig-mounted-n-aim | rig-adult-male-mounted-service | elder-rig-mounted-fire-n |
+| elder-rig-mounted-n-fire | rig-adult-male-mounted-service | elder-rig-mounted-fire-n |
+| elder-rig-mounted-n-load | rig-adult-male-mounted-service | elder-rig-mounted-fire-n |
+| elder-rig-mounted-n-ramrod | rig-adult-male-mounted-service | elder-rig-mounted-fire-n |
+| elder-rig-surrender-1 | rig-capture-poses | elder-rig-surrender |
+| elder-rig-surrender-2 | rig-capture-poses | elder-rig-surrender |
+| elder-rig-sow-1 | rig-sow-poses | elder-rig-sow |
+| elder-rig-sow-2 | rig-sow-poses | elder-rig-sow |
+| elder-rig-harvest-1 | rig-harvest-poses | elder-rig-harvest |
+| elder-rig-harvest-2 | rig-harvest-poses | elder-rig-harvest |
+| ochre-rig-idle-s | rig-adult-male-locomotion | ochre-rig-idle-s |
+| ochre-rig-idle-e | rig-adult-male-locomotion | ochre-rig-idle-e |
+| ochre-rig-idle-n | rig-adult-male-locomotion | ochre-rig-idle-n |
+| ochre-rig-idle-w | rig-adult-male-locomotion | ochre-rig-idle-w |
+| ochre-rig-walk-e-1 | rig-adult-male-locomotion | ochre-rig-walk-e |
+| ochre-rig-walk-e-2 | rig-adult-male-locomotion | ochre-rig-walk-e |
+| ochre-rig-walk-e-3 | rig-adult-male-locomotion | ochre-rig-walk-e |
+| ochre-rig-walk-e-4 | rig-adult-male-locomotion | ochre-rig-walk-e |
+| ochre-rig-walk-s-1 | rig-adult-male-locomotion | ochre-rig-walk-s |
+| ochre-rig-walk-s-2 | rig-adult-male-locomotion | ochre-rig-walk-s |
+| ochre-rig-walk-n-1 | rig-adult-male-locomotion | ochre-rig-walk-n |
+| ochre-rig-walk-n-2 | rig-adult-male-locomotion | ochre-rig-walk-n |
+| ochre-rig-dig-1 | rig-adult-male-work | ochre-rig-dig |
+| ochre-rig-dig-2 | rig-adult-male-work | ochre-rig-dig |
+| ochre-rig-hoe-1 | rig-adult-male-work | ochre-rig-hoe |
+| ochre-rig-hoe-2 | rig-adult-male-work | ochre-rig-hoe |
+| ochre-rig-chop-1 | rig-adult-male-work | ochre-rig-chop |
+| ochre-rig-chop-2 | rig-adult-male-work | ochre-rig-chop |
+| ochre-rig-hammer-1 | rig-adult-male-work | ochre-rig-hammer |
+| ochre-rig-hammer-2 | rig-adult-male-work | ochre-rig-hammer |
+| ochre-rig-carry-1 | rig-adult-male-work | ochre-rig-carry |
+| ochre-rig-carry-2 | rig-adult-male-work | ochre-rig-carry |
+| ochre-rig-trade-1 | rig-adult-male-work | ochre-rig-trade |
+| ochre-rig-trade-2 | rig-adult-male-work | ochre-rig-trade |
+| ochre-rig-care-1 | rig-adult-male-work | ochre-rig-care |
+| ochre-rig-care-2 | rig-adult-male-work | ochre-rig-care |
+| ochre-rig-search-1 | rig-adult-male-work | ochre-rig-search |
+| ochre-rig-search-2 | rig-adult-male-work | ochre-rig-search |
+| ochre-rig-aim | rig-adult-male-service | ochre-rig-fire-reload |
+| ochre-rig-fire | rig-adult-male-service | ochre-rig-fire-reload |
+| ochre-rig-load | rig-adult-male-service | ochre-rig-fire-reload |
+| ochre-rig-ramrod | rig-adult-male-service | ochre-rig-fire-reload |
+| ochre-rig-horse-e-1 | rig-adult-male-service | State artwork; no motion required |
+| ochre-rig-horse-e-2 | rig-adult-male-service | State artwork; no motion required |
+| ochre-rig-passenger-e-1 | rig-adult-male-service | ochre-rig-passenger-e |
+| ochre-rig-passenger-e-2 | rig-adult-male-service | ochre-rig-passenger-e |
+| ochre-rig-passenger-s-1 | rig-adult-male-service | ochre-rig-passenger-s |
+| ochre-rig-passenger-s-2 | rig-adult-male-service | ochre-rig-passenger-s |
+| ochre-rig-passenger-n-1 | rig-adult-male-service | ochre-rig-passenger-n |
+| ochre-rig-passenger-n-2 | rig-adult-male-service | ochre-rig-passenger-n |
+| ochre-rig-wounded-1 | rig-adult-male-service | ochre-rig-wounded |
+| ochre-rig-wounded-2 | rig-adult-male-service | ochre-rig-wounded |
+| ochre-rig-fall | rig-adult-male-service | State artwork; no motion required |
+| ochre-rig-still | rig-adult-male-service | State artwork; no motion required |
+| ochre-rig-saddle-e-1 | rig-adult-male-saddle | ochre-rig-saddle-e |
+| ochre-rig-saddle-e-2 | rig-adult-male-saddle | ochre-rig-saddle-e |
+| ochre-rig-saddle-wounded-e-1 | rig-adult-male-saddle | ochre-rig-saddle-wounded-e |
+| ochre-rig-saddle-wounded-e-2 | rig-adult-male-saddle | ochre-rig-saddle-wounded-e |
+| ochre-rig-saddle-s-1 | rig-adult-male-saddle | ochre-rig-saddle-s |
+| ochre-rig-saddle-s-2 | rig-adult-male-saddle | ochre-rig-saddle-s |
+| ochre-rig-saddle-wounded-s-1 | rig-adult-male-saddle | ochre-rig-saddle-wounded-s |
+| ochre-rig-saddle-wounded-s-2 | rig-adult-male-saddle | ochre-rig-saddle-wounded-s |
+| ochre-rig-saddle-n-1 | rig-adult-male-saddle | ochre-rig-saddle-n |
+| ochre-rig-saddle-n-2 | rig-adult-male-saddle | ochre-rig-saddle-n |
+| ochre-rig-saddle-wounded-n-1 | rig-adult-male-saddle | ochre-rig-saddle-wounded-n |
+| ochre-rig-saddle-wounded-n-2 | rig-adult-male-saddle | ochre-rig-saddle-wounded-n |
+| ochre-rig-covered-1 | rig-covered-patients | ochre-rig-covered |
+| ochre-rig-covered-2 | rig-covered-patients | ochre-rig-covered |
+| ochre-rig-camp-rest-1 | rig-camp-grown | ochre-rig-camp-rest |
+| ochre-rig-camp-rest-2 | rig-camp-grown | ochre-rig-camp-rest |
+| ochre-rig-camp-sleep-1 | rig-camp-grown | ochre-rig-camp-sleep |
+| ochre-rig-camp-sleep-2 | rig-camp-grown | ochre-rig-camp-sleep |
+| ochre-rig-mounted-e-aim | rig-adult-male-mounted-service | ochre-rig-mounted-fire-e |
+| ochre-rig-mounted-e-fire | rig-adult-male-mounted-service | ochre-rig-mounted-fire-e |
+| ochre-rig-mounted-e-load | rig-adult-male-mounted-service | ochre-rig-mounted-fire-e |
+| ochre-rig-mounted-e-ramrod | rig-adult-male-mounted-service | ochre-rig-mounted-fire-e |
+| ochre-rig-mounted-s-aim | rig-adult-male-mounted-service | ochre-rig-mounted-fire-s |
+| ochre-rig-mounted-s-fire | rig-adult-male-mounted-service | ochre-rig-mounted-fire-s |
+| ochre-rig-mounted-s-load | rig-adult-male-mounted-service | ochre-rig-mounted-fire-s |
+| ochre-rig-mounted-s-ramrod | rig-adult-male-mounted-service | ochre-rig-mounted-fire-s |
+| ochre-rig-mounted-n-aim | rig-adult-male-mounted-service | ochre-rig-mounted-fire-n |
+| ochre-rig-mounted-n-fire | rig-adult-male-mounted-service | ochre-rig-mounted-fire-n |
+| ochre-rig-mounted-n-load | rig-adult-male-mounted-service | ochre-rig-mounted-fire-n |
+| ochre-rig-mounted-n-ramrod | rig-adult-male-mounted-service | ochre-rig-mounted-fire-n |
+| ochre-rig-surrender-1 | rig-capture-poses | ochre-rig-surrender |
+| ochre-rig-surrender-2 | rig-capture-poses | ochre-rig-surrender |
+| ochre-rig-sow-1 | rig-sow-poses | ochre-rig-sow |
+| ochre-rig-sow-2 | rig-sow-poses | ochre-rig-sow |
+| ochre-rig-harvest-1 | rig-harvest-poses | ochre-rig-harvest |
+| ochre-rig-harvest-2 | rig-harvest-poses | ochre-rig-harvest |
+| father-hat-rig-idle-s | rig-adult-male-locomotion | father-hat-rig-idle-s |
+| father-hat-rig-idle-e | rig-adult-male-locomotion | father-hat-rig-idle-e |
+| father-hat-rig-idle-n | rig-adult-male-locomotion | father-hat-rig-idle-n |
+| father-hat-rig-idle-w | rig-adult-male-locomotion | father-hat-rig-idle-w |
+| father-hat-rig-walk-e-1 | rig-adult-male-locomotion | father-hat-rig-walk-e |
+| father-hat-rig-walk-e-2 | rig-adult-male-locomotion | father-hat-rig-walk-e |
+| father-hat-rig-walk-e-3 | rig-adult-male-locomotion | father-hat-rig-walk-e |
+| father-hat-rig-walk-e-4 | rig-adult-male-locomotion | father-hat-rig-walk-e |
+| father-hat-rig-walk-s-1 | rig-adult-male-locomotion | father-hat-rig-walk-s |
+| father-hat-rig-walk-s-2 | rig-adult-male-locomotion | father-hat-rig-walk-s |
+| father-hat-rig-walk-n-1 | rig-adult-male-locomotion | father-hat-rig-walk-n |
+| father-hat-rig-walk-n-2 | rig-adult-male-locomotion | father-hat-rig-walk-n |
+| father-hat-rig-dig-1 | rig-adult-male-work | father-hat-rig-dig |
+| father-hat-rig-dig-2 | rig-adult-male-work | father-hat-rig-dig |
+| father-hat-rig-hoe-1 | rig-adult-male-work | father-hat-rig-hoe |
+| father-hat-rig-hoe-2 | rig-adult-male-work | father-hat-rig-hoe |
+| father-hat-rig-chop-1 | rig-adult-male-work | father-hat-rig-chop |
+| father-hat-rig-chop-2 | rig-adult-male-work | father-hat-rig-chop |
+| father-hat-rig-hammer-1 | rig-adult-male-work | father-hat-rig-hammer |
+| father-hat-rig-hammer-2 | rig-adult-male-work | father-hat-rig-hammer |
+| father-hat-rig-carry-1 | rig-adult-male-work | father-hat-rig-carry |
+| father-hat-rig-carry-2 | rig-adult-male-work | father-hat-rig-carry |
+| father-hat-rig-trade-1 | rig-adult-male-work | father-hat-rig-trade |
+| father-hat-rig-trade-2 | rig-adult-male-work | father-hat-rig-trade |
+| father-hat-rig-care-1 | rig-adult-male-work | father-hat-rig-care |
+| father-hat-rig-care-2 | rig-adult-male-work | father-hat-rig-care |
+| father-hat-rig-search-1 | rig-adult-male-work | father-hat-rig-search |
+| father-hat-rig-search-2 | rig-adult-male-work | father-hat-rig-search |
+| father-hat-rig-aim | rig-adult-male-service | father-hat-rig-fire-reload |
+| father-hat-rig-fire | rig-adult-male-service | father-hat-rig-fire-reload |
+| father-hat-rig-load | rig-adult-male-service | father-hat-rig-fire-reload |
+| father-hat-rig-ramrod | rig-adult-male-service | father-hat-rig-fire-reload |
+| father-hat-rig-horse-e-1 | rig-adult-male-service | State artwork; no motion required |
+| father-hat-rig-horse-e-2 | rig-adult-male-service | State artwork; no motion required |
+| father-hat-rig-passenger-e-1 | rig-adult-male-service | father-hat-rig-passenger-e |
+| father-hat-rig-passenger-e-2 | rig-adult-male-service | father-hat-rig-passenger-e |
+| father-hat-rig-passenger-s-1 | rig-adult-male-service | father-hat-rig-passenger-s |
+| father-hat-rig-passenger-s-2 | rig-adult-male-service | father-hat-rig-passenger-s |
+| father-hat-rig-passenger-n-1 | rig-adult-male-service | father-hat-rig-passenger-n |
+| father-hat-rig-passenger-n-2 | rig-adult-male-service | father-hat-rig-passenger-n |
+| father-hat-rig-wounded-1 | rig-adult-male-service | father-hat-rig-wounded |
+| father-hat-rig-wounded-2 | rig-adult-male-service | father-hat-rig-wounded |
+| father-hat-rig-fall | rig-adult-male-service | State artwork; no motion required |
+| father-hat-rig-still | rig-adult-male-service | State artwork; no motion required |
+| father-hat-rig-saddle-e-1 | rig-adult-male-saddle | father-hat-rig-saddle-e |
+| father-hat-rig-saddle-e-2 | rig-adult-male-saddle | father-hat-rig-saddle-e |
+| father-hat-rig-saddle-wounded-e-1 | rig-adult-male-saddle | father-hat-rig-saddle-wounded-e |
+| father-hat-rig-saddle-wounded-e-2 | rig-adult-male-saddle | father-hat-rig-saddle-wounded-e |
+| father-hat-rig-saddle-s-1 | rig-adult-male-saddle | father-hat-rig-saddle-s |
+| father-hat-rig-saddle-s-2 | rig-adult-male-saddle | father-hat-rig-saddle-s |
+| father-hat-rig-saddle-wounded-s-1 | rig-adult-male-saddle | father-hat-rig-saddle-wounded-s |
+| father-hat-rig-saddle-wounded-s-2 | rig-adult-male-saddle | father-hat-rig-saddle-wounded-s |
+| father-hat-rig-saddle-n-1 | rig-adult-male-saddle | father-hat-rig-saddle-n |
+| father-hat-rig-saddle-n-2 | rig-adult-male-saddle | father-hat-rig-saddle-n |
+| father-hat-rig-saddle-wounded-n-1 | rig-adult-male-saddle | father-hat-rig-saddle-wounded-n |
+| father-hat-rig-saddle-wounded-n-2 | rig-adult-male-saddle | father-hat-rig-saddle-wounded-n |
+| father-hat-rig-covered-1 | rig-covered-patients | father-hat-rig-covered |
+| father-hat-rig-covered-2 | rig-covered-patients | father-hat-rig-covered |
+| father-hat-rig-camp-rest-1 | rig-camp-grown | father-hat-rig-camp-rest |
+| father-hat-rig-camp-rest-2 | rig-camp-grown | father-hat-rig-camp-rest |
+| father-hat-rig-camp-sleep-1 | rig-camp-grown | father-hat-rig-camp-sleep |
+| father-hat-rig-camp-sleep-2 | rig-camp-grown | father-hat-rig-camp-sleep |
+| father-hat-rig-mounted-e-aim | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-e |
+| father-hat-rig-mounted-e-fire | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-e |
+| father-hat-rig-mounted-e-load | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-e |
+| father-hat-rig-mounted-e-ramrod | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-e |
+| father-hat-rig-mounted-s-aim | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-s |
+| father-hat-rig-mounted-s-fire | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-s |
+| father-hat-rig-mounted-s-load | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-s |
+| father-hat-rig-mounted-s-ramrod | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-s |
+| father-hat-rig-mounted-n-aim | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-n |
+| father-hat-rig-mounted-n-fire | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-n |
+| father-hat-rig-mounted-n-load | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-n |
+| father-hat-rig-mounted-n-ramrod | rig-adult-male-mounted-service | father-hat-rig-mounted-fire-n |
+| father-hat-rig-surrender-1 | rig-capture-poses | father-hat-rig-surrender |
+| father-hat-rig-surrender-2 | rig-capture-poses | father-hat-rig-surrender |
+| father-hat-rig-sow-1 | rig-sow-poses | father-hat-rig-sow |
+| father-hat-rig-sow-2 | rig-sow-poses | father-hat-rig-sow |
+| father-hat-rig-harvest-1 | rig-harvest-poses | father-hat-rig-harvest |
+| father-hat-rig-harvest-2 | rig-harvest-poses | father-hat-rig-harvest |
+| father-beard-rig-idle-s | rig-adult-male-locomotion | father-beard-rig-idle-s |
+| father-beard-rig-idle-e | rig-adult-male-locomotion | father-beard-rig-idle-e |
+| father-beard-rig-idle-n | rig-adult-male-locomotion | father-beard-rig-idle-n |
+| father-beard-rig-idle-w | rig-adult-male-locomotion | father-beard-rig-idle-w |
+| father-beard-rig-walk-e-1 | rig-adult-male-locomotion | father-beard-rig-walk-e |
+| father-beard-rig-walk-e-2 | rig-adult-male-locomotion | father-beard-rig-walk-e |
+| father-beard-rig-walk-e-3 | rig-adult-male-locomotion | father-beard-rig-walk-e |
+| father-beard-rig-walk-e-4 | rig-adult-male-locomotion | father-beard-rig-walk-e |
+| father-beard-rig-walk-s-1 | rig-adult-male-locomotion | father-beard-rig-walk-s |
+| father-beard-rig-walk-s-2 | rig-adult-male-locomotion | father-beard-rig-walk-s |
+| father-beard-rig-walk-n-1 | rig-adult-male-locomotion | father-beard-rig-walk-n |
+| father-beard-rig-walk-n-2 | rig-adult-male-locomotion | father-beard-rig-walk-n |
+| father-beard-rig-dig-1 | rig-adult-male-work | father-beard-rig-dig |
+| father-beard-rig-dig-2 | rig-adult-male-work | father-beard-rig-dig |
+| father-beard-rig-hoe-1 | rig-adult-male-work | father-beard-rig-hoe |
+| father-beard-rig-hoe-2 | rig-adult-male-work | father-beard-rig-hoe |
+| father-beard-rig-chop-1 | rig-adult-male-work | father-beard-rig-chop |
+| father-beard-rig-chop-2 | rig-adult-male-work | father-beard-rig-chop |
+| father-beard-rig-hammer-1 | rig-adult-male-work | father-beard-rig-hammer |
+| father-beard-rig-hammer-2 | rig-adult-male-work | father-beard-rig-hammer |
+| father-beard-rig-carry-1 | rig-adult-male-work | father-beard-rig-carry |
+| father-beard-rig-carry-2 | rig-adult-male-work | father-beard-rig-carry |
+| father-beard-rig-trade-1 | rig-adult-male-work | father-beard-rig-trade |
+| father-beard-rig-trade-2 | rig-adult-male-work | father-beard-rig-trade |
+| father-beard-rig-care-1 | rig-adult-male-work | father-beard-rig-care |
+| father-beard-rig-care-2 | rig-adult-male-work | father-beard-rig-care |
+| father-beard-rig-search-1 | rig-adult-male-work | father-beard-rig-search |
+| father-beard-rig-search-2 | rig-adult-male-work | father-beard-rig-search |
+| father-beard-rig-aim | rig-adult-male-service | father-beard-rig-fire-reload |
+| father-beard-rig-fire | rig-adult-male-service | father-beard-rig-fire-reload |
+| father-beard-rig-load | rig-adult-male-service | father-beard-rig-fire-reload |
+| father-beard-rig-ramrod | rig-adult-male-service | father-beard-rig-fire-reload |
+| father-beard-rig-horse-e-1 | rig-adult-male-service | State artwork; no motion required |
+| father-beard-rig-horse-e-2 | rig-adult-male-service | State artwork; no motion required |
+| father-beard-rig-passenger-e-1 | rig-adult-male-service | father-beard-rig-passenger-e |
+| father-beard-rig-passenger-e-2 | rig-adult-male-service | father-beard-rig-passenger-e |
+| father-beard-rig-passenger-s-1 | rig-adult-male-service | father-beard-rig-passenger-s |
+| father-beard-rig-passenger-s-2 | rig-adult-male-service | father-beard-rig-passenger-s |
+| father-beard-rig-passenger-n-1 | rig-adult-male-service | father-beard-rig-passenger-n |
+| father-beard-rig-passenger-n-2 | rig-adult-male-service | father-beard-rig-passenger-n |
+| father-beard-rig-wounded-1 | rig-adult-male-service | father-beard-rig-wounded |
+| father-beard-rig-wounded-2 | rig-adult-male-service | father-beard-rig-wounded |
+| father-beard-rig-fall | rig-adult-male-service | State artwork; no motion required |
+| father-beard-rig-still | rig-adult-male-service | State artwork; no motion required |
+| father-beard-rig-saddle-e-1 | rig-adult-male-saddle | father-beard-rig-saddle-e |
+| father-beard-rig-saddle-e-2 | rig-adult-male-saddle | father-beard-rig-saddle-e |
+| father-beard-rig-saddle-wounded-e-1 | rig-adult-male-saddle | father-beard-rig-saddle-wounded-e |
+| father-beard-rig-saddle-wounded-e-2 | rig-adult-male-saddle | father-beard-rig-saddle-wounded-e |
+| father-beard-rig-saddle-s-1 | rig-adult-male-saddle | father-beard-rig-saddle-s |
+| father-beard-rig-saddle-s-2 | rig-adult-male-saddle | father-beard-rig-saddle-s |
+| father-beard-rig-saddle-wounded-s-1 | rig-adult-male-saddle | father-beard-rig-saddle-wounded-s |
+| father-beard-rig-saddle-wounded-s-2 | rig-adult-male-saddle | father-beard-rig-saddle-wounded-s |
+| father-beard-rig-saddle-n-1 | rig-adult-male-saddle | father-beard-rig-saddle-n |
+| father-beard-rig-saddle-n-2 | rig-adult-male-saddle | father-beard-rig-saddle-n |
+| father-beard-rig-saddle-wounded-n-1 | rig-adult-male-saddle | father-beard-rig-saddle-wounded-n |
+| father-beard-rig-saddle-wounded-n-2 | rig-adult-male-saddle | father-beard-rig-saddle-wounded-n |
+| father-beard-rig-covered-1 | rig-covered-patients | father-beard-rig-covered |
+| father-beard-rig-covered-2 | rig-covered-patients | father-beard-rig-covered |
+| father-beard-rig-camp-rest-1 | rig-camp-grown | father-beard-rig-camp-rest |
+| father-beard-rig-camp-rest-2 | rig-camp-grown | father-beard-rig-camp-rest |
+| father-beard-rig-camp-sleep-1 | rig-camp-grown | father-beard-rig-camp-sleep |
+| father-beard-rig-camp-sleep-2 | rig-camp-grown | father-beard-rig-camp-sleep |
+| father-beard-rig-mounted-e-aim | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-e |
+| father-beard-rig-mounted-e-fire | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-e |
+| father-beard-rig-mounted-e-load | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-e |
+| father-beard-rig-mounted-e-ramrod | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-e |
+| father-beard-rig-mounted-s-aim | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-s |
+| father-beard-rig-mounted-s-fire | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-s |
+| father-beard-rig-mounted-s-load | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-s |
+| father-beard-rig-mounted-s-ramrod | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-s |
+| father-beard-rig-mounted-n-aim | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-n |
+| father-beard-rig-mounted-n-fire | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-n |
+| father-beard-rig-mounted-n-load | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-n |
+| father-beard-rig-mounted-n-ramrod | rig-adult-male-mounted-service | father-beard-rig-mounted-fire-n |
+| father-beard-rig-surrender-1 | rig-capture-poses | father-beard-rig-surrender |
+| father-beard-rig-surrender-2 | rig-capture-poses | father-beard-rig-surrender |
+| father-beard-rig-sow-1 | rig-sow-poses | father-beard-rig-sow |
+| father-beard-rig-sow-2 | rig-sow-poses | father-beard-rig-sow |
+| father-beard-rig-harvest-1 | rig-harvest-poses | father-beard-rig-harvest |
+| father-beard-rig-harvest-2 | rig-harvest-poses | father-beard-rig-harvest |
+| father-moustache-rig-idle-s | rig-adult-male-locomotion | father-moustache-rig-idle-s |
+| father-moustache-rig-idle-e | rig-adult-male-locomotion | father-moustache-rig-idle-e |
+| father-moustache-rig-idle-n | rig-adult-male-locomotion | father-moustache-rig-idle-n |
+| father-moustache-rig-idle-w | rig-adult-male-locomotion | father-moustache-rig-idle-w |
+| father-moustache-rig-walk-e-1 | rig-adult-male-locomotion | father-moustache-rig-walk-e |
+| father-moustache-rig-walk-e-2 | rig-adult-male-locomotion | father-moustache-rig-walk-e |
+| father-moustache-rig-walk-e-3 | rig-adult-male-locomotion | father-moustache-rig-walk-e |
+| father-moustache-rig-walk-e-4 | rig-adult-male-locomotion | father-moustache-rig-walk-e |
+| father-moustache-rig-walk-s-1 | rig-adult-male-locomotion | father-moustache-rig-walk-s |
+| father-moustache-rig-walk-s-2 | rig-adult-male-locomotion | father-moustache-rig-walk-s |
+| father-moustache-rig-walk-n-1 | rig-adult-male-locomotion | father-moustache-rig-walk-n |
+| father-moustache-rig-walk-n-2 | rig-adult-male-locomotion | father-moustache-rig-walk-n |
+| father-moustache-rig-dig-1 | rig-adult-male-work | father-moustache-rig-dig |
+| father-moustache-rig-dig-2 | rig-adult-male-work | father-moustache-rig-dig |
+| father-moustache-rig-hoe-1 | rig-adult-male-work | father-moustache-rig-hoe |
+| father-moustache-rig-hoe-2 | rig-adult-male-work | father-moustache-rig-hoe |
+| father-moustache-rig-chop-1 | rig-adult-male-work | father-moustache-rig-chop |
+| father-moustache-rig-chop-2 | rig-adult-male-work | father-moustache-rig-chop |
+| father-moustache-rig-hammer-1 | rig-adult-male-work | father-moustache-rig-hammer |
+| father-moustache-rig-hammer-2 | rig-adult-male-work | father-moustache-rig-hammer |
+| father-moustache-rig-carry-1 | rig-adult-male-work | father-moustache-rig-carry |
+| father-moustache-rig-carry-2 | rig-adult-male-work | father-moustache-rig-carry |
+| father-moustache-rig-trade-1 | rig-adult-male-work | father-moustache-rig-trade |
+| father-moustache-rig-trade-2 | rig-adult-male-work | father-moustache-rig-trade |
+| father-moustache-rig-care-1 | rig-adult-male-work | father-moustache-rig-care |
+| father-moustache-rig-care-2 | rig-adult-male-work | father-moustache-rig-care |
+| father-moustache-rig-search-1 | rig-adult-male-work | father-moustache-rig-search |
+| father-moustache-rig-search-2 | rig-adult-male-work | father-moustache-rig-search |
+| father-moustache-rig-aim | rig-adult-male-service | father-moustache-rig-fire-reload |
+| father-moustache-rig-fire | rig-adult-male-service | father-moustache-rig-fire-reload |
+| father-moustache-rig-load | rig-adult-male-service | father-moustache-rig-fire-reload |
+| father-moustache-rig-ramrod | rig-adult-male-service | father-moustache-rig-fire-reload |
+| father-moustache-rig-horse-e-1 | rig-adult-male-service | State artwork; no motion required |
+| father-moustache-rig-horse-e-2 | rig-adult-male-service | State artwork; no motion required |
+| father-moustache-rig-passenger-e-1 | rig-adult-male-service | father-moustache-rig-passenger-e |
+| father-moustache-rig-passenger-e-2 | rig-adult-male-service | father-moustache-rig-passenger-e |
+| father-moustache-rig-passenger-s-1 | rig-adult-male-service | father-moustache-rig-passenger-s |
+| father-moustache-rig-passenger-s-2 | rig-adult-male-service | father-moustache-rig-passenger-s |
+| father-moustache-rig-passenger-n-1 | rig-adult-male-service | father-moustache-rig-passenger-n |
+| father-moustache-rig-passenger-n-2 | rig-adult-male-service | father-moustache-rig-passenger-n |
+| father-moustache-rig-wounded-1 | rig-adult-male-service | father-moustache-rig-wounded |
+| father-moustache-rig-wounded-2 | rig-adult-male-service | father-moustache-rig-wounded |
+| father-moustache-rig-fall | rig-adult-male-service | State artwork; no motion required |
+| father-moustache-rig-still | rig-adult-male-service | State artwork; no motion required |
+| father-moustache-rig-saddle-e-1 | rig-adult-male-saddle | father-moustache-rig-saddle-e |
+| father-moustache-rig-saddle-e-2 | rig-adult-male-saddle | father-moustache-rig-saddle-e |
+| father-moustache-rig-saddle-wounded-e-1 | rig-adult-male-saddle | father-moustache-rig-saddle-wounded-e |
+| father-moustache-rig-saddle-wounded-e-2 | rig-adult-male-saddle | father-moustache-rig-saddle-wounded-e |
+| father-moustache-rig-saddle-s-1 | rig-adult-male-saddle | father-moustache-rig-saddle-s |
+| father-moustache-rig-saddle-s-2 | rig-adult-male-saddle | father-moustache-rig-saddle-s |
+| father-moustache-rig-saddle-wounded-s-1 | rig-adult-male-saddle | father-moustache-rig-saddle-wounded-s |
+| father-moustache-rig-saddle-wounded-s-2 | rig-adult-male-saddle | father-moustache-rig-saddle-wounded-s |
+| father-moustache-rig-saddle-n-1 | rig-adult-male-saddle | father-moustache-rig-saddle-n |
+| father-moustache-rig-saddle-n-2 | rig-adult-male-saddle | father-moustache-rig-saddle-n |
+| father-moustache-rig-saddle-wounded-n-1 | rig-adult-male-saddle | father-moustache-rig-saddle-wounded-n |
+| father-moustache-rig-saddle-wounded-n-2 | rig-adult-male-saddle | father-moustache-rig-saddle-wounded-n |
+| father-moustache-rig-covered-1 | rig-covered-patients | father-moustache-rig-covered |
+| father-moustache-rig-covered-2 | rig-covered-patients | father-moustache-rig-covered |
+| father-moustache-rig-camp-rest-1 | rig-camp-grown | father-moustache-rig-camp-rest |
+| father-moustache-rig-camp-rest-2 | rig-camp-grown | father-moustache-rig-camp-rest |
+| father-moustache-rig-camp-sleep-1 | rig-camp-grown | father-moustache-rig-camp-sleep |
+| father-moustache-rig-camp-sleep-2 | rig-camp-grown | father-moustache-rig-camp-sleep |
+| father-moustache-rig-mounted-e-aim | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-e |
+| father-moustache-rig-mounted-e-fire | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-e |
+| father-moustache-rig-mounted-e-load | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-e |
+| father-moustache-rig-mounted-e-ramrod | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-e |
+| father-moustache-rig-mounted-s-aim | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-s |
+| father-moustache-rig-mounted-s-fire | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-s |
+| father-moustache-rig-mounted-s-load | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-s |
+| father-moustache-rig-mounted-s-ramrod | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-s |
+| father-moustache-rig-mounted-n-aim | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-n |
+| father-moustache-rig-mounted-n-fire | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-n |
+| father-moustache-rig-mounted-n-load | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-n |
+| father-moustache-rig-mounted-n-ramrod | rig-adult-male-mounted-service | father-moustache-rig-mounted-fire-n |
+| father-moustache-rig-surrender-1 | rig-capture-poses | father-moustache-rig-surrender |
+| father-moustache-rig-surrender-2 | rig-capture-poses | father-moustache-rig-surrender |
+| father-moustache-rig-sow-1 | rig-sow-poses | father-moustache-rig-sow |
+| father-moustache-rig-sow-2 | rig-sow-poses | father-moustache-rig-sow |
+| father-moustache-rig-harvest-1 | rig-harvest-poses | father-moustache-rig-harvest |
+| father-moustache-rig-harvest-2 | rig-harvest-poses | father-moustache-rig-harvest |
+| father-straw-rig-idle-s | rig-adult-male-locomotion | father-straw-rig-idle-s |
+| father-straw-rig-idle-e | rig-adult-male-locomotion | father-straw-rig-idle-e |
+| father-straw-rig-idle-n | rig-adult-male-locomotion | father-straw-rig-idle-n |
+| father-straw-rig-idle-w | rig-adult-male-locomotion | father-straw-rig-idle-w |
+| father-straw-rig-walk-e-1 | rig-adult-male-locomotion | father-straw-rig-walk-e |
+| father-straw-rig-walk-e-2 | rig-adult-male-locomotion | father-straw-rig-walk-e |
+| father-straw-rig-walk-e-3 | rig-adult-male-locomotion | father-straw-rig-walk-e |
+| father-straw-rig-walk-e-4 | rig-adult-male-locomotion | father-straw-rig-walk-e |
+| father-straw-rig-walk-s-1 | rig-adult-male-locomotion | father-straw-rig-walk-s |
+| father-straw-rig-walk-s-2 | rig-adult-male-locomotion | father-straw-rig-walk-s |
+| father-straw-rig-walk-n-1 | rig-adult-male-locomotion | father-straw-rig-walk-n |
+| father-straw-rig-walk-n-2 | rig-adult-male-locomotion | father-straw-rig-walk-n |
+| father-straw-rig-dig-1 | rig-adult-male-work | father-straw-rig-dig |
+| father-straw-rig-dig-2 | rig-adult-male-work | father-straw-rig-dig |
+| father-straw-rig-hoe-1 | rig-adult-male-work | father-straw-rig-hoe |
+| father-straw-rig-hoe-2 | rig-adult-male-work | father-straw-rig-hoe |
+| father-straw-rig-chop-1 | rig-adult-male-work | father-straw-rig-chop |
+| father-straw-rig-chop-2 | rig-adult-male-work | father-straw-rig-chop |
+| father-straw-rig-hammer-1 | rig-adult-male-work | father-straw-rig-hammer |
+| father-straw-rig-hammer-2 | rig-adult-male-work | father-straw-rig-hammer |
+| father-straw-rig-carry-1 | rig-adult-male-work | father-straw-rig-carry |
+| father-straw-rig-carry-2 | rig-adult-male-work | father-straw-rig-carry |
+| father-straw-rig-trade-1 | rig-adult-male-work | father-straw-rig-trade |
+| father-straw-rig-trade-2 | rig-adult-male-work | father-straw-rig-trade |
+| father-straw-rig-care-1 | rig-adult-male-work | father-straw-rig-care |
+| father-straw-rig-care-2 | rig-adult-male-work | father-straw-rig-care |
+| father-straw-rig-search-1 | rig-adult-male-work | father-straw-rig-search |
+| father-straw-rig-search-2 | rig-adult-male-work | father-straw-rig-search |
+| father-straw-rig-aim | rig-adult-male-service | father-straw-rig-fire-reload |
+| father-straw-rig-fire | rig-adult-male-service | father-straw-rig-fire-reload |
+| father-straw-rig-load | rig-adult-male-service | father-straw-rig-fire-reload |
+| father-straw-rig-ramrod | rig-adult-male-service | father-straw-rig-fire-reload |
+| father-straw-rig-horse-e-1 | rig-adult-male-service | State artwork; no motion required |
+| father-straw-rig-horse-e-2 | rig-adult-male-service | State artwork; no motion required |
+| father-straw-rig-passenger-e-1 | rig-adult-male-service | father-straw-rig-passenger-e |
+| father-straw-rig-passenger-e-2 | rig-adult-male-service | father-straw-rig-passenger-e |
+| father-straw-rig-passenger-s-1 | rig-adult-male-service | father-straw-rig-passenger-s |
+| father-straw-rig-passenger-s-2 | rig-adult-male-service | father-straw-rig-passenger-s |
+| father-straw-rig-passenger-n-1 | rig-adult-male-service | father-straw-rig-passenger-n |
+| father-straw-rig-passenger-n-2 | rig-adult-male-service | father-straw-rig-passenger-n |
+| father-straw-rig-wounded-1 | rig-adult-male-service | father-straw-rig-wounded |
+| father-straw-rig-wounded-2 | rig-adult-male-service | father-straw-rig-wounded |
+| father-straw-rig-fall | rig-adult-male-service | State artwork; no motion required |
+| father-straw-rig-still | rig-adult-male-service | State artwork; no motion required |
+| father-straw-rig-saddle-e-1 | rig-adult-male-saddle | father-straw-rig-saddle-e |
+| father-straw-rig-saddle-e-2 | rig-adult-male-saddle | father-straw-rig-saddle-e |
+| father-straw-rig-saddle-wounded-e-1 | rig-adult-male-saddle | father-straw-rig-saddle-wounded-e |
+| father-straw-rig-saddle-wounded-e-2 | rig-adult-male-saddle | father-straw-rig-saddle-wounded-e |
+| father-straw-rig-saddle-s-1 | rig-adult-male-saddle | father-straw-rig-saddle-s |
+| father-straw-rig-saddle-s-2 | rig-adult-male-saddle | father-straw-rig-saddle-s |
+| father-straw-rig-saddle-wounded-s-1 | rig-adult-male-saddle | father-straw-rig-saddle-wounded-s |
+| father-straw-rig-saddle-wounded-s-2 | rig-adult-male-saddle | father-straw-rig-saddle-wounded-s |
+| father-straw-rig-saddle-n-1 | rig-adult-male-saddle | father-straw-rig-saddle-n |
+| father-straw-rig-saddle-n-2 | rig-adult-male-saddle | father-straw-rig-saddle-n |
+| father-straw-rig-saddle-wounded-n-1 | rig-adult-male-saddle | father-straw-rig-saddle-wounded-n |
+| father-straw-rig-saddle-wounded-n-2 | rig-adult-male-saddle | father-straw-rig-saddle-wounded-n |
+| father-straw-rig-covered-1 | rig-covered-patients | father-straw-rig-covered |
+| father-straw-rig-covered-2 | rig-covered-patients | father-straw-rig-covered |
+| father-straw-rig-camp-rest-1 | rig-camp-grown | father-straw-rig-camp-rest |
+| father-straw-rig-camp-rest-2 | rig-camp-grown | father-straw-rig-camp-rest |
+| father-straw-rig-camp-sleep-1 | rig-camp-grown | father-straw-rig-camp-sleep |
+| father-straw-rig-camp-sleep-2 | rig-camp-grown | father-straw-rig-camp-sleep |
+| father-straw-rig-mounted-e-aim | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-e |
+| father-straw-rig-mounted-e-fire | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-e |
+| father-straw-rig-mounted-e-load | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-e |
+| father-straw-rig-mounted-e-ramrod | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-e |
+| father-straw-rig-mounted-s-aim | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-s |
+| father-straw-rig-mounted-s-fire | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-s |
+| father-straw-rig-mounted-s-load | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-s |
+| father-straw-rig-mounted-s-ramrod | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-s |
+| father-straw-rig-mounted-n-aim | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-n |
+| father-straw-rig-mounted-n-fire | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-n |
+| father-straw-rig-mounted-n-load | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-n |
+| father-straw-rig-mounted-n-ramrod | rig-adult-male-mounted-service | father-straw-rig-mounted-fire-n |
+| father-straw-rig-surrender-1 | rig-capture-poses | father-straw-rig-surrender |
+| father-straw-rig-surrender-2 | rig-capture-poses | father-straw-rig-surrender |
+| father-straw-rig-sow-1 | rig-sow-poses | father-straw-rig-sow |
+| father-straw-rig-sow-2 | rig-sow-poses | father-straw-rig-sow |
+| father-straw-rig-harvest-1 | rig-harvest-poses | father-straw-rig-harvest |
+| father-straw-rig-harvest-2 | rig-harvest-poses | father-straw-rig-harvest |
+| teal-rig-idle-s | rig-adult-female-locomotion | teal-rig-idle-s |
+| teal-rig-idle-e | rig-adult-female-locomotion | teal-rig-idle-e |
+| teal-rig-idle-n | rig-adult-female-locomotion | teal-rig-idle-n |
+| teal-rig-idle-w | rig-adult-female-locomotion | teal-rig-idle-w |
+| teal-rig-walk-e-1 | rig-adult-female-locomotion | teal-rig-walk-e |
+| teal-rig-walk-e-2 | rig-adult-female-locomotion | teal-rig-walk-e |
+| teal-rig-walk-e-3 | rig-adult-female-locomotion | teal-rig-walk-e |
+| teal-rig-walk-e-4 | rig-adult-female-locomotion | teal-rig-walk-e |
+| teal-rig-walk-s-1 | rig-adult-female-locomotion | teal-rig-walk-s |
+| teal-rig-walk-s-2 | rig-adult-female-locomotion | teal-rig-walk-s |
+| teal-rig-walk-n-1 | rig-adult-female-locomotion | teal-rig-walk-n |
+| teal-rig-walk-n-2 | rig-adult-female-locomotion | teal-rig-walk-n |
+| teal-rig-dig-1 | rig-adult-female-work | teal-rig-dig |
+| teal-rig-dig-2 | rig-adult-female-work | teal-rig-dig |
+| teal-rig-hoe-1 | rig-adult-female-work | teal-rig-hoe |
+| teal-rig-hoe-2 | rig-adult-female-work | teal-rig-hoe |
+| teal-rig-chop-1 | rig-adult-female-work | teal-rig-chop |
+| teal-rig-chop-2 | rig-adult-female-work | teal-rig-chop |
+| teal-rig-hammer-1 | rig-adult-female-work | teal-rig-hammer |
+| teal-rig-hammer-2 | rig-adult-female-work | teal-rig-hammer |
+| teal-rig-carry-1 | rig-adult-female-work | teal-rig-carry |
+| teal-rig-carry-2 | rig-adult-female-work | teal-rig-carry |
+| teal-rig-trade-1 | rig-adult-female-work | teal-rig-trade |
+| teal-rig-trade-2 | rig-adult-female-work | teal-rig-trade |
+| teal-rig-care-1 | rig-adult-female-work | teal-rig-care |
+| teal-rig-care-2 | rig-adult-female-work | teal-rig-care |
+| teal-rig-search-1 | rig-adult-female-work | teal-rig-search |
+| teal-rig-search-2 | rig-adult-female-work | teal-rig-search |
+| teal-rig-aim | rig-adult-female-service | teal-rig-fire-reload |
+| teal-rig-fire | rig-adult-female-service | teal-rig-fire-reload |
+| teal-rig-load | rig-adult-female-service | teal-rig-fire-reload |
+| teal-rig-ramrod | rig-adult-female-service | teal-rig-fire-reload |
+| teal-rig-horse-e-1 | rig-adult-female-service | State artwork; no motion required |
+| teal-rig-horse-e-2 | rig-adult-female-service | State artwork; no motion required |
+| teal-rig-passenger-e-1 | rig-adult-female-service | teal-rig-passenger-e |
+| teal-rig-passenger-e-2 | rig-adult-female-service | teal-rig-passenger-e |
+| teal-rig-passenger-s-1 | rig-adult-female-service | teal-rig-passenger-s |
+| teal-rig-passenger-s-2 | rig-adult-female-service | teal-rig-passenger-s |
+| teal-rig-passenger-n-1 | rig-adult-female-service | teal-rig-passenger-n |
+| teal-rig-passenger-n-2 | rig-adult-female-service | teal-rig-passenger-n |
+| teal-rig-wounded-1 | rig-adult-female-service | teal-rig-wounded |
+| teal-rig-wounded-2 | rig-adult-female-service | teal-rig-wounded |
+| teal-rig-fall | rig-adult-female-service | State artwork; no motion required |
+| teal-rig-still | rig-adult-female-service | State artwork; no motion required |
+| teal-rig-saddle-e-1 | rig-adult-female-saddle | teal-rig-saddle-e |
+| teal-rig-saddle-e-2 | rig-adult-female-saddle | teal-rig-saddle-e |
+| teal-rig-saddle-wounded-e-1 | rig-adult-female-saddle | teal-rig-saddle-wounded-e |
+| teal-rig-saddle-wounded-e-2 | rig-adult-female-saddle | teal-rig-saddle-wounded-e |
+| teal-rig-saddle-s-1 | rig-adult-female-saddle | teal-rig-saddle-s |
+| teal-rig-saddle-s-2 | rig-adult-female-saddle | teal-rig-saddle-s |
+| teal-rig-saddle-wounded-s-1 | rig-adult-female-saddle | teal-rig-saddle-wounded-s |
+| teal-rig-saddle-wounded-s-2 | rig-adult-female-saddle | teal-rig-saddle-wounded-s |
+| teal-rig-saddle-n-1 | rig-adult-female-saddle | teal-rig-saddle-n |
+| teal-rig-saddle-n-2 | rig-adult-female-saddle | teal-rig-saddle-n |
+| teal-rig-saddle-wounded-n-1 | rig-adult-female-saddle | teal-rig-saddle-wounded-n |
+| teal-rig-saddle-wounded-n-2 | rig-adult-female-saddle | teal-rig-saddle-wounded-n |
+| teal-rig-covered-1 | rig-covered-patients | teal-rig-covered |
+| teal-rig-covered-2 | rig-covered-patients | teal-rig-covered |
+| teal-rig-camp-rest-1 | rig-camp-grown | teal-rig-camp-rest |
+| teal-rig-camp-rest-2 | rig-camp-grown | teal-rig-camp-rest |
+| teal-rig-camp-sleep-1 | rig-camp-grown | teal-rig-camp-sleep |
+| teal-rig-camp-sleep-2 | rig-camp-grown | teal-rig-camp-sleep |
+| teal-rig-mounted-e-aim | rig-adult-female-mounted-service | teal-rig-mounted-fire-e |
+| teal-rig-mounted-e-fire | rig-adult-female-mounted-service | teal-rig-mounted-fire-e |
+| teal-rig-mounted-e-load | rig-adult-female-mounted-service | teal-rig-mounted-fire-e |
+| teal-rig-mounted-e-ramrod | rig-adult-female-mounted-service | teal-rig-mounted-fire-e |
+| teal-rig-mounted-s-aim | rig-adult-female-mounted-service | teal-rig-mounted-fire-s |
+| teal-rig-mounted-s-fire | rig-adult-female-mounted-service | teal-rig-mounted-fire-s |
+| teal-rig-mounted-s-load | rig-adult-female-mounted-service | teal-rig-mounted-fire-s |
+| teal-rig-mounted-s-ramrod | rig-adult-female-mounted-service | teal-rig-mounted-fire-s |
+| teal-rig-mounted-n-aim | rig-adult-female-mounted-service | teal-rig-mounted-fire-n |
+| teal-rig-mounted-n-fire | rig-adult-female-mounted-service | teal-rig-mounted-fire-n |
+| teal-rig-mounted-n-load | rig-adult-female-mounted-service | teal-rig-mounted-fire-n |
+| teal-rig-mounted-n-ramrod | rig-adult-female-mounted-service | teal-rig-mounted-fire-n |
+| teal-rig-surrender-1 | rig-capture-poses | teal-rig-surrender |
+| teal-rig-surrender-2 | rig-capture-poses | teal-rig-surrender |
+| teal-rig-sow-1 | rig-sow-poses | teal-rig-sow |
+| teal-rig-sow-2 | rig-sow-poses | teal-rig-sow |
+| teal-rig-harvest-1 | rig-harvest-poses | teal-rig-harvest |
+| teal-rig-harvest-2 | rig-harvest-poses | teal-rig-harvest |
+| rust-woman-rig-idle-s | rig-adult-female-locomotion | rust-woman-rig-idle-s |
+| rust-woman-rig-idle-e | rig-adult-female-locomotion | rust-woman-rig-idle-e |
+| rust-woman-rig-idle-n | rig-adult-female-locomotion | rust-woman-rig-idle-n |
+| rust-woman-rig-idle-w | rig-adult-female-locomotion | rust-woman-rig-idle-w |
+| rust-woman-rig-walk-e-1 | rig-adult-female-locomotion | rust-woman-rig-walk-e |
+| rust-woman-rig-walk-e-2 | rig-adult-female-locomotion | rust-woman-rig-walk-e |
+| rust-woman-rig-walk-e-3 | rig-adult-female-locomotion | rust-woman-rig-walk-e |
+| rust-woman-rig-walk-e-4 | rig-adult-female-locomotion | rust-woman-rig-walk-e |
+| rust-woman-rig-walk-s-1 | rig-adult-female-locomotion | rust-woman-rig-walk-s |
+| rust-woman-rig-walk-s-2 | rig-adult-female-locomotion | rust-woman-rig-walk-s |
+| rust-woman-rig-walk-n-1 | rig-adult-female-locomotion | rust-woman-rig-walk-n |
+| rust-woman-rig-walk-n-2 | rig-adult-female-locomotion | rust-woman-rig-walk-n |
+| rust-woman-rig-dig-1 | rig-adult-female-work | rust-woman-rig-dig |
+| rust-woman-rig-dig-2 | rig-adult-female-work | rust-woman-rig-dig |
+| rust-woman-rig-hoe-1 | rig-adult-female-work | rust-woman-rig-hoe |
+| rust-woman-rig-hoe-2 | rig-adult-female-work | rust-woman-rig-hoe |
+| rust-woman-rig-chop-1 | rig-adult-female-work | rust-woman-rig-chop |
+| rust-woman-rig-chop-2 | rig-adult-female-work | rust-woman-rig-chop |
+| rust-woman-rig-hammer-1 | rig-adult-female-work | rust-woman-rig-hammer |
+| rust-woman-rig-hammer-2 | rig-adult-female-work | rust-woman-rig-hammer |
+| rust-woman-rig-carry-1 | rig-adult-female-work | rust-woman-rig-carry |
+| rust-woman-rig-carry-2 | rig-adult-female-work | rust-woman-rig-carry |
+| rust-woman-rig-trade-1 | rig-adult-female-work | rust-woman-rig-trade |
+| rust-woman-rig-trade-2 | rig-adult-female-work | rust-woman-rig-trade |
+| rust-woman-rig-care-1 | rig-adult-female-work | rust-woman-rig-care |
+| rust-woman-rig-care-2 | rig-adult-female-work | rust-woman-rig-care |
+| rust-woman-rig-search-1 | rig-adult-female-work | rust-woman-rig-search |
+| rust-woman-rig-search-2 | rig-adult-female-work | rust-woman-rig-search |
+| rust-woman-rig-aim | rig-adult-female-service | rust-woman-rig-fire-reload |
+| rust-woman-rig-fire | rig-adult-female-service | rust-woman-rig-fire-reload |
+| rust-woman-rig-load | rig-adult-female-service | rust-woman-rig-fire-reload |
+| rust-woman-rig-ramrod | rig-adult-female-service | rust-woman-rig-fire-reload |
+| rust-woman-rig-horse-e-1 | rig-adult-female-service | State artwork; no motion required |
+| rust-woman-rig-horse-e-2 | rig-adult-female-service | State artwork; no motion required |
+| rust-woman-rig-passenger-e-1 | rig-adult-female-service | rust-woman-rig-passenger-e |
+| rust-woman-rig-passenger-e-2 | rig-adult-female-service | rust-woman-rig-passenger-e |
+| rust-woman-rig-passenger-s-1 | rig-adult-female-service | rust-woman-rig-passenger-s |
+| rust-woman-rig-passenger-s-2 | rig-adult-female-service | rust-woman-rig-passenger-s |
+| rust-woman-rig-passenger-n-1 | rig-adult-female-service | rust-woman-rig-passenger-n |
+| rust-woman-rig-passenger-n-2 | rig-adult-female-service | rust-woman-rig-passenger-n |
+| rust-woman-rig-wounded-1 | rig-adult-female-service | rust-woman-rig-wounded |
+| rust-woman-rig-wounded-2 | rig-adult-female-service | rust-woman-rig-wounded |
+| rust-woman-rig-fall | rig-adult-female-service | State artwork; no motion required |
+| rust-woman-rig-still | rig-adult-female-service | State artwork; no motion required |
+| rust-woman-rig-saddle-e-1 | rig-adult-female-saddle | rust-woman-rig-saddle-e |
+| rust-woman-rig-saddle-e-2 | rig-adult-female-saddle | rust-woman-rig-saddle-e |
+| rust-woman-rig-saddle-wounded-e-1 | rig-adult-female-saddle | rust-woman-rig-saddle-wounded-e |
+| rust-woman-rig-saddle-wounded-e-2 | rig-adult-female-saddle | rust-woman-rig-saddle-wounded-e |
+| rust-woman-rig-saddle-s-1 | rig-adult-female-saddle | rust-woman-rig-saddle-s |
+| rust-woman-rig-saddle-s-2 | rig-adult-female-saddle | rust-woman-rig-saddle-s |
+| rust-woman-rig-saddle-wounded-s-1 | rig-adult-female-saddle | rust-woman-rig-saddle-wounded-s |
+| rust-woman-rig-saddle-wounded-s-2 | rig-adult-female-saddle | rust-woman-rig-saddle-wounded-s |
+| rust-woman-rig-saddle-n-1 | rig-adult-female-saddle | rust-woman-rig-saddle-n |
+| rust-woman-rig-saddle-n-2 | rig-adult-female-saddle | rust-woman-rig-saddle-n |
+| rust-woman-rig-saddle-wounded-n-1 | rig-adult-female-saddle | rust-woman-rig-saddle-wounded-n |
+| rust-woman-rig-saddle-wounded-n-2 | rig-adult-female-saddle | rust-woman-rig-saddle-wounded-n |
+| rust-woman-rig-covered-1 | rig-covered-patients | rust-woman-rig-covered |
+| rust-woman-rig-covered-2 | rig-covered-patients | rust-woman-rig-covered |
+| rust-woman-rig-camp-rest-1 | rig-camp-grown | rust-woman-rig-camp-rest |
+| rust-woman-rig-camp-rest-2 | rig-camp-grown | rust-woman-rig-camp-rest |
+| rust-woman-rig-camp-sleep-1 | rig-camp-grown | rust-woman-rig-camp-sleep |
+| rust-woman-rig-camp-sleep-2 | rig-camp-grown | rust-woman-rig-camp-sleep |
+| rust-woman-rig-mounted-e-aim | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-e |
+| rust-woman-rig-mounted-e-fire | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-e |
+| rust-woman-rig-mounted-e-load | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-e |
+| rust-woman-rig-mounted-e-ramrod | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-e |
+| rust-woman-rig-mounted-s-aim | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-s |
+| rust-woman-rig-mounted-s-fire | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-s |
+| rust-woman-rig-mounted-s-load | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-s |
+| rust-woman-rig-mounted-s-ramrod | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-s |
+| rust-woman-rig-mounted-n-aim | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-n |
+| rust-woman-rig-mounted-n-fire | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-n |
+| rust-woman-rig-mounted-n-load | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-n |
+| rust-woman-rig-mounted-n-ramrod | rig-adult-female-mounted-service | rust-woman-rig-mounted-fire-n |
+| rust-woman-rig-surrender-1 | rig-capture-poses | rust-woman-rig-surrender |
+| rust-woman-rig-surrender-2 | rig-capture-poses | rust-woman-rig-surrender |
+| rust-woman-rig-sow-1 | rig-sow-poses | rust-woman-rig-sow |
+| rust-woman-rig-sow-2 | rig-sow-poses | rust-woman-rig-sow |
+| rust-woman-rig-harvest-1 | rig-harvest-poses | rust-woman-rig-harvest |
+| rust-woman-rig-harvest-2 | rig-harvest-poses | rust-woman-rig-harvest |
+| indigo-rig-idle-s | rig-adult-female-locomotion | indigo-rig-idle-s |
+| indigo-rig-idle-e | rig-adult-female-locomotion | indigo-rig-idle-e |
+| indigo-rig-idle-n | rig-adult-female-locomotion | indigo-rig-idle-n |
+| indigo-rig-idle-w | rig-adult-female-locomotion | indigo-rig-idle-w |
+| indigo-rig-walk-e-1 | rig-adult-female-locomotion | indigo-rig-walk-e |
+| indigo-rig-walk-e-2 | rig-adult-female-locomotion | indigo-rig-walk-e |
+| indigo-rig-walk-e-3 | rig-adult-female-locomotion | indigo-rig-walk-e |
+| indigo-rig-walk-e-4 | rig-adult-female-locomotion | indigo-rig-walk-e |
+| indigo-rig-walk-s-1 | rig-adult-female-locomotion | indigo-rig-walk-s |
+| indigo-rig-walk-s-2 | rig-adult-female-locomotion | indigo-rig-walk-s |
+| indigo-rig-walk-n-1 | rig-adult-female-locomotion | indigo-rig-walk-n |
+| indigo-rig-walk-n-2 | rig-adult-female-locomotion | indigo-rig-walk-n |
+| indigo-rig-dig-1 | rig-adult-female-work | indigo-rig-dig |
+| indigo-rig-dig-2 | rig-adult-female-work | indigo-rig-dig |
+| indigo-rig-hoe-1 | rig-adult-female-work | indigo-rig-hoe |
+| indigo-rig-hoe-2 | rig-adult-female-work | indigo-rig-hoe |
+| indigo-rig-chop-1 | rig-adult-female-work | indigo-rig-chop |
+| indigo-rig-chop-2 | rig-adult-female-work | indigo-rig-chop |
+| indigo-rig-hammer-1 | rig-adult-female-work | indigo-rig-hammer |
+| indigo-rig-hammer-2 | rig-adult-female-work | indigo-rig-hammer |
+| indigo-rig-carry-1 | rig-adult-female-work | indigo-rig-carry |
+| indigo-rig-carry-2 | rig-adult-female-work | indigo-rig-carry |
+| indigo-rig-trade-1 | rig-adult-female-work | indigo-rig-trade |
+| indigo-rig-trade-2 | rig-adult-female-work | indigo-rig-trade |
+| indigo-rig-care-1 | rig-adult-female-work | indigo-rig-care |
+| indigo-rig-care-2 | rig-adult-female-work | indigo-rig-care |
+| indigo-rig-search-1 | rig-adult-female-work | indigo-rig-search |
+| indigo-rig-search-2 | rig-adult-female-work | indigo-rig-search |
+| indigo-rig-aim | rig-adult-female-service | indigo-rig-fire-reload |
+| indigo-rig-fire | rig-adult-female-service | indigo-rig-fire-reload |
+| indigo-rig-load | rig-adult-female-service | indigo-rig-fire-reload |
+| indigo-rig-ramrod | rig-adult-female-service | indigo-rig-fire-reload |
+| indigo-rig-horse-e-1 | rig-adult-female-service | State artwork; no motion required |
+| indigo-rig-horse-e-2 | rig-adult-female-service | State artwork; no motion required |
+| indigo-rig-passenger-e-1 | rig-adult-female-service | indigo-rig-passenger-e |
+| indigo-rig-passenger-e-2 | rig-adult-female-service | indigo-rig-passenger-e |
+| indigo-rig-passenger-s-1 | rig-adult-female-service | indigo-rig-passenger-s |
+| indigo-rig-passenger-s-2 | rig-adult-female-service | indigo-rig-passenger-s |
+| indigo-rig-passenger-n-1 | rig-adult-female-service | indigo-rig-passenger-n |
+| indigo-rig-passenger-n-2 | rig-adult-female-service | indigo-rig-passenger-n |
+| indigo-rig-wounded-1 | rig-adult-female-service | indigo-rig-wounded |
+| indigo-rig-wounded-2 | rig-adult-female-service | indigo-rig-wounded |
+| indigo-rig-fall | rig-adult-female-service | State artwork; no motion required |
+| indigo-rig-still | rig-adult-female-service | State artwork; no motion required |
+| indigo-rig-saddle-e-1 | rig-adult-female-saddle | indigo-rig-saddle-e |
+| indigo-rig-saddle-e-2 | rig-adult-female-saddle | indigo-rig-saddle-e |
+| indigo-rig-saddle-wounded-e-1 | rig-adult-female-saddle | indigo-rig-saddle-wounded-e |
+| indigo-rig-saddle-wounded-e-2 | rig-adult-female-saddle | indigo-rig-saddle-wounded-e |
+| indigo-rig-saddle-s-1 | rig-adult-female-saddle | indigo-rig-saddle-s |
+| indigo-rig-saddle-s-2 | rig-adult-female-saddle | indigo-rig-saddle-s |
+| indigo-rig-saddle-wounded-s-1 | rig-adult-female-saddle | indigo-rig-saddle-wounded-s |
+| indigo-rig-saddle-wounded-s-2 | rig-adult-female-saddle | indigo-rig-saddle-wounded-s |
+| indigo-rig-saddle-n-1 | rig-adult-female-saddle | indigo-rig-saddle-n |
+| indigo-rig-saddle-n-2 | rig-adult-female-saddle | indigo-rig-saddle-n |
+| indigo-rig-saddle-wounded-n-1 | rig-adult-female-saddle | indigo-rig-saddle-wounded-n |
+| indigo-rig-saddle-wounded-n-2 | rig-adult-female-saddle | indigo-rig-saddle-wounded-n |
+| indigo-rig-covered-1 | rig-covered-patients | indigo-rig-covered |
+| indigo-rig-covered-2 | rig-covered-patients | indigo-rig-covered |
+| indigo-rig-camp-rest-1 | rig-camp-grown | indigo-rig-camp-rest |
+| indigo-rig-camp-rest-2 | rig-camp-grown | indigo-rig-camp-rest |
+| indigo-rig-camp-sleep-1 | rig-camp-grown | indigo-rig-camp-sleep |
+| indigo-rig-camp-sleep-2 | rig-camp-grown | indigo-rig-camp-sleep |
+| indigo-rig-mounted-e-aim | rig-adult-female-mounted-service | indigo-rig-mounted-fire-e |
+| indigo-rig-mounted-e-fire | rig-adult-female-mounted-service | indigo-rig-mounted-fire-e |
+| indigo-rig-mounted-e-load | rig-adult-female-mounted-service | indigo-rig-mounted-fire-e |
+| indigo-rig-mounted-e-ramrod | rig-adult-female-mounted-service | indigo-rig-mounted-fire-e |
+| indigo-rig-mounted-s-aim | rig-adult-female-mounted-service | indigo-rig-mounted-fire-s |
+| indigo-rig-mounted-s-fire | rig-adult-female-mounted-service | indigo-rig-mounted-fire-s |
+| indigo-rig-mounted-s-load | rig-adult-female-mounted-service | indigo-rig-mounted-fire-s |
+| indigo-rig-mounted-s-ramrod | rig-adult-female-mounted-service | indigo-rig-mounted-fire-s |
+| indigo-rig-mounted-n-aim | rig-adult-female-mounted-service | indigo-rig-mounted-fire-n |
+| indigo-rig-mounted-n-fire | rig-adult-female-mounted-service | indigo-rig-mounted-fire-n |
+| indigo-rig-mounted-n-load | rig-adult-female-mounted-service | indigo-rig-mounted-fire-n |
+| indigo-rig-mounted-n-ramrod | rig-adult-female-mounted-service | indigo-rig-mounted-fire-n |
+| indigo-rig-surrender-1 | rig-capture-poses | indigo-rig-surrender |
+| indigo-rig-surrender-2 | rig-capture-poses | indigo-rig-surrender |
+| indigo-rig-sow-1 | rig-sow-poses | indigo-rig-sow |
+| indigo-rig-sow-2 | rig-sow-poses | indigo-rig-sow |
+| indigo-rig-harvest-1 | rig-harvest-poses | indigo-rig-harvest |
+| indigo-rig-harvest-2 | rig-harvest-poses | indigo-rig-harvest |
+| mother-braid-rig-idle-s | rig-adult-female-locomotion | mother-braid-rig-idle-s |
+| mother-braid-rig-idle-e | rig-adult-female-locomotion | mother-braid-rig-idle-e |
+| mother-braid-rig-idle-n | rig-adult-female-locomotion | mother-braid-rig-idle-n |
+| mother-braid-rig-idle-w | rig-adult-female-locomotion | mother-braid-rig-idle-w |
+| mother-braid-rig-walk-e-1 | rig-adult-female-locomotion | mother-braid-rig-walk-e |
+| mother-braid-rig-walk-e-2 | rig-adult-female-locomotion | mother-braid-rig-walk-e |
+| mother-braid-rig-walk-e-3 | rig-adult-female-locomotion | mother-braid-rig-walk-e |
+| mother-braid-rig-walk-e-4 | rig-adult-female-locomotion | mother-braid-rig-walk-e |
+| mother-braid-rig-walk-s-1 | rig-adult-female-locomotion | mother-braid-rig-walk-s |
+| mother-braid-rig-walk-s-2 | rig-adult-female-locomotion | mother-braid-rig-walk-s |
+| mother-braid-rig-walk-n-1 | rig-adult-female-locomotion | mother-braid-rig-walk-n |
+| mother-braid-rig-walk-n-2 | rig-adult-female-locomotion | mother-braid-rig-walk-n |
+| mother-braid-rig-dig-1 | rig-adult-female-work | mother-braid-rig-dig |
+| mother-braid-rig-dig-2 | rig-adult-female-work | mother-braid-rig-dig |
+| mother-braid-rig-hoe-1 | rig-adult-female-work | mother-braid-rig-hoe |
+| mother-braid-rig-hoe-2 | rig-adult-female-work | mother-braid-rig-hoe |
+| mother-braid-rig-chop-1 | rig-adult-female-work | mother-braid-rig-chop |
+| mother-braid-rig-chop-2 | rig-adult-female-work | mother-braid-rig-chop |
+| mother-braid-rig-hammer-1 | rig-adult-female-work | mother-braid-rig-hammer |
+| mother-braid-rig-hammer-2 | rig-adult-female-work | mother-braid-rig-hammer |
+| mother-braid-rig-carry-1 | rig-adult-female-work | mother-braid-rig-carry |
+| mother-braid-rig-carry-2 | rig-adult-female-work | mother-braid-rig-carry |
+| mother-braid-rig-trade-1 | rig-adult-female-work | mother-braid-rig-trade |
+| mother-braid-rig-trade-2 | rig-adult-female-work | mother-braid-rig-trade |
+| mother-braid-rig-care-1 | rig-adult-female-work | mother-braid-rig-care |
+| mother-braid-rig-care-2 | rig-adult-female-work | mother-braid-rig-care |
+| mother-braid-rig-search-1 | rig-adult-female-work | mother-braid-rig-search |
+| mother-braid-rig-search-2 | rig-adult-female-work | mother-braid-rig-search |
+| mother-braid-rig-aim | rig-adult-female-service | mother-braid-rig-fire-reload |
+| mother-braid-rig-fire | rig-adult-female-service | mother-braid-rig-fire-reload |
+| mother-braid-rig-load | rig-adult-female-service | mother-braid-rig-fire-reload |
+| mother-braid-rig-ramrod | rig-adult-female-service | mother-braid-rig-fire-reload |
+| mother-braid-rig-horse-e-1 | rig-adult-female-service | State artwork; no motion required |
+| mother-braid-rig-horse-e-2 | rig-adult-female-service | State artwork; no motion required |
+| mother-braid-rig-passenger-e-1 | rig-adult-female-service | mother-braid-rig-passenger-e |
+| mother-braid-rig-passenger-e-2 | rig-adult-female-service | mother-braid-rig-passenger-e |
+| mother-braid-rig-passenger-s-1 | rig-adult-female-service | mother-braid-rig-passenger-s |
+| mother-braid-rig-passenger-s-2 | rig-adult-female-service | mother-braid-rig-passenger-s |
+| mother-braid-rig-passenger-n-1 | rig-adult-female-service | mother-braid-rig-passenger-n |
+| mother-braid-rig-passenger-n-2 | rig-adult-female-service | mother-braid-rig-passenger-n |
+| mother-braid-rig-wounded-1 | rig-adult-female-service | mother-braid-rig-wounded |
+| mother-braid-rig-wounded-2 | rig-adult-female-service | mother-braid-rig-wounded |
+| mother-braid-rig-fall | rig-adult-female-service | State artwork; no motion required |
+| mother-braid-rig-still | rig-adult-female-service | State artwork; no motion required |
+| mother-braid-rig-saddle-e-1 | rig-adult-female-saddle | mother-braid-rig-saddle-e |
+| mother-braid-rig-saddle-e-2 | rig-adult-female-saddle | mother-braid-rig-saddle-e |
+| mother-braid-rig-saddle-wounded-e-1 | rig-adult-female-saddle | mother-braid-rig-saddle-wounded-e |
+| mother-braid-rig-saddle-wounded-e-2 | rig-adult-female-saddle | mother-braid-rig-saddle-wounded-e |
+| mother-braid-rig-saddle-s-1 | rig-adult-female-saddle | mother-braid-rig-saddle-s |
+| mother-braid-rig-saddle-s-2 | rig-adult-female-saddle | mother-braid-rig-saddle-s |
+| mother-braid-rig-saddle-wounded-s-1 | rig-adult-female-saddle | mother-braid-rig-saddle-wounded-s |
+| mother-braid-rig-saddle-wounded-s-2 | rig-adult-female-saddle | mother-braid-rig-saddle-wounded-s |
+| mother-braid-rig-saddle-n-1 | rig-adult-female-saddle | mother-braid-rig-saddle-n |
+| mother-braid-rig-saddle-n-2 | rig-adult-female-saddle | mother-braid-rig-saddle-n |
+| mother-braid-rig-saddle-wounded-n-1 | rig-adult-female-saddle | mother-braid-rig-saddle-wounded-n |
+| mother-braid-rig-saddle-wounded-n-2 | rig-adult-female-saddle | mother-braid-rig-saddle-wounded-n |
+| mother-braid-rig-covered-1 | rig-covered-patients | mother-braid-rig-covered |
+| mother-braid-rig-covered-2 | rig-covered-patients | mother-braid-rig-covered |
+| mother-braid-rig-camp-rest-1 | rig-camp-grown | mother-braid-rig-camp-rest |
+| mother-braid-rig-camp-rest-2 | rig-camp-grown | mother-braid-rig-camp-rest |
+| mother-braid-rig-camp-sleep-1 | rig-camp-grown | mother-braid-rig-camp-sleep |
+| mother-braid-rig-camp-sleep-2 | rig-camp-grown | mother-braid-rig-camp-sleep |
+| mother-braid-rig-mounted-e-aim | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-e |
+| mother-braid-rig-mounted-e-fire | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-e |
+| mother-braid-rig-mounted-e-load | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-e |
+| mother-braid-rig-mounted-e-ramrod | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-e |
+| mother-braid-rig-mounted-s-aim | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-s |
+| mother-braid-rig-mounted-s-fire | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-s |
+| mother-braid-rig-mounted-s-load | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-s |
+| mother-braid-rig-mounted-s-ramrod | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-s |
+| mother-braid-rig-mounted-n-aim | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-n |
+| mother-braid-rig-mounted-n-fire | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-n |
+| mother-braid-rig-mounted-n-load | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-n |
+| mother-braid-rig-mounted-n-ramrod | rig-adult-female-mounted-service | mother-braid-rig-mounted-fire-n |
+| mother-braid-rig-surrender-1 | rig-capture-poses | mother-braid-rig-surrender |
+| mother-braid-rig-surrender-2 | rig-capture-poses | mother-braid-rig-surrender |
+| mother-braid-rig-sow-1 | rig-sow-poses | mother-braid-rig-sow |
+| mother-braid-rig-sow-2 | rig-sow-poses | mother-braid-rig-sow |
+| mother-braid-rig-harvest-1 | rig-harvest-poses | mother-braid-rig-harvest |
+| mother-braid-rig-harvest-2 | rig-harvest-poses | mother-braid-rig-harvest |
+| mother-loose-rig-idle-s | rig-adult-female-locomotion | mother-loose-rig-idle-s |
+| mother-loose-rig-idle-e | rig-adult-female-locomotion | mother-loose-rig-idle-e |
+| mother-loose-rig-idle-n | rig-adult-female-locomotion | mother-loose-rig-idle-n |
+| mother-loose-rig-idle-w | rig-adult-female-locomotion | mother-loose-rig-idle-w |
+| mother-loose-rig-walk-e-1 | rig-adult-female-locomotion | mother-loose-rig-walk-e |
+| mother-loose-rig-walk-e-2 | rig-adult-female-locomotion | mother-loose-rig-walk-e |
+| mother-loose-rig-walk-e-3 | rig-adult-female-locomotion | mother-loose-rig-walk-e |
+| mother-loose-rig-walk-e-4 | rig-adult-female-locomotion | mother-loose-rig-walk-e |
+| mother-loose-rig-walk-s-1 | rig-adult-female-locomotion | mother-loose-rig-walk-s |
+| mother-loose-rig-walk-s-2 | rig-adult-female-locomotion | mother-loose-rig-walk-s |
+| mother-loose-rig-walk-n-1 | rig-adult-female-locomotion | mother-loose-rig-walk-n |
+| mother-loose-rig-walk-n-2 | rig-adult-female-locomotion | mother-loose-rig-walk-n |
+| mother-loose-rig-dig-1 | rig-adult-female-work | mother-loose-rig-dig |
+| mother-loose-rig-dig-2 | rig-adult-female-work | mother-loose-rig-dig |
+| mother-loose-rig-hoe-1 | rig-adult-female-work | mother-loose-rig-hoe |
+| mother-loose-rig-hoe-2 | rig-adult-female-work | mother-loose-rig-hoe |
+| mother-loose-rig-chop-1 | rig-adult-female-work | mother-loose-rig-chop |
+| mother-loose-rig-chop-2 | rig-adult-female-work | mother-loose-rig-chop |
+| mother-loose-rig-hammer-1 | rig-adult-female-work | mother-loose-rig-hammer |
+| mother-loose-rig-hammer-2 | rig-adult-female-work | mother-loose-rig-hammer |
+| mother-loose-rig-carry-1 | rig-adult-female-work | mother-loose-rig-carry |
+| mother-loose-rig-carry-2 | rig-adult-female-work | mother-loose-rig-carry |
+| mother-loose-rig-trade-1 | rig-adult-female-work | mother-loose-rig-trade |
+| mother-loose-rig-trade-2 | rig-adult-female-work | mother-loose-rig-trade |
+| mother-loose-rig-care-1 | rig-adult-female-work | mother-loose-rig-care |
+| mother-loose-rig-care-2 | rig-adult-female-work | mother-loose-rig-care |
+| mother-loose-rig-search-1 | rig-adult-female-work | mother-loose-rig-search |
+| mother-loose-rig-search-2 | rig-adult-female-work | mother-loose-rig-search |
+| mother-loose-rig-aim | rig-adult-female-service | mother-loose-rig-fire-reload |
+| mother-loose-rig-fire | rig-adult-female-service | mother-loose-rig-fire-reload |
+| mother-loose-rig-load | rig-adult-female-service | mother-loose-rig-fire-reload |
+| mother-loose-rig-ramrod | rig-adult-female-service | mother-loose-rig-fire-reload |
+| mother-loose-rig-horse-e-1 | rig-adult-female-service | State artwork; no motion required |
+| mother-loose-rig-horse-e-2 | rig-adult-female-service | State artwork; no motion required |
+| mother-loose-rig-passenger-e-1 | rig-adult-female-service | mother-loose-rig-passenger-e |
+| mother-loose-rig-passenger-e-2 | rig-adult-female-service | mother-loose-rig-passenger-e |
+| mother-loose-rig-passenger-s-1 | rig-adult-female-service | mother-loose-rig-passenger-s |
+| mother-loose-rig-passenger-s-2 | rig-adult-female-service | mother-loose-rig-passenger-s |
+| mother-loose-rig-passenger-n-1 | rig-adult-female-service | mother-loose-rig-passenger-n |
+| mother-loose-rig-passenger-n-2 | rig-adult-female-service | mother-loose-rig-passenger-n |
+| mother-loose-rig-wounded-1 | rig-adult-female-service | mother-loose-rig-wounded |
+| mother-loose-rig-wounded-2 | rig-adult-female-service | mother-loose-rig-wounded |
+| mother-loose-rig-fall | rig-adult-female-service | State artwork; no motion required |
+| mother-loose-rig-still | rig-adult-female-service | State artwork; no motion required |
+| mother-loose-rig-saddle-e-1 | rig-adult-female-saddle | mother-loose-rig-saddle-e |
+| mother-loose-rig-saddle-e-2 | rig-adult-female-saddle | mother-loose-rig-saddle-e |
+| mother-loose-rig-saddle-wounded-e-1 | rig-adult-female-saddle | mother-loose-rig-saddle-wounded-e |
+| mother-loose-rig-saddle-wounded-e-2 | rig-adult-female-saddle | mother-loose-rig-saddle-wounded-e |
+| mother-loose-rig-saddle-s-1 | rig-adult-female-saddle | mother-loose-rig-saddle-s |
+| mother-loose-rig-saddle-s-2 | rig-adult-female-saddle | mother-loose-rig-saddle-s |
+| mother-loose-rig-saddle-wounded-s-1 | rig-adult-female-saddle | mother-loose-rig-saddle-wounded-s |
+| mother-loose-rig-saddle-wounded-s-2 | rig-adult-female-saddle | mother-loose-rig-saddle-wounded-s |
+| mother-loose-rig-saddle-n-1 | rig-adult-female-saddle | mother-loose-rig-saddle-n |
+| mother-loose-rig-saddle-n-2 | rig-adult-female-saddle | mother-loose-rig-saddle-n |
+| mother-loose-rig-saddle-wounded-n-1 | rig-adult-female-saddle | mother-loose-rig-saddle-wounded-n |
+| mother-loose-rig-saddle-wounded-n-2 | rig-adult-female-saddle | mother-loose-rig-saddle-wounded-n |
+| mother-loose-rig-covered-1 | rig-covered-patients | mother-loose-rig-covered |
+| mother-loose-rig-covered-2 | rig-covered-patients | mother-loose-rig-covered |
+| mother-loose-rig-camp-rest-1 | rig-camp-grown | mother-loose-rig-camp-rest |
+| mother-loose-rig-camp-rest-2 | rig-camp-grown | mother-loose-rig-camp-rest |
+| mother-loose-rig-camp-sleep-1 | rig-camp-grown | mother-loose-rig-camp-sleep |
+| mother-loose-rig-camp-sleep-2 | rig-camp-grown | mother-loose-rig-camp-sleep |
+| mother-loose-rig-mounted-e-aim | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-e |
+| mother-loose-rig-mounted-e-fire | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-e |
+| mother-loose-rig-mounted-e-load | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-e |
+| mother-loose-rig-mounted-e-ramrod | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-e |
+| mother-loose-rig-mounted-s-aim | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-s |
+| mother-loose-rig-mounted-s-fire | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-s |
+| mother-loose-rig-mounted-s-load | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-s |
+| mother-loose-rig-mounted-s-ramrod | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-s |
+| mother-loose-rig-mounted-n-aim | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-n |
+| mother-loose-rig-mounted-n-fire | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-n |
+| mother-loose-rig-mounted-n-load | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-n |
+| mother-loose-rig-mounted-n-ramrod | rig-adult-female-mounted-service | mother-loose-rig-mounted-fire-n |
+| mother-loose-rig-surrender-1 | rig-capture-poses | mother-loose-rig-surrender |
+| mother-loose-rig-surrender-2 | rig-capture-poses | mother-loose-rig-surrender |
+| mother-loose-rig-sow-1 | rig-sow-poses | mother-loose-rig-sow |
+| mother-loose-rig-sow-2 | rig-sow-poses | mother-loose-rig-sow |
+| mother-loose-rig-harvest-1 | rig-harvest-poses | mother-loose-rig-harvest |
+| mother-loose-rig-harvest-2 | rig-harvest-poses | mother-loose-rig-harvest |
+| mother-scarf-rig-idle-s | rig-adult-female-locomotion | mother-scarf-rig-idle-s |
+| mother-scarf-rig-idle-e | rig-adult-female-locomotion | mother-scarf-rig-idle-e |
+| mother-scarf-rig-idle-n | rig-adult-female-locomotion | mother-scarf-rig-idle-n |
+| mother-scarf-rig-idle-w | rig-adult-female-locomotion | mother-scarf-rig-idle-w |
+| mother-scarf-rig-walk-e-1 | rig-adult-female-locomotion | mother-scarf-rig-walk-e |
+| mother-scarf-rig-walk-e-2 | rig-adult-female-locomotion | mother-scarf-rig-walk-e |
+| mother-scarf-rig-walk-e-3 | rig-adult-female-locomotion | mother-scarf-rig-walk-e |
+| mother-scarf-rig-walk-e-4 | rig-adult-female-locomotion | mother-scarf-rig-walk-e |
+| mother-scarf-rig-walk-s-1 | rig-adult-female-locomotion | mother-scarf-rig-walk-s |
+| mother-scarf-rig-walk-s-2 | rig-adult-female-locomotion | mother-scarf-rig-walk-s |
+| mother-scarf-rig-walk-n-1 | rig-adult-female-locomotion | mother-scarf-rig-walk-n |
+| mother-scarf-rig-walk-n-2 | rig-adult-female-locomotion | mother-scarf-rig-walk-n |
+| mother-scarf-rig-dig-1 | rig-adult-female-work | mother-scarf-rig-dig |
+| mother-scarf-rig-dig-2 | rig-adult-female-work | mother-scarf-rig-dig |
+| mother-scarf-rig-hoe-1 | rig-adult-female-work | mother-scarf-rig-hoe |
+| mother-scarf-rig-hoe-2 | rig-adult-female-work | mother-scarf-rig-hoe |
+| mother-scarf-rig-chop-1 | rig-adult-female-work | mother-scarf-rig-chop |
+| mother-scarf-rig-chop-2 | rig-adult-female-work | mother-scarf-rig-chop |
+| mother-scarf-rig-hammer-1 | rig-adult-female-work | mother-scarf-rig-hammer |
+| mother-scarf-rig-hammer-2 | rig-adult-female-work | mother-scarf-rig-hammer |
+| mother-scarf-rig-carry-1 | rig-adult-female-work | mother-scarf-rig-carry |
+| mother-scarf-rig-carry-2 | rig-adult-female-work | mother-scarf-rig-carry |
+| mother-scarf-rig-trade-1 | rig-adult-female-work | mother-scarf-rig-trade |
+| mother-scarf-rig-trade-2 | rig-adult-female-work | mother-scarf-rig-trade |
+| mother-scarf-rig-care-1 | rig-adult-female-work | mother-scarf-rig-care |
+| mother-scarf-rig-care-2 | rig-adult-female-work | mother-scarf-rig-care |
+| mother-scarf-rig-search-1 | rig-adult-female-work | mother-scarf-rig-search |
+| mother-scarf-rig-search-2 | rig-adult-female-work | mother-scarf-rig-search |
+| mother-scarf-rig-aim | rig-adult-female-service | mother-scarf-rig-fire-reload |
+| mother-scarf-rig-fire | rig-adult-female-service | mother-scarf-rig-fire-reload |
+| mother-scarf-rig-load | rig-adult-female-service | mother-scarf-rig-fire-reload |
+| mother-scarf-rig-ramrod | rig-adult-female-service | mother-scarf-rig-fire-reload |
+| mother-scarf-rig-horse-e-1 | rig-adult-female-service | State artwork; no motion required |
+| mother-scarf-rig-horse-e-2 | rig-adult-female-service | State artwork; no motion required |
+| mother-scarf-rig-passenger-e-1 | rig-adult-female-service | mother-scarf-rig-passenger-e |
+| mother-scarf-rig-passenger-e-2 | rig-adult-female-service | mother-scarf-rig-passenger-e |
+| mother-scarf-rig-passenger-s-1 | rig-adult-female-service | mother-scarf-rig-passenger-s |
+| mother-scarf-rig-passenger-s-2 | rig-adult-female-service | mother-scarf-rig-passenger-s |
+| mother-scarf-rig-passenger-n-1 | rig-adult-female-service | mother-scarf-rig-passenger-n |
+| mother-scarf-rig-passenger-n-2 | rig-adult-female-service | mother-scarf-rig-passenger-n |
+| mother-scarf-rig-wounded-1 | rig-adult-female-service | mother-scarf-rig-wounded |
+| mother-scarf-rig-wounded-2 | rig-adult-female-service | mother-scarf-rig-wounded |
+| mother-scarf-rig-fall | rig-adult-female-service | State artwork; no motion required |
+| mother-scarf-rig-still | rig-adult-female-service | State artwork; no motion required |
+| mother-scarf-rig-saddle-e-1 | rig-adult-female-saddle | mother-scarf-rig-saddle-e |
+| mother-scarf-rig-saddle-e-2 | rig-adult-female-saddle | mother-scarf-rig-saddle-e |
+| mother-scarf-rig-saddle-wounded-e-1 | rig-adult-female-saddle | mother-scarf-rig-saddle-wounded-e |
+| mother-scarf-rig-saddle-wounded-e-2 | rig-adult-female-saddle | mother-scarf-rig-saddle-wounded-e |
+| mother-scarf-rig-saddle-s-1 | rig-adult-female-saddle | mother-scarf-rig-saddle-s |
+| mother-scarf-rig-saddle-s-2 | rig-adult-female-saddle | mother-scarf-rig-saddle-s |
+| mother-scarf-rig-saddle-wounded-s-1 | rig-adult-female-saddle | mother-scarf-rig-saddle-wounded-s |
+| mother-scarf-rig-saddle-wounded-s-2 | rig-adult-female-saddle | mother-scarf-rig-saddle-wounded-s |
+| mother-scarf-rig-saddle-n-1 | rig-adult-female-saddle | mother-scarf-rig-saddle-n |
+| mother-scarf-rig-saddle-n-2 | rig-adult-female-saddle | mother-scarf-rig-saddle-n |
+| mother-scarf-rig-saddle-wounded-n-1 | rig-adult-female-saddle | mother-scarf-rig-saddle-wounded-n |
+| mother-scarf-rig-saddle-wounded-n-2 | rig-adult-female-saddle | mother-scarf-rig-saddle-wounded-n |
+| mother-scarf-rig-covered-1 | rig-covered-patients | mother-scarf-rig-covered |
+| mother-scarf-rig-covered-2 | rig-covered-patients | mother-scarf-rig-covered |
+| mother-scarf-rig-camp-rest-1 | rig-camp-grown | mother-scarf-rig-camp-rest |
+| mother-scarf-rig-camp-rest-2 | rig-camp-grown | mother-scarf-rig-camp-rest |
+| mother-scarf-rig-camp-sleep-1 | rig-camp-grown | mother-scarf-rig-camp-sleep |
+| mother-scarf-rig-camp-sleep-2 | rig-camp-grown | mother-scarf-rig-camp-sleep |
+| mother-scarf-rig-mounted-e-aim | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-e |
+| mother-scarf-rig-mounted-e-fire | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-e |
+| mother-scarf-rig-mounted-e-load | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-e |
+| mother-scarf-rig-mounted-e-ramrod | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-e |
+| mother-scarf-rig-mounted-s-aim | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-s |
+| mother-scarf-rig-mounted-s-fire | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-s |
+| mother-scarf-rig-mounted-s-load | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-s |
+| mother-scarf-rig-mounted-s-ramrod | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-s |
+| mother-scarf-rig-mounted-n-aim | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-n |
+| mother-scarf-rig-mounted-n-fire | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-n |
+| mother-scarf-rig-mounted-n-load | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-n |
+| mother-scarf-rig-mounted-n-ramrod | rig-adult-female-mounted-service | mother-scarf-rig-mounted-fire-n |
+| mother-scarf-rig-surrender-1 | rig-capture-poses | mother-scarf-rig-surrender |
+| mother-scarf-rig-surrender-2 | rig-capture-poses | mother-scarf-rig-surrender |
+| mother-scarf-rig-sow-1 | rig-sow-poses | mother-scarf-rig-sow |
+| mother-scarf-rig-sow-2 | rig-sow-poses | mother-scarf-rig-sow |
+| mother-scarf-rig-harvest-1 | rig-harvest-poses | mother-scarf-rig-harvest |
+| mother-scarf-rig-harvest-2 | rig-harvest-poses | mother-scarf-rig-harvest |
+| mother-straw-rig-idle-s | rig-adult-female-locomotion | mother-straw-rig-idle-s |
+| mother-straw-rig-idle-e | rig-adult-female-locomotion | mother-straw-rig-idle-e |
+| mother-straw-rig-idle-n | rig-adult-female-locomotion | mother-straw-rig-idle-n |
+| mother-straw-rig-idle-w | rig-adult-female-locomotion | mother-straw-rig-idle-w |
+| mother-straw-rig-walk-e-1 | rig-adult-female-locomotion | mother-straw-rig-walk-e |
+| mother-straw-rig-walk-e-2 | rig-adult-female-locomotion | mother-straw-rig-walk-e |
+| mother-straw-rig-walk-e-3 | rig-adult-female-locomotion | mother-straw-rig-walk-e |
+| mother-straw-rig-walk-e-4 | rig-adult-female-locomotion | mother-straw-rig-walk-e |
+| mother-straw-rig-walk-s-1 | rig-adult-female-locomotion | mother-straw-rig-walk-s |
+| mother-straw-rig-walk-s-2 | rig-adult-female-locomotion | mother-straw-rig-walk-s |
+| mother-straw-rig-walk-n-1 | rig-adult-female-locomotion | mother-straw-rig-walk-n |
+| mother-straw-rig-walk-n-2 | rig-adult-female-locomotion | mother-straw-rig-walk-n |
+| mother-straw-rig-dig-1 | rig-adult-female-work | mother-straw-rig-dig |
+| mother-straw-rig-dig-2 | rig-adult-female-work | mother-straw-rig-dig |
+| mother-straw-rig-hoe-1 | rig-adult-female-work | mother-straw-rig-hoe |
+| mother-straw-rig-hoe-2 | rig-adult-female-work | mother-straw-rig-hoe |
+| mother-straw-rig-chop-1 | rig-adult-female-work | mother-straw-rig-chop |
+| mother-straw-rig-chop-2 | rig-adult-female-work | mother-straw-rig-chop |
+| mother-straw-rig-hammer-1 | rig-adult-female-work | mother-straw-rig-hammer |
+| mother-straw-rig-hammer-2 | rig-adult-female-work | mother-straw-rig-hammer |
+| mother-straw-rig-carry-1 | rig-adult-female-work | mother-straw-rig-carry |
+| mother-straw-rig-carry-2 | rig-adult-female-work | mother-straw-rig-carry |
+| mother-straw-rig-trade-1 | rig-adult-female-work | mother-straw-rig-trade |
+| mother-straw-rig-trade-2 | rig-adult-female-work | mother-straw-rig-trade |
+| mother-straw-rig-care-1 | rig-adult-female-work | mother-straw-rig-care |
+| mother-straw-rig-care-2 | rig-adult-female-work | mother-straw-rig-care |
+| mother-straw-rig-search-1 | rig-adult-female-work | mother-straw-rig-search |
+| mother-straw-rig-search-2 | rig-adult-female-work | mother-straw-rig-search |
+| mother-straw-rig-aim | rig-adult-female-service | mother-straw-rig-fire-reload |
+| mother-straw-rig-fire | rig-adult-female-service | mother-straw-rig-fire-reload |
+| mother-straw-rig-load | rig-adult-female-service | mother-straw-rig-fire-reload |
+| mother-straw-rig-ramrod | rig-adult-female-service | mother-straw-rig-fire-reload |
+| mother-straw-rig-horse-e-1 | rig-adult-female-service | State artwork; no motion required |
+| mother-straw-rig-horse-e-2 | rig-adult-female-service | State artwork; no motion required |
+| mother-straw-rig-passenger-e-1 | rig-adult-female-service | mother-straw-rig-passenger-e |
+| mother-straw-rig-passenger-e-2 | rig-adult-female-service | mother-straw-rig-passenger-e |
+| mother-straw-rig-passenger-s-1 | rig-adult-female-service | mother-straw-rig-passenger-s |
+| mother-straw-rig-passenger-s-2 | rig-adult-female-service | mother-straw-rig-passenger-s |
+| mother-straw-rig-passenger-n-1 | rig-adult-female-service | mother-straw-rig-passenger-n |
+| mother-straw-rig-passenger-n-2 | rig-adult-female-service | mother-straw-rig-passenger-n |
+| mother-straw-rig-wounded-1 | rig-adult-female-service | mother-straw-rig-wounded |
+| mother-straw-rig-wounded-2 | rig-adult-female-service | mother-straw-rig-wounded |
+| mother-straw-rig-fall | rig-adult-female-service | State artwork; no motion required |
+| mother-straw-rig-still | rig-adult-female-service | State artwork; no motion required |
+| mother-straw-rig-saddle-e-1 | rig-adult-female-saddle | mother-straw-rig-saddle-e |
+| mother-straw-rig-saddle-e-2 | rig-adult-female-saddle | mother-straw-rig-saddle-e |
+| mother-straw-rig-saddle-wounded-e-1 | rig-adult-female-saddle | mother-straw-rig-saddle-wounded-e |
+| mother-straw-rig-saddle-wounded-e-2 | rig-adult-female-saddle | mother-straw-rig-saddle-wounded-e |
+| mother-straw-rig-saddle-s-1 | rig-adult-female-saddle | mother-straw-rig-saddle-s |
+| mother-straw-rig-saddle-s-2 | rig-adult-female-saddle | mother-straw-rig-saddle-s |
+| mother-straw-rig-saddle-wounded-s-1 | rig-adult-female-saddle | mother-straw-rig-saddle-wounded-s |
+| mother-straw-rig-saddle-wounded-s-2 | rig-adult-female-saddle | mother-straw-rig-saddle-wounded-s |
+| mother-straw-rig-saddle-n-1 | rig-adult-female-saddle | mother-straw-rig-saddle-n |
+| mother-straw-rig-saddle-n-2 | rig-adult-female-saddle | mother-straw-rig-saddle-n |
+| mother-straw-rig-saddle-wounded-n-1 | rig-adult-female-saddle | mother-straw-rig-saddle-wounded-n |
+| mother-straw-rig-saddle-wounded-n-2 | rig-adult-female-saddle | mother-straw-rig-saddle-wounded-n |
+| mother-straw-rig-covered-1 | rig-covered-patients | mother-straw-rig-covered |
+| mother-straw-rig-covered-2 | rig-covered-patients | mother-straw-rig-covered |
+| mother-straw-rig-camp-rest-1 | rig-camp-grown | mother-straw-rig-camp-rest |
+| mother-straw-rig-camp-rest-2 | rig-camp-grown | mother-straw-rig-camp-rest |
+| mother-straw-rig-camp-sleep-1 | rig-camp-grown | mother-straw-rig-camp-sleep |
+| mother-straw-rig-camp-sleep-2 | rig-camp-grown | mother-straw-rig-camp-sleep |
+| mother-straw-rig-mounted-e-aim | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-e |
+| mother-straw-rig-mounted-e-fire | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-e |
+| mother-straw-rig-mounted-e-load | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-e |
+| mother-straw-rig-mounted-e-ramrod | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-e |
+| mother-straw-rig-mounted-s-aim | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-s |
+| mother-straw-rig-mounted-s-fire | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-s |
+| mother-straw-rig-mounted-s-load | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-s |
+| mother-straw-rig-mounted-s-ramrod | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-s |
+| mother-straw-rig-mounted-n-aim | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-n |
+| mother-straw-rig-mounted-n-fire | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-n |
+| mother-straw-rig-mounted-n-load | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-n |
+| mother-straw-rig-mounted-n-ramrod | rig-adult-female-mounted-service | mother-straw-rig-mounted-fire-n |
+| mother-straw-rig-surrender-1 | rig-capture-poses | mother-straw-rig-surrender |
+| mother-straw-rig-surrender-2 | rig-capture-poses | mother-straw-rig-surrender |
+| mother-straw-rig-sow-1 | rig-sow-poses | mother-straw-rig-sow |
+| mother-straw-rig-sow-2 | rig-sow-poses | mother-straw-rig-sow |
+| mother-straw-rig-harvest-1 | rig-harvest-poses | mother-straw-rig-harvest |
+| mother-straw-rig-harvest-2 | rig-harvest-poses | mother-straw-rig-harvest |
+| blue-rig-idle-s | rig-youth-male-locomotion | blue-rig-idle-s |
+| blue-rig-idle-e | rig-youth-male-locomotion | blue-rig-idle-e |
+| blue-rig-idle-n | rig-youth-male-locomotion | blue-rig-idle-n |
+| blue-rig-idle-w | rig-youth-male-locomotion | blue-rig-idle-w |
+| blue-rig-walk-e-1 | rig-youth-male-locomotion | blue-rig-walk-e |
+| blue-rig-walk-e-2 | rig-youth-male-locomotion | blue-rig-walk-e |
+| blue-rig-walk-e-3 | rig-youth-male-locomotion | blue-rig-walk-e |
+| blue-rig-walk-e-4 | rig-youth-male-locomotion | blue-rig-walk-e |
+| blue-rig-walk-s-1 | rig-youth-male-locomotion | blue-rig-walk-s |
+| blue-rig-walk-s-2 | rig-youth-male-locomotion | blue-rig-walk-s |
+| blue-rig-walk-n-1 | rig-youth-male-locomotion | blue-rig-walk-n |
+| blue-rig-walk-n-2 | rig-youth-male-locomotion | blue-rig-walk-n |
+| blue-rig-dig-1 | rig-youth-male-work | blue-rig-dig |
+| blue-rig-dig-2 | rig-youth-male-work | blue-rig-dig |
+| blue-rig-hoe-1 | rig-youth-male-work | blue-rig-hoe |
+| blue-rig-hoe-2 | rig-youth-male-work | blue-rig-hoe |
+| blue-rig-chop-1 | rig-youth-male-work | blue-rig-chop |
+| blue-rig-chop-2 | rig-youth-male-work | blue-rig-chop |
+| blue-rig-hammer-1 | rig-youth-male-work | blue-rig-hammer |
+| blue-rig-hammer-2 | rig-youth-male-work | blue-rig-hammer |
+| blue-rig-carry-1 | rig-youth-male-work | blue-rig-carry |
+| blue-rig-carry-2 | rig-youth-male-work | blue-rig-carry |
+| blue-rig-trade-1 | rig-youth-male-work | blue-rig-trade |
+| blue-rig-trade-2 | rig-youth-male-work | blue-rig-trade |
+| blue-rig-care-1 | rig-youth-male-work | blue-rig-care |
+| blue-rig-care-2 | rig-youth-male-work | blue-rig-care |
+| blue-rig-search-1 | rig-youth-male-work | blue-rig-search |
+| blue-rig-search-2 | rig-youth-male-work | blue-rig-search |
+| blue-rig-aim | rig-youth-male-service | blue-rig-fire-reload |
+| blue-rig-fire | rig-youth-male-service | blue-rig-fire-reload |
+| blue-rig-load | rig-youth-male-service | blue-rig-fire-reload |
+| blue-rig-ramrod | rig-youth-male-service | blue-rig-fire-reload |
+| blue-rig-horse-e-1 | rig-youth-male-service | State artwork; no motion required |
+| blue-rig-horse-e-2 | rig-youth-male-service | State artwork; no motion required |
+| blue-rig-passenger-e-1 | rig-youth-male-service | blue-rig-passenger-e |
+| blue-rig-passenger-e-2 | rig-youth-male-service | blue-rig-passenger-e |
+| blue-rig-passenger-s-1 | rig-youth-male-service | blue-rig-passenger-s |
+| blue-rig-passenger-s-2 | rig-youth-male-service | blue-rig-passenger-s |
+| blue-rig-passenger-n-1 | rig-youth-male-service | blue-rig-passenger-n |
+| blue-rig-passenger-n-2 | rig-youth-male-service | blue-rig-passenger-n |
+| blue-rig-wounded-1 | rig-youth-male-service | blue-rig-wounded |
+| blue-rig-wounded-2 | rig-youth-male-service | blue-rig-wounded |
+| blue-rig-fall | rig-youth-male-service | State artwork; no motion required |
+| blue-rig-still | rig-youth-male-service | State artwork; no motion required |
+| blue-rig-saddle-e-1 | rig-youth-male-saddle | blue-rig-saddle-e |
+| blue-rig-saddle-e-2 | rig-youth-male-saddle | blue-rig-saddle-e |
+| blue-rig-saddle-wounded-e-1 | rig-youth-male-saddle | blue-rig-saddle-wounded-e |
+| blue-rig-saddle-wounded-e-2 | rig-youth-male-saddle | blue-rig-saddle-wounded-e |
+| blue-rig-saddle-s-1 | rig-youth-male-saddle | blue-rig-saddle-s |
+| blue-rig-saddle-s-2 | rig-youth-male-saddle | blue-rig-saddle-s |
+| blue-rig-saddle-wounded-s-1 | rig-youth-male-saddle | blue-rig-saddle-wounded-s |
+| blue-rig-saddle-wounded-s-2 | rig-youth-male-saddle | blue-rig-saddle-wounded-s |
+| blue-rig-saddle-n-1 | rig-youth-male-saddle | blue-rig-saddle-n |
+| blue-rig-saddle-n-2 | rig-youth-male-saddle | blue-rig-saddle-n |
+| blue-rig-saddle-wounded-n-1 | rig-youth-male-saddle | blue-rig-saddle-wounded-n |
+| blue-rig-saddle-wounded-n-2 | rig-youth-male-saddle | blue-rig-saddle-wounded-n |
+| blue-rig-covered-1 | rig-covered-patients | blue-rig-covered |
+| blue-rig-covered-2 | rig-covered-patients | blue-rig-covered |
+| blue-rig-camp-rest-1 | rig-camp-grown | blue-rig-camp-rest |
+| blue-rig-camp-rest-2 | rig-camp-grown | blue-rig-camp-rest |
+| blue-rig-camp-sleep-1 | rig-camp-grown | blue-rig-camp-sleep |
+| blue-rig-camp-sleep-2 | rig-camp-grown | blue-rig-camp-sleep |
+| blue-rig-mounted-e-aim | rig-youth-male-mounted-service | blue-rig-mounted-fire-e |
+| blue-rig-mounted-e-fire | rig-youth-male-mounted-service | blue-rig-mounted-fire-e |
+| blue-rig-mounted-e-load | rig-youth-male-mounted-service | blue-rig-mounted-fire-e |
+| blue-rig-mounted-e-ramrod | rig-youth-male-mounted-service | blue-rig-mounted-fire-e |
+| blue-rig-mounted-s-aim | rig-youth-male-mounted-service | blue-rig-mounted-fire-s |
+| blue-rig-mounted-s-fire | rig-youth-male-mounted-service | blue-rig-mounted-fire-s |
+| blue-rig-mounted-s-load | rig-youth-male-mounted-service | blue-rig-mounted-fire-s |
+| blue-rig-mounted-s-ramrod | rig-youth-male-mounted-service | blue-rig-mounted-fire-s |
+| blue-rig-mounted-n-aim | rig-youth-male-mounted-service | blue-rig-mounted-fire-n |
+| blue-rig-mounted-n-fire | rig-youth-male-mounted-service | blue-rig-mounted-fire-n |
+| blue-rig-mounted-n-load | rig-youth-male-mounted-service | blue-rig-mounted-fire-n |
+| blue-rig-mounted-n-ramrod | rig-youth-male-mounted-service | blue-rig-mounted-fire-n |
+| blue-rig-surrender-1 | rig-capture-poses | blue-rig-surrender |
+| blue-rig-surrender-2 | rig-capture-poses | blue-rig-surrender |
+| blue-rig-sow-1 | rig-sow-poses | blue-rig-sow |
+| blue-rig-sow-2 | rig-sow-poses | blue-rig-sow |
+| blue-rig-harvest-1 | rig-harvest-poses | blue-rig-harvest |
+| blue-rig-harvest-2 | rig-harvest-poses | blue-rig-harvest |
+| youth-boy-rig-idle-s | rig-youth-male-locomotion | youth-boy-rig-idle-s |
+| youth-boy-rig-idle-e | rig-youth-male-locomotion | youth-boy-rig-idle-e |
+| youth-boy-rig-idle-n | rig-youth-male-locomotion | youth-boy-rig-idle-n |
+| youth-boy-rig-idle-w | rig-youth-male-locomotion | youth-boy-rig-idle-w |
+| youth-boy-rig-walk-e-1 | rig-youth-male-locomotion | youth-boy-rig-walk-e |
+| youth-boy-rig-walk-e-2 | rig-youth-male-locomotion | youth-boy-rig-walk-e |
+| youth-boy-rig-walk-e-3 | rig-youth-male-locomotion | youth-boy-rig-walk-e |
+| youth-boy-rig-walk-e-4 | rig-youth-male-locomotion | youth-boy-rig-walk-e |
+| youth-boy-rig-walk-s-1 | rig-youth-male-locomotion | youth-boy-rig-walk-s |
+| youth-boy-rig-walk-s-2 | rig-youth-male-locomotion | youth-boy-rig-walk-s |
+| youth-boy-rig-walk-n-1 | rig-youth-male-locomotion | youth-boy-rig-walk-n |
+| youth-boy-rig-walk-n-2 | rig-youth-male-locomotion | youth-boy-rig-walk-n |
+| youth-boy-rig-dig-1 | rig-youth-male-work | youth-boy-rig-dig |
+| youth-boy-rig-dig-2 | rig-youth-male-work | youth-boy-rig-dig |
+| youth-boy-rig-hoe-1 | rig-youth-male-work | youth-boy-rig-hoe |
+| youth-boy-rig-hoe-2 | rig-youth-male-work | youth-boy-rig-hoe |
+| youth-boy-rig-chop-1 | rig-youth-male-work | youth-boy-rig-chop |
+| youth-boy-rig-chop-2 | rig-youth-male-work | youth-boy-rig-chop |
+| youth-boy-rig-hammer-1 | rig-youth-male-work | youth-boy-rig-hammer |
+| youth-boy-rig-hammer-2 | rig-youth-male-work | youth-boy-rig-hammer |
+| youth-boy-rig-carry-1 | rig-youth-male-work | youth-boy-rig-carry |
+| youth-boy-rig-carry-2 | rig-youth-male-work | youth-boy-rig-carry |
+| youth-boy-rig-trade-1 | rig-youth-male-work | youth-boy-rig-trade |
+| youth-boy-rig-trade-2 | rig-youth-male-work | youth-boy-rig-trade |
+| youth-boy-rig-care-1 | rig-youth-male-work | youth-boy-rig-care |
+| youth-boy-rig-care-2 | rig-youth-male-work | youth-boy-rig-care |
+| youth-boy-rig-search-1 | rig-youth-male-work | youth-boy-rig-search |
+| youth-boy-rig-search-2 | rig-youth-male-work | youth-boy-rig-search |
+| youth-boy-rig-aim | rig-youth-male-service | youth-boy-rig-fire-reload |
+| youth-boy-rig-fire | rig-youth-male-service | youth-boy-rig-fire-reload |
+| youth-boy-rig-load | rig-youth-male-service | youth-boy-rig-fire-reload |
+| youth-boy-rig-ramrod | rig-youth-male-service | youth-boy-rig-fire-reload |
+| youth-boy-rig-horse-e-1 | rig-youth-male-service | State artwork; no motion required |
+| youth-boy-rig-horse-e-2 | rig-youth-male-service | State artwork; no motion required |
+| youth-boy-rig-passenger-e-1 | rig-youth-male-service | youth-boy-rig-passenger-e |
+| youth-boy-rig-passenger-e-2 | rig-youth-male-service | youth-boy-rig-passenger-e |
+| youth-boy-rig-passenger-s-1 | rig-youth-male-service | youth-boy-rig-passenger-s |
+| youth-boy-rig-passenger-s-2 | rig-youth-male-service | youth-boy-rig-passenger-s |
+| youth-boy-rig-passenger-n-1 | rig-youth-male-service | youth-boy-rig-passenger-n |
+| youth-boy-rig-passenger-n-2 | rig-youth-male-service | youth-boy-rig-passenger-n |
+| youth-boy-rig-wounded-1 | rig-youth-male-service | youth-boy-rig-wounded |
+| youth-boy-rig-wounded-2 | rig-youth-male-service | youth-boy-rig-wounded |
+| youth-boy-rig-fall | rig-youth-male-service | State artwork; no motion required |
+| youth-boy-rig-still | rig-youth-male-service | State artwork; no motion required |
+| youth-boy-rig-saddle-e-1 | rig-youth-male-saddle | youth-boy-rig-saddle-e |
+| youth-boy-rig-saddle-e-2 | rig-youth-male-saddle | youth-boy-rig-saddle-e |
+| youth-boy-rig-saddle-wounded-e-1 | rig-youth-male-saddle | youth-boy-rig-saddle-wounded-e |
+| youth-boy-rig-saddle-wounded-e-2 | rig-youth-male-saddle | youth-boy-rig-saddle-wounded-e |
+| youth-boy-rig-saddle-s-1 | rig-youth-male-saddle | youth-boy-rig-saddle-s |
+| youth-boy-rig-saddle-s-2 | rig-youth-male-saddle | youth-boy-rig-saddle-s |
+| youth-boy-rig-saddle-wounded-s-1 | rig-youth-male-saddle | youth-boy-rig-saddle-wounded-s |
+| youth-boy-rig-saddle-wounded-s-2 | rig-youth-male-saddle | youth-boy-rig-saddle-wounded-s |
+| youth-boy-rig-saddle-n-1 | rig-youth-male-saddle | youth-boy-rig-saddle-n |
+| youth-boy-rig-saddle-n-2 | rig-youth-male-saddle | youth-boy-rig-saddle-n |
+| youth-boy-rig-saddle-wounded-n-1 | rig-youth-male-saddle | youth-boy-rig-saddle-wounded-n |
+| youth-boy-rig-saddle-wounded-n-2 | rig-youth-male-saddle | youth-boy-rig-saddle-wounded-n |
+| youth-boy-rig-covered-1 | rig-covered-patients | youth-boy-rig-covered |
+| youth-boy-rig-covered-2 | rig-covered-patients | youth-boy-rig-covered |
+| youth-boy-rig-camp-rest-1 | rig-camp-grown | youth-boy-rig-camp-rest |
+| youth-boy-rig-camp-rest-2 | rig-camp-grown | youth-boy-rig-camp-rest |
+| youth-boy-rig-camp-sleep-1 | rig-camp-grown | youth-boy-rig-camp-sleep |
+| youth-boy-rig-camp-sleep-2 | rig-camp-grown | youth-boy-rig-camp-sleep |
+| youth-boy-rig-mounted-e-aim | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-e |
+| youth-boy-rig-mounted-e-fire | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-e |
+| youth-boy-rig-mounted-e-load | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-e |
+| youth-boy-rig-mounted-e-ramrod | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-e |
+| youth-boy-rig-mounted-s-aim | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-s |
+| youth-boy-rig-mounted-s-fire | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-s |
+| youth-boy-rig-mounted-s-load | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-s |
+| youth-boy-rig-mounted-s-ramrod | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-s |
+| youth-boy-rig-mounted-n-aim | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-n |
+| youth-boy-rig-mounted-n-fire | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-n |
+| youth-boy-rig-mounted-n-load | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-n |
+| youth-boy-rig-mounted-n-ramrod | rig-youth-male-mounted-service | youth-boy-rig-mounted-fire-n |
+| youth-boy-rig-surrender-1 | rig-capture-poses | youth-boy-rig-surrender |
+| youth-boy-rig-surrender-2 | rig-capture-poses | youth-boy-rig-surrender |
+| youth-boy-rig-sow-1 | rig-sow-poses | youth-boy-rig-sow |
+| youth-boy-rig-sow-2 | rig-sow-poses | youth-boy-rig-sow |
+| youth-boy-rig-harvest-1 | rig-harvest-poses | youth-boy-rig-harvest |
+| youth-boy-rig-harvest-2 | rig-harvest-poses | youth-boy-rig-harvest |
+| blue-girl-rig-idle-s | rig-youth-female-locomotion | blue-girl-rig-idle-s |
+| blue-girl-rig-idle-e | rig-youth-female-locomotion | blue-girl-rig-idle-e |
+| blue-girl-rig-idle-n | rig-youth-female-locomotion | blue-girl-rig-idle-n |
+| blue-girl-rig-idle-w | rig-youth-female-locomotion | blue-girl-rig-idle-w |
+| blue-girl-rig-walk-e-1 | rig-youth-female-locomotion | blue-girl-rig-walk-e |
+| blue-girl-rig-walk-e-2 | rig-youth-female-locomotion | blue-girl-rig-walk-e |
+| blue-girl-rig-walk-e-3 | rig-youth-female-locomotion | blue-girl-rig-walk-e |
+| blue-girl-rig-walk-e-4 | rig-youth-female-locomotion | blue-girl-rig-walk-e |
+| blue-girl-rig-walk-s-1 | rig-youth-female-locomotion | blue-girl-rig-walk-s |
+| blue-girl-rig-walk-s-2 | rig-youth-female-locomotion | blue-girl-rig-walk-s |
+| blue-girl-rig-walk-n-1 | rig-youth-female-locomotion | blue-girl-rig-walk-n |
+| blue-girl-rig-walk-n-2 | rig-youth-female-locomotion | blue-girl-rig-walk-n |
+| blue-girl-rig-dig-1 | rig-youth-female-work | blue-girl-rig-dig |
+| blue-girl-rig-dig-2 | rig-youth-female-work | blue-girl-rig-dig |
+| blue-girl-rig-hoe-1 | rig-youth-female-work | blue-girl-rig-hoe |
+| blue-girl-rig-hoe-2 | rig-youth-female-work | blue-girl-rig-hoe |
+| blue-girl-rig-chop-1 | rig-youth-female-work | blue-girl-rig-chop |
+| blue-girl-rig-chop-2 | rig-youth-female-work | blue-girl-rig-chop |
+| blue-girl-rig-hammer-1 | rig-youth-female-work | blue-girl-rig-hammer |
+| blue-girl-rig-hammer-2 | rig-youth-female-work | blue-girl-rig-hammer |
+| blue-girl-rig-carry-1 | rig-youth-female-work | blue-girl-rig-carry |
+| blue-girl-rig-carry-2 | rig-youth-female-work | blue-girl-rig-carry |
+| blue-girl-rig-trade-1 | rig-youth-female-work | blue-girl-rig-trade |
+| blue-girl-rig-trade-2 | rig-youth-female-work | blue-girl-rig-trade |
+| blue-girl-rig-care-1 | rig-youth-female-work | blue-girl-rig-care |
+| blue-girl-rig-care-2 | rig-youth-female-work | blue-girl-rig-care |
+| blue-girl-rig-search-1 | rig-youth-female-work | blue-girl-rig-search |
+| blue-girl-rig-search-2 | rig-youth-female-work | blue-girl-rig-search |
+| blue-girl-rig-aim | rig-youth-female-service | blue-girl-rig-fire-reload |
+| blue-girl-rig-fire | rig-youth-female-service | blue-girl-rig-fire-reload |
+| blue-girl-rig-load | rig-youth-female-service | blue-girl-rig-fire-reload |
+| blue-girl-rig-ramrod | rig-youth-female-service | blue-girl-rig-fire-reload |
+| blue-girl-rig-horse-e-1 | rig-youth-female-service | State artwork; no motion required |
+| blue-girl-rig-horse-e-2 | rig-youth-female-service | State artwork; no motion required |
+| blue-girl-rig-passenger-e-1 | rig-youth-female-service | blue-girl-rig-passenger-e |
+| blue-girl-rig-passenger-e-2 | rig-youth-female-service | blue-girl-rig-passenger-e |
+| blue-girl-rig-passenger-s-1 | rig-youth-female-service | blue-girl-rig-passenger-s |
+| blue-girl-rig-passenger-s-2 | rig-youth-female-service | blue-girl-rig-passenger-s |
+| blue-girl-rig-passenger-n-1 | rig-youth-female-service | blue-girl-rig-passenger-n |
+| blue-girl-rig-passenger-n-2 | rig-youth-female-service | blue-girl-rig-passenger-n |
+| blue-girl-rig-wounded-1 | rig-youth-female-service | blue-girl-rig-wounded |
+| blue-girl-rig-wounded-2 | rig-youth-female-service | blue-girl-rig-wounded |
+| blue-girl-rig-fall | rig-youth-female-service | State artwork; no motion required |
+| blue-girl-rig-still | rig-youth-female-service | State artwork; no motion required |
+| blue-girl-rig-saddle-e-1 | rig-youth-female-saddle | blue-girl-rig-saddle-e |
+| blue-girl-rig-saddle-e-2 | rig-youth-female-saddle | blue-girl-rig-saddle-e |
+| blue-girl-rig-saddle-wounded-e-1 | rig-youth-female-saddle | blue-girl-rig-saddle-wounded-e |
+| blue-girl-rig-saddle-wounded-e-2 | rig-youth-female-saddle | blue-girl-rig-saddle-wounded-e |
+| blue-girl-rig-saddle-s-1 | rig-youth-female-saddle | blue-girl-rig-saddle-s |
+| blue-girl-rig-saddle-s-2 | rig-youth-female-saddle | blue-girl-rig-saddle-s |
+| blue-girl-rig-saddle-wounded-s-1 | rig-youth-female-saddle | blue-girl-rig-saddle-wounded-s |
+| blue-girl-rig-saddle-wounded-s-2 | rig-youth-female-saddle | blue-girl-rig-saddle-wounded-s |
+| blue-girl-rig-saddle-n-1 | rig-youth-female-saddle | blue-girl-rig-saddle-n |
+| blue-girl-rig-saddle-n-2 | rig-youth-female-saddle | blue-girl-rig-saddle-n |
+| blue-girl-rig-saddle-wounded-n-1 | rig-youth-female-saddle | blue-girl-rig-saddle-wounded-n |
+| blue-girl-rig-saddle-wounded-n-2 | rig-youth-female-saddle | blue-girl-rig-saddle-wounded-n |
+| blue-girl-rig-covered-1 | rig-covered-patients | blue-girl-rig-covered |
+| blue-girl-rig-covered-2 | rig-covered-patients | blue-girl-rig-covered |
+| blue-girl-rig-camp-rest-1 | rig-camp-grown | blue-girl-rig-camp-rest |
+| blue-girl-rig-camp-rest-2 | rig-camp-grown | blue-girl-rig-camp-rest |
+| blue-girl-rig-camp-sleep-1 | rig-camp-grown | blue-girl-rig-camp-sleep |
+| blue-girl-rig-camp-sleep-2 | rig-camp-grown | blue-girl-rig-camp-sleep |
+| blue-girl-rig-mounted-e-aim | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-e |
+| blue-girl-rig-mounted-e-fire | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-e |
+| blue-girl-rig-mounted-e-load | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-e |
+| blue-girl-rig-mounted-e-ramrod | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-e |
+| blue-girl-rig-mounted-s-aim | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-s |
+| blue-girl-rig-mounted-s-fire | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-s |
+| blue-girl-rig-mounted-s-load | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-s |
+| blue-girl-rig-mounted-s-ramrod | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-s |
+| blue-girl-rig-mounted-n-aim | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-n |
+| blue-girl-rig-mounted-n-fire | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-n |
+| blue-girl-rig-mounted-n-load | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-n |
+| blue-girl-rig-mounted-n-ramrod | rig-youth-female-mounted-service | blue-girl-rig-mounted-fire-n |
+| blue-girl-rig-surrender-1 | rig-capture-poses | blue-girl-rig-surrender |
+| blue-girl-rig-surrender-2 | rig-capture-poses | blue-girl-rig-surrender |
+| blue-girl-rig-sow-1 | rig-sow-poses | blue-girl-rig-sow |
+| blue-girl-rig-sow-2 | rig-sow-poses | blue-girl-rig-sow |
+| blue-girl-rig-harvest-1 | rig-harvest-poses | blue-girl-rig-harvest |
+| blue-girl-rig-harvest-2 | rig-harvest-poses | blue-girl-rig-harvest |
+| youth-girl-rig-idle-s | rig-youth-female-locomotion | youth-girl-rig-idle-s |
+| youth-girl-rig-idle-e | rig-youth-female-locomotion | youth-girl-rig-idle-e |
+| youth-girl-rig-idle-n | rig-youth-female-locomotion | youth-girl-rig-idle-n |
+| youth-girl-rig-idle-w | rig-youth-female-locomotion | youth-girl-rig-idle-w |
+| youth-girl-rig-walk-e-1 | rig-youth-female-locomotion | youth-girl-rig-walk-e |
+| youth-girl-rig-walk-e-2 | rig-youth-female-locomotion | youth-girl-rig-walk-e |
+| youth-girl-rig-walk-e-3 | rig-youth-female-locomotion | youth-girl-rig-walk-e |
+| youth-girl-rig-walk-e-4 | rig-youth-female-locomotion | youth-girl-rig-walk-e |
+| youth-girl-rig-walk-s-1 | rig-youth-female-locomotion | youth-girl-rig-walk-s |
+| youth-girl-rig-walk-s-2 | rig-youth-female-locomotion | youth-girl-rig-walk-s |
+| youth-girl-rig-walk-n-1 | rig-youth-female-locomotion | youth-girl-rig-walk-n |
+| youth-girl-rig-walk-n-2 | rig-youth-female-locomotion | youth-girl-rig-walk-n |
+| youth-girl-rig-dig-1 | rig-youth-female-work | youth-girl-rig-dig |
+| youth-girl-rig-dig-2 | rig-youth-female-work | youth-girl-rig-dig |
+| youth-girl-rig-hoe-1 | rig-youth-female-work | youth-girl-rig-hoe |
+| youth-girl-rig-hoe-2 | rig-youth-female-work | youth-girl-rig-hoe |
+| youth-girl-rig-chop-1 | rig-youth-female-work | youth-girl-rig-chop |
+| youth-girl-rig-chop-2 | rig-youth-female-work | youth-girl-rig-chop |
+| youth-girl-rig-hammer-1 | rig-youth-female-work | youth-girl-rig-hammer |
+| youth-girl-rig-hammer-2 | rig-youth-female-work | youth-girl-rig-hammer |
+| youth-girl-rig-carry-1 | rig-youth-female-work | youth-girl-rig-carry |
+| youth-girl-rig-carry-2 | rig-youth-female-work | youth-girl-rig-carry |
+| youth-girl-rig-trade-1 | rig-youth-female-work | youth-girl-rig-trade |
+| youth-girl-rig-trade-2 | rig-youth-female-work | youth-girl-rig-trade |
+| youth-girl-rig-care-1 | rig-youth-female-work | youth-girl-rig-care |
+| youth-girl-rig-care-2 | rig-youth-female-work | youth-girl-rig-care |
+| youth-girl-rig-search-1 | rig-youth-female-work | youth-girl-rig-search |
+| youth-girl-rig-search-2 | rig-youth-female-work | youth-girl-rig-search |
+| youth-girl-rig-aim | rig-youth-female-service | youth-girl-rig-fire-reload |
+| youth-girl-rig-fire | rig-youth-female-service | youth-girl-rig-fire-reload |
+| youth-girl-rig-load | rig-youth-female-service | youth-girl-rig-fire-reload |
+| youth-girl-rig-ramrod | rig-youth-female-service | youth-girl-rig-fire-reload |
+| youth-girl-rig-horse-e-1 | rig-youth-female-service | State artwork; no motion required |
+| youth-girl-rig-horse-e-2 | rig-youth-female-service | State artwork; no motion required |
+| youth-girl-rig-passenger-e-1 | rig-youth-female-service | youth-girl-rig-passenger-e |
+| youth-girl-rig-passenger-e-2 | rig-youth-female-service | youth-girl-rig-passenger-e |
+| youth-girl-rig-passenger-s-1 | rig-youth-female-service | youth-girl-rig-passenger-s |
+| youth-girl-rig-passenger-s-2 | rig-youth-female-service | youth-girl-rig-passenger-s |
+| youth-girl-rig-passenger-n-1 | rig-youth-female-service | youth-girl-rig-passenger-n |
+| youth-girl-rig-passenger-n-2 | rig-youth-female-service | youth-girl-rig-passenger-n |
+| youth-girl-rig-wounded-1 | rig-youth-female-service | youth-girl-rig-wounded |
+| youth-girl-rig-wounded-2 | rig-youth-female-service | youth-girl-rig-wounded |
+| youth-girl-rig-fall | rig-youth-female-service | State artwork; no motion required |
+| youth-girl-rig-still | rig-youth-female-service | State artwork; no motion required |
+| youth-girl-rig-saddle-e-1 | rig-youth-female-saddle | youth-girl-rig-saddle-e |
+| youth-girl-rig-saddle-e-2 | rig-youth-female-saddle | youth-girl-rig-saddle-e |
+| youth-girl-rig-saddle-wounded-e-1 | rig-youth-female-saddle | youth-girl-rig-saddle-wounded-e |
+| youth-girl-rig-saddle-wounded-e-2 | rig-youth-female-saddle | youth-girl-rig-saddle-wounded-e |
+| youth-girl-rig-saddle-s-1 | rig-youth-female-saddle | youth-girl-rig-saddle-s |
+| youth-girl-rig-saddle-s-2 | rig-youth-female-saddle | youth-girl-rig-saddle-s |
+| youth-girl-rig-saddle-wounded-s-1 | rig-youth-female-saddle | youth-girl-rig-saddle-wounded-s |
+| youth-girl-rig-saddle-wounded-s-2 | rig-youth-female-saddle | youth-girl-rig-saddle-wounded-s |
+| youth-girl-rig-saddle-n-1 | rig-youth-female-saddle | youth-girl-rig-saddle-n |
+| youth-girl-rig-saddle-n-2 | rig-youth-female-saddle | youth-girl-rig-saddle-n |
+| youth-girl-rig-saddle-wounded-n-1 | rig-youth-female-saddle | youth-girl-rig-saddle-wounded-n |
+| youth-girl-rig-saddle-wounded-n-2 | rig-youth-female-saddle | youth-girl-rig-saddle-wounded-n |
+| youth-girl-rig-covered-1 | rig-covered-patients | youth-girl-rig-covered |
+| youth-girl-rig-covered-2 | rig-covered-patients | youth-girl-rig-covered |
+| youth-girl-rig-camp-rest-1 | rig-camp-grown | youth-girl-rig-camp-rest |
+| youth-girl-rig-camp-rest-2 | rig-camp-grown | youth-girl-rig-camp-rest |
+| youth-girl-rig-camp-sleep-1 | rig-camp-grown | youth-girl-rig-camp-sleep |
+| youth-girl-rig-camp-sleep-2 | rig-camp-grown | youth-girl-rig-camp-sleep |
+| youth-girl-rig-mounted-e-aim | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-e |
+| youth-girl-rig-mounted-e-fire | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-e |
+| youth-girl-rig-mounted-e-load | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-e |
+| youth-girl-rig-mounted-e-ramrod | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-e |
+| youth-girl-rig-mounted-s-aim | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-s |
+| youth-girl-rig-mounted-s-fire | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-s |
+| youth-girl-rig-mounted-s-load | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-s |
+| youth-girl-rig-mounted-s-ramrod | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-s |
+| youth-girl-rig-mounted-n-aim | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-n |
+| youth-girl-rig-mounted-n-fire | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-n |
+| youth-girl-rig-mounted-n-load | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-n |
+| youth-girl-rig-mounted-n-ramrod | rig-youth-female-mounted-service | youth-girl-rig-mounted-fire-n |
+| youth-girl-rig-surrender-1 | rig-capture-poses | youth-girl-rig-surrender |
+| youth-girl-rig-surrender-2 | rig-capture-poses | youth-girl-rig-surrender |
+| youth-girl-rig-sow-1 | rig-sow-poses | youth-girl-rig-sow |
+| youth-girl-rig-sow-2 | rig-sow-poses | youth-girl-rig-sow |
+| youth-girl-rig-harvest-1 | rig-harvest-poses | youth-girl-rig-harvest |
+| youth-girl-rig-harvest-2 | rig-harvest-poses | youth-girl-rig-harvest |
+| boy-rig-idle-s | rig-child-male-locomotion | boy-rig-idle-s |
+| boy-rig-idle-e | rig-child-male-locomotion | boy-rig-idle-e |
+| boy-rig-idle-n | rig-child-male-locomotion | boy-rig-idle-n |
+| boy-rig-idle-w | rig-child-male-locomotion | boy-rig-idle-w |
+| boy-rig-walk-e-1 | rig-child-male-locomotion | boy-rig-walk-e |
+| boy-rig-walk-e-2 | rig-child-male-locomotion | boy-rig-walk-e |
+| boy-rig-walk-e-3 | rig-child-male-locomotion | boy-rig-walk-e |
+| boy-rig-walk-e-4 | rig-child-male-locomotion | boy-rig-walk-e |
+| boy-rig-walk-s-1 | rig-child-male-locomotion | boy-rig-walk-s |
+| boy-rig-walk-s-2 | rig-child-male-locomotion | boy-rig-walk-s |
+| boy-rig-walk-n-1 | rig-child-male-locomotion | boy-rig-walk-n |
+| boy-rig-walk-n-2 | rig-child-male-locomotion | boy-rig-walk-n |
+| boy-rig-dig-1 | rig-child-male-work | boy-rig-dig |
+| boy-rig-dig-2 | rig-child-male-work | boy-rig-dig |
+| boy-rig-hoe-1 | rig-child-male-work | boy-rig-hoe |
+| boy-rig-hoe-2 | rig-child-male-work | boy-rig-hoe |
+| boy-rig-chop-1 | rig-child-male-work | boy-rig-chop |
+| boy-rig-chop-2 | rig-child-male-work | boy-rig-chop |
+| boy-rig-hammer-1 | rig-child-male-work | boy-rig-hammer |
+| boy-rig-hammer-2 | rig-child-male-work | boy-rig-hammer |
+| boy-rig-carry-1 | rig-child-male-work | boy-rig-carry |
+| boy-rig-carry-2 | rig-child-male-work | boy-rig-carry |
+| boy-rig-trade-1 | rig-child-male-work | boy-rig-trade |
+| boy-rig-trade-2 | rig-child-male-work | boy-rig-trade |
+| boy-rig-care-1 | rig-child-male-work | boy-rig-care |
+| boy-rig-care-2 | rig-child-male-work | boy-rig-care |
+| boy-rig-search-1 | rig-child-male-work | boy-rig-search |
+| boy-rig-search-2 | rig-child-male-work | boy-rig-search |
+| boy-rig-comfort-1 | rig-child-male-service | boy-rig-comfort |
+| boy-rig-comfort-2 | rig-child-male-service | boy-rig-comfort |
+| boy-rig-rest-1 | rig-child-male-service | State artwork; no motion required |
+| boy-rig-rest-2 | rig-child-male-service | State artwork; no motion required |
+| boy-rig-horse-e-1 | rig-child-male-service | State artwork; no motion required |
+| boy-rig-horse-e-2 | rig-child-male-service | State artwork; no motion required |
+| boy-rig-passenger-e-1 | rig-child-male-service | boy-rig-passenger-e |
+| boy-rig-passenger-e-2 | rig-child-male-service | boy-rig-passenger-e |
+| boy-rig-passenger-s-1 | rig-child-male-service | boy-rig-passenger-s |
+| boy-rig-passenger-s-2 | rig-child-male-service | boy-rig-passenger-s |
+| boy-rig-passenger-n-1 | rig-child-male-service | boy-rig-passenger-n |
+| boy-rig-passenger-n-2 | rig-child-male-service | boy-rig-passenger-n |
+| boy-rig-wounded-1 | rig-child-male-service | boy-rig-wounded |
+| boy-rig-wounded-2 | rig-child-male-service | boy-rig-wounded |
+| boy-rig-fall | rig-child-male-service | State artwork; no motion required |
+| boy-rig-still | rig-child-male-service | State artwork; no motion required |
+| boy-rig-saddle-e-1 | rig-child-male-saddle | boy-rig-saddle-e |
+| boy-rig-saddle-e-2 | rig-child-male-saddle | boy-rig-saddle-e |
+| boy-rig-saddle-wounded-e-1 | rig-child-male-saddle | boy-rig-saddle-wounded-e |
+| boy-rig-saddle-wounded-e-2 | rig-child-male-saddle | boy-rig-saddle-wounded-e |
+| boy-rig-saddle-s-1 | rig-child-male-saddle | boy-rig-saddle-s |
+| boy-rig-saddle-s-2 | rig-child-male-saddle | boy-rig-saddle-s |
+| boy-rig-saddle-wounded-s-1 | rig-child-male-saddle | boy-rig-saddle-wounded-s |
+| boy-rig-saddle-wounded-s-2 | rig-child-male-saddle | boy-rig-saddle-wounded-s |
+| boy-rig-saddle-n-1 | rig-child-male-saddle | boy-rig-saddle-n |
+| boy-rig-saddle-n-2 | rig-child-male-saddle | boy-rig-saddle-n |
+| boy-rig-saddle-wounded-n-1 | rig-child-male-saddle | boy-rig-saddle-wounded-n |
+| boy-rig-saddle-wounded-n-2 | rig-child-male-saddle | boy-rig-saddle-wounded-n |
+| boy-rig-covered-1 | rig-covered-patients | boy-rig-covered |
+| boy-rig-covered-2 | rig-covered-patients | boy-rig-covered |
+| boy-rig-camp-rest-1 | rig-camp-children | boy-rig-camp-rest |
+| boy-rig-camp-rest-2 | rig-camp-children | boy-rig-camp-rest |
+| boy-rig-camp-sleep-1 | rig-camp-children | boy-rig-camp-sleep |
+| boy-rig-camp-sleep-2 | rig-camp-children | boy-rig-camp-sleep |
+| boy-rig-surrender-1 | rig-capture-poses | boy-rig-surrender |
+| boy-rig-surrender-2 | rig-capture-poses | boy-rig-surrender |
+| boy-rig-sow-1 | rig-sow-poses | boy-rig-sow |
+| boy-rig-sow-2 | rig-sow-poses | boy-rig-sow |
+| boy-rig-harvest-1 | rig-harvest-poses | boy-rig-harvest |
+| boy-rig-harvest-2 | rig-harvest-poses | boy-rig-harvest |
+| girl-rig-idle-s | rig-child-female-locomotion | girl-rig-idle-s |
+| girl-rig-idle-e | rig-child-female-locomotion | girl-rig-idle-e |
+| girl-rig-idle-n | rig-child-female-locomotion | girl-rig-idle-n |
+| girl-rig-idle-w | rig-child-female-locomotion | girl-rig-idle-w |
+| girl-rig-walk-e-1 | rig-child-female-locomotion | girl-rig-walk-e |
+| girl-rig-walk-e-2 | rig-child-female-locomotion | girl-rig-walk-e |
+| girl-rig-walk-e-3 | rig-child-female-locomotion | girl-rig-walk-e |
+| girl-rig-walk-e-4 | rig-child-female-locomotion | girl-rig-walk-e |
+| girl-rig-walk-s-1 | rig-child-female-locomotion | girl-rig-walk-s |
+| girl-rig-walk-s-2 | rig-child-female-locomotion | girl-rig-walk-s |
+| girl-rig-walk-n-1 | rig-child-female-locomotion | girl-rig-walk-n |
+| girl-rig-walk-n-2 | rig-child-female-locomotion | girl-rig-walk-n |
+| girl-rig-dig-1 | rig-child-female-work | girl-rig-dig |
+| girl-rig-dig-2 | rig-child-female-work | girl-rig-dig |
+| girl-rig-hoe-1 | rig-child-female-work | girl-rig-hoe |
+| girl-rig-hoe-2 | rig-child-female-work | girl-rig-hoe |
+| girl-rig-chop-1 | rig-child-female-work | girl-rig-chop |
+| girl-rig-chop-2 | rig-child-female-work | girl-rig-chop |
+| girl-rig-hammer-1 | rig-child-female-work | girl-rig-hammer |
+| girl-rig-hammer-2 | rig-child-female-work | girl-rig-hammer |
+| girl-rig-carry-1 | rig-child-female-work | girl-rig-carry |
+| girl-rig-carry-2 | rig-child-female-work | girl-rig-carry |
+| girl-rig-trade-1 | rig-child-female-work | girl-rig-trade |
+| girl-rig-trade-2 | rig-child-female-work | girl-rig-trade |
+| girl-rig-care-1 | rig-child-female-work | girl-rig-care |
+| girl-rig-care-2 | rig-child-female-work | girl-rig-care |
+| girl-rig-search-1 | rig-child-female-work | girl-rig-search |
+| girl-rig-search-2 | rig-child-female-work | girl-rig-search |
+| girl-rig-comfort-1 | rig-child-female-service | girl-rig-comfort |
+| girl-rig-comfort-2 | rig-child-female-service | girl-rig-comfort |
+| girl-rig-rest-1 | rig-child-female-service | State artwork; no motion required |
+| girl-rig-rest-2 | rig-child-female-service | State artwork; no motion required |
+| girl-rig-horse-e-1 | rig-child-female-service | State artwork; no motion required |
+| girl-rig-horse-e-2 | rig-child-female-service | State artwork; no motion required |
+| girl-rig-passenger-e-1 | rig-child-female-service | girl-rig-passenger-e |
+| girl-rig-passenger-e-2 | rig-child-female-service | girl-rig-passenger-e |
+| girl-rig-passenger-s-1 | rig-child-female-service | girl-rig-passenger-s |
+| girl-rig-passenger-s-2 | rig-child-female-service | girl-rig-passenger-s |
+| girl-rig-passenger-n-1 | rig-child-female-service | girl-rig-passenger-n |
+| girl-rig-passenger-n-2 | rig-child-female-service | girl-rig-passenger-n |
+| girl-rig-wounded-1 | rig-child-female-service | girl-rig-wounded |
+| girl-rig-wounded-2 | rig-child-female-service | girl-rig-wounded |
+| girl-rig-fall | rig-child-female-service | State artwork; no motion required |
+| girl-rig-still | rig-child-female-service | State artwork; no motion required |
+| girl-rig-saddle-e-1 | rig-child-female-saddle | girl-rig-saddle-e |
+| girl-rig-saddle-e-2 | rig-child-female-saddle | girl-rig-saddle-e |
+| girl-rig-saddle-wounded-e-1 | rig-child-female-saddle | girl-rig-saddle-wounded-e |
+| girl-rig-saddle-wounded-e-2 | rig-child-female-saddle | girl-rig-saddle-wounded-e |
+| girl-rig-saddle-s-1 | rig-child-female-saddle | girl-rig-saddle-s |
+| girl-rig-saddle-s-2 | rig-child-female-saddle | girl-rig-saddle-s |
+| girl-rig-saddle-wounded-s-1 | rig-child-female-saddle | girl-rig-saddle-wounded-s |
+| girl-rig-saddle-wounded-s-2 | rig-child-female-saddle | girl-rig-saddle-wounded-s |
+| girl-rig-saddle-n-1 | rig-child-female-saddle | girl-rig-saddle-n |
+| girl-rig-saddle-n-2 | rig-child-female-saddle | girl-rig-saddle-n |
+| girl-rig-saddle-wounded-n-1 | rig-child-female-saddle | girl-rig-saddle-wounded-n |
+| girl-rig-saddle-wounded-n-2 | rig-child-female-saddle | girl-rig-saddle-wounded-n |
+| girl-rig-covered-1 | rig-covered-patients | girl-rig-covered |
+| girl-rig-covered-2 | rig-covered-patients | girl-rig-covered |
+| girl-rig-camp-rest-1 | rig-camp-children | girl-rig-camp-rest |
+| girl-rig-camp-rest-2 | rig-camp-children | girl-rig-camp-rest |
+| girl-rig-camp-sleep-1 | rig-camp-children | girl-rig-camp-sleep |
+| girl-rig-camp-sleep-2 | rig-camp-children | girl-rig-camp-sleep |
+| girl-rig-surrender-1 | rig-capture-poses | girl-rig-surrender |
+| girl-rig-surrender-2 | rig-capture-poses | girl-rig-surrender |
+| girl-rig-sow-1 | rig-sow-poses | girl-rig-sow |
+| girl-rig-sow-2 | rig-sow-poses | girl-rig-sow |
+| girl-rig-harvest-1 | rig-harvest-poses | girl-rig-harvest |
+| girl-rig-harvest-2 | rig-harvest-poses | girl-rig-harvest |
+| smallchild-rig-idle-s | rig-smallchild-locomotion | smallchild-rig-idle-s |
+| smallchild-rig-idle-e | rig-smallchild-locomotion | smallchild-rig-idle-e |
+| smallchild-rig-idle-n | rig-smallchild-locomotion | smallchild-rig-idle-n |
+| smallchild-rig-idle-w | rig-smallchild-locomotion | smallchild-rig-idle-w |
+| smallchild-rig-walk-e-1 | rig-smallchild-locomotion | smallchild-rig-walk-e |
+| smallchild-rig-walk-e-2 | rig-smallchild-locomotion | smallchild-rig-walk-e |
+| smallchild-rig-walk-e-3 | rig-smallchild-locomotion | smallchild-rig-walk-e |
+| smallchild-rig-walk-e-4 | rig-smallchild-locomotion | smallchild-rig-walk-e |
+| smallchild-rig-walk-s-1 | rig-smallchild-locomotion | smallchild-rig-walk-s |
+| smallchild-rig-walk-s-2 | rig-smallchild-locomotion | smallchild-rig-walk-s |
+| smallchild-rig-walk-n-1 | rig-smallchild-locomotion | smallchild-rig-walk-n |
+| smallchild-rig-walk-n-2 | rig-smallchild-locomotion | smallchild-rig-walk-n |
+| smallchild-rig-dig-1 | rig-smallchild-work | smallchild-rig-dig |
+| smallchild-rig-dig-2 | rig-smallchild-work | smallchild-rig-dig |
+| smallchild-rig-hoe-1 | rig-smallchild-work | smallchild-rig-hoe |
+| smallchild-rig-hoe-2 | rig-smallchild-work | smallchild-rig-hoe |
+| smallchild-rig-chop-1 | rig-smallchild-work | smallchild-rig-chop |
+| smallchild-rig-chop-2 | rig-smallchild-work | smallchild-rig-chop |
+| smallchild-rig-hammer-1 | rig-smallchild-work | smallchild-rig-hammer |
+| smallchild-rig-hammer-2 | rig-smallchild-work | smallchild-rig-hammer |
+| smallchild-rig-carry-1 | rig-smallchild-work | smallchild-rig-carry |
+| smallchild-rig-carry-2 | rig-smallchild-work | smallchild-rig-carry |
+| smallchild-rig-trade-1 | rig-smallchild-work | smallchild-rig-trade |
+| smallchild-rig-trade-2 | rig-smallchild-work | smallchild-rig-trade |
+| smallchild-rig-care-1 | rig-smallchild-work | smallchild-rig-care |
+| smallchild-rig-care-2 | rig-smallchild-work | smallchild-rig-care |
+| smallchild-rig-search-1 | rig-smallchild-work | smallchild-rig-search |
+| smallchild-rig-search-2 | rig-smallchild-work | smallchild-rig-search |
+| smallchild-rig-comfort-1 | rig-smallchild-service | smallchild-rig-comfort |
+| smallchild-rig-comfort-2 | rig-smallchild-service | smallchild-rig-comfort |
+| smallchild-rig-rest-1 | rig-smallchild-service | State artwork; no motion required |
+| smallchild-rig-rest-2 | rig-smallchild-service | State artwork; no motion required |
+| smallchild-rig-horse-e-1 | rig-smallchild-service | State artwork; no motion required |
+| smallchild-rig-horse-e-2 | rig-smallchild-service | State artwork; no motion required |
+| smallchild-rig-passenger-e-1 | rig-smallchild-service | smallchild-rig-passenger-e |
+| smallchild-rig-passenger-e-2 | rig-smallchild-service | smallchild-rig-passenger-e |
+| smallchild-rig-passenger-s-1 | rig-smallchild-service | smallchild-rig-passenger-s |
+| smallchild-rig-passenger-s-2 | rig-smallchild-service | smallchild-rig-passenger-s |
+| smallchild-rig-passenger-n-1 | rig-smallchild-service | smallchild-rig-passenger-n |
+| smallchild-rig-passenger-n-2 | rig-smallchild-service | smallchild-rig-passenger-n |
+| smallchild-rig-wounded-1 | rig-smallchild-service | smallchild-rig-wounded |
+| smallchild-rig-wounded-2 | rig-smallchild-service | smallchild-rig-wounded |
+| smallchild-rig-fall | rig-smallchild-service | State artwork; no motion required |
+| smallchild-rig-still | rig-smallchild-service | State artwork; no motion required |
+| smallchild-rig-covered-1 | rig-covered-patients | smallchild-rig-covered |
+| smallchild-rig-covered-2 | rig-covered-patients | smallchild-rig-covered |
+| smallchild-rig-camp-rest-1 | rig-camp-children | smallchild-rig-camp-rest |
+| smallchild-rig-camp-rest-2 | rig-camp-children | smallchild-rig-camp-rest |
+| smallchild-rig-camp-sleep-1 | rig-camp-children | smallchild-rig-camp-sleep |
+| smallchild-rig-camp-sleep-2 | rig-camp-children | smallchild-rig-camp-sleep |
+| smallchild-rig-surrender-1 | rig-capture-poses | smallchild-rig-surrender |
+| smallchild-rig-surrender-2 | rig-capture-poses | smallchild-rig-surrender |
+| smallchild-rig-sow-1 | rig-sow-poses | smallchild-rig-sow |
+| smallchild-rig-sow-2 | rig-sow-poses | smallchild-rig-sow |
+| smallchild-rig-harvest-1 | rig-harvest-poses | smallchild-rig-harvest |
+| smallchild-rig-harvest-2 | rig-harvest-poses | smallchild-rig-harvest |
+| infant-rig-idle-s | rig-infant-body | infant-rig-idle-s |
+| infant-rig-idle-e | rig-infant-body | infant-rig-idle-e |
+| infant-rig-idle-n | rig-infant-body | infant-rig-idle-n |
+| infant-rig-idle-w | rig-infant-body | infant-rig-idle-w |
+| infant-rig-rest-e-1 | rig-infant-body | State artwork; no motion required |
+| infant-rig-rest-e-2 | rig-infant-body | State artwork; no motion required |
+| infant-rig-rest-s-1 | rig-infant-body | State artwork; no motion required |
+| infant-rig-rest-s-2 | rig-infant-body | State artwork; no motion required |
+| infant-rig-care-1 | rig-infant-body | State artwork; no motion required |
+| infant-rig-care-2 | rig-infant-body | State artwork; no motion required |
+| infant-rig-wounded-1 | rig-infant-body | infant-rig-wounded |
+| infant-rig-wounded-2 | rig-infant-body | infant-rig-wounded |
+| infant-rig-covered-1 | rig-covered-patients | infant-rig-covered |
+| infant-rig-covered-2 | rig-covered-patients | infant-rig-covered |
+| infant-rig-camp-rest-1 | rig-camp-children | infant-rig-camp-rest |
+| infant-rig-camp-rest-2 | rig-camp-children | infant-rig-camp-rest |
+| infant-rig-camp-sleep-1 | rig-camp-children | infant-rig-camp-sleep |
+| infant-rig-camp-sleep-2 | rig-camp-children | infant-rig-camp-sleep |
+| infant-rig-surrender-1 | rig-capture-poses | State artwork; no motion required |
+| infant-rig-surrender-2 | rig-capture-poses | State artwork; no motion required |
+| infant-rig-sow-1 | rig-sow-poses | State artwork; no motion required |
+| infant-rig-sow-2 | rig-sow-poses | State artwork; no motion required |
+| infant-rig-harvest-1 | rig-harvest-poses | State artwork; no motion required |
+| infant-rig-harvest-2 | rig-harvest-poses | State artwork; no motion required |
+| rust-rig-carry-living-1 | family-transport-components | rust-rig-carry-living |
+| rust-rig-carry-living-2 | family-transport-components | rust-rig-carry-living |
+| rust-rig-carry-living-3 | family-transport-components | rust-rig-carry-living |
+| rust-rig-carry-living-4 | family-transport-components | rust-rig-carry-living |
+| rust-rig-carry-dead-1 | family-transport-components | rust-rig-carry-dead |
+| rust-rig-carry-dead-2 | family-transport-components | rust-rig-carry-dead |
+| rust-rig-carry-dead-3 | family-transport-components | rust-rig-carry-dead |
+| rust-rig-carry-dead-4 | family-transport-components | rust-rig-carry-dead |
+| rust-rig-led-wounded-1 | family-transport-components | rust-rig-led-wounded |
+| rust-rig-led-wounded-2 | family-transport-components | rust-rig-led-wounded |
+| rust-rig-led-wounded-3 | family-transport-components | rust-rig-led-wounded |
+| rust-rig-led-wounded-4 | family-transport-components | rust-rig-led-wounded |
+| elder-rig-carry-living-1 | family-transport-components | elder-rig-carry-living |
+| elder-rig-carry-living-2 | family-transport-components | elder-rig-carry-living |
+| elder-rig-carry-living-3 | family-transport-components | elder-rig-carry-living |
+| elder-rig-carry-living-4 | family-transport-components | elder-rig-carry-living |
+| elder-rig-carry-dead-1 | family-transport-components | elder-rig-carry-dead |
+| elder-rig-carry-dead-2 | family-transport-components | elder-rig-carry-dead |
+| elder-rig-carry-dead-3 | family-transport-components | elder-rig-carry-dead |
+| elder-rig-carry-dead-4 | family-transport-components | elder-rig-carry-dead |
+| elder-rig-led-wounded-1 | family-transport-components | elder-rig-led-wounded |
+| elder-rig-led-wounded-2 | family-transport-components | elder-rig-led-wounded |
+| elder-rig-led-wounded-3 | family-transport-components | elder-rig-led-wounded |
+| elder-rig-led-wounded-4 | family-transport-components | elder-rig-led-wounded |
+| ochre-rig-carry-living-1 | family-transport-components | ochre-rig-carry-living |
+| ochre-rig-carry-living-2 | family-transport-components | ochre-rig-carry-living |
+| ochre-rig-carry-living-3 | family-transport-components | ochre-rig-carry-living |
+| ochre-rig-carry-living-4 | family-transport-components | ochre-rig-carry-living |
+| ochre-rig-carry-dead-1 | family-transport-components | ochre-rig-carry-dead |
+| ochre-rig-carry-dead-2 | family-transport-components | ochre-rig-carry-dead |
+| ochre-rig-carry-dead-3 | family-transport-components | ochre-rig-carry-dead |
+| ochre-rig-carry-dead-4 | family-transport-components | ochre-rig-carry-dead |
+| ochre-rig-led-wounded-1 | family-transport-components | ochre-rig-led-wounded |
+| ochre-rig-led-wounded-2 | family-transport-components | ochre-rig-led-wounded |
+| ochre-rig-led-wounded-3 | family-transport-components | ochre-rig-led-wounded |
+| ochre-rig-led-wounded-4 | family-transport-components | ochre-rig-led-wounded |
+| father-hat-rig-carry-living-1 | family-transport-components | father-hat-rig-carry-living |
+| father-hat-rig-carry-living-2 | family-transport-components | father-hat-rig-carry-living |
+| father-hat-rig-carry-living-3 | family-transport-components | father-hat-rig-carry-living |
+| father-hat-rig-carry-living-4 | family-transport-components | father-hat-rig-carry-living |
+| father-hat-rig-carry-dead-1 | family-transport-components | father-hat-rig-carry-dead |
+| father-hat-rig-carry-dead-2 | family-transport-components | father-hat-rig-carry-dead |
+| father-hat-rig-carry-dead-3 | family-transport-components | father-hat-rig-carry-dead |
+| father-hat-rig-carry-dead-4 | family-transport-components | father-hat-rig-carry-dead |
+| father-hat-rig-led-wounded-1 | family-transport-components | father-hat-rig-led-wounded |
+| father-hat-rig-led-wounded-2 | family-transport-components | father-hat-rig-led-wounded |
+| father-hat-rig-led-wounded-3 | family-transport-components | father-hat-rig-led-wounded |
+| father-hat-rig-led-wounded-4 | family-transport-components | father-hat-rig-led-wounded |
+| father-beard-rig-carry-living-1 | family-transport-components | father-beard-rig-carry-living |
+| father-beard-rig-carry-living-2 | family-transport-components | father-beard-rig-carry-living |
+| father-beard-rig-carry-living-3 | family-transport-components | father-beard-rig-carry-living |
+| father-beard-rig-carry-living-4 | family-transport-components | father-beard-rig-carry-living |
+| father-beard-rig-carry-dead-1 | family-transport-components | father-beard-rig-carry-dead |
+| father-beard-rig-carry-dead-2 | family-transport-components | father-beard-rig-carry-dead |
+| father-beard-rig-carry-dead-3 | family-transport-components | father-beard-rig-carry-dead |
+| father-beard-rig-carry-dead-4 | family-transport-components | father-beard-rig-carry-dead |
+| father-beard-rig-led-wounded-1 | family-transport-components | father-beard-rig-led-wounded |
+| father-beard-rig-led-wounded-2 | family-transport-components | father-beard-rig-led-wounded |
+| father-beard-rig-led-wounded-3 | family-transport-components | father-beard-rig-led-wounded |
+| father-beard-rig-led-wounded-4 | family-transport-components | father-beard-rig-led-wounded |
+| father-moustache-rig-carry-living-1 | family-transport-components | father-moustache-rig-carry-living |
+| father-moustache-rig-carry-living-2 | family-transport-components | father-moustache-rig-carry-living |
+| father-moustache-rig-carry-living-3 | family-transport-components | father-moustache-rig-carry-living |
+| father-moustache-rig-carry-living-4 | family-transport-components | father-moustache-rig-carry-living |
+| father-moustache-rig-carry-dead-1 | family-transport-components | father-moustache-rig-carry-dead |
+| father-moustache-rig-carry-dead-2 | family-transport-components | father-moustache-rig-carry-dead |
+| father-moustache-rig-carry-dead-3 | family-transport-components | father-moustache-rig-carry-dead |
+| father-moustache-rig-carry-dead-4 | family-transport-components | father-moustache-rig-carry-dead |
+| father-moustache-rig-led-wounded-1 | family-transport-components | father-moustache-rig-led-wounded |
+| father-moustache-rig-led-wounded-2 | family-transport-components | father-moustache-rig-led-wounded |
+| father-moustache-rig-led-wounded-3 | family-transport-components | father-moustache-rig-led-wounded |
+| father-moustache-rig-led-wounded-4 | family-transport-components | father-moustache-rig-led-wounded |
+| father-straw-rig-carry-living-1 | family-transport-components | father-straw-rig-carry-living |
+| father-straw-rig-carry-living-2 | family-transport-components | father-straw-rig-carry-living |
+| father-straw-rig-carry-living-3 | family-transport-components | father-straw-rig-carry-living |
+| father-straw-rig-carry-living-4 | family-transport-components | father-straw-rig-carry-living |
+| father-straw-rig-carry-dead-1 | family-transport-components | father-straw-rig-carry-dead |
+| father-straw-rig-carry-dead-2 | family-transport-components | father-straw-rig-carry-dead |
+| father-straw-rig-carry-dead-3 | family-transport-components | father-straw-rig-carry-dead |
+| father-straw-rig-carry-dead-4 | family-transport-components | father-straw-rig-carry-dead |
+| father-straw-rig-led-wounded-1 | family-transport-components | father-straw-rig-led-wounded |
+| father-straw-rig-led-wounded-2 | family-transport-components | father-straw-rig-led-wounded |
+| father-straw-rig-led-wounded-3 | family-transport-components | father-straw-rig-led-wounded |
+| father-straw-rig-led-wounded-4 | family-transport-components | father-straw-rig-led-wounded |
+| teal-rig-carry-living-1 | family-transport-components | teal-rig-carry-living |
+| teal-rig-carry-living-2 | family-transport-components | teal-rig-carry-living |
+| teal-rig-carry-living-3 | family-transport-components | teal-rig-carry-living |
+| teal-rig-carry-living-4 | family-transport-components | teal-rig-carry-living |
+| teal-rig-carry-dead-1 | family-transport-components | teal-rig-carry-dead |
+| teal-rig-carry-dead-2 | family-transport-components | teal-rig-carry-dead |
+| teal-rig-carry-dead-3 | family-transport-components | teal-rig-carry-dead |
+| teal-rig-carry-dead-4 | family-transport-components | teal-rig-carry-dead |
+| teal-rig-led-wounded-1 | family-transport-components | teal-rig-led-wounded |
+| teal-rig-led-wounded-2 | family-transport-components | teal-rig-led-wounded |
+| teal-rig-led-wounded-3 | family-transport-components | teal-rig-led-wounded |
+| teal-rig-led-wounded-4 | family-transport-components | teal-rig-led-wounded |
+| rust-woman-rig-carry-living-1 | family-transport-components | rust-woman-rig-carry-living |
+| rust-woman-rig-carry-living-2 | family-transport-components | rust-woman-rig-carry-living |
+| rust-woman-rig-carry-living-3 | family-transport-components | rust-woman-rig-carry-living |
+| rust-woman-rig-carry-living-4 | family-transport-components | rust-woman-rig-carry-living |
+| rust-woman-rig-carry-dead-1 | family-transport-components | rust-woman-rig-carry-dead |
+| rust-woman-rig-carry-dead-2 | family-transport-components | rust-woman-rig-carry-dead |
+| rust-woman-rig-carry-dead-3 | family-transport-components | rust-woman-rig-carry-dead |
+| rust-woman-rig-carry-dead-4 | family-transport-components | rust-woman-rig-carry-dead |
+| rust-woman-rig-led-wounded-1 | family-transport-components | rust-woman-rig-led-wounded |
+| rust-woman-rig-led-wounded-2 | family-transport-components | rust-woman-rig-led-wounded |
+| rust-woman-rig-led-wounded-3 | family-transport-components | rust-woman-rig-led-wounded |
+| rust-woman-rig-led-wounded-4 | family-transport-components | rust-woman-rig-led-wounded |
+| indigo-rig-carry-living-1 | family-transport-components | indigo-rig-carry-living |
+| indigo-rig-carry-living-2 | family-transport-components | indigo-rig-carry-living |
+| indigo-rig-carry-living-3 | family-transport-components | indigo-rig-carry-living |
+| indigo-rig-carry-living-4 | family-transport-components | indigo-rig-carry-living |
+| indigo-rig-carry-dead-1 | family-transport-components | indigo-rig-carry-dead |
+| indigo-rig-carry-dead-2 | family-transport-components | indigo-rig-carry-dead |
+| indigo-rig-carry-dead-3 | family-transport-components | indigo-rig-carry-dead |
+| indigo-rig-carry-dead-4 | family-transport-components | indigo-rig-carry-dead |
+| indigo-rig-led-wounded-1 | family-transport-components | indigo-rig-led-wounded |
+| indigo-rig-led-wounded-2 | family-transport-components | indigo-rig-led-wounded |
+| indigo-rig-led-wounded-3 | family-transport-components | indigo-rig-led-wounded |
+| indigo-rig-led-wounded-4 | family-transport-components | indigo-rig-led-wounded |
+| mother-braid-rig-carry-living-1 | family-transport-components | mother-braid-rig-carry-living |
+| mother-braid-rig-carry-living-2 | family-transport-components | mother-braid-rig-carry-living |
+| mother-braid-rig-carry-living-3 | family-transport-components | mother-braid-rig-carry-living |
+| mother-braid-rig-carry-living-4 | family-transport-components | mother-braid-rig-carry-living |
+| mother-braid-rig-carry-dead-1 | family-transport-components | mother-braid-rig-carry-dead |
+| mother-braid-rig-carry-dead-2 | family-transport-components | mother-braid-rig-carry-dead |
+| mother-braid-rig-carry-dead-3 | family-transport-components | mother-braid-rig-carry-dead |
+| mother-braid-rig-carry-dead-4 | family-transport-components | mother-braid-rig-carry-dead |
+| mother-braid-rig-led-wounded-1 | family-transport-components | mother-braid-rig-led-wounded |
+| mother-braid-rig-led-wounded-2 | family-transport-components | mother-braid-rig-led-wounded |
+| mother-braid-rig-led-wounded-3 | family-transport-components | mother-braid-rig-led-wounded |
+| mother-braid-rig-led-wounded-4 | family-transport-components | mother-braid-rig-led-wounded |
+| mother-loose-rig-carry-living-1 | family-transport-components | mother-loose-rig-carry-living |
+| mother-loose-rig-carry-living-2 | family-transport-components | mother-loose-rig-carry-living |
+| mother-loose-rig-carry-living-3 | family-transport-components | mother-loose-rig-carry-living |
+| mother-loose-rig-carry-living-4 | family-transport-components | mother-loose-rig-carry-living |
+| mother-loose-rig-carry-dead-1 | family-transport-components | mother-loose-rig-carry-dead |
+| mother-loose-rig-carry-dead-2 | family-transport-components | mother-loose-rig-carry-dead |
+| mother-loose-rig-carry-dead-3 | family-transport-components | mother-loose-rig-carry-dead |
+| mother-loose-rig-carry-dead-4 | family-transport-components | mother-loose-rig-carry-dead |
+| mother-loose-rig-led-wounded-1 | family-transport-components | mother-loose-rig-led-wounded |
+| mother-loose-rig-led-wounded-2 | family-transport-components | mother-loose-rig-led-wounded |
+| mother-loose-rig-led-wounded-3 | family-transport-components | mother-loose-rig-led-wounded |
+| mother-loose-rig-led-wounded-4 | family-transport-components | mother-loose-rig-led-wounded |
+| mother-scarf-rig-carry-living-1 | family-transport-components | mother-scarf-rig-carry-living |
+| mother-scarf-rig-carry-living-2 | family-transport-components | mother-scarf-rig-carry-living |
+| mother-scarf-rig-carry-living-3 | family-transport-components | mother-scarf-rig-carry-living |
+| mother-scarf-rig-carry-living-4 | family-transport-components | mother-scarf-rig-carry-living |
+| mother-scarf-rig-carry-dead-1 | family-transport-components | mother-scarf-rig-carry-dead |
+| mother-scarf-rig-carry-dead-2 | family-transport-components | mother-scarf-rig-carry-dead |
+| mother-scarf-rig-carry-dead-3 | family-transport-components | mother-scarf-rig-carry-dead |
+| mother-scarf-rig-carry-dead-4 | family-transport-components | mother-scarf-rig-carry-dead |
+| mother-scarf-rig-led-wounded-1 | family-transport-components | mother-scarf-rig-led-wounded |
+| mother-scarf-rig-led-wounded-2 | family-transport-components | mother-scarf-rig-led-wounded |
+| mother-scarf-rig-led-wounded-3 | family-transport-components | mother-scarf-rig-led-wounded |
+| mother-scarf-rig-led-wounded-4 | family-transport-components | mother-scarf-rig-led-wounded |
+| mother-straw-rig-carry-living-1 | family-transport-components | mother-straw-rig-carry-living |
+| mother-straw-rig-carry-living-2 | family-transport-components | mother-straw-rig-carry-living |
+| mother-straw-rig-carry-living-3 | family-transport-components | mother-straw-rig-carry-living |
+| mother-straw-rig-carry-living-4 | family-transport-components | mother-straw-rig-carry-living |
+| mother-straw-rig-carry-dead-1 | family-transport-components | mother-straw-rig-carry-dead |
+| mother-straw-rig-carry-dead-2 | family-transport-components | mother-straw-rig-carry-dead |
+| mother-straw-rig-carry-dead-3 | family-transport-components | mother-straw-rig-carry-dead |
+| mother-straw-rig-carry-dead-4 | family-transport-components | mother-straw-rig-carry-dead |
+| mother-straw-rig-led-wounded-1 | family-transport-components | mother-straw-rig-led-wounded |
+| mother-straw-rig-led-wounded-2 | family-transport-components | mother-straw-rig-led-wounded |
+| mother-straw-rig-led-wounded-3 | family-transport-components | mother-straw-rig-led-wounded |
+| mother-straw-rig-led-wounded-4 | family-transport-components | mother-straw-rig-led-wounded |
+| blue-rig-carry-living-1 | family-transport-components | blue-rig-carry-living |
+| blue-rig-carry-living-2 | family-transport-components | blue-rig-carry-living |
+| blue-rig-carry-living-3 | family-transport-components | blue-rig-carry-living |
+| blue-rig-carry-living-4 | family-transport-components | blue-rig-carry-living |
+| blue-rig-carry-dead-1 | family-transport-components | blue-rig-carry-dead |
+| blue-rig-carry-dead-2 | family-transport-components | blue-rig-carry-dead |
+| blue-rig-carry-dead-3 | family-transport-components | blue-rig-carry-dead |
+| blue-rig-carry-dead-4 | family-transport-components | blue-rig-carry-dead |
+| blue-rig-led-wounded-1 | family-transport-components | blue-rig-led-wounded |
+| blue-rig-led-wounded-2 | family-transport-components | blue-rig-led-wounded |
+| blue-rig-led-wounded-3 | family-transport-components | blue-rig-led-wounded |
+| blue-rig-led-wounded-4 | family-transport-components | blue-rig-led-wounded |
+| youth-boy-rig-carry-living-1 | family-transport-components | youth-boy-rig-carry-living |
+| youth-boy-rig-carry-living-2 | family-transport-components | youth-boy-rig-carry-living |
+| youth-boy-rig-carry-living-3 | family-transport-components | youth-boy-rig-carry-living |
+| youth-boy-rig-carry-living-4 | family-transport-components | youth-boy-rig-carry-living |
+| youth-boy-rig-carry-dead-1 | family-transport-components | youth-boy-rig-carry-dead |
+| youth-boy-rig-carry-dead-2 | family-transport-components | youth-boy-rig-carry-dead |
+| youth-boy-rig-carry-dead-3 | family-transport-components | youth-boy-rig-carry-dead |
+| youth-boy-rig-carry-dead-4 | family-transport-components | youth-boy-rig-carry-dead |
+| youth-boy-rig-led-wounded-1 | family-transport-components | youth-boy-rig-led-wounded |
+| youth-boy-rig-led-wounded-2 | family-transport-components | youth-boy-rig-led-wounded |
+| youth-boy-rig-led-wounded-3 | family-transport-components | youth-boy-rig-led-wounded |
+| youth-boy-rig-led-wounded-4 | family-transport-components | youth-boy-rig-led-wounded |
+| blue-girl-rig-carry-living-1 | family-transport-components | blue-girl-rig-carry-living |
+| blue-girl-rig-carry-living-2 | family-transport-components | blue-girl-rig-carry-living |
+| blue-girl-rig-carry-living-3 | family-transport-components | blue-girl-rig-carry-living |
+| blue-girl-rig-carry-living-4 | family-transport-components | blue-girl-rig-carry-living |
+| blue-girl-rig-carry-dead-1 | family-transport-components | blue-girl-rig-carry-dead |
+| blue-girl-rig-carry-dead-2 | family-transport-components | blue-girl-rig-carry-dead |
+| blue-girl-rig-carry-dead-3 | family-transport-components | blue-girl-rig-carry-dead |
+| blue-girl-rig-carry-dead-4 | family-transport-components | blue-girl-rig-carry-dead |
+| blue-girl-rig-led-wounded-1 | family-transport-components | blue-girl-rig-led-wounded |
+| blue-girl-rig-led-wounded-2 | family-transport-components | blue-girl-rig-led-wounded |
+| blue-girl-rig-led-wounded-3 | family-transport-components | blue-girl-rig-led-wounded |
+| blue-girl-rig-led-wounded-4 | family-transport-components | blue-girl-rig-led-wounded |
+| youth-girl-rig-carry-living-1 | family-transport-components | youth-girl-rig-carry-living |
+| youth-girl-rig-carry-living-2 | family-transport-components | youth-girl-rig-carry-living |
+| youth-girl-rig-carry-living-3 | family-transport-components | youth-girl-rig-carry-living |
+| youth-girl-rig-carry-living-4 | family-transport-components | youth-girl-rig-carry-living |
+| youth-girl-rig-carry-dead-1 | family-transport-components | youth-girl-rig-carry-dead |
+| youth-girl-rig-carry-dead-2 | family-transport-components | youth-girl-rig-carry-dead |
+| youth-girl-rig-carry-dead-3 | family-transport-components | youth-girl-rig-carry-dead |
+| youth-girl-rig-carry-dead-4 | family-transport-components | youth-girl-rig-carry-dead |
+| youth-girl-rig-led-wounded-1 | family-transport-components | youth-girl-rig-led-wounded |
+| youth-girl-rig-led-wounded-2 | family-transport-components | youth-girl-rig-led-wounded |
+| youth-girl-rig-led-wounded-3 | family-transport-components | youth-girl-rig-led-wounded |
+| youth-girl-rig-led-wounded-4 | family-transport-components | youth-girl-rig-led-wounded |
+| boy-rig-carry-living-1 | family-transport-components | boy-rig-carry-living |
+| boy-rig-carry-living-2 | family-transport-components | boy-rig-carry-living |
+| boy-rig-carry-living-3 | family-transport-components | boy-rig-carry-living |
+| boy-rig-carry-living-4 | family-transport-components | boy-rig-carry-living |
+| boy-rig-carry-dead-1 | family-transport-components | boy-rig-carry-dead |
+| boy-rig-carry-dead-2 | family-transport-components | boy-rig-carry-dead |
+| boy-rig-carry-dead-3 | family-transport-components | boy-rig-carry-dead |
+| boy-rig-carry-dead-4 | family-transport-components | boy-rig-carry-dead |
+| boy-rig-led-wounded-1 | family-transport-components | boy-rig-led-wounded |
+| boy-rig-led-wounded-2 | family-transport-components | boy-rig-led-wounded |
+| boy-rig-led-wounded-3 | family-transport-components | boy-rig-led-wounded |
+| boy-rig-led-wounded-4 | family-transport-components | boy-rig-led-wounded |
+| girl-rig-carry-living-1 | family-transport-components | girl-rig-carry-living |
+| girl-rig-carry-living-2 | family-transport-components | girl-rig-carry-living |
+| girl-rig-carry-living-3 | family-transport-components | girl-rig-carry-living |
+| girl-rig-carry-living-4 | family-transport-components | girl-rig-carry-living |
+| girl-rig-carry-dead-1 | family-transport-components | girl-rig-carry-dead |
+| girl-rig-carry-dead-2 | family-transport-components | girl-rig-carry-dead |
+| girl-rig-carry-dead-3 | family-transport-components | girl-rig-carry-dead |
+| girl-rig-carry-dead-4 | family-transport-components | girl-rig-carry-dead |
+| girl-rig-led-wounded-1 | family-transport-components | girl-rig-led-wounded |
+| girl-rig-led-wounded-2 | family-transport-components | girl-rig-led-wounded |
+| girl-rig-led-wounded-3 | family-transport-components | girl-rig-led-wounded |
+| girl-rig-led-wounded-4 | family-transport-components | girl-rig-led-wounded |
+| smallchild-rig-carry-living-1 | family-transport-components | smallchild-rig-carry-living |
+| smallchild-rig-carry-living-2 | family-transport-components | smallchild-rig-carry-living |
+| smallchild-rig-carry-living-3 | family-transport-components | smallchild-rig-carry-living |
+| smallchild-rig-carry-living-4 | family-transport-components | smallchild-rig-carry-living |
+| smallchild-rig-carry-dead-1 | family-transport-components | smallchild-rig-carry-dead |
+| smallchild-rig-carry-dead-2 | family-transport-components | smallchild-rig-carry-dead |
+| smallchild-rig-carry-dead-3 | family-transport-components | smallchild-rig-carry-dead |
+| smallchild-rig-carry-dead-4 | family-transport-components | smallchild-rig-carry-dead |
+| infant-rig-carry-living-1 | family-transport-components | infant-rig-carry-living |
+| infant-rig-carry-living-2 | family-transport-components | infant-rig-carry-living |
+| infant-rig-carry-living-3 | family-transport-components | infant-rig-carry-living |
+| infant-rig-carry-living-4 | family-transport-components | infant-rig-carry-living |
+| infant-rig-carry-dead-1 | family-transport-components | infant-rig-carry-dead |
+| infant-rig-carry-dead-2 | family-transport-components | infant-rig-carry-dead |
+| infant-rig-carry-dead-3 | family-transport-components | infant-rig-carry-dead |
+| infant-rig-carry-dead-4 | family-transport-components | infant-rig-carry-dead |
 
 ## Animation families
 
@@ -4622,6 +7211,798 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | father-hat-listen-s | breathe | 1 | 1500 | yes | undefined |
 | father-hat-listen-n | breathe | 1 | 1500 | yes | undefined |
 | father-hat-speak | breathe | 1 | 1500 | yes | undefined |
+| rust-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| rust-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| rust-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| rust-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| rust-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| rust-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| rust-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| rust-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| rust-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| rust-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| rust-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| rust-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| rust-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| rust-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| rust-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| rust-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| rust-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| rust-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| rust-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| elder-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| elder-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| elder-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| elder-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| elder-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| elder-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| elder-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| elder-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| elder-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| elder-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| elder-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| elder-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| elder-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| elder-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| elder-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| elder-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| elder-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| elder-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| elder-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| elder-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| elder-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| elder-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| elder-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| elder-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| elder-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| elder-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| elder-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| elder-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| ochre-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| ochre-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| ochre-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| ochre-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| ochre-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| ochre-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| ochre-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| ochre-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| ochre-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| ochre-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| ochre-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| ochre-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| ochre-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| ochre-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| ochre-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| ochre-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| ochre-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| ochre-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| ochre-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| ochre-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| ochre-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| ochre-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| ochre-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| ochre-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| ochre-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| ochre-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| ochre-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| ochre-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| father-hat-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| father-hat-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| father-hat-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| father-hat-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| father-hat-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| father-hat-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| father-hat-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| father-hat-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| father-hat-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| father-hat-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| father-hat-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| father-hat-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| father-hat-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| father-hat-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| father-hat-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| father-hat-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| father-hat-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| father-hat-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| father-hat-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| father-hat-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-hat-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-hat-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-hat-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-hat-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| father-hat-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| father-hat-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| father-hat-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| father-hat-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| father-beard-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| father-beard-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| father-beard-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| father-beard-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| father-beard-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| father-beard-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| father-beard-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| father-beard-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| father-beard-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| father-beard-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| father-beard-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| father-beard-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| father-beard-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| father-beard-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| father-beard-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| father-beard-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| father-beard-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| father-beard-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| father-beard-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| father-beard-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-beard-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-beard-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-beard-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-beard-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| father-beard-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| father-beard-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| father-beard-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| father-beard-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| father-moustache-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| father-moustache-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| father-moustache-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| father-moustache-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| father-moustache-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| father-moustache-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| father-moustache-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| father-moustache-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| father-moustache-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| father-moustache-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| father-moustache-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| father-moustache-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| father-moustache-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| father-moustache-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| father-moustache-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| father-moustache-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| father-moustache-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| father-moustache-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| father-moustache-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| father-moustache-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-moustache-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-moustache-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-moustache-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-moustache-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| father-moustache-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| father-moustache-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| father-moustache-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| father-moustache-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| father-straw-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| father-straw-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| father-straw-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| father-straw-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| father-straw-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| father-straw-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| father-straw-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| father-straw-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| father-straw-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| father-straw-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| father-straw-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| father-straw-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| father-straw-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| father-straw-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| father-straw-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| father-straw-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| father-straw-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| father-straw-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| father-straw-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| father-straw-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-straw-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-straw-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-straw-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| father-straw-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| father-straw-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| father-straw-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| father-straw-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| father-straw-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| teal-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| teal-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| teal-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| teal-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| teal-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| teal-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| teal-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| teal-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| teal-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| teal-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| teal-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| teal-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| teal-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| teal-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| teal-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| teal-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| teal-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| teal-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| teal-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| teal-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| teal-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| teal-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| teal-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| teal-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| teal-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| teal-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| teal-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| teal-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| rust-woman-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| rust-woman-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| rust-woman-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| rust-woman-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| rust-woman-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| rust-woman-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| rust-woman-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| rust-woman-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| rust-woman-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-woman-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-woman-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-woman-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-woman-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-woman-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| rust-woman-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| rust-woman-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| rust-woman-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| rust-woman-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| rust-woman-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| rust-woman-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| rust-woman-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| rust-woman-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| rust-woman-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| rust-woman-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| rust-woman-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| indigo-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| indigo-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| indigo-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| indigo-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| indigo-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| indigo-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| indigo-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| indigo-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| indigo-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| indigo-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| indigo-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| indigo-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| indigo-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| indigo-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| indigo-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| indigo-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| indigo-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| indigo-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| indigo-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| indigo-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| indigo-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| indigo-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| indigo-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| indigo-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| indigo-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| indigo-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| indigo-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| indigo-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-braid-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| mother-braid-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| mother-braid-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| mother-braid-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| mother-braid-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| mother-braid-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| mother-braid-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| mother-braid-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| mother-braid-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-braid-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-braid-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-braid-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-braid-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-braid-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-braid-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-braid-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-braid-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-braid-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| mother-braid-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| mother-braid-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-braid-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-braid-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-braid-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-braid-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| mother-braid-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| mother-braid-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-braid-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-braid-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-loose-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| mother-loose-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| mother-loose-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| mother-loose-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| mother-loose-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| mother-loose-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| mother-loose-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| mother-loose-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| mother-loose-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-loose-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-loose-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-loose-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-loose-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-loose-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-loose-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-loose-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-loose-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-loose-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| mother-loose-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| mother-loose-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-loose-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-loose-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-loose-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-loose-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| mother-loose-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| mother-loose-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-loose-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-loose-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-scarf-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| mother-scarf-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| mother-scarf-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| mother-scarf-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| mother-scarf-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| mother-scarf-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| mother-scarf-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| mother-scarf-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| mother-scarf-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-scarf-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-scarf-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-scarf-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-scarf-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-scarf-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-scarf-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-scarf-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-scarf-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-scarf-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| mother-scarf-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| mother-scarf-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-scarf-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-scarf-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-scarf-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-scarf-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| mother-scarf-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| mother-scarf-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-scarf-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-scarf-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-straw-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| mother-straw-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| mother-straw-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| mother-straw-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| mother-straw-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| mother-straw-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| mother-straw-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| mother-straw-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| mother-straw-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-straw-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-straw-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| mother-straw-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-straw-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-straw-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-straw-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-straw-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-straw-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| mother-straw-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| mother-straw-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| mother-straw-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-straw-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-straw-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-straw-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| mother-straw-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| mother-straw-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| mother-straw-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-straw-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| mother-straw-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| blue-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| blue-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| blue-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| blue-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| blue-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| blue-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| blue-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| blue-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| blue-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| blue-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| blue-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| blue-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| blue-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| blue-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| blue-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| blue-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| blue-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| blue-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| blue-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| youth-boy-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| youth-boy-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| youth-boy-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| youth-boy-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| youth-boy-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| youth-boy-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| youth-boy-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| youth-boy-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| youth-boy-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| youth-boy-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| youth-boy-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| youth-boy-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-boy-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-boy-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-boy-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-boy-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-boy-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-boy-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| youth-boy-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| youth-boy-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| youth-boy-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| youth-boy-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| youth-boy-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| youth-boy-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| youth-boy-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| youth-boy-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| youth-boy-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| youth-boy-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| blue-girl-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| blue-girl-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| blue-girl-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| blue-girl-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| blue-girl-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| blue-girl-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| blue-girl-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| blue-girl-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| blue-girl-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-girl-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-girl-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-girl-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-girl-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-girl-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-girl-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-girl-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-girl-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| blue-girl-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| blue-girl-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| blue-girl-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| blue-girl-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| blue-girl-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| blue-girl-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| blue-girl-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| blue-girl-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| blue-girl-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| blue-girl-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| blue-girl-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| youth-girl-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| youth-girl-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| youth-girl-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| youth-girl-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| youth-girl-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| youth-girl-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| youth-girl-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| youth-girl-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| youth-girl-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| youth-girl-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| youth-girl-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| youth-girl-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-girl-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-girl-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-girl-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-girl-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-girl-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| youth-girl-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| youth-girl-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| youth-girl-rig-mounted-fire-e | Pose cycle | 4 | 2470 | one-shot | undefined |
+| youth-girl-rig-mounted-fire-s | Pose cycle | 4 | 2470 | one-shot | undefined |
+| youth-girl-rig-mounted-fire-n | Pose cycle | 4 | 2470 | one-shot | undefined |
+| youth-girl-rig-fire-reload | Pose cycle | 4 | 2470 | one-shot | undefined |
+| youth-girl-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| youth-girl-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| youth-girl-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| youth-girl-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| youth-girl-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| boy-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| boy-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| boy-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| boy-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| boy-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| boy-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| boy-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| boy-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| boy-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| boy-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| boy-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| boy-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| boy-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| boy-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| boy-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| boy-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| boy-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| boy-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| boy-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| boy-rig-comfort | Pose cycle | 2 | 1700 | yes | undefined |
+| boy-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| boy-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| boy-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| boy-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| boy-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| girl-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| girl-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| girl-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| girl-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| girl-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| girl-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| girl-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| girl-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| girl-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| girl-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| girl-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| girl-rig-saddle-e | Pose cycle | 2 | 1300 | yes | undefined |
+| girl-rig-saddle-wounded-e | Pose cycle | 2 | 1300 | yes | undefined |
+| girl-rig-saddle-s | Pose cycle | 2 | 1300 | yes | undefined |
+| girl-rig-saddle-wounded-s | Pose cycle | 2 | 1300 | yes | undefined |
+| girl-rig-saddle-n | Pose cycle | 2 | 1300 | yes | undefined |
+| girl-rig-saddle-wounded-n | Pose cycle | 2 | 1300 | yes | undefined |
+| girl-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| girl-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| girl-rig-comfort | Pose cycle | 2 | 1700 | yes | undefined |
+| girl-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| girl-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| girl-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| girl-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| girl-rig-led-wounded | Pose cycle | 4 | 1200 | yes | undefined |
+| smallchild-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| smallchild-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| smallchild-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| smallchild-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| smallchild-rig-walk-e | Pose cycle | 4 | 1000 | yes | east |
+| smallchild-rig-walk-s | Pose cycle | 2 | 500 | yes | south |
+| smallchild-rig-walk-n | Pose cycle | 2 | 500 | yes | north |
+| smallchild-rig-dig | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-hoe | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-chop | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-hammer | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-sow | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-harvest | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-carry | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-trade | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-care | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-search | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-surrender | Pose cycle | 2 | 900 | yes | undefined |
+| smallchild-rig-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| smallchild-rig-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| smallchild-rig-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| smallchild-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| smallchild-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| smallchild-rig-comfort | Pose cycle | 2 | 1700 | yes | undefined |
+| smallchild-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| smallchild-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| smallchild-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| smallchild-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
+| infant-rig-idle-s | breathe | 1 | 1200 | yes | south |
+| infant-rig-idle-e | breathe | 1 | 1200 | yes | east |
+| infant-rig-idle-w | breathe | 1 | 1200 | yes | west |
+| infant-rig-idle-n | breathe | 1 | 1200 | yes | north |
+| infant-rig-camp-rest | Pose cycle | 2 | 2400 | yes | undefined |
+| infant-rig-camp-sleep | Pose cycle | 2 | 2400 | yes | undefined |
+| infant-rig-wounded | Pose cycle | 2 | 1800 | yes | undefined |
+| infant-rig-covered | Pose cycle | 2 | 1800 | yes | undefined |
+| infant-rig-carry-living | Pose cycle | 4 | 1200 | yes | undefined |
+| infant-rig-carry-dead | Pose cycle | 4 | 1200 | yes | undefined |
 | rust-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
 | rust-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
 | rust-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
@@ -5544,7 +8925,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 - **Wagons/carts:** N/S wagon/carts, articulated hitch/yoke and crew pushing/loading. Current oblique rig translates along any route without pretending to turn in 3D.
 - **People:** N/S work/dialogue action poses, turns, climbing, swimming, assisted walking/stretcher pairs, individual civilian riding/dismounting and final mounted cross-sheet registration. Dedicated mounted courier and dragoon travel already exist.
-- **Families and riders:** The rider dismounting, remounting and talking on foot beside a tethered horse (courier-dismount is delivered and not yet bound); seated ox-wagon driver layers for the second cast (rust-woman, indigo, ochre, blue-girl) and for the children, who are still the standing figure cut at the hip; a child on the family horse, which is still that same composite; layered people for the chosen looks.
+- **Families and riders:** Gameplay integration: explicit transport staging and removal of old helper stand-ins; independent appearance composition for multi-person caregiver pairs. New dismount/remount or additional directional task requests are future scope, not undelivered groups in the dated backlog. Read docs/ART_DELIVERY_2026-10-13-FAMILY-APPEARANCE-AND-BATTLE-COMPLETE.md.
 - **Animals:** The rest of the game of 1836 (bear, javelina, antelope, buffalo, geese, wild cattle), which is words only until each lands; cream ox/grey horse/sheep/chicken locomotion, other livestock grazing and drinking, flight and load/harness behavior. Do not substitute a different coat mid-journey.
 - **Cannons and soldiers:** Limber/unlimber, elevated aim, mounted firing and remounting. Gun recoil is whole-carriage translation, not an articulated barrel rig.
 - **Buildings and environment:** Continuous door/gate hinge rig, construction/repair progression, crown-only tree rig, boat rowing/poling and ferry loading. The Yellow Stone under way landed 2026-09-21: the army-laden loop is drawn at the Brazos crossing, and the empty-deck loop is registered and drawn by nothing, because no projected state has her steaming light. Building stillness is intentional; condition changes require simulation state.

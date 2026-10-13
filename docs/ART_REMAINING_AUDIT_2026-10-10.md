@@ -1,13 +1,13 @@
 # Remaining artwork audit — 2026-10-10
 
-**2 dated parent request groups remain on the broad art backlog.** This counts explicit remaining artwork and explicitly recorded breadth/action refinements in `ART_REQUESTS.md`; it does not count sheets, delivery batches, renderer work, or gameplay integration. Several groups below are refinement/breadth rather than missing original core assets. This is therefore a broad backlog count, not a claim that both remaining contracts are undelivered.
+**0 dated parent request groups remain on the broad art backlog as of October 13.** The two final groups are complete: canonical semantic family appearance layers and identity-specific family battle/service artwork. See `ART_DELIVERY_2026-10-13-FAMILY-APPEARANCE-AND-BATTLE-COMPLETE.md`. This count excludes gameplay staging, renderer adoption of previously delivered scene composites, and future requests.
 
 The September 25 travel parent is artwork-complete as of October 12; cover seat/rail migration is compositor work.
 
 | # | Dated parent request | Missing artwork / explicit refinement | Evidence and limits |
 | --- | --- | --- | --- |
-| 1 | September 12 second — settling in | Semantic appearance masks/aligned layers, task/combat/seated refinements across offered head silhouettes. | Explicit layered-people contract. `family-appearance-2026-10-02.mjs` delivers painted complete figures with simple work/rest, not explicit skin/hair/clothes semantic layers or complete task/combat/seated sets. Houses/interiors/furnishings/tools completed. |
-| 2 | September 25 — battle pieces | Family identity firing, wounded/fallen and identity-specific transport. Generic mounted directional/full-reload art delivered October 12. | Request item 1 and transport stand-in row; `public/battle-view.js` `memberPose` uses volunteer combat art. `military-life-2026-10-03.mjs`, `fallen-transport-2026-10-04.mjs` complete generic living/dead transport, not identity-specific composites. Cannon/settler crew/flag completed. |
+| Complete | September 12 second — settling in | Semantic aligned body/head/material rig, complete tasks/service/seated poses across offered head silhouettes and age bands. | October 13 delivery: 22 identities; creation, work, rest and appearance-driven seating integrated. |
+| Complete | September 25 — battle pieces | Identity-specific aim/fire/load/ramrod, mounted service, wounds/fallen, living/dead blanket and led-wounded transport. | October 13 delivery: own appearance-driven battle poses integrated; explicit transport staging remains gameplay work. |
 
 ## Delivered artwork excluded from the count
 

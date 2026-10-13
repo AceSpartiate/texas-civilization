@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { avatarBand, avatarVariant, avatarBinding, PARENT_VARIANTS } from '../public/avatar-identity.js';
 import { HEAD } from '../sim/look-vocabulary.mjs';
+import {familyRigClip} from '../public/family-rig-bindings.js';
 import { entityClip } from '../public/motion.js';
 import { readFileSync } from 'node:fs';
 const clips = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/animation.json', import.meta.url))).clips;
@@ -41,16 +42,18 @@ test('a parent keeps the chosen head silhouette during walking, work and rest', 
     const entity = { id: 'parent', kind: 'person', sex, band: 'adult', appearance: { ...appearance, head } };
     const variant = avatarVariant(entity.appearance, sex, entity);
     for (const pose of ['idle-s', 'walk', 'walk-s', 'walk-n', 'work', 'rest', 'listen-s']) {
-      assert.equal(avatarBinding(entity, { id: `rust-${pose}` }).id, `${variant}-${pose}`);
-      assert.ok(clips[`${variant}-${pose}`], `missing shipped parent pose: ${variant}-${pose}`);
+      const expected=familyRigClip(variant,pose);
+      assert.equal(avatarBinding(entity, { id: `rust-${pose}` }).id, expected);
+      assert.ok(clips[expected], `missing shipped parent pose: ${expected}`);
     }
   }
 });
 
-test('a parent in a pose her family figures lack is drawn in her nearest one: carrying is her walk, mending her work', () => {
-  // Merged 2026-10-02: the old cast's `carry` is a walk with a load (the harvest home, a baby held), so her walk, not her hoeing.
+test('a parent with a look carries and mends in her own family rig, whatever her head', () => {
+  // Until 2026-10-13 her figures lacked both (merged 2026-10-02: carrying was her walk, mending her work); Astra's family rig
+  // (public/family-rig-bindings.js) carries and hammers for every identity.
   const entity = { id: 'parent', kind: 'person', sex: 'female', band: 'adult', appearance: { ...appearance, head: 'headscarf' } };
-  assert.equal(avatarBinding(entity, { id: 'rust-woman-carry' }).id, 'mother-scarf-walk');
-  assert.equal(avatarBinding(entity, { id: 'rust-woman-repair' }).id, 'mother-scarf-work');
-  assert.equal(avatarBinding({ ...entity, appearance: { ...appearance, head: 'pinned hair' } }, { id: 'rust-woman-carry' }).id, 'teal-carry');
+  assert.equal(avatarBinding(entity, { id: 'rust-woman-carry' }).id, 'mother-scarf-rig-carry');
+  assert.equal(avatarBinding(entity, { id: 'rust-woman-repair' }).id, 'mother-scarf-rig-hammer');
+  assert.equal(avatarBinding({ ...entity, appearance: { ...appearance, head: 'pinned hair' } }, { id: 'rust-woman-carry' }).id, 'teal-rig-carry');
 });

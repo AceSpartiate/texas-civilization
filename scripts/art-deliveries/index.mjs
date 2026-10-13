@@ -12,7 +12,7 @@ const ATLASES = new URL('../../public/assets/frontier-v1/atlases/', import.meta.
 export const HELD = Object.freeze({
 });
 const recorded = new Set(JSON.parse(readFileSync(new URL('../../docs/art-provenance.json', import.meta.url), 'utf8')).assetSources.map(entry => entry.sheet));
-export const SHEETS = {}, ANIMATION_CLIPS = {}, promptEntries = [], provenanceEntries = [], notes = [], pending = [];
+export const SHEETS = {}, ANIMATION_CLIPS = {}, FRAME_ALIASES={}, promptEntries = [], provenanceEntries = [], notes = [], pending = [];
 for (const name of readdirSync(new URL('.', import.meta.url)).filter(name=>name.endsWith('.mjs')&&name!=='index.mjs').sort()) {
   const delivery = await import(new URL(name, import.meta.url));
   const sprites = new Set();
@@ -24,6 +24,7 @@ for (const name of readdirSync(new URL('.', import.meta.url)).filter(name=>name.
     SHEETS[id]=value;
     for (const sprite of value) if (sprite) sprites.add(sprite);
   }
+  for(const [id,value] of Object.entries(delivery.FRAME_ALIASES||{}))if(sprites.has(value.source)&&sprites.has(value.patient||value.head)){FRAME_ALIASES[id]=value;sprites.add(id);}
   for (const [id,value] of Object.entries(delivery.ANIMATION_CLIPS||{})) {
     if (Object.hasOwn(ANIMATION_CLIPS,id)) throw new Error(`Duplicate delivery ANIMATION_CLIPS: ${id}`);
     if (value.frames.every(frame => sprites.has(frame.sprite))) ANIMATION_CLIPS[id]=value;

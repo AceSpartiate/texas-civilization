@@ -176,7 +176,7 @@ try {
   assert.ok(allSaid.length >= 3 && bubbles.some(text => /rank|Present|Fire!/.test(text)) && bubbles.some(text => /¡/.test(text)), `the orders on both sides were not drawn over the speakers: ${JSON.stringify({ allSaid, bubbles })}`);
   ok(`words drawn over the speakers: ${[...new Set([...allSaid, ...bubbles])].slice(0, 12).join(' | ')}`);
   const inSquare = await fighter.evaluate(id => ({ clips: window.__battleView?.memberClips, members: window.__battleView?.members, drawn: window.__drawnAt?.[id] }), manA);
-  assert.ok(inSquare.members?.includes(manA) && inSquare.drawn && inSquare.clips.includes('volunteer-fire-reload'), `the family's man was not drawn firing in the square: ${JSON.stringify(inSquare)}`);
+  assert.ok(inSquare.members?.includes(manA) && inSquare.drawn && inSquare.clips.some(clip => clip === 'volunteer-fire-reload' || /-rig-fire-reload$/.test(clip)), `the family's man was not drawn firing in the square: ${JSON.stringify(inSquare)}`);
   const coleto = world().map.sites.coleto, a = world().entities[manA];
   assert.ok(Math.hypot(a.location.x - coleto.x, a.location.y - coleto.y) < 0.15, 'the family\'s man is not in the square at Coleto');
   ok(`the family's own man ${manA} is in the square at Coleto, drawn in its poses: ${inSquare.clips.join(', ')}`);
@@ -192,7 +192,7 @@ try {
   await hurt.waitForFunction(id => window.__snapshot?.world.battle?.memberFates?.[id]?.fate === 'wounded', manB, { timeout: 240000 });
   await hurt.waitForTimeout(800);
   const hit = await hurt.evaluate(id => ({ down: window.__battleView?.memberFalls?.find(one => one.id === id)?.fate, clips: window.__battleView?.memberClips, phase: window.__snapshot.world.battle.phase, health: window.__snapshot.world.entities.find(one => one.id === id)?.health?.condition }), manB);
-  assert.equal(hit.down, 'wounded'); assert.ok(hit.clips.includes('volunteer-injured'), `the hurt man was not drawn sitting hurt: ${JSON.stringify(hit)}`);
+  assert.equal(hit.down, 'wounded'); assert.ok(hit.clips.some(clip => clip === 'volunteer-injured' || /-rig-(wounded|carry-living)$/.test(clip)), `the hurt man was not drawn sitting hurt: ${JSON.stringify(hit)}`);
   await shot(hurt, 'hurt-1024');
   ok(`at 1024x768 the second family sees its man hit in the ${hit.phase} and drawn sitting hurt, no blood (${hit.health} on its screen)`);
 

@@ -1,5 +1,42 @@
 # Claude handoff — Astra foundation
 
+## Astra's final batch (2026-10-13): the family rig and battle service, merged and wired in (not yet released)
+
+Her b70bc07d onto 3542cba7 (branch `astra-merge-1013`). By her notes her dated art backlog is now empty; what remains is
+staging in gameplay. A family rig of 22 identities (every offered head, every age band): a body and a head on a painted
+neck socket, tinted by the family's looks (`public/semantic-rig.js`), 632 components, 1,912 composed sprites, 792 clips.
+
+- **Conflicts.** *public/app.js*: a person with a look rides and drives as the rig's seated layer over the mount drawn
+  apart, so on the mule too (`ready` keeps main's mule rule for the painted horse-and-rider); passengers' `'rig'` seat; in a
+  fight her rig poses first (`pose.rig`, `pose.rigMounted`), main's Claude cast pose and recoloured idle behind them while
+  the rig's sheets load. *public/art.js*: one exported `spriteReady` that also waits for a rig's head and a carried
+  person, keeping main's missing-sheet tracking (a single argument: `sprites.forEach(spriteReady)`); her semantic tint in
+  main's budgeted colouring. *public/battle-view.js*: her `familyRigBattlePose` over main's pose, the mounted shot on
+  main's musket clock. *scripts/build-atlas-manifest.mjs*: her socket and material metadata on main's measured heights.
+  *tests/riding.test.mjs, scripts/battle-gonzales-browser-proof.mjs*: both sides.
+- **Sneak-ins.** None outside the conflicts (every line differing from 3542cba7 and not in her diff was read).
+- **Found and fixed.** Rig walks slid 0.08-0.095 of a height (tests/art-measure.test.mjs C1): the aliases are now made before
+  main's ground points are measured, each by its body frame's silhouette. tests/art-library.test.mjs counted each composed
+  sprite as a cell of its own sheet (overlapping its body): it now knows an alias. Her rig proof read the same pixels for
+  every phase because main colours a few milliseconds of frames per drawing and holds the last phase past that: it gives
+  each phase its own drawing. Main's battle and riding proofs asked for `volunteer-*` and the cut-at-the-hip rider by name:
+  they now take her rig poses for a person with a look.
+- **Tests brought to the rig** (not new): avatar-identity (carrying and mending are her rig's), battle-view-south (camp
+  sleep is the rig's).
+- **Not staged in gameplay (her "Claude continuation")**: living and dead blanket transport and the led wounded rider
+  are drawn only when a scene says a person is carried (`carried`), which member fates do not send yet; the caregiver pairs
+  stay whole-figure art; wall, seat and breach occlusion, household task scenes and the drawn-back wagon cover are not wired.
+  Rear views of a house are another agent's (house-rear-tree).
+- **Cost.** `public/assets/frontier-v1/atlas.json` is 5.3 MB (was 2.7; 0.48 MB gzipped, as the server sends it); the art
+  catalog page loads 45 more sheets.
+- **Evidence.** `npm test` on the final tree: 2484 tests, 2448 pass, 0 fail, 36 skipped. Voice package and WebP rebuilt.
+  Proofs, two at a time: family-rig-art (after its phase fix), family-travel-art, battle-gonzales, battle-south,
+  battle-concepcion, battle-coleto, storming, gonzales-town, family-panel, panels, overlap, travel, travel-drawn, wagons,
+  camp, children (alone), military-notice, looks, creation and tips pass; battle-alamo, battle-bexar and riding passed
+  alone once brought to the rig; art passed alone once the catalog was given time; battle-san-jacinto and battle-grass
+  failed once in the pair run and pass alone (known flakes).
+- Not proved: Chromebook, LAN, classroom.
+
 ## The weather proof runs again, and is a release check — 2026-10-13 (branch `fix/weather-browser-proof`, not released)
 
 `scripts/weather-browser-proof.mjs` had timed out "waiting for a running game" since 2026-09-21 (recorded failing at 0a175bb,
@@ -369,6 +406,10 @@ merges, so every code change was read against its own parent and re-checked on t
   alone), panel-press, house-plot, interior; lesson skips itself (guided start off). `weather-browser-proof` times out waiting for a
   running world, alone, on this branch and on origin/main 49aa2d76 alike: pre-existing.
 - Not proved: Chromebook, LAN, classroom.
+## Completed final two art groups 2026-10-13: family appearance and battle service
+
+The audited broad artwork backlog is now **0 groups**. Forty-five new sheets contain 632 semantic painted components, composing 1,912 identity-preserving sprites and 792 clips for 22 family/head/age identities. Creation/portraits, inherited children, work, seating and own battle service use the same appearance rig. Source PNGs are material-coded: use art.js aliases, never raw images. Ground/mounted fire retains 2,470 ms cadence, 700 ms discharge and existing server fate/FOW authority. No old sprite/clip entries changed. 72 targeted tests and all 792 browser phase checks pass. Read **docs/ART_DELIVERY_2026-10-13-FAMILY-APPEARANCE-AND-BATTLE-COMPLETE.md** for the complete manifest, palette/socket contract and precise continuation limits. Living/dead/led transport art is ready; scene staging must supply explicit transport flags and remove duplicate helper stand-ins. Existing paired infant/caregiver composites keep their restrictions. No deployment performed.
+
 ## Completed art group 2026-10-12: famous-person refinements
 
 100 frames and 32 authored loops close the September 26 named-roster artwork: Milam cardinal firing, J. W. Smith/Horton/Kimbell/Martin cardinal trot and mounted dispatch, healthy halted rest, and warranted Kimbell/Martin fall/still. Milam service and halted rider rest bind production. Faster gait and dispatch require explicit projected scene flags; no new travel speed, delivery, death beat or historical outcome is inferred from assets. 41 targeted tests, all 32 browser animation checks and 15 live Béxar checks pass. Source prompts, full manifest and Claude continuation: docs/ART_DELIVERY_2026-10-12-NAMED-REFINEMENTS-COMPLETE.md. **2 broad dated art groups remain.** No deployment performed.

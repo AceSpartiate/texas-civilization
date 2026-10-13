@@ -14,7 +14,7 @@ test('complete San Jacinto refinement inventory has 136 usable frames without al
 test('every offered parent head and every age retains a healthy camp identity',()=>{
  const cast=Object.values(CAMP_GROUPS).flat().filter(Boolean);assert.equal(new Set(cast).size,22);
  for(const [sex,heads]of Object.entries(PARENT_VARIANTS))for(const head of Object.keys(heads))for(const sleep of [false,true]){
-  const e={sex,band:'adult',appearance:{head}},p=familyCampBinding(e,{sleep,timeMs:150});assert.equal(p.clip,`${avatarVariant(e.appearance,sex,e)}-camp-${sleep?'sleep':'rest'}`);assert.ok(animation.clips[p.clip]);assert.equal(p.timeMs,150);assert.equal(p.camp,true);
+  const e={sex,band:'adult',appearance:{head}},p=familyCampBinding(e,{sleep,timeMs:150});assert.equal(p.clip,`${avatarVariant(e.appearance,sex,e)}-rig-camp-${sleep?'sleep':'rest'}`);assert.ok(animation.clips[p.clip]);assert.equal(p.timeMs,150);assert.equal(p.camp,true);
  }
  for(const band of ['youth','child','small','infant'])for(const sex of ['female','male']){const e={band,sex,appearance:{head:'beard'}},p=familyCampBinding(e,{sleep:true});assert.ok(animation.clips[p.clip]);assert.ok(!p.clip.startsWith('father'));}
  assert.equal(familyCampBinding({}, {sleep:true}).clip,'volunteer-sleep');

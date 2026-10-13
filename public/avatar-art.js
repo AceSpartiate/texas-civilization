@@ -1,7 +1,8 @@
 // Family appearance in the established illustrated cast. The chooser, portrait card,
 // world and battle all draw the same registered atlas frames and animation clips.
-import { drawClip } from './art.js';
+import { drawClip,spriteFrame } from './art.js';
 import { avatarVariant, avatarBand } from './avatar-identity.js';
+import {familyRigClip} from './family-rig-bindings.js';
 export { avatarVariant, avatarBinding, avatarBand } from './avatar-identity.js';
 
 /** Draw a real animation clip, with its ink and texture retained under the palette. */
@@ -10,7 +11,7 @@ export function drawAvatar(ctx, x, y, height, appearance, sex = 'male', {
 } = {}) {
   if (!appearance || height < 5) return 0;
   const variant = avatarVariant(appearance, sex, person);
-  const animation = clip || `${variant}-${walking ? 'walk' : working ? 'work' : 'idle-s'}`;
+  const animation = clip || familyRigClip(variant,walking?'walk':working?'work':'idle-s');
   return drawClip(ctx, animation, x, y, height, {
     timeMs: phase * 165, flip, appearance, paused: !walking && !working,
   });
@@ -29,10 +30,12 @@ export function drawAvatarPortrait(canvas, appearance, sex, person = {}) {
   ctx.clearRect(0, 0, width, height);
   backdrop(ctx, width, height);
   if (!appearance) return false;
-  const sprite = `${avatarVariant(appearance, sex, person)}-idle-s`;
+  const sprite = familyRigClip(avatarVariant(appearance, sex, person),'idle-s');
   const band = avatarBand(person);
   const share = { infant: 1.05, small: 1.9, child: 2.2, youth: 2.35, adult: 2.2 }[band] || 2.2;
-  const feet = band === 'infant' ? height * .96 : height * (.05 + share * .95);
+  const frame=spriteFrame(sprite),head=frame?.rig&&spriteFrame(frame.rig.head);
+  const full=frame&&head?(frame.anchorY*frame.h-frame.socket[1])/frame.logicalHeight+head.socket[1]/head.logicalHeight*frame.rig.headScale:1.10;
+  const feet = height * (.06 + share * full);
   return Boolean(drawClip(ctx, sprite, width * .5, feet, height * share, { appearance, paused: true, timeMs: 0 }));
 }
 
@@ -45,6 +48,7 @@ export function drawAvatarFigure(canvas, appearance, sex, person = {}, { walking
   ctx.beginPath(); ctx.ellipse(width / 2, height * .91, width * .28, height * .023, 0, 0, Math.PI * 2); ctx.fill();
   const variant = avatarVariant(appearance, sex, person);
   const pose = walking ? direction === 's' || direction === 'n' ? `walk-${direction}` : 'walk' : `idle-${direction === 'w' ? 'e' : direction}`;
-  return Boolean(drawClip(ctx, `${variant}-${pose}`, width / 2, height * .91,
-    Math.min(height * .79, width * 1.65), { appearance, timeMs: time, flip: direction === 'w', paused: !walking }));
+  const full={adult:1.10,youth:1.13,child:1.18,small:1.24,infant:1.0}[avatarBand(person)]||1.10;
+  return Boolean(drawClip(ctx, familyRigClip(variant,pose), width / 2, height * .91,
+    Math.min(height * .82/full, width * 1.1), { appearance, timeMs: time, flip: direction === 'w', paused: !walking }));
 }

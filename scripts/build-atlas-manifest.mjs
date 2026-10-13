@@ -16,7 +16,8 @@ import { inflateSync } from 'node:zlib';
 import { writeRegistry } from './art-registry.mjs';
 import { ROOF_RIDGES } from '../public/house-roof-art.js';
 import { MODULE_METADATA } from './art-deliveries/house-construction-complete-2026-10-11.mjs';
-import { SHEETS as DELIVERED_SHEETS, ANIMATION_CLIPS as DELIVERED_CLIPS } from './art-deliveries/index.mjs';
+import { SHEETS as DELIVERED_SHEETS, ANIMATION_CLIPS as DELIVERED_CLIPS,FRAME_ALIASES } from './art-deliveries/index.mjs';
+import {semanticMaterial} from '../public/semantic-rig.js';
 
 export const root = fileURLToPath(new URL('../public/assets/frontier-v1/', import.meta.url));
 
@@ -432,10 +433,13 @@ export function locomotionGroups(clips = ANIMATION_CLIPS, frames = null) {
   return [...groups.values()];
 }
 
-export function buildManifest() {
+export function buildManifest({ onlySheets = null } = {}) {
 const sheets = {}, frames = {}, bodies = {};
 const moving = new Set(locomotionGroups().flat());
+// A family-rig alias that moves (a rig walk) is measured by its body frame's silhouette (C1, below).
+const movingSources = new Set(Object.entries(FRAME_ALIASES).filter(([alias]) => moving.has(alias)).map(([, rig]) => rig.source));
 for (const [sheet, names] of Object.entries(SHEETS)) {
+  if(onlySheets&&!onlySheets.includes(sheet))continue;
   const file = `atlases/${sheet}.png`;
   const source = readFileSync(root + file), image = decodeRgba(source);
   const cornerAlpha = [0, image.width - 1, (image.height - 1) * image.width, image.height * image.width - 1].map(pixel => image.data[pixel * 4 + 3]);
@@ -544,7 +548,21 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
     const trimmedPixels = frame.area - retainedPixels, trimmedFraction = trimmedPixels / frame.area;
     if (trimmedFraction > MAX_TRIM_FRACTION) throw new Error(`${sheet}/${names[index]}: overlap split clips ${trimmedPixels} pixels (${(trimmedFraction * 100).toFixed(3)}%); requires a clean regeneration or explicit layout review`);
     const anchor = anchorOf(image, frame), logicalHeight = logicalOf(frame, names[index]);
-    if (moving.has(names[index])) bodies[names[index]] = bodyOf(image, frame, members, labels);
+    if (moving.has(names[index]) || movingSources.has(names[index])) bodies[names[index]] = bodyOf(image, frame, members, labels);
+    // Astra's family rig (2026-10-13): each body and head carries its painted cyan neck socket and the materials it is tinted by.
+    let materialMetadata = {};
+    if (sheet.startsWith('rig-') || sheet === 'family-transport-components') {
+      let sx = 0, sy = 0, count = 0, skinMin = Infinity, skinMax = -Infinity;
+      for (let y = frame.minY; y <= frame.maxY; y++) for (let x = frame.minX; x <= frame.maxX; x++) {
+        const i = (y * image.width + x) * 4, d = image.data;
+        if (d[i + 3] > 128 && semanticMaterial(d[i], d[i + 1], d[i + 2]) === 'socket') { sx += x - frame.minX; sy += y - frame.minY; count++; }
+        if (d[i + 3] > 128 && semanticMaterial(d[i], d[i + 1], d[i + 2]) === 'skin') { skinMin = Math.min(skinMin, y - frame.minY); skinMax = Math.max(skinMax, y - frame.minY); }
+      }
+      if (count < 8) throw new Error(`${names[index]}: missing authored cyan neck socket`);
+      materialMetadata = { semantic: sheet.startsWith('rig-'), socketOnly: sheet === 'family-transport-components', socket: [sx / count, sy / count], socketPixels: count,
+        skinSpan: Number.isFinite(skinMin) ? skinMax - skinMin + 1 : 0, neutralClothing: names[index].startsWith('rig-body-infant-') && !names[index].includes('covered'),
+        ...(sheet.startsWith('rig-heads-') ? { fixedTint: names[index].includes('straw') ? [191, 159, 91] : names[index].includes('rust-woman') ? [223, 211, 180] : [151, 116, 71] } : {}) };
+    }
     frames[names[index]] = {
       sheet, x: frame.minX, y: frame.minY,
       w: frame.maxX - frame.minX + 1, h: frame.maxY - frame.minY + 1,
@@ -554,6 +572,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       ...(HOUSE_SHEETS.includes(sheet) && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
       ...(HOUSE_SHEETS.includes(sheet) && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
       ...(MODULE_METADATA[names[index]] || {}),
+      ...materialMetadata,
       ...(logicalHeight ? { logicalHeight } : {}),
       label: names[index].replaceAll('-', ' '), kind: sheet,
       row: frame.row + 1, column: frame.col + 1,
@@ -561,8 +580,31 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
     };
   });
 }
+// Rig parts have explicit painted sockets. All aliases retain exact source bounds; no raster edits.
+for(const [sheet,info] of Object.entries(sheets))if(sheet.startsWith('rig-')){
+ const list=Object.values(frames).filter(f=>f.sheet===sheet);
+ if(sheet.startsWith('rig-heads-')){
+  for(const [name,f]of Object.entries(frames).filter(([,f])=>f.sheet===sheet)){const front=frames[name.replace(/-(e|n|closed)$/,'-s')]||f;f.logicalHeight=(front.skinSpan||front.h*.65)/.65;}
+ }else{
+  const seated=sheet.endsWith('-saddle')||sheet.endsWith('-mounted-service'),baby=sheet==='rig-infant-body';
+  const reference=list[0],height=reference.h-reference.socket[1];
+  const paired=['rig-capture-poses','rig-sow-poses','rig-harvest-poses'].includes(sheet);
+  for(const f of list){const ref=sheet.startsWith('rig-camp-')?list.find(p=>p.row===f.row&&p.column===1):paired?list.find(p=>p.row===f.row&&Math.floor((p.column-1)/2)===Math.floor((f.column-1)/2)):reference;f.logicalHeight=(ref.h-ref.socket[1])/(seated||sheet.startsWith('rig-camp-')?.6:baby?.5:.8);}
+ }
+}
+for(const f of Object.values(frames))if(f.sheet==='rig-covered-patients'){
+ const partner=Object.values(frames).filter(p=>p.sheet===f.sheet&&p.row===f.row&&Math.floor((p.column-1)/2)===Math.floor((f.column-1)/2));
+ f.logicalHeight=Math.max(...partner.map(p=>p.w-p.socket[0]))/.8;
+}
+for(const f of Object.values(frames))if(f.sheet==='family-transport-components')f.logicalHeight=Math.max(...Object.values(frames).filter(p=>p.sheet===f.sheet&&p.row===f.row).map(p=>p.h));
+for(const [name,rig] of Object.entries(FRAME_ALIASES))if(frames[rig.source]&&frames[rig.patient||rig.head]){
+ const full=rig.body==='infant'?1:rig.body==='smallchild'?1.24:rig.body?.startsWith('child')?1.18:rig.body?.startsWith('youth')?1.13:1.10;
+ frames[name]={...frames[rig.source],...(rig.patient?{compound:rig}:{rig:{...rig,headScale:rig.headScale/full},logicalHeight:frames[rig.source].logicalHeight*full}),label:name.replaceAll('-',' ')};
+}
 // C1: one ground point per locomotion clip - the same offset from the silhouette's centroid in every frame, as a fraction of the
-// figure's height, so a clip mixing sheets drawn at different scales still agrees.
+// figure's height, so a clip mixing sheets drawn at different scales still agrees. After the family rig's aliases are made, so a
+// rig walk (an alias of a body frame, its head on it) is held to its body's silhouette as every walk is (2026-10-13).
+for (const [name, rig] of Object.entries(FRAME_ALIASES)) if (frames[name] && bodies[rig.source] !== undefined) bodies[name] = bodies[rig.source];
 for (const group of locomotionGroups(ANIMATION_CLIPS, frames)) {
   const logical = name => frames[name].logicalHeight || frames[name].h;
   const offsets = group.map(name => (frames[name].x + frames[name].anchorX * frames[name].w - bodies[name]) / logical(name)).sort((a, b) => a - b);

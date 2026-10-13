@@ -186,8 +186,10 @@ try {
   // is a Claude drawing of her cast figure, held back while hers is in the library (owner, 2026-09-29: her art wins by subject).
   assert.deepEqual(inForce.cast, [], `the family's person was drawn in Claude's cast figure, not Astra's volunteer: ${JSON.stringify(inForce.cast)}`);
   assert.ok(inForce.members?.includes(personId) && inForce.drawn, `the family's person was not drawn in the force: ${JSON.stringify(inForce)}`);
-  assert.ok(inForce.clips.includes('volunteer-fire-reload'), `the family's person never fired: ${JSON.stringify(inForce.clips)}`);
-  ok(`the family's own person ${personId} is drawn in the Texian force in its poses: ${inForce.clips.join(', ')}${inForce.appearance ? '; an appearance chosen, still Astra\'s volunteer' : ' (no appearance chosen)'}`);
+  // With a look chosen, the person fires in Astra's family rig in their own identity (2026-10-13); without one, as her volunteer.
+  const expectedFire = await fighter.evaluate(async id => { const e = window.__snapshot.world.entities.find(p => p.id === id); const { avatarVariant } = await import('/avatar-identity.js'); return e.appearance ? `${avatarVariant(e.appearance, e.sex, e)}-rig-fire-reload` : 'volunteer-fire-reload'; }, personId);
+  assert.ok(inForce.clips.includes(expectedFire), `the family's person never fired in its own identity: ${JSON.stringify(inForce.clips)}`);
+  ok(`the family's own person ${personId} is drawn in the Texian force in its poses: ${inForce.clips.join(', ')}${inForce.appearance ? '; an appearance chosen, in Astra\'s family rig' : ' (no appearance chosen)'}`);
   const frames = moments.map(one => one.view?.frameMs?.p95).filter(Number.isFinite);
   evidence.frameMs = { battleP95Max: Math.max(...frames), mapDrawMs: moments.map(one => one.frame).filter(Number.isFinite) };
   ok(`the battle draws in ${Math.max(...frames).toFixed(1)} ms at its slowest 95th percentile, of a map frame of ${Math.max(...evidence.frameMs.mapDrawMs).toFixed(1)} ms at most`);

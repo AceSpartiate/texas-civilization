@@ -1,4 +1,5 @@
 import {avatarVariant} from './avatar-identity.js';
+import {familyRigSeat} from './family-rig-bindings.js';
 // Display-only state. Holds only the currently permitted projection; never predicts
 // travel, resolves work, or keeps an actor after visibility is withdrawn.
 // The one person a student directs wears a colour nobody else can wear, and the choice
@@ -329,6 +330,8 @@ export const seatFigure = entity => figureOf(entity);
 export function seatedClip(entity, direction = 'e', seat = 'horse') {
   const figure = seat === 'passenger' && entity.appearance ? avatarVariant(entity.appearance, entity.sex, entity) : seatFigure(entity);
   const facing = ['n', 's', 'e', 'w'].includes(direction) ? direction : 'e';
+  const rig=entity.appearance&&familyRigSeat(avatarVariant(entity.appearance,entity.sex,entity),facing,seat);
+  if(rig&&['horse','wagon','passenger'].includes(seat))return rig;
   // No west sheet: west is the east cycle mirrored, which the caller's `flip` does. North and south are painted and are
   // never mirrored, which is what `upright` means everywhere else in this file.
   if (seat === 'horse' && (RIDING_FIGURES.includes(figure) || CLAUDE_RIDING_FIGURES.includes(figure))) {
@@ -496,11 +499,11 @@ export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rid
   const back = vertical ? (direction === 'n' ? 1 : -1) * 0.13 * wagon * (row + 1) : 0;
   const seat = wagon * SEAT.wagonSeat * (1.02 - 0.04 * side);
   if (seated) {
-    const height = rider * 0.65;
+    const height = seated==='rig'?rider:rider * 0.65;
     // Complete seated bodies sit at the visible box rim, rather than the old cropped figure's lower composite anchor.
     const rim = wagon * 0.86 * (1.02 - 0.04 * side);
     // A carry basket rests in the bed; it has no dangling legs/hip to align with the rail.
-    const rise = seated === 'basket' ? wagon * .14 : SEAT.driverHip * height;
+    const rise = seated === 'basket' ? wagon * .14 : seated==='rig'?.30*height:SEAT.driverHip * height;
     return { part: 'passenger', dx, dy: -rim + rise + back, height, seated: true, ...(direction === 'n' && { front: true }) };
   }
   return { part: 'passenger', dx, dy: -seat + SEAT.hip * rider + back, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, ...(direction === 'n' && { front: true }) };
@@ -521,7 +524,8 @@ function tailLayout(direction, index, wagon, rider, rig, seated = false) {
   const hip = rig.dy + at.dy * wagon;
   // Astra's whole seated passenger, to her contract (`bedLayout` seated): 0.65 of their height, the hip on the rail.
   if (seated) {
-    const height = rider * 0.65, rise = seated === 'basket' ? wagon * .14 : SEAT.driverHip * height;
+    // Her family rig's seated layer (`'rig'`, 2026-10-13) is drawn at the person's own height, its hip 0.30 up it.
+    const height = seated === 'rig' ? rider : rider * 0.65, rise = seated === 'basket' ? wagon * .14 : seated === 'rig' ? .30 * height : SEAT.driverHip * height;
     return { part: 'passenger', dx: rig.dx + at.dx * wagon, dy: hip + rise, height, seated: true, rig: true, ...(direction === 's' ? { behind: true } : {}) };
   }
   return { part: 'passenger', dx: rig.dx + at.dx * wagon, dy: hip + SEAT.hip * rider, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, rig: true,

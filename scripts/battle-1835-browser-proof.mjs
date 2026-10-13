@@ -293,13 +293,13 @@ async function prove(fight) {
     // ---------------------------------------------------------------- the family's person in the force, and the staged fate
     const personIn = await fighter.evaluate(id => ({ members: window.__battleView?.members, clips: window.__battleView?.memberClips, drawn: window.__drawnAt?.[id] }), proof.a);
     assert.ok(personIn.members?.includes(proof.a) && personIn.drawn, `the family's person was not drawn in the force: ${JSON.stringify(personIn)}`);
-    assert.ok(personIn.clips.some(clip => ['volunteer-fire-reload', 'volunteer-load', 'volunteer-e', 'volunteer-w'].includes(clip)), `the family's person never took the force's poses: ${JSON.stringify(personIn.clips)}`);
+    assert.ok(personIn.clips.some(clip => ['volunteer-fire-reload', 'volunteer-load', 'volunteer-e', 'volunteer-w'].includes(clip) || /-rig-(fire-reload|load|aim)$/.test(clip)), `the family's person never took the force's poses: ${JSON.stringify(personIn.clips)}`);
     const fatePage = fight === 'concepcion' ? fighter : students['hh-2'];
     const expected = fight === 'concepcion' ? 'killed' : 'wounded';
     const fell = await fatePage.waitForFunction(([id, fate]) => window.__battleView?.memberFalls?.some(one => one.id === id && one.fate === fate) && window.__battleView.memberPoses?.some(one => one.id === id && one.drawn), [fated, expected], { timeout: 120000 }).then(() => true, () => false);
     assert.ok(fell, `the family's person was not drawn ${expected} at the staged moment`);
     const fateSeen = await fatePage.evaluate(id => ({ fates: window.__battleView.memberFalls, clips: window.__battleView.memberClips, phase: window.__snapshot.world.battle.phase, minute: window.__snapshot.world.minute, health: window.__snapshot.world.entities.find(one => one.id === id)?.health?.condition }), fated);
-    assert.ok(fateSeen.clips.includes(expected === 'killed' ? 'volunteer-reclining' : 'volunteer-injured') || fateSeen.clips.includes('volunteer-injured'), `the fate was not drawn in its pose: ${JSON.stringify(fateSeen)}`);
+    assert.ok(fateSeen.clips.includes(expected === 'killed' ? 'volunteer-reclining' : 'volunteer-injured') || fateSeen.clips.includes('volunteer-injured') || fateSeen.clips.some(clip => (expected === 'killed' ? /-rig-(still|fall|covered-1)$/ : /-rig-(wounded|carry-living|fall)$/).test(clip)), `the fate was not drawn in its pose: ${JSON.stringify(fateSeen)}`);
     await shot(fatePage, 'fate');
     evidence.fate = fateSeen;
     ok(`the family's own person ${proof.a} is drawn in the force in its poses (${personIn.clips.join(', ')}), and ${fated} is drawn ${expected} in the ${fateSeen.phase} at minute ${fateSeen.minute}, their panel saying ${fateSeen.health}`);
