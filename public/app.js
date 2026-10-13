@@ -31,9 +31,10 @@ import { GALE_POSES, GALE_SMOKE, drawWeatherTree, drawFogShape, drawHighWater, f
 /** The weather with the day fully up, for everything drawn into the kept ground (public/weather-art.js `weatherMix`). */
 const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
-import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
+import { CABIN_PEOPLE, PERSON_MILES, YARD_PICTURES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesNear, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { clearLaid, figureBox, inFront, paintInFront, redrawn } from '/trees-front.js';
+import { CAMP_GOODS } from '/yard-art.js';
 import { bindEnding, renderEnding, setEndingReader } from '/ending.js';
 import { bindFlashback, renderFlashback } from '/flashback.js';
 import { createCourtship } from '/courtship.js';
@@ -807,10 +808,12 @@ function miniBuilding(ctx, x, y, size, settlement = false, id = '', ruined = fal
  * is drawn if the sheet has not loaded.
  */
 const HOUSE_FALLBACK = { 'round-log': 'cabin-weathered', 'hewn-log': 'cabin-small', 'dog-run': 'cabin-wide', jacal: 'shed-open' };
-function homesteadHouse(ctx, x, y, size, id, view) {
-  if (view.shelter === 'camp') return homesteadCamp(ctx, x, y, size, id);
+// `noCamp`: the camp is drawn on its own, where the yard's layout put it (`land.campAt`, sim/yard-layout.mjs), not with the house.
+function homesteadHouse(ctx, x, y, size, id, view, noCamp = false) {
+  // The camp's goods are drawn at a person's size (`homesteadCamp`), not as shares of the house's size passed here.
+  if (view.shelter === 'camp') return noCamp ? undefined : homesteadCamp(ctx, x, y, size / CABIN_PEOPLE, id);
   if (view.shelter === 'building') {
-    homesteadCamp(ctx, x - size * .55, y + size * .18, size * .7, id);
+    if (!noCamp) homesteadCamp(ctx, x - size * .55, y + size * .18, size / CABIN_PEOPLE, id);
     if (view.layout && drawSprite(ctx, `house-${view.layout}-${view.phase || 'site'}`, x + size * .12, y, size)) return;
     drawSprite(ctx, 'log-fallen', x + size * .38, y - size * .08, size * .5);
     drawSprite(ctx, 'log-fallen', x + size * .46, y + size * .08, size * .46);
@@ -819,12 +822,16 @@ function homesteadHouse(ctx, x, y, size, id, view) {
   if (view.shelter === 'house' && view.layout && (drawSprite(ctx, `house-${view.layout}`, x, y, size) || drawSprite(ctx, HOUSE_FALLBACK[view.layout], x, y, size * (view.layout === 'jacal' ? .8 : 1)))) return;
   return miniBuilding(ctx, x, y, size, false, id, view.shelter === 'ruined');
 }
-function homesteadCamp(ctx, x, y, size, id = '') {
+/**
+ * The family's camp at (x, y), a person `figure` px tall: its fire, pot, bedroll and goods at their own sizes in people (public/yard-art.js
+ * `CAMP_GOODS`; owner, 2026-10-13: "fix the giant bedroll too" - it was drawn as a share of a house's size, wider than the wagon).
+ */
+function homesteadCamp(ctx, x, y, figure, id = '') {
   const seed = seedOf(id);
-  if (!animated(ctx, 'fire-flicker', x + size * .12, y + size * .08, size * .34, seed)) drawSprite(ctx, 'campfire', x + size * .12, y + size * .08, size * .34);
-  drawSprite(ctx, 'cooking-pot', x + size * .34, y + size * .12, size * .2);
-  drawSprite(ctx, 'bedroll', x - size * .28, y + size * .2, size * .34);
-  drawSprite(ctx, 'packed-belongings', x - size * .06, y - size * .12, size * .36);
+  for (const one of CAMP_GOODS) {
+    const at = { x: x + one.dx * figure, y: y + one.dy * figure }, tall = one.height * figure;
+    if (!(one.clip && animated(ctx, one.clip, at.x, at.y, tall, seed))) drawSprite(ctx, one.sprite, at.x, at.y, tall);
+  }
 }
 // Open-grown post oak: a broad canopy on a short trunk (HIST-GONZ-012). Kept as the
 // fallback for when the nature sheet has not loaded, or has failed to.
@@ -1820,6 +1827,40 @@ function drawnBox(draw) {
   };
   try { draw(new Proxy(followed, { get: (to, key) => key in to ? to[key] : () => {}, set: (to, key, value) => { to[key] = value; return true; } })); } catch { /* a shape this context cannot follow: its pictures so far */ }
   return box;
+}
+/** A screen box in whole pixels, for the proofs' evidence. */
+const roundBox = box => ({ left: Math.round(box.left), top: Math.round(box.top), right: Math.round(box.right), bottom: Math.round(box.bottom) });
+/**
+ * A thing standing round the house drawn inside its footprint (sim/house-footprint.mjs `YARD_PICTURES`, in people of `figure` px from
+ * its foot at (x, y)), which the server lays the yard out by (sim/yard-layout.mjs): `draw(ctx, x, y, k)` draws it at scale `k`. Measured
+ * as drawn (`drawnBox`), it is shrunk to fit if it is wider or taller and moved in if it reaches past a side, so a sheet drawn
+ * larger than its stand-in never spills onto its neighbour. Returns the drawing, the scale and the box it covers.
+ */
+function fitInside(ctx, what, x, y, figure, draw) {
+  const p = YARD_PICTURES[what], room = { left: x - p.left * figure, right: x + p.right * figure, top: y - p.up * figure, bottom: y + p.down * figure };
+  const one = drawnBox(c => draw(c, x, y, 1));
+  if (!one) return { k: 1, box: null, draw: () => draw(ctx, x, y, 1) };
+  const k = Math.min(1, (room.right - room.left) / Math.max(1e-6, one.right - one.left), (room.bottom - room.top) / Math.max(1e-6, one.bottom - one.top));
+  // Scaled about its foot, then moved in from any side it still reaches past.
+  const box = { left: x + (one.left - x) * k, right: x + (one.right - x) * k, top: y + (one.top - y) * k, bottom: y + (one.bottom - y) * k };
+  const dx = Math.max(0, room.left - box.left) - Math.max(0, box.right - room.right), dy = Math.max(0, room.top - box.top) - Math.max(0, box.bottom - room.bottom);
+  const at = { x: x + dx, y: y + dy };
+  return { k, box: { left: box.left + dx, right: box.right + dx, top: box.top + dy, bottom: box.bottom + dy }, draw: () => draw(ctx, at.x, at.y, k) };
+}
+/**
+ * The family's wood pile standing at (x, y), `height` pixels high, for `pile` tens of logs: one sprite for its size (`wood-pile-1`..`-4`),
+ * or, while that is held back for Astra's logs, that many `log-fallen` laid in a row stepping back to the left.
+ */
+function drawWoodPile(ctx, x, y, height, pile) {
+  if (spriteReady(`wood-pile-${pile}`)) { drawSprite(ctx, `wood-pile-${pile}`, x, y, height); return; }
+  for (let i = pile - 1; i >= 0; i--) drawSprite(ctx, 'log-fallen', x - height * i * 0.3, y - height * i * 0.18, height);
+}
+/**
+ * The family's tent standing at (x, y), `tall` pixels high. The canvas tent's anchor is its back corner peg; drawn a third of its
+ * height to the east, its open door stands on the place itself, so the family sheltering there is drawn sitting in the doorway.
+ */
+function drawTent(ctx, x, y, tall) {
+  if (!drawSprite(ctx, 'homestead-tent', x, y, tall)) drawSprite(ctx, 'tent', x + tall * 0.36, y - tall * 0.04, tall);
 }
 /** A placed house drawn in `box` (screen pixels) opens its site's rooms, kept in sizes so a moved camera carries it. */
 function notePlacedHouse(siteId, box, size) {
@@ -4234,6 +4275,8 @@ function drawWorldNow(world) {
   if (ground && !audit) window.__crossingsDrawn = {};
   // Each family's house, or houses, as one standing item, kept apart from the others' after this loop.
   const familyHouses = [];
+  // Where the tent, the camp, the woodpile and the garden were drawn on the family's own land this frame (`__yardPictures`).
+  const yardPictures = {};
   for (const site of sitesOf(world)) {
     // A road junction is a shape in the network, not a place: it must never draw a building.
     if (site.kind === 'junction') continue;
@@ -4290,16 +4333,18 @@ function drawWorldNow(world) {
       }else if (ownLand && world.land?.house?.pieces && plotCatalogue) {
         // The family's house plot, piece by piece at its stage (public/house-plot.js); the camp beside it until a pen stands.
         familyHouses.push({ own: true, siteId: site.id, box: () => landHomeBox(camera, q, world.land.house, world.land.completedHouses),
-          item: { y: q.y, draw: () => { if (world.land.shelter === 'camp') homesteadCamp(ctx, q.x - yard * .9, q.y + yard * .35, yard * .7, site.id); window.__plotPiecesDrawn = drawLandHouses(ctx, camera, site.id, q, size, world.land.house, world.land.completedHouses); } } });
+          item: { y: q.y, draw: () => { if (world.land.shelter === 'camp' && !world.land.campAt) homesteadCamp(ctx, q.x - yard * .9, q.y + yard * .35, camera.figure, site.id); window.__plotPiecesDrawn = drawLandHouses(ctx, camera, site.id, q, size, world.land.house, world.land.completedHouses); } } });
       }else if (theirs?.pieces && plotCatalogue) {
         // The same house plot, for any family, on the Host's map.
         const current = { pieces: theirs.pieces, placement: theirs.housePlacement };
         familyHouses.push({ own: false, siteId: site.id, box: () => landHomeBox(camera, q, current, theirs.completedHouses),
-          item: { y: q.y, draw: () => { if (theirs.view.shelter !== 'house') homesteadCamp(ctx, q.x - yard * .9, q.y + yard * .35, yard * .7, site.id); hostLandsDrawn[site.id].pieces = theirs.pieces.length; drawLandHouses(ctx, camera, site.id, q, size, current, theirs.completedHouses); } } });
+          item: { y: q.y, draw: () => { if (theirs.view.shelter !== 'house' && !theirs.campAt) homesteadCamp(ctx, q.x - yard * .9, q.y + yard * .35, camera.figure, site.id); hostLandsDrawn[site.id].pieces = theirs.pieces.length; drawLandHouses(ctx, camera, site.id, q, size, current, theirs.completedHouses); } } });
       }else if (view && site.kind === 'homestead') {
         // A family's land as this family knows it, or as it last saw a neighbour's: a house the size a house is drawn, a
         // camp the size a camp is.
-        const drawn = c => homesteadHouse(c, q.x, q.y, view.shelter === 'camp' ? yard : size, site.id, view);
+        // Not drawn at all while the family is still on its road in: the camp is made when it gets there.
+        const laidOut = Boolean(theirs ? theirs.campAt || theirs.arriving : ownLand && (world.land?.campAt || world.land?.arriving));
+        const drawn = c => homesteadHouse(c, q.x, q.y, view.shelter === 'camp' ? yard : size, site.id, view, laidOut);
         familyHouses.push({ own: ownLand, siteId: site.id, box: () => drawnBox(drawn), item: { y: q.y, draw: () => drawn(ctx) } });
       }else standing.push({ y: q.y, draw: () => view ? homesteadHouse(ctx, q.x, q.y, view.shelter === 'camp' ? yard : size, site.id, view) : miniBuilding(ctx, q.x, q.y, size, true, site.id) });
       // The family's tent until its house has a roof (sim/shelter.mjs, owner 2026-10-02), where the server put it beside the camp:
@@ -4309,9 +4354,11 @@ function drawWorldNow(world) {
       if (tentAt) {
         // The canvas tent's anchor is its back corner peg; drawn a third of its height to the east, its open door stands on the
         // place itself, so the family sheltering there is drawn sitting in the doorway (and a little before it) rather than beside it.
-        const spot = camera.toScreen(tentAt), tall = Math.max(6, camera.figure * 1.7);
-        standing.push({ y: spot.y - 1, draw: () => { if (!drawSprite(ctx, 'homestead-tent', spot.x, spot.y, tall)) drawSprite(ctx, 'tent', spot.x + tall * 0.36, spot.y - tall * 0.04, tall); } });
-        (window.__tentsDrawn ??= {})[site.id] = { x: Math.round(spot.x), y: Math.round(spot.y), size: Math.round(tall) };
+        // Fitted inside the tent's footprint (sim/house-footprint.mjs `YARD_PICTURES`), which the yard is laid out by (sim/yard-layout.mjs).
+        const spot = camera.toScreen(tentAt), fitted = fitInside(ctx, 'tent', spot.x, spot.y, camera.figure, (c, x, y, k) => drawTent(c, x, y, Math.max(6, camera.figure * 1.7) * k));
+        standing.push({ y: spot.y - 1, draw: fitted.draw });
+        (window.__tentsDrawn ??= {})[site.id] = { x: Math.round(spot.x), y: Math.round(spot.y), size: Math.round(Math.max(6, camera.figure * 1.7) * fitted.k), ...(fitted.box && { box: roundBox(fitted.box) }) };
+        if (ownLand) yardPictures.tent = fitted.box && roundBox(fitted.box);
       } else if (window.__tentsDrawn?.[site.id]) delete window.__tentsDrawn[site.id];
       // The kitchen garden beside the house (owner, 2026-10-03; sim/housework.mjs), once it is laid out: rows of earth, green in its
       // season and thin in the winter months. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 "men's work, women's work and the
@@ -4321,6 +4368,8 @@ function drawWorldNow(world) {
         const g = camera.toScreen(gardenAt), half = Math.max(6, 0.009 * camera.scale);
         standing.push({ y: g.y - half, draw: () => drawGarden(ctx, g.x, g.y, half, gardenAt.season) });
         (window.__gardenDrawn ??= {})[site.id] = { x: Math.round(g.x), y: Math.round(g.y), half: Math.round(half), season: gardenAt.season };
+        // The beds as drawn: the stand-in's rows, or the sprite, whichever is the wider.
+        yardPictures.garden = roundBox(drawnBox(c => drawGarden(c, g.x, g.y, half, gardenAt.season)) || { left: g.x - half, right: g.x + half, top: g.y - half * .65, bottom: g.y + half * .65 });
       } else if (window.__gardenDrawn?.[site.id]) delete window.__gardenDrawn[site.id];
       // A new town's shops, each keeper's own building at its place (sim/shops.mjs, docs/TOWNS.md). Drawn for anybody, as
       // a town's buildings are; who is standing in them is still only seen by somebody who is there.
@@ -4345,7 +4394,19 @@ function drawWorldNow(world) {
       // pile is held back and her logs are drawn (owner, 2026-09-29, public/art-subjects.js: her art wins by subject).
       const piled = theirs ? theirs.logs || 0 : ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;
       const pile = Math.min(4, Math.ceil(piled / 10));
-      if (pile && spriteReady(`wood-pile-${pile}`)) {
+      // Where the yard's layout set the pile down, clear of the tent, the camp, the beasts and the ways (sim/yard-layout.mjs, owner
+      // 2026-10-13: "garden and logs for example conflict with roads and the tent"), fitted inside its footprint.
+      const pileAt = settlement ? null : theirs ? theirs.woodpileAt : ownLand ? world.land?.woodpileAt : null;
+      if (pile && pileAt) {
+        const at = camera.toScreen(pileAt), fitted = fitInside(ctx, 'woodpile', at.x, at.y, camera.figure, (c, x, y, k) => drawWoodPile(c, x, y, camera.figure * SIZE.logPile * k, pile));
+        standing.push({ y: at.y, draw: fitted.draw });
+        if (ownLand && fitted.box) {
+          // Where it was drawn, for the proofs (npm run test:work, test:yard-layout), read by nothing in the application.
+          const b = fitted.box;
+          window.__woodPileAt = { x: (b.left + b.right) / 2, y: b.bottom, width: b.right - b.left, height: (b.bottom - b.top) / 1.6 };
+          yardPictures.woodpile = roundBox(b);
+        }
+      } else if (pile && spriteReady(`wood-pile-${pile}`)) {
         // The pile's anchor is the front of its base: set where the old row of logs lay, its middle.
         const x = q.x - yard * .95 - camera.figure * SIZE.logPile * .7, y = q.y + yard * .36;
         standing.push({ y, draw: () => {
@@ -4362,6 +4423,15 @@ function drawWorldNow(world) {
         } });
       }
       if (ownLand) { window.__logPileDrawn = pile; window.__woodPileSprite = pile && spriteReady(`wood-pile-${pile}`) ? `wood-pile-${pile}` : null; }
+      // The camp's fire, pot, bedding and goods until there is a roof, where the yard's layout set it down (sim/yard-layout.mjs), fitted
+      // inside its footprint: until 2026-10-13 drawn a house's size at the site, its bedroll and goods larger than the wagon.
+      const campAt = settlement ? null : theirs ? theirs.campAt : ownLand ? world.land?.campAt : null;
+      if (campAt) {
+        const at = camera.toScreen(campAt), fitted = fitInside(ctx, 'camp', at.x, at.y, camera.figure, (c, x, y, k) => homesteadCamp(c, x, y, camera.figure * k, site.id));
+        standing.push({ y: at.y, draw: fitted.draw });
+        if (ownLand) yardPictures.camp = fitted.box && roundBox(fitted.box);
+      }
+      if (ownLand) window.__yardPictures = { ...yardPictures, figure: camera.figure };
       // The family's real herd (owner, 2026-10-03; public/herd-view.js): every head the server counts, drawn on the land - the young
       // smaller, a big herd as a few head and a group with its count on the hover, in near the house at night, about whoever of the
       // family is out after the stock. Until 2026-10-03 one longhorn and one hog stood beside any house that chose stock, whatever

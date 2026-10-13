@@ -301,7 +301,11 @@ test("a new family's yard is a few rods across and its first field is ten acres 
       const home = world.map.sites[household.homeSiteId];
       for (const id of [...household.members, ...household.property]) {
         const entity = world.entities[id], at = entity.travel?.settle || entity.location;
-        assert.ok(Math.hypot(at.x - home.x, at.y - home.y) < 0.1, `${id} stands within a few rods of the house on the ${map} map`);
+        // Within a few rods - not the quarter mile of before 2026-09-14. Since 2026-10-13 a beast or a wagon stands clear of the house as
+        // the map draws it, whose roof and sides reach 0.07 to 0.1 mile from the site, and of the woodpile (sim/yard-layout.mjs), so its
+        // stand can be some way out where a river runs by (the invented map's are drawn a quarter mile wide); a person stands at the door.
+        const near = entity.kind === 'person' ? 0.1 : 0.25;
+        assert.ok(Math.hypot(at.x - home.x, at.y - home.y) < near, `${id} stands within a few rods of the house on the ${map} map`);
       }
       const field = world.map.terrain.find(feature => feature.kind === 'field' && feature.ownerHouseholdId === household.id);
       const xs = field.points.map(point => point.x), ys = field.points.map(point => point.y);

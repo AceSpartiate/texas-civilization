@@ -78,7 +78,7 @@ test('a mule bought is led home on a halter at its leader\'s pace and stands in 
   assert.equal(buyer.chore, null);
   assert.equal(bought.location.siteId, family.homeSiteId, 'the mule did not come home');
   const site = world.map.sites[family.homeSiteId];
-  assert.deepEqual({ x: bought.location.x, y: bought.location.y }, yardSpot(site, bought), 'the mule is not standing in the yard');
+  assert.deepEqual({ x: bought.location.x, y: bought.location.y }, yardSpot(site, bought, world), 'the mule is not standing in the yard at its own stand');
   assert.equal(family.resources.money, 60 - MULE_COIN);
   const ways = goingFor(world, 'hh-1', person(world, 'mateo').id, hunt).ways;
   assert.deepEqual(ways.map(way => way.id), ['horse', 'mule', 'foot', 'wagon']);

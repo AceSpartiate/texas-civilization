@@ -143,6 +143,8 @@ const files = new Map([
   ['/woods-view.js', ['../public/woods-view.js', 'text/javascript']],
   // Which of the ground's trees are drawn again over somebody walking among them (public/app.js `treesInFront`, 2026-10-05).
   ['/trees-front.js', ['../public/trees-front.js', 'text/javascript']],
+  // What the family's camp is drawn with, at a person's size (public/app.js `homesteadCamp`, 2026-10-13).
+  ['/yard-art.js', ['../public/yard-art.js', 'text/javascript']],
   ['/house-plot.js', ['../public/house-plot.js', 'text/javascript']],
   ['/house-roof-art.js', ['../public/house-roof-art.js', 'text/javascript']],
   // A house on the ground, as drawn and as checked (sim/house-footprint.mjs): the page draws the footprint the server refuses.

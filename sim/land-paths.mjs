@@ -44,6 +44,7 @@ import { CABIN_PEOPLE, PERSON_MILES } from './house-footprint.mjs';
 import { PLOT_SIDE, plotsOf, squareOf } from './fields.mjs';
 import { polylineLength } from './geography.mjs';
 import { herdOf } from './stock.mjs';
+import { lineNear, woodpileFront, yardLayout, yardWalls } from './yard-layout.mjs';
 
 const r4 = value => { const fixed = Math.round(value * 10000) / 10000; return fixed === 0 ? 0 : fixed; };
 const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -217,7 +218,9 @@ const markedWays = new Map();
 function groundFor(world, household) {
   const real = findsWays(world);
   const felled = world.woods?.felled || {};
-  const houses = housesOnLand(world, household).map(house => house.footprint).filter(box => Number.isFinite(box?.minX));
+  // And the woodpile, the garden, the tent and where the wagons stand (sim/yard-layout.mjs, owner 2026-10-13: "garden and logs for example conflict with roads
+  // and the tent"): a way goes round them as round a house, and into one by its front.
+  const houses = [...housesOnLand(world, household).map(house => house.footprint), ...yardWalls(world, household)].filter(box => Number.isFinite(box?.minX));
   const plots = plotsOf(world, household).filter(plot => plot.state === 'cleared' && Number.isFinite(plot.x));
   const cleared = plots.map(squareOf);
   const ways = madeWays(world, household);
@@ -735,8 +738,14 @@ export function yardGate(world, household) {
   if (!yard) return null;
   return { x: Number.isFinite(yard.gate) ? yard.gate : gateAlong(world, yard, doorOf(world, household)), y: r4(yard.maxY) };
 }
-/** Where the family stacks its logs beside the house (`PILE_AT`). */
+/**
+ * Where the family stacks its logs beside the house: left of it and a little before it, clear of everything else round it
+ * (sim/yard-layout.mjs, owner 2026-10-13). The way to it ends before its foot (`woodpileFront`), not under the logs. `PILE_AT`, the
+ * fixed place of before, where the layout has none.
+ */
 export function woodpileAt(world, household) {
+  const laid = yardLayout(world, household)?.woodpile;
+  if (laid) return { x: laid.x, y: laid.y };
   const site = world.map.sites[household.homeSiteId];
   return site ? { x: r4(site.x + PILE_AT.x * PERSON_MILES), y: r4(site.y + PILE_AT.y * PERSON_MILES) } : null;
 }
@@ -790,7 +799,7 @@ export function troddenTo(world, household, door = doorOf(world, household)) {
   }
   const gate = yardGate(world, household);
   if (gate) wanted.push({ to: 'yard-gate', at: gate });
-  if (countsTrees(woodsRule(world))) { const pile = woodpileAt(world, household); if (pile) wanted.push({ to: 'woodpile', at: pile }); }
+  if (countsTrees(woodsRule(world))) { const pile = woodpileFront(world, household) || woodpileAt(world, household); if (pile) wanted.push({ to: 'woodpile', at: pile }); }
   const herd = herdOf(household);
   for (const kind of ['cattle', 'hogs']) if (herd[kind] > 0) wanted.push({ to: `stock-${kind}`, at: stockGround(world, household, kind) });
   return wanted;
@@ -798,7 +807,17 @@ export function troddenTo(world, household, door = doorOf(world, household)) {
 const nextPathId = household => `path-${pathsOf(household).reduce((most, path) => Math.max(most, Number(path.id.slice(5)) || 0), 0) + 1}`;
 const near = (a, b) => dist(a, b) < 0.002;
 /** Whether a trodden way still begins at the door, ends where its place is, and was laid with the yard's rails as they stand now. */
-const laidRight = (path, door, railed, at) => near(path.points[0], door) && near(path.points.at(-1), at) && Boolean(path.gate) === railed;
+const laidRight = (path, door, railed, at, walls = []) => near(path.points[0], door) && near(path.points.at(-1), at) && Boolean(path.gate) === railed
+  && !walls.some(box => crosses(path.points, box));
+/**
+ * Whether a way runs through a thing standing in the yard (sim/yard-layout.mjs `yardWalls`): a way laid before the woodpile, the garden
+ * or the tent stood where they stand now is laid again round them. Judged a tree cell in from the thing's edges, since the way-finding
+ * keeps out of a cell whose middle is inside it and its straight stretches may cut a corner by less than that.
+ */
+function crosses(points, box) {
+  const inner = { minX: box.minX + TREE_MILES, minY: box.minY + TREE_MILES, maxX: box.maxX - TREE_MILES, maxY: box.maxY - TREE_MILES };
+  return inner.minX < inner.maxX && inner.minY < inner.maxY && lineNear(inner, points, 1e-6);
+}
 /**
  * A way laid from the door to a place, and whether one was found for it (near the door it is laid straight). Out of a fenced yard it
  * goes through the gate, because the way-finding does not cross the rails (`onRails`).
@@ -813,7 +832,9 @@ function lookedAt(world, household, door, gate) {
   return [world.seed, home.x, home.y, door.x, door.y, gate ? `${gate.x},${gate.y}` : '-', yard ? `${yard.minX},${yard.minY},${yard.maxX},${yard.maxY}` : '-',
     plotsOf(world, household).filter(plot => plot.state === 'cleared').map(plot => `${plot.id}@${plot.x},${plot.y}`).join(','), household.site?.needsWell, herd.cattle > 0, herd.hogs > 0,
     // And the paths themselves, so a copy of the class (a save opened again in the same process) is looked at on its own.
-    pathsOf(household).length].join(':');
+    pathsOf(household).length,
+    // And everything standing round the house (sim/yard-layout.mjs): a way laid through where something now stands is laid again.
+    yardLayout(world, household)?.key || '-'].join(':');
 }
 
 /**
@@ -852,6 +873,7 @@ export function advanceLandPaths(world, settled) {
     const looked = lookedAt(world, household, door, gate);
     if (wantsNothing.get(household.id) === looked) continue;
     const wanted = troddenTo(world, household, door);
+    const walls = yardWalls(world, household);
     const places = new Set(wanted.map(one => one.to));
     // A way to something gone goes with it; a cut path, and a way laid before ways said where they go, stays.
     if (pathsOf(household).some(path => path.kind === 'trodden' && path.to && !places.has(path.to))) household.paths = pathsOf(household).filter(path => path.kind !== 'trodden' || !path.to || places.has(path.to));
@@ -860,7 +882,7 @@ export function advanceLandPaths(world, settled) {
       // Laid while the rails stand (`gate` on the path): a way laid before they went up, or before they came down, is laid again.
       const railed = Boolean(gate);
       const was = pathsOf(household).find(path => path.kind === 'trodden' && path.to === to);
-      if (was && laidRight(was, door, railed, at)) continue;
+      if (was && laidRight(was, door, railed, at, walls)) continue;
       if (laid >= TRODDEN_A_TICK) { behind = true; break; }
       // Found without the way it replaces, so a way laid again is not drawn along the line it was.
       const index = was ? pathsOf(household).indexOf(was) : -1;

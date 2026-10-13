@@ -144,7 +144,7 @@ export function applyMeans(world, household) {
     const want = Math.min(BEASTS_MOST, band.wagons);
     while (beastsOf(world, household, role).length < want) {
       const beast = addBeast(world, household, role, null, { at: { x: site.x, y: site.y, siteId: site.id } });
-      beast.location = { ...yardSpot(site, beast), siteId: site.id };
+      beast.location = { ...yardSpot(site, beast, world), siteId: site.id };
       added.push(beast.id);
     }
   }

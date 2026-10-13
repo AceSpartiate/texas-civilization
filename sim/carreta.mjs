@@ -119,7 +119,7 @@ export function makeCarreta(world, household, entity) {
   } else carreta = addBeast(world, household, 'wagon', null, { at: { x: site.x, y: site.y, siteId: site.id } });
   const made = beastsOf(world, household, 'wagon').filter(one => one.carreta).length;
   Object.assign(carreta, { carreta: true, name: made ? 'Second carreta' : 'Carreta' });
-  carreta.location = { ...yardSpot(site, carreta), siteId: site.id };
+  carreta.location = { ...yardSpot(site, carreta, world), siteId: site.id };
   record(world, 'improvement', {
     actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-398',
     text: `${entity.name} made a carreta: two solid wheels cut from a log, an axle and a frame of wood, lashed with rawhide. An ox draws it, and it carries ${CARRETA_CARRY} loads, where a wagon carries ${MODES.wagon.carry}.`,

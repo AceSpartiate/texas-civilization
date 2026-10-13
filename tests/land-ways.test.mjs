@@ -17,6 +17,7 @@ import { housesOnLand } from '../sim/house-placement.mjs';
 import { PLOT_SIDE, plotsOf, squareOf } from '../sim/fields.mjs';
 import { strollTarget } from '../sim/survey.mjs';
 import { PERSON_MILES } from '../sim/house-footprint.mjs';
+import { yardWalls } from '../sim/yard-layout.mjs';
 import { doorOf, landRoute, stepTo, treeCellAt, treesInBox, walkBeside, walkLand } from '../sim/land-paths.mjs';
 import { GAIT_CEILING, LAND_WALK_MILES_A_SECOND, ProjectionMotion, ROUND_MILES, landWalkMs, roundCorners, walkedFrom } from '../public/motion.js';
 
@@ -69,7 +70,8 @@ test('people keep to the family\'s trodden ways, and walk home along them to the
   const door = doorOf(world, household);
   // A way that turns a corner, over open ground with no tree, house or field near it: the straight line cuts the corner off by two
   // fifths, so somebody who counted the way no dearer than its walking pace would cut across.
-  const houses = housesOnLand(world, household).map(house => house.footprint), fields = plotsOf(world, household).map(squareOf);
+  // The houses, and what stands round them that the ways go round (sim/yard-layout.mjs `yardWalls`).
+  const houses = [...housesOnLand(world, household).map(house => house.footprint), ...yardWalls(world, household)], fields = plotsOf(world, household).map(squareOf);
   const starts = [];
   for (let x = bounds.minX + 0.02; x < bounds.maxX - 0.1; x += 0.02) for (let y = bounds.minY + 0.02; y < bounds.maxY - 0.1; y += 0.02) starts.push({ x, y });
   const start = starts.find(from => {

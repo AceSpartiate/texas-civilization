@@ -14,6 +14,7 @@ import { momentOf } from '../sim/directors.mjs';
 import { WAGON_SPEED } from '../sim/travel.mjs';
 import { settle } from './support/settled.mjs';
 import { settleMeans } from '../sim/means.mjs';
+import { standOf } from '../sim/yard-layout.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const everything = (world, household) => [...household.members, ...household.property].map(id => world.entities[id]);
@@ -69,8 +70,10 @@ test('a family on the road in can do nothing but come in, and comes in together'
     const yard = settled.entities[entity.id];
     assert.equal(entity.travel, null);
     assert.equal(entity.location.siteId, household.homeSiteId);
-    // Standing about the yard where a family always stood, not piled on one point.
-    assert.deepEqual(entity.location, yard.location, `${entity.id} did not come to its own place in the yard`);
+    // Standing about the yard where a family always stood, not piled on one point; a beast and a wagon at its own stand, clear of the
+    // tent, the camp and each other (sim/yard-layout.mjs, owner 2026-10-13).
+    const stand = entity.kind !== 'person' && standOf(world, household, entity);
+    assert.deepEqual(entity.location, stand ? { ...stand, siteId: household.homeSiteId } : yard.location, `${entity.id} did not come to its own place in the yard`);
     if (entity.kind === 'person') assert.equal(entity.task, yard.task, `${entity.name} did not go back to what they were doing`);
   }
   const arrivals = world.events.filter(event => event.householdId === household.id && event.type === 'arrival');

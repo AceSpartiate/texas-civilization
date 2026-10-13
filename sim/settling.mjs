@@ -24,6 +24,7 @@ import { onRealLand, paceOf } from './ground.mjs';
 import { loadSentence, wagonsOf } from './wagon.mjs';
 import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 import { CABIN_PEOPLE, PERSON_MILES } from './house-footprint.mjs';
+import { yardLayout } from './yard-layout.mjs';
 
 /**
  * How much of the usual rest a person gets lying out by the wagon at their own land.
@@ -46,13 +47,16 @@ export const CAMP_SPOILAGE_PER_DAY = 0.03;
 export const housed = household => improvementsOf(household).cabin === 'sound';
 
 /**
- * Where the family's tent stands: beside the camp, a few yards off the mark the camp is drawn at (public/app.js `homesteadCamp`, a
- * camp the size of a house to its left). Fixed for the land, so the tent never moves and is never a new place (sim/shelter.mjs).
- * ceiling: the tent stands at the camp whatever the house's placement; a house placed hard against the mark is drawn over it.
+ * Where the family's tent stands: west of the house and a little before it, clear of the house, the camp, the woodpile, the beasts,
+ * the field, the lane and the water (sim/yard-layout.mjs, owner 2026-10-13: "garden and logs for example conflict with roads and the
+ * tent"). Until 2026-10-13 a fixed 0.088 mile west of the mark, whatever stood there - the woodpile was drawn over it, and a house
+ * placed against the mark over both. It moves only when the land under it changes: a house planned over it, a plot cleared there.
  */
 export function tentPoint(world, household) {
   const site = world.map.sites[household.homeSiteId];
   if (!site) return null;
+  const laid = yardLayout(world, { ...household, improvements: { ...household.improvements, cabin: 'none' } });
+  if (laid?.tent) return laid.tent;
   const r4 = value => Math.round(value * 10000) / 10000;
   return { x: r4(site.x - 1.4 * CABIN_PEOPLE * PERSON_MILES), y: r4(site.y + 0.3 * CABIN_PEOPLE * PERSON_MILES) };
 }

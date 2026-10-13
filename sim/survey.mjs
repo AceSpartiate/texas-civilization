@@ -20,6 +20,7 @@ import { doorOf, walkLand } from './land-paths.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
 import { housesOnLand } from './house-placement.mjs';
+import { yardLayout } from './yard-layout.mjs';
 import { CLEARING_SPELLS, GROUNDS, clearingSpells, clearingTool, cropOf, cropState, fenceWords, groundAt, keepPlots, overlaps, plotAt, plotWater, plotsOf, squareOf } from './fields.mjs';
 import { fenceBy } from './woodpile.mjs';
 import { plotCropInvalid, plotReadyWords } from './crops.mjs';
@@ -58,6 +59,8 @@ export function plotRefusal(world, household, point, { ignoring = null } = {}) {
   if (home.x > square.minX - YARD_MILES && home.x < square.maxX + YARD_MILES && home.y > square.minY - YARD_MILES && home.y < square.maxY + YARD_MILES) return 'That would take in the house yard.';
   // Or a house as the map draws it, wherever it stands on the land (sim/house-placement.mjs refuses a house on the field).
   if (housesOnLand(world, household).some(house => overlaps(house.footprint, square))) return 'That would take in the house yard.';
+  // Or what stands round the house - the woodpile, the garden, the tent, the camp, the beasts' and the wagons' stands (sim/yard-layout.mjs).
+  if ((yardLayout(world, household)?.boxes || []).some(one => overlaps(one.box, square))) return 'That would take in the house yard.';
   const under = plotsOf(world, household).find(plot => overlaps(squareOf(plot), square));
   if (under) return under.state === 'cleared' ? 'That runs over ground the family has already cleared.' : 'That runs over ground already staked out.';
   const surveying = household.members.map(id => world.entities[id]).filter(person => person && person !== ignoring && person.chore?.id === 'survey-plot' && person.chore.plot);
