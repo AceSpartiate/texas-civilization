@@ -27,7 +27,7 @@ import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt }
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindLooks, renderLooks } from '/appearance.js';
-import { avatarBinding, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
+import { avatarBinding,avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
 import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
 import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away, wadesOf } from '/map-base.js';
@@ -315,6 +315,9 @@ function miniPerson(ctx, x, y, size, entity) {
   }
 }
 function recliningAvatar(ctx, x, y, size, entity) {
+  const identity=avatarVariant(entity.appearance,entity.sex,entity),dead=Boolean(entity.fallen||entity.health?.condition==='dead');
+  const sprite=`${identity}-rig-${dead?(identity==='infant'?'covered-1':'still'):'wounded-1'}`;
+  if(drawSprite(ctx,sprite,x,y,size*figureScale(entity),{appearance:entity.appearance}))return;
   ctx.save();
   ctx.translate(x + size * .43, y - size * .14);
   ctx.rotate(Math.PI / 2);
@@ -594,15 +597,20 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   // Asked before anything is drawn, because the whole layout depends on the answer: one painted rig has no horse under it
   // and nothing to clip. A sheet still on its way answers no and is asked for, so the next frame can answer yes.
   const delivered = seatedClip(entity, direction, seat);
-  const ready = !entity.appearance && Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
+  const ready = (delivered.rigLayer||!entity.appearance) && Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
+  const rigReady=ready&&delivered.rigLayer;
   const drawn = [];
   // Whoever rides in this wagon behind its driver (sim/company.mjs; owner, 2026-09-25), sat in it after the wagon and before the
   // driver, so the driver is drawn in front of them. They are not drawn again beside it (public/motion.js `carriedWithRider`).
-  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0);
+  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready&&!rigReady ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0);
+  if(rigReady)for(const part of layout)if(part.part==='rider'){
+    part.seated=true;part.height=figureScale(entity);delete part.shown;
+    part.dy=-(seat==='horse'?SIZE.horse*(vertical?.6:.57):SIZE.wagon*.44)+.30*part.height;
+  }
   const riders = passengersOf(team, entities).map((rider, i) => {
     const clip = seatedClip(rider, direction, 'passenger');
     const seated = Boolean(clip.seated && clipReady(clip.id));
-    return { ...bedLayout(direction, i, SIZE, figureScale(rider), seated && clip.basket ? 'basket' : seated), rider, passengerClip: clip };
+    return { ...bedLayout(direction, i, SIZE, figureScale(rider), seated && clip.basket ? 'basket' : seated&&clip.rigLayer?'rig':seated), rider, passengerClip: clip };
   });
   // Going north they sit nearer the camera than the driver (`front`), so they are drawn after the driver instead.
   const driverAt = layout.findIndex(part => part.part === 'rider');
@@ -633,7 +641,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
     if (part.part === 'rider' && (part.whole || part.seated)) {
       // Drawn entire and standing on its own ground line: the painted rig already has its legs, or the driver their boots.
       // A ridden east cycle is mirrored for west as every other east cycle is; a painted north or south one never is.
-      animated(ctx, delivered.id, px, py, height, entity.id, { flip: delivered.upright ? false : flip, gait: part.whole ? gait : undefined });
+      animated(ctx, delivered.id, px, py, height, entity.id, { flip: delivered.upright ? false : flip, gait: part.whole ? gait : undefined,appearance:delivered.rigLayer?entity.appearance:undefined });
     } else if (part.part === 'rider') {
       // Their own figure from the head down to just below the waist; the rest would be inside the saddle or the box.
       ctx.save();
@@ -852,7 +860,16 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     // A rider is drawn a horse's height (docs/BATTLES.md §6.13: Grant's men at Agua Dulce).
     const drawnSize = size * (pose.scale || 1);
     let done;
-    if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
+    if(pose.rigMounted){
+      const direction=pose.heading==='n'||pose.heading==='s'?pose.heading:pose.flip?'w':'e';
+      const layout=seatLayout('horse',direction,{horse:1.35},figureScale(entity),0);
+      for(const part of layout){
+        if(part.part==='horse')animated(ctx,['n','s'].includes(direction)?`horse-walk-${direction}`:pose.moving?'horse-walk':'horse-chestnut-idle',x,y,size*1.35,entity.id,{timeMs:pose.timeMs,flip:pose.flip,paused:!pose.moving});
+        else done=animated(ctx,pose.clip,x+part.dx*size*(pose.flip?-1:1),y+(-1.35*(['n','s'].includes(direction)?.6:.57)+.30*figureScale(entity))*size,size*figureScale(entity),entity.id,{timeMs:pose.timeMs,flip:pose.flip,appearance:entity.appearance});
+      }
+    }
+    else if(pose.rig)done=pose.sprite?drawSprite(ctx,pose.sprite,x,y,drawnSize*figureScale(entity),{flip:pose.flip,appearance:entity.appearance}):animated(ctx,pose.clip,x,y,drawnSize*figureScale(entity),entity.id,{timeMs:pose.timeMs,flip:pose.flip,appearance:entity.appearance});
+    else if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
     else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : pose.camp ? pose.timeMs / 165 : performance.now() / 165, working: true, flip: pose.flip, person: entity, ...(pose.camp && {clip:pose.clip}) });
     else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });

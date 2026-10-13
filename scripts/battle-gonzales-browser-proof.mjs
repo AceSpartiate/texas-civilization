@@ -164,7 +164,8 @@ try {
   ok(`the Come and Take It flag is on the screen at all ${firing.length} moments of the fighting, and the men shout its words`);
   const inForce = await fighter.evaluate(id => ({ members: window.__battleView?.members, clips: window.__battleView?.memberClips, drawn: window.__drawnAt?.[id], texian: window.__snapshot.world.battle?.sides.find(side => side.side === 'texian') }), personId);
   assert.ok(inForce.members?.includes(personId) && inForce.drawn, `the family's person was not drawn in the force: ${JSON.stringify(inForce)}`);
-  assert.ok(inForce.clips.includes('volunteer-fire-reload'), `the family's person never fired: ${JSON.stringify(inForce.clips)}`);
+  const expectedFire=await fighter.evaluate(async id=>{const e=window.__snapshot.world.entities.find(p=>p.id===id);const {avatarVariant}=await import('/avatar-identity.js');return e.appearance?`${avatarVariant(e.appearance,e.sex,e)}-rig-fire-reload`:'volunteer-fire-reload';},personId);
+  assert.ok(inForce.clips.includes(expectedFire), `the family's person never fired in its own identity: ${JSON.stringify(inForce.clips)}`);
   ok(`the family's own person ${personId} is drawn in the Texian force in its poses: ${inForce.clips.join(', ')}`);
   const frames = moments.map(one => one.view?.frameMs?.p95).filter(Number.isFinite);
   evidence.frameMs = { battleP95Max: Math.max(...frames), mapDrawMs: moments.map(one => one.frame).filter(Number.isFinite) };

@@ -77,6 +77,8 @@ const files = new Map([
   ['/looks-art.js', ['../public/looks-art.js', 'text/javascript']],
   ['/avatar-art.js', ['../public/avatar-art.js', 'text/javascript']],
   ['/avatar-identity.js', ['../public/avatar-identity.js', 'text/javascript']],
+  ['/semantic-rig.js', ['../public/semantic-rig.js', 'text/javascript']],
+  ['/family-rig-bindings.js', ['../public/family-rig-bindings.js', 'text/javascript']],
   ['/person-palette.js', ['../public/person-palette.js', 'text/javascript']],
   ['/look-vocabulary.js', ['../sim/look-vocabulary.mjs', 'text/javascript']],
   ['/field-art.js', ['../public/field-art.js', 'text/javascript']],

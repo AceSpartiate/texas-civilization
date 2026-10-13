@@ -3,6 +3,7 @@
 // A missing atlas always returns 0, preserving the caller's procedural fallback.
 const BASE = '/assets/frontier-v1/';
 import { recolourPersonFrame } from './person-palette.js';
+import {tintSemanticFrame,removeSocketPixels,semanticDefaults} from './semantic-rig.js';
 // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". A second, separate library of frames
 // Claude drew for requests Astra has not delivered (scripts/build-claude-standins.mjs). Its sheets carry absolute image
 // paths and every entry `madeBy: "claude"`; a frame of the same name in Astra's atlas always wins, so her delivery
@@ -134,7 +135,7 @@ function appearanceFrame(image, frame, name, appearance) {
   const paint = canvas.getContext('2d', { willReadFrequently: true });
   paint.drawImage(image, frame.x, frame.y, frame.w, frame.h, 0, 0, frame.w, frame.h);
   const pixels = paint.getImageData(0, 0, frame.w, frame.h);
-  recolourPersonFrame(pixels, name, appearance);
+  if(frame.semantic)tintSemanticFrame(pixels,appearance,{neutralClothing:frame.neutralClothing,...(frame.fixedTint&&{fixedTint:frame.fixedTint})});else if(frame.socketOnly)removeSocketPixels(pixels);else recolourPersonFrame(pixels, name, appearance);
   paint.putImageData(pixels, 0, 0);
   personPaletteCache.set(key, canvas);
   if (personPaletteCache.size > PERSON_PALETTE_LIMIT) personPaletteCache.delete(personPaletteCache.keys().next().value);
@@ -147,6 +148,13 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
     if (frame && !image) requestSheet(frame.sheet);
     return 0;
   }
+  const head=frame.rig&&art.frames[frame.rig.head];
+  if(frame.rig&&(!head||!art.images[head.sheet])){if(head)requestSheet(head.sheet);return 0;}
+  const patient=frame.compound&&art.frames[frame.compound.patient],patientHead=patient?.rig&&art.frames[patient.rig.head];
+  if(frame.compound&&(!patient||!patientHead||!art.images[patient.sheet]||!art.images[patientHead.sheet])){
+    if(patient&&!art.images[patient.sheet])requestSheet(patient.sheet);if(patientHead&&!art.images[patientHead.sheet])requestSheet(patientHead.sheet);return 0;
+  }
+  if((frame.semantic||frame.socketOnly)&&!appearance)appearance=semanticDefaults(frame.rig?.identity||frame.compound?.identity||name.split('-rig-')[0]);
   const scale = height / (frame.logicalHeight || frame.h);
   const width = frame.w * scale * widthScale, drawnHeight = frame.h * scale;
   // Undone by hand rather than with save and restore: the map lays down hundreds of sprites a redraw, and save and restore
@@ -160,6 +168,18 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
     const coloured = appearanceFrame(image, frame, name, appearance);
     ctx.drawImage(coloured, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
   } else ctx.drawImage(image, frame.x, frame.y, frame.w, frame.h, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
+  if(head){
+    const hx=(frame.socket[0]-frame.w*(anchor?.[0]??frame.anchorX))*scale*widthScale,hy=(frame.socket[1]-frame.h*(anchor?.[1]??frame.anchorY))*scale;
+    ctx.translate(hx,hy);ctx.rotate(frame.rig.headAngle||0);
+    drawSprite(ctx,frame.rig.head,0,0,height*frame.rig.headScale,{appearance,anchor:[head.socket[0]/head.w,head.socket[1]/head.h],flip:frame.rig.pose==='idle-w'});
+    ctx.rotate(-(frame.rig.headAngle||0));ctx.translate(-hx,-hy);
+  }
+  if(patient){
+    const px=(frame.socket[0]-frame.w*(anchor?.[0]??frame.anchorX))*scale*widthScale,py=(frame.socket[1]-frame.h*(anchor?.[1]??frame.anchorY))*scale;
+    const mounted=frame.compound.kind==='living-mounted';
+    const patientAnchor=mounted?[(patient.socket[0]-.15*patient.logicalHeight)/patient.w,(patient.socket[1]+.30*patient.logicalHeight)/patient.h]:[patient.socket[0]/patient.w,patient.anchorY];
+    drawSprite(ctx,frame.compound.patient,px,py,height*frame.compound.patientScale,{appearance,anchor:patientAnchor});
+  }
   if (flip) ctx.scale(-1, 1);
   if (lean) ctx.transform(1, 0, -lean, 1, 0, 0);
   ctx.translate(-x, -y);
@@ -184,11 +204,16 @@ export function clipInfo(name) {
  */
 export function clipReady(name) {
   const sprite = art.clips[name]?.frames?.[0]?.sprite;
-  const frame = typeof sprite === 'string' ? art.frames[sprite] : null;
+  return typeof sprite==='string'&&spriteReady(sprite);
+}
+function spriteReady(name,seen=new Set()){
+  if(seen.has(name))return false;seen.add(name);
+  const frame=art.frames[name];
   if (!frame) return false;
-  if (art.images[frame.sheet]) return true;
-  requestSheet(frame.sheet);
-  return false;
+  let ready=Boolean(art.images[frame.sheet]);if(!ready)requestSheet(frame.sheet);
+  if(frame.rig)ready=spriteReady(frame.rig.head,seen)&&ready;
+  if(frame.compound)ready=spriteReady(frame.compound.patient,seen)&&ready;
+  return ready;
 }
 
 function neutralMotion() { return { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1 }; }

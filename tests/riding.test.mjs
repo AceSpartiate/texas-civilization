@@ -132,9 +132,9 @@ test("the eight riders and the eight drivers Astra painted are what is drawn, an
 test('the page asks the seat for its own art, and gives the delivered rig its own height', () => {
   const app = readFileSync(fileURLToPath(new URL('../public/app.js', import.meta.url)), 'utf8');
   assert.match(app, /const delivered = seatedClip\(entity, direction, seat\);/, 'the page no longer asks the seat which art it has');
-  assert.match(app, /const ready = !entity\.appearance && Boolean\(delivered\.whole \|\| delivered\.seated\) && clipReady\(delivered\.id\);/,
+  assert.match(app, /const ready = \(delivered\.rigLayer\|\|!entity\.appearance\) && Boolean\(delivered\.whole \|\| delivered\.seated\) && clipReady\(delivered\.id\);/,
     'the page no longer checks whether the delivered rig is usable or composes an appearance-driven rider');
-  assert.match(app, /seatLayout\(seat, direction, SIZE, figureScale\(entity\), ready \? \(seat === 'horse' \? MOUNTED_HEIGHT : 1\) : 0\)/,
+  assert.match(app, /seatLayout\(seat, direction, SIZE, figureScale\(entity\), ready&&!rigReady \? \(seat === 'horse' \? MOUNTED_HEIGHT : 1\) : 0\)/,
     'the delivered rig is no longer given a mount’s height, or the composite is no longer the fallback');
   assert.match(app, /if \(part\.part === 'rider' && \(part\.whole \|\| part\.seated\)\)/, 'the whole rig is no longer drawn whole');
   assert.match(app, /const clip = seatedClip\(entity, direction, null\);/, 'the composite no longer asks for the person alone');

@@ -14,8 +14,8 @@ test('eight adult cast passenger identities have complete seats in all direction
  const mom={kind:'person',id:'m',principal:true,sex:'female',band:'adult'};
  assert.equal(seatedClip(mom,'w','passenger').id,'rust-woman-wagon-passenger-e');
  assert.equal(seatedClip(mom,'n','passenger').seated,true);
- const customized={...mom,appearance:{head:'bonnet'}};assert.equal(seatedClip(customized,'s','passenger').id,'rust-woman-wagon-passenger-s');
- assert.equal(seatedClip({...mom,appearance:{head:'braid'}},'s','passenger').seated,undefined);
+ const customized={...mom,appearance:{head:'bonnet'}};assert.equal(seatedClip(customized,'s','passenger').id,'rust-woman-rig-passenger-s');
+ assert.equal(seatedClip({...mom,appearance:{head:'braid'}},'s','passenger').seated,true);
  assert.equal(bedLayout('e',0,undefined,1,true).height,.65);
 });
 test('a carrying composite requires exactly one projected infant assigned to that caregiver',()=>{

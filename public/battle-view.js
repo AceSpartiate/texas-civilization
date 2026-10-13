@@ -5,6 +5,8 @@ import {familyCampBinding} from './avatar-identity.js';
 import {figureOf as familyFigureOf} from './motion.js';
 import {createAlamoGrade,drawAlamoGrade,alamoGunName,alamoLancerClip,travisFireClip} from './alamo-battle-art.js';
 import {milamFireClip,namedMountedRefinement} from './named-refinement-art.js';
+import {familyRigBattlePose} from './family-rig-bindings.js';
+import {avatarVariant} from './avatar-identity.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
 //
 // Owner, 2026-09-25: "when i try to watch a battle ... i see npc's just standing around ... the battle itself never actually
@@ -368,6 +370,14 @@ export function createBattleView(art) {
     return pose;
   }
   function poseOf(member, time, entity) {
+    const legacy=legacyPoseOf(member,time,entity);
+    if(!entity.appearance)return legacy;
+    const identity=entity.appearance?avatarVariant(entity.appearance,entity.sex,entity):familyFigureOf(entity);
+    const fell=view.memberFallAt.get(member.id),since=fell?time+view.skew-fell.at:-1;
+    const side=view.sides.get(member.unit||'texian')||view.sides.get('texian'),fireTime=Math.max(0,(time+member.offset)%(FIRE_CLIP_MS+member.wait)-member.wait);
+    return familyRigBattlePose(identity,legacy,{moving:member.moving,firing:member.firing,heading:mountedHeading(side?.facing),fireTime,fate:since>=0?fell?.fate:null,since,grade:fell?.grade,carried:Boolean(fell?.carried)});
+  }
+  function legacyPoseOf(member, time, entity) {
     const side = view.sides.get(member.unit || 'texian') || view.sides.get('texian');
     // In a square each man faces out of his own face of it (`member.right`); elsewhere the way his body of men faces.
     const right = member.right ?? ((side?.facing?.x ?? 1) >= 0);

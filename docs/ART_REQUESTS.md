@@ -1709,6 +1709,10 @@ The mounted carbine request now has four authored poses in dragoon-carbine-actio
 Coleto item 1 now has four transparent prone poses and a registered firing clip, bound to existing Mexican loose formations in dusk/night/small-hours. See ART_DELIVERY_2026-10-03-COLETO-PRONE.md for timing, scaling, provenance and remaining full-reload work.
 
 
+## Completed final two groups 2026-10-13 — family appearance and battle service
+
+September 12 second settling-in people and September 25 battle-family refinements are artwork-complete. Forty-five transparent sheets / 632 painted components compose 1,912 sprites and 792 clips across 22 identities: explicit semantic pigments, every offered parent head, age-specific bodies, tasks, cardinal seating, aim/fire/load/ramrod, mounted service, wounds/fallen, healthy sleep, living/dead blanket transport and led wounded riders. Creation, ordinary family actions, appearance-driven seats and battle poses are bound; explicit transport scene staging remains gameplay work. Use composed aliases through art.js, never raw material-coded PNGs. See ART_DELIVERY_2026-10-13-FAMILY-APPEARANCE-AND-BATTLE-COMPLETE.md for the full manifest, verification and Claude integration limits. **0 broad dated art groups remain.**
+
 ## Delivered 2026-10-03 — grass-laden pack mules
 
 Concepcion/Grass Fight item 6 now has east/south/north four-pose mule walking, matching idle frames and an opened grass bundle. The Grass Fight pack train uses these sprites. See ART_DELIVERY_2026-10-03-GRASS-MULES.md for integration and remaining unloading/cutting work.
