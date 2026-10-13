@@ -79,6 +79,7 @@
     "test:solo-window": "node scripts/solo-window-close-proof.mjs",
     "test:family-commands": "node scripts/family-commands-browser-proof.mjs",
     "test:winter": "node scripts/winter-browser-proof.mjs",
+    "test:weather": "node scripts/weather-browser-proof.mjs",
     "test:alamo-siege": "node scripts/alamo-siege-browser-proof.mjs",
     "test:bexar-alarm": "node scripts/bexar-alarm-browser-proof.mjs",
     "test:surprise-reveal": "node scripts/surprise-reveal-browser-proof.mjs",
