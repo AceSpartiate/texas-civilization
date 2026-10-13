@@ -178,7 +178,8 @@ try {
   const hoeing = (await sample(page, [about.id]))[about.id];
   observed.about = hoeing;
   assert.deepEqual(hoeing.strokes, ['about'], `working about the place is drawn as ${hoeing.strokes}`);
-  assert.ok(hoeing.clips.every(clip => /-work$/.test(clip)), `working about the place is drawn in ${hoeing.clips}, not the hoeing cycle`);
+  // Astra's family rig (2026-10-13) draws a chosen look's work about the place as its own hoeing cycle, `<figure>-rig-hoe`.
+  assert.ok(hoeing.clips.every(clip => /-(work|rig-hoe)$/.test(clip)), `working about the place is drawn in ${hoeing.clips}, not the hoeing cycle`);
   // Astra's family figures (2026-10-02) have a two-pose work cycle; the old cast's had more. Two is a cycle that moves.
   assert.ok(hoeing.frames.length >= 2, `the hoeing cycle showed ${hoeing.frames.length} frames in 2.4 seconds`);
   assert.ok(hoeing.marks.some(n => n > 0) && hoeing.marks.includes(0), `the dust was never thrown, or never settled: ${hoeing.marks}`);
@@ -223,7 +224,7 @@ try {
     // Claude's `-chop`/`-notch` are of Astra's cast figures, so they are held back (owner, 2026-09-29: her art wins by subject):
     // her figure at the hoe with the drawn axe, until her own felling cycle lands under that name.
     assert.ok(!seen.workClips.some(clip => /-(chop|notch)$/.test(clip)), `${one.name} on the house is drawn in Claude's ${seen.workClips}, not Astra's figure`);
-    assert.ok(seen.clips.every(clip => /-work$/.test(clip)), `${one.name} on the house is drawn in ${seen.clips}`);
+    assert.ok(seen.clips.every(clip => /-(work|rig-hoe)$/.test(clip)), `${one.name} on the house is drawn in ${seen.clips}`);
     if (ownCycle) assert.ok(seen.arts.every(art => art === 'drawn') && seen.marks.some(n => n > 0), `${one.name} felling in ${seen.workClips}: art ${seen.arts}, the chips ${seen.marks}`);
     else assert.ok(seen.tools.length === 1 && ['axe', 'maul'].includes(seen.tools[0]) && seen.marks.every(n => n >= 2), `${one.name} on the house has no drawn axe in hand (the owner, 2026-09-28): tools ${seen.tools}, marks ${seen.marks}`);
     if (ownCycle) observed.ownCycle = [...(observed.ownCycle || []), { name: one.name, clips: seen.workClips, frames: seen.frames, marks: seen.marks }];
@@ -291,7 +292,7 @@ try {
   const drawnStake = pacer.workClips.some(clip => /-stake$/.test(clip));
   if (drawnStake) assert.ok(pacer.arts.includes('drawn') && pacer.frames.length >= 2, `staking in ${pacer.workClips}: frames ${pacer.frames}`);
   // Every work at half its length (2026-09-29): ten acres may be paced out inside the watch, and the surveyor sits down after.
-  else assert.ok(pacer.clips.some(clip => /-walk$/.test(clip)) &&pacer.clips.every(clip => /-(walk|rest)$/.test(clip)) && pacer.shifts.length >= 5 && pacer.flips.length === 2, `pacing: ${pacer.clips}, shifts ${pacer.shifts}, facing ${pacer.flips}`);
+  else assert.ok(pacer.clips.some(clip => /-walk(-[nsew])?$/.test(clip)) &&pacer.clips.every(clip => /-(walk(-[nsew])?|rest)$/.test(clip)) && pacer.shifts.length >= 5 && pacer.flips.length === 2, `pacing: ${pacer.clips}, shifts ${pacer.shifts}, facing ${pacer.flips}`);
   // A drawn two-frame cycle (the staking) is two pictures by design; everything else changes more often than that.
   for (const id of Object.keys(two)) assert.ok(two[id].prints >= (id === surveyor.id && drawnStake ? 2 : 3), `the pixels round ${id} changed ${two[id].prints} times`);
   ok(`at the mark ${marksman.name} is drawn ${drawnShot ? `in ${shooter.workClips} (frames ${shooter.frames.join('/')})` : 'with the rifle up'} and a puff of smoke once a cycle (marks ${shooter.marks.join('/')}); surveying, ${surveyor.name} ${drawnStake ? `drives the stakes in ${pacer.workClips} (frames ${pacer.frames.join('/')})` : `paces the ground to and fro (${pacer.shifts.length} places, turning both ways)`}`);
