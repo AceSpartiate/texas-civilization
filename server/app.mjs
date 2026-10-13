@@ -71,9 +71,14 @@ const files = new Map([
   ['/alamo-collapse.js', ['../public/alamo-collapse.js', 'text/javascript']],
   ['/bexar-layout.js', ['../public/bexar-layout.js', 'text/javascript']],
   ['/bexar-art.js', ['../public/bexar-art.js', 'text/javascript']],
+  ['/bexar-battle-art.js', ['../public/bexar-battle-art.js', 'text/javascript']],
+  ['/southern-battle-art.js', ['../public/southern-battle-art.js', 'text/javascript']],
+  ['/alamo-battle-art.js', ['../public/alamo-battle-art.js', 'text/javascript']],
+  ['/named-refinement-art.js', ['../public/named-refinement-art.js', 'text/javascript']],
   // The towns' layouts are the server's own data (sim/town-layouts.mjs): the page draws exactly the buildings the keepers stand in.
   ['/town-layouts.js', ['../sim/town-layouts.mjs', 'text/javascript']],
   ['/town-art.js', ['../public/town-art.js', 'text/javascript']],
+  ['/wading-art.js', ['../public/wading-art.js', 'text/javascript']],
   ['/place-art.js', ['../public/place-art.js', 'text/javascript']],
   // The interiors' spots and art (sim/interior-data.mjs): the page offers exactly the spots the server accepts.
   ['/interior-data.js', ['../sim/interior-data.mjs', 'text/javascript']],
@@ -137,6 +142,7 @@ const files = new Map([
   // Which of the ground's trees are drawn again over somebody walking among them (public/app.js `treesInFront`, 2026-10-05).
   ['/trees-front.js', ['../public/trees-front.js', 'text/javascript']],
   ['/house-plot.js', ['../public/house-plot.js', 'text/javascript']],
+  ['/house-roof-art.js', ['../public/house-roof-art.js', 'text/javascript']],
   // A house on the ground, as drawn and as checked (sim/house-footprint.mjs): the page draws the footprint the server refuses.
   // At its own path, so public/house-plot.js reaches it as `../sim/house-footprint.mjs` from the page and from node alike.
   ['/sim/house-footprint.mjs', ['../sim/house-footprint.mjs', 'text/javascript']],

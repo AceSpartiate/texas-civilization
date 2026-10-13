@@ -1,0 +1,72 @@
+{
+  "verdict": "PASS",
+  "checks": [
+    {
+      "name": "house-round-back-sill",
+      "width": 268.7081339712919
+    },
+    {
+      "name": "house-round-back-low-walls",
+      "width": 229.40639269406392
+    },
+    {
+      "name": "house-round-back-full-walls",
+      "width": 205.80645161290323
+    },
+    {
+      "name": "house-hewn-back-sill",
+      "width": 242.62910798122064
+    },
+    {
+      "name": "house-hewn-back-low-walls",
+      "width": 226.25550660792953
+    },
+    {
+      "name": "house-hewn-back-full-walls",
+      "width": 207.4308300395257
+    },
+    {
+      "name": "house-passage-floor-end",
+      "width": 248.62275449101796
+    },
+    {
+      "name": "house-passage-roof-end",
+      "width": 186.54205607476635
+    },
+    {
+      "name": "house-porch-end",
+      "width": 199.5735607675906
+    },
+    {
+      "name": "house-shed-room-end",
+      "width": 222.12189616252823
+    }
+  ],
+  "assemblies": [
+    {
+      "material": "round",
+      "flip": false,
+      "width": 160.78629032258064,
+      "roofWidth": 189.53615680410167
+    },
+    {
+      "material": "round",
+      "flip": true,
+      "width": 160.78629032258064,
+      "roofWidth": 189.53615680410167
+    },
+    {
+      "material": "hewn",
+      "flip": false,
+      "width": 162.05533596837944,
+      "roofWidth": 192.30566534914357
+    },
+    {
+      "material": "hewn",
+      "flip": true,
+      "width": 162.05533596837944,
+      "roofWidth": 192.30566534914357
+    }
+  ],
+  "errors": []
+}

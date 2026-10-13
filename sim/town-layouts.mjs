@@ -380,14 +380,13 @@ const VELASCO = {
   streets: [],
   squares: [],
   walls: [
-    { name: 'Fort Velasco', points: ring({ x: -420, y: -180 }, 45, 20), sprite: 'palisade', breach: 'alamo-palisade-broken', breachEvery: 3, spacing: 14, height: 8, standInFor: 'fort-velasco' },
     { name: 'The enclosures', points: [{ x: -900, y: -560 }, { x: -500, y: -560 }, { x: -500, y: -230 }, { x: -900, y: -230 }, { x: -900, y: -560 }], sprite: 'fence-rail', spacing: 40, height: 5 },
     { name: '', points: [{ x: -700, y: -560 }, { x: -700, y: -230 }], sprite: 'fence-rail', spacing: 40, height: 5 },
   ],
   buildings: [
-    // Drawn at half its true size against the town's exaggeration (`artHeight` 10 of the frame's 20 ft): about 180 ft across,
-    // the ring of pieces' own span, so it does not cover the enclosures beside it.
-    { id: 'vel-fort-gun', sprite: 'cannon-iron-e', x: -420, y: -180, height: 7, label: 'Fort Velasco', art: 'fort-velasco', artHeight: 10 },
+    // Fort Velasco's stockade: Astra's researched landmark (2026-10-11), about 90 feet across, its gun inside it.
+    { id: 'vel-fort-stockade', sprite: 'town-fort-velasco-1835', x: -420, y: -180, height: 8, drawWidthFeet: 90, anchor: [.5, .52], sortOffsetFeet: -1, label: 'Fort Velasco' },
+    { id: 'vel-fort-gun', sprite: 'cannon-iron-e', x: -420, y: -180, height: 7, drawWidthFeet: 12, anchor: [.5, 1] },
     { id: 'vel-brown-hoskins', sprite: 'frame-hall', x: -760, y: -430, height: 28, label: 'Brown & Hoskins’ tavern' },
     { id: 'vel-custom-house', sprite: 'trading-house', x: -620, y: -300, height: 18, label: 'The custom house' },
     { id: 'vel-pilot-house', sprite: 'cabin-wide', x: -560, y: -520, height: 16, label: 'The pilot’s house' },
@@ -409,12 +408,8 @@ const HARRISBURG = {
   ],
   squares: [],
   buildings: [
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The steam sawmill: Claude's
-    // `sawmill-steam` (shed, boiler house, logs and lumber in one; "Claude-drawn stand-ins") when loaded, at 0.4 of its true
-    // size against the town's exaggeration; until then `timber-hall`, `storehouse` and a log.
-    { id: 'hbg-mill', sprite: 'timber-hall', x: 620, y: -500, height: 24, label: 'Harrisburg Steam Mills', art: 'sawmill-steam', artHeight: 8 },
-    { id: 'hbg-mill-boiler', sprite: 'storehouse', x: 700, y: -470, height: 14, standInFor: 'sawmill-steam' },
-    { id: 'hbg-mill-logs', sprite: 'pine-loblolly-log', x: 560, y: -560, height: 6, standInFor: 'sawmill-steam' },
+    // The steam sawmill: Astra's researched landmark (2026-10-11, docs/ART_DELIVERY_2026-10-11-TOWN-LANDMARKS.md).
+    { id: 'hbg-mill', sprite: 'town-harrisburg-steam-mill-1835', x: 620, y: -500, height: 24, label: 'Harrisburg Steam Mills' },
     { id: 'hbg-harris-house', sprite: 'house-dog-run', x: 220, y: -600, height: 20, label: 'The Harris house' },
     { id: 'hbg-dch-store', sprite: 'trading-house', x: 300, y: -1000, height: 18, label: 'D. C. Harris’s store' },
     { id: 'hbg-warehouse', sprite: 'storehouse', x: 560, y: -980, height: 18 },
@@ -481,10 +476,8 @@ const NACOGDOCHES = {
     { label: 'Church plaza', points: [{ x: -640, y: -470 }, { x: -470, y: -420 }, { x: -500, y: -250 }, { x: -660, y: -300 }] },
   ],
   buildings: [
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The two-storey Stone House:
-    // Claude's `stone-house-nacogdoches` ("Claude-drawn stand-ins") when loaded, at half its true 70 ft against the town's
-    // exaggeration; `stone-tile-house` until then.
-    { id: 'nac-stone-house', sprite: 'stone-tile-house', x: -60, y: -60, height: 20, label: 'The Stone House', art: 'stone-house-nacogdoches', artHeight: 10 },
+    // The two-storey Stone House: Astra's researched landmark (2026-10-11, docs/ART_DELIVERY_2026-10-11-TOWN-LANDMARKS.md).
+    { id: 'nac-stone-house', sprite: 'town-nacogdoches-stone-house-1835', x: -60, y: -60, height: 20, label: 'The Stone House' },
     { id: 'nac-red-house', sprite: 'adobe-flat', x: -470, y: -60, height: 16, label: 'The Red House' },
     { id: 'nac-church-ruin', sprite: 'roofless-church-shell', x: -560, y: -380, height: 18, label: 'The old church' },
     { id: 'nac-sterne', sprite: 'timber-hall', x: 1186, y: 872, height: 22, label: 'Sterne’s house' },

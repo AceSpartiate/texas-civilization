@@ -1,0 +1,13 @@
+# Infant wagon passengers
+
+Completed a distinct transport art group: six transparent painted poses of the established wrapped infant reclining securely in a woven carry basket. Side, front and rear views each have two gentle blink/settling poses. Three authored loops, `infant-wagon-passenger-e`, `-s`, `-n`, use 900 ms per frame. West mirrors east. The rear pair shows the back of the head rather than a forward-facing face.
+
+Artwork is saved unchanged in `public/assets/frontier-v1/atlases/infant-wagon-passenger.png`. Each frame is registered as `infant-wagon-passenger-<direction>-<1|2>`. The built-in imagegen prompt, spacing edit, child identity reference and both generated source paths are preserved in `scripts/art-deliveries/infant-passengers-2026-10-10.mjs` and the generated prompt/provenance records. Atlas generation confirms complete silhouettes, no trimmed pixels and real alpha transparency.
+
+`seatedClip` now selects this art for infant passengers. Its basket flag tells `drawSeated` to use basket-specific bed placement: the complete basket sits lower than a dangling-leg child, retaining passenger order and the existing 0.45 infant scale. `bedLayout` accepts `'basket'` as its optional seated mode and uses a 0.14 wagon-height offset below the rim. This preserves the existing complete-figure drawing, inherited palette, pause/reduced-motion handling and missing-art fallback. Driver, horseback and ordinary infant poses are unchanged. The basket does not imply an infant driving or independently riding a horse.
+
+The small open-cart browser composition is an illustrative rendering fixture using production seat geometry. Covered-wagon passenger visibility and proper wagon-edge occlusion remain refinements in the parent travel request; this delivery does not rebuild the vehicle. Adult seated passengers, infant-in-adult-arms walking and lap interactions remain outstanding. No simulation, cargo, family or historical state changes are introduced.
+
+Validation: 17 tests pass across infant/child passenger, riding and person-palette suites. `scripts/infant-passenger-art-proof.mjs` confirms six distinct rendered poses, inherited palette variation, age-scaled placement and no browser errors. Evidence is `docs/evidence/infant-passenger-art.png` and `.json`. This is not a campaign playthrough.
+
+The backlog audit in `docs/ART_REMAINING_AUDIT_2026-10-10.md` identifies 20 broad dated groups still containing artwork or explicit breadth/refinement requests, excluding delivered art awaiting gameplay integration. Completing infant passengers closes this subgroup; adult passengers and carried infants keep the parent travel group open.

@@ -159,16 +159,19 @@ test('only the things a gale pose was made for take one; everything else keeps t
   // Astra's gale deliveries of 2026-10-07/08: every standing tree of both colony sheets and every biome-tree size, and the
   // scrub and prickly pear, each drawn in its first gale pose (her reeds' pose is not bound: reeds are not scattered).
   const painted = [...['pine-loblolly', 'pine-shortleaf', 'pine-longleaf', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum', 'palm-sabal', 'cypress-bald']
-    .flatMap(tree => ['pole', 'log', 'large'].map(size => `${tree}-${size}`)), 'magnolia-log', 'magnolia-large', 'beech-log', 'beech-large', 'scrub', 'prickly-pear'];
+    .flatMap(tree => ['pole', 'log', 'large'].map(size => `${tree}-${size}`)), 'magnolia-log', 'magnolia-large', 'beech-log', 'beech-large', 'scrub', 'prickly-pear',
+    // 2026-10-11: the colony hardwoods and regional species (`tree-*`, sim/woods.mjs), and the cottonwood and sapling.
+    ...['water-oak', 'bur-oak', 'white-oak', 'texas-oak', 'hickory', 'walnut', 'ash', 'anacua', 'texas-ebony', 'water-tupelo', 'cedar-elm', 'black-willow', 'black-willow-pole'].map(tree => `tree-${tree}`),
+    'cottonwood', 'sapling'];
   for (const upright of painted) assert.equal(galePose(upright, hard), `${upright}-gale-1`, `${upright} takes Astra's gale pose`);
   // Claude's (2026-09-28, stand-ins bent from her uprights): only the marks the scatter draws that she has not painted yet.
-  const claude = ['cottonwood', 'marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca'];
+  const claude = ['marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca'];
   for (const upright of claude) {
     assert.equal(galePose(upright, hard), `${upright}-wind`, `${upright} takes Claude's gale pose`);
   }
   assert.equal(Object.keys(GALE_POSES).length, 7 + painted.length + claude.length, 'a gale pose nobody here accounts for');
-  // Rocks and saplings do not take one, and nothing that is not scattered has a pose.
-  for (const upright of ['rocks', 'sapling', 'reeds', 'cabin-small']) assert.equal(galePose(upright, hard), null, `${upright} has no gale pose`);
+  // Rocks do not take one, and nothing that is not scattered has a pose.
+  for (const upright of ['rocks', 'reeds', 'cabin-small']) assert.equal(galePose(upright, hard), null, `${upright} has no gale pose`);
   assert.ok(Math.abs(windLean(hard)) > 0.1, 'and the shear they fall back on is still a real bend');
 });
 

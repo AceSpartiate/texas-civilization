@@ -54,6 +54,7 @@ test('art routes serve public modules and atlas bytes without exposing private f
     for (const [path, mime] of [
       ['/', 'text/html'], ['/host', 'text/html'], ['/app.js', 'text/javascript'], ['/style.css', 'text/css'],
       ['/art.js', 'text/javascript'], ['/interface.js', 'text/javascript'],
+      ['/wading-art.js', 'text/javascript'], ['/town-art.js', 'text/javascript'],
       ['/art-catalog.html', 'text/html'], ['/art-catalog.js', 'text/javascript'],
     ]) {
       const file = join(publicRoot, path === '/' || path === '/host' ? 'index.html' : path.slice(1));

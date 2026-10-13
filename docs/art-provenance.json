@@ -4901,6 +4901,1297 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/timber-felled.png",
       "postProcessing": "None; selected PNG copied unchanged.",
       "review": "Four rigid timber states, transparent backgrounds, production drawing and hauling translation proof."
+    },
+    {
+      "sheet": "children-dialogue",
+      "promptId": "frontier-v1/children-dialogue",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ab0b2d64-04d1-4097-9dbe-803fcdf98522.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-515627e9-b850-4fda-8d3e-315a7a45b9a6.png",
+      "refinements": [
+        {
+          "prompt": "Spacing only preserve exact FOURcolumns THREErows12children and costumeidentityposes. ShrinkeachWHOLEchild30percent center insideown equallydividedcell; allopaquepixels central55percent cellwidthheight minimum40px actualtransparentgutters allfour sides everycell. Entirebraids handsfeetinside no crossrowcolumn pixels. Exactroworder girl boy toddler; cols speakingeastopenmouthhandout speakingeastrelaxed listeningfront listeningback. Keep pairedspeechposesdistinct samebaseline eachrow. No floorscene glowshadows labelgridbackground. Truezeroalphaoutside."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/children-dialogue.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Three age-specific children, paired speech and front/back listening matching existing costume silhouettes."
+    },
+    {
+      "sheet": "horse-herds",
+      "promptId": "frontier-v1/horse-herds",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wildlife-mustang.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-76841fc2-72fb-42fe-8967-237a9a447b0f.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-403e5e0f-1d84-496a-8eff-1ef28b5f42f5.png",
+      "refinements": [
+        {
+          "prompt": "SpacingeditONLY preserve exact4columns2rows8horseclusteranimationframes compactrow1 scatteredrow2 samehorsesposescolors. ShrinkEVERYwholecluster40percent center own equalcell. Everyopaquehorsehoof tailonlycentral55percentcellwidthheight min40px fullytransparentgutters ALLboundaries. NOcrosscellhorseparts. Preservefour distinctgaits withinrows and seven visible horses percluster. Truealpha0outside nofloor dustlabelsgridshadowglowbackground."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/horse-herds.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Compact and scatter loops with seven illustrative horses each, matching mustang library. Frame spacing and retained-pixel audits."
+    },
+    {
+      "sheet": "regular-crowbar-vertical",
+      "promptId": "frontier-v1/regular-crowbar-vertical",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/regular-engineer-actions.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-crowbar-vertical.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f2ba5bcb-8d72-44ac-ba97-6ed4637250c3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-crowbar-vertical.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "South/front and north/back leverage cycles; set, press, pull and recovery with consistent uniform and complete bar."
+    },
+    {
+      "sheet": "grass-creek-terrain",
+      "promptId": "frontier-v1/grass-creek-terrain",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-ground-bexar.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4541c9c4-9d98-4f37-85a7-dac52c1c38c7.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0f476859-8112-4403-bee3-062acc0df5d9.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY preserve exact4columns2rows8 terrain patches and their original content/style. Shrink every entire patch by40percent center in own equalcell. Every visiblepixel mustfit central55percent cellwidthheight with minimum40px completelytransparentgutters everyboundary. Row1 dry straight/curve/ditch/end fourdistinct, row2 SAMEcreek fourrippleposes. Preserve waterbankfootprint coherence and changingwaterhighlights. No background no grid labels shadows glow. Truealpha0outside eachpatch. No newfeatures."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/grass-creek-terrain.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Recessed gravel beds, brush ditch and coherent moving water crossing."
+    },
+    {
+      "sheet": "goliad-prisoner-second",
+      "promptId": "frontier-v1/goliad-prisoner-second",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/goliad-prisoner.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-65fc21f6-2163-4e62-950e-d1a3a12abba3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/goliad-prisoner-second.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Distinct clean-shaven olive-coated unarmed identity; directional walks, free-handed idle and non-graphic down poses."
+    },
+    {
+      "sheet": "army-camp-props",
+      "promptId": "frontier-v1/army-camp-props",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/field-cover-camp-props.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-camp-life.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-729d43e1-a7cf-43f9-9a1e-e49fdcb33995.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/army-camp-props.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Wedge tents with moving flaps and cooking tripod with moving flame/steam."
+    },
+    {
+      "sheet": "army-camp-pennants",
+      "promptId": "frontier-v1/army-camp-pennants",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/field-cover-camp-props.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-081f61b2-6e02-4e33-9917-7fe1ab61468b.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/army-camp-pennants.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Plain ochre/rust identification pennants; artistic army markers not historical flag claims."
+    },
+    {
+      "sheet": "child-passenger-girl",
+      "promptId": "frontier-v1/child-passenger-girl",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-af956d1f-a9b7-4d90-bfc3-c9bafb0dd76b.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a9a5c9f1-3fd9-4998-9702-75e54a3956a1.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY. Preserve exactly TWOcolumns THREErows SIX seatedchild frames, identity clothing face colors poses and style. Shrink each entire figure THIRTYFIVEpercent and recenter inside its OWN equal cell. Every visiblepixelincludingfeet braid ONLYcentral55percentcellwidthheight minimum40px completelytransparent gutters ALLrowcolumnboundaries. Preserve two distinct gentle hand/torso poses per row, east row1 front/southrow2 rear/northrow3. True alpha0 outside silhouettes no glowgroundshadowgridlabelsbackground."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/child-passenger-girl.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Age-specific seated passenger with east/front/rear poses and gentle hand/torso movement; alpha gutters audited."
+    },
+    {
+      "sheet": "child-passenger-boy",
+      "promptId": "frontier-v1/child-passenger-boy",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c0d86612-ecbe-4024-b880-e036de118d3c.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f2e33752-2bc7-4cd5-8bdb-003fe5dda0b2.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY. Preserve exactly TWOcolumns THREErows SIX seatedchild frames, identity clothing face colors poses and style. Shrink each entire figure THIRTYFIVEpercent and recenter inside its OWN equal cell. Every visiblepixelincludingfeet braid ONLYcentral55percentcellwidthheight minimum40px completelytransparent gutters ALLrowcolumnboundaries. Preserve two distinct gentle hand/torso poses per row, east row1 front/southrow2 rear/northrow3. True alpha0 outside silhouettes no glowgroundshadowgridlabelsbackground."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/child-passenger-boy.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Age-specific seated passenger with east/front/rear poses and gentle hand/torso movement; alpha gutters audited."
+    },
+    {
+      "sheet": "child-passenger-smallchild",
+      "promptId": "frontier-v1/child-passenger-smallchild",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-279a5246-3a95-42cc-b5a1-e0f4b4c585f3.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3e599e37-8213-44ed-9360-6f135b8fdefd.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY. Preserve exactly TWOcolumns THREErows SIX seatedchild frames, identity clothing face colors poses and style. Shrink each entire figure THIRTYFIVEpercent and recenter inside its OWN equal cell. Every visiblepixelincludingfeet braid ONLYcentral55percentcellwidthheight minimum40px completelytransparent gutters ALLrowcolumnboundaries. Preserve two distinct gentle hand/torso poses per row, east row1 front/southrow2 rear/northrow3. True alpha0 outside silhouettes no glowgroundshadowgridlabelsbackground."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/child-passenger-smallchild.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Age-specific seated passenger with east/front/rear poses and gentle hand/torso movement; alpha gutters audited."
+    },
+    {
+      "sheet": "infant-wagon-passenger",
+      "promptId": "frontier-v1/infant-wagon-passenger",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-102b305b-d874-470f-b410-8355b404e752.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1cbbf0c3-ce75-4300-a9ae-9b1c2aaca7c3.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit only: preserve exactly 2columns 3rows six infant-in-basket poses and their same identity costumes perspective woven detail. Shrink every WHOLE basket and baby together 35percent and center in its own equal cell, leaving at least50px genuinely transparent alpha0 gutters at every row/column boundary and outside edge. Preserve distinct two gentle poses per row. Row1 right sideview, row2 frontview, row3 rearview. No glow or backdrop, no change objects, no new text grid shadow."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/infant-wagon-passenger.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Six wrapped infant-in-basket poses, side/front/rear; gentle blink and settling pairs, securely reclining, no driving."
+    },
+    {
+      "sheet": "house-roof-joins",
+      "promptId": "frontier-v1/house-roof-joins",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + join-edge edit + pitched geometry correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-modules.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9ffc242a-c3c4-4d59-aecc-f68c8f7bf883.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-46b7c1da-0fba-4cec-86f5-e19b7115fcc7.png",
+      "refinements": [
+        {
+          "prompt": "Edit THREE roof modules only preserve2x2layout bottomrightEMPTY. Remove every protruding end pole, circular cut log end face and gable-end framing at BOTH short join ends of ALL THREE roofs. Ridge log and weight poles must terminate flush at roof boundary, no rounded/circular caps visible, plain open thin clapboard edge not thick triangularfascia. The join ends are lower-left shortedge andupper-rightshortedge along ridge, NOT long eaves. Keep partial opening topRIGHT and middle ridgechimneyaperture bottomLEFT. SAME woodpitch perspective. Shrink eachentire roof30percent centerinside ownquadrant leaving60pxalpha0gutters allseams. Truealpha0 background no glowshadow labels otherobjects."
+        },
+        {
+          "prompt": "CORRECT roofgeometry to match original house-modules reference rightmost top2row roofs. New3sprite atlas2x2 bottomrightempty: finished passagejoin topLEFT, partial join topRIGHT, chimney aperturejoin bottomLEFT. Each must be TRUE PITCHED GABLE ROOF with TWO DISTINCT SLOPING PLANES meeting ONE raised ridge: narrow BACK/LEFT slope falling to left/backeave, broad FRONT/RIGHT slope falling to right/fronteave. NOT ONE FLAT rectangular plane with3poles! Roof overall silhouette same as original reference pitchedroof widthheight shape, ridge runs from nearLEFT-midheight up to UPPER-middle peak then eaves downright. Match original ridge endpoint coordinates relative silhouette approximately [0.04width,0.72height] to[0.58width,0.05height], outlines/hue/pitch exact. Openjoinend edges no triangularverticalgable no round log endcaps/protrusions. Weight poles parallelridge oneoneach slope. Finishedcompleteweatheredcedarclapboards. Partial same twoplaneroof missingfewboards atfronteave. Chimney same twoplaneroof smallplainunframed aperture CENTER of ridge equally acrossbothslopes; NO raised wooden curb chimney orskylight. Three completewholemodules max55percent eachquadrant dimensions huge gutters60px. Truealpha0 background no labelsgroundglowshadowpeopleposts. Rigid architectural layers samewarmbrownoutlined handpaintedfrontierstyle as ORIGINAL reference, not supplied previousincorrectflat roof. Roofs are middle portions joining adjacent penroofsamepitch no enclosedgableends."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-roof-joins.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Three rigid roof join states, finished/partial/chimney aperture, no posts or enclosed gables. Ridge registration supplied separately."
+    },
+    {
+      "sheet": "family-portraits",
+      "promptId": "frontier-v1/family-portraits",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "refinements": [
+        {
+          "prompt": "Precise spacing edit only. Preserve all twelve portraits exactly their identities, expressions clothes ages and painterly style, exact FOUR columns THREE rows row-major positions. Shrink each entire bust uniformly by 28 percent and center it inside its own equal cell leaving at least45px completely transparent gutters at ALL row and column boundaries. Include all hat edges, whole shoulder edges. No portraits may touch any neighbor or seam. Background genuinely alpha0, no shadows glow text grids scene. Do not change identities or colors. Keep twelve entire isolated head-and-shoulders portraits."
+        }
+      ],
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/civilians.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9f59025f-6f58-424c-89f5-b58709d56642.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0974aaf4-a948-47f4-81af-550b504daadb.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/family-portraits.png",
+      "postProcessing": "None; PNG copied unchanged. Atlas uses measured alpha crops.",
+      "review": "All twelve established cast identities, neutral front-facing busts, distinct infant/toddler/children and youths."
+    },
+    {
+      "sheet": "nature-gales",
+      "promptId": "frontier-v1/nature-gales",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing edit",
+      "refinements": [
+        {
+          "prompt": "Spacing-only edit. Preserve exact TWO columns TWO rows FOUR trees, cottonwood paired gusts top row and sapling paired gusts bottom row, same identities details colors and distinct poses. Shrink EACH entire tree by30percent and center each in its own equal cell, every full canopy branch root entirely central60percent of own cell widthheight. Minimum60px fully transparent gutters at EVERY seam and all outeredges; no canopy may be clipped or leave its cell. Preserve rooted bases per pair, no detached leaves, no newly added things. Actual alpha0 background no glow shadow backdrop text grid. Four complete distinct trees only."
+        },
+        {
+          "prompt": "Identity correction edit. Image1 target is four gale trees 2columns2rows. Image2 nature reference: the GAME'S cottonwood draws the tall slender tree in TOP ROW THIRD slot (NOT broad round fourth). Replace ONLY target TOP ROW two cottonwood gust drawings to match that tall slender upright identity: long forked gray-brown trunk, tall narrow oval crown with many small olive leaf clusters and thin visible upright forks, crown mass much taller than wide. Gust1 upper crown bends/streams right about one sixth treeheight, Gust2 upper crown a little farther right, rooted lower trunk remains same. Do NOT replace with broad heavy oak or spreading crown. Match original same thin trunk rootflare leaves color, no brokenfallingtree. Keep two distinct gusts no movement of rooted feet. Keep BOTTOM ROW sapling gusts completely unchanged. Exact2columns2rows, each whole tree central60percent its own equal cell, minimum60px clear gutters allseams/exterior. Real alpha0 no backdrop labels text grid glow shadow detachedleaves. Warm outlined frontierstorybook textures retained."
+        }
+      ],
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c10b29a8-27b3-488d-ae4a-5137137e5ed1.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-db8e1f99-117b-43d3-853e-016ba6160177.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/nature-gales.png",
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Two rooted cottonwood gusts and two rooted young sapling gusts. Same original nature-sheet identities, downwind crowns, true alpha."
+    },
+    {
+      "sheet": "bexar-san-fernando",
+      "sprite": "bexar-san-fernando-1836",
+      "refinements": [
+        {
+          "prompt": "Edit image1 church sprite only: preserve EXACT existing building architectural geometry one front-right octagonal bellcupola plain singlearched entrance longnave three side buttresses lowrearcrossingdome, perspective and scale. Make outside silhouette genuinely alpha0: REMOVE all beige/brown aura, halo, blur, glow and ground shadows around building and under it. Every pixel outside tight building silhouette transparent; no contactshadow or groundslab. Match image2 establishedgamebuilding style: slightly bolder thin darkbrown drawn outlines, flatter softly painted earthycreamstucco/tanstone, simplified small-scale texture, no photoreal/3Drender studio lighting. Keep roof and wall shadedplanes but no dramaticambientlight spill. Do NOT add/remove buildingparts or change octagonal tower into twins. One wholebuilding central70percent with80px clean clear margins all sides, no textbackgroundlabels. This is preciseobject/alpha cleanup and style matching."
+        }
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d92d1366-21dc-495c-bde4-5874a7b3adfc.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-03d4cdfe-e56b-421a-93a5-edeb5a00778b.png",
+      "historicalSources": [
+        "https://tile.loc.gov/storage-services/master/pnp/habshaer/tx/tx0000/tx0012/data/tx0012data.pdf",
+        "https://www.tshaonline.org/handbook/entries/san-fernando-cathedral"
+      ],
+      "promptId": "frontier-v1/bexar-san-fernando",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + style/alpha edit",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/bexar-san-fernando.png",
+      "postProcessing": "None; selected PNG copied unchanged. Measured alpha crop, no raster editing.",
+      "review": "Research-based illustrative 1836 exterior; uncertainty recorded in docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md. Modern additions omitted. Static exterior only."
+    },
+    {
+      "sheet": "bexar-governors-palace",
+      "sprite": "bexar-governors-palace-1836",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8868e8c0-18dc-40a1-a363-0404b86287ea.png",
+      "historicalSources": [
+        "https://www.sanantonio.gov/governorspalace/History-Culture",
+        "https://www.tshaonline.org/handbook/entries/spanish-governors-palace-comandancia"
+      ],
+      "promptId": "frontier-v1/bexar-governors-palace",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/bexar-governors-palace.png",
+      "postProcessing": "None; selected PNG copied unchanged. Measured alpha crop, no raster editing.",
+      "review": "Research-based illustrative 1836 exterior; uncertainty recorded in docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md. Modern additions omitted. Static exterior only."
+    },
+    {
+      "sheet": "town-fort-velasco",
+      "promptId": "frontier-v1/town-fort-velasco",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + remove baked cannon",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-96817b70-72ed-4d4f-98fb-92630b1572ff.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-fort-velasco.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document.",
+      "refinements": [
+        {
+          "prompt": "Edit image1 Fort Velasco sprite only. REMOVE the cannon and its entire timber carriage from the central mound, leaving that mound bare sand with existing little timber stair. Preserve the circular double timber-and-sand stockade, broken gaps, perspective and original style exactly. No replacement objects. All pixels outside fort silhouette must be transparent alpha0: no aura glow background contact shadow. Whole fort centered with generous clear outer margins. Separate cannon will be animated by game renderer, do not include any weapon."
+        }
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-838f9f98-8f69-4dc8-8ca1-e110182b519b.png"
+    },
+    {
+      "sheet": "town-harrisburg-steam-mill",
+      "promptId": "frontier-v1/town-harrisburg-steam-mill",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5cfd6793-429b-4715-9090-67a2822891c3.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-harrisburg-steam-mill.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
+    },
+    {
+      "sheet": "town-nacogdoches-stone-house",
+      "promptId": "frontier-v1/town-nacogdoches-stone-house",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2f2aad95-a4d5-4b4c-bba5-8bceb3ab798f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-nacogdoches-stone-house.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
+    },
+    {
+      "sheet": "town-mill-smoke",
+      "promptId": "frontier-v1/town-mill-smoke",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2e6368bb-0fc4-4c9a-b811-d17afb94ca76.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/town-mill-smoke.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/buildings.png"
+      ],
+      "postProcessing": "None; selected PNG copied unchanged. Alpha/crop validation only.",
+      "review": "Illustrative historical reconstruction; exact mill exterior and early Stone House gallery inferred. See delivery document."
+    },
+    {
+      "sheet": "biome-species",
+      "promptId": "frontier-v1/biome-species",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-trees-fields.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/nature.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4843030d-3cc1-4edb-8006-3da28591bb40.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-species.png",
+      "postProcessing": "None; original generated PNG copied unchanged. Read-only alpha crop audit.",
+      "review": "Five distinctive regional tree species plus young black willow. Each wind pair preserves its upright identity. See species research and integration limits in delivery documentation."
+    },
+    {
+      "sheet": "biome-species-gales",
+      "promptId": "frontier-v1/biome-species-gales",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive authored wind poses + palette correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4843030d-3cc1-4edb-8006-3da28591bb40.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-99bf899e-bc96-4b29-ad08-08b2a04c1ddf.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/biome-species-gales.png",
+      "postProcessing": "None; original generated PNG copied unchanged. Read-only alpha crop audit.",
+      "review": "Five distinctive regional tree species plus young black willow. Each wind pair preserves its upright identity. See species research and integration limits in delivery documentation.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4c3b10fd-bcb9-4f7c-a8f6-04b5db575090.png",
+      "refinements": [
+        {
+          "prompt": "Color/style correction only. Edit image1 twelve-tree wind atlas, preserve EXACT FOUR columns THREE rows layout, all twelve full tree species identities, two distinct gust poses per identity, silhouettes, trunks roots, spacing and positions. Use image2 upright six-species atlas as exact COLOR reference. Wind must NOT change season or make foliage glow. Remove bright yellow/gold highlights throughout image1, recolor foliage to same muted olive green and dark green colors as corresponding upright species in image2. Keep fine brown outlined painted leaf details, but lower highlight saturation and brightness to match image2. Do NOT add yellow flowers, shiny leaves, glow, sunlight aura, golden autumn leaves, background halo, shadow or text. Preserve complete root bases and equal scale per pair. Entire background outside sprites true alpha0 including all outeredges and gutters. Color correction only, no reshaping, no rearranging, no added or removed sprites.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4c3b10fd-bcb9-4f7c-a8f6-04b5db575090.png",
+            "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4843030d-3cc1-4edb-8006-3da28591bb40.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "colony-hardwoods",
+      "promptId": "frontier-v1/colony-hardwoods",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3940c36f-5085-4154-8dc9-67e730e04fa2.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/trees-colonies-2.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/biome-species.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/colony-hardwoods.png",
+      "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
+    },
+    {
+      "sheet": "colony-oak-gales",
+      "promptId": "frontier-v1/colony-oak-gales",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive authored gusts",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2221ef57-3b24-4fa3-b9d6-cf605cc97f55.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3940c36f-5085-4154-8dc9-67e730e04fa2.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/colony-oak-gales.png",
+      "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
+    },
+    {
+      "sheet": "colony-compound-gales",
+      "promptId": "frontier-v1/colony-compound-gales",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive authored gusts",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-54021c1a-18a5-4489-9ff5-fc772e623f60.png",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3940c36f-5085-4154-8dc9-67e730e04fa2.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/colony-compound-gales.png",
+      "postProcessing": "None; generated PNG copied unchanged. Strict read-only alpha audit."
+    },
+    {
+      "sheet": "house-back-views",
+      "promptId": "frontier-v1/house-back-views",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive architecture variants",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-modules.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-39fd4c98-b246-4425-b994-6133a24a2ef5.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-back-views.png",
+      "postProcessing": "None; original generated PNG copied unchanged, read-only alpha measurement.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cfbf3fcb-cfb9-41b0-8bfd-0af57bcaa0cc.png",
+      "refinements": [
+        {
+          "prompt": "Edit this exact six-module atlas ONLY improve gutters: keep identical six modules in identical 2 columns x3rows order and preserve each object's wood, doorway, shape. Shrink EACH complete module uniformly to 70 percent of present size about its own cell center. Ensure generous alpha0 margins on every cell boundary, especially between upper and middle rows. No detached pixels or shadows. Preserve true transparent background. Do not add remove change objects. All six complete architecture sprites must remain intact, no overlap or clipping.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-back-views.png"
+          ],
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-39fd4c98-b246-4425-b994-6133a24a2ef5.png"
+        }
+      ]
+    },
+    {
+      "sheet": "house-end-views",
+      "promptId": "frontier-v1/house-end-views",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "derive architecture variants",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-modules.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a2dfe1a8-6ffe-4e5b-916b-fde69f612812.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-end-views.png",
+      "postProcessing": "None; original generated PNG copied unchanged, read-only alpha measurement."
+    },
+    {
+      "sheet": "house-construction-complete",
+      "promptId": "frontier-v1/house-construction-complete",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + gutter and hearth correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/house-modules.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9be54e82-d51c-4c88-8388-df3d73acb3f5.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4b5362c0-1d38-4aa6-97c5-4ced4d8a0436.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-construction-complete.png",
+      "refinements": [
+        {
+          "prompt": "Edit this EXACT 4columns x2rows eight module atlas, preserving every architectural identity and order. TWO REQUIRED CORRECTIONS: (1) SHRINK EACH complete sprite uniformly to70percent of current dimensions centered in its OWN equal cell, producing huge genuine alpha0 gutters at all seams/outeredges. Preserve all geometry and detail, no clipped ends or crossing boundaries. (2) ONLY row2 column2 double chimney: hearths must be BACK TO BACK on OPPOSITE ends of stack, NOT adjacent faces like image1. Leave ONE visible arched hearth at nearleft lower face; REMOVE the arched opening on nearRIGHT face, replace with solid mud/stone wall. The opposite fireplace is hidden on rear far end; represent two flues on top divided along the opposite hearth axis. Keep broad rectangular mass and stone base. All other seven modules unchanged except uniform smaller cell placement. Warm brown painted outlines, transparent empty interiors and alpha0 background. Do not add object, text, shadow, matte or landscape. Exactly eight isolated construction modules.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9be54e82-d51c-4c88-8388-df3d73acb3f5.png"
+          ]
+        }
+      ],
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha measurement."
+    },
+    {
+      "sheet": "regular-loophole-actions",
+      "promptId": "frontier-v1/regular-loophole-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + authored pose/gutter correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-loophole-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8ce7cc4b-fb80-43e3-8d2a-489cbfc610e8.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c4ce871b-5ee9-43a3-b524-4224d987041d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-loophole-actions.png",
+      "refinements": [
+        {
+          "prompt": "Edit exactfour regular infantry poses in this2columns2rows sheet. Preserveeveryposefaceuniformweapon andexactroworder AIM FIRE PRIME RAM. SHRINK each COMPLETE figure including musket uniformly to65percent present size about own cellcenter. Genuine alpha0 marginsminimum80px alongallseamsandouteredges; no detachedpixels glow shadows coloredbackground. Exactlyfourwhole intactsprites no overlap no changeidentity no clipping no text. Keep image's paintedbrownoutline style."
+        }
+      ],
+      "postProcessing": "None; selected generated PNG copied unchanged, read-only alpha audit."
+    },
+    {
+      "sheet": "bexar-townsfolk",
+      "promptId": "frontier-v1/bexar-townsfolk",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + authored pose/gutter correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-794ef061-cdbf-4baa-aa9e-ade98299ad87.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7b3284fe-ef47-4ba0-b003-be7ff14073f9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/bexar-townsfolk.png",
+      "refinements": [
+        {
+          "prompt": "Edit this 4columns4rows civilian sheet. Keep exact four row identities/clothing/colors/face and EXACT16 whole figures east-facing. Correct WALK CYCLE: column1 left foot forward and rightfoot wellbehind; column2 passingpose feet close together underhips, body slightlyhigher; column3 RIGHT foot forward LEFT foot wellbehind, arms naturally opposite; column4 secondpassing feetclose underhips leftheel lifting. Every row's 4poses must be DIFFERENT gait drawings, not repeating same wide-legged step. Women hold shawl but ankles/feet and skirt must show alternatingstep/passing, oldmanbundle samehand, child swingsarms. Preserve youngwoman tealshawl, oldmanbrownjacket, youngboyochre pants65percentheight, olderwomanrustshawl indigodress. SHRINK each complete figure to75percent present size centerown equal cell to create ampletransparent gutters minimum60px eachseam. True alpha0 no detached pixels shadows background text scenery. Original sixteen subjects only."
+        }
+      ],
+      "postProcessing": "None; selected generated PNG copied unchanged, read-only alpha audit."
+    },
+    {
+      "sheet": "concepcion-mission",
+      "promptId": "frontier-v1/concepcion-mission",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + architecture correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/town-buildings-researched.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2ce6b18a-5ed5-4066-bf12-28689b1b31be.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed19f255-2271-43bf-8bd1-193b1fe73593.png",
+      "refinements": [
+        {
+          "prompt": "Edit church sprite toward actual MissionConcepcion's restrained colonial architecture, retain original game's paintedstyle perspective and twinfronttowers. REQUIRED: centralfacade between towers should be a PLAIN FLAT RECTANGULAR upperwall, no steppedscallopedBaroque gable. Carved entry surrounds centralarchedwooddoor with a SMALL TRIANGULAR classicalpediment, not broadcurlyfan; aboveentry CENTRALCIRCULAR OCULUS, TWOsmall rectangular insetwindows flanking belowoculus, notsinglelargecentralwindow. REMOVE decorativeurnfinials fromcorners of towers, cornices,transepts. Keep two squarebell towers with modestarchedopenings andlowpyramidalstonecaps; they must be dominanttallestmasses. REDUCE crossingdome height/scale by35percent; dome sits behindtowerswithcrown BELOW towercaps, simple smallstonefinial NO enormousmultistageoctagonal cupola. Retaincrossplan lowbarrelvaultnave/transeptroof and buffweatheredlimestone, conservativefadedplaster no inventedfrescopattern. Sameelevatedfrontthreequarter, no modernsigns/fences/landscape/people. Entirechurch fitscentral65percentimagehugealpha0margins, no shadow/background/text. Onecompletebuilding only.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed19f255-2271-43bf-8bd1-193b1fe73593.png"
+          ]
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/concepcion-mission.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "concepcion-bank-terrain",
+      "promptId": "frontier-v1/concepcion-bank-terrain",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/grass-creek-terrain.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2c68d36c-cabc-417d-a6d1-c808ff6268d8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/concepcion-bank-terrain.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "concepcion-limber-riders",
+      "promptId": "frontier-v1/concepcion-limber-riders",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/mule-packed-grass.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-359c10f9-cb84-4188-a83b-c61fcdf56a06.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/concepcion-limber-riders.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "concepcion-aftercare",
+      "promptId": "frontier-v1/concepcion-aftercare",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/household.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cdfb40cf-5ce5-4dda-aa39-40c9afc2eb84.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/concepcion-aftercare.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e32801f6-c214-4840-b368-238ccdd61480.png",
+      "refinements": [
+        {
+          "prompt": "Spacing edit ONLY this exact4columns3rows12sprite atlas. Keep exacteveryfigureidentityposevehiclepassengercloth andmulelegs/cartswheelphase unchanged. SHRINK EACH COMPLETE subject by35percent to65percent present widthheight centered in its OWN equalcell. ALL sprites must fitcentral55percent ofcell withhuge transparent70pxgutters everyrow/column seam andouteredge. Row1 samefourblackcassockpadrewalkposes;row2 samefourgraymule/woodcart/alertblanketedwoundedman;row3 samefourgraymule/woodcart/twocanvascoveredforms. No bodypartsadded no gore no extrapeople animals shadows text backgrounds. Genuinealpha0alloutsides; no detachedpixels or overlap. Preservewholemuleearsmuzzle carttails wheels andshaftends eachcell.",
+          "referenced_image_paths": [
+            "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/concepcion-aftercare.png"
+          ],
+          "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-cdfb40cf-5ce5-4dda-aa39-40c9afc2eb84.png"
+        }
+      ]
+    },
+    {
+      "sheet": "southern-volunteer-mounted-actions",
+      "promptId": "frontier-v1/southern-volunteer-mounted-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-73ce5e58-d13a-4a9f-b5cf-4b4fb62d6a0d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/southern-volunteer-mounted-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "southern-dragoon-mounted-actions",
+      "promptId": "frontier-v1/southern-dragoon-mounted-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + orientation correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/dragoon-carbine-actions.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bb2d15b1-f885-4f6b-b535-77ea32410320.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5b35d6ed-acad-423e-9f61-609ecb84e333.png",
+      "refinements": [
+        {
+          "prompt": "Correct NORTH/SOUTH camera heading of Mexican dragoon. IMAGE1 is EXACT desiredfront/back horseandrider CAMERA GEOMETRY (volunteer). IMAGE2 is dragoon IDENTITY/COSTUME ONLY. Make EXACT4columns2rows8poses withsamefront/back geometryasIMAGE1, butEVERYrider must be Mexican DRAGOON ofIMAGE2 navy/red/whiteuniform brasshelmetblackcrest chestnuthorse. Row1 SOUTH means headonfrontview HORSE FACE pointsDIRECTLY DOWN theimage towardviewer; symmetricalhorsebreast betweenforelegs, riderfrontchest, twoeyesofhorsevisible. NOT sideprofile. Row2 NORTH means DIRECTLY AWAY; HORSE TAIL/HAUNCHES towardviewer andriderBACK whitecrossbelts, horseheadhiddenforwardbeyondrider. NOT sideprofile. Perrowcols AIM,FIRE recoil(noflash),LOWER,REST. Rifle maypointdiagonallysidebecausehandposition butHORSE alwaysDIRECTfront/back notsideways. Keepstanding horsegroundpositions samewithinrow. Uniformpaletteboots/helmetsameidentity. Everycomposite central50percentowncell withhuge80pxgenuinealpha0gutters allseams/outeredges. No referencevolunteerhatbrowncoat survive no clippedweapons/shadow/text/background. Exactly8newwholefront/backhorseanddragoons."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/southern-dragoon-mounted-actions.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "southern-lancer-charge",
+      "promptId": "frontier-v1/southern-lancer-charge",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + orientation correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lancer-charge.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-77fbac94-bcb6-49ce-bbe0-494fa27b25f3.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-96ae0cb7-1bc6-4be6-acd9-75ed4bdfa6a5.png",
+      "refinements": [
+        {
+          "prompt": "Editexact8NORTH/SOUTH mountedlancerframes 4columns2rows. Keepall horseanduniform identities, eachgallop legposeand cameraorientation. CORRECT LANCE DIRECTION: row1 SOUTHhorseheadon towardviewer, lancepointsFORWARD towardviewer withstrongforeshortening, heldonrider'sRIGHTSIDE (viewerleft), shaftdiagonaldown towardbottomleft, metalpoint infrontofhorse shoulder BELOW horsehead, NOT a horizontalcrossbaracrossbody. Row2 NORTHhorsehaunches towardviewer away, lancepointsAWAY forwardalonghorseheading, onrider'sRIGHTSIDE(viewerright), shaftdiagonalup towardtoprighttipabovehorsehead, foreshortened NOTcrosswise. Lance heldnearhorizontal in3D, notuprightverticalparade. Tipsshownwithclearshaftgripandnot touchinghorse/human. NOcontactviolence. ALSO shrinkEVERYwholecomposite to70percentpresent size centerown equalcell, wide80pxgenuinealpha0gutters allseamsedges no overlapcrop. Exactly8wholegame painted sprites no shadowstextbackground, preserve eachdifferentgallopphase."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/southern-lancer-charge.png",
+      "postProcessing": "None; selected generated PNG copied unchanged. Read-only alpha audit."
+    },
+    {
+      "sheet": "people-mounted-children-e",
+      "promptId": "frontier-v1/people-mounted-children-e",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-mounted-cast2-e.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9b01d0b8-a77e-4d3f-afdb-a24426f299d4.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-children-e.png",
+      "postProcessing": "None. Selected PNG copied unchanged; read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f8f5bed7-2197-4841-9f17-a38345f8d0ae.png",
+      "refinements": [
+        {
+          "prompt": "Edit only size and spacing of these exact sixteen east-facing family horseback sprites. Preserve every identity, face, clothing, horse, toddler support, infant cradle and distinct walk pose EXACTLY. Shrink each complete horse-and-rider composite uniformly to 72% of its present size, independently centered in its own original equal cell. Keep FOUR columns FOUR rows same order and canvas geometry. Minimum generous 45px fully alpha-zero gutters on all seams and outer boundaries. Do not crop or remove any limb/rein/tail or add shadow/background/text. Transparent RGBA throughout."
+        }
+      ]
+    },
+    {
+      "sheet": "people-mounted-children-n",
+      "promptId": "frontier-v1/people-mounted-children-n",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f8f5bed7-2197-4841-9f17-a38345f8d0ae.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-mounted-cast2-n.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b5e0e793-40ad-432c-bca8-bd227d3a59a1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-children-n.png",
+      "postProcessing": "None. Selected PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "people-mounted-children-s",
+      "promptId": "frontier-v1/people-mounted-children-s",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f8f5bed7-2197-4841-9f17-a38345f8d0ae.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-mounted-cast2-s.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-72cdf8d4-865e-4094-9540-3190088b2c3e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-mounted-children-s.png",
+      "postProcessing": "None. Selected PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "ox-wagon-composite-e",
+      "promptId": "frontier-v1/ox-wagon-composite-e",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wagon-rig.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/animal-stock.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed32a027-6d8f-45cb-951b-2ebab06f1cbf.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ox-wagon-composite-e.png",
+      "postProcessing": "None; selected PNG copied unchanged; read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-351b6de5-3e34-4119-8104-b7e9db02034d.png",
+      "refinements": [
+        {
+          "prompt": "Correct ONLY size and transparent separation of eight complete east-facing ox-and-wagon rigs. Keep FOUR columns TWO rows, empty row1 loaded row2 and every unique leg/wheel pose exactly. Each complete rig including all horns tail wheels canvas tongue must be uniformly reduced to 62% current size and centered independently in its equal cell. At least 65px clear alpha-zero gutter on EVERY vertical seam and outside edges; no touching neighboring frame. Preserve wood neck yoke-to-tongue connection, loaded cargo and painted style. No added shadow text background or cropped horn/wheel."
+        }
+      ]
+    },
+    {
+      "sheet": "ox-wagon-composite-n",
+      "promptId": "frontier-v1/ox-wagon-composite-n",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-351b6de5-3e34-4119-8104-b7e9db02034d.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f7d12166-b87e-4d53-aa48-6c9e35a7edf0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ox-wagon-composite-n.png",
+      "postProcessing": "None; selected PNG copied unchanged; read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a3ea3caa-b598-4218-b10d-f6563c6e13dd.png",
+      "refinements": [
+        {
+          "prompt": "Correct mechanical occlusion in this exact eight-frame NORTH-facing ox-wagon atlas. Ox is AHEAD of wagon, beyond far/front axle, so its legs CANNOT appear below the REAR tailgate nearest viewer. REMOVE the brown ox hoof/leg currently dangling underneath every rear tailgate; retain rearwagon axle/wheels. Show ox walk hoof changes only at far TOP beyond wagon, subtly left/right of ox body where actually visible; legs behind canvas are OCCLUDED, never below wagonrear. Keep ox ahead pointingaway, continuous tongue/yoke as shown, emptyrow1 loadedrow2 reararchgoods unchanged. Four walk phases tail/visiblefarleg changes and wheelspoke rotations remain distinct. Also shrink each complete rig to76percent current size independently centered own originalcell, fourcolumns tworows largealpha0outerandseamgutters. No newbackgroundshadowslabels or people. Exact 8 whole mechanicallycorrect rigs."
+        }
+      ]
+    },
+    {
+      "sheet": "ox-wagon-composite-s",
+      "promptId": "frontier-v1/ox-wagon-composite-s",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-351b6de5-3e34-4119-8104-b7e9db02034d.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c517d041-459c-4b3e-9a90-c55f286f81e0.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/ox-wagon-composite-s.png",
+      "postProcessing": "None; selected PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "people-child-wagon-drivers",
+      "promptId": "frontier-v1/people-child-wagon-drivers",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cast2-drivers-youth.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-4830f605-fc31-409e-a656-72c39e6f4d2a.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-child-wagon-drivers.png",
+      "postProcessing": "None; PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "people-sj-camp-cast1",
+      "promptId": "frontier-v1/people-sj-camp-cast1",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-walk.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a0fa9d34-065b-4f2d-b828-43a4f6693042.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-sj-camp-cast1.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only.",
+      "refinements": [
+        {
+          "prompt": "Spacing-only edit. This is a FOUR-column FOUR-row atlas of sixteen complete family camp figures. Reduce EACH entire figure with all blanket, hat, hair, hands and feet to HALF current width and HALF current height. Center every figure independently in its own original cell. Preserve all sixteen exact identities and poses, colors and faces in original order. Make very wide truly transparent margins at all row and column seams and outside edges. No overlapping figures, no crop, no missing blanket tips, no background or shadows. Dramatic 50% linear reduction, not a small adjustment. Keep sleeping bodies lying on their sides, peaceful closed eyes, healthy seated bodies and distinctive outfits.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e2ceb400-76bd-477b-97aa-02bdcce4d471.png"
+        }
+      ]
+    },
+    {
+      "sheet": "people-sj-camp-cast2",
+      "promptId": "frontier-v1/people-sj-camp-cast2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-walk.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-eb8f4814-2b6f-4f89-8ba9-5864b4b05fe1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-sj-camp-cast2.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only."
+    },
+    {
+      "sheet": "people-sj-camp-children",
+      "promptId": "frontier-v1/people-sj-camp-children",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-34df77d3-0814-4911-9029-82aa9622023c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-sj-camp-children.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0efc8921-749d-4274-9c1e-b394fbf00e00.png",
+      "refinements": [
+        {
+          "prompt": "Correct infant sleep animation row4 cols3/4: same basket andsame infant liesHEAD LEFT FEET RIGHT BOTHposes, eyesclosed. Col4 must NOT reverse child head to right. Give col4 slight blanketbreath variation SAME camera andheadposition so gentlebreathing ratherthan turn. Keep infant safelylyingwrapped inbasket. Also uniformly shrink everywholefigure to75percent current size centerown original equal4x4cell, generousalpha0gutters allseamsouteredges. Keep allotheridentities/posesexact same, no newshadowbackgroundtext."
+        }
+      ]
+    },
+    {
+      "sheet": "people-sj-camp-heads1",
+      "promptId": "frontier-v1/people-sj-camp-heads1",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-mother-scarf.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-father-straw.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-father-beard.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-father-moustache.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-42150392-c109-4be9-b144-6cf16271a09d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-sj-camp-heads1.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5173bec6-7d49-4490-8e1d-b0c6a15c119e.png",
+      "refinements": [
+        {
+          "prompt": "Correct row2 father-straw SLEEPING cols3/4: he must be CLEAN-SHAVEN as row2 seated poses, REMOVE all beard/moustache, same short brown hair and youthful adultface. Keep row3 father-beard fullbeard and row4 moustache unchanged. Also uniformly shrink EVERYwholefigure to75percent current size independently centered its originalcell, exact4columns4rows, genuinealpha0gutters allseamsedges. Preserve all16identityposes andblankets, no shadowsbackgroundtext."
+        },
+        {
+          "prompt": "In FOURcolumnsFOURrows16figures changeONLY row2 cols3/4 sleeping CLEAN SHAVEN father strawhat: his face skin from cheek tochin MUST be completely smooth peach/tan, NO black/brown beard facialhair or moustache, same clean-shavenface asrow2cols1/2. Expose his chin in sleepingpose so smoothskin unmistakable, brownshortheadhair staysaboveear notoncheek. Keep closedeyespeacefulblanket sideposes. Row3BEARD androw4MOUSTACHE remain exactly as is. Preserve all16complete independentfigures, layoutidentityclothes alpha0transparency. No paintedbackgroundshadowtext, shrinkeachwholefigure further80percent owncell toensuregutter."
+        }
+      ]
+    },
+    {
+      "sheet": "people-sj-camp-heads2",
+      "promptId": "frontier-v1/people-sj-camp-heads2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-mother-braid.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-mother-loose.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-mother-straw.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-youth-boy.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-be1cfd28-eb54-4fa5-85e0-6d6671093030.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-sj-camp-heads2.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bb5b09a7-6640-4796-ba2d-297ba5a53bbe.png",
+      "refinements": [
+        {
+          "prompt": "Correct ONLY row2 mother-loose hair in seatedfront col2: REMOVE BRAID downfront shoulder; replace with loose wavy darkhair fallingfreely downshoulder, matching row2 sidepose andsleep. Row1 mother-braid retains her braid, row3 strawhatwoman no braidadded. Also uniformly shrink all16wholefigures to75percent current size centerown equalcell4x4 widealpha0gutters everyseam andedge. Preserve eachpose faceclothingblankets, no newtextbackgroundshadows."
+        }
+      ]
+    },
+    {
+      "sheet": "people-sj-camp-heads3",
+      "promptId": "frontier-v1/people-sj-camp-heads3",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-youth-girl.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-family-father-hat.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0fccc73a-b70b-43a1-ae76-77c41ca51f60.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-sj-camp-heads3.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only."
+    },
+    {
+      "sheet": "people-sj-camp-infant",
+      "promptId": "frontier-v1/people-sj-camp-infant",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-children-idle.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5ae6f4c1-0154-4eae-b945-9c9f8681f54d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-sj-camp-infant.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only."
+    },
+    {
+      "sheet": "sj-mounted-reload-e",
+      "promptId": "frontier-v1/sj-mounted-reload-e",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-mounted.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/dragoon-carbine-actions.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-10b5c304-4df3-494f-a652-91f384e85edb.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/sj-mounted-reload-e.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0e72e3c8-f83c-46ba-ada4-b0a8aac88387.png",
+      "refinements": [
+        {
+          "prompt": "Remove the brown painted background COMPLETELY to genuine RGBA alpha-zero transparency. Keep exact sixteen EAST-facing mounted reload poses fourcolumnsfourrows, all identityuniformhorsesweapons and sequentialhands preserved. Also independently shrink every WHOLEhorseandrider to70percentpresent size centeredown originalcell. Restore any hooves clippedatbottom in row4. Wideclear alpha0gutters everyseamouteredge. Exactly16 isolatedsprites no shadowbackgroundgridlabels smoke. Do not change camera or turn walkinglegs. No opaque/semitransparent coloredwash; completely transparent betweenfigures."
+        },
+        {
+          "prompt": "Make a spacing-only edit of this 4-column by 4-row game sprite sheet. There are sixteen separate complete horse-and-rider figures. Reduce EACH entire figure, including every tail, hoof, hat, helmet, rifle and ramrod, to HALF its current width and HALF its current height. Keep each figure centered in its own original cell. Keep all sixteen figures, their order, exact poses, camera direction, colors and details. Leave very wide fully transparent margins between every pair of figures and around the outside. Restore any missing hoof tips. No crop, no touching, no overlap. Genuine RGBA transparency, no background or shadows. This must be a dramatic 50% linear reduction of every sprite, not a small adjustment.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5364433f-6f03-4460-9b3b-4d76bb8aa42d.png"
+        }
+      ]
+    },
+    {
+      "sheet": "sj-mounted-reload-s",
+      "promptId": "frontier-v1/sj-mounted-reload-s",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/southern-volunteer-mounted-actions.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-69e5aaf1-0775-4c16-b879-40a81ceadac1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/sj-mounted-reload-s.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only.",
+      "generationReference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0e72e3c8-f83c-46ba-ada4-b0a8aac88387.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-36dcd53f-df4e-42b4-a9e6-c63ab39ac1cd.png",
+      "refinements": [
+        {
+          "prompt": "Remove ALL brown painted background to GENUINE RGBA ALPHA ZERO, preserving exactly16 complete mountedreload figures and eachdifferenthandweaponpose. FOURcolumnsFOURrows sameorder first8volunteerthen8dragoon sameNORTH/SOUTH headingasimage. Independently shrink everywholecomposite to70percentcurrent size centeredowncell, generousclearalpha0gutters ALLseamsouteredges. Restore any clippedbottomhooves. No castshadows haloscoloredwash gridtext. TRANSPARENT between allsprites no brownopaque/semitransparentbackground. Preserve uniformidentityhorses feetposition ramrods rifles sequentialactions no moderngear."
+        },
+        {
+          "prompt": "Spacing-only edit of this FOUR-column FOUR-row sprite sheet. Reduce EVERY one of sixteen complete horse-and-rider figures to HALF current width and HALF current height. Center each independently in its own original equal cell. Preserve exact north/south camera, every sequential reload hand/weapon pose, horse grounded feet, uniform, colors, details and order. Include every hoof, tail, helmet, rifle and rod. Leave enormous completely alpha-zero margins between rows and columns and at all outer edges. No touching or overlap. Genuine RGBA transparency; no shadow, text or background. Dramatic 50% linear reduction, not minor spacing adjustment.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-967b540e-bd3a-4371-a17b-8b91d0624818.png"
+        }
+      ]
+    },
+    {
+      "sheet": "sj-mounted-reload-n",
+      "promptId": "frontier-v1/sj-mounted-reload-n",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/southern-dragoon-mounted-actions.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1289eafa-4605-40ef-9937-61d9a74ebcfd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/sj-mounted-reload-n.png",
+      "postProcessing": "None. PNG copied unchanged; alpha measured read-only.",
+      "generationReference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-0e72e3c8-f83c-46ba-ada4-b0a8aac88387.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-35f2802e-8ad9-4ee1-a492-e877292fefc0.png",
+      "refinements": [
+        {
+          "prompt": "Remove ALL brown painted background to GENUINE RGBA ALPHA ZERO, preserving exactly16 complete mountedreload figures and eachdifferenthandweaponpose. FOURcolumnsFOURrows sameorder first8volunteerthen8dragoon sameNORTH/SOUTH headingasimage. Independently shrink everywholecomposite to70percentcurrent size centeredowncell, generousclearalpha0gutters ALLseamsouteredges. Restore any clippedbottomhooves. No castshadows haloscoloredwash gridtext. TRANSPARENT between allsprites no brownopaque/semitransparentbackground. Preserve uniformidentityhorses feetposition ramrods rifles sequentialactions no moderngear."
+        },
+        {
+          "prompt": "Spacing-only edit of this FOUR-column FOUR-row sprite sheet. Reduce EVERY one of sixteen complete horse-and-rider figures to HALF current width and HALF current height. Center each independently in its own original equal cell. Preserve exact north/south camera, every sequential reload hand/weapon pose, horse grounded feet, uniform, colors, details and order. Include every hoof, tail, helmet, rifle and rod. Leave enormous completely alpha-zero margins between rows and columns and at all outer edges. No touching or overlap. Genuine RGBA transparency; no shadow, text or background. Dramatic 50% linear reduction, not minor spacing adjustment.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-8aa1482e-314c-4442-b9ab-01a9a5e2affe.png"
+        }
+      ]
+    },
+    {
+      "sheet": "alamo-parapet-service",
+      "promptId": "frontier-v1/alamo-parapet-service",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + direction/spacing correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-35881789-45c9-4d04-b9c2-979ea527f48c.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-parapet-service.png",
+      "postProcessing": "None. Selected generated PNG copied unchanged; read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c5f6af45-4eab-42d2-a98e-730e298e2b2f.png",
+      "refinements": [
+        {
+          "prompt": "Edit this exact 4-column 4-row waist-up parapet rifleman atlas. Correct firing heading ONLY in rows 3 and 4: row 3 NORTH has the man's BACK toward viewer and the shouldered rifle points AWAY/up the image, strongly foreshortened, visible barrel beyond shoulder, NOT horizontally to the left. Row 4 SOUTH has man's chest toward viewer and rifle points toward CAMERA/down the image, strongly foreshortened muzzle visible in foreground, NOT horizontally to the right. Columns 1 aim and 2 recoil keep that heading. Columns 3/4 remain crouched loading with muzzle tilted up safely. Rows 1 EAST and 2 WEST stay unchanged in direction. Also reduce EACH whole waist-up sprite including rifle/rod to HALF its current width and height, independently centered in its original equal cell, huge true alpha-zero gutters all seams/edges. Preserve same face hat brown coat identities and sequence; exactly16 whole isolated sprites no wall, legs, shadows, background or text."
+        }
+      ]
+    },
+    {
+      "sheet": "alamo-volunteer-trot",
+      "promptId": "frontier-v1/alamo-volunteer-trot",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/volunteer-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-d2f38a82-517d-46ca-b8ef-4b5ae31c35bd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-volunteer-trot.png",
+      "postProcessing": "None. Selected generated PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "alamo-battery-guns",
+      "promptId": "frontier-v1/alamo-battery-guns",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/cannon-18pdr.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-85c43219-ca02-4585-b6ed-6db5615ecbf8.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-battery-guns.png",
+      "postProcessing": "None. Selected generated PNG copied unchanged; read-only alpha audit."
+    },
+    {
+      "sheet": "people-alamo-travis-service",
+      "promptId": "frontier-v1/people-alamo-travis-service",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + direction/spacing correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-travis.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-105c9d01-f123-46c2-a326-2381c62df9cf.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/people-alamo-travis-service.png",
+      "postProcessing": "None. Selected generated PNG copied unchanged; read-only alpha audit.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-871c3ebe-e1cd-402b-b998-1e35b37b98b1.png",
+      "refinements": [
+        {
+          "prompt": "Edit this 4-column 4-row Travis atlas. Preserve navy coat, brass buttons, dark hat, clean-shaven young face and all sixteen firing/loading poses. Correct rows 3 and 4 aiming: NORTH row3 shows back of man with rifle aimed AWAY/up image, strongly foreshortened, not horizontal across image. SOUTH row4 shows front chest with rifle aimed TOWARD camera/down image, visible foreshortened muzzle in foreground, not horizontal right. Columns1 aim and2 recoil use that heading; cols3/4 keep low kneeling reload/ramrod. Rows1east/row2west remain correct profiles. Also shrink EVERY entire figure including boots, rifle, hat and rod to HALF current width and height, independently centered in own equalcell, extremely wide alpha-zero gutters every seam and outeredge. Restore any clippedfeet. No background, shadow, text, grid, flash or smoke. Exactly16 whole isolated sprites."
+        }
+      ]
+    },
+    {
+      "sheet": "alamo-upright-lancer-e",
+      "promptId": "frontier-v1/alamo-upright-lancer-e",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lancer-charge.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ed4c8f14-2afb-46b8-8902-e862f8a3fb2e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-upright-lancer-e.png",
+      "postProcessing": "None. Higher-detail heading sheet copied unchanged; crowded 24-frame draft superseded."
+    },
+    {
+      "sheet": "alamo-upright-lancer-s",
+      "promptId": "frontier-v1/alamo-upright-lancer-s",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lancer-charge.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-c71c245c-6850-4c40-8208-e8abd2c88e96.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-upright-lancer-s.png",
+      "postProcessing": "None. Higher-detail heading sheet copied unchanged; crowded 24-frame draft superseded."
+    },
+    {
+      "sheet": "alamo-upright-lancer-n",
+      "promptId": "frontier-v1/alamo-upright-lancer-n",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + spacing correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/lancer-charge.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-787bc017-0fdb-49e0-8a6e-9d3212679f8e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/alamo-upright-lancer-n.png",
+      "postProcessing": "None. Higher-detail heading sheet copied unchanged; crowded 24-frame draft superseded.",
+      "refinements": [
+        {
+          "prompt": "Spacing-only edit of this FOUR-column TWO-row NORTH-facing lancer sheet. Uniformly reduce each of eight WHOLE sprites including its upright lance, helmet, horse, tail and hooves to 70% of current width and height. Independently center each in its original cell. Keep exact identities, north camera, four walking poses on top and four idle poses below. Leave large fully transparent seams between rows; the tips of the lower row's lances must not touch upper row's hooves or tails. Preserve crisp paint detail. Exactly8 full isolated sprites, no crop, overlap, background, shadow or text.",
+          "reference": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-baf68090-53c1-478e-a284-61f1db68a8f4.png"
+        }
+      ]
+    },
+    {
+      "sheet": "adult-passengers-cast1",
+      "promptId": "frontier-v1/adult-passengers-cast1",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-walk.png"
+      ],
+      "refinements": [
+        {
+          "prompt": "Precise correction of atlas. Keep all24 poses costumes layout headings. ALSO uniformly SHRINK every whole figure to68percent CURRENTsize and recenter each insideitsORIGINALequalcell. Keep exact grid originalnumberrowscolumns, identity color age pose variations detail. Allvisiblepixels onlycentral60percentcellwidthheight, minimum60px trulyalpha0gutters outeredgesandallseams. NO croppingfeet hats or infant, nogroundshadow labels grid background. Preserve meaningfullydifferent hand/leg poses. Transparent PNG."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/adult-passengers-cast1.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f65e91b3-d690-4e3b-a585-6ec349a71cad.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7bd3b283-e16c-4773-b8cf-8a2bf2dbf3cd.png"
+    },
+    {
+      "sheet": "adult-passengers-cast2",
+      "promptId": "frontier-v1/adult-passengers-cast2",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "refinements": [
+        {
+          "prompt": "Precise correction of atlas. Correct ROW4 columns3and4 to SOUTH/front view ochre boy and bluegirl exactly like row3 but hands subtly shifted. Currently row4 mistakenly rear view. Rows3AND4 ALLFOUR frontview. Rows5AND6 allrear. Keeprows1/2 allEast. ALSO uniformly SHRINK every whole figure to68percent CURRENTsize and recenter each insideitsORIGINALequalcell. Keep exact grid originalnumberrowscolumns, identity color age pose variations detail. Allvisiblepixels onlycentral60percentcellwidthheight, minimum60px trulyalpha0gutters outeredgesandallseams. NO croppingfeet hats or infant, nogroundshadow labels grid background. Preserve meaningfullydifferent hand/leg poses. Transparent PNG."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/adult-passengers-cast2.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-84f90eb0-ec2b-4646-8d42-54df8809ccf7.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-52203e50-01ba-4942-a718-7eb614574965.png"
+    },
+    {
+      "sheet": "family-infant-walk-rust-woman",
+      "promptId": "frontier-v1/family-infant-walk-rust-woman",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "refinements": [
+        {
+          "prompt": "Precise correction of atlas. Correct ROW1 columns3AND4 to EAST/right profile same ascols1/2; allFOUR topframes walkRIGHT with alternatingfootfalls notleft/back. ROW2 allfront row3allback unchanged. ALSO uniformly SHRINK every whole figure to68percent CURRENTsize and recenter each insideitsORIGINALequalcell. Keep exact grid originalnumberrowscolumns, identity color age pose variations detail. Allvisiblepixels onlycentral60percentcellwidthheight, minimum60px trulyalpha0gutters outeredgesandallseams. NO croppingfeet hats or infant, nogroundshadow labels grid background. Preserve meaningfullydifferent hand/leg poses. Transparent PNG."
+        },
+        {
+          "prompt": "Correct ONLY TOP ROW COLUMN3: flip the entire figure horizontally so she faces RIGHT/EAST like other three topframes. Her nose must pointRIGHT. Her baby heldinfront/right. Keep allother11 exact same figures. No left-facing figure anywhere. Keep4col3rows andgenuinealpha0gutters."
+        }
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/family-infant-walk-rust-woman.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-273e7e09-2e87-4b47-a164-6c21d462fbde.png",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-b8beeed1-e4a5-46e5-9795-820a1773df78.png"
+    },
+    {
+      "sheet": "family-infant-walk-indigo",
+      "promptId": "frontier-v1/family-infant-walk-indigo",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/family-infant-walk-indigo.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2f433ced-f639-4ea5-9e8a-783a1a1b0100.png"
+    },
+    {
+      "sheet": "family-infant-walk-ochre",
+      "promptId": "frontier-v1/family-infant-walk-ochre",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/family-infant-walk-ochre.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e80c119a-b929-41c6-adad-117fc87adac6.png"
+    },
+    {
+      "sheet": "family-infant-walk-blue-girl",
+      "promptId": "frontier-v1/family-infant-walk-blue-girl",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-cast2-idle.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/family-infant-walk-blue-girl.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1fee7f6e-1d35-4f91-a5ab-f9f3962bb2ca.png"
+    },
+    {
+      "sheet": "family-infant-walk-rust",
+      "promptId": "frontier-v1/family-infant-walk-rust",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/people-walk.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/family-infant-walk-rust.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-f5ec218b-9d94-4bff-a63c-ad6baa87fde9.png"
+    },
+    {
+      "sheet": "wagon-cover-drawn-back",
+      "promptId": "frontier-v1/wagon-cover-drawn-back",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/wagon-rig.png"
+      ],
+      "runtimeFile": "public/assets/frontier-v1/atlases/wagon-cover-drawn-back.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-72e09256-bede-4534-84bb-49bc57ade679.png",
+      "refinements": [
+        {
+          "prompt": "Correct canvasposition ONLY all8wagonframes. The entire cover mustbe folded and tied intoa smallbunch on FRONT hoop overdriver nearesttongue, leaving rearTWO-THIRDS open uncoveredbarebed. Sideviews show smallcreamcanvasfront at tongue/rightforEast andtongue/leftforWest, EMPTYrearbedclearlyopen. NORTH/rearview sees allbarewoodfloor withcanvasbunch farfront/top NOT a roofcurtainovertailgate. SOUTH/frontview sees frontsmallcanvasbunch withuncoveredrearbedbeyond throughopening. No completehood/coveredarchoverrear, no opaqueinnerblackbox. Keep exact4col2rows directionswoodwheels anddistinctposes. Shrink every completevehicle to70percentcurrent andcentereachowncell toleave60pxalpha0gutterallseams. Nooxpeoplegroundshadowtext."
+        }
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-66cf2fe6-7c2f-4378-8f81-256df7f5c981.png"
+    },
+    {
+      "sheet": "named-jw-smith-trot",
+      "promptId": "frontier-v1/named-jw-smith-trot",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-jw-smith-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7254336c-c638-4eed-b9a3-61caa7571d70.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-jw-smith-trot.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged."
+    },
+    {
+      "sheet": "named-jw-smith-mounted-dispatch",
+      "promptId": "frontier-v1/named-jw-smith-mounted-dispatch",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-jw-smith-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-63b63722-f365-48c4-8e62-5e2c899dcd7e.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-jw-smith-mounted-dispatch.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged."
+    },
+    {
+      "sheet": "named-horton-trot",
+      "promptId": "frontier-v1/named-horton-trot",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-horton-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-058b028d-c9de-4fa0-ba7e-718975472a16.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-horton-trot.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged."
+    },
+    {
+      "sheet": "named-horton-mounted-dispatch",
+      "promptId": "frontier-v1/named-horton-mounted-dispatch",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-horton-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2dba152f-c755-4c93-abde-cdae8b0a0f61.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-horton-mounted-dispatch.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged."
+    },
+    {
+      "sheet": "named-kimbell-trot",
+      "promptId": "frontier-v1/named-kimbell-trot",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-kimbell-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-bcc90761-ec02-4880-9002-d9b2e1448442.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-kimbell-trot.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged."
+    },
+    {
+      "sheet": "named-kimbell-mounted-dispatch",
+      "promptId": "frontier-v1/named-kimbell-mounted-dispatch",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-kimbell-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-1551a36e-4b91-44c8-a2fd-5d97cccc02b1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-kimbell-mounted-dispatch.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged."
+    },
+    {
+      "sheet": "named-martin-trot",
+      "promptId": "frontier-v1/named-martin-trot",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-martin-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-04ac994f-1947-402c-b896-17cbcc59e9d1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-martin-trot.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged."
+    },
+    {
+      "sheet": "named-martin-mounted-dispatch",
+      "promptId": "frontier-v1/named-martin-mounted-dispatch",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-martin-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-66268690-5a91-4f15-94c8-88cf05336b72.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-martin-mounted-dispatch.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-9954ee96-a2cd-43e8-b53f-b368de0cdeb7.png",
+      "refinements": [
+        {
+          "prompt": "Correct ONLY spacing of EIGHT whole Martin horse-and-rider sprites. Preserve exact FOURcolumns TWOrows, ALLidentities colors hats coats horses paper poses directions and two distinct calmidleposes. Uniformly SHRINK every COMPLETE figure horseincludingtail hooves hats papers to65percentCURRENTsize and center EACHwithinORIGINALcell. Nothing touchesneighbor seam orouteredge;minimum80px clearalpha0gutters everyseam. No croppedfeet muzzle paper orhat. No added objects shadow background gridlabels. TRUEtransparent PNG. Do not change poses or compass directions."
+        }
+      ]
+    },
+    {
+      "sheet": "named-milam-fire-service",
+      "promptId": "frontier-v1/named-milam-fire-service",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate + correction",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-milam.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ecb03b86-8c2d-47f7-816a-4861f66140d9.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-milam-fire-service.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged.",
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-7f9ed2c3-41fb-4561-8bb9-9cc7f07b7f10.png",
+      "refinements": [
+        {
+          "prompt": "Spacing correction ONLY for exact16 Milam serviceframes. Keep FOURcolumns FOURrows, allidentities directionsaim/fire/load/ramrod meaning identical. Uniformly SHRINK EACHwholefigure INCLUDING rifle ramrod boots hat to65percent CURRENTsize andrecenteachowncell. Fullvisiblepixels CENTRAL60percentcellwidthheight minimum65px alpha0gutters onEVERYouteredge andALLrowcolumnboundaries. Preserve front SOUTHrow3 rearNORTHrow4 and WESTrow2 riflecorrect. No added objects scene shadows labels grid. True transparent PNG."
+        }
+      ]
+    },
+    {
+      "sheet": "named-relief-fates",
+      "promptId": "frontier-v1/named-relief-fates",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-kimbell-mounted.png",
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/famous-martin-mounted.png"
+      ],
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-89a70de3-5e73-4fb6-8254-358d50366bc4.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/named-relief-fates.png",
+      "postProcessing": "None; selected transparent PNG copied unchanged."
     }
   ],
   "rejectedAttempts": [

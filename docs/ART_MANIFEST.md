@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3041 usable sprites, 322 PNG atlases, 1067 clips** (755 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3806 usable sprites, 401 PNG atlases, 1310 clips** (989 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -12,6 +12,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Atlas | Frames | Size | PNG bytes |
 | --- | ---: | --- | ---: |
+| alamo-parapet-service | 16 | 1445 × 1088 | 875186 |
+| people-alamo-travis-service | 16 | 1536 × 1024 | 1708385 |
+| alamo-volunteer-trot | 12 | 1448 × 1086 | 1426623 |
+| alamo-upright-lancer-e | 8 | 1536 × 1024 | 2200872 |
+| alamo-upright-lancer-s | 8 | 1536 × 1024 | 1961648 |
+| alamo-upright-lancer-n | 8 | 1536 × 1024 | 1819250 |
+| alamo-battery-guns | 8 | 1774 × 887 | 1370425 |
 | alamo-face-strips | 5 | 1659 × 948 | 928904 |
 | alamo-funeral-pyre | 4 | 1254 × 1254 | 1841976 |
 | cannon-18pdr | 4 | 1254 × 1254 | 1234709 |
@@ -22,12 +29,20 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | smoke-column-far | 4 | 1254 × 1254 | 572269 |
 | alamo-scaling-ladders | 4 | 1254 × 1254 | 995871 |
 | regular-ladder-climb | 4 | 1254 × 1254 | 636351 |
+| army-camp-props | 8 | 1774 × 887 | 1426807 |
+| army-camp-pennants | 4 | 1254 × 1254 | 853822 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
 | volunteer-bank-actions | 6 | 1536 × 1024 | 1560397 |
 | white-flag-regular | 4 | 1262 × 1246 | 786638 |
 | white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
 | regular-bugler | 4 | 1262 × 1246 | 691857 |
+| regular-loophole-actions | 4 | 1536 × 1024 | 1487360 |
+| bexar-townsfolk | 16 | 1264 × 1244 | 1190200 |
+| bexar-san-fernando | 1 | 1536 × 1024 | 2150927 |
+| bexar-governors-palace | 1 | 1774 × 887 | 1812505 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
+| biome-species | 6 | 1024 × 1536 | 2927386 |
+| biome-species-gales | 12 | 1536 × 1024 | 3061669 |
 | biome-pine-palm-gale | 12 | 1445 × 1089 | 873328 |
 | biome-cypress-gale | 6 | 1024 × 1536 | 2205619 |
 | biome-broadleaf-gale | 8 | 1774 × 887 | 1022515 |
@@ -50,6 +65,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-cast2-idle | 16 | 1254 × 1254 | 1103935 |
 | dragoon-carbine-actions | 4 | 1278 × 1230 | 1451179 |
 | lancer-charge | 4 | 1536 × 1024 | 2066034 |
+| child-passenger-girl | 6 | 1024 × 1536 | 1794084 |
+| child-passenger-boy | 6 | 1024 × 1536 | 1728330 |
+| child-passenger-smallchild | 6 | 1024 × 1536 | 1718795 |
+| children-dialogue | 12 | 1448 × 1086 | 933507 |
 | icons-children | 6 | 1254 × 1254 | 874710 |
 | people-children-vertical | 12 | 1254 × 1254 | 1163980 |
 | people-children-idle | 16 | 1254 × 1254 | 1351105 |
@@ -58,6 +77,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | land-clearing | 16 | 1254 × 1254 | 904975 |
 | coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
 | regular-prone-actions | 4 | 1536 × 1024 | 1506423 |
+| colony-hardwoods | 8 | 1774 × 887 | 2641448 |
+| colony-oak-gales | 8 | 1774 × 887 | 2716648 |
+| colony-compound-gales | 6 | 1024 × 1536 | 3090731 |
+| concepcion-mission | 1 | 1254 × 1254 | 1786319 |
+| concepcion-bank-terrain | 6 | 1448 × 1086 | 2158290 |
+| concepcion-limber-riders | 12 | 1448 × 1086 | 1475077 |
+| concepcion-aftercare | 12 | 1448 × 1086 | 881095 |
 | conifer-gale | 12 | 1448 × 1086 | 1381008 |
 | fallen-transport | 8 | 1536 × 1024 | 1987719 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
@@ -75,6 +101,15 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-family-youth-girl | 16 | 1254 × 1254 | 1537178 |
 | people-family-father-hat | 16 | 1254 × 1254 | 1292458 |
 | family-panel-marks | 6 | 1286 × 1223 | 985678 |
+| family-portraits | 12 | 1448 × 1086 | 1237816 |
+| adult-passengers-cast1 | 24 | 1215 × 1295 | 813456 |
+| adult-passengers-cast2 | 24 | 1263 × 1246 | 858586 |
+| family-infant-walk-rust-woman | 12 | 1448 × 1086 | 977086 |
+| family-infant-walk-indigo | 12 | 1536 × 1024 | 1904698 |
+| family-infant-walk-ochre | 12 | 1536 × 1024 | 1813025 |
+| family-infant-walk-blue-girl | 12 | 1536 × 1024 | 1903942 |
+| family-infant-walk-rust | 12 | 1536 × 1024 | 1866164 |
+| wagon-cover-drawn-back | 8 | 1774 × 887 | 840373 |
 | famous-bonham | 16 | 1254 × 1254 | 1241019 |
 | famous-almeron-dickinson | 16 | 1254 × 1254 | 905031 |
 | famous-seguin | 16 | 1254 × 1254 | 1147292 |
@@ -195,6 +230,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-wp-smith | 16 | 1254 × 1254 | 1120598 |
 | timber-felled | 4 | 1448 × 1086 | 641371 |
 | flag-come-and-take-it | 4 | 1254 × 1254 | 1140674 |
+| goliad-prisoner-second | 16 | 1254 × 1254 | 1116777 |
 | goliad-prisoner | 16 | 1254 × 1254 | 1028392 |
 | gonzales-cannon-buried | 1 | 1536 × 1024 | 1652878 |
 | gonzales-log-breastwork | 1 | 1774 × 887 | 1221292 |
@@ -217,13 +253,19 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-gonzales-seated-paint | 12 | 1254 × 1254 | 1247274 |
 | people-gonzales-smiths | 16 | 1254 × 1254 | 1257016 |
 | gonzales-smith-props | 4 | 1254 × 1254 | 1582180 |
+| grass-creek-terrain | 8 | 1774 × 887 | 1416265 |
 | mule-packed-grass | 16 | 1254 × 1254 | 1717695 |
 | ground-fog-banks | 4 | 1774 × 887 | 1018893 |
 | mesquite-liveoak-gale | 12 | 1536 × 1024 | 2225195 |
 | elm-gale | 6 | 1243 × 1265 | 1228004 |
 | home-tools | 6 | 1024 × 1536 | 1685412 |
+| horse-herds | 8 | 1774 × 887 | 1516208 |
+| house-construction-complete | 8 | 1774 × 887 | 1134794 |
 | house-modules | 16 | 1448 × 1086 | 1837997 |
+| house-back-views | 6 | 1448 × 1086 | 819294 |
+| house-end-views | 4 | 1536 × 1024 | 2128992 |
 | icons-gather-stock-carreta | 8 | 1774 × 887 | 2465242 |
+| infant-wagon-passenger | 6 | 1024 × 1536 | 2003734 |
 | lesson-marks | 4 | 1254 × 1254 | 782966 |
 | live-oak-mott | 4 | 1774 × 887 | 2439144 |
 | marsh-edge | 8 | 2172 × 724 | 1222516 |
@@ -237,6 +279,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | field-cover-camp-props | 16 | 1254 × 1254 | 1651891 |
 | house-loopholed | 4 | 1536 × 1024 | 2777417 |
 | volunteer-loophole-actions | 4 | 1254 × 1254 | 989282 |
+| people-mounted-children-e | 16 | 1254 × 1254 | 1147224 |
+| people-mounted-children-s | 16 | 1254 × 1254 | 1191765 |
+| people-mounted-children-n | 16 | 1254 × 1254 | 1104874 |
 | people-mounted-cast1-e | 16 | 1254 × 1254 | 1086305 |
 | people-mounted-cast1-s | 16 | 1254 × 1254 | 1213409 |
 | people-mounted-cast1-n | 16 | 1254 × 1254 | 1283689 |
@@ -246,6 +291,17 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wildlife-mustang | 16 | 1254 × 1254 | 1311610 |
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
+| named-jw-smith-trot | 12 | 1448 × 1086 | 1324080 |
+| named-jw-smith-mounted-dispatch | 8 | 1774 × 887 | 1404634 |
+| named-horton-trot | 12 | 1536 × 1024 | 2102594 |
+| named-horton-mounted-dispatch | 8 | 1774 × 887 | 1526613 |
+| named-kimbell-trot | 12 | 1448 × 1086 | 1374233 |
+| named-kimbell-mounted-dispatch | 8 | 1774 × 887 | 1436147 |
+| named-martin-trot | 12 | 1448 × 1086 | 1544575 |
+| named-martin-mounted-dispatch | 8 | 1774 × 887 | 884204 |
+| named-milam-fire-service | 16 | 1254 × 1254 | 934347 |
+| named-relief-fates | 4 | 1254 × 1254 | 1038660 |
+| nature-gales | 4 | 1774 × 887 | 1030716 |
 | night-settlement-lights | 16 | 1254 × 1254 | 1713707 |
 | norther-ground | 6 | 1024 × 1536 | 2216491 |
 | oak-gale | 12 | 1448 × 1086 | 1964372 |
@@ -256,6 +312,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | village-irish-colony | 1 | 1536 × 1024 | 2454172 |
 | ferry-landing | 1 | 1536 × 1024 | 2091884 |
 | ox-packed | 16 | 1254 × 1254 | 1531260 |
+| ox-wagon-composite-e | 8 | 1774 × 887 | 1057460 |
+| ox-wagon-composite-s | 8 | 1774 × 887 | 1416731 |
+| ox-wagon-composite-n | 8 | 1774 × 887 | 1020000 |
+| people-child-wagon-drivers | 16 | 1254 × 1254 | 1745715 |
+| regular-crowbar-vertical | 8 | 1774 × 887 | 1004859 |
 | regular-engineer-actions | 16 | 1254 × 1254 | 1448705 |
 | pecan-hackberry-gale | 12 | 1448 × 1086 | 1526598 |
 | sweetgum-gale | 6 | 1254 × 1254 | 1081732 |
@@ -264,7 +325,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
 | ferry-flatboat | 3 | 1254 × 1254 | 203701 |
 | steamboat-moored | 4 | 1254 × 1254 | 799173 |
+| house-roof-joins | 3 | 1448 × 1086 | 1332934 |
 | interior-saddlebag | 1 | 1860 × 846 | 1858682 |
+| people-sj-camp-cast1 | 16 | 1254 × 1254 | 821534 |
+| people-sj-camp-cast2 | 16 | 1254 × 1254 | 1561543 |
+| people-sj-camp-children | 12 | 1448 × 1086 | 1507110 |
+| people-sj-camp-heads1 | 16 | 1254 × 1254 | 1301389 |
+| people-sj-camp-heads2 | 16 | 1402 × 1122 | 1254182 |
+| people-sj-camp-heads3 | 8 | 1774 × 887 | 1343922 |
+| people-sj-camp-infant | 4 | 1254 × 1254 | 2014675 |
+| sj-mounted-reload-e | 16 | 1536 × 1024 | 1729165 |
+| sj-mounted-reload-s | 16 | 1536 × 1024 | 1583212 |
+| sj-mounted-reload-n | 16 | 1536 × 1024 | 1580452 |
 | famous-seguin-ashes | 4 | 1230 × 1278 | 646296 |
 | alamo-ash-sites-1837 | 4 | 1536 × 1024 | 2505356 |
 | seguin-funeral-props | 4 | 1536 × 1024 | 2000785 |
@@ -284,12 +356,19 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | shop-doctor | 1 | 1536 × 1024 | 2118390 |
 | shop-stockman | 1 | 1536 × 1024 | 1863839 |
 | trees-shortleaf | 12 | 1448 × 1086 | 870477 |
+| southern-volunteer-mounted-actions | 8 | 1774 × 887 | 1152242 |
+| southern-dragoon-mounted-actions | 8 | 1774 × 887 | 1092208 |
+| southern-lancer-charge | 8 | 1774 × 887 | 967185 |
 | famous-susanna-child-travel | 4 | 1254 × 1254 | 1207824 |
 | famous-susanna-child-cardinal | 4 | 1254 × 1254 | 1204335 |
 | gonzales-settler-rammer | 4 | 1254 × 1254 | 892360 |
 | gonzales-settler-charge | 4 | 1254 × 1254 | 892184 |
 | gonzales-settler-igniter | 4 | 1254 × 1254 | 1022312 |
 | town-buildings-researched | 16 | 1254 × 1254 | 2122682 |
+| town-fort-velasco | 1 | 1536 × 1024 | 2512585 |
+| town-harrisburg-steam-mill | 1 | 1536 × 1024 | 2368526 |
+| town-nacogdoches-stone-house | 1 | 1536 × 1024 | 2816554 |
+| town-mill-smoke | 4 | 1254 × 1254 | 726832 |
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
 | trees-colonies-2 | 16 | 1254 × 1254 | 1902468 |
@@ -339,6 +418,82 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Sprite ID | Atlas | Animation clips |
 | --- | --- | --- |
+| volunteer-parapet-e-aim | alamo-parapet-service | volunteer-parapet-fire-e |
+| volunteer-parapet-e-fire | alamo-parapet-service | volunteer-parapet-fire-e |
+| volunteer-parapet-e-load | alamo-parapet-service | volunteer-parapet-fire-e |
+| volunteer-parapet-e-ramrod | alamo-parapet-service | volunteer-parapet-fire-e |
+| volunteer-parapet-w-aim | alamo-parapet-service | volunteer-parapet-fire-w |
+| volunteer-parapet-w-fire | alamo-parapet-service | volunteer-parapet-fire-w |
+| volunteer-parapet-w-load | alamo-parapet-service | volunteer-parapet-fire-w |
+| volunteer-parapet-w-ramrod | alamo-parapet-service | volunteer-parapet-fire-w |
+| volunteer-parapet-n-aim | alamo-parapet-service | volunteer-parapet-fire-n |
+| volunteer-parapet-n-fire | alamo-parapet-service | volunteer-parapet-fire-n |
+| volunteer-parapet-n-load | alamo-parapet-service | volunteer-parapet-fire-n |
+| volunteer-parapet-n-ramrod | alamo-parapet-service | volunteer-parapet-fire-n |
+| volunteer-parapet-s-aim | alamo-parapet-service | volunteer-parapet-fire-s |
+| volunteer-parapet-s-fire | alamo-parapet-service | volunteer-parapet-fire-s |
+| volunteer-parapet-s-load | alamo-parapet-service | volunteer-parapet-fire-s |
+| volunteer-parapet-s-ramrod | alamo-parapet-service | volunteer-parapet-fire-s |
+| travis-battery-e-aim | people-alamo-travis-service | travis-battery-fire-e |
+| travis-battery-e-fire | people-alamo-travis-service | travis-battery-fire-e |
+| travis-battery-e-load | people-alamo-travis-service | travis-battery-fire-e |
+| travis-battery-e-ramrod | people-alamo-travis-service | travis-battery-fire-e |
+| travis-battery-w-aim | people-alamo-travis-service | travis-battery-fire-w |
+| travis-battery-w-fire | people-alamo-travis-service | travis-battery-fire-w |
+| travis-battery-w-load | people-alamo-travis-service | travis-battery-fire-w |
+| travis-battery-w-ramrod | people-alamo-travis-service | travis-battery-fire-w |
+| travis-battery-n-aim | people-alamo-travis-service | travis-battery-fire-n |
+| travis-battery-n-fire | people-alamo-travis-service | travis-battery-fire-n |
+| travis-battery-n-load | people-alamo-travis-service | travis-battery-fire-n |
+| travis-battery-n-ramrod | people-alamo-travis-service | travis-battery-fire-n |
+| travis-battery-s-aim | people-alamo-travis-service | travis-battery-fire-s |
+| travis-battery-s-fire | people-alamo-travis-service | travis-battery-fire-s |
+| travis-battery-s-load | people-alamo-travis-service | travis-battery-fire-s |
+| travis-battery-s-ramrod | people-alamo-travis-service | travis-battery-fire-s |
+| volunteer-trot-e-1 | alamo-volunteer-trot | volunteer-trot-e |
+| volunteer-trot-e-2 | alamo-volunteer-trot | volunteer-trot-e |
+| volunteer-trot-e-3 | alamo-volunteer-trot | volunteer-trot-e |
+| volunteer-trot-e-4 | alamo-volunteer-trot | volunteer-trot-e |
+| volunteer-trot-s-1 | alamo-volunteer-trot | volunteer-trot-s |
+| volunteer-trot-s-2 | alamo-volunteer-trot | volunteer-trot-s |
+| volunteer-trot-s-3 | alamo-volunteer-trot | volunteer-trot-s |
+| volunteer-trot-s-4 | alamo-volunteer-trot | volunteer-trot-s |
+| volunteer-trot-n-1 | alamo-volunteer-trot | volunteer-trot-n |
+| volunteer-trot-n-2 | alamo-volunteer-trot | volunteer-trot-n |
+| volunteer-trot-n-3 | alamo-volunteer-trot | volunteer-trot-n |
+| volunteer-trot-n-4 | alamo-volunteer-trot | volunteer-trot-n |
+| lancer-upright-march-e-1 | alamo-upright-lancer-e | lancer-upright-march-e |
+| lancer-upright-march-e-2 | alamo-upright-lancer-e | lancer-upright-march-e |
+| lancer-upright-march-e-3 | alamo-upright-lancer-e | lancer-upright-march-e |
+| lancer-upright-march-e-4 | alamo-upright-lancer-e | lancer-upright-march-e |
+| lancer-upright-idle-e-1 | alamo-upright-lancer-e | lancer-upright-idle-e |
+| lancer-upright-idle-e-2 | alamo-upright-lancer-e | lancer-upright-idle-e |
+| lancer-upright-idle-e-3 | alamo-upright-lancer-e | lancer-upright-idle-e |
+| lancer-upright-idle-e-4 | alamo-upright-lancer-e | lancer-upright-idle-e |
+| lancer-upright-march-s-1 | alamo-upright-lancer-s | lancer-upright-march-s |
+| lancer-upright-march-s-2 | alamo-upright-lancer-s | lancer-upright-march-s |
+| lancer-upright-march-s-3 | alamo-upright-lancer-s | lancer-upright-march-s |
+| lancer-upright-march-s-4 | alamo-upright-lancer-s | lancer-upright-march-s |
+| lancer-upright-idle-s-1 | alamo-upright-lancer-s | lancer-upright-idle-s |
+| lancer-upright-idle-s-2 | alamo-upright-lancer-s | lancer-upright-idle-s |
+| lancer-upright-idle-s-3 | alamo-upright-lancer-s | lancer-upright-idle-s |
+| lancer-upright-idle-s-4 | alamo-upright-lancer-s | lancer-upright-idle-s |
+| lancer-upright-march-n-1 | alamo-upright-lancer-n | lancer-upright-march-n |
+| lancer-upright-march-n-2 | alamo-upright-lancer-n | lancer-upright-march-n |
+| lancer-upright-march-n-3 | alamo-upright-lancer-n | lancer-upright-march-n |
+| lancer-upright-march-n-4 | alamo-upright-lancer-n | lancer-upright-march-n |
+| lancer-upright-idle-n-1 | alamo-upright-lancer-n | lancer-upright-idle-n |
+| lancer-upright-idle-n-2 | alamo-upright-lancer-n | lancer-upright-idle-n |
+| lancer-upright-idle-n-3 | alamo-upright-lancer-n | lancer-upright-idle-n |
+| lancer-upright-idle-n-4 | alamo-upright-lancer-n | lancer-upright-idle-n |
+| cannon-alamo-north-e | alamo-battery-guns | cannon-alamo-north-e-recoil |
+| cannon-alamo-north-e-kick | alamo-battery-guns | cannon-alamo-north-e-recoil |
+| cannon-alamo-north-w | alamo-battery-guns | cannon-alamo-north-w-recoil |
+| cannon-alamo-north-w-kick | alamo-battery-guns | cannon-alamo-north-w-recoil |
+| cannon-alamo-church-e | alamo-battery-guns | cannon-alamo-church-e-recoil |
+| cannon-alamo-church-e-kick | alamo-battery-guns | cannon-alamo-church-e-recoil |
+| cannon-alamo-church-w | alamo-battery-guns | cannon-alamo-church-w-recoil |
+| cannon-alamo-church-w-kick | alamo-battery-guns | cannon-alamo-church-w-recoil |
 | alamo-face-limestone | alamo-face-strips | State artwork; no motion required |
 | alamo-face-rooms | alamo-face-strips | State artwork; no motion required |
 | alamo-face-gate | alamo-face-strips | State artwork; no motion required |
@@ -377,6 +532,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-climb-2 | regular-ladder-climb | regular-climb |
 | regular-climb-3 | regular-ladder-climb | regular-climb |
 | regular-climb-4 | regular-ladder-climb | regular-climb |
+| camp-wedge-cream-1 | army-camp-props | camp-wedge-cream |
+| camp-wedge-cream-2 | army-camp-props | camp-wedge-cream |
+| camp-wedge-gray-1 | army-camp-props | camp-wedge-gray |
+| camp-wedge-gray-2 | army-camp-props | camp-wedge-gray |
+| camp-cookfire-1 | army-camp-props | camp-cookfire |
+| camp-cookfire-2 | army-camp-props | camp-cookfire |
+| camp-cookfire-3 | army-camp-props | camp-cookfire |
+| camp-cookfire-4 | army-camp-props | camp-cookfire |
+| camp-pennant-ochre-1 | army-camp-pennants | camp-pennant-ochre |
+| camp-pennant-ochre-2 | army-camp-pennants | camp-pennant-ochre |
+| camp-pennant-rust-1 | army-camp-pennants | camp-pennant-rust |
+| camp-pennant-rust-2 | army-camp-pennants | camp-pennant-rust |
 | volunteer-rammer-carry-1 | artillery-service | volunteer-gun-ram |
 | volunteer-rammer-carry-2 | artillery-service | volunteer-gun-ram |
 | volunteer-ram-1 | artillery-service | volunteer-gun-ram |
@@ -411,6 +578,28 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-bugler-raise | regular-bugler | regular-bugler-call |
 | regular-bugler-sound | regular-bugler | regular-bugler-call |
 | regular-bugler-lower | regular-bugler | regular-bugler-call |
+| regular-loophole-aim | regular-loophole-actions | regular-loophole-fire-reload |
+| regular-loophole-fire | regular-loophole-actions | regular-loophole-fire-reload |
+| regular-loophole-load | regular-loophole-actions | regular-loophole-fire-reload |
+| regular-loophole-ram | regular-loophole-actions | regular-loophole-fire-reload |
+| bexar-woman-walk-1 | bexar-townsfolk | bexar-woman-walk |
+| bexar-woman-walk-2 | bexar-townsfolk | bexar-woman-walk |
+| bexar-woman-walk-3 | bexar-townsfolk | bexar-woman-walk |
+| bexar-woman-walk-4 | bexar-townsfolk | bexar-woman-walk |
+| bexar-elder-walk-1 | bexar-townsfolk | bexar-elder-walk |
+| bexar-elder-walk-2 | bexar-townsfolk | bexar-elder-walk |
+| bexar-elder-walk-3 | bexar-townsfolk | bexar-elder-walk |
+| bexar-elder-walk-4 | bexar-townsfolk | bexar-elder-walk |
+| bexar-child-walk-1 | bexar-townsfolk | bexar-child-walk |
+| bexar-child-walk-2 | bexar-townsfolk | bexar-child-walk |
+| bexar-child-walk-3 | bexar-townsfolk | bexar-child-walk |
+| bexar-child-walk-4 | bexar-townsfolk | bexar-child-walk |
+| bexar-older-woman-walk-1 | bexar-townsfolk | bexar-older-woman-walk |
+| bexar-older-woman-walk-2 | bexar-townsfolk | bexar-older-woman-walk |
+| bexar-older-woman-walk-3 | bexar-townsfolk | bexar-older-woman-walk |
+| bexar-older-woman-walk-4 | bexar-townsfolk | bexar-older-woman-walk |
+| bexar-san-fernando-1836 | bexar-san-fernando | State artwork; no motion required |
+| bexar-governors-palace-1836 | bexar-governors-palace | State artwork; no motion required |
 | palmetto | biome-ground-bexar | State artwork; no motion required |
 | cypress-knees | biome-ground-bexar | State artwork; no motion required |
 | cane-1 | biome-ground-bexar | State artwork; no motion required |
@@ -427,6 +616,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | acequia-bend | biome-ground-bexar | State artwork; no motion required |
 | acequia-crossing | biome-ground-bexar | State artwork; no motion required |
 | fence-brush | biome-ground-bexar | State artwork; no motion required |
+| tree-anacua | biome-species | State artwork; no motion required |
+| tree-texas-ebony | biome-species | State artwork; no motion required |
+| tree-water-tupelo | biome-species | State artwork; no motion required |
+| tree-cedar-elm | biome-species | State artwork; no motion required |
+| tree-black-willow | biome-species | State artwork; no motion required |
+| tree-black-willow-pole | biome-species | State artwork; no motion required |
+| tree-anacua-gale-1 | biome-species-gales | tree-anacua-gale |
+| tree-anacua-gale-2 | biome-species-gales | tree-anacua-gale |
+| tree-texas-ebony-gale-1 | biome-species-gales | tree-texas-ebony-gale |
+| tree-texas-ebony-gale-2 | biome-species-gales | tree-texas-ebony-gale |
+| tree-water-tupelo-gale-1 | biome-species-gales | tree-water-tupelo-gale |
+| tree-water-tupelo-gale-2 | biome-species-gales | tree-water-tupelo-gale |
+| tree-cedar-elm-gale-1 | biome-species-gales | tree-cedar-elm-gale |
+| tree-cedar-elm-gale-2 | biome-species-gales | tree-cedar-elm-gale |
+| tree-black-willow-gale-1 | biome-species-gales | tree-black-willow-gale |
+| tree-black-willow-gale-2 | biome-species-gales | tree-black-willow-gale |
+| tree-black-willow-pole-gale-1 | biome-species-gales | tree-black-willow-pole-gale |
+| tree-black-willow-pole-gale-2 | biome-species-gales | tree-black-willow-pole-gale |
 | pine-longleaf-pole-gale-1 | biome-pine-palm-gale | pine-longleaf-pole-gale |
 | pine-longleaf-pole-gale-2 | biome-pine-palm-gale | pine-longleaf-pole-gale |
 | palm-sabal-pole-gale-1 | biome-pine-palm-gale | palm-sabal-pole-gale |
@@ -681,6 +888,36 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | lancer-charge-2 | lancer-charge | lancer-charge |
 | lancer-charge-3 | lancer-charge | lancer-charge |
 | lancer-charge-4 | lancer-charge | lancer-charge |
+| girl-wagon-passenger-e-1 | child-passenger-girl | girl-wagon-passenger-e |
+| girl-wagon-passenger-e-2 | child-passenger-girl | girl-wagon-passenger-e |
+| girl-wagon-passenger-s-1 | child-passenger-girl | girl-wagon-passenger-s |
+| girl-wagon-passenger-s-2 | child-passenger-girl | girl-wagon-passenger-s |
+| girl-wagon-passenger-n-1 | child-passenger-girl | girl-wagon-passenger-n |
+| girl-wagon-passenger-n-2 | child-passenger-girl | girl-wagon-passenger-n |
+| boy-wagon-passenger-e-1 | child-passenger-boy | boy-wagon-passenger-e |
+| boy-wagon-passenger-e-2 | child-passenger-boy | boy-wagon-passenger-e |
+| boy-wagon-passenger-s-1 | child-passenger-boy | boy-wagon-passenger-s |
+| boy-wagon-passenger-s-2 | child-passenger-boy | boy-wagon-passenger-s |
+| boy-wagon-passenger-n-1 | child-passenger-boy | boy-wagon-passenger-n |
+| boy-wagon-passenger-n-2 | child-passenger-boy | boy-wagon-passenger-n |
+| smallchild-wagon-passenger-e-1 | child-passenger-smallchild | smallchild-wagon-passenger-e |
+| smallchild-wagon-passenger-e-2 | child-passenger-smallchild | smallchild-wagon-passenger-e |
+| smallchild-wagon-passenger-s-1 | child-passenger-smallchild | smallchild-wagon-passenger-s |
+| smallchild-wagon-passenger-s-2 | child-passenger-smallchild | smallchild-wagon-passenger-s |
+| smallchild-wagon-passenger-n-1 | child-passenger-smallchild | smallchild-wagon-passenger-n |
+| smallchild-wagon-passenger-n-2 | child-passenger-smallchild | smallchild-wagon-passenger-n |
+| girl-speak-1 | children-dialogue | girl-speak |
+| girl-speak-2 | children-dialogue | girl-speak |
+| girl-listen-s | children-dialogue | girl-listen-s |
+| girl-listen-n | children-dialogue | girl-listen-n |
+| boy-speak-1 | children-dialogue | boy-speak |
+| boy-speak-2 | children-dialogue | boy-speak |
+| boy-listen-s | children-dialogue | boy-listen-s |
+| boy-listen-n | children-dialogue | boy-listen-n |
+| smallchild-speak-1 | children-dialogue | smallchild-speak |
+| smallchild-speak-2 | children-dialogue | smallchild-speak |
+| smallchild-listen-s | children-dialogue | smallchild-listen-s |
+| smallchild-listen-n | children-dialogue | smallchild-listen-n |
 | icon-child-play | icons-children | State artwork; no motion required |
 | icon-child-kindling | icons-children | State artwork; no motion required |
 | icon-child-birds | icons-children | State artwork; no motion required |
@@ -763,6 +1000,59 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-prone-aim | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-fire | regular-prone-actions | regular-prone-fire-reload |
 | regular-prone-lock | regular-prone-actions | regular-prone-fire-reload |
+| tree-water-oak | colony-hardwoods | State artwork; no motion required |
+| tree-bur-oak | colony-hardwoods | State artwork; no motion required |
+| tree-white-oak | colony-hardwoods | State artwork; no motion required |
+| tree-texas-oak | colony-hardwoods | State artwork; no motion required |
+| tree-hickory | colony-hardwoods | State artwork; no motion required |
+| tree-walnut | colony-hardwoods | State artwork; no motion required |
+| tree-ash | colony-hardwoods | State artwork; no motion required |
+| stump-pecan | colony-hardwoods | State artwork; no motion required |
+| tree-water-oak-gale-1 | colony-oak-gales | tree-water-oak-gale |
+| tree-water-oak-gale-2 | colony-oak-gales | tree-water-oak-gale |
+| tree-bur-oak-gale-1 | colony-oak-gales | tree-bur-oak-gale |
+| tree-bur-oak-gale-2 | colony-oak-gales | tree-bur-oak-gale |
+| tree-white-oak-gale-1 | colony-oak-gales | tree-white-oak-gale |
+| tree-white-oak-gale-2 | colony-oak-gales | tree-white-oak-gale |
+| tree-texas-oak-gale-1 | colony-oak-gales | tree-texas-oak-gale |
+| tree-texas-oak-gale-2 | colony-oak-gales | tree-texas-oak-gale |
+| tree-hickory-gale-1 | colony-compound-gales | tree-hickory-gale |
+| tree-hickory-gale-2 | colony-compound-gales | tree-hickory-gale |
+| tree-walnut-gale-1 | colony-compound-gales | tree-walnut-gale |
+| tree-walnut-gale-2 | colony-compound-gales | tree-walnut-gale |
+| tree-ash-gale-1 | colony-compound-gales | tree-ash-gale |
+| tree-ash-gale-2 | colony-compound-gales | tree-ash-gale |
+| mission-concepcion | concepcion-mission | State artwork; no motion required |
+| riverbank-cut-e | concepcion-bank-terrain | State artwork; no motion required |
+| riverbank-cut-w | concepcion-bank-terrain | State artwork; no motion required |
+| river-bend-1 | concepcion-bank-terrain | river-bend |
+| river-bend-2 | concepcion-bank-terrain | river-bend |
+| river-bend-3 | concepcion-bank-terrain | river-bend |
+| river-bend-4 | concepcion-bank-terrain | river-bend |
+| limber-mules-e-1 | concepcion-limber-riders | limber-mules-walk-e |
+| limber-mules-e-2 | concepcion-limber-riders | limber-mules-walk-e |
+| limber-mules-e-3 | concepcion-limber-riders | limber-mules-walk-e |
+| limber-mules-e-4 | concepcion-limber-riders | limber-mules-walk-e |
+| limber-mules-s-1 | concepcion-limber-riders | limber-mules-walk-s |
+| limber-mules-s-2 | concepcion-limber-riders | limber-mules-walk-s |
+| limber-mules-s-3 | concepcion-limber-riders | limber-mules-walk-s |
+| limber-mules-s-4 | concepcion-limber-riders | limber-mules-walk-s |
+| limber-mules-n-1 | concepcion-limber-riders | limber-mules-walk-n |
+| limber-mules-n-2 | concepcion-limber-riders | limber-mules-walk-n |
+| limber-mules-n-3 | concepcion-limber-riders | limber-mules-walk-n |
+| limber-mules-n-4 | concepcion-limber-riders | limber-mules-walk-n |
+| padre-walk-1 | concepcion-aftercare | padre-walk |
+| padre-walk-2 | concepcion-aftercare | padre-walk |
+| padre-walk-3 | concepcion-aftercare | padre-walk |
+| padre-walk-4 | concepcion-aftercare | padre-walk |
+| casualty-cart-wounded-1 | concepcion-aftercare | casualty-cart-wounded |
+| casualty-cart-wounded-2 | concepcion-aftercare | casualty-cart-wounded |
+| casualty-cart-wounded-3 | concepcion-aftercare | casualty-cart-wounded |
+| casualty-cart-wounded-4 | concepcion-aftercare | casualty-cart-wounded |
+| casualty-cart-covered-1 | concepcion-aftercare | casualty-cart-covered |
+| casualty-cart-covered-2 | concepcion-aftercare | casualty-cart-covered |
+| casualty-cart-covered-3 | concepcion-aftercare | casualty-cart-covered |
+| casualty-cart-covered-4 | concepcion-aftercare | casualty-cart-covered |
 | pine-loblolly-pole-gale-1 | conifer-gale | pine-loblolly-pole-gale |
 | pine-loblolly-pole-gale-2 | conifer-gale | pine-loblolly-pole-gale |
 | cedar-pole-gale-1 | conifer-gale | cedar-pole-gale |
@@ -1002,6 +1292,134 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mark-idle | family-panel-marks | State artwork; no motion required |
 | mark-auto-off | family-panel-marks | State artwork; no motion required |
 | mark-auto-on | family-panel-marks | State artwork; no motion required |
+| portrait-rust | family-portraits | State artwork; no motion required |
+| portrait-teal | family-portraits | State artwork; no motion required |
+| portrait-elder | family-portraits | State artwork; no motion required |
+| portrait-blue | family-portraits | State artwork; no motion required |
+| portrait-rust-woman | family-portraits | State artwork; no motion required |
+| portrait-indigo | family-portraits | State artwork; no motion required |
+| portrait-ochre | family-portraits | State artwork; no motion required |
+| portrait-blue-girl | family-portraits | State artwork; no motion required |
+| portrait-girl | family-portraits | State artwork; no motion required |
+| portrait-boy | family-portraits | State artwork; no motion required |
+| portrait-smallchild | family-portraits | State artwork; no motion required |
+| portrait-infant | family-portraits | State artwork; no motion required |
+| rust-wagon-passenger-e-1 | adult-passengers-cast1 | rust-wagon-passenger-e |
+| teal-wagon-passenger-e-1 | adult-passengers-cast1 | teal-wagon-passenger-e |
+| elder-wagon-passenger-e-1 | adult-passengers-cast1 | elder-wagon-passenger-e |
+| blue-wagon-passenger-e-1 | adult-passengers-cast1 | blue-wagon-passenger-e |
+| rust-wagon-passenger-e-2 | adult-passengers-cast1 | rust-wagon-passenger-e |
+| teal-wagon-passenger-e-2 | adult-passengers-cast1 | teal-wagon-passenger-e |
+| elder-wagon-passenger-e-2 | adult-passengers-cast1 | elder-wagon-passenger-e |
+| blue-wagon-passenger-e-2 | adult-passengers-cast1 | blue-wagon-passenger-e |
+| rust-wagon-passenger-s-1 | adult-passengers-cast1 | rust-wagon-passenger-s |
+| teal-wagon-passenger-s-1 | adult-passengers-cast1 | teal-wagon-passenger-s |
+| elder-wagon-passenger-s-1 | adult-passengers-cast1 | elder-wagon-passenger-s |
+| blue-wagon-passenger-s-1 | adult-passengers-cast1 | blue-wagon-passenger-s |
+| rust-wagon-passenger-s-2 | adult-passengers-cast1 | rust-wagon-passenger-s |
+| teal-wagon-passenger-s-2 | adult-passengers-cast1 | teal-wagon-passenger-s |
+| elder-wagon-passenger-s-2 | adult-passengers-cast1 | elder-wagon-passenger-s |
+| blue-wagon-passenger-s-2 | adult-passengers-cast1 | blue-wagon-passenger-s |
+| rust-wagon-passenger-n-1 | adult-passengers-cast1 | rust-wagon-passenger-n |
+| teal-wagon-passenger-n-1 | adult-passengers-cast1 | teal-wagon-passenger-n |
+| elder-wagon-passenger-n-1 | adult-passengers-cast1 | elder-wagon-passenger-n |
+| blue-wagon-passenger-n-1 | adult-passengers-cast1 | blue-wagon-passenger-n |
+| rust-wagon-passenger-n-2 | adult-passengers-cast1 | rust-wagon-passenger-n |
+| teal-wagon-passenger-n-2 | adult-passengers-cast1 | teal-wagon-passenger-n |
+| elder-wagon-passenger-n-2 | adult-passengers-cast1 | elder-wagon-passenger-n |
+| blue-wagon-passenger-n-2 | adult-passengers-cast1 | blue-wagon-passenger-n |
+| rust-woman-wagon-passenger-e-1 | adult-passengers-cast2 | rust-woman-wagon-passenger-e |
+| indigo-wagon-passenger-e-1 | adult-passengers-cast2 | indigo-wagon-passenger-e |
+| ochre-wagon-passenger-e-1 | adult-passengers-cast2 | ochre-wagon-passenger-e |
+| blue-girl-wagon-passenger-e-1 | adult-passengers-cast2 | blue-girl-wagon-passenger-e |
+| rust-woman-wagon-passenger-e-2 | adult-passengers-cast2 | rust-woman-wagon-passenger-e |
+| indigo-wagon-passenger-e-2 | adult-passengers-cast2 | indigo-wagon-passenger-e |
+| ochre-wagon-passenger-e-2 | adult-passengers-cast2 | ochre-wagon-passenger-e |
+| blue-girl-wagon-passenger-e-2 | adult-passengers-cast2 | blue-girl-wagon-passenger-e |
+| rust-woman-wagon-passenger-s-1 | adult-passengers-cast2 | rust-woman-wagon-passenger-s |
+| indigo-wagon-passenger-s-1 | adult-passengers-cast2 | indigo-wagon-passenger-s |
+| ochre-wagon-passenger-s-1 | adult-passengers-cast2 | ochre-wagon-passenger-s |
+| blue-girl-wagon-passenger-s-1 | adult-passengers-cast2 | blue-girl-wagon-passenger-s |
+| rust-woman-wagon-passenger-s-2 | adult-passengers-cast2 | rust-woman-wagon-passenger-s |
+| indigo-wagon-passenger-s-2 | adult-passengers-cast2 | indigo-wagon-passenger-s |
+| ochre-wagon-passenger-s-2 | adult-passengers-cast2 | ochre-wagon-passenger-s |
+| blue-girl-wagon-passenger-s-2 | adult-passengers-cast2 | blue-girl-wagon-passenger-s |
+| rust-woman-wagon-passenger-n-1 | adult-passengers-cast2 | rust-woman-wagon-passenger-n |
+| indigo-wagon-passenger-n-1 | adult-passengers-cast2 | indigo-wagon-passenger-n |
+| ochre-wagon-passenger-n-1 | adult-passengers-cast2 | ochre-wagon-passenger-n |
+| blue-girl-wagon-passenger-n-1 | adult-passengers-cast2 | blue-girl-wagon-passenger-n |
+| rust-woman-wagon-passenger-n-2 | adult-passengers-cast2 | rust-woman-wagon-passenger-n |
+| indigo-wagon-passenger-n-2 | adult-passengers-cast2 | indigo-wagon-passenger-n |
+| ochre-wagon-passenger-n-2 | adult-passengers-cast2 | ochre-wagon-passenger-n |
+| blue-girl-wagon-passenger-n-2 | adult-passengers-cast2 | blue-girl-wagon-passenger-n |
+| rust-woman-infant-walk-e-1 | family-infant-walk-rust-woman | rust-woman-infant-walk-e |
+| rust-woman-infant-walk-e-2 | family-infant-walk-rust-woman | rust-woman-infant-walk-e |
+| rust-woman-infant-walk-e-3 | family-infant-walk-rust-woman | rust-woman-infant-walk-e |
+| rust-woman-infant-walk-e-4 | family-infant-walk-rust-woman | rust-woman-infant-walk-e |
+| rust-woman-infant-walk-s-1 | family-infant-walk-rust-woman | rust-woman-infant-walk-s |
+| rust-woman-infant-walk-s-2 | family-infant-walk-rust-woman | rust-woman-infant-walk-s |
+| rust-woman-infant-walk-s-3 | family-infant-walk-rust-woman | rust-woman-infant-walk-s |
+| rust-woman-infant-walk-s-4 | family-infant-walk-rust-woman | rust-woman-infant-walk-s |
+| rust-woman-infant-walk-n-1 | family-infant-walk-rust-woman | rust-woman-infant-walk-n |
+| rust-woman-infant-walk-n-2 | family-infant-walk-rust-woman | rust-woman-infant-walk-n |
+| rust-woman-infant-walk-n-3 | family-infant-walk-rust-woman | rust-woman-infant-walk-n |
+| rust-woman-infant-walk-n-4 | family-infant-walk-rust-woman | rust-woman-infant-walk-n |
+| indigo-infant-walk-e-1 | family-infant-walk-indigo | indigo-infant-walk-e |
+| indigo-infant-walk-e-2 | family-infant-walk-indigo | indigo-infant-walk-e |
+| indigo-infant-walk-e-3 | family-infant-walk-indigo | indigo-infant-walk-e |
+| indigo-infant-walk-e-4 | family-infant-walk-indigo | indigo-infant-walk-e |
+| indigo-infant-walk-s-1 | family-infant-walk-indigo | indigo-infant-walk-s |
+| indigo-infant-walk-s-2 | family-infant-walk-indigo | indigo-infant-walk-s |
+| indigo-infant-walk-s-3 | family-infant-walk-indigo | indigo-infant-walk-s |
+| indigo-infant-walk-s-4 | family-infant-walk-indigo | indigo-infant-walk-s |
+| indigo-infant-walk-n-1 | family-infant-walk-indigo | indigo-infant-walk-n |
+| indigo-infant-walk-n-2 | family-infant-walk-indigo | indigo-infant-walk-n |
+| indigo-infant-walk-n-3 | family-infant-walk-indigo | indigo-infant-walk-n |
+| indigo-infant-walk-n-4 | family-infant-walk-indigo | indigo-infant-walk-n |
+| ochre-infant-walk-e-1 | family-infant-walk-ochre | ochre-infant-walk-e |
+| ochre-infant-walk-e-2 | family-infant-walk-ochre | ochre-infant-walk-e |
+| ochre-infant-walk-e-3 | family-infant-walk-ochre | ochre-infant-walk-e |
+| ochre-infant-walk-e-4 | family-infant-walk-ochre | ochre-infant-walk-e |
+| ochre-infant-walk-s-1 | family-infant-walk-ochre | ochre-infant-walk-s |
+| ochre-infant-walk-s-2 | family-infant-walk-ochre | ochre-infant-walk-s |
+| ochre-infant-walk-s-3 | family-infant-walk-ochre | ochre-infant-walk-s |
+| ochre-infant-walk-s-4 | family-infant-walk-ochre | ochre-infant-walk-s |
+| ochre-infant-walk-n-1 | family-infant-walk-ochre | ochre-infant-walk-n |
+| ochre-infant-walk-n-2 | family-infant-walk-ochre | ochre-infant-walk-n |
+| ochre-infant-walk-n-3 | family-infant-walk-ochre | ochre-infant-walk-n |
+| ochre-infant-walk-n-4 | family-infant-walk-ochre | ochre-infant-walk-n |
+| blue-girl-infant-walk-e-1 | family-infant-walk-blue-girl | blue-girl-infant-walk-e |
+| blue-girl-infant-walk-e-2 | family-infant-walk-blue-girl | blue-girl-infant-walk-e |
+| blue-girl-infant-walk-e-3 | family-infant-walk-blue-girl | blue-girl-infant-walk-e |
+| blue-girl-infant-walk-e-4 | family-infant-walk-blue-girl | blue-girl-infant-walk-e |
+| blue-girl-infant-walk-s-1 | family-infant-walk-blue-girl | blue-girl-infant-walk-s |
+| blue-girl-infant-walk-s-2 | family-infant-walk-blue-girl | blue-girl-infant-walk-s |
+| blue-girl-infant-walk-s-3 | family-infant-walk-blue-girl | blue-girl-infant-walk-s |
+| blue-girl-infant-walk-s-4 | family-infant-walk-blue-girl | blue-girl-infant-walk-s |
+| blue-girl-infant-walk-n-1 | family-infant-walk-blue-girl | blue-girl-infant-walk-n |
+| blue-girl-infant-walk-n-2 | family-infant-walk-blue-girl | blue-girl-infant-walk-n |
+| blue-girl-infant-walk-n-3 | family-infant-walk-blue-girl | blue-girl-infant-walk-n |
+| blue-girl-infant-walk-n-4 | family-infant-walk-blue-girl | blue-girl-infant-walk-n |
+| rust-infant-walk-e-1 | family-infant-walk-rust | rust-infant-walk-e |
+| rust-infant-walk-e-2 | family-infant-walk-rust | rust-infant-walk-e |
+| rust-infant-walk-e-3 | family-infant-walk-rust | rust-infant-walk-e |
+| rust-infant-walk-e-4 | family-infant-walk-rust | rust-infant-walk-e |
+| rust-infant-walk-s-1 | family-infant-walk-rust | rust-infant-walk-s |
+| rust-infant-walk-s-2 | family-infant-walk-rust | rust-infant-walk-s |
+| rust-infant-walk-s-3 | family-infant-walk-rust | rust-infant-walk-s |
+| rust-infant-walk-s-4 | family-infant-walk-rust | rust-infant-walk-s |
+| rust-infant-walk-n-1 | family-infant-walk-rust | rust-infant-walk-n |
+| rust-infant-walk-n-2 | family-infant-walk-rust | rust-infant-walk-n |
+| rust-infant-walk-n-3 | family-infant-walk-rust | rust-infant-walk-n |
+| rust-infant-walk-n-4 | family-infant-walk-rust | rust-infant-walk-n |
+| wagon-open-cover-e-1 | wagon-cover-drawn-back | wagon-open-cover-e |
+| wagon-open-cover-w-1 | wagon-cover-drawn-back | wagon-open-cover-w |
+| wagon-open-cover-s-1 | wagon-cover-drawn-back | wagon-open-cover-s |
+| wagon-open-cover-n-1 | wagon-cover-drawn-back | wagon-open-cover-n |
+| wagon-open-cover-e-2 | wagon-cover-drawn-back | wagon-open-cover-e |
+| wagon-open-cover-w-2 | wagon-cover-drawn-back | wagon-open-cover-w |
+| wagon-open-cover-s-2 | wagon-cover-drawn-back | wagon-open-cover-s |
+| wagon-open-cover-n-2 | wagon-cover-drawn-back | wagon-open-cover-n |
 | bonham-walk-e-1 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-2 | famous-bonham | bonham-walk-e |
 | bonham-walk-e-3 | famous-bonham | bonham-walk-e |
@@ -1974,6 +2392,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | flag-come-and-take-it-wind-1 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-2 | flag-come-and-take-it | flag-come-and-take-it-wind |
 | flag-come-and-take-it-wind-3 | flag-come-and-take-it | flag-come-and-take-it-wind |
+| prisoner2-walk-e-1 | goliad-prisoner-second | prisoner2-walk-e |
+| prisoner2-walk-e-2 | goliad-prisoner-second | prisoner2-walk-e |
+| prisoner2-walk-e-3 | goliad-prisoner-second | prisoner2-walk-e |
+| prisoner2-walk-e-4 | goliad-prisoner-second | prisoner2-walk-e |
+| prisoner2-walk-s-1 | goliad-prisoner-second | prisoner2-walk-s |
+| prisoner2-walk-s-2 | goliad-prisoner-second | prisoner2-walk-s |
+| prisoner2-walk-n-1 | goliad-prisoner-second | prisoner2-walk-n |
+| prisoner2-walk-n-2 | goliad-prisoner-second | prisoner2-walk-n |
+| prisoner2-idle-e | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-idle-s | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-listen | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-look-back | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-run-e | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-duck | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-injured | goliad-prisoner-second | State artwork; no motion required |
+| prisoner2-still | goliad-prisoner-second | State artwork; no motion required |
 | prisoner-walk-e-1 | goliad-prisoner | prisoner-walk-e |
 | prisoner-walk-e-2 | goliad-prisoner | prisoner-walk-e |
 | prisoner-walk-e-3 | goliad-prisoner | prisoner-walk-e |
@@ -2170,6 +2604,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | gonzales-forge-lit | gonzales-smith-props | State artwork; no motion required |
 | gonzales-anvil-stump | gonzales-smith-props | State artwork; no motion required |
 | gonzales-chain-tools | gonzales-smith-props | State artwork; no motion required |
+| creek-bed-dry | grass-creek-terrain | State artwork; no motion required |
+| creek-bed-curve | grass-creek-terrain | State artwork; no motion required |
+| creek-ditch-dry | grass-creek-terrain | State artwork; no motion required |
+| creek-bed-end | grass-creek-terrain | State artwork; no motion required |
+| creek-ford-1 | grass-creek-terrain | creek-ford |
+| creek-ford-2 | grass-creek-terrain | creek-ford |
+| creek-ford-3 | grass-creek-terrain | creek-ford |
+| creek-ford-4 | grass-creek-terrain | creek-ford |
 | mule-packed-grass-walk-e-1 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-2 | mule-packed-grass | mule-packed-grass-walk-e |
 | mule-packed-grass-walk-e-3 | mule-packed-grass | mule-packed-grass-walk-e |
@@ -2214,6 +2656,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | home-froe | home-tools | State artwork; no motion required |
 | home-auger | home-tools | State artwork; no motion required |
 | home-froe-club | home-tools | State artwork; no motion required |
+| herd-drove-1 | horse-herds | herd-drove |
+| herd-drove-2 | horse-herds | herd-drove |
+| herd-drove-3 | horse-herds | herd-drove |
+| herd-drove-4 | horse-herds | herd-drove |
+| herd-scatter-1 | horse-herds | herd-scatter |
+| herd-scatter-2 | horse-herds | herd-scatter |
+| herd-scatter-3 | horse-herds | herd-scatter |
+| herd-scatter-4 | horse-herds | herd-scatter |
+| house-jacal-posts | house-construction-complete | State artwork; no motion required |
+| house-jacal-wattle | house-construction-complete | State artwork; no motion required |
+| house-jacal-daub-walls | house-construction-complete | State artwork; no motion required |
+| house-jacal-thatch-roof | house-construction-complete | State artwork; no motion required |
+| house-shed-frame | house-construction-complete | State artwork; no motion required |
+| house-chimney-double | house-construction-complete | State artwork; no motion required |
+| house-puncheon-floor | house-construction-complete | State artwork; no motion required |
+| house-half-loft | house-construction-complete | State artwork; no motion required |
 | house-round-sill | house-modules | State artwork; no motion required |
 | house-round-low-walls | house-modules | State artwork; no motion required |
 | house-round-full-walls | house-modules | State artwork; no motion required |
@@ -2230,6 +2688,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | house-chimney-stick | house-modules | State artwork; no motion required |
 | house-chimney-stone | house-modules | State artwork; no motion required |
 | house-floor-loft | house-modules | State artwork; no motion required |
+| house-round-back-sill | house-back-views | State artwork; no motion required |
+| house-round-back-low-walls | house-back-views | State artwork; no motion required |
+| house-round-back-full-walls | house-back-views | State artwork; no motion required |
+| house-hewn-back-sill | house-back-views | State artwork; no motion required |
+| house-hewn-back-low-walls | house-back-views | State artwork; no motion required |
+| house-hewn-back-full-walls | house-back-views | State artwork; no motion required |
+| house-passage-floor-end | house-end-views | State artwork; no motion required |
+| house-passage-roof-end | house-end-views | State artwork; no motion required |
+| house-porch-end | house-end-views | State artwork; no motion required |
+| house-shed-room-end | house-end-views | State artwork; no motion required |
 | icon-take-small-game-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-fish-the-water-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-gather-oysters-alt | icons-gather-stock-carreta | State artwork; no motion required |
@@ -2238,6 +2706,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | icon-butcher-hog-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-look-to-stock-alt | icons-gather-stock-carreta | State artwork; no motion required |
 | icon-make-carreta | icons-gather-stock-carreta | State artwork; no motion required |
+| infant-wagon-passenger-e-1 | infant-wagon-passenger | infant-wagon-passenger-e |
+| infant-wagon-passenger-e-2 | infant-wagon-passenger | infant-wagon-passenger-e |
+| infant-wagon-passenger-s-1 | infant-wagon-passenger | infant-wagon-passenger-s |
+| infant-wagon-passenger-s-2 | infant-wagon-passenger | infant-wagon-passenger-s |
+| infant-wagon-passenger-n-1 | infant-wagon-passenger | infant-wagon-passenger-n |
+| infant-wagon-passenger-n-2 | infant-wagon-passenger | infant-wagon-passenger-n |
 | lesson-point | lesson-marks | State artwork; no motion required |
 | lesson-ring | lesson-marks | State artwork; no motion required |
 | lesson-pip | lesson-marks | State artwork; no motion required |
@@ -2346,6 +2820,54 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | volunteer-loophole-fire | volunteer-loophole-actions | volunteer-loophole-fire-reload |
 | volunteer-loophole-load | volunteer-loophole-actions | volunteer-loophole-fire-reload |
 | volunteer-loophole-ramrod | volunteer-loophole-actions | volunteer-loophole-fire-reload |
+| girl-ride-e-1 | people-mounted-children-e | girl-ride-e |
+| girl-ride-e-2 | people-mounted-children-e | girl-ride-e |
+| girl-ride-e-3 | people-mounted-children-e | girl-ride-e |
+| girl-ride-e-4 | people-mounted-children-e | girl-ride-e |
+| boy-ride-e-1 | people-mounted-children-e | boy-ride-e |
+| boy-ride-e-2 | people-mounted-children-e | boy-ride-e |
+| boy-ride-e-3 | people-mounted-children-e | boy-ride-e |
+| boy-ride-e-4 | people-mounted-children-e | boy-ride-e |
+| smallchild-with-caregiver-ride-e-1 | people-mounted-children-e | smallchild-with-caregiver-ride-e |
+| smallchild-with-caregiver-ride-e-2 | people-mounted-children-e | smallchild-with-caregiver-ride-e |
+| smallchild-with-caregiver-ride-e-3 | people-mounted-children-e | smallchild-with-caregiver-ride-e |
+| smallchild-with-caregiver-ride-e-4 | people-mounted-children-e | smallchild-with-caregiver-ride-e |
+| infant-with-caregiver-ride-e-1 | people-mounted-children-e | infant-with-caregiver-ride-e |
+| infant-with-caregiver-ride-e-2 | people-mounted-children-e | infant-with-caregiver-ride-e |
+| infant-with-caregiver-ride-e-3 | people-mounted-children-e | infant-with-caregiver-ride-e |
+| infant-with-caregiver-ride-e-4 | people-mounted-children-e | infant-with-caregiver-ride-e |
+| girl-ride-s-1 | people-mounted-children-s | girl-ride-s |
+| girl-ride-s-2 | people-mounted-children-s | girl-ride-s |
+| girl-ride-s-3 | people-mounted-children-s | girl-ride-s |
+| girl-ride-s-4 | people-mounted-children-s | girl-ride-s |
+| boy-ride-s-1 | people-mounted-children-s | boy-ride-s |
+| boy-ride-s-2 | people-mounted-children-s | boy-ride-s |
+| boy-ride-s-3 | people-mounted-children-s | boy-ride-s |
+| boy-ride-s-4 | people-mounted-children-s | boy-ride-s |
+| smallchild-with-caregiver-ride-s-1 | people-mounted-children-s | smallchild-with-caregiver-ride-s |
+| smallchild-with-caregiver-ride-s-2 | people-mounted-children-s | smallchild-with-caregiver-ride-s |
+| smallchild-with-caregiver-ride-s-3 | people-mounted-children-s | smallchild-with-caregiver-ride-s |
+| smallchild-with-caregiver-ride-s-4 | people-mounted-children-s | smallchild-with-caregiver-ride-s |
+| infant-with-caregiver-ride-s-1 | people-mounted-children-s | infant-with-caregiver-ride-s |
+| infant-with-caregiver-ride-s-2 | people-mounted-children-s | infant-with-caregiver-ride-s |
+| infant-with-caregiver-ride-s-3 | people-mounted-children-s | infant-with-caregiver-ride-s |
+| infant-with-caregiver-ride-s-4 | people-mounted-children-s | infant-with-caregiver-ride-s |
+| girl-ride-n-1 | people-mounted-children-n | girl-ride-n |
+| girl-ride-n-2 | people-mounted-children-n | girl-ride-n |
+| girl-ride-n-3 | people-mounted-children-n | girl-ride-n |
+| girl-ride-n-4 | people-mounted-children-n | girl-ride-n |
+| boy-ride-n-1 | people-mounted-children-n | boy-ride-n |
+| boy-ride-n-2 | people-mounted-children-n | boy-ride-n |
+| boy-ride-n-3 | people-mounted-children-n | boy-ride-n |
+| boy-ride-n-4 | people-mounted-children-n | boy-ride-n |
+| smallchild-with-caregiver-ride-n-1 | people-mounted-children-n | smallchild-with-caregiver-ride-n |
+| smallchild-with-caregiver-ride-n-2 | people-mounted-children-n | smallchild-with-caregiver-ride-n |
+| smallchild-with-caregiver-ride-n-3 | people-mounted-children-n | smallchild-with-caregiver-ride-n |
+| smallchild-with-caregiver-ride-n-4 | people-mounted-children-n | smallchild-with-caregiver-ride-n |
+| infant-with-caregiver-ride-n-1 | people-mounted-children-n | infant-with-caregiver-ride-n |
+| infant-with-caregiver-ride-n-2 | people-mounted-children-n | infant-with-caregiver-ride-n |
+| infant-with-caregiver-ride-n-3 | people-mounted-children-n | infant-with-caregiver-ride-n |
+| infant-with-caregiver-ride-n-4 | people-mounted-children-n | infant-with-caregiver-ride-n |
 | rust-ride-e-1 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-2 | people-mounted-cast1-e | rust-ride-e |
 | rust-ride-e-3 | people-mounted-cast1-e | rust-ride-e |
@@ -2466,6 +2988,110 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-laden-2 | steamboat-laden | steamboat-laden |
 | steamboat-laden-3 | steamboat-laden | steamboat-laden |
 | steamboat-laden-4 | steamboat-laden | steamboat-laden |
+| jw-smith-mounted-trot-e-1 | named-jw-smith-trot | jw-smith-mounted-trot-e |
+| jw-smith-mounted-trot-e-2 | named-jw-smith-trot | jw-smith-mounted-trot-e |
+| jw-smith-mounted-trot-e-3 | named-jw-smith-trot | jw-smith-mounted-trot-e |
+| jw-smith-mounted-trot-e-4 | named-jw-smith-trot | jw-smith-mounted-trot-e |
+| jw-smith-mounted-trot-s-1 | named-jw-smith-trot | jw-smith-mounted-trot-s |
+| jw-smith-mounted-trot-s-2 | named-jw-smith-trot | jw-smith-mounted-trot-s |
+| jw-smith-mounted-trot-s-3 | named-jw-smith-trot | jw-smith-mounted-trot-s |
+| jw-smith-mounted-trot-s-4 | named-jw-smith-trot | jw-smith-mounted-trot-s |
+| jw-smith-mounted-trot-n-1 | named-jw-smith-trot | jw-smith-mounted-trot-n |
+| jw-smith-mounted-trot-n-2 | named-jw-smith-trot | jw-smith-mounted-trot-n |
+| jw-smith-mounted-trot-n-3 | named-jw-smith-trot | jw-smith-mounted-trot-n |
+| jw-smith-mounted-trot-n-4 | named-jw-smith-trot | jw-smith-mounted-trot-n |
+| jw-smith-mounted-dispatch-e-1 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-e |
+| jw-smith-mounted-dispatch-e-2 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-e |
+| jw-smith-mounted-dispatch-s-1 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-s |
+| jw-smith-mounted-dispatch-s-2 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-s |
+| jw-smith-mounted-dispatch-n-1 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-n |
+| jw-smith-mounted-dispatch-n-2 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-n |
+| jw-smith-mounted-rest-e-1 | named-jw-smith-mounted-dispatch | jw-smith-mounted-rest-e |
+| jw-smith-mounted-rest-e-2 | named-jw-smith-mounted-dispatch | jw-smith-mounted-rest-e |
+| horton-mounted-trot-e-1 | named-horton-trot | horton-mounted-trot-e |
+| horton-mounted-trot-e-2 | named-horton-trot | horton-mounted-trot-e |
+| horton-mounted-trot-e-3 | named-horton-trot | horton-mounted-trot-e |
+| horton-mounted-trot-e-4 | named-horton-trot | horton-mounted-trot-e |
+| horton-mounted-trot-s-1 | named-horton-trot | horton-mounted-trot-s |
+| horton-mounted-trot-s-2 | named-horton-trot | horton-mounted-trot-s |
+| horton-mounted-trot-s-3 | named-horton-trot | horton-mounted-trot-s |
+| horton-mounted-trot-s-4 | named-horton-trot | horton-mounted-trot-s |
+| horton-mounted-trot-n-1 | named-horton-trot | horton-mounted-trot-n |
+| horton-mounted-trot-n-2 | named-horton-trot | horton-mounted-trot-n |
+| horton-mounted-trot-n-3 | named-horton-trot | horton-mounted-trot-n |
+| horton-mounted-trot-n-4 | named-horton-trot | horton-mounted-trot-n |
+| horton-mounted-dispatch-e-1 | named-horton-mounted-dispatch | horton-mounted-dispatch-e |
+| horton-mounted-dispatch-e-2 | named-horton-mounted-dispatch | horton-mounted-dispatch-e |
+| horton-mounted-dispatch-s-1 | named-horton-mounted-dispatch | horton-mounted-dispatch-s |
+| horton-mounted-dispatch-s-2 | named-horton-mounted-dispatch | horton-mounted-dispatch-s |
+| horton-mounted-dispatch-n-1 | named-horton-mounted-dispatch | horton-mounted-dispatch-n |
+| horton-mounted-dispatch-n-2 | named-horton-mounted-dispatch | horton-mounted-dispatch-n |
+| horton-mounted-rest-e-1 | named-horton-mounted-dispatch | horton-mounted-rest-e |
+| horton-mounted-rest-e-2 | named-horton-mounted-dispatch | horton-mounted-rest-e |
+| kimbell-mounted-trot-e-1 | named-kimbell-trot | kimbell-mounted-trot-e |
+| kimbell-mounted-trot-e-2 | named-kimbell-trot | kimbell-mounted-trot-e |
+| kimbell-mounted-trot-e-3 | named-kimbell-trot | kimbell-mounted-trot-e |
+| kimbell-mounted-trot-e-4 | named-kimbell-trot | kimbell-mounted-trot-e |
+| kimbell-mounted-trot-s-1 | named-kimbell-trot | kimbell-mounted-trot-s |
+| kimbell-mounted-trot-s-2 | named-kimbell-trot | kimbell-mounted-trot-s |
+| kimbell-mounted-trot-s-3 | named-kimbell-trot | kimbell-mounted-trot-s |
+| kimbell-mounted-trot-s-4 | named-kimbell-trot | kimbell-mounted-trot-s |
+| kimbell-mounted-trot-n-1 | named-kimbell-trot | kimbell-mounted-trot-n |
+| kimbell-mounted-trot-n-2 | named-kimbell-trot | kimbell-mounted-trot-n |
+| kimbell-mounted-trot-n-3 | named-kimbell-trot | kimbell-mounted-trot-n |
+| kimbell-mounted-trot-n-4 | named-kimbell-trot | kimbell-mounted-trot-n |
+| kimbell-mounted-dispatch-e-1 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-e |
+| kimbell-mounted-dispatch-e-2 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-e |
+| kimbell-mounted-dispatch-s-1 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-s |
+| kimbell-mounted-dispatch-s-2 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-s |
+| kimbell-mounted-dispatch-n-1 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-n |
+| kimbell-mounted-dispatch-n-2 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-n |
+| kimbell-mounted-rest-e-1 | named-kimbell-mounted-dispatch | kimbell-mounted-rest-e |
+| kimbell-mounted-rest-e-2 | named-kimbell-mounted-dispatch | kimbell-mounted-rest-e |
+| martin-mounted-trot-e-1 | named-martin-trot | martin-mounted-trot-e |
+| martin-mounted-trot-e-2 | named-martin-trot | martin-mounted-trot-e |
+| martin-mounted-trot-e-3 | named-martin-trot | martin-mounted-trot-e |
+| martin-mounted-trot-e-4 | named-martin-trot | martin-mounted-trot-e |
+| martin-mounted-trot-s-1 | named-martin-trot | martin-mounted-trot-s |
+| martin-mounted-trot-s-2 | named-martin-trot | martin-mounted-trot-s |
+| martin-mounted-trot-s-3 | named-martin-trot | martin-mounted-trot-s |
+| martin-mounted-trot-s-4 | named-martin-trot | martin-mounted-trot-s |
+| martin-mounted-trot-n-1 | named-martin-trot | martin-mounted-trot-n |
+| martin-mounted-trot-n-2 | named-martin-trot | martin-mounted-trot-n |
+| martin-mounted-trot-n-3 | named-martin-trot | martin-mounted-trot-n |
+| martin-mounted-trot-n-4 | named-martin-trot | martin-mounted-trot-n |
+| martin-mounted-dispatch-e-1 | named-martin-mounted-dispatch | martin-mounted-dispatch-e |
+| martin-mounted-dispatch-e-2 | named-martin-mounted-dispatch | martin-mounted-dispatch-e |
+| martin-mounted-dispatch-s-1 | named-martin-mounted-dispatch | martin-mounted-dispatch-s |
+| martin-mounted-dispatch-s-2 | named-martin-mounted-dispatch | martin-mounted-dispatch-s |
+| martin-mounted-dispatch-n-1 | named-martin-mounted-dispatch | martin-mounted-dispatch-n |
+| martin-mounted-dispatch-n-2 | named-martin-mounted-dispatch | martin-mounted-dispatch-n |
+| martin-mounted-rest-e-1 | named-martin-mounted-dispatch | martin-mounted-rest-e |
+| martin-mounted-rest-e-2 | named-martin-mounted-dispatch | martin-mounted-rest-e |
+| milam-service-e-aim | named-milam-fire-service | milam-fire-service-e |
+| milam-service-e-fire | named-milam-fire-service | milam-fire-service-e |
+| milam-service-e-load | named-milam-fire-service | milam-fire-service-e |
+| milam-service-e-ramrod | named-milam-fire-service | milam-fire-service-e |
+| milam-service-w-aim | named-milam-fire-service | milam-fire-service-w |
+| milam-service-w-fire | named-milam-fire-service | milam-fire-service-w |
+| milam-service-w-load | named-milam-fire-service | milam-fire-service-w |
+| milam-service-w-ramrod | named-milam-fire-service | milam-fire-service-w |
+| milam-service-s-aim | named-milam-fire-service | milam-fire-service-s |
+| milam-service-s-fire | named-milam-fire-service | milam-fire-service-s |
+| milam-service-s-load | named-milam-fire-service | milam-fire-service-s |
+| milam-service-s-ramrod | named-milam-fire-service | milam-fire-service-s |
+| milam-service-n-aim | named-milam-fire-service | milam-fire-service-n |
+| milam-service-n-fire | named-milam-fire-service | milam-fire-service-n |
+| milam-service-n-load | named-milam-fire-service | milam-fire-service-n |
+| milam-service-n-ramrod | named-milam-fire-service | milam-fire-service-n |
+| kimbell-fall-relief | named-relief-fates | State artwork; no motion required |
+| kimbell-still-relief | named-relief-fates | State artwork; no motion required |
+| martin-fall-relief | named-relief-fates | State artwork; no motion required |
+| martin-still-relief | named-relief-fates | State artwork; no motion required |
+| cottonwood-gale-1 | nature-gales | cottonwood-gale |
+| cottonwood-gale-2 | nature-gales | cottonwood-gale |
+| sapling-gale-1 | nature-gales | sapling-gale |
+| sapling-gale-2 | nature-gales | sapling-gale |
 | campfire-night-1 | night-settlement-lights | campfire-night |
 | campfire-night-2 | night-settlement-lights | campfire-night |
 | campfire-night-3 | night-settlement-lights | campfire-night |
@@ -2552,6 +3178,54 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ox-packed-idle-s | ox-packed | ox-packed-idle-s |
 | ox-packed-idle-n | ox-packed | ox-packed-idle-n |
 | ox-packed-rest-e | ox-packed | State artwork; no motion required |
+| ox-wagon-empty-e-1 | ox-wagon-composite-e | ox-wagon-empty-e |
+| ox-wagon-empty-e-2 | ox-wagon-composite-e | ox-wagon-empty-e |
+| ox-wagon-empty-e-3 | ox-wagon-composite-e | ox-wagon-empty-e |
+| ox-wagon-empty-e-4 | ox-wagon-composite-e | ox-wagon-empty-e |
+| ox-wagon-loaded-e-1 | ox-wagon-composite-e | ox-wagon-loaded-e |
+| ox-wagon-loaded-e-2 | ox-wagon-composite-e | ox-wagon-loaded-e |
+| ox-wagon-loaded-e-3 | ox-wagon-composite-e | ox-wagon-loaded-e |
+| ox-wagon-loaded-e-4 | ox-wagon-composite-e | ox-wagon-loaded-e |
+| ox-wagon-empty-s-1 | ox-wagon-composite-s | ox-wagon-empty-s |
+| ox-wagon-empty-s-2 | ox-wagon-composite-s | ox-wagon-empty-s |
+| ox-wagon-empty-s-3 | ox-wagon-composite-s | ox-wagon-empty-s |
+| ox-wagon-empty-s-4 | ox-wagon-composite-s | ox-wagon-empty-s |
+| ox-wagon-loaded-s-1 | ox-wagon-composite-s | ox-wagon-loaded-s |
+| ox-wagon-loaded-s-2 | ox-wagon-composite-s | ox-wagon-loaded-s |
+| ox-wagon-loaded-s-3 | ox-wagon-composite-s | ox-wagon-loaded-s |
+| ox-wagon-loaded-s-4 | ox-wagon-composite-s | ox-wagon-loaded-s |
+| ox-wagon-empty-n-1 | ox-wagon-composite-n | ox-wagon-empty-n |
+| ox-wagon-empty-n-2 | ox-wagon-composite-n | ox-wagon-empty-n |
+| ox-wagon-empty-n-3 | ox-wagon-composite-n | ox-wagon-empty-n |
+| ox-wagon-empty-n-4 | ox-wagon-composite-n | ox-wagon-empty-n |
+| ox-wagon-loaded-n-1 | ox-wagon-composite-n | ox-wagon-loaded-n |
+| ox-wagon-loaded-n-2 | ox-wagon-composite-n | ox-wagon-loaded-n |
+| ox-wagon-loaded-n-3 | ox-wagon-composite-n | ox-wagon-loaded-n |
+| ox-wagon-loaded-n-4 | ox-wagon-composite-n | ox-wagon-loaded-n |
+| girl-wagon-driver-s-1 | people-child-wagon-drivers | girl-wagon-driver-s |
+| girl-wagon-driver-s-2 | people-child-wagon-drivers | girl-wagon-driver-s |
+| boy-wagon-driver-s-1 | people-child-wagon-drivers | boy-wagon-driver-s |
+| boy-wagon-driver-s-2 | people-child-wagon-drivers | boy-wagon-driver-s |
+| girl-wagon-driver-e-1 | people-child-wagon-drivers | girl-wagon-driver-e |
+| girl-wagon-driver-e-2 | people-child-wagon-drivers | girl-wagon-driver-e |
+| boy-wagon-driver-e-1 | people-child-wagon-drivers | boy-wagon-driver-e |
+| boy-wagon-driver-e-2 | people-child-wagon-drivers | boy-wagon-driver-e |
+| girl-wagon-driver-w-1 | people-child-wagon-drivers | girl-wagon-driver-w |
+| girl-wagon-driver-w-2 | people-child-wagon-drivers | girl-wagon-driver-w |
+| boy-wagon-driver-w-1 | people-child-wagon-drivers | boy-wagon-driver-w |
+| boy-wagon-driver-w-2 | people-child-wagon-drivers | boy-wagon-driver-w |
+| girl-wagon-driver-n-1 | people-child-wagon-drivers | girl-wagon-driver-n |
+| girl-wagon-driver-n-2 | people-child-wagon-drivers | girl-wagon-driver-n |
+| boy-wagon-driver-n-1 | people-child-wagon-drivers | boy-wagon-driver-n |
+| boy-wagon-driver-n-2 | people-child-wagon-drivers | boy-wagon-driver-n |
+| regular-crowbar-s-1 | regular-crowbar-vertical | regular-crowbar-s |
+| regular-crowbar-s-2 | regular-crowbar-vertical | regular-crowbar-s |
+| regular-crowbar-s-3 | regular-crowbar-vertical | regular-crowbar-s |
+| regular-crowbar-s-4 | regular-crowbar-vertical | regular-crowbar-s |
+| regular-crowbar-n-1 | regular-crowbar-vertical | regular-crowbar-n |
+| regular-crowbar-n-2 | regular-crowbar-vertical | regular-crowbar-n |
+| regular-crowbar-n-3 | regular-crowbar-vertical | regular-crowbar-n |
+| regular-crowbar-n-4 | regular-crowbar-vertical | regular-crowbar-n |
 | regular-dig-1 | regular-engineer-actions | regular-dig |
 | regular-dig-2 | regular-engineer-actions | regular-dig |
 | regular-dig-3 | regular-engineer-actions | regular-dig |
@@ -2641,7 +3315,146 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored-2 | steamboat-moored | steamboat-moored |
 | steamboat-moored-3 | steamboat-moored | steamboat-gangplank |
 | steamboat-moored-4 | steamboat-moored | steamboat-cotton-moored |
+| house-roof-join | house-roof-joins | house-roof-join |
+| house-roof-join-partial | house-roof-joins | house-roof-join-partial |
+| house-roof-join-chimney | house-roof-joins | house-roof-join-chimney |
 | interior-saddlebag | interior-saddlebag | State artwork; no motion required |
+| rust-camp-rest-1 | people-sj-camp-cast1 | rust-camp-rest |
+| rust-camp-rest-2 | people-sj-camp-cast1 | rust-camp-rest |
+| rust-camp-sleep-1 | people-sj-camp-cast1 | rust-camp-sleep |
+| rust-camp-sleep-2 | people-sj-camp-cast1 | rust-camp-sleep |
+| teal-camp-rest-1 | people-sj-camp-cast1 | teal-camp-rest |
+| teal-camp-rest-2 | people-sj-camp-cast1 | teal-camp-rest |
+| teal-camp-sleep-1 | people-sj-camp-cast1 | teal-camp-sleep |
+| teal-camp-sleep-2 | people-sj-camp-cast1 | teal-camp-sleep |
+| elder-camp-rest-1 | people-sj-camp-cast1 | elder-camp-rest |
+| elder-camp-rest-2 | people-sj-camp-cast1 | elder-camp-rest |
+| elder-camp-sleep-1 | people-sj-camp-cast1 | elder-camp-sleep |
+| elder-camp-sleep-2 | people-sj-camp-cast1 | elder-camp-sleep |
+| blue-camp-rest-1 | people-sj-camp-cast1 | blue-camp-rest |
+| blue-camp-rest-2 | people-sj-camp-cast1 | blue-camp-rest |
+| blue-camp-sleep-1 | people-sj-camp-cast1 | blue-camp-sleep |
+| blue-camp-sleep-2 | people-sj-camp-cast1 | blue-camp-sleep |
+| rust-woman-camp-rest-1 | people-sj-camp-cast2 | rust-woman-camp-rest |
+| rust-woman-camp-rest-2 | people-sj-camp-cast2 | rust-woman-camp-rest |
+| rust-woman-camp-sleep-1 | people-sj-camp-cast2 | rust-woman-camp-sleep |
+| rust-woman-camp-sleep-2 | people-sj-camp-cast2 | rust-woman-camp-sleep |
+| indigo-camp-rest-1 | people-sj-camp-cast2 | indigo-camp-rest |
+| indigo-camp-rest-2 | people-sj-camp-cast2 | indigo-camp-rest |
+| indigo-camp-sleep-1 | people-sj-camp-cast2 | indigo-camp-sleep |
+| indigo-camp-sleep-2 | people-sj-camp-cast2 | indigo-camp-sleep |
+| ochre-camp-rest-1 | people-sj-camp-cast2 | ochre-camp-rest |
+| ochre-camp-rest-2 | people-sj-camp-cast2 | ochre-camp-rest |
+| ochre-camp-sleep-1 | people-sj-camp-cast2 | ochre-camp-sleep |
+| ochre-camp-sleep-2 | people-sj-camp-cast2 | ochre-camp-sleep |
+| blue-girl-camp-rest-1 | people-sj-camp-cast2 | blue-girl-camp-rest |
+| blue-girl-camp-rest-2 | people-sj-camp-cast2 | blue-girl-camp-rest |
+| blue-girl-camp-sleep-1 | people-sj-camp-cast2 | blue-girl-camp-sleep |
+| blue-girl-camp-sleep-2 | people-sj-camp-cast2 | blue-girl-camp-sleep |
+| girl-camp-rest-1 | people-sj-camp-children | girl-camp-rest |
+| girl-camp-rest-2 | people-sj-camp-children | girl-camp-rest |
+| girl-camp-sleep-1 | people-sj-camp-children | girl-camp-sleep |
+| girl-camp-sleep-2 | people-sj-camp-children | girl-camp-sleep |
+| boy-camp-rest-1 | people-sj-camp-children | boy-camp-rest |
+| boy-camp-rest-2 | people-sj-camp-children | boy-camp-rest |
+| boy-camp-sleep-1 | people-sj-camp-children | boy-camp-sleep |
+| boy-camp-sleep-2 | people-sj-camp-children | boy-camp-sleep |
+| smallchild-camp-rest-1 | people-sj-camp-children | smallchild-camp-rest |
+| smallchild-camp-rest-2 | people-sj-camp-children | smallchild-camp-rest |
+| smallchild-camp-sleep-1 | people-sj-camp-children | smallchild-camp-sleep |
+| smallchild-camp-sleep-2 | people-sj-camp-children | smallchild-camp-sleep |
+| mother-scarf-camp-rest-1 | people-sj-camp-heads1 | mother-scarf-camp-rest |
+| mother-scarf-camp-rest-2 | people-sj-camp-heads1 | mother-scarf-camp-rest |
+| mother-scarf-camp-sleep-1 | people-sj-camp-heads1 | mother-scarf-camp-sleep |
+| mother-scarf-camp-sleep-2 | people-sj-camp-heads1 | mother-scarf-camp-sleep |
+| father-straw-camp-rest-1 | people-sj-camp-heads1 | father-straw-camp-rest |
+| father-straw-camp-rest-2 | people-sj-camp-heads1 | father-straw-camp-rest |
+| father-straw-camp-sleep-1 | people-sj-camp-heads1 | father-straw-camp-sleep |
+| father-straw-camp-sleep-2 | people-sj-camp-heads1 | father-straw-camp-sleep |
+| father-beard-camp-rest-1 | people-sj-camp-heads1 | father-beard-camp-rest |
+| father-beard-camp-rest-2 | people-sj-camp-heads1 | father-beard-camp-rest |
+| father-beard-camp-sleep-1 | people-sj-camp-heads1 | father-beard-camp-sleep |
+| father-beard-camp-sleep-2 | people-sj-camp-heads1 | father-beard-camp-sleep |
+| father-moustache-camp-rest-1 | people-sj-camp-heads1 | father-moustache-camp-rest |
+| father-moustache-camp-rest-2 | people-sj-camp-heads1 | father-moustache-camp-rest |
+| father-moustache-camp-sleep-1 | people-sj-camp-heads1 | father-moustache-camp-sleep |
+| father-moustache-camp-sleep-2 | people-sj-camp-heads1 | father-moustache-camp-sleep |
+| mother-braid-camp-rest-1 | people-sj-camp-heads2 | mother-braid-camp-rest |
+| mother-braid-camp-rest-2 | people-sj-camp-heads2 | mother-braid-camp-rest |
+| mother-braid-camp-sleep-1 | people-sj-camp-heads2 | mother-braid-camp-sleep |
+| mother-braid-camp-sleep-2 | people-sj-camp-heads2 | mother-braid-camp-sleep |
+| mother-loose-camp-rest-1 | people-sj-camp-heads2 | mother-loose-camp-rest |
+| mother-loose-camp-rest-2 | people-sj-camp-heads2 | mother-loose-camp-rest |
+| mother-loose-camp-sleep-1 | people-sj-camp-heads2 | mother-loose-camp-sleep |
+| mother-loose-camp-sleep-2 | people-sj-camp-heads2 | mother-loose-camp-sleep |
+| mother-straw-camp-rest-1 | people-sj-camp-heads2 | mother-straw-camp-rest |
+| mother-straw-camp-rest-2 | people-sj-camp-heads2 | mother-straw-camp-rest |
+| mother-straw-camp-sleep-1 | people-sj-camp-heads2 | mother-straw-camp-sleep |
+| mother-straw-camp-sleep-2 | people-sj-camp-heads2 | mother-straw-camp-sleep |
+| youth-boy-camp-rest-1 | people-sj-camp-heads2 | youth-boy-camp-rest |
+| youth-boy-camp-rest-2 | people-sj-camp-heads2 | youth-boy-camp-rest |
+| youth-boy-camp-sleep-1 | people-sj-camp-heads2 | youth-boy-camp-sleep |
+| youth-boy-camp-sleep-2 | people-sj-camp-heads2 | youth-boy-camp-sleep |
+| youth-girl-camp-rest-1 | people-sj-camp-heads3 | youth-girl-camp-rest |
+| youth-girl-camp-rest-2 | people-sj-camp-heads3 | youth-girl-camp-rest |
+| youth-girl-camp-sleep-1 | people-sj-camp-heads3 | youth-girl-camp-sleep |
+| youth-girl-camp-sleep-2 | people-sj-camp-heads3 | youth-girl-camp-sleep |
+| father-hat-camp-rest-1 | people-sj-camp-heads3 | father-hat-camp-rest |
+| father-hat-camp-rest-2 | people-sj-camp-heads3 | father-hat-camp-rest |
+| father-hat-camp-sleep-1 | people-sj-camp-heads3 | father-hat-camp-sleep |
+| father-hat-camp-sleep-2 | people-sj-camp-heads3 | father-hat-camp-sleep |
+| infant-camp-rest-1 | people-sj-camp-infant | infant-camp-rest |
+| infant-camp-rest-2 | people-sj-camp-infant | infant-camp-rest |
+| infant-camp-sleep-1 | people-sj-camp-infant | infant-camp-sleep |
+| infant-camp-sleep-2 | people-sj-camp-infant | infant-camp-sleep |
+| volunteer-mounted-reload-e-1 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-2 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-3 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-4 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-5 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-6 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-7 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| volunteer-mounted-reload-e-8 | sj-mounted-reload-e | volunteer-mounted-reload-e |
+| dragoon-mounted-reload-e-1 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-2 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-3 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-4 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-5 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-6 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-7 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| dragoon-mounted-reload-e-8 | sj-mounted-reload-e | dragoon-mounted-reload-e |
+| volunteer-mounted-reload-s-1 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-2 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-3 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-4 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-5 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-6 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-7 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| volunteer-mounted-reload-s-8 | sj-mounted-reload-s | volunteer-mounted-reload-s |
+| dragoon-mounted-reload-s-1 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-2 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-3 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-4 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-5 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-6 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-7 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| dragoon-mounted-reload-s-8 | sj-mounted-reload-s | dragoon-mounted-reload-s |
+| volunteer-mounted-reload-n-1 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-2 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-3 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-4 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-5 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-6 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-7 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| volunteer-mounted-reload-n-8 | sj-mounted-reload-n | volunteer-mounted-reload-n |
+| dragoon-mounted-reload-n-1 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-2 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-3 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-4 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-5 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-6 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-7 | sj-mounted-reload-n | dragoon-mounted-reload-n |
+| dragoon-mounted-reload-n-8 | sj-mounted-reload-n | dragoon-mounted-reload-n |
 | seguin-ashes-stand | famous-seguin-ashes | seguin-ashes-collect |
 | seguin-ashes-kneel | famous-seguin-ashes | seguin-ashes-collect |
 | seguin-ashes-gather | famous-seguin-ashes | seguin-ashes-collect |
@@ -2732,6 +3545,30 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | pine-shortleaf-large-gale-1 | trees-shortleaf | pine-shortleaf-large-gale |
 | pine-shortleaf-large-gale-2 | trees-shortleaf | pine-shortleaf-large-gale |
 | stump-pine-shortleaf | trees-shortleaf | State artwork; no motion required |
+| volunteer-mounted-action-s-1 | southern-volunteer-mounted-actions | volunteer-mounted-fire-s |
+| volunteer-mounted-action-s-2 | southern-volunteer-mounted-actions | volunteer-mounted-fire-s |
+| volunteer-mounted-action-s-3 | southern-volunteer-mounted-actions | volunteer-mounted-fire-s |
+| volunteer-mounted-action-s-4 | southern-volunteer-mounted-actions | volunteer-mounted-fire-s |
+| volunteer-mounted-action-n-1 | southern-volunteer-mounted-actions | volunteer-mounted-fire-n |
+| volunteer-mounted-action-n-2 | southern-volunteer-mounted-actions | volunteer-mounted-fire-n |
+| volunteer-mounted-action-n-3 | southern-volunteer-mounted-actions | volunteer-mounted-fire-n |
+| volunteer-mounted-action-n-4 | southern-volunteer-mounted-actions | volunteer-mounted-fire-n |
+| dragoon-mounted-action-s-1 | southern-dragoon-mounted-actions | dragoon-mounted-fire-s |
+| dragoon-mounted-action-s-2 | southern-dragoon-mounted-actions | dragoon-mounted-fire-s |
+| dragoon-mounted-action-s-3 | southern-dragoon-mounted-actions | dragoon-mounted-fire-s |
+| dragoon-mounted-action-s-4 | southern-dragoon-mounted-actions | dragoon-mounted-fire-s |
+| dragoon-mounted-action-n-1 | southern-dragoon-mounted-actions | dragoon-mounted-fire-n |
+| dragoon-mounted-action-n-2 | southern-dragoon-mounted-actions | dragoon-mounted-fire-n |
+| dragoon-mounted-action-n-3 | southern-dragoon-mounted-actions | dragoon-mounted-fire-n |
+| dragoon-mounted-action-n-4 | southern-dragoon-mounted-actions | dragoon-mounted-fire-n |
+| lancer-charge-s-1 | southern-lancer-charge | lancer-charge-s |
+| lancer-charge-s-2 | southern-lancer-charge | lancer-charge-s |
+| lancer-charge-s-3 | southern-lancer-charge | lancer-charge-s |
+| lancer-charge-s-4 | southern-lancer-charge | lancer-charge-s |
+| lancer-charge-n-1 | southern-lancer-charge | lancer-charge-n |
+| lancer-charge-n-2 | southern-lancer-charge | lancer-charge-n |
+| lancer-charge-n-3 | southern-lancer-charge | lancer-charge-n |
+| lancer-charge-n-4 | southern-lancer-charge | lancer-charge-n |
 | susanna-child-walk-e-1 | famous-susanna-child-travel | susanna-child-walk-e |
 | susanna-child-walk-e-2 | famous-susanna-child-travel | susanna-child-walk-e |
 | susanna-child-hold-1 | famous-susanna-child-travel | susanna-child-hold |
@@ -2768,6 +3605,13 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | liberty-court-room-side | town-buildings-researched | State artwork; no motion required |
 | building-frame-shop | town-buildings-researched | State artwork; no motion required |
 | building-frame-residence | town-buildings-researched | State artwork; no motion required |
+| town-fort-velasco-1835 | town-fort-velasco | State artwork; no motion required |
+| town-harrisburg-steam-mill-1835 | town-harrisburg-steam-mill | State artwork; no motion required |
+| town-nacogdoches-stone-house-1835 | town-nacogdoches-stone-house | State artwork; no motion required |
+| town-mill-smoke-1 | town-mill-smoke | town-mill-smoke |
+| town-mill-smoke-2 | town-mill-smoke | town-mill-smoke |
+| town-mill-smoke-3 | town-mill-smoke | town-mill-smoke |
+| town-mill-smoke-4 | town-mill-smoke | town-mill-smoke |
 | marker-pin-rust | travel-markers | State artwork; no motion required |
 | marker-pin-ink | travel-markers | State artwork; no motion required |
 | marker-pin-grey | travel-markers | State artwork; no motion required |
@@ -3385,6 +4229,27 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
+| volunteer-parapet-fire-e | Pose cycle | 4 | 3600 | yes | east |
+| volunteer-parapet-fire-w | Pose cycle | 4 | 3600 | yes | west |
+| volunteer-parapet-fire-n | Pose cycle | 4 | 3600 | yes | north |
+| volunteer-parapet-fire-s | Pose cycle | 4 | 3600 | yes | south |
+| travis-battery-fire-e | Pose cycle | 4 | 3600 | yes | east |
+| travis-battery-fire-w | Pose cycle | 4 | 3600 | yes | west |
+| travis-battery-fire-n | Pose cycle | 4 | 3600 | yes | north |
+| travis-battery-fire-s | Pose cycle | 4 | 3600 | yes | south |
+| volunteer-trot-e | Pose cycle | 4 | 720 | yes | east; west by mirroring |
+| volunteer-trot-s | Pose cycle | 4 | 720 | yes | south |
+| volunteer-trot-n | Pose cycle | 4 | 720 | yes | north |
+| lancer-upright-march-e | Pose cycle | 4 | 1040 | yes | east |
+| lancer-upright-idle-e | Pose cycle | 4 | 3400 | yes | east |
+| lancer-upright-march-s | Pose cycle | 4 | 1040 | yes | south |
+| lancer-upright-idle-s | Pose cycle | 4 | 3400 | yes | south |
+| lancer-upright-march-n | Pose cycle | 4 | 1040 | yes | north |
+| lancer-upright-idle-n | Pose cycle | 4 | 3400 | yes | north |
+| cannon-alamo-north-e-recoil | Pose cycle | 2 | 900 | one-shot | east |
+| cannon-alamo-north-w-recoil | Pose cycle | 2 | 900 | one-shot | west |
+| cannon-alamo-church-e-recoil | Pose cycle | 2 | 900 | one-shot | east |
+| cannon-alamo-church-w-recoil | Pose cycle | 2 | 900 | one-shot | west |
 | alamo-pyre-burning | Pose cycle | 3 | 1080 | yes | elevation; orient with structure geometry |
 | cannon-18pdr-e-recoil | Pose cycle | 3 | 770 | one-shot | east |
 | cannon-18pdr-w-recoil | Pose cycle | 3 | 770 | one-shot | west |
@@ -3395,6 +4260,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | smoke-column-far-rise | Pose cycle | 4 | 1760 | yes | not applicable |
 | ladder-carried-e | Pose cycle | 2 | 660 | yes | east; mirror for west |
 | regular-climb | Pose cycle | 4 | 880 | yes | north/up |
+| camp-wedge-cream | Pose cycle | 2 | 1400 | yes | undefined |
+| camp-wedge-gray | Pose cycle | 2 | 1400 | yes | undefined |
+| camp-cookfire | Pose cycle | 4 | 1000 | yes | undefined |
+| camp-pennant-ochre | Pose cycle | 2 | 900 | yes | undefined |
+| camp-pennant-rust | Pose cycle | 2 | 900 | yes | undefined |
 | volunteer-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | volunteer-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | volunteer-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
@@ -3405,8 +4275,19 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-bugler-call | Pose cycle | 4 | 1340 | one-shot | east; mirror for west |
 | white-flag-regular-walk-e | Pose cycle | 2 | 560 | yes | east |
 | white-flag-volunteer-walk-e | Pose cycle | 2 | 560 | yes | east |
+| bexar-woman-walk | Pose cycle | 4 | 720 | yes | east |
+| bexar-elder-walk | Pose cycle | 4 | 720 | yes | east |
+| bexar-child-walk | Pose cycle | 4 | 720 | yes | east |
+| bexar-older-woman-walk | Pose cycle | 4 | 720 | yes | east |
+| regular-loophole-fire-reload | Pose cycle | 4 | 2470 | one-shot | east |
 | cane-wind | Still state | 1 | 900 | yes | not applicable |
 | grass-tall-wind | Still state | 1 | 900 | yes | not applicable |
+| tree-anacua-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-texas-ebony-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-water-tupelo-gale | Pose cycle | 2 | 1200 | yes | not applicable |
+| tree-cedar-elm-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-black-willow-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-black-willow-pole-gale | Pose cycle | 2 | 1200 | yes | undefined |
 | pine-longleaf-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | palm-sabal-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-longleaf-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
@@ -3535,6 +4416,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | blue-girl-idle-n | breathe | 1 | 2200 | yes | north |
 | dragoon-fire | Pose cycle | 4 | 1000 | one-shot | east; west by mirroring |
 | lancer-charge | Pose cycle | 4 | 640 | yes | east; west by mirroring |
+| girl-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| girl-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| girl-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| boy-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| boy-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| boy-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| smallchild-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| smallchild-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| smallchild-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| girl-speak | Pose cycle | 2 | 1000 | yes | undefined |
+| girl-listen-s | breathe | 1 | 2200 | yes | undefined |
+| girl-listen-n | breathe | 1 | 2200 | yes | undefined |
+| boy-speak | Pose cycle | 2 | 1000 | yes | undefined |
+| boy-listen-s | breathe | 1 | 2200 | yes | undefined |
+| boy-listen-n | breathe | 1 | 2200 | yes | undefined |
+| smallchild-speak | Pose cycle | 2 | 1000 | yes | undefined |
+| smallchild-listen-s | breathe | 1 | 2200 | yes | undefined |
+| smallchild-listen-n | breathe | 1 | 2200 | yes | undefined |
 | girl-walk-s | Pose cycle | 2 | 460 | yes | south |
 | girl-walk-n | Pose cycle | 2 | 460 | yes | north |
 | boy-walk-s | Pose cycle | 2 | 460 | yes | south |
@@ -3581,6 +4480,20 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
 | cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
 | regular-prone-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
+| tree-water-oak-gale | Pose cycle | 2 | 1200 | yes | not applicable |
+| tree-bur-oak-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-white-oak-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-texas-oak-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-hickory-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-walnut-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| tree-ash-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| river-bend | Pose cycle | 4 | 1400 | yes | undefined |
+| limber-mules-walk-e | Pose cycle | 4 | 880 | yes | east |
+| limber-mules-walk-s | Pose cycle | 4 | 880 | yes | south |
+| limber-mules-walk-n | Pose cycle | 4 | 880 | yes | north |
+| padre-walk | Pose cycle | 4 | 960 | yes | east |
+| casualty-cart-wounded | Pose cycle | 4 | 960 | yes | east |
+| casualty-cart-covered | Pose cycle | 4 | 960 | yes | east |
 | pine-loblolly-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | cedar-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-loblolly-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
@@ -3709,6 +4622,49 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | father-hat-listen-s | breathe | 1 | 1500 | yes | undefined |
 | father-hat-listen-n | breathe | 1 | 1500 | yes | undefined |
 | father-hat-speak | breathe | 1 | 1500 | yes | undefined |
+| rust-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| teal-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| teal-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| teal-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| elder-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| elder-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| elder-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| indigo-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| indigo-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| indigo-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| ochre-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| ochre-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| ochre-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-girl-wagon-passenger-e | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-girl-wagon-passenger-s | Pose cycle | 2 | 1500 | yes | undefined |
+| blue-girl-wagon-passenger-n | Pose cycle | 2 | 1500 | yes | undefined |
+| rust-woman-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| rust-woman-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| rust-woman-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| indigo-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| indigo-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| indigo-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| ochre-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| ochre-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| ochre-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| blue-girl-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| blue-girl-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| blue-girl-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| rust-infant-walk-e | Pose cycle | 4 | 920 | yes | east |
+| rust-infant-walk-s | Pose cycle | 4 | 920 | yes | south |
+| rust-infant-walk-n | Pose cycle | 4 | 920 | yes | north |
+| wagon-open-cover-e | Pose cycle | 2 | 800 | yes | undefined |
+| wagon-open-cover-w | Pose cycle | 2 | 800 | yes | undefined |
+| wagon-open-cover-s | Pose cycle | 2 | 800 | yes | undefined |
+| wagon-open-cover-n | Pose cycle | 2 | 800 | yes | undefined |
 | bonham-walk-e | Pose cycle | 4 | 760 | yes | east |
 | bonham-walk-s | Pose cycle | 2 | 580 | yes | south |
 | bonham-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -3976,6 +4932,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | timber-trimmed-e | Still state | 1 | 1000 | one-shot | undefined |
 | timber-stack | Still state | 1 | 1000 | one-shot | undefined |
 | flag-come-and-take-it-wind | Pose cycle | 4 | 2700 | yes | not applicable |
+| prisoner2-walk-e | Pose cycle | 4 | 840 | yes | east |
+| prisoner2-walk-s | Pose cycle | 2 | 600 | yes | south |
+| prisoner2-walk-n | Pose cycle | 2 | 600 | yes | north |
 | prisoner-walk-e | Pose cycle | 4 | 840 | yes | east |
 | prisoner-walk-s | Pose cycle | 2 | 600 | yes | south |
 | prisoner-walk-n | Pose cycle | 2 | 600 | yes | north |
@@ -4044,6 +5003,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elder-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | ochre-smith-hammer | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
 | ochre-smith-chain | Pose cycle | 4 | 1270 | yes | east; west by mirroring |
+| creek-ford | Pose cycle | 4 | 1400 | yes | undefined |
 | mule-packed-grass-walk-e | Pose cycle | 4 | 1120 | yes | east |
 | mule-packed-grass-walk-s | Pose cycle | 4 | 1120 | yes | south |
 | mule-packed-grass-walk-n | Pose cycle | 4 | 1120 | yes | north |
@@ -4058,6 +5018,11 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | elm-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | elm-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | elm-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| herd-drove | Pose cycle | 4 | 1000 | yes | undefined |
+| herd-scatter | Pose cycle | 4 | 1000 | yes | undefined |
+| infant-wagon-passenger-e | Pose cycle | 2 | 1800 | yes | undefined |
+| infant-wagon-passenger-s | Pose cycle | 2 | 1800 | yes | undefined |
+| infant-wagon-passenger-n | Pose cycle | 2 | 1800 | yes | undefined |
 | live-oak-mott-dense-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | live-oak-mott-open-wind | Pose cycle | 2 | 3600 | yes | not applicable |
 | marsh-edge-dense | Pose cycle | 4 | 1400 | yes | undefined |
@@ -4084,6 +5049,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | volunteer-ride-n | Pose cycle | 4 | 1200 | yes | north |
 | volunteer-mounted-fire-cycle | Pose cycle | 3 | 1000 | one-shot | east; west by mirroring |
 | volunteer-loophole-fire-reload | Pose cycle | 4 | 2470 | one-shot | east; west by mirroring |
+| girl-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| boy-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| smallchild-with-caregiver-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| infant-with-caregiver-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
+| girl-ride-s | Pose cycle | 4 | 920 | yes | south |
+| boy-ride-s | Pose cycle | 4 | 920 | yes | south |
+| smallchild-with-caregiver-ride-s | Pose cycle | 4 | 920 | yes | south |
+| infant-with-caregiver-ride-s | Pose cycle | 4 | 920 | yes | south |
+| girl-ride-n | Pose cycle | 4 | 920 | yes | north |
+| boy-ride-n | Pose cycle | 4 | 920 | yes | north |
+| smallchild-with-caregiver-ride-n | Pose cycle | 4 | 920 | yes | north |
+| infant-with-caregiver-ride-n | Pose cycle | 4 | 920 | yes | north |
 | rust-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | teal-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
 | elder-ride-e | Pose cycle | 4 | 920 | yes | east; west by mirroring |
@@ -4113,6 +5090,40 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mustang-gallop | Pose cycle | 8 | 1080 | yes | east; west by mirroring |
 | steamboat-steam | Pose cycle | 4 | 1320 | yes | east; west by mirroring |
 | steamboat-laden | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
+| jw-smith-mounted-trot-e | Pose cycle | 4 | 720 | yes | undefined |
+| jw-smith-mounted-trot-s | Pose cycle | 4 | 720 | yes | undefined |
+| jw-smith-mounted-trot-n | Pose cycle | 4 | 720 | yes | undefined |
+| jw-smith-mounted-dispatch-e | Pose cycle | 2 | 1800 | yes | undefined |
+| jw-smith-mounted-dispatch-s | Pose cycle | 2 | 1800 | yes | undefined |
+| jw-smith-mounted-dispatch-n | Pose cycle | 2 | 1800 | yes | undefined |
+| jw-smith-mounted-rest-e | Pose cycle | 2 | 2200 | yes | undefined |
+| horton-mounted-trot-e | Pose cycle | 4 | 720 | yes | undefined |
+| horton-mounted-trot-s | Pose cycle | 4 | 720 | yes | undefined |
+| horton-mounted-trot-n | Pose cycle | 4 | 720 | yes | undefined |
+| horton-mounted-dispatch-e | Pose cycle | 2 | 1800 | yes | undefined |
+| horton-mounted-dispatch-s | Pose cycle | 2 | 1800 | yes | undefined |
+| horton-mounted-dispatch-n | Pose cycle | 2 | 1800 | yes | undefined |
+| horton-mounted-rest-e | Pose cycle | 2 | 2200 | yes | undefined |
+| kimbell-mounted-trot-e | Pose cycle | 4 | 720 | yes | undefined |
+| kimbell-mounted-trot-s | Pose cycle | 4 | 720 | yes | undefined |
+| kimbell-mounted-trot-n | Pose cycle | 4 | 720 | yes | undefined |
+| kimbell-mounted-dispatch-e | Pose cycle | 2 | 1800 | yes | undefined |
+| kimbell-mounted-dispatch-s | Pose cycle | 2 | 1800 | yes | undefined |
+| kimbell-mounted-dispatch-n | Pose cycle | 2 | 1800 | yes | undefined |
+| kimbell-mounted-rest-e | Pose cycle | 2 | 2200 | yes | undefined |
+| martin-mounted-trot-e | Pose cycle | 4 | 720 | yes | undefined |
+| martin-mounted-trot-s | Pose cycle | 4 | 720 | yes | undefined |
+| martin-mounted-trot-n | Pose cycle | 4 | 720 | yes | undefined |
+| martin-mounted-dispatch-e | Pose cycle | 2 | 1800 | yes | undefined |
+| martin-mounted-dispatch-s | Pose cycle | 2 | 1800 | yes | undefined |
+| martin-mounted-dispatch-n | Pose cycle | 2 | 1800 | yes | undefined |
+| martin-mounted-rest-e | Pose cycle | 2 | 2200 | yes | undefined |
+| milam-fire-service-e | Pose cycle | 4 | 3600 | yes | undefined |
+| milam-fire-service-w | Pose cycle | 4 | 3600 | yes | undefined |
+| milam-fire-service-s | Pose cycle | 4 | 3600 | yes | undefined |
+| milam-fire-service-n | Pose cycle | 4 | 3600 | yes | undefined |
+| cottonwood-gale | Pose cycle | 2 | 1200 | yes | undefined |
+| sapling-gale | Pose cycle | 2 | 1200 | yes | undefined |
 | campfire-night | Pose cycle | 4 | 720 | yes | scenery |
 | adobe-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
 | jacal-night-lit | Pose cycle | 4 | 2800 | yes | scenery |
@@ -4138,6 +5149,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | ox-packed-idle-s | breathe | 1 | 2700 | yes | south |
 | ox-packed-walk-n | Pose cycle | 4 | 960 | yes | north |
 | ox-packed-idle-n | breathe | 1 | 2700 | yes | north |
+| ox-wagon-empty-e | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
+| ox-wagon-loaded-e | Pose cycle | 4 | 1200 | yes | east; west by mirroring |
+| ox-wagon-empty-s | Pose cycle | 4 | 1200 | yes | south |
+| ox-wagon-loaded-s | Pose cycle | 4 | 1200 | yes | south |
+| ox-wagon-empty-n | Pose cycle | 4 | 1200 | yes | north |
+| ox-wagon-loaded-n | Pose cycle | 4 | 1200 | yes | north |
+| girl-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| boy-wagon-driver-s | Pose cycle | 2 | 1200 | yes | south |
+| girl-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| boy-wagon-driver-e | Pose cycle | 2 | 1200 | yes | east |
+| girl-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| boy-wagon-driver-w | Pose cycle | 2 | 1200 | yes | west |
+| girl-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
+| boy-wagon-driver-n | Pose cycle | 2 | 1200 | yes | north |
+| regular-crowbar-s | Pose cycle | 4 | 1200 | yes | undefined |
+| regular-crowbar-n | Pose cycle | 4 | 1200 | yes | undefined |
 | regular-dig | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
 | regular-crowbar | Pose cycle | 4 | 1800 | yes | east; west by mirroring |
 | regular-sandbag-carry | Pose cycle | 4 | 1280 | yes | east; west by mirroring |
@@ -4182,6 +5209,59 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored | Pose cycle | 2 | 2200 | yes | east; west by mirroring |
 | steamboat-gangplank | Still state | 1 | 1600 | yes | east; west by mirroring |
 | steamboat-cotton-moored | drift | 1 | 1600 | yes | east; west by mirroring |
+| house-roof-join | Still state | 1 | 1000 | one-shot | undefined |
+| house-roof-join-partial | Still state | 1 | 1000 | one-shot | undefined |
+| house-roof-join-chimney | Still state | 1 | 1000 | one-shot | undefined |
+| rust-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| rust-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| teal-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| teal-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| elder-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| elder-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| blue-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| blue-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| rust-woman-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| rust-woman-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| indigo-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| indigo-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| ochre-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| ochre-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| blue-girl-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| blue-girl-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| girl-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| girl-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| boy-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| boy-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| smallchild-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| smallchild-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| mother-scarf-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| mother-scarf-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| father-straw-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| father-straw-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| father-beard-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| father-beard-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| father-moustache-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| father-moustache-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| mother-braid-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| mother-braid-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| mother-loose-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| mother-loose-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| mother-straw-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| mother-straw-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| youth-boy-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| youth-boy-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| youth-girl-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| youth-girl-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| father-hat-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| father-hat-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| infant-camp-rest | Pose cycle | 2 | 2200 | yes | undefined |
+| infant-camp-sleep | Pose cycle | 2 | 3200 | yes | undefined |
+| volunteer-mounted-reload-e | Pose cycle | 8 | 8000 | one-shot | east; west by mirroring |
+| dragoon-mounted-reload-e | Pose cycle | 8 | 8000 | one-shot | east; west by mirroring |
+| volunteer-mounted-reload-s | Pose cycle | 8 | 8000 | one-shot | south |
+| dragoon-mounted-reload-s | Pose cycle | 8 | 8000 | one-shot | south |
+| volunteer-mounted-reload-n | Pose cycle | 8 | 8000 | one-shot | north |
+| dragoon-mounted-reload-n | Pose cycle | 8 | 8000 | one-shot | north |
 | seguin-ashes-collect | Pose cycle | 4 | 3850 | one-shot | east; mirror for west |
 | cattle-longhorn-red-idle | breathe | 1 | 2200 | yes | east; west by mirroring |
 | cattle-longhorn-red-graze | Pose cycle | 6 | 5100 | yes | east; west by mirroring |
@@ -4196,6 +5276,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | pine-shortleaf-pole-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-shortleaf-log-gale | Pose cycle | 2 | 1000 | yes | undefined |
 | pine-shortleaf-large-gale | Pose cycle | 2 | 1000 | yes | undefined |
+| volunteer-mounted-fire-s | Pose cycle | 4 | 1000 | one-shot | south |
+| volunteer-mounted-fire-n | Pose cycle | 4 | 1000 | one-shot | north |
+| dragoon-mounted-fire-s | Pose cycle | 4 | 1000 | one-shot | south |
+| dragoon-mounted-fire-n | Pose cycle | 4 | 1000 | one-shot | north |
+| lancer-charge-s | Pose cycle | 4 | 640 | yes | south |
+| lancer-charge-n | Pose cycle | 4 | 640 | yes | north |
 | susanna-child-walk-e | Pose cycle | 2 | 560 | yes | east |
 | susanna-child-hold | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | susanna-child-walk-s | Pose cycle | 2 | 560 | yes | south |
@@ -4206,6 +5292,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | settler-gun-charge-wait | Pose cycle | 2 | 1800 | yes | east; mirror for west |
 | settler-gun-fire | Pose cycle | 2 | 900 | one-shot | east; mirror for west |
 | settler-gun-ready | Pose cycle | 2 | 1800 | yes | east; mirror for west |
+| town-mill-smoke | Pose cycle | 4 | 1400 | yes | not applicable |
 | pine-loblolly-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-loblolly-log-wind | sway | 1 | 3800 | yes | not applicable |
 | pine-loblolly-large-wind | sway | 1 | 3800 | yes | not applicable |

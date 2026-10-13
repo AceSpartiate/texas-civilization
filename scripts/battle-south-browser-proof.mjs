@@ -236,7 +236,7 @@ try {
   assert.ok(charge.length >= 4, `only ${charge.length} moments of the charge were sampled: ${ad.map(one => one.phase).join(' ')}`);
   for (let i = 1; i < charge.length; i++) assert.ok(charge[i].view.shotsTotal > charge[i - 1].view.shotsTotal, 'no shot between two moments of the charge');
   assert.ok(charge.every(one => one.view.smokeInView >= 2), `no smoke on screen in the charge: ${charge.map(one => one.view.smokeInView).join(',')}`);
-  assert.ok(charge.some(one => one.view.herd >= 10) && charge.some(one => one.view.poses.rider > 0) && charge.every(one => one.view.scenery >= 2), `the herd, the riders or the groves are missing: ${JSON.stringify(charge.map(one => [one.view.herd, one.view.poses, one.view.scenery]))}`);
+  assert.ok(charge.some(one => one.view.herd > 0) && charge.some(one => one.view.poses.rider > 0) && charge.every(one => one.view.scenery >= 2), `the herd, the riders or the groves are missing: ${JSON.stringify(charge.map(one => [one.view.herd, one.view.poses, one.view.scenery]))}`);
   assert.ok(charge.every(one => !one.view.night), 'Agua Dulce was drawn at night');
   const adSaid = await grant.evaluate(() => window.__battleView?.linesShown || []);
   assert.ok(adSaid.includes('ad-carga') || adSaid.includes('ad-rindanse'), `the dragoons' words were not drawn: ${adSaid.join(', ')}`);
@@ -244,7 +244,7 @@ try {
   for (const one of ad.filter(s => s.view)) if (one.minute < adFate.minute) assert.equal(one.view.memberFates?.[adMan], undefined, 'his fate was drawn before its moment');
   const lateAd = ad.filter(s => s.view && s.minute >= adFate.minute + 1);
   assert.ok(lateAd.length >= 1 && lateAd.every(s => s.view.memberFates?.[adMan] === adFate.fate), `his fate (${adFate.fate}) was not drawn from its moment`);
-  ok(`at Agua Dulce, by day at 1024x768: the herd (${Math.max(...charge.map(one => one.view.herd))} horses), Grant's men riding, the two groves, fire and smoke at ${charge.length} moments; words ${adSaid.join(', ')}; ${adMan}'s fate - ${adFate.fate} - drawn from its moment`);
+  ok(`at Agua Dulce, by day at 1024x768: the herd (${Math.max(...charge.map(one => one.view.herd))} illustrated marks), Grant's men riding, the two groves, fire and smoke at ${charge.length} moments; words ${adSaid.join(', ')}; ${adMan}'s fate - ${adFate.fate} - drawn from its moment`);
   const hostView = await host.evaluate(() => ({ battle: window.__snapshot.world.battle?.id, focus: window.__snapshot.world.host?.focus, seen: window.__spotlightSeen, drawn: window.__battleView?.figures }));
   assert.equal(hostSp.battle, 'san-patricio', 'the Host was not sent San Patricio live');
   assert.ok(hostView.battle === 'agua-dulce' && hostView.drawn?.texian >= 0, `the Host was not sent Agua Dulce live: ${JSON.stringify(hostView)}`);

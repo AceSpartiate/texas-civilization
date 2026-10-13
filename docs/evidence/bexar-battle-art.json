@@ -1,0 +1,33 @@
+{
+  "verdict": "PASS",
+  "checks": [
+    {
+      "name": "bexar-woman",
+      "distinct": 4
+    },
+    {
+      "name": "bexar-elder",
+      "distinct": 4
+    },
+    {
+      "name": "bexar-child",
+      "distinct": 4
+    },
+    {
+      "name": "bexar-older-woman",
+      "distinct": 4
+    }
+  ],
+  "regular": [
+    206.56976744186045,
+    191.74418604651163,
+    209.0406976744186,
+    169.50581395348837
+  ],
+  "flashes": [
+    73.06930693069307,
+    73.06930693069307,
+    73.06930693069307
+  ],
+  "errors": []
+}

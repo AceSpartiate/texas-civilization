@@ -1,0 +1,48 @@
+{
+  "verdict": "PASS",
+  "checks": [
+    {
+      "name": "tree-anacua",
+      "upright": 157.47674418604652,
+      "second": 171.52996845425866,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-texas-ebony",
+      "upright": 177.72965879265092,
+      "second": 177.44755244755245,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-water-tupelo",
+      "upright": 142.42094861660078,
+      "second": 160.97101449275362,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-cedar-elm",
+      "upright": 110.15503875968992,
+      "second": 149.80421686746988,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-black-willow",
+      "upright": 166.73447537473234,
+      "second": 189.6153846153846,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    },
+    {
+      "name": "tree-black-willow-pole",
+      "upright": 83.55498721227622,
+      "second": 122.62962962962962,
+      "distinctPoses": 2,
+      "fairSamePixels": true
+    }
+  ],
+  "errors": []
+}

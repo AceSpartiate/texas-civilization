@@ -18,6 +18,8 @@
 // Nothing in a formation is a person (`FIC-GONZ-006`): a side is a count and a style, drawn as a sample. A family's own people
 // are real entities at their own positions, in the force (`members`), and the renderer draws them doing what it does.
 import { GONZALES } from './battles/gonzales.mjs';
+import { dateOf } from './clock.mjs';
+import { bexarDarknessAtHour } from '../public/bexar-battle-art.js';
 import { BEXAR_STORMING } from './battles/bexar-storming.mjs';
 import { SAN_JACINTO_BATTLE } from './battles/san-jacinto.mjs';
 import { ALAMO } from './battles/alamo.mjs';
@@ -704,9 +706,12 @@ function peopleNow(state, phase, into, ground) {
     const toKey = nextKey > 0 ? ground[entry.keys[nextKey][1]] : null;
     const dx = toKey && fromKey ? toKey.x - fromKey.x : 0, dy = toKey && fromKey ? toKey.y - fromKey.y : 0;
     const heading = Math.abs(dy) > Math.abs(dx) ? (dy >= 0 ? 'south' : 'north') : dx ? (dx >= 0 ? 'east' : 'west') : null;
+    const aim=entry.face&&ground[entry.face],ax=aim?aim.x-place.x:0,ay=aim?aim.y-place.y:0;
+    const aimHeading=aim?(Math.abs(ay)>Math.abs(ax)?(ay>=0?'south':'north'):(ax>=0?'east':'west')):null;
     out.push({
       id: who.id, name: who.name, side: who.side, art: who.art, x: place.x, y: place.y, pose: entry.pose || (moving ? 'walk' : 'stand'),
       moving, right: faces(entry, place), ...(heading && { heading }), claimId: entry.claimId || who.claimId, ...(entry.tag && { tag: entry.tag }),
+      ...(aimHeading && { aimHeading }),
       ...(who.thing && { thing: true }), ...(who.child && { child: true }), ...(entry.bears && { bears: entry.bears }),
       ...(fate && ['killed', 'executed'].includes(fate.kind) && into >= fate.at && { fell: phase.from + fate.at, ...(fate.pose && { still: fate.pose }) }),
       ...(fate && fate.kind === 'wounded' && into >= fate.at && { hurt: phase.from + fate.at }),
@@ -784,6 +789,7 @@ export function projectBattle(world, id, { members = [], legacyPhase = null, uni
     };
   });
   const view = {
+    ...(id==='bexar-storming' ? {bexarDarkness:bexarDarknessAtHour(dateOf(world,world.minute).getUTCHours()+dateOf(world,world.minute).getUTCMinutes()/60)} : {}),
     id, name: def.name, phase: phase.id, title: phase.title || null, legacyPhase, caption: phase.caption, claimId: phase.claimId,
     minute: world.minute, phaseMinute: into, live: state.live, over: state.over, contact: state.live && world.minute >= state.contact,
     step: phase.step || null, sides,

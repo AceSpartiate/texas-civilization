@@ -1,0 +1,822 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "name": "rust-camp-rest-1",
+      "width": 117.8698224852071
+    },
+    {
+      "name": "rust-camp-rest-2",
+      "width": 107.92899408284023
+    },
+    {
+      "name": "rust-camp-sleep-1",
+      "width": 153.37278106508876
+    },
+    {
+      "name": "rust-camp-sleep-2",
+      "width": 148.4023668639053
+    },
+    {
+      "name": "teal-camp-rest-1",
+      "width": 118.05405405405406
+    },
+    {
+      "name": "teal-camp-rest-2",
+      "width": 112.86486486486487
+    },
+    {
+      "name": "teal-camp-sleep-1",
+      "width": 151.13513513513513
+    },
+    {
+      "name": "teal-camp-sleep-2",
+      "width": 136.21621621621622
+    },
+    {
+      "name": "elder-camp-rest-1",
+      "width": 113.01587301587301
+    },
+    {
+      "name": "elder-camp-rest-2",
+      "width": 92.6984126984127
+    },
+    {
+      "name": "elder-camp-sleep-1",
+      "width": 153.65079365079364
+    },
+    {
+      "name": "elder-camp-sleep-2",
+      "width": 138.4126984126984
+    },
+    {
+      "name": "blue-camp-rest-1",
+      "width": 99
+    },
+    {
+      "name": "blue-camp-rest-2",
+      "width": 91.5
+    },
+    {
+      "name": "blue-camp-sleep-1",
+      "width": 170.25
+    },
+    {
+      "name": "blue-camp-sleep-2",
+      "width": 158.25
+    },
+    {
+      "name": "rust-woman-camp-rest-1",
+      "width": 113.16725978647688
+    },
+    {
+      "name": "rust-woman-camp-rest-2",
+      "width": 100.355871886121
+    },
+    {
+      "name": "rust-woman-camp-sleep-1",
+      "width": 143.48754448398577
+    },
+    {
+      "name": "rust-woman-camp-sleep-2",
+      "width": 134.09252669039145
+    },
+    {
+      "name": "indigo-camp-rest-1",
+      "width": 120
+    },
+    {
+      "name": "indigo-camp-rest-2",
+      "width": 109.20415224913494
+    },
+    {
+      "name": "indigo-camp-sleep-1",
+      "width": 141.5916955017301
+    },
+    {
+      "name": "indigo-camp-sleep-2",
+      "width": 129.96539792387543
+    },
+    {
+      "name": "ochre-camp-rest-1",
+      "width": 97.41697416974169
+    },
+    {
+      "name": "ochre-camp-rest-2",
+      "width": 90.33210332103322
+    },
+    {
+      "name": "ochre-camp-sleep-1",
+      "width": 148.78228782287823
+    },
+    {
+      "name": "ochre-camp-sleep-2",
+      "width": 139.04059040590406
+    },
+    {
+      "name": "blue-girl-camp-rest-1",
+      "width": 128.08988764044943
+    },
+    {
+      "name": "blue-girl-camp-rest-2",
+      "width": 112.80898876404494
+    },
+    {
+      "name": "blue-girl-camp-sleep-1",
+      "width": 151.46067415730337
+    },
+    {
+      "name": "blue-girl-camp-sleep-2",
+      "width": 142.92134831460675
+    },
+    {
+      "name": "girl-camp-rest-1",
+      "width": 93.70517928286853
+    },
+    {
+      "name": "girl-camp-rest-2",
+      "width": 99.9203187250996
+    },
+    {
+      "name": "girl-camp-sleep-1",
+      "width": 151.55378486055778
+    },
+    {
+      "name": "girl-camp-sleep-2",
+      "width": 149.64143426294822
+    },
+    {
+      "name": "boy-camp-rest-1",
+      "width": 86.26506024096385
+    },
+    {
+      "name": "boy-camp-rest-2",
+      "width": 86.26506024096385
+    },
+    {
+      "name": "boy-camp-sleep-1",
+      "width": 156.14457831325302
+    },
+    {
+      "name": "boy-camp-sleep-2",
+      "width": 150.8433734939759
+    },
+    {
+      "name": "smallchild-camp-rest-1",
+      "width": 93.51351351351352
+    },
+    {
+      "name": "smallchild-camp-rest-2",
+      "width": 87.56756756756758
+    },
+    {
+      "name": "smallchild-camp-sleep-1",
+      "width": 175.13513513513516
+    },
+    {
+      "name": "smallchild-camp-sleep-2",
+      "width": 169.1891891891892
+    },
+    {
+      "name": "mother-scarf-camp-rest-1",
+      "width": 112.1951219512195
+    },
+    {
+      "name": "mother-scarf-camp-rest-2",
+      "width": 109.7560975609756
+    },
+    {
+      "name": "mother-scarf-camp-sleep-1",
+      "width": 137.5609756097561
+    },
+    {
+      "name": "mother-scarf-camp-sleep-2",
+      "width": 128.78048780487805
+    },
+    {
+      "name": "father-straw-camp-rest-1",
+      "width": 96.08856088560886
+    },
+    {
+      "name": "father-straw-camp-rest-2",
+      "width": 89.88929889298893
+    },
+    {
+      "name": "father-straw-camp-sleep-1",
+      "width": 138.5977859778598
+    },
+    {
+      "name": "father-straw-camp-sleep-2",
+      "width": 128.41328413284134
+    },
+    {
+      "name": "father-beard-camp-rest-1",
+      "width": 97.94117647058823
+    },
+    {
+      "name": "father-beard-camp-rest-2",
+      "width": 93.52941176470588
+    },
+    {
+      "name": "father-beard-camp-sleep-1",
+      "width": 129.70588235294116
+    },
+    {
+      "name": "father-beard-camp-sleep-2",
+      "width": 121.3235294117647
+    },
+    {
+      "name": "father-moustache-camp-rest-1",
+      "width": 102.40601503759397
+    },
+    {
+      "name": "father-moustache-camp-rest-2",
+      "width": 92.03007518796991
+    },
+    {
+      "name": "father-moustache-camp-sleep-1",
+      "width": 133.98496240601503
+    },
+    {
+      "name": "father-moustache-camp-sleep-2",
+      "width": 124.51127819548871
+    },
+    {
+      "name": "mother-braid-camp-rest-1",
+      "width": 116.98744769874476
+    },
+    {
+      "name": "mother-braid-camp-rest-2",
+      "width": 109.9581589958159
+    },
+    {
+      "name": "mother-braid-camp-sleep-1",
+      "width": 145.10460251046024
+    },
+    {
+      "name": "mother-braid-camp-sleep-2",
+      "width": 146.10878661087867
+    },
+    {
+      "name": "mother-loose-camp-rest-1",
+      "width": 117.51037344398341
+    },
+    {
+      "name": "mother-loose-camp-rest-2",
+      "width": 110.53941908713693
+    },
+    {
+      "name": "mother-loose-camp-sleep-1",
+      "width": 150.8713692946058
+    },
+    {
+      "name": "mother-loose-camp-sleep-2",
+      "width": 149.37759336099586
+    },
+    {
+      "name": "mother-straw-camp-rest-1",
+      "width": 118.08764940239044
+    },
+    {
+      "name": "mother-straw-camp-rest-2",
+      "width": 107.56972111553786
+    },
+    {
+      "name": "mother-straw-camp-sleep-1",
+      "width": 141.99203187250995
+    },
+    {
+      "name": "mother-straw-camp-sleep-2",
+      "width": 142.94820717131475
+    },
+    {
+      "name": "youth-boy-camp-rest-1",
+      "width": 127.56756756756758
+    },
+    {
+      "name": "youth-boy-camp-rest-2",
+      "width": 100.54054054054055
+    },
+    {
+      "name": "youth-boy-camp-sleep-1",
+      "width": 167.02702702702703
+    },
+    {
+      "name": "youth-boy-camp-sleep-2",
+      "width": 162.7027027027027
+    },
+    {
+      "name": "youth-girl-camp-rest-1",
+      "width": 111.29909365558912
+    },
+    {
+      "name": "youth-girl-camp-rest-2",
+      "width": 114.19939577039274
+    },
+    {
+      "name": "youth-girl-camp-sleep-1",
+      "width": 154.8036253776435
+    },
+    {
+      "name": "youth-girl-camp-sleep-2",
+      "width": 145.01510574018127
+    },
+    {
+      "name": "father-hat-camp-rest-1",
+      "width": 101.08527131782945
+    },
+    {
+      "name": "father-hat-camp-rest-2",
+      "width": 90.85271317829458
+    },
+    {
+      "name": "father-hat-camp-sleep-1",
+      "width": 142.32558139534885
+    },
+    {
+      "name": "father-hat-camp-sleep-2",
+      "width": 131.7829457364341
+    },
+    {
+      "name": "infant-camp-rest-1",
+      "width": 111.65217391304347
+    },
+    {
+      "name": "infant-camp-rest-2",
+      "width": 111.65217391304347
+    },
+    {
+      "name": "infant-camp-sleep-1",
+      "width": 111.65217391304347
+    },
+    {
+      "name": "infant-camp-sleep-2",
+      "width": 111.65217391304347
+    },
+    {
+      "name": "volunteer-mounted-reload-e-1",
+      "width": 133.7579617834395
+    },
+    {
+      "name": "volunteer-mounted-reload-e-2",
+      "width": 135.28662420382167
+    },
+    {
+      "name": "volunteer-mounted-reload-e-3",
+      "width": 134.52229299363057
+    },
+    {
+      "name": "volunteer-mounted-reload-e-4",
+      "width": 135.28662420382167
+    },
+    {
+      "name": "volunteer-mounted-reload-e-5",
+      "width": 134.52229299363057
+    },
+    {
+      "name": "volunteer-mounted-reload-e-6",
+      "width": 135.28662420382167
+    },
+    {
+      "name": "volunteer-mounted-reload-e-7",
+      "width": 135.28662420382167
+    },
+    {
+      "name": "volunteer-mounted-reload-e-8",
+      "width": 135.28662420382167
+    },
+    {
+      "name": "dragoon-mounted-reload-e-1",
+      "width": 140.1290322580645
+    },
+    {
+      "name": "dragoon-mounted-reload-e-2",
+      "width": 139.3548387096774
+    },
+    {
+      "name": "dragoon-mounted-reload-e-3",
+      "width": 139.3548387096774
+    },
+    {
+      "name": "dragoon-mounted-reload-e-4",
+      "width": 139.3548387096774
+    },
+    {
+      "name": "dragoon-mounted-reload-e-5",
+      "width": 139.3548387096774
+    },
+    {
+      "name": "dragoon-mounted-reload-e-6",
+      "width": 139.3548387096774
+    },
+    {
+      "name": "dragoon-mounted-reload-e-7",
+      "width": 140.1290322580645
+    },
+    {
+      "name": "dragoon-mounted-reload-e-8",
+      "width": 139.3548387096774
+    },
+    {
+      "name": "volunteer-mounted-reload-s-1",
+      "width": 86.82352941176471
+    },
+    {
+      "name": "volunteer-mounted-reload-s-2",
+      "width": 85.41176470588236
+    },
+    {
+      "name": "volunteer-mounted-reload-s-3",
+      "width": 84
+    },
+    {
+      "name": "volunteer-mounted-reload-s-4",
+      "width": 72
+    },
+    {
+      "name": "volunteer-mounted-reload-s-5",
+      "width": 75.52941176470588
+    },
+    {
+      "name": "volunteer-mounted-reload-s-6",
+      "width": 72
+    },
+    {
+      "name": "volunteer-mounted-reload-s-7",
+      "width": 72
+    },
+    {
+      "name": "volunteer-mounted-reload-s-8",
+      "width": 93.1764705882353
+    },
+    {
+      "name": "dragoon-mounted-reload-s-1",
+      "width": 88.96551724137932
+    },
+    {
+      "name": "dragoon-mounted-reload-s-2",
+      "width": 88.27586206896552
+    },
+    {
+      "name": "dragoon-mounted-reload-s-3",
+      "width": 84.82758620689656
+    },
+    {
+      "name": "dragoon-mounted-reload-s-4",
+      "width": 71.72413793103449
+    },
+    {
+      "name": "dragoon-mounted-reload-s-5",
+      "width": 77.24137931034483
+    },
+    {
+      "name": "dragoon-mounted-reload-s-6",
+      "width": 71.0344827586207
+    },
+    {
+      "name": "dragoon-mounted-reload-s-7",
+      "width": 71.0344827586207
+    },
+    {
+      "name": "dragoon-mounted-reload-s-8",
+      "width": 93.10344827586208
+    },
+    {
+      "name": "volunteer-mounted-reload-n-1",
+      "width": 75.16483516483517
+    },
+    {
+      "name": "volunteer-mounted-reload-n-2",
+      "width": 79.12087912087912
+    },
+    {
+      "name": "volunteer-mounted-reload-n-3",
+      "width": 79.12087912087912
+    },
+    {
+      "name": "volunteer-mounted-reload-n-4",
+      "width": 66.5934065934066
+    },
+    {
+      "name": "volunteer-mounted-reload-n-5",
+      "width": 74.50549450549451
+    },
+    {
+      "name": "volunteer-mounted-reload-n-6",
+      "width": 67.91208791208791
+    },
+    {
+      "name": "volunteer-mounted-reload-n-7",
+      "width": 75.16483516483517
+    },
+    {
+      "name": "volunteer-mounted-reload-n-8",
+      "width": 88.35164835164835
+    },
+    {
+      "name": "dragoon-mounted-reload-n-1",
+      "width": 72.12765957446808
+    },
+    {
+      "name": "dragoon-mounted-reload-n-2",
+      "width": 80.42553191489363
+    },
+    {
+      "name": "dragoon-mounted-reload-n-3",
+      "width": 79.7872340425532
+    },
+    {
+      "name": "dragoon-mounted-reload-n-4",
+      "width": 68.29787234042554
+    },
+    {
+      "name": "dragoon-mounted-reload-n-5",
+      "width": 73.40425531914894
+    },
+    {
+      "name": "dragoon-mounted-reload-n-6",
+      "width": 68.93617021276596
+    },
+    {
+      "name": "dragoon-mounted-reload-n-7",
+      "width": 73.40425531914894
+    },
+    {
+      "name": "dragoon-mounted-reload-n-8",
+      "width": 88.72340425531915
+    }
+  ],
+  "phases": [
+    {
+      "name": "rust-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "rust-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "teal-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "teal-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "elder-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "elder-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "blue-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "blue-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "rust-woman-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "rust-woman-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "indigo-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "indigo-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "ochre-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "ochre-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "blue-girl-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "blue-girl-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "girl-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "girl-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "boy-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "boy-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "smallchild-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "smallchild-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "mother-scarf-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "mother-scarf-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "father-straw-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "father-straw-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "father-beard-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "father-beard-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "father-moustache-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "father-moustache-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "mother-braid-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "mother-braid-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "mother-loose-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "mother-loose-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "mother-straw-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "mother-straw-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "youth-boy-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "youth-boy-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "youth-girl-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "youth-girl-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "father-hat-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "father-hat-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "infant-camp-rest",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "infant-camp-sleep",
+      "distinct": 2,
+      "expected": 2
+    },
+    {
+      "name": "volunteer-mounted-reload-e",
+      "distinct": 8,
+      "expected": 8
+    },
+    {
+      "name": "dragoon-mounted-reload-e",
+      "distinct": 8,
+      "expected": 8
+    },
+    {
+      "name": "volunteer-mounted-reload-s",
+      "distinct": 8,
+      "expected": 8
+    },
+    {
+      "name": "dragoon-mounted-reload-s",
+      "distinct": 8,
+      "expected": 8
+    },
+    {
+      "name": "volunteer-mounted-reload-n",
+      "distinct": 8,
+      "expected": 8
+    },
+    {
+      "name": "dragoon-mounted-reload-n",
+      "distinct": 8,
+      "expected": 8
+    }
+  ],
+  "bindings": [
+    {
+      "choice": {
+        "clip": "mother-loose-camp-sleep",
+        "timeMs": 1600,
+        "camp": true,
+        "scale": 0.7
+      },
+      "width": 161.82572614107883
+    },
+    {
+      "choice": {
+        "clip": "boy-camp-sleep",
+        "timeMs": 1600,
+        "camp": true,
+        "scale": 0.7
+      },
+      "width": 163.4136546184739
+    }
+  ],
+  "errors": []
+}

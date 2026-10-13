@@ -1,3 +1,4 @@
+import {avatarVariant} from './avatar-identity.js';
 // Display-only state. Holds only the currently permitted projection; never predicts
 // travel, resolves work, or keeps an actor after visibility is withdrawn.
 // The one person a student directs wears a colour nobody else can wear, and the choice
@@ -279,30 +280,35 @@ export function carriedWithRider(entity, entities = []) {
  * boots, stirrups and reins, in place of the cropped person laid over a separate horse. Four walk frames each, east (west
  * mirrored), south and north.
  *
- * The children's figures - `girl`, `boy`, `smallchild`, `infant` - are **not** in this delivery, so a child sent on the
- * horse keeps the composite (`seatLayout` without `whole`). That is a real case: a girl of twelve may be sent on it.
+ * School-age girl/boy riding cycles were added October 12. Toddler/infant cycles include an authored caregiver and
+ * require explicit paired scene selection; automatically choosing them would substitute a parent identity.
  */
-export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl']);
+export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy']);
 /**
  * The four original-cast identities Astra painted driving (`people-wagon-drivers`, 2026-09-21,
  * docs/ART_DELIVERY_2026-09-21-WAGON-DRIVERS.md): a seated figure with connected reins and a short ox goad and no bench,
  * wagon, team or ground, composited over the wagon the renderer already draws.
  *
  * The second cast - `rust-woman`, `indigo`, `ochre` and `blue-girl` - followed (`people-cast2-wagon-drivers`, 2026-10-08,
- * docs/ART_DELIVERY_2026-10-08-CAST2-WAGON-DRIVERS.md), each heading two authored rein-handling poses. The children's
- * figures are Claude's stand-ins (below) until their own age-sized seated layers land.
+ * docs/ART_DELIVERY_2026-10-08-CAST2-WAGON-DRIVERS.md), each heading two authored rein-handling poses, and the school-age
+ * `girl` and `boy` on 2026-10-12 (`people-child-wagon-drivers`, docs/ART_DELIVERY_2026-10-12-OX-WAGON-COMPLETE.md). Toddlers and
+ * infants are passengers, not drivers (sim/company.mjs sends nobody under ten to drive).
  */
-export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl']);
+export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy']);
+/** Complete passenger layers; infants use their separate basket silhouette. */
+export const CHILD_PASSENGER_FIGURES = Object.freeze(['girl', 'boy', 'smallchild', 'infant']);
+export const ADULT_PASSENGER_FIGURES = Object.freeze(['rust','teal','elder','blue','rust-woman','indigo','ochre','blue-girl']);
 /**
- * The figures Claude drew on the horse and on the wagon's box (2026-09-28), temporary until Astra paints them: the children
- * riding (`<child>-ride-*`) and the children driving (`<child>-wagon-driver-*`), in
+ * The figures Claude drew on the horse and on the wagon's box (2026-09-28), temporary until Astra paints them: since her
+ * school-age girl and boy landed (2026-10-12) only the small child riding (`smallchild-ride-*`) and driving
+ * (`smallchild-wagon-driver-*`), in
  * public/assets/claude-standins/. Asked for by the same names hers would have; a sheet not yet loaded, or not there, falls
  * back to the composite exactly as before (public/app.js `drawSeated` asks `clipReady`).
  * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - requests 2026-09-14 (family members on
  * horseback) and 2026-09-16 (driving the ox wagon). The baby rides only in somebody's arms (sim/company.mjs), so has neither.
  */
-export const CLAUDE_RIDING_FIGURES = Object.freeze(['girl', 'boy', 'smallchild']);
-export const CLAUDE_DRIVING_FIGURES = Object.freeze(['girl', 'boy', 'smallchild']);
+export const CLAUDE_RIDING_FIGURES = Object.freeze(['smallchild']);
+export const CLAUDE_DRIVING_FIGURES = Object.freeze(['smallchild']);
 /**
  * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
  * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),
@@ -321,7 +327,7 @@ export const seatFigure = entity => figureOf(entity);
  * standing on its own base rather than a standing figure to be cut off at the hip.
  */
 export function seatedClip(entity, direction = 'e', seat = 'horse') {
-  const figure = seatFigure(entity);
+  const figure = seat === 'passenger' && entity.appearance ? avatarVariant(entity.appearance, entity.sex, entity) : seatFigure(entity);
   const facing = ['n', 's', 'e', 'w'].includes(direction) ? direction : 'e';
   // No west sheet: west is the east cycle mirrored, which the caller's `flip` does. North and south are painted and are
   // never mirrored, which is what `upright` means everywhere else in this file.
@@ -329,11 +335,30 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
     return { id: `${figure}-ride-${facing === 'w' ? 'e' : facing}`, whole: true, ...(facing === 'n' || facing === 's' ? { upright: true } : {}) };
   }
   // Each heading is painted, west included, so a driver is never mirrored. Not frozen: the first cast's delivery registers
-  // one held breathing frame and the renderer's own breath keeps it alive; the second cast's has two rein-handling poses.
+  // one held breathing frame and the renderer's own breath keeps it alive; the second cast's and the children's have two poses.
   if (seat === 'wagon' && (DRIVING_FIGURES.includes(figure) || CLAUDE_DRIVING_FIGURES.includes(figure))) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
+  // Astra's seated passengers (2026-10-10 the children and the baby's basket; 2026-10-12 the eight grown figures): two poses a
+  // heading, west the east mirrored. A customised person is asked for as their own variant (`avatarVariant`), as the map draws them.
+  if (seat === 'passenger' && [...CHILD_PASSENGER_FIGURES, ...ADULT_PASSENGER_FIGURES].includes(figure)) return {
+    id: `${figure}-wagon-passenger-${facing === 'w' ? 'e' : facing}`, seated: true,
+    ...(figure === 'infant' && { basket: true }),
+    ...(facing === 'n' || facing === 's' ? { upright: true } : {}),
+  };
   // The infant's sheet has no back view.
   const pose = figure === 'infant' && facing === 'n' ? 'idle-s' : `idle-${facing}`;
   return { id: `${figure}-${pose}`, upright: true, frozen: true };
+}
+/** A composite depicts exactly one actual infant, never an invented or hidden second baby. */
+export function carryingInfantClip(entity, entities = []) {
+  if (entity.kind !== 'person' || entity.carrier || !entity.travel?.afoot || entity.travel.carried || entity.travel.saddle || entity.travel.rides || entity.fallen || entity.service?.down) return null;
+  const condition=entity.health?.condition || entity.condition;
+  if (HURT_CONDITIONS.includes(condition) || STILL_CONDITIONS.includes(condition)) return null;
+  const babies=entities.filter(p=>p.kind==='person' && p.householdId===entity.householdId && p.travel?.carried===entity.id && (p.band==='infant' || Number.isFinite(p.age)&&p.age<2));
+  if (babies.length!==1 || babies[0].fallen || babies[0].service?.down || STILL_CONDITIONS.includes(babies[0].health?.condition || babies[0].condition)) return null;
+  const figure=entity.appearance ? avatarVariant(entity.appearance,entity.sex,entity) : figureOf(entity);
+  if (!['rust-woman','indigo','ochre','blue-girl','rust'].includes(figure)) return null;
+  const direction=travelDirection(entity)||'e';
+  return {id:`${figure}-infant-walk-${direction==='w'?'e':direction}`,babyId:babies[0].id,upright:direction==='n'||direction==='s',frozen:Boolean(entity.travel.halted||entity.facing)};
 }
 /**
  * Where the parts of a seat are drawn, in a person's heights from the point the server gives them.
@@ -457,9 +482,12 @@ export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wago
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders in the wagon. Their own figure's idle pose cut off below the waist,
  * set on the front of the wagon's cover behind the driver: the covered wagon has no open bed to seat anybody in.
  */
-export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rider = 1, rig = null) {
+export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rider = 1, place = false, rigSeated = false) {
+  // `place`: Claude's one-drawing rig (its part from `seatLayout`, so the rider sits in its open tail, `tailLayout`), or Astra's
+  // seated passenger (`true`, or `'basket'` for the baby's basket; 2026-10-10). In the rig's tail `rigSeated` says the same.
+  const rig = place && typeof place === 'object' ? place : null, seated = rig ? rigSeated : place;
   const vertical = direction === 'n' || direction === 's';
-  if (rig) return tailLayout(direction, index, wagon, rider, rig);
+  if (rig) return tailLayout(direction, index, wagon, rider, rig, seated);
   const box = vertical ? 0 : -0.55 * wagon;
   const row = Math.floor(index / 2), side = index % 2;
   // Going north the bed is nearer the camera than the driver's seat, so they sit lower on the screen and in front of the driver;
@@ -467,6 +495,14 @@ export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rid
   const dx = vertical ? (side ? 0.24 : -0.24) * wagon : box + (0.24 - 0.2 * row - 0.08 * side) * wagon;
   const back = vertical ? (direction === 'n' ? 1 : -1) * 0.13 * wagon * (row + 1) : 0;
   const seat = wagon * SEAT.wagonSeat * (1.02 - 0.04 * side);
+  if (seated) {
+    const height = rider * 0.65;
+    // Complete seated bodies sit at the visible box rim, rather than the old cropped figure's lower composite anchor.
+    const rim = wagon * 0.86 * (1.02 - 0.04 * side);
+    // A carry basket rests in the bed; it has no dangling legs/hip to align with the rail.
+    const rise = seated === 'basket' ? wagon * .14 : SEAT.driverHip * height;
+    return { part: 'passenger', dx, dy: -rim + rise + back, height, seated: true, ...(direction === 'n' && { front: true }) };
+  }
   return { part: 'passenger', dx, dy: -seat + SEAT.hip * rider + back, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, ...(direction === 'n' && { front: true }) };
 }
 /**
@@ -478,11 +514,16 @@ export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rid
  * be drawn there.
  * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request 2026-09-25, item 2.
  */
-function tailLayout(direction, index, wagon, rider, rig) {
+function tailLayout(direction, index, wagon, rider, rig, seated = false) {
   const row = Math.floor(index / 2) % WAGON_RIG.tail.length, side = index % 2;
   const u = WAGON_RIG.tail[row] - (side ? WAGON_RIG.stagger : 0), v = (side ? 1 : -1) * WAGON_RIG.across;
   const at = rigPoint(direction, [u, v, WAGON_RIG.seat[2]]);
   const hip = rig.dy + at.dy * wagon;
+  // Astra's whole seated passenger, to her contract (`bedLayout` seated): 0.65 of their height, the hip on the rail.
+  if (seated) {
+    const height = rider * 0.65, rise = seated === 'basket' ? wagon * .14 : SEAT.driverHip * height;
+    return { part: 'passenger', dx: rig.dx + at.dx * wagon, dy: hip + rise, height, seated: true, rig: true, ...(direction === 's' ? { behind: true } : {}) };
+  }
   return { part: 'passenger', dx: rig.dx + at.dx * wagon, dy: hip + SEAT.hip * rider, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, rig: true,
     ...(direction === 's' ? { behind: true } : {}) };
 }
@@ -515,9 +556,9 @@ export function carrierClip(entity) {
  * delivered; task poses remain unnecessary for children under ten.
  */
 export const CHILD_POSES = Object.freeze({
-  girl: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
-  boy: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
-  smallchild: ['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
+  girl: ['speak', 'listen-s', 'listen-n', 'idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
+  boy: ['speak', 'listen-s', 'listen-n', 'idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
+  smallchild: ['speak', 'listen-s', 'listen-n', 'idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest', 'rest-s', 'rest-e', 'injured-rest', 'injured-rest-s', 'injured-rest-e'],
   infant: ['idle-s', 'idle-e', 'idle-w', 'rest'],
 });
 /** Which child's figure somebody is, or null for anyone the children's sheets do not draw. */

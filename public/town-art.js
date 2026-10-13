@@ -2,7 +2,7 @@
 //
 // The same data the server puts the shopkeepers in, so a keeper always stands at a building that is drawn. Streets and
 // squares go on the ground first; buildings are returned as drawables so they sort with the people standing among them.
-import { drawClip, drawSprite, hasSprite } from '/art.js';
+import { drawClip, drawSprite, hasSprite, spriteFrame } from '/art.js';
 import { drawStreets } from '/landscape-art.js';
 import { DRAWN_HEIGHT, FEET_PER_MILE, townPoint } from '/town-layouts.js';
 
@@ -73,11 +73,13 @@ function makeTownDrawables(ctx, layout, project, scale, labels) {
     const p = project(townPoint(layout, building)), shop = labels[building.id];
     const label = typeof shop === 'string' ? shop : shop?.label || building.label;
     const sprite = typeof shop === 'object' && shop?.sprite ? shop.sprite : building.sprite;
-    return { y: p.y, draw: () => {
+    return { y: p.y + (building.sortOffsetFeet || 0) * pixelsPerFoot, draw: () => {
       // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins" - a building's own drawing (`art`, sim/town-layouts.mjs) once
       // its sheet is in, and the library pieces that stood for it (`standInFor`) then left out; a keeper's trade sprite wins.
       if (building.standInFor && hasSprite(building.standInFor)) return;
-      const height = building.height * DRAWN_HEIGHT * pixelsPerFoot;
+      const frame = spriteFrame(sprite);
+      // A whole stockade represents a measured footprint, rather than an exaggerated wall height.
+      const height = building.drawWidthFeet && frame ? building.drawWidthFeet * pixelsPerFoot * (frame.logicalHeight || frame.h) / frame.w : building.height * DRAWN_HEIGHT * pixelsPerFoot;
       if (sprite === 'shop-stockman') {
         // Living stock are separate from the pen art. Draw them behind its front rail so neither animal is frozen into
         // the structure, and let each existing grazing clip run at a stable, different phase.
@@ -86,7 +88,11 @@ function makeTownDrawables(ctx, layout, project, scale, labels) {
         drawClip(ctx, 'cow-graze', p.x + height * .21, p.y - height * .19, height * .23, { timeMs, seed: `${building.id}-cow` });
       }
       const own = sprite === building.sprite && building.art && drawSprite(ctx, building.art, p.x, p.y, (building.artHeight ?? building.height) * DRAWN_HEIGHT * pixelsPerFoot);
-      if (!own) drawSprite(ctx, sprite, p.x, p.y, height);
+      if (!own) drawSprite(ctx, sprite, p.x, p.y, height, { anchor: building.anchor });
+      // The mill's own plume (Astra, 2026-10-11) only while the server says it is working (`operating`).
+      if (sprite === 'town-harrisburg-steam-mill-1835' && shop?.operating === true) {
+        drawTownMillSmoke(ctx, p.x, p.y, height, { timeMs: performance.now(), operating: true });
+      }
       // A keeper's trade shows as soon as the town does, as in Gonzales; a building's own documented name only close in,
       // where the names of a street of buildings no longer sit on top of each other.
       if (label && scale > (labels[building.id] ? 1000 : 2600)) {
@@ -98,4 +104,14 @@ function makeTownDrawables(ctx, layout, project, scale, labels) {
       }
     } };
   })];
+}
+
+/** Separate authored plume; callers must supply authoritative operation state, including shutdown/destruction. */
+export function drawTownMillSmoke(ctx, x, y, height, {timeMs = performance.now(), operating = false} = {}) {
+  if (!operating) return 0;
+  const frame = spriteFrame('town-harrisburg-steam-mill-1835');
+  if (!frame) return 0;
+  const scale = height / (frame.logicalHeight || frame.h), width = frame.w * scale, drawnHeight = frame.h * scale;
+  return drawClip(ctx, 'town-mill-smoke', x + width * .37, y - drawnHeight * .927, drawnHeight * .5,
+    {timeMs, anchor: [undefined, 1]});
 }

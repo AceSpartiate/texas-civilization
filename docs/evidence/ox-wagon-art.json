@@ -1,0 +1,246 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "name": "ox-wagon-empty-e-1",
+      "width": 289.52830188679246
+    },
+    {
+      "name": "ox-wagon-empty-e-2",
+      "width": 293.91509433962267
+    },
+    {
+      "name": "ox-wagon-empty-e-3",
+      "width": 288.79716981132077
+    },
+    {
+      "name": "ox-wagon-empty-e-4",
+      "width": 282.2169811320755
+    },
+    {
+      "name": "ox-wagon-loaded-e-1",
+      "width": 291.72169811320754
+    },
+    {
+      "name": "ox-wagon-loaded-e-2",
+      "width": 294.64622641509436
+    },
+    {
+      "name": "ox-wagon-loaded-e-3",
+      "width": 290.25943396226415
+    },
+    {
+      "name": "ox-wagon-loaded-e-4",
+      "width": 282.2169811320755
+    },
+    {
+      "name": "ox-wagon-empty-s-1",
+      "width": 107.79187817258884
+    },
+    {
+      "name": "ox-wagon-empty-s-2",
+      "width": 107.79187817258884
+    },
+    {
+      "name": "ox-wagon-empty-s-3",
+      "width": 108.57868020304569
+    },
+    {
+      "name": "ox-wagon-empty-s-4",
+      "width": 107.79187817258884
+    },
+    {
+      "name": "ox-wagon-loaded-s-1",
+      "width": 107.79187817258884
+    },
+    {
+      "name": "ox-wagon-loaded-s-2",
+      "width": 107.79187817258884
+    },
+    {
+      "name": "ox-wagon-loaded-s-3",
+      "width": 108.57868020304569
+    },
+    {
+      "name": "ox-wagon-loaded-s-4",
+      "width": 107.79187817258884
+    },
+    {
+      "name": "ox-wagon-empty-n-1",
+      "width": 104.05898876404494
+    },
+    {
+      "name": "ox-wagon-empty-n-2",
+      "width": 104.49438202247191
+    },
+    {
+      "name": "ox-wagon-empty-n-3",
+      "width": 104.05898876404494
+    },
+    {
+      "name": "ox-wagon-empty-n-4",
+      "width": 104.05898876404494
+    },
+    {
+      "name": "ox-wagon-loaded-n-1",
+      "width": 104.05898876404494
+    },
+    {
+      "name": "ox-wagon-loaded-n-2",
+      "width": 104.49438202247191
+    },
+    {
+      "name": "ox-wagon-loaded-n-3",
+      "width": 104.49438202247191
+    },
+    {
+      "name": "ox-wagon-loaded-n-4",
+      "width": 104.05898876404494
+    },
+    {
+      "name": "girl-wagon-driver-s-1",
+      "width": 85.22653721682849
+    },
+    {
+      "name": "girl-wagon-driver-s-2",
+      "width": 85.22653721682849
+    },
+    {
+      "name": "boy-wagon-driver-s-1",
+      "width": 82.24919093851133
+    },
+    {
+      "name": "boy-wagon-driver-s-2",
+      "width": 84.11003236245955
+    },
+    {
+      "name": "girl-wagon-driver-e-1",
+      "width": 97.61168384879724
+    },
+    {
+      "name": "girl-wagon-driver-e-2",
+      "width": 96.03092783505154
+    },
+    {
+      "name": "boy-wagon-driver-e-1",
+      "width": 84.57044673539518
+    },
+    {
+      "name": "boy-wagon-driver-e-2",
+      "width": 84.57044673539518
+    },
+    {
+      "name": "girl-wagon-driver-w-1",
+      "width": 94.02027027027026
+    },
+    {
+      "name": "girl-wagon-driver-w-2",
+      "width": 92.0777027027027
+    },
+    {
+      "name": "boy-wagon-driver-w-1",
+      "width": 81.19932432432432
+    },
+    {
+      "name": "boy-wagon-driver-w-2",
+      "width": 84.30743243243242
+    },
+    {
+      "name": "girl-wagon-driver-n-1",
+      "width": 99.87889273356402
+    },
+    {
+      "name": "girl-wagon-driver-n-2",
+      "width": 94.30795847750865
+    },
+    {
+      "name": "boy-wagon-driver-n-1",
+      "width": 105.44982698961937
+    },
+    {
+      "name": "boy-wagon-driver-n-2",
+      "width": 100.67474048442907
+    }
+  ],
+  "clips": [
+    {
+      "name": "ox-wagon-empty-e",
+      "distinct": 4
+    },
+    {
+      "name": "ox-wagon-loaded-e",
+      "distinct": 4
+    },
+    {
+      "name": "ox-wagon-empty-s",
+      "distinct": 4
+    },
+    {
+      "name": "ox-wagon-loaded-s",
+      "distinct": 4
+    },
+    {
+      "name": "ox-wagon-empty-n",
+      "distinct": 4
+    },
+    {
+      "name": "ox-wagon-loaded-n",
+      "distinct": 4
+    },
+    {
+      "name": "girl-wagon-driver-s",
+      "distinct": 2
+    },
+    {
+      "name": "boy-wagon-driver-s",
+      "distinct": 2
+    },
+    {
+      "name": "girl-wagon-driver-e",
+      "distinct": 2
+    },
+    {
+      "name": "boy-wagon-driver-e",
+      "distinct": 2
+    },
+    {
+      "name": "girl-wagon-driver-w",
+      "distinct": 2
+    },
+    {
+      "name": "boy-wagon-driver-w",
+      "distinct": 2
+    },
+    {
+      "name": "girl-wagon-driver-n",
+      "distinct": 2
+    },
+    {
+      "name": "boy-wagon-driver-n",
+      "distinct": 2
+    }
+  ],
+  "bindings": [
+    {
+      "sex": "female",
+      "choice": {
+        "id": "girl-wagon-driver-e",
+        "upright": true,
+        "seated": true
+      },
+      "width": 69.91051546391753,
+      "wagonWidth": 281.6313953488372
+    },
+    {
+      "sex": "male",
+      "choice": {
+        "id": "boy-wagon-driver-e",
+        "upright": true,
+        "seated": true
+      },
+      "width": 61.5672852233677,
+      "wagonWidth": 281.6313953488372
+    }
+  ],
+  "errors": []
+}

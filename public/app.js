@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, sheetsFirstDrawn, spriteFrame, spriteReady, watchMissing } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward, roundCorners } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carryingInfantClip, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward, roundCorners } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { portraitSetsMain, herdMarkOf, actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands, keepList, pressHold } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -27,7 +27,7 @@ import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
-import { GALE_POSES, GALE_SMOKE, drawFogShape, drawHighWater, floodCurrentMarks, drawFloodCurrent, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, inGale, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
+import { GALE_POSES, GALE_SMOKE, drawWeatherTree, drawFogShape, drawHighWater, floodCurrentMarks, drawFloodCurrent, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, inGale, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
 /** The weather with the day fully up, for everything drawn into the kept ground (public/weather-art.js `weatherMix`). */
 const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
@@ -964,7 +964,12 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   // driver, so the driver is drawn in front of them. They are not drawn again beside it (public/motion.js `carriedWithRider`).
   const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0, rig);
   const rigPart = rig ? layout.find(part => part.part === 'rig') : null;
-  const riders = aboard.map((rider, i) => ({ ...bedLayout(direction, i, SIZE, figureScale(rider), rigPart), rider }));
+  const riders = aboard.map((rider, i) => {
+    const clip = seatedClip(rider, direction, 'passenger');
+    const seated = Boolean(clip.seated && clipReady(clip.id));
+    const mode = seated && clip.basket ? 'basket' : seated;
+    return { ...(rigPart ? bedLayout(direction, i, SIZE, figureScale(rider), rigPart, mode) : bedLayout(direction, i, SIZE, figureScale(rider), mode)), rider, passengerClip: clip };
+  });
   if (riders.length && rigPart) {
     // In the rig's open tail: the furthest up the screen first. Coming toward the camera the canvas is in front of them, so before
     // the rig; otherwise straight after it, before a driver on the box side-on (a driver going away is behind the canvas, first).
@@ -992,6 +997,18 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
       continue;
     }
     if (part.part === 'passenger') {
+      // Astra's seated passenger (2026-10-10 the children and the baby's basket, 2026-10-12 the eight grown figures; public/motion.js
+      // `seatedClip` with `passenger`) wherever its sheet is loaded: the whole seated body, its hip on the rim (`bedLayout` seated).
+      if (part.seated) {
+        const clip = part.passengerClip;
+        animated(ctx, clip.id, px, py, height, part.rider.id, {
+          flip: clip.upright ? false : flip, appearance: part.rider.appearance,
+          paused: world.status !== 'running' || reducedMotion.matches,
+        });
+        drawnAt.set(part.rider.id, { x: px, y: py - height * .45, size: height });
+        drawn.push({ part: 'passenger', id: part.rider.id, x: Math.round(px), y: Math.round(py), height: Math.round(height), seated: true });
+        continue;
+      }
       // In an open cart or carreta, or the rig's open tail, the whole seated rider where Claude's is loaded (`passengerClip`): the
       // hip on the seat the layout gives, the rest of them sitting in the bed. stand-in: docs/ART_REQUESTS.md, "Claude-drawn
       // stand-ins (replace with Astra's)"; in the covered wagon drawn apart, and wherever it is not loaded, the cut figure below.
@@ -1087,6 +1104,12 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   if (entity.service?.offMap) return;
   // The horse is under its rider, and the ox and wagon under their driver, drawn with them (public/motion.js `seatOf`).
   if (!marks.observed && carriedWithRider(entity, marks.entities || [])) return;
+  if (!marks.observed && entity.travel?.carried) {
+    const caregiver=(marks.entities||[]).find(p=>p.id===entity.travel.carried);
+    const carrying=caregiver && carryingInfantClip(caregiver,marks.entities||[]);
+    // Hide only the real baby represented by an available composite in this projection.
+    if (carrying?.babyId===entity.id && clipReady(carrying.id)) return;
+  }
   const seat = marks.observed ? null : seatOf(entity, marks.entities || []);
   // Cosmetic separation only. Overlapping drawings must never imply different true positions.
   const spread = size / 26;
@@ -1415,7 +1438,7 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     // Presentation evidence for the battle proofs, read by nothing in the application: the cast poses each member was drawn in.
     if (done && entity.id) ((window.__memberCastDrawn ??= {})[entity.id] ??= new Set()).add(own.clip);
     else if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
-    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip, person: entity });
+    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : pose.camp ? pose.timeMs / 165 : performance.now() / 165, working: true, flip: pose.flip, person: entity, ...(pose.camp && { clip: pose.clip }) });
     else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
     // Where he was drawn, on the ground - his cosmetic step aside included, so his shot's smoke, the clearing in the smoke round him
@@ -1451,7 +1474,11 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     ? { id: entity.id, at: marks.ground, bodyMiles: height * (onFoot ? figureScale(entity) : 1) / marks.scale, stride: onFoot ? STRIDE.foot : STRIDE.hoof }
     : null;
   if (seat) drawSeated(ctx, x, y, size, entity, seat, marks.entities || [], flip, gait);
-  else if (entity.kind === 'person') miniPerson(ctx, x, y, mounted(entity) ? height : size, { ...entity, observed: marks.observed, flip, gait });
+  else if (entity.kind === 'person') {
+    const carrying=!marks.observed && carryingInfantClip(entity,marks.entities||[]);
+    if (!carrying || !animated(ctx,carrying.id,x,y,size*figureScale(entity),entity.id,{paused:carrying.frozen,flip:carrying.upright?false:flip,gait,appearance:entity.appearance}))
+      miniPerson(ctx,x,y,mounted(entity)?height:size,{...entity,observed:marks.observed,flip,gait});
+  }
   else if (entity.kind === 'animal') miniAnimal(ctx, x, y, height, { ...entity, gait }, flip);
   else if (entity.kind === 'wagon') miniWagon(ctx, x, y, height, { ...entity, gait }, flip);
   // The one moment of a hunt that can be shown. `musket-smoke` runs once - small, growing,
@@ -3260,9 +3287,11 @@ function drawTerrain(ctx, world, camera) {
       const stand = scatterInside(points, seedOf(feature.id), count).sort((a, b) => a.y - b.y);
       ctx.save(); ctx.globalAlpha *= inventedWoods(camera.scale);
       for (const spot of stand) {
-        if (spot.tint % 5 === 3) { if (drawSprite(ctx, 'cottonwood', spot.x, spot.y, figure * SIZE.timberTree * 1.12)) continue; }
-        else if (spot.tint % 7 === 5) { if (drawSprite(ctx, 'sapling', spot.x, spot.y, figure * SIZE.sapling)) continue; }
-        postOak(ctx, spot.x, spot.y, figure * SIZE.timberTree, spot.tint);
+        const location = camera.toWorld(spot);
+        const mix = world.weather && weatherShown(world.weather) ? weatherMix(world.weather, location.x, world.minute, STEADY) : null;
+        if (spot.tint % 5 === 3) { if (drawWeatherTree(ctx, 'cottonwood', spot.x, spot.y, figure * SIZE.timberTree * 1.12, mix, drawSprite)) continue; }
+        else if (spot.tint % 7 === 5) { if (drawWeatherTree(ctx, 'sapling', spot.x, spot.y, figure * SIZE.sapling, mix, drawSprite)) continue; }
+        postOak(ctx, spot.x, spot.y, figure * SIZE.timberTree, spot.tint, mix ? windLean(mix) : 0, mix ? inGale(mix) : false);
       }
       ctx.restore();
     }
@@ -4615,6 +4644,8 @@ function drawWorldNow(world) {
     const menDrawn = [];
     const how = drawArmy(ctx, army, at, {
       scale: camera.scale, figure: camera.figure, time: animationTime,
+      paused: world.status !== 'running', reducedMotion: reducedMotion.matches,
+      sprite: (id, x, y, size) => drawSprite(ctx, id, x, y, size),
       draw: (clip, x, y, size, key, options) => { if (/^[^:]+:\d+$/.test(String(key))) menDrawn.push(clip); return animated(ctx, clip, x, y, size, key, options); }, mini: miniPerson,
       smoke: campMix && inGale(campMix) ? (x, y, size) => drawSprite(ctx, GALE_SMOKE, x, y, size) : null,
       // What each man is doing and the words over their heads (public/ambient.js, sim/ambient.mjs `campAmbient`).
@@ -6268,7 +6299,10 @@ function renderHostLive(snapshot, host) {
 }
 $('#host-spotlight-back')?.addEventListener('click', () => applyMapView('follow'));
 /** A data- attribute written only when it changes: the panel is redrawn every tick on a slow computer. */
-function setData(element, key, value) { if (element.dataset[key] !== value) element.dataset[key] = value; }
+function setData(element, key, value) {
+  const property = key.replace(/-([a-z])/g, (_match, letter) => letter.toUpperCase());
+  if (element.dataset[property] !== value) element.dataset[property] = value;
+}
 /** `setData`, or the attribute taken off for null: for a list kept in place whose flags come and go (`keepList`). */
 function keepData(element, key, value) { if (value == null) { if (key in element.dataset) delete element.dataset[key]; } else setData(element, key, value); }
 /**

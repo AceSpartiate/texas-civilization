@@ -11,6 +11,7 @@
 // was `miniPerson` (owner, 2026-09-27: "Fix it and re-measure"; tests/famous-map-art.test.mjs fails on the swapped order).
 // Imported relatively so a test can load this file; in the page it is the same module as app.js's '/battle-view.js'.
 import { personArt } from './battle-view.js';
+import { namedMountedRefinement } from './named-refinement-art.js';
 
 /**
  * The sprites and clips a famous person may be drawn with on the map, in the order `drawFamous` tries them: the page asks for
@@ -22,7 +23,12 @@ export function famousArt(one) {
   const add = name => { if (typeof name !== 'string') return; if (name.startsWith('clip:')) clips.add(name.slice(5)); else sprites.add(name); };
   // The Twin Sisters' own paired road sheet (Astra, 2026-09-27), with the library's iron gun as its fallback.
   if (one?.thing) { clips.add('twin-sisters-limbered'); sprites.add('twin-sisters-halt'); sprites.add('cannon-iron-e'); }
-  else if (one?.doing === 'ride') { add(own?.rideIdle); add(own?.ride); clips.add(kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e'); }
+  else if (one?.doing === 'ride') {
+    // Astra's refinements of the four riders (2026-10-12): the one the scene asks for, and the walk north or south.
+    const refined = namedMountedRefinement(one);
+    if (refined) clips.add(refined.clip);
+    add(own?.rideIdle); add(own?.ride); add(own?.rideNorth); add(own?.rideSouth); clips.add(kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e');
+  }
   else {
     // A walk is drawn as a clip (`animated`), whatever its name looks like.
     if (own?.walk) clips.add(own.walk);
@@ -49,9 +55,12 @@ export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson
       else how = drawSprite(ctx, 'twin-sisters-halt', p.x, p.y, size * 2, { flip }) ? 'twin-sisters-halt' : null;
       if (!how) for (const dx of [-0.45, 0.45]) if (drawSprite(ctx, 'cannon-iron-e', p.x + dx * size, p.y, size * 1.2)) how = 'cannon-iron-e';
     } else if (one.doing === 'ride') {
-      const riding = own?.ride?.startsWith('clip:') ? own.ride.slice(5) : null;
-      if (!one.moving && own?.rideIdle) how = drawSprite(ctx, own.rideIdle, p.x, p.y, size * 1.3, { flip }) ? own.rideIdle : null;
-      if (!how && riding) how = animated(ctx, riding, p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip }) ? riding : null;
+      const refined=namedMountedRefinement(one);
+      if(refined)how=animated(ctx,refined.clip,p.x,p.y,size*1.3,`famous:${one.id}`,{timeMs:time,flip:refined.flip})?refined.clip:null;
+      const directed=(one.heading==='north'?own?.rideNorth:one.heading==='south'?own?.rideSouth:null)||own?.ride;
+      const riding = directed?.startsWith('clip:') ? directed.slice(5) : null;
+      if (!how && !one.moving && !one.heading && own?.rideIdle) how = drawSprite(ctx, own.rideIdle, p.x, p.y, size * 1.3, { flip }) ? own.rideIdle : null;
+      if (!how && riding) how = animated(ctx, riding, p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip:one.heading==='north'||one.heading==='south'?false:flip,paused:!one.moving }) ? riding : null;
       if (!how) how = animated(ctx, kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e', p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip }) ? 'ride' : null;
     } else if (one.moving && own?.walk) how = animated(ctx, own.walk, p.x, p.y, one.child ? size * 0.6 : size, `famous:${one.id}`, { timeMs: time, flip }) ? own.walk : null;
     else {

@@ -8,6 +8,14 @@ import assert from 'node:assert/strict';
 import { createBattleView, layoutSide, regularity } from '../public/battle-view.js';
 import { isClaude, drawsClaude } from './support/claude-names.mjs';
 
+test('moving mounted formations retain their gait instead of sliding through stationary reload poses',()=>{
+  const art=fakeArt(),view=createBattleView(art);
+  const groups=[{id:'moving-horse',side:'texian',drawn:6,style:'mounted',mounted:true,fire:'scattered',moving:true,action:'advance',x:0,y:-.1,facing:{x:0,y:1}}];
+  run(view,minute=>battle(minute,{groups}),{seconds:3});
+  assert.ok(art.drawn.some(one=>one.clip==='volunteer-ride-s'));
+  assert.ok(!art.drawn.some(one=>/^volunteer-mounted-reload-/.test(one.clip||'')));
+});
+
 function fakeContext() {
   const ctx = new Proxy({ measureText: text => ({ width: String(text).length * 6 }), createRadialGradient: () => ({ addColorStop() {} }) }, {
     get(target, key) { return key in target ? target[key] : () => {}; },
@@ -228,6 +236,7 @@ test('a group of horse is drawn apart from its side, as riders, with its own fal
   // A Texian horseman is Astra's mounted volunteer (2026-10-03): standing mounted, and her firing transition at the shot.
   assert.ok(art.drawn.some(one => /^volunteer-mounted-idle-/.test(one.sprite || '')), 'the stationary Texian horsemen are not drawn mounted');
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-mounted-fire-cycle'), 'the mounted firing pose is missing');
+  assert.ok(art.drawn.some(one => one.clip === 'volunteer-mounted-reload-e'),'stationary horsemen never perform the delivered full reload');
   assert.ok(e.shotsBy.texian > 0, 'the horsemen did not fire');
   assert.ok(e.works > 20, `only ${e.works} pieces of works drawn`);
   for (const piece of ['breastwork-packs-left', 'breastwork-packs-right']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);

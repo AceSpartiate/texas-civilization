@@ -1,6 +1,6 @@
 {
   "record": "The towns of the colonies, drawn in a browser: docs/TOWNS.md §5b",
-  "date": "2026-10-04",
+  "date": "2026-10-11",
   "verdict": "PASS",
   "note": "Same computer only. A 30-family class on the colonies map, served live; the Host page went to each drawn town from its Go to list. No LAN or district claim.",
   "checks": [
@@ -12,8 +12,8 @@
     "Liberty: 11 buildings drawn at 1357 px a mile; 4 keepers' buildings named; 4 people drawn there",
     "Washington: 23 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
     "Brazoria: 48 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
-    "Velasco: 7 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
-    "Harrisburg: 26 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
+    "Velasco: 8 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
+    "Harrisburg: 24 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
     "Anahuac: 21 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
     "Nacogdoches: 50 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
     "Refugio: 27 buildings drawn at 1357 px a mile; 0 keepers' buildings named; 0 people drawn there",
@@ -266,13 +266,13 @@
       "keepersDrawn": 0
     },
     "velasco": {
-      "drawn": 7,
+      "drawn": 8,
       "scale": 1357.1428571428573,
       "shops": [],
       "keepersDrawn": 0
     },
     "harrisburg": {
-      "drawn": 26,
+      "drawn": 24,
       "scale": 1357.1428571428573,
       "shops": [],
       "keepersDrawn": 0

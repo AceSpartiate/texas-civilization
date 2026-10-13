@@ -1,0 +1,128 @@
+{
+  "verdict": "PASS",
+  "frames": [
+    {
+      "name": "volunteer-mounted-action-s-1",
+      "width": 107.84883720930233
+    },
+    {
+      "name": "volunteer-mounted-action-s-2",
+      "width": 107.44186046511628
+    },
+    {
+      "name": "volunteer-mounted-action-s-3",
+      "width": 94.01162790697674
+    },
+    {
+      "name": "volunteer-mounted-action-s-4",
+      "width": 89.53488372093024
+    },
+    {
+      "name": "volunteer-mounted-action-n-1",
+      "width": 107.81990521327015
+    },
+    {
+      "name": "volunteer-mounted-action-n-2",
+      "width": 105.74644549763033
+    },
+    {
+      "name": "volunteer-mounted-action-n-3",
+      "width": 96.62322274881517
+    },
+    {
+      "name": "volunteer-mounted-action-n-4",
+      "width": 94.96445497630332
+    },
+    {
+      "name": "dragoon-mounted-action-s-1",
+      "width": 105.32036613272311
+    },
+    {
+      "name": "dragoon-mounted-action-s-2",
+      "width": 103.31807780320366
+    },
+    {
+      "name": "dragoon-mounted-action-s-3",
+      "width": 92.10526315789474
+    },
+    {
+      "name": "dragoon-mounted-action-s-4",
+      "width": 90.50343249427917
+    },
+    {
+      "name": "dragoon-mounted-action-n-1",
+      "width": 105.24475524475525
+    },
+    {
+      "name": "dragoon-mounted-action-n-2",
+      "width": 105.65268065268066
+    },
+    {
+      "name": "dragoon-mounted-action-n-3",
+      "width": 91.78321678321679
+    },
+    {
+      "name": "dragoon-mounted-action-n-4",
+      "width": 90.96736596736596
+    },
+    {
+      "name": "lancer-charge-s-1",
+      "width": 117.61517615176152
+    },
+    {
+      "name": "lancer-charge-s-2",
+      "width": 116.66666666666667
+    },
+    {
+      "name": "lancer-charge-s-3",
+      "width": 118.08943089430895
+    },
+    {
+      "name": "lancer-charge-s-4",
+      "width": 117.61517615176152
+    },
+    {
+      "name": "lancer-charge-n-1",
+      "width": 115.42553191489361
+    },
+    {
+      "name": "lancer-charge-n-2",
+      "width": 113.09840425531915
+    },
+    {
+      "name": "lancer-charge-n-3",
+      "width": 114.02925531914893
+    },
+    {
+      "name": "lancer-charge-n-4",
+      "width": 112.63297872340425
+    }
+  ],
+  "clips": [
+    {
+      "name": "volunteer-mounted-fire-s",
+      "distinct": 4
+    },
+    {
+      "name": "volunteer-mounted-fire-n",
+      "distinct": 4
+    },
+    {
+      "name": "dragoon-mounted-fire-s",
+      "distinct": 4
+    },
+    {
+      "name": "dragoon-mounted-fire-n",
+      "distinct": 4
+    },
+    {
+      "name": "lancer-charge-s",
+      "distinct": 4
+    },
+    {
+      "name": "lancer-charge-n",
+      "distinct": 4
+    }
+  ],
+  "errors": []
+}

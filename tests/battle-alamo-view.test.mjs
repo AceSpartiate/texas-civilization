@@ -22,8 +22,8 @@ function fakeArt() {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { drawn.push({ clip, x, y, seed, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { drawn.push({ sprite, x, y, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { drawn.push({ clip, x, y, size, seed, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { drawn.push({ sprite, x, y, size, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -77,6 +77,11 @@ test('the guns fire each dated shot once, the defenders\' canister throws a cone
   assert.ok(last.smoke >= 30, `the canister left only ${last.smoke} puffs`);
   assert.ok(art.drawn.some(one => one.clip === 'canister-burst'), 'the canister shot lacked its authored smoke-and-dust cone');
   assert.ok(art.drawn.some(one => one.clip === 'cannon-18pdr-e-recoil' || one.clip === 'cannon-18pdr-w-recoil'), 'the 18-pounder used a generic field gun');
+  assert.ok(art.drawn.some(one=>/^cannon-alamo-north-[ew]-recoil$/.test(one.clip||'')),'north battery uses its own gun');
+  assert.ok(art.drawn.some(one=>/^cannon-alamo-church-[ew]-recoil$/.test(one.clip||'')),'church battery uses its own gun');
+  assert.ok(art.drawn.find(one=>/^cannon-18pdr-[ew]-recoil$/.test(one.clip||'')).size>art.drawn.find(one=>/^cannon-alamo-north-[ew]-recoil$/.test(one.clip||'')).size,'18-pounder must remain larger than the north gun');
+  assert.ok(art.drawn.some(one=>one.clip==='travis-battery-fire-n'),'Travis aims north in his own loading/firing sequence');
+  assert.ok(art.drawn.some(one=>/^lancer-upright-(march|idle)-[ens]$/.test(one.clip||'')),'staged Alamo cavalry keep their upright lances');
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-gun-ram' || one.clip === 'volunteer-gun-fire'), 'no crew served the defenders\' guns');
   // A day of the siege: the Mexican batteries at work, and their crews are regulars.
   const artDay = fakeArt(), day = createBattleView(artDay);

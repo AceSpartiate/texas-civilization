@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {entityClip,figureScale} from '../public/motion.js';
+const read=n=>JSON.parse(readFileSync(new URL(`../public/assets/frontier-v1/${n}.json`,import.meta.url)));
+const children=[['girl',{band:'child',sex:'female'}],['boy',{band:'child',sex:'male'}],['smallchild',{band:'small',sex:'male'}]];
+test('child conversation chooser retains age-specific identities and scale',()=>{for(const [who,traits] of children){const person={id:'family-child',kind:'person',...traits};assert.equal(entityClip({...person,speaking:true}).id,`${who}-speak`);for(const facing of ['s','n']){const pose=entityClip({...person,facing});assert.equal(pose.id,`${who}-listen-${facing}`);assert.equal(pose.upright,true);}assert.equal(figureScale(person),traits.band==='small'?.55:.7);}assert.equal(entityClip({id:'baby',kind:'person',band:'infant',speaking:true}).id,'infant-idle-s');});
+test('twelve child dialogue frames retain all visible pixels and register speech/listening clips',()=>{const atlas=read('atlas'),animation=read('animation');assert.ok(atlas.sheets['children-dialogue'].alpha.transparentFraction>.4);for(const [who] of children){const speech=animation.clips[`${who}-speak`];assert.equal(speech.frames.length,2);assert.equal(speech.authored,true);assert.equal(speech.loop,true);for(const id of [`${who}-speak-1`,`${who}-speak-2`,`${who}-listen-s`,`${who}-listen-n`]){const f=atlas.frames[id];assert.equal(f.sheet,'children-dialogue');assert.equal(f.audit.trimmedPixels,0);assert.equal(f.audit.retainedFraction,1);assert.ok(f.audit.visiblePixels>0);}for(const d of ['s','n'])assert.equal(animation.clips[`${who}-listen-${d}`].motion,'breathe');}});

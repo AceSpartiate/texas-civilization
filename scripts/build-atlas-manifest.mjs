@@ -14,6 +14,8 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inflateSync } from 'node:zlib';
 import { writeRegistry } from './art-registry.mjs';
+import { ROOF_RIDGES } from '../public/house-roof-art.js';
+import { MODULE_METADATA } from './art-deliveries/house-construction-complete-2026-10-11.mjs';
 import { SHEETS as DELIVERED_SHEETS, ANIMATION_CLIPS as DELIVERED_CLIPS } from './art-deliveries/index.mjs';
 
 export const root = fileURLToPath(new URL('../public/assets/frontier-v1/', import.meta.url));
@@ -253,7 +255,9 @@ function anchorOf(image, frame) {
 // 3% of its frame's width of the middle read by eye on a ten-pixel grid, and a roof within 6% of the walls' width of
 // where the eye puts it (tests/house-roof.test.mjs holds it to that; drawn at the walls' ground anchor it was 33%).
 // A seat point drawn with the art (docs/ART_REQUESTS.md, 2026-09-15 house plot's pieces) would replace the measure.
-const SEATED = /^house-(round|hewn)-(full-walls|roof-partial|roof-finished)$/;
+/** The sheets whose house pieces are measured for a seat and a ground (`seatOf`, `groundOf`). */
+const HOUSE_SHEETS = ['house-modules', 'house-back-views', 'house-construction-complete'];
+const SEATED = /^house-(round|hewn)-(back-)?(full-walls|roof-partial|roof-finished)$|^house-jacal-(daub-walls|thatch-roof)$/;
 function seatOf(image, frame) {
   const { width, data } = image, w = frame.maxX - frame.minX + 1, h = frame.maxY - frame.minY + 1;
   const band = Math.max(2, Math.round(w * 0.01)), seen = (x, y) => data[(y * width + x) * 4 + 3] > 40;
@@ -274,7 +278,7 @@ function seatOf(image, frame) {
 // ceiling: read off a silhouette, so the log ends standing past a corner move it: each lands within about 3% of the
 // frame's width of the post foot read by eye on a ten-pixel grid (tests/house-chimney.test.mjs holds the chimney to those).
 // A ground outline drawn with the art (docs/ART_REQUESTS.md, 2026-09-15 house plot's pieces) would replace the measure.
-const GROUNDED = /^house-(round|hewn)-full-walls$/;
+const GROUNDED = /^house-(round|hewn)-(back-)?full-walls$|^house-jacal-daub-walls$/;
 function groundOf(image, frame) {
   const { width, data } = image, w = frame.maxX - frame.minX + 1, h = frame.maxY - frame.minY + 1;
   const band = Math.max(2, Math.round(w * 0.01)), seen = (x, y) => data[(y * width + x) * 4 + 3] > 40;
@@ -492,6 +496,19 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       if (typeof reference === 'string') return heightOf(frameNamed(reference));
       return reference.standing + 4; // the measured frames carry two pixels of padding top and bottom
     }
+    // Astra's sheets of 2026-10-09..12, each held to one scale as she built them: a row, a pair of rows, a column or the sheet.
+    const rowOf = p => p.row === frame.row, pairOf = p => Math.floor(p.row / 2) === Math.floor(frame.row / 2);
+    if (sheet === 'regular-loophole-actions' || sheet.startsWith('ox-wagon-composite-')) return tallest(placed);
+    if (sheet.startsWith('sj-mounted-reload-') || sheet.startsWith('alamo-upright-lancer')) return tallest(placed.filter(pairOf));
+    if (sheet === 'alamo-parapet-service') return heightOf(placed[0]);
+    if (sheet === 'people-alamo-travis-service' || sheet === 'named-milam-fire-service') return tallest(placed.filter(p => p.col === 0));
+    if (sheet.startsWith('adult-passengers-')) return tallest(placed.filter(p => p.col === frame.col && pairOf(p)));
+    if (sheet === 'wagon-cover-drawn-back') return tallest(placed.filter(p => p.col === frame.col));
+    if (sheet.startsWith('named-') && sheet.endsWith('-mounted-dispatch')) return tallest(placed.filter(p => rowOf(p) && Math.floor(p.col / 2) === Math.floor(frame.col / 2)));
+    if (['biome-species-gales', 'colony-oak-gales', 'colony-compound-gales'].includes(sheet)) return tallest(placed.filter(p => rowOf(p) && Math.floor(p.col / 2) === Math.floor(frame.col / 2)));
+    if (sheet === 'concepcion-bank-terrain' && frame.row > 0) return tallest(placed.filter(p => p.row > 0));
+    if (['bexar-townsfolk', 'alamo-volunteer-trot', 'alamo-battery-guns', 'named-relief-fates', 'concepcion-limber-riders', 'concepcion-aftercare'].includes(sheet)
+      || sheet.startsWith('family-infant-walk-') || sheet.startsWith('southern-') || (sheet.startsWith('named-') && sheet.endsWith('-trot'))) return tallest(placed.filter(rowOf));
     if (sheet === 'alamo-modules' && frame.row === 0) return tallest(placed.filter(p => p.row === 0));
     if (sheet === 'land-clearing' && frame.row === 2) return tallest(placed.filter(p => p.row === 2));
     if (sheet === 'houses-settling') return tallest(placed.filter(p => p.row === frame.row));
@@ -528,8 +545,11 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
       sheet, x: frame.minX, y: frame.minY,
       w: frame.maxX - frame.minX + 1, h: frame.maxY - frame.minY + 1,
       ...anchor,
-      ...(sheet === 'house-modules' && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
-      ...(sheet === 'house-modules' && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
+      // Astra's ridge axes (public/house-roof-art.js) and her house sheets' measured seats and ground (2026-10-10, 10-11).
+      ...(ROOF_RIDGES[names[index]] ? { ridge: ROOF_RIDGES[names[index]] } : {}),
+      ...(HOUSE_SHEETS.includes(sheet) && SEATED.test(names[index]) ? seatOf(image, frame) : {}),
+      ...(HOUSE_SHEETS.includes(sheet) && GROUNDED.test(names[index]) ? groundOf(image, frame) : {}),
+      ...(MODULE_METADATA[names[index]] || {}),
       ...(logicalHeight ? { logicalHeight } : {}),
       label: names[index].replaceAll('-', ' '), kind: sheet,
       row: frame.row + 1, column: frame.col + 1,
@@ -549,6 +569,14 @@ for (const group of locomotionGroups(ANIMATION_CLIPS, frames)) {
   }
 }
 
+// Rear-view sheets have larger source cells than the original modular roofs.
+// Normalize roof pixel scale to the same sixteen-foot pen width, independent of atlas resolution.
+for (const material of ['round','hewn']) {
+  const rear=frames[`house-${material}-back-full-walls`], front=frames[`house-${material}-full-walls`];
+  if(rear && front)rear.roofScale=rear.w/front.w;
+}
+if(frames['house-jacal-daub-walls'] && frames['house-jacal-thatch-roof'])
+  frames['house-jacal-daub-walls'].roofScale=frames['house-jacal-daub-walls'].w/frames['house-jacal-thatch-roof'].w*1.06;
 return {
   library: 'frontier-v1',
   excludedFrames: [{ sheet: 'fortifications', row: 1, column: 1, reason: 'Generated later rounded facade. Never use for the 1836 Alamo; use roofless-church-shell instead.' }],

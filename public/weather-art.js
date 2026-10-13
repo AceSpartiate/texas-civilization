@@ -208,12 +208,12 @@ export function inGale(mix) { return galeForce(mix) >= GALE; }
  * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request 2026-09-20 - the country in a
  * norther, remaining marks. Astra painted gale poses for every standing tree of both colony sheets and every biome-tree size,
  * and the scrub and prickly pear (2026-10-07/08, `<upright>-gale-1`; docs/ART_DELIVERY_2026-10-07-CONIFER-GALE.md and
- * the deliveries after it). The few marks the map scatters that she has not yet done keep the pose Claude made on 2026-09-28
- * by bending her own upright painting (scripts/claude-art/areas/land-gale.mjs): `<upright>-wind` in the Claude library. A
- * sheet that has not loaded draws nothing, `drawSprite` returns 0, and every caller falls back to the sheared upright as
- * before.
+ * the deliveries after it), then the regional species, the colony hardwoods, the cottonwood and the sapling (2026-10-11). The
+ * few marks the map scatters that she has not yet done keep the pose Claude made on 2026-09-28 by bending her own upright
+ * painting (scripts/claude-art/areas/land-gale.mjs): `<upright>-wind` in the Claude library. A sheet that has not loaded
+ * draws nothing, `drawSprite` returns 0, and every caller falls back to the sheared upright as before.
  */
-const CLAUDE_GALE = Object.fromEntries(['cottonwood', 'marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca']
+const CLAUDE_GALE = Object.fromEntries(['marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca']
   .map(upright => [upright, `${upright}-wind`]));
 /**
  * The authored pose for an upright sprite: Astra's where she has painted one (the kept ground uses her first gale pose; her
@@ -225,6 +225,23 @@ const CLAUDE_GALE = Object.fromEntries(['cottonwood', 'marsh-cordgrass', 'dune-g
  * takes the painted gale and `drawClip` the old sway; every caller here means the frame.
  */
 export const GALE_POSES = Object.freeze({
+  'tree-water-oak': 'tree-water-oak-gale-1',
+  'tree-bur-oak': 'tree-bur-oak-gale-1',
+  'tree-white-oak': 'tree-white-oak-gale-1',
+  'tree-texas-oak': 'tree-texas-oak-gale-1',
+  'tree-hickory': 'tree-hickory-gale-1',
+  'tree-walnut': 'tree-walnut-gale-1',
+  'tree-ash': 'tree-ash-gale-1',
+  // Distinct regional species, 2026-10-11.
+  'tree-anacua': 'tree-anacua-gale-1',
+  'tree-texas-ebony': 'tree-texas-ebony-gale-1',
+  'tree-water-tupelo': 'tree-water-tupelo-gale-1',
+  'tree-cedar-elm': 'tree-cedar-elm-gale-1',
+  'tree-black-willow': 'tree-black-willow-gale-1',
+  'tree-black-willow-pole': 'tree-black-willow-pole-gale-1',
+  // Final generic nature trees, 2026-10-11.
+  cottonwood: 'cottonwood-gale-1',
+  sapling: 'sapling-gale-1',
   // `weather-norther`, 2026-09-21.
   'oak-broad': 'oak-broad-wind',
   'oak-spreading': 'oak-spreading-wind',
@@ -297,6 +314,12 @@ export const GALE_POSES = Object.freeze({
 /** The gale pose to draw this sprite as, or null to draw it upright and sheared by `windLean`. */
 export function galePose(sprite, mix) {
   return inGale(mix) ? (GALE_POSES[sprite] || null) : null;
+}
+/** Draw an authored gale without double shear; unloaded art keeps the same upright identity and its wind lean. */
+export function drawWeatherTree(ctx, sprite, x, y, height, mix, drawSprite) {
+  const pose = galePose(sprite, mix);
+  if (pose && drawSprite(ctx, pose, x, y, height)) return true;
+  return Boolean(drawSprite(ctx, sprite, x, y, height, { lean: mix ? windLean(mix) : 0 }));
 }
 /** The smoke of a fire in a hard norther: lying flat and streaming, rather than rising. */
 export const GALE_SMOKE = 'smoke-streaming';

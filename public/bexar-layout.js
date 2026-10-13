@@ -26,15 +26,12 @@ const roads = [
   {id:'alameda',widthFeet:46,points:[{x:2780,y:1300},{x:3200,y:1480},{x:3990,y:1480}]},
   {id:'villita-lane',widthFeet:30,points:[{x:2420,y:1480},{x:2530,y:1760},{x:3010,y:1980},{x:3340,y:2440}]},
 ];
-// `art`, where given, is drawn in place of `sprite` once its sheet has loaded (public/bexar-art.js); `sprite` stays the
-// library's own frame, drawn until then or if `art` is not in either library.
-function building(id,sprite,x,y,heightFeet=62,label,art){buildings.push({id,sprite,x,y,heightFeet,...(label&&{label}),...(art&&{art}),reconstruction:true});}
-// Named civic structures retain their place in the composition. They are not exact architectural portraits.
-// stand-in: Request 2026-09-14 — Béxar civic architecture. Claude-drawn stand-ins (docs/ART_REQUESTS.md, "Claude-drawn
-// stand-ins"), researched to 1836 (scripts/claude-art/areas/civic.mjs), are drawn when loaded; the generic `chapel` and
-// `adobe-flat` otherwise. Astra's frames of the same names replace them without a change here.
-building('san-fernando','chapel',1150,2020,105,'San Fernando Church','bexar-san-fernando-1836');
-building('governors-palace','adobe-flat',650,1980,80,'Governor’s Palace','bexar-governors-palace-1836');
+function building(id,sprite,x,y,heightFeet=62,label,fallbackSprite){buildings.push({id,sprite,x,y,heightFeet,...(label&&{label}),...(fallbackSprite&&{fallbackSprite}),reconstruction:true});}
+// Named civic structures retain their place in the composition: Astra's researched painted exteriors (2026-10-11), the
+// generic `chapel` and `adobe-flat` while their sheet loads (`fallbackSprite`, public/bexar-art.js). Illustrative detail, not
+// measured elevations; keep the panorama placement and stylized heights. Research limits: docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md.
+building('san-fernando','bexar-san-fernando-1836',1150,2020,105,'San Fernando Church','chapel');
+building('governors-palace','bexar-governors-palace-1836',650,1980,80,'Governor’s Palace','adobe-flat');
 building('town-hall','trading-house',905,2285,82,'Civic buildings · reconstructed');
 let serial=0;
 const homes=['adobe-flat','adobe-tile','adobe-flat','adobe-flat','trading-house'];

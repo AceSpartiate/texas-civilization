@@ -30,7 +30,7 @@ globalThis.fetch = async url => {
 };
 globalThis.createImageBitmap = async () => ({ stub: 'sheet' });
 const { drawSprite, loadArt, spriteFrame } = await import('../public/art.js');
-await loadArt({ sheets: ['house-modules', 'houses-settling'] });
+await loadArt({ sheets: ['house-modules', 'houses-settling', 'house-roof-joins'] });
 const catalogue = plotCatalogue();
 
 const SIZE = new Function('CABIN_PEOPLE', `${declaration('const SIZE = {', '\n};')} return SIZE;`)(CABIN_PEOPLE);
@@ -71,6 +71,9 @@ const RIDGE = {
   'house-hewn-roof-finished': [[105, 102], [208, 11]],
   'house-round-roof-partial': [[107, 98], [207, 12]],
   'house-passage-roof': [[92, 53], [170, 7]],
+  'house-roof-join': [[230,204],[403,14]],
+  'house-roof-join-partial': [[230,204],[403,14]],
+  'house-roof-join-chimney': [[230,204],[403,14]],
 };
 // The feet of the three corner posts of the full walls the viewer sees, read by eye off the sheet on a ten-pixel grid
 // (tests/house-chimney.test.mjs reads the same); the fourth, behind the walls, closes the figure. The door's gable is the

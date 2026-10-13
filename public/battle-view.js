@@ -1,3 +1,9 @@
+import { BEXAR_TOWNSFOLK, bexarCivilianHeight, createMoonlightGrade, drawBexarMoonlight } from './bexar-battle-art.js';
+import { createSouthernNightGrade, drawSouthernNight, mountedHeading, mountedActionClip, mountedReloadClip } from './southern-battle-art.js';
+import { familyCampBinding } from './avatar-identity.js';
+import { figureOf as familyFigureOf } from './motion.js';
+import { createAlamoGrade, drawAlamoGrade, alamoGunName, alamoLancerClip, travisFireClip } from './alamo-battle-art.js';
+import { milamFireClip, namedMountedRefinement } from './named-refinement-art.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
 //
 // Owner, 2026-09-25: "when i try to watch a battle ... i see npc's just standing around ... the battle itself never actually
@@ -140,6 +146,8 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
  */
 export const PERSON_ART = Object.freeze({
   ...Object.fromEntries(['jw-smith', 'horton', 'kimbell', 'martin'].map(id => [id, {
+    rideTrot: `clip:${id}-mounted-trot-e`, rideDispatch: `clip:${id}-mounted-dispatch-e`,
+    ...(['kimbell','martin'].includes(id)?{fall:`${id}-fall-relief`,still:`${id}-still-relief`}:{}),
     stand: `${id}-idle`, command: `${id}-parley`, point: `${id}-point`, speak: `${id}-parley`, listen: `${id}-listen`, write: `${id}-read`, seated: `${id}-rest`, walk: `${id}-walk-e`, ride: `clip:${id}-mounted-walk-e`, rideIdle: `${id}-mounted-idle-e`, rideNorth: `clip:${id}-mounted-walk-n`, rideSouth: `clip:${id}-mounted-walk-s`,
   }])),
   smither: { stand: 'smither-idle', command: 'smither-stop', point: 'smither-dispatch', speak: 'smither-speak', listen: 'smither-listen', write: 'smither-read', seated: 'smither-rest', walk: 'smither-walk-e', ride: 'clip:smither-mounted-walk-e', rideIdle: 'smither-mounted-idle-e', rideNorth: 'clip:smither-mounted-walk-n', rideSouth: 'clip:smither-mounted-walk-s' },
@@ -284,12 +292,18 @@ const bodiesOf = battle => [
   ...(battle.groups || []).map(group => ({ ...group, key: `g:${group.id}` })),
 ];
 /**
- * Who the townspeople are drawn as, in turn: Béxar's own women, children and men (never soldiers), each [figure, size, the
- * library figure drawn while that sheet has not loaded, its size].
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the storming of Béxar", item 6, and request 2026-09-27 (Béxar before
- * the bell), item 2 - Claude-drawn stand-ins `bexar-woman`, `bexar-boy`, `bexar-man`, `bexar-girl`; the settlers' sheets behind them.
+ * How tall Astra's regular at a loophole (2026-10-11, `regular-loophole-*`) is drawn against a standing man: her sheet is held to
+ * its own crouched height (scripts/build-atlas-manifest.mjs), as she drew it at 0.65.
+ * ceiling: her number; a FIGURE_HEIGHTS reference to the standing regular, as the volunteer's has, would measure it.
  */
-const TOWNSFOLK = [['bexar-woman', 0.95, 'rust-woman', 0.95], ['bexar-boy', 0.68, 'smallchild', 0.62], ['bexar-man', 0.95, 'elder', 0.95], ['bexar-girl', 0.68, 'indigo', 0.95]];
+const REGULAR_LOOPHOLE = 0.65;
+/**
+ * Who the townspeople are drawn as, in turn: Astra's people of Béxar (2026-10-11, public/bexar-battle-art.js `BEXAR_TOWNSFOLK`:
+ * a woman, an old man, a child and an older woman; never soldiers), each [figure, size, the library figure drawn while that
+ * sheet has not loaded, its size].
+ */
+const TOWNSFOLK_BEFORE = { 'bexar-woman': ['rust-woman', 0.95], 'bexar-elder': ['elder', 0.95], 'bexar-child': ['smallchild', 0.62], 'bexar-older-woman': ['indigo', 0.95] };
+const TOWNSFOLK = BEXAR_TOWNSFOLK.map(who => [who, bexarCivilianHeight(who), ...(TOWNSFOLK_BEFORE[who] || ['rust-woman', 0.95])]);
 /** A figure's place on the ground from its slot: the side's centre, turned to face the way the side faces. */
 const onGround = (centre, facing, slot) => ({
   x: centre.x + facing.x * slot.along - facing.y * slot.across,
@@ -317,6 +331,9 @@ export function regularity(points) {
  * Claude-drawn clip can be drawn now, the one test public/app.js `drawnClipOf` also makes - where a figure has a `fallback`.
  */
 export function createBattleView(art) {
+  let moonlight=createMoonlightGrade();
+  let southernNight=createSouthernNightGrade();
+  let alamoGrade=createAlamoGrade();
   const view = {
     key: null, minute: null, tickAt: 0, tickMs: 1000, sides: new Map(), layouts: new Map(),
     smoke: [], banks: [], smokeLayer: null, flashes: [], thumps: [], shotsSeen: new Set(), linesSeen: new Map(), commandsAt: 0, fallenAt: new Map(),
@@ -355,6 +372,9 @@ export function createBattleView(art) {
   function accept(battle, now, tickMs) {
     const key = `${battle.id}`;
     if (view.key !== key) {
+      moonlight = createMoonlightGrade();
+      southernNight = createSouthernNightGrade();
+      alamoGrade = createAlamoGrade();
       view.key = key; view.sides.clear(); view.smoke = []; view.banks = []; view.flashes = []; view.thumps = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
       view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.fallenSide.clear(); view.fallenFigure.clear(); view.herd = null; view.pins.clear();
       view.cartTipStartedAt = null;
@@ -487,11 +507,11 @@ export function createBattleView(art) {
   function memberPose(entity, time) {
     const member = view.members.get(entity.id);
     if (!member) return null;
-    const pose = poseOf(member, time);
+    const pose = poseOf(member, time, entity);
     view.memberClips.add(pose.clip || pose.sprite);
     return pose;
   }
-  function poseOf(member, time) {
+  function poseOf(member, time, entity) {
     const side = view.sides.get(member.unit || 'texian') || view.sides.get('texian');
     // In a square each man faces out of his own face of it (`member.right`); elsewhere the way his body of men faces.
     const right = member.right ?? ((side?.facing?.x ?? 1) >= 0);
@@ -510,7 +530,7 @@ export function createBattleView(art) {
       if (fell.grade !== 'slight' || since < 20000) return { sprite: 'volunteer-injured', cast: 'injured', flip: !right, still: true, fallen: true };
     }
     // His part's own pose (§6.13): asleep by the fire, hands up, or riding with Grant's party.
-    if (member.pose === 'asleep') return { sprite: 'volunteer-reclining', still: true };
+    if (member.pose === 'asleep') return familyCampBinding(entity, {sleep:true,baseline:familyFigureOf(entity),timeMs:time});
     if (member.pose === 'surrender') return { clip: 'volunteer-surrender', timeMs: time };
     if (member.mounted) return { clip: 'volunteer-ride-e', flip: !right, timeMs: time, scale: 1.35 };
     if (!member.firing) return { clip: member.moving ? 'volunteer-march' : right ? 'volunteer-idle-e' : 'volunteer-idle-w', flip: member.moving ? !right : false, timeMs: time };
@@ -612,8 +632,8 @@ export function createBattleView(art) {
     const figures = [];
     let civilians = 0, surrendering = 0;
     // The houses, the fire and the groves the fight is among, behind everybody, and the herd (§6.13).
-    const sceneryDrawn = drawScenery(ctx, battle, camera, figurePx, time);
-    const herdDrawn = drawHerd(ctx, camera, figurePx, time, now);
+    const sceneryDrawn = drawScenery(ctx, battle, camera, figurePx, time, still);
+    const herdDrawn = drawHerd(ctx, camera, figurePx, time, now, still);
     const poses = { asleep: 0, hidden: 0, surrender: 0, rider: 0 };
     const offScreen = point => bounds && (point.x < -90 || point.y < -90 || point.x > bounds.width + 90 || point.y > bounds.height + 140);
     for (const side of bodies) {
@@ -673,7 +693,7 @@ export function createBattleView(art) {
         // A family's person stands in for the sampled man nearest them: on a wall of a given length (the Alamo's), where men
         // stand a few yards apart, only the one they are standing in is given up.
         if (!down && memberPoints.some(m => Math.hypot(m.x - ground.x, m.y - ground.y) < (side.style === 'wall' && side.spread?.width ? 0.004 : 0.014))) continue;
-        const kind = figureOf(side, slot);
+        const kind = side.figure === 'prisoner' && slot.index % 2 === 1 ? 'prisoner2' : figureOf(side, slot);
         if (down) view.fallenFigure.set(seedKey, kind);
         const point = camera.toScreen(ground);
         if (offScreen(point)) continue;
@@ -743,9 +763,15 @@ export function createBattleView(art) {
             timeMs: time, flip: volunteer ? dir === 'e' && !right : !right, still: false, seed,
             ...(volunteer && { fallback: { clip: 'mounted-courier-e', flip: !right } }) };
           figures.push(rider);
+          const lancer = alamoLancerClip(battle, side, moving);
+          if (lancer) { rider.clip = lancer; rider.sprite = null; rider.size = figurePx * 2.05; rider.flip = !/-(n|s)$/.test(lancer) && !right; }
           if (!holding && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 4 === 0))) {
             const wait = 7000 + hash(`${seed}:rw`) * 12000, shifted = time + hash(`${seed}:rp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:r${Math.floor(shifted / wait)}`;
+            // Standing between shots, Astra's full mounted reload (2026-10-12), once at its own pace and then held ready.
+            if (volunteer && !moving && wait >= 8640 && t >= 640 && t < wait - 360) {
+              rider.clip = mountedReloadClip('rider', dir); rider.sprite = null; rider.timeMs = Math.min(t - 640, 7999); rider.flip = dir === 'e' && !right;
+            }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
@@ -775,8 +801,12 @@ export function createBattleView(art) {
         if (side.figure === 'prisoner') {
           const vertical = Math.abs(facing.y) > Math.abs(facing.x) * 1.2;
           const dir = vertical ? (facing.y >= 0 ? 's' : 'n') : 'e';
-          figures.push({ y: point.y, kind: 'prisoner', side: side.side, point, size: figurePx, clip: moving ? `prisoner-walk-${dir}` : null,
-            sprite: moving ? null : dir === 'n' ? 'prisoner-walk-n-1' : `prisoner-idle-${dir}`, timeMs: time, flip: dir === 'e' && !right, seed });
+          const identity = kind === 'prisoner2' ? 'prisoner2' : 'prisoner';
+          figures.push({ y: point.y, kind: 'prisoner', side: side.side, point, size: figurePx, clip: moving ? `${identity}-walk-${dir}` : null,
+            sprite: moving ? null : dir === 'n' ? `${identity}-walk-n-1` : `${identity}-idle-${dir}`,
+            // Astra's second prisoner (2026-10-10) for every other man; the first prisoner while his sheet loads.
+            fallback: moving ? { clip: `prisoner-walk-${dir}` } : { sprite: dir === 'n' ? 'prisoner-walk-n-1' : `prisoner-idle-${dir}` },
+            timeMs: time, flip: dir === 'e' && !right, seed });
           drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
           continue;
         }
@@ -799,10 +829,12 @@ export function createBattleView(art) {
           const [who, whoSize, old, oldSize] = TOWNSFOLK[slot.index % TOWNSFOLK.length];
           // The first of a leaving family (`figure: 'townsfolk-leave'`): the man at the ox's head, the laden carreta, the woman
           // and a child after it, as one drawing. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the bell at Béxar",
-          // item 2 - Claude-drawn stand-ins `townsfolk-leave`; the townspeople one by one while it has not loaded.
+          // item 2 - Claude-drawn stand-ins `townsfolk-leave`; the townspeople one by one while it has not loaded. Standing, a
+          // townsperson is the first pose of their walk (Astra's people of Béxar have no idle of their own).
           const cart = side.figure === 'townsfolk-leave' && slot.index === 0;
           figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * (cart ? 0.95 : whoSize),
-            clip: cart ? (moving ? 'townsfolk-leave' : null) : moving ? `${who}-walk` : `${who}-idle-s`, sprite: cart && !moving ? 'townsfolk-leave-1' : null, timeMs: time, flip: !right, seed,
+            clip: cart ? (moving ? 'townsfolk-leave' : null) : moving ? `${who}-walk` : null,
+            sprite: cart ? (moving ? null : 'townsfolk-leave-1') : moving ? null : `${who}-walk-1`, timeMs: time, flip: !right, seed,
             fallback: { clip: moving ? `${old}-walk` : `${old}-idle-s`, size: figurePx * oldSize, flip: !right } });
           drawnBy[side.key].push(point); civilians++;
           continue;
@@ -835,23 +867,29 @@ export function createBattleView(art) {
         } else if ((kind === 'regular' || kind === 'volunteer') && marshWadingClip(battle, side, ground)) {
           clip = marshWadingClip(battle, side, ground); flip = !right;
         } else if (kind === 'dragoon' || kind === 'rider') {
-          // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 7 - lancers (Ramírez y Sesma's, outside the
-          // Alamo's walls) walking or standing are drawn as the library's dragoons, without lances, until a lancer's walk and idle
-          // exist; charging, Astra's `lancer-charge` (2026-10-03).
+          // A dragoon, or a man on horseback of anybody's: the library's dragoon or mounted courier, unless Astra's own (below).
           clip = kind === 'rider' ? (moving ? 'mounted-courier-e' : 'mounted-courier-listen') : moving ? 'dragoon-march' : right ? 'dragoon-idle-e' : 'dragoon-idle-w';
           flip = kind === 'rider' ? !right : moving ? !right : false;
           // A Texian horseman is drawn above (`kind === 'rider'`, Astra's mounted volunteer) and never reaches here. Ramírez y
-          // Sesma's lancers charge in Astra's `lancer-charge`, and a dragoon firing from the saddle is her `dragoon-fire`
-          // (2026-10-03); their walk and idle are asked for by name and drawn as the dragoon until hers land.
+          // Sesma's lancers outside the Alamo stand and walk with the lance up (Astra, 2026-10-12, `alamoLancerClip`) and charge in
+          // her `lancer-charge`; a dragoon firing from the saddle is her `dragoon-fire` (2026-10-03).
+          const uprightLancer = alamoLancerClip(battle, side, moving);
+          if (uprightLancer) { clip = uprightLancer; size = figurePx * 2.05; flip = !/-(n|s)$/.test(uprightLancer) && !right; }
           const lancers = kind === 'dragoon' && /lancer/i.test(`${side.name || ''} ${side.id || ''} ${side.key || ''}`);
-          if (lancers) prefer = { clip: side.action === 'charge' ? 'lancer-charge' : moving ? 'lancer-march' : 'lancer-idle', flip: !right };
+          if (lancers && (side.action === 'charge' || !uprightLancer)) prefer = { clip: side.action === 'charge' ? 'lancer-charge' : moving ? 'lancer-march' : 'lancer-idle', flip: !right };
           // A dragoon firing his carbine from the saddle: Astra's `dragoon-fire` (2026-10-03), shoulder, recoil and lower on the
-          // shot's own clock, with the flash and the smoke from where his hands are, on his own long wait between shots.
+          // shot's own clock, with the flash and the smoke from where his hands are, on his own long wait between shots; north and
+          // south her `-mounted-fire-n`/`-s`, and between shots, standing, her mounted reload (2026-10-12).
           if (!holding && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 6 === 0))) {
             const wait = 9000 + hash(`${seed}:dw`) * 16000, shifted = time + hash(`${seed}:dp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:d${Math.floor(shifted / wait)}`;
-            if (kind === 'dragoon' && (t < 640 || t >= wait - 360)) {
-              clip = 'dragoon-fire'; timeMs = t >= wait - 360 ? t - (wait - 360) : t + 360; flip = !right;
+            const heading=mountedHeading(side.facing),actionClip=mountedActionClip(kind,heading);
+            if (actionClip && (t < 640 || t >= wait - 360)) {
+              clip = actionClip; timeMs = t >= wait - 360 ? t - (wait - 360) : t + 360; flip = ['n','s'].includes(heading)?false:!right;
+            }
+            // Stationary reload runs once at its authored pace, then holds ready. Travel keeps its gait.
+            if (!moving && t >= 640 && t < wait - 360) {
+              clip = mountedReloadClip(kind,heading);timeMs = Math.min(t-640,7999);flip = ['n','s'].includes(heading)?false:!right;
             }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
@@ -869,8 +907,7 @@ export function createBattleView(art) {
           // clip is not set off at a random point of itself; while it loads, the loading figure drawn lower, kneeling.
           const climbing = side.style === 'bank' && kind === 'volunteer';
           // At a stone house's loophole (Béxar): the one man seen of its garrison fires through the wall - a volunteer in Astra's
-          // crouched `volunteer-loophole-*` (2026-10-03). stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a flat-roofed stone
-          // house with loopholes" - a regular is Claude's `regular-loophole-fire`.
+          // crouched `volunteer-loophole-*` (2026-10-03), a regular in hers of 2026-10-11 (`regular-loophole-*`).
           const loophole = side.cover === 'loophole' && (kind === 'volunteer' || kind === 'regular');
           // Lying in the tall grass (Coleto's cazadores at night): Astra's prone marksman (2026-10-03); `prone` above.
           if (climbing && t >= wait - 500) { clip = 'volunteer-bank-climb'; timeMs = bankClip(t - wait); flip = !right; fallback = { clip: `${kind}-fire-reload`, timeMs: musketClip(t - wait) }; }
@@ -879,15 +916,15 @@ export function createBattleView(art) {
             if (side.style === 'bank') { sprite = `${kind}-load`; flip = !right; dy = figurePx * 0.32; }
             if (climbing) { sprite = 'volunteer-bank-climb-5'; dy = 0; fallback = { sprite: `${kind}-load`, dy: figurePx * 0.32 }; }
             if (loophole) {
-              sprite = kind === 'volunteer' ? 'volunteer-loophole-load' : `${kind}-loophole-fire-3`; flip = !right; fallback = { sprite: `${kind}-${right ? 'e' : 'w'}`, flip: false, size: figurePx };
+              sprite = `${kind}-loophole-load`; flip = !right; if (kind === 'regular') size = figurePx * REGULAR_LOOPHOLE; fallback = { sprite: `${kind}-${right ? 'e' : 'w'}`, flip: false, size: figurePx };
             }
             if (prone) { sprite = 'regular-prone-lie'; flip = !right; fallback = { sprite: slot.kneel ? 'regular-load' : `regular-${right ? 'e' : 'w'}`, flip: slot.kneel ? !right : false }; }
           }
           else if (loophole) {
-            // A volunteer is Astra's crouched loophole cycle (2026-10-03); a regular, Claude's. Both at the soldier's own size:
-            // her kneeling man is measured against the man standing (scripts/build-atlas-manifest.mjs FIGURE_HEIGHTS,
-            // 2026-10-04) and draws 0.67-0.68 of him aiming and loading; x0.65 here guessed that until then.
-            clip = kind === 'volunteer' ? 'volunteer-loophole-fire-reload' : `${kind}-loophole-fire`; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: `${kind}-fire-reload`, size: figurePx };
+            // Astra's crouched loophole cycle (a volunteer 2026-10-03, a regular 2026-10-11), at the soldier's own size: her
+            // kneeling man is measured against the man standing (scripts/build-atlas-manifest.mjs FIGURE_HEIGHTS, 2026-10-04).
+            clip = `${kind}-loophole-fire-reload`; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: `${kind}-fire-reload`, size: figurePx };
+            if (kind === 'regular') size = figurePx * REGULAR_LOOPHOLE;
           }
           // Astra's prone marksman (2026-10-03): lying in the grass to load, the rifle up to fire.
           else if (prone) { clip = 'regular-prone-fire-reload'; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: 'regular-fire-reload' }; }
@@ -1011,12 +1048,18 @@ export function createBattleView(art) {
     const peopleShown = drawPeople(ctx, battle, camera, figurePx, time, now, bounds);
     for (const plume of battle.plumes || []) drawPlume(ctx, plume, camera, figurePx, time, reducedMotion);
     // Night (§6.13): the field dark but for lit windows, the fire and the flashes, which are drawn over it.
-    const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : null;
+    // Béxar's storming by the hour of its clock (`bexarDarkness`, sim/battle-stage.mjs): Astra's eased moonlit grade (2026-10-11,
+    // public/bexar-battle-art.js), a tone over the field and not a moon.
+    const moon = battle.id === 'bexar-storming' && Number.isFinite(battle.bexarDarkness) ? moonlight.update(battle.bexarDarkness, now) : 0;
+    if (moon > 0) drawBexarMoonlight(ctx, moon, bounds);
+    const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : moon > 0 ? { lit: 0 } : null;
     // A darkness given as a number (the Alamo's nights, and the dawn coming up through the assault, 0 to 1), over the ground and
-    // the men but under the flashes and the words. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 -
-    // Claude's `night-grade`, with `dawn-grade` warming it as the light comes (*Claude-drawn stand-ins*, area F), each at a
-    // strength that follows the number, so a change of pace changes only the strength; a darkening wash without them.
-    if (typeof battle.light === 'number' && battle.light > 0) {
+    // the men but under the flashes and the words. At the Alamo, Astra's grade eased in screen time (2026-10-12,
+    // public/alamo-battle-art.js), back to daylight too. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 -
+    // elsewhere Claude's `night-grade`, with `dawn-grade` warming it as the light comes (*Claude-drawn stand-ins*, area F), each at a
+    // strength that follows the number; a darkening wash without them.
+    if (battle.id === 'alamo') drawAlamoGrade(ctx, alamoGrade.update(typeof battle.light === 'number' ? battle.light : 0, now), bounds);
+    else if (typeof battle.light === 'number' && battle.light > 0) {
       const dark = Math.min(1, battle.light);
       if (drawGrade(ctx, 'night-grade', dark * 0.9, bounds)) drawGrade(ctx, 'dawn-grade', Math.sin(Math.PI * dark) * 0.45, bounds);
       else { ctx.save(); ctx.fillStyle = `rgba(14,20,44,${(0.62 * battle.light).toFixed(3)})`; ctx.fillRect(0, 0, ctx.canvas?.width || bounds?.width || 0, ctx.canvas?.height || bounds?.height || 0); ctx.restore(); }
@@ -1122,7 +1165,7 @@ export function createBattleView(art) {
     return bySide;
   }
   /** The houses, the fire and the groves, where the engagement's data puts them (§6.13). */
-  function drawScenery(ctx, battle, camera, figurePx, time) {
+  function drawScenery(ctx, battle, camera, figurePx, time, paused = false) {
     let count = 0;
     for (const item of battle.scenery || []) {
       const p = camera.toScreen(item);
@@ -1134,7 +1177,10 @@ export function createBattleView(art) {
         ctx.strokeStyle = 'rgba(86,122,138,.78)'; ctx.lineWidth = Math.max(3, Math.hypot(b.x - a.x, b.y - a.y));
         ctx.beginPath(); points.forEach((q, k) => (k ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y))); ctx.stroke();
         ctx.strokeStyle = 'rgba(190,214,220,.35)'; ctx.lineWidth = Math.max(1, ctx.lineWidth * 0.25); ctx.stroke();
-        ctx.restore(); count++;
+        ctx.restore();
+        if (item.crossingClip) art.animated(ctx, item.crossingClip, p.x, p.y,
+          figurePx * (item.size || 1.5), `crossing:${item.x}:${item.y}`, { timeMs: time, paused });
+        count++;
         continue;
       }
       // A tree in the wind, or any clip, at its own size in figure heights (Concepción's pecans, the Grass Fight's mesquite).
@@ -1166,9 +1212,10 @@ export function createBattleView(art) {
         art.animated(ctx, NIGHT_BUILDING_CLIPS[item.sprite], p.x, p.y, figurePx * (item.size || 2.4), item.id, { timeMs: time, flip: item.flip })) {
         // Astra's night-lit house (2026-10-03): only projected lamplight gets a night-lit replacement; actors remain in front.
       } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })
-        // A piece with a `fallback` (Claude's ground pieces, sim/battles/concepcion.mjs and grass-fight.mjs) is drawn as the
-        // library art it stood in for while its own sheet is missing; `fallback: 'none'` is simply left out.
-        && !(item.fallback && (item.fallback === 'none' || art.drawSprite(ctx, item.fallback, p.x, p.y, figurePx * (item.fallbackSize || item.size || 2.4), { flip: item.flip })))) {
+        // A piece with a fallback (`fallbackSprite`: Astra's ground pieces of sim/battles/concepcion.mjs and grass-fight.mjs; or
+        // `fallback`) is drawn as the library art it replaced while its own sheet is missing; `'none'` is simply left out.
+        && !((item.fallbackSprite || item.fallback) && ((item.fallbackSprite || item.fallback) === 'none'
+          || art.drawSprite(ctx, item.fallbackSprite || item.fallback, p.x, p.y, figurePx * (item.fallbackSize || item.size || 2.4), { flip: item.flip })))) {
         ctx.fillStyle = '#8a7658'; ctx.fillRect(p.x - figurePx, p.y - figurePx * 1.2, figurePx * 2, figurePx * 1.2);
       }
       count++;
@@ -1176,33 +1223,28 @@ export function createBattleView(art) {
     return count;
   }
   /**
-   * Several hundred horses as a loose drove a couple of dozen strong, moving with the drive and scattering in a charge.
-   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" item 4 - the library's mustang, repeated.
+   * Several hundred horses as a loose drove a couple of dozen strong, moving with the drive and scattering in a charge: Astra's
+   * driven and scattering herd (2026-10-10, `herd-drove`, `herd-scatter`) as one mass; grazing, or a small herd, or while her
+   * sheet loads, the library's mustang repeated.
    */
-  function drawHerd(ctx, camera, figurePx, time, now) {
+  function drawHerd(ctx, camera, figurePx, time, now, paused = false) {
     const herd = view.herd;
     if (!herd) return 0;
     const at = placeAt(herd, now), right = herd.to.x >= herd.from.x;
     const n = Math.min(24, Math.max(6, Math.round((herd.count || 60) / 12)));
-    const width = herd.scatter ? 0.7 : 0.26, depth = herd.scatter ? 0.5 : 0.16;
-    // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - where Claude's herd is loaded, the drove
-    // (`herd-drove`) or its scattering (`herd-scatter`) drawn as a few masses of a dozen horses each, one mass for every six of
-    // the mustangs that would stand in for them; the mustangs otherwise.
-    if ((herd.moving || herd.scatter) && art.clipReady?.(herd.scatter ? 'herd-scatter' : 'herd-drove')) {
-      const masses = Math.max(1, Math.round(n / 6));
-      let drawn = 0;
-      for (let i = 0; i < masses; i++) {
-        const q = camera.toScreen({ x: at.x + (hash(`herd:m${i}:x`) - 0.5) * width * 0.6, y: at.y + (i - (masses - 1) / 2) * depth / masses });
-        if (art.animated(ctx, herd.scatter ? 'herd-scatter' : 'herd-drove', q.x, q.y, figurePx * 1.15, `herd:m${i}`, { timeMs: time + i * 157, flip: !right })) drawn++;
-      }
-      if (drawn) return drawn * 12;
+    // A moving mass is illustrative scenery, not an exact head count or separate simulated horses.
+    if (n >= 8 && (herd.moving || herd.scatter)) {
+      const p = camera.toScreen(at), clip = herd.scatter ? 'herd-scatter' : 'herd-drove';
+      if (art.animated(ctx, clip, p.x, p.y, figurePx * (herd.scatter ? 3.6 : 2.8), 'herd:group',
+          { timeMs: time, flip: !right, paused })) return herd.scatter ? 6 : 7;
     }
+    const width = herd.scatter ? 0.7 : 0.26, depth = herd.scatter ? 0.5 : 0.16;
     // A mustang's drawing height is its height standing alert, head up (the sheet's logical height since 2026-10-04,
     // scripts/build-atlas-manifest.mjs FIGURE_HEIGHTS): 1.45 of a man, the hunt's own mustang (public/app.js QUARRY_SIZE).
     // Galloping it draws 0.73-0.82 of that, about the 1.15 of a man it was drawn at here when every frame filled the height.
     for (let i = 0; i < n; i++) {
       const q = camera.toScreen({ x: at.x + (hash(`herd:${i}:x`) - 0.5) * width, y: at.y + (hash(`herd:${i}:y`) - 0.5) * depth });
-      if (!art.animated(ctx, herd.moving || herd.scatter ? 'mustang-gallop' : 'mustang-graze', q.x, q.y, figurePx * 1.45, `herd:${i}`, { timeMs: time + i * 211, flip: !right })) {
+      if (!art.animated(ctx, herd.moving || herd.scatter ? 'mustang-gallop' : 'mustang-graze', q.x, q.y, figurePx * 1.45, `herd:${i}`, { timeMs: time + i * 211, flip: !right, paused })) {
         ctx.fillStyle = '#7a5b3c'; ctx.fillRect(q.x - figurePx * 0.4, q.y - figurePx * 0.5, figurePx * 0.8, figurePx * 0.35);
       }
     }
@@ -1232,15 +1274,18 @@ export function createBattleView(art) {
     ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.restore();
   }
   /**
-   * The dark of a night fight over the whole view, with the lit windows and the fire through it. stand-in: docs/ART_REQUESTS.md,
-   * request 2026-09-25 "the south's fights" item 1 - a wash and a drawn glow, until a night layer exists.
+   * The dark of a night fight over the whole view, with lit windows/fire drawn above the field grade.
    */
   function drawNight(ctx, battle, camera, figurePx, now, bounds) {
     const width = bounds?.width ?? ctx.canvas?.width ?? 0, height = bounds?.height ?? ctx.canvas?.height ?? 0;
-    // Claude's grades (a moonless night; moonlight at Béxar's storming; first light), the wash without them.
-    const grade = battle.light === 'dawn' ? 'dawn-grade' : battle.id === 'bexar-storming' ? 'moonlight-grade' : 'night-grade';
-    if (!drawGrade(ctx, grade, battle.light === 'dawn' ? 0.75 : 1, bounds)) {
-      ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();
+    // San Patricio's moonless night is Astra's eased field grade (2026-10-12, public/southern-battle-art.js); elsewhere Claude's
+    // grades (a moonless night; moonlight at Béxar's storming; first light), the wash without them.
+    if (battle.id === 'san-patricio') drawSouthernNight(ctx, southernNight.update(battle.light === 'dawn' ? 0.4 : 1, now), { width, height });
+    else {
+      const grade = battle.light === 'dawn' ? 'dawn-grade' : battle.id === 'bexar-storming' ? 'moonlight-grade' : 'night-grade';
+      if (!drawGrade(ctx, grade, battle.light === 'dawn' ? 0.75 : 1, bounds)) {
+        ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();
+      }
     }
     let lit = 0;
     for (const item of battle.scenery || []) {
@@ -1264,8 +1309,13 @@ export function createBattleView(art) {
     const since = now - f.down.at - lag, kind = f.side === 'mexican' ? 'regular' : 'volunteer';
     const x = f.point.x, y = f.point.y;
     if (view.key === 'goliad-massacre' && f.side === 'texian') {
-      const pose = f.down.wounded || since < FALL.down ? 'prisoner-injured' : 'prisoner-still';
-      if (!art.drawSprite(ctx, pose, x, y, f.size)) art.miniPerson(ctx, x, y, f.size, { side: f.side });
+      const pose = f.down.wounded || since < FALL.down ? 'injured' : 'still';
+      // Astra's second prisoner (2026-10-10) for every other man, the first where his sheet has not loaded. The loader sizes by
+      // visible height: a man lying down must not be drawn to a standing man's height.
+      const identity = f.figure === 'prisoner2' ? 'prisoner2' : 'prisoner';
+      const poseSize = f.size * (pose === 'still' ? 0.32 : 0.55);
+      if (!art.drawSprite(ctx, `${identity}-${pose}`, x, y, poseSize) &&
+          !(identity === 'prisoner2' && art.drawSprite(ctx, `prisoner-${pose}`, x, y, poseSize))) art.miniPerson(ctx, x, y, f.size, { side: f.side });
       return;
     }
     if (f.down.wounded && f.inward) {
@@ -1450,9 +1500,9 @@ export function createBattleView(art) {
     if (bounds && (p.x < -90 || p.y < -90 || p.x > bounds.width + 90 || p.y > bounds.height + 140)) return { id: gun.id, shots: fired.length, onScreen: false };
     const metal = gun.metal === 'bronze' ? 'bronze' : 'iron';
     const twin = gun.id === 'twin-sister-1' || gun.id === 'twin-sister-2';
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 2 - the north wall's gun and the church's are
-    // Claude's `cannon-alamo-north-*` and `cannon-alamo-church-*`; the library's iron field gun while they load.
-    const alamo = gun.id === 'north-gun' ? 'north' : gun.id === 'church-guns' ? 'church' : null;
+    // The north wall's gun and the church's: Astra's carriage variants (2026-10-12, `cannon-alamo-north-*`, `cannon-alamo-church-*`;
+    // public/alamo-battle-art.js `alamoGunName`); the library's iron field gun while they load.
+    const alamo = view.key === 'alamo' && alamoGunName(gun.id, right) ? (gun.id === 'north-gun' ? 'north' : 'church') : null;
     const name = heavy ? `cannon-18pdr-${right ? 'e' : 'w'}`
       : siegeBattery ? `cannon-siege-battery-${right ? 'e' : 'w'}`
       : alamo ? `cannon-alamo-${alamo}-${right ? 'e' : 'w'}`
@@ -1645,6 +1695,10 @@ export function createBattleView(art) {
       return clip(`${kind}-march`);
     }
     if (pose === 'ride') {
+      // Astra's refinements of the four riders (2026-10-12; public/named-refinement-art.js): a trot, a dispatch and a rest, only
+      // where the scene says so (`gait`, `mountedAction`).
+      const refined = namedMountedRefinement(person);
+      if (refined) { const painted = clip(refined.clip, time, { size: figurePx * 1.35, flip: refined.flip }); if (painted) return painted; }
       // Astra's own mounted art first: Grant's gallop, Lamar's rescue, Sherman's rally, and a mounted walk by its heading.
       if (person.gallop && own?.rideGallop) return clip(own.rideGallop, time, { size: figurePx * 1.35 });
       if (person.rescue && own?.rideRescue) return sprite(own.rideRescue);
@@ -1660,6 +1714,9 @@ export function createBattleView(art) {
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
     }
     if (pose === 'fire') {
+      // Astra's Milam at the battery and Travis at his gun (2026-10-12), by the heading he aims (`aimHeading`), each on its own clock.
+      if (person.art === 'milam') { const painted = clip(milamFireClip(person.aimHeading, person.right), (time + hash(key) * 4000) % 3600, { flip: false }); if (painted) return painted; }
+      if (person.art === 'travis') { const painted = clip(travisFireClip(person.aimHeading, person.right), (time + hash(key) * 4000) % 3600, { flip: false }); if (painted) return painted; }
       if (Array.isArray(named)) { const t = (time + hash(key) * 12000) % 12000; return sprite(named[t < 1500 ? 0 : t < 1800 ? 1 : 2]); }
       if (named) return clip(named, musketClip(time % MUSKET_MS));
       return clip(`${kind}-fire-reload`, musketClip((time + hash(key) * MUSKET_MS) % MUSKET_MS));

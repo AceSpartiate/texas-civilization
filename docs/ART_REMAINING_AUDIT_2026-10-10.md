@@ -1,0 +1,58 @@
+# Remaining artwork audit — 2026-10-10
+
+**2 dated parent request groups remain on the broad art backlog.** This counts explicit remaining artwork and explicitly recorded breadth/action refinements in `ART_REQUESTS.md`; it does not count sheets, delivery batches, renderer work, or gameplay integration. Several groups below are refinement/breadth rather than missing original core assets. This is therefore a broad backlog count, not a claim that both remaining contracts are undelivered.
+
+The September 25 travel parent is artwork-complete as of October 12; cover seat/rail migration is compositor work.
+
+| # | Dated parent request | Missing artwork / explicit refinement | Evidence and limits |
+| --- | --- | --- | --- |
+| 1 | September 12 second — settling in | Semantic appearance masks/aligned layers, task/combat/seated refinements across offered head silhouettes. | Explicit layered-people contract. `family-appearance-2026-10-02.mjs` delivers painted complete figures with simple work/rest, not explicit skin/hair/clothes semantic layers or complete task/combat/seated sets. Houses/interiors/furnishings/tools completed. |
+| 2 | September 25 — battle pieces | Family identity firing, wounded/fallen and identity-specific transport. Generic mounted directional/full-reload art delivered October 12. | Request item 1 and transport stand-in row; `public/battle-view.js` `memberPose` uses volunteer combat art. `military-life-2026-10-03.mjs`, `fallen-transport-2026-10-04.mjs` complete generic living/dead transport, not identity-specific composites. Cannon/settler crew/flag completed. |
+
+## Delivered artwork excluded from the count
+
+Updated October 11: both researched Béxar civic façades are integrated, with historical limits documented. See `ART_DELIVERY_2026-10-11-BEXAR-CIVIC.md`.
+
+Updated October 11: cottonwood/sapling gust pairs close the generic norther refinement; all recorded gale artwork is delivered. See `ART_DELIVERY_2026-10-11-NATURE-GALES.md`.
+
+Updated October 11: all eight standard family portraits delivered, alpha-reviewed and stand-ins retired. See `ART_DELIVERY_2026-10-11-FAMILY-PORTRAITS.md`. Customized appearance layers remain under their separate parent request.
+
+The September 24 two-pen roof request is complete as of this delivery: three join states, ridge registration and production composition. See `ART_DELIVERY_2026-10-10-ROOF-JOINS.md`.
+
+Gonzales before the fight is complete at the requested art level: seated painting, spades, smith actions/props, cardinal river gestures, letter reading, bundle walking, flag variants and approach props have delivery modules. Unstaged seated painting or watch clips are gameplay work.
+
+Coleto/Goliad has prone marksmen, prisoner art plus second identity, Alavez, baggage carts and white flags. Generic marsh, crowbar directions, children dialogue, army camps, household tools, guided marks, panel marks, open cart vehicles and general felled timber are delivered.
+
+Seguín ashes storyboard, courier dismount, ferry loaded state, wildlife, acequia/fence pieces and catalog-only camp chores may await triggers, placement or scene semantics. Their artwork exists and they are not additional missing-art groups. The retired traveller marker is withdrawn.
+
+## Evidence method
+
+Read `docs/ART_REQUESTS.md` together with actual `scripts/art-deliveries/` inventories, `public/assets/frontier-v1/atlas.json`, `public/weather-art.js`, `sim/woods.mjs` and `public/battle-view.js`. Status paragraphs and stand-in comments are often stale. Missing renderer bindings were not treated as missing artwork. Counted broad refinements are labelled above to avoid presenting the number as sixteen wholly undelivered core contracts. No artwork or runtime files were changed in this audit.
+
+Updated October 11: Fort Velasco, Harrisburg Steam Mills and the Nacogdoches Stone House close the complete September 16 researched-building group. See ART_DELIVERY_2026-10-11-TOWN-LANDMARKS.md.
+
+Updated October 11: five regional tree silhouettes and matching authored wind pairs close the September 19 country artwork group. See ART_DELIVERY_2026-10-11-BIOME-SPECIES.md.
+
+Updated October 11: the remaining colony hardwood identities and pecan stump close the September 15 colony-tree parent. See ART_DELIVERY_2026-10-11-COLONY-HARDWOODS.md. Mature breadth sprites scale at existing sizes.
+
+Updated October 11: all eight other-side house drawings delivered and measured. Full-house selection/chimney migration remains compositor work, not missing art. See ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md.
+
+Updated October 11: all remaining house plot artwork is delivered. Jacal stages and shed frame are integrated; double chimney/floor/loft remain library-ready for compositor adoption. See ART_DELIVERY_2026-10-11-HOUSE-CONSTRUCTION-COMPLETE.md.
+
+Updated October 11: regular loophole service, four townsfolk walk cycles and eased calendar-driven moonlit grade close the remaining Béxar battle artwork. See ART_DELIVERY_2026-10-11-BEXAR-BATTLE-COMPLETE.md.
+
+Updated October 12: remaining Concepcion/Grass Fight artwork delivered: 31 frames, seven authored loops. Mission and cut-bank bindings are live; bend and transport kit are library-ready pending geographic/scene registration. See ART_DELIVERY_2026-10-12-CONCEPCION-COMPLETE.md.
+
+Updated October 12: southern-fight moonless field grade and directional mounted service/charge artwork are delivered. See ART_DELIVERY_2026-10-12-SOUTHERN-FIGHTS-COMPLETE.md. Full reload and named/family appearance contracts remain separate.
+
+Updated October 12: all child/infant horseback extension artwork delivered: 48 frames, twelve authored clips. Girl/boy production bindings added; supported toddler/infant pairs are library-ready pending carrier identity registration. See ART_DELIVERY_2026-10-12-MOUNTED-CHILDREN-COMPLETE.md.
+
+Updated October 12: complete September 16 wagon artwork delivered: 24 connected rig frames and 16 school-age driver frames, fourteen authored loops. Child drivers bind production; whole rig awaits seat/occlusion migration. Toddlers/infants are passengers under the existing age rules, not missing drivers. See ART_DELIVERY_2026-10-12-OX-WAGON-COMPLETE.md.
+
+Updated October 12: the San Jacinto refinement parent is complete: 136 usable frames and fifty authored clips cover full generic cardinal mounted reload and healthy camp rest/sleep for twenty-two family/headwear/age identities. Stationary reload and projected member sleep bindings added; seated rest is library-ready for projected scene staging. See ART_DELIVERY_2026-10-12-SAN-JACINTO-COMPLETE.md. Shared generic reload also resolves that art subset of the battle-pieces group; identity-specific combat remains.
+
+Updated October 12: remaining Alamo art delivered: 76 frames, 21 authored clips, continuous night/dawn. North/church guns, upright staged lancers and cardinal Travis firing bind production. Parapet overlays and volunteer trot are library-ready pending wall-top occlusion / explicit gait staging. Existing scale/interiors/collapse preserved. See ART_DELIVERY_2026-10-12-ALAMO-COMPLETE.md.
+
+Updated October 12: all remaining September 25 family travel artwork delivered: 116 frames and 43 clips, eight adult passenger identities, five actual-infant carrier walks and pulled-back wagon-cover views. Passenger/carrier production bindings added; cover compositor registration remains. See ART_DELIVERY_2026-10-12-FAMILY-TRAVEL-COMPLETE.md.
+
+Updated October 12: all recorded named-roster refinements delivered: 100 frames and 32 loops for Milam firing, four relief/courier riders with cardinal trot/dispatch and healthy rest, and warranted Kimbell/Martin fall/still. Explicit urgent-gait/dispatch/death staging is runtime work. See ART_DELIVERY_2026-10-12-NAMED-REFINEMENTS-COMPLETE.md.

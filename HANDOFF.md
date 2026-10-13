@@ -163,6 +163,109 @@ merges, so every code change was read against its own parent and re-checked on t
   alone), panel-press, house-plot, interior; lesson skips itself (guided start off). `weather-browser-proof` times out waiting for a
   running world, alone, on this branch and on origin/main 49aa2d76 alike: pre-existing.
 - Not proved: Chromebook, LAN, classroom.
+## Completed art group 2026-10-12: famous-person refinements
+
+100 frames and 32 authored loops close the September 26 named-roster artwork: Milam cardinal firing, J. W. Smith/Horton/Kimbell/Martin cardinal trot and mounted dispatch, healthy halted rest, and warranted Kimbell/Martin fall/still. Milam service and halted rider rest bind production. Faster gait and dispatch require explicit projected scene flags; no new travel speed, delivery, death beat or historical outcome is inferred from assets. 41 targeted tests, all 32 browser animation checks and 15 live Béxar checks pass. Source prompts, full manifest and Claude continuation: docs/ART_DELIVERY_2026-10-12-NAMED-REFINEMENTS-COMPLETE.md. **2 broad dated art groups remain.** No deployment performed.
+
+## Completed art group 2026-10-12: family riders, walkers and cart
+
+116 new frames and 43 authored clips complete the September 25 travel artwork: all eight adult seated passengers, five requested infant-carrying walkers, and four drawn-back wagon-cover views. Passenger and actual single-infant carrier selections bind production; whole cover vehicle is library-ready pending seat/rail/ox registration. Preserve unsupported parent heads and twin carriers rather than inventing one-infant composites. 42 targeted tests and all 43 browser animation phase checks pass. Manifest, exact selection contracts, source prompts and Claude continuation: docs/ART_DELIVERY_2026-10-12-FAMILY-TRAVEL-COMPLETE.md. **3 broad dated art groups remain.** No deployment performed.
+
+## Completed art group 2026-10-12: Alamo battle refinements
+
+76 frames and 21 authored clips close the remaining Alamo artwork: cardinal parapet service, full-body Travis firing/loading, volunteer trot, upright-lance patrol/idle and dedicated north/church gun variants. Guns, staged lancers, Travis aimHeading and continuous 1.8-second projected night/dawn grade are integrated. Parapet overlays require actual wall-top clipping and breach-aware ground placement; trot requires explicit gait staging. Keep compound scale, rooms, collision, north-wall collapse, family fates and information authority. 38 targeted tests and 21 animation phase checks pass; live Alamo proof has 13 checks. Read docs/ART_DELIVERY_2026-10-12-ALAMO-COMPLETE.md for full manifest, historical limits and continuation. **4 broad dated art groups remain.** No deployment performed.
+
+## Completed art group 2026-10-12: San Jacinto refinements
+
+136 usable frames and 50 authored animations close full generic mounted reload and healthy camp rest/sleep for 22 family/headwear/age identities. Stationary reload plays once then holds ready inside existing fire intervals; moving riders keep their gait. Sleeping family members now retain their identity instead of using the fallen-body sprite; customized people receive the explicit sleep clip. Fate precedence and battle authority preserved. Seated rest is library-ready for future projected camp/night staging. 41 tests, 50 animation phase checks and 16 live San Jacinto checks pass (p95 6.8 ms). Full manifest, historical limits and Claude integration: docs/ART_DELIVERY_2026-10-12-SAN-JACINTO-COMPLETE.md. **5 broad dated art groups remain.** No deployment performed.
+
+## Completed art group 2026-10-12: driving the ox wagon
+
+40 frames and fourteen authored clips close September 16 wagon artwork: connected yoked rigs, loaded/empty, east/south/north; complete school-age seated driver layers in all four headings. Girl/boy bindings are active. Whole rigs are library-ready: read the seat/roof occlusion and deduplication contract before compositor migration. Toddlers/infants remain passengers; eligibility unchanged. Full manifest, prompts and verification: docs/ART_DELIVERY_2026-10-12-OX-WAGON-COMPLETE.md. **6 dated parent artwork groups remain.** No deployment performed.
+
+## Completed art group 2026-10-12: child and infant horseback
+
+48 frames and twelve authored directional walk cycles close the September 14 younger-rider extension. Girl/boy use whole riders in production; toddler/infant are supported by an indigo caregiver in explicit paired scene composites. Do not automatically assign those to unpaired children or substitute a different parent appearance. Full manifest, prompts, tests and integration contract: docs/ART_DELIVERY_2026-10-12-MOUNTED-CHILDREN-COMPLETE.md. **7 dated parent artwork groups remain.** No deployment performed.
+
+## Completed art group 2026-10-12: southern fights
+
+24 frames and six authored clips finish north/south volunteer/dragoon service and lancer charge refinements. Generic mounted firing binds the existing shot clock; San Patricio has a moonless field grade with independent 1.8-second easing and bright projected lights. New lancer cycles are library-ready for explicit charge selection. These are aim/recoil/lower/rest, not full reloads; separate full-reload/family appearance requests remain open. Read docs/ART_DELIVERY_2026-10-12-SOUTHERN-FIGHTS-COMPLETE.md. **8 dated parent artwork groups remain.** No deployment performed.
+
+## Completed art group 2026-10-12: Concepcion and Grass Fight
+
+31 new frames, seven authored loops complete the remaining art subset: opposing cut banks, flowing bend vignette, researched Mission Concepcion church, three headings of harnessed crowded mule riders, unnamed padre and separate wounded/covered casualty carts. Mission and cut-bank placeholders are replaced with fallbacks. Bend/transport remain library-ready: register geography and scene motion/visibility before staging, preserve reported counts and family fates. Read docs/ART_DELIVERY_2026-10-12-CONCEPCION-COMPLETE.md for complete manifest, source limits and Claude integration. **9 dated parent artwork groups remain.** No deployment performed.
+
+## Completed art group 2026-10-11: Béxar battle
+
+Twenty frames and five authored clips complete regular loophole service and four townsfolk identities. Both bind the battle renderer. A calendar-derived Béxar darkness value feeds a 1.8-second eased screen-time moonlit grade, with flashes/smoke above it. Row encounter reattached to the current illustrated house anchor. Read docs/ART_DELIVERY_2026-10-11-BEXAR-BATTLE-COMPLETE.md for the manifest, clothing sources, lighting limits and proof. **10 dated parent artwork groups remain.** No deployment performed.
+
+## Completed art group 2026-10-11: house construction pieces
+
+Eight new sprites close the remaining house-plot artwork: jacal posts/wattle/daub/thatch, shed frame, opposing-hearth double chimney, separate floor and half loft. Jacal stages and shed frame now use the new art; double chimney/floor/loft are library-ready pending compositor adoption. Measured seats, grounded corners, nominal occupied footprints and alpha occlusion contract supplied. Browser proof covers eight pieces and sixteen live jacal stage/turn assemblies. Read docs/ART_DELIVERY_2026-10-11-HOUSE-CONSTRUCTION-COMPLETE.md. **11 dated parent artwork groups remain.** No deployment performed.
+
+## Completed art group 2026-10-11: house other sides
+
+All ten rear/end-view house assets delivered, alpha-audited and registered. New rear walls have roof seats, ground corners and source-scale normalization; roofSeat supports the metadata. Browser proof covers ten pieces and four roof assemblies. Gameplay selection still uses existing front views: migrate selected-frame geometry, side-door/chimney checks and end-view choices together. Read docs/ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md for the complete manifest and integration checklist. **12 dated parent artwork groups remain.** No deployment performed.
+
+## Completed art group 2026-10-11: colony hardwoods
+
+Seven hardwood identities plus pecan stump, 22 new frames and seven authored two-pose wind loops. Woods catalogue and weather selection integrated, economics preserved. Read docs/ART_DELIVERY_2026-10-11-COLONY-HARDWOODS.md for the manifest, species limits, animation contract and browser proof. Additional breadth silhouettes scale at existing sizes. **13 dated parent groups remain**. No deployment performed.
+
+## Completed art group 2026-10-11: regional tree species
+
+The September 19 country artwork group is complete. Anacua, Texas ebony, water tupelo, cedar elm and black willow now use their own sprites; young willow adds a distinct pole silhouette. Eighteen new frames, six authored wind loops, matching olive palettes. Catalogue and weather selection integrated; ground-cache policy and wood economics retained. Read docs/ART_DELIVERY_2026-10-11-BIOME-SPECIES.md for the full manifest, botanical sources, animation contract and limits. Broad remaining backlog: **14 dated parent groups**. No deployment performed.
+
+## Completed art group 2026-10-11: researched town landmarks
+
+Fort Velasco, Harrisburg Steam Mills and the original Nacogdoches Stone House close the entire September 16 researched-building request. Seven new frames and one authored smoke loop; all three town placements use delivered art. Fort cannon remains separate and correctly sized; mill smoke requires authoritative operating state (not enabled by existing callers). Read docs/ART_DELIVERY_2026-10-11-TOWN-LANDMARKS.md for the full manifest, historical uncertainty, render contract and proof. Fixed an existing missing /wading-art.js public route that blocked Host startup, with a serving regression test. Broad remaining backlog: **15 dated parent groups**. No deployment performed.
+
+## Completed art group 2026-10-11: Béxar civic architecture
+
+Both San Fernando and Governor’s Palace façades are delivered and integrated at their existing town placements. Static exterior contract complete; historical evidence and uncertainty are explicit. Prior generic sprites remain loading fallbacks. Ten tests including full art-library audit pass; browser proof shows character-scale/town composition and pixel-matched blocked-image fallbacks. Read `docs/ART_DELIVERY_2026-10-11-BEXAR-CIVIC.md` and `docs/BEXAR_CIVIC_ART_RESEARCH_2026-10-11.md` before scene reuse. Broad unfinished backlog: **16 dated parent groups**. No deployment performed.
+
+## Completed art group 2026-10-11: final generic norther trees
+
+Cottonwood/sapling gust pairs and two authored loops close the remaining September 20 norther group. Both match the runtime upright identities; kept ground uses pose one, clips support paused animated close views. Legacy invented woods now sample each tree’s weather and retain identity-preserving fallback. Library source audit now includes sized catalogue trees and bank reeds, fixing its stale gale false failures. Full inventory, prompts and proof: `docs/ART_DELIVERY_2026-10-11-NATURE-GALES.md`. Broad remaining backlog: **17 dated parent groups**. No deployment performed.
+
+## Completed art group 2026-10-11: all twelve family portraits
+
+The entire September 15 standard portrait request is delivered and registered. Neutral painted busts match adult, youth, child, toddler and infant world identities, readable at 44/56/192 pixels. Customized appearance rendering remains matched to its own world figure. Retired portrait sources and stale marks/tools; 18 focused tests and 48 production browser draws pass. Full prompts, manifest and reviewed evidence: `docs/ART_DELIVERY_2026-10-11-FAMILY-PORTRAITS.md`. Broad remaining backlog: **18 dated parent groups**, detailed in `docs/ART_REMAINING_AUDIT_2026-10-10.md`. This commit is ready for the next release; no deployment performed.
+
+## Completed request group 2026-10-10: two-pen roof joins
+
+All three required roof states (finished, partial, chimney aperture) and ridge coordinates are delivered and integrated. The production renderer fits/overlaps the joins at all four rotations, retains construction-state selection and missing-art fallback, and keeps the saddlebag roof on its row seat. Fifty-three house/art tests and the reviewed twelve-house browser montage pass. See `docs/ART_DELIVERY_2026-10-10-ROOF-JOINS.md`. Broad unfinished backlog: **19 dated groups**.
+
+## Completed art group 2026-10-10: infant wagon passengers
+
+Six painted basket poses and three authored loops add side/front/rear infant passengers, west mirrored. Basket-specific placement retains infant scale, inherited colors and existing passenger fallback/pause handling. Seventeen tests and browser rendering proof pass. See `docs/ART_DELIVERY_2026-10-10-INFANT-PASSENGERS.md`. The audited broad backlog contains **20 dated groups** with remaining art/breadth/refinements; details and exclusions: `docs/ART_REMAINING_AUDIT_2026-10-10.md`.
+
+## Completed art group 2026-10-10: child wagon passengers
+
+Eighteen painted seated frames and nine authored loops cover girl, boy and smallchild passengers in three directions, with west mirrored. Complete bodies sit at the visible cart rim and retain inherited family colors. Pause/reduced motion and missing-art fallback remain. Eleven tests and browser rendering proof pass. Adult and infant passenger art remain separate. See `docs/ART_DELIVERY_2026-10-10-CHILD-PASSENGERS.md`.
+
+## Completed art group 2026-10-10: army-map camps
+
+Twelve painted frames and five authored loops add wedge tents, cooking fire/pot and identification pennants. Close map camps use these plus the existing stacked-arms sprite. Pause/reduced motion, gale smoke, troop counts, distant markers and missing-art fallback are verified. Eight tests and browser proof of both assembled camps pass. See `docs/ART_DELIVERY_2026-10-10-ARMY-CAMPS.md`.
+
+## Completed art group 2026-10-10: Goliad prisoner variety
+
+Sixteen painted poses and three walking loops add a second unarmed identity. Sampled prisoner slots keep their appearance through marching and non-graphic down states; named/family figures retain their own art. Corrected seated/lying scale for both identities. Eleven tests and production browser proof pass. See `docs/ART_DELIVERY_2026-10-10-GOLIAD-PRISONER-VARIETY.md`.
+
+## Completed art group 2026-10-10: Grass Fight creek terrain
+
+Four painted dry creek/ditch modules and a four-frame flowing-water loop replace the engagement's low-bank stand-ins and detail its existing crossing. Locations, paths and historical staging remain; pause/reduced motion and missing-art fallbacks are covered. Seventeen art/battle tests and the production browser fixture pass. See `docs/ART_DELIVERY_2026-10-10-GRASS-CREEKS.md`.
+
+## Completed art group 2026-10-10: Mexican regular crowbar directions
+
+Eight painted north/south frames and two authored loops complete both sides' generic directional crowbar art alongside existing east/mirrored west. Existing breach-facing selection uses the new clips; pause, reduced motion, fallback and named Karnes behavior pass regression checks. Seventeen tests and production browser proof pass. No new historical event staged. See `docs/ART_DELIVERY_2026-10-10-REGULAR-CROWBAR.md`.
+
+## Completed art group 2026-10-10: driven and scattering horse herds
+
+Eight painted frames and two four-frame loops now bind to moving/scattering battle herds. Smaller or grazing herds and missing assets use the prior individual horses. Pause/reduced motion holds both paths; historical simulation counts are unchanged. Eleven tests and production browser proof pass. See `docs/ART_DELIVERY_2026-10-10-HORSE-HERDS.md`.
+
+## Completed art group 2026-10-09: children conversation poses
+
+Twelve age-specific frames cover girl, boy and smallchild speaking and front/back listening. Three authored speech loops and six breathing listen clips are registered; `CHILD_POSES` selects them from existing projected conversation fields. Original child scaling and infant fallback remain. Eleven tests and the production browser fixture pass. See `docs/ART_DELIVERY_2026-10-09-CHILDREN-DIALOGUE.md`.
 
 ## Completed art group 2026-10-09: felled timber library
 

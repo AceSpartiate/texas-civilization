@@ -190,13 +190,8 @@ test('a night fight is dark but for the lit windows, the fire and the flashes', 
   const evidence = run(view, minute => night(minute, [part('square', 8, 0, { pose: 'stand', fire: 'scattered' })]), { seconds: 4, art, ctx });
   assert.equal(evidence.night, true);
   assert.equal(evidence.lit, 2, 'the lantern and the fire are not lit');
-  // The dark is the night's grade multiplied over the view (Claude's `night-grade`, a moonless night at San Patricio), or the
-  // wash where the library has no grade.
-  assert.ok(art.drawn.some(one => one.sprite === 'night-grade') && ctx.calls.some(call => call[0] === 'set:globalCompositeOperation' && call[1] === 'multiply'), 'no night grade was laid over the field');
-  const washed = fakeArt(); washed.drawSprite = (c, sprite, ...rest) => (sprite.endsWith('-grade') ? 0 : rest[2]);
-  const washCtx = fakeContext();
-  run(createBattleView(washed), minute => night(minute, [part('square', 8, 0)]), { seconds: 0.1, art: washed, ctx: washCtx });
-  assert.ok(washCtx.calls.some(call => call[0] === 'set:fillStyle' && /rgba\(8,12,30/.test(call[1])), 'without the grade no dark was laid over the field');
+  // San Patricio's dark is Astra's moonless field grade (2026-10-12, public/southern-battle-art.js), laid over the field.
+  assert.ok(ctx.calls.some(call => call[0] === 'set:fillStyle' && /rgba\(7,15,29/.test(call[1])), 'no moonless dark was laid over the field');
   assert.ok(ctx.calls.some(call => call[0] === 'set:globalCompositeOperation' && call[1] === 'lighter'), 'nothing glows through the dark');
   // By day, none of it.
   const day = createBattleView(fakeArt()).draw(fakeContext(), { ...night(1, [part('square', 8, 0)]), light: undefined }, { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
@@ -240,8 +235,10 @@ test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s
     lines: [], fallen: [], members: [], commands: null, formations: [],
   });
   const evidence = run(view, battle, { seconds: 6, art });
-  assert.ok(evidence.herd >= 20, `the herd is ${evidence.herd} horses`);
-  assert.ok(art.drawn.some(one => one.clip === 'mustang-gallop'), 'the herd is not galloping');
+  // Astra's driven and scattering herd (2026-10-10), as one mass.
+  assert.ok(evidence.herd > 0, 'the herd illustration was not drawn');
+  assert.ok(art.drawn.some(one => one.clip === 'herd-drove'), 'the driven herd is not moving');
+  assert.ok(art.drawn.some(one => one.clip === 'herd-scatter'), 'the herd never scatters');
   // The grove as Astra's mott (2026-10-03, `live-oak-mott-dense-wind`; Claude's `live-oak-mott` before it); each tree alone
   // without her sheet.
   assert.ok(art.drawn.some(one => one.clip === 'live-oak-mott-dense-wind') && !art.drawn.some(one => one.sprite === 'live-oak-large'), 'the grove is not drawn as a mott');
@@ -260,7 +257,8 @@ test('a family\'s man is drawn in his part - asleep, in the house, giving up - a
   // `a` in the house that fires, `b` asleep on the square: what each is drawn doing is his part's, until his fate comes.
   const draw = (minute, fates = {}, now = minute * 1000) => view.draw(fakeContext(), night(minute, texParts, { members: ['a', 'b'], memberUnits: { a: 'house-b', b: 'square' }, memberFates: fates }), { camera, time: now, now, tickMs: 1000, bounds: { width: 1366, height: 768 } });
   draw(1);
-  assert.equal(view.memberPose({ id: 'b' }, 1000).sprite, 'volunteer-reclining', 'a man asleep on the square is not drawn asleep');
+  assert.equal(view.memberPose({ id: 'b',kind:'person',principal:true }, 1000).clip, 'rust-camp-sleep', 'healthy sleep must use family identity, not the fallen-body sprite');
+  assert.equal(view.memberPose({ id: 'b',kind:'person',sex:'female',band:'adult',appearance:{head:'loose hair'} },1000).clip,'mother-loose-camp-sleep');
   const inHouse = view.memberPose({ id: 'a' }, 1000);
   assert.ok(inHouse.clip === 'volunteer-fire-reload' || /^volunteer-(e|w|load)$/.test(inHouse.sprite), 'a man in the house that fires is not firing');
   // His fate, once the server sends it: hit, then lying still; the other taken, hands up.

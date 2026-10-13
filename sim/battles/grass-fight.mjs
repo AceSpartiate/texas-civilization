@@ -71,18 +71,14 @@ export function grassGround(world) {
 }
 
 /**
- * What the map does not draw: the dry creek bed and the ditch in thick mesquite, and the creek Jack forded. stand-in:
- * docs/ART_REQUESTS.md, 2026-09-25 "a dry creek bed or ditch in thick mesquite" (`earth-rampart` laid low, screened with
- * `mesquite-large-wind`) and "a wide creek forded on foot" (a drawn ribbon of water).
+ * Dedicated creek terrain at the existing reconstructed locations. The ribbon preserves the creek's course;
+ * animated crossing detail and recessed dry beds replace the low earth-bank stand-ins without changing paths.
  */
 function grassScenery(ground) {
   const { creekBed, ditch, ford } = ground;
-  const items = [{ water: [{ x: ford.x - 0.08, y: ford.y - 0.14 }, { x: ford.x + 0.01, y: ford.y }, { x: ford.x + 0.06, y: ford.y + 0.16 }], width: 0.03 }];
-  // Claude's `creek-bed-dry` and `creek-ford` (*Claude-drawn stand-ins*, area F) where the sheet has come; `earth-rampart`, and
-  // the ribbon alone at the ford, where it has not.
-  items.push({ sprite: 'creek-ford', fallback: 'none', x: ford.x, y: ford.y + 0.012, size: 1.6 });
-  for (let i = 0; i < 6; i++) items.push({ sprite: 'creek-bed-dry', fallback: 'earth-rampart', x: creekBed.x - 0.06 + i * 0.024, y: creekBed.y - 0.02 + i * 0.006, size: 1.0 });
-  for (let i = 0; i < 4; i++) items.push({ sprite: 'creek-bed-dry', fallback: 'earth-rampart', x: ditch.x - 0.03 + i * 0.02, y: ditch.y + 0.01 - i * 0.012, size: 0.9 });
+  const items = [{ x: ford.x, y: ford.y, crossingClip: 'creek-ford', size: 1.5, water: [{ x: ford.x - 0.08, y: ford.y - 0.14 }, { x: ford.x + 0.01, y: ford.y }, { x: ford.x + 0.06, y: ford.y + 0.16 }], width: 0.03 }];
+  for (let i = 0; i < 6; i++) items.push({ sprite: i === 5 ? 'creek-bed-end' : i === 2 ? 'creek-bed-curve' : 'creek-bed-dry', fallbackSprite: 'earth-rampart', x: creekBed.x - 0.06 + i * 0.024, y: creekBed.y - 0.02 + i * 0.006, size: 1.0 });
+  for (let i = 0; i < 4; i++) items.push({ sprite: 'creek-ditch-dry', fallbackSprite: 'earth-rampart', x: ditch.x - 0.03 + i * 0.02, y: ditch.y + 0.01 - i * 0.012, size: 0.9 });
   const brush = [[-0.05, -0.04], [0.04, -0.035], [-0.02, 0.05], [0.06, 0.03], [-0.08, 0.01], [0.09, -0.01]];
   for (const [dx, dy] of brush) items.push({ clip: 'mesquite-large-wind', x: ditch.x + dx, y: ditch.y + dy, size: 2.6 });
   for (const [dx, dy] of brush) items.push({ clip: 'mesquite-large-wind', x: creekBed.x + dx * 1.4, y: creekBed.y + dy * 1.4 + 0.02, size: 2.6 });

@@ -290,7 +290,7 @@ function appearanceFrame(image, frame, name, appearance) {
   heldColour.set(hold, drawn);
   return drawn;
 }
-export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, anchor, lean = 0, appearance = null } = {}) {
+export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, anchor, lean = 0, appearance = null, widthScale = 1 } = {}) {
   let frame = art.frames[name];
   const image = frame && art.images[frame.sheet];
   if (!image || !(height > 0)) {
@@ -301,7 +301,7 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
   let source = null;
   if (appearance && typeof document !== 'undefined') ({ canvas: source, frame } = appearanceFrame(image, frame, name, appearance));
   const scale = height / (frame.logicalHeight || frame.h);
-  const width = frame.w * scale, drawnHeight = frame.h * scale;
+  const width = frame.w * scale * widthScale, drawnHeight = frame.h * scale;
   // Undone by hand rather than with save and restore: the map lays down hundreds of sprites a redraw, and save and restore
   // copy the whole drawing state each time (docs/PERFORMANCE_RENDER.md). Only the alpha and the transform are touched.
   const was = ctx.globalAlpha;

@@ -64,15 +64,18 @@ export const BEXAR_OFFSETS = Object.freeze({
   navarro: { x: 0.028, y: -0.058 },
   // Zambrano Row, "leading to the square", taken room by room on the 8th, and the plaza's edge in front of it.
   // The Row and the Priest's House (and the gun at its door) moved with their houses on 2026-10-04, when Astra's street repair
-  // set the plaza's north frontage 70 feet back off the north lane (docs/TOWN_STREET_REPAIRS_2026-10-03.md; was 0.0149, -0.044).
-  row: { x: 0.0197, y: -0.0563 },
+  // set the plaza's north frontage 70 feet back off the north lane (docs/TOWN_STREET_REPAIRS_2026-10-03.md; was 0.0149, -0.044);
+  // the Row's encounter is attached to plaza-islas-north-13 in the illustrated assembly (Astra, 2026-10-11).
+  row: { x: 0.019710124850295687, y: -0.05634097188470257 },
   rowFront: { x: 0.012, y: -0.03 },
   // The line of loopholes Cooke's men passed "within a few feet of ... for seventy or seventy five yards", and its end.
   loopholes: { x: 0.03, y: -0.076 },
   loopholesEnd: { x: 0.0, y: -0.063 },
   // The Priest's House on the plaza, and the gun by the cemetery "two or three yards" from its door.
-  priests: { x: -0.0068, y: -0.0666 },
-  cemeteryGun: { x: -0.0152, y: -0.0594 },
+  priests: { x: -0.006794236934519339, y: -0.06656815393356766 },
+  // The gun "two or three yards" from the Priest's House door: about eight feet from the illustrated house's anchor (Astra,
+  // 2026-10-11), a reconstruction following the reported separation, not a surveyed door position.
+  cemeteryGun: { x: -0.008094236934519339, y: -0.06576815393356766 },
   // The palisade and gun across the street's entrance to the plaza, the plaza itself, the roofs round it and the church.
   barricade: { x: 0.004, y: -0.024 },
   plaza: { x: 0.0, y: 0.004 },

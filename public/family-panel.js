@@ -1297,9 +1297,9 @@ export function drawMark(canvas, name, { drawSprite, spriteFrame }) {
  * Draw a portrait: `portrait-<figure>`, the head and shoulders of the figure the map draws the person as (`figure`, chosen
  * by `figureOf` in public/motion.js, the one chooser the map uses too), fitted to the square on the page's flat ground.
  *
- * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". The `portrait-*` frames drawn today are
- * Claude-drawn (public/assets/claude-standins/, request 2026-09-15 - face portraits); Astra's of the same names replace
- * them when registered. Without a portrait frame the older stand-in stays: the figure's own idle clip drawn large with only
+ * The twelve standard cast portraits are painted frontier-v1 art (delivery 2026-10-11).
+ * Customized appearances use drawAvatarPortrait in the caller to retain their chosen world silhouette.
+ * Without a portrait frame the older fallback stays: the figure's own idle clip drawn large with only
  * its top showing, and a drawn silhouette until any sheet loads.
  */
 export function drawPortrait(canvas, { clip, figure = null, band, principal = false, tint = 0 }, { drawClip, drawSprite = null, spriteFrame = null }) {
