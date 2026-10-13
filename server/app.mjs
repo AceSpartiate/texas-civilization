@@ -84,6 +84,8 @@ const files = new Map([
   ['/interior-data.js', ['../sim/interior-data.mjs', 'text/javascript']],
   ['/interior.js', ['../public/interior.js', 'text/javascript']],
   ['/curve.js', ['../public/curve.js', 'text/javascript']],
+  // The roads', streets' and paths' painted tiles (2026-10-13), laid by public/landscape-art.js, town-art.js and app.js.
+  ['/ground-texture.js', ['../public/ground-texture.js', 'text/javascript']],
   ['/map-base.js', ['../public/map-base.js', 'text/javascript']],
   ['/land-worker.js', ['../public/land-worker.js', 'text/javascript']],
   ['/smooth-worker.js', ['../public/smooth-worker.js', 'text/javascript']],

@@ -12,7 +12,10 @@
 // ceiling: the surface detail - ripples, reeds, the stones on the bank - is still placed along the
 // straight chords by `samples`, so at a wide river's sharpest bends a ripple can sit a little
 // inside the curve. It is a few pixels at the widths this is drawn at.
-import {drawSprite} from '/art.js';
+import {drawSprite,spriteImage} from '/art.js';
+import {paveWay,useTextureSource,wayLayers} from '/ground-texture.js';
+// The painted tiles come from the art library (public/ground-texture.js): asked for by name, null while their sheet is coming.
+useTextureSource(spriteImage);
 import {curveThrough,visibleSegments} from '/curve.js';
 import {ramp} from '/map-base.js';
 function stroke(ctx,points,color,width,visible){curveThrough(ctx,points,visible);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
@@ -46,28 +49,50 @@ export function drawWater(ctx,points,width){
     if(reeds>0&&p.index%4===0){const side=p.index%8?1:-1;ctx.globalAlpha=base*reeds;drawSprite(ctx,p.index%12?'reeds':'rocks',p.x-p.ty*width*.57*side,p.y+p.tx*width*.57*side,Math.min(32,width*.32));}
   },ctx.canvas);ctx.restore();
 }
-export function drawRoad(ctx,points,width){
-  const {segments,count}=visibleSegments(points,ctx.canvas.width,ctx.canvas.height,width*1.6+24);if(!count)return;
-  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';stroke(ctx,points,'#ac9f71',width*1.55,segments);stroke(ctx,points,'#c2ac7d',width*1.2,segments);stroke(ctx,points,'#d1bc8f',width,segments);
+/**
+ * A road: its verge, its dirt and the ruts along it. Laid in the painted tiles (public/ground-texture.js `LAYERS.road`) once
+ * the `ground-roads` sheet is here - the verge a flat tile `tile` pixels across pinned at `anchor`, the screen point of the
+ * world's origin, and the rutted dirt turned to run along the road (`paveWay`), whose painted ruts take the place of the
+ * drawn ones; in three flat strokes and drawn ruts until then, as it always was. Returns whether it was laid in the tiles.
+ */
+export function drawRoad(ctx,points,width,{tile=Math.max(40,width*2.6),anchor}={}){
+  const {segments,count}=visibleSegments(points,ctx.canvas.width,ctx.canvas.height,width*1.6+24);if(!count)return false;
+  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+  const painted=paveWay(ctx,'road',points,width,{tile,anchor,curve:true,visible:segments});
+  if(!painted){stroke(ctx,points,'#ac9f71',width*1.55,segments);stroke(ctx,points,'#c2ac7d',width*1.2,segments);stroke(ctx,points,'#d1bc8f',width,segments);}
   const base=ctx.globalAlpha,ruts=ramp(width,5,8),tufts=ramp(width,10,14);
   if(ruts>0)samples(points,Math.max(8,width*.5),p=>{
-    ctx.globalAlpha=base*.35*ruts;ctx.strokeStyle='#806d49';ctx.lineWidth=Math.max(.6,width*.045);
-    for(const side of [-1,1]){const x=p.x-p.ty*width*.25*side,y=p.y+p.tx*width*.25*side;ctx.beginPath();ctx.moveTo(x-p.tx*3,y-p.ty*3);ctx.lineTo(x+p.tx*3,y+p.ty*3);ctx.stroke();}
+    // The drawn ruts and grit only on the flat strokes: the painted road has its own.
+    if(!painted){ctx.globalAlpha=base*.35*ruts;ctx.strokeStyle='#806d49';ctx.lineWidth=Math.max(.6,width*.045);
+    for(const side of [-1,1]){const x=p.x-p.ty*width*.25*side,y=p.y+p.tx*width*.25*side;ctx.beginPath();ctx.moveTo(x-p.tx*3,y-p.ty*3);ctx.lineTo(x+p.tx*3,y+p.ty*3);ctx.stroke();}}
     ctx.globalAlpha=base*.28*ruts;ctx.fillStyle='#6e7250';const side=p.index%2?1:-1;ctx.beginPath();ctx.ellipse(p.x-p.ty*width*.62*side,p.y+p.tx*width*.62*side,1.8,1,0,0,Math.PI*2);ctx.fill();
-    for(let n=0;n<5;n++){const off=Math.sin(p.index*7+n*3.17)*width*.42;ctx.fillStyle=n%2?'#ead5a7':'#88734c';ctx.globalAlpha=base*.25*ruts;ctx.fillRect(p.x-p.ty*off+p.tx*(n-2),p.y+p.tx*off+p.ty*(n-2),1.4,.8);}
+    if(!painted)for(let n=0;n<5;n++){const off=Math.sin(p.index*7+n*3.17)*width*.42;ctx.fillStyle=n%2?'#ead5a7':'#88734c';ctx.globalAlpha=base*.25*ruts;ctx.fillRect(p.x-p.ty*off+p.tx*(n-2),p.y+p.tx*off+p.ty*(n-2),1.4,.8);}
     if(p.index%5===0&&tufts>0){ctx.globalAlpha=base*tufts*ruts;drawSprite(ctx,'grass-tuft',p.x-p.ty*width*.8*side,p.y+p.tx*width*.8*side,Math.min(13,width*.25));}
   },ctx.canvas);ctx.restore();
+  return painted;
 }
 /** Town streets follow their surveyed/sketched vertices exactly. Paint each material
  * over the whole network before the next layer, so crossings don't acquire borders
- * through their middle. Regional roads and rivers keep their existing curved paths. */
-export function drawStreets(ctx,streets){
+ * through their middle. Regional roads and rivers keep their existing curved paths.
+ * Laid in the painted street tile (public/ground-texture.js `LAYERS.street`) once its sheet is here, `tile` pixels a tile and
+ * pinned at `anchor` - one tile size for the whole town, so two streets crossing are one ground - and in the flat colours until
+ * then. Returns whether it was laid in the tiles. */
+export function drawStreets(ctx,streets,{tile=40,anchor}={}){
   const roads=streets.filter(r=>r.points?.length>1&&r.width>0);
   const path=points=>{ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));};
   ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
-  const base=ctx.globalAlpha;
-  for(const [color,share] of [['#ac9f71',1.55],['#c2ac7d',1.2],['#d1bc8f',1]]) for(const road of roads){
-    ctx.globalAlpha=base*(road.faint ? .22 : 1);ctx.strokeStyle=color;ctx.lineWidth=road.width*share;
+  const base=ctx.globalAlpha,layers=roads.length?wayLayers(ctx,'street',tile,anchor):null;
+  if(layers){
+    // Laid in the tiles, the streets of one width and one faintness are one path and one stroke: a stroke in a pattern costs
+    // its setting-up each time, and twelve streets stroked one by one cost four times the flat colours (scripts/road-tiles-cost.mjs).
+    const groups=new Map();for(const road of roads){const key=`${road.width}|${Boolean(road.faint)}`;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(road);}
+    for(const layer of layers)for(const group of groups.values()){
+      ctx.globalAlpha=base*layer.alpha*(group[0].faint ? .22 : 1);ctx.strokeStyle=layer.style;ctx.lineWidth=group[0].width*layer.share;
+      ctx.beginPath();for(const road of group)road.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();
+    }
+  }
+  else for(const layer of [['#ac9f71',1.55],['#c2ac7d',1.2],['#d1bc8f',1]].map(([style,share])=>({style,share,alpha:1}))) for(const road of roads){
+    ctx.globalAlpha=base*layer.alpha*(road.faint ? .22 : 1);ctx.strokeStyle=layer.style;ctx.lineWidth=road.width*layer.share;
     path(road.points);ctx.stroke();
   }
   const distance=(p,a,b)=>{const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy,t=l?Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/l)):0;return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);};
@@ -83,6 +108,7 @@ export function drawStreets(ctx,streets){
     },ctx.canvas);
   }
   ctx.restore();
+  return Boolean(layers);
 }
 export function crossingAngle(site,features,toScreen){
   const q=toScreen(site);let best=Infinity,angle=0;

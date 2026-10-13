@@ -21,7 +21,8 @@ export function drawGonzalesGround(ctx,project,scale){
   ctx.fillStyle='#b6a47e';ctx.globalAlpha=.5;
   for(const b of GONZALES_BUILDINGS){const p=project(b),h=b.height*scale;ctx.beginPath();ctx.ellipse(p.x,p.y-h*.025,h*.64,h*.16,0,0,Math.PI*2);ctx.fill();}
   ctx.globalAlpha=1;
-  drawStreets(ctx,paths.map(path=>({points:path.map(([x,y])=>project({x,y})),width:Math.max(1,.009*scale)})));
+  // The painted street tile at fifty feet a tile, pinned to the town's point (public/ground-texture.js).
+  drawStreets(ctx,paths.map(path=>({points:path.map(([x,y])=>project({x,y})),width:Math.max(1,.009*scale)})),{tile:Math.max(32,scale/5280*50),anchor:project({x:0,y:0})});
   ctx.restore();
 }
 // `labels` names the buildings the town's shopkeepers keep, by building id, from the map's own shops (sim/shops.mjs):

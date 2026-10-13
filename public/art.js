@@ -343,6 +343,21 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
   return width;
 }
 
+/**
+ * A frame's picture and rectangle, for a drawing that lays it as a pattern rather than as a sprite (public/ground-texture.js,
+ * the roads' painted tiles), or null while its sheet has not arrived - asked for then, and noted as missing (`watchMissing`)
+ * so its arrival draws the kept ground again.
+ */
+export function spriteImage(name) {
+  const frame = art.frames[name], image = frame && art.images[frame.sheet];
+  if (frame && !image) { missing?.add(frame.sheet); requestSheet(frame.sheet); }
+  if (!image) return null;
+  drawnSheets.add(frame.sheet);
+  // The painted pixels exactly (`audit.sourceBounds`), not the frame's two pixels of clear padding: a tile repeated with its
+  // padding would draw a clear seam round every repeat.
+  const [x, y, w, h] = frame.audit?.sourceBounds || [frame.x, frame.y, frame.w, frame.h];
+  return { image, frame: { x, y, w, h } };
+}
 export function spriteNames() { return Object.keys(art.frames); }
 export function spriteFrame(name) { return art.frames[name] ? { ...art.frames[name] } : null; }
 export function sheetInfo() { return Object.fromEntries(Object.entries(art.sheets).map(([name, sheet]) => [name, { ...sheet }])); }

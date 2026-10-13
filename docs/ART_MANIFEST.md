@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **6350 usable sprites, 446 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
+Generated from the shipped library: **6354 usable sprites, 447 PNG atlases, 2102 clips** (1693 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -370,6 +370,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-dialogue | 16 | 1254 × 1254 | 1237850 |
 | ferry-flatboat | 3 | 1254 × 1254 | 203701 |
 | steamboat-moored | 4 | 1254 × 1254 | 799173 |
+| ground-roads | 4 | 1536 × 1536 | 1953906 |
 | house-roof-joins | 3 | 1448 × 1086 | 1332934 |
 | interior-saddlebag | 1 | 1860 × 846 | 1858682 |
 | people-sj-camp-cast1 | 16 | 1254 × 1254 | 821534 |
@@ -3992,6 +3993,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-moored-2 | steamboat-moored | steamboat-moored |
 | steamboat-moored-3 | steamboat-moored | steamboat-gangplank |
 | steamboat-moored-4 | steamboat-moored | steamboat-cotton-moored |
+| road-tile-wagon | ground-roads | State artwork; no motion required |
+| road-tile-street | ground-roads | State artwork; no motion required |
+| road-tile-path | ground-roads | State artwork; no motion required |
+| road-tile-verge | ground-roads | State artwork; no motion required |
 | house-roof-join | house-roof-joins | house-roof-join |
 | house-roof-join-partial | house-roof-joins | house-roof-join-partial |
 | house-roof-join-chimney | house-roof-joins | house-roof-join-chimney |

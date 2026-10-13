@@ -4,17 +4,23 @@
 // squares go on the ground first; buildings are returned as drawables so they sort with the people standing among them.
 import { drawClip, drawSprite, hasSprite, spriteFrame } from '/art.js';
 import { drawStreets } from '/landscape-art.js';
+import { groundPattern } from '/ground-texture.js';
 import { DRAWN_HEIGHT, FEET_PER_MILE, townPoint } from '/town-layouts.js';
 
 /** Streets and public squares, under everything. `project` takes miles from the town's site point to the screen. */
 export function drawTownGround(ctx, layout, project, scale) {
   const at = point => project(townPoint(layout, point)), pixelsPerFoot = scale / FEET_PER_MILE;
+  // The painted street tile, one for the whole town (public/ground-texture.js): fifty feet of ground a tile, pinned to the
+  // town's corner so the earth stays where it lies as the map is dragged. The squares are the same trodden ground.
+  const tile = Math.max(32, pixelsPerFoot * 50), anchor = at({ x: 0, y: 0 });
+  const earth = groundPattern(ctx, 'street', tile, anchor);
   ctx.save();
   for (const square of layout.squares) {
     // A square is a block (x, y, width, height), or, where the research measured an irregular one, its corner `points`.
     const corners = square.points ? square.points.map(at) : [[0, 0], [square.width, 0], [square.width, square.height], [0, square.height]].map(([dx, dy]) => at({ x: square.x + dx, y: square.y + dy }));
     ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
     ctx.globalAlpha = .7; ctx.fillStyle = '#ccb985'; ctx.fill();
+    if (earth) { ctx.globalAlpha = .8; ctx.fillStyle = earth; ctx.fill(); }
     ctx.globalAlpha = .5; ctx.strokeStyle = '#a59063'; ctx.lineWidth = Math.max(1, pixelsPerFoot * 4); ctx.stroke();
   }
   ctx.globalAlpha = 1;
@@ -24,7 +30,7 @@ export function drawTownGround(ctx, layout, project, scale) {
     // outweighed the town standing along them.
     const points = street.points.map(at), width = Math.max(1, street.width * pixelsPerFoot * .6);
     return {points,width:street.faint?width*.6:width,faint:street.faint};
-  }));
+  }), { tile, anchor });
   ctx.restore();
 }
 

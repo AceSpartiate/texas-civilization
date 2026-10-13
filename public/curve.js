@@ -52,6 +52,21 @@ export function visibleSegments(points, width, height, pad = 0) {
   return { segments, count };
 }
 
+/**
+ * One piece of `curveThrough`'s curve, from point `i` to point `i + 1`, as its own path: the same curve, with the same
+ * neighbours, so the pieces laid one by one meet as the whole does. For a drawing that changes something between pieces - the
+ * roads' painted tile turned to run along each (public/ground-texture.js `paveWay`).
+ */
+export function curveSegment(ctx, points, i) {
+  ctx.beginPath();
+  const p0 = points[i - 1] || points[i], p1 = points[i], p2 = points[i + 1], p3 = points[i + 2] || p2;
+  ctx.moveTo(p1.x, p1.y);
+  if (points.length < 3) { ctx.lineTo(p2.x, p2.y); return; }
+  const out = pull(p1, p2, (p2.x - p0.x) / 6, (p2.y - p0.y) / 6);
+  const into = pull(p1, p2, (p3.x - p1.x) / 6, (p3.y - p1.y) / 6);
+  ctx.bezierCurveTo(p1.x + out.x, p1.y + out.y, p2.x - into.x, p2.y - into.y, p2.x, p2.y);
+}
+
 /** A control offset, held to a third of the span it belongs to. */
 function pull(from, to, dx, dy) {
   const span = Math.hypot(to.x - from.x, to.y - from.y), reach = Math.hypot(dx, dy), limit = span / 3;
