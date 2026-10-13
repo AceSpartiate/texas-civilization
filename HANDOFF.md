@@ -1,5 +1,36 @@
 # Claude handoff — Astra foundation
 
+## Trees drawn over the family now carry the day's weather — 2026-10-13 (branch `fix/trees-front-weather`, not yet released)
+
+Seen in the weather proof (`npm run test:weather`, fixed on `fix/weather-browser-proof`): at the yard zoom on the `fog` and
+`storm` days, the trees drawn again in front of the family showed as hard-edged **squares of clear, sharp woods** in the veiled,
+washed ground round them; faint on `rain`, nothing on `fair`. Cause: the ground gets the wet earth (`drawWetGround`) and the fog
+and rain-cloud veil (`drawWeatherVeil`) on the page before anybody is drawn; `treesInFront` then paints the tree again over a
+person, clipped to the figure's box (`figureBox`), with none of that weather, so the box showed. (`drawWeatherAir` is laid over
+everything last, so it was never part of the difference.)
+
+- **The fix.** The frame lays the ground's weather as one pass, `groundWeather` in `public/app.js`, on the page as before and
+  hands the same pass to `treesInFront`. `paintInFront` (`public/trees-front.js`) paints the tree into a layer of its own, lays
+  that weather on it there, cuts the layer back to the tree's own shape (`destination-in`) and only then puts it on the page,
+  so **the person under the tree is never veiled**: people are facts and stay at full strength, the tree is scenery (the rule at
+  the veil in `public/app.js` and `public/weather-art.js`). A fair day paints straight onto the page, as before. The clip box is
+  now rounded out to whole pixels. `window.__treesInFront` entries say `weathered`. A `ceiling:` in `paintInFront` names the one
+  corner cut: a half-covered pixel at a crown's rim comes out a shade fainter.
+- **Tests.** `tests/trees-front.test.mjs` 5 → 7. *The tree carries the weather and the person does not* (failed alone when
+  the weather was not laid on the tree, and alone again when it was laid on the page over the person); *the page lays the same
+  weather on both* (failed alone when the frame handed `treesInFront` no weather, the defect as found). Each injection removed.
+  `npm test`: 2443 pass, 1 fail - `tests/battle-floor.test.mjs`'s tick-pacing test, timing under load (it passed 4/4 run
+  alone, with and without this change).
+- **Browser, headless Chrome on this machine.** The fixed weather proof run with `--days fog,storm,fair`: all 11 checks pass;
+  run again with the defect put back for the before shots. [Before and after at the yard, fog and storm](docs/evidence/trees-front-weather-compare.png):
+  the squares are gone and the trees over the family match the ground round them. `npm run test:trees-front`: 3 checks pass (52
+  trees drawn again over the walker, none in the fade band). The weather and trees-front evidence it rewrote was put back.
+- **For the owner — not changed.** At the yard zoom in the timber, the trees drawn in front hide most of the family: on the
+  proof's opening, only Keziah is seen and Docia, Peter, Benjamin and Henry are names over bushes. That is the trees-in-front
+  rule doing what the owner asked (2026-10-02, 2026-10-05; `treesInFront`'s comment), and with the squares gone they now vanish
+  cleanly. Whether a family member standing in the timber should be hidden this much, or the tree drawn over them thinned
+  (as a house's near wall is), is the owner's call.
+
 ## Astra's 2026-10-09 to 10-12 art merged and wired in — 2026-10-13 (not yet released)
 
 Branch `astra-merge-1013`: her 26 commits (e1eccc71..729a114b) merged onto main 2e553d79. Her local main never takes our

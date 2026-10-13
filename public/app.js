@@ -33,7 +33,7 @@ const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
 import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesNear, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
-import { figureBox, inFront, redrawn } from '/trees-front.js';
+import { figureBox, inFront, paintInFront, redrawn } from '/trees-front.js';
 import { bindEnding, renderEnding, setEndingReader } from '/ending.js';
 import { bindFlashback, renderFlashback } from '/flashback.js';
 import { createCourtship } from '/courtship.js';
@@ -3476,6 +3476,15 @@ function treeLook(tree, figure) {
   const picture = tree.kind.pictures?.[tree.size] || (deliveredSizes ? `${tree.kind.picture}-${sizeName}` : tree.kind.picture);
   return { tree: tree.kind.own ? `${tree.kind.own}-${sizeName}` : picture, standIn: tree.kind.own ? picture : null, height };
 }
+/** The two layers a tree drawn again over somebody is weathered in (`paintInFront`), made once and kept the page's size. */
+const frontLayer = [];
+function frontLayers(width, height) {
+  for (let i = 0; i < 2; i++) {
+    frontLayer[i] ??= document.createElement('canvas');
+    if (frontLayer[i].width !== width || frontLayer[i].height !== height) { frontLayer[i].width = width; frontLayer[i].height = height; }
+  }
+  return frontLayer;
+}
 /** The ground's trees as it last drew them, by where they stand (`drawGroundDetail`): what `treesInFront` may draw again. */
 const groundTrees = new Map();
 // Presentation evidence for the proofs (scripts/trees-front-browser-proof.mjs), read by nothing in the application.
@@ -3489,9 +3498,11 @@ window.__groundTrees = groundTrees;
  * cluster as they walk"; public/trees-front.js): only a tree the ground drew, at full strength, with its lean, picked by where the
  * figure's feet were drawn (`drawnAt`, read when it is drawn: the figure stands off the server's point) and kept to the figure.
  * `people` are `{ id, point, figure }` on the screen. Only while the trees are drawn one by one; cheap, because only the tiles
- * under each person are read.
+ * under each person are read. `weather` lays on a context the weather the ground got before anybody was drawn (`groundWeather`),
+ * or is null on a fair day: the tree drawn again carries it too, or on a day of fog or storm it showed as a hard square of clear
+ * woods in the veiled ground round the figure (`paintInFront`, seen 2026-10-13).
  */
-function treesInFront(ctx, world, camera, canvas, people, standing) {
+function treesInFront(ctx, world, camera, canvas, people, standing, weather = null) {
   const shown = [];
   window.__treesInFront = shown;
   if (!woodsShown(world) || !woodsCatalogue || !people.length || !groundTrees.size) return;
@@ -3510,12 +3521,8 @@ function treesInFront(ctx, world, camera, canvas, people, standing) {
         if (!spot) return;
         const feet = { x: spot.x, y: spot.y + spot.size * 0.45 };
         if (!inFront(point, look.height, feet, spot.size)) return;
-        const box = figureBox(feet, spot.size);
-        ctx.save();
-        ctx.beginPath(); ctx.rect(box.left, box.top, box.width, box.height); ctx.clip();
-        paintTree(ctx, { tree: look.tree, standIn: look.standIn, point, height: look.height, seed: item.seed, lean: item.lean, gale: item.gale });
-        ctx.restore();
-        shown.push({ x: Math.round(point.x), y: Math.round(point.y), over: person.id, key: `${tree.x},${tree.y}` });
+        const weathered = paintInFront(ctx, figureBox(feet, spot.size), on => paintTree(on, { tree: look.tree, standIn: look.standIn, point, height: look.height, seed: item.seed, lean: item.lean, gale: item.gale }), weather, frontLayers);
+        shown.push({ x: Math.round(point.x), y: Math.round(point.y), over: person.id, key: `${tree.x},${tree.y}`, weathered });
       } });
     }
   }
@@ -4526,7 +4533,16 @@ function drawWorldNow(world) {
       } });
     }
   }
-  treesInFront(ctx, world, camera, canvas, onLand, standing);
+  // The weather the ground gets before anybody is drawn on it (below), as one pass, so the trees drawn again over somebody get
+  // exactly what the ground under them got. Read when it is laid: the fog's layer is filled further down this frame.
+  const groundWeather = weatherNow ? on => {
+    // The wet, darkened earth belongs here rather than in the kept ground: it comes up with the day, and the ground is
+    // drawn only when the day turns. A multiply, so the grass, the track and the field darken together and keep their own
+    // colours instead of being greyed out under a flat sheet, and it is over the ground image and under every figure.
+    drawWetGround(on, weatherNow, farEmphasis(camera.scale));
+    drawWeatherVeil(on, weatherNow, fogBase.shapes ? fogBase.canvas : null, world.minute, farEmphasis(camera.scale));
+  } : null;
+  treesInFront(ctx, world, camera, canvas, onLand, standing, groundWeather);
   // The Host's page and a page watching another family are as they were: nobody's row is greyed there.
   noteUnseen(host || world.watching ? new Map() : unseenNext, world);
   const margin = camera.figure * 4, shownObserved = [];
@@ -4595,13 +4611,8 @@ function drawWorldNow(world) {
   // Here, and not at the end, on purpose. Everything a student is entitled to see - a person, a house, a marker, a name -
   // is drawn after this line and at full strength, so the fog can never hide a fact. What a family knows is the server's
   // (VISION.md), and fog is scenery.
-  if (weatherNow) {
-    // The wet, darkened earth belongs here rather than in the kept ground: it comes up with the day, and the ground is
-    // drawn only when the day turns. A multiply, so the grass, the track and the field darken together and keep their own
-    // colours instead of being greyed out under a flat sheet, and it is over the ground image and under every figure.
-    drawWetGround(main, weatherNow, farEmphasis(camera.scale));
-    drawWeatherVeil(main, weatherNow, fogBase.shapes ? fogBase.canvas : null, world.minute, farEmphasis(camera.scale));
-  }
+  // The trees drawn again in front of somebody carry the same (`treesInFront`).
+  groundWeather?.(main);
   applyDrawState(main, mapBase.state);
   // The family's own route (owner, 2026-09-27: "a thin, subtle line as a path for directions that only the player can see"):
   // from the train through every stop to where it is making for, the road legs along the road and the country legs as the

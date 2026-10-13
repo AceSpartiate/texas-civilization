@@ -10,7 +10,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { CROWN_HALF, FULL_STRENGTH, figureBox, inFront, redrawn } from '../public/trees-front.js';
+import { CROWN_HALF, FULL_STRENGTH, figureBox, inFront, paintInFront, redrawn } from '../public/trees-front.js';
 
 const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 function declaration(start, end) {
@@ -29,17 +29,29 @@ const kind = { id: 'post-oak', picture: 'post-oak', sized: true, scale: 1 };
  * The page's `treesInFront`, run over `trees` (what the tiles hold near the person), with `drawn` the trees the ground drew (by
  * `x,y`) and `drawnAt` where the person's figure was drawn. Returns the trees painted again, with how each was painted.
  */
-function runTreesInFront({ trees, drawn, person, drawnAt }) {
+function runTreesInFront({ trees, drawn, person, drawnAt, weather = null }) {
   const painted = [], standing = [], window = {};
-  const ctx = { save() {}, restore() {}, beginPath() {}, rect(...box) { this.box = box; }, clip() { this.clipped = this.box; } };
-  const treesInFront = new Function('woodsShown', 'woodsCatalogue', 'groundTrees', 'treesNear', 'redrawn', 'treeLook', 'inFront', 'figureBox', 'drawnAt', 'paintTree', 'SIZE', 'window',
+  const ctx = recorder('page', layerLog);
+  const treesInFront = new Function('woodsShown', 'woodsCatalogue', 'groundTrees', 'treesNear', 'redrawn', 'treeLook', 'inFront', 'figureBox', 'paintInFront', 'frontLayers', 'drawnAt', 'paintTree', 'SIZE', 'window',
     `${declaration('function treesInFront(', '\n}\n')}\nreturn treesInFront;`,
   )(() => true, { tiles: {} }, drawn, () => trees, redrawn, tree => ({ tree: `${tree.kind.picture}-log`, standIn: null, height: camera.figure * 1.6 }), inFront, figureBox,
-    new Map(Object.entries(drawnAt)), (ctx, item) => painted.push({ ...item, clip: ctx.clipped }), { timberTree: 1.6 }, window);
-  treesInFront(ctx, {}, camera, canvas, [person], standing);
+    paintInFront, () => [layerCanvas('layer'), layerCanvas('shape')],
+    new Map(Object.entries(drawnAt)), (on, item) => painted.push({ ...item, on: on.name, clip: on.clipped }), { timberTree: 1.6 }, window);
+  treesInFront(ctx, {}, camera, canvas, [person], standing, weather);
   for (const each of standing.sort((a, b) => a.y - b.y)) each.draw();
   return { painted, shown: window.__treesInFront };
 }
+/** A context that records what is done to it, in order: enough of a 2D context for `paintInFront`. */
+function recorder(name, log = []) {
+  return {
+    name, log, canvas, globalCompositeOperation: 'source-over',
+    save() {}, restore() {}, beginPath() {}, setTransform() {}, clearRect() {},
+    rect(...box) { this.box = box; }, clip() { this.clipped = this.box; },
+    drawImage(from) { log.push(`${name}<-${from.name}:${this.globalCompositeOperation}`); },
+  };
+}
+const layerLog = [];
+const layerCanvas = name => { const context = recorder(name, layerLog); return { name, getContext: () => context }; };
 /** A person on the land: their server point, and where their figure was drawn (the middle of it, `drawnAt`, as public/app.js keeps it). */
 const person = (at, feet = at) => {
   const point = camera.toScreen(at), drawnFeet = camera.toScreen(feet);
@@ -55,9 +67,9 @@ test('a tree the ground drew in front of somebody is drawn again over them, as t
   assert.equal(painted[0].lean, 0.3, 'leaning in the wind as the ground leaned it');
   assert.equal(painted[0].seed, 99);
   assert.deepEqual(shown.map(one => one.key), [`${ahead.x},${ahead.y}`]);
-  // Kept to the figure: the clip is the figure's own box, so no tree is drawn twice beside them.
-  const box = figureBox({ x: 400, y: 300 }, camera.figure);
-  assert.deepEqual(painted[0].clip, [box.left, box.top, box.width, box.height]);
+  // Kept to the figure: the clip is the figure's own box, to the whole pixel, so no tree is drawn twice beside them.
+  const box = figureBox({ x: 400, y: 300 }, camera.figure), left = Math.floor(box.left), top = Math.floor(box.top);
+  assert.deepEqual(painted[0].clip, [left, top, Math.ceil(box.left + box.width) - left, Math.ceil(box.top + box.height) - top]);
 });
 
 test('a tree the ground left out - in cleared ground, in a river - is never drawn round somebody walking there', () => {
@@ -91,4 +103,33 @@ test('in front means nearer the viewer with the crown over the figure', () => {
   assert.equal(inFront({ x: 100, y: 90 }, 60, feet, 40), false, 'behind them');
   assert.equal(inFront({ x: 100, y: 170 }, 60, feet, 40), false, 'its crown does not reach up to them');
   assert.equal(inFront({ x: 100 + 60 * CROWN_HALF + 40 * 0.28 + 1, y: 110 }, 60, feet, 40), false, 'off to the side');
+});
+
+test('on a day of weather, the tree drawn again over somebody carries the ground\'s weather, and the person under it does not', () => {
+  // Seen 2026-10-13 in the weather proof: on the fog and storm days, the trees drawn again over the family were clear, sharp
+  // squares in the veiled ground round them, because the ground under them had the wet earth and the veil and they had none.
+  layerLog.length = 0;
+  const weathered = [];
+  const { painted, shown } = runTreesInFront({ trees: [ahead], drawn: groundOf([ahead, {}]), ...person({ x: 10, y: 10 }), weather: on => weathered.push(on.name) });
+  assert.equal(painted.length, 1);
+  assert.equal(painted[0].on, 'layer', 'painted into a layer of its own, to be weathered there');
+  assert.deepEqual(weathered, ['layer'], 'the ground\'s weather laid on the tree, and never on the page over the person');
+  assert.deepEqual(layerLog, ['shape<-layer:source-over', 'layer<-shape:destination-in', 'page<-layer:source-over'],
+    'the tree\'s shape kept before the weather, the weather cut back to it, and only then the tree laid on the page');
+  assert.equal(shown[0].weathered, true);
+  // A fair day: painted straight onto the page, kept to the figure, as before.
+  layerLog.length = 0;
+  const fair = runTreesInFront({ trees: [ahead], drawn: groundOf([ahead, {}]), ...person({ x: 10, y: 10 }) });
+  assert.equal(fair.painted[0].on, 'page');
+  assert.deepEqual(layerLog, []);
+  assert.equal(fair.shown[0].weathered, false);
+});
+
+test('the page lays the same weather on the trees drawn again as on the ground under the people', () => {
+  // One pass for both, so they cannot drift apart: the frame lays `groundWeather` on the page and hands it to `treesInFront`.
+  const frame = page.slice(page.indexOf('const groundWeather = '), page.indexOf('applyDrawState(main, mapBase.state);'));
+  assert.match(frame, /drawWetGround\(on,/);
+  assert.match(frame, /drawWeatherVeil\(on,/);
+  assert.match(frame, /treesInFront\(ctx, world, camera, canvas, onLand, standing, groundWeather\)/);
+  assert.match(frame, /groundWeather\?\.\(main\)/);
 });
