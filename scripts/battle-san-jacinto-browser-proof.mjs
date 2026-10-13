@@ -227,7 +227,7 @@ try {
   ok(`words over the speakers: ${allSaid.join(', ')}`);
   const inForce = await fighter.evaluate(id => ({ members: window.__battleView?.members, clips: window.__battleView?.memberClips, drawn: window.__drawnAt?.[id] }), personId);
   assert.ok(inForce.members?.includes(personId) && inForce.drawn, `the family's man was not drawn in the force: ${JSON.stringify(inForce)}`);
-  assert.ok(inForce.clips.some(clip => ['volunteer-fire-reload', 'volunteer-reclining', 'volunteer-injured-rest'].includes(clip)), `the family's man never fired: ${JSON.stringify(inForce.clips)}`);
+  assert.ok(inForce.clips.some(clip => ['volunteer-fire-reload', 'volunteer-reclining', 'volunteer-injured-rest'].includes(clip) || /-rig-(fire-reload|still|wounded)$/.test(clip)), `the family's man never fired: ${JSON.stringify(inForce.clips)}`);
   assert.ok(world().battles['san-jacinto'].participants[personId].fought, 'his part was not recorded as fighting');
   ok(`${person.name} is in the line and drawn doing what it does: ${inForce.clips.join(', ')}`);
   const frames = moments.map(one => one.view?.frameMs?.p95).filter(Number.isFinite);

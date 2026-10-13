@@ -28,7 +28,7 @@ try {
   const plant='.panel-row[data-principal=true] .panel-icon[data-key="plant-field"]';
   await page.waitForFunction(s=>{const b=document.querySelector(s);return b&&b.getAttribute('aria-disabled')!=='true';},plant,{timeout:60000});
   await page.locator(plant).click();
-  await page.waitForFunction(()=>window.__animation?.clips.some(c=>c.endsWith('-work')||c.endsWith('-sow')));
+  await page.waitForFunction(()=>window.__animation?.clips.some(c=>c.endsWith('-work')||c.endsWith('-sow')||c.endsWith('-rig-hoe')));
   const a=await page.locator('#world-map').evaluate(c=>c.toDataURL());
   await page.waitForTimeout(330);
   const b=await page.locator('#world-map').evaluate(c=>c.toDataURL());assert.notEqual(a,b,'working map visibly animates');
@@ -47,7 +47,8 @@ try {
   await page.screenshot({path:'test-results/art-live-phone.png'});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,JSON.stringify(await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).map(e=>({id:e.id,right:e.getBoundingClientRect().right})))));
   const catalog=await browser.newPage({viewport:{width:1440,height:1000}});capture(catalog);
-  await catalog.goto(`${url}/art-catalog.html`);await catalog.waitForFunction(()=>window.__catalog?.clips>90);
+  // The catalog loads every sheet: since the family rig (2026-10-13) that is 45 more, and the second page can take past 30 s.
+  await catalog.goto(`${url}/art-catalog.html`);await catalog.waitForFunction(()=>window.__catalog?.clips>90,null,{timeout:120000});
   assert.deepEqual(await catalog.evaluate(()=>window.__catalog.missingSheets),[]);
   await catalog.locator('#catalog-kind').selectOption('clip');await catalog.locator('#catalog-search').fill('rust-walk');
   const tile=catalog.locator('[data-clip="rust-walk"] canvas');await tile.scrollIntoViewIfNeeded();
@@ -85,7 +86,7 @@ try {
   const dark=await browser.newPage({viewport:{width:1440,height:1000}});capture(dark);
   // Either name: the page asks for the sheet's WebP (triage D14, public/art.js), the PNG where none is made.
   await dark.route(/\/atlases\/people-mounted-cast1-e\.(png|webp)/,route=>route.abort());
-  await dark.goto(`${url}/art-catalog.html`);await dark.waitForFunction(()=>window.__catalog?.clips>90);
+  await dark.goto(`${url}/art-catalog.html`);await dark.waitForFunction(()=>window.__catalog?.clips>90,null,{timeout:120000});
   const withheld=await inked(dark,'clip','rust-ride-e'),neighbour=await inked(dark,'clip','blue-girl-ride-n');
   assert.ok(withheld<deliveries['rust-ride-e']/10,`a refused sheet still drew ${withheld} pixels (against ${deliveries['rust-ride-e']})`);
   assert.ok(neighbour>2000,`refusing one sheet blanked another: blue-girl-ride-n drew ${neighbour}`);

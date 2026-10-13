@@ -189,7 +189,9 @@ try {
   const inForce = await fighter.evaluate(id => ({ members: window.__battleView?.members, clips: window.__battleView?.memberClips, drawn: window.__drawnAt?.[id], units: window.__snapshot.world.battle?.memberUnits }), volunteer);
   assert.ok(inForce.members?.includes(volunteer) && inForce.drawn, `the family's man was not drawn in the force: ${JSON.stringify(inForce)}`);
   assert.ok(['texian', 'johnson'].includes(inForce.units?.[volunteer]), `he stands in no division: ${JSON.stringify(inForce.units)}`);
-  assert.ok(inForce.clips.includes('volunteer-fire-reload'), `the family's man never fired: ${JSON.stringify(inForce.clips)}`);
+// In Astra's volunteer, or with a look chosen in her family rig in his own identity (2026-10-13).
+  const fired = clips => clips.some(clip => clip === 'volunteer-fire-reload' || /-rig-fire-reload$/.test(clip));
+  assert.ok(fired(inForce.clips), `the family's man never fired: ${JSON.stringify(inForce.clips)}`);
   const walked = app.state.world.battles['bexar-storming'].participants[volunteer];
   assert.ok(walked?.joined < app.state.world.battles['bexar-storming'].start + 600 + 120 + 1, 'he did not leave the mill with the divisions at three');
   ok(`the family's man ${volunteer} walked in from the mill at three with ${inForce.units[volunteer] === 'johnson' ? 'Johnson’s' : 'Milam’s'} division and is drawn in it, firing: ${inForce.clips.join(', ')}`);
@@ -236,9 +238,9 @@ try {
   await fighter.waitForFunction(id => (window.__battleView?.memberFalls || []).some(one => one.id === id) || window.__snapshot.world.battle?.phase === 'afternoon', volunteer, { timeout: 120000 });
   const fell = await fighter.evaluate(id => ({ falls: window.__battleView?.memberFalls, clips: window.__battleView?.memberClips, fate: window.__snapshot.world.battle?.memberFates?.[id], minute: window.__snapshot.world.minute }), volunteer);
   assert.ok(fell.falls?.some(one => one.id === volunteer && one.fate === 'wounded'), `his fall at ${staged.minute} was not drawn: ${JSON.stringify(fell)}`);
-  assert.ok(fell.clips.includes('volunteer-injured'), `he was not drawn hurt: ${fell.clips}`);
+  assert.ok(fell.clips.some(clip => clip === 'volunteer-injured' || /-rig-(wounded|fall|carry-living)$/.test(clip)), `he was not drawn hurt: ${fell.clips}`);
   evidence.fall = { staged, drawnAt: fell.minute };
-  ok(`his own wound, staged for ${staged.phase} minute ${staged.minute} ("${staged.where}"), was drawn on his family's page at its moment: ${fell.clips.filter(clip => /injured/.test(clip)).join(', ')}`);
+  ok(`his own wound, staged for ${staged.phase} minute ${staged.minute} ("${staged.where}"), was drawn on his family's page at its moment: ${fell.clips.filter(clip => /injured|wounded|-rig-fall|carry-living/.test(clip)).join(', ')}`);
   await shot(fighter, 'wounded');
 
   const yard = await episode(fighter, ['milam'], '1024 milam', { count: 3, gap: 1800 });

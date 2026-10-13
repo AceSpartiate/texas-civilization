@@ -229,7 +229,8 @@ try {
   ok(`words drawn over the speakers: ${said.join(', ')}`);
   assert.ok(fellSeen, `${man.name} was never seen to fall`);
   const clips = await inside.evaluate(() => window.__battleView?.memberClips || []);
-  assert.ok(clips.includes('volunteer-fire-reload'), `the family's man never fired from his post: ${clips}`);
+  // In Astra's volunteer, or with a look chosen in her family rig in his own identity (2026-10-13).
+  assert.ok(clips.some(clip => clip === 'volunteer-fire-reload' || /-rig-fire-reload$/.test(clip)), `the family's man never fired from his post: ${clips}`);
   assert.ok(fellSeen.drawn, 'he was not drawn when he fell');
   assert.equal(fellSeen.camera, 'battle', 'the camera left the fight when he fell');
   assert.ok(!fellSeen.journal.some(text => /killed|fell|dead/i.test(text)), `the journal knew: ${fellSeen.journal.at(-1)}`);

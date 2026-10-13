@@ -14,7 +14,9 @@ try{
   const appearance={skin:'tan',hair:'brown',clothing:'indigo'},widths=[],phases=[],border=[];
   const scratch=document.createElement('canvas');scratch.width=360;scratch.height=300;const sc=scratch.getContext('2d',{willReadFrequently:true});
   for(const [id,c]of Object.entries(clips)){
-   let t=0;const hashes=[];for(const f of c.frames){sc.clearRect(0,0,360,300);widths.push(drawClip(sc,id,180,240,65,{timeMs:t,appearance}));const data=sc.getImageData(0,0,360,300).data;let hash=2166136261,edges=0;
+   // A microtask between phases: main colours at most a few milliseconds of frames per drawing and holds the last coloured
+   // phase past that (public/art.js COLOUR_BUDGET_MS), so each phase is given its own drawing here, as a running page does.
+   let t=0;const hashes=[];for(const f of c.frames){await null;sc.clearRect(0,0,360,300);widths.push(drawClip(sc,id,180,240,65,{timeMs:t,appearance}));const data=sc.getImageData(0,0,360,300).data;let hash=2166136261,edges=0;
     for(let i=0;i<data.length;i+=4){if(data[i+3]){hash=Math.imul(hash^data[i],16777619);hash=Math.imul(hash^data[i+1],16777619);hash=Math.imul(hash^data[i+2],16777619);const p=i/4,x=p%360,y=Math.floor(p/360);if(x===0||x===359||y===0||y===299)edges++;}}
     hashes.push(hash>>>0);if(edges)border.push({clip:id,sprite:f.sprite,edges});
     sc.clearRect(0,0,360,300);widths.push(drawClip(sc,id,180,240,65,{timeMs:t,appearance,flip:true}));

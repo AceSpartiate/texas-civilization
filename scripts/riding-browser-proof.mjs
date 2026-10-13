@@ -120,8 +120,9 @@ try {
     // The fault cannot show in a hidden canvas: the map's own box, so a drawn height is a height on a screen somebody has.
     canvas: [document.querySelector('#world-map').getBoundingClientRect().width, document.querySelector('#world-map').getBoundingClientRect().height] }));
   const riderPart = horse.seated.parts.find(part => part.part === 'rider'), mount = horse.seated.parts.find(part => part.part === 'horse');
-  ok(`the person sent on the horse has the family's looks, so is drawn as them and not as the painted cast (${JSON.stringify(horse.looks)})`, Boolean(horse.looks) && horse.seated.art === null);
-  ok('sat in the saddle: their own figure cut at the hip, over the family\'s horse', Boolean(riderPart && mount) && riderPart.shown > 0 && riderPart.shown < 1 && riderPart.y < mount.y);
+  // Since 2026-10-13 a person with the family's looks rides in Astra's family rig, their own identity seated over the horse.
+  ok(`the person sent on the horse has the family's looks, so is drawn as them in her family rig, not as the painted cast (${JSON.stringify(horse.looks)}: ${horse.seated.art})`, Boolean(horse.looks) && /-rig-saddle-[esn]$/.test(horse.seated.art || ''));
+  ok('sat in the saddle: their own whole seated figure, over the family’s horse', Boolean(riderPart && mount) && riderPart.seated === true && riderPart.y < mount.y);
   ok(`drawn this tick on the canvas, the rider ${riderPart.height}px and the horse ${mount.height}px tall`, riderPart.height > 8 && mount.height > riderPart.height && horse.canvas.some(size => size > 0));
   ok('the horse is not drawn a second time walking beside them', !horse.drawn.includes('hh-1-horse'));
   ok(`and the horse under them walks: ${horse.clips.filter(clip => /^horse-/.test(clip)).join(', ') || 'none'}`, horse.clips.some(clip => /^horse-.*walk/.test(clip)));
@@ -155,8 +156,8 @@ try {
     && ['wagon', 'ox'].every(part => wagon.seated.parts.some(one => one.part === part)) && !wagon.seated.parts.some(part => part.part === 'rig'));
   ok('none of Claude\'s wagon-and-ox drawing is drawn', !wagon.clips.some(clip => /^wagon-ox-/.test(clip)));
   // `hh-1-mateo`, the founding four's son, has his looks from his parents (sim/appearance.mjs), so he too is his family's figure
-  // on the seat rather than Astra's painted driver.
-  ok(`drawn as his family's own figure on the seat, cut at the hip (${wagon.seated.art})`, wagon.seated.art === null && driver.shown > 0 && driver.shown < 1);
+  // on the seat - since 2026-10-13 in Astra's family rig, his identity seated on the box - rather than her painted driver.
+  ok(`drawn as his family's own figure on the seat, in her family rig (${wagon.seated.art})`, /-rig-saddle-[esnw]$/.test(wagon.seated.art || '') && driver.seated === true);
   ok(`drawn this tick, at ${driver.height}px on the canvas`, driver.height > 8 && wagon.canvas.some(size => size > 0));
   const box = wagon.seated.parts.find(part => part.part === 'wagon');
   ok(`sitting up on the wagon's box, not walking on the road (feet ${Math.round(box.y - driver.y)}px above the wagon's ground)`, driver.y < box.y - driver.height * 0.1);
