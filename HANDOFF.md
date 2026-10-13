@@ -1,5 +1,42 @@
 # Claude handoff — Astra foundation
 
+## Astra's final batch (2026-10-13): the family rig and battle service, merged and wired in (not yet released)
+
+Her b70bc07d onto 3542cba7 (branch `astra-merge-1013`). By her notes her dated art backlog is now empty; what remains is
+staging in gameplay. A family rig of 22 identities (every offered head, every age band): a body and a head on a painted
+neck socket, tinted by the family's looks (`public/semantic-rig.js`), 632 components, 1,912 composed sprites, 792 clips.
+
+- **Conflicts.** *public/app.js*: a person with a look rides and drives as the rig's seated layer over the mount drawn
+  apart, so on the mule too (`ready` keeps main's mule rule for the painted horse-and-rider); passengers' `'rig'` seat; in a
+  fight her rig poses first (`pose.rig`, `pose.rigMounted`), main's Claude cast pose and recoloured idle behind them while
+  the rig's sheets load. *public/art.js*: one exported `spriteReady` that also waits for a rig's head and a carried
+  person, keeping main's missing-sheet tracking (a single argument: `sprites.forEach(spriteReady)`); her semantic tint in
+  main's budgeted colouring. *public/battle-view.js*: her `familyRigBattlePose` over main's pose, the mounted shot on
+  main's musket clock. *scripts/build-atlas-manifest.mjs*: her socket and material metadata on main's measured heights.
+  *tests/riding.test.mjs, scripts/battle-gonzales-browser-proof.mjs*: both sides.
+- **Sneak-ins.** None outside the conflicts (every line differing from 3542cba7 and not in her diff was read).
+- **Found and fixed.** Rig walks slid 0.08-0.095 of a height (tests/art-measure.test.mjs C1): the aliases are now made before
+  main's ground points are measured, each by its body frame's silhouette. tests/art-library.test.mjs counted each composed
+  sprite as a cell of its own sheet (overlapping its body): it now knows an alias. Her rig proof read the same pixels for
+  every phase because main colours a few milliseconds of frames per drawing and holds the last phase past that: it gives
+  each phase its own drawing. Main's battle and riding proofs asked for `volunteer-*` and the cut-at-the-hip rider by name:
+  they now take her rig poses for a person with a look.
+- **Tests brought to the rig** (not new): avatar-identity (carrying and mending are her rig's), battle-view-south (camp
+  sleep is the rig's).
+- **Not staged in gameplay (her "Claude continuation")**: living and dead blanket transport and the led wounded rider
+  are drawn only when a scene says a person is carried (`carried`), which member fates do not send yet; the caregiver pairs
+  stay whole-figure art; wall, seat and breach occlusion, household task scenes and the drawn-back wagon cover are not wired.
+  Rear views of a house are another agent's (house-rear-tree).
+- **Cost.** `public/assets/frontier-v1/atlas.json` is 5.3 MB (was 2.7; 0.48 MB gzipped, as the server sends it); the art
+  catalog page loads 45 more sheets.
+- **Evidence.** `npm test` on the final tree: 2484 tests, 2448 pass, 0 fail, 36 skipped. Voice package and WebP rebuilt.
+  Proofs, two at a time: family-rig-art (after its phase fix), family-travel-art, battle-gonzales, battle-south,
+  battle-concepcion, battle-coleto, storming, gonzales-town, family-panel, panels, overlap, travel, travel-drawn, wagons,
+  camp, children (alone), military-notice, looks, creation and tips pass; battle-alamo, battle-bexar and riding passed
+  alone once brought to the rig; art passed alone once the catalog was given time; battle-san-jacinto and battle-grass
+  failed once in the pair run and pass alone (known flakes).
+- Not proved: Chromebook, LAN, classroom.
+
 ## Astra's 2026-10-09 to 10-12 art merged and wired in — 2026-10-13 (not yet released)
 
 Branch `astra-merge-1013`: her 26 commits (e1eccc71..729a114b) merged onto main 2e553d79. Her local main never takes our
