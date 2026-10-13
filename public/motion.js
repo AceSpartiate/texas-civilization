@@ -246,6 +246,25 @@ export const teamRiddenBy = (entity, entities = []) => (entity?.kind === 'person
  * walking in reads as eight and not one figure.
  */
 export const walksBeside = entity => entity?.kind === 'person' && (entity.travel?.mode === 'wagon' || entity.travel?.mode === 'foot') && Boolean(entity.travel.afoot);
+/**
+ * Whether a beast or a wagon standing still is drawn on its own point with no cosmetic separation (public/app.js `drawEntity`,
+ * `stableOffset`): when nothing else drawn this frame is projected within a figure's height of it on the screen (`projected`,
+ * id to the screen point each is drawn from, before any separation; `figure` in pixels). The separation exists so things at one
+ * point are not drawn inside each other; given to Juniper the ox standing alone east of the tent it carried him a figure and a
+ * half west and in front of the Weatherbys sitting out the rain, over three of them (the weather proof's yard, 2026-10-13).
+ * Decided on the points as they are drawn, not the server's: two wagons parked 0.023 miles apart were projected to the same
+ * point, and a test on the server's points (`standsApart`, taken out 2026-10-13) drew them one on the other. People keep their
+ * separation always - a family sheltering together shares one point.
+ * ceiling: the family's own page and its own beasts only (public/app.js asks only when `!marks.observed`); the Host's map and a
+ * neighbour's beasts are separated as before - extend it there if a beast is ever seen carried over the family it stands by.
+ */
+export function drawnAlone(entity, projected, figure) {
+  if (!entity || entity.kind === 'person' || entity.travel || !projected) return false;
+  const at = projected.get(entity.id);
+  if (!at || !(figure > 0)) return false;
+  for (const [id, other] of projected) if (id !== entity.id && Math.hypot(other.x - at.x, other.y - at.y) < figure) return false;
+  return true;
+}
 /** What this person is sitting on: 'horse', 'wagon', or null for anybody on their own feet. */
 export function seatOf(entity, entities = []) {
   if (entity.kind !== 'person' || entity.carrier || entity.observed) return null;
