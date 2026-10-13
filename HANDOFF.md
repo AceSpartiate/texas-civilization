@@ -121,17 +121,35 @@ everything last, so it was never part of the difference.)
 - **Tests.** `tests/trees-front.test.mjs` 5 → 7. *The tree carries the weather and the person does not* (failed alone when
   the weather was not laid on the tree, and alone again when it was laid on the page over the person); *the page lays the same
   weather on both* (failed alone when the frame handed `treesInFront` no weather, the defect as found). Each injection removed.
-  `npm test`: 2443 pass, 1 fail - `tests/battle-floor.test.mjs`'s tick-pacing test, timing under load (it passed 4/4 run
+  `npm test` (before the thinning): 2443 pass, 1 fail - `tests/battle-floor.test.mjs`'s tick-pacing test, timing under load (it passed 4/4 run
   alone, with and without this change).
 - **Browser, headless Chrome on this machine.** The fixed weather proof run with `--days fog,storm,fair`: all 11 checks pass;
   run again with the defect put back for the before shots. [Before and after at the yard, fog and storm](docs/evidence/trees-front-weather-compare.png):
   the squares are gone and the trees over the family match the ground round them. `npm run test:trees-front`: 3 checks pass (52
   trees drawn again over the walker, none in the fade band). The weather and trees-front evidence it rewrote was put back.
-- **For the owner — not changed.** At the yard zoom in the timber, the trees drawn in front hide most of the family: on the
-  proof's opening, only Keziah is seen and Docia, Peter, Benjamin and Henry are names over bushes. That is the trees-in-front
-  rule doing what the owner asked (2026-10-02, 2026-10-05; `treesInFront`'s comment), and with the squares gone they now vanish
-  cleanly. Whether a family member standing in the timber should be hidden this much, or the tree drawn over them thinned
-  (as a house's near wall is), is the owner's call.
+- **Thinned, not hidden (owner, 2026-10-13: "Thin the trees over family members instead of hiding them").** At the yard zoom in
+  the timber the trees drawn in front had hidden nearly the whole family. Now all the trees in front of one person are painted
+  together, back to front, at full strength into the layer, and the layer is laid over them once at `FRONT_STRENGTH` (0.45,
+  `public/trees-front.js`), so they are seen through the leaves and still read as behind them. Together, because thinned one
+  by one five overlapping crowns laid each other back up to nearly solid (a probe of one frame found five or more trees drawn
+  again over the same figure). It is the ground's own trees over themselves, so off the person nothing changes colour. Fair
+  days now go through the layer too. A `ceiling:` in `treesInFront` names the corner cut: the group goes down at its frontmost
+  tree's place. [Full strength against thinned, fair, fog and storm](docs/evidence/trees-front-thinned-compare.png): Keziah,
+  the ox's head and a figure in the tent's doorway now show through.
+  - *Tests* 7 → 8: *thinned, together* failed alone when the layer was laid at full strength, and alone again when each tree
+    was laid on its own; the weather tests failed alone under their own injections again after the rewrite.
+    `npm test`: 2445 pass, 1 fail - `tests/capacity.test.mjs`'s 30 households, timing under load (passes run alone).
+    Weather proof `--days fog,storm,fair` 11/11; `test:trees-front` 3/3 (its evidence put back: its count of trees drawn
+    again is sampled live and ran 8 to 52 between runs of the same code).
+  - *Still seen:* a pale rectangle where a person's box covers something standing between them and the tree (the tent, the
+    ox). It was there before as a hard cut at full strength and is softened now; laying the trees over the person's own pixels
+    (a mask of the figure, the `FULL_STRENGTH` ceiling's way out) would remove it.
+  - *Found, not fixed here:* most of those rectangles in the proof's yard sit over **people who are not drawn at all**.
+    Benjamin, Henry, Peter and Frances (task `rest`, with a `shelter`) have their names and a `__drawnAt` spot, but a probe of
+    every `drawImage` over Henry's spot in one frame found the ground and the trees and no figure. Not the trees: thinned, the
+    spots are still empty. Left as its own task.
+  - Earlier in this section I suggested thinning "as a house's near wall is": there is no such thinning in the code; that was
+    wrong.
 
 ## The houses seen from behind — 2026-10-13 (not released)
 

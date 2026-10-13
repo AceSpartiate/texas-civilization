@@ -3526,7 +3526,8 @@ window.__groundTrees = groundTrees;
  * Exactly the tree the ground drew (owner, 2026-10-05: "Characters that walk through woods sometimes bring the trees with them in a
  * cluster as they walk"; public/trees-front.js): only a tree the ground drew, at full strength, with its lean, picked by where the
  * figure's feet were drawn (`drawnAt`, read when it is drawn: the figure stands off the server's point) and kept to the figure.
- * `people` are `{ id, point, figure }` on the screen. Only while the trees are drawn one by one; cheap, because only the tiles
+ * Thinned over them, so they are seen through its leaves and never hidden by it (owner, 2026-10-13: "Thin the trees over family
+ * members instead of hiding them"; `FRONT_STRENGTH`). `people` are `{ id, point, figure }` on the screen. Only while the trees are drawn one by one; cheap, because only the tiles
  * under each person are read. `weather` lays on a context the weather the ground got before anybody was drawn (`groundWeather`),
  * or is null on a fair day: the tree drawn again carries it too, or on a day of fog or storm it showed as a hard square of clear
  * woods in the veiled ground round the figure (`paintInFront`, seen 2026-10-13).
@@ -3538,22 +3539,33 @@ function treesInFront(ctx, world, camera, canvas, people, standing, weather = nu
   // The person's separation from the others carries them a figure or two off their point (`stableOffset`, `workSlot`).
   const figure = camera.figure, reach = figure * (SIZE.timberTree * 1.2 + 2.5) / camera.scale;
   for (const person of people) {
-    const at = camera.toWorld(person.point);
+    const at = camera.toWorld(person.point), near = [];
     for (const tree of treesNear(at, reach, woodsCatalogue)) {
       const item = redrawn(groundTrees, tree);
       if (!item) continue;
       const point = camera.toScreen(tree), look = treeLook(tree, figure);
       if (point.y - look.height >= person.point.y + figure * 2.5) continue;
-      // After the person, whose feet the order of the ground puts at their point: never before them, so it can cover them.
-      standing.push({ y: Math.max(point.y, person.point.y + 0.01), draw: () => {
-        const spot = drawnAt.get(person.id);
-        if (!spot) return;
-        const feet = { x: spot.x, y: spot.y + spot.size * 0.45 };
-        if (!inFront(point, look.height, feet, spot.size)) return;
-        const weathered = paintInFront(ctx, figureBox(feet, spot.size), on => paintTree(on, { tree: look.tree, standIn: look.standIn, point, height: look.height, seed: item.seed, lean: item.lean, gale: item.gale }), weather, frontLayers);
-        shown.push({ x: Math.round(point.x), y: Math.round(point.y), over: person.id, key: `${tree.x},${tree.y}`, weathered });
-      } });
+      near.push({ tree, item, point, look });
     }
+    if (!near.length) continue;
+    // All the trees in front of one person drawn together, back to front, and thinned once: thinned one by one, five crowns
+    // over the same figure (the yard in the timber, 2026-10-13) laid back up to nearly solid. After the person, whose feet the
+    // order of the ground puts at their point, and after the frontmost tree's trunk, so the group can cover them.
+    // ceiling: the group goes down at its frontmost tree's place, so anything standing between the person and that tree is
+    // covered, thinned, inside the person's box by the trees behind it too; a group for each run of trees between two standing
+    // things is the way out if it is ever seen.
+    near.sort((a, b) => a.point.y - b.point.y);
+    standing.push({ y: Math.max(near[near.length - 1].point.y, person.point.y + 0.01), draw: () => {
+      const spot = drawnAt.get(person.id);
+      if (!spot) return;
+      const feet = { x: spot.x, y: spot.y + spot.size * 0.45 };
+      const over = near.filter(({ point, look }) => inFront(point, look.height, feet, spot.size));
+      if (!over.length) return;
+      const weathered = paintInFront(ctx, figureBox(feet, spot.size), on => {
+        for (const { item, point, look } of over) paintTree(on, { tree: look.tree, standIn: look.standIn, point, height: look.height, seed: item.seed, lean: item.lean, gale: item.gale });
+      }, weather, frontLayers);
+      for (const { tree, point } of over) shown.push({ x: Math.round(point.x), y: Math.round(point.y), over: person.id, key: `${tree.x},${tree.y}`, weathered });
+    } });
   }
 }
 /** A polyline cut in two at a distance along it, in world miles: the part before and the part after. */
