@@ -37,6 +37,7 @@ const OUT = 'docs/evidence/weather';
 const { createClassroom } = await import(new URL('../server/app.mjs', import.meta.url).href);
 const { createGonzalesWorld } = await import(new URL('../sim/gonzales.mjs', import.meta.url).href);
 const { weatherOn, REGIONS, WATER_SHUT } = await import(new URL('../sim/weather.mjs', import.meta.url).href);
+const { FADE_MINUTES } = await import(new URL('../public/weather-art.js', import.meta.url).href);
 
 // The same seed every other measure and proof uses, so this family stands on the same ground as the perf record's.
 const SEED = 'perf-render-1';
@@ -102,9 +103,26 @@ try {
   const page = await context.newPage();
   page.on('pageerror', error => record.errors.push(error.message));
   await page.goto(url + game.path);
-  await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__snapshot.world.map?.province, null, { timeout: 120000 });
+  // A solo game opens in its own lobby (owner, 2026-09-21): the family is made, the wagon packed, and Done packing is the
+  // Start. Waiting for `running` first, as this proof did until 2026-10-13, waited for a world nobody had started.
+  await page.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1', null, { timeout: 120000 });
   await meetFamily(page, 'Weatherby', { timeout: 20000 });
-  for (const id of ['#journal-close', '#wagon-done', '#tutorial-skip']) if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
+  await page.locator('#wagon-load').waitFor({ state: 'visible', timeout: 30000 });
+  await page.locator('#wagon-done').click();
+  await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__snapshot.world.map?.province, null, { timeout: 60000 });
+  for (const id of ['#journal-close', '#tutorial-skip']) if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
+  // Run until the opening day's weather has come up: it fades in over FADE_MINUTES from `since` (public/weather-art.js), and
+  // a class paused at minute 0 has the rain on the wire and none of it drawn yet (seen 2026-10-13).
+  await page.waitForFunction(fade => {
+    const world = window.__snapshot?.world, regions = Object.values(world?.weather?.regions || {});
+    return regions.length > 0 && regions.every(region => world.minute >= (region.since || 0) + fade);
+  }, FADE_MINUTES, { timeout: 120000 });
+  // Held with the player's own Pause, which is the only thing that keeps the map clear for the twenty-odd minutes the
+  // shots take: left running, the director's first call (#selection-call) came up over the map about a minute in and took
+  // every wheel turn after it, so each later view was photographed at whatever zoom the last one left (2026-10-13). The
+  // weather's motion runs on the page's own animation clock, not the world's, so the rain still falls on a paused day.
+  await page.locator('#solo-controls [data-solo="solo-pause"]').click();
+  await page.waitForFunction(() => window.__snapshot.world.status === 'paused', null, { timeout: 15000 });
   await page.waitForTimeout(4000);
   await page.waitForLoadState('networkidle').catch(() => {});
   // The field really is on the wire: read off the first snapshot the page was sent, before anything is held on it.
@@ -133,8 +151,9 @@ try {
   for (const day of DAYS) {
     if (ONLY && !ONLY.includes(day.id)) continue;
     // The simulation's own weather for that day, carried on every snapshot as it is parsed. `live` holds nothing: the
-    // page draws whatever the server sent it.
-    await holdWeather(page, day.live ? null : { day: day.weather.day, bounds: day.weather.bounds, regions: day.weather.regions }, day.live ? null : day.minute);
+    // page draws whatever the server sent it, and is not even handed `null`: that takes the weather off the snapshot in
+    // hand for the next one to bring back, and a paused game sends no next one. It is first, so nothing is held before it.
+    if (!day.live) await holdWeather(page, { day: day.weather.day, bounds: day.weather.bounds, regions: day.weather.regions }, day.minute);
     for (const view of VIEWS) {
       await goTo(view);
       // A moment of the animation, so the rain has fallen a little and the picture is a frame of a running game.
@@ -151,12 +170,14 @@ try {
         entities: (window.__viewEntities || []).length,
         houses: Object.keys(window.__housesDrawn || {}).length,
         labels: document.querySelector('#world-map')?.getAttribute('aria-label')?.length || 0,
+        // What the pointer is over at the map's centre, where the wheel turned: anything but the map took the zoom.
+        over: (() => { const box = document.querySelector('#world-map').getBoundingClientRect(); const top = document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2); return top?.id === 'world-map' ? 'map' : `${top?.tagName}#${top?.id}.${top?.className} in ${top?.closest('[id]')?.id}`; })(),
       }));
       const file = `${OUT}/weather-${day.id}-${view.id}.png`;
       const png = await page.locator('#world-map').evaluate(canvas => canvas.toDataURL('image/png').split(',')[1]);
       writeFileSync(file, Buffer.from(png, 'base64'));
       record.shots.push({ day: day.id, view: view.id, file, ...seen, png });
-      console.log(`${day.id.padEnd(12)} ${view.id.padEnd(8)} scale ${String(seen.camera?.scale).padStart(8)} | spans ${seen.weather?.spans ?? '-'} layers ${seen.weather?.layers ?? '-'} fog ${seen.weather?.fog ?? '-'} | gale ${seen.gale?.poses ?? '-'}/${seen.gale?.scattered ?? '-'} | rivers up ${seen.ground?.flooded ?? '-'}/${seen.ground?.courses ?? '-'} over their banks ${seen.ground?.over ?? '-'} | ${seen.entities} people, ${seen.houses} houses`);
+      console.log(`${day.id.padEnd(12)} ${view.id.padEnd(8)} scale ${String(seen.camera?.scale).padStart(8)} | spans ${seen.weather?.spans ?? '-'} layers ${seen.weather?.layers ?? '-'} fog ${seen.weather?.fog ?? '-'} | gale ${seen.gale?.poses ?? '-'}/${seen.gale?.scattered ?? '-'} | rivers up ${seen.ground?.flooded ?? '-'}/${seen.ground?.courses ?? '-'} over their banks ${seen.ground?.over ?? '-'} | ${seen.entities} people, ${seen.houses} houses | over ${seen.over}`);
     }
   }
 
@@ -183,6 +204,38 @@ try {
   await app.close();
 }
 for (const shot of record.shots) delete shot.png;
+
+// The pictures are looked at; these are what can be held without looking, so the proof fails a release check rather than
+// photographing a broken page and passing. It had no other way to fail, and timed out unseen from 2026-09-21 (the solo
+// lobby) to 2026-10-13. Each is the mechanical half of what the pictures show, read off the page's own drawing evidence.
+const shotsOf = id => record.shots.filter(one => one.day === id);
+const shotAt = (id, view) => record.shots.find(one => one.day === id && one.view === view);
+const NORTHERS = ['norther', 'norther-wet', 'arriving'], OVER_BANKS = ['high-water', 'shut'];
+const checks = [
+  ['the server sent the weather on the wire, three countries of it', () => Object.keys(record.served?.kinds || {}).length === 3],
+  ['no page errors', () => record.errors.length === 0, () => record.errors.join(' | ')],
+  ['every day was photographed at every zoom', () => record.shots.length === DAYS.filter(day => !ONLY || ONLY.includes(day.id)).length * VIEWS.length],
+  ['nothing but the map was under the pointer at any shot', () => record.shots.every(one => one.over === 'map'),
+    () => record.shots.filter(one => one.over !== 'map').map(one => `${one.day}/${one.view}: ${one.over}`).join(', ')],
+  ['each day the yard, the timber, the county and the country are each further out than the last', () => [...new Set(record.shots.map(one => one.day))]
+    .every(id => VIEWS.map(view => shotAt(id, view.id)?.camera?.scale).every((scale, i, all) => i === 0 || scale < all[i - 1])),
+  () => [...new Set(record.shots.map(one => one.day))].map(id => `${id} ${VIEWS.map(view => shotAt(id, view.id)?.camera?.scale).join('/')}`).join(', ')],
+  // The country view takes in all three countries, and on the fair day only the centre is fair: so the home views alone.
+  ['a fair day draws nothing in the air at home: no rain, no fog, no gale', () => shotsOf('fair').filter(one => one.view !== 'country')
+    .every(one => !one.weather?.layers && !one.weather?.fog && !one.gale?.poses)],
+  ['every other day draws something in the air at the yard', () => record.shots.filter(one => one.view === 'yard' && one.day !== 'fair')
+    .every(one => one.weather?.layers + one.weather?.fog > 0)],
+  // `live` is left out: its centre is rain and its west fair, and which the timber stands in is the seed's business.
+  ['a norther, and only a norther, takes the gale pose in the timber', () => record.shots.filter(one => one.view === 'timber' && one.day !== 'live')
+    .every(one => (one.gale?.poses > 0) === NORTHERS.includes(one.day))],
+  ['rivers go over their banks on the high-water days and on no other', () => record.shots.filter(one => one.view === 'country')
+    .every(one => (one.ground?.over > 0) === OVER_BANKS.includes(one.day))],
+  ['on the shut day every river is over its banks', () => !shotAt('shut', 'country') || shotAt('shut', 'country').ground?.over === shotAt('shut', 'country').ground?.courses],
+  ['no weather words on the page', () => record.noWeatherWords === true],
+];
+record.checks = checks.map(([name, test, detail]) => { const pass = Boolean(test()); return { name, pass, ...(!pass && detail && { detail: detail() }) }; });
 mkdirSync('docs/evidence', { recursive: true });
 if (!ONLY) writeFileSync('docs/evidence/weather-browser.json', `${JSON.stringify(record, null, 2)}\n`);
 console.log(`\nwrote ${record.shots.length} shots to ${OUT}/${record.errors.length ? `\npage errors: ${record.errors.join(' | ')}` : ''}`);
+for (const check of record.checks) console.log(`${check.pass ? 'PASS' : 'FAIL'} ${check.name}${check.detail ? ` - ${check.detail}` : ''}`);
+if (record.checks.some(check => !check.pass)) process.exitCode = 1;

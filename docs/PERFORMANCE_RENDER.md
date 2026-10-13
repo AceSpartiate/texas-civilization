@@ -408,6 +408,16 @@ computed by the simulation and put on the snapshot as it is parsed (`scripts/sup
 is the delivery, not the weather. `shut` is the one exception and says so in the record: no day of this class quite
 reaches `WATER_SHUT`, so one river is raised by hand to show what a shut ford looks like.
 
+Since 2026-10-13 it is also `npm run test:weather`, so the release sweep runs it, and it **fails** (exit 1) on what can
+be held without looking: the weather on the wire, no page errors, every shot taken with the map under the pointer, the
+four zooms each further out than the last, a fair day drawing nothing at home and every other day drawing something, the
+gale pose on a norther and on no other day, rivers over their banks on the high-water days only and all of them on
+`shut`, and no weather words. The pictures are still the proof of how it looks; these checks are what stops it passing on
+a broken page. Outside the sweep it went unrun while broken from 2026-09-21 (a solo game began opening in its lobby, and
+the proof waited for `running` before making the family) to 2026-10-13. It pauses the solo game once the opening day's
+weather has faded in (`FADE_MINUTES`), because left running the director's first call covered the map. The rain still falls on a paused day. A full run takes about
+25 minutes on this machine.
+
 ## Astra's painted gale, and what a measurement could not say — 2026-09-21
 
 The norther stopped shearing upright sprites and started drawing Astra's own gale poses where the wind is hard
