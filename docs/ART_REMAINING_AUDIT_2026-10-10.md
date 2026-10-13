@@ -1,14 +1,13 @@
 # Remaining artwork audit — 2026-10-10
 
-**3 dated parent request groups remain on the broad art backlog.** This counts explicit remaining artwork and explicitly recorded breadth/action refinements in `ART_REQUESTS.md`; it does not count sheets, delivery batches, renderer work, or gameplay integration. Several groups below are refinement/breadth rather than missing original core assets. This is therefore a broad backlog count, not a claim that all three remaining contracts are undelivered.
+**2 dated parent request groups remain on the broad art backlog.** This counts explicit remaining artwork and explicitly recorded breadth/action refinements in `ART_REQUESTS.md`; it does not count sheets, delivery batches, renderer work, or gameplay integration. Several groups below are refinement/breadth rather than missing original core assets. This is therefore a broad backlog count, not a claim that both remaining contracts are undelivered.
 
 The September 25 travel parent is artwork-complete as of October 12; cover seat/rail migration is compositor work.
 
 | # | Dated parent request | Missing artwork / explicit refinement | Evidence and limits |
 | --- | --- | --- | --- |
-| 1 | September 26 — famous people | Scene-specific named action refinements remain recorded. Milam's firing selection still uses cover/advance poses; remaining mounted action/faster-gait refinements are listed. | `ART_REQUESTS.md` famous-person request and named-roster stand-in row; `public/battle-view.js` Milam `fire` maps `milam-cover`, `milam-advance`, `milam-cover`. **Refinement-only:** roster identities and cardinal foot art delivered. Johnson north/south frames and clips exist in `scripts/art-deliveries/famous-johnson.mjs` and `atlas.json`; missing directional runtime bindings are not missing art. |
-| 2 | September 12 second — settling in | Semantic appearance masks/aligned layers, task/combat/seated refinements across offered head silhouettes. | Explicit layered-people contract. `family-appearance-2026-10-02.mjs` delivers painted complete figures with simple work/rest, not explicit skin/hair/clothes semantic layers or complete task/combat/seated sets. Houses/interiors/furnishings/tools completed. |
-| 3 | September 25 — battle pieces | Family identity firing, wounded/fallen and identity-specific transport. Generic mounted directional/full-reload art delivered October 12. | Request item 1 and transport stand-in row; `public/battle-view.js` `memberPose` uses volunteer combat art. `military-life-2026-10-03.mjs`, `fallen-transport-2026-10-04.mjs` complete generic living/dead transport, not identity-specific composites. Cannon/settler crew/flag completed. |
+| 1 | September 12 second — settling in | Semantic appearance masks/aligned layers, task/combat/seated refinements across offered head silhouettes. | Explicit layered-people contract. `family-appearance-2026-10-02.mjs` delivers painted complete figures with simple work/rest, not explicit skin/hair/clothes semantic layers or complete task/combat/seated sets. Houses/interiors/furnishings/tools completed. |
+| 2 | September 25 — battle pieces | Family identity firing, wounded/fallen and identity-specific transport. Generic mounted directional/full-reload art delivered October 12. | Request item 1 and transport stand-in row; `public/battle-view.js` `memberPose` uses volunteer combat art. `military-life-2026-10-03.mjs`, `fallen-transport-2026-10-04.mjs` complete generic living/dead transport, not identity-specific composites. Cannon/settler crew/flag completed. |
 
 ## Delivered artwork excluded from the count
 
@@ -55,3 +54,5 @@ Updated October 12: the San Jacinto refinement parent is complete: 136 usable fr
 Updated October 12: remaining Alamo art delivered: 76 frames, 21 authored clips, continuous night/dawn. North/church guns, upright staged lancers and cardinal Travis firing bind production. Parapet overlays and volunteer trot are library-ready pending wall-top occlusion / explicit gait staging. Existing scale/interiors/collapse preserved. See ART_DELIVERY_2026-10-12-ALAMO-COMPLETE.md.
 
 Updated October 12: all remaining September 25 family travel artwork delivered: 116 frames and 43 clips, eight adult passenger identities, five actual-infant carrier walks and pulled-back wagon-cover views. Passenger/carrier production bindings added; cover compositor registration remains. See ART_DELIVERY_2026-10-12-FAMILY-TRAVEL-COMPLETE.md.
+
+Updated October 12: all recorded named-roster refinements delivered: 100 frames and 32 loops for Milam firing, four relief/courier riders with cardinal trot/dispatch and healthy rest, and warranted Kimbell/Martin fall/still. Explicit urgent-gait/dispatch/death staging is runtime work. See ART_DELIVERY_2026-10-12-NAMED-REFINEMENTS-COMPLETE.md.

@@ -1,3 +1,7 @@
+## Completed art group 2026-10-12: famous-person refinements
+
+100 frames and 32 authored loops close the September 26 named-roster artwork: Milam cardinal firing, J. W. Smith/Horton/Kimbell/Martin cardinal trot and mounted dispatch, healthy halted rest, and warranted Kimbell/Martin fall/still. Milam service and halted rider rest bind production. Faster gait and dispatch require explicit projected scene flags; no new travel speed, delivery, death beat or historical outcome is inferred from assets. 41 targeted tests, all 32 browser animation checks and 15 live Béxar checks pass. Source prompts, full manifest and Claude continuation: docs/ART_DELIVERY_2026-10-12-NAMED-REFINEMENTS-COMPLETE.md. **2 broad dated art groups remain.** No deployment performed.
+
 ## Completed art group 2026-10-12: family riders, walkers and cart
 
 116 new frames and 43 authored clips complete the September 25 travel artwork: all eight adult seated passengers, five requested infant-carrying walkers, and four drawn-back wagon-cover views. Passenger and actual single-infant carrier selections bind production; whole cover vehicle is library-ready pending seat/rail/ox registration. Preserve unsupported parent heads and twin carriers rather than inventing one-infant composites. 42 targeted tests and all 43 browser animation phase checks pass. Manifest, exact selection contracts, source prompts and Claude continuation: docs/ART_DELIVERY_2026-10-12-FAMILY-TRAVEL-COMPLETE.md. **3 broad dated art groups remain.** No deployment performed.

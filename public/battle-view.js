@@ -4,6 +4,7 @@ import {createSouthernNightGrade,drawSouthernNight,mountedHeading,mountedActionC
 import {familyCampBinding} from './avatar-identity.js';
 import {figureOf as familyFigureOf} from './motion.js';
 import {createAlamoGrade,drawAlamoGrade,alamoGunName,alamoLancerClip,travisFireClip} from './alamo-battle-art.js';
+import {milamFireClip,namedMountedRefinement} from './named-refinement-art.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
 //
 // Owner, 2026-09-25: "when i try to watch a battle ... i see npc's just standing around ... the battle itself never actually
@@ -77,6 +78,8 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
  */
 export const PERSON_ART = Object.freeze({
   ...Object.fromEntries(['jw-smith', 'horton', 'kimbell', 'martin'].map(id => [id, {
+    rideTrot: `clip:${id}-mounted-trot-e`, rideDispatch: `clip:${id}-mounted-dispatch-e`,
+    ...(['kimbell','martin'].includes(id)?{fall:`${id}-fall-relief`,still:`${id}-still-relief`}:{}),
     stand: `${id}-idle`, command: `${id}-parley`, point: `${id}-point`, speak: `${id}-parley`, listen: `${id}-listen`, write: `${id}-read`, seated: `${id}-rest`, walk: `${id}-walk-e`, ride: `clip:${id}-mounted-walk-e`, rideIdle: `${id}-mounted-idle-e`, rideNorth: `clip:${id}-mounted-walk-n`, rideSouth: `clip:${id}-mounted-walk-s`,
   }])),
   smither: { stand: 'smither-idle', command: 'smither-stop', point: 'smither-dispatch', speak: 'smither-speak', listen: 'smither-listen', write: 'smither-read', seated: 'smither-rest', walk: 'smither-walk-e', ride: 'clip:smither-mounted-walk-e', rideIdle: 'smither-mounted-idle-e', rideNorth: 'clip:smither-mounted-walk-n', rideSouth: 'clip:smither-mounted-walk-s' },
@@ -1343,6 +1346,8 @@ export function createBattleView(art) {
       return clip(`${kind}-march`);
     }
     if (pose === 'ride') {
+      const refined=namedMountedRefinement(person);
+      if(refined){const painted=clip(refined.clip,time,{size:figurePx*1.35,flip:refined.flip});if(painted)return painted;}
       if (person.gallop && own?.rideGallop) return clip(own.rideGallop, time, { size: figurePx * 1.35 });
       if (person.rescue && own?.rideRescue) return sprite(own.rideRescue);
       if (person.rally && own?.rideRally) return sprite(own.rideRally);
@@ -1352,6 +1357,7 @@ export function createBattleView(art) {
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
     }
     if (pose === 'fire') {
+      if(person.art==='milam'){const painted=clip(milamFireClip(person.aimHeading,person.right),(time+hash(key)*4000)%3600,{flip:false});if(painted)return painted;}
       if(person.art==='travis'){const painted=clip(travisFireClip(person.aimHeading,person.right),(time+hash(key)*4000)%3600,{flip:false});if(painted)return painted;}
       if (Array.isArray(named)) { const t = (time + hash(key) * 4000) % 3600; return sprite(named[t < 1500 ? 0 : t < 1800 ? 1 : 2]); }
       if (named) return clip(named, time % FIRE_CLIP_MS);

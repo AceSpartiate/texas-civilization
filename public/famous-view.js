@@ -6,6 +6,7 @@
 // (public/battle-view.js `drawPerson`): a volunteer or a regular where a person has no sheet, and the library's iron field gun
 // twice for the Twin Sisters when their paired road sheet is unavailable.
 import { PERSON_ART } from '/battle-view.js';
+import {namedMountedRefinement} from '/named-refinement-art.js';
 
 /** Draws every famous person the page was sent; returns what was drawn, for the proofs (`window.__famousDrawn`). */
 export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson, time, bounds }) {
@@ -24,9 +25,12 @@ export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson
       else how = drawSprite(ctx, 'twin-sisters-halt', p.x, p.y, size * 2, { flip }) ? 'twin-sisters-halt' : null;
       if (!how) for (const dx of [-0.45, 0.45]) if (drawSprite(ctx, 'cannon-iron-e', p.x + dx * size, p.y, size * 1.2)) how = 'cannon-iron-e';
     } else if (one.doing === 'ride') {
-      const riding = own?.ride?.startsWith('clip:') ? own.ride.slice(5) : null;
-      if (!one.moving && own?.rideIdle) how = drawSprite(ctx, own.rideIdle, p.x, p.y, size * 1.3, { flip }) ? own.rideIdle : null;
-      if (!how && riding) how = animated(ctx, riding, p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip }) ? riding : null;
+      const refined=namedMountedRefinement(one);
+      if(refined)how=animated(ctx,refined.clip,p.x,p.y,size*1.3,`famous:${one.id}`,{timeMs:time,flip:refined.flip})?refined.clip:null;
+      const directed=(one.heading==='north'?own?.rideNorth:one.heading==='south'?own?.rideSouth:null)||own?.ride;
+      const riding = directed?.startsWith('clip:') ? directed.slice(5) : null;
+      if (!how && !one.moving && !one.heading && own?.rideIdle) how = drawSprite(ctx, own.rideIdle, p.x, p.y, size * 1.3, { flip }) ? own.rideIdle : null;
+      if (!how && riding) how = animated(ctx, riding, p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip:one.heading==='north'||one.heading==='south'?false:flip,paused:!one.moving }) ? riding : null;
       if (!how) how = animated(ctx, kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e', p.x, p.y, size * 1.3, `famous:${one.id}`, { timeMs: time, flip }) ? 'ride' : null;
     } else if (one.moving && own?.walk) how = animated(ctx, own.walk, p.x, p.y, size, `famous:${one.id}`, { timeMs: time, flip }) ? own.walk : null;
     else {

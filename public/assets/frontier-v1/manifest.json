@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 391,
-    "sprites": 3706,
-    "clips": 1278,
-    "poseCycles": 957,
+    "sheets": 401,
+    "sprites": 3806,
+    "clips": 1310,
+    "poseCycles": 989,
     "rigs": 4
   },
   "entrypoints": {
@@ -24124,6 +24124,880 @@
               [
                 656,
                 1247
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-jw-smith-trot": {
+      "image": "atlases/named-jw-smith-trot.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1324080,
+      "sha256": "764edae2b4844865f2e8299eb30e1d748f8932c57dad6ea95451842c3d795d12",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.649794,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              13,
+              341
+            ],
+            "columns": [
+              [
+                10,
+                359
+              ],
+              [
+                371,
+                719
+              ],
+              [
+                736,
+                1084
+              ],
+              [
+                1097,
+                1442
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              354,
+              701
+            ],
+            "columns": [
+              [
+                92,
+                274
+              ],
+              [
+                456,
+                632
+              ],
+              [
+                817,
+                994
+              ],
+              [
+                1179,
+                1356
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              711,
+              1066
+            ],
+            "columns": [
+              [
+                92,
+                270
+              ],
+              [
+                455,
+                631
+              ],
+              [
+                818,
+                994
+              ],
+              [
+                1180,
+                1356
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-jw-smith-mounted-dispatch": {
+      "image": "atlases/named-jw-smith-mounted-dispatch.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1404634,
+      "sha256": "c3a60acd80f4371504227a41d23ada8bd8ecb41e9b93aff13ce1cc54e0e6aa6c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.613347,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              15,
+              437
+            ],
+            "columns": [
+              [
+                43,
+                447
+              ],
+              [
+                467,
+                882
+              ],
+              [
+                1005,
+                1198
+              ],
+              [
+                1449,
+                1641
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              441,
+              869
+            ],
+            "columns": [
+              [
+                107,
+                366
+              ],
+              [
+                552,
+                763
+              ],
+              [
+                893,
+                1331
+              ],
+              [
+                1342,
+                1763
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-horton-trot": {
+      "image": "atlases/named-horton-trot.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2102594,
+      "sha256": "43059392fcea3b9ba789d7f8a705a667efa722b03ce981bb87208c1de35b2cd7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.684537,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              15,
+              335
+            ],
+            "columns": [
+              [
+                37,
+                396
+              ],
+              [
+                420,
+                764
+              ],
+              [
+                782,
+                1145
+              ],
+              [
+                1168,
+                1507
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              343,
+              676
+            ],
+            "columns": [
+              [
+                121,
+                283
+              ],
+              [
+                505,
+                664
+              ],
+              [
+                876,
+                1035
+              ],
+              [
+                1261,
+                1422
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              682,
+              1004
+            ],
+            "columns": [
+              [
+                129,
+                289
+              ],
+              [
+                507,
+                664
+              ],
+              [
+                885,
+                1045
+              ],
+              [
+                1265,
+                1420
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-horton-mounted-dispatch": {
+      "image": "atlases/named-horton-mounted-dispatch.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1526613,
+      "sha256": "74f266de7dc9c1e66e2c188fbd3d6354f488d4b78fe9814acf9f6b904fdc691b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.604945,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              8,
+              438
+            ],
+            "columns": [
+              [
+                22,
+                447
+              ],
+              [
+                467,
+                883
+              ],
+              [
+                1019,
+                1224
+              ],
+              [
+                1453,
+                1662
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              446,
+              871
+            ],
+            "columns": [
+              [
+                89,
+                352
+              ],
+              [
+                535,
+                757
+              ],
+              [
+                911,
+                1330
+              ],
+              [
+                1348,
+                1768
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-kimbell-trot": {
+      "image": "atlases/named-kimbell-trot.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1374233,
+      "sha256": "7dabe09bd7ed190ce01d1d62040e1dc9c354beeb9e3db539e32a0128826cac66",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.671423,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              26,
+              332
+            ],
+            "columns": [
+              [
+                20,
+                362
+              ],
+              [
+                384,
+                719
+              ],
+              [
+                741,
+                1078
+              ],
+              [
+                1113,
+                1432
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              372,
+              702
+            ],
+            "columns": [
+              [
+                109,
+                274
+              ],
+              [
+                476,
+                637
+              ],
+              [
+                817,
+                989
+              ],
+              [
+                1177,
+                1342
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              727,
+              1058
+            ],
+            "columns": [
+              [
+                111,
+                270
+              ],
+              [
+                473,
+                635
+              ],
+              [
+                829,
+                997
+              ],
+              [
+                1196,
+                1357
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-kimbell-mounted-dispatch": {
+      "image": "atlases/named-kimbell-mounted-dispatch.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1436147,
+      "sha256": "4dc0ce1a53a1246cb37e42cc6cb0805cf5f35c86a10160f78765c73ff71bb98b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.633107,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              440
+            ],
+            "columns": [
+              [
+                34,
+                433
+              ],
+              [
+                480,
+                874
+              ],
+              [
+                1011,
+                1212
+              ],
+              [
+                1453,
+                1654
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              447,
+              876
+            ],
+            "columns": [
+              [
+                124,
+                361
+              ],
+              [
+                562,
+                763
+              ],
+              [
+                916,
+                1317
+              ],
+              [
+                1361,
+                1761
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-martin-trot": {
+      "image": "atlases/named-martin-trot.png",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 1544575,
+      "sha256": "0bb8b716d525ce29ec703ad37619bb0b1504905fd7cec32ca8ceade28421f4e2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.639204,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              18,
+              343
+            ],
+            "columns": [
+              [
+                13,
+                370
+              ],
+              [
+                370,
+                726
+              ],
+              [
+                729,
+                1087
+              ],
+              [
+                1090,
+                1436
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              354,
+              713
+            ],
+            "columns": [
+              [
+                86,
+                290
+              ],
+              [
+                439,
+                638
+              ],
+              [
+                798,
+                999
+              ],
+              [
+                1144,
+                1347
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              719,
+              1063
+            ],
+            "columns": [
+              [
+                98,
+                284
+              ],
+              [
+                456,
+                638
+              ],
+              [
+                812,
+                994
+              ],
+              [
+                1172,
+                1351
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-martin-mounted-dispatch": {
+      "image": "atlases/named-martin-mounted-dispatch.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 884204,
+      "sha256": "71d4fb2a997616ab1bb034f7f8cb871893a712b8108277e904213c774046dab2",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.797074,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              88,
+              397
+            ],
+            "columns": [
+              [
+                113,
+                436
+              ],
+              [
+                560,
+                866
+              ],
+              [
+                1054,
+                1202
+              ],
+              [
+                1450,
+                1597
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              499,
+              800
+            ],
+            "columns": [
+              [
+                173,
+                340
+              ],
+              [
+                618,
+                758
+              ],
+              [
+                953,
+                1284
+              ],
+              [
+                1380,
+                1697
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-milam-fire-service": {
+      "image": "atlases/named-milam-fire-service.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 934347,
+      "sha256": "e7aef798468f04c32dbd347e577c716b2c84a9c064fc911d08579a34718bc04c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.786648,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              76,
+              308
+            ],
+            "columns": [
+              [
+                79,
+                289
+              ],
+              [
+                415,
+                598
+              ],
+              [
+                728,
+                870
+              ],
+              [
+                1037,
+                1176
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              369,
+              603
+            ],
+            "columns": [
+              [
+                65,
+                258
+              ],
+              [
+                388,
+                570
+              ],
+              [
+                731,
+                887
+              ],
+              [
+                1037,
+                1190
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              663,
+              898
+            ],
+            "columns": [
+              [
+                101,
+                246
+              ],
+              [
+                435,
+                589
+              ],
+              [
+                742,
+                891
+              ],
+              [
+                1038,
+                1179
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              952,
+              1181
+            ],
+            "columns": [
+              [
+                102,
+                282
+              ],
+              [
+                424,
+                585
+              ],
+              [
+                724,
+                879
+              ],
+              [
+                1032,
+                1184
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "named-relief-fates": {
+      "image": "atlases/named-relief-fates.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1038660,
+      "sha256": "60ab0f28c7835577292e56ef18a161f104c89d6bc7d86a152fab949e56eb33cc",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.729797,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              218,
+              631
+            ],
+            "columns": [
+              [
+                29,
+                580
+              ],
+              [
+                606,
+                1252
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              721,
+              1155
+            ],
+            "columns": [
+              [
+                52,
+                594
+              ],
+              [
+                621,
+                1251
               ]
             ]
           }
@@ -122567,6 +123441,3498 @@
       "locationKits": [],
       "promptId": "frontier-v1/steamboat-laden"
     },
+    "jw-smith-mounted-trot-e-1": {
+      "sheet": "named-jw-smith-trot",
+      "x": 10,
+      "y": 14,
+      "w": 349,
+      "h": 326,
+      "anchorX": 0.5244,
+      "anchorY": 0.9571,
+      "logicalHeight": 328,
+      "label": "jw smith mounted trot e 1",
+      "kind": "named-jw-smith-trot",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          12,
+          16,
+          345,
+          322
+        ],
+        "visiblePixels": 51968,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-e-2": {
+      "sheet": "named-jw-smith-trot",
+      "x": 371,
+      "y": 13,
+      "w": 348,
+      "h": 328,
+      "anchorX": 0.4799,
+      "anchorY": 0.9756,
+      "logicalHeight": 328,
+      "label": "jw smith mounted trot e 2",
+      "kind": "named-jw-smith-trot",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          373,
+          15,
+          344,
+          324
+        ],
+        "visiblePixels": 49426,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-e-3": {
+      "sheet": "named-jw-smith-trot",
+      "x": 736,
+      "y": 14,
+      "w": 348,
+      "h": 326,
+      "anchorX": 0.5043,
+      "anchorY": 0.9294,
+      "logicalHeight": 328,
+      "label": "jw smith mounted trot e 3",
+      "kind": "named-jw-smith-trot",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          738,
+          16,
+          344,
+          322
+        ],
+        "visiblePixels": 50350,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-e-4": {
+      "sheet": "named-jw-smith-trot",
+      "x": 1097,
+      "y": 14,
+      "w": 345,
+      "h": 326,
+      "anchorX": 0.5188,
+      "anchorY": 0.9294,
+      "logicalHeight": 328,
+      "label": "jw smith mounted trot e 4",
+      "kind": "named-jw-smith-trot",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1099,
+          16,
+          341,
+          322
+        ],
+        "visiblePixels": 46888,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-s-1": {
+      "sheet": "named-jw-smith-trot",
+      "x": 92,
+      "y": 354,
+      "w": 182,
+      "h": 347,
+      "anchorX": 0.489,
+      "anchorY": 0.9654,
+      "logicalHeight": 347,
+      "label": "jw smith mounted trot s 1",
+      "kind": "named-jw-smith-trot",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          94,
+          356,
+          178,
+          343
+        ],
+        "visiblePixels": 32661,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-s-2": {
+      "sheet": "named-jw-smith-trot",
+      "x": 456,
+      "y": 354,
+      "w": 176,
+      "h": 346,
+      "anchorX": 0.517,
+      "anchorY": 0.9277,
+      "logicalHeight": 347,
+      "label": "jw smith mounted trot s 2",
+      "kind": "named-jw-smith-trot",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          458,
+          356,
+          172,
+          342
+        ],
+        "visiblePixels": 32518,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-s-3": {
+      "sheet": "named-jw-smith-trot",
+      "x": 817,
+      "y": 354,
+      "w": 177,
+      "h": 347,
+      "anchorX": 0.4972,
+      "anchorY": 0.928,
+      "logicalHeight": 347,
+      "label": "jw smith mounted trot s 3",
+      "kind": "named-jw-smith-trot",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          819,
+          356,
+          173,
+          343
+        ],
+        "visiblePixels": 32177,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-s-4": {
+      "sheet": "named-jw-smith-trot",
+      "x": 1179,
+      "y": 355,
+      "w": 177,
+      "h": 341,
+      "anchorX": 0.4802,
+      "anchorY": 0.9296,
+      "logicalHeight": 347,
+      "label": "jw smith mounted trot s 4",
+      "kind": "named-jw-smith-trot",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1181,
+          357,
+          173,
+          337
+        ],
+        "visiblePixels": 31712,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-n-1": {
+      "sheet": "named-jw-smith-trot",
+      "x": 92,
+      "y": 711,
+      "w": 178,
+      "h": 355,
+      "anchorX": 0.4972,
+      "anchorY": 0.938,
+      "logicalHeight": 355,
+      "label": "jw smith mounted trot n 1",
+      "kind": "named-jw-smith-trot",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          94,
+          713,
+          174,
+          351
+        ],
+        "visiblePixels": 32107,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-n-2": {
+      "sheet": "named-jw-smith-trot",
+      "x": 455,
+      "y": 711,
+      "w": 176,
+      "h": 353,
+      "anchorX": 0.4943,
+      "anchorY": 0.9348,
+      "logicalHeight": 355,
+      "label": "jw smith mounted trot n 2",
+      "kind": "named-jw-smith-trot",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          457,
+          713,
+          172,
+          349
+        ],
+        "visiblePixels": 32635,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-n-3": {
+      "sheet": "named-jw-smith-trot",
+      "x": 818,
+      "y": 711,
+      "w": 176,
+      "h": 350,
+      "anchorX": 0.483,
+      "anchorY": 0.9343,
+      "logicalHeight": 355,
+      "label": "jw smith mounted trot n 3",
+      "kind": "named-jw-smith-trot",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          820,
+          713,
+          172,
+          346
+        ],
+        "visiblePixels": 31876,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-trot-n-4": {
+      "sheet": "named-jw-smith-trot",
+      "x": 1180,
+      "y": 711,
+      "w": 176,
+      "h": 351,
+      "anchorX": 0.4943,
+      "anchorY": 0.9288,
+      "logicalHeight": 355,
+      "label": "jw smith mounted trot n 4",
+      "kind": "named-jw-smith-trot",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1182,
+          713,
+          172,
+          347
+        ],
+        "visiblePixels": 32067,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-trot"
+    },
+    "jw-smith-mounted-dispatch-e-1": {
+      "sheet": "named-jw-smith-mounted-dispatch",
+      "x": 43,
+      "y": 15,
+      "w": 404,
+      "h": 414,
+      "anchorX": 0.4641,
+      "anchorY": 0.9614,
+      "logicalHeight": 414,
+      "label": "jw smith mounted dispatch e 1",
+      "kind": "named-jw-smith-mounted-dispatch",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          45,
+          17,
+          400,
+          410
+        ],
+        "visiblePixels": 81746,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-dispatch-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-mounted-dispatch"
+    },
+    "jw-smith-mounted-dispatch-e-2": {
+      "sheet": "named-jw-smith-mounted-dispatch",
+      "x": 467,
+      "y": 15,
+      "w": 415,
+      "h": 414,
+      "anchorX": 0.4711,
+      "anchorY": 0.9614,
+      "logicalHeight": 414,
+      "label": "jw smith mounted dispatch e 2",
+      "kind": "named-jw-smith-mounted-dispatch",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          469,
+          17,
+          411,
+          410
+        ],
+        "visiblePixels": 81346,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-dispatch-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-mounted-dispatch"
+    },
+    "jw-smith-mounted-dispatch-s-1": {
+      "sheet": "named-jw-smith-mounted-dispatch",
+      "x": 1005,
+      "y": 15,
+      "w": 193,
+      "h": 422,
+      "anchorX": 0.5052,
+      "anchorY": 0.9597,
+      "logicalHeight": 422,
+      "label": "jw smith mounted dispatch s 1",
+      "kind": "named-jw-smith-mounted-dispatch",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1007,
+          17,
+          189,
+          418
+        ],
+        "visiblePixels": 45361,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-dispatch-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-mounted-dispatch"
+    },
+    "jw-smith-mounted-dispatch-s-2": {
+      "sheet": "named-jw-smith-mounted-dispatch",
+      "x": 1449,
+      "y": 15,
+      "w": 192,
+      "h": 422,
+      "anchorX": 0.5026,
+      "anchorY": 0.9573,
+      "logicalHeight": 422,
+      "label": "jw smith mounted dispatch s 2",
+      "kind": "named-jw-smith-mounted-dispatch",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1451,
+          17,
+          188,
+          418
+        ],
+        "visiblePixels": 46066,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-dispatch-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-mounted-dispatch"
+    },
+    "jw-smith-mounted-dispatch-n-1": {
+      "sheet": "named-jw-smith-mounted-dispatch",
+      "x": 107,
+      "y": 441,
+      "w": 259,
+      "h": 428,
+      "anchorX": 0.4112,
+      "anchorY": 0.9626,
+      "logicalHeight": 428,
+      "label": "jw smith mounted dispatch n 1",
+      "kind": "named-jw-smith-mounted-dispatch",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          109,
+          443,
+          255,
+          424
+        ],
+        "visiblePixels": 52214,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-dispatch-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-mounted-dispatch"
+    },
+    "jw-smith-mounted-dispatch-n-2": {
+      "sheet": "named-jw-smith-mounted-dispatch",
+      "x": 552,
+      "y": 443,
+      "w": 211,
+      "h": 426,
+      "anchorX": 0.5,
+      "anchorY": 0.9624,
+      "logicalHeight": 428,
+      "label": "jw smith mounted dispatch n 2",
+      "kind": "named-jw-smith-mounted-dispatch",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          554,
+          445,
+          207,
+          422
+        ],
+        "visiblePixels": 50829,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-dispatch-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-mounted-dispatch"
+    },
+    "jw-smith-mounted-rest-e-1": {
+      "sheet": "named-jw-smith-mounted-dispatch",
+      "x": 893,
+      "y": 447,
+      "w": 438,
+      "h": 414,
+      "anchorX": 0.4509,
+      "anchorY": 0.9614,
+      "logicalHeight": 414,
+      "label": "jw smith mounted rest e 1",
+      "kind": "named-jw-smith-mounted-dispatch",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          895,
+          449,
+          434,
+          410
+        ],
+        "visiblePixels": 84818,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-mounted-dispatch"
+    },
+    "jw-smith-mounted-rest-e-2": {
+      "sheet": "named-jw-smith-mounted-dispatch",
+      "x": 1342,
+      "y": 447,
+      "w": 421,
+      "h": 414,
+      "anchorX": 0.4774,
+      "anchorY": 0.9565,
+      "logicalHeight": 414,
+      "label": "jw smith mounted rest e 2",
+      "kind": "named-jw-smith-mounted-dispatch",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1344,
+          449,
+          417,
+          410
+        ],
+        "visiblePixels": 82659,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-jw-smith-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "jw-smith-mounted-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-jw-smith-mounted-dispatch"
+    },
+    "horton-mounted-trot-e-1": {
+      "sheet": "named-horton-trot",
+      "x": 37,
+      "y": 15,
+      "w": 359,
+      "h": 319,
+      "anchorX": 0.5056,
+      "anchorY": 0.9279,
+      "logicalHeight": 320,
+      "label": "horton mounted trot e 1",
+      "kind": "named-horton-trot",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          39,
+          17,
+          355,
+          315
+        ],
+        "visiblePixels": 50910,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-e-2": {
+      "sheet": "named-horton-trot",
+      "x": 420,
+      "y": 15,
+      "w": 344,
+      "h": 320,
+      "anchorX": 0.5073,
+      "anchorY": 0.9281,
+      "logicalHeight": 320,
+      "label": "horton mounted trot e 2",
+      "kind": "named-horton-trot",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          422,
+          17,
+          340,
+          316
+        ],
+        "visiblePixels": 48456,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-e-3": {
+      "sheet": "named-horton-trot",
+      "x": 782,
+      "y": 15,
+      "w": 363,
+      "h": 319,
+      "anchorX": 0.4573,
+      "anchorY": 0.9279,
+      "logicalHeight": 320,
+      "label": "horton mounted trot e 3",
+      "kind": "named-horton-trot",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          784,
+          17,
+          359,
+          315
+        ],
+        "visiblePixels": 50809,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-e-4": {
+      "sheet": "named-horton-trot",
+      "x": 1168,
+      "y": 15,
+      "w": 339,
+      "h": 319,
+      "anchorX": 0.4823,
+      "anchorY": 0.9404,
+      "logicalHeight": 320,
+      "label": "horton mounted trot e 4",
+      "kind": "named-horton-trot",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1170,
+          17,
+          335,
+          315
+        ],
+        "visiblePixels": 46825,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-s-1": {
+      "sheet": "named-horton-trot",
+      "x": 121,
+      "y": 343,
+      "w": 162,
+      "h": 333,
+      "anchorX": 0.3272,
+      "anchorY": 0.967,
+      "logicalHeight": 333,
+      "label": "horton mounted trot s 1",
+      "kind": "named-horton-trot",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          123,
+          345,
+          158,
+          329
+        ],
+        "visiblePixels": 28479,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-s-2": {
+      "sheet": "named-horton-trot",
+      "x": 505,
+      "y": 348,
+      "w": 159,
+      "h": 327,
+      "anchorX": 0.4969,
+      "anchorY": 0.9725,
+      "logicalHeight": 333,
+      "label": "horton mounted trot s 2",
+      "kind": "named-horton-trot",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          507,
+          350,
+          155,
+          323
+        ],
+        "visiblePixels": 29532,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-s-3": {
+      "sheet": "named-horton-trot",
+      "x": 876,
+      "y": 343,
+      "w": 159,
+      "h": 333,
+      "anchorX": 0.3774,
+      "anchorY": 0.976,
+      "logicalHeight": 333,
+      "label": "horton mounted trot s 3",
+      "kind": "named-horton-trot",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          878,
+          345,
+          155,
+          329
+        ],
+        "visiblePixels": 28479,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-s-4": {
+      "sheet": "named-horton-trot",
+      "x": 1261,
+      "y": 345,
+      "w": 161,
+      "h": 331,
+      "anchorX": 0.4441,
+      "anchorY": 0.9335,
+      "logicalHeight": 333,
+      "label": "horton mounted trot s 4",
+      "kind": "named-horton-trot",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1263,
+          347,
+          157,
+          327
+        ],
+        "visiblePixels": 30153,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-n-1": {
+      "sheet": "named-horton-trot",
+      "x": 129,
+      "y": 682,
+      "w": 160,
+      "h": 321,
+      "anchorX": 0.5313,
+      "anchorY": 0.9283,
+      "logicalHeight": 321,
+      "label": "horton mounted trot n 1",
+      "kind": "named-horton-trot",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          131,
+          684,
+          156,
+          317
+        ],
+        "visiblePixels": 27372,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-n-2": {
+      "sheet": "named-horton-trot",
+      "x": 507,
+      "y": 683,
+      "w": 157,
+      "h": 316,
+      "anchorX": 0.4904,
+      "anchorY": 0.9652,
+      "logicalHeight": 321,
+      "label": "horton mounted trot n 2",
+      "kind": "named-horton-trot",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          509,
+          685,
+          153,
+          312
+        ],
+        "visiblePixels": 26380,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-n-3": {
+      "sheet": "named-horton-trot",
+      "x": 885,
+      "y": 682,
+      "w": 160,
+      "h": 321,
+      "anchorX": 0.3875,
+      "anchorY": 0.9751,
+      "logicalHeight": 321,
+      "label": "horton mounted trot n 3",
+      "kind": "named-horton-trot",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          887,
+          684,
+          156,
+          317
+        ],
+        "visiblePixels": 27442,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-trot-n-4": {
+      "sheet": "named-horton-trot",
+      "x": 1265,
+      "y": 683,
+      "w": 155,
+      "h": 321,
+      "anchorX": 0.471,
+      "anchorY": 0.9315,
+      "logicalHeight": 321,
+      "label": "horton mounted trot n 4",
+      "kind": "named-horton-trot",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1267,
+          685,
+          151,
+          317
+        ],
+        "visiblePixels": 26703,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-trot"
+    },
+    "horton-mounted-dispatch-e-1": {
+      "sheet": "named-horton-mounted-dispatch",
+      "x": 22,
+      "y": 10,
+      "w": 425,
+      "h": 427,
+      "anchorX": 0.4471,
+      "anchorY": 0.9555,
+      "logicalHeight": 427,
+      "label": "horton mounted dispatch e 1",
+      "kind": "named-horton-mounted-dispatch",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          24,
+          12,
+          421,
+          423
+        ],
+        "visiblePixels": 88228,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-dispatch-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-mounted-dispatch"
+    },
+    "horton-mounted-dispatch-e-2": {
+      "sheet": "named-horton-mounted-dispatch",
+      "x": 467,
+      "y": 11,
+      "w": 416,
+      "h": 426,
+      "anchorX": 0.4483,
+      "anchorY": 0.9601,
+      "logicalHeight": 427,
+      "label": "horton mounted dispatch e 2",
+      "kind": "named-horton-mounted-dispatch",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          469,
+          13,
+          412,
+          422
+        ],
+        "visiblePixels": 85338,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-dispatch-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-mounted-dispatch"
+    },
+    "horton-mounted-dispatch-s-1": {
+      "sheet": "named-horton-mounted-dispatch",
+      "x": 1019,
+      "y": 8,
+      "w": 205,
+      "h": 430,
+      "anchorX": 0.4927,
+      "anchorY": 0.9279,
+      "logicalHeight": 430,
+      "label": "horton mounted dispatch s 1",
+      "kind": "named-horton-mounted-dispatch",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1021,
+          10,
+          201,
+          426
+        ],
+        "visiblePixels": 49623,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-dispatch-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-mounted-dispatch"
+    },
+    "horton-mounted-dispatch-s-2": {
+      "sheet": "named-horton-mounted-dispatch",
+      "x": 1453,
+      "y": 8,
+      "w": 209,
+      "h": 430,
+      "anchorX": 0.5024,
+      "anchorY": 0.9279,
+      "logicalHeight": 430,
+      "label": "horton mounted dispatch s 2",
+      "kind": "named-horton-mounted-dispatch",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1455,
+          10,
+          205,
+          426
+        ],
+        "visiblePixels": 49303,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-dispatch-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-mounted-dispatch"
+    },
+    "horton-mounted-dispatch-n-1": {
+      "sheet": "named-horton-mounted-dispatch",
+      "x": 89,
+      "y": 446,
+      "w": 263,
+      "h": 424,
+      "anchorX": 0.4202,
+      "anchorY": 0.9292,
+      "logicalHeight": 425,
+      "label": "horton mounted dispatch n 1",
+      "kind": "named-horton-mounted-dispatch",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          91,
+          448,
+          259,
+          420
+        ],
+        "visiblePixels": 52751,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-dispatch-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-mounted-dispatch"
+    },
+    "horton-mounted-dispatch-n-2": {
+      "sheet": "named-horton-mounted-dispatch",
+      "x": 535,
+      "y": 446,
+      "w": 222,
+      "h": 425,
+      "anchorX": 0.4977,
+      "anchorY": 0.9718,
+      "logicalHeight": 425,
+      "label": "horton mounted dispatch n 2",
+      "kind": "named-horton-mounted-dispatch",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          537,
+          448,
+          218,
+          421
+        ],
+        "visiblePixels": 52417,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-dispatch-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-mounted-dispatch"
+    },
+    "horton-mounted-rest-e-1": {
+      "sheet": "named-horton-mounted-dispatch",
+      "x": 911,
+      "y": 446,
+      "w": 419,
+      "h": 420,
+      "anchorX": 0.4391,
+      "anchorY": 0.9667,
+      "logicalHeight": 420,
+      "label": "horton mounted rest e 1",
+      "kind": "named-horton-mounted-dispatch",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          913,
+          448,
+          415,
+          416
+        ],
+        "visiblePixels": 84827,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-mounted-dispatch"
+    },
+    "horton-mounted-rest-e-2": {
+      "sheet": "named-horton-mounted-dispatch",
+      "x": 1348,
+      "y": 446,
+      "w": 420,
+      "h": 419,
+      "anchorX": 0.4476,
+      "anchorY": 0.9594,
+      "logicalHeight": 420,
+      "label": "horton mounted rest e 2",
+      "kind": "named-horton-mounted-dispatch",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1350,
+          448,
+          416,
+          415
+        ],
+        "visiblePixels": 85816,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-horton-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "horton-mounted-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-horton-mounted-dispatch"
+    },
+    "kimbell-mounted-trot-e-1": {
+      "sheet": "named-kimbell-trot",
+      "x": 20,
+      "y": 26,
+      "w": 342,
+      "h": 306,
+      "anchorX": 0.5322,
+      "anchorY": 0.951,
+      "logicalHeight": 306,
+      "label": "kimbell mounted trot e 1",
+      "kind": "named-kimbell-trot",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          28,
+          338,
+          302
+        ],
+        "visiblePixels": 46989,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-e-2": {
+      "sheet": "named-kimbell-trot",
+      "x": 384,
+      "y": 28,
+      "w": 335,
+      "h": 304,
+      "anchorX": 0.4701,
+      "anchorY": 0.9671,
+      "logicalHeight": 306,
+      "label": "kimbell mounted trot e 2",
+      "kind": "named-kimbell-trot",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          386,
+          30,
+          331,
+          300
+        ],
+        "visiblePixels": 44026,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-e-3": {
+      "sheet": "named-kimbell-trot",
+      "x": 741,
+      "y": 28,
+      "w": 337,
+      "h": 304,
+      "anchorX": 0.5401,
+      "anchorY": 0.9507,
+      "logicalHeight": 306,
+      "label": "kimbell mounted trot e 3",
+      "kind": "named-kimbell-trot",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          743,
+          30,
+          333,
+          300
+        ],
+        "visiblePixels": 46449,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-e-4": {
+      "sheet": "named-kimbell-trot",
+      "x": 1113,
+      "y": 28,
+      "w": 319,
+      "h": 304,
+      "anchorX": 0.5266,
+      "anchorY": 0.9638,
+      "logicalHeight": 306,
+      "label": "kimbell mounted trot e 4",
+      "kind": "named-kimbell-trot",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1115,
+          30,
+          315,
+          300
+        ],
+        "visiblePixels": 42990,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-s-1": {
+      "sheet": "named-kimbell-trot",
+      "x": 109,
+      "y": 372,
+      "w": 165,
+      "h": 330,
+      "anchorX": 0.5091,
+      "anchorY": 0.9273,
+      "logicalHeight": 330,
+      "label": "kimbell mounted trot s 1",
+      "kind": "named-kimbell-trot",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          111,
+          374,
+          161,
+          326
+        ],
+        "visiblePixels": 29202,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-s-2": {
+      "sheet": "named-kimbell-trot",
+      "x": 476,
+      "y": 372,
+      "w": 161,
+      "h": 330,
+      "anchorX": 0.4752,
+      "anchorY": 0.9273,
+      "logicalHeight": 330,
+      "label": "kimbell mounted trot s 2",
+      "kind": "named-kimbell-trot",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          478,
+          374,
+          157,
+          326
+        ],
+        "visiblePixels": 28390,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-s-3": {
+      "sheet": "named-kimbell-trot",
+      "x": 817,
+      "y": 373,
+      "w": 172,
+      "h": 329,
+      "anchorX": 0.4855,
+      "anchorY": 0.9271,
+      "logicalHeight": 330,
+      "label": "kimbell mounted trot s 3",
+      "kind": "named-kimbell-trot",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          819,
+          375,
+          168,
+          325
+        ],
+        "visiblePixels": 29630,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-s-4": {
+      "sheet": "named-kimbell-trot",
+      "x": 1177,
+      "y": 373,
+      "w": 165,
+      "h": 329,
+      "anchorX": 0.5424,
+      "anchorY": 0.9271,
+      "logicalHeight": 330,
+      "label": "kimbell mounted trot s 4",
+      "kind": "named-kimbell-trot",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1179,
+          375,
+          161,
+          325
+        ],
+        "visiblePixels": 28653,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-n-1": {
+      "sheet": "named-kimbell-trot",
+      "x": 111,
+      "y": 727,
+      "w": 159,
+      "h": 331,
+      "anchorX": 0.4748,
+      "anchorY": 0.9275,
+      "logicalHeight": 331,
+      "label": "kimbell mounted trot n 1",
+      "kind": "named-kimbell-trot",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          113,
+          729,
+          155,
+          327
+        ],
+        "visiblePixels": 28794,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-n-2": {
+      "sheet": "named-kimbell-trot",
+      "x": 473,
+      "y": 727,
+      "w": 162,
+      "h": 329,
+      "anchorX": 0.4969,
+      "anchorY": 0.9362,
+      "logicalHeight": 331,
+      "label": "kimbell mounted trot n 2",
+      "kind": "named-kimbell-trot",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          475,
+          729,
+          158,
+          325
+        ],
+        "visiblePixels": 28593,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-n-3": {
+      "sheet": "named-kimbell-trot",
+      "x": 829,
+      "y": 727,
+      "w": 168,
+      "h": 330,
+      "anchorX": 0.5327,
+      "anchorY": 0.9273,
+      "logicalHeight": 331,
+      "label": "kimbell mounted trot n 3",
+      "kind": "named-kimbell-trot",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          831,
+          729,
+          164,
+          326
+        ],
+        "visiblePixels": 29079,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-trot-n-4": {
+      "sheet": "named-kimbell-trot",
+      "x": 1196,
+      "y": 727,
+      "w": 161,
+      "h": 329,
+      "anchorX": 0.5093,
+      "anchorY": 0.9422,
+      "logicalHeight": 331,
+      "label": "kimbell mounted trot n 4",
+      "kind": "named-kimbell-trot",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1198,
+          729,
+          157,
+          325
+        ],
+        "visiblePixels": 29161,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-trot"
+    },
+    "kimbell-mounted-dispatch-e-1": {
+      "sheet": "named-kimbell-mounted-dispatch",
+      "x": 34,
+      "y": 10,
+      "w": 399,
+      "h": 423,
+      "anchorX": 0.4536,
+      "anchorY": 0.9598,
+      "logicalHeight": 423,
+      "label": "kimbell mounted dispatch e 1",
+      "kind": "named-kimbell-mounted-dispatch",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          36,
+          12,
+          395,
+          419
+        ],
+        "visiblePixels": 77319,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-dispatch-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-mounted-dispatch"
+    },
+    "kimbell-mounted-dispatch-e-2": {
+      "sheet": "named-kimbell-mounted-dispatch",
+      "x": 480,
+      "y": 11,
+      "w": 394,
+      "h": 422,
+      "anchorX": 0.4492,
+      "anchorY": 0.955,
+      "logicalHeight": 423,
+      "label": "kimbell mounted dispatch e 2",
+      "kind": "named-kimbell-mounted-dispatch",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          482,
+          13,
+          390,
+          418
+        ],
+        "visiblePixels": 75364,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-dispatch-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-mounted-dispatch"
+    },
+    "kimbell-mounted-dispatch-s-1": {
+      "sheet": "named-kimbell-mounted-dispatch",
+      "x": 1011,
+      "y": 11,
+      "w": 201,
+      "h": 429,
+      "anchorX": 0.5199,
+      "anchorY": 0.9441,
+      "logicalHeight": 429,
+      "label": "kimbell mounted dispatch s 1",
+      "kind": "named-kimbell-mounted-dispatch",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1013,
+          13,
+          197,
+          425
+        ],
+        "visiblePixels": 48545,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-dispatch-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-mounted-dispatch"
+    },
+    "kimbell-mounted-dispatch-s-2": {
+      "sheet": "named-kimbell-mounted-dispatch",
+      "x": 1453,
+      "y": 11,
+      "w": 201,
+      "h": 429,
+      "anchorX": 0.5174,
+      "anchorY": 0.9417,
+      "logicalHeight": 429,
+      "label": "kimbell mounted dispatch s 2",
+      "kind": "named-kimbell-mounted-dispatch",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1455,
+          13,
+          197,
+          425
+        ],
+        "visiblePixels": 48704,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-dispatch-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-mounted-dispatch"
+    },
+    "kimbell-mounted-dispatch-n-1": {
+      "sheet": "named-kimbell-mounted-dispatch",
+      "x": 124,
+      "y": 447,
+      "w": 237,
+      "h": 429,
+      "anchorX": 0.4156,
+      "anchorY": 0.9394,
+      "logicalHeight": 429,
+      "label": "kimbell mounted dispatch n 1",
+      "kind": "named-kimbell-mounted-dispatch",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          126,
+          449,
+          233,
+          425
+        ],
+        "visiblePixels": 49634,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-dispatch-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-mounted-dispatch"
+    },
+    "kimbell-mounted-dispatch-n-2": {
+      "sheet": "named-kimbell-mounted-dispatch",
+      "x": 562,
+      "y": 450,
+      "w": 201,
+      "h": 426,
+      "anchorX": 0.5249,
+      "anchorY": 0.9789,
+      "logicalHeight": 429,
+      "label": "kimbell mounted dispatch n 2",
+      "kind": "named-kimbell-mounted-dispatch",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          564,
+          452,
+          197,
+          422
+        ],
+        "visiblePixels": 47923,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-dispatch-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-mounted-dispatch"
+    },
+    "kimbell-mounted-rest-e-1": {
+      "sheet": "named-kimbell-mounted-dispatch",
+      "x": 916,
+      "y": 454,
+      "w": 401,
+      "h": 415,
+      "anchorX": 0.4726,
+      "anchorY": 0.959,
+      "logicalHeight": 415,
+      "label": "kimbell mounted rest e 1",
+      "kind": "named-kimbell-mounted-dispatch",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          918,
+          456,
+          397,
+          411
+        ],
+        "visiblePixels": 75695,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-mounted-dispatch"
+    },
+    "kimbell-mounted-rest-e-2": {
+      "sheet": "named-kimbell-mounted-dispatch",
+      "x": 1361,
+      "y": 454,
+      "w": 400,
+      "h": 414,
+      "anchorX": 0.4637,
+      "anchorY": 0.9638,
+      "logicalHeight": 415,
+      "label": "kimbell mounted rest e 2",
+      "kind": "named-kimbell-mounted-dispatch",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1363,
+          456,
+          396,
+          410
+        ],
+        "visiblePixels": 75074,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-kimbell-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "kimbell-mounted-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-kimbell-mounted-dispatch"
+    },
+    "martin-mounted-trot-e-1": {
+      "sheet": "named-martin-trot",
+      "x": 13,
+      "y": 18,
+      "w": 357,
+      "h": 322,
+      "anchorX": 0.5406,
+      "anchorY": 0.9596,
+      "logicalHeight": 325,
+      "label": "martin mounted trot e 1",
+      "kind": "named-martin-trot",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          15,
+          20,
+          355,
+          318
+        ],
+        "visiblePixels": 51294,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-e-2": {
+      "sheet": "named-martin-trot",
+      "x": 370,
+      "y": 18,
+      "w": 356,
+      "h": 325,
+      "anchorX": 0.4256,
+      "anchorY": 0.9662,
+      "logicalHeight": 325,
+      "label": "martin mounted trot e 2",
+      "kind": "named-martin-trot",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          371,
+          20,
+          353,
+          321
+        ],
+        "visiblePixels": 51333,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-e-3": {
+      "sheet": "named-martin-trot",
+      "x": 729,
+      "y": 18,
+      "w": 358,
+      "h": 324,
+      "anchorX": 0.5251,
+      "anchorY": 0.963,
+      "logicalHeight": 325,
+      "label": "martin mounted trot e 3",
+      "kind": "named-martin-trot",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          731,
+          20,
+          354,
+          320
+        ],
+        "visiblePixels": 50881,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-e-4": {
+      "sheet": "named-martin-trot",
+      "x": 1090,
+      "y": 18,
+      "w": 346,
+      "h": 324,
+      "anchorX": 0.4191,
+      "anchorY": 0.963,
+      "logicalHeight": 325,
+      "label": "martin mounted trot e 4",
+      "kind": "named-martin-trot",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1092,
+          20,
+          342,
+          320
+        ],
+        "visiblePixels": 50216,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-s-1": {
+      "sheet": "named-martin-trot",
+      "x": 86,
+      "y": 354,
+      "w": 204,
+      "h": 359,
+      "anchorX": 0.5049,
+      "anchorY": 0.9276,
+      "logicalHeight": 359,
+      "label": "martin mounted trot s 1",
+      "kind": "named-martin-trot",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          88,
+          356,
+          200,
+          355
+        ],
+        "visiblePixels": 36883,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-s-2": {
+      "sheet": "named-martin-trot",
+      "x": 439,
+      "y": 358,
+      "w": 199,
+      "h": 354,
+      "anchorX": 0.5226,
+      "anchorY": 0.9294,
+      "logicalHeight": 359,
+      "label": "martin mounted trot s 2",
+      "kind": "named-martin-trot",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          441,
+          360,
+          195,
+          350
+        ],
+        "visiblePixels": 37455,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-s-3": {
+      "sheet": "named-martin-trot",
+      "x": 798,
+      "y": 360,
+      "w": 201,
+      "h": 352,
+      "anchorX": 0.4677,
+      "anchorY": 0.9659,
+      "logicalHeight": 359,
+      "label": "martin mounted trot s 3",
+      "kind": "named-martin-trot",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          800,
+          362,
+          197,
+          348
+        ],
+        "visiblePixels": 35153,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-s-4": {
+      "sheet": "named-martin-trot",
+      "x": 1144,
+      "y": 361,
+      "w": 203,
+      "h": 350,
+      "anchorX": 0.5764,
+      "anchorY": 0.9286,
+      "logicalHeight": 359,
+      "label": "martin mounted trot s 4",
+      "kind": "named-martin-trot",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1146,
+          363,
+          199,
+          346
+        ],
+        "visiblePixels": 35879,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-n-1": {
+      "sheet": "named-martin-trot",
+      "x": 98,
+      "y": 719,
+      "w": 186,
+      "h": 344,
+      "anchorX": 0.5538,
+      "anchorY": 0.9709,
+      "logicalHeight": 344,
+      "label": "martin mounted trot n 1",
+      "kind": "named-martin-trot",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          100,
+          721,
+          182,
+          340
+        ],
+        "visiblePixels": 30478,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-n-2": {
+      "sheet": "named-martin-trot",
+      "x": 456,
+      "y": 720,
+      "w": 182,
+      "h": 341,
+      "anchorX": 0.4588,
+      "anchorY": 0.9355,
+      "logicalHeight": 344,
+      "label": "martin mounted trot n 2",
+      "kind": "named-martin-trot",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          458,
+          722,
+          178,
+          337
+        ],
+        "visiblePixels": 30995,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-n-3": {
+      "sheet": "named-martin-trot",
+      "x": 812,
+      "y": 720,
+      "w": 182,
+      "h": 342,
+      "anchorX": 0.5549,
+      "anchorY": 0.9678,
+      "logicalHeight": 344,
+      "label": "martin mounted trot n 3",
+      "kind": "named-martin-trot",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          814,
+          722,
+          178,
+          338
+        ],
+        "visiblePixels": 30505,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-trot-n-4": {
+      "sheet": "named-martin-trot",
+      "x": 1172,
+      "y": 720,
+      "w": 179,
+      "h": 342,
+      "anchorX": 0.3966,
+      "anchorY": 0.9678,
+      "logicalHeight": 344,
+      "label": "martin mounted trot n 4",
+      "kind": "named-martin-trot",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1174,
+          722,
+          175,
+          338
+        ],
+        "visiblePixels": 30649,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-trot.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-trot-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-trot"
+    },
+    "martin-mounted-dispatch-e-1": {
+      "sheet": "named-martin-mounted-dispatch",
+      "x": 113,
+      "y": 92,
+      "w": 323,
+      "h": 300,
+      "anchorX": 0.4675,
+      "anchorY": 0.96,
+      "logicalHeight": 301,
+      "label": "martin mounted dispatch e 1",
+      "kind": "named-martin-mounted-dispatch",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          115,
+          94,
+          319,
+          296
+        ],
+        "visiblePixels": 44771,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-dispatch-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-mounted-dispatch"
+    },
+    "martin-mounted-dispatch-e-2": {
+      "sheet": "named-martin-mounted-dispatch",
+      "x": 560,
+      "y": 91,
+      "w": 306,
+      "h": 301,
+      "anchorX": 0.4739,
+      "anchorY": 0.9601,
+      "logicalHeight": 301,
+      "label": "martin mounted dispatch e 2",
+      "kind": "named-martin-mounted-dispatch",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          562,
+          93,
+          302,
+          297
+        ],
+        "visiblePixels": 42090,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-dispatch-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-mounted-dispatch"
+    },
+    "martin-mounted-dispatch-s-1": {
+      "sheet": "named-martin-mounted-dispatch",
+      "x": 1054,
+      "y": 90,
+      "w": 148,
+      "h": 307,
+      "anchorX": 0.5,
+      "anchorY": 0.9316,
+      "logicalHeight": 309,
+      "label": "martin mounted dispatch s 1",
+      "kind": "named-martin-mounted-dispatch",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          1056,
+          92,
+          144,
+          303
+        ],
+        "visiblePixels": 26223,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-dispatch-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-mounted-dispatch"
+    },
+    "martin-mounted-dispatch-s-2": {
+      "sheet": "named-martin-mounted-dispatch",
+      "x": 1450,
+      "y": 88,
+      "w": 147,
+      "h": 309,
+      "anchorX": 0.5,
+      "anchorY": 0.932,
+      "logicalHeight": 309,
+      "label": "martin mounted dispatch s 2",
+      "kind": "named-martin-mounted-dispatch",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1452,
+          90,
+          143,
+          305
+        ],
+        "visiblePixels": 26438,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-dispatch-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-mounted-dispatch"
+    },
+    "martin-mounted-dispatch-n-1": {
+      "sheet": "named-martin-mounted-dispatch",
+      "x": 173,
+      "y": 499,
+      "w": 167,
+      "h": 301,
+      "anchorX": 0.4371,
+      "anchorY": 0.9668,
+      "logicalHeight": 301,
+      "label": "martin mounted dispatch n 1",
+      "kind": "named-martin-mounted-dispatch",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          175,
+          501,
+          163,
+          297
+        ],
+        "visiblePixels": 26160,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-dispatch-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-mounted-dispatch"
+    },
+    "martin-mounted-dispatch-n-2": {
+      "sheet": "named-martin-mounted-dispatch",
+      "x": 618,
+      "y": 499,
+      "w": 140,
+      "h": 300,
+      "anchorX": 0.5071,
+      "anchorY": 0.9667,
+      "logicalHeight": 301,
+      "label": "martin mounted dispatch n 2",
+      "kind": "named-martin-mounted-dispatch",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          620,
+          501,
+          136,
+          296
+        ],
+        "visiblePixels": 25054,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-dispatch-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-mounted-dispatch"
+    },
+    "martin-mounted-rest-e-1": {
+      "sheet": "named-martin-mounted-dispatch",
+      "x": 953,
+      "y": 501,
+      "w": 331,
+      "h": 299,
+      "anchorX": 0.4698,
+      "anchorY": 0.9565,
+      "logicalHeight": 299,
+      "label": "martin mounted rest e 1",
+      "kind": "named-martin-mounted-dispatch",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          955,
+          503,
+          327,
+          295
+        ],
+        "visiblePixels": 44162,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-mounted-dispatch"
+    },
+    "martin-mounted-rest-e-2": {
+      "sheet": "named-martin-mounted-dispatch",
+      "x": 1380,
+      "y": 501,
+      "w": 317,
+      "h": 299,
+      "anchorX": 0.4716,
+      "anchorY": 0.9465,
+      "logicalHeight": 299,
+      "label": "martin mounted rest e 2",
+      "kind": "named-martin-mounted-dispatch",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1382,
+          503,
+          313,
+          295
+        ],
+        "visiblePixels": 43325,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-martin-mounted-dispatch.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "martin-mounted-rest-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-martin-mounted-dispatch"
+    },
+    "milam-service-e-aim": {
+      "sheet": "named-milam-fire-service",
+      "x": 79,
+      "y": 98,
+      "w": 210,
+      "h": 208,
+      "anchorX": 0.3452,
+      "anchorY": 0.9327,
+      "logicalHeight": 209,
+      "label": "milam service e aim",
+      "kind": "named-milam-fire-service",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          100,
+          206,
+          204
+        ],
+        "visiblePixels": 16816,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-e-fire": {
+      "sheet": "named-milam-fire-service",
+      "x": 415,
+      "y": 100,
+      "w": 183,
+      "h": 206,
+      "anchorX": 0.3989,
+      "anchorY": 0.932,
+      "logicalHeight": 209,
+      "label": "milam service e fire",
+      "kind": "named-milam-fire-service",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          417,
+          102,
+          179,
+          202
+        ],
+        "visiblePixels": 16801,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-e-load": {
+      "sheet": "named-milam-fire-service",
+      "x": 728,
+      "y": 83,
+      "w": 142,
+      "h": 225,
+      "anchorX": 0.4894,
+      "anchorY": 0.9378,
+      "logicalHeight": 209,
+      "label": "milam service e load",
+      "kind": "named-milam-fire-service",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          730,
+          85,
+          138,
+          221
+        ],
+        "visiblePixels": 14750,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-e-ramrod": {
+      "sheet": "named-milam-fire-service",
+      "x": 1037,
+      "y": 76,
+      "w": 139,
+      "h": 231,
+      "anchorX": 0.4964,
+      "anchorY": 0.9437,
+      "logicalHeight": 209,
+      "label": "milam service e ramrod",
+      "kind": "named-milam-fire-service",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1039,
+          78,
+          135,
+          227
+        ],
+        "visiblePixels": 17008,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-w-aim": {
+      "sheet": "named-milam-fire-service",
+      "x": 65,
+      "y": 393,
+      "w": 193,
+      "h": 209,
+      "anchorX": 0.601,
+      "anchorY": 0.933,
+      "logicalHeight": 209,
+      "label": "milam service w aim",
+      "kind": "named-milam-fire-service",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          67,
+          395,
+          189,
+          205
+        ],
+        "visiblePixels": 17098,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-w-fire": {
+      "sheet": "named-milam-fire-service",
+      "x": 388,
+      "y": 392,
+      "w": 182,
+      "h": 210,
+      "anchorX": 0.5659,
+      "anchorY": 0.9381,
+      "logicalHeight": 209,
+      "label": "milam service w fire",
+      "kind": "named-milam-fire-service",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          394,
+          178,
+          206
+        ],
+        "visiblePixels": 16714,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-w-load": {
+      "sheet": "named-milam-fire-service",
+      "x": 731,
+      "y": 375,
+      "w": 156,
+      "h": 228,
+      "anchorX": 0.4968,
+      "anchorY": 0.9386,
+      "logicalHeight": 209,
+      "label": "milam service w load",
+      "kind": "named-milam-fire-service",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          733,
+          377,
+          152,
+          224
+        ],
+        "visiblePixels": 16340,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-w-ramrod": {
+      "sheet": "named-milam-fire-service",
+      "x": 1037,
+      "y": 369,
+      "w": 153,
+      "h": 234,
+      "anchorX": 0.5,
+      "anchorY": 0.9444,
+      "logicalHeight": 209,
+      "label": "milam service w ramrod",
+      "kind": "named-milam-fire-service",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1039,
+          371,
+          149,
+          230
+        ],
+        "visiblePixels": 18725,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-w"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-s-aim": {
+      "sheet": "named-milam-fire-service",
+      "x": 101,
+      "y": 692,
+      "w": 145,
+      "h": 204,
+      "anchorX": 0.4931,
+      "anchorY": 0.9412,
+      "logicalHeight": 209,
+      "label": "milam service s aim",
+      "kind": "named-milam-fire-service",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          103,
+          694,
+          141,
+          200
+        ],
+        "visiblePixels": 16086,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-s-fire": {
+      "sheet": "named-milam-fire-service",
+      "x": 435,
+      "y": 692,
+      "w": 154,
+      "h": 204,
+      "anchorX": 0.4708,
+      "anchorY": 0.9461,
+      "logicalHeight": 209,
+      "label": "milam service s fire",
+      "kind": "named-milam-fire-service",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          437,
+          694,
+          150,
+          200
+        ],
+        "visiblePixels": 16216,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-s-load": {
+      "sheet": "named-milam-fire-service",
+      "x": 742,
+      "y": 670,
+      "w": 149,
+      "h": 228,
+      "anchorX": 0.4966,
+      "anchorY": 0.9474,
+      "logicalHeight": 209,
+      "label": "milam service s load",
+      "kind": "named-milam-fire-service",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          744,
+          672,
+          145,
+          224
+        ],
+        "visiblePixels": 16915,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-s-ramrod": {
+      "sheet": "named-milam-fire-service",
+      "x": 1038,
+      "y": 663,
+      "w": 141,
+      "h": 234,
+      "anchorX": 0.4965,
+      "anchorY": 0.9444,
+      "logicalHeight": 209,
+      "label": "milam service s ramrod",
+      "kind": "named-milam-fire-service",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1040,
+          665,
+          137,
+          230
+        ],
+        "visiblePixels": 17045,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-n-aim": {
+      "sheet": "named-milam-fire-service",
+      "x": 102,
+      "y": 974,
+      "w": 180,
+      "h": 206,
+      "anchorX": 0.4306,
+      "anchorY": 0.9369,
+      "logicalHeight": 209,
+      "label": "milam service n aim",
+      "kind": "named-milam-fire-service",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          104,
+          976,
+          176,
+          202
+        ],
+        "visiblePixels": 16862,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-n-fire": {
+      "sheet": "named-milam-fire-service",
+      "x": 424,
+      "y": 971,
+      "w": 161,
+      "h": 209,
+      "anchorX": 0.4907,
+      "anchorY": 0.9426,
+      "logicalHeight": 209,
+      "label": "milam service n fire",
+      "kind": "named-milam-fire-service",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          973,
+          157,
+          205
+        ],
+        "visiblePixels": 17190,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-n-load": {
+      "sheet": "named-milam-fire-service",
+      "x": 724,
+      "y": 961,
+      "w": 155,
+      "h": 219,
+      "anchorX": 0.4968,
+      "anchorY": 0.9452,
+      "logicalHeight": 209,
+      "label": "milam service n load",
+      "kind": "named-milam-fire-service",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          726,
+          963,
+          151,
+          215
+        ],
+        "visiblePixels": 16446,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "milam-service-n-ramrod": {
+      "sheet": "named-milam-fire-service",
+      "x": 1032,
+      "y": 952,
+      "w": 152,
+      "h": 229,
+      "anchorX": 0.4967,
+      "anchorY": 0.952,
+      "logicalHeight": 209,
+      "label": "milam service n ramrod",
+      "kind": "named-milam-fire-service",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1034,
+          954,
+          148,
+          225
+        ],
+        "visiblePixels": 16622,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-milam-fire-service.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "milam-fire-service-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-milam-fire-service"
+    },
+    "kimbell-fall-relief": {
+      "sheet": "named-relief-fates",
+      "x": 29,
+      "y": 218,
+      "w": 551,
+      "h": 413,
+      "anchorX": 0.304,
+      "anchorY": 0.9346,
+      "logicalHeight": 413,
+      "label": "kimbell fall relief",
+      "kind": "named-relief-fates",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          220,
+          547,
+          409
+        ],
+        "visiblePixels": 103939,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-relief-fates.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-relief-fates"
+    },
+    "kimbell-still-relief": {
+      "sheet": "named-relief-fates",
+      "x": 606,
+      "y": 363,
+      "w": 646,
+      "h": 227,
+      "anchorX": 0.3847,
+      "anchorY": 0.9295,
+      "logicalHeight": 413,
+      "label": "kimbell still relief",
+      "kind": "named-relief-fates",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          608,
+          365,
+          642,
+          223
+        ],
+        "visiblePixels": 89697,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-relief-fates.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-relief-fates"
+    },
+    "martin-fall-relief": {
+      "sheet": "named-relief-fates",
+      "x": 52,
+      "y": 721,
+      "w": 542,
+      "h": 434,
+      "anchorX": 0.2934,
+      "anchorY": 0.9286,
+      "logicalHeight": 434,
+      "label": "martin fall relief",
+      "kind": "named-relief-fates",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          723,
+          538,
+          430
+        ],
+        "visiblePixels": 107276,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-relief-fates.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-relief-fates"
+    },
+    "martin-still-relief": {
+      "sheet": "named-relief-fates",
+      "x": 621,
+      "y": 877,
+      "w": 630,
+      "h": 241,
+      "anchorX": 0.3937,
+      "anchorY": 0.9295,
+      "logicalHeight": 434,
+      "label": "martin still relief",
+      "kind": "named-relief-fates",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          623,
+          879,
+          626,
+          237
+        ],
+        "visiblePixels": 90272,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/named-relief-fates.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/named-relief-fates"
+    },
     "cottonwood-gale-1": {
       "sheet": "nature-gales",
       "x": 373,
@@ -176302,6 +180668,614 @@
       "motion": "rock",
       "direction": "east; west by mirroring"
     },
+    "jw-smith-mounted-trot-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-trot-s": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-trot-n": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-dispatch-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-dispatch-e-1",
+          "duration": 900
+        },
+        {
+          "sprite": "jw-smith-mounted-dispatch-e-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-dispatch-s": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-dispatch-s-1",
+          "duration": 900
+        },
+        {
+          "sprite": "jw-smith-mounted-dispatch-s-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-dispatch-n": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-dispatch-n-1",
+          "duration": 900
+        },
+        {
+          "sprite": "jw-smith-mounted-dispatch-n-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-rest-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-rest-e-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "jw-smith-mounted-rest-e-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-trot-e": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-trot-s": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-trot-n": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-dispatch-e": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-dispatch-e-1",
+          "duration": 900
+        },
+        {
+          "sprite": "horton-mounted-dispatch-e-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-dispatch-s": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-dispatch-s-1",
+          "duration": 900
+        },
+        {
+          "sprite": "horton-mounted-dispatch-s-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-dispatch-n": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-dispatch-n-1",
+          "duration": 900
+        },
+        {
+          "sprite": "horton-mounted-dispatch-n-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-rest-e": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-rest-e-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "horton-mounted-rest-e-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-trot-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-trot-s": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-trot-n": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-dispatch-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-dispatch-e-1",
+          "duration": 900
+        },
+        {
+          "sprite": "kimbell-mounted-dispatch-e-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-dispatch-s": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-dispatch-s-1",
+          "duration": 900
+        },
+        {
+          "sprite": "kimbell-mounted-dispatch-s-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-dispatch-n": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-dispatch-n-1",
+          "duration": 900
+        },
+        {
+          "sprite": "kimbell-mounted-dispatch-n-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-rest-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-rest-e-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "kimbell-mounted-rest-e-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-trot-e": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-trot-s": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-trot-n": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-dispatch-e": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-dispatch-e-1",
+          "duration": 900
+        },
+        {
+          "sprite": "martin-mounted-dispatch-e-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-dispatch-s": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-dispatch-s-1",
+          "duration": 900
+        },
+        {
+          "sprite": "martin-mounted-dispatch-s-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-dispatch-n": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-dispatch-n-1",
+          "duration": 900
+        },
+        {
+          "sprite": "martin-mounted-dispatch-n-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-rest-e": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-rest-e-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "martin-mounted-rest-e-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "milam-fire-service-e": {
+      "frames": [
+        {
+          "sprite": "milam-service-e-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "milam-service-e-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "milam-service-e-load",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-service-e-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "milam-fire-service-w": {
+      "frames": [
+        {
+          "sprite": "milam-service-w-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "milam-service-w-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "milam-service-w-load",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-service-w-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "milam-fire-service-s": {
+      "frames": [
+        {
+          "sprite": "milam-service-s-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "milam-service-s-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "milam-service-s-load",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-service-s-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "milam-fire-service-n": {
+      "frames": [
+        {
+          "sprite": "milam-service-n-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "milam-service-n-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "milam-service-n-load",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-service-n-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
     "cottonwood-gale": {
       "loop": true,
       "authored": true,
@@ -188895,7 +193869,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 391,
+    "sourceCount": 401,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"

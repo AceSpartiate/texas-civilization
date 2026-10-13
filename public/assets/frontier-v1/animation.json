@@ -14672,6 +14672,614 @@
       "motion": "rock",
       "direction": "east; west by mirroring"
     },
+    "jw-smith-mounted-trot-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-trot-s": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-trot-n": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "jw-smith-mounted-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-dispatch-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-dispatch-e-1",
+          "duration": 900
+        },
+        {
+          "sprite": "jw-smith-mounted-dispatch-e-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-dispatch-s": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-dispatch-s-1",
+          "duration": 900
+        },
+        {
+          "sprite": "jw-smith-mounted-dispatch-s-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-dispatch-n": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-dispatch-n-1",
+          "duration": 900
+        },
+        {
+          "sprite": "jw-smith-mounted-dispatch-n-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "jw-smith-mounted-rest-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-rest-e-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "jw-smith-mounted-rest-e-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-trot-e": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-trot-s": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-trot-n": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "horton-mounted-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-dispatch-e": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-dispatch-e-1",
+          "duration": 900
+        },
+        {
+          "sprite": "horton-mounted-dispatch-e-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-dispatch-s": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-dispatch-s-1",
+          "duration": 900
+        },
+        {
+          "sprite": "horton-mounted-dispatch-s-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-dispatch-n": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-dispatch-n-1",
+          "duration": 900
+        },
+        {
+          "sprite": "horton-mounted-dispatch-n-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "horton-mounted-rest-e": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-rest-e-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "horton-mounted-rest-e-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-trot-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-trot-s": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-trot-n": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "kimbell-mounted-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-dispatch-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-dispatch-e-1",
+          "duration": 900
+        },
+        {
+          "sprite": "kimbell-mounted-dispatch-e-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-dispatch-s": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-dispatch-s-1",
+          "duration": 900
+        },
+        {
+          "sprite": "kimbell-mounted-dispatch-s-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-dispatch-n": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-dispatch-n-1",
+          "duration": 900
+        },
+        {
+          "sprite": "kimbell-mounted-dispatch-n-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "kimbell-mounted-rest-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-rest-e-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "kimbell-mounted-rest-e-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-trot-e": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-trot-e-1",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-e-2",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-e-3",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-e-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-trot-s": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-trot-s-1",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-s-2",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-s-3",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-s-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-trot-n": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-trot-n-1",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-n-2",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-n-3",
+          "duration": 180
+        },
+        {
+          "sprite": "martin-mounted-trot-n-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-dispatch-e": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-dispatch-e-1",
+          "duration": 900
+        },
+        {
+          "sprite": "martin-mounted-dispatch-e-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-dispatch-s": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-dispatch-s-1",
+          "duration": 900
+        },
+        {
+          "sprite": "martin-mounted-dispatch-s-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-dispatch-n": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-dispatch-n-1",
+          "duration": 900
+        },
+        {
+          "sprite": "martin-mounted-dispatch-n-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "martin-mounted-rest-e": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-rest-e-1",
+          "duration": 1100
+        },
+        {
+          "sprite": "martin-mounted-rest-e-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "milam-fire-service-e": {
+      "frames": [
+        {
+          "sprite": "milam-service-e-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "milam-service-e-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "milam-service-e-load",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-service-e-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "milam-fire-service-w": {
+      "frames": [
+        {
+          "sprite": "milam-service-w-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "milam-service-w-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "milam-service-w-load",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-service-w-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "milam-fire-service-s": {
+      "frames": [
+        {
+          "sprite": "milam-service-s-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "milam-service-s-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "milam-service-s-load",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-service-s-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
+    "milam-fire-service-n": {
+      "frames": [
+        {
+          "sprite": "milam-service-n-aim",
+          "duration": 1500
+        },
+        {
+          "sprite": "milam-service-n-fire",
+          "duration": 300
+        },
+        {
+          "sprite": "milam-service-n-load",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-service-n-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
+    },
     "cottonwood-gale": {
       "loop": true,
       "authored": true,

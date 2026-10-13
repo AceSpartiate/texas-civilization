@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **3706 usable sprites, 391 PNG atlases, 1278 clips** (957 pose cycles; 4 layered rigs).
+Generated from the shipped library: **3806 usable sprites, 401 PNG atlases, 1310 clips** (989 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -291,6 +291,16 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | wildlife-mustang | 16 | 1254 × 1254 | 1311610 |
 | steamboat-steam | 4 | 1254 × 1254 | 1044017 |
 | steamboat-laden | 4 | 1254 × 1254 | 1151494 |
+| named-jw-smith-trot | 12 | 1448 × 1086 | 1324080 |
+| named-jw-smith-mounted-dispatch | 8 | 1774 × 887 | 1404634 |
+| named-horton-trot | 12 | 1536 × 1024 | 2102594 |
+| named-horton-mounted-dispatch | 8 | 1774 × 887 | 1526613 |
+| named-kimbell-trot | 12 | 1448 × 1086 | 1374233 |
+| named-kimbell-mounted-dispatch | 8 | 1774 × 887 | 1436147 |
+| named-martin-trot | 12 | 1448 × 1086 | 1544575 |
+| named-martin-mounted-dispatch | 8 | 1774 × 887 | 884204 |
+| named-milam-fire-service | 16 | 1254 × 1254 | 934347 |
+| named-relief-fates | 4 | 1254 × 1254 | 1038660 |
 | nature-gales | 4 | 1774 × 887 | 1030716 |
 | night-settlement-lights | 16 | 1254 × 1254 | 1713707 |
 | norther-ground | 6 | 1024 × 1536 | 2216491 |
@@ -2978,6 +2988,106 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | steamboat-laden-2 | steamboat-laden | steamboat-laden |
 | steamboat-laden-3 | steamboat-laden | steamboat-laden |
 | steamboat-laden-4 | steamboat-laden | steamboat-laden |
+| jw-smith-mounted-trot-e-1 | named-jw-smith-trot | jw-smith-mounted-trot-e |
+| jw-smith-mounted-trot-e-2 | named-jw-smith-trot | jw-smith-mounted-trot-e |
+| jw-smith-mounted-trot-e-3 | named-jw-smith-trot | jw-smith-mounted-trot-e |
+| jw-smith-mounted-trot-e-4 | named-jw-smith-trot | jw-smith-mounted-trot-e |
+| jw-smith-mounted-trot-s-1 | named-jw-smith-trot | jw-smith-mounted-trot-s |
+| jw-smith-mounted-trot-s-2 | named-jw-smith-trot | jw-smith-mounted-trot-s |
+| jw-smith-mounted-trot-s-3 | named-jw-smith-trot | jw-smith-mounted-trot-s |
+| jw-smith-mounted-trot-s-4 | named-jw-smith-trot | jw-smith-mounted-trot-s |
+| jw-smith-mounted-trot-n-1 | named-jw-smith-trot | jw-smith-mounted-trot-n |
+| jw-smith-mounted-trot-n-2 | named-jw-smith-trot | jw-smith-mounted-trot-n |
+| jw-smith-mounted-trot-n-3 | named-jw-smith-trot | jw-smith-mounted-trot-n |
+| jw-smith-mounted-trot-n-4 | named-jw-smith-trot | jw-smith-mounted-trot-n |
+| jw-smith-mounted-dispatch-e-1 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-e |
+| jw-smith-mounted-dispatch-e-2 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-e |
+| jw-smith-mounted-dispatch-s-1 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-s |
+| jw-smith-mounted-dispatch-s-2 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-s |
+| jw-smith-mounted-dispatch-n-1 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-n |
+| jw-smith-mounted-dispatch-n-2 | named-jw-smith-mounted-dispatch | jw-smith-mounted-dispatch-n |
+| jw-smith-mounted-rest-e-1 | named-jw-smith-mounted-dispatch | jw-smith-mounted-rest-e |
+| jw-smith-mounted-rest-e-2 | named-jw-smith-mounted-dispatch | jw-smith-mounted-rest-e |
+| horton-mounted-trot-e-1 | named-horton-trot | horton-mounted-trot-e |
+| horton-mounted-trot-e-2 | named-horton-trot | horton-mounted-trot-e |
+| horton-mounted-trot-e-3 | named-horton-trot | horton-mounted-trot-e |
+| horton-mounted-trot-e-4 | named-horton-trot | horton-mounted-trot-e |
+| horton-mounted-trot-s-1 | named-horton-trot | horton-mounted-trot-s |
+| horton-mounted-trot-s-2 | named-horton-trot | horton-mounted-trot-s |
+| horton-mounted-trot-s-3 | named-horton-trot | horton-mounted-trot-s |
+| horton-mounted-trot-s-4 | named-horton-trot | horton-mounted-trot-s |
+| horton-mounted-trot-n-1 | named-horton-trot | horton-mounted-trot-n |
+| horton-mounted-trot-n-2 | named-horton-trot | horton-mounted-trot-n |
+| horton-mounted-trot-n-3 | named-horton-trot | horton-mounted-trot-n |
+| horton-mounted-trot-n-4 | named-horton-trot | horton-mounted-trot-n |
+| horton-mounted-dispatch-e-1 | named-horton-mounted-dispatch | horton-mounted-dispatch-e |
+| horton-mounted-dispatch-e-2 | named-horton-mounted-dispatch | horton-mounted-dispatch-e |
+| horton-mounted-dispatch-s-1 | named-horton-mounted-dispatch | horton-mounted-dispatch-s |
+| horton-mounted-dispatch-s-2 | named-horton-mounted-dispatch | horton-mounted-dispatch-s |
+| horton-mounted-dispatch-n-1 | named-horton-mounted-dispatch | horton-mounted-dispatch-n |
+| horton-mounted-dispatch-n-2 | named-horton-mounted-dispatch | horton-mounted-dispatch-n |
+| horton-mounted-rest-e-1 | named-horton-mounted-dispatch | horton-mounted-rest-e |
+| horton-mounted-rest-e-2 | named-horton-mounted-dispatch | horton-mounted-rest-e |
+| kimbell-mounted-trot-e-1 | named-kimbell-trot | kimbell-mounted-trot-e |
+| kimbell-mounted-trot-e-2 | named-kimbell-trot | kimbell-mounted-trot-e |
+| kimbell-mounted-trot-e-3 | named-kimbell-trot | kimbell-mounted-trot-e |
+| kimbell-mounted-trot-e-4 | named-kimbell-trot | kimbell-mounted-trot-e |
+| kimbell-mounted-trot-s-1 | named-kimbell-trot | kimbell-mounted-trot-s |
+| kimbell-mounted-trot-s-2 | named-kimbell-trot | kimbell-mounted-trot-s |
+| kimbell-mounted-trot-s-3 | named-kimbell-trot | kimbell-mounted-trot-s |
+| kimbell-mounted-trot-s-4 | named-kimbell-trot | kimbell-mounted-trot-s |
+| kimbell-mounted-trot-n-1 | named-kimbell-trot | kimbell-mounted-trot-n |
+| kimbell-mounted-trot-n-2 | named-kimbell-trot | kimbell-mounted-trot-n |
+| kimbell-mounted-trot-n-3 | named-kimbell-trot | kimbell-mounted-trot-n |
+| kimbell-mounted-trot-n-4 | named-kimbell-trot | kimbell-mounted-trot-n |
+| kimbell-mounted-dispatch-e-1 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-e |
+| kimbell-mounted-dispatch-e-2 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-e |
+| kimbell-mounted-dispatch-s-1 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-s |
+| kimbell-mounted-dispatch-s-2 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-s |
+| kimbell-mounted-dispatch-n-1 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-n |
+| kimbell-mounted-dispatch-n-2 | named-kimbell-mounted-dispatch | kimbell-mounted-dispatch-n |
+| kimbell-mounted-rest-e-1 | named-kimbell-mounted-dispatch | kimbell-mounted-rest-e |
+| kimbell-mounted-rest-e-2 | named-kimbell-mounted-dispatch | kimbell-mounted-rest-e |
+| martin-mounted-trot-e-1 | named-martin-trot | martin-mounted-trot-e |
+| martin-mounted-trot-e-2 | named-martin-trot | martin-mounted-trot-e |
+| martin-mounted-trot-e-3 | named-martin-trot | martin-mounted-trot-e |
+| martin-mounted-trot-e-4 | named-martin-trot | martin-mounted-trot-e |
+| martin-mounted-trot-s-1 | named-martin-trot | martin-mounted-trot-s |
+| martin-mounted-trot-s-2 | named-martin-trot | martin-mounted-trot-s |
+| martin-mounted-trot-s-3 | named-martin-trot | martin-mounted-trot-s |
+| martin-mounted-trot-s-4 | named-martin-trot | martin-mounted-trot-s |
+| martin-mounted-trot-n-1 | named-martin-trot | martin-mounted-trot-n |
+| martin-mounted-trot-n-2 | named-martin-trot | martin-mounted-trot-n |
+| martin-mounted-trot-n-3 | named-martin-trot | martin-mounted-trot-n |
+| martin-mounted-trot-n-4 | named-martin-trot | martin-mounted-trot-n |
+| martin-mounted-dispatch-e-1 | named-martin-mounted-dispatch | martin-mounted-dispatch-e |
+| martin-mounted-dispatch-e-2 | named-martin-mounted-dispatch | martin-mounted-dispatch-e |
+| martin-mounted-dispatch-s-1 | named-martin-mounted-dispatch | martin-mounted-dispatch-s |
+| martin-mounted-dispatch-s-2 | named-martin-mounted-dispatch | martin-mounted-dispatch-s |
+| martin-mounted-dispatch-n-1 | named-martin-mounted-dispatch | martin-mounted-dispatch-n |
+| martin-mounted-dispatch-n-2 | named-martin-mounted-dispatch | martin-mounted-dispatch-n |
+| martin-mounted-rest-e-1 | named-martin-mounted-dispatch | martin-mounted-rest-e |
+| martin-mounted-rest-e-2 | named-martin-mounted-dispatch | martin-mounted-rest-e |
+| milam-service-e-aim | named-milam-fire-service | milam-fire-service-e |
+| milam-service-e-fire | named-milam-fire-service | milam-fire-service-e |
+| milam-service-e-load | named-milam-fire-service | milam-fire-service-e |
+| milam-service-e-ramrod | named-milam-fire-service | milam-fire-service-e |
+| milam-service-w-aim | named-milam-fire-service | milam-fire-service-w |
+| milam-service-w-fire | named-milam-fire-service | milam-fire-service-w |
+| milam-service-w-load | named-milam-fire-service | milam-fire-service-w |
+| milam-service-w-ramrod | named-milam-fire-service | milam-fire-service-w |
+| milam-service-s-aim | named-milam-fire-service | milam-fire-service-s |
+| milam-service-s-fire | named-milam-fire-service | milam-fire-service-s |
+| milam-service-s-load | named-milam-fire-service | milam-fire-service-s |
+| milam-service-s-ramrod | named-milam-fire-service | milam-fire-service-s |
+| milam-service-n-aim | named-milam-fire-service | milam-fire-service-n |
+| milam-service-n-fire | named-milam-fire-service | milam-fire-service-n |
+| milam-service-n-load | named-milam-fire-service | milam-fire-service-n |
+| milam-service-n-ramrod | named-milam-fire-service | milam-fire-service-n |
+| kimbell-fall-relief | named-relief-fates | State artwork; no motion required |
+| kimbell-still-relief | named-relief-fates | State artwork; no motion required |
+| martin-fall-relief | named-relief-fates | State artwork; no motion required |
+| martin-still-relief | named-relief-fates | State artwork; no motion required |
 | cottonwood-gale-1 | nature-gales | cottonwood-gale |
 | cottonwood-gale-2 | nature-gales | cottonwood-gale |
 | sapling-gale-1 | nature-gales | sapling-gale |
@@ -4980,6 +5090,38 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | mustang-gallop | Pose cycle | 8 | 1080 | yes | east; west by mirroring |
 | steamboat-steam | Pose cycle | 4 | 1320 | yes | east; west by mirroring |
 | steamboat-laden | Pose cycle | 4 | 1440 | yes | east; west by mirroring |
+| jw-smith-mounted-trot-e | Pose cycle | 4 | 720 | yes | undefined |
+| jw-smith-mounted-trot-s | Pose cycle | 4 | 720 | yes | undefined |
+| jw-smith-mounted-trot-n | Pose cycle | 4 | 720 | yes | undefined |
+| jw-smith-mounted-dispatch-e | Pose cycle | 2 | 1800 | yes | undefined |
+| jw-smith-mounted-dispatch-s | Pose cycle | 2 | 1800 | yes | undefined |
+| jw-smith-mounted-dispatch-n | Pose cycle | 2 | 1800 | yes | undefined |
+| jw-smith-mounted-rest-e | Pose cycle | 2 | 2200 | yes | undefined |
+| horton-mounted-trot-e | Pose cycle | 4 | 720 | yes | undefined |
+| horton-mounted-trot-s | Pose cycle | 4 | 720 | yes | undefined |
+| horton-mounted-trot-n | Pose cycle | 4 | 720 | yes | undefined |
+| horton-mounted-dispatch-e | Pose cycle | 2 | 1800 | yes | undefined |
+| horton-mounted-dispatch-s | Pose cycle | 2 | 1800 | yes | undefined |
+| horton-mounted-dispatch-n | Pose cycle | 2 | 1800 | yes | undefined |
+| horton-mounted-rest-e | Pose cycle | 2 | 2200 | yes | undefined |
+| kimbell-mounted-trot-e | Pose cycle | 4 | 720 | yes | undefined |
+| kimbell-mounted-trot-s | Pose cycle | 4 | 720 | yes | undefined |
+| kimbell-mounted-trot-n | Pose cycle | 4 | 720 | yes | undefined |
+| kimbell-mounted-dispatch-e | Pose cycle | 2 | 1800 | yes | undefined |
+| kimbell-mounted-dispatch-s | Pose cycle | 2 | 1800 | yes | undefined |
+| kimbell-mounted-dispatch-n | Pose cycle | 2 | 1800 | yes | undefined |
+| kimbell-mounted-rest-e | Pose cycle | 2 | 2200 | yes | undefined |
+| martin-mounted-trot-e | Pose cycle | 4 | 720 | yes | undefined |
+| martin-mounted-trot-s | Pose cycle | 4 | 720 | yes | undefined |
+| martin-mounted-trot-n | Pose cycle | 4 | 720 | yes | undefined |
+| martin-mounted-dispatch-e | Pose cycle | 2 | 1800 | yes | undefined |
+| martin-mounted-dispatch-s | Pose cycle | 2 | 1800 | yes | undefined |
+| martin-mounted-dispatch-n | Pose cycle | 2 | 1800 | yes | undefined |
+| martin-mounted-rest-e | Pose cycle | 2 | 2200 | yes | undefined |
+| milam-fire-service-e | Pose cycle | 4 | 3600 | yes | undefined |
+| milam-fire-service-w | Pose cycle | 4 | 3600 | yes | undefined |
+| milam-fire-service-s | Pose cycle | 4 | 3600 | yes | undefined |
+| milam-fire-service-n | Pose cycle | 4 | 3600 | yes | undefined |
 | cottonwood-gale | Pose cycle | 2 | 1200 | yes | undefined |
 | sapling-gale | Pose cycle | 2 | 1200 | yes | undefined |
 | campfire-night | Pose cycle | 4 | 720 | yes | scenery |
