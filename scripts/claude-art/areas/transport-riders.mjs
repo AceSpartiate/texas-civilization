@@ -10,6 +10,7 @@
 // The baby is not drawn on the horse: the server never seats a baby alone (sim/company.mjs `seatPlan` gives every baby to its
 // carrier), so `infant-ride-*` has nothing to stand in for; a rider carrying a baby is the request for a walker or rider with
 // an infant in the arms (request 2026-09-25 — riders, walkers and the cart, item 3).
+import { retire } from '../kit/retire.mjs';
 import { mountedFrame } from '../kit/horse.mjs';
 import { COATS } from '../kit/quadruped.mjs';
 import { drawTool } from '../kit/props.mjs';
@@ -78,9 +79,14 @@ const sutherland = riderSet({ name: 'sutherland-ride', figure: SUTHERLAND, coat:
   compare: [['mounted-courier-e-1', 1.8], ['courier-e', 1]] });
 
 const sheet = (set, request, replaceWith) => ({ cell: half(CELL), columns: 4, request, replaceWith, frames: set.frames });
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-ride-children': sheet({ frames: children.flatMap(c => c.frames) }, 'Request 2026-09-14 — family members on horseback', 'the child on the family\'s chestnut: 4 frames a heading, east (mirrored for west), south and north, the courier\'s cell size and ground anchor, drawn at 1.8 of a person'),
   'claude-ride-tejano': sheet(tejano, 'Request 2026-09-27 — the milk cow on the run, and Béxar before the bell', 'item 3: a Tejano horseman riding east, north and south, 4 frames each, at the mounted size'),
   'claude-ride-famous': sheet({ frames: [...seguin.frames, ...sutherland.frames] }, 'Request 2026-09-26 — the famous people: the roster\'s remaining figures and poses', 'mounted movement for Seguín and Dr. Sutherland: 4 frames east, south and north each, at the mounted size; original interpretations'),
 };
-export const CLIPS = Object.assign({}, ...children.map(c => c.clips), tejano.clips, seguin.clips, sutherland.clips);
+const ALL_CLIPS = Object.assign({}, ...children.map(c => c.clips), tejano.clips, seguin.clips, sutherland.clips);
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the school-age girl and boy on horseback (2026-10-12), and the small
+// child, who neither rides alone nor drives. Her frames replace these by subject (public/art-subjects.js) and by name; the
+// drawing code above is no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['girl-ride-*', 'boy-ride-*', 'smallchild-ride-*']);

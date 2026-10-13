@@ -70,7 +70,7 @@ const RULES = [
   [/^cart-/, 'cart', ['cart-open']],
   [/^carreta-/, 'carreta', ['carreta']],
   [/^wagon-ox/, 'wagon', ['wagon-covered', 'ox-walk']],
-  [/^padre-carts/, 'padre-carts', ['padre-carts']],
+  [/^padre-carts/, 'the padre with carts', ['padre-carts', 'padre']],
   // Named people and the people of Béxar. Astra's Gregorio Esparza, Castrillón and Seguín are hers whole.
   [/^(ana-esparza|maria-de-jesus|enrique-esparza|francisco-esparza|burial-party|sanchez-navarro|jw-smith|wp-smith)-/, '$1', ['$1']],
   [/^(esparza|castrillon|seguin|kimbell|martin|horton|smither|condelle|barragan|sutherland|tejano-rider)-/, '$1', ['$1']],

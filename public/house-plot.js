@@ -142,6 +142,16 @@ export function roofSeat(walls, roof, x, y, height, flip = false) {
  * seated - no sheet, no frames, no seats - so the caller draws the pen's whole picture instead (`penPicture`). `flip`
  * says the `drawSprite` given mirrors every picture about its foot, so the roof's seat is mirrored with the walls.
  */
+/**
+ * Whether a pen whose chimney gable faces the viewer is drawn from behind (`house-*-back-*`). Off: Astra's rear views
+ * (2026-10-11, docs/ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md) are library-ready at their own source resolution
+ * (`roofScale`), and their chimney, door and ground registration is her checklist's compositor work, not yet done; on main
+ * Claude's rear stand-ins were never drawn (public/art-subjects.js held them back), so off is the house as players saw it.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides.
+ * ceiling: the front picture with the chimney over its door; turning this on wants tests/house-roof.test.mjs,
+ * house-chimney.test.mjs and house-connected.test.mjs given her rear walls' measured points.
+ */
+export const REAR_VIEWS = false;
 function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false, { back = false, floor = false } = {}) {
   if (!spriteFrame) return 0;
   if (p.type === 'pen-jacal') return drawJacalPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip);
@@ -149,9 +159,9 @@ function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false,
   const course = Math.max(0, p.stage - 1);
   const stage = course === 0 ? 'sill' : course <= 4 ? 'low-walls' : 'full-walls';
   // The pen from behind - the gable toward the viewer without its door - where a chimney stands against that gable
-  // (`housePicture`): Astra's rear views (2026-10-11, `house-*-back-*`), seated by their own measured full walls and
-  // `roofScale`; her front picture while they have not loaded, the chimney then covering the door as before.
-  for (const set of back ? [`${material}-back`, material] : [material]) {
+  // (`housePicture`), once its rear views are registered (`REAR_VIEWS`); her front picture until then, the chimney covering
+  // the door as before.
+  for (const set of back && REAR_VIEWS ? [`${material}-back`, material] : [material]) {
     const base = `house-${set}-${stage}`, walls = spriteFrame(`house-${set}-full-walls`), frame = spriteFrame(base);
     const roofName = penRoof([p]);
     const seat = p.stage >= 12 ? roofSeat(walls, spriteFrame(roofName), x, y, height, flip) : null;
@@ -586,7 +596,8 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       // measured `centre` (the stand-in's contract); Astra's of 2026-10-11 is library-ready and carries none yet, so until its
       // registration (docs/ART_DELIVERY_2026-10-11-HOUSE-CONSTRUCTION-COMPLETE.md, "Claude continuation") it is the single
       // stick-and-mud chimney's picture (since 2026-09-24; it was a flat rectangle), taller than a single chimney so it hides
-      // the far pen's door, its foot behind the near pen's roof. stand-in: docs/ART_REQUESTS.md, request 2026-09-15.
+      // the far pen's door, its foot behind the near pen's roof. stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - the double
+      // chimney, two-sided.
       const complete = p.stage >= p.kind.stageCount, high = cell * DOUBLE_RISE;
       // Astra's roof over the gap (2026-10-10, `house-roof-join-chimney`), open where the stack stands, fitted to the row's own
       // roof at its virtual pen seat (`roofFootX`: before `standChimneys` moved the chimney's foot), drawn before the chimney.

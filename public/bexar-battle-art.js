@@ -3,8 +3,7 @@ export const BEXAR_TOWNSFOLK=Object.freeze(['bexar-woman','bexar-elder','bexar-c
 export const bexarCivilianHeight=name=>name==='bexar-child'?.62:.95;
 const clamp=n=>Math.max(0,Math.min(1,n));
 const smooth=n=>{const t=clamp(n);return t*t*(3-2*t);};
-// Illustrated winter twilight, not an astronomical moon/solar model.
-export function bexarDarknessAtHour(hour){const h=((hour%24)+24)%24;return h<7?1-smooth((h-5)/2):smooth((h-17)/2);}
+// The darkness by the hour is the server's (sim/bexar-light.mjs `bexarDarknessAtHour`), sent as `bexarDarkness`.
 export function createMoonlightGrade(){
  let from=0,target=0,at=null;
  const sample=now=>at===null?target:from+(target-from)*smooth((now-at)/1800);

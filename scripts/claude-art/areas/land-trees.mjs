@@ -19,6 +19,7 @@
 //     narrow light yellow-green leaves with hanging twigs.
 //   - stumps: hickory's shaggy grey strips, walnut's dark ridged bark and chocolate heartwood, ash's grey diamond furrows and
 //     pale wood, a red or black oak's brown ridges and rayed tan wood, a live oak's wide low dark stump.
+import { retire } from '../kit/retire.mjs';
 import { drawTree, shade } from '../land/tree.mjs';
 import { drawStump } from '../land/stump.mjs';
 
@@ -118,7 +119,7 @@ function stumpFrame(name) {
 }
 
 const KINDS_DRAWN = Object.keys(S);
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-trees-1836': { cell: { w: W, h: H }, columns: 6, request: REQUEST, replaceWith: REPLACE,
     frames: KINDS_DRAWN.flatMap(kind => ['pole', 'log', 'large'].map(size => ({
       name: `${kind}-${size}`, height: DRAWN[size],
@@ -133,3 +134,8 @@ export const SHEETS = {
       draw: () => stumpFrame(name),
     })) },
 };
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the anacua, Texas ebony, tupelo, cedar elm and willow (her regional
+// species, 2026-10-11). Her frames replace these by subject (public/art-subjects.js) and by name; the drawing code above is no
+// longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, {}, ['anacua-*', 'ebony-*', 'tupelo-*', 'cedar-elm-*', 'willow-*']);

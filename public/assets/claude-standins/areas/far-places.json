@@ -3,63 +3,6 @@
   "area": "places",
   "date": "2026-09-28",
   "sheets": {
-    "claude-fort-velasco": {
-      "image": "/assets/claude-standins/claude-fort-velasco.png",
-      "width": 660,
-      "height": 270,
-      "bytes": 198768,
-      "sha256": "7b4110409f27d1441ceb2384052d54e05ac324dae07b954c1c37c34e2a6c79d3",
-      "madeBy": "claude",
-      "module": "far-places",
-      "request": "Request 2026-09-16 — the buildings the towns' research found",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 660,
-          "h": 270
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-sawmill-steam": {
-      "image": "/assets/claude-standins/claude-sawmill-steam.png",
-      "width": 700,
-      "height": 420,
-      "bytes": 168737,
-      "sha256": "b167d1321c7dbac466ee0f823ea9db8d256d5735b4e57c8e1c00d82e017790ff",
-      "madeBy": "claude",
-      "module": "far-places",
-      "request": "Request 2026-09-16 — the buildings the towns' research found",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 700,
-          "h": 420
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-stone-house": {
-      "image": "/assets/claude-standins/claude-stone-house.png",
-      "width": 740,
-      "height": 390,
-      "bytes": 283472,
-      "sha256": "c099dabb3ed002f917c35e1e1e38325ebf73250bd8606e7329382c0865845350",
-      "madeBy": "claude",
-      "module": "far-places",
-      "request": "Request 2026-09-16 — the buildings the towns' research found",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 740,
-          "h": 390
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-advance-places": {
       "image": "/assets/claude-standins/claude-advance-places.png",
       "width": 1280,
@@ -81,57 +24,6 @@
     }
   },
   "frames": {
-    "fort-velasco": {
-      "sheet": "claude-fort-velasco",
-      "x": 0,
-      "y": 0,
-      "w": 660,
-      "h": 270,
-      "anchorX": 0.3559,
-      "anchorY": 0.9572,
-      "logicalHeight": 110,
-      "madeBy": "claude",
-      "module": "far-places",
-      "request": "Request 2026-09-16 — the buildings the towns' research found",
-      "replaceWith": "fort-velasco: item 8: a circular log-and-sand fort, gapped and derelict, at the scale of house-hewn-log and trading-house, south-facing",
-      "source": "svg/far-places/claude-fort-velasco.svg",
-      "label": "fort velasco",
-      "kind": "claude-fort-velasco"
-    },
-    "sawmill-steam": {
-      "sheet": "claude-sawmill-steam",
-      "x": 0,
-      "y": 0,
-      "w": 700,
-      "h": 420,
-      "anchorX": 0.4143,
-      "anchorY": 0.9405,
-      "logicalHeight": 140,
-      "madeBy": "claude",
-      "module": "far-places",
-      "request": "Request 2026-09-16 — the buildings the towns' research found",
-      "replaceWith": "sawmill-steam: item 9: a steam sawmill on a bayou - a long plank shed, a boiler house with a stack and smoke, a log deck and stacks of sawn pine",
-      "source": "svg/far-places/claude-sawmill-steam.svg",
-      "label": "sawmill steam",
-      "kind": "claude-sawmill-steam"
-    },
-    "stone-house-nacogdoches": {
-      "sheet": "claude-stone-house",
-      "x": 0,
-      "y": 0,
-      "w": 740,
-      "h": 390,
-      "anchorX": 0.4324,
-      "anchorY": 0.9359,
-      "logicalHeight": 160,
-      "madeBy": "claude",
-      "module": "far-places",
-      "request": "Request 2026-09-16 — the buildings the towns' research found",
-      "replaceWith": "stone-house-nacogdoches: item 10: a two-storey stone house with a gallery and an outside stair, 70 x 23 ft",
-      "source": "svg/far-places/claude-stone-house-nacogdoches.svg",
-      "label": "stone house nacogdoches",
-      "kind": "claude-stone-house"
-    },
     "plantation-sugar": {
       "sheet": "claude-advance-places",
       "x": 0,
@@ -203,48 +95,6 @@
   },
   "clips": {},
   "provenance": {
-    "fort-velasco": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "far-places",
-      "area": "places",
-      "sheet": "claude-fort-velasco",
-      "request": "Request 2026-09-16 — the buildings the towns' research found",
-      "prompt": "Fort Velasco at the mouth of the Brazos in October 1835: the 1832 Mexican work three and a half years after it was given up (docs/town-research/velasco.md §3, from four eyewitnesses - Russell, Waller, John H. Brown, Henry Smith - and the 1832 return of arms). DOCUMENTED: a circle, small (Harkort's scaled drawing of February 1836: about 87 ft, and \"just less than 100 feet\" in Kneupper's reading of the original; drawn 90 ft), two concentric rows of sharpened posts about six feet apart filled between with sand, earth and shell, a banquette inside to fire over, a central mound about ten feet above the interior revetted with higher posts and carrying the gun en barbette on a pivot behind a low wooden parapet, and a ditch outside. INFERRED: that it was derelict - \"abandoned\", its \"ruins\" standing - is documented for 1833-35; the palisade robbed for timber in long gaps, the sand slumped where the posts went, the ditch silted and grassed are a reading of that; the long gun on the mound follows McKinney's \"a most superior long 18 pounder\" mounted on \"our fort at Velasco\" on October 24, 1835, which the research takes to be this work (I-3; nobody says so). UNCERTAIN: the height of the posts (drawn about 8.5 ft outside, 7 inside), how much of the palisade was gone, the parapet. Not the dimensioned polygon of 1836 (a different, later fort). Warm hand-drawn storybook style in the frontier-v1 building view (front square to the camera, the top and the right-hand end seen a little), thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/far-places/claude-fort-velasco.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's fort-velasco"
-    },
-    "sawmill-steam": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "far-places",
-      "area": "places",
-      "sheet": "claude-sawmill-steam",
-      "request": "Request 2026-09-16 — the buildings the towns' research found",
-      "prompt": "The Harrisburg Steam Mills on Buffalo Bayou in the autumn of 1835 (docs/town-research/harrisburg.md §5; TSHA Harrisburg and Harris, John Richardson; the Brazoria Texas Republican's notices of July-November 1835). DOCUMENTED: steam-powered saw- and grist-mills begun by J. R. Harris in 1829, in working order through 1835 under the Harrisburg Steam Mill Company, cutting yellow pine and oak, sold at the mills at $25 a thousand and loaded into vessels there; burned with the town on April 16, 1836. NOT RECORDED - so this is a period steam sawmill and not a portrait: where it stood, its size, its engine and saw, what it was built of. Drawn as a long plank mill shed with the saw floor open to the front and a pine log on the carriage by an upright sash saw, a smaller plank boiler house behind with a brick stack (brick or sheet iron: unknown) and a little smoke, a deck of pine logs on skids, two stacks of sawn boards stickered to dry, and a heap of sawdust and slabs. The bayou is the map's own water and is not drawn. Warm hand-drawn storybook style in the frontier-v1 building view (front square to the camera, the top and the right-hand end seen a little), thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/far-places/claude-sawmill-steam.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's sawmill-steam"
-    },
-    "stone-house-nacogdoches": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "far-places",
-      "area": "places",
-      "sheet": "claude-stone-house",
-      "request": "Request 2026-09-16 — the buildings the towns' research found",
-      "prompt": "The Stone House at Nacogdoches (later called the Old Stone Fort) as it stood in 1835, on the north side of the Camino Real at Fredonia Street, its long side to the road (docs/town-research/nacogdoches.md §2, §4; TSHA Old Stone Fort; the 1936 and 1962 markers; the 1885 photograph, Portal to Texas History metapth38479). DOCUMENTED: 70 ft along the road and 23 ft along Fredonia, two storeys and about 20 ft high, outer walls of the local iron-bearing stone laid as rough coursed rubble, adobe inner walls, black-walnut sills and casements, two rooms a storey, an exterior door to each room, fireplaces. FROM THE 1885 PHOTOGRAPH, fifty years after (the research's I-5): the steep gabled roof of wood shingles with clapboarded gable ends, a chimney at each end (brick above the roof), the two-storey wooden gallery on square posts along the long side with a railing above, and the wooden stair on the gable end up to an upper door - whether the gallery stood in 1835, which side it was on, and the roof's covering then are not known. Drawn south-facing, the long side and its gallery to the camera, the east gable end and its stair on the right; the later lean-to at the back is not drawn. The windows' number and place are a reading. Warm hand-drawn storybook style in the frontier-v1 building view (front square to the camera, the top and the right-hand end seen a little), thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/far-places/claude-stone-house-nacogdoches.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's stone-house-nacogdoches"
-    },
     "plantation-sugar": {
       "kind": "frame",
       "madeBy": "claude",

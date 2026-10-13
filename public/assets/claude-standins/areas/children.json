@@ -26,8 +26,8 @@
       "image": "/assets/claude-standins/claude-girl-chores.png",
       "width": 2400,
       "height": 1200,
-      "bytes": 713514,
-      "sha256": "707b604aec228755f587b45315a2570e731929bc33aef787116d7f4b1d205e0f",
+      "bytes": 650739,
+      "sha256": "f1933aec8c6e7da0161e71a8e82a2f330210a3a736431c1015a1ba47f3238649",
       "madeBy": "claude",
       "module": "children",
       "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
@@ -64,8 +64,8 @@
       "image": "/assets/claude-standins/claude-boy-chores.png",
       "width": 2400,
       "height": 1200,
-      "bytes": 651793,
-      "sha256": "ecbdb578877f05b783dd40f8cb5584de976e4e0a793efd77a5d789b790e3a950",
+      "bytes": 592863,
+      "sha256": "8aae25bd6bf28705d737096f42e8e4ffe1ae6db3cdbd9c96d8c757ddddb8e093",
       "madeBy": "claude",
       "module": "children",
       "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
@@ -102,8 +102,8 @@
       "image": "/assets/claude-standins/claude-smallchild-chores.png",
       "width": 2400,
       "height": 1200,
-      "bytes": 689727,
-      "sha256": "ddc378c552a37c439dba61f90432d3ca75fd9b612a9f9c21a8d5c983a18faa1a",
+      "bytes": 629054,
+      "sha256": "c0bf1462c36bcbdbb00f5fe08ad4909151469d31263f2e5d96a3ff56a15dc9ac",
       "madeBy": "claude",
       "module": "children",
       "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
@@ -697,43 +697,9 @@
       "label": "girl carry water n 2",
       "kind": "claude-girl-chores"
     },
-    "girl-speak-1": {
-      "sheet": "claude-girl-chores",
-      "x": 800,
-      "y": 800,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "children",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "replaceWith": "girl-speak-1: items 1 and 4 (-scatter, -speak, -tug) and request 2026-09-28 — people at work, item 13 (-shoo, -gather, -carry-water): in the child's own figure, east-facing and mirrored for west",
-      "source": "svg/children/claude-girl-speak-1.svg",
-      "label": "girl speak 1",
-      "kind": "claude-girl-chores"
-    },
-    "girl-speak-2": {
-      "sheet": "claude-girl-chores",
-      "x": 1200,
-      "y": 800,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "children",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "replaceWith": "girl-speak-2: items 1 and 4 (-scatter, -speak, -tug) and request 2026-09-28 — people at work, item 13 (-shoo, -gather, -carry-water): in the child's own figure, east-facing and mirrored for west",
-      "source": "svg/children/claude-girl-speak-2.svg",
-      "label": "girl speak 2",
-      "kind": "claude-girl-chores"
-    },
     "girl-tug-1": {
       "sheet": "claude-girl-chores",
-      "x": 1600,
+      "x": 800,
       "y": 800,
       "w": 400,
       "h": 400,
@@ -750,7 +716,7 @@
     },
     "girl-tug-2": {
       "sheet": "claude-girl-chores",
-      "x": 2000,
+      "x": 1200,
       "y": 800,
       "w": 400,
       "h": 400,
@@ -1343,43 +1309,9 @@
       "label": "boy carry water n 2",
       "kind": "claude-boy-chores"
     },
-    "boy-speak-1": {
-      "sheet": "claude-boy-chores",
-      "x": 800,
-      "y": 800,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "children",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "replaceWith": "boy-speak-1: items 1 and 4 (-scatter, -speak, -tug) and request 2026-09-28 — people at work, item 13 (-shoo, -gather, -carry-water): in the child's own figure, east-facing and mirrored for west",
-      "source": "svg/children/claude-boy-speak-1.svg",
-      "label": "boy speak 1",
-      "kind": "claude-boy-chores"
-    },
-    "boy-speak-2": {
-      "sheet": "claude-boy-chores",
-      "x": 1200,
-      "y": 800,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "children",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "replaceWith": "boy-speak-2: items 1 and 4 (-scatter, -speak, -tug) and request 2026-09-28 — people at work, item 13 (-shoo, -gather, -carry-water): in the child's own figure, east-facing and mirrored for west",
-      "source": "svg/children/claude-boy-speak-2.svg",
-      "label": "boy speak 2",
-      "kind": "claude-boy-chores"
-    },
     "boy-tug-1": {
       "sheet": "claude-boy-chores",
-      "x": 1600,
+      "x": 800,
       "y": 800,
       "w": 400,
       "h": 400,
@@ -1396,7 +1328,7 @@
     },
     "boy-tug-2": {
       "sheet": "claude-boy-chores",
-      "x": 2000,
+      "x": 1200,
       "y": 800,
       "w": 400,
       "h": 400,
@@ -1989,43 +1921,9 @@
       "label": "smallchild carry water n 2",
       "kind": "claude-smallchild-chores"
     },
-    "smallchild-speak-1": {
-      "sheet": "claude-smallchild-chores",
-      "x": 800,
-      "y": 800,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "children",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "replaceWith": "smallchild-speak-1: items 1 and 4 (-scatter, -speak, -tug) and request 2026-09-28 — people at work, item 13 (-shoo, -gather, -carry-water): in the child's own figure, east-facing and mirrored for west",
-      "source": "svg/children/claude-smallchild-speak-1.svg",
-      "label": "smallchild speak 1",
-      "kind": "claude-smallchild-chores"
-    },
-    "smallchild-speak-2": {
-      "sheet": "claude-smallchild-chores",
-      "x": 1200,
-      "y": 800,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "children",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "replaceWith": "smallchild-speak-2: items 1 and 4 (-scatter, -speak, -tug) and request 2026-09-28 — people at work, item 13 (-shoo, -gather, -carry-water): in the child's own figure, east-facing and mirrored for west",
-      "source": "svg/children/claude-smallchild-speak-2.svg",
-      "label": "smallchild speak 2",
-      "kind": "claude-smallchild-chores"
-    },
     "smallchild-tug-1": {
       "sheet": "claude-smallchild-chores",
-      "x": 1600,
+      "x": 800,
       "y": 800,
       "w": 400,
       "h": 400,
@@ -2042,7 +1940,7 @@
     },
     "smallchild-tug-2": {
       "sheet": "claude-smallchild-chores",
-      "x": 2000,
+      "x": 1200,
       "y": 800,
       "w": 400,
       "h": 400,
@@ -2331,24 +2229,6 @@
       "loop": true,
       "motion": "none",
       "direction": "north",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "children"
-    },
-    "girl-speak": {
-      "frames": [
-        {
-          "sprite": "girl-speak-1",
-          "duration": 420
-        },
-        {
-          "sprite": "girl-speak-2",
-          "duration": 420
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
       "authored": true,
       "madeBy": "claude",
       "module": "children"
@@ -2647,24 +2527,6 @@
       "madeBy": "claude",
       "module": "children"
     },
-    "boy-speak": {
-      "frames": [
-        {
-          "sprite": "boy-speak-1",
-          "duration": 420
-        },
-        {
-          "sprite": "boy-speak-2",
-          "duration": 420
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "children"
-    },
     "boy-tug": {
       "frames": [
         {
@@ -2955,24 +2817,6 @@
       "loop": true,
       "motion": "none",
       "direction": "north",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "children"
-    },
-    "smallchild-speak": {
-      "frames": [
-        {
-          "sprite": "smallchild-speak-1",
-          "duration": 420
-        },
-        {
-          "sprite": "smallchild-speak-2",
-          "duration": 420
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
       "authored": true,
       "madeBy": "claude",
       "module": "children"
@@ -3472,34 +3316,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's girl-carry-water-n-2"
-    },
-    "girl-speak-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children",
-      "area": "children",
-      "sheet": "claude-girl-chores",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "the girl (dark braids, a rust-red dress and cream apron, brown shoes) talking up to a grown-up, side on facing east, frame 1 of 2: standing, the face turned up to a grown-up, mouth open telling it, a hand lifted. Astra's child proportions (a head a third of the height), the same face, hair, clothes and colours as her children's sheets; warm hand-drawn storybook style, dark olive-brown outline, one flat shade with the light from the upper left, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/children/claude-girl-speak-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's girl-speak-1"
-    },
-    "girl-speak-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children",
-      "area": "children",
-      "sheet": "claude-girl-chores",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "the girl (dark braids, a rust-red dress and cream apron, brown shoes) talking up to a grown-up, side on facing east, frame 2 of 2: the palm turned out, finishing. Astra's child proportions (a head a third of the height), the same face, hair, clothes and colours as her children's sheets; warm hand-drawn storybook style, dark olive-brown outline, one flat shade with the light from the upper left, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/children/claude-girl-speak-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's girl-speak-2"
     },
     "girl-tug-1": {
       "kind": "frame",
@@ -4005,34 +3821,6 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's boy-carry-water-n-2"
     },
-    "boy-speak-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children",
-      "area": "children",
-      "sheet": "claude-boy-chores",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "the boy (tousled fair hair, a cream shirt with one brace, rolled brown trousers, barefoot) talking up to a grown-up, side on facing east, frame 1 of 2: standing, the face turned up to a grown-up, mouth open telling it, a hand lifted. Astra's child proportions (a head a third of the height), the same face, hair, clothes and colours as her children's sheets; warm hand-drawn storybook style, dark olive-brown outline, one flat shade with the light from the upper left, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/children/claude-boy-speak-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's boy-speak-1"
-    },
-    "boy-speak-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children",
-      "area": "children",
-      "sheet": "claude-boy-chores",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "the boy (tousled fair hair, a cream shirt with one brace, rolled brown trousers, barefoot) talking up to a grown-up, side on facing east, frame 2 of 2: the palm turned out, finishing. Astra's child proportions (a head a third of the height), the same face, hair, clothes and colours as her children's sheets; warm hand-drawn storybook style, dark olive-brown outline, one flat shade with the light from the upper left, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/children/claude-boy-speak-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's boy-speak-2"
-    },
     "boy-tug-1": {
       "kind": "frame",
       "madeBy": "claude",
@@ -4537,34 +4325,6 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's smallchild-carry-water-n-2"
     },
-    "smallchild-speak-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children",
-      "area": "children",
-      "sheet": "claude-smallchild-chores",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "the small child (a dark mop of hair, a cream gown to the shins, barefoot) talking up to a grown-up, side on facing east, frame 1 of 2: standing, the face turned up to a grown-up, mouth open telling it, a hand lifted. Astra's child proportions (a head a third of the height), the same face, hair, clothes and colours as her children's sheets; warm hand-drawn storybook style, dark olive-brown outline, one flat shade with the light from the upper left, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/children/claude-smallchild-speak-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's smallchild-speak-1"
-    },
-    "smallchild-speak-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children",
-      "area": "children",
-      "sheet": "claude-smallchild-chores",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "the small child (a dark mop of hair, a cream gown to the shins, barefoot) talking up to a grown-up, side on facing east, frame 2 of 2: the palm turned out, finishing. Astra's child proportions (a head a third of the height), the same face, hair, clothes and colours as her children's sheets; warm hand-drawn storybook style, dark olive-brown outline, one flat shade with the light from the upper left, transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/children/claude-smallchild-speak-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's smallchild-speak-2"
-    },
     "smallchild-tug-1": {
       "kind": "frame",
       "madeBy": "claude",
@@ -4795,20 +4555,6 @@
       ],
       "status": "temporary: replace with Astra's girl-carry-water-n"
     },
-    "girl-speak": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children",
-      "area": "children",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "the girl (dark braids, a rust-red dress and cream apron, brown shoes) talking up to a grown-up (Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work, item 4): standing, the face turned up to a grown-up, mouth open telling it, a hand lifted; then the palm turned out, finishing, looping.",
-      "frames": [
-        "girl-speak-1",
-        "girl-speak-2"
-      ],
-      "status": "temporary: replace with Astra's girl-speak"
-    },
     "girl-tug": {
       "kind": "clip",
       "madeBy": "claude",
@@ -5025,20 +4771,6 @@
       ],
       "status": "temporary: replace with Astra's boy-carry-water-n"
     },
-    "boy-speak": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children",
-      "area": "children",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "the boy (tousled fair hair, a cream shirt with one brace, rolled brown trousers, barefoot) talking up to a grown-up (Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work, item 4): standing, the face turned up to a grown-up, mouth open telling it, a hand lifted; then the palm turned out, finishing, looping.",
-      "frames": [
-        "boy-speak-1",
-        "boy-speak-2"
-      ],
-      "status": "temporary: replace with Astra's boy-speak"
-    },
     "boy-tug": {
       "kind": "clip",
       "madeBy": "claude",
@@ -5254,20 +4986,6 @@
         "smallchild-carry-water-n-2"
       ],
       "status": "temporary: replace with Astra's smallchild-carry-water-n"
-    },
-    "smallchild-speak": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "children",
-      "area": "children",
-      "request": "Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work",
-      "prompt": "the small child (a dark mop of hair, a cream gown to the shins, barefoot) talking up to a grown-up (Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work, item 4): standing, the face turned up to a grown-up, mouth open telling it, a hand lifted; then the palm turned out, finishing, looping.",
-      "frames": [
-        "smallchild-speak-1",
-        "smallchild-speak-2"
-      ],
-      "status": "temporary: replace with Astra's smallchild-speak"
     },
     "smallchild-tug": {
       "kind": "clip",

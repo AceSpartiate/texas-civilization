@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {SHEETS,ANIMATION_CLIPS} from '../scripts/art-deliveries/bexar-battle-complete-2026-10-11.mjs';
-import {bexarDarknessAtHour,createMoonlightGrade,drawBexarMoonlight,BEXAR_TOWNSFOLK,bexarCivilianHeight} from '../public/bexar-battle-art.js';
+import {createMoonlightGrade,drawBexarMoonlight,BEXAR_TOWNSFOLK,bexarCivilianHeight} from '../public/bexar-battle-art.js';
+import {bexarDarknessAtHour} from '../sim/bexar-light.mjs';
 const atlas=JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json',import.meta.url)));
 test('all twenty Béxar frames retain complete transparent silhouettes',()=>{
  assert.equal(Object.values(SHEETS).flat().length,20);

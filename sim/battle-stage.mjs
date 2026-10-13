@@ -19,7 +19,7 @@
 // are real entities at their own positions, in the force (`members`), and the renderer draws them doing what it does.
 import { GONZALES } from './battles/gonzales.mjs';
 import { dateOf } from './clock.mjs';
-import { bexarDarknessAtHour } from '../public/bexar-battle-art.js';
+import { bexarDarknessAtHour } from './bexar-light.mjs';
 import { BEXAR_STORMING } from './battles/bexar-storming.mjs';
 import { SAN_JACINTO_BATTLE } from './battles/san-jacinto.mjs';
 import { ALAMO } from './battles/alamo.mjs';

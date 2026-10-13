@@ -8,6 +8,7 @@
 // (a brown frock coat, a broad hat, a shot pouch and horn, a long rifle), the regular after her `regular-*` (a blue coatee faced
 // red, white trousers, white crossbelts, the shako, the India Pattern musket); the uniform's sources and how sure each detail
 // is are in battle-kit/figures.mjs. Nothing of a wound is ever drawn (VISION.md §16). Claude's temporary art.
+import { retire } from '../kit/retire.mjs';
 import { frameOf, personFrame, drawPerson } from '../kit/rig.mjs';
 import { POSES } from '../kit/poses.mjs';
 import { add, lerp, blob, capsule, curve, ellipse, poly } from '../kit/svg.mjs';
@@ -134,5 +135,10 @@ function sheet(id, request, replaceWith, rows, cell = WIDE, columns = 4) {
 // C12, the Gonzales gun's crew (`settler-gun-ram`, `-carry`, `-fire`): Astra delivered her civilian cannon crew on 2026-10-03
 // (survivor-travel-gonzales-crew-2026-10-03), so Claude's three settlers of the same names were deleted when it was merged.
 
-export const SHEETS = sheets;
-export const CLIPS = clips;
+const ALL_SHEETS = sheets;
+const ALL_CLIPS = clips;
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the regular at a loophole (2026-10-11) and the volunteers firing over
+// a parapet (2026-10-12). Her frames replace these by subject (public/art-subjects.js) and by name; the drawing code above is
+// no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['regular-loophole-fire*', 'volunteer-parapet-fire*']);

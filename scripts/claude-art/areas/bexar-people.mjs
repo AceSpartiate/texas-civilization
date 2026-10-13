@@ -27,6 +27,7 @@
 //
 // ceiling: the rig's puppet at 40 px - a readable silhouette and palette, not Astra's painting; the rebozo is one flat shape
 // with a striped edge, the dance four poses, the ox a plain barrel on four legs. Her sheets of the same names replace them.
+import { retire } from '../kit/retire.mjs';
 import { personFrame, drawPerson, frameOf, ik } from '../kit/rig.mjs';
 import { POSES } from '../kit/poses.mjs';
 import { drawSack } from '../kit/props.mjs';
@@ -551,7 +552,7 @@ function leaveFrame(i) {
 const couplePrompt = i => `A couple dancing at the fandango in the plaza at Béxar on the night of February 22, 1836 (docs/battle-research/surprise-at-bexar.md §6; HIST-TEX-614), both in one frame, frame ${i + 1} of 4: ${COUPLE_WHAT[i]}. He is the man of Béxar (${WHO['bexar-man']}); she is the woman of Béxar with her rebozo let down on her shoulders (${WHO['bexar-woman']}). The steps are not recorded: a stamping step and a woman's turn are chosen to read as a dance at 40 px, an original interpretation. ${SOURCES} ${STYLE}`;
 const fiddlerPrompt = i => `The fiddler at the fandango in the plaza at Béxar (docs/battle-research/surprise-at-bexar.md §6: "the fiddler and the dancers are invented; what was played is not recorded"), an older Tejano man grey at the temples in a dark blue short jacket, red sash and dark felt sombrero, toward the camera with the fiddle under his chin on his left shoulder and the bow ${i === 0 ? 'drawn out wide' : 'pushed in across the strings'}, frame ${i + 1} of 2. ${SOURCES} ${STYLE}`;
 
-export const SHEETS = {
+const ALL_SHEETS = {
   ...townSheets,
   'claude-fandango': { cell: { w: 560, h: 400 }, columns: 4, request: REQ_TOWN,
     replaceWith: 'item 4: the fandango - a couple dancing (4 frames), a fiddler playing (2 frames), people at the cast\'s logical height and foot baseline',
@@ -574,7 +575,7 @@ export const SHEETS = {
       prompt: `A Tejano family leaving Béxar on the afternoon of February 23, 1836 (request 2026-09-26, the bell at Béxar, item 2; HIST-TEX-612: the Tejano families had been leaving for days), going east, frame ${i + 1} of 4 of a walk: the man of Béxar (${WHO['bexar-man']}) at the head of a brown ox with a long cane goad; the ox yoked at the horns to the pole of a laden carreta - two great solid wheels of pegged planks with no iron tyre, an open bed of poles, sacks of corn, a striped blanket roll, a chest and a pot (after Smithwick and Woodman, HIST-TEX-443, and Astra's carreta-solid-wheels); the woman of Béxar in her rebozo (${WHO['bexar-woman']}) walking after the cart with the girl (${WHO['bexar-girl']}). The wheels turn and the ox's legs step with the walk. ${SOURCES} ${STYLE}` })) },
 };
 
-export const CLIPS = {
+const ALL_CLIPS = {
   ...townClips,
   'dancers-couple': { frames: [0, 1, 2, 3].map(i => ({ sprite: `dancers-couple-${i + 1}`, duration: 280 })), loop: true, motion: 'none', direction: 'east (the man west of the woman); west by mirroring',
     prompt: 'The couple dancing at the fandango: his stamp and her turn, looping at a lively step.' },
@@ -585,3 +586,7 @@ export const CLIPS = {
   'townsfolk-leave': { frames: [0, 1, 2, 3].map(i => ({ sprite: `townsfolk-leave-${i + 1}`, duration: 230 })), loop: true, motion: 'none', direction: 'east; west by mirroring',
     prompt: 'A Tejano family leaving Béxar with its carreta: walking, the wheels turning, looping at the carreta\'s own pace.' },
 };
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the woman of Béxar (her people of Béxar, 2026-10-11). Her frames
+// replace these by subject (public/art-subjects.js) and by name; the drawing code above is no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['bexar-woman*']);

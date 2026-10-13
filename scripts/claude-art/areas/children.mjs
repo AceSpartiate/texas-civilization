@@ -9,6 +9,7 @@
 // Request 2026-09-28 — people at work, item 13: `-shoo` (2), `-gather` (2), `-carry-water` (4, east, and `-n`/`-s`).
 //
 // Claude-drawn and temporary: Astra's frames and clips of the same names replace these on registration.
+import { retire } from '../kit/retire.mjs';
 import { personFrame } from '../kit/rig.mjs';
 import { frameOf } from '../kit/rig.mjs';
 import { CHILD_POSES, CHILD_SCALE, drawChildPose } from '../kit/little.mjs';
@@ -59,12 +60,12 @@ function framesOf(figure, poses) {
 }
 const sheet = (request, replaceWith, frames) => ({ cell: { w: 400, h: 400 }, columns: 6, request, replaceWith, frames });
 
-export const SHEETS = Object.fromEntries(FIGURES.flatMap(figure => [
+const ALL_SHEETS = Object.fromEntries(FIGURES.flatMap(figure => [
   [`claude-${figure}-play`, sheet(PLAY, 'item 1: the children\'s play in each child\'s own figure, on the children\'s sheets\' logical height and foot baseline, east-facing and mirrored for west (-n and -s for the run)', framesOf(figure, PLAY_POSES))],
   [`claude-${figure}-chores`, sheet(PLAY, 'items 1 and 4 (-scatter, -speak, -tug) and request 2026-09-28 — people at work, item 13 (-shoo, -gather, -carry-water): in the child\'s own figure, east-facing and mirrored for west', framesOf(figure, WORK_POSES))],
 ]));
 
-export const CLIPS = Object.fromEntries(FIGURES.flatMap(figure => [...PLAY_POSES, ...WORK_POSES].map(pose => {
+const ALL_CLIPS = Object.fromEntries(FIGURES.flatMap(figure => [...PLAY_POSES, ...WORK_POSES].map(pose => {
   const spec = POSES[pose];
   return [`${figure}-${pose}`, {
     frames: spec.durations.map((duration, i) => ({ sprite: `${figure}-${pose}-${i + 1}`, duration })),
@@ -72,3 +73,7 @@ export const CLIPS = Object.fromEntries(FIGURES.flatMap(figure => [...PLAY_POSES
     prompt: `${WHO[figure]} ${spec.doing} (${spec.request}, ${spec.item}): ${spec.durations.length > 1 ? spec.what.join('; then ') : spec.what[0]}${spec.durations.length > 1 ? ', looping' : ', held with the renderer\'s own gentle motion'}.`,
   }];
 })));
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the children speaking (her conversation poses, 2026-10-09). Her frames
+// replace these by subject (public/art-subjects.js) and by name; the drawing code above is no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['girl-speak*', 'boy-speak*', 'smallchild-speak*']);

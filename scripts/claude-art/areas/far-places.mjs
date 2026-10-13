@@ -9,6 +9,7 @@
 // Drawn procedurally in the view of her building sheets (scripts/claude-art/kit/oblique.mjs); every frame's prompt says what
 // is documented, what is inferred and what is not known, and names its sources.
 
+import { retire } from '../kit/retire.mjs';
 import { LINE, tone } from '../kit/style.mjs';
 import { MATERIAL, buildingFrame, rand, path, blob } from '../kit/oblique.mjs';
 
@@ -384,7 +385,7 @@ const STYLE = 'Warm hand-drawn storybook style in the frontier-v1 building view 
 // buildings by sim/town-layouts.mjs's heights (a trading-house 18 as 1; the fort and the Stone House at `artHeight` 10, the
 // mill 8, timber-hall 24, storehouse 14, stone-tile-house 20, a palisade piece 8), the cutouts all at the map's one place
 // height (public/app.js), as her place cutouts are.
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-fort-velasco': { cell: { w: 660, h: 270 }, columns: 1, request: TOWN_REQUEST, replaceWith: 'item 8: a circular log-and-sand fort, gapped and derelict, at the scale of house-hewn-log and trading-house, south-facing',
     frames: [{ name: 'fort-velasco', draw: E12['fort-velasco'], height: 0.56, compare: [['palisade', 0.44], ['house-hewn-log', 1], ['trading-house', 1]],
       prompt: `Fort Velasco at the mouth of the Brazos in October 1835: the 1832 Mexican work three and a half years after it was given up (docs/town-research/velasco.md §3, from four eyewitnesses - Russell, Waller, John H. Brown, Henry Smith - and the 1832 return of arms). DOCUMENTED: a circle, small (Harkort's scaled drawing of February 1836: about 87 ft, and "just less than 100 feet" in Kneupper's reading of the original; drawn 90 ft), two concentric rows of sharpened posts about six feet apart filled between with sand, earth and shell, a banquette inside to fire over, a central mound about ten feet above the interior revetted with higher posts and carrying the gun en barbette on a pivot behind a low wooden parapet, and a ditch outside. INFERRED: that it was derelict - "abandoned", its "ruins" standing - is documented for 1833-35; the palisade robbed for timber in long gaps, the sand slumped where the posts went, the ditch silted and grassed are a reading of that; the long gun on the mound follows McKinney's "a most superior long 18 pounder" mounted on "our fort at Velasco" on October 24, 1835, which the research takes to be this work (I-3; nobody says so). UNCERTAIN: the height of the posts (drawn about 8.5 ft outside, 7 inside), how much of the palisade was gone, the parapet. Not the dimensioned polygon of 1836 (a different, later fort). ${STYLE}` }] },
@@ -406,3 +407,8 @@ export const SHEETS = {
         prompt: `Mrs. Elizabeth Powell's place on Turkey Creek by the San Bernard, on the trail from Brazoria and Columbia to San Felipe (HIST-TEX-596; TSHA Powell, Elizabeth; the Houston Archeological Society's excavations of 1999-2005, report 25, not read): the Mexican army gathered there after San Jacinto and its rear guard burned the house on April 26, 1836. A map cutout on a patch of ground. DOCUMENTED: a double-pen dog-run house - two rooms and an open hall through, one roof - with a separate kitchen and several small buildings. INFERRED from the trail and the request: a stage stop's sheds and a wagon standing by (a stage line's stop there is not documented; a stand for travellers on the trail is the reading); the gallery and the rail fence. ${STYLE}` },
     ] },
 };
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): Fort Velasco, the Harrisburg steam mill and the Stone House (her town
+// landmarks, 2026-10-11). Her frames replace these by subject (public/art-subjects.js) and by name; the drawing code above is
+// no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, {}, ['fort-velasco', 'sawmill-steam', 'stone-house-nacogdoches']);

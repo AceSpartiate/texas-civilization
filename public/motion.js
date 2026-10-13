@@ -299,16 +299,16 @@ export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', '
 export const CHILD_PASSENGER_FIGURES = Object.freeze(['girl', 'boy', 'smallchild', 'infant']);
 export const ADULT_PASSENGER_FIGURES = Object.freeze(['rust','teal','elder','blue','rust-woman','indigo','ochre','blue-girl']);
 /**
- * The figures Claude drew on the horse and on the wagon's box (2026-09-28), temporary until Astra paints them: since her
- * school-age girl and boy landed (2026-10-12) only the small child riding (`smallchild-ride-*`) and driving
- * (`smallchild-wagon-driver-*`), in
- * public/assets/claude-standins/. Asked for by the same names hers would have; a sheet not yet loaded, or not there, falls
- * back to the composite exactly as before (public/app.js `drawSeated` asks `clipReady`).
+ * The figures Claude drew on the horse and on the wagon's box (2026-09-28), temporary until Astra paints them: none since her
+ * school-age girl and boy landed (2026-10-12). The small child neither rides alone nor drives (her caregiver composites wait
+ * for paired staging, docs/ART_DELIVERY_2026-10-12-MOUNTED-CHILDREN-COMPLETE.md), so Claude's were retired with them. A name
+ * listed here is asked for by the same name hers would have, from public/assets/claude-standins/; a sheet not yet loaded, or
+ * not there, falls back to the composite exactly as before (public/app.js `drawSeated` asks `clipReady`).
  * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - requests 2026-09-14 (family members on
  * horseback) and 2026-09-16 (driving the ox wagon). The baby rides only in somebody's arms (sim/company.mjs), so has neither.
  */
-export const CLAUDE_RIDING_FIGURES = Object.freeze(['smallchild']);
-export const CLAUDE_DRIVING_FIGURES = Object.freeze(['smallchild']);
+export const CLAUDE_RIDING_FIGURES = Object.freeze([]);
+export const CLAUDE_DRIVING_FIGURES = Object.freeze([]);
 /**
  * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
  * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),

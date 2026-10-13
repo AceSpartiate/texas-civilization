@@ -20,6 +20,7 @@
 // live oak and the dense cedar least, the pines' high crowns streaming over a stiff bole, the pliant elm, mesquite and
 // cottonwood most; saplings (`-pole`) a quarter more, old trees (`-large`) less. A prickly pear does not bend in any wind:
 // its pose is upright with dry grass blown past it, which is also the fix for the shear laying a cactus over.
+import { retire } from '../kit/retire.mjs';
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { astraFrame, ASTRA_ATLAS, encodePng } from '../land/pixels.mjs';
@@ -120,8 +121,12 @@ function sheet(list, columns) {
     draw: () => galeFrame(f.name, f.upright, f.p, cell),
   })) };
 }
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-gale-ground': sheet(frames, 4),
 };
 /** Every gale frame and the upright it bends, for GALE_POSES in public/weather-art.js and the proofs. */
 export const GALE = Object.fromEntries(frames.map(f => [f.upright, f.name]));
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the cottonwood in a gale (2026-10-11). Her frames replace these by
+// subject (public/art-subjects.js) and by name; the drawing code above is no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, {}, ['cottonwood-wind']);

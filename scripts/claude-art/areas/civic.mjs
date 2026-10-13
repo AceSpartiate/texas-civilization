@@ -16,6 +16,7 @@
 // *Nuestra Señora de la Purísima Concepción de Acuña Mission*; NPS *Mission Concepción*; UTSA Center for Archaeological
 // Research; docs/battle-research/staging.md §1.9 (the lookouts in the cupola, HIST-TEX-480).
 
+import { retire } from '../kit/retire.mjs';
 import { LINE, tone } from '../kit/style.mjs';
 import { MATERIAL, buildingFrame, rand } from '../kit/oblique.mjs';
 
@@ -234,7 +235,7 @@ const SOURCES_SF = 'HABS TX-34 (Library of Congress); TSHA San Fernando Cathedra
 // the game draws them - Béxar's `heightFeet` (the chapel 105, a house 63, the palace 80), the battle's figure heights (the
 // tower 4.6 figures, the pole 1.3; Concepción 5, the old church-generic 4.5) - scaled down together so a building stays in
 // its row; they are ratios, not persons.
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-bexar-civic': { cell: { w: 720, h: 560 }, columns: 1, request: 'Request 2026-09-14 — Béxar civic architecture',
     replaceWith: 'a researched 1836 façade in the frontier-v1 style, matched to chapel/adobe-flat scale and ground anchors',
     frames: [
@@ -260,3 +261,8 @@ export const SHEETS = {
         prompt: 'Mission Nuestra Señora de la Purísima Concepción de Acuña, two miles below Béxar, as it stood on October 28, 1835, drawn small as it is seen from about 500 yards - the Texians\' lookouts were in its tower (HIST-TEX-480). DOCUMENTED (TSHA; NPS; UTSA): a cross-plan stone church about 89 x 22 ft inside with walls nearly four feet thick; its front faces west, with two square bell towers flanking it and a carved stone portal; a dome with a lantern on a drum over the crossing (the oldest unrestored masonry dome in the United States); the front once painted in bright geometric patterns, faded to bare limestone with red and ochre traces round the tower windows; a row of stone rooms (the granary) and the friars\' convento joined on the south; secularized in 1794 and used by settlers as a barn, with bats in it in 1846. Drawn with the west front to the camera, the dome behind it, the convento\'s arcade to the south (the right) and its far end broken. PROBABLE: the towers\' pyramid caps are what stood in 1835, the church being unrestored. UNCERTAIN: how much of the paint showed in 1835 (drawn as faint traces), the convento\'s form and how much of it and the compound wall stood (drawn a short arcade, broken at its end, and no wall), the cap finials. REJECTED: the 1861 repairs and the bell added later. Tan-grey limestone and tufa, thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow.' },
     ] },
 };
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): San Fernando, the Governor's Palace (2026-10-11) and Mission
+// Concepción (2026-10-12). Her frames replace these by subject (public/art-subjects.js) and by name; the drawing code above is
+// no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, {}, ['bexar-san-fernando-1836', 'bexar-governors-palace-1836', 'mission-concepcion']);

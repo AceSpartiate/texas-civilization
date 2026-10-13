@@ -27,7 +27,8 @@ export function famousArt(one) {
     // Astra's refinements of the four riders (2026-10-12): the one the scene asks for, and the walk north or south.
     const refined = namedMountedRefinement(one);
     if (refined) clips.add(refined.clip);
-    add(own?.rideIdle); add(own?.ride); add(own?.rideNorth); add(own?.rideSouth); clips.add(kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e');
+    add(own?.rideIdle); add(one?.heading === 'north' ? own?.rideNorth : one?.heading === 'south' ? own?.rideSouth : null); add(own?.ride);
+    clips.add(kind === 'regular' ? 'dragoon-march' : 'mounted-courier-e');
   }
   else {
     // A walk is drawn as a clip (`animated`), whatever its name looks like.

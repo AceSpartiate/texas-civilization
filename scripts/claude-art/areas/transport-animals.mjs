@@ -5,6 +5,7 @@
 //   D12  the Grass Fight's pack train (`mule-packed-grass-walk-*`) and mules at a gun's limber, a driver riding the near one
 //        (`limber-mules-walk`)
 // All from the four-legged rig (kit/quadruped.mjs): the same jointed legs and gaits as the horse, the cattle's own frame.
+import { retire } from '../kit/retire.mjs';
 import { animalFrame, groupFrame, placed, drawMounted, MOUNTED_LOGICAL } from '../kit/horse.mjs';
 import { COATS, quadPose, drawQuadSide, drawQuadFrontal } from '../kit/quadruped.mjs';
 import { UNIT, LINE, tone } from '../kit/style.mjs';
@@ -91,7 +92,7 @@ const limber = [0, 1, 2, 3].map(i => ({ name: `limber-mules-walk-${i + 1}`, heig
 
 const loop = (frames, ms, direction, prompt, extra = {}) => ({ frames: frames.map(f => ({ sprite: f.name, duration: ms })), loop: true, motion: 'none', direction, prompt, ...extra });
 // Retired 2026-10-03 when Astra's own art of the same names was merged (Astra's art wins): the Grass Fight's pack mules (`mule-packed-grass-walk-*`).
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-milk-cow': { cell: half(COW), columns: 4, request: 'Request 2026-09-27 — the milk cow on the run, and Béxar before the bell', replaceWith: 'item 1: a gentle dairy cow with a rope trailing from her horns, 4 frames east, 2 north and south, 2 grazing, at the cattle\'s logical height',
     frames: [...cowWalkE, ...cowWalkV('n'), ...cowWalkV('s'), ...cowGraze] },
   'claude-herd': { cell: half(HERD), columns: 2, request: 'Request 2026-09-25 — the south\'s fights: San Patricio by night and Agua Dulce Creek', replaceWith: 'item 4: several hundred horses moving as one mass, 4 frames, and scattering, at the mustangs\' scale',
@@ -101,7 +102,7 @@ export const SHEETS = {
   'claude-limber': { cell: half(LIMBER), columns: 2, request: 'Request 2026-09-25 — Concepción and the Grass Fight', replaceWith: 'item 8: mules at a gun\'s limber, a driver riding the near one, 4 frames east',
     frames: limber },
 };
-export const CLIPS = {
+const ALL_CLIPS = {
   'milk-cow-walk-e': loop(cowWalkE, 260, 'east; west by mirroring', 'The milk cow walking east on her rope: a four-frame walk loop, a little slower than the horse.'),
   'milk-cow-walk-n': loop(cowWalkV('n'), 320, 'north', 'The milk cow walking away from the camera on her rope: two frames.'),
   'milk-cow-walk-s': loop(cowWalkV('s'), 320, 'south', 'The milk cow walking toward the camera on her rope: two frames.'),
@@ -110,3 +111,7 @@ export const CLIPS = {
   'herd-scatter': loop(herdScatter, 130, 'east; west by mirroring', 'The herd scattering, some turned back: a four-frame loop.'),
   'limber-mules-walk': loop(limber, 230, 'east; west by mirroring', 'Mules at a gun\'s limber walking east, a driver riding the near one: a four-frame loop.'),
 };
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the driven and scattering herd (2026-10-10). Her frames replace these
+// by subject (public/art-subjects.js) and by name; the drawing code above is no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['herd-drove*', 'herd-scatter*']);

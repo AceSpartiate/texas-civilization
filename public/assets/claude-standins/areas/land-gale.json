@@ -7,8 +7,8 @@
       "image": "/assets/claude-standins/claude-gale-ground.png",
       "width": 2280,
       "height": 864,
-      "bytes": 1085407,
-      "sha256": "48ace1b57fec663aa066aa0a7d4bde95967eacaaf8068b2354bcaf34e4548387",
+      "bytes": 884151,
+      "sha256": "6c211661d6108dbfe3c0cbc707122c598cfa0bd2ff5b3936025947ffd6272ab3",
       "madeBy": "claude",
       "module": "land-gale",
       "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
@@ -24,26 +24,9 @@
     }
   },
   "frames": {
-    "cottonwood-wind": {
-      "sheet": "claude-gale-ground",
-      "x": 0,
-      "y": 0,
-      "w": 570,
-      "h": 432,
-      "anchorX": 0.2482,
-      "anchorY": 0.9583,
-      "logicalHeight": 387,
-      "madeBy": "claude",
-      "module": "land-gale",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "replaceWith": "cottonwood-wind: a gale silhouette in the weather-norther style, bent hard to the viewer's right, exactly the scale and anchor of the upright sprite",
-      "source": "svg/land-gale/claude-cottonwood-wind.svg",
-      "label": "cottonwood wind",
-      "kind": "claude-gale-ground"
-    },
     "marsh-cordgrass-wind": {
       "sheet": "claude-gale-ground",
-      "x": 570,
+      "x": 0,
       "y": 0,
       "w": 570,
       "h": 432,
@@ -60,7 +43,7 @@
     },
     "dune-grass-wind": {
       "sheet": "claude-gale-ground",
-      "x": 1140,
+      "x": 570,
       "y": 0,
       "w": 570,
       "h": 432,
@@ -77,7 +60,7 @@
     },
     "thicket-thorn-1-wind": {
       "sheet": "claude-gale-ground",
-      "x": 1710,
+      "x": 1140,
       "y": 0,
       "w": 570,
       "h": 432,
@@ -94,8 +77,8 @@
     },
     "thicket-thorn-2-wind": {
       "sheet": "claude-gale-ground",
-      "x": 0,
-      "y": 432,
+      "x": 1710,
+      "y": 0,
       "w": 570,
       "h": 432,
       "anchorX": 0.2781,
@@ -111,7 +94,7 @@
     },
     "palmetto-wind": {
       "sheet": "claude-gale-ground",
-      "x": 570,
+      "x": 0,
       "y": 432,
       "w": 570,
       "h": 432,
@@ -128,7 +111,7 @@
     },
     "yucca-wind": {
       "sheet": "claude-gale-ground",
-      "x": 1140,
+      "x": 570,
       "y": 432,
       "w": 570,
       "h": 432,
@@ -146,20 +129,6 @@
   },
   "clips": {},
   "provenance": {
-    "cottonwood-wind": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "land-gale",
-      "area": "land",
-      "sheet": "claude-gale-ground",
-      "request": "Request 2026-09-20 — the country in a norther: trees and grass bent by the wind",
-      "prompt": "a cottonwood: the tall open crown streaming to leeward, its fluttering leaves flashing pale, many blown off, in a hard norther blowing from the viewer's left to right: Astra's own upright cottonwood, her painting bent rather than redrawn - the trunk curving over from a foot that stays put, the top about 23 in 100 of the height to leeward, the crown drawn out 39 in 100 to leeward and pressed in to windward, its windward edge torn and some leaves turned pale side up; Claude's loose leaves in her green. Her scale and ground anchor exactly (logical height her frame's height), transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/land-gale/claude-cottonwood-wind.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's cottonwood-wind"
-    },
     "marsh-cordgrass-wind": {
       "kind": "frame",
       "madeBy": "claude",

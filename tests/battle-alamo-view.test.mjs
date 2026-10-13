@@ -144,8 +144,10 @@ test('the columns carry ladders, climb the north wall on them, and the assault i
   const { ctx } = run(view, art, at('north-wall'), { seconds: 4, perTick: 2 });
   assert.ok(art.drawn.some(one => one.clip === 'regular-climb'), 'nobody was drawn climbing a ladder');
   assert.ok(art.drawn.some(one => one.sprite === 'ladder-set-e' || one.sprite === 'ladder-set-w'), 'no ladder was set against the wall');
-  // The dark is Claude's `night-grade` multiplied over the view, warmed by `dawn-grade` as the light comes; the wash without them.
-  assert.ok(art.drawn.some(one => one.sprite === 'night-grade' && one.alpha > 0.1), 'the assault before dawn was drawn in daylight');
+  // The dark is Astra's grade (2026-10-12, public/alamo-battle-art.js `drawAlamoGrade`), eased in screen time; Claude's
+  // `night-grade` is not laid over it.
+  assert.ok(ctx.calls.some(call => call[0] === 'fillStyle' && /rgba\(14,20,44,0\.[1-9]/.test(call[1])), 'the assault before dawn was drawn in daylight');
+  assert.ok(!art.drawn.some(one => /-grade$/.test(one.sprite || '')), "Claude's grade is laid over Astra's at the Alamo");
   const washed = fakeArt(), plain = washed.drawSprite;
   washed.drawSprite = (c, sprite, ...rest) => (sprite.endsWith('-grade') ? 0 : plain(c, sprite, ...rest));
   const { ctx: washCtx } = run(createBattleView(washed), washed, at('north-wall'), { seconds: 1, perTick: 2 });

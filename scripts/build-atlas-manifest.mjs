@@ -354,6 +354,10 @@ export const FIGURE_HEIGHTS = {
   'regular-engineer-actions': [['', 'tallest']],
   // Astra's crowbar seen from the front and the back (2026-10-08): each view one man at one size, his tallest frame.
   'volunteer-crowbar-vertical': [['volunteer-crowbar-s-', 'tallest'], ['volunteer-crowbar-n-', 'tallest']],
+  // Her regular's crowbar from the front and the back (2026-10-10), the same rule; and the steam mill's plume (2026-10-11), one
+  // plume at one scale as it rises.
+  'regular-crowbar-vertical': [['regular-crowbar-s-', 'tallest'], ['regular-crowbar-n-', 'tallest']],
+  'town-mill-smoke': [['', 'tallest']],
   'volunteer-bearers': [['', 'tallest']],
   'regular-bearers': [['', 'tallest']],
   'dragoon-wounded-led': [['', 'tallest']],

@@ -14,7 +14,8 @@ const simDir = fileURLToPath(new URL('../sim/', import.meta.url));
 const clips = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/animation.json', import.meta.url)), 'utf8')).clips;
 const requests = readFileSync(fileURLToPath(new URL('../docs/ART_REQUESTS.md', import.meta.url)), 'utf8');
 // Every grown cast figure a family's person can be drawn as (children without a pose take a grown figure, drawn smaller).
-const CAST = RIDING_FIGURES;
+// The eight grown figures of the cast: the riders but the school-age girl and boy (on horseback since 2026-10-12), who hoe nothing.
+const CAST = RIDING_FIGURES.filter(figure => figure !== 'girl' && figure !== 'boy');
 
 /** Every chore the server can put somebody on: the table in sim/chores.mjs and every module that registers into it. */
 async function everyChore() {
@@ -189,7 +190,7 @@ test('felling, the lane, the bee tree, the carreta, the house and splitting rail
   assert.equal(STROKES[strokeOf('build-house', 'felling and hauling logs')].tool, 'axe', 'felling for the house');
   assert.equal(STROKES[strokeOf('fence-plot', 'splitting rails')].tool, 'maul', 'splitting rails is not drawn with a maul');
   // The tool is put in the hoeing cycle's hands: every cast figure, every frame of it.
-  for (const figure of RIDING_FIGURES) {
+  for (const figure of CAST) {
     assert.equal(HAFTS[figure]?.length, clips[`${figure}-work`].frames.length, `${figure}: no hands for each frame of its hoeing cycle`);
   }
   // Drawn: a haft and a head in each frame, in a different place in each (the swing), and mirrored for somebody facing west.

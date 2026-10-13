@@ -8,6 +8,7 @@
 // (the soles on the footboard or the floor), the hip about 0.4 of the way up, drawn at 0.92 of a person (`driverHeight`), so its
 // logical height is 0.92 of a standing figure's 300 and a seated person is the same size as the same person standing. West is
 // the east drawing mirrored (the delivered drivers have a painted west; this stand-in does not).
+import { retire } from '../kit/retire.mjs';
 import { personFrame, drawPerson, frameOf } from '../kit/rig.mjs';
 import { PEOPLE, LINE } from '../kit/style.mjs';
 import { add, capsule, curve } from '../kit/svg.mjs';
@@ -82,14 +83,19 @@ const riderFrames = RIDERS.flatMap(figure => ['e', 's', 'n'].map(view => ({ name
   prompt: `${WHO[figure]} riding in the bed of the family's wagon or cart, ${HEAD[view]}: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). ${STYLE}`,
   draw: () => frame(`${figure}-ride-wagon-${view}-1`, figure, view, false, `${figure} riding in the wagon's bed, ${view}`) })));
 
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-wagon-drivers': { cell: PEOPLE.cell, columns: 8, request: 'Request 2026-09-16 — driving the ox wagon', replaceWith: 'a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig\'s seat point',
     frames: driverFrames },
   'claude-wagon-riders': { cell: PEOPLE.cell, columns: 9, request: 'Request 2026-09-25 — riders, walkers and the cart', replaceWith: 'item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers',
     frames: riderFrames },
 };
 const held = (sprite, direction, prompt) => ({ frames: [{ sprite, duration: 2200 }], loop: true, motion: 'breathe', direction, prompt });
-export const CLIPS = Object.fromEntries([
+const ALL_CLIPS = Object.fromEntries([
   ...driverFrames.map(f => [`${f.figure}-wagon-driver-${f.view}`, held(f.name, { s: 'south', e: 'east', w: 'west', n: 'north' }[f.view], `${f.figure} driving the wagon, ${f.view}: one held seated frame, breathing, as the delivered drivers.`)]),
   ...riderFrames.map(f => [`${f.figure}-ride-wagon-${f.view}`, held(f.name, { s: 'south', e: 'east; west by mirroring', n: 'north' }[f.view], `${f.figure} riding in the wagon's bed, ${f.view}: one held seated frame, breathing.`)]),
 ]);
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the school-age girl and boy driving (2026-10-12), and the small child,
+// who neither rides alone nor drives. Her frames replace these by subject (public/art-subjects.js) and by name; the drawing
+// code above is no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['girl-wagon-driver-*', 'boy-wagon-driver-*', 'smallchild-wagon-driver-*']);

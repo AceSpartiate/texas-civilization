@@ -17,6 +17,7 @@
 // ground corners are hers where the silhouette is hers, and computed from `PEN` where it is new.
 //
 // Temporary, like every Claude frame: Astra's frame of the same name replaces each the moment it is registered.
+import { retire } from '../kit/retire.mjs';
 import { readFileSync } from 'node:fs';
 import { LINE } from '../kit/style.mjs';
 
@@ -662,7 +663,7 @@ const endFrames = () => [
 const request = { sides: 'Request 2026-09-23 — the house from its other sides', roof: 'Request 2026-09-24 — one roof over a two-pen house', plot: 'Request 2026-09-15 — the house plot\'s pieces' };
 const cellOf = names => ({ w: Math.max(...names.map(n => her(n).w)), h: Math.max(...names.map(n => her(n).h)) });
 
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-house-back': { cell: { w: 320, h: 270 }, columns: 3, request: request.sides,
     replaceWith: 'the pen from behind: the gable toward the viewer without its door, in the house-modules style, scale and corner-on view, with its anchor, seat and ground corners',
     frames: backFrames() },
@@ -688,7 +689,7 @@ export const SHEETS = {
 };
 
 // Frames are drawn in their own box (her frame's size) and the sheet's cell is the largest of them: pad each SVG to the cell.
-for (const spec of Object.values(SHEETS)) {
+for (const spec of Object.values(ALL_SHEETS)) {
   for (const frame of spec.frames) {
     const draw = frame.draw;
     frame.draw = () => padTo(draw(), spec.cell);
@@ -716,3 +717,8 @@ function padTo(drawn, cell) {
   if (drawn.extra?.ridge) out.extra = { ...drawn.extra, ridge: drawn.extra.ridge.map(([x, y]) => [fx(x), fy(y)]) };
   return out;
 }
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the rear and end views, the roof joins, the jacal stages, the shed
+// frame and the double chimney (2026-10-10, 10-11). Her frames replace these by subject (public/art-subjects.js) and by name;
+// the drawing code above is no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, {}, ['house-round-back-*', 'house-hewn-back-*', 'house-roof-join*', 'house-jacal-*', 'house-chimney-double', 'house-shed-frame', 'house-porch-end', 'house-shed-room-end', 'house-passage-floor-end', 'house-passage-roof-end']);

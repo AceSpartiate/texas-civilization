@@ -73,13 +73,13 @@ test('each tile is the woods themselves: the trees in it, its patches and its sh
 });
 
 test('a kind with its own art names frames that exist, and is sent them, with the picture it borrowed to fall back on', () => {
-  // `own` / `ownStump` (2026-09-28): anacua, ebony, tupelo, cedar elm, willow and the hardwood stumps have art of their own -
-  // Claude-drawn stand-ins today (public/assets/claude-standins/), Astra's when she delivers the same names. Shortleaf's came
-  // (2026-10-08) and it is drawn as its own `picture` now, `own` gone.
+  // `own` / `ownStump` (2026-09-28): the hardwood stumps have art of their own - Claude-drawn stand-ins today
+  // (public/assets/claude-standins/), Astra's when she delivers the same names. Shortleaf's came (2026-10-08), and the anacua,
+  // ebony, tupelo, cedar elm and willow (2026-10-11, `tree-*`): each is drawn as its own `picture` now, `own` gone.
   const astra = new Set(Object.keys(JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8')).frames));
   const claude = new Set(Object.keys(JSON.parse(readFileSync(new URL('../public/assets/claude-standins/atlas.json', import.meta.url), 'utf8')).frames));
   const own = Object.entries(KINDS).filter(([, kind]) => kind.own || kind.ownStump);
-  assert.deepEqual(own.filter(([, kind]) => kind.own).map(([id]) => id).sort(), ['anacua', 'cedar-elm', 'ebony', 'tupelo', 'willow']);
+  assert.deepEqual(own.filter(([, kind]) => kind.own).map(([id]) => id).sort(), []);
   const sent = Object.fromEntries(woodsCatalogue().kinds.map(kind => [kind.id, kind]));
   for (const [id, kind] of own) {
     for (const name of kind.own ? ['pole', 'log', 'large'].map(size => `${kind.own}-${size}`) : []) assert.ok(astra.has(name) || claude.has(name), `${id}: ${name} is in neither library`);

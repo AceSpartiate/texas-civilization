@@ -9,6 +9,7 @@
 // own `fog` phase). The Grass Fight: the train's guard fought from a dry creek bed and a ditch in mesquite, and Jack's men
 // forded a creek (HIST-TEX-031, HIST-TEX-483). San Jacinto: the marsh at the Mexican rear. The shapes of bank, bed and
 // marsh are readings at play size, not surveys of those places.
+import { retire } from '../kit/retire.mjs';
 import { billow, frameDoc, rng, shade, f1, INK } from '../land/paint.mjs';
 
 export const AREA = 'land';
@@ -145,7 +146,7 @@ function grade(name, stops, spot, note) {
 export const GRADE_GUTTER = GUTTER / GRADE;
 
 // Retired 2026-10-03 when Astra's own art of the same names was merged (Astra's art wins): the fog banks (`fog-bank-dense`, `fog-bank-thin`).
-export const SHEETS = {
+const ALL_SHEETS = {
   'claude-banks-creeks': { cell: { w: 420, h: 260 }, columns: 3, request: CONCEPCION, replaceWith: 'items 1 and 7: a ground piece seen from above at the map\'s scale, transparent, laid along the bank or the creek',
     frames: [
       { name: 'riverbank-cut-e', height: 1.3, draw: () => pad(riverbank('e'), 420, 260), compare: [['earth-rampart', 1.3]], prompt: 'A length of the cut bank at Concepción: an earthen river bank running up the screen, its crest grassed, its raw brown face with strata and roots dropping to the east toward the men in the bottom, two steps cut into the face to stand on and fire from; outlined, lit from the upper left, transparent ground. Laid end to end along the bank.' },
@@ -168,6 +169,11 @@ function pad(piece, W, H) {
   return { svg, anchorX: +((dx + piece.anchorX * w) / W).toFixed(4), anchorY: +((dy + piece.anchorY * h) / H).toFixed(4), logicalHeight: H };
 }
 
-export const CLIPS = {
+const ALL_CLIPS = {
 };
 void GROUND;
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the cut riverbank and the Grass Fight's creek beds and ford
+// (2026-10-10, 10-12). Her frames replace these by subject (public/art-subjects.js) and by name; the drawing code above is no
+// longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['riverbank-cut-*', 'creek-bed-dry', 'creek-ford']);

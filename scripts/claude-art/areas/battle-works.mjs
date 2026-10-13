@@ -13,6 +13,7 @@
 // strongly supported) and the north wall two or three - their calibres are not known, so the guns drawn are generic iron pieces
 // (https://www.sonsofdewittcolony.org/adp/history/1836/the_battle/the_weapons/cannon.html); the Come and Take It flag's star
 // rests on Smithwick's late memoir alone and is disputed (https://www.tshaonline.org/handbook/entries/gonzales-come-and-take-it-cannon).
+import { retire } from '../kit/retire.mjs';
 import { personFrame, drawPerson, frameOf } from '../kit/rig.mjs';
 import { Ink, frameSvg, add, lerp, blob, capsule, curve, ellipse, poly, f2 } from '../kit/svg.mjs';
 import { LINE, PALETTE, UNIT, tone } from '../kit/style.mjs';
@@ -189,5 +190,11 @@ sheet('claude-ammunition-crate', R.famous, 'Castrillón and the rest: a scale-ma
   for (const id of ['north', 'church']) for (const dir of ['e', 'w']) clips[`cannon-alamo-${id}-${dir}-recoil`] = clip([[`cannon-alamo-${id}-${dir}`, 110], [`cannon-alamo-${id}-recoil-${dir}`, 180], [`cannon-alamo-${id}-${dir}`, 470]], { loop: false, direction: dir === 'e' ? 'east' : 'west', prompt: `The Alamo's ${id} gun firing: at rest, the recoil, back at rest (as the painted Twin Sisters' recoil clip).` });
 }
 
-export const SHEETS = sheets;
-export const CLIPS = clips;
+const ALL_SHEETS = sheets;
+const ALL_CLIPS = clips;
+
+// Retired at the merge of 2026-10-13 (Astra's art wins): the Alamo's north-wall and church guns (her carriage variants,
+// 2026-10-12), the army's camp (her wedge tents, cook fire and pennants, 2026-10-10) and the padre with his carts (her padre
+// and casualty carts, 2026-10-12). Her frames replace these by subject (public/art-subjects.js) and by name; the drawing code
+// above is no longer called for them.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['cannon-alamo-*', 'army-camp-*', 'padre-carts*']);
