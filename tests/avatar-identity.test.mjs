@@ -49,10 +49,11 @@ test('a parent keeps the chosen head silhouette during walking, work and rest', 
   }
 });
 
-test('a parent in a pose her family figures lack is drawn in her nearest one: carrying is her walk, mending her work', () => {
-  // Merged 2026-10-02: the old cast's `carry` is a walk with a load (the harvest home, a baby held), so her walk, not her hoeing.
+test('a parent with a look carries and mends in her own family rig, whatever her head', () => {
+  // Until 2026-10-13 her figures lacked both (merged 2026-10-02: carrying was her walk, mending her work); Astra's family rig
+  // (public/family-rig-bindings.js) carries and hammers for every identity.
   const entity = { id: 'parent', kind: 'person', sex: 'female', band: 'adult', appearance: { ...appearance, head: 'headscarf' } };
-  assert.equal(avatarBinding(entity, { id: 'rust-woman-carry' }).id, 'mother-scarf-walk');
-  assert.equal(avatarBinding(entity, { id: 'rust-woman-repair' }).id, 'mother-scarf-work');
-  assert.equal(avatarBinding({ ...entity, appearance: { ...appearance, head: 'pinned hair' } }, { id: 'rust-woman-carry' }).id, 'teal-carry');
+  assert.equal(avatarBinding(entity, { id: 'rust-woman-carry' }).id, 'mother-scarf-rig-carry');
+  assert.equal(avatarBinding(entity, { id: 'rust-woman-repair' }).id, 'mother-scarf-rig-hammer');
+  assert.equal(avatarBinding({ ...entity, appearance: { ...appearance, head: 'pinned hair' } }, { id: 'rust-woman-carry' }).id, 'teal-rig-carry');
 });

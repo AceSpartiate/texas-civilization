@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { buildManifest, decodeRgba, root, SHEETS } from '../scripts/build-atlas-manifest.mjs';
-import { pending } from '../scripts/art-deliveries/index.mjs';
+import { pending, FRAME_ALIASES } from '../scripts/art-deliveries/index.mjs';
 import { GROUND_CLASSES } from '../public/ground-classes.js';
 import { GALE_POSES } from '../public/weather-art.js';
 import { KINDS, SIZES } from '../sim/woods.mjs';
@@ -12,6 +12,9 @@ import { ALAMO_FACES } from '../public/alamo-faces.js';
 
 const manifest = JSON.parse(readFileSync(root + 'atlas.json', 'utf8'));
 const expected = Object.values(SHEETS).flat().filter(Boolean);
+// Astra's family rig (2026-10-13): a composed sprite - a body with its head on its socket (`rig`), or one person carrying another
+// (`compound`) - is an alias of its body's frame, with that frame's own bounds; it is not a cell of its own on the sheet.
+const isAlias = frame => Boolean(frame.rig || frame.compound);
 
 // A shipped manifest whose rectangles no longer match the shipped art is the worst
 // failure this library can have, because nothing throws: every sprite simply draws a
@@ -22,7 +25,8 @@ test('atlas.json still describes the art that is actually shipped', () => {
   const waiting = new Set(pending.map(entry => `${entry.sheet}.png`));
   assert.deepEqual(readdirSync(root + 'atlases').filter(name => /\.png$/i.test(name) && !waiting.has(name)).sort(), Object.values(manifest.sheets).map(sheet => sheet.image.split('/').at(-1)).sort(), 'every runtime PNG must be inventoried');
   assert.deepEqual(buildManifest(), manifest, 'atlas.json is stale - rerun node scripts/build-atlas-manifest.mjs');
-  assert.deepEqual(Object.keys(manifest.frames), expected, 'frame names and reading order must match the generation prompts');
+  assert.deepEqual(Object.keys(manifest.frames).filter(name => !isAlias(manifest.frames[name])), expected, 'frame names and reading order must match the generation prompts');
+  assert.deepEqual(Object.keys(manifest.frames).filter(name => isAlias(manifest.frames[name])).sort(), Object.keys(FRAME_ALIASES).sort(), 'every composed sprite is a declared alias');
 });
 
 test('every frame is a usable sprite: inside its sheet, non-empty, and standing on its own anchor', () => {
@@ -34,6 +38,12 @@ test('every frame is a usable sprite: inside its sheet, non-empty, and standing 
   }
   const boxes = [];
   for (const [name, frame] of Object.entries(manifest.frames)) {
+    // An alias is its source frame's bounds again, with the parts it is composed of named and drawn with it.
+    if (isAlias(frame)) {
+      const source = manifest.frames[(frame.rig || frame.compound).source], part = manifest.frames[frame.rig?.head || frame.compound?.patient];
+      assert.ok(source && part && ['x', 'y', 'w', 'h', 'sheet'].every(key => source[key] === frame[key]), `${name}: an alias of a frame and a part that exist`);
+      continue;
+    }
     const image = images[frame.sheet];
     assert.ok(image, `${name} names a sheet that exists`);
     assert.ok(frame.x >= 0 && frame.y >= 0 && frame.x + frame.w <= image.width && frame.y + frame.h <= image.height, `${name} lies inside its sheet`);

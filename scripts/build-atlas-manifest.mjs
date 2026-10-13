@@ -436,6 +436,8 @@ export function locomotionGroups(clips = ANIMATION_CLIPS, frames = null) {
 export function buildManifest({ onlySheets = null } = {}) {
 const sheets = {}, frames = {}, bodies = {};
 const moving = new Set(locomotionGroups().flat());
+// A family-rig alias that moves (a rig walk) is measured by its body frame's silhouette (C1, below).
+const movingSources = new Set(Object.entries(FRAME_ALIASES).filter(([alias]) => moving.has(alias)).map(([, rig]) => rig.source));
 for (const [sheet, names] of Object.entries(SHEETS)) {
   if(onlySheets&&!onlySheets.includes(sheet))continue;
   const file = `atlases/${sheet}.png`;
@@ -546,7 +548,7 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
     const trimmedPixels = frame.area - retainedPixels, trimmedFraction = trimmedPixels / frame.area;
     if (trimmedFraction > MAX_TRIM_FRACTION) throw new Error(`${sheet}/${names[index]}: overlap split clips ${trimmedPixels} pixels (${(trimmedFraction * 100).toFixed(3)}%); requires a clean regeneration or explicit layout review`);
     const anchor = anchorOf(image, frame), logicalHeight = logicalOf(frame, names[index]);
-    if (moving.has(names[index])) bodies[names[index]] = bodyOf(image, frame, members, labels);
+    if (moving.has(names[index]) || movingSources.has(names[index])) bodies[names[index]] = bodyOf(image, frame, members, labels);
     // Astra's family rig (2026-10-13): each body and head carries its painted cyan neck socket and the materials it is tinted by.
     let materialMetadata = {};
     if (sheet.startsWith('rig-') || sheet === 'family-transport-components') {
@@ -578,18 +580,6 @@ for (const [sheet, names] of Object.entries(SHEETS)) {
     };
   });
 }
-// C1: one ground point per locomotion clip - the same offset from the silhouette's centroid in every frame, as a fraction of the
-// figure's height, so a clip mixing sheets drawn at different scales still agrees.
-for (const group of locomotionGroups(ANIMATION_CLIPS, frames)) {
-  const logical = name => frames[name].logicalHeight || frames[name].h;
-  const offsets = group.map(name => (frames[name].x + frames[name].anchorX * frames[name].w - bodies[name]) / logical(name)).sort((a, b) => a - b);
-  const middle = offsets.length % 2 ? offsets[(offsets.length - 1) / 2] : (offsets[offsets.length / 2 - 1] + offsets[offsets.length / 2]) / 2;
-  for (const name of group) {
-    const frame = frames[name];
-    frame.anchorX = +((bodies[name] + middle * logical(name) - frame.x) / frame.w).toFixed(4);
-  }
-}
-
 // Rig parts have explicit painted sockets. All aliases retain exact source bounds; no raster edits.
 for(const [sheet,info] of Object.entries(sheets))if(sheet.startsWith('rig-')){
  const list=Object.values(frames).filter(f=>f.sheet===sheet);
@@ -611,6 +601,20 @@ for(const [name,rig] of Object.entries(FRAME_ALIASES))if(frames[rig.source]&&fra
  const full=rig.body==='infant'?1:rig.body==='smallchild'?1.24:rig.body?.startsWith('child')?1.18:rig.body?.startsWith('youth')?1.13:1.10;
  frames[name]={...frames[rig.source],...(rig.patient?{compound:rig}:{rig:{...rig,headScale:rig.headScale/full},logicalHeight:frames[rig.source].logicalHeight*full}),label:name.replaceAll('-',' ')};
 }
+// C1: one ground point per locomotion clip - the same offset from the silhouette's centroid in every frame, as a fraction of the
+// figure's height, so a clip mixing sheets drawn at different scales still agrees. After the family rig's aliases are made, so a
+// rig walk (an alias of a body frame, its head on it) is held to its body's silhouette as every walk is (2026-10-13).
+for (const [name, rig] of Object.entries(FRAME_ALIASES)) if (frames[name] && bodies[rig.source] !== undefined) bodies[name] = bodies[rig.source];
+for (const group of locomotionGroups(ANIMATION_CLIPS, frames)) {
+  const logical = name => frames[name].logicalHeight || frames[name].h;
+  const offsets = group.map(name => (frames[name].x + frames[name].anchorX * frames[name].w - bodies[name]) / logical(name)).sort((a, b) => a - b);
+  const middle = offsets.length % 2 ? offsets[(offsets.length - 1) / 2] : (offsets[offsets.length / 2 - 1] + offsets[offsets.length / 2]) / 2;
+  for (const name of group) {
+    const frame = frames[name];
+    frame.anchorX = +((bodies[name] + middle * logical(name) - frame.x) / frame.w).toFixed(4);
+  }
+}
+
 // Rear-view sheets have larger source cells than the original modular roofs.
 // Normalize roof pixel scale to the same sixteen-foot pen width, independent of atlas resolution.
 for (const material of ['round','hewn']) {
