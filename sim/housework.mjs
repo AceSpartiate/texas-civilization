@@ -25,6 +25,7 @@ import { larderShown } from './hunger.mjs';
 import { dateOf } from './clock.mjs';
 import { holdingOf } from './grants.mjs';
 import { stirredShare } from './shares.mjs';
+import { yardLayout } from './yard-layout.mjs';
 
 export const CLAIMS = Object.freeze({ house: 'FIC-GONZ-1153', garden: 'FIC-GONZ-1154', remarks: 'FIC-GONZ-1155', prices: 'FIC-GONZ-1156', wash: 'FIC-GONZ-1157', washFor: 'FIC-GONZ-1160' });
 const DAY = 1440;
@@ -79,10 +80,16 @@ export const GARDEN_FOOD = 0.3, GARDEN_WINTER = 0.1;
 /** The winter months, 0-based: December to February, on the real land; the invented country's one September never reaches them. */
 const GARDEN_WINTER_MONTHS = Object.freeze([11, 0, 1]);
 export const gardenSeason = world => (world?.map?.source && GARDEN_WINTER_MONTHS.includes(dateOf(world, world.minute).getUTCMonth()) ? 'winter' : 'growing');
-/** Where the garden lies: beside the house to the east, clear of the yard by the door, inside the family's own land. */
+/**
+ * Where the garden lies: beside the house to the east, clear of the house, the door, the woodpile, the tent, the beasts, the field,
+ * the lane and the water, inside the family's own land (sim/yard-layout.mjs, owner 2026-10-13: "garden and logs for example conflict
+ * with roads and the tent"). Until then a fixed 0.045 mile east of the site, under the house's front corner as the map draws it.
+ */
 export function gardenPlace(world, household) {
   const site = world.map.sites[household.homeSiteId];
   if (!site) return null;
+  const laid = yardLayout(world, household)?.garden;
+  if (laid) return { x: laid.x, y: laid.y };
   let x = site.x + 0.045, y = site.y + 0.012;
   const bounds = holdingOf(world, household)?.bounds;
   if (bounds && [bounds.minX, bounds.maxX, bounds.minY, bounds.maxY].every(Number.isFinite)) {
@@ -361,13 +368,15 @@ export function registerHousework() {
   registerChores(WORKS);
 }
 /** Where the `garden` walk stands somebody: in the garden, laid out or to be. */
-export const gardenPoint = (world, household) => (household.garden ? { x: household.garden.x, y: household.garden.y } : gardenPlace(world, household));
+// A garden laid out before 2026-10-13 keeps its record and is worked, and drawn, where the layout puts it.
+export const gardenPoint = (world, household) => gardenPlace(world, household) || (household.garden ? { x: household.garden.x, y: household.garden.y } : null);
 
 /** The garden as the family's land line sends it: where, and green in its season. Absent until it is laid out. */
 export function gardenProjection(world, household) {
   const garden = household?.garden;
   if (!garden || !Number.isFinite(garden.x)) return {};
-  return { garden: { x: garden.x, y: garden.y, season: gardenSeason(world), ...(gardenedToday(world, household) && { worked: true }) } };
+  const at = gardenPoint(world, household);
+  return { garden: { x: at.x, y: at.y, season: gardenSeason(world), ...(gardenedToday(world, household) && { worked: true }) } };
 }
 /**
  * **Prompt the student** (owner, 2026-10-04, BALANCE.md §23 issue 3: a student who never found *Keep house* left the women idle, the

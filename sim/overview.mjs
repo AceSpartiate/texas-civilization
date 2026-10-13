@@ -26,6 +26,8 @@ import { laneState } from './homesite.mjs';
 import { landView, pieced } from './houses.mjs';
 import { plotProjection } from './survey.mjs';
 import { hasStock, herdOf, herdOnPage } from './stock.mjs';
+import { tentPoint } from './settling.mjs';
+import { yardProjection } from './yard-layout.mjs';
 
 /**
  * How much of a journey's road rides along, in miles either side of where the traveller is.
@@ -113,7 +115,9 @@ function overviewLand(world, household) {
     ...(hasStock(household) && { herd: herdOf(household), ranch: herdOnPage(world, household) }),
     ...(household.arriving && { arriving: true }),
     // The family's tent until its house has a roof (sim/shelter.mjs, owner 2026-10-02).
-    ...(household.tent && { tent: { x: household.tent.x, y: household.tent.y } }),
+    ...(household.tent && { tent: tentPoint(world, household) }),
+    // Where its woodpile (once it has logs) and its camp are drawn, each clear of the rest (sim/yard-layout.mjs).
+    ...yardProjection(world, household),
   };
 }
 

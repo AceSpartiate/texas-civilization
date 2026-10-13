@@ -99,7 +99,9 @@ function houseDoor(world, household) {
  */
 export function shelterPlace(world, household) {
   if (housed(household)) { const door = houseDoor(world, household); if (door) return { at: 'house', ...door }; }
-  if (household.tent) return { at: 'tent', x: household.tent.x, y: household.tent.y };
+  // Where the tent stands as the yard is laid out now (sim/yard-layout.mjs): a tent pitched before 2026-10-13 keeps its record and is
+  // drawn, and gone into, where the layout puts it.
+  if (household.tent) { const at = tentPoint(world, household) || household.tent; return { at: 'tent', x: at.x, y: at.y }; }
   const wagon = wagonsOf(world, household).find(one => !one.travel && one.location?.siteId === household.homeSiteId && !one.borrowedBy);
   if (wagon) return { at: 'wagon', x: r4(wagon.location.x), y: r4(wagon.location.y) };
   const camp = tentPoint(world, household);

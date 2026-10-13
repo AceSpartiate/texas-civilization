@@ -76,7 +76,8 @@ import { paceOf } from './ground.mjs';
 import { findWay } from './ways.mjs';
 import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improvements.mjs';
 import { OLD_PATCHES, plotAt } from './fields.mjs';
-import { advanceArrivals, putOnTheRoad, sayTheArrival, shelterProjection } from './settling.mjs';
+import { advanceArrivals, putOnTheRoad, sayTheArrival, shelterProjection, tentPoint } from './settling.mjs';
+import { settleStands, standOf, yardProjection } from './yard-layout.mjs';
 import { MEANS_TABLE, applyMeans, meansInvalid, meansProjection, settleMeans } from './means.mjs';
 // Who a family is as well as where it starts (owner, 2026-09-29; sim/starts.mjs, docs/FAMILY_CREATION.md *The family's start*).
 import { STARTS_RULE, namingOf, startProjection, startsInvalid } from './starts.mjs';
@@ -120,7 +121,7 @@ import { advanceShelter, registerShelter, shelterInvalid, shelterLine, shelterSh
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
 import { liftWants } from './wants.mjs';
 // Away at the war (owner, 2026-10-05; sim/militia.mjs): the volunteer's pack, rounds, shelter, camp work and what he overhears.
-import { MUSTER_ANSWERS, answerMuster, joinArmyLater, musterInvalid } from './muster.mjs';
+import { MUSTER_ANSWERS, answerMuster, joinArmyLater, musterInvalid } from './muster.mjs';
 import { DEFAULT_PACK_DAYS, PACK_DAYS, advanceMilitia, atWar, hearNewsFrom, homeRefusal, militiaInvalid, militiaShown, overhear, overheardFor, packOptions, packWords, takePack, walkHome } from './militia.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
@@ -221,6 +222,10 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
   // The land marked out for every family, fixed from the start (sim/grants.mjs, docs/LAND_GRANTS.md).
   const grants = layOutGrants(world.map.sites);
   for (const household of Object.values(world.households)) household.grant = grants[household.homeSiteId];
+  // Each beast and wagon at its own stand in the yard, clear of the house, the woodpile and each other (sim/yard-layout.mjs).
+  for (const household of Object.values(world.households)) {
+    for (const id of household.property) { const beast = world.entities[id], stand = beast && standOf(world, household, beast); if (stand) beast.location = { ...beast.location, x: stand.x, y: stand.y }; }
+  }
   // The town has people in it. They belong to nobody and are commanded by nobody.
   createTownspeople(world);
   validateWorld(world); return world;
@@ -699,8 +704,12 @@ export function progressTravel(world, entity, units = 1) {
     // drawn on the other on the house's point.
     const home = world.households[entity.householdId]?.homeSiteId;
     const homeward = travel.to === home && (travel.purpose === 'lead' || travel.purpose === 'harness');
-    const spot = Number.isFinite(travel.settle?.x) ? travel.settle
-      : homeward ? yardSpot(world.map.sites[travel.to], entity) : world.map.sites[travel.to];
+    // A beast or a wagon coming home - in at the start, over to a new site, or back from anywhere - stands at its own stand, clear of
+    // the tent, the woodpile and the others (sim/yard-layout.mjs, owner 2026-10-13: "a lot of assets get put in the same place").
+    const stand = travel.to === home && entity.kind !== 'person' && world.households[entity.householdId]
+      ? standOf(world, world.households[entity.householdId], entity) : null;
+    const spot = stand || (Number.isFinite(travel.settle?.x) ? travel.settle
+      : homeward ? yardSpot(world.map.sites[travel.to], entity, world) : world.map.sites[travel.to]);
     entity.location = { x: spot.x, y: spot.y, siteId: travel.to };
     entity.task = travel.purpose === 'help' ? 'help' : travel.settle?.task || 'rest'; entity.travel = null;
     // Home again, so the beast belongs to nobody and anybody of the family may take it. Anywhere else it stays with
@@ -779,6 +788,8 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   // In out of the weather (sim/shelter.mjs, owner 2026-10-02): the tent put up, everybody with no task and every child gone in, and
   // somebody of ten or more with the children; out again when it clears. Before auto, so the one sitting with them is not given work.
   advanceShelter(world, { beginTravel, modeAvailability });
+  // A beast or a wagon standing idle where the yard's layout last had it is moved to where it has it now (sim/yard-layout.mjs).
+  settleStands(world);
   // People on auto take up their last order again, and a family whose main person is on auto goes when told (sim/auto.mjs).
   advanceAuto(world, { beginTravel, modeAvailability });
   // The wash, and what people away from home say of it (owner, 2026-10-03; sim/housework.mjs).
@@ -1535,7 +1546,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // As the family knows it (sim/scrape.mjs `householdAsKnown`): a farm the Mexican army's foragers burned while nobody of the
   // family could see is drawn as they left it until the smoke or the word reaches them.
   const known = household && householdAsKnown(household);
-  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), ...landPathsProjection(world, known), crops: cropSummary(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known), ...gardenProjection(world, known), ...(known.tent && { tent: { x: known.tent.x, y: known.tent.y } }) } : null;
+  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), ...landPathsProjection(world, known), crops: cropSummary(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known), ...gardenProjection(world, household), ...(known.tent && { tent: tentPoint(world, household) }), ...yardProjection(world, household) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 

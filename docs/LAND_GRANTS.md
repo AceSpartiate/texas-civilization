@@ -761,9 +761,58 @@ across the yard crept and a walk to the far field hurried.
   of the weather (a short step over open ground needs none) and each first step beside somebody; a walk along a way finds only the part off
   it. Counting a way's cells cheap enough in the search's own estimate to keep people on them was tried first and made a walk five times
   dearer (6.3 ms); walking the way itself (`viaWay`) costs nothing to find.
-- `ceiling:` the wagon, the kitchen garden and the woodpile are not walked round: they are places people go to, not ground a way keeps
+- *Amended 2026-10-13 (§10.6): the woodpile, the garden, the tent and the wagons' stands are now walked round, and the way to the logs ends before the pile.* `ceiling:` the wagon, the kitchen garden and the woodpile are not walked round: they are places people go to, not ground a way keeps
   off. `ceiling:` where the stock is brought in at night can lie under a big house (public/herd-view.js `nightGround`); its way now goes
   in at the house's front, and the herd is still drawn there.
 
 Tests `tests/land-ways.test.mjs` (5) and the rain test of `tests/shelter.test.mjs`, each watched failing (`node
 scripts/map-fixes-injections.mjs`, [record](evidence/map-fixes-injections.json)); `npm run test:land-paths` re-run.
+
+### 10.6 Everything round the house in a place of its own — owner, 2026-10-13 (not released)
+
+> "a lot of assets get put in the same place and overlap. garden and logs for example conflict with roads and the tent."
+>
+> — the owner, 2026-10-13
+
+**Found** (three families on the real land, at the camp and with the house up, looked at in the browser,
+[before and after](evidence/yard-layout-compare.png)): everything round the house was set down at a fixed offset from the site, none
+looking at the others - the tent 0.088 mile west (sim/settling.mjs), the woodpile 0.076 west (sim/land-paths.mjs `PILE_AT`, the page
+drawing it at its own sum), the camp's goods where the page drew them (a camp a house's size at the site, its bedroll larger than the
+wagon), the garden 0.045 east (under the house's front corner as the map draws it), the wagon, the ox and the horse at their founding
+offsets (the ox and the horse on the house's ground). The woodpile was drawn over the tent, the camp over the beasts, the ways ran under
+the pile and the wagon; a house placed off the site was drawn over whatever stood there.
+
+**Built** (`sim/yard-layout.mjs`, `FIC-GONZ-1240`):
+
+- **One layout**: the woodpile, the garden, the camp and the tent (while there is no roof), and a stand for each wagon and beast, set
+  down in that order, each with its own footprint - the box its picture covers, in people (sim/house-footprint.mjs `YARD_PICTURES`) -
+  at the nearest clear place to where it would rather be: the woodpile left of the house and a little before it, as it always was; the
+  garden before its right-hand corner, east of the door; the tent, the wagons and the beasts west; the camp before the house. The tent's footprint takes in the family sitting in its
+  doorway, so no beast stands within a person of them. Clear of each other, of the houses as drawn (their
+  claims; before any house is planned, a round-log cabin at the site), the ground before the door, the yard spot, the field, the lane,
+  a cut path, where the stock comes in at night, the water the map draws, the line of the land, and the yard's rails (inside or outside,
+  never across) - and on the door's side of any river or creek. Worked out from the land as it is and kept until that changes.
+- **Everything reads it**: the tent (`tentPoint`), the garden (`gardenPlace`), the woodpile and the way to it (`woodpileAt`,
+  `woodpileFront`), the camp and the woodpile the page draws (`land.campAt`, `land.woodpileAt`; the Host's map too), where a beast or a
+  wagon stands when it comes home (sim/beasts.mjs `yardSpot`, sim/world.mjs), and the family's ways, which go round the woodpile, the
+  garden, the tent and the wagons' stands and are laid again where one ran through them (`yardWalls`). Survey refuses ten acres over
+  any of them, *"That would take in the house yard."*
+- **The page fits each picture inside its footprint** (public/app.js `fitInside`): the tent, the camp's goods and the woodpile are
+  measured as drawn and shrunk or moved in, so a sheet drawn larger than its stand-in can never spill onto a neighbour.
+- **The camp at a person's size** (owner, 2026-10-13: *"fix the giant bedroll too"*): the camp's pieces were drawn as shares of a
+  house's height, the bedroll 1.1 people tall and 1.9 wide, wider than the wagon; now each has its own height in people (public/yard-art.js
+  `CAMP_GOODS`: bedroll 0.3, goods 0.45, fire 0.5, pot 0.3), and the camp is not drawn before the family reaches its land.
+- **The beasts walk to their stands**: a beast or a wagon standing idle where the layout last had it, or at one of the old fixed spots,
+  is moved to its stand when the layout changes - the first tick of a class saved before, a house planned over a stand - and one
+  whose picture lies over anything round the house or another idle beast is moved at once (`settleStands`). One held by somebody, on the road or left at the timber is left where it is.
+- **Old saves**: no save version moved. Nothing new is stored; a tent or a garden recorded at its old place keeps its record and is
+  drawn and gone to where the layout puts it.
+- `ceiling:` one footprint a kind, whatever its sheet; a beast drawn walking reaches a little further (the separation of figures,
+  public/motion.js `drawnAlone`, keeps two apart once they move). `ceiling:` a beast is set down at its new stand, not walked there.
+  `ceiling:` nowhere clear within 0.3 mile leaves a thing where it would rather be; none was found. `ceiling:` the family's lane is laid
+  to the site before any house is planned, and a house at the site still stands over the lane's last stretch where it comes in from
+  behind the house (seen on yard-layout-4); laying the lane's end again to the door once the house is planned is the way out.
+
+Tests `tests/yard-layout.test.mjs` (6) and `tests/yard-art.test.mjs` (1), each watched failing under its own injection (16 of 16, `node scripts/yard-layout-injections.mjs`,
+[record](evidence/yard-layout-injections.json)) and `npm run test:yard-layout` (three families at the camp and with the house up: every
+picture drawn inside its footprint, none over another, the house or a way, every idle beast at its stand or clear of everything).

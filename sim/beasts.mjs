@@ -36,6 +36,7 @@
  * This file imports only the travel table, so sim/keeping.mjs, sim/world.mjs, sim/shops.mjs and sim/scrape.mjs can all ask it.
  */
 import { WAGON_SPEED, propertyId } from './travel.mjs';
+import { standOf } from './yard-layout.mjs';
 
 /** The part an animal or the wagon plays: 'horse', 'mule', 'ox' or 'wagon'; null for anything else. */
 export function roleOf(entity) {
@@ -166,7 +167,7 @@ export function fitOut(world, household) {
   for (const role of ['wagon', 'ox']) {
     while (beastsOf(world, household, role).length < want) {
       const beast = addBeast(world, household, role, null, { at: { x: site.x, y: site.y, siteId: site.id } });
-      beast.location = { ...yardSpot(site, beast), siteId: site.id };
+      beast.location = { ...yardSpot(site, beast, world), siteId: site.id };
     }
   }
   return beastsOf(world, household, 'wagon').length;
@@ -205,7 +206,12 @@ export function ledPace(world, entity) {
  * wagon were set down when the family came (sim/world.mjs), each one after the first a little further along the rail - so two
  * horses are two horses and two wagons two wagons, not one drawn on the other.
  */
-export function yardSpot(site, beast) {
+export function yardSpot(site, beast, world = null) {
+  // Its own stand, clear of the tent, the woodpile and the others, where the yard is laid out (sim/yard-layout.mjs, owner 2026-10-13);
+  // the old rail, below, where the family has no site to lay a yard out round.
+  const household = world?.households?.[beast.householdId];
+  const stand = household && household.homeSiteId === site.id ? standOf(world, household, beast) : null;
+  if (stand) return { x: stand.x, y: stand.y };
   // The number on the end of the id: `hh-1-horse-3` is the third horse, and the first has none. (Until 2026-09-25 this read
   // `/-(d+)$/`, which matched no number, so every animal bought stood on the second one's spot.)
   const n = Number(String(beast.id).match(/-(\d+)$/)?.[1] || 1);

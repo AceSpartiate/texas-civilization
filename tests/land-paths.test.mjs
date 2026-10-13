@@ -30,10 +30,11 @@ import { PLAY_REACH } from '../sim/children.mjs';
 import { setChildAuto } from '../sim/childhood.mjs';
 import { beginChore } from '../sim/chores.mjs';
 import {
-  GATE_HALF, PATHS_TRODDEN_WHY, PATH_PACE, YARD_SHARE, doorOf, inYard, landRoute, pathsOf, stockGround, treeCellAt, treesInBox, walkLand, woodpileAt,
+  GATE_HALF, PATHS_TRODDEN_WHY, PATH_PACE, YARD_SHARE, doorOf, inYard, landRoute, pathsOf, stockGround, treeCellAt, treesInBox, walkLand,
   yardBox, yardGate, yardMiddle,
 } from '../sim/land-paths.mjs';
 import { walkedFrom } from '../public/motion.js';
+import { woodpileFront, yardWalls } from '../sim/yard-layout.mjs';
 import { nightGround } from '../public/herd-view.js';
 import { ON_MAP, PANEL_SUMMARIES } from '../public/family-panel.js';
 
@@ -96,7 +97,9 @@ function onTheLand(seed = 'smoke-paths', id = 'hh-2') {
 function acrossTheWoods(world, household, site, bounds) {
   // Dry: no river or creek between, so the way and a path along the line differ by the trees alone.
   const dry = point => { const crossing = landAround().crossings(site, point); return !crossing.barrier && !crossing.rivers && !crossing.creeks; };
-  return grid(bounds).filter(point => distance(point, site) > 0.12 && dry(point) && !treeCellAt(world, point) && !treesAlong(world, { x: point.x - 0.006, y: point.y }, { x: point.x + 0.006, y: point.y }).length)
+  // Open ground, not where the wagon stands or the logs are piled (sim/yard-layout.mjs): a way into one of those goes in by its front.
+  const walls = yardWalls(world, household), clear = point => !walls.some(b => point.x >= b.minX && point.x <= b.maxX && point.y >= b.minY && point.y <= b.maxY);
+  return grid(bounds).filter(point => distance(point, site) > 0.12 && dry(point) && clear(point) && !treeCellAt(world, point) && !treesAlong(world, { x: point.x - 0.006, y: point.y }, { x: point.x + 0.006, y: point.y }).length)
     .map(point => ({ point, over: treesOver(world, [site, point]) })).filter(entry => entry.over >= 3).sort((a, b) => b.over - a.over)[0]?.point;
 }
 const settle = household => { household.improvements = { ...household.improvements, cabin: 'sound' }; };
@@ -178,7 +181,8 @@ test('once the house stands the family treads a way from the door to its water, 
   for (const plot of plots) assert.ok(wayTo(plot.id), `a way to ${plot.id}`);
   if (household.site?.needsWell === false) assert.ok(wayTo('water'), 'a way to the water');
   // The woodpile, where the page draws it, and each kind of stock where it is brought in at night (owner, 2026-10-03, "All automatic").
-  assert.deepEqual(wayTo('woodpile')?.points.at(-1), woodpileAt(world, household), 'a way to the woodpile');
+  // Before the pile's foot, where somebody stands to take a log off it, not under the logs (sim/yard-layout.mjs, 2026-10-13).
+  assert.deepEqual(wayTo('woodpile')?.points.at(-1), woodpileFront(world, household), 'a way to the woodpile');
   for (const kind of ['cattle', 'hogs']) {
     const ground = stockGround(world, household, kind);
     assert.deepEqual(wayTo(`stock-${kind}`)?.points.at(-1), ground, `a way to where the ${kind} come in at night`);

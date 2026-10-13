@@ -1,5 +1,66 @@
 # Claude handoff — Astra foundation
 
+## Everything round the house in a place of its own, and the bedroll a bedroll's size — 2026-10-13 (branch `yard-1013`, not released)
+
+Owner: *"fix the ox over the tent before release. also, a lot of assets get put in the same place and overlap. garden and logs for
+example conflict with roads and the tent."* and *"fix the giant bedroll too"*. The ox is `fix/resting-figures` (5871cbdf, merged here;
+next section). This is the rest.
+
+- **Found** (three families on the real land, at the camp and with a round-log cabin up, looked at in the browser): everything round
+  the house was set down at a fixed offset from the site and none looked at the others. The tent 0.088 mile west (sim/settling.mjs
+  `tentPoint`) and the woodpile 0.076 west (sim/land-paths.mjs `PILE_AT`, public/app.js drawing it at its own sum of the same): 0.013
+  mile apart, so the log row was drawn over the tent. The kitchen garden 0.045 east (sim/housework.mjs `gardenPlace`), under the house's
+  front corner as drawn. The wagon, the ox and the horse at their founding offsets (sim/world.mjs, sim/beasts.mjs `yardSpot`), the ox
+  and the horse on the house's own ground. The ways from the door ran under the pile and the wagon (`groundFor` kept off houses only).
+  A house placed off the site was drawn over whatever stood there.
+- **The giant bedroll**: public/app.js `homesteadCamp` drew each piece as a share of the `size` it was handed, and the camp view
+  (`homesteadHouse`, a family with no house) handed it a house's size (`CABIN_PEOPLE`, 3.3 people): the frontier `bedroll` (313 x 190)
+  came out 1.1 people tall and 1.9 wide - wider than the wagon (1.8) - the goods 1.2 tall, the fire near a person. Now
+  public/yard-art.js `CAMP_GOODS` gives each piece its own height in people (bedroll 0.3, goods 0.45, fire 0.5, pot 0.3) and every
+  caller hands `homesteadCamp` a person's height. The camp is not drawn while the family is still on its road in.
+- **Built**: sim/yard-layout.mjs `yardLayout` - one layout, each thing set down in turn (the woodpile, the garden, the camp and the tent
+  while there is no roof, then a stand for each wagon and beast) with its own footprint (sim/house-footprint.mjs `YARD_PICTURES`, in
+  people; the tent's takes in the family sitting in its doorway, so no beast stands within a person of them) at the nearest clear place
+  to where it would rather be: clear of everything set down before it, the houses' claims (a round-log cabin at the site before any
+  house is planned), the dooryard, the yard spot, the field, the lane, cut paths, the stock's night ground, the drawn water and the line;
+  inside or outside the yard's rails, never across; on the door's side of any creek (found on yard-layout-7: the tent, the camp and the
+  cart went across the creek). Cached on a key of what it reads (1-3 ms to lay out, 26 at worst by a creek; 0.05 ms cached). Read by
+  `tentPoint`, `gardenPlace`/`gardenPoint`/`gardenProjection`, `woodpileAt` and `woodpileFront` (the way's end, before the pile),
+  `shelterPlace`, the land line and the Host's overview (`tent`; new `woodpileAt` once there are logs, and `campAt` once the family is
+  home), `yardSpot` and the arrival in sim/world.mjs (a beast or wagon home stands at its stand), and survey (`plotRefusal`: "That would
+  take in the house yard."). The ways keep off the woodpile, the garden, the tent and the wagons' stands (`yardWalls` in `groundFor`)
+  and are laid again where one runs through them (`laidRight`, `lookedAt` keyed on the layout). `settleStands` (each tick) moves an
+  idle beast or wagon at home from its last stand, or an old fixed spot, to its stand when the layout changes, and at once one whose
+  picture lies over anything round the house or another idle beast. The page draws the tent, the camp and the woodpile at the server's
+  points, each fitted inside its footprint (public/app.js `fitInside`, measured with `drawnBox`), and reports `window.__yardPictures`.
+- **The ox again, found on the way**: in the weather proof's storm the ox's new stand put him beside the tent, within a figure of the
+  family sitting in its doorway, so `drawnAlone` separated him and carried him over them; the tent's footprint now takes in the family's
+  separation (1.4 people either side, 0.75 before), and the storm yard shows the Weatherbys at the tent, the ox and the wagon clear.
+- **Saves**: no save version moved; nothing new is stored. A stored `household.tent` / `household.garden` keeps its record and is drawn
+  and gone to at the layout's point; old beasts are moved on the first tick. Claim `FIC-GONZ-1240` (HISTORY.md); docs/LAND_GRANTS.md §10.6.
+- **Not done / ceilings**: the family's lane is laid to the site before any house is planned, so a house at the site still stands over
+  the lane's last stretch where the lane comes in from behind the house (yard-layout-4; a road matter, not touched: laying the lane's end
+  again to the door once the house is planned is the way out). While the family is still drawn walking in along its road (public/app.js
+  `trailOf`) its beasts are drawn there, by the house, until they have walked in: the shelter proof's rain shot once caught three wagons
+  and three oxen still coming in (their server points were their stands; the next run drew them there). A beast left by work clear of
+  everything stays where it was left. One footprint a kind whatever the sheet; a beast is set down at a new stand, not walked; a beast's
+  stand is not kept off by the ways. Things now stand further from the house (beasts up to 0.2 mile; tests/homesite.test.mjs reads
+  0.25 for them, 0.1 for people still).
+- **Tests changed to the layout** (not new rules): arrival (beasts in at their stands), homesite (the beasts' distance), improvements
+  (`woodpileAt` is yard-layout's), mules (`yardSpot` with the world), land-paths (the way to the logs ends before the pile; a walk
+  across the woods ends on open ground), land-ways (the open ground looked for keeps off `yardWalls`).
+- [Before and after](docs/evidence/yard-layout-compare.png): three families, at the camp and with the house up, origin/main against this.
+- *Tests*: tests/yard-layout.test.mjs (6) and tests/yard-art.test.mjs (1), each failed alone under its own injection, 16 of 16
+  (`npm run test:yard-layout-injections`, [record](docs/evidence/yard-layout-injections.json)). Browser `npm run test:yard-layout` (6
+  shots: every picture drawn inside its footprint, none over another, the house or a drawn way; every idle beast at its stand or clear;
+  record docs/evidence/yard-layout-browser.json) - and it fails when `fitInside` is made not to fit (the log row drawn 85 px past its
+  footprint). `npm test`: 2503 tests, 2467 pass, 0 fail, 36 skipped (on the run before, one land-paths test failed, its target under the
+  wagon's stand; fixed in the test, the file 9/9). Proofs, at most two at a time, failures rerun alone: test:wagons, test:errand 16/16,
+  test:shops (its keepers check failed on origin/main too on one run here; passed whole on the last), test:camp 9/9, test:shelter 6/6
+  (once failed "no child drawn sitting" beside test:camp, then passed alone), test:children 16/16, test:trees-front 3/3, weather
+  `--days fog,storm` 11/11, house-plot, test:house-logs 5/5, test:farm, test:work 5/5, test:land-paths 8/8, test:overlap,
+  test:custom-work 18/18, test:yard-layout 7/7. The proofs' rewritten evidence was put back.
+
 ## Roads, streets and paths laid in painted tiles from the local image pipeline — 2026-10-13 (branch `roads-1013`, not released)
 
 Owner, 2026-10-13: *"use our new image generation setup to improve roads."* From origin/main 2ce5d46e. Every way the game draws

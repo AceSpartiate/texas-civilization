@@ -21,6 +21,28 @@
 export const PERSON_MILES = 0.019;
 /** How tall a house is drawn, in people (public/app.js `SIZE.cabin`, `cabinSize`). */
 export const CABIN_PEOPLE = 3.3;
+/**
+ * What stands round the house, each picture's footprint from the point it stands on (its foot), in people of `PERSON_MILES`: how far
+ * it reaches `left`, `right`, `up` the screen and `down` it. The server lays the yard out by these (sim/yard-layout.mjs) and the page
+ * draws each picture fitted inside its own (public/app.js `fitInside`), so what is set clear on the ground is drawn clear on the screen.
+ * The tent's is the canvas tent as drawn (291 by 232, its door on its point) and the family sitting out the rain in its doorway,
+ * each drawn up to 1.4 people either side and 0.75 before it by their separation (public/app.js `stableOffset`): so no beast stands
+ * within a person of them, and none is drawn over them (the weather proof's storm, 2026-10-13: Juniper's stand beside the tent put
+ * him among the family, and their separation carried him over them); the camp's is its goods at a person's size
+ * (public/yard-art.js `CAMP_GOODS`); the woodpile and the garden are scaled into theirs; a beast's and a wagon's are their pictures' reach side-on, measured on the screen 2026-10-13.
+ * ceiling: one footprint a kind whatever its sheet; a beast drawn walking or turned reaches a little further, and the separation of
+ * figures (public/motion.js `drawnAlone`) is what keeps two of them apart once they move.
+ */
+export const YARD_PICTURES = Object.freeze({
+  tent: Object.freeze({ left: 1.6, right: 1.6, up: 1.7, down: 0.85 }),
+  camp: Object.freeze({ left: 0.85, right: 0.95, up: 0.65, down: 0.35 }),
+  woodpile: Object.freeze({ left: 1.5, right: 1.5, up: 1.6, down: 0.3 }),
+  garden: Object.freeze({ left: 0.5, right: 0.5, up: 0.5, down: 0.45 }),
+  wagon: Object.freeze({ left: 1.5, right: 1.5, up: 1.7, down: 0.2 }),
+  ox: Object.freeze({ left: 1.0, right: 1.0, up: 1.55, down: 0.15 }),
+  horse: Object.freeze({ left: 0.95, right: 0.95, up: 1.65, down: 0.15 }),
+  mule: Object.freeze({ left: 0.95, right: 0.95, up: 1.65, down: 0.15 }),
+});
 /** How wide one eight-foot cell of the house plot is drawn, as a share of the house's drawn height (`plotCell`). */
 export const CELL_SHARE = 0.45;
 /**

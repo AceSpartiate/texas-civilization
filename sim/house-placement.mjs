@@ -39,6 +39,16 @@ export function widestHouseAtSite(world, household) {
   return pieceCatalogue().plans.map(plan => houseOnGround({ plan: plan.id }, pieceCatalogue(), at)).reduce((best, one) => (!best || area(one) > area(best) ? one : best), null);
 }
 
+/**
+ * A house of `plan` standing where a house placed nowhere stands, at the family's site (`standingAt`): the house the yard is laid out
+ * round before the family has planned one (sim/yard-layout.mjs), so the camp and the tent are not where a first house will stand.
+ */
+export function houseAtSite(world, household, plan = 'round-log') {
+  const site = world.map.sites[household.homeSiteId];
+  if (!site) return null;
+  return houseOnGround({ plan }, pieceCatalogue(), standingAt(null, site));
+}
+
 /** The nine points of a box that the ground under a house is read at: its corners, the middles of its sides, its middle. */
 const ninePoints = box => [box.minX, (box.minX + box.maxX) / 2, box.maxX].flatMap(x => [box.minY, (box.minY + box.maxY) / 2, box.maxY].map(y => ({ x, y })));
 

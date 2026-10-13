@@ -1,0 +1,1512 @@
+{
+  "record": "yard-layout-browser",
+  "date": "2026-10-13",
+  "browser": "154.0.8037.93",
+  "checks": [
+    "yard-layout-1 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-1-camp.png)",
+    "yard-layout-1 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-1-house.png)",
+    "yard-layout-4 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-4-camp.png)",
+    "yard-layout-4 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-4-house.png)",
+    "yard-layout-7 camp: tent, garden, woodpile, camp each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-7-camp.png)",
+    "yard-layout-7 house: garden, woodpile each drawn inside its own footprint, none over another, the house or a way; 3 of 3 beasts and wagons at their stands, the rest clear (C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-7-house.png)",
+    "no page errors"
+  ],
+  "observed": [
+    {
+      "seed": "yard-layout-1",
+      "state": "camp",
+      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-1-camp.png",
+      "site": {
+        "x": 76.21,
+        "y": -20.11
+      },
+      "drawn": {
+        "tent": {
+          "x": 618,
+          "y": 539,
+          "size": 96,
+          "box": {
+            "left": 563,
+            "top": 445,
+            "right": 684,
+            "bottom": 542
+          }
+        },
+        "garden": {
+          "x": 960,
+          "y": 459,
+          "half": 27,
+          "season": "growing"
+        },
+        "pile": {
+          "x": 511.6294492701892,
+          "y": 409.37591171179446,
+          "width": 170.10000000000008,
+          "height": 55.4684016393443
+        },
+        "camera": {
+          "cx": 76.16422575774016,
+          "cy": -20.097132277177543,
+          "scale": 2984.2105263157896,
+          "width": 1366,
+          "height": 768
+        },
+        "yard": null,
+        "paths": [],
+        "pictures": {
+          "tent": {
+            "left": 563,
+            "top": 445,
+            "right": 684,
+            "bottom": 542
+          },
+          "garden": {
+            "left": 933,
+            "top": 441,
+            "right": 986,
+            "bottom": 476
+          },
+          "woodpile": {
+            "left": 427,
+            "top": 321,
+            "right": 597,
+            "bottom": 409
+          },
+          "camp": {
+            "left": 722,
+            "top": 472,
+            "right": 814,
+            "bottom": 520
+          },
+          "figure": 56.7
+        },
+        "figures": {
+          "hh-1-thomas": {
+            "x": 768.5699755859395,
+            "y": 320.0850061035127,
+            "size": 56.7
+          },
+          "hh-1-rosa": {
+            "x": 917.3902589867519,
+            "y": 299.14962148812805,
+            "size": 56.7
+          },
+          "hh-1-elena": {
+            "x": 776.9028095940253,
+            "y": 334.9601478039155,
+            "size": 56.7
+          },
+          "hh-1-mateo": {
+            "x": 953.2007853025427,
+            "y": 397.7663016500727,
+            "size": 56.7
+          },
+          "hh-1-wagon": {
+            "x": 425.08734400699973,
+            "y": 531.0612297877183,
+            "size": 87.885
+          },
+          "hh-1-animal": {
+            "x": 560.8689229543804,
+            "y": 652.9811508403579,
+            "size": 82.215
+          },
+          "hh-1-horse": {
+            "x": 429.5636597964948,
+            "y": 651.7054008403579,
+            "size": 85.05000000000001
+          }
+        }
+      },
+      "stands": {
+        "hh-1-wagon": {
+          "x": 76.0778,
+          "y": -20.0346
+        },
+        "hh-1-animal": {
+          "x": 76.1233,
+          "y": -19.9946
+        },
+        "hh-1-horse": {
+          "x": 76.0793,
+          "y": -19.9946
+        }
+      }
+    },
+    {
+      "seed": "yard-layout-1",
+      "state": "house",
+      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-1-house.png",
+      "site": {
+        "x": 76.21,
+        "y": -20.11
+      },
+      "drawn": {
+        "tent": null,
+        "garden": {
+          "x": 960,
+          "y": 459,
+          "half": 27,
+          "season": "growing"
+        },
+        "pile": {
+          "x": 511.6294492701892,
+          "y": 409.37591171179446,
+          "width": 170.10000000000008,
+          "height": 55.4684016393443
+        },
+        "camera": {
+          "cx": 76.16422575774016,
+          "cy": -20.097132277177543,
+          "scale": 2984.2105263157896,
+          "width": 1366,
+          "height": 768
+        },
+        "yard": {
+          "fence": "sound",
+          "left": 676,
+          "top": 118,
+          "right": 1048,
+          "bottom": 510,
+          "gate": [
+            {
+              "x": 880,
+              "y": 510
+            },
+            {
+              "x": 844,
+              "y": 510
+            }
+          ]
+        },
+        "paths": [
+          {
+            "to": "water",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 840,
+                "y": 517
+              },
+              {
+                "x": 805,
+                "y": 528
+              },
+              {
+                "x": 665,
+                "y": 528
+              },
+              {
+                "x": 618,
+                "y": 307
+              },
+              {
+                "x": 572,
+                "y": 283
+              },
+              {
+                "x": 479,
+                "y": 283
+              },
+              {
+                "x": 385,
+                "y": 295
+              },
+              {
+                "x": 362,
+                "y": 330
+              },
+              {
+                "x": 292,
+                "y": 330
+              },
+              {
+                "x": 292,
+                "y": 342
+              },
+              {
+                "x": 257,
+                "y": 353
+              },
+              {
+                "x": 245,
+                "y": 423
+              },
+              {
+                "x": 199,
+                "y": 423
+              },
+              {
+                "x": 199,
+                "y": 435
+              },
+              {
+                "x": 164,
+                "y": 435
+              },
+              {
+                "x": 152,
+                "y": 446
+              },
+              {
+                "x": 112,
+                "y": 398
+              }
+            ]
+          },
+          {
+            "to": "plot-1",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 840,
+                "y": 517
+              },
+              {
+                "x": 818,
+                "y": 524
+              },
+              {
+                "x": 862,
+                "y": 654
+              }
+            ]
+          },
+          {
+            "to": "yard-gate",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 862,
+                "y": 510
+              }
+            ]
+          },
+          {
+            "to": "woodpile",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 862,
+                "y": 440
+              },
+              {
+                "x": 840,
+                "y": 517
+              },
+              {
+                "x": 665,
+                "y": 517
+              },
+              {
+                "x": 595,
+                "y": 446
+              },
+              {
+                "x": 525,
+                "y": 446
+              },
+              {
+                "x": 525,
+                "y": 435
+              },
+              {
+                "x": 512,
+                "y": 440
+              }
+            ]
+          },
+          {
+            "to": "stock-cattle",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 892,
+                "y": 363
+              },
+              {
+                "x": 892,
+                "y": 267
+              }
+            ]
+          },
+          {
+            "to": "stock-hogs",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 841,
+                "y": 363
+              },
+              {
+                "x": 841,
+                "y": 257
+              }
+            ]
+          }
+        ],
+        "pictures": {
+          "garden": {
+            "left": 933,
+            "top": 441,
+            "right": 986,
+            "bottom": 476
+          },
+          "woodpile": {
+            "left": 427,
+            "top": 321,
+            "right": 597,
+            "bottom": 409
+          },
+          "figure": 56.7
+        },
+        "figures": {
+          "hh-1-thomas": {
+            "x": 768.5699755859395,
+            "y": 320.0850061035127,
+            "size": 56.7
+          },
+          "hh-1-rosa": {
+            "x": 917.3902589867519,
+            "y": 299.14962148812805,
+            "size": 56.7
+          },
+          "hh-1-elena": {
+            "x": 776.9028095940253,
+            "y": 334.9601478039155,
+            "size": 56.7
+          },
+          "hh-1-mateo": {
+            "x": 953.2007853025427,
+            "y": 397.7663016500727,
+            "size": 56.7
+          },
+          "hh-1-wagon": {
+            "x": 532.5189229543722,
+            "y": 531.0612297877183,
+            "size": 87.885
+          },
+          "hh-1-animal": {
+            "x": 692.1741861122659,
+            "y": 569.4232561035092,
+            "size": 82.215
+          },
+          "hh-1-horse": {
+            "x": 560.8689229543804,
+            "y": 651.7054008403579,
+            "size": 85.05000000000001
+          }
+        }
+      },
+      "stands": {
+        "hh-1-wagon": {
+          "x": 76.1138,
+          "y": -20.0346
+        },
+        "hh-1-animal": {
+          "x": 76.1673,
+          "y": -20.0226
+        },
+        "hh-1-horse": {
+          "x": 76.1233,
+          "y": -19.9946
+        }
+      }
+    },
+    {
+      "seed": "yard-layout-4",
+      "state": "camp",
+      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-4-camp.png",
+      "site": {
+        "x": 1.96,
+        "y": -12.33
+      },
+      "drawn": {
+        "tent": {
+          "x": 618,
+          "y": 539,
+          "size": 96,
+          "box": {
+            "left": 563,
+            "top": 445,
+            "right": 684,
+            "bottom": 542
+          }
+        },
+        "garden": {
+          "x": 960,
+          "y": 459,
+          "half": 27,
+          "season": "growing"
+        },
+        "pile": {
+          "x": 511.62944927014814,
+          "y": 409.3759117117997,
+          "width": 170.09999999999997,
+          "height": 55.46840163934423
+        },
+        "camera": {
+          "cx": 1.914225757740162,
+          "cy": -12.317132277177546,
+          "scale": 2984.2105263157896,
+          "width": 1366,
+          "height": 768
+        },
+        "yard": null,
+        "paths": [],
+        "pictures": {
+          "tent": {
+            "left": 563,
+            "top": 445,
+            "right": 684,
+            "bottom": 542
+          },
+          "garden": {
+            "left": 933,
+            "top": 441,
+            "right": 986,
+            "bottom": 476
+          },
+          "woodpile": {
+            "left": 427,
+            "top": 321,
+            "right": 597,
+            "bottom": 409
+          },
+          "camp": {
+            "left": 722,
+            "top": 472,
+            "right": 814,
+            "bottom": 520
+          },
+          "figure": 56.7
+        },
+        "figures": {
+          "hh-1-thomas": {
+            "x": 768.5699755859375,
+            "y": 320.08500610351797,
+            "size": 56.7
+          },
+          "hh-1-rosa": {
+            "x": 917.3902589867473,
+            "y": 299.14962148813333,
+            "size": 56.7
+          },
+          "hh-1-elena": {
+            "x": 776.9028095940345,
+            "y": 334.9601478039261,
+            "size": 56.7
+          },
+          "hh-1-mateo": {
+            "x": 953.2007853025368,
+            "y": 397.76630165007805,
+            "size": 56.7
+          },
+          "hh-1-horse": {
+            "x": 357.94260716488463,
+            "y": 412.9685587350946,
+            "size": 85.05000000000001
+          },
+          "hh-1-wagon": {
+            "x": 425.08734400699046,
+            "y": 531.0612297877288,
+            "size": 87.885
+          },
+          "hh-1-animal": {
+            "x": 465.37418611225314,
+            "y": 652.9811508403579,
+            "size": 82.215
+          }
+        }
+      },
+      "stands": {
+        "hh-1-wagon": {
+          "x": 1.8278,
+          "y": -12.2546
+        },
+        "hh-1-animal": {
+          "x": 1.8413,
+          "y": -12.2146
+        },
+        "hh-1-horse": {
+          "x": 1.8053,
+          "y": -12.2946
+        }
+      }
+    },
+    {
+      "seed": "yard-layout-4",
+      "state": "house",
+      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-4-house.png",
+      "site": {
+        "x": 1.96,
+        "y": -12.33
+      },
+      "drawn": {
+        "tent": null,
+        "garden": {
+          "x": 960,
+          "y": 459,
+          "half": 27,
+          "season": "growing"
+        },
+        "pile": {
+          "x": 511.62944927014814,
+          "y": 409.3759117117997,
+          "width": 170.09999999999997,
+          "height": 55.46840163934423
+        },
+        "camera": {
+          "cx": 1.914225757740162,
+          "cy": -12.317132277177546,
+          "scale": 2984.2105263157896,
+          "width": 1366,
+          "height": 768
+        },
+        "yard": {
+          "fence": "sound",
+          "left": 676,
+          "top": 118,
+          "right": 1048,
+          "bottom": 510,
+          "gate": [
+            {
+              "x": 751,
+              "y": 510
+            },
+            {
+              "x": 715,
+              "y": 510
+            }
+          ]
+        },
+        "paths": [
+          {
+            "to": "plot-1",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 863,
+                "y": 439
+              },
+              {
+                "x": 840,
+                "y": 439
+              },
+              {
+                "x": 828,
+                "y": 415
+              },
+              {
+                "x": 770,
+                "y": 404
+              },
+              {
+                "x": 758,
+                "y": 427
+              },
+              {
+                "x": 712,
+                "y": 439
+              },
+              {
+                "x": 723,
+                "y": 509
+              },
+              {
+                "x": 712,
+                "y": 590
+              },
+              {
+                "x": 735,
+                "y": 614
+              },
+              {
+                "x": 852,
+                "y": 614
+              },
+              {
+                "x": 862,
+                "y": 654
+              }
+            ]
+          },
+          {
+            "to": "yard-gate",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 863,
+                "y": 439
+              },
+              {
+                "x": 840,
+                "y": 439
+              },
+              {
+                "x": 828,
+                "y": 415
+              },
+              {
+                "x": 770,
+                "y": 404
+              },
+              {
+                "x": 758,
+                "y": 427
+              },
+              {
+                "x": 712,
+                "y": 439
+              },
+              {
+                "x": 723,
+                "y": 497
+              },
+              {
+                "x": 733,
+                "y": 510
+              }
+            ]
+          },
+          {
+            "to": "woodpile",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 863,
+                "y": 439
+              },
+              {
+                "x": 840,
+                "y": 439
+              },
+              {
+                "x": 828,
+                "y": 415
+              },
+              {
+                "x": 770,
+                "y": 404
+              },
+              {
+                "x": 758,
+                "y": 427
+              },
+              {
+                "x": 712,
+                "y": 439
+              },
+              {
+                "x": 723,
+                "y": 497
+              },
+              {
+                "x": 712,
+                "y": 590
+              },
+              {
+                "x": 688,
+                "y": 614
+              },
+              {
+                "x": 665,
+                "y": 614
+              },
+              {
+                "x": 653,
+                "y": 637
+              },
+              {
+                "x": 642,
+                "y": 648
+              },
+              {
+                "x": 479,
+                "y": 637
+              },
+              {
+                "x": 444,
+                "y": 625
+              },
+              {
+                "x": 432,
+                "y": 614
+              },
+              {
+                "x": 432,
+                "y": 450
+              },
+              {
+                "x": 444,
+                "y": 439
+              },
+              {
+                "x": 479,
+                "y": 427
+              },
+              {
+                "x": 502,
+                "y": 427
+              },
+              {
+                "x": 512,
+                "y": 440
+              }
+            ]
+          },
+          {
+            "to": "stock-cattle",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 863,
+                "y": 369
+              },
+              {
+                "x": 892,
+                "y": 363
+              },
+              {
+                "x": 892,
+                "y": 267
+              }
+            ]
+          },
+          {
+            "to": "stock-hogs",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 840,
+                "y": 357
+              },
+              {
+                "x": 841,
+                "y": 363
+              },
+              {
+                "x": 841,
+                "y": 257
+              }
+            ]
+          }
+        ],
+        "pictures": {
+          "garden": {
+            "left": 933,
+            "top": 441,
+            "right": 986,
+            "bottom": 476
+          },
+          "woodpile": {
+            "left": 427,
+            "top": 321,
+            "right": 597,
+            "bottom": 409
+          },
+          "figure": 56.7
+        },
+        "figures": {
+          "hh-1-thomas": {
+            "x": 768.5699755859375,
+            "y": 320.08500610351797,
+            "size": 56.7
+          },
+          "hh-1-rosa": {
+            "x": 917.3902589867473,
+            "y": 299.14962148813333,
+            "size": 56.7
+          },
+          "hh-1-elena": {
+            "x": 776.9028095940345,
+            "y": 334.9601478039261,
+            "size": 56.7
+          },
+          "hh-1-mateo": {
+            "x": 953.2007853025368,
+            "y": 397.76630165007805,
+            "size": 56.7
+          },
+          "hh-1-animal": {
+            "x": 381.81629137541097,
+            "y": 485.8653613666762,
+            "size": 82.215
+          },
+          "hh-1-wagon": {
+            "x": 532.5189229543583,
+            "y": 531.0612297877288,
+            "size": 87.885
+          },
+          "hh-1-horse": {
+            "x": 477.3110282175163,
+            "y": 651.7054008403579,
+            "size": 85.05000000000001
+          }
+        }
+      },
+      "stands": {
+        "hh-1-wagon": {
+          "x": 1.8638,
+          "y": -12.2546
+        },
+        "hh-1-animal": {
+          "x": 1.8133,
+          "y": -12.2706
+        },
+        "hh-1-horse": {
+          "x": 1.8453,
+          "y": -12.2146
+        }
+      }
+    },
+    {
+      "seed": "yard-layout-7",
+      "state": "camp",
+      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-7-camp.png",
+      "site": {
+        "x": 88.09,
+        "y": -25.03
+      },
+      "drawn": {
+        "tent": {
+          "x": 1167,
+          "y": 670,
+          "size": 96,
+          "box": {
+            "left": 1112,
+            "top": 577,
+            "right": 1233,
+            "bottom": 673
+          }
+        },
+        "garden": {
+          "x": 960,
+          "y": 459,
+          "half": 27,
+          "season": "growing"
+        },
+        "pile": {
+          "x": 511.6294492701468,
+          "y": 325.81801697495615,
+          "width": 170.09999999999997,
+          "height": 55.46840163934423
+        },
+        "camera": {
+          "cx": 88.04422575774016,
+          "cy": -25.017132277177545,
+          "scale": 2984.2105263157896,
+          "width": 1366,
+          "height": 768
+        },
+        "yard": null,
+        "paths": [],
+        "pictures": {
+          "tent": {
+            "left": 1112,
+            "top": 577,
+            "right": 1233,
+            "bottom": 673
+          },
+          "garden": {
+            "left": 933,
+            "top": 441,
+            "right": 986,
+            "bottom": 476
+          },
+          "woodpile": {
+            "left": 427,
+            "top": 237,
+            "right": 597,
+            "bottom": 326
+          },
+          "camp": {
+            "left": 997,
+            "top": 508,
+            "right": 1089,
+            "bottom": 556
+          },
+          "figure": 56.7
+        },
+        "figures": {
+          "hh-1-horse": {
+            "x": 668.3005019017105,
+            "y": -16.75775705437954,
+            "size": 85.05000000000001
+          },
+          "hh-1-animal": {
+            "x": 548.9320808491026,
+            "y": 44.20220347193499,
+            "size": 82.215
+          },
+          "hh-1-wagon": {
+            "x": 520.5820808490945,
+            "y": 161.01912452456403,
+            "size": 87.885
+          },
+          "hh-1-thomas": {
+            "x": 768.5699755859395,
+            "y": 320.0850061035127,
+            "size": 56.7
+          },
+          "hh-1-rosa": {
+            "x": 917.3902589867519,
+            "y": 299.14962148812805,
+            "size": 56.7
+          },
+          "hh-1-elena": {
+            "x": 776.9028095940253,
+            "y": 334.9601478039155,
+            "size": 56.7
+          },
+          "hh-1-mateo": {
+            "x": 953.2007853025427,
+            "y": 397.7663016500727,
+            "size": 56.7
+          }
+        }
+      },
+      "stands": {
+        "hh-1-wagon": {
+          "x": 87.9898,
+          "y": -25.0786
+        },
+        "hh-1-animal": {
+          "x": 87.9993,
+          "y": -25.1186
+        },
+        "hh-1-horse": {
+          "x": 88.0393,
+          "y": -25.1386
+        }
+      }
+    },
+    {
+      "seed": "yard-layout-7",
+      "state": "house",
+      "shot": "C:\\Users\\zachw\\AppData\\Local\\Temp\\claude\\C--Users-zachw-Texas-Civilization\\2f375bfe-91ab-4fc8-aa68-1531e617149c\\scratchpad\\after\\yard-yard-layout-7-house.png",
+      "site": {
+        "x": 88.09,
+        "y": -25.03
+      },
+      "drawn": {
+        "tent": null,
+        "garden": {
+          "x": 960,
+          "y": 459,
+          "half": 27,
+          "season": "growing"
+        },
+        "pile": {
+          "x": 511.6294492701468,
+          "y": 325.81801697495615,
+          "width": 170.09999999999997,
+          "height": 55.46840163934423
+        },
+        "camera": {
+          "cx": 88.04422575774016,
+          "cy": -25.017132277177545,
+          "scale": 2984.2105263157896,
+          "width": 1366,
+          "height": 768
+        },
+        "yard": {
+          "fence": "sound",
+          "left": 676,
+          "top": 118,
+          "right": 1048,
+          "bottom": 510,
+          "gate": [
+            {
+              "x": 880,
+              "y": 510
+            },
+            {
+              "x": 844,
+              "y": 510
+            }
+          ]
+        },
+        "paths": [
+          {
+            "to": "water",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 813,
+                "y": 371
+              },
+              {
+                "x": 813,
+                "y": 406
+              },
+              {
+                "x": 778,
+                "y": 406
+              },
+              {
+                "x": 767,
+                "y": 464
+              },
+              {
+                "x": 875,
+                "y": 489
+              }
+            ]
+          },
+          {
+            "to": "plot-1",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 813,
+                "y": 371
+              },
+              {
+                "x": 813,
+                "y": 406
+              },
+              {
+                "x": 778,
+                "y": 406
+              },
+              {
+                "x": 767,
+                "y": 464
+              },
+              {
+                "x": 837,
+                "y": 476
+              },
+              {
+                "x": 883,
+                "y": 511
+              },
+              {
+                "x": 895,
+                "y": 557
+              },
+              {
+                "x": 918,
+                "y": 557
+              },
+              {
+                "x": 930,
+                "y": 534
+              },
+              {
+                "x": 1058,
+                "y": 534
+              },
+              {
+                "x": 1070,
+                "y": 523
+              },
+              {
+                "x": 1070,
+                "y": 488
+              },
+              {
+                "x": 1081,
+                "y": 476
+              },
+              {
+                "x": 1093,
+                "y": 441
+              },
+              {
+                "x": 1093,
+                "y": 219
+              },
+              {
+                "x": 1105,
+                "y": 208
+              },
+              {
+                "x": 1105,
+                "y": 173
+              },
+              {
+                "x": 1081,
+                "y": 150
+              },
+              {
+                "x": 1058,
+                "y": 91
+              },
+              {
+                "x": 1023,
+                "y": 91
+              },
+              {
+                "x": 942,
+                "y": 10
+              },
+              {
+                "x": 895,
+                "y": 10
+              },
+              {
+                "x": 862,
+                "y": -59
+              }
+            ]
+          },
+          {
+            "to": "yard-gate",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 813,
+                "y": 371
+              },
+              {
+                "x": 813,
+                "y": 406
+              },
+              {
+                "x": 778,
+                "y": 406
+              },
+              {
+                "x": 767,
+                "y": 464
+              },
+              {
+                "x": 837,
+                "y": 476
+              },
+              {
+                "x": 848,
+                "y": 476
+              },
+              {
+                "x": 860,
+                "y": 499
+              },
+              {
+                "x": 862,
+                "y": 510
+              }
+            ]
+          },
+          {
+            "to": "woodpile",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 813,
+                "y": 371
+              },
+              {
+                "x": 813,
+                "y": 406
+              },
+              {
+                "x": 778,
+                "y": 406
+              },
+              {
+                "x": 778,
+                "y": 409
+              },
+              {
+                "x": 767,
+                "y": 464
+              },
+              {
+                "x": 837,
+                "y": 476
+              },
+              {
+                "x": 883,
+                "y": 511
+              },
+              {
+                "x": 895,
+                "y": 557
+              },
+              {
+                "x": 883,
+                "y": 581
+              },
+              {
+                "x": 883,
+                "y": 592
+              },
+              {
+                "x": 837,
+                "y": 592
+              },
+              {
+                "x": 837,
+                "y": 604
+              },
+              {
+                "x": 802,
+                "y": 639
+              },
+              {
+                "x": 755,
+                "y": 651
+              },
+              {
+                "x": 755,
+                "y": 639
+              },
+              {
+                "x": 720,
+                "y": 628
+              },
+              {
+                "x": 592,
+                "y": 628
+              },
+              {
+                "x": 580,
+                "y": 616
+              },
+              {
+                "x": 580,
+                "y": 581
+              },
+              {
+                "x": 510,
+                "y": 592
+              },
+              {
+                "x": 475,
+                "y": 569
+              },
+              {
+                "x": 475,
+                "y": 523
+              },
+              {
+                "x": 498,
+                "y": 523
+              },
+              {
+                "x": 510,
+                "y": 511
+              },
+              {
+                "x": 510,
+                "y": 476
+              },
+              {
+                "x": 533,
+                "y": 464
+              },
+              {
+                "x": 533,
+                "y": 429
+              },
+              {
+                "x": 569,
+                "y": 394
+              },
+              {
+                "x": 569,
+                "y": 383
+              },
+              {
+                "x": 557,
+                "y": 371
+              },
+              {
+                "x": 512,
+                "y": 357
+              }
+            ]
+          },
+          {
+            "to": "stock-cattle",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 813,
+                "y": 371
+              },
+              {
+                "x": 813,
+                "y": 406
+              },
+              {
+                "x": 778,
+                "y": 406
+              },
+              {
+                "x": 767,
+                "y": 464
+              },
+              {
+                "x": 825,
+                "y": 476
+              },
+              {
+                "x": 872,
+                "y": 464
+              },
+              {
+                "x": 872,
+                "y": 441
+              },
+              {
+                "x": 895,
+                "y": 406
+              },
+              {
+                "x": 942,
+                "y": 383
+              },
+              {
+                "x": 906,
+                "y": 359
+              },
+              {
+                "x": 892,
+                "y": 363
+              },
+              {
+                "x": 892,
+                "y": 267
+              }
+            ]
+          },
+          {
+            "to": "stock-hogs",
+            "worn": [
+              {
+                "x": 862,
+                "y": 363
+              },
+              {
+                "x": 841,
+                "y": 363
+              },
+              {
+                "x": 841,
+                "y": 257
+              }
+            ]
+          }
+        ],
+        "pictures": {
+          "garden": {
+            "left": 933,
+            "top": 441,
+            "right": 986,
+            "bottom": 476
+          },
+          "woodpile": {
+            "left": 427,
+            "top": 237,
+            "right": 597,
+            "bottom": 326
+          },
+          "figure": 56.7
+        },
+        "figures": {
+          "hh-1-horse": {
+            "x": 668.3005019017105,
+            "y": -16.75775705437954,
+            "size": 85.05000000000001
+          },
+          "hh-1-animal": {
+            "x": 548.9320808491026,
+            "y": 44.20220347193499,
+            "size": 82.215
+          },
+          "hh-1-wagon": {
+            "x": 520.5820808490945,
+            "y": 161.01912452456403,
+            "size": 87.885
+          },
+          "hh-1-thomas": {
+            "x": 768.5699755859395,
+            "y": 320.0850061035127,
+            "size": 56.7
+          },
+          "hh-1-rosa": {
+            "x": 917.3902589867519,
+            "y": 299.14962148812805,
+            "size": 56.7
+          },
+          "hh-1-elena": {
+            "x": 776.9028095940253,
+            "y": 334.9601478039155,
+            "size": 56.7
+          },
+          "hh-1-mateo": {
+            "x": 953.2007853025427,
+            "y": 397.7663016500727,
+            "size": 56.7
+          }
+        }
+      },
+      "stands": {
+        "hh-1-wagon": {
+          "x": 87.9898,
+          "y": -25.0786
+        },
+        "hh-1-animal": {
+          "x": 87.9993,
+          "y": -25.1186
+        },
+        "hh-1-horse": {
+          "x": 88.0393,
+          "y": -25.1386
+        }
+      }
+    }
+  ]
+}

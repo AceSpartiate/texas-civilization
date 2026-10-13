@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-13",
+  "files": [
+    "tests/yard-layout.test.mjs",
+    "tests/yard-art.test.mjs"
+  ],
+  "caught": 16,
+  "of": 16,
+  "results": [
+    {
+      "injection": "each thing is set down looking at nothing else round the house (the bug)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "everything round the house has a place of its own: clear of each other, the houses, the field, the lane, the water, the line and the rails"
+      ]
+    },
+    {
+      "injection": "the houses as drawn are not looked at: a thing stands under the roof",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "everything round the house has a place of its own: clear of each other, the houses, the field, the lane, the water, the line and the rails"
+      ]
+    },
+    {
+      "injection": "the yard's rails are not looked at: a thing stands across the fence",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "everything round the house has a place of its own: clear of each other, the houses, the field, the lane, the water, the line and the rails"
+      ]
+    },
+    {
+      "injection": "the field is not looked at",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "everything round the house has a place of its own: clear of each other, the houses, the field, the lane, the water, the line and the rails"
+      ]
+    },
+    {
+      "injection": "the lane is not looked at",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "everything round the house has a place of its own: clear of each other, the houses, the field, the lane, the water, the line and the rails"
+      ]
+    },
+    {
+      "injection": "the nearest clear ground is taken across the creek (found on yard-layout-7)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a thing round the house stays on the house's side of a creek"
+      ]
+    },
+    {
+      "injection": "the tent stands where it always did, a fixed way west of the mark",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the tent, the garden, the woodpile and the camp are read where the layout puts them, by the family, the shelter and the Host"
+      ]
+    },
+    {
+      "injection": "a garden laid out before is worked and drawn where it was recorded",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the tent, the garden, the woodpile and the camp are read where the layout puts them, by the family, the shelter and the Host"
+      ]
+    },
+    {
+      "injection": "the ways are laid through the woodpile, the garden and the wagon (the bug)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the family's ways go round the woodpile, the garden, the tent and the wagons, and the way to the logs ends before the pile"
+      ]
+    },
+    {
+      "injection": "the way to the logs ends under the pile",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the family's ways go round the woodpile, the garden, the tent and the wagons, and the way to the logs ends before the pile"
+      ]
+    },
+    {
+      "injection": "a beast standing at its old spot is left there, on the house's ground",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the beasts and the wagons stand at their stands: in from a journey, and in a class saved before"
+      ]
+    },
+    {
+      "injection": "a beast left over another, or over the woodpile, is left there",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the beasts and the wagons stand at their stands: in from a journey, and in a class saved before"
+      ]
+    },
+    {
+      "injection": "a beast home from a journey is set down at the old rail",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the beasts and the wagons stand at their stands: in from a journey, and in a class saved before"
+      ]
+    },
+    {
+      "injection": "ten acres may be staked over the woodpile",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "no plot is staked over the woodpile, the garden or a beast's stand"
+      ]
+    },
+    {
+      "injection": "the bedroll a share of a house's height again (owner: \"fix the giant bedroll too\")",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the bedroll and the goods at the camp are drawn the size they are beside a person and the wagon, not a house's"
+      ]
+    },
+    {
+      "injection": "the camp at the site drawn at the house's size it is handed",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the bedroll and the goods at the camp are drawn the size they are beside a person and the wagon, not a house's"
+      ]
+    }
+  ]
+}
