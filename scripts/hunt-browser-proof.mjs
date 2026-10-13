@@ -84,9 +84,9 @@ try {
   const BOUND = await page.evaluate(async fallback => {
     const { avatarVariant, avatarBinding } = await import('/avatar-art.js');
     const him = window.__snapshot.world.entities.find(one => one.id === 'hh-1-mateo');
-    if (!him?.appearance) return { variant: fallback, reading: `${fallback}-search`, still: `${fallback}-idle-s`, carrying: `${fallback}-carry` };
+    if (!him?.appearance) return { variant: fallback, reading: `${fallback}-search`, still: `${fallback}-idle-s`, carrying: `${fallback}-carry`, walking: `${fallback}-walk` };
     const pose = name => avatarBinding(him, { id: `ochre-${name}` }).id;
-    return { variant: avatarVariant(him.appearance, him.sex, him), reading: pose('search'), still: pose('idle-s'), carrying: pose('carry') };
+    return { variant: avatarVariant(him.appearance, him.sex, him), reading: pose('search'), still: pose('idle-s'), carrying: pose('carry'), walking: pose('walk-e').replace(/-e$/, '') };
   }, HUNTER_FIGURE);
   HUNTER_FIGURE = BOUND.variant;
   await mateo('hunt-timber').click();
@@ -214,7 +214,8 @@ try {
   for (const [stage, clip] of Object.entries(wanted)) {
     assert.ok(watched.clips.includes(clip), `the hunter was never drawn ${stage} (${clip}): ${JSON.stringify(watched.clips)}`);
   }
-  const walking = watched.clips.filter(clip => clip.startsWith(`${variant}-walk`));
+  // Her family rig (2026-10-13) names a chosen look's walk `<figure>-rig-walk-<dir>`: the binding says which.
+  const walking = watched.clips.filter(clip => clip.startsWith(BOUND.walking));
   assert.ok(walking.length, `the hunter was never drawn walking: ${JSON.stringify(watched.clips)}`);
   ok(`the hunter's own poses change with the stages: ${[...Object.values(wanted), walking[0]].join(', ')}${fallbacks.length ? ` (her figure's nearest pose, requested: ${fallbacks.join('; ')})` : ''}`);
   // Never one picture for every stage: reading, waiting and carrying home are at least two different poses.

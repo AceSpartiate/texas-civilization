@@ -18,7 +18,10 @@ try {
     const { loadArt } = await import('/art.js');
     const { drawAvatar, drawAvatarPortrait, avatarVariant } = await import('/avatar-art.js');
     const { figureScale } = await import('/motion.js');
-    await loadArt({ sheets: ['people-children-idle', 'people-family-youth-boy', 'people-family-youth-girl', 'people-family-father-hat', 'people-family-mother-scarf'] });
+    await loadArt({ sheets: ['people-children-idle', 'people-family-youth-boy', 'people-family-youth-girl', 'people-family-father-hat', 'people-family-mother-scarf',
+      // Astra's family rig (2026-10-13): a chosen look is drawn as a body and its head, tinted, from these sheets.
+      ...['adult', 'youth', 'child'].flatMap(age => ['male', 'female'].map(sex => `rig-${age}-${sex}-locomotion`)), 'rig-smallchild-locomotion', 'rig-infant-body',
+      ...['cast1', 'cast2', 'fathers', 'mothers', 'young', 'little'].map(group => `rig-heads-${group}`)] });
     const canvas = document.createElement('canvas');
     canvas.id = 'age-art-proof'; canvas.width = 1440; canvas.height = 560;
     canvas.style.cssText = 'position:fixed;left:0;top:0;z-index:999;background:#f4ead2';

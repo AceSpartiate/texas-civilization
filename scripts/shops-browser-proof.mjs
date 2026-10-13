@@ -105,6 +105,9 @@ try {
 
   // In town, the keepers are standing there with the family's person.
   await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.location?.siteId === 'gonzales', worker, { timeout: 60000 });
+  // The keepers come into her sight on the snapshot after the one that sets her down in the town, not always on the same one
+  // (seen 2026-10-13: the arrival's own snapshot listed nobody, the next twelve), so the proof waits a few seconds for them.
+  await page.waitForFunction(() => window.__snapshot.world.others.filter(o => o.resident).length >= 8, null, { timeout: 10000 }).catch(() => {});
   const keepers = await page.evaluate(() => window.__snapshot.world.others.filter(o => o.resident).map(o => o.name));
   observed.keepers = keepers;
   assert.ok(keepers.length >= 8, `only ${keepers.length} townspeople are in sight: ${keepers}`);
