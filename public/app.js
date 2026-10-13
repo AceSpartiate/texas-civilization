@@ -27,6 +27,7 @@ import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
 import {drawWater,drawRoad,drawCrossing,drawFerry,crossingAngle} from '/landscape-art.js';
+import {groundPattern,paveWay} from '/ground-texture.js';
 import { GALE_POSES, GALE_SMOKE, drawWeatherTree, drawFogShape, drawHighWater, floodCurrentMarks, drawFloodCurrent, drawWeatherAir, drawWeatherVeil, drawWetGround, farEmphasis, inGale, weatherGroundKey, weatherMix, weatherShown, weatherSpans, windLean } from '/weather-art.js';
 /** The weather with the day fully up, for everything drawn into the kept ground (public/weather-art.js `weatherMix`). */
 const STEADY = Object.freeze({ fade: false });
@@ -3429,31 +3430,42 @@ function drawPlots(ctx, world, camera) {
  * along every path as far as it is made - a soft worn verge with a packed line down the middle, like the lane but narrower -
  * the stakes of the part still to cut as a dashed line, and the yard's swept earth. Only the family's own; its rails are drawn
  * over the woods with the field's (`drawYardFence`).
- * stand-in: docs/ART_REQUESTS.md, request 2026-10-02 "paths and the yard" - drawn procedurally, as the roads are, until a
- * trodden-path tile and a paling are drawn.
+ * Laid in the painted trodden-path tile and the road's worn verge (public/ground-texture.js `LAYERS.path`, owner 2026-10-13: "use
+ * our new image generation setup to improve roads"), a tile the size of a person and a half, pinned to the world's origin; and
+ * the yard's swept earth in the street's packed-earth tile. In the flat strokes while the sheet is coming.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-10-02 "paths and the yard" - the path is the painted tile since 2026-10-13; a
+ * paling, and a bend piece for the path, are still to draw.
  */
 function drawLandPaths(ctx, world, camera) {
   const land = !hostView(world) && world.land;
   const drawn = [];
   if (!land) { window.__pathsDrawn = drawn; return; }
   const yard = land.yard;
+  const width = Math.max(1.5, Math.min(26, camera.scale * .004 + camera.figure * .16));
+  const tile = Math.max(32, camera.figure * 1.5), anchor = camera.toScreen({ x: 0, y: 0 });
   if (yard) {
     const a = camera.toScreen({ x: yard.minX, y: yard.minY }), b = camera.toScreen({ x: yard.maxX, y: yard.maxY });
-    ctx.save(); ctx.fillStyle = 'rgba(176,146,98,.4)'; ctx.fillRect(a.x, a.y, b.x - a.x, b.y - a.y); ctx.restore();
+    const earth = groundPattern(ctx, 'street', tile * 2, anchor);
+    ctx.save(); ctx.fillStyle = 'rgba(176,146,98,.4)'; ctx.fillRect(a.x, a.y, b.x - a.x, b.y - a.y);
+    if (earth) { ctx.globalAlpha = .55; ctx.fillStyle = earth; ctx.fillRect(a.x, a.y, b.x - a.x, b.y - a.y); }
+    ctx.restore();
   }
-  const width = Math.max(1.5, Math.min(26, camera.scale * .004 + camera.figure * .16));
   for (const path of land.paths || []) {
     const total = path.points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p.x - path.points[i].x, p.y - path.points[i].y), 0);
     const made = Number.isFinite(path.cut) ? Math.min(total, path.cut) : total;
     const [worn, staked] = made >= total - 1e-6 ? [path.points, []] : made <= 1e-6 ? [[], path.points] : splitAlong(path.points, made);
+    let textured = false;
     ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     if (worn.length > 1) {
       // Its corners rounded, as a trodden way is and as the family is walked along it (public/motion.js `roundCorners`; owner,
       // 2026-10-05: "Paths don't seem natural around the house").
       const line = roundCorners(worn).map(camera.toScreen);
-      ctx.beginPath(); line.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
-      ctx.strokeStyle = 'rgba(160,128,86,.42)'; ctx.lineWidth = width; ctx.stroke();
-      ctx.strokeStyle = 'rgba(122,94,60,.55)'; ctx.lineWidth = Math.max(1, width * .4); ctx.stroke();
+      textured = paveWay(ctx, 'path', line, width, { tile, anchor });
+      if (!textured) {
+        ctx.beginPath(); line.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+        ctx.strokeStyle = 'rgba(160,128,86,.42)'; ctx.lineWidth = width; ctx.stroke();
+        ctx.strokeStyle = 'rgba(122,94,60,.55)'; ctx.lineWidth = Math.max(1, width * .4); ctx.stroke();
+      }
     }
     if (staked.length > 1) {
       const line = staked.map(camera.toScreen);
@@ -3462,7 +3474,7 @@ function drawLandPaths(ctx, world, camera) {
       ctx.strokeStyle = 'rgba(107,79,42,.7)'; ctx.lineWidth = Math.max(1.2, width * .3); ctx.stroke();
     }
     ctx.restore();
-    drawn.push({ id: path.id, kind: path.kind, ...(path.to && { to: path.to }), made: +made.toFixed(4), miles: +total.toFixed(4), worn: worn.length > 1 ? worn.map(camera.toScreen).map(p => ({ x: Math.round(p.x), y: Math.round(p.y) })) : [] });
+    drawn.push({ id: path.id, kind: path.kind, ...(path.to && { to: path.to }), textured, made: +made.toFixed(4), miles: +total.toFixed(4), worn: worn.length > 1 ? worn.map(camera.toScreen).map(p => ({ x: Math.round(p.x), y: Math.round(p.y) })) : [] });
   }
   // Presentation evidence for the proofs (scripts/land-paths-browser-proof.mjs), read by nothing in the application.
   window.__pathsDrawn = drawn;
@@ -4152,6 +4164,7 @@ function drawWorldNow(world) {
   // Presentation evidence for proofs: each wade drawn on a family's lane when the ground was last drawn (`wadesOf`).
   if (ground && !audit) window.__wadesDrawn = [];
   // Worn dirt, not a drafting line: a soft verge with a packed track down the middle.
+  const worldOrigin = camera.toScreen({ x: 0, y: 0 }), roadTile = Math.max(40, Math.min(46, camera.scale * .012 + camera.figure * .22) * 2.6);
   if (ground) for (const route of Object.values(world.map?.routes || {})) {
     const ctx = ground;
     const points = (route.points || []).filter(Boolean).map(camera.toScreen); if (points.length < 2) continue;
@@ -4171,7 +4184,9 @@ function drawWorldNow(world) {
       ctx.restore();
     }
     if (worn.length > 1) {
-      drawRoad(ctx,worn,width);
+      // The painted road tile (public/ground-texture.js), one size for a road and a track at this zoom so the two meet as one
+      // ground, pinned to the world's origin so the dirt stays where it lies as the map is dragged.
+      drawRoad(ctx,worn,width,{tile:roadTile,anchor:worldOrigin});
     }
     // A family's lane wades the smaller water between its house and the road (sim/colonies-region.mjs), as the roads do;
     // a road's wade is a ford of the map's, and a lane's is drawn as the same ford, where the lane meets the water as it

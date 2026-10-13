@@ -1,0 +1,18 @@
+{
+  "record": "road tiles against flat strokes, ms per draw, CPU throttled 6x",
+  "date": "2026-10-13",
+  "tiles": {
+    "road20": 23.99,
+    "road46": 18.84,
+    "streets": 38.79,
+    "townStreets": 26.48,
+    "painted": true
+  },
+  "flat": {
+    "road20": 103.77,
+    "road46": 63.27,
+    "streets": 12.41,
+    "townStreets": 19.39,
+    "painted": false
+  }
+}

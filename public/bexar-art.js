@@ -10,7 +10,7 @@ function polygon(ctx,points,fill,stroke,width=1){ctx.beginPath();points.forEach(
 // Shared scenery renderer: no people, hidden events, clock or second simulation.
 export function drawBexarGround(ctx,project,pixelsPerFoot,{river=true}={}){
   if(river)drawWater(ctx,town.river.points.map(project),Math.max(1,town.river.widthFeet*pixelsPerFoot));
-  drawStreets(ctx,town.roads.map(road=>({points:road.points.map(project),width:Math.max(1,road.widthFeet*pixelsPerFoot)})));
+  drawStreets(ctx,town.roads.map(road=>({points:road.points.map(project),width:Math.max(1,road.widthFeet*pixelsPerFoot)})),{tile:Math.max(32,pixelsPerFoot*50),anchor:project({x:0,y:0})});
   for(const plaza of town.plazas)polygon(ctx,corners(plaza).map(project),'#ccb985','#a59063');
 }
 

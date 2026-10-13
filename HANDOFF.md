@@ -1,5 +1,52 @@
 # Claude handoff — Astra foundation
 
+## Roads, streets and paths laid in painted tiles from the local image pipeline — 2026-10-13 (branch `roads-1013`, not released)
+
+Owner, 2026-10-13: *"use our new image generation setup to improve roads."* From origin/main 2ce5d46e. Every way the game draws
+- the map's roads and tracks and a family's lane (`drawRoad`), town streets and squares (`drawStreets`, `public/town-art.js`,
+Gonzales and Béxar), and a family's paths and yard (`drawLandPaths`) - was flat strokes with a few drawn rut marks. They are
+now laid in four painted tiles, the first art in `frontier-v1` from the owner's ComfyUI + FLUX.2 klein pipeline
+([delivery](docs/ART_DELIVERY_2026-10-13-ROAD-TILES.md)). [Before and after](docs/evidence/roads-compare.png): map
+([before](docs/evidence/roads-before-map.png) / [after](docs/evidence/roads-after-map.png)), town close
+([before](docs/evidence/roads-before-town-close.png) / [after](docs/evidence/roads-after-town-close.png)), a family's land
+([before](docs/evidence/roads-before-land.png) / [after](docs/evidence/roads-after-land.png)).
+
+- **The art.** `ground-roads.png`: `road-tile-wagon` (rutted wagon road), `road-tile-street` (packed town earth),
+  `road-tile-path` (trodden foot path), `road-tile-verge` (worn grass verge), each 512 and seamless. 16 candidates painted
+  (`scripts/road-art/generate.py`, prompts in `scripts/road-art/textures.json`), one of each chosen on a contact sheet, made
+  seamless on the CPU from its own pixels by image quilting and moved to the roads' colours (`scripts/road-art/finish.py`,
+  byte-for-byte reproducible from the four raw paintings kept in `docs/art-sources/ground-roads-2026-10-13/raw/`). Registered
+  like Astra's deliveries: `scripts/art-deliveries/road-textures-2026-10-13.mjs` -> docs/art-prompts.json and
+  art-provenance.json, atlas, manifest, ART_MANIFEST.md, WebP. Two GPU seam-repaint passes (FLUX.2 klein reference edits) were
+  tried and rejected - the edit kept the line, then kept the blur - and are recorded. 32 GPU jobs, all through the toolkit lease.
+- **How it is drawn** (`public/ground-texture.js`, docs/LANDSCAPE_ART.md *Painted road tiles*). The street and verge are flat
+  patterns pinned to the world's origin on whole pixels (the ground stays put while dragged). The road and path tiles carry
+  direction - every candidate painted its ruts one way - so they are **laid along** the way: the pattern turned to each piece,
+  centred on it, the distance carried from piece to piece so the ruts run on round bends. A painted road drops the drawn ruts
+  and grit and keeps its grass tufts. Same geometry, widths and crossings; nothing in sim/ or the map data changed. While the
+  sheet is missing every way draws its old flat strokes exactly (`drawStreets` keeps its old loop for that). `art.js`
+  `spriteImage` hands a frame's exact painted pixels (`audit.sourceBounds`, no padding) and registers a missing sheet so its
+  arrival redraws the kept ground. The yard's swept earth is the street tile at low alpha. Server route added for
+  `/ground-texture.js`.
+- **Cost** (`scripts/road-tiles-cost.mjs`, [record](docs/evidence/road-tiles-cost.json), CPU 6x): a 300-point road at 20 px
+  24 ms in tiles against 104 ms flat (the drawn ruts were the cost); a town's streets at 24 px 26 ms against 19 ms flat; a
+  worst case of streets over most of the screen 39 against 12. Two fixes came from it: patterns pinned to whole pixels (a
+  fractional offset cost 2.5x) and a town's streets stroked as one path per width (twelve pattern strokes cost 4x). Roads are
+  only drawn when the kept ground is. The full harness (`perf-render-measure.mjs`, before via `--root` at 2ce5d46e, back to
+  back: [before](docs/evidence/perf-render-roads-before.json), [after](docs/evidence/perf-render-roads-after.json)) moved
+  within this computer's noise in every view (ms/frame 33->47, 72->66, 50->47, 25->25); none of the new functions is in any
+  view's top self-time.
+- *Tests*: tests/ground-texture.test.mjs, 7 tests; nine injections each failed exactly its own test (a missing tile still
+  laid; ruts restarting each piece; a flat tile not pinned; pinned at a fraction; levels rebuilt; drawRoad, drawStreets and
+  drawLandPaths each without their fallback; a tile name not on the sheet). `npm test`: 2501 tests, 2464 pass, 0 fail after the capacity test (timed out under load, 1 fail) passed run alone, 36 skipped. Proofs: test:towns 15/15,
+  test:gonzales-town 11/11, test:land-paths 8/8, test:travel 10/10, test:travel-drawn 17/17 (run alone; beside test:art it once
+  exited 127 with no error), test:art (no errors), test:overlap pass, test:trees-front 3/3, weather `--days fog,fair` 11/11.
+  `build-voice`, `build:webp`, `art:plan`, `build-atlas-manifest` run. The proofs' rewritten evidence was put back.
+- `ceiling:` the along tile is turned per chord, so at a sharp bend close in the ruts kink at a point. Request 2026-10-02
+  item 3 (`ground-path-straight`/`-bend`) stays on Astra's list; the stand-in row now names the painted tile.
+- **Teacher:** roads now look like real rutted wagon tracks and trodden paths, so students can tell a road from a river or a
+  field at a glance.
+
 ## The family sheltering at the tent is no longer under the trees three deep (the ox still can be) — 2026-10-13 (branch `invisible-rest`, not released)
 
 From 8aed3356 (the release candidate on `astra-art-1005`). The weather proof's yard showed Benjamin, Henry, Peter and Frances

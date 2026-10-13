@@ -1,0 +1,86 @@
+{
+  "style": "Seamless tileable texture seen from directly overhead, flat orthographic top-down view of the ground only, filling the whole frame edge to edge with an even, uniform density of detail and no focal point. Hand-painted storybook game art for a warm illustrated 1830s Texas frontier game: soft gouache and oil brushwork, small painterly dabs, muted warm palette, gentle even daylight with no cast shadows. No horizon, no perspective, no sky, no objects, no people, no animals, no plants taller than the ground, no vignette, no border, no frame, no text, no lettering, no signature, no watermark.",
+  "textures": [
+    {
+      "name": "road-wagon",
+      "sprite": "road-tile-wagon",
+      "laid": "along",
+      "subject": "A dry rutted dirt wagon road surface: packed tan and ochre earth (light sand-tan #d1bc8f to warm khaki #c2ac7d) with darker umber hollows, scuffed by ox hooves and wheels running in every direction, scattered small pebbles and grit, a few cracks, faint scattered wisps of dry straw.",
+      "candidate": 1,
+      "crop": null,
+      "target": [
+        198,
+        178,
+        134
+      ],
+      "keep": 0.9
+    },
+    {
+      "name": "street-earth",
+      "sprite": "road-tile-street",
+      "laid": "flat",
+      "subject": "The trampled packed-earth street of a small frontier town: hard smooth light-tan clay (#d1bc8f) worn by feet, hooves and cart wheels, with faint overlapping hoofprints and footprints, a little loose grey grit, a few scattered small stones and wisps of trodden straw, subtle paler and darker patches.",
+      "candidate": 4,
+      "crop": [
+        0,
+        160,
+        864,
+        1024
+      ],
+      "target": [
+        204,
+        186,
+        140
+      ],
+      "keep": 0.85
+    },
+    {
+      "name": "path-trodden",
+      "sprite": "road-tile-path",
+      "laid": "along",
+      "subject": "A narrow foot path trodden through prairie: bare compacted brown-tan soil (#b9a07a) worn smooth by feet, with small tufts and blades of short trampled olive-green grass breaking through here and there, tiny roots, pebbles and a few fallen dry leaves.",
+      "candidate": 1,
+      "crop": null,
+      "target": [
+        170,
+        150,
+        108
+      ],
+      "keep": 0.85
+    },
+    {
+      "name": "road-verge",
+      "sprite": "road-tile-verge",
+      "laid": "flat",
+      "subject": "The worn grassy verge beside a dirt road: short trampled sage and olive-green prairie grass (#9fbe73, #8fa865) thinned by wheels and hooves, with many small patches of bare tan earth (#c2ac7d) showing through, dry yellowed blades and tiny clover.",
+      "candidate": 2,
+      "crop": null,
+      "target": [
+        166,
+        172,
+        112
+      ],
+      "keep": 0.8
+    }
+  ],
+  "rejectedSeamRepaints": [
+    {
+      "prompt": "Keep this painting exactly: same top-down ground texture, same painterly brushwork, same colours, every pebble, rut, crack and blade of grass where it is. Only heal the straight seam line{s} across the middle, so the ground continues naturally and evenly across {it}, with no visible line, edge or change of tone.",
+      "seeds": [
+        1,
+        2
+      ],
+      "shown": "the rolled tile",
+      "result": "the line kept"
+    },
+    {
+      "prompt": "Keep this painting exactly: same top-down ground texture, same painterly brushwork, same colours, every pebble, rut, crack and blade of grass where it is. The soft blurred band{s} across the middle must be painted in with the same crisp detail as the rest of the ground, continuing it naturally across {it}, so that no band, line, edge or change of tone shows.",
+      "seeds": [
+        3,
+        4
+      ],
+      "shown": "the rolled tile with the seam band blurred",
+      "result": "the blur kept"
+    }
+  ]
+}
