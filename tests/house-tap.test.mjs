@@ -23,7 +23,7 @@ globalThis.fetch = async url => {
 };
 globalThis.createImageBitmap = async () => ({ stub: 'sheet' });
 const { drawSprite, loadArt, spriteFrame } = await import('../public/art.js');
-await loadArt({ sheets: ['house-modules', 'houses-settling'] });
+await loadArt({ sheets: ['house-modules', 'house-back-views', 'houses-settling'] });
 const catalogue = plotCatalogue();
 
 const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -105,7 +105,8 @@ test('a house placed nowhere still opens at its site, and a finished placed hous
   // The family's first house placed and finished, a second planned before placement existed: both open.
   const both = frame({ pieces: finished('hewn-log') }, [{ pieces: finished('dog-run'), placement: { x: -0.3, y: 0.1, rotation: 90 } }]);
   assert.equal(page_.houseAt(atSite(both)), site.id);
-  const placedWalls = both.ctx.drawn.filter(each => /round-full-walls$/.test(each.name));
+  // The dog-run's pens, seen from behind at every turn (public/house-plot.js `penWalls`: its near chimney's gable faces the viewer).
+  const placedWalls = both.ctx.drawn.filter(each => /round(-back)?-full-walls$/.test(each.name));
   assert.equal(placedWalls.length, 2, 'the placed dog-run drew two pens');
   for (const { middle } of placedWalls) assert.equal(page_.houseAt(middle), site.id);
 });

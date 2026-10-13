@@ -143,33 +143,80 @@ export function roofSeat(walls, roof, x, y, height, flip = false) {
  * says the `drawSprite` given mirrors every picture about its foot, so the roof's seat is mirrored with the walls.
  */
 /**
- * Whether a pen whose chimney gable faces the viewer is drawn from behind (`house-*-back-*`). Off: Astra's rear views
- * (2026-10-11, docs/ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md) are library-ready at their own source resolution
- * (`roofScale`), and their chimney, door and ground registration is her checklist's compositor work, not yet done; on main
- * Claude's rear stand-ins were never drawn (public/art-subjects.js held them back), so off is the house as players saw it.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides.
- * ceiling: the front picture with the chimney over its door; turning this on wants tests/house-roof.test.mjs,
- * house-chimney.test.mjs and house-connected.test.mjs given her rear walls' measured points.
+ * Whether a pen whose chimney gable faces the viewer is drawn from behind (`house-*-back-*`): Astra's rear views
+ * (2026-10-11, docs/ART_DELIVERY_2026-10-11-HOUSE-OTHER-SIDES.md), the gable toward the viewer blank logs and the door on
+ * the long side, so the chimney stands against a wall with no door in it. On since 2026-10-13: every rear frame is fitted
+ * to the front walls' ground (`rearFit`), and the roof, the chimney's gable and the drawing all take the one fitted frame
+ * (`penWalls`). Off draws the front picture with the chimney over its door, as players saw it until then.
  */
-export const REAR_VIEWS = false;
-function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false, { back = false, floor = false } = {}) {
+export const REAR_VIEWS = true;
+
+/**
+ * How a pen's rear full walls are fitted to its front ones, in pixels of the front walls' frame: `scale` front pixels to
+ * one rear pixel, and (`dx`, `dy`) where the rear frame's ground anchor goes, from the front frame's ground anchor. The
+ * rear sheet is drawn at its own, finer source resolution, and the atlas measures how much finer (`roofScale`: the rear
+ * full walls' width over the front's, scripts/build-atlas-manifest.mjs); one rear pixel is 1/roofScale of a front one,
+ * which is also what `roofSeat` takes so that the front sheet's roofs fit the rear walls. Scaled so, the footprint the
+ * rear's measured ground corners (`ground`) make is as wide as the front's to within 1%, but the anchors are not the same
+ * point of it (the rear's stands ten pixels further right of its footprint's middle than the front's): so the rear is
+ * placed by the middle of its footprint, halfway between its left and right corners, on the front's. Drawn as it came, at
+ * the front walls' anchor and height, the rear pen stood 6% (round) to 9% (hewn) wider than the front one and a thirtieth
+ * of its width to the side of its ground, off the front pen's place in a row (`alongRidge` lays a two-pen house out by the
+ * front walls' ground). null when either frame has no ground.
+ * ceiling: one uniform scale, and the rear drawn as Astra drew it. Her rear walls stand six courses to the front's seven,
+ * so a roof seated on them (at their own measured seat) sits lower than on the front walls - a twentieth of the pen's width
+ * on the round-log rear, a tenth on the hewn - and their near gable runs a little steeper, the front corner 5% of the
+ * width to the left of the front walls'. Stretching the rear upright to the front's height would push its ground's front
+ * corner off the footprint instead. So a two-pen house is drawn from behind whole (`drawHousePlot`), its roofs on one line.
+ * A rear wall at the front's height (docs/ART_REQUESTS.md, request 2026-10-13 - the rear walls as high as the front)
+ * removes both.
+ */
+export function rearFit(front, rear) {
+  if (!front?.ground || !rear?.ground) return null;
+  const scale = 1 / (rear.roofScale || 1);
+  const middle = f => [((f.ground.left[0] + f.ground.right[0]) / 2 - f.anchorX) * f.w, ((f.ground.left[1] + f.ground.right[1]) / 2 - f.anchorY) * f.h];
+  const [[fx, fy], [rx, ry]] = [middle(front), middle(rear)];
+  return { scale, dx: fx - rx * scale, dy: fy - ry * scale };
+}
+
+/**
+ * The full walls a log pen is drawn with, and where they stand, for the pen standing at (x, y) with its front walls
+ * `height` high, mirrored or not: `{ set, walls, x, y, height }`, `walls` the frame and (x, y, height) its ground anchor and
+ * drawn height. The front walls (`house-round-full-walls`), or from behind (`back`, `housePicture`) the rear walls fitted to
+ * them (`rearFit`). The roof seat, the chimney's gable (`standChimneys`) and the pen's every stage (`drawLogPen`) all take
+ * this one frame (Astra's checklist, item 2: "use the same selected full-wall frame for roof seating, gableFoot and chimney
+ * registration"). The rear is chosen only when it can be drawn now - its sheet loaded, which `canDraw` asks - so that
+ * a chimney is never stood against a rear wall while the front one is drawn in its place. null for a pen with no walls.
+ */
+export function penWalls(p, back, x, y, height, flip, spriteFrame, canDraw) {
+  const material = p.type === 'pen-hewn' ? 'hewn' : 'round', front = spriteFrame?.(`house-${material}-full-walls`);
+  if (!front) return null;
+  const rearName = `house-${material}-back-full-walls`, rear = back && REAR_VIEWS ? spriteFrame(rearName) : null, fit = rearFit(front, rear);
+  if (!fit || (canDraw && !canDraw(rearName))) return { set: material, walls: front, x, y, height };
+  const scale = height / (front.logicalHeight || front.h);
+  return { set: `${material}-back`, walls: rear, x: x + (flip ? -1 : 1) * fit.dx * scale, y: y + fit.dy * scale, height: (rear.logicalHeight || rear.h) * scale * fit.scale };
+}
+
+function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false, { back = false, floor = false, walls: chosen } = {}) {
   if (!spriteFrame) return 0;
   if (p.type === 'pen-jacal') return drawJacalPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip);
-  const material = p.type === 'pen-hewn' ? 'hewn' : 'round';
   const course = Math.max(0, p.stage - 1);
   const stage = course === 0 ? 'sill' : course <= 4 ? 'low-walls' : 'full-walls';
   // The pen from behind - the gable toward the viewer without its door - where a chimney stands against that gable
-  // (`housePicture`), once its rear views are registered (`REAR_VIEWS`); her front picture until then, the chimney covering
-  // the door as before.
-  for (const set of back && REAR_VIEWS ? [`${material}-back`, material] : [material]) {
-    const base = `house-${set}-${stage}`, walls = spriteFrame(`house-${set}-full-walls`), frame = spriteFrame(base);
+  // (`housePicture`), as `penWalls` fitted it; the front picture if the rear will not draw after all.
+  const at = chosen || penWalls(p, back, x, y, height, flip, spriteFrame);
+  if (!at) return 0;
+  const front = spriteFrame(`house-${p.type === 'pen-hewn' ? 'hewn' : 'round'}-full-walls`);
+  for (const each of at.set.endsWith('-back') ? [at, penWalls(p, false, x, y, height, flip, spriteFrame)] : [at]) {
+    const { walls } = each, base = `house-${each.set}-${stage}`, frame = spriteFrame(base);
     const roofName = penRoof([p]);
-    const seat = p.stage >= 12 ? roofSeat(walls, spriteFrame(roofName), x, y, height, flip) : null;
-    if (!walls || !frame || (p.stage >= 12 && !seat)) continue;
-    // A puncheon floor under the walls, where the pen has one: it shows through the doorway and over the low courses.
+    const seat = p.stage >= 12 ? roofSeat(walls, spriteFrame(roofName), each.x, each.y, each.height, flip) : null;
+    if (!frame || (p.stage >= 12 && !seat)) continue;
+    // A puncheon floor under the walls, where the pen has one: it shows through the doorway and over the low courses. On
+    // the pen's ground, which the rear walls are fitted to, so at the front walls' place and scale.
     // stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - the house plot's pieces: Claude-drawn stand-in `house-floor`.
-    if (floor && spriteFrame('house-floor')) drawSprite(ctx, 'house-floor', x, y, height * (spriteFrame('house-floor').logicalHeight || 1) / (walls.logicalHeight || walls.h));
-    const drawn = drawSprite(ctx, base, x, y, height * (frame.logicalHeight || frame.h) / (walls.logicalHeight || walls.h));
+    if (floor && spriteFrame('house-floor')) drawSprite(ctx, 'house-floor', x, y, height * (spriteFrame('house-floor').logicalHeight || 1) / (front.logicalHeight || front.h));
+    const drawn = drawSprite(ctx, base, each.x, each.y, each.height * (frame.logicalHeight || frame.h) / (walls.logicalHeight || walls.h));
     if (!drawn) continue;
     if (seat) drawSprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor });
     return drawn;
@@ -219,7 +266,9 @@ export const CHIMNEY_STANDS_OUT = 0.1;
  * pen's back gable (`standChimneys`): half a cell of the ridge out from the far pen's door, behind the near pen's roof, it
  * has to be taller, and so wider, than a single chimney to hide that door whole (at 2.35 the door's top corner showed;
  * until 2026-09-24 it stood `DOUBLE_TOWARD`, 0.8 of a cell, down the screen from the far gable at 90 and 270 degrees, and
- * `CHIMNEY_HIGH` behind both pens' back gables at 0 and 180).
+ * `CHIMNEY_HIGH` behind both pens' back gables at 0 and 180). Since 2026-10-13 the far pen is seen from behind there
+ * (`penWalls`), its gable blank, and the height is kept for the front walls drawn while the rear sheet loads and for the
+ * reach the server's spacing already allows.
  * ceiling: one height, tuned by eye to the house-modules sheet; the reach it takes up the screen is inside
  * `PICTURE_REACH.up` (tests/house-spacing.test.mjs), so a taller chimney has to move that and the server's spacing with it.
  */
@@ -310,11 +359,11 @@ export const doorGable = (dx, dy, flip) => dy > 0 || (dy === 0 && (flip ? dx > 0
  *
  * Until 2026-09-24 each pen was chosen alone (`mirrorPens`), so a dog-run at 0 or 180 had its two pens as mirror images,
  * each chimney behind its outer end, and their two ridges on different diagonals, a V: two cabins, not one house.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides. A chimney whose gable is the door's
- * - the cabins at 90 degrees, the dog-run's near pen and the saddlebag's far pen at every turn - has no picture to stand
- * against: the gable is the door's in both. It stays against that gable, in front of the door and hiding it whole, so the
- * gable reads as the chimney's end (coordinator, 2026-09-24), until the sheet has a pen with its door in the other gable
- * (tests/house-chimney.test.mjs holds the whole door covered).
+ * A chimney whose gable is the door's whichever way the front walls are drawn - the cabins at 90 degrees, the dog-run's
+ * near pen and the saddlebag's far pen at every turn - stands against the pen seen from behind (`back`: Astra's rear
+ * walls, 2026-10-11, that gable blank and the door on the long side; `penWalls`), and a house of two pens is then seen from
+ * behind whole (`drawHousePlot`). Until 2026-10-13 it stood in front of the door and hid it whole, so the gable read as the
+ * chimney's end (coordinator, 2026-09-24).
  */
 function housePicture(order, rotation, flip) {
   const logPens = order.filter(each => each.p.kind.pen && each.p.type !== 'pen-jacal');
@@ -430,15 +479,17 @@ function alongRidge(order, rotation, cell, spriteFrame, flip, catalogue, x, y) {
  * `order` is the pieces back to front, `{ p, footX, footY, flip, ... }` as `drawHousePlot` places them and `housePicture`
  * and `alongRidge` turn and move them; it is changed in place. A chimney whose pen has no measured walls - a jacal, or no
  * `spriteFrame` - stays at its own cell, as it always was.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides; the front gables in the table are
- * the door's (`housePicture`).
+ * The front gables in the table are the door's in the front walls (`housePicture`), and blank in the rear walls a pen is
+ * drawn with where a chimney stands on one (`penWalls`).
  */
 function standChimneys(order, rotation, cell, spriteFrame) {
+  // The gable on the pen's walls as they are drawn (`penWalls`, set on each pen by `drawHousePlot`): from behind, the rear
+  // walls' own blank gable, fitted to the pen's ground.
   const gable = ([pen, east]) => {
-    const walls = pen && pen.p.type !== 'pen-jacal' && spriteFrame?.(`house-${pen.p.type === 'pen-hewn' ? 'hewn' : 'round'}-full-walls`);
-    if (!walls?.ground) return null;
+    const at = pen && pen.p.type !== 'pen-jacal' && pen.penAt;
+    if (!at?.walls?.ground) return null;
     const [dx, dy] = turned(east ? 1 : -1, 0, rotation), front = doorGable(dx, dy, pen.flip);
-    return { pen, front, foot: out => gableFoot(walls, front, pen.footX, pen.footY, cell * 2.2, pen.flip, out) };
+    return { pen, front, foot: out => gableFoot(at.walls, front, at.x, at.y, at.height, pen.flip, out) };
   };
   for (const { chimney, walls: ends } of chimneyGables(order)) {
     const walls = ends.map(gable);
@@ -483,9 +534,8 @@ function standChimneys(order, rotation, cell, spriteFrame) {
  * `housePicture`). A dog-run or saddlebag stands along its pens' one ridge (2026-09-24, `alongRidge`): up the screen to
  * the right at 0 and 180 degrees, to the left at 90 and 270, its far chimney and pen behind the passage or the double
  * chimney, its near pen and chimney in front.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides. The gable facing the viewer always
- * shows the door, so a chimney on a gable toward the viewer (`housePicture`) stands in front of it, and the porch and shed
- * room are their one picture (mirrored at a quarter turn) whichever way they run.
+ * A chimney on the gable toward the viewer, which the front walls draw with the door, stands against the pen seen from
+ * behind (Astra's rear walls, `penWalls`); the porch, shed room and lone passage take her end views at a quarter turn.
  *
  * `drawn`, when given, collects the screen box of every picture drawn, `{ left, top, right, bottom }`: where a tap on
  * the house lands (public/app.js `houseAt`).
@@ -530,17 +580,30 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
   // Back to front by the turned front edge, so a piece nearer the viewer is drawn over one further off.
   const order = placed.sort((a, b) => a.front - b.front);
   const row = alongRidge(order, rotation, cell, spriteFrame, housePicture(order, rotation, flip), catalogue, x, y);
+  // A house of two pens in a row is seen from behind whole when either pen is (`housePicture` sets `back`: the dog-run's
+  // near pen, the saddlebag's far one, at every turn). Astra's rear walls stand six courses to the front's seven, so a
+  // roof on a rear pen sits lower than on a front one (`rearFit`): one pen of each, and the near pen's roof stepped down
+  // from the passage roof, a twentieth of a pen's width at the join, where the owner asked for one roof line
+  // (2026-09-24, `alongRidge`). Both pens from behind, the passage and the chimney's roof seated on the rear walls too.
+  if (row) {
+    row.back = order.some(each => each.p.kind.pen && each.back);
+    for (const each of order) if (each.p.kind.pen) each.back = row.back;
+  }
   // Gable placement subsequently moves chimney feet; the roof still belongs at the row's virtual pen seat.
   for(const each of order){each.roofFootX=each.footX;each.roofFootY=each.footY;}
+  // Each log pen's walls as they will be drawn - front, or from behind fitted to its ground (`penWalls`) - for its chimney
+  // and its drawing alike. The rear only where its sheet has loaded (public/art.js `drawSprite.ready`, which asks for it
+  // if not), so both agree while it is on its way; a `drawSprite` that cannot say is taken to draw it.
+  for (const each of order) if (each.p.kind.pen && each.p.type !== 'pen-jacal') each.penAt = penWalls(each.p, each.back, each.footX, each.footY, cell * 2.2, each.flip, spriteFrame, drawSprite.ready);
   standChimneys(order, rotation, cell, spriteFrame);
   // The first of `names` that draws: a Claude stand-in first where one is named, then the picture it stands in for.
   const first = (names, sx, sy, height, options) => { for (const name of names) { const width = sprite(ctx, name, sx, sy, height, options); if (width) return width; } return 0; };
   const floors = new Set(pieces.filter(each => each.type === 'floor' && each.stage >= each.kind.stageCount).map(each => `${each.x},${each.y}`));
-  for (const { p, w, h, footX, footY, roofFootX, roofFootY, flip: penFlip, back } of order) {
+  for (const { p, w, h, footX, footY, roofFootX, roofFootY, flip: penFlip, back, penAt } of order) {
     if (p.kind.pen) {
       // The modular pen drawn the way `housePicture` chose; its whole picture, where the pieces cannot be drawn, as the house is.
       const penSprite = (c, name, sx, sy, height, options) => sprite(c, name, sx, sy, height, { ...options, flip: penFlip });
-      if (!drawLogPen(ctx, p, footX, footY, cell * 2.2, penSprite, spriteFrame, penFlip, { back, floor: floors.has(`${p.x},${p.y}`) })) sprite(ctx, penPicture(p), footX, footY, cell * 2.2);
+      if (!drawLogPen(ctx, p, footX, footY, cell * 2.2, penSprite, spriteFrame, penFlip, { back, floor: floors.has(`${p.x},${p.y}`), walls: penAt })) sprite(ctx, penPicture(p), footX, footY, cell * 2.2);
       continue;
     }
     // A shed room, porch or lone passage whose long side runs into the screen (a quarter turn) is drawn from its end.
@@ -568,8 +631,8 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
           ctx.fillRect(floorAt.x - cell / 2, floorAt.y - cell * .35, cell, cell * .35);
         }
       }
-      const walls = spriteFrame(row.walls), roofName = penRoof(row.pens), roof = spriteFrame(roofName);
-      const seat = p.stage >= p.kind.stageCount ? roofSeat(walls, roof, footX, footY, cell * 2.2, row.flip) : null;
+      const walls = penWalls(row.pens[0], row.back, footX, footY, cell * 2.2, row.flip, spriteFrame, drawSprite.ready), roofName = penRoof(row.pens), roof = spriteFrame(roofName);
+      const seat = p.stage >= p.kind.stageCount && walls ? roofSeat(walls.walls, roof, walls.x, walls.y, walls.height, row.flip) : null;
       // One roof over the house (Astra's, 2026-10-10): the join's ridge fitted to the pens' own roof's (`fitRoofJoin`), its ends
       // clipped inside the overlap so no cut log end shows (`joinSprite`); the pens' own roof where her join has not loaded.
       const joinName = roofName.endsWith('finished') ? 'house-roof-join' : 'house-roof-join-partial';
@@ -603,7 +666,8 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       // roof at its virtual pen seat (`roofFootX`: before `standChimneys` moved the chimney's foot), drawn before the chimney.
       if (row && complete && row.pens.every(pen => pen.stage >= 12)) {
         const roof = spriteFrame(penRoof(row.pens));
-        const seat = fitRoofJoin(roof, spriteFrame('house-roof-join-chimney'), roofSeat(spriteFrame(row.walls), roof, roofFootX, roofFootY, cell * 2.2, row.flip), row.flip);
+        const at = penWalls(row.pens[0], row.back, roofFootX, roofFootY, cell * 2.2, row.flip, spriteFrame, drawSprite.ready);
+        const seat = at && fitRoofJoin(roof, spriteFrame('house-roof-join-chimney'), roofSeat(at.walls, roof, at.x, at.y, at.height, row.flip), row.flip);
         if (seat) joinSprite('house-roof-join-chimney', seat, row.flip, .65);
       }
       const double = complete && spriteFrame('house-chimney-double'), walls = row && spriteFrame(row.walls);

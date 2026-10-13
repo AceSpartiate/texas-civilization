@@ -32,7 +32,7 @@ globalThis.fetch = async url => {
 };
 globalThis.createImageBitmap = async () => ({ stub: 'sheet' });
 const { drawSprite, loadArt, spriteFrame } = await import('../public/art.js');
-await loadArt({ sheets: ['house-modules', 'houses-settling'] });
+await loadArt({ sheets: ['house-modules', 'house-back-views', 'houses-settling'] });
 const catalogue = plotCatalogue();
 
 const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');

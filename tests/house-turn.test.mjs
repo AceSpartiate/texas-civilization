@@ -24,7 +24,7 @@ globalThis.fetch = async url => {
 };
 globalThis.createImageBitmap = async () => ({ stub: 'sheet' });
 const { drawSprite, loadArt, spriteFrame } = await import('../public/art.js');
-await loadArt({ sheets: ['house-modules', 'houses-settling'] });
+await loadArt({ sheets: ['house-modules', 'house-back-views', 'houses-settling'] });
 const catalogue = plotCatalogue();
 
 const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -160,8 +160,10 @@ test('a dog-run runs along its ridge, the east pen right of the west at 0, left 
   const side = rotation => { const ctx = recorder(); drawPlacedHouse(ctx, camera, { placement: placement(rotation), pieces: finished('round-log') }); const pen = ctx.drawn.find(each => /full-walls$/.test(each.name)).foot, chimney = ctx.drawn.find(each => /chimney/.test(each.name)).foot; return { dx: chimney.x - pen.x, dy: chimney.y - pen.y }; };
   assert.ok(side(0).dx > 0 && side(180).dx < 0, 'the chimney does not change ends at a half turn');
   // At 90 the east end has come round to the front, the chimney against the gable toward the viewer, its foot about level
-  // with the pen's; at 270 behind it, against the gable behind the walls.
-  assert.ok(side(90).dy > -0.1 * cell && side(270).dy < -cell / 2, 'a quarter turn does not bring the chimney end to the front or the back');
+  // with the pen's; at 270 behind it, against the gable behind the walls. At 90 the pen is seen from behind (Astra's rear
+  // walls, public/house-plot.js `penWalls`), whose near gable runs a little steeper than the front walls' (her measured
+  // corners: the chimney 0.12 of a cell above the walls' foot, against the front walls 0.04), so about level is within 0.15 of a cell.
+  assert.ok(side(90).dy > -0.15 * cell && side(270).dy < -cell / 2, `a quarter turn does not bring the chimney end to the front or the back (${(side(90).dy / cell).toFixed(2)}, ${(side(270).dy / cell).toFixed(2)} cells)`);
 });
 
 test('the house at its site, placed nowhere, is drawn as it always was: upright and unmirrored', () => {

@@ -26,7 +26,7 @@ globalThis.fetch = async url => {
 };
 globalThis.createImageBitmap = async () => ({ stub: 'sheet' });
 const { drawSprite, loadArt, spriteFrame } = await import('../public/art.js');
-await loadArt({ sheets: ['house-modules', 'houses-settling'] });
+await loadArt({ sheets: ['house-modules', 'house-back-views', 'houses-settling'] });
 const catalogue = plotCatalogue();
 
 const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -74,6 +74,11 @@ const BY_EYE = {
   'house-hewn-full-walls': middle([12, 72], [282, 50]),
   'house-round-roof-partial': middle([15, 160], [348, 130]),
   'house-hewn-roof-finished': middle([10, 170], [351, 132]),
+  // Astra's rear walls (2026-10-11, house-back-views), read the same way on a five-pixel grid: the gable toward the viewer
+  // blank, the door on the long side. Their sheet is finer (`roofScale`), and a roof on them is drawn at the front walls'
+  // scale (public/house-plot.js `rearFit`).
+  'house-round-back-full-walls': middle([15, 63], [300, 58]),
+  'house-hewn-back-full-walls': middle([16, 60], [307, 58]),
 };
 // ceiling: the atlas measures its seats off the silhouette (`seatOf`), each within about 3% of its frame's width of these,
 // so a roof may land up to 6% of the walls' width off the middle read by eye. Drawn at the walls' ground anchor it was 33%.
@@ -120,8 +125,10 @@ for (const plan of plans) {
         for (const { roof, walls } of pairs) {
           assert.equal(roof.name, roofName, `${where}: the wrong roof for the stage`);
           assert.ok(walls, `${where}: a roof drawn with no full walls under it`);
-          // The roof is drawn at the walls' own scale: one pixel of the sheet is as big in both.
-          assert.ok(Math.abs(roof.perPixel / walls.perPixel - 1) < 1e-9, `${where}: the roof is drawn ${roof.perPixel / walls.perPixel} times the walls' scale`);
+          // The roof is drawn at the walls' own scale: one pixel of the sheet is as big in both - or, on the rear walls, whose
+          // sheet is finer, as big as `roofScale` of their pixels (the front walls' scale, which the rear are fitted to).
+          const finer = spriteFrame(walls.name).roofScale || 1;
+          assert.ok(Math.abs(roof.perPixel / walls.perPixel / finer - 1) < 1e-9, `${where}: the roof is drawn ${roof.perPixel / walls.perPixel} times the walls' scale, not ${finer}`);
           const eaves = roof.screen(...BY_EYE[roof.name]), tops = walls.screen(...BY_EYE[walls.name]);
           const off = Math.hypot(eaves.x - tops.x, eaves.y - tops.y), wide = spriteFrame(walls.name).w * walls.perPixel;
           assert.ok(off <= WITHIN * wide, `${where}: the middle of the ${roof.name} eaves is ${(off / wide * 100).toFixed(1)}% of the walls' width off the middle of the ${walls.name} tops (${(eaves.x - tops.x).toFixed(1)}, ${(eaves.y - tops.y).toFixed(1)} pixels)`);

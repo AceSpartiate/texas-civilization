@@ -9,7 +9,7 @@ try{
  browser=await chromium.launch({headless:true,executablePath:process.env.BROWSER_EXECUTABLE});const page=await browser.newPage({viewport:{width:1500,height:1400}}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(`http://127.0.0.1:${port}`);
  const proof=await page.evaluate(async(catalogue)=>{
   const {loadArt,drawSprite,spriteFrame}=await import('/art.js'),{drawHousePlot}=await import('/house-plot.js');
-  await loadArt({sheets:['house-roof-joins','house-modules','houses-settling']});
+  await loadArt({sheets:['house-roof-joins','house-modules','house-back-views','houses-settling']});
   const root=document.createElement('section');root.id='roof-join-proof';root.style.cssText='position:fixed;left:10px;top:10px;width:1400px;padding:20px;background:#afb06f;z-index:999999';root.innerHTML='<h2>Two-pen roof joins — finished, partial and chimney aperture; all four turns</h2>';document.body.append(root);const canvas=document.createElement('canvas');canvas.width=1400;canvas.height=1260;root.append(canvas);const ctx=canvas.getContext('2d'),widths=[],counts={};
   for(const [i,n] of ['house-roof-join','house-roof-join-partial','house-roof-join-chimney'].entries())widths.push(drawSprite(ctx,n,220+i*460,230,190));
   for(const [row,[planName,stage]] of [['dog-run',13],['dog-run',12],['saddlebag',13]].entries())for(const [col,rotation] of [0,90,180,270].entries()){

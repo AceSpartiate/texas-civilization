@@ -30,7 +30,7 @@ globalThis.fetch = async url => {
 };
 globalThis.createImageBitmap = async () => ({ stub: 'sheet' });
 const { drawSprite, loadArt, spriteFrame } = await import('../public/art.js');
-await loadArt({ sheets: ['house-modules', 'houses-settling', 'house-roof-joins'] });
+await loadArt({ sheets: ['house-modules', 'house-back-views', 'houses-settling', 'house-roof-joins'] });
 const catalogue = plotCatalogue();
 
 const SIZE = new Function('CABIN_PEOPLE', `${declaration('const SIZE = {', '\n};')} return SIZE;`)(CABIN_PEOPLE);
@@ -82,6 +82,11 @@ const RIDGE = {
 const GROUND = {
   'house-round-full-walls': { left: [12, 198], front: [180, 247], right: [290, 168] },
   'house-hewn-full-walls': { left: [12, 202], front: [175, 252], right: [288, 172] },
+  // Astra's rear walls (2026-10-11), read on a five-pixel grid as tests/house-chimney.test.mjs reads them: a house of two
+  // pens is seen from behind whole where either pen's chimney stands on the gable toward the viewer. Its gables are the
+  // same faces - the one "door's" face here is the rear's blank near gable.
+  'house-round-back-full-walls': { left: [15, 175], front: [178, 244], right: [305, 170] },
+  'house-hewn-back-full-walls': { left: [15, 172], front: [181, 250], right: [313, 168] },
 };
 // Which end of the house is the far one, up its ridge, at each turn: a house of two pens is drawn in the house's own
 // quarter-turn mirroring, not mirrored at 0 and 180 degrees (its ridge running up to the right) and mirrored at 90 and 270

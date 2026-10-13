@@ -357,6 +357,11 @@ export function spriteReady(name) {
   requestSheet(frame.sheet);
   return false;
 }
+/**
+ * `drawSprite` says whether it can draw a picture now, for a caller handed only `drawSprite` that has to choose its layout
+ * before it draws (public/house-plot.js `penWalls`: a pen's rear walls, whose chimney is placed before anything is drawn).
+ */
+drawSprite.ready = spriteReady;
 function neutralMotion() { return { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1 }; }
 function clipDuration(clip) {
   if (!clip || !Array.isArray(clip.frames) || !clip.frames.length) return 0;
