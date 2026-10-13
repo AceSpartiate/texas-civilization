@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, sheetsFirstDrawn, spriteFrame, spriteReady, watchMissing } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carryingInfantClip, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward, roundCorners } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carryingInfantClip, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, standsApart, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward, roundCorners } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { portraitSetsMain, herdMarkOf, actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands, keepList, pressHold } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -33,7 +33,7 @@ const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
 import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesNear, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
-import { figureBox, inFront, paintInFront, redrawn } from '/trees-front.js';
+import { clearLaid, figureBox, inFront, paintInFront, redrawn } from '/trees-front.js';
 import { bindEnding, renderEnding, setEndingReader } from '/ending.js';
 import { bindFlashback, renderFlashback } from '/flashback.js';
 import { createCourtship } from '/courtship.js';
@@ -1160,6 +1160,9 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
     : marks.placed ? { x: 0, y: 0 }
     // Somebody at work stands at it, facing it, and several at one piece of work stand round it (public/work-art.js `workSlot`).
     : atWork ? { x: workSlotOut.x * 26, y: workSlotOut.y * 26 }
+    // A beast or the wagon standing alone at its point is drawn on it (public/motion.js `standsApart`): its separation carried the ox
+    // onto the tent and over the family sitting there.
+    : !marks.observed && standsApart(entity, marks.entities) ? { x: 0, y: 0 }
     : stableOffset(entity.id);
   // Facing the work: read by `drawFigure` for this figure only (`marks` is made for each).
   marks.workFace = atWork ? workSlotOut.face : null;
@@ -3505,10 +3508,10 @@ function treeLook(tree, figure) {
   const picture = tree.kind.pictures?.[tree.size] || (deliveredSizes ? `${tree.kind.picture}-${sizeName}` : tree.kind.picture);
   return { tree: tree.kind.own ? `${tree.kind.own}-${sizeName}` : picture, standIn: tree.kind.own ? picture : null, height };
 }
-/** The two layers a tree drawn again over somebody is weathered in (`paintInFront`), made once and kept the page's size. */
+/** The layers a tree drawn again over somebody is weathered in, and what of them is laid this frame (`paintInFront`), made once and kept the page's size. */
 const frontLayer = [];
 function frontLayers(width, height) {
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     frontLayer[i] ??= document.createElement('canvas');
     if (frontLayer[i].width !== width || frontLayer[i].height !== height) { frontLayer[i].width = width; frontLayer[i].height = height; }
   }
@@ -3536,6 +3539,7 @@ function treesInFront(ctx, world, camera, canvas, people, standing, weather = nu
   const shown = [];
   window.__treesInFront = shown;
   if (!woodsShown(world) || !woodsCatalogue || !people.length || !groundTrees.size) return;
+  clearLaid(frontLayers, canvas.width, canvas.height);
   // The person's separation from the others carries them a figure or two off their point (`stableOffset`, `workSlot`).
   const figure = camera.figure, reach = figure * (SIZE.timberTree * 1.2 + 2.5) / camera.scale;
   for (const person of people) {

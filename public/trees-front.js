@@ -66,10 +66,19 @@ export const figureBox = (feet, figure) => ({ left: feet.x - figure * 0.5, top: 
  * ceiling: the weather is laid over the trees' anti-aliased edge and that edge then cut by its own coverage, so a half-covered
  * pixel at the rim of a crown comes out a shade fainter than the ground's; invisible at the sizes the trees are drawn, and laying
  * the weather on the layer premultiplied by hand is the way out if it is ever seen. Returns whether the weather was laid.
+ *
+ * Laid once over the whole family, not once a person (`layers`' third canvas, `laid`: what has gone onto the page this frame,
+ * cleared by `clearLaid` before the first). A family sitting together under the tent has boxes that overlap, and each person's
+ * trees laid again over a neighbour already under their own thinned the same leaves back up to solid: in the weather proof's
+ * yard (2026-10-13) Henry, Peter and Frances Weatherby sat under three and four laid layers - at four, 0.55 to the fourth of a
+ * person shows - and read as names over bushes. Now a pixel a layer was already laid on this frame is cut out of the next before it goes down.
+ * ceiling: where two people's boxes overlap, the trees laid there are the first group's; a tree in front of the second person
+ * alone is then not drawn again over them in the overlap, and they are seen over it there. Laying the union of both groups once
+ * is the way out if it is ever noticed.
  */
 export function paintInFront(ctx, box, paint, weather, layers) {
   const x = Math.floor(box.left), y = Math.floor(box.top), w = Math.ceil(box.left + box.width) - x, h = Math.ceil(box.top + box.height) - y;
-  const [trees, shape] = layers(ctx.canvas.width, ctx.canvas.height);
+  const [trees, shape, laid] = layers(ctx.canvas.width, ctx.canvas.height);
   const layer = trees.getContext('2d'), cut = shape.getContext('2d');
   for (const each of [layer, cut]) {
     each.setTransform(1, 0, 0, 1, 0, 0); each.globalAlpha = 1; each.globalCompositeOperation = 'source-over';
@@ -85,10 +94,26 @@ export function paintInFront(ctx, box, paint, weather, layers) {
     layer.globalCompositeOperation = 'destination-in';
     layer.drawImage(shape, x, y, w, h, x, y, w, h);
   }
+  // Nothing laid twice this frame: what an earlier person's trees already laid here is cut out of these.
+  if (laid) { layer.globalCompositeOperation = 'destination-out'; layer.drawImage(laid, x, y, w, h, x, y, w, h); }
   layer.restore();
   ctx.save();
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = FRONT_STRENGTH; ctx.globalCompositeOperation = 'source-over';
   ctx.drawImage(trees, x, y, w, h, x, y, w, h);
   ctx.restore();
+  if (laid) {
+    const mark = laid.getContext('2d');
+    mark.setTransform(1, 0, 0, 1, 0, 0); mark.globalAlpha = 1; mark.globalCompositeOperation = 'source-over';
+    mark.drawImage(trees, x, y, w, h, x, y, w, h);
+  }
   return Boolean(weather);
+}
+
+/** Forgets what the trees drawn again laid on the page (`paintInFront`'s `laid`): once a frame, before the first is laid. */
+export function clearLaid(layers, width, height) {
+  const laid = layers(width, height)[2];
+  if (!laid) return;
+  const mark = laid.getContext('2d');
+  mark.setTransform(1, 0, 0, 1, 0, 0);
+  mark.clearRect(0, 0, width, height);
 }

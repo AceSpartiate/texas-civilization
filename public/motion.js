@@ -246,6 +246,21 @@ export const teamRiddenBy = (entity, entities = []) => (entity?.kind === 'person
  * walking in reads as eight and not one figure.
  */
 export const walksBeside = entity => entity?.kind === 'person' && (entity.travel?.mode === 'wagon' || entity.travel?.mode === 'foot') && Boolean(entity.travel.afoot);
+/**
+ * Whether a beast or a wagon standing still is the only thing at its point among `entities`, and so is drawn on it with no
+ * cosmetic separation (public/app.js `drawEntity`, `stableOffset`). The separation exists so things at one point are not drawn
+ * inside each other; given to an ox standing alone it only carried it a figure and a half off its own place, and at home that
+ * was onto the tent where the family sits out the rain: in the weather proof's yard (2026-10-13) Juniper stood over three of the
+ * Weatherbys, drawn but covered. People keep their separation - the family sheltering together shares one point.
+ * ceiling: the family's own beasts only (a neighbour's on a student's map, and every family's on the Host's, are drawn as before);
+ * the whole map at once, if a neighbour's ox is ever seen over its own family.
+ */
+export function standsApart(entity, entities = []) {
+  if (!entity || entity.kind === 'person' || entity.travel || !Number.isFinite(entity.location?.x) || !Number.isFinite(entity.location?.y)) return false;
+  const { x, y } = entity.location;
+  return !entities.some(other => other !== entity && other.id !== entity.id && !other.travel && other.location
+    && Math.abs(other.location.x - x) < 1e-6 && Math.abs(other.location.y - y) < 1e-6);
+}
 /** What this person is sitting on: 'horse', 'wagon', or null for anybody on their own feet. */
 export function seatOf(entity, entities = []) {
   if (entity.kind !== 'person' || entity.carrier || entity.observed) return null;
