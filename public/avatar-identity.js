@@ -1,3 +1,4 @@
+import {familyRigClip} from './family-rig-bindings.js';
 // One age-aware identity for the creation studio, family portraits and world.
 export function avatarBand(person = {}) {
   if (person.band) return person.band;
@@ -17,7 +18,7 @@ const CAMP_IDENTITIES = new Set(['rust','teal','elder','blue','rust-woman','indi
 /** Healthy rest is distinct from injury/death; caller supplies the projected pose and clock. */
 export function familyCampBinding(entity, {sleep = false, baseline = 'volunteer', timeMs = 0} = {}) {
   const variant = entity.appearance ? avatarVariant(entity.appearance, entity.sex, entity) : baseline;
-  const clip = CAMP_IDENTITIES.has(variant) ? `${variant}-${sleep ? 'camp-sleep' : 'camp-rest'}` : `volunteer-${sleep ? 'sleep' : 'rest-sit'}`;
+  const clip = CAMP_IDENTITIES.has(variant) ? familyRigClip(variant,sleep?'camp-sleep':'camp-rest') : `volunteer-${sleep ? 'sleep' : 'rest-sit'}`;
   return {clip, timeMs, camp: true, scale: sleep ? .7 : .8};
 }
 
@@ -38,6 +39,8 @@ const PREFIX = /^(rust-woman|blue-girl|smallchild|infant|indigo|ochre|elder|rust
 export function avatarBinding(entity, binding) {
   const variant = avatarVariant(entity.appearance, entity.sex, entity);
   let pose = binding.id.replace(PREFIX, '');
+  const semantic=familyRigClip(variant,pose);
+  if(semantic)return {...binding,id:semantic,rig:true};
   const band = avatarBand(entity);
   if (band === 'infant') pose = pose.startsWith('rest') || pose.startsWith('injured') ? 'rest' : ['idle-e', 'idle-w'].includes(pose) ? pose : 'idle-s';
   else if (['child', 'small'].includes(band)) {

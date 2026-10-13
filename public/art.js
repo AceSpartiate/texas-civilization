@@ -4,6 +4,7 @@
 const BASE = '/assets/frontier-v1/';
 import { recolourPersonFrame, paletteKey } from './person-palette.js';
 import { namePrefixes, standinWithheld } from './art-subjects.js';
+import { tintSemanticFrame, removeSocketPixels, semanticDefaults } from './semantic-rig.js';
 // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". A second, separate library of frames
 // Claude drew for requests Astra has not delivered (scripts/build-claude-standins.mjs). Its sheets carry absolute image
 // paths and every entry `madeBy: "claude"`; a frame of the same name in Astra's atlas always wins, so her delivery
@@ -241,7 +242,7 @@ function colourFrame(image, frame, name, appearance, key) {
   const paint = canvas.getContext('2d', { willReadFrequently: true });
   paint.drawImage(image, frame.x, frame.y, frame.w, frame.h, 0, 0, frame.w, frame.h);
   const pixels = paint.getImageData(0, 0, frame.w, frame.h);
-  recolourPersonFrame(pixels, name, appearance);
+  if(frame.semantic)tintSemanticFrame(pixels,appearance,{neutralClothing:frame.neutralClothing,...(frame.fixedTint&&{fixedTint:frame.fixedTint})});else if(frame.socketOnly)removeSocketPixels(pixels);else recolourPersonFrame(pixels, name, appearance);
   paint.putImageData(pixels, 0, 0);
   personPaletteCache.set(key, canvas);
   if (personPaletteCache.size > PERSON_PALETTE_LIMIT) personPaletteCache.delete(personPaletteCache.keys().next().value);
@@ -297,6 +298,17 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
     if (frame && !image) { missing?.add(frame.sheet); requestSheet(frame.sheet); }
     return 0;
   }
+  // A frame of Astra's family rig (2026-10-13) is a body with its head on the painted neck socket (`rig`), or one person carrying
+  // another (`compound`): drawn only when every part's sheet is here, each asked for. Uncoloured, it wears its identity's own.
+  const head = frame.rig && art.frames[frame.rig.head];
+  if (frame.rig && (!head || !art.images[head.sheet])) { if (head) requestSheet(head.sheet); return 0; }
+  const patient = frame.compound && art.frames[frame.compound.patient], patientHead = patient?.rig && art.frames[patient.rig.head];
+  if (frame.compound && (!patient || !patientHead || !art.images[patient.sheet] || !art.images[patientHead.sheet])) {
+    if (patient && !art.images[patient.sheet]) requestSheet(patient.sheet);
+    if (patientHead && !art.images[patientHead.sheet]) requestSheet(patientHead.sheet);
+    return 0;
+  }
+  if ((frame.semantic || frame.socketOnly) && !appearance) appearance = semanticDefaults(frame.rig?.identity || frame.compound?.identity || name.split('-rig-')[0]);
   drawnSheets.add(frame.sheet);
   let source = null;
   if (appearance && typeof document !== 'undefined') ({ canvas: source, frame } = appearanceFrame(image, frame, name, appearance));
@@ -312,6 +324,18 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
   if (source) {
     ctx.drawImage(source, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
   } else ctx.drawImage(image, frame.x, frame.y, frame.w, frame.h, -width * (anchor?.[0] ?? frame.anchorX), -drawnHeight * (anchor?.[1] ?? frame.anchorY), width, drawnHeight);
+  if(head){
+    const hx=(frame.socket[0]-frame.w*(anchor?.[0]??frame.anchorX))*scale*widthScale,hy=(frame.socket[1]-frame.h*(anchor?.[1]??frame.anchorY))*scale;
+    ctx.translate(hx,hy);ctx.rotate(frame.rig.headAngle||0);
+    drawSprite(ctx,frame.rig.head,0,0,height*frame.rig.headScale,{appearance,anchor:[head.socket[0]/head.w,head.socket[1]/head.h],flip:frame.rig.pose==='idle-w'});
+    ctx.rotate(-(frame.rig.headAngle||0));ctx.translate(-hx,-hy);
+  }
+  if(patient){
+    const px=(frame.socket[0]-frame.w*(anchor?.[0]??frame.anchorX))*scale*widthScale,py=(frame.socket[1]-frame.h*(anchor?.[1]??frame.anchorY))*scale;
+    const mounted=frame.compound.kind==='living-mounted';
+    const patientAnchor=mounted?[(patient.socket[0]-.15*patient.logicalHeight)/patient.w,(patient.socket[1]+.30*patient.logicalHeight)/patient.h]:[patient.socket[0]/patient.w,patient.anchorY];
+    drawSprite(ctx,frame.compound.patient,px,py,height*frame.compound.patientScale,{appearance,anchor:patientAnchor});
+  }
   if (flip) ctx.scale(-1, 1);
   if (lean) ctx.transform(1, 0, -lean, 1, 0, 0);
   ctx.translate(-x, -y);
@@ -336,26 +360,27 @@ export function clipInfo(name) {
  */
 export function clipReady(name) {
   const sprite = art.clips[name]?.frames?.[0]?.sprite;
-  const frame = typeof sprite === 'string' ? art.frames[sprite] : null;
-  if (!frame) return false;
-  if (art.images[frame.sheet]) return true;
-  missing?.add(frame.sheet);
-  requestSheet(frame.sheet);
-  return false;
+  return typeof sprite === 'string' && spriteReady(sprite);
 }
-
 /**
  * Whether this sprite can be drawn right now - and if its sheet has not arrived, asking for it, as clipReady does for a clip.
  * For a page that knows before it draws what it will need (public/famous-view.js amousArt: a famous person sent onto the
  * map), so the sheet is on its way before the first frame that wants it.
+ * A frame of Astra's family rig (2026-10-13) is ready only with its head (`rig.head`) and, for one person carrying another,
+ * the person carried (`compound.patient`): each is asked for too.
  */
-export function spriteReady(name) {
+export function spriteReady(name) { return readyWith(name, new Set()); }
+// One argument only: `sprites.forEach(spriteReady)` (public/app.js) passes an index second.
+function readyWith(name, seen) {
+  if (seen.has(name)) return false;
+  seen.add(name);
   const frame = art.frames[name];
   if (!frame) return false;
-  if (art.images[frame.sheet]) return true;
-  missing?.add(frame.sheet);
-  requestSheet(frame.sheet);
-  return false;
+  let ready = Boolean(art.images[frame.sheet]);
+  if (!ready) { missing?.add(frame.sheet); requestSheet(frame.sheet); }
+  if (frame.rig) ready = readyWith(frame.rig.head, seen) && ready;
+  if (frame.compound) ready = readyWith(frame.compound.patient, seen) && ready;
+  return ready;
 }
 function neutralMotion() { return { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1 }; }
 function clipDuration(clip) {

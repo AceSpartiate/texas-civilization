@@ -225,6 +225,10 @@ merges, so every code change was read against its own parent and re-checked on t
   alone), panel-press, house-plot, interior; lesson skips itself (guided start off). `weather-browser-proof` times out waiting for a
   running world, alone, on this branch and on origin/main 49aa2d76 alike: pre-existing.
 - Not proved: Chromebook, LAN, classroom.
+## Completed final two art groups 2026-10-13: family appearance and battle service
+
+The audited broad artwork backlog is now **0 groups**. Forty-five new sheets contain 632 semantic painted components, composing 1,912 identity-preserving sprites and 792 clips for 22 family/head/age identities. Creation/portraits, inherited children, work, seating and own battle service use the same appearance rig. Source PNGs are material-coded: use art.js aliases, never raw images. Ground/mounted fire retains 2,470 ms cadence, 700 ms discharge and existing server fate/FOW authority. No old sprite/clip entries changed. 72 targeted tests and all 792 browser phase checks pass. Read **docs/ART_DELIVERY_2026-10-13-FAMILY-APPEARANCE-AND-BATTLE-COMPLETE.md** for the complete manifest, palette/socket contract and precise continuation limits. Living/dead/led transport art is ready; scene staging must supply explicit transport flags and remove duplicate helper stand-ins. Existing paired infant/caregiver composites keep their restrictions. No deployment performed.
+
 ## Completed art group 2026-10-12: famous-person refinements
 
 100 frames and 32 authored loops close the September 26 named-roster artwork: Milam cardinal firing, J. W. Smith/Horton/Kimbell/Martin cardinal trot and mounted dispatch, healthy halted rest, and warranted Kimbell/Martin fall/still. Milam service and halted rider rest bind production. Faster gait and dispatch require explicit projected scene flags; no new travel speed, delivery, death beat or historical outcome is inferred from assets. 41 targeted tests, all 32 browser animation checks and 15 live Béxar checks pass. Source prompts, full manifest and Claude continuation: docs/ART_DELIVERY_2026-10-12-NAMED-REFINEMENTS-COMPLETE.md. **2 broad dated art groups remain.** No deployment performed.

@@ -1,9 +1,10 @@
 import { BEXAR_TOWNSFOLK, bexarCivilianHeight, createMoonlightGrade, drawBexarMoonlight } from './bexar-battle-art.js';
 import { createSouthernNightGrade, drawSouthernNight, mountedHeading, mountedActionClip, mountedReloadClip } from './southern-battle-art.js';
-import { familyCampBinding } from './avatar-identity.js';
+import { familyCampBinding, avatarVariant } from './avatar-identity.js';
 import { figureOf as familyFigureOf } from './motion.js';
 import { createAlamoGrade, drawAlamoGrade, alamoGunName, alamoLancerClip, travisFireClip } from './alamo-battle-art.js';
 import { milamFireClip, namedMountedRefinement } from './named-refinement-art.js';
+import { familyRigBattlePose } from './family-rig-bindings.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
 //
 // Owner, 2026-09-25: "when i try to watch a battle ... i see npc's just standing around ... the battle itself never actually
@@ -511,7 +512,22 @@ export function createBattleView(art) {
     view.memberClips.add(pose.clip || pose.sprite);
     return pose;
   }
+  /**
+   * A family's person with a chosen look in their own identity: Astra's family rig (2026-10-13, public/family-rig-bindings.js
+   * `familyRigBattlePose`) maps the pose below - it decides no fate and no timing - and a mounted shot runs on the same musket
+   * clock as everybody's (`musketClip`). Without a look, the pose below as it was.
+   */
   function poseOf(member, time, entity) {
+    const legacy = legacyPoseOf(member, time, entity);
+    if (!entity?.appearance) return legacy;
+    const identity = avatarVariant(entity.appearance, entity.sex, entity);
+    const fell = view.memberFallAt.get(member.id), since = fell ? time + view.skew - fell.at : -1;
+    const side = view.sides.get(member.unit || 'texian') || view.sides.get('texian');
+    const cycle = MUSKET_MS + member.wait, t = (time + member.offset) % cycle, fireTime = t < member.wait ? 0 : musketClip(t - member.wait);
+    return familyRigBattlePose(identity, legacy, { moving: member.moving, firing: member.firing, heading: mountedHeading(side?.facing), fireTime,
+      fate: since >= 0 ? fell?.fate : null, since, grade: fell?.grade, carried: Boolean(fell?.carried) });
+  }
+  function legacyPoseOf(member, time, entity) {
     const side = view.sides.get(member.unit || 'texian') || view.sides.get('texian');
     // In a square each man faces out of his own face of it (`member.right`); elsewhere the way his body of men faces.
     const right = member.right ?? ((side?.facing?.x ?? 1) >= 0);

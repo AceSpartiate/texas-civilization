@@ -625,6 +625,9 @@ function miniPerson(ctx, x, y, size, entity) {
   }
 }
 function recliningAvatar(ctx, x, y, size, entity) {
+  const identity=avatarVariant(entity.appearance,entity.sex,entity),dead=Boolean(entity.fallen||entity.health?.condition==='dead');
+  const sprite=`${identity}-rig-${dead?(identity==='infant'?'covered-1':'still'):'wounded-1'}`;
+  if(drawSprite(ctx,sprite,x,y,size*figureScale(entity),{appearance:entity.appearance}))return;
   ctx.save();
   ctx.translate(x + size * .43, y - size * .14);
   ctx.rotate(Math.PI / 2);
@@ -946,7 +949,10 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   // Asked before anything is drawn, because the whole layout depends on the answer: one painted rig has no horse under it
   // and nothing to clip. A sheet still on its way answers no and is asked for, so the next frame can answer yes.
   const delivered = seatedClip(entity, direction, seat);
-  const ready = !entity.appearance && !onMule && Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
+  // Astra's family rig (2026-10-13) seats a person with a chosen look as their own seated layer over the mount drawn apart, so
+  // on the mule too; the painted horse-and-rider is the chestnut horse, so a rider on a mule is otherwise the composite.
+  const ready = (delivered.rigLayer || (!entity.appearance && !onMule)) && Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
+  const rigReady = ready && delivered.rigLayer;
   const drawn = [];
   const aboard = passengersOf(team, entities);
   // The wagon and its ox as one drawing (Claude's `wagon-ox-*`, public/motion.js `WAGON_RIG`) once its sheet is here, with the tail
@@ -962,12 +968,17 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const rig = Boolean(rigClip) && clipReady(rigClip.id);
   // Whoever rides in this wagon behind its driver (sim/company.mjs; owner, 2026-09-25), sat in it after the wagon and before the
   // driver, so the driver is drawn in front of them. They are not drawn again beside it (public/motion.js `carriedWithRider`).
-  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0, rig);
+  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready && !rigReady ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0, rig);
+  // The rig's seated layer at the person's own height, its hip (0.30 up the layer) on the saddle or the box.
+  if (rigReady && !rig) for (const part of layout) if (part.part === 'rider') {
+    part.seated = true; part.height = figureScale(entity); delete part.shown;
+    part.dy = -(seat === 'horse' ? SIZE.horse * (vertical ? .6 : .57) : SIZE.wagon * .44) + .30 * part.height;
+  }
   const rigPart = rig ? layout.find(part => part.part === 'rig') : null;
   const riders = aboard.map((rider, i) => {
     const clip = seatedClip(rider, direction, 'passenger');
     const seated = Boolean(clip.seated && clipReady(clip.id));
-    const mode = seated && clip.basket ? 'basket' : seated;
+    const mode = seated && clip.basket ? 'basket' : seated && clip.rigLayer ? 'rig' : seated;
     return { ...(rigPart ? bedLayout(direction, i, SIZE, figureScale(rider), rigPart, mode) : bedLayout(direction, i, SIZE, figureScale(rider), mode)), rider, passengerClip: clip };
   });
   if (riders.length && rigPart) {
@@ -1033,7 +1044,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
     if (part.part === 'rider' && (part.whole || part.seated)) {
       // Drawn entire and standing on its own ground line: the painted rig already has its legs, or the driver their boots.
       // A ridden east cycle is mirrored for west as every other east cycle is; a painted north or south one never is.
-      animated(ctx, delivered.id, px, py, height, entity.id, { flip: delivered.upright ? false : flip, gait: part.whole ? gait : undefined });
+      animated(ctx, delivered.id, px, py, height, entity.id, { flip: delivered.upright ? false : flip, gait: part.whole ? gait : undefined,appearance:delivered.rigLayer?entity.appearance:undefined });
     } else if (part.part === 'rider') {
       // Their own figure from the head down to just below the waist; the rest would be inside the saddle or the box.
       ctx.save();
@@ -1427,19 +1438,35 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     // A rider is drawn a horse's height (docs/BATTLES.md §6.13: Grant's men at Agua Dulce).
     const drawnSize = size * (pose.scale || 1);
     let done;
-    // In their own cast figure where it is drawn (public/battle-view.js `poseOf` `cast`: Claude's `<cast>-fire-reload`, `-load`,
-    // `-injured`, `-reclining`; stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "battles: the pieces the engine stands in
-    // for", item 1); the recoloured idle laid down or the hoeing cycle while it loads. Chosen as every drawn pose is, by a
-    // binding's `drawn` through `drawnClipOf` (public/motion.js): the hoeing cycle is its fallback, the battle pose the one drawn.
-    const cast = entity.appearance ? pose.cast || (entity.fallen && 'reclining') : null;
-    const variant = cast ? avatarVariant(entity.appearance, entity.sex, entity) : null;
-    const own = cast ? drawnClipOf({ id: `${variant}-work`, drawn: { from: 'work', pose: cast === 'fire-reload' ? cast : `battle-${cast}` } }, `${variant}-work`, entity) : null;
-    if (own && drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: (pose.timeMs || 0) / 165, working: true, flip: pose.flip, clip: own.clip, person: entity })) done = true;
-    // Presentation evidence for the battle proofs, read by nothing in the application: the cast poses each member was drawn in.
-    if (done && entity.id) ((window.__memberCastDrawn ??= {})[entity.id] ??= new Set()).add(own.clip);
-    else if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
-    else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : pose.camp ? pose.timeMs / 165 : performance.now() / 165, working: true, flip: pose.flip, person: entity, ...(pose.camp && { clip: pose.clip }) });
-    else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
+    // Astra's family rig (2026-10-13, public/family-rig-bindings.js `familyRigBattlePose`): a person with a chosen look fights,
+    // falls, lies wounded or is carried in their own identity; mounted, their seated layer over the chestnut horse.
+    if (pose.rigMounted) {
+      const direction = pose.heading === 'n' || pose.heading === 's' ? pose.heading : pose.flip ? 'w' : 'e';
+      const layout = seatLayout('horse', direction, { horse: 1.35 }, figureScale(entity), 0);
+      for (const part of layout) {
+        if (part.part === 'horse') animated(ctx, ['n', 's'].includes(direction) ? `horse-walk-${direction}` : pose.moving ? 'horse-walk' : 'horse-chestnut-idle', x, y, size * 1.35, entity.id, { timeMs: pose.timeMs, flip: pose.flip, paused: !pose.moving });
+        else done = animated(ctx, pose.clip, x + part.dx * size * (pose.flip ? -1 : 1), y + (-1.35 * (['n', 's'].includes(direction) ? .6 : .57) + .30 * figureScale(entity)) * size, size * figureScale(entity), entity.id, { timeMs: pose.timeMs, flip: pose.flip, appearance: entity.appearance });
+      }
+    } else if (pose.rig) done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize * figureScale(entity), { flip: pose.flip, appearance: entity.appearance })
+      : animated(ctx, pose.clip, x, y, drawnSize * figureScale(entity), entity.id, { timeMs: pose.timeMs, flip: pose.flip, appearance: entity.appearance });
+    // Presentation evidence for the battle proofs, read by nothing in the application: the rig poses each member was drawn in.
+    if (done && pose.rig && entity.id) ((window.__memberRigDrawn ??= {})[entity.id] ??= new Set()).add(pose.clip || pose.sprite);
+    // Where the rig's sheet has not loaded, as before: in their own cast figure where it is drawn (public/battle-view.js `poseOf`
+    // `cast`: Claude's `<cast>-fire-reload`, `-load`, `-injured`, `-reclining`; stand-in: docs/ART_REQUESTS.md, request 2026-09-25
+    // "battles: the pieces the engine stands in for", item 1); the recoloured idle laid down or the hoeing cycle while it loads.
+    // Chosen as every drawn pose is, by a binding's `drawn` through `drawnClipOf` (public/motion.js).
+    if (!done) {
+      const cast = entity.appearance ? pose.cast || (entity.fallen && 'reclining') : null;
+      const variant = cast ? avatarVariant(entity.appearance, entity.sex, entity) : null;
+      const own = cast ? drawnClipOf({ id: `${variant}-work`, drawn: { from: 'work', pose: cast === 'fire-reload' ? cast : `battle-${cast}` } }, `${variant}-work`, entity) : null;
+      if (own && drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: (pose.timeMs || 0) / 165, working: true, flip: pose.flip, clip: own.clip, person: entity })) {
+        done = true;
+        // Presentation evidence for the battle proofs, read by nothing in the application: the cast poses each member was drawn in.
+        if (entity.id) ((window.__memberCastDrawn ??= {})[entity.id] ??= new Set()).add(own.clip);
+      } else if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
+      else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : pose.camp ? pose.timeMs / 165 : performance.now() / 165, working: true, flip: pose.flip, person: entity, ...(pose.camp && { clip: pose.clip }) });
+      else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
+    }
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
     // Where he was drawn, on the ground - his cosmetic step aside included, so his shot's smoke, the clearing in the smoke round him
     // and his name on the class view are all where the figure is (2026-09-30).

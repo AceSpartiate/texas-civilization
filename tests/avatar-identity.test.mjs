@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { avatarBand, avatarVariant, avatarBinding, PARENT_VARIANTS } from '../public/avatar-identity.js';
 import { HEAD } from '../sim/look-vocabulary.mjs';
+import {familyRigClip} from '../public/family-rig-bindings.js';
 import { entityClip } from '../public/motion.js';
 import { readFileSync } from 'node:fs';
 const clips = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/animation.json', import.meta.url))).clips;
@@ -41,8 +42,9 @@ test('a parent keeps the chosen head silhouette during walking, work and rest', 
     const entity = { id: 'parent', kind: 'person', sex, band: 'adult', appearance: { ...appearance, head } };
     const variant = avatarVariant(entity.appearance, sex, entity);
     for (const pose of ['idle-s', 'walk', 'walk-s', 'walk-n', 'work', 'rest', 'listen-s']) {
-      assert.equal(avatarBinding(entity, { id: `rust-${pose}` }).id, `${variant}-${pose}`);
-      assert.ok(clips[`${variant}-${pose}`], `missing shipped parent pose: ${variant}-${pose}`);
+      const expected=familyRigClip(variant,pose);
+      assert.equal(avatarBinding(entity, { id: `rust-${pose}` }).id, expected);
+      assert.ok(clips[expected], `missing shipped parent pose: ${expected}`);
     }
   }
 });
