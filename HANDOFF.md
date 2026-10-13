@@ -1,5 +1,48 @@
 # Claude handoff — Astra foundation
 
+## The towns draw only the streets somebody lived along — 2026-10-13 (branch `streets-1013`, not released)
+
+From origin/main 2ce5d46e. Owner: "there's a lot of unnecessary streets in towns." The fourteen drawn towns
+(`sim/town-layouts.mjs`) carried their whole plats - Matagorda's nineteen modules, Liberty's forty-nine blocks, Refugio's
+sixteen lines on open prairie - while every town's research says the 1835 town was a cluster on a few blocks or a row along
+one road. **138 streets are now 70, and about 61 miles of drawn street are now about 17.** [TOWNS §5c](docs/TOWNS.md),
+`FIC-GONZ-042` amended (not a new number, so the parallel branches' new IDs cannot collide with it).
+
+- **How.** `builtGrid` draws a grid town's named plat lines only between the cross streets listed; the plat arrays keep every
+  measured line. A road out of town carries `leadsTo` (where it goes). No building, keeper, square or anchor moved, so
+  nobody stands anywhere new, shops and walkers are untouched, and no save version moved. Streets were only ever drawn
+  (`public/town-art.js`): nothing in the server, the scenes or the battles reads them.
+- **Per town.** San Felipe: Calle del Rio, Primera and Segunda shortened to the ribbon, Calle del Colegio (an invented place)
+  gone. Victoria: the blocks round Plaza de Mercado plus Diez Amigos north to the plaza where the map's roads meet; 5 gone.
+  Mina: the stockade blocks; 5 gone. Matagorda: four streets down to the water from Fisher Street's line, Matagorda Avenue
+  and the water street; 13 gone, the Public Square left on its own ground. Columbia: the Brazos Avenue row; 5 gone; the road
+  to Bell's Landing now starts where the row ends (it is Brazos Avenue running on, research §7.3). Liberty: Main and the
+  four eastern squares; 11 gone; the road to the landing leaves along Trinity instead of from the old Fonda corner.
+  Washington: Ferry Street, Gray's "only one well defined street" (`HIST-TEX-204`), and Main faint at its corner; the six
+  invented grid lines gone, the survey stakes kept. Brazoria: the Main/Pearl frontage and the blocks behind; 6 gone.
+  Harrisburg: survey lines of the built blocks, Broadway to the town's point; 3 gone. Nacogdoches: La Calle del Norte to
+  Durst's, the plaza streets to just past Pilar, North Fredonia gone. Refugio: the four lines round the empty plaza.
+  Velasco, Anahuac, Goliad unchanged. **Gonzales and Béxar unchanged** (their own files: Gonzales's three paths each have the
+  store, the ironworker or houses along them and `HIST-GONZ-011` forbids a grid; Béxar's lanes are fronted and its roads feed
+  the battle staging).
+- **Judgment calls**, each commented in the code: Diez Amigos kept as the way in at Victoria; Segunda dropped west of the
+  Wilkins home, leaving Parker's farm on its own; Main Street at Washington faint; Matagorda's streets start on the line of
+  the skewed Fisher Street, which is not one of the drawn plat lines.
+- [Before](docs/evidence/town-streets-before.png) and [after](docs/evidence/town-streets-after.png), every town on one
+  sheet; the Host's Go-to screenshots `docs/evidence/town-<id>.png` re-taken for the towns that changed.
+- *Tests*: tests/town-streets.test.mjs (2): every drawn street has a building or a square edge within 200 ft beside it and
+  stops within 300 ft of the last of them unless it ends at another drawn street; a `leadsTo` road must start in the town.
+  Failed on the old layouts; failed alone under two injections (an empty lane added to Velasco: "An injected lane has
+  nothing along it"; Matagorda Avenue run back out to Bernardo: "runs on 2404 ft past the last thing along it"), with the
+  other town tests passing. `npm test`: 2496 tests, 2459 pass, 1 fail, 36 skipped - the fail was
+  tests/battle-floor.test.mjs (a timing floor under load), 4/4 alone. Proofs, two at a time: test:towns 15/15,
+  test:gonzales-town 11/11, test:shops 8/8, test:errand 16/16, test:rider-scene 7/7, test:famous-people 22/22 and
+  test:overlap PASS (each failed once under load - the line in the sand not drawn; the tip's close button not visible -
+  and passed alone; overlap also passed on the old layouts), street-visual-proof and town-landmarks-art-proof PASS. Same
+  computer only.
+- **Teacher note.** The towns now look like the small places they were in 1835 - a few blocks of houses, or one road with
+  buildings along it - instead of a big empty city grid. Every shop is where it was.
+
 ## The family sheltering at the tent is no longer under the trees three deep (the ox still can be) — 2026-10-13 (branch `invisible-rest`, not released)
 
 From 8aed3356 (the release candidate on `astra-art-1005`). The weather proof's yard showed Benjamin, Henry, Peter and Frances

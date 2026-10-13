@@ -56,10 +56,20 @@ function dwellings(prefix, { origin, module, block, lots = 2, centre, count, ski
   spots.sort((a, b) => a.d - b.d || a.x - b.x || a.y - b.y);
   return spots.slice(0, count).map((spot, i) => ({ id: `${prefix}-${i + 1}`, sprite: sprites[((i * 3 + spot.x) % sprites.length + sprites.length) % sprites.length], x: spot.x, y: spot.y, height: height - (i % 3) * 2, filler: true }));
 }
-const grid = (xs, ys, width) => [
-  ...xs.map(([name, x]) => ({ name, width, points: [{ x, y: ys[0][1] }, { x, y: ys.at(-1)[1] }] })),
-  ...ys.map(([name, y]) => ({ name, width, points: [{ x: xs[0][1], y }, { x: xs.at(-1)[1], y }] })),
-];
+/**
+ * A platted grid drawn only where it was built along (owner, 2026-10-13: "there's a lot of unnecessary streets in towns").
+ * `xs` and `ys` are the whole plat, as the research measured it, named; `spans` lists the streets drawn, each
+ * `[name, from, to]` running between two streets of the other direction (their names, or a number of feet where a street
+ * stops short of the next cross street). A platted street not listed is not drawn: the research has every one of these
+ * towns as a cluster on a few blocks and the rest of the plat empty (`FIC-GONZ-042`), and a full grid of empty blocks
+ * read as a city. tests/town-streets.test.mjs holds every drawn street to something standing along it.
+ */
+const builtGrid = (xs, ys, width, spans) => spans.map(([name, from, to, extra]) => {
+  const runsY = xs.some(([n]) => n === name), [line, across] = runsY ? [xs, ys] : [ys, xs];
+  const fixed = line.find(([n]) => n === name)[1], at = end => typeof end === 'number' ? end : across.find(([n]) => n === end)[1];
+  const points = [at(from), at(to)].map(v => runsY ? { x: fixed, y: v } : { x: v, y: fixed });
+  return { name, width, points, ...extra };
+});
 // `fill.taken` is ground that holds no building of its own but must still keep the filler off it - the inside of Mina's
 // stockade, which used to be held by the palisade pieces themselves.
 const withFill = (named, fill) => [...named, ...dwellings(fill.prefix, { ...fill, taken: [...named, ...(fill.taken || [])] })];
@@ -108,12 +118,18 @@ const SF_NAMED = [
 ];
 const SAN_FELIPE = {
   name: 'San Felipe de Austin', research: 'docs/town-research/san-felipe.md', bearing: 276, anchor: { x: 1665, y: 1900 },
+  // The ribbon (§7.6): Calle Comercio, the Atascosito road, down to McFarland's ferry, and the streets either side of it
+  // only as far as the town stood along them (2026-10-13). Calle del Rio from the riverfront tier's first houses to where
+  // it meets the ferry road; Calle Primera from the Solar del Hospicio to past the alcalde's office; Calle Segunda, its
+  // place invented in the research, only from the Wilkins and Huff homes to Plaza de la Constitución - Joshua Parker's
+  // farm, at its west end, was a farm and stands on its own. All three ran on 2,600 ft to Calle del Colegio, which is not
+  // drawn: its place on the east edge of the plat is invented (§7.3), and Spanish Town's three houses beyond the ferry
+  // road stood on no street the research knows.
   streets: [
-    { name: 'Calle del Rio', width: 69, points: [{ x: 200, y: 2180 }, { x: 2800, y: 2180 }] },
-    { name: 'Calle Comercio', width: 69, points: [{ x: 0, y: 1890 }, { x: 2050, y: 1900 }, { x: 2300, y: 2050 }, { x: 2420, y: 2330 }] },
-    { name: 'Calle Primera', width: 55, faint: true, points: [{ x: 200, y: 1600 }, { x: 2800, y: 1600 }] },
-    { name: 'Calle Segunda', width: 55, faint: true, points: [{ x: 200, y: 1310 }, { x: 2800, y: 1310 }] },
-    { name: 'Calle del Colegio', width: 55, faint: true, points: [{ x: 2800, y: 1310 }, { x: 2800, y: 2180 }] },
+    { name: 'Calle del Rio', width: 69, points: [{ x: 600, y: 2180 }, { x: 2356, y: 2180 }] },
+    { name: 'Calle Comercio', leadsTo: 'McFarland’s ferry', width: 69, points: [{ x: 0, y: 1890 }, { x: 2050, y: 1900 }, { x: 2300, y: 2050 }, { x: 2420, y: 2330 }] },
+    { name: 'Calle Primera', width: 55, faint: true, points: [{ x: 200, y: 1600 }, { x: 1850, y: 1600 }] },
+    { name: 'Calle Segunda', width: 55, faint: true, points: [{ x: 900, y: 1310 }, { x: 1850, y: 1310 }] },
   ],
   squares: [
     { label: 'Plaza de Comercio', x: 1500, y: 1930, width: 330, height: 230 },
@@ -139,7 +155,16 @@ const VIC_NAMED = [
 ];
 const VICTORIA = {
   name: 'Victoria', research: 'docs/town-research/victoria.md', bearing: 110.7, anchor: { x: 4806, y: 1406 },
-  streets: grid(VIC_X, VIC_Y, 59.5),
+  // The blocks round Plaza de Mercado that hold the jacal town (§7.6, "not a filled grid"), and Calle de los Diez Amigos -
+  // the plat's central axis, Main Street today - north to Plaza de la Constitución, where the map's roads meet at the
+  // town's point. Calle Santa Anna, Libertad, Artiaga, Chovel and Manchola, and the north of the others, ran past empty
+  // blocks in 1835 and are not drawn (2026-10-13); the two northern squares stay, as the public ground the plat reserved.
+  streets: builtGrid(VIC_X, VIC_Y, 59.5, [
+    ['Calle Victoria', 'Calle Ahumada', 'Calle De León'], ['Calle Bustamante', 'Calle Ahumada', 'Calle De León'],
+    ['Calle de los Diez Amigos', 'Calle Artiaga', 'Calle De León'], ['Calle Guerrero', 'Calle Ahumada', 'Calle De León'],
+    ['Calle Ahumada', 'Calle Victoria', 'Calle Guerrero'], ['Calle Terán', 'Calle Victoria', 'Calle Santa Anna'],
+    ['Calle Empresario', 'Calle Victoria', 'Calle Santa Anna'], ['Calle De León', 'Calle Victoria', 'Calle Guerrero'],
+  ]),
   squares: [
     { label: 'Plaza de Mercado', x: 4667, y: 2279, width: 278, height: 278 },
     { label: 'Plaza de la Constitución', x: 4667, y: 1267, width: 278, height: 278 },
@@ -177,7 +202,14 @@ const MINA_NAMED = [
 ];
 const MINA = {
   name: 'Mina', research: 'docs/town-research/mina.md', bearing: 90, anchor: { x: 3400, y: 3600 },
-  streets: grid(MINA_X, MINA_Y, 55.6),
+  // The blocks round the stockade and the store, stopping at Farm Street as the research has the cluster (§7.7), and Pecan
+  // down between the two squares. Hill and Haysel, Farm, Spring and Government Streets ran past empty blocks in 1835 and
+  // are not drawn (2026-10-13). Hill carried the Old San Antonio Road on Zively's line and Chestnut on the town's tradition
+  // (§7.5): the map's own road brings the Camino Real to the town's point, at the west end of Chestnut.
+  streets: builtGrid(MINA_X, MINA_Y, 55.6, [
+    ['Water', 'Chestnut', 'Austin'], ['Pecan', 'Spring', 'Government'], ['Jefferson', 'Chestnut', 'Austin'],
+    ['Chestnut', 'Water', 'Jefferson'], ['Pine', 'Water', 'Hill'], ['Walnut', 'Water', 'Hill'], ['Austin', 'Water', 'Jefferson'],
+  ]),
   squares: [
     { label: 'Plaza de la Constitución', x: 3817, y: 4795, width: 333, height: 333 },
     { label: 'Municipal buildings', x: 4206, y: 4795, width: 333, height: 333 },
@@ -190,6 +222,8 @@ const MINA = {
 // the water end and empty grid behind it; no church, no plaza de armas.
 const MAT_X = [['Orleans Street', -333], ['Thompson Road', 42], ['Saint Mary Street', 496], ['Mulberry Street', 1329], ['Cedar Street', 1730], ['Cypress Street', 2591], ['Caney Street', 2995], ['Catalpa Street', 3409], ['Magnolia Street', 3882], ['Peach Street', 4258], ['Live Oak Road', 4672], ['Bernardo Street', 5074]];
 const MAT_Y = [['Burton Street', 1165], ['Austin Street', 1577], ['Center Street', 2057], ['Wightman Street', 2474], ['Lewis Street', 2920], ['Matagorda Avenue', 3718], ['', 4560]];
+// Fisher Street (State Highway 60, skewed 6°, §7.2) is not one of the plat's lines here; the cluster's last row stops on it.
+const FISHER = 3317;
 const MAT_NAMED = [
   { id: 'mat-customhouse', sprite: 'trading-house', x: 1815, y: 4250, height: 26, label: 'The customhouse' },
   { id: 'mat-store-1', sprite: 'trading-house', x: 2050, y: 4270, height: 26, label: 'A store', trade: 'store' },
@@ -204,7 +238,15 @@ const MAT_NAMED = [
 ];
 const MATAGORDA = {
   name: 'Matagorda', research: 'docs/town-research/matagorda.md', bearing: 60.5, anchor: { x: 1100, y: 2696 },
-  streets: grid(MAT_X, MAT_Y, 83),
+  // The streets of the cluster at the water end (§7.5, "empty grid behind it"): Mulberry, Cedar, Cypress and Caney down to
+  // the water from the cluster's last row, Matagorda Avenue across them from James Cummins's 1829 cabin, and the street
+  // along the water (Matagorda Street, skewed today: `MAT_Y`'s unnamed line). Nineteen modules of plat ran back from the
+  // water and nobody had built there: Orleans, Thompson, Saint Mary, Catalpa to Bernardo, Burton, Austin, Center, Wightman
+  // and Lewis are not drawn (2026-10-13). The Public Square and the Burying Ground stay, on their own ground.
+  streets: builtGrid(MAT_X, MAT_Y, 83, [
+    ['Mulberry Street', FISHER, ''], ['Cedar Street', FISHER, ''], ['Cypress Street', FISHER, ''], ['Caney Street', 'Matagorda Avenue', ''],
+    ['Matagorda Avenue', 'Saint Mary Street', 'Caney Street'], ['', 'Mulberry Street', 'Caney Street'],
+  ]),
   squares: [
     { label: 'Public Square', x: 2180, y: 2280, width: 833, height: 833 },
     { label: 'Burying Ground', x: 7250, y: 1780, width: 600, height: 600 },
@@ -231,9 +273,17 @@ const COL_NAMED = [
 ];
 const COLUMBIA = {
   name: 'Columbia', research: 'docs/town-research/columbia.md', bearing: 104.8, anchor: { x: 836, y: 810 },
+  // The short row on Brazos Avenue and the blocks either side of it (§7.5: "nineteen and a half empty blocks behind it"),
+  // and Brazos Avenue running on out of town as the road to Bell's Landing (§7.3) from where the row ends at 15th Street.
+  // 15th and 14th, Jefferson, Bernard and Jackson Streets, and the south half of the others, ran past empty blocks and are
+  // not drawn (2026-10-13). `leadsTo`: a road out of town, which nothing need stand along past its town end.
   streets: [
-    ...grid(COL_X, COL_Y, 55).map(street => street.name === 'Broad Street' ? { ...street, width: 70 } : street),
-    { name: 'The road to Bell’s Landing', width: 60, points: [{ x: 1650, y: 782 }, { x: 2000, y: 708 }, { x: 2645, y: 571 }, { x: 3260, y: 445 }, { x: 4028, y: 276 }] },
+    ...builtGrid(COL_X, COL_Y, 55, [
+      ['17th Street', 'Hamilton Street', 'Clay Street'], ['16th Street', 'Jefferson Street', 'Clay Street'],
+      ['Broad Street', 'Hamilton Street', 'Clay Street', { width: 70 }],
+      ['Hamilton Street', '17th Street', 'Broad Street'], ['Brazos Avenue', '17th Street', '15th Street'], ['Clay Street', '17th Street', 'Broad Street'],
+    ]),
+    { name: 'The road to Bell’s Landing', leadsTo: 'Bell’s Landing', width: 60, points: [{ x: 1260, y: 810 }, { x: 1393, y: 824 }, { x: 1650, y: 782 }, { x: 2000, y: 708 }, { x: 2645, y: 571 }, { x: 3260, y: 445 }, { x: 4028, y: 276 }] },
   ],
   squares: [],
   buildings: withFill(COL_NAMED, { prefix: 'col-house', origin: { x: 0, y: 0 }, module: 406, block: 351, lots: 2, centre: { x: 400, y: 810 }, count: 12, rows: [0, 5], columns: [0, 4], sprites: ['house-dog-run', 'house-hewn-log', 'house-round-log', 'cabin-wide'] }),
@@ -256,10 +306,19 @@ const LIB_NAMED = [
 ];
 const LIBERTY = {
   name: 'Liberty', research: 'docs/town-research/liberty.md', bearing: 88.78, anchor: { x: 2084, y: 1809 },
+  // The streets round the four eastern squares, where the court room and the houses by the public bar stood (§7.6), Main
+  // the Nacogdoches road through them. Almost none of the plat's forty-nine blocks was built on in 1835: Fonda, Crockett,
+  // Milam, Austin, Fannin and San Jacinto, Grand, Webster, Santa Anna and Washington, and the ends of the rest, are not
+  // drawn (2026-10-13); the houses north of Trinity front Trinity, and Plaza Iglesia Parroquial stands on its own. The
+  // road to the landing leaves along Trinity's line from the corner of Plaza Constitucional now, where it used to start at
+  // Fonda: the research invents its course (§7.5), and running it from the court room as the sketch does crosses squares.
   streets: [
-    ...grid(LIB_X, LIB_Y, 55.5).map(street => ['Main', 'Trinity'].includes(street.name) ? street : { ...street, faint: true }),
-    { name: 'The road to Nacogdoches', width: 36, points: [{ x: 1944, y: -1800 }, { x: 1944, y: 0 }] },
-    { name: 'The road to the landing', width: 40, points: [{ x: 0, y: 1400 }, { x: -2500, y: 1600 }] },
+    ...builtGrid(LIB_X, LIB_Y, 55.5, [
+      ['Travis', 'Trinity', 'Liberty'], ['Main', 'Cos', 'Jefferson'],
+      ['Trinity', 'Milam', 'Fannin'], ['Liberty', 'Travis', 'Fannin'], ['Jefferson', 'Main', 'Fannin'],
+    ]).map(street => ['Main', 'Trinity'].includes(street.name) ? street : { ...street, faint: true }),
+    { name: 'The road to Nacogdoches', leadsTo: 'Nacogdoches', width: 36, points: [{ x: 1944, y: 778 }, { x: 1944, y: -1800 }] },
+    { name: 'The road to the landing', leadsTo: 'Liberty Landing', width: 40, points: [{ x: 1167, y: 1167 }, { x: 778, y: 1167 }, { x: 0, y: 1400 }, { x: -2500, y: 1600 }] },
   ],
   squares: [
     { label: 'Plaza Iglesia Parroquial', x: 806, y: 1195, width: 333, height: 333 },
@@ -315,11 +374,13 @@ const faint = streets => streets.map(street => ({ ...street, faint: true }));
 const WASH_FERRY = [{ x: -250, y: 0 }, { x: 0, y: 0 }, { x: 700, y: 0 }, { x: 1050, y: 0 }, { x: 1300, y: 0 }, { x: 1500, y: 0 }];
 const WASHINGTON = {
   name: 'Washington', research: 'docs/town-research/washington.md', bearing: 26.7, anchor: { x: -236, y: 161 },
+  // "Only one well defined street, which consists of an opening cut out of the woods" (Gray, February 1836, `HIST-TEX-204`):
+  // Ferry Street, down to the ferry. Main Street, the other documented name, is drawn faint and only at the corner where it
+  // crosses Ferry at the frame building. The six unnamed lines of the staked grid, all invented (§8.3), are not drawn
+  // (2026-10-13); the survey stakes stay, and show the grid was staked and nothing built on it.
   streets: [
-    { name: 'Ferry Street', width: 80, points: WASH_FERRY },
-    { name: 'Main Street', width: 60, points: [{ x: 0, y: -680 }, { x: 0, y: 680 }] },
-    ...faint([340, 680, -340].map(v => ({ name: '', width: 60, points: [{ x: -680, y: v }, { x: 340, y: v }] }))),
-    ...faint([-340, -680, 340].map(u => ({ name: '', width: 60, points: [{ x: u, y: -340 }, { x: u, y: 680 }] }))),
+    { name: 'Ferry Street', leadsTo: 'the ferry', width: 80, points: WASH_FERRY },
+    { name: 'Main Street', faint: true, width: 60, points: [{ x: 0, y: -200 }, { x: 0, y: 200 }] },
   ],
   squares: [],
   buildings: [
@@ -365,7 +426,14 @@ const BRAZORIA = {
   // Main Street runs 130 ft from the top of a 22-ft cut bank, and the Mills store was built out over the water (research §7.4):
   // this town stands nearer its river than any other, so it is held only 100 ft clear of the river's centreline.
   riverClearance: 100,
-  streets: grid(BRZ_X, BRZ_Y, 55.6).map(street => ['Main Street', 'Market Street', 'Pearl Street'].includes(street.name) ? street : { ...street, faint: true }),
+  // The frontage on Main and Pearl and the blocks behind it either side of Market (§7.5), the back of the grid "in stumps
+  // and garden": Walnut, Chestnut and Cherry, Travis, Marion and Velasco Streets, and the ends of the others, are not
+  // drawn (2026-10-13).
+  streets: builtGrid(BRZ_X, BRZ_Y, 55.6, [
+    ['Star Street', 'Main Street', 'Austin Street'], ['China Street', 'Main Street', 'Camp Street'], ['Market Street', 'Main Street', 'Camp Street'],
+    ['Liberty Street', 'Main Street', 'Austin Street'], ['Main Street', 'Chestnut Street', 'Liberty Street'], ['Pearl Street', 'Chestnut Street', 'Cherry Street'],
+    ['Austin Street', 'Star Street', 'Liberty Street'], ['Camp Street', 'China Street', 'Market Street'],
+  ]).map(street => ['Main Street', 'Market Street', 'Pearl Street'].includes(street.name) ? street : { ...street, faint: true }),
   squares: [],
   buildings: withFill(BRZ_NAMED, { prefix: 'brz-house', origin: { x: -1148, y: 0 }, module: 278, block: 222, lots: 2, centre: { x: 0, y: 150 }, count: 34, rows: [0, 4], columns: [0, 8], sprites: ['house-dog-run', 'house-hewn-log', 'house-round-log', 'cabin-wide', 'cabin-weathered'] }),
 };
@@ -401,10 +469,13 @@ const VELASCO = {
 // the bayou, the largest thing in the place. The origin, Broadway × Cypress, is the map's point.
 const HARRISBURG = {
   name: 'Harrisburg', research: 'docs/town-research/harrisburg.md', bearing: 88.8, anchor: { x: 0, y: 0 },
+  // The survey lines of the blocks the twenty houses stand on, toward Broadway and the bayou front (§8.4), and Broadway,
+  // the cart track, from Market Street down to the town's point at Cypress, where the map's roads come in. Colorado,
+  // Cypress and Elm, and the ends of the rest, ran past empty blocks and are not drawn (2026-10-13).
   streets: [
-    { name: 'Broadway', width: 124, points: [{ x: 0, y: -1300 }, { x: 0, y: 400 }] },
-    ...faint([['Medina', -421], ['Colorado', -821], ['Frio', 424]].map(([name, x]) => ({ name, width: 80, points: [{ x, y: -1300 }, { x, y: 400 }] }))),
-    ...faint([['Market', -1210], ['Sycamore', -800], ['Walnut', -400], ['Cypress', 0], ['Elm', 396]].map(([name, y]) => ({ name, width: 80, points: [{ x: -1400, y }, { x: 500, y }] }))),
+    { name: 'Broadway', width: 124, points: [{ x: 0, y: -1210 }, { x: 0, y: 0 }] },
+    ...faint([['Medina', -421], ['Frio', 424]].map(([name, x]) => ({ name, width: 80, points: [{ x, y: -1210 }, { x, y: -400 }] }))),
+    ...faint([['Market', -1210, 424], ['Sycamore', -800, 500], ['Walnut', -400, 424]].map(([name, y, east]) => ({ name, width: 80, points: [{ x: -421, y }, { x: east, y }] }))),
   ],
   squares: [],
   buildings: [
@@ -430,10 +501,10 @@ const HARRISBURG = {
 const ANAHUAC = {
   name: 'Anahuac', research: 'docs/town-research/anahuac.md', bearing: 90, anchor: { x: 1642, y: -6287 },
   streets: [
-    { name: 'The track to Turtle Bayou', width: 12, faint: true, points: [{ x: 1100, y: -4000 }, { x: 1400, y: -6800 }] },
+    { name: 'The track to Turtle Bayou', leadsTo: 'Turtle Bayou', width: 12, faint: true, points: [{ x: 1100, y: -4000 }, { x: 1400, y: -6800 }] },
     // Interpretive terrace connector, keeping the two documented path fragments unchanged.
     { name: 'The terrace path', width: 10, faint: true, points: [{ x: 1100, y: -4000 }, { x: 1030, y: -3550 }, { x: 940, y: -3050 }, { x: 900, y: -2550 }, { x: 800, y: -2000 }, { x: 700, y: -1500 }] },
-    { name: 'The path to the fort', width: 8, faint: true, points: [{ x: 700, y: -1500 }, { x: -100, y: -100 }] },
+    { name: 'The path to the fort', leadsTo: 'the fort', width: 8, faint: true, points: [{ x: 700, y: -1500 }, { x: -100, y: -100 }] },
   ],
   squares: [],
   buildings: [
@@ -462,14 +533,17 @@ const NAC_CAMINO = [{ x: -1180, y: -730 }, { x: -1090, y: -720 }, { x: -750, y: 
 const NAC_PILAR = [{ x: -634, y: -52 }, { x: -352, y: 54 }, { x: -108, y: 164 }, { x: 249, y: 309 }, { x: 560, y: 440 }, { x: 1148, y: 693 }];
 const NACOGDOCHES = {
   name: 'Nacogdoches', research: 'docs/town-research/nacogdoches.md', bearing: 90, anchor: { x: -343, y: -224 },
+  // The measured streets (§9.2), each drawn as far as the town stood along it (2026-10-13): La Calle del Norte to Durst's
+  // house, the two streets down from the plaza to just past Calle del Pilar. North Fredonia, which ran off north-east past
+  // nothing but the outskirts' scattered cabins, is not drawn. The Camino Real runs on to the La Nana crossing and the
+  // road south to Liberty out of town, as roads.
   streets: [
-    { name: 'El Camino Real', width: 40, points: NAC_CAMINO },
-    { name: 'La Calle del Norte', width: 30, points: [{ x: -499, y: -373 }, { x: -430, y: -550 }, { x: -363, y: -737 }, { x: -260, y: -1070 }, { x: -170, y: -1380 }] },
+    { name: 'El Camino Real', leadsTo: 'the La Nana crossing', width: 40, points: NAC_CAMINO },
+    { name: 'La Calle del Norte', width: 30, points: [{ x: -499, y: -373 }, { x: -430, y: -550 }, { x: -363, y: -737 }, { x: -260, y: -1070 }, { x: -230, y: -1170 }] },
     { name: 'Calle del Pilar', width: 30, points: NAC_PILAR },
-    { name: '', width: 30, points: [{ x: -56, y: -13 }, { x: -108, y: 164 }, { x: -300, y: 610 }] },
+    { name: '', width: 30, points: [{ x: -56, y: -13 }, { x: -108, y: 164 }, { x: -185, y: 343 }] },
     { name: '', width: 30, points: [{ x: -259, y: -151 }, { x: -352, y: 54 }, { x: -460, y: 280 }] },
-    { name: '', width: 30, faint: true, points: [{ x: 0, y: 0 }, { x: 207, y: -554 }, { x: 320, y: -860 }] },
-    { name: 'To Liberty', width: 25, faint: true, points: [{ x: -634, y: -52 }, { x: -870, y: 470 }, { x: -1090, y: 920 }] },
+    { name: 'To Liberty', leadsTo: 'Liberty', width: 25, faint: true, points: [{ x: -634, y: -52 }, { x: -870, y: 470 }, { x: -1090, y: 920 }] },
   ],
   squares: [
     { label: 'Plaza Principal', points: [{ x: -259, y: -151 }, { x: -56, y: -13 }, { x: -108, y: 164 }, { x: -352, y: 54 }] },
@@ -501,9 +575,13 @@ const REF_LINES = [-1458.33, -1041.67, -625, -208.33, 208.33, 625, 1041.67, 1458
 const REFUGIO_PLAZA = { label: 'Plaza de la Constitución', x: -166.67, y: -166.67, width: 333.33, height: 333.33 };
 const REFUGIO = {
   name: 'Refugio', research: 'docs/town-research/refugio.md', bearing: 99.6, anchor: { x: 0, y: 0 },
-  streets: faint(REF_LINES.flatMap(v => [
-    { name: '', width: 83.33, points: [{ x: -1500, y: v }, { x: 1500, y: v }] },
-    { name: '', width: 83.33, points: [{ x: v, y: -1500 }, { x: v, y: 1500 }] },
+  // Only the four survey lines round the empty plaza, faint, a little past its corners (2026-10-13). The plat's sixteen
+  // lines (`REF_LINES`) were "survey lines, not made roads" in 1835 (§9.2), and nobody lived along them: the huts stood
+  // by the mission. Sixteen lines three thousand feet long drew a city on open prairie; the plat is in the research.
+  // ceiling: the plat's other lines are not drawn at all; a layout that ever shows the 1834 survey as a survey would.
+  streets: faint([-208.33, 208.33].flatMap(v => [
+    { name: v < 0 ? 'Purísima' : '', width: 83.33, points: [{ x: -400, y: v }, { x: 400, y: v }] },
+    { name: '', width: 83.33, points: [{ x: v, y: -400 }, { x: v, y: 400 }] },
   ])),
   squares: [REFUGIO_PLAZA],
   walls: [
@@ -531,8 +609,8 @@ const REFUGIO = {
 const GOLIAD = {
   name: 'Goliad', research: 'docs/town-research/goliad.md', bearing: 96, anchor: { x: 50, y: 205 },
   streets: [
-    { name: 'The road from Refugio', width: 30, faint: true, points: [{ x: 200, y: 358 }, { x: 400, y: 520 }, { x: 900, y: 700 }, { x: 1800, y: 1100 }] },
-    { name: 'The road from Victoria, by the ford', width: 30, faint: true, points: [{ x: 200, y: 20 }, { x: 60, y: -400 }, { x: -130, y: -680 }] },
+    { name: 'The road from Refugio', leadsTo: 'Refugio', width: 30, faint: true, points: [{ x: 200, y: 358 }, { x: 400, y: 520 }, { x: 900, y: 700 }, { x: 1800, y: 1100 }] },
+    { name: 'The road from Victoria, by the ford', leadsTo: 'the ford', width: 30, faint: true, points: [{ x: 200, y: 20 }, { x: 60, y: -400 }, { x: -130, y: -680 }] },
   ],
   squares: [{ label: 'Parade ground', x: 20, y: 20, width: 355, height: 338 }],
   walls: [

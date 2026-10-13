@@ -582,7 +582,7 @@ Columbia and Liberty — are drawn from the layout sketches in `docs/town-resear
 - **Each town in its research's own frame**: feet, turned to the measured bearing of its surviving grid (Victoria N 20.7° E
   on its cross-axis, Matagorda N 60.5° E, Columbia 104.8°, Liberty 88.78°, Mina cardinal) and set on the map's site point by
   an `anchor`. San Felipe's frame is invented in the research, so its sheet is turned to put its river side toward the Brazos.
-- **What is drawn**: the platted streets (those not yet built along drawn faint), the public squares, every building the
+- **What is drawn**: the platted streets (those not yet built along drawn faint; since 2026-10-13 only those built along, §5c), the public squares, every building the
   research names in its sketch with the sprite it suggests, and the ordinary houses placed on lot centres nearest the
   documented centre, the number the research reasons to (`dwellings`, repeatable arithmetic). **Rivers, bays and creeks
   are not drawn from the sketches**: the map's own watercourses are real, and a test holds every building clear of them
@@ -609,6 +609,37 @@ Columbia and Liberty — are drawn from the layout sketches in `docs/town-resear
   keepers. Go to… frames a drawn town on the middle of its buildings.
 - Tests `tests/towns.test.mjs` (5, each proven by injection); browser `npm run test:towns`
   ([evidence](evidence/towns-browser.json), a wide and a close screenshot of each town).
+
+## 5c. Only the streets built along (2026-10-13)
+
+Owner: "there's a lot of unnecessary streets in towns." The towns had been drawn with their whole plats - Matagorda's
+nineteen modules, Liberty's forty-nine blocks, Refugio's sixteen lines on open prairie - and every research says the
+1835 town was a cluster on a few blocks with the rest empty (`FIC-GONZ-042`, amended). 138 streets in the fourteen
+towns are now 70, and the length drawn has gone from about 61 miles of street to about 17.
+
+- **The rule** (`tests/town-streets.test.mjs`): every drawn street has a building, or the edge of one of the town's
+  squares, within 200 ft beside it (half a block of these plats), and stops within 300 ft (about a block) of the last of
+  them unless it ends at another drawn street. A road out of town carries `leadsTo` (the place it goes) and may run on
+  past everything, but must start in the town. Proved by injecting an empty lane into Velasco and by running Matagorda
+  Avenue back out to Bernardo Street: each fails it, and nothing else.
+- **How**: `builtGrid` in `sim/town-layouts.mjs` draws a grid town's named plat lines only between the cross streets
+  listed; the plats (`VIC_X`, `MAT_Y` …) keep every measured line. No building, keeper, square or anchor moved, so
+  nobody stands anywhere new and no save version moved.
+- **Per town**: San Felipe — Calle del Rio, Primera and Segunda shortened to the ribbon; Calle del Colegio (invented
+  place) not drawn. Victoria — the blocks round Plaza de Mercado and Calle de los Diez Amigos north to the plaza where the
+  map's roads meet; five streets dropped. Mina — the stockade blocks; Hill, Haysel, Farm, Spring and Government dropped.
+  Matagorda — four streets down to the water from Fisher Street's line, Matagorda Avenue and the water street; thirteen
+  dropped. Columbia — the Brazos Avenue row, five dropped; the road to Bell's Landing now starts where the row ends. Liberty — the four
+  eastern squares and Main, eleven dropped; the road to the landing leaves along Trinity. Washington — Ferry Street, the "only one well
+  defined street" (`HIST-TEX-204`), and Main faint at its corner; the invented grid's six lines dropped, the survey
+  stakes kept. Brazoria — the Main/Pearl frontage and the blocks behind it; six dropped. Harrisburg — the survey lines of
+  the built blocks and Broadway to the town's point; three dropped. Nacogdoches — La Calle del Norte to Durst's, the
+  plaza streets to just past Calle del Pilar, North Fredonia dropped. Refugio — the four lines round the empty plaza.
+  Velasco, Anahuac and Goliad unchanged (their few tracks and roads each lead somewhere).
+- **Not changed**: Gonzales (`public/gonzales-art.js`: three paths, each with the store, the ironworker or the houses
+  along it; `HIST-GONZ-011` forbids a grid there anyway) and Béxar (`public/bexar-layout.js`: a town of some two
+  thousand whose reconstructed lanes are fronted by its houses, and whose roads out feed the battle staging).
+- Evidence: [before](evidence/town-streets-before.png), [after](evidence/town-streets-after.png).
 
 ## 6. Stored, and old classes
 
