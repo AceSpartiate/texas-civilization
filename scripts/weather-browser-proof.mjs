@@ -37,6 +37,7 @@ const OUT = 'docs/evidence/weather';
 const { createClassroom } = await import(new URL('../server/app.mjs', import.meta.url).href);
 const { createGonzalesWorld } = await import(new URL('../sim/gonzales.mjs', import.meta.url).href);
 const { weatherOn, REGIONS, WATER_SHUT } = await import(new URL('../sim/weather.mjs', import.meta.url).href);
+const { FADE_MINUTES } = await import(new URL('../public/weather-art.js', import.meta.url).href);
 
 // The same seed every other measure and proof uses, so this family stands on the same ground as the perf record's.
 const SEED = 'perf-render-1';
@@ -110,6 +111,12 @@ try {
   await page.locator('#wagon-done').click();
   await page.waitForFunction(() => window.__snapshot?.world?.status === 'running' && window.__snapshot.world.map?.province, null, { timeout: 60000 });
   for (const id of ['#journal-close', '#tutorial-skip']) if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
+  // Run until the opening day's weather has come up: it fades in over FADE_MINUTES from `since` (public/weather-art.js), and
+  // a class paused at minute 0 has the rain on the wire and none of it drawn yet (seen 2026-10-13).
+  await page.waitForFunction(fade => {
+    const world = window.__snapshot?.world, regions = Object.values(world?.weather?.regions || {});
+    return regions.length > 0 && regions.every(region => world.minute >= (region.since || 0) + fade);
+  }, FADE_MINUTES, { timeout: 120000 });
   // Held with the player's own Pause, which is the only thing that keeps the map clear for the twenty-odd minutes the
   // shots take: left running, the director's first call (#selection-call) came up over the map about a minute in and took
   // every wheel turn after it, so each later view was photographed at whatever zoom the last one left (2026-10-13). The

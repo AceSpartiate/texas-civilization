@@ -1,5 +1,41 @@
 # Claude handoff — Astra foundation
 
+## The weather proof runs again, and is a release check — 2026-10-13 (branch `fix/weather-browser-proof`, not released)
+
+`scripts/weather-browser-proof.mjs` had timed out "waiting for a running game" since 2026-09-21 (recorded failing at 0a175bb,
+49aa2d76 and later). It had no `test:` script, so the release sweep never ran it. **The proof was at fault, not the product.**
+A solo game opens in its own lobby (owner, 2026-09-21): the family is made, then the wagon is packed, and *Done packing* is the
+Start. The proof waited for `running` before making the family, so nobody ever started the world. The guided start
+(`LESSON_ENABLED=false`) played no part. Mending the start brought out three more faults, all in the harness:
+
+- **The start.** It now waits for `hh-1`, runs `meetFamily`, waits for `#wagon-load`, presses `#wagon-done`, then waits for `running`.
+- **A call over the map.** Left running, the director's first call (`#selection-call`, later `#listen-rider`) came up over the map
+  about a minute in. It took every wheel turn after that, so from the second day on every home view was shot at one stale
+  zoom (2131.6) and nothing failed. The proof now presses the player's own Pause once the class is running. The weather's motion
+  runs on the page's animation clock, not the world's, so the rain still falls on a paused day.
+- **`live` drew nothing once paused.** `holdWeather(page, null)` deleted `world.weather` from the snapshot already on the page and
+  counted on the next tick to bring it back, and a paused game sends none. `live` is no longer handed `null`. It also needed the
+  class to run until the opening weather had faded in (`FADE_MINUTES`, 90 game minutes, from `since`): paused at minute 0, the rain was on the
+  wire and none of it was drawn.
+- **It can fail now.** Eleven checks are read off the page's own drawing evidence (`__weatherDrawn`, `__weatherGround`,
+  `__galeDrawn`) plus an `over` field naming what is under the pointer at each shot. They are listed in docs/PERFORMANCE_RENDER.md,
+  written to `record.checks`, and any failure sets exit 1. **`npm run test:weather`** is added to package.json.
+- **Each check failed by injection first**, one fault at a time, on the days each needs. Ten faults failed only their own check:
+  the server's `weather: undefined` (sim/world.mjs) → *on the wire*; a thrown page error → *no page errors*; a day skipped →
+  *every zoom*; timber at 20 wheel steps → *further out*; `mix.rain + 0.5` → *fair draws nothing*; both `if (weatherNow)` off →
+  *every other day draws*; the gale poses off → *norther only*; `shut++` removed → *over their banks*; one river not counted →
+  *every river on shut*; " Rain." on `#world-description` → *no weather words*. The eleventh, the pause taken out, failed
+  two checks, *map under the pointer* and *further out*: one fault seen two ways. The `live` fault above was caught by
+  *every other day draws* on the baseline before it was mended.
+- **Evidence.** `npm run test:weather` on the final tree: 40 shots, all 11 checks PASS, exit 0, 24 m 24 s, same computer,
+  headless Chrome. The yard contact sheet was looked at: ten distinct days at one zoom. The rewritten `docs/evidence/weather/`
+  PNGs and `weather-browser.json` were put back rather than committed. `npm test`: 2365 pass, 0 fail, 36 skipped.
+- **Seen in the pictures, not mended here:** on the `fog` and `storm` days the trees redrawn in front of the family
+  (`treesInFront`, public/app.js) show as hard-edged rectangles, clearer than the veiled ground around them. The redraw is
+  clipped to the figure's box and lacks the weather the kept ground carries. It is invisible on a fair day.
+- **Not done:** `scripts/perf-render-measure.mjs` has the same lobby start bug (waits for `running` before `meetFamily`). Left
+  for its own change, because pausing would alter what it measures.
+
 ## Released as v2026.10.10.1 — 2026-10-10
 
 Main at fc9b6c05, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.10.1>). Set of changes from v2026.10.06.2: 13.3 MB (Astra's art). Evidence: `npm test` 2365 pass, 0 fail at a45aed7c; the browser proofs two at a time there, all passing but four: reconnect and battle-cinema passed alone; solo and read-aloud failed alone on the simpler start (no title screen for a made family; tips only after the site is chosen) and pass at fc9b6c05 after their proofs were brought to it, read-aloud with the voice package rebuilt for the reworded tips.
