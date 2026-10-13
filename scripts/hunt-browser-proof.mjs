@@ -113,7 +113,7 @@ try {
   // tick, against the figure's drawn height: the page's own formula - is under `GAIT_CEILING` with a margin, where nothing
   // fades and he is a figure walking the whole way; in the timber it goes back to the family's frame, where the timber
   // checks below were always made.
-  const follow = (untilAsk) => page.evaluate(async ({ stopAtAsk, variant, carrying, below }) => {
+  const follow = (untilAsk) => page.evaluate(async ({ stopAtAsk, variant, carrying, walking, below }) => {
     window.__huntWatch = window.__huntWatch || { clips: [], stages: [], timberSpots: [], sawSmoke: false, marks: [], road: [] };
     const seen = window.__huntWatch;
     const clips = new Set(seen.clips), stages = new Set(seen.stages);
@@ -134,7 +134,7 @@ try {
           const painted = [...(window.__animationClips || [])];
           seen.road.push({ doing: hunter.chore?.doing || null, speed: +speed.toFixed(3), scale: +camera.scale.toFixed(1), figure: camera.figure,
             alpha: window.__travelSight?.get('hh-1-mateo')?.alpha ?? 1, pageSpeed: window.__travelSight?.get('hh-1-mateo')?.heightsPerSecond ?? null,
-            walk: painted.some(clip => clip.startsWith(`${variant}-walk`)), carry: painted.includes(carrying) });
+            walk: painted.some(clip => clip.startsWith(walking)), carry: painted.includes(carrying) });
         }
       } else if (!hunter.travel && camera && !camera.following && now - pressed > 200) { nav('follow').click(); pressed = now; }
       if ((window.__animationClips || new Set()).has('musket-smoke')) seen.sawSmoke = true;
@@ -154,7 +154,7 @@ try {
     }
     seen.clips = [...clips]; seen.stages = [...stages];
     return { ...seen, asking: Boolean(window.__snapshot?.world.entities.find(e => e.id === 'hh-1-mateo')?.chore?.ask) };
-  }, { stopAtAsk: untilAsk, variant: HUNTER_FIGURE, carrying: BOUND.carrying, below: GAIT_CEILING });
+  }, { stopAtAsk: untilAsk, variant: HUNTER_FIGURE, carrying: BOUND.carrying, walking: BOUND.walking, below: GAIT_CEILING });
 
   // ------------------------------------------------------ the work stops and asks the family
   const atAsk = await follow(true);
