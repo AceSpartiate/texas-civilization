@@ -1,5 +1,34 @@
 # Claude handoff — Astra foundation
 
+## The map's animation no longer stops after one slow draw; the render measure starts again — 2026-10-13 (branch `fix/perf-render-measure-lobby`, not released)
+
+`scripts/perf-render-measure.mjs` timed out at a solo game's lobby, as the weather proof did (that one is on
+`fix/weather-browser-proof`). Mending its start turned up a real fault in the page. Details, measurements and their limits are in
+docs/PERFORMANCE_RENDER.md, *The animation that stopped after one slow draw*.
+
+- **The measure's start.** It waited for `running` before making the family, and a solo game opens in its lobby (2026-09-21). It
+  now waits for the world (lobby or running), makes the family, presses *Done packing* where a build has the wagon, then waits
+  for `running`. `--root` on a build from before the lobby still works. `loadToRunningMs` is `loadToWorldMs`, the same span
+  (page load to a world it can draw). Each view records `page` (status, `#game` hidden, what is over the map, any card open)
+  and `animationDrawsPerSecond`. The world is left running, unlike the weather proof, because the per-snapshot cost is half of
+  what it measures.
+- **The fault: the map stopped animating for good after one slow draw** (public/app.js `animateMap`). It drew again only once
+  twice its last draw's cost had passed since any draw, and only its own draws set the cost. One 1.1 s ground draw (CPU 6×)
+  and a snapshot every tick held it off forever: from the second view on, the map moved only when a snapshot came, at 1–3
+  frames a second. **Mended:** the rule is `drawPacing` in public/map-camera.js. `drawWorld` tells it every draw's cost,
+  and `animateMap` only asks it. The ceiling is unchanged; docs/PERFORMANCE_NAVIGATION.md is updated. No save field, no save
+  version, no historical claim.
+- **Tests** (tests/navigation.test.mjs, two new): the rule (about a hundred animation draws in ten seconds of snapshots after
+  one slow draw) and the wiring. Each failed first, alone, against its own fault: the cost kept at the first slow draw; the
+  pacing told only by the animation.
+- **Evidence.** `npm test`: 2445 pass, 0 fail, 36 skipped (a first run had `tests/capacity.test.mjs` time out at 30 s under load; it passed alone in 4.6 s, twice, then the whole suite passed). origin/main's measure was run once to confirm the fault: it timed out at 180 s waiting for `running`. `npm run test:navigation` 13/13 and `npm run test:battle-cinema` 15/15 (both rely
+  on this pacing); their rewritten evidence was put back. The measure, before (origin/main's `public/app.js`) and after, is in
+  `docs/evidence/perf-render-draw-pacing-before.json` and `perf-render-draw-pacing.json`. After, the animation keeps drawing on every view.
+  The machine was loaded, so the timings do not support a number. Same computer, headless Chrome, CPU throttled 6×; not a
+  Chromebook.
+- **Not measured:** whether a real class's snapshots come close enough together on a Chromebook to have held the animation
+  off. Solo plays at 9.5 s ticks, so the measure's 1 s ticks make the stall far likelier here than in a solo game.
+
 ## Astra's 2026-10-09 to 10-12 art merged and wired in — 2026-10-13 (not yet released)
 
 Branch `astra-merge-1013`: her 26 commits (e1eccc71..729a114b) merged onto main 2e553d79. Her local main never takes our

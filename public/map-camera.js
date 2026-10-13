@@ -133,3 +133,27 @@ export function nearestSpot(spots, point) {
   }
   return best;
 }
+
+/**
+ * When the animation may draw the whole map again: a twelfth of a second after the last whole draw (a twenty-fourth while a
+ * fight's film drives the camera), and never sooner than twice what that draw cost, so drawing takes at most half the page's
+ * time and a touch is not left waiting behind draw after draw (measured 2026-09-17, CPU throttled six times: 840 ms from a
+ * finger landing to its pointerdown).
+ *
+ * `drew` is told of EVERY whole draw - the animation's, a snapshot's, a gesture's - with when it began and what it cost
+ * (public/app.js `drawWorld`). Told of the animation's alone, one slow draw (the ground drawn afresh for a new view, 1.1 s
+ * with the CPU throttled six times) held the animation off for good: it waited twice that cost after any draw, a snapshot's
+ * draw every tick came sooner, and the animation never drew again to learn that drawing had got cheap. The map then moved
+ * only when a snapshot came (found by scripts/perf-render-measure.mjs, 2026-10-13).
+ *
+ * ceiling: the animation runs slower than twelve frames a second wherever a draw costs more than 42 ms; cheaper drawing
+ * raises it again by itself.
+ */
+export function drawPacing() {
+  let at = -Infinity, cost = 0;
+  return {
+    drew(began, ms) { at = began; cost = ms; },
+    due(now, fps = 12) { return now - at >= Math.max(1000 / fps, cost * 2); },
+    get cost() { return cost; },
+  };
+}

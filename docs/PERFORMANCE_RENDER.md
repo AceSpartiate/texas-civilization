@@ -21,7 +21,16 @@ proofs). What it does:
 
 - It starts an in-process solo classroom on the colonies map: 15 families, the same seed every run, 1 s ticks. Real Solo play
   uses 9.5 s ticks, so per-snapshot cost shows up here nearly ten times as often as in a real game.
-- It opens the game at 1366×768 at density 1 with the CPU throttled 6×, and answers the family's pop-ups.
+- It opens the game at 1366×768 at density 1 with the CPU throttled 6×, makes the family, and presses *Done packing*, which
+  is a solo game's Start (owner, 2026-09-21). A build from before then opened running and has no wagon; both are handled, so
+  `--root` still measures an older commit. `loadToWorldMs` is page load to a world it can draw, with nothing of the player's
+  in it. Records before 2026-10-13 call the same span `loadToRunningMs`. From 2026-09-21 to 2026-10-13 the measure waited
+  for `running` before making the family, so it timed out at a lobby nobody started.
+- Each view records what was on the page while it was measured (`page`): the world's status, whether `#game` was
+  hidden, what is under the map's centre, and any card open. The map animates only while the world runs and `#game` shows
+  (public/app.js `animateMap`), so a view with a card over it, or the game hidden, is not a view of the map. Read `page`
+  before comparing a number. The world is left running, unlike the weather proof, because the per-snapshot cost is
+  half of what this measures.
 - It measures four views for 30 s each:
   - `default`: the camera following the family;
   - `land`: the family's homestead, close up;
@@ -448,3 +457,39 @@ had and put back). *Before* is origin/main's `public/app.js` and `public/family-
 
 The rest of the page, outside these lists, made 0 to 7 in the stretch, before as after. Same computer, headless Chrome, unthrottled: an element count, not
 a time, so no frame figure is claimed from it.
+
+## The animation that stopped after one slow draw — 2026-10-13 (not released)
+
+Found by mending the measure's start (it waited for `running` before a solo game's lobby was through, see *Method*). Run
+again, every view after `default` painted one to three frames a second where every earlier record shows eight to ten, with the
+map clear, the world running and `#game` shown. Sampled every few seconds, `window.__animation` stood still from the second
+view on: its last draw had cost 1,125 ms (the ground drawn afresh for the homestead close up, CPU throttled 6×), and the
+world kept ticking.
+
+**The cause.** `animateMap` drew again only once twice the cost of its last draw had passed since the last draw of any kind.
+The cost came from its own draws alone. A snapshot's draw every tick reset the time and never the cost, so after one 1.1 s
+draw it waited 2.25 s, a snapshot came every second, and it never drew again to learn that drawing had got cheap. The map
+moved only when a snapshot came, for the rest of the class. A paused class (no snapshots) let it recover. On a real
+Chromebook a first ground draw of a second or more is likely; whether a class's snapshots come close enough together to hold
+it off there is not measured.
+
+**The mend.** The rule is now `drawPacing` in `public/map-camera.js`. `drawWorld`, the one door every whole draw goes through,
+tells it what each draw cost, and `animateMap` only asks it whether it may draw. The ceiling (below twelve frames a second
+wherever a draw costs more than 42 ms) is unchanged. tests/navigation.test.mjs holds the rule (one slow draw, then a
+snapshot's every second: about a hundred animation draws in ten seconds) and the wiring (`drawWorld` tells it on both paths,
+`animateMap` never). Each failed first, alone: the cost kept at the first slow draw; the pacing told only by the animation.
+
+**The measure now counts the animation's own draws** (`animationDrawsPerSecond`, by watching `window.__animation` change; an
+older build that sets it is counted too) and records what was on the page for each view (`page`). Painted frames alone could
+not tell a map that animates from one that moves only on snapshots.
+
+| `--label` | default | land | town | whole |
+|---|---|---|---|---|
+| `draw-pacing-before` (origin/main's `public/app.js`) | 4.1 fps, 2.7 animation | 1.8, **0.5** | 3.9, 2.7 | 3.2, 2.3 |
+| `draw-pacing` | 4.8, 3.8 | 4.2, 3.0 | 10.4, 9.4 | 10.3, 9.4 |
+
+Painted frames a second and, of them, the animation's, 30 s a view. **These two runs do not support a number.** The machine
+was loaded by other sessions (a snapshot cost 270–340 ms, against 50–70 ms on 2026-09-17), and whether the stall happens
+depends on one draw happening to be slow. *Before* stalled hard only on `land` this time. In three earlier unmended runs that
+day it held `land`, `town` and `whole` at 1–3 fps, and a fourth did not stall at all. The tests are the proof. The runs show
+that the mended page keeps animating on every view.

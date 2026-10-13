@@ -99,8 +99,10 @@ device scale of 1.
   250 ms pass without a wheel event. A snapshot or a woods tile arriving mid-gesture waits for that too. **ceiling:** figures stand
   still during a gesture and ground panned in from beyond the old picture is plain grass until the hand stops, or until the
   picture would cover under half the view.
-- **The animation never takes more than half the page's time** (`animationDrawMs` in `animateMap`). **ceiling:** it runs below
-  twelve frames a second wherever a draw costs more than 42 ms; cheaper drawing raises it by itself.
+- **The animation never takes more than half the page's time** (`drawPacing` in `public/map-camera.js`, asked by `animateMap`).
+  **ceiling:** it runs below twelve frames a second wherever a draw costs more than 42 ms; cheaper drawing raises it by itself.
+  Every whole draw tells the pacing what it cost, not only the animation's own (2026-10-13). Before, one slow draw held the
+  animation off for good while snapshots kept coming, and the map moved only on snapshots. tests/navigation.test.mjs holds both.
 - **Keyboard:** the map canvas is focusable (`tabindex="0"`, a focus ring in `public/style.css`); arrows pan an eighth of the
   view, + and − zoom.
 
