@@ -1,5 +1,53 @@
 # Claude handoff — Astra foundation
 
+## The family sheltering at the tent is seen: no longer under the trees three deep, nor under the ox — 2026-10-13 (branches `invisible-rest` and `fix/resting-figures`, not released)
+
+From 8aed3356 (the release candidate on `astra-art-1005`). The weather proof's yard showed Benjamin, Henry, Peter and Frances
+Weatherby, sheltering at the tent in the rain, as names with nothing over them. **They were drawn**: a probe of every
+`drawImage` in one frame found all six of the family laid down in Astra's rig `camp-rest` (body and head, the sheets loaded,
+no fallback needed) - and then covered twice over. Neither cover is the rig's: at 3542cba7, before it, the same family on the
+same seed was hidden the same way (under trees then laid at full strength).
+
+- **The ox.** Juniper stands alone at his own point, 250 px east of the tent at the yard zoom; the cosmetic separation every
+  figure at home gets (`stableOffset`, public/app.js `drawEntity`) carried him 125 px west, onto the tent, and he is sorted by
+  his true point, just below the family's, so he was drawn after them and over three of them. **Not fixed - taken out before
+  release.** The branch drew a beast or the wagon standing still alone at its point on it, with no separation (`standsApart`);
+  the release run (2026-10-13, origin/main 7bb91106) then failed test:wagons, test:errand and test:shops: two wagons, two
+  horses and the bought mule drawn on one another (0 px apart). Their server points differ (the wagons 0.023 mi, 77 px at the
+  yard's zoom), so something after the separation - the yard's rails clamping anything outside them, most likely - draws them
+  at one point, and only the separation had kept them apart. A scale-aware version (`within` a figure's height) fixed the
+  mule and not the wagons. So the ox kept the old separation.
+- **The ox, fixed on the drawn points (branch `fix/resting-figures`).** A beast or the wagon standing still is drawn on its own
+  point, with no separation, only when nothing else drawn this frame is projected within a figure's height of it on the screen
+  (`drawnAlone`, public/motion.js; the page records each figure's projected point, `projected`, before any separation). That
+  is the check `standsApart` lacked: the two parked wagons are 0.023 mi apart on the server but the page draws them from one
+  point, so they keep their separation; Juniper, 250 px from anything at the yard zoom, stands where he is. People keep their
+  separation always. Zoomed out, everything is within a figure of something and is separated as before. At the yard zoom on
+  the proof's seed Juniper is drawn at (517, 479), not (393, 545) over Benjamin, Peter and Frances; Bess and the wagon also
+  stand on their own points now (the wagon, truly south of the ox, is drawn over his legs).
+  [origin/main against the fix, fair, fog and storm](docs/evidence/family-ox-compare.png). `ceiling:` only the family's own
+  page and its own beasts (`!marks.observed`); the Host's map and a neighbour's beasts are separated as before.
+  - *Tests*: tests/family-not-covered.test.mjs 2 → 4. *Nothing drawn near* failed alone when people could be drawn alone, and
+    alone again when a beast was alone whatever was near it; *the page draws a beast from its point* failed alone when
+    `drawEntity` stopped asking (the ox carried onto the tent, as found). The proofs that failed `standsApart`, run alone:
+    `test:wagons` (the yard's two wagons 55 px apart), `test:errand` (the new wagon 605 px from the family's), `test:shops`
+    (the mule 29 px from the horse) all pass; weather `--days fair,fog,storm` 11/11. Their rewritten evidence was put back.
+    `npm test`: 2496 tests, 2460 pass, 0 fail, 36 skipped.
+- **The trees.** Each person's trees in front were thinned once (`FRONT_STRENGTH`), but a family sitting close has boxes
+  that overlap, so each person's trees were laid again over their neighbours: Henry, Peter and Frances sat under three and
+  four laid layers. Now `paintInFront` keeps a third layer of what it laid this frame (`clearLaid` at the start of
+  `treesInFront`) and cuts it out of the next group, so each pixel is thinned once. `ceiling:` in an overlap the first group's
+  trees are the ones laid.
+- [Before and after](docs/evidence/family-not-covered-compare.png). The pale box over things between a person and a tree (the
+  horse's legs here) is the existing `FULL_STRENGTH` ceiling, unchanged.
+- *Tests*: tests/family-not-covered.test.mjs, 2 kept of the 4 (the `standsApart` two went with it), each failed alone under
+  its own injection (the cut-out removed; `clearLaid` doing nothing; its call removed from `treesInFront`). tests/trees-front.test.mjs passes `clearLaid` to the page's `treesInFront`. `npm test`: 2496 tests, 2460
+  pass, 0 fail, 36 skipped. Proofs, run alone: weather `--days live,fog,storm,fair` 11/11 (the family seen at the tent in
+  the rain and the storm), `test:shelter` 6/6, `test:camp` 9/9, `test:children` 16/16, `test:trees-front` 3/3. Shelter and
+  camp each timed out once while `npm test` ran beside them (the same steps timed out on an untouched 8aed3356 checkout too)
+  and passed run alone. The proofs' rewritten evidence was put back.
+- No server change, projection field, command or save version.
+
 ## The towns draw only the streets somebody lived along — 2026-10-13 (branch `streets-1013`, not released)
 
 From origin/main 2ce5d46e. Owner: "there's a lot of unnecessary streets in towns." The fourteen drawn towns
@@ -42,39 +90,6 @@ one road. **138 streets are now 70, and about 61 miles of drawn street are now a
   computer only.
 - **Teacher note.** The towns now look like the small places they were in 1835 - a few blocks of houses, or one road with
   buildings along it - instead of a big empty city grid. Every shop is where it was.
-
-## The family sheltering at the tent is no longer under the trees three deep (the ox still can be) — 2026-10-13 (branch `invisible-rest`, not released)
-
-From 8aed3356 (the release candidate on `astra-art-1005`). The weather proof's yard showed Benjamin, Henry, Peter and Frances
-Weatherby, sheltering at the tent in the rain, as names with nothing over them. **They were drawn**: a probe of every
-`drawImage` in one frame found all six of the family laid down in Astra's rig `camp-rest` (body and head, the sheets loaded,
-no fallback needed) - and then covered twice over. Neither cover is the rig's: at 3542cba7, before it, the same family on the
-same seed was hidden the same way (under trees then laid at full strength).
-
-- **The ox.** Juniper stands alone at his own point, 250 px east of the tent at the yard zoom; the cosmetic separation every
-  figure at home gets (`stableOffset`, public/app.js `drawEntity`) carried him 125 px west, onto the tent, and he is sorted by
-  his true point, just below the family's, so he was drawn after them and over three of them. **Not fixed - taken out before
-  release.** The branch drew a beast or the wagon standing still alone at its point on it, with no separation (`standsApart`);
-  the release run (2026-10-13, origin/main 7bb91106) then failed test:wagons, test:errand and test:shops: two wagons, two
-  horses and the bought mule drawn on one another (0 px apart). Their server points differ (the wagons 0.023 mi, 77 px at the
-  yard's zoom), so something after the separation - the yard's rails clamping anything outside them, most likely - draws them
-  at one point, and only the separation had kept them apart. A scale-aware version (`within` a figure's height) fixed the
-  mule and not the wagons. So the ox keeps the old separation, and still can stand over the family at the tent. Next: decide
-  separation by the points as drawn (after the rails), not the server's.
-- **The trees.** Each person's trees in front were thinned once (`FRONT_STRENGTH`), but a family sitting close has boxes
-  that overlap, so each person's trees were laid again over their neighbours: Henry, Peter and Frances sat under three and
-  four laid layers. Now `paintInFront` keeps a third layer of what it laid this frame (`clearLaid` at the start of
-  `treesInFront`) and cuts it out of the next group, so each pixel is thinned once. `ceiling:` in an overlap the first group's
-  trees are the ones laid.
-- [Before and after](docs/evidence/family-not-covered-compare.png). The pale box over things between a person and a tree (the
-  horse's legs here) is the existing `FULL_STRENGTH` ceiling, unchanged.
-- *Tests*: tests/family-not-covered.test.mjs, 2 kept of the 4 (the `standsApart` two went with it), each failed alone under
-  its own injection (the cut-out removed; `clearLaid` doing nothing; its call removed from `treesInFront`). tests/trees-front.test.mjs passes `clearLaid` to the page's `treesInFront`. `npm test`: 2496 tests, 2460
-  pass, 0 fail, 36 skipped. Proofs, run alone: weather `--days live,fog,storm,fair` 11/11 (the family seen at the tent in
-  the rain and the storm), `test:shelter` 6/6, `test:camp` 9/9, `test:children` 16/16, `test:trees-front` 3/3. Shelter and
-  camp each timed out once while `npm test` ran beside them (the same steps timed out on an untouched 8aed3356 checkout too)
-  and passed run alone. The proofs' rewritten evidence was put back.
-- No server change, projection field, command or save version.
 
 ## Astra's final batch (2026-10-13): the family rig and battle service, merged and wired in (not yet released)
 

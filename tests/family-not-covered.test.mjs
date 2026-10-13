@@ -3,9 +3,10 @@
 // They were drawn - Astra's rig `camp-rest` figures, every one - and then covered twice over:
 //
 //   1. by Juniper the ox, whose cosmetic separation (public/app.js `stableOffset`) carried him a figure and a half west of where
-//      the server has him, onto the tent, and in front of three of them. Not fixed: drawing a beast that stands alone on its own
-//      point (`standsApart`, 2026-10-13) stacked the parked wagons, the two horses and a bought mule on one another at the yard's
-//      rails and on a zoomed-out map (test:wagons, test:errand, test:shops), so it was taken out before release; see HANDOFF.md;
+//      the server has him, onto the tent, and in front of three of them. A first fix drew a beast alone at its SERVER point on it
+//      (`standsApart`), and stacked the parked wagons, the two horses and a bought mule on one another (test:wagons, test:errand,
+//      test:shops): their server points differ, but the page drew them from one point. Taken out before release; now decided on
+//      the points the page draws from (public/motion.js `drawnAlone`);
 //   2. by the trees drawn again over each of them (public/trees-front.js `paintInFront`), thinned once for each person - and the
 //      family sits close, so each person's trees were laid again over their neighbours, three and four layers deep.
 //
@@ -14,6 +15,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { FRONT_STRENGTH, clearLaid, paintInFront } from '../public/trees-front.js';
+import { drawnAlone } from '../public/motion.js';
 
 /**
  * A canvas that keeps one alpha a pixel, enough of a 2D context for `paintInFront`: clearing, a rectangular clip, and copying a
@@ -75,4 +77,33 @@ test('the page forgets what it laid at the start of each frame\'s trees, and kee
   const body = page.slice(from, page.indexOf('\n}\n', from));
   assert.ok(body.indexOf('clearLaid(frontLayers') > 0 && body.indexOf('clearLaid(frontLayers') < body.indexOf('standing.push('), 'cleared before any group is laid');
   assert.match(page, /function frontLayers\(width, height\) \{\n  for \(let i = 0; i < 3; i\+\+\)/);
+});
+
+test('a beast or the wagon with nothing drawn near it stands on its own point; anything drawn near keeps its separation', () => {
+  // The weather proof's yard at 4736 pixels a mile: the family's shared point, Juniper 250 pixels east of it, Bess the mare
+  // 132 east and 42 north, the wagon well south; a figure is 90 pixels.
+  const projected = new Map([
+    ['hh-1-parent-1', { x: 267, y: 467 }], ['hh-1-child-1', { x: 267, y: 467 }],
+    ['hh-1-animal', { x: 517, y: 473 }], ['hh-1-horse', { x: 399, y: 425 }], ['hh-1-wagon', { x: 420, y: 620 }],
+  ]);
+  const ox = { id: 'hh-1-animal', kind: 'animal' }, father = { id: 'hh-1-parent-1', kind: 'person' };
+  assert.equal(drawnAlone(ox, projected, 90), true, 'the ox, nothing within a figure of him, drawn on his own point and not carried onto the tent');
+  assert.equal(drawnAlone(father, projected, 90), false, 'people keep their separation: the family shares one point');
+  const hunter = { id: 'hh-1-parent-2', kind: 'person' };
+  assert.equal(drawnAlone(hunter, new Map([...projected, ['hh-1-parent-2', { x: 900, y: 200 }]]), 90), false, 'and somebody standing alone keeps theirs too');
+  assert.equal(drawnAlone({ ...ox, travel: { mode: 'foot' } }, projected, 90), false, 'nobody on the road');
+  // The two wagons parked 0.023 miles apart and drawn from one point (test:wagons, 2026-10-13): both keep their separation.
+  const parked = new Map([['hh-1-wagon', { x: 600, y: 400 }], ['hh-1-wagon-2', { x: 600, y: 400 }]]);
+  assert.equal(drawnAlone({ id: 'hh-1-wagon', kind: 'wagon' }, parked, 70), false);
+  assert.equal(drawnAlone({ id: 'hh-1-wagon-2', kind: 'wagon' }, parked, 70), false);
+  // Zoomed out, the same yard is a few pixels across: everything keeps its separation.
+  const far = new Map([...projected].map(([id, p]) => [id, { x: p.x / 20, y: p.y / 20 }]));
+  assert.equal(drawnAlone(ox, far, 9), false);
+});
+
+test('the page draws a beast from its point when it is drawn alone, from the points it projected this frame', () => {
+  const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+  assert.match(page, /: !marks\.observed && drawnAlone\(entity, marks\.projected, size\) \? \{ x: 0, y: 0 \}\n\s*: stableOffset\(entity\.id\);/);
+  assert.equal(page.match(/projected\.set\(entity\.id, point\);\n\s*standing\.push\(\{ y: point\.y, draw: \(\) => drawEntity\(/g)?.length, 2, 'every figure drawn records where it is drawn from');
+  assert.match(page, /yard: yardRect, projected,/);
 });
