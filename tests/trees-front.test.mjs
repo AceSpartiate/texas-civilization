@@ -10,7 +10,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { CROWN_HALF, FULL_STRENGTH, FRONT_STRENGTH, figureBox, inFront, paintInFront, redrawn } from '../public/trees-front.js';
+import { CROWN_HALF, FULL_STRENGTH, FRONT_STRENGTH, clearLaid, figureBox, inFront, paintInFront, redrawn } from '../public/trees-front.js';
 
 const page = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 function declaration(start, end) {
@@ -32,10 +32,10 @@ const kind = { id: 'post-oak', picture: 'post-oak', sized: true, scale: 1 };
 function runTreesInFront({ trees, drawn, person, drawnAt, weather = null }) {
   const painted = [], standing = [], window = {};
   const ctx = recorder('page', layerLog);
-  const treesInFront = new Function('woodsShown', 'woodsCatalogue', 'groundTrees', 'treesNear', 'redrawn', 'treeLook', 'inFront', 'figureBox', 'paintInFront', 'frontLayers', 'drawnAt', 'paintTree', 'SIZE', 'window',
+  const treesInFront = new Function('woodsShown', 'woodsCatalogue', 'groundTrees', 'treesNear', 'redrawn', 'treeLook', 'inFront', 'figureBox', 'paintInFront', 'clearLaid', 'frontLayers', 'drawnAt', 'paintTree', 'SIZE', 'window',
     `${declaration('function treesInFront(', '\n}\n')}\nreturn treesInFront;`,
   )(() => true, { tiles: {} }, drawn, () => trees, redrawn, tree => ({ tree: `${tree.kind.picture}-log`, standIn: null, height: camera.figure * 1.6 }), inFront, figureBox,
-    paintInFront, () => [layerCanvas('layer'), layerCanvas('shape')],
+    paintInFront, clearLaid, () => [layerCanvas('layer'), layerCanvas('shape')],
     new Map(Object.entries(drawnAt)), (on, item) => painted.push({ ...item, on: on.name, clip: on.clipped, strength: on.globalAlpha }), { timberTree: 1.6 }, window);
   treesInFront(ctx, {}, camera, canvas, [person], standing, weather);
   for (const each of standing.sort((a, b) => a.y - b.y)) each.draw();

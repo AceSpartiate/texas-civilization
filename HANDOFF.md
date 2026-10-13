@@ -1,5 +1,34 @@
 # Claude handoff — Astra foundation
 
+## The family sheltering at the tent is seen again — 2026-10-13 (branch `invisible-rest`, not released)
+
+From 8aed3356 (the release candidate on `astra-art-1005`). The weather proof's yard showed Benjamin, Henry, Peter and Frances
+Weatherby, sheltering at the tent in the rain, as names with nothing over them. **They were drawn**: a probe of every
+`drawImage` in one frame found all six of the family laid down in Astra's rig `camp-rest` (body and head, the sheets loaded,
+no fallback needed) - and then covered twice over. Neither cover is the rig's: at 3542cba7, before it, the same family on the
+same seed was hidden the same way (under trees then laid at full strength).
+
+- **The ox.** Juniper stands alone at his own point, 250 px east of the tent at the yard zoom; the cosmetic separation every
+  figure at home gets (`stableOffset`, public/app.js `drawEntity`) carried him 125 px west, onto the tent, and he is sorted by
+  his true point, just below the family's, so he was drawn after them and over three of them. Now a beast or the wagon standing
+  still **alone at its point** is drawn on it (public/motion.js `standsApart`); things sharing a point keep the separation,
+  and people keep it always (the family sheltering shares the tent's point). `ceiling:` the family's own beasts only.
+- **The trees.** Each person's trees in front were thinned once (`FRONT_STRENGTH`), but a family sitting close has boxes
+  that overlap, so each person's trees were laid again over their neighbours: Henry, Peter and Frances sat under three and
+  four laid layers. Now `paintInFront` keeps a third layer of what it laid this frame (`clearLaid` at the start of
+  `treesInFront`) and cuts it out of the next group, so each pixel is thinned once. `ceiling:` in an overlap the first group's
+  trees are the ones laid.
+- [Before and after](docs/evidence/family-not-covered-compare.png). The pale box over things between a person and a tree (the
+  horse's legs here) is the existing `FULL_STRENGTH` ceiling, unchanged.
+- *Tests*: tests/family-not-covered.test.mjs, 4 new, each failed alone under its own injection (the cut-out removed;
+  `clearLaid` doing nothing; its call removed from `treesInFront`; `standsApart` always false; the `drawEntity` wiring
+  removed). tests/trees-front.test.mjs passes `clearLaid` to the page's `treesInFront`. `npm test`: 2496 tests, 2460
+  pass, 0 fail, 36 skipped. Proofs, run alone: weather `--days live,fog,storm,fair` 11/11 (the family seen at the tent in
+  the rain and the storm), `test:shelter` 6/6, `test:camp` 9/9, `test:children` 16/16, `test:trees-front` 3/3. Shelter and
+  camp each timed out once while `npm test` ran beside them (the same steps timed out on an untouched 8aed3356 checkout too)
+  and passed run alone. The proofs' rewritten evidence was put back.
+- No server change, projection field, command or save version.
+
 ## Astra's final batch (2026-10-13): the family rig and battle service, merged and wired in (not yet released)
 
 Her b70bc07d onto 3542cba7 (branch `astra-merge-1013`). By her notes her dated art backlog is now empty; what remains is
@@ -147,7 +176,8 @@ everything last, so it was never part of the difference.)
   - *Found, not fixed here:* most of those rectangles in the proof's yard sit over **people who are not drawn at all**.
     Benjamin, Henry, Peter and Frances (task `rest`, with a `shelter`) have their names and a `__drawnAt` spot, but a probe of
     every `drawImage` over Henry's spot in one frame found the ground and the trees and no figure. Not the trees: thinned, the
-    spots are still empty. Left as its own task.
+    spots are still empty. Left as its own task. *Answered on branch `invisible-rest` (top of this file):* they were drawn,
+    every one, and covered - by the ox carried onto the tent by its separation, and by their neighbours' trees laid again.
   - Earlier in this section I suggested thinning "as a house's near wall is": there is no such thinning in the code; that was
     wrong.
 
