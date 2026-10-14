@@ -1,5 +1,36 @@
 # Claude handoff — Astra foundation
 
+## test:famous-people stalled before the assault: the answered runner's × taken from under the student — 2026-10-13 (branch `alamo-stall` from 6a0e0180, not released)
+
+The release candidate failed `npm run test:famous-people` alone with "the Alamo did not reach the afternoon of March 6"
+(verify-tree `test-results/famous-people-browser-failed.json`): a 33-second hole in the samples at day-5, after which the battle
+was over and the student's view had no siege, and the clock stopped at minute 241500.
+
+- **Found** (an in-process copy of the proof logging the server's encounters beside the student's page): through the whole siege an
+  express rider (Willa Hines, `winter-grass`) stood open for Silas inside the walls. Each night Travis's runner came, the express
+  rider stepped back to waiting (dd60bb33, 2026-10-06), and the tick after the answer he came on again. The page keeps an answered
+  meeting until it is put away (`heldEncounter`) only if it has *seen* it end; the answer is broadcast with the orders around it
+  (up to `BROADCAST_GAP_MS`, or the last broadcast's length), and when a tick came first the page went straight from the runner open
+  to the express rider on, never saw the runner closed, could not hold him, and hid the panel. The proof's click on the runner's ×
+  then waited its full 30 s for a button that was gone (32.7 s measured, at courier-4), and the last evening, the assault, the fall
+  and the burial all went by unsampled, so the loop never saw `after` and ran to its limit. The stopped clock is the second period
+  ending at minute 241500 (`world.status` 'ended', seen in process): correct, and only reached because the loop could not finish.
+  Latent since dd60bb33; whatever moved the timing between fc9b6c05 and b92ea057 was not measured.
+- **Fixed** (product): sim/alamo-runner.mjs `closeRunner` stamps `closedTick`; sim/encounters.mjs `encounterProjection` keeps the
+  runner's ended meeting the one shown through the tick after the one it ended in, over any rider in his place, so the page always
+  sees it end. public/app.js `renderEncounter` holds an answered runner whoever is shown next - an express rider or one who reined in
+  at the door - but never over the next night's runner. No save version moved: a save without `closedTick` shows what it always did.
+- **Proof** (scripts/famous-people-browser-proof.mjs): the Alamo's three pages and its class are put away before San Jacinto. Left
+  running they drew Béxar and ticked under the second class, and two runs in four took San Jacinto's first sample at the skirmish's
+  40th minute and failed "Neill was not drawn hurt at the guns" (he is on the field for its first 30, hurt from its 13th: three
+  ticks); San Jacinto alone passed three of three. No check was loosened.
+- **Evidence**: tests/rider-scenes.test.mjs (the answer given between ticks: still the runner, answered, after the next tick; then
+  the express rider; an old closed runner gives way at once); scripts/rider-scene-injections.mjs two new injections (the projection
+  without the answered runner; `closedTick` never written), 23 of 23 caught (docs/evidence/rider-scene-injections.json).
+  test:famous-people passed twice in a row alone (220 s, 227 s; 22 checks); test:battle-alamo (13), test:alamo-siege (9),
+  test:alamo-pyres and test:rider-scene (7) green; `npm test` 2512 tests, 0 failed, 0 cancelled. Evidence files the proofs rewrote were
+  put back.
+
 ## Everything round the house in a place of its own, and the bedroll a bedroll's size — 2026-10-13 (branch `yard-1013`, not released)
 
 Owner: *"fix the ox over the tent before release. also, a lot of assets get put in the same place and overlap. garden and logs for

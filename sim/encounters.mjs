@@ -923,7 +923,14 @@ export function encounterProjection(world, householdId, role) {
   const mine = Object.values(world.encounters || {}).filter(e => e.householdId === householdId);
   // A rider waiting his turn (`tellPassing`) is not shown until he comes on: the open one, or the last one there was. Travis's
   // runner first, who waits for an answer on a budget of his own, over an express rider who came by before him.
-  const encounter = mine.find(e => e.status === 'open' && e.kind) || mine.find(e => e.status === 'open') || mine.filter(e => e.status !== 'waiting').at(-1);
+  // Travis's runner just answered (or lapsed) stays the meeting shown through the tick after the one it ended in, over the rider
+  // who comes on again behind him (2026-10-13): an answer given between ticks is broadcast with the orders around it, and a tick
+  // that came first sent the page the express rider already on in his place, so the page never saw the runner's meeting end,
+  // could not keep it to be put away (public/app.js `heldEncounter`), and his × went from under the student's hand - and
+  // test:famous-people's wait for it let the whole assault go by unwatched. One tick, and only ever the runner's: an old save
+  // without `closedTick` shows what it always did.
+  const justAnswered = mine.find(e => e.kind && e.status === 'closed' && Number.isInteger(e.closedTick) && e.closedTick >= (world.tick || 0) - 1);
+  const encounter = mine.find(e => e.status === 'open' && e.kind) || justAnswered || mine.find(e => e.status === 'open') || mine.filter(e => e.status !== 'waiting').at(-1);
   if (!encounter) return null;
   const open = encounter.status === 'open';
   // The scene it plays as (owner, 2026-10-05; sim/rider-scene.mjs): where, who, the light, and what the people standing there

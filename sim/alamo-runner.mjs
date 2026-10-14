@@ -163,7 +163,9 @@ export function closeRunner(world, person, how, offers) {
     if (how === 'volunteer') { say(world, encounter, 'listener', 'I will go, if he will send me.'); say(world, encounter, 'rider', 'I will tell the colonel. He chooses his riders before dark.'); }
     else if (how === 'stay') { say(world, encounter, 'listener', 'I will stay at my post.'); say(world, encounter, 'rider', 'I will tell the colonel you are staying.'); }
     else say(world, encounter, 'rider', offers ? 'I cannot wait any longer on an answer. I will tell the colonel you will go if he sends you.' : 'I cannot wait any longer on an answer. You are not on his list tonight: you keep your post.');
-    Object.assign(encounter, { status: 'closed', closedMinute: world.minute, reason: how === 'unanswered' ? 'unanswered' : 'answered' });
+    // `closedTick`: the tick it ended in, so it stays the meeting on the family's page through the next tick's broadcast
+    // (sim/encounters.mjs `encounterProjection`, 2026-10-13).
+    Object.assign(encounter, { status: 'closed', closedMinute: world.minute, closedTick: world.tick, reason: how === 'unanswered' ? 'unanswered' : 'answered' });
   }
   if (runner?.runner && runner.runner.forId === person.id && runner.runner.phase !== 'waiting') { runner.runner.phase = 'returning'; runner.task = 'travel'; }
 }

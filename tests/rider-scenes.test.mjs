@@ -18,6 +18,7 @@ import { NEAR_MILES, castFor, lightOf, settingFor } from '../sim/rider-scene.mjs
 import { TOPIC_MOOD, askerFor, expressScript, wordAsSaid } from '../sim/rider-talk.mjs';
 import { CONVERSATIONS, accountOf, blockedByWater, linesOf, tellPassing } from '../sim/encounters.mjs';
 import { establishTruth } from '../sim/knowledge.mjs';
+import { closeRunner } from '../sim/alamo-runner.mjs';
 import { sendExpress } from '../sim/expresses.mjs';
 import { partOfDay } from '../sim/courtship.mjs';
 import { CALENDAR_SCALE, calendarMinutes, dateOf } from '../sim/clock.mjs';
@@ -273,6 +274,26 @@ test('one family listens to one rider at a time: the next has said his word and 
   assert.equal(view(world, 'hh-2').encounter.id, 'enc-runner', 'the answered runner was taken off the page for the express rider');
   stepWorld(world);
   assert.equal(second.status, 'open', 'the express rider never came on again after the runner');
+  // A runner closed in a save from before `closedTick` (2026-10-13) gives way to the express rider at once, as it always did.
+  assert.equal(view(world, 'hh-2').encounter.id, second.id, 'an old closed runner was kept on the page over the express rider');
+  // Answered between ticks, as a student answers him: his ended meeting is still the one shown through the next tick, when the
+  // express rider has come on again behind him, so the page sees it end and keeps it to be put away (public/app.js
+  // `heldEncounter`). test:famous-people lost the runner's x under the student's hand when a tick came before the answer's
+  // broadcast, and let the assault go by unwatched (2026-10-13). Then the express rider has the page.
+  const next = world.encounters['enc-runner-2'] = { ...structuredClone(runner), id: 'enc-runner-2', status: 'open', said: [] };
+  delete next.reason; delete next.closedMinute;
+  stepWorld(world);
+  assert.equal(second.status, 'waiting', 'the express rider stayed open beside the second runner');
+  closeRunner(world, listener, 'stay');
+  assert.equal(next.status, 'closed');
+  let shown = view(world, 'hh-2').encounter;
+  assert.deepEqual([shown.id, shown.status, shown.reason], ['enc-runner-2', 'closed', 'answered'], 'the answered runner was not shown answered');
+  stepWorld(world);
+  assert.equal(second.status, 'open', 'the express rider did not come on again after the answer');
+  shown = view(world, 'hh-2').encounter;
+  assert.deepEqual([shown.id, shown.status], ['enc-runner-2', 'closed'], "the tick after the answer showed the express rider in the answered runner's place");
+  stepWorld(world);
+  assert.equal(view(world, 'hh-2').encounter.id, second.id, 'the answered runner was kept on the page past the tick after the answer');
 });
 
 test('a class saved before rider scenes still opens: a meeting in progress has its scene settled from where its people stand', () => {

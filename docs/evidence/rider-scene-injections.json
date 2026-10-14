@@ -1,9 +1,9 @@
 {
  "record": "rider-scene-injections",
- "date": "2026-10-06",
- "caught": 20,
- "only": 17,
- "of": 20,
+ "date": "2026-10-14",
+ "caught": 23,
+ "only": 20,
+ "of": 23,
  "injections": [
   {
    "name": "never at home",
@@ -171,6 +171,42 @@
    "name": "an express rider shown over the runner",
    "files": [
     "sim/encounters.mjs"
+   ],
+   "expected": "one family listens to one rider at a time",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "one family listens to one rider at a time: the next has said his word and waits his turn, and comes on when the first has gone"
+   ]
+  },
+  {
+   "name": "an express rider stays open beside the runner",
+   "files": [
+    "sim/encounters.mjs"
+   ],
+   "expected": "one family listens to one rider at a time",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "one family listens to one rider at a time: the next has said his word and waits his turn, and comes on when the first has gone"
+   ]
+  },
+  {
+   "name": "the answered runner gives way at the next tick",
+   "files": [
+    "sim/encounters.mjs"
+   ],
+   "expected": "one family listens to one rider at a time",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "one family listens to one rider at a time: the next has said his word and waits his turn, and comes on when the first has gone"
+   ]
+  },
+  {
+   "name": "the runner closed with no tick",
+   "files": [
+    "sim/alamo-runner.mjs"
    ],
    "expected": "one family listens to one rider at a time",
    "caught": true,

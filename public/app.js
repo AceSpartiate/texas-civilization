@@ -9151,7 +9151,10 @@ function renderEncounter(world) {
   else if (leaving) encounter = leaving;
   // A meeting the student has open and that has just ended (answered, ridden on) stays on the page until they put it away, rather
   // than the express rider waiting behind it taking its place under their hand (2026-10-06); his "!" is there when they have.
-  else if (encounterOpen && heldEncounter && encounter?.id !== heldEncounter.id && encounter?.passing && heldEncounter.status !== 'open') encounter = heldEncounter;
+  // Travis's answered runner is kept whoever is shown in his place, an express rider or one who reined in at the family's door
+  // (2026-10-13; sim/encounters.mjs `encounterProjection` shows his ended meeting for a tick so the page sees it end), never over
+  // the next night's runner, whose question is not kept from the family.
+  else if (encounterOpen && heldEncounter && encounter?.id !== heldEncounter.id && (encounter?.passing || (heldEncounter.kind === 'alamo-runner' && !encounter?.kind)) && heldEncounter.status !== 'open') encounter = heldEncounter;
   else if (encounterOpen && heldEncounter && encounter?.id === heldEncounter.id) heldEncounter = encounter;
   const live = encounter?.status === 'open';
   if (encounter && encounter.id !== lastEncounterId) { lastEncounterId = encounter.id; encounterOpen = false; }

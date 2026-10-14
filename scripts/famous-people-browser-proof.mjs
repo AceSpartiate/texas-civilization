@@ -329,6 +329,13 @@ try {
   const farEyes = () => { const w = alamo.app.state.world; return w.households['hh-2'].members.map(id => w.entities[id]).filter(one => one.location).map(one => `${one.id} ${one.health?.condition} at ${one.location.siteId || ''} (${one.location.x.toFixed(1)}, ${one.location.y.toFixed(1)})${one.service ? ` ${one.service.kind}` : ''}${one.travel ? ` going to ${one.travel.to}` : ''}`).join('; '); };
   assert.equal(farAfter.battle, null); assert.equal(farAfter.famous, undefined, `the family far off was sent the famous (its people: ${farEyes()})`);
   ok('the family far off was sent no battle and no famous person');
+  // The Alamo is done with: its three pages and its class are put away before San Jacinto. Left running they went on drawing
+  // Béxar and ticking a class nobody reads, and San Jacinto's host was sampled under them: Neill is on the field for the first 30
+  // of the skirmish's 60 minutes (hurt from its 13th) - three ticks of ten minutes at 450 ms a tick - and a run on 2026-10-13 took its
+  // first sample at the skirmish's 40th minute and never saw him hurt (two runs in four; none in three runs of San Jacinto alone,
+  // FAMOUS_PART=san-jacinto, which is what this makes it).
+  await Promise.all([inside, faraway, host].map(page => page.context().close()));
+  apps.splice(apps.indexOf(alamo.app), 1); await alamo.app.close();
   }
 
   // ================================================================ 2. San Jacinto
