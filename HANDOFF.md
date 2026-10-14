@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## test:famous-people stalled before the assault: the answered runner's × taken from under the student — 2026-10-13 (branch `alamo-stall` from 6a0e0180, not released)
+## Released as v2026.10.13.1 — 2026-10-13
+
+Main at c4e2f2e0, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.13.1>). Set of changes from v2026.10.10.1: 77.8 MB (Astra's 10-09..13 art and family rig, the road tiles). Holds every section below down to the v2026.10.10.1 line. Evidence: at 6a0e0180 `npm test` 2476 pass, 0 fail, and the browser proofs two at a time, 117 of 119 passing: end-sequence passed alone; famous-people failed alone on a real race (the answered Alamo runner taken from the page by the waiting express rider), fixed in c4e2f2e0. At c4e2f2e0 `npm test` 2476 pass, 0 fail, and the 16 proofs touching riders, runners, cards and battles all pass (famous-people, rider-scene, battle-alamo, alamo-siege, alamo-pyres, children, read-aloud, overlap, tips, information, solo, reconnect, volunteer-life, military-notice, battle-gonzales, end-sequence). Same computer only; no Chromebook, LAN or classroom.
+
+## test:famous-people stalled before the assault: the answered runner's × taken from under the student — 2026-10-13 (branch `alamo-stall` from 6a0e0180, released in v2026.10.13.1)
 
 The release candidate failed `npm run test:famous-people` alone with "the Alamo did not reach the afternoon of March 6"
 (verify-tree `test-results/famous-people-browser-failed.json`): a 33-second hole in the samples at day-5, after which the battle
@@ -31,7 +35,7 @@ was over and the student's view had no siege, and the clock stopped at minute 24
   test:alamo-pyres and test:rider-scene (7) green; `npm test` 2512 tests, 0 failed, 0 cancelled. Evidence files the proofs rewrote were
   put back.
 
-## Everything round the house in a place of its own, and the bedroll a bedroll's size — 2026-10-13 (branch `yard-1013`, not released)
+## Everything round the house in a place of its own, and the bedroll a bedroll's size — 2026-10-13 (branch `yard-1013`, released in v2026.10.13.1)
 
 Owner: *"fix the ox over the tent before release. also, a lot of assets get put in the same place and overlap. garden and logs for
 example conflict with roads and the tent."* and *"fix the giant bedroll too"*. The ox is `fix/resting-figures` (5871cbdf, merged here;
@@ -92,7 +96,7 @@ next section). This is the rest.
   `--days fog,storm` 11/11, house-plot, test:house-logs 5/5, test:farm, test:work 5/5, test:land-paths 8/8, test:overlap,
   test:custom-work 18/18, test:yard-layout 7/7. The proofs' rewritten evidence was put back.
 
-## Roads, streets and paths laid in painted tiles from the local image pipeline — 2026-10-13 (branch `roads-1013`, not released)
+## Roads, streets and paths laid in painted tiles from the local image pipeline — 2026-10-13 (branch `roads-1013`, released in v2026.10.13.1)
 
 Owner, 2026-10-13: *"use our new image generation setup to improve roads."* From origin/main 2ce5d46e. Every way the game draws
 - the map's roads and tracks and a family's lane (`drawRoad`), town streets and squares (`drawStreets`, `public/town-art.js`,
@@ -139,7 +143,7 @@ now laid in four painted tiles, the first art in `frontier-v1` from the owner's 
 - **Teacher:** roads now look like real rutted wagon tracks and trodden paths, so students can tell a road from a river or a
   field at a glance.
 
-## The family sheltering at the tent is seen: no longer under the trees three deep, nor under the ox — 2026-10-13 (branches `invisible-rest` and `fix/resting-figures`, not released)
+## The family sheltering at the tent is seen: no longer under the trees three deep, nor under the ox — 2026-10-13 (branches `invisible-rest` and `fix/resting-figures`, released in v2026.10.13.1)
 
 From 8aed3356 (the release candidate on `astra-art-1005`). The weather proof's yard showed Benjamin, Henry, Peter and Frances
 Weatherby, sheltering at the tent in the rain, as names with nothing over them. **They were drawn**: a probe of every
@@ -187,7 +191,7 @@ same seed was hidden the same way (under trees then laid at full strength).
   and passed run alone. The proofs' rewritten evidence was put back.
 - No server change, projection field, command or save version.
 
-## The towns draw only the streets somebody lived along — 2026-10-13 (branch `streets-1013`, not released)
+## The towns draw only the streets somebody lived along — 2026-10-13 (branch `streets-1013`, released in v2026.10.13.1)
 
 From origin/main 2ce5d46e. Owner: "there's a lot of unnecessary streets in towns." The fourteen drawn towns
 (`sim/town-layouts.mjs`) carried their whole plats - Matagorda's nineteen modules, Liberty's forty-nine blocks, Refugio's
@@ -230,7 +234,7 @@ one road. **138 streets are now 70, and about 61 miles of drawn street are now a
 - **Teacher note.** The towns now look like the small places they were in 1835 - a few blocks of houses, or one road with
   buildings along it - instead of a big empty city grid. Every shop is where it was.
 
-## Astra's final batch (2026-10-13): the family rig and battle service, merged and wired in (not yet released)
+## Astra's final batch (2026-10-13): the family rig and battle service, merged and wired in (released in v2026.10.13.1)
 
 Her b70bc07d onto 3542cba7 (branch `astra-merge-1013`). By her notes her dated art backlog is now empty; what remains is
 staging in gameplay. A family rig of 22 identities (every offered head, every age band): a body and a head on a painted
@@ -267,7 +271,7 @@ neck socket, tinted by the family's looks (`public/semantic-rig.js`), 632 compon
   failed once in the pair run and pass alone (known flakes).
 - Not proved: Chromebook, LAN, classroom.
 
-## The weather proof runs again, and is a release check — 2026-10-13 (branch `fix/weather-browser-proof`, not released)
+## The weather proof runs again, and is a release check — 2026-10-13 (branch `fix/weather-browser-proof`, released in v2026.10.13.1)
 
 `scripts/weather-browser-proof.mjs` had timed out "waiting for a running game" since 2026-09-21 (recorded failing at 0a175bb,
 49aa2d76 and later). It had no `test:` script, so the release sweep never ran it. **The proof was at fault, not the product.**
@@ -303,7 +307,7 @@ Start. The proof waited for `running` before making the family, so nobody ever s
 - **Not done:** `scripts/perf-render-measure.mjs` has the same lobby start bug (waits for `running` before `meetFamily`). Left
   for its own change, because pausing would alter what it measures.
 
-## The map's animation no longer stops after one slow draw; the render measure starts again — 2026-10-13 (branch `fix/perf-render-measure-lobby`, not released)
+## The map's animation no longer stops after one slow draw; the render measure starts again — 2026-10-13 (branch `fix/perf-render-measure-lobby`, released in v2026.10.13.1)
 
 `scripts/perf-render-measure.mjs` timed out at a solo game's lobby, as the weather proof did (that one is on
 `fix/weather-browser-proof`). Mending its start turned up a real fault in the page. Details, measurements and their limits are in
@@ -332,7 +336,7 @@ docs/PERFORMANCE_RENDER.md, *The animation that stopped after one slow draw*.
 - **Not measured:** whether a real class's snapshots come close enough together on a Chromebook to have held the animation
   off. Solo plays at 9.5 s ticks, so the measure's 1 s ticks make the stall far likelier here than in a solo game.
 
-## Trees drawn over the family now carry the day's weather — 2026-10-13 (branch `fix/trees-front-weather`, not yet released)
+## Trees drawn over the family now carry the day's weather — 2026-10-13 (branch `fix/trees-front-weather`, released in v2026.10.13.1)
 
 Seen in the weather proof (`npm run test:weather`, fixed on `fix/weather-browser-proof`): at the yard zoom on the `fog` and
 `storm` days, the trees drawn again in front of the family showed as hard-edged **squares of clear, sharp woods** in the veiled,
@@ -382,7 +386,7 @@ everything last, so it was never part of the difference.)
   - Earlier in this section I suggested thinning "as a house's near wall is": there is no such thinning in the code; that was
     wrong.
 
-## The houses seen from behind — 2026-10-13 (not released)
+## The houses seen from behind — 2026-10-13 (released in v2026.10.13.1)
 
 Branch `house-rear` (from main 3542cba7). Owner: *"align the rear house views and turn them on."* `REAR_VIEWS` is on
 (public/house-plot.js): wherever a pen's chimney stands on the gable the front walls draw with the door - the cabins at
@@ -429,7 +433,7 @@ server change, projection field, command or save version.
   rear walls as high as the front) removes it; the stand-in row for request 2026-09-23 is deleted.
 - Not proved: Chromebook, LAN, classroom.
 
-## Astra's 2026-10-09 to 10-12 art merged and wired in — 2026-10-13 (not yet released)
+## Astra's 2026-10-09 to 10-12 art merged and wired in — 2026-10-13 (released in v2026.10.13.1)
 
 Branch `astra-merge-1013`: her 26 commits (e1eccc71..729a114b) merged onto main 2e553d79. Her local main never takes our
 merges, so every conflict was read against her own diff (`git diff e1eccc71 729a114b`) and resolved keeping main's
