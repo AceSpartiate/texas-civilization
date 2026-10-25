@@ -720,5 +720,6 @@ function padTo(drawn, cell) {
 
 // Retired at the merge of 2026-10-13 (Astra's art wins): the rear and end views, the roof joins, the jacal stages, the shed
 // frame and the double chimney (2026-10-10, 10-11). Her frames replace these by subject (public/art-subjects.js) and by name;
-// the drawing code above is no longer called for them.
-export const { SHEETS, CLIPS } = retire(ALL_SHEETS, {}, ['house-round-back-*', 'house-hewn-back-*', 'house-roof-join*', 'house-jacal-*', 'house-chimney-double', 'house-shed-frame', 'house-porch-end', 'house-shed-room-end', 'house-passage-floor-end', 'house-passage-roof-end']);
+// the drawing code above is no longer called for them. Claude's floor and loft retired 2026-10-25 (batch W of
+// docs/ART_PLAN_LOCAL_2026-10-25.md): her `house-puncheon-floor` is drawn under the walls, and her `house-half-loft` is the loft.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, {}, ['house-floor', 'house-loft', 'house-round-back-*', 'house-hewn-back-*', 'house-roof-join*', 'house-jacal-*', 'house-chimney-double', 'house-shed-frame', 'house-porch-end', 'house-shed-room-end', 'house-passage-floor-end', 'house-passage-roof-end']);

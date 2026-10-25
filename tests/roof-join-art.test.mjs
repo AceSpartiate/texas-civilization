@@ -19,12 +19,13 @@ test('join ridge endpoints fit pen ridge exactly when upright or mirrored',()=>{
  }
  assert.equal(fitRoofJoin(null,null,null),null);
 });
+// The finished double chimney is Astra's own since 2026-10-25 (batch W: its measured `centre`); it was the stick chimney drawn tall.
 test('completed saddlebag draws chimney aperture before chimney and missing art retains roof fallback',()=>{
  const catalogue=plotCatalogue(),plan=catalogue.plans.find(p=>p.id==='saddlebag');
  // Catalogue plans expose placed-piece tuples; build a complete projection using its own piece stage counts.
  const pieces=plan.pieces.map(p=>{const [type,x,y]=p;return [type,x,y,catalogue.pieces.find(k=>k.id===type).stageCount,0];});
  const ctx=new Proxy({},{get:(o,k)=>o[k]??(()=>{})});
- for(const rotation of [0,90,180,270]){const calls=[];drawHousePlot(ctx,400,400,120,{house:{pieces}},catalogue,(c,n)=>{calls.push(n);return 1;},n=>atlas.frames[n],{rotation});assert.ok(calls.includes('house-roof-join-chimney'));assert.ok(calls.indexOf('house-roof-join-chimney')<calls.indexOf('house-chimney-stick'));}
+ for(const rotation of [0,90,180,270]){const calls=[];drawHousePlot(ctx,400,400,120,{house:{pieces}},catalogue,(c,n)=>{calls.push(n);return 1;},n=>atlas.frames[n],{rotation});assert.ok(calls.includes('house-roof-join-chimney'));assert.ok(calls.indexOf('house-roof-join-chimney')<calls.indexOf('house-chimney-double'));}
  const dog=catalogue.plans.find(p=>p.id==='dog-run'),dogPieces=dog.pieces.map(([t,x,y])=>[t,x,y,catalogue.pieces.find(k=>k.id===t).stageCount,0]),calls=[];
  drawHousePlot(ctx,400,400,120,{house:{pieces:dogPieces}},catalogue,(c,n)=>{calls.push(n);return n.startsWith('house-roof-join')?0:1;},n=>atlas.frames[n],{});
  assert.ok(calls.includes('house-roof-join'));assert.ok(calls.filter(n=>n==='house-hewn-roof-finished').length>=3);

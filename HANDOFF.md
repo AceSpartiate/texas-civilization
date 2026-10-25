@@ -1,5 +1,64 @@
 # Claude handoff — Astra foundation
 
+## Batch W: Astra's library drawings wired in, and the art checklist made true — 2026-10-25 (branch `standins-1025`, not released)
+
+Batch W of docs/ART_PLAN_LOCAL_2026-10-25.md: the drawings Astra delivered on 2026-10-11 and 10-12 that were in the library but
+never drawn. No GPU was used: another project holds both cards. The owner's decisions of 2026-10-25 (order W, then 0 to 5,
+plus painted tool parts, with batch 6 only as an 8-job pilot; pipeline art counts as finished; the Alamo plaza painted empty;
+the 7.49 GB encoder only if the on-disk one fails; the 9B road tiles stay until batch 0) are in that file's *Decisions*.
+
+- **The family wagon with its cover drawn back** (`wagon-open-cover-*`). While anybody rides in a sound wagon's bed, laden or
+  not, it is drawn instead of the covered wagon (public/motion.js `openCoverClip`, `OPEN_WAGON`; public/app.js `miniWagon`,
+  `drawSeated`). The riders sit in the bed and are drawn before the wagon, so her side boards hide them below the rail. The
+  driver sits on her board ahead of the cover. The seat height, the rail and the bed's extent were read off her pixels, and
+  tests/wagon-open-cover.test.mjs checks them against those pixels. Her east view bunches the cover over the tail, so her west
+  view is mirrored for east (`ceiling:`). The wagon stays side-on going north or south, as before. The next wagon of the train is
+  drawn a whole ox and wagon back (`OPEN_TRAIN_GAP`), so its ox no longer hides the riders, as test:means showed it did.
+  Replaces the riders cut at the waist and set on top of the closed canvas.
+- **A baby in a rider's arms** (`infant-with-caregiver-ride-*`). It is drawn only where her restriction holds: her baseline
+  indigo caregiver, with no chosen look, on a horse, with one baby in her arms (`mountedInfantClip`). Before, the baby was not
+  drawn at all. Every family made at the join has chosen looks, so in a class this almost never shows.
+- **The saddlebag's double chimney** (`house-chimney-double`). scripts/build-atlas-manifest.mjs now measures the middle of
+  its foot (`centre`), so it stands between the pens once finished. Replaces the single stick chimney drawn tall. The rule
+  that it stands at the middle between the two gables and hides the far pen's door is kept, and the stick picture still
+  shows while it is going up.
+- **The puncheon floor** (`house-puncheon-floor`). It is drawn under a pen's walls where the pen has a finished floor,
+  fitted inside the walls' footprint (public/house-plot.js `floorFit`). Claude's `house-floor` stood in for it but was
+  held back by subject, so before this no floor was drawn. Claude's `house-floor` and `house-loft` are retired.
+- **The Alamo's parapet firers** (`volunteer-parapet-*`). The garrison's sampled men on the north, west, south-west, south
+  and palisade walls are drawn waist-up, each waist on its wall's own top (public/alamo-layout.js heights × the compound's
+  drawn factor), facing out over the wall, on the musket's clock (public/battle-view.js `parapetFeet`, `parapetLift`,
+  `parapetPart`). Replaces the full standing figure firing on the wall's line. The walls, collision, breaching, the church
+  platform and the family's own people are unchanged.
+- **Concepción's aftercare and the second gun's mules** (`limber-mules-*`, `padre-walk`, `casualty-cart-*`). These are
+  staged from documented history in sim/battles/concepcion.mjs. In `retreat`, three of the six mules ride off toward Béxar
+  (`HIST-TEX-480`). In `main-army`, the priest and two carts come down from the ford to the line as civilians
+  (`HIST-TEX-481`). public/battle-view.js draws them; the mules have their own north and south, and the priest and carts are
+  side-on. Before, these were told in words only. Claude's `limber-mules-walk` is retired.
+- **The dragoon's shot in the chase** (`dragoon-fire`, `dragoon-mounted-fire-n`/`-s`). It is drawn on the shot's own moment
+  (public/chase-view.js `fireClip`, `FIRE_LEAD_MS`), with the flash moved to her carbine's muzzle (`CARBINE_MUZZLE`).
+  Replaces `dragoon-march` with a flash at his hands. The gallop is still `dragoon-march`: Claude's gallop was retired on
+  2026-10-03, so the plan's "the gallop stays Claude's" was stale.
+- **Her Béxar townsfolk walks: nothing more wired.** The storming has drawn all four since 2026-10-11. A woman of Béxar
+  walking east or west in a town scene already gets `bexar-woman-walk` by name. Giving her elder, older woman or child to the
+  town scenes' Claude figures would change a person's face between walking and standing, and today's only Béxar town walkers
+  walk south, which she did not draw.
+- **The checklist** (scripts/claude-art/plan.mjs, regenerated). F1 portraits, E2 the other sides, E3 roof joins, E4 house
+  pieces, E6 Béxar civic, C6 parapet, C16 the padre and D12 the limber are now marked delivered. D2, D5 and D22 say what is
+  wired. docs/ART_REQUESTS.md: the house-pieces and parapet rows of *Stand-ins in use* are deleted, the chase, child-horseback
+  and wagon-rider rows are corrected, and the Claude table notes each retirement.
+
+**Needs a gameplay decision** (not invented):
+- The toddler on horseback (`smallchild-with-caregiver-ride-*`). The server never puts a child of two to five in a rider's
+  arms; a small child rides alone or is carried on foot.
+- The half loft. A loft is laid only under a finished roof, so no view shows it. The room view (public/interior.js) has no
+  floor or loft layer.
+- Concepción's carts taking the dead and wounded. That would move the engine's falls off the field.
+- The Alamo volunteers' trot. No phase projects a trot gait.
+- Recasting Béxar's town figures as her four, and her north and south walks.
+
+**Evidence.** `npm test`: 2523 tests, 2486 pass, 0 fail, 36 skipped (the guided start's). The capacity test was cancelled under load and passed alone. Every new or changed test was proved by injection and caught each one: the double chimney without its `centre` and anchored at its corner; the floor under its old name, fitted by width only, and unanchored; the wagon never opened, a rider under the cover, the driver at the old seat, riders drawn after the wagon, and the train at its old gap; the infant pair without its indigo or no-look checks; the chase with no fire clip, no lead and always east; the parapet at the wall's foot, always east, and switched off (added to scripts/battle-alamo-injections.mjs; run by hand, not the whole script); and Concepción's mules as pack horses, the priest undrawn, walking in place, and given a fire. Tests brought to the change (they named the stand-in): roof-join-art (the finished double chimney), riding (the page's two calls), astra-art-wins (`house-floor` is no longer a Claude frame). Built: build-voice, build-atlas-manifest, build:webp, art:plan, and build:standins for house-pieces and transport-animals (their orphan sheets and SVGs were removed). Proofs, two at a time: means, wagons, riding, travel-drawn, battle-concepcion, scrape-pursuit, art, interior and house-plot pass. battle-alamo failed once in a pair ("Isaac was never seen to fall") and once alone ("only 1 moments of the assault were sampled"), then passed alone with 13 checks. overlap timed out once on the tip's close button and then passed. After the train gap, means, wagons, riding, overlap and travel-drawn were rerun and pass. Before and after: docs/evidence/batch-w-compare.png, drawn by scripts/batch-w-compare.mjs in an export of e2bb185e and in this tree, with test:means' rich arrival. Evidence files the proofs rewrote were put back. Same computer only; no Chromebook, LAN or classroom.
+
 ## Released as v2026.10.13.1 — 2026-10-13
 
 Main at c4e2f2e0, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.13.1>). Set of changes from v2026.10.10.1: 77.8 MB (Astra's 10-09..13 art and family rig, the road tiles). Holds every section below down to the v2026.10.10.1 line. Evidence: at 6a0e0180 `npm test` 2476 pass, 0 fail, and the browser proofs two at a time, 117 of 119 passing: end-sequence passed alone; famous-people failed alone on a real race (the answered Alamo runner taken from the page by the waiting express rider), fixed in c4e2f2e0. At c4e2f2e0 `npm test` 2476 pass, 0 fail, and the 16 proofs touching riders, runners, cards and battles all pass (famous-people, rider-scene, battle-alamo, alamo-siege, alamo-pyres, children, read-aloud, overlap, tips, information, solo, reconnect, volunteer-life, military-notice, battle-gonzales, end-sequence). Same computer only; no Chromebook, LAN or classroom.

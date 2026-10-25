@@ -1,6 +1,6 @@
 # Replacing stand-ins with the local image pipeline: the plan (2026-10-25)
 
-**Status: on paper, for the owner's OK. No GPU job has been run for it.** Another project holds both cards. Owner,
+**Status: approved by the owner on 2026-10-25 (see *Decisions*); batch W is done (no GPU). No GPU job has been run for it.** Another project holds both cards. Owner,
 2026-10-25: *"check the licence then start replacing stand-ins"* and *"repaint the road tiles first"*. This is step 1 of
 the asset-pipeline method: list every image, stage it on paper, and get the owner's OK before painting.
 
@@ -31,13 +31,13 @@ models per lease. Batch 0 measures the real speed, and this table is corrected a
 
 | Batch | Items | Est. GPU jobs | Est. GPU time | Owner sees it |
 | --- | --- | ---: | ---: | --- |
-| W: wiring only | 8 Astra drawings already in the library; reconcile `plan.mjs` with her 10-13 delivery | 0 | 0 | Can run now |
+| W: wiring only | 8 Astra drawings already in the library; reconcile `plan.mjs` with her 10-13 delivery | 0 | 0 | Done 2026-10-25 |
 | **0: road tiles** | `road-tile-wagon`, `-street`, `-path`, `-verge` repainted with klein 4B, same sheet and wiring | 34 | ~10 min | Every map, every minute |
 | 1: rider-scene backdrops | 9 `scene-*` paintings + Claude's 3 courtship yards | 108 | ~25 min | Every rider who reaches a family |
 | 2: the homestead | rear walls +1 course (CPU), `homestead-tent`, `garden-beds` ×2, `wash-kettle`, `wash-line`, `wood-pile-1..4` | 58 | ~15 min | Beside every family's house |
 | 3: the hunter's view | `hunt-field-timber/-brush/-open` summer and winter, `hunt-rifle` | 48 | ~14 min | Every hunt |
 | 4: icons and marks the page strokes | 17 icons, 7 marks | 96 | ~21 min | The family panel, always |
-| 5: Claude-drawn icons and props | 23 icons + `mark-sick`, farm neighbours, grave marker, coins, house floor and loft | 128 | ~28 min | Panel, wedding, homecoming, interior |
+| 5: Claude-drawn icons and props | 23 icons + `mark-sick`, farm neighbours, grave marker, coins (house floor and loft went to batch W) | 128 | ~28 min | Panel, wedding, homecoming, interior |
 | 6: pilot, edits of Astra's frames | the family's mule (plain and saddled) from her packed mule's frames; Béxar townsfolk stills | 8, then ≤140 if the pilot passes | 4 min, then ≤30 | Only if the 8-job pilot passes |
 | **Total** | | **~480 (≤620 with batch 6)** | **~2 h (≤2.5 h)** | |
 
@@ -130,6 +130,21 @@ Each batch is wired and registered in one pass:
 10-13: F1 the portraits, E2 the house from its other sides, E3 the roof joins, E6 Béxar civic, and part of E4. Mark them
 delivered and rerun `npm run art:plan`, so the list the batches are chosen from is true. This is paper work and touches
 no art.
+
+### Batch W done (2026-10-25, branch `standins-1025`, not released)
+
+| Drawing | Outcome |
+| --- | --- |
+| `wagon-cover-drawn-back` | **Wired.** A family wagon with anybody riding in its bed is drawn as her open wagon (`openCoverClip`, `OPEN_WAGON` in `public/motion.js`; `miniWagon`, `drawSeated` in `public/app.js`). The riders sit in the bed before the wagon, so her side boards hide them below the rail; the driver sits on her board ahead of the cover. Seat, rail and bed are read off her pixels and held there by `tests/wagon-open-cover.test.mjs`. Her east view bunches the cover over the tail instead of the driver, so her west view is mirrored for east (`ceiling:`). The wagon stays side-on going north or south, as it was. The next wagon of a train is drawn a whole ox and wagon back while riders sit in the one ahead (`OPEN_TRAIN_GAP`), so its ox does not hide them. |
+| `infant-with-caregiver-ride-*` | **Wired, within her restriction**: a baby in the arms of her baseline indigo caregiver (no chosen look) on a horse is her paired rider (`mountedInfantClip`). Every family made at the join has chosen looks, so in a class this almost never shows. **Needs a decision:** `smallchild-with-caregiver-ride-*` - the server never seats a child of two to five in a rider's arms (sim/company.mjs: a small child rides alone or is carried on foot). |
+| `house-chimney-double` | **Wired.** Its foot's middle (`centre`) is measured by `scripts/build-atlas-manifest.mjs`. It stands finished between the saddlebag's pens; the tall stick chimney is shown while it is going up. |
+| `house-puncheon-floor`, `house-half-loft` | **Floor wired** under a pen's walls where the pen has a finished floor (`floorFit`, fitted to the walls' footprint). Claude's `house-floor` and `house-loft` are retired. **The loft is not drawn.** A loft is laid only under a finished roof, so no view shows it. Showing it needs the room view (`public/interior.js`) to get a registered floor and loft layer, which is a design decision. `house-floor` and `house-loft` leave batch 5. |
+| `volunteer-parapet-*` | **Wired.** At the Alamo the garrison's sampled men on the north, west, south-west, south and palisade walls are drawn from the waist up. Each waist sits on that wall's own top (public/alamo-layout.js heights × the compound's drawn factor), facing out over the wall, on the musket's clock. Walls, collision and breaching are untouched. The church platform and the family's own people are unchanged. **`alamo-volunteer-trot` needs a decision:** no phase projects a trot gait. |
+| `limber-mules-*`, `padre-walk`, `casualty-cart-*` | **Staged** in `sim/battles/concepcion.mjs` from documented history: three of the six mules ride off with the infantry in `retreat` (`HIST-TEX-480`); the priest and two carts come down from the ford to the line in `main-army` (`HIST-TEX-481`, as civilians). Claude's `limber-mules-walk` is retired. The engine's dead and wounded are not carried off on the field. Whether the carts take them (moving the falls) is a gameplay decision. |
+| `bexar-*-walk` (her four townsfolk) | **Not wired further.** The storming has drawn all four since 2026-10-11, and a woman of Béxar walking east or west in a town scene already gets her `bexar-woman-walk` by name. Giving her elder, older woman or child to the town scenes' Claude man, woman, girl and boy would change a person's face between walking and standing. Today's only Béxar town walkers walk south, and she drew no south walk. This waits for the batch 6 pilot (her stills) or a recasting decision. |
+| `dragoon-fire` | **Wired** in the chase (`fireClip` in `public/chase-view.js`): her carbine shot from the saddle on the shot's own moment, north and south in her `dragoon-mounted-fire-*`. The page's flash and smoke stay, since her frames have none. The plan's "the gallop stays Claude's" was stale: Claude's gallop was retired on 2026-10-03, so the gallop is the library's `dragoon-march` (D2 stays open). |
+
+The generated list now drops F1, E2, E3, E4, E6, C6, C16 and D12, and D2, D5 and D22 say what is wired.
 
 ---
 
@@ -320,6 +335,19 @@ piloted before any of it is planned in full.
 ---
 
 ## Decisions for the owner
+
+**Decided by the owner, 2026-10-25:**
+
+- **Order:** batch W first, then 0 → 1 → 2 → 3 → 4 → 5, **plus a batch of painted tool parts** for the animation cycles
+  (the felling axe, maul, spade, broom and the others in §3), and **batch 6 only as its 8-job pilot**.
+- **Pipeline art counts as finished art.** It lives in `frontier-v1`, closes its request and retires the stand-in. If Astra
+  later draws the same subject, her drawing wins.
+- **The Alamo plaza backdrop is painted empty.** The page draws the men.
+- **The text encoder:** the 7.49 GB `qwen_3_4b.safetensors` may be downloaded only if the on-disk fp8-mixed one fails the
+  first klein 4B smoke test.
+- **The road tiles:** the 9B tiles stay in place until batch 0 replaces them ("repaint first").
+
+The questions below were asked before those answers and are kept for the record.
 
 1. **Approve the batches and their order:** batch W now (no GPU), then 0 → 1 → 2 → 3 → 4 → 5, and batch 6 only as a pilot.
 2. **What pipeline art counts as.** Recommended: it lives in `frontier-v1` like the road tiles, closes its request, and

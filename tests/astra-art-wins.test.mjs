@@ -61,7 +61,7 @@ test('the subjects the owner saw replaced are Astra\'s again: work, ease, childr
   for (const name of ['rust-chop-1', 'teal-split-1', 'rust-whittle-1', 'indigo-hold-baby-1', 'girl-play-run-1', 'girl-play-run-s-1', 'boy-carry-water-n-1',
     'infant-crawl-1', 'rust-sick-rest-e-1', 'rust-ride-wagon-e-1', 'wagon-ox-e-1', 'wagon-ox-open-e-1',
     'carreta-loaded-travel-e-1', 'milk-cow-walk-e-1', 'seguin-ride-e-1', 'rust-fire-reload-1',
-    'esparza-seated', 'house-floor', 'stump-oak', 'live-oak-mott', 'wood-pile-3', 'hens-pecking-1']) {
+    'esparza-seated', 'stump-oak', 'live-oak-mott', 'wood-pile-3', 'hens-pecking-1']) {
     assert.ok(claude.frames[name], `${name} is a Claude frame (the list is current)`);
     assert.ok(!drawable.has(name), `${name}: Claude's drawing of a subject Astra has drawn is drawable`);
     assert.ok(art.withheldStandins().has(name), `${name} is recorded as held back`);

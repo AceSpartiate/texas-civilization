@@ -277,8 +277,9 @@ export function seatOf(entity, entities = []) {
 export function carriedWithRider(entity, entities = []) {
   if (underARider(entity)) return true;
   // The family's horse with somebody the server put on it for the journey together (sim/company.mjs), and a baby in that rider's
-  // arms: drawn with the rider, not again by themselves. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders, walkers
-  // and the cart; the baby is not drawn in the rider's arms until a figure carrying one lands.
+  // arms: drawn with the rider, not again by themselves - in Astra's paired caregiver where it fits (`mountedInfantClip`), and
+  // otherwise not drawn at all. stand-in: docs/ART_REQUESTS.md, request 2026-10-03 - riders in every vehicle (item 5): the baby
+  // is not drawn in the arms of a rider with a chosen look until `infant-held-ride` lands.
   if (entity.kind === 'animal' && MOUNT_SPECIES.includes(entity.species) && entities.some(one => one.kind === 'person' && one.travel?.saddle && !one.travel.carried && one.travel.rides === entity.id)) return true;
   if (entity.kind === 'person' && entity.travel?.saddle && entity.travel.carried) return true;
   // A rider in the wagon is drawn in it with its driver (public/app.js `drawSeated`), not a second time walking beside it.
@@ -383,6 +384,28 @@ export function carryingInfantClip(entity, entities = []) {
   return {id:`${figure}-infant-walk-${direction==='w'?'e':direction}`,babyId:babies[0].id,upright:direction==='n'||direction==='s',frozen:Boolean(entity.travel.halted||entity.facing)};
 }
 /**
+ * A baby in the arms of somebody on horseback (sim/company.mjs: a baby under two goes where its carrier goes, `carried` with
+ * `saddle`): Astra's paired `infant-with-caregiver-ride-*` (2026-10-12, docs/ART_DELIVERY_2026-10-12-MOUNTED-CHILDREN-COMPLETE.md),
+ * wired 2026-10-25, the rider and the baby and the chestnut horse painted as one, drawn whole at the rider's hooves as a painted
+ * rider is (`seatLayout` `delivered`). Before, the baby was not drawn at all (`carriedWithRider` hides it). Only where her
+ * restriction holds: the carrier is her baseline caregiver - the indigo figure, with no chosen look, since the pair is not tinted
+ * - on a horse, with exactly one baby in their arms, nobody hurt, fallen or down. East mirrored for west. Null otherwise, and the
+ * rider is drawn as before. Her toddler pair (`smallchild-with-caregiver-ride-*`) is not wired: the server never puts a child of
+ * two to five in a rider's arms (a small child rides alone or is carried on foot), so it waits for that to be decided.
+ * ceiling: a family whose people have chosen looks (every family made at the join) never matches, so in a class it shows only
+ * for a baseline figure; matched caregiver layers per look would be her separate appearance group.
+ */
+export function mountedInfantClip(carrier, entities = []) {
+  if (carrier?.kind !== 'person' || carrier.carrier || carrier.appearance || !carrier.travel?.saddle || !carrier.travel.rides || carrier.travel.carried || carrier.fallen || carrier.service?.down) return null;
+  const still = person => HURT_CONDITIONS.includes(person.health?.condition || person.condition) || STILL_CONDITIONS.includes(person.health?.condition || person.condition);
+  if (still(carrier) || figureOf(carrier) !== 'indigo') return null;
+  if (entities.find(one => one.id === carrier.travel.rides)?.species !== 'horse') return null;
+  const babies = entities.filter(p => p.kind === 'person' && p.householdId === carrier.householdId && p.travel?.carried === carrier.id && p.travel.saddle && (p.band === 'infant' || (Number.isFinite(p.age) && p.age < 2)));
+  if (babies.length !== 1 || babies[0].fallen || babies[0].service?.down || still(babies[0])) return null;
+  const direction = travelDirection(carrier) || 'e';
+  return { id: `infant-with-caregiver-ride-${direction === 'w' ? 'e' : direction}`, babyId: babies[0].id, whole: true, upright: direction === 'n' || direction === 's' };
+}
+/**
  * Where the parts of a seat are drawn, in a person's heights from the point the server gives them.
  *
  * `horseBack`, `horseBackUpright`, `wagonSeat`, `hip` and `overlap` belong to the **composite stand-in**: where a standing
@@ -431,6 +454,24 @@ export function wagonRigClip(wagon = {}, direction = 'e', riders = 0) {
   return { id: `wagon-ox-${cover}${facing}`, upright: facing !== 'e' };
 }
 /**
+ * Astra's family wagon with its cover drawn back and tied over the driver (2026-10-12, `wagon-cover-drawn-back`;
+ * docs/ART_DELIVERY_2026-10-12-FAMILY-TRAVEL-COMPLETE.md), wired 2026-10-25: drawn instead of the covered wagon while anybody
+ * rides in its bed (sim/company.mjs `rides`), so they are seen sitting in it rather than on the canvas - laden or not, as
+ * Claude's rig did (`wagonRigClip`). Never a cart, a carreta or a wagon come to harm. Null when nobody rides.
+ * Side-on whichever way it goes, as the covered wagon is drawn, from her west view: west as painted, east mirrored.
+ * ceiling: her east view bunches the cover over the tail rather than over the driver, so it is not used, and her end-on views
+ * wait for the driver and the ox to be drawn end-on with them (the ox-wagon rig, request 2026-09-16).
+ * `OPEN_WAGON`, in the wagon's drawn heights (`SIZE.wagon`), forward positive, read off her west frame on a tenth-of-a-height
+ * grid (docs/evidence/batch-w-compare.png): `seat` the driver's board ahead of the cover and its height; `hip` where a rider in
+ * the bed sits, the rail standing at 0.55 so their head and shoulders show over it; `basket` the foot of a baby's basket, its
+ * top over the rail; `rows` the bed behind the cover, two abreast, the far one `side` further back.
+ */
+export const OPEN_WAGON = Object.freeze({ seat: Object.freeze({ dx: 0.6, height: 0.64 }), hip: 0.42, basket: 0.5, rows: Object.freeze([0.10, -0.16, -0.42]), side: 0.12 });
+export function openCoverClip(wagon = {}, riders = 0) {
+  if (!(riders > 0) || wagon.cart || wagon.carreta || (wagon.condition && wagon.condition !== 'sound')) return null;
+  return { id: 'wagon-open-cover-w', painted: 'w' };
+}
+/**
  * How far the rig reaches side-on ahead of its driver's point and behind it, in persons (`sizes` as `seatLayout`'s): what a family's
  * second and third wagon are drawn behind the first by, and the horse behind the last (public/app.js `drawEntity`), so no ox of one
  * rig stands over the riders in the tail of the one ahead.
@@ -458,7 +499,7 @@ export function rigReach(sizes = {}) {
  * driver on its box; coming toward the camera the rig, the driver, and the ox again in front of them (the rig drawn a second
  * time only up to the yoke, `band`); going away the driver first, behind the canvas, and the rig over them.
  */
-export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wagon = 1.55 } = {}, rider = 1, delivered = 0, rig = false) {
+export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wagon = 1.55 } = {}, rider = 1, delivered = 0, rig = false, open = false) {
   const vertical = direction === 'n' || direction === 's';
   // The rider's feet are put where their hip lands on the seat, and they are cut a little below the hip.
   const sitting = (seatHeight, dx = 0) => ({ part: 'rider', dx, dy: -seatHeight + SEAT.hip * rider, height: rider, shown: 1 - SEAT.hip + SEAT.overlap });
@@ -478,11 +519,12 @@ export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wago
   if (seat === 'wagon') {
     const box = { part: 'wagon', dx: vertical ? 0 : -0.55 * wagon, dy: 0, height: wagon };
     const team = { part: 'ox', dx: vertical ? 0 : 0.95 * ox, dy: vertical ? (direction === 'n' ? -0.5 : 0.5) * ox : 0, height: ox };
-    const dx = vertical ? 0 : box.dx + 0.42 * wagon;
+    // `open`: Astra's wagon with its cover drawn back (`openCoverClip`), the driver on its board ahead of the cover (`OPEN_WAGON`).
+    const dx = vertical ? 0 : box.dx + (open ? OPEN_WAGON.seat.dx : 0.42) * wagon, onBox = open ? OPEN_WAGON.seat.height : SEAT.wagonSeat;
     // A delivered driver layer is a whole seated figure with its own boots: it stands on the footboard rather than being
     // a standing figure cut at the hip, so its base goes where its hip lands on the seat and none of it is clipped away.
-    const seated = { part: 'rider', dx, dy: -wagon * SEAT.wagonSeat + SEAT.driverHip * SEAT.driverHeight * rider, height: SEAT.driverHeight * rider, seated: true };
-    const driver = delivered > 0 ? seated : sitting(wagon * SEAT.wagonSeat, dx);
+    const seated = { part: 'rider', dx, dy: -wagon * onBox + SEAT.driverHip * SEAT.driverHeight * rider, height: SEAT.driverHeight * rider, seated: true, ...(open && { box: onBox }) };
+    const driver = delivered > 0 ? seated : { ...sitting(wagon * onBox, dx), ...(open && { box: onBox }) };
     if (rig) {
       // The rig laid under the driver: its seat point where their hip is (`-wagon * SEAT.wagonSeat` up from the ground they are
       // drawn on), whichever way it is going.
@@ -501,10 +543,13 @@ export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wago
  * the way they face, `dy` to the ground line, cut at the hip like the composite driver. Two abreast from the seat back toward the
  * tail, a cart's two and a wagon's four, each a little lower and further back than the one before; going north or south the wagon
  * is still side-on, so they sit along it.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders in the wagon. Their own figure's idle pose cut off below the waist,
- * set on the front of the wagon's cover behind the driver: the covered wagon has no open bed to seat anybody in.
+ * `open`: the wagon is Astra's with its cover drawn back (`openCoverClip`, 2026-10-25), so they sit in its bed (`OPEN_WAGON`), drawn
+ * before the wagon so that its side boards hide them below the rail. `facing`: their `dx` is along the way the wagon is drawn
+ * facing even going north or south, where the caller mirrors it with the wagon.
+ * Without `open` (the cart, the carreta, a covered wagon with no rider in its bed): set on the front of the wagon's cover behind
+ * the driver, as before.
  */
-export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rider = 1, place = false, rigSeated = false) {
+export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rider = 1, place = false, rigSeated = false, open = false) {
   // `place`: Claude's one-drawing rig (its part from `seatLayout`, so the rider sits in its open tail, `tailLayout`), or Astra's
   // seated passenger (`true`, or `'basket'` for the baby's basket; 2026-10-10). In the rig's tail `rigSeated` says the same.
   const rig = place && typeof place === 'object' ? place : null, seated = rig ? rigSeated : place;
@@ -512,6 +557,16 @@ export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rid
   if (rig) return tailLayout(direction, index, wagon, rider, rig, seated);
   const box = vertical ? 0 : -0.55 * wagon;
   const row = Math.floor(index / 2), side = index % 2;
+  if (open) {
+    const { rows, hip } = OPEN_WAGON, dx = box + (rows[row % rows.length] - OPEN_WAGON.side * side) * wagon, at = wagon * hip * (1.02 - 0.04 * side);
+    const base = { part: 'passenger', dx, open: true, facing: true };
+    if (seated === 'basket') return { ...base, dy: -wagon * OPEN_WAGON.basket, height: rider * 0.65, seated: true };
+    if (seated) {
+      const height = seated === 'rig' ? rider : rider * 0.65;
+      return { ...base, dy: -at + (seated === 'rig' ? .30 * height : SEAT.driverHip * height), height, seated: true };
+    }
+    return { ...base, dy: -at + SEAT.hip * rider, height: rider, shown: 1 - SEAT.hip + SEAT.overlap };
+  }
   // Going north the bed is nearer the camera than the driver's seat, so they sit lower on the screen and in front of the driver;
   // going south, higher and behind. Either way two abreast, either side of the driver.
   const dx = vertical ? (side ? 0.24 : -0.24) * wagon : box + (0.24 - 0.2 * row - 0.08 * side) * wagon;

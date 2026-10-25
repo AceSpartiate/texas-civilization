@@ -144624,6 +144624,20 @@
       "h": 297,
       "anchorX": 0.5364,
       "anchorY": 0.9293,
+      "ground": {
+        "left": [
+          0.0121,
+          0.7912
+        ],
+        "front": [
+          0.5749,
+          0.9899
+        ],
+        "right": [
+          0.9838,
+          0.7609
+        ]
+      },
       "footprintFeet": {
         "width": 8,
         "depth": 16
@@ -144648,6 +144662,10 @@
         "trimmedPixels": 0,
         "retainedFraction": 1
       },
+      "centre": [
+        0.498,
+        0.7761
+      ],
       "source": "atlases/house-construction-complete.png",
       "status": "usable-prototype",
       "classifications": [
@@ -144665,6 +144683,20 @@
       "h": 212,
       "anchorX": 0.5382,
       "anchorY": 0.9292,
+      "ground": {
+        "left": [
+          0.0138,
+          0.5991
+        ],
+        "front": [
+          0.5428,
+          0.9858
+        ],
+        "right": [
+          0.9862,
+          0.5
+        ]
+      },
       "footprintFeet": {
         "width": 16,
         "depth": 16

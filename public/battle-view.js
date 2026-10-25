@@ -3,6 +3,7 @@ import { createSouthernNightGrade, drawSouthernNight, mountedHeading, mountedAct
 import { familyCampBinding, avatarVariant } from './avatar-identity.js';
 import { figureOf as familyFigureOf } from './motion.js';
 import { createAlamoGrade, drawAlamoGrade, alamoGunName, alamoLancerClip, travisFireClip } from './alamo-battle-art.js';
+import { ALAMO_LAYOUT } from './alamo-layout.js';
 import { milamFireClip, namedMountedRefinement } from './named-refinement-art.js';
 import { familyRigBattlePose } from './family-rig-bindings.js';
 // The one battle renderer (docs/BATTLES.md §3, §6). It replaced `drawFormations` in public/app.js on 2026-09-25.
@@ -299,6 +300,33 @@ const bodiesOf = battle => [
  */
 const REGULAR_LOOPHOLE = 0.65;
 /**
+ * The Alamo's walls a man fires over, by the garrison's part (sim/battles/alamo.mjs `walls`) and the wall it stands on in the
+ * compound as drawn (public/alamo-layout.js): the north wall, the west wall along its rooms, the south-west battery's run of the
+ * west wall, the low barrack's south wall and the palisade. The church's men stand on its gun platform inside a shell twice a
+ * man's height, and are drawn as before.
+ */
+const PARAPET_WALLS = Object.freeze({ north: 'north-0', west: 'west-perimeter', southwest: 'west-perimeter-south', south: 'south-perimeter', palisade: 'palisade-south' });
+const PARAPET_FEET = Object.freeze(Object.fromEntries(Object.entries(PARAPET_WALLS).map(([part, wall]) => [part, ALAMO_LAYOUT.walls.find(each => each.id === wall)?.heightFeet])));
+/** How high a wall of the given height is drawn: its true height times sim/town-layouts.mjs `DRAWN_HEIGHT`, as public/bexar-art.js draws it.
+ * ceiling: the factor is copied, since this module is loaded where /town-layouts.js is not served; tests/battle-alamo-view.test.mjs holds the two equal. */
+export const WALL_DRAWN_HEIGHT = 4;
+export const parapetLift = (feet, camera) => feet * WALL_DRAWN_HEIGHT * camera.scale / 5280;
+/** The wall a garrison volunteer fires over at the Alamo, in feet, or 0: only a Texian part standing on one of its walls. */
+export function parapetFeet(battle, side, kind) {
+  if (battle?.id !== 'alamo' || side?.side !== 'texian' || side.style !== 'wall' || kind !== 'volunteer') return 0;
+  return PARAPET_FEET[side.id] || 0;
+}
+/** Which of her four frames a man over the parapet is in, `t` real milliseconds after he brought his piece up (`MUSKET`). */
+export function parapetPart(t) {
+  return t < MUSKET.aim ? 'aim' : t < MUSKET.aim + MUSKET.fire ? 'fire' : t < MUSKET.aim + MUSKET.fire + MUSKET.load ? 'load' : 'ramrod';
+}
+/**
+ * How tall her waist-up man is drawn against a standing one: her sheet is held to its first frame (150 pixels, hat to waist), drawn
+ * to the scale of the library's standing volunteer (277 pixels), so 150/277 of him.
+ * ceiling: read off the two sheets; a FIGURE_HEIGHTS reference in scripts/build-atlas-manifest.mjs would measure it.
+ */
+const PARAPET_SIZE = 150 / 277;
+/**
  * Who the townspeople are drawn as, in turn: Astra's people of Béxar (2026-10-11, public/bexar-battle-art.js `BEXAR_TOWNSFOLK`:
  * a woman, an old man, a child and an older woman; never soldiers), each [figure, size, the library figure drawn while that
  * sheet has not loaded, its size].
@@ -348,7 +376,7 @@ export function createBattleView(art) {
     fallenSide: new Map(), fallenFigure: new Map(),
     // Presentation evidence across frames, read by scripts/battle-gonzales-browser-proof.mjs and by nothing in the page.
     shotsTotal: 0, shotsBy: {}, linesShown: new Set(), memberClips: new Set(),
-    loopholeShots: 0, gunShotsTotal: 0, gunShotsBy: {}, peopleFellAt: new Map(), peopleSpots: {}, peopleShown: new Set(), peopleFirst: new Map(), civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
+    loopholeShots: 0, parapet: {}, gunShotsTotal: 0, gunShotsBy: {}, peopleFellAt: new Map(), peopleSpots: {}, peopleShown: new Set(), peopleFirst: new Map(), civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
     // §6.13: where each fallen figure went down (he lies there while his part moves on), and the herd.
     fallenSpots: new Map(), herd: null,
     // Joe's shots from the house he took cover in, each fired once (a flash and a puff at its door).
@@ -603,6 +631,7 @@ export function createBattleView(art) {
     const figurePx = Math.max(7, Math.min(60, camera.figure * 0.95));
     const drawn = { texian: [], mexican: [] }, drawnBy = {};
     let flashes = 0, shots = 0;
+    view.parapet = {};
     const fallenSlots = fallenBySide(battle, now);
     const bodies = bodiesOf(battle), bodyOf = unit => bodies.find(body => body.key === (unit === 'texian' || unit === 'mexican' ? unit : `g:${unit}`));
     // Members first, so the sampled figures give them room: nothing sampled is drawn on a family's person.
@@ -814,6 +843,22 @@ export function createBattleView(art) {
           drawnBy[side.key].push(point);
           continue;
         }
+        // After Concepción (sim/battles/concepcion.mjs, staged 2026-10-25): the second gun's mules riding off, two gunners up on
+        // each, and the priest from Béxar with his carts, one with a wounded man and one with the covered dead in turn - Astra's
+        // (2026-10-12, docs/ART_DELIVERY_2026-10-12-CONCEPCION-COMPLETE.md). Her mules have their own north and south; the
+        // priest and the carts are drawn side-on, east mirrored for west.
+        const aftercare = { 'limber-mules': 1.35, padre: 1, 'casualty-cart': 1.15 }[side.figure];
+        if (aftercare) {
+          const vertical = Math.abs(facing.y) > Math.abs(facing.x) * 1.2;
+          const dir = side.figure === 'limber-mules' && vertical ? (facing.y >= 0 ? 's' : 'n') : 'e';
+          const name = side.figure === 'limber-mules' ? `limber-mules-walk-${dir}` : side.figure === 'padre' ? 'padre-walk'
+            : `casualty-cart-${slot.index % 2 ? 'covered' : 'wounded'}`;
+          // Standing at the line, the first frame of the walk held, as the library's riders stand.
+          const held = side.figure === 'limber-mules' ? `limber-mules-${dir}-1` : `${name}-1`;
+          figures.push({ y: point.y, kind: side.figure, side: side.side, point, size: figurePx * aftercare, clip: moving ? name : null, sprite: moving ? null : held, timeMs: time, flip: dir === 'e' && !right, seed });
+          drawnBy[side.key].push(point);
+          continue;
+        }
         if (side.figure === 'prisoner') {
           const vertical = Math.abs(facing.y) > Math.abs(facing.x) * 1.2;
           const dir = vertical ? (facing.y >= 0 ? 's' : 'n') : 'e';
@@ -914,6 +959,32 @@ export function createBattleView(art) {
             }
             // The carbine at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
             if (!moving && !lancers && (t < 500 || wait - t < 700)) prefer = { clip: 'dragoon-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t), flip: !right };
+          }
+        } else if (!moving && parapetFeet(battle, side, kind)) {
+          // The garrison over the Alamo's parapet: Astra's waist-up rifleman (2026-10-12, `alamo-parapet-service`), wired 2026-10-25
+          // (batch W of docs/ART_PLAN_LOCAL_2026-10-25.md), his waist set on the wall's top - the wall's own height in
+          // public/alamo-layout.js, drawn as the compound is (`parapetLift`) - so the wall hides what is below it, as she asked:
+          // the walls themselves, their collision and their breaching are untouched. Out over his own wall (`mountedHeading`: the
+          // north wall's men seen from behind, the south's facing the camera, the west's to the left; nothing mirrored). His
+          // firing on the musket's clock, each part one of her four frames; a man not firing watches over the wall, or keeps
+          // down behind it on a night with no firing. Before, the full standing figure fired on the wall's line.
+          const lift = parapetLift(parapetFeet(battle, side, kind), camera), heading = mountedHeading(side.facing);
+          const firing = side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 5 === 0);
+          const wait = slot.wait ?? (WAIT_MIN_MS + hash(`${seed}:w`) * WAIT_SPAN_MS), cycle = MUSKET_MS + wait;
+          const t = (time + (slot.phase ?? hash(`${seed}:p`)) * 20000) % cycle;
+          const part = !firing ? (side.fire === 'none' ? 'load' : 'aim') : t < wait ? 'aim' : parapetPart(t - wait);
+          sprite = `volunteer-parapet-${heading}-${part}`; flip = false; still = true; size = figurePx * PARAPET_SIZE; dy = -lift;
+          view.parapet[heading] = (view.parapet[heading] || 0) + 1;
+          // While her sheet loads, today's figure on the wall's line.
+          fallback = { sprite: `${kind}-${right ? 'e' : 'w'}`, flip: false, size: figurePx, dy: lift };
+          if (firing && t >= wait) {
+            const shotKey = `${seed}:${Math.floor((time + (slot.phase ?? 0) * 20000) / cycle)}`;
+            if (t - wait >= SHOT_AT && t - wait < SHOT_AT + 400 && !view.shotsSeen.has(shotKey) && !holding) {
+              view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
+              const up = lift / camera.scale, ahead = heading === 'e' ? 0.012 : heading === 'w' ? -0.012 : 0;
+              const muzzle = { x: ground.x + ahead, y: ground.y - up - (heading === 'n' ? 0.006 : heading === 's' ? -0.002 : 0.003) };
+              puff(muzzle.x, muzzle.y, now, { wind, dir: heading === 'w' ? -1 : 1 }); flash(muzzle.x, muzzle.y, heading !== 'w', now, 1);
+            }
           }
         } else if (side.fire === 'scattered' || (side.fire === 'picket' && slot.along > -0.03 && slot.index % 5 === 0)) {
           const wait = slot.wait ?? (WAIT_MIN_MS + hash(`${seed}:w`) * WAIT_SPAN_MS), cycle = MUSKET_MS + wait;
@@ -1124,7 +1195,7 @@ export function createBattleView(art) {
       // Béxar's street fighting (docs/battle-research/staging.md §3): each group drawn, the shots through loopholes, the guns'
       // shots, the breaches open, the townspeople seen, the named falls, and each member's fall once it came.
       groups: Object.fromEntries(Object.entries(drawnBy).filter(([key]) => key.startsWith('g:')).map(([key, points]) => [key.slice(2), points.length])),
-      unitsSeen: [...view.unitsSeen].map(key => key.slice(2)), loopholeShots: view.loopholeShots, gunShots: view.gunShotsTotal, guns: gunsShown,
+      unitsSeen: [...view.unitsSeen].map(key => key.slice(2)), loopholeShots: view.loopholeShots, parapet: { ...view.parapet }, gunShots: view.gunShotsTotal, guns: gunsShown,
       breaches: breachesShown, breachesOpened: view.breachesSeen.size, civilians, civiliansSeen: view.civiliansSeen, namedFalls: [...view.namedFalls], whiteFlag: (battle.flags || []).length ? view.whiteFlag || null : null,
       // San Jacinto: who is down by body, how many have their hands up, what stands on the ground, each side's style.
       fallenBy: Object.fromEntries([...fallenSlots.entries()].map(([key, m]) => [key, m.size])), surrendering, works: worksDrawn,

@@ -148,12 +148,12 @@ test("the eight riders and the eight drivers Astra painted are what is drawn, an
  */
 test('the page asks the seat for its own art, and gives the delivered rig its own height', () => {
   const app = readFileSync(fileURLToPath(new URL('../public/app.js', import.meta.url)), 'utf8');
-  assert.match(app, /const delivered = seatedClip\(entity, direction, seat\);/, 'the page no longer asks the seat which art it has');
+  assert.match(app, /const delivered = paired && clipReady\(paired\.id\) \? paired : seatedClip\(entity, direction, seat\);/, 'the page no longer asks the seat which art it has');
   // A rider on the mule (2026-10-03) is the composite unless the family rig seats them (its layer goes over any mount): the painted
   // horse-and-rider is the chestnut horse (tests/mules-drawn.test.mjs).
   assert.match(app, /const ready = \(delivered\.rigLayer \|\| \(!entity\.appearance && !onMule\)\) && Boolean\(delivered\.whole \|\| delivered\.seated\) && clipReady\(delivered\.id\);/,
     'the page no longer checks whether the delivered rig is usable or composes an appearance-driven rider');
-  assert.match(app, /seatLayout\(seat, direction, SIZE, figureScale\(entity\), ready && !rigReady \? \(seat === 'horse' \? MOUNTED_HEIGHT : 1\) : 0, rig\)/,
+  assert.match(app, /seatLayout\(seat, direction, SIZE, figureScale\(entity\), ready && !rigReady \? \(seat === 'horse' \? MOUNTED_HEIGHT : 1\) : 0, rig, Boolean\(cover\)\)/,
     'the delivered rig is no longer given a mount’s height, or the composite is no longer the fallback');
   // The wagon and ox as one drawing only once its sheet can be drawn; the two apart until then.
   assert.match(app, /const rig = Boolean\(rigClip\) && clipReady\(rigClip\.id\);/, 'the one-drawing rig is drawn without asking whether its sheet is here');

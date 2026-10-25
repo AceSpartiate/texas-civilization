@@ -279,7 +279,9 @@ function seatOf(image, frame) {
 // ceiling: read off a silhouette, so the log ends standing past a corner move it: each lands within about 3% of the
 // frame's width of the post foot read by eye on a ten-pixel grid (tests/house-chimney.test.mjs holds the chimney to those).
 // A ground outline drawn with the art (docs/ART_REQUESTS.md, 2026-09-15 house plot's pieces) would replace the measure.
-const GROUNDED = /^house-(round|hewn)-(back-)?full-walls$|^house-jacal-daub-walls$/;
+// Astra's double chimney and puncheon floor (2026-10-11) are measured the same way: each is drawn corner-on on its own
+// foot, so the same three corners give where it stands (2026-10-25, batch W of docs/ART_PLAN_LOCAL_2026-10-25.md).
+const GROUNDED = /^house-(round|hewn)-(back-)?full-walls$|^house-jacal-daub-walls$|^house-(chimney-double|puncheon-floor)$/;
 function groundOf(image, frame) {
   const { width, data } = image, w = frame.maxX - frame.minX + 1, h = frame.maxY - frame.minY + 1;
   const band = Math.max(2, Math.round(w * 0.01)), seen = (x, y) => data[(y * width + x) * 4 + 3] > 40;
@@ -621,6 +623,11 @@ for (const material of ['round','hewn']) {
   const rear=frames[`house-${material}-back-full-walls`], front=frames[`house-${material}-full-walls`];
   if(rear && front)rear.roofScale=rear.w/front.w;
 }
+// The double chimney is stood by the middle of its foot (public/house-plot.js, where `standChimneys` puts it between the two pens),
+// not by its front corner: the middle of a corner-on foot is halfway between its left and right corners.
+// ceiling: read off the silhouette, as `groundOf` is; her stone footing is the widest course, so it is the foot it finds.
+const double = frames['house-chimney-double'];
+if (double?.ground) double.centre = [0, 1].map(i => +((double.ground.left[i] + double.ground.right[i]) / 2).toFixed(4));
 if(frames['house-jacal-daub-walls'] && frames['house-jacal-thatch-roof'])
   frames['house-jacal-daub-walls'].roofScale=frames['house-jacal-daub-walls'].w/frames['house-jacal-thatch-roof'].w*1.06;
 return {

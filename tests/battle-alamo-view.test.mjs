@@ -69,6 +69,35 @@ test('Seguín rides out on his own animated horse at the Alamo', () => {
   assert.ok(art.drawn.some(one => one.clip === 'seguin-mounted-walk-e'));
 });
 
+// Astra's waist-up riflemen over the parapet (2026-10-12, `alamo-parapet-service`), wired 2026-10-25 (batch W of
+// docs/ART_PLAN_LOCAL_2026-10-25.md): each wall's sampled men drawn from the waist up with the waist on the wall's top, the wall's
+// own height in public/alamo-layout.js drawn as the compound is, out over their own wall, on the musket's clock. Before, the full
+// standing volunteer fired on the wall's line.
+test('the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall', async () => {
+  const { WALL_DRAWN_HEIGHT, parapetLift } = await import('../public/battle-view.js');
+  const { DRAWN_HEIGHT } = await import('../sim/town-layouts.mjs');
+  assert.equal(WALL_DRAWN_HEIGHT, DRAWN_HEIGHT, 'the walls are drawn at the town buildings\' height factor');
+  const art = fakeArt(), view = createBattleView(art);
+  const { last } = run(view, art, at('repulse', 2), { seconds: 24, perTick: 0 });
+  const battle = alamo(at('repulse', 2));
+  const parapet = art.drawn.filter(one => /^volunteer-parapet-/.test(one.sprite || ''));
+  for (const [wall, heading, feet] of [['north', 'n', 10], ['west', 'w', 12.5], ['south', 's', 10], ['palisade', 's', 8]]) {
+    const group = battle.groups.find(one => one.id === wall), lift = parapetLift(feet, camera);
+    assert.ok(Math.abs(lift - feet * DRAWN_HEIGHT * camera.scale / 5280) < 1e-9);
+    const centre = camera.toScreen(group), near = parapet.filter(one => one.sprite.startsWith(`volunteer-parapet-${heading}-`) && Math.abs(one.x - centre.x) <= group.spread.width * camera.scale / 2 + 2 && Math.abs(one.y + lift - centre.y) < 40);
+    assert.ok(near.length, `nobody drawn over the ${wall} wall facing ${heading}`);
+    // Spread evenly along the wall, so on average their waists are on its top over the wall's own line.
+    const meanY = near.reduce((sum, one) => sum + one.y, 0) / near.length;
+    assert.ok(Math.abs(meanY - (centre.y - lift)) < 6, `the ${wall} wall's men are drawn ${(centre.y - meanY).toFixed(1)} px over its line, not on its top (${lift.toFixed(1)})`);
+  }
+  // Every part of the load is drawn over a run of the fight: aimed, fired, loading and the ramrod.
+  for (const part of ['aim', 'fire', 'load', 'ramrod']) assert.ok(parapet.some(one => one.sprite.endsWith(`-${part}`)), `nobody drawn at the ${part}`);
+  assert.ok(parapet.every(one => one.flip === false), 'a parapet man is mirrored');
+  assert.ok(last.parapet.n > 0 && last.parapet.w > 0 && last.parapet.s > 0, `the view does not report the men over the walls: ${JSON.stringify(last.parapet)}`);
+  // The church's gunners on their platform are not drawn over a parapet.
+  assert.ok(!parapet.some(one => /-e-/.test(one.sprite)), 'somebody fires over a parapet facing east (the church)');
+});
+
 test('the guns fire each dated shot once, the defenders\' canister throws a cone of smoke, and the batteries bombard all day', () => {
   const art = fakeArt(), view = createBattleView(art);
   const { last } = run(view, art, at('repulse'), { seconds: 12, perTick: 2 });

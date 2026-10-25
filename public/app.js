@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, sheetsFirstDrawn, spriteFrame, spriteReady, watchMissing } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carryingInfantClip, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, drawnAlone, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward, roundCorners } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carryingInfantClip, mountedInfantClip, carriedWithRider, mountOf, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, openCoverClip, OPEN_WAGON, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, drawnAlone, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward, roundCorners } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { portraitSetsMain, herdMarkOf, actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands, keepList, pressHold } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -737,6 +737,9 @@ function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
     if (drawSprite(ctx, `cart-open-${entity.laden ? 'loaded' : 'idle'}-${direction}`, x, y, size, options)) return;
     if (drawSprite(ctx, `cart-open-${direction}`, x, y, size, options)) return;
   }
+  // Somebody riding in its bed: Astra's wagon with the cover drawn back (`drawSeated`, public/motion.js `openCoverClip`), painted
+  // facing west as `wagon-travel` is, so mirrored the same way.
+  if (entity.openCover && animated(ctx, entity.openCover, x, y, size, entity.id, { flip: !flip, gait: entity.gait })) return;
   const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
   if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip, gait: entity.gait })) return;
   // A wagon that has come to harm shows it. Nothing here invents that state: it is drawn
@@ -956,7 +959,10 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const onMule = mount.horse?.species === 'mule';
   // Asked before anything is drawn, because the whole layout depends on the answer: one painted rig has no horse under it
   // and nothing to clip. A sheet still on its way answers no and is asked for, so the next frame can answer yes.
-  const delivered = seatedClip(entity, direction, seat);
+  // A baby in the arms of a rider who is Astra's baseline caregiver: her paired rider, baby and horse in one (public/motion.js
+  // `mountedInfantClip`, 2026-10-25), once its sheet is here; the rider's own seat otherwise.
+  const paired = seat === 'horse' ? mountedInfantClip(entity, entities) : null;
+  const delivered = paired && clipReady(paired.id) ? paired : seatedClip(entity, direction, seat);
   // Astra's family rig (2026-10-13) seats a person with a chosen look as their own seated layer over the mount drawn apart, so
   // on the mule too; the painted horse-and-rider is the chestnut horse, so a rider on a mule is otherwise the composite.
   const ready = (delivered.rigLayer || (!entity.appearance && !onMule)) && Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
@@ -974,22 +980,31 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const muleDrawn = seat === 'wagon' && mount.ox?.species === 'mule';
   const rigClip = seat === 'wagon' && !muleDrawn && !box.cart && !box.carreta && (!box.condition || box.condition === 'sound') ? wagonRigClip(box, direction, aboard.length) : null;
   const rig = Boolean(rigClip) && clipReady(rigClip.id);
+  // Astra's wagon with its cover drawn back (2026-10-12, public/motion.js `openCoverClip`, wired 2026-10-25) while anybody rides in
+  // its bed: they sit in it, the driver on the board ahead of the cover. Only once her sheet is here - the covered wagon would
+  // hide a rider set down in the bed - and never under Claude's rig (which never draws: her wagon wins by subject).
+  const coverClip = seat === 'wagon' && !rig ? openCoverClip(box, aboard.length) : null;
+  const cover = coverClip && clipReady(coverClip.id) ? coverClip : null;
   // Whoever rides in this wagon behind its driver (sim/company.mjs; owner, 2026-09-25), sat in it after the wagon and before the
   // driver, so the driver is drawn in front of them. They are not drawn again beside it (public/motion.js `carriedWithRider`).
-  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready && !rigReady ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0, rig);
+  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready && !rigReady ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0, rig, Boolean(cover));
   // The rig's seated layer at the person's own height, its hip (0.30 up the layer) on the saddle or the box.
   if (rigReady && !rig) for (const part of layout) if (part.part === 'rider') {
     part.seated = true; part.height = figureScale(entity); delete part.shown;
-    part.dy = -(seat === 'horse' ? SIZE.horse * (vertical ? .6 : .57) : SIZE.wagon * .44) + .30 * part.height;
+    part.dy = -(seat === 'horse' ? SIZE.horse * (vertical ? .6 : .57) : SIZE.wagon * (cover ? OPEN_WAGON.seat.height : .44)) + .30 * part.height;
   }
   const rigPart = rig ? layout.find(part => part.part === 'rig') : null;
   const riders = aboard.map((rider, i) => {
     const clip = seatedClip(rider, direction, 'passenger');
     const seated = Boolean(clip.seated && clipReady(clip.id));
     const mode = seated && clip.basket ? 'basket' : seated && clip.rigLayer ? 'rig' : seated;
-    return { ...(rigPart ? bedLayout(direction, i, SIZE, figureScale(rider), rigPart, mode) : bedLayout(direction, i, SIZE, figureScale(rider), mode)), rider, passengerClip: clip };
+    return { ...(rigPart ? bedLayout(direction, i, SIZE, figureScale(rider), rigPart, mode) : bedLayout(direction, i, SIZE, figureScale(rider), mode, false, Boolean(cover))), rider, passengerClip: clip };
   });
-  if (riders.length && rigPart) {
+  if (riders.length && cover) {
+    // In the open bed, before the wagon, so its side boards hide them below the rail: the furthest up the screen first.
+    riders.sort((a, b) => a.dy - b.dy);
+    layout.splice(layout.findIndex(part => part.part === 'wagon'), 0, ...riders);
+  } else if (riders.length && rigPart) {
     // In the rig's open tail: the furthest up the screen first. Coming toward the camera the canvas is in front of them, so before
     // the rig; otherwise straight after it, before a driver on the box side-on (a driver going away is behind the canvas, first).
     riders.sort((a, b) => a.dy - b.dy);
@@ -1000,7 +1015,8 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
     layout.splice(riders[0].front ? driverAt + 1 : driverAt, 0, ...riders.reverse());
   }
   for (const part of layout) {
-    const px = x + part.dx * size * along, py = y + part.dy * size, height = part.height * size;
+    // A rider in the open bed is placed along the way the wagon is drawn facing, which it is mirrored for even end-on (`facing`).
+    const px = x + part.dx * size * (part.facing ? (flip ? -1 : 1) : along), py = y + part.dy * size, height = part.height * size;
     if (part.part === 'rig') {
       // One drawing, mirrored for west as every east cycle is. Coming toward the camera it is drawn a second time up to the ox's
       // yoke only (`band`), so the ox stands in front of the driver as it does of the wagon; the same key and clock, the same frame.
@@ -1063,16 +1079,16 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
     } else {
       // The family's own beast, as the server has it on the road with them; a stand-in of the right kind if it is not in view.
       const beast = mount[part.part] || { id: `${entity.id}-${part.part}`, kind: part.part === 'wagon' ? 'wagon' : 'animal', species: part.part, condition: 'sound' };
-      const moving = { ...beast, travel: entity.travel, ...(part.part === 'horse' && { ridden: true }) };
+      const moving = { ...beast, travel: entity.travel, ...(part.part === 'horse' && { ridden: true }), ...(part.part === 'wagon' && cover && { openCover: cover.id }) };
       if (part.part === 'wagon') miniWagon(ctx, px, py, height, moving, flip);
       else miniAnimal(ctx, px, py, height, moving, flip);
     }
-    drawn.push({ part: part.part, x: Math.round(px), y: Math.round(py), height: Math.round(height), ...(part.shown && { shown: part.shown }),
+    drawn.push({ part: part.part, x: Math.round(px), y: Math.round(py), height: Math.round(height), ...(part.shown && { shown: part.shown }), ...(part.part === 'wagon' && cover && { clip: cover.id }),
       ...(part.whole && { whole: true }), ...(part.seated && { seated: true }) });
   }
   // `art` is the delivered clip if one was drawn, and null while the composite stand-in stands in for it: the one fact a
   // proof needs to tell "Astra's painted rider" from "a cropped figure over a horse" without reading pixels.
-  seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, rig: rig ? rigClip.id : null, parts: drawn, ...(onMule && { mount: 'mule', mountId: mount.horse.id }), ...(muleDrawn && { draws: 'mule', drawnBy: mount.ox.id }) });
+  seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, rig: rig ? rigClip.id : null, ...(cover && { cover: cover.id }), parts: drawn, ...(onMule && { mount: 'mule', mountId: mount.horse.id }), ...(muleDrawn && { draws: 'mule', drawnBy: mount.ox.id }) });
 }
 /**
  * How tall somebody is drawn, in pixels, from the camera's figure size: everything is drawn standing on its point, so this
@@ -1157,8 +1173,12 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   // Side-on, the wagon and its ox as one drawing (public/motion.js `WAGON_RIG`, once its sheet is here) reach further than the two
   // drawn apart, so the wagons after the first, and the horse after the last, are drawn that much further back (`rigReach`).
   const rigSpan = (train > 0 || rigs) && !vertical && clipReady(wagonRigClip({}, 'e').id) ? RIG_REACH : null;
-  const gap = rigSpan ? (rigSpan.ahead + rigSpan.behind + 0.25) * 26 : 82;
-  const offset = saddled ? { x: behind.x * (rigs ? (rigSpan ? gap * (rigs - 1) + (rigSpan.behind + 1.3) * 26 : 82 * rigs) : 64), y: behind.y * (rigs ? 60 * rigs : 56) + 4 }
+  // A wagon ahead with riders in its open bed (Astra's cover drawn back, `drawSeated`, 2026-10-25) is given its whole length, so the
+  // next team's ox does not stand over the riders sitting in it; otherwise a wagon's length, as before.
+  const teams = !rigSpan && (train > 0 || rigs) ? wagonTeams(entity.householdId, marks.entities || []) : [];
+  const openAhead = teams.slice(0, Math.max(train, rigs)).some(team => openCoverClip(team.wagon, passengersOf(team, marks.entities || []).length));
+  const gap = rigSpan ? (rigSpan.ahead + rigSpan.behind + 0.25) * 26 : openAhead ? OPEN_TRAIN_GAP : 82;
+  const offset = saddled ? { x: behind.x * (rigs ? (rigSpan ? gap * (rigs - 1) + (rigSpan.behind + 1.3) * 26 : gap * rigs) : 64), y: behind.y * (rigs ? 60 * rigs : 56) + 4 }
     : entity.travel
     ? (entity.kind === 'wagon' ? { x: -2.4, y: .5 } : entity.kind === 'animal' && entity.travel.mode === 'foot' ? { x: behind.x * 26, y: behind.y * 36 + 2 } : entity.kind === 'animal' ? { x: -1.1, y: .2 }
       : train > 0 ? { x: behind.x * gap * train, y: behind.y * 60 * train + 3 * train }
@@ -2075,6 +2095,11 @@ const SIZE = {
 };
 // How far the wagon and its ox as one drawing reach ahead of and behind their driver, in persons (public/motion.js `rigReach`).
 const RIG_REACH = rigReach(SIZE);
+// How far apart two of a family's wagons drawn apart are when the one ahead has riders in its open bed (2026-10-25), in persons as
+// `gap` counts them (26 a person): the ox's nose ahead of the driver's point (`seatLayout`: 0.95 of an ox, and half its length)
+// and her open wagon's tail behind it (its anchor 0.55 of a wagon back, the tail 0.6 of a wagon behind that, `OPEN_WAGON`).
+// ceiling: the ox's half length is by eye (0.7 of its height); the wagon's tail is read off her frame (tests/wagon-open-cover.test.mjs).
+const OPEN_TRAIN_GAP = ((0.95 + 0.7) * SIZE.ox + (0.55 + 0.6) * SIZE.wagon + 0.25) * 26;
 // Which way each of the family's little ones is seen going about the yard, from where they were drawn the frame before (in miles
 // of the map): what turns a child running at tag north, south, east or west (public/motion.js `DrawnHeading`, `littleClip`).
 const yardHeadings = new DrawnHeading(1e-7);

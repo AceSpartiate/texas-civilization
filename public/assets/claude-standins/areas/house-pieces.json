@@ -3,25 +3,6 @@
   "area": "places",
   "date": "2026-09-28",
   "sheets": {
-    "claude-house-plot": {
-      "image": "/assets/claude-standins/claude-house-plot.png",
-      "width": 660,
-      "height": 345,
-      "bytes": 102585,
-      "sha256": "784ec84595fbc02241a2390ba0b5ea327ee42205cbbf27d40dc12c38f85b0bc4",
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-15 — the house plot's pieces",
-      "layout": {
-        "rows": 1,
-        "columns": 2,
-        "cell": {
-          "w": 330,
-          "h": 345
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-window-lit": {
       "image": "/assets/claude-standins/claude-window-lit.png",
       "width": 1200,
@@ -43,68 +24,6 @@
     }
   },
   "frames": {
-    "house-floor": {
-      "sheet": "claude-house-plot",
-      "x": 0,
-      "y": 0,
-      "w": 330,
-      "h": 345,
-      "anchorX": 0.5742,
-      "anchorY": 0.9479,
-      "logicalHeight": 253,
-      "ground": {
-        "left": [
-          0.0561,
-          0.8319
-        ],
-        "front": [
-          0.5955,
-          0.9913
-        ],
-        "right": [
-          0.9439,
-          0.7507
-        ]
-      },
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-15 — the house plot's pieces",
-      "replaceWith": "house-floor: the remaining house-plot pieces in the house-modules style: the double chimney two-sided with its foot marked, the shed frame, separate floor and loft overlays",
-      "source": "svg/house-pieces/claude-house-floor.svg",
-      "label": "house floor",
-      "kind": "claude-house-plot"
-    },
-    "house-loft": {
-      "sheet": "claude-house-plot",
-      "x": 330,
-      "y": 0,
-      "w": 330,
-      "h": 345,
-      "anchorX": 0.5742,
-      "anchorY": 0.9479,
-      "logicalHeight": 253,
-      "ground": {
-        "left": [
-          0.0561,
-          0.8319
-        ],
-        "front": [
-          0.5955,
-          0.9913
-        ],
-        "right": [
-          0.9439,
-          0.7507
-        ]
-      },
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-15 — the house plot's pieces",
-      "replaceWith": "house-loft: the remaining house-plot pieces in the house-modules style: the double chimney two-sided with its foot marked, the shed frame, separate floor and loft overlays",
-      "source": "svg/house-pieces/claude-house-loft.svg",
-      "label": "house loft",
-      "kind": "claude-house-plot"
-    },
     "window-lit-adobe-flat": {
       "sheet": "claude-window-lit",
       "x": 0,
@@ -176,34 +95,6 @@
   },
   "clips": {},
   "provenance": {
-    "house-floor": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "house-pieces",
-      "area": "places",
-      "sheet": "claude-house-plot",
-      "request": "Request 2026-09-15 — the house plot's pieces",
-      "prompt": "A puncheon floor for a log pen - split logs hewn flat on one face and laid side by side - as an overlay registered to Astra's pen (her full walls' box, anchor and scale), laid with her own hewn-log faces; drawn before the walls it shows through the doorway and over the low courses. Transparent ground, no shadow.",
-      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-floor.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's house-floor"
-    },
-    "house-loft": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "house-pieces",
-      "area": "places",
-      "sheet": "claude-house-plot",
-      "request": "Request 2026-09-15 — the house plot's pieces",
-      "prompt": "A pen's loft as an overlay registered to Astra's pen: joists across at the tops of the walls, a floor of boards over the back half (her planks), and a pole ladder up from the floor, for a cutaway; corner-on three-quarter view, her scale, outlined in her ink. Transparent ground, no shadow.",
-      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-loft.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's house-loft"
-    },
     "window-lit-adobe-flat": {
       "kind": "frame",
       "madeBy": "claude",

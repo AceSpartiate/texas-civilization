@@ -113,5 +113,7 @@ const ALL_CLIPS = {
 };
 
 // Retired at the merge of 2026-10-13 (Astra's art wins): the driven and scattering herd (2026-10-10). Her frames replace these
-// by subject (public/art-subjects.js) and by name; the drawing code above is no longer called for them.
-export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['herd-drove*', 'herd-scatter*']);
+// by subject (public/art-subjects.js) and by name; the drawing code above is no longer called for them. The mules at the
+// limber retired 2026-10-25 (batch W of docs/ART_PLAN_LOCAL_2026-10-25.md): Astra's `limber-mules-*` (2026-10-12) are staged in
+// Concepción's retreat.
+export const { SHEETS, CLIPS } = retire(ALL_SHEETS, ALL_CLIPS, ['herd-drove*', 'herd-scatter*', 'limber-mules-walk*']);

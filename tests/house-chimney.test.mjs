@@ -28,7 +28,7 @@ globalThis.fetch = async url => {
 };
 globalThis.createImageBitmap = async () => ({ stub: 'sheet' });
 const { drawSprite, loadArt, spriteFrame } = await import('../public/art.js');
-await loadArt({ sheets: ['house-modules', 'house-back-views', 'houses-settling'] });
+await loadArt({ sheets: ['house-modules', 'house-back-views', 'houses-settling', 'house-construction-complete'] });
 const catalogue = plotCatalogue();
 
 const SIZE = new Function('CABIN_PEOPLE', `${declaration('const SIZE = {', '\n};')} return SIZE;`)(CABIN_PEOPLE);
@@ -64,7 +64,9 @@ function recorder() {
       // The screen point of the frame's own pixel (u, v).
       const screen = (u, v) => apply(at, dx + u * dw / sw, dy + v * dh / sh);
       const [a, b] = [screen(0, 0), screen(sw, sh)];
-      drawn.push({ name, screen, foot: screen(frame.anchorX * frame.w, frame.anchorY * frame.h), box: { left: Math.min(a.x, b.x), top: Math.min(a.y, b.y), right: Math.max(a.x, b.x), bottom: Math.max(a.y, b.y) } });
+      // Astra's double chimney is stood by the middle of its foot (its measured `centre`), not by its front corner.
+      const [fx, fy] = name === 'house-chimney-double' && frame.centre ? frame.centre : [frame.anchorX, frame.anchorY];
+      drawn.push({ name, screen, foot: screen(fx * frame.w, fy * frame.h), box: { left: Math.min(a.x, b.x), top: Math.min(a.y, b.y), right: Math.max(a.x, b.x), bottom: Math.max(a.y, b.y) } });
     },
   };
 }
@@ -174,6 +176,9 @@ for (const plan of PLANS) {
       chimneys.sort((a, b) => a[1] - b[1]).forEach(([type, x, y], i) => {
         const chimney = drawnChimneys[i], what = `${plan}, ${where}: the ${type} at ${x},${y}`;
         if (type === 'chimney-double') {
+          // Astra's two-sided stone chimney (2026-10-11), wired 2026-10-25 by its measured `centre`; before, the single stick
+          // chimney's picture stood in for it.
+          assert.equal(chimney.name, 'house-chimney-double', `${what} is drawn as ${chimney.name}, not Astra's double chimney`);
           // Between the west pen's east gable and the east pen's west gable, touching both pens' pictures - the walls or the
           // roof on them.
           const west = pens.find(pen => pen.x + 2 === x && pen.y === y), east = pens.find(pen => pen.x === x + 1 && pen.y === y);

@@ -283,7 +283,12 @@ export const CONCEPCION = Object.freeze({
       caption: 'The bugle sounds the retreat. The Texians climb the bank, take the cannon and turn it on the retreating soldiers. The Mexican infantry wades back across the river toward Béxar; the cavalry rides off.',
       texian: { style: 'loose', keys: [[0, 'fannin'], [6, 'upTheBank']], action: 'advance', fire: 'scattered', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', keys: [[0, 'line'], [12, 'ford'], [20, 'away']], action: 'withdraw', face: 'away', fire: 'none', spread: { width: 0.36, depth: 0.26 } },
-      groups: [bowie('loose', { keys: [[0, 'bowie'], [8, 'open']], action: 'advance', fire: 'scattered' }), cavalry('mounted', { from: 'flank', to: 'away', action: 'withdraw', away: true, fire: 'none' })],
+      groups: [bowie('loose', { keys: [[0, 'bowie'], [8, 'open']], action: 'advance', fire: 'scattered' }), cavalry('mounted', { from: 'flank', to: 'away', action: 'withdraw', away: true, fire: 'none' }),
+        // The second gun's mules, its gunners up on them two to a mule (`HIST-TEX-480`: "got off by six mules"; Smithwick, "two or
+        // three on a mule"), riding off with the infantry toward Béxar: Astra's `limber-mules-*` (2026-10-12), staged 2026-10-25.
+        // ceiling: three of the six drawn, and no gun behind them - the second gun is not on the engine (`guns` above), and her
+        // delivery asks that no count be made up by copying her pair.
+        { id: 'gun-mules', side: MEX, name: 'The second gun’s mules', count: 12, drawn: 3, style: 'column', figure: 'limber-mules', keys: [[0, 'line'], [12, 'ford'], [20, 'away']], action: 'withdraw', face: 'away', fire: 'none', spread: { width: 0.03, depth: 0.02 }, claimId: 'HIST-TEX-480' }],
       guns: { 'brass-turned': [7, 12] },
       lines: [
         say('c-bugle-4', 1, MEX, 'bugler', 'documented', '[The bugle sounds the retreat]', { claimId: 'HIST-TEX-480', gloss: '“Retreat is sounded” (the report)' }),
@@ -317,7 +322,13 @@ export const CONCEPCION = Object.freeze({
       caption: 'The main army arrives from Espada, too late for the fight. A priest comes out from Béxar with carts and, after speaking with Austin, takes the Mexican dead and wounded back into the town.',
       texian: { style: 'loose', at: 'upTheBank', action: 'hold', fire: 'none', spread: { width: 0.24, depth: 0.12 } },
       mexican: { style: 'rout', at: 'away', action: 'gone', fire: 'none' },
-      groups: [bowie('loose', { at: 'open', action: 'hold' }), { id: 'army', side: TEX, name: 'The main army', count: 300, drawn: 30, style: 'loose', from: 'mission', to: 'armyCamp', action: 'advance', fire: 'none', face: 'bend', spread: { width: 0.34, depth: 0.16 } }],
+      groups: [bowie('loose', { at: 'open', action: 'hold' }), { id: 'army', side: TEX, name: 'The main army', count: 300, drawn: 30, style: 'loose', from: 'mission', to: 'armyCamp', action: 'advance', fire: 'none', face: 'bend', spread: { width: 0.34, depth: 0.16 } },
+        // The priest from Béxar and his carts (`HIST-TEX-481`), coming down from the ford to where the Mexican dead and wounded
+        // lie: Astra's `padre-walk` and `casualty-cart-wounded`/`-covered` (2026-10-12), staged 2026-10-25. Townspeople: never
+        // given a fire or drawn hurt. Nobody is carried off on the field - the carts take them back into the town after, as the
+        // caption tells; the engine's falls stay where they fell.
+        { id: 'padre', side: MEX, name: 'A priest from Béxar', count: 1, drawn: 1, style: 'loose', figure: 'padre', civilians: true, keys: [[0, 'ford'], [18, 'line'], [30, 'line']], action: 'advance', face: 'line', fire: 'none', spread: { width: 0.004, depth: 0.002 }, claimId: 'HIST-TEX-481' },
+        { id: 'carts', side: MEX, name: 'Carts from the town', count: 2, drawn: 2, style: 'column', figure: 'casualty-cart', civilians: true, keys: [[0, 'ford'], [20, 'line'], [30, 'line']], action: 'advance', face: 'line', fire: 'none', spread: { width: 0.012, depth: 0.012 }, claimId: 'HIST-TEX-481' }],
       guns: { 'brass-turned': [] },
       lines: [
         say('c-army', 6, TEX, 'volunteer', 'reconstructed', 'Here’s the rest of the army.'),

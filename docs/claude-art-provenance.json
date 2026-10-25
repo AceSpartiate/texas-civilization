@@ -14362,34 +14362,6 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's coins-and-paper"
     },
-    "house-floor": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "house-pieces",
-      "area": "places",
-      "sheet": "claude-house-plot",
-      "request": "Request 2026-09-15 — the house plot's pieces",
-      "prompt": "A puncheon floor for a log pen - split logs hewn flat on one face and laid side by side - as an overlay registered to Astra's pen (her full walls' box, anchor and scale), laid with her own hewn-log faces; drawn before the walls it shows through the doorway and over the low courses. Transparent ground, no shadow.",
-      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-floor.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's house-floor"
-    },
-    "house-loft": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "house-pieces",
-      "area": "places",
-      "sheet": "claude-house-plot",
-      "request": "Request 2026-09-15 — the house plot's pieces",
-      "prompt": "A pen's loft as an overlay registered to Astra's pen: joists across at the tops of the walls, a floor of boards over the back half (her planks), and a pole ladder up from the floor, for a cutaway; corner-on three-quarter view, her scale, outlined in her ink. Transparent ground, no shadow.",
-      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-loft.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's house-loft"
-    },
     "window-lit-adobe-flat": {
       "kind": "frame",
       "madeBy": "claude",
@@ -15966,62 +15938,6 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's milk-cow-graze-2"
     },
-    "limber-mules-walk-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-animals",
-      "area": "transport",
-      "sheet": "claude-limber",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "Two draught mules in harness taking a light gun's limber away east (west mirrored), a Mexican artilleryman in a dark blue coat and shako riding the near mule, the limber's two spoked wheels turning, frame 1 of 4 of the walk. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-animals/claude-limber-mules-walk-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's limber-mules-walk-1"
-    },
-    "limber-mules-walk-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-animals",
-      "area": "transport",
-      "sheet": "claude-limber",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "Two draught mules in harness taking a light gun's limber away east (west mirrored), a Mexican artilleryman in a dark blue coat and shako riding the near mule, the limber's two spoked wheels turning, frame 2 of 4 of the walk. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-animals/claude-limber-mules-walk-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's limber-mules-walk-2"
-    },
-    "limber-mules-walk-3": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-animals",
-      "area": "transport",
-      "sheet": "claude-limber",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "Two draught mules in harness taking a light gun's limber away east (west mirrored), a Mexican artilleryman in a dark blue coat and shako riding the near mule, the limber's two spoked wheels turning, frame 3 of 4 of the walk. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-animals/claude-limber-mules-walk-3.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's limber-mules-walk-3"
-    },
-    "limber-mules-walk-4": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-animals",
-      "area": "transport",
-      "sheet": "claude-limber",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "Two draught mules in harness taking a light gun's limber away east (west mirrored), a Mexican artilleryman in a dark blue coat and shako riding the near mule, the limber's two spoked wheels turning, frame 4 of 4 of the walk. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
-      "source": "public/assets/claude-standins/svg/transport-animals/claude-limber-mules-walk-4.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's limber-mules-walk-4"
-    },
     "milk-cow-walk-e": {
       "kind": "clip",
       "madeBy": "claude",
@@ -16079,22 +15995,6 @@
         "milk-cow-graze-2"
       ],
       "status": "temporary: replace with Astra's milk-cow-graze"
-    },
-    "limber-mules-walk": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "transport-animals",
-      "area": "transport",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "Mules at a gun's limber walking east, a driver riding the near one: a four-frame loop.",
-      "frames": [
-        "limber-mules-walk-1",
-        "limber-mules-walk-2",
-        "limber-mules-walk-3",
-        "limber-mules-walk-4"
-      ],
-      "status": "temporary: replace with Astra's limber-mules-walk"
     },
     "forager-ride-1": {
       "kind": "frame",

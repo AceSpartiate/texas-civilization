@@ -9,22 +9,42 @@
 // with the English under them (public/speech.js). No blood and no one drawn falling (VISION.md §16): a hit is told in words
 // on the family's card.
 //
-// stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "Mexican troops after a family on the road" - a dragoon at the gallop and
-// firing from the saddle is the library's `dragoon-march` with a flash at his hands, and an infantryman stopped to load is the
-// line's `regular-fire-reload`, until a skirmisher running, kneeling to fire and a dragoon's carbine shot are drawn.
+// A dragoon firing from the saddle is Astra's `dragoon-fire` (2026-10-03; north and south her `dragoon-mounted-fire-*`, 2026-10-12),
+// wired 2026-10-25 on the shot's own moment (`FIRE_LEAD_MS`); her frames carry no flash or smoke, so those are still drawn here.
+// stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "Mexican troops after a family on the road" - a dragoon at the gallop is the
+// library's `dragoon-march`, and an infantryman stopped to load is the line's `regular-fire-reload`, until a dragoon at the
+// gallop and a skirmisher running and kneeling to fire are drawn.
 import { drawSpeech } from './speech.js';
+import { mountedHeading, mountedActionClip } from './southern-battle-art.js';
 
 const YARDS = 1760;
 const SMOKE_CAP = 40, SMOKE_LIFE_MS = 16000, DUST_LIFE_MS = 1200, FLASH_MS = 160, LINE_MS = 12000;
+/** Her carbine clip (1000 ms): shouldered for 360 ms before the shot, the recoil on it, lowered and settled in the 640 after -
+ * the clock public/battle-view.js fires it on. A shot is dated inside its tick (`accept`), so the shoulder can come first. */
+export const FIRE_LEAD_MS = 360, FIRE_AFTER_MS = 640;
+/** Where her shouldered carbine's muzzle is (`dragoon-fire-2`), from his ground point in his drawn heights: ahead and up.
+ * ceiling: read by eye off her frame on a tenth-of-a-height grid; end-on it is put ahead along the way he faces, as side-on. */
+export const CARBINE_MUZZLE = Object.freeze({ ahead: 0.4, up: 0.78 });
 /** A figure stands for a man but is drawn larger than one (sim/house-footprint.mjs `PERSON_MILES`): a soldier among the family is drawn this far behind it. */
 const DRAWN_CLOSEST_YARDS = 30;
 const clamp01 = value => Math.max(0, Math.min(1, value));
 const lerp = (a, b, t) => a + (b - a) * t;
 
+/**
+ * Which of her carbine clips soldier `i` of a cavalry chase is in at `now`, and how far into it: from `FIRE_LEAD_MS` before one of
+ * his shots to `FIRE_AFTER_MS` after it; null otherwise (and for a shot seen only after its tick had passed, dated long ago).
+ */
+export function fireClip(view, i, now) {
+  const shot = [...view.shots.values()].find(one => one.man === i && now >= one.at - FIRE_LEAD_MS && now - one.at < FIRE_AFTER_MS);
+  if (!shot) return null;
+  const heading = mountedHeading({ x: -view.dir.x, y: -view.dir.y });
+  return { clip: mountedActionClip('dragoon', heading), timeMs: now - shot.at + FIRE_LEAD_MS, upright: heading === 'n' || heading === 's' };
+}
+
 /** The renderer. `art` is what app.js draws with: `animated(ctx, clip, x, y, size, seed, options)` and `miniPerson`. */
 export function createChaseView(art) {
   const views = new Map();
-  const evidence = { drawn: [], shotsSeen: 0, flashes: 0, dust: 0, lines: [] };
+  const evidence = { drawn: [], shotsSeen: 0, flashes: 0, dust: 0, lines: [], fireClips: new Set() };
 
   /** A new tick of one chase: where each soldier was drawn, so he goes on from there; the shots and words dated into it. */
   function accept(chase, now, tickMs) {
@@ -87,15 +107,13 @@ export function createChaseView(art) {
         const size = view.kind === 'cavalry' ? figurePx * 1.35 : figurePx;
         const clip = view.kind === 'cavalry' ? (moving ? 'dragoon-march' : toward ? 'dragoon-idle-e' : 'dragoon-idle-w')
           : soldier.loading ? 'regular-fire-reload' : moving ? 'regular-march' : toward ? 'regular-idle-e' : 'regular-idle-w';
-        // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - a dragoon at the gallop and firing
-        // from the saddle are Claude's `dragoon-gallop-*` and `dragoon-carbine-fire` (request 2026-09-27 "Mexican troops after a
-        // family on the road"), riding the way he goes; `dragoon-march` wherever those are not loaded.
+        // A dragoon's shot: Astra's carbine fired from the saddle (`fireClip`), moving or not, facing the family; east mirrored
+        // for west, north and south her own. Her horse stands planted for it, which a dragoon fires once in a chase.
         let ok = 0;
-        if (view.kind === 'cavalry' && moving && art.clipReady) {
-          const vx = -view.dir.x, vy = -view.dir.y, vertical = Math.abs(vy) > Math.abs(vx) * 1.2;
-          const shot = [...view.shots.values()].find(one => one.man === i && now >= one.at && now - one.at < 760);
-          const hard = shot ? 'dragoon-carbine-fire' : vertical ? `dragoon-gallop-${vy > 0 ? 's' : 'n'}` : 'dragoon-gallop-e';
-          if (art.clipReady(hard)) ok = art.animated(ctx, hard, p.x, p.y, size, `${chase.id}:${i}`, { timeMs: shot ? now - shot.at : time + i * 173, flip: vertical && !shot ? false : !toward });
+        const firing = view.kind === 'cavalry' && fireClip(view, i, now);
+        if (firing && (!art.clipReady || art.clipReady(firing.clip))) {
+          ok = art.animated(ctx, firing.clip, p.x, p.y, size, `${chase.id}:${i}:fire`, { timeMs: firing.timeMs, flip: firing.upright ? false : !toward });
+          if (ok) evidence.fireClips.add(firing.clip);
         }
         // Claude's skirmisher (running, kneeling to fire; request 2026-09-27 item 3) the same way; the line's regular while it loads.
         const foot = view.kind === 'cavalry' ? null : soldier.loading ? 'skirmisher-kneel-fire' : moving ? 'skirmisher-run-e' : null;
@@ -111,7 +129,9 @@ export function createChaseView(art) {
         if (shot.fired || now < shot.at || still) continue;
         shot.fired = true; evidence.shotsSeen++;
         const from = soldierAt(view, Math.min(shot.man, view.soldiers.length - 1), now);
-        const muzzle = { x: from.x - view.dir.x * 0.01, y: from.y - view.dir.y * 0.01 - 0.008 };
+        // A dragoon's at the muzzle of her carbine, shouldered (`CARBINE_MUZZLE`, in his drawn heights); a foot soldier's at his hands.
+        const drawn = figurePx * 1.35 / camera.scale, ahead = view.kind === 'cavalry' ? CARBINE_MUZZLE.ahead * drawn : 0.01;
+        const muzzle = { x: from.x - view.dir.x * ahead, y: from.y - view.dir.y * ahead - (view.kind === 'cavalry' ? CARBINE_MUZZLE.up * drawn : 0.008) };
         shot.flash = { ...muzzle, until: now + FLASH_MS };
         const at = camera.toScreen(muzzle); heard.push({ x: Math.round(at.x), y: Math.round(at.y), size: 1 });
         view.smoke.push({ x: muzzle.x, y: muzzle.y, born: now, seed: (shot.n * 7919) % 97 / 97 });
@@ -154,7 +174,7 @@ export function createChaseView(art) {
       evidence.drawn.push({ id: chase.id, kind: view.kind, phase: view.phase, soldiers: drawnSoldiers.length, smoke: view.smoke.length, shotsSent: (chase.shots || []).length });
     }
     for (const id of views.keys()) if (!live.has(id)) views.delete(id);
-    return { drawn: evidence.drawn, shotsSeen: evidence.shotsSeen, flashes: evidence.flashes, dust: evidence.dust, lines: [...evidence.lines], heard, spoken };
+    return { drawn: evidence.drawn, shotsSeen: evidence.shotsSeen, flashes: evidence.flashes, dust: evidence.dust, lines: [...evidence.lines], fireClips: [...evidence.fireClips], heard, spoken };
   }
   return { draw };
 }

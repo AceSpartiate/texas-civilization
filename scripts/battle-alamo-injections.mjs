@@ -74,6 +74,16 @@ const UNIT = [
   { name: 'the reminder that he is inside hides the storming\'s card', file: 'public/military-attention.js',
     from: "  const deciding = !world.watching && (notices.some(notice => notice.kind !== 'siege') ||", to: '  const deciding = !world.watching && (notices.length ||',
     test: VIEW, expect: 'the storming\'s card goes up over the quiet reminder that somebody is inside, and not over a question' },
+  // Astra's parapet riflemen (wired 2026-10-25): the waist on the wall's top, out over its own wall, and drawn at all.
+  { name: 'the parapet man stands on the wall\'s line, not its top', file: 'public/battle-view.js',
+    from: 'size = figurePx * PARAPET_SIZE; dy = -lift;', to: 'size = figurePx * PARAPET_SIZE; dy = 0;',
+    test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
+  { name: 'every wall\'s man faces east over the parapet', file: 'public/battle-view.js',
+    from: 'const lift = parapetLift(parapetFeet(battle, side, kind), camera), heading = mountedHeading(side.facing);', to: "const lift = parapetLift(parapetFeet(battle, side, kind), camera), heading = 'e';",
+    test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
+  { name: 'the full standing figure on the walls, as before 2026-10-25', file: 'public/battle-view.js',
+    from: "  return PARAPET_FEET[side.id] || 0;", to: '  return 0;',
+    test: VIEW, expect: 'the garrison fires over its parapets from the waist up, the waist on each wall\'s top, out over its own wall' },
 ];
 
 const BROWSER = [

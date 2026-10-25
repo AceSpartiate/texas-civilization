@@ -197,6 +197,26 @@ export function penWalls(p, back, x, y, height, flip, spriteFrame, canDraw) {
   return { set: `${material}-back`, walls: rear, x: x + (flip ? -1 : 1) * fit.dx * scale, y: y + fit.dy * scale, height: (rear.logicalHeight || rear.h) * scale * fit.scale };
 }
 
+/**
+ * Where Astra's puncheon floor is drawn under its pen's walls: its own foot (measured by scripts/build-atlas-manifest.mjs
+ * `groundOf`) laid inside the walls', since both are the same sixteen feet square (her delivery:
+ * "convert occupied footprint ... into display scale rather than drawing both to the same arbitrary pixel height"). `height` is
+ * its drawn height as a share of the walls'; it is stood by the middle of its foot (`anchor`, fractions of its frame) at the
+ * middle of the walls' foot, `dx`/`dy` from the walls' own anchor in the walls' drawn heights (`dx` mirrored with the pen).
+ * Her floor is drawn squarer than the pen is, so their corners cannot all meet; the middles do, and the floor stays inside.
+ * Null without both measures.
+ */
+export function floorFit(walls, floor) {
+  if (!walls?.ground || !floor?.ground) return null;
+  const middle = frame => [0, 1].map(i => (frame.ground.left[i] + frame.ground.right[i]) / 2);
+  const span = frame => (frame.ground.right[0] - frame.ground.left[0]) * frame.w, deep = frame => (frame.ground.front[1] - middle(frame)[1]) * frame.h;
+  // Her floor's foot is squarer than the pen's as drawn: fitted by whichever of its width or its depth is the tighter, so no
+  // corner of it stands out past the walls.
+  const tall = walls.logicalHeight || walls.h, [mx, my] = middle(walls), fit = Math.min(span(walls) / span(floor), deep(walls) / deep(floor));
+  return { height: (floor.logicalHeight || floor.h) / tall * fit, anchor: middle(floor),
+    dx: (mx - walls.anchorX) * walls.w / tall, dy: (my - walls.anchorY) * walls.h / tall };
+}
+
 function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false, { back = false, floor = false, walls: chosen } = {}) {
   if (!spriteFrame) return 0;
   if (p.type === 'pen-jacal') return drawJacalPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip);
@@ -213,9 +233,10 @@ function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false,
     const seat = p.stage >= 12 ? roofSeat(walls, spriteFrame(roofName), each.x, each.y, each.height, flip) : null;
     if (!frame || (p.stage >= 12 && !seat)) continue;
     // A puncheon floor under the walls, where the pen has one: it shows through the doorway and over the low courses. On
-    // the pen's ground, which the rear walls are fitted to, so at the front walls' place and scale.
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - the house plot's pieces: Claude-drawn stand-in `house-floor`.
-    if (floor && spriteFrame('house-floor')) drawSprite(ctx, 'house-floor', x, y, height * (spriteFrame('house-floor').logicalHeight || 1) / (front.logicalHeight || front.h));
+    // the pen's ground, which the rear walls are fitted to, so at the front walls' place. Astra's `house-puncheon-floor`
+    // (2026-10-11) is the pen's own sixteen feet square, so it is drawn to the walls' footprint (`floorFit`), not to their height.
+    const fit = floor && floorFit(front, spriteFrame('house-puncheon-floor'));
+    if (fit) drawSprite(ctx, 'house-puncheon-floor', x + (flip ? -1 : 1) * fit.dx * height, y + fit.dy * height, height * fit.height, { anchor: fit.anchor });
     const drawn = drawSprite(ctx, base, each.x, each.y, each.height * (frame.logicalHeight || frame.h) / (walls.logicalHeight || walls.h));
     if (!drawn) continue;
     if (seat) drawSprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor });
@@ -519,9 +540,8 @@ function standChimneys(order, rotation, cell, spriteFrame) {
  * pieces were drawn. `spriteFrame(name)` gives a frame's measurements (public/art.js); without it a pen is drawn as its
  * whole picture, since the modular pieces cannot be seated on one another. Delivered modular art covers round/hewn pens,
  * passage, porch, finished shed room, single chimneys, jacal stages, the shed frame, the rear and end views and the roof joins
- * (2026-10-10, 10-11). stand-in: the double chimney and the independent floor/loft layers (delivered, not yet registered)
- * still use earlier pictures or shapes. Requested in docs/ART_REQUESTS.md
- * 2026-09-15 (the house plot's pieces).
+ * (2026-10-10, 10-11), and since 2026-10-25 her double chimney (stood by its measured `centre`) and puncheon floor (`floorFit`).
+ * Her half loft is not drawn: a loft is laid only under a finished roof (sim/houseplot.mjs), so nothing outside shows it.
  *
  * `rotation` turns the house on the ground and never its pictures (2026-09-23: a house turned 90 degrees lay on its side,
  * and one at 180 stood on its roof, chimney and all). Everything on the map - tree, person, ox, house - is drawn upright
@@ -655,12 +675,10 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
         ctx.fillRect(footX - wide / 2, footY - tall, wide, tall);
       }
     } else {
-      // The double chimney, two-sided, to its two-cell footprint: `house-chimney-double` is drawn where its frame carries a
-      // measured `centre` (the stand-in's contract); Astra's of 2026-10-11 is library-ready and carries none yet, so until its
-      // registration (docs/ART_DELIVERY_2026-10-11-HOUSE-CONSTRUCTION-COMPLETE.md, "Claude continuation") it is the single
-      // stick-and-mud chimney's picture (since 2026-09-24; it was a flat rectangle), taller than a single chimney so it hides
-      // the far pen's door, its foot behind the near pen's roof. stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - the double
-      // chimney, two-sided.
+      // The double chimney, two-sided: Astra's `house-chimney-double` (2026-10-11), finished, at the walls' pixel scale and stood
+      // by the middle of its foot, its `centre` measured by scripts/build-atlas-manifest.mjs (2026-10-25). While it is going up,
+      // and wherever her sheet is not loaded, the single stick-and-mud chimney's picture, taller than a single chimney so it
+      // hides the far pen's door, its foot behind the near pen's roof (since 2026-09-24; it was a flat rectangle).
       const complete = p.stage >= p.kind.stageCount, high = cell * DOUBLE_RISE;
       // Astra's roof over the gap (2026-10-10, `house-roof-join-chimney`), open where the stack stands, fitted to the row's own
       // roof at its virtual pen seat (`roofFootX`: before `standChimneys` moved the chimney's foot), drawn before the chimney.
